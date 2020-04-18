@@ -8,17 +8,25 @@ import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import history from "./General/Services/HistoryService";
-// import { userReducer } from "./Redux/Reducers/UserReducer";
+import { UILayoutReducer } from "./Redux/Reducers/UILayoutReducer";
+import { UILayoutMiddleware } from "./Redux/Middlewares/UILayoutMiddleware";
 
-//const store = createStore(userReducer, composeWithDevTools(applyMiddleware()));
+const rootReducer = combineReducers({
+  UILayoutReducer,
+});
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(UILayoutMiddleware))
+);
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <Provider store={store}> */}
-    <Router history={history}>
-      <App />
-    </Router>
-    {/* </Provider> */}
+    <Provider store={store}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

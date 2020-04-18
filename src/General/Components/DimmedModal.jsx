@@ -1,11 +1,12 @@
 import React from "react";
 import { Button, Header, Icon, Modal } from "semantic-ui-react";
+import history from "./../Services/HistoryService";
 
 const DimmedModal = (props) => {
-  const { ButtonLabel, Message } = props;
-
+  const { isOpen, Message } = props;
+  //trigger={<Button>{ButtonLabel}</Button>}
   return (
-    <Modal trigger={<Button>{ButtonLabel}</Button>} basic size="small">
+    <Modal basic size="small" open={isOpen}>
       <Header icon="archive" content="Archive Old Messages" />
       <Modal.Content>
         <p>{Message}</p>
@@ -14,7 +15,11 @@ const DimmedModal = (props) => {
         <Button basic color="red" inverted>
           <Icon name="remove" /> No
         </Button>
-        <Button color="green" inverted>
+        <Button
+          color="green"
+          inverted
+          onClick={() => history.replace("/login")}
+        >
           <Icon name="checkmark" /> Yes
         </Button>
       </Modal.Actions>
