@@ -2,9 +2,9 @@ import React, { Suspense, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
 import { Loader, Segment } from "semantic-ui-react";
 
-const LandingView = lazy(() => import("../../Routes/Landing/LandingView"));
-const LoginView = lazy(() => import("../../Routes/Login/LoginView"));
-const Layout = lazy(() => import("../../General/Layout/Layout"));
+const LandingView = lazy(() => import("../Routes/Landing/LandingView"));
+const LoginView = lazy(() => import("../Routes/Login/LoginView"));
+const Layout = lazy(() => import("../Layout/Layout"));
 
 function App() {
   //Dimmer on loader

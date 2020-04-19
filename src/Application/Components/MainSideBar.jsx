@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
 import { Icon, Image, Menu, Sidebar } from "semantic-ui-react";
+import CompanyLogo from "../Images/CompanyLogo.svg";
 
 const MainMenu = [
   { name: "Import", icon: "window restore outline" },
@@ -17,7 +17,6 @@ const MainSidebar = React.memo(({ animation, direction, visible }) => (
     direction={direction}
     icon="labeled"
     vertical
-    //make 100px a redux store variable and set with mainsidebar width
     style={{
       backgroundColor: "#CACBCD",
       width: "100px",

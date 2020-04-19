@@ -1,15 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./General/App";
 import * as serviceWorker from "./serviceWorker";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import history from "./General/Services/HistoryService";
-import { UILayoutReducer } from "./Redux/Reducers/UILayoutReducer";
-import { UILayoutMiddleware } from "./Redux/Middlewares/UILayoutMiddleware";
+
+import App from "./Application/App";
+import history from "./Application/Services/HistoryService";
+import { UILayoutReducer } from "./Application/Redux/Reducers/UILayoutReducer";
+import { UILayoutMiddleware } from "./Application/Redux/Middlewares/UILayoutMiddleware";
 
 const rootReducer = combineReducers({
   UILayoutReducer,

@@ -1,5 +1,5 @@
-import history from "../../General/Services/HistoryService";
-import authService from "../services/authService";
+import authService from "../../Services/AuthService";
+import history from "../../Services/HistoryService";
 
 export const LOGIN_USER_COMMENCE = "LOGIN_USER_COMMENCE";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";

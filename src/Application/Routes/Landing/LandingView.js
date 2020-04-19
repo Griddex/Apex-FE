@@ -1,7 +1,5 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import history from "./../../General/Services/HistoryService";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
 import {
   Image,
   Transition,
@@ -10,6 +8,8 @@ import {
   Divider,
   Grid,
 } from "semantic-ui-react";
+import history from "./../../Services/HistoryService";
+import CompanyLogo from "../../Images/CompanyLogo.svg";
 
 export default class LandingView extends Component {
   state = { animation: "jiggle", duration: 500, visible: true };

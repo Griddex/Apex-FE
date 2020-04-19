@@ -9,7 +9,7 @@ import {
   Image,
 } from "semantic-ui-react";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
-import history from "./../../General/Services/HistoryService";
+import history from "../../Services/HistoryService";
 
 export default class LoginView extends Component {
   state = { animation: "jiggle", duration: 500, visible: true };

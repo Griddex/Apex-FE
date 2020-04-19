@@ -1,6 +1,6 @@
 import React from "react";
-import Pipeline from "./Images/Pipeline.svg";
 import { Grid, Image, Header } from "semantic-ui-react";
+import Pipeline from "./Images/Pipeline.svg";
 
 const Network = () => {
   return (

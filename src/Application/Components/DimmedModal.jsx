@@ -4,7 +4,6 @@ import history from "./../Services/HistoryService";
 
 const DimmedModal = (props) => {
   const { isOpen, Message } = props;
-  //trigger={<Button>{ButtonLabel}</Button>}
   return (
     <Modal basic size="small" open={isOpen}>
       <Header icon="archive" content="Archive Old Messages" />
