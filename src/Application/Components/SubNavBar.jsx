@@ -1,58 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { Step, Icon, Container, Accordion } from "semantic-ui-react";
+import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography";
+import AppsIcon from "@material-ui/icons/Apps";
+import BubbleChartIcon from "@material-ui/icons/BubbleChart";
+import LandscapeIcon from "@material-ui/icons/Landscape";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { useSubNavBarStyles } from "./../Styles/SubNavbarStyles";
+import IconsService from "./../Services/IconsService";
+import { Toolbar, ButtonGroup, Button } from "@material-ui/core";
 
 const SubNavBar = (props) => {
-  // const MainMenu = [
-  //     { name: "Import", icon: "window restore outline" },
-  //     { name: "Production Network", icon: "connectdevelop" },
-  //     { name: "Visualization", icon: "chart area" },
-  //     { name: "Settings", icon: "settings" },
-  //   ];
+  const { className } = props;
+  const classes = useSubNavBarStyles();
 
   const subNavbarItems = {
     Import: [
-      { name: "Facilities Deck", icon: "warehouse" },
-      { name: "Forecast Deck", icon: "fork" },
-      { name: "Production Data", icon: "product hunt" },
-      { name: "Economics Data", icon: "money bill alternate" },
+      { name: "Facilities Deck", route: "/facilitiesdeck", icon: AppsIcon },
+      { name: "Forecast Deck", route: "/forecastdeck", icon: LandscapeIcon },
+      {
+        name: "Production Data",
+        route: "/productiondata",
+        icon: BubbleChartIcon,
+      },
+      {
+        name: "Economics Data",
+        route: "/economicsdata",
+        icon: AttachMoneyIcon,
+      },
     ],
   };
-
-  //select the correct subnavbar using mainmenu prop
-  const [activeIndex, setActiveIndex] = useState(0);
-  const handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const newIndex = activeIndex === index ? -1 : index;
-
-    setActiveIndex(newIndex);
+  const menuText = (link) => {
+    const menuLinkText = {
+      "/facilitiesdeck": "Facilities Deck",
+      "/forecastdeck": "Forecast Deck",
+      "/productiondata": "Production Data",
+      "/economicsdata": "Economics Data",
+    };
+    return menuLinkText[link];
   };
+
+  const handleToggle = () => {};
+
   return (
-    <Container textAlign="left" fluid style={{ backgroundColor: "#F0F0F0" }}>
-      {/* <Accordion>
-        <Accordion.Title
-          active={activeIndex === 0}
-          index={0}
-          fluid
-          onClick={handleClick}
-          style={{ padding: 0 }}
-        >
-          <Icon name="dropdown" />
-        </Accordion.Title>
-        <Accordion.Content active={activeIndex === 0} style={{ padding: 0 }}> */}
-      <Step.Group size="mini" unstackable attached="top">
-        {subNavbarItems["Import"].map((item, i) => (
-          <Step link key={i} style={{ padding: "4px 20px" }}>
-            <Icon name={item.icon} />
-            <Step.Content>
-              <Step.Title>{item.name}</Step.Title>
-            </Step.Content>
-          </Step>
-        ))}
-      </Step.Group>
-      {/* </Accordion.Content>
-      </Accordion> */}
-    </Container>
+    <AppBar className={className}>
+      <Toolbar className={classes.appbarToolBar} disableGutters>
+        <ButtonGroup variant="text">
+          {subNavbarItems["Import"].map((row, i) => (
+            <Button
+              key={i}
+              onClick={handleToggle}
+              className={classes.button}
+              endIcon={IconsService(row.route)}
+            >
+              <Typography variant="subtitle2">{row.name}</Typography>
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Toolbar>
+    </AppBar>
   );
 };
 

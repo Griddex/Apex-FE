@@ -6,7 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { createStore, applyMiddleware, combineReducers } from "redux";
-
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import App from "./Application/App";
 import history from "./Application/Services/HistoryService";
 import { UILayoutReducer } from "./Application/Redux/Reducers/UILayoutReducer";
@@ -21,12 +21,19 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(UILayoutMiddleware))
 );
 
+const theme = createMuiTheme({
+  palette: { primary: { main: "#03A9F4" } },
+  background: "#EFEFEF",
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router history={history}>
-        <App />
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

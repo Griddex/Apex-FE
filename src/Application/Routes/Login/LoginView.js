@@ -1,90 +1,140 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
 import {
-  Button,
-  Header,
-  Form,
   Grid,
-  Transition,
-  Image,
-} from "semantic-ui-react";
+  Button,
+  Typography,
+  TextField,
+  InputAdornment,
+} from "@material-ui/core";
+import PersonIcon from "@material-ui/icons/Person";
+import LockIcon from "@material-ui/icons/Lock";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import history from "./../../Services/HistoryService";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
-import history from "../../Services/HistoryService";
+import Image from "./../../Components/Image";
 
-export default class LoginView extends Component {
-  state = { animation: "jiggle", duration: 500, visible: true };
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexWrap: "nowrap",
+    height: "100%",
+    textAlign: "center",
+  },
+  textfield: {
+    margin: theme.spacing(1),
+  },
+  item: {
+    height: "100%",
+    marginTop: "20vh",
+  },
+  image: {
+    marginBottom: "40px",
+    height: "15vmin",
+  },
+  typography: {
+    color: "#808080",
+    margin: "20px 20px 30px 20px",
+  },
+  divider: {
+    margin: "20px",
+  },
+  button: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.primary,
+    background: theme.palette.primary.main,
+    margin: "20px",
+    width: "100px",
+  },
+}));
 
-  componentDidMount() {
-    this.setState((prevState) => ({
-      animation: "scale",
-      duration: 500,
-      visible: true,
-    }));
-  }
+const LoginView = () => {
+  const classes = useStyles();
 
-  toggleVisibility = () =>
-    this.setState((prevState) => ({
-      animation: "jiggle",
-      duration: 500,
-      visible: !prevState.visible,
-    }));
-  render() {
-    const { animation, duration, visible } = this.state;
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
-    return (
-      <Grid
-        stackable
-        verticalAlign="middle"
-        centered
-        columns={8}
-        style={{ height: "100vh" }}
-      >
-        <Grid.Column mobile={16} tablet={8} computer={4}>
-          <Transition
-            visible={visible}
-            animation={animation}
-            duration={duration}
+  return (
+    <Grid
+      container
+      className={classes.root}
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Grid item className={classes.item} xs={10} sm={6} lg={4}>
+        <Image
+          className={classes.image}
+          src={CompanyLogo}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+        <Typography className={classes.typography} variant="h5">
+          Hydrocarbon Forecasting Platform
+        </Typography>
+        <TextField
+          className={classes.textfield}
+          id="input-with-icon-textfield"
+          label="Username"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PersonIcon />
+              </InputAdornment>
+            ),
+          }}
+          variant="outlined"
+          fullWidth
+        />
+        {/*Manage form with React final form */}
+        {/*Define responsive widths for form elements 80% of screen width till sm */}
+        {/*fixed width for screen sizes larger than sm */}
+        <form>
+          <TextField
+            className={classes.textfield}
+            id="input-with-icon-textfield"
+            label="Password"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={setShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+            type={showPassword ? "text" : "password"}
+            fullWidth
+          />
+          <Button
+            className={classes.button}
+            variant="contained"
+            primary
+            size="large"
+            onClick={() => history.push("/network")}
           >
-            <Image
-              src={CompanyLogo}
-              style={{ height: "15vmin" }}
-              onClick={this.toggleVisibility}
-              centered
-              alt="Hydrocarbon Forecasting Platform Company Logo"
-            />
-          </Transition>
-          <Header as="h3" textAlign="center">
-            Hydrocarbon Forecasting Platform
-          </Header>
-          <br />
-          <br />
-          <Form>
-            <Form.Input
-              icon="user"
-              iconPosition="left"
-              label="Username"
-              placeholder="Username"
-              size="big"
-            />
-            <Form.Input
-              icon="lock"
-              iconPosition="left"
-              label="Password"
-              type="password"
-              size="big"
-            />
-            <Button
-              content="Login"
-              size="huge"
-              // positive
-              style={{ backgroundColor: "#85B7D9" }}
-              onClick={() => history.replace("/network")}
-            />
-          </Form>
-        </Grid.Column>
+            Login
+          </Button>
+        </form>
       </Grid>
-    );
-  }
-}
+    </Grid>
+  );
+};
 
 LoginView.propTypes = {};
+
+export default LoginView;

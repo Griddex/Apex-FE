@@ -1,77 +1,77 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import {
-  Image,
-  Transition,
-  Header,
-  Button,
-  Divider,
-  Grid,
-} from "semantic-ui-react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Button, Typography, Divider } from "@material-ui/core";
 import history from "./../../Services/HistoryService";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
+import Image from "./../../Components/Image";
 
-export default class LandingView extends Component {
-  state = { animation: "jiggle", duration: 500, visible: true };
+//Please change font type!!!
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexWrap: "nowrap",
+    height: "100%",
+    textAlign: "center",
+  },
+  item: {
+    height: "100%",
+    marginTop: "20vh",
+  },
+  image: {
+    marginBottom: "40px",
+    height: "30vmin",
+  },
+  typography: {
+    color: "#808080",
+    margin: "20px",
+  },
+  divider: {
+    margin: "20px",
+  },
+  button: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.primary,
+    background: theme.palette.primary.main,
+    margin: "20px",
+  },
+}));
 
-  componentDidMount() {
-    this.setState((prevState) => ({
-      animation: "scale",
-      duration: 1000,
-      visible: true,
-    }));
-  }
+const LandingView = (props) => {
+  const classes = useStyles();
 
-  toggleVisibility = () =>
-    this.setState((prevState) => ({
-      animation: "jiggle",
-      duration: 500,
-      visible: !prevState.visible,
-    }));
+  return (
+    <Grid
+      container
+      className={classes.root}
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Grid item className={classes.item} xs={12} sm={6}>
+        <Image
+          className={classes.image}
+          src={CompanyLogo}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+        <Typography variant="h5">Hydrocarbon Forecasting Platform</Typography>
+        <Typography className={classes.typography} variant="h6">
+          Our platform delivers the best hydrocarbon business forecasting
+          services globally!
+        </Typography>
+        <Divider className={classes.divider} />
 
-  render() {
-    const { animation, duration, visible } = this.state;
-
-    return (
-      <Grid
-        stackable
-        verticalAlign="middle"
-        centered
-        columns={8}
-        style={{ height: "100vh" }}
-      >
-        <Grid.Row>
-          <Grid.Column textAlign="center" mobile={16} tablet={8} computer={4}>
-            <Transition
-              visible={visible}
-              animation={animation}
-              duration={duration}
-            >
-              <Image
-                src={CompanyLogo}
-                style={{ height: "30vmin" }}
-                onClick={this.toggleVisibility}
-                centered
-                alt="Hydrocarbon Forecasting Platform Company Logo"
-              />
-            </Transition>
-            <Header as="h1">Hydrocarbon Forecasting Platform</Header>
-            <Header as="h3" style={{ color: "#808080" }}>
-              Our platform delivers the best hydrocarbon business forecasting
-              services globally!
-            </Header>
-            <Divider />
-            <br />
-            <Button
-              content="Login"
-              size="huge"
-              // positive
-              style={{ backgroundColor: "#85B7D9" }}
-              onClick={() => history.push("/login")}
-            />
-          </Grid.Column>
-        </Grid.Row>
+        <Button
+          className={classes.button}
+          variant="contained"
+          primary
+          onClick={() => history.push("/login")}
+        >
+          Login
+        </Button>
       </Grid>
-    );
-  }
-}
+    </Grid>
+  );
+};
+
+export default LandingView;
