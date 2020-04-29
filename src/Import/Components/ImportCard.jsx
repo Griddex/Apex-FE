@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
+import Box from "@material-ui/core/Box";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -19,13 +19,17 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     flexDirection: "column",
     maxWidth: cardWidth,
+    maxHeight: cardWidth * 1.5,
   },
 
-  cardActionArea: {
+  cardBoxHeader: {
     paddingTop: "10%",
-    minHeight: "70%",
+    minHeight: "85%",
   },
   cardActions: {
+    height: "15%",
+    width: "100%",
+    padding: 0,
     "& > *": {
       display: "flex",
       alignItems: "center",
@@ -33,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
       width: "100vw",
     },
   },
-  button: { marginTop: `${0.25 * 200}px`, maxWidth: "200px" },
+  // button: { marginTop: `${0.25 * 200}px`, maxWidth: "200px" },
+  button: { height: "100%", width: "100%", padding: 0, borderRadius: 0 },
 }));
 
 export default function ImportCard(props) {
@@ -42,7 +47,7 @@ export default function ImportCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea className={classes.cardActionArea}>
+      <Box className={classes.cardBoxHeader}>
         {Icon()}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -52,15 +57,10 @@ export default function ImportCard(props) {
             {Description}
           </Typography>
         </CardContent>
-      </CardActionArea>
+      </Box>
       <CardActions className={classes.cardActions}>
-        <Button
-          className={classes.button}
-          size="large"
-          variant="contained"
-          color="primary"
-        >
-          Proceed
+        <Button className={classes.button} size="large" variant="contained">
+          Select
         </Button>
       </CardActions>
     </Card>

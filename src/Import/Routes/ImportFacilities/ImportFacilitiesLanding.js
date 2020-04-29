@@ -1,17 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ImportCard from "../Components/ImportCard";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import AppsIcon from "@material-ui/icons/Apps";
-import ExistingFacilitiesDeck from "../Images/ExistingFacilitiesDeck.svg";
-import MSExcel from "../Images/MSExcel.svg";
-import ImportDatabase from "../Images/ImportDatabase.svg";
-import Image from "./../../Application/Components/Image";
+import ImportCard from "../../Components/ImportCard";
+import ExistingFacilitiesDeck from "../../Images/ExistingFacilitiesDeck.svg";
+import MSExcel from "../../Images/MSExcel.svg";
+import ImportDatabase from "../../Images/ImportDatabase.svg";
+import Image from "../../../Application/Components/Image";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: "100px", width: "100px" },
+  importLandingFacilities: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "calc(100vh - 67.77px)",
+    width: "calc(100% - 40px - 40px)",
+    "& > *": { margin: "20px", height: "60%" },
+  },
 }));
 
 const ImportlandingFacilities = (props) => {
@@ -58,7 +63,7 @@ const ImportlandingFacilities = (props) => {
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
   return (
-    <>
+    <div className={classes.importLandingFacilities}>
       {data.map((d) => (
         <ImportCard
           key={d.mainTitle}
@@ -67,7 +72,7 @@ const ImportlandingFacilities = (props) => {
           Icon={d.landingIcon}
         />
       ))}
-    </>
+    </div>
   );
 };
 

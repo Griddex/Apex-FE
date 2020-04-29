@@ -19,7 +19,7 @@ function App() {
       <Switch>
         <Route component={LandingView} path="/" exact />
         <Route component={LoginView} path="/login" exact />
-        <Route component={Layout} path="/network" exact />
+        <Route component={Layout} path="/auth" exact />
         {/* <ProtectedRoute
         path={"/#"}
         roles={["Officer", "Admin"]}

@@ -125,7 +125,7 @@ const LoginView = () => {
             variant="contained"
             primary
             size="large"
-            onClick={() => history.push("/network")}
+            onClick={() => history.push("/auth")}
           >
             Login
           </Button>

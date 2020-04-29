@@ -10,15 +10,15 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 const IconsService = (icon, FontSize) => {
   const icons = {
-    "/import": <ExitToAppIcon fontSize={FontSize} />,
-    "/network": <AccountTreeIcon fontSize={FontSize} />,
-    "/visualization": <BarChartIcon fontSize={FontSize} />,
-    "/settings": <TuneIcon fontSize={FontSize} />,
+    "/auth/import": <ExitToAppIcon fontSize={FontSize} />,
+    "/auth/network": <AccountTreeIcon fontSize={FontSize} />,
+    "/auth/visualization": <BarChartIcon fontSize={FontSize} />,
+    "/auth/settings": <TuneIcon fontSize={FontSize} />,
 
-    "/facilitiesdeck": <AppsIcon fontSize={FontSize} />,
-    "/forecastdeck": <LandscapeIcon fontSize={FontSize} />,
-    "/productiondata": <BubbleChartIcon fontSize={FontSize} />,
-    "/economicsdata": <AttachMoneyIcon fontSize={FontSize} />,
+    "/auth/import/facilitiesdeck": <AppsIcon fontSize={FontSize} />,
+    "/auth/import/forecastdeck": <LandscapeIcon fontSize={FontSize} />,
+    "/auth/import/productiondata": <BubbleChartIcon fontSize={FontSize} />,
+    "/auth/import/economicsdata": <AttachMoneyIcon fontSize={FontSize} />,
   };
 
   return icons[icon];

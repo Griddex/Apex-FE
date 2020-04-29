@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import AppsIcon from "@material-ui/icons/Apps";
@@ -10,32 +11,39 @@ import { useSubNavBarStyles } from "./../Styles/SubNavbarStyles";
 import IconsService from "./../Services/IconsService";
 import { Toolbar, ButtonGroup, Button } from "@material-ui/core";
 
-const SubNavBar = (props) => {
-  const { className } = props;
+const SubNavBar = React.memo(({ openMainDrawer }) => {
   const classes = useSubNavBarStyles();
 
   const subNavbarItems = {
     Import: [
-      { name: "Facilities Deck", route: "/facilitiesdeck", icon: AppsIcon },
-      { name: "Forecast Deck", route: "/forecastdeck", icon: LandscapeIcon },
+      {
+        name: "Facilities Deck",
+        route: "/auth/import/facilitiesdeck",
+        icon: AppsIcon,
+      },
+      {
+        name: "Forecast Deck",
+        route: "/auth/import/forecastdeck",
+        icon: LandscapeIcon,
+      },
       {
         name: "Production Data",
-        route: "/productiondata",
+        route: "/auth/import/productiondata",
         icon: BubbleChartIcon,
       },
       {
         name: "Economics Data",
-        route: "/economicsdata",
+        route: "/auth/import/economicsdata",
         icon: AttachMoneyIcon,
       },
     ],
   };
   const menuText = (link) => {
     const menuLinkText = {
-      "/facilitiesdeck": "Facilities Deck",
-      "/forecastdeck": "Forecast Deck",
-      "/productiondata": "Production Data",
-      "/economicsdata": "Economics Data",
+      "/auth/import/facilitiesdeck": "Facilities Deck",
+      "/auth/import/forecastdeck": "Forecast Deck",
+      "/auth/import/productiondata": "Production Data",
+      "/auth/import/economicsdata": "Economics Data",
     };
     return menuLinkText[link];
   };
@@ -43,7 +51,12 @@ const SubNavBar = (props) => {
   const handleToggle = () => {};
 
   return (
-    <AppBar className={className}>
+    <AppBar
+      className={clsx({
+        [classes.appBarShiftExpanded]: openMainDrawer,
+        [classes.appBarShiftCollapsed]: !openMainDrawer,
+      })}
+    >
       <Toolbar className={classes.appbarToolBar} disableGutters>
         <ButtonGroup variant="text">
           {subNavbarItems["Import"].map((row, i) => (
@@ -60,7 +73,7 @@ const SubNavBar = (props) => {
       </Toolbar>
     </AppBar>
   );
-};
+});
 
 SubNavBar.propTypes = {};
 
