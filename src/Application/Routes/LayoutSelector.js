@@ -6,7 +6,7 @@ import VisualizationLayout from "./../../Visualization/Common/VisualizationLayou
 import ProductBackground from "./ProductBackground";
 
 const LayoutSelector = (props) => {
-  const { page } = useParams();
+  const { layoutId } = useParams();
 
   const Layouts = {
     background: <ProductBackground {...props} />,
@@ -15,7 +15,7 @@ const LayoutSelector = (props) => {
     visualization: <VisualizationLayout {...props} />,
   };
 
-  return Layouts[page];
+  return Layouts[layoutId];
 };
 
 export default LayoutSelector;

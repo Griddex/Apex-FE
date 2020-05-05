@@ -2,13 +2,14 @@ import { makeStyles } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { lazy, Suspense, useEffect } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import * as UILayoutActions from "../../Application/Redux/Actions/UILayoutActions";
 import NavBar from "../Components/NavBar";
 import useLayoutStyles from "../Styles/LayoutStyles";
 import Loading from "./../Components/Loading";
 import MainDrawer from "./../Components/MainDrawer";
+import ProductBackground from "./../Routes/ProductBackground";
 
 const LayoutSelector = lazy(() => import("./../Routes/LayoutSelector"));
 
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 const Layout = (reduxProps) => {
   const classesRoot = useStyles();
   const classes = useLayoutStyles(reduxProps);
-  const { path } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   const { dispatch, mainDrawerPresent, navBarPresent } = reduxProps;
   const boundUILayoutActions = bindActionCreators(UILayoutActions, dispatch);
@@ -63,9 +64,9 @@ const Layout = (reduxProps) => {
       <div className={classesRoot.root}>
         <Suspense fallback={<Loading />}>
           <Switch>
+            <Route exact path={url} component={ProductBackground} />
             <Route
-              exact
-              path={path}
+              path={`${url}/:layoutId`}
               render={(props) => (
                 <LayoutSelector
                   {...props}
@@ -74,6 +75,7 @@ const Layout = (reduxProps) => {
                 />
               )}
             />
+            <Route path="*" render={(props) => <h1>Layout not found</h1>} />
           </Switch>
         </Suspense>
       </div>

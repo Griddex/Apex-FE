@@ -19,32 +19,32 @@ const SubNavBar = React.memo(({ expandMainDrawer }) => {
   const subNavbarItems = [
     {
       name: "Facilities Deck",
-      route: "/auth/import/facilitiesdeck",
+      route: "/valid/import/facilitiesdeck",
       icon: AppsIcon,
     },
     {
       name: "Forecast Deck",
-      route: "/auth/import/forecastdeck",
+      route: "/valid/import/forecastdeck",
       icon: LandscapeIcon,
     },
     {
       name: "Production Data",
-      route: "/auth/import/productiondata",
+      route: "/valid/import/productiondata",
       icon: BubbleChartIcon,
     },
     {
       name: "Economics Data",
-      route: "/auth/import/economicsdata",
+      route: "/valid/import/economicsdata",
       icon: AttachMoneyIcon,
     },
   ];
 
   const menuText = (link) => {
     const menuLinkText = {
-      "/auth/import/facilitiesdeck": "Facilities Deck",
-      "/auth/import/forecastdeck": "Forecast Deck",
-      "/auth/import/productiondata": "Production Data",
-      "/auth/import/economicsdata": "Economics Data",
+      "/valid/import/facilitiesdeck": "Facilities Deck",
+      "/valid/import/forecastdeck": "Forecast Deck",
+      "/valid/import/productiondata": "Production Data",
+      "/valid/import/economicsdata": "Economics Data",
     };
     return menuLinkText[link];
   };

@@ -38,8 +38,8 @@ export const loginUserAction = (email, password, rememberMe) => (
     .then((response) => {
       const role = authService("Identity").Role;
 
-      if (role === "Admin") history.replace("/Auth/register");
-      else history.replace("/Auth/verification");
+      if (role === "Admin") history.replace("/valid/register");
+      else history.replace("/valid/verification");
     })
     .catch((errors) => {
       if (errors.response) {
@@ -106,7 +106,7 @@ export const registerUserAction = (
           },
         });
       }
-      history.replace(`/Auth/registration_success`);
+      history.replace(`/valid/registration_success`);
     })
     .catch((errors) => {
       if (errors.response) {

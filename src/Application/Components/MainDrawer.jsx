@@ -19,10 +19,10 @@ import { Route, useLocation, useRouteMatch, useParams } from "react-router-dom";
 
 const menuTitle = (link) => {
   const menuLinkTitle = {
-    "/auth/import": "Import",
-    "/auth/network": "Network",
-    "/auth/visualization": "Visualizations",
-    "/auth/settings": "Settings",
+    "/valid/import": "Import",
+    "/valid/network": "Network",
+    "/valid/visualization": "Visualizations",
+    "/valid/settings": "Settings",
   };
   return menuLinkTitle[link];
 };
@@ -65,10 +65,10 @@ const MainDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
           alignItems="center"
         >
           {[
-            "/auth/import",
-            "/auth/network",
-            "/auth/visualization",
-            "/auth/settings",
+            "/valid/import",
+            "/valid/network",
+            "/valid/visualization",
+            "/valid/settings",
           ].map((route) => (
             <Tooltip
               key={route}

@@ -126,7 +126,7 @@ const LoginView = () => {
             variant="contained"
             color="primary"
             size="large"
-            onClick={() => history.push("/auth/background")}
+            onClick={() => history.push("/valid/background")}
           >
             Login
           </Button>

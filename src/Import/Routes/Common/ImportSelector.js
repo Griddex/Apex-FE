@@ -8,8 +8,7 @@ import ConnectProductionLanding from "./../ProductionData/ConnectProductionLandi
 import ImportEconomicsLanding from "./../EconomicsData/ImportEconomicsLanding";
 
 const ImportSelector = (props) => {
-  const { page } = useParams();
-  console.log("Logged output -->: ImportSelector -> page", page);
+  const { subNavbarId } = useParams();
 
   const Layouts = {
     background: <ImportBackground {...props} />,
@@ -19,7 +18,7 @@ const ImportSelector = (props) => {
     economicsdata: <ImportEconomicsLanding {...props} />,
   };
 
-  return Layouts[page];
+  return Layouts[subNavbarId];
 };
 
 ImportSelector.propTypes = {};

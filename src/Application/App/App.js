@@ -12,24 +12,16 @@ function App() {
   return (
     <Suspense fallback={<Loading />}>
       <Switch>
+        <Route component={Layout} path="/valid" />
+        <Route component={LoginView} path="/login" />
         <Route component={LandingView} path="/" exact />
-        <Route component={LoginView} path="/login" exact />
-        <Route component={Layout} path="/auth/:page" exact />
         {/* Not authorized will be inside protected route */}
         {/* <ProtectedRoute
         path={"/#"}
         roles={["Officer", "Admin"]}
         component={Layout}
       /> */}
-        <Route
-          exact
-          path="*"
-          render={(props) => (
-            <div>
-              <h1>Not Found</h1>
-            </div>
-          )}
-        />
+        <Route render={(props) => <h1>Not Found</h1>} />
       </Switch>
     </Suspense>
   );

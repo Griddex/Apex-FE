@@ -6,13 +6,12 @@ import Loading from "./../../../Application/Components/Loading";
 import SubNavBar from "./../../../Application/Components/SubNavBar";
 import useLayoutStyles from "./../../../Application/Styles/LayoutStyles";
 import ImportSelector from "./ImportSelector";
+import ImportBackground from "./ImportBackground";
 
 const ImportLayout = (reduxProps) => {
   const classes = useLayoutStyles();
 
   const { path, url } = useRouteMatch();
-  console.log("Logged output -->: ImportLayout -> url", url);
-  console.log("Logged output -->: ImportLayout -> path", path);
 
   const { contextDrawerPresent, subNavBarPresent } = reduxProps;
   const { boundUILayoutActions } = reduxProps;
@@ -36,9 +35,10 @@ const ImportLayout = (reduxProps) => {
       <Container className={classes.container}>
         <Suspense fallback={<Loading />}>
           <Switch>
+            <Route exact path={path} component={ImportBackground} />
             <Route
               exact
-              path={`${url}/:page`}
+              path={`${url}/:subNavbarId`}
               render={(props) => (
                 <ImportSelector
                   {...props}
