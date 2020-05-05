@@ -14,38 +14,41 @@ import { Link } from "react-router-dom";
 import CompanyLogo from "../Images/CompanyLogo.svg";
 import IconsService from "../Services/IconsService";
 import useLayoutStyles from "./../Styles/LayoutStyles";
+import history from "../Services/HistoryService";
+import { Route, useLocation, useRouteMatch, useParams } from "react-router-dom";
 
-const menuText = (link) => {
-  const menuLinkText = {
+const menuTitle = (link) => {
+  const menuLinkTitle = {
     "/auth/import": "Import",
     "/auth/network": "Network",
     "/auth/visualization": "Visualizations",
     "/auth/settings": "Settings",
   };
-  return menuLinkText[link];
+  return menuLinkTitle[link];
 };
 
 const MainDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
   const classes = useLayoutStyles(reduxProps);
-  const { openMainDrawer } = reduxProps;
+  const { expandMainDrawer } = reduxProps;
   const { setMainDrawerMenuAction } = boundUILayoutActions;
-
-  const handleClick = (text, e) => {
-    setMainMenuSelected(text);
+  const [selected, setMainMenuSelected] = useState("");
+  const match = useRouteMatch();
+  const location = useLocation();
+  const handleClick = (route, e) => {
+    setMainMenuSelected(route);
   };
 
-  const [selected, setMainMenuSelected] = useState("");
   return (
     <Drawer
       variant="permanent"
       className={clsx(classes.mainDrawer, {
-        [classes.mainDrawerOpen]: openMainDrawer,
-        [classes.mainDrawerClose]: !openMainDrawer,
+        [classes.mainDrawerOpen]: expandMainDrawer,
+        [classes.mainDrawerClose]: !expandMainDrawer,
       })}
       classes={{
         paper: clsx({
-          [classes.mainDrawerOpen]: openMainDrawer,
-          [classes.mainDrawerClose]: !openMainDrawer,
+          [classes.mainDrawerOpen]: expandMainDrawer,
+          [classes.mainDrawerClose]: !expandMainDrawer,
         }),
       }}
     >
@@ -66,37 +69,38 @@ const MainDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
             "/auth/network",
             "/auth/visualization",
             "/auth/settings",
-          ].map((text) => (
+          ].map((route) => (
             <Tooltip
-              key={text}
-              title={menuText(text)}
+              key={route}
+              title={menuTitle(route)}
               placement="right"
-              interactive
+              // interactive
               arrow
             >
               <MenuItem
                 className={
-                  openMainDrawer
+                  expandMainDrawer
                     ? classes.menuItemBoxOpen
                     : classes.menuItemBoxClosed
                 }
                 component={Link}
-                to={text}
-                selected={text === selected}
+                to={route}
+                selected={route === selected}
                 onClick={(e) => {
-                  handleClick(text, e);
-                  setMainDrawerMenuAction(menuText(text));
+                  handleClick(route, e);
+                  setMainDrawerMenuAction(menuTitle(route));
+                  history.push(route);
                 }}
                 disableGutters
               >
-                {openMainDrawer ? (
+                {expandMainDrawer ? (
                   <div className={classes.menuItemDiv}>
-                    <div>{IconsService(text, "large")}</div>
-                    <Typography>{menuText(text)}</Typography>
+                    <div>{IconsService(route, "large")}</div>
+                    <Typography>{menuTitle(route)}</Typography>
                     <Divider />
                   </div>
                 ) : (
-                  <div>{IconsService(text, "default")}</div>
+                  <div>{IconsService(route, "default")}</div>
                 )}
               </MenuItem>
             </Tooltip>

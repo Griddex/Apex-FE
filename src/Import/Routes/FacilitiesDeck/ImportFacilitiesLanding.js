@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ImportCard from "../../Components/ImportCard";
-import ExistingFacilitiesDeck from "../../Images/ExistingFacilitiesDeck.svg";
+import ExistingDeck from "../../Images/ExistingDeck.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import Image from "../../../Application/Components/Image";
@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: "100px", width: "100px" },
-  importLandingFacilities: {
+  ImportFacilitiesLanding: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImportlandingFacilities = (props) => {
+const ImportFacilitiesLanding = (props) => {
   const classes = useStyles();
   const data = [
     {
@@ -53,7 +53,7 @@ const ImportlandingFacilities = (props) => {
       landingIcon: () => (
         <Image
           className={classes.image}
-          src={ExistingFacilitiesDeck}
+          src={ExistingDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
@@ -63,7 +63,7 @@ const ImportlandingFacilities = (props) => {
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
   return (
-    <div className={classes.importLandingFacilities}>
+    <div className={classes.ImportFacilitiesLanding}>
       {data.map((d) => (
         <ImportCard
           key={d.mainTitle}
@@ -76,6 +76,6 @@ const ImportlandingFacilities = (props) => {
   );
 };
 
-ImportlandingFacilities.propTypes = {};
+ImportFacilitiesLanding.propTypes = {};
 
-export default ImportlandingFacilities;
+export default ImportFacilitiesLanding;

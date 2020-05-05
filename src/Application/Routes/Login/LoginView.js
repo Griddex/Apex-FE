@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     background: theme.palette.primary.main,
     margin: "20px",
-    width: "100px",
+    // width: "100px",
+    width: "100%",
   },
 }));
 
@@ -64,7 +65,7 @@ const LoginView = () => {
       container
       className={classes.root}
       direction="column"
-      justifyContent="center"
+      justify="center"
       alignItems="center"
     >
       <Grid item className={classes.item} xs={10} sm={6} lg={4}>
@@ -123,9 +124,9 @@ const LoginView = () => {
           <Button
             className={classes.button}
             variant="contained"
-            primary
+            color="primary"
             size="large"
-            onClick={() => history.push("/auth")}
+            onClick={() => history.push("/auth/background")}
           >
             Login
           </Button>

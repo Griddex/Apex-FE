@@ -45,7 +45,7 @@ const LandingView = (props) => {
       container
       className={classes.root}
       direction="column"
-      justifyContent="center"
+      justify="center"
       alignItems="center"
     >
       <Grid item className={classes.item} xs={12} sm={6}>
@@ -64,10 +64,10 @@ const LandingView = (props) => {
         <Button
           className={classes.button}
           variant="contained"
-          primary
+          color="primary"
           onClick={() => history.push("/login")}
         >
-          Login
+          Proceed
         </Button>
       </Grid>
     </Grid>

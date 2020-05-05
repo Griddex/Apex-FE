@@ -1,13 +1,19 @@
 const LayoutUIState = {
-  logoutModalOpen: false,
-  openMainDrawer: false,
-  openContextDrawer: false,
-  mainDrawerExpanded: false,
-  contextDrawerExpanded: false,
+  mainDrawerPresent: true,
+  expandMainDrawer: false,
+  mainDrawertext: "",
+
   contextDrawerPresent: false,
+  expandContextDrawer: false,
+  contextDrawertext: "",
+
   subNavBarPresent: false,
-  mainDrawerMenuSelected: "",
-  subNavBarMenuSelected: "",
+  expandSubNavBar: false,
+
+  navBarPresent: false,
+  expandNavBar: false,
+
+  logoutModalOpen: false,
 };
 
 export default LayoutUIState;

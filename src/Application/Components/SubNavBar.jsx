@@ -10,34 +10,35 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { useSubNavBarStyles } from "./../Styles/SubNavbarStyles";
 import IconsService from "./../Services/IconsService";
 import { Toolbar, ButtonGroup, Button } from "@material-ui/core";
+import history from "./../Services/HistoryService";
+import { Link } from "react-router-dom";
 
-const SubNavBar = React.memo(({ openMainDrawer }) => {
+const SubNavBar = React.memo(({ expandMainDrawer }) => {
   const classes = useSubNavBarStyles();
 
-  const subNavbarItems = {
-    Import: [
-      {
-        name: "Facilities Deck",
-        route: "/auth/import/facilitiesdeck",
-        icon: AppsIcon,
-      },
-      {
-        name: "Forecast Deck",
-        route: "/auth/import/forecastdeck",
-        icon: LandscapeIcon,
-      },
-      {
-        name: "Production Data",
-        route: "/auth/import/productiondata",
-        icon: BubbleChartIcon,
-      },
-      {
-        name: "Economics Data",
-        route: "/auth/import/economicsdata",
-        icon: AttachMoneyIcon,
-      },
-    ],
-  };
+  const subNavbarItems = [
+    {
+      name: "Facilities Deck",
+      route: "/auth/import/facilitiesdeck",
+      icon: AppsIcon,
+    },
+    {
+      name: "Forecast Deck",
+      route: "/auth/import/forecastdeck",
+      icon: LandscapeIcon,
+    },
+    {
+      name: "Production Data",
+      route: "/auth/import/productiondata",
+      icon: BubbleChartIcon,
+    },
+    {
+      name: "Economics Data",
+      route: "/auth/import/economicsdata",
+      icon: AttachMoneyIcon,
+    },
+  ];
+
   const menuText = (link) => {
     const menuLinkText = {
       "/auth/import/facilitiesdeck": "Facilities Deck",
@@ -48,21 +49,20 @@ const SubNavBar = React.memo(({ openMainDrawer }) => {
     return menuLinkText[link];
   };
 
-  const handleToggle = () => {};
-
   return (
     <AppBar
       className={clsx({
-        [classes.appBarShiftExpanded]: openMainDrawer,
-        [classes.appBarShiftCollapsed]: !openMainDrawer,
+        [classes.appBarShiftExpanded]: expandMainDrawer,
+        [classes.appBarShiftCollapsed]: !expandMainDrawer,
       })}
     >
       <Toolbar className={classes.appbarToolBar} disableGutters>
         <ButtonGroup variant="text">
-          {subNavbarItems["Import"].map((row, i) => (
+          {subNavbarItems.map((row, i) => (
             <Button
               key={i}
-              onClick={handleToggle}
+              // component={Link}
+              onClick={() => history.replace(row.route)}
               className={classes.button}
               endIcon={IconsService(row.route)}
             >

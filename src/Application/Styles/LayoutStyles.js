@@ -1,7 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
 
-// const theme = useTheme();
 const NavBarHeight = 43;
 const useLayoutStyles = makeStyles((theme) => {
   return {
@@ -12,8 +10,9 @@ const useLayoutStyles = makeStyles((theme) => {
     },
     appBar: {
       backgroundColor: "#FFF",
-      width: (reduxProps) =>
-        `calc(100% - ${reduxProps.openMainDrawer ? 100 : 40}px)`,
+      width: (reduxProps) => {
+        return `calc(100% - ${reduxProps.expandMainDrawer ? 100 : 40}px)`;
+      },
       height: NavBarHeight,
       zIndex: theme.zIndex.drawer + 1,
       transition: theme.transitions.create(["width", "margin"], {
@@ -22,9 +21,9 @@ const useLayoutStyles = makeStyles((theme) => {
       }),
     },
     appBarShift: {
-      marginLeft: (reduxProps) => (reduxProps.openMainDrawer ? 100 : 40),
+      marginLeft: (reduxProps) => (reduxProps.expandMainDrawer ? 100 : 40),
       width: (reduxProps) =>
-        `calc(100% - ${reduxProps.openMainDrawer ? 100 : 40}px)`,
+        `calc(100% - ${reduxProps.expandMainDrawer ? 100 : 40}px)`,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -43,7 +42,7 @@ const useLayoutStyles = makeStyles((theme) => {
       padding: 0,
       margin: 0,
       marginTop: NavBarHeight,
-      paddingTop: (reduxProps) => (reduxProps.subNavBarPresent ? 25 : 0),
+      paddingTop: (reduxProps) => (reduxProps.subNavBarOpen ? 25 : 0),
     },
     //Main Drawer
     mainDrawer: {
@@ -52,7 +51,7 @@ const useLayoutStyles = makeStyles((theme) => {
       whiteSpace: "nowrap",
     },
     mainDrawerOpen: {
-      width: (reduxProps) => (reduxProps.openMainDrawer ? 100 : 40),
+      width: (reduxProps) => (reduxProps.expandMainDrawer ? 100 : 40),
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -79,24 +78,18 @@ const useLayoutStyles = makeStyles((theme) => {
       alignItems: "center",
       width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 40 : 150),
       height: (reduxProps) =>
-        `calc(100vw - ${
-          NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0)
-        }px)`,
+        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
       maxHeight: (reduxProps) =>
-        `calc(100vw - ${
-          NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0)
-        }px)`,
+        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
       marginTop: (reduxProps) =>
-        NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0),
+        NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0),
     },
     contextDrawerOpen: {
       width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 40 : 150),
       maxHeight: (reduxProps) =>
-        `calc(100vw - ${
-          NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0)
-        }px)`,
+        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
       marginTop: (reduxProps) =>
-        NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0),
+        NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0),
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -104,11 +97,9 @@ const useLayoutStyles = makeStyles((theme) => {
     },
     contextDrawerClose: {
       maxHeight: (reduxProps) =>
-        `calc(100vw - ${
-          NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0)
-        }px)`,
+        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
       marginTop: (reduxProps) =>
-        NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0),
+        NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0),
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -155,20 +146,18 @@ const useLayoutStyles = makeStyles((theme) => {
       flexGrow: 1,
       marginTop: NavBarHeight,
       height: (reduxProps) =>
-        `calc(100% - ${
-          NavBarHeight + (reduxProps.subNavBarPresent ? 25 : 0)
-        }px)`,
+        `calc(100% - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
       paddingTop: theme.spacing(3) + 1,
       width: (reduxProps) =>
         `calc(100% - ${
-          reduxProps.subNavBarPresent
+          reduxProps.subNavBarOpen
             ? reduxProps.subNavBarExpanded
               ? 150
               : 40
             : 0
         })`,
       marginRight: (reduxProps) =>
-        reduxProps.subNavBarPresent
+        reduxProps.subNavBarOpen
           ? reduxProps.subNavBarExpanded
             ? 150
             : 40

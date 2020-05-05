@@ -25,80 +25,85 @@ const NavBar = React.memo(({ reduxProps, boundUILayoutActions }) => {
   const username = faker.name.findName();
   const userinitials = GetInitials(username);
 
-  const { openMainDrawer } = reduxProps;
-  const { openMainDrawerAction, closeMainDrawerAction } = boundUILayoutActions;
+  const { expandMainDrawer, navBarPresent } = reduxProps;
+  const {
+    expandMainDrawerAction,
+    collapseMainDrawerAction,
+  } = boundUILayoutActions;
 
   return (
     <AppBar
       position="fixed"
       className={clsx(classes.appBar, {
-        [classes.appBarShift]: openMainDrawer,
+        [classes.appBarShift]: expandMainDrawer,
       })}
     >
-      <Toolbar className={classes.appbarToolBar}>
-        {!openMainDrawer ? (
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={openMainDrawerAction}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: openMainDrawer,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-        ) : (
-          <IconButton
-            color="inherit"
-            aria-label="close drawer"
-            onClick={closeMainDrawerAction}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: !openMainDrawer,
-            })}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-        )}
-        <Box className={classes.userToolBar}>
-          <Badge
-            className={classes.userBadge}
-            badgeContent={400}
-            color="secondary"
-          >
-            <NotificationsIcon />
-          </Badge>
-          <Avatar
-            className={classes.smallAvatar}
-            alt={username}
-            src={faker.internet.avatar()}
-            variant="rounded"
-          >
-            {userinitials}
-          </Avatar>
-          <Typography
-            className={classes.userTypography}
-            variant="subtitle1"
-            color="inherit"
-          >
-            {username}
-          </Typography>
-          <ExpandMoreIcon className={classes.userExpandMoreIcon} />
-          <Button
-            className={classes.userLogout}
-            size="small"
-            variant="outlined"
-            color="primary"
-            onClick={() => {
-              sessionStorage.clear();
-              history.replace("/login");
-            }}
-          >
-            Logout
-          </Button>
-        </Box>
-      </Toolbar>
+      {navBarPresent && (
+        <Toolbar className={classes.appbarToolBar}>
+          {!expandMainDrawer ? (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={expandMainDrawerAction}
+              edge="start"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: expandMainDrawer,
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              color="inherit"
+              aria-label="close drawer"
+              onClick={collapseMainDrawerAction}
+              edge="start"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: !expandMainDrawer,
+              })}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+          )}
+          <Box className={classes.userToolBar}>
+            <Badge
+              className={classes.userBadge}
+              badgeContent={400}
+              color="secondary"
+            >
+              <NotificationsIcon />
+            </Badge>
+            <Avatar
+              className={classes.smallAvatar}
+              alt={username}
+              src={faker.internet.avatar()}
+              variant="rounded"
+            >
+              {userinitials}
+            </Avatar>
+            <Typography
+              className={classes.userTypography}
+              variant="subtitle1"
+              color="inherit"
+            >
+              {username}
+            </Typography>
+            <ExpandMoreIcon className={classes.userExpandMoreIcon} />
+            <Button
+              className={classes.userLogout}
+              size="small"
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                sessionStorage.clear();
+                history.replace("/login");
+              }}
+            >
+              Logout
+            </Button>
+          </Box>
+        </Toolbar>
+      )}
     </AppBar>
   );
 });

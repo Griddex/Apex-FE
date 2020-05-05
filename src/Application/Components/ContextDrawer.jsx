@@ -7,10 +7,10 @@ import React from "react";
 import useLayoutStyles from "./../Styles/LayoutStyles";
 
 const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
-  const { openContextDrawer } = reduxProps;
+  const { expandContextDrawer } = reduxProps;
   const {
-    openContextDrawerAction,
-    closeContextDrawerAction,
+    expandContextDrawerAction,
+    collapseContextDrawerAction,
   } = boundUILayoutActions;
 
   const classes = useLayoutStyles();
@@ -20,24 +20,24 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
       variant="permanent"
       anchor="right"
       className={clsx(classes.contextDrawer, {
-        [classes.contextDrawerOpen]: openContextDrawer,
-        [classes.contextDrawerClose]: !openContextDrawer,
+        [classes.contextDrawerOpen]: expandContextDrawer,
+        [classes.contextDrawerClose]: !expandContextDrawer,
       })}
       classes={{
         paper: clsx({
-          [classes.contextDrawerOpen]: openContextDrawer,
-          [classes.contextDrawerClose]: !openContextDrawer,
+          [classes.contextDrawerOpen]: expandContextDrawer,
+          [classes.contextDrawerClose]: !expandContextDrawer,
         }),
       }}
     >
-      {!openContextDrawer ? (
+      {!expandContextDrawer ? (
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={openContextDrawerAction}
+          onClick={expandContextDrawerAction}
           edge="start"
           className={clsx(classes.contextDrawerMenuIcon, {
-            [classes.hide]: openContextDrawer,
+            [classes.hide]: expandContextDrawer,
           })}
         >
           <MenuIcon />
@@ -46,10 +46,10 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
         <IconButton
           color="inherit"
           aria-label="close drawer"
-          onClick={closeContextDrawerAction}
+          onClick={collapseContextDrawerAction}
           edge="start"
           className={clsx(classes.menuButton, {
-            [classes.hide]: !openContextDrawer,
+            [classes.hide]: !expandContextDrawer,
           })}
         >
           <ChevronRightIcon />

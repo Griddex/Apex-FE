@@ -1,20 +1,34 @@
-import { makeStyles } from "@material-ui/core";
-import React, { Suspense, lazy } from "react";
 import Container from "@material-ui/core/Container";
+import React, { Suspense, useEffect } from "react";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import ContextDrawer from "./../../../Application/Components/ContextDrawer";
+import Loading from "./../../../Application/Components/Loading";
 import SubNavBar from "./../../../Application/Components/SubNavBar";
 import useLayoutStyles from "./../../../Application/Styles/LayoutStyles";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Switch, Route } from "react-router-dom";
-import ImportBackground from "./ImportBackground";
-import * as UILayoutActions from "../../../Application/Redux/Actions/UILayoutActions";
-import Loading from "./../../../Application/Components/Loading";
+import ImportSelector from "./ImportSelector";
 
 const ImportLayout = (reduxProps) => {
   const classes = useLayoutStyles();
-  const { dispatch, contextDrawerPresent, subNavBarPresent } = reduxProps;
-  const boundUILayoutActions = bindActionCreators(UILayoutActions, dispatch);
+
+  const { path, url } = useRouteMatch();
+  console.log("Logged output -->: ImportLayout -> url", url);
+  console.log("Logged output -->: ImportLayout -> path", path);
+
+  const { contextDrawerPresent, subNavBarPresent } = reduxProps;
+  const { boundUILayoutActions } = reduxProps;
+  const {
+    subNavBarPresentAction,
+    collapseSubNavBarAction,
+    contextDrawerPresentAction,
+    collapseContextDrawerAction,
+  } = boundUILayoutActions;
+
+  useEffect(() => {
+    subNavBarPresentAction();
+    collapseSubNavBarAction();
+    contextDrawerPresentAction();
+    collapseContextDrawerAction();
+  });
 
   return (
     <main className={classes.mainContent}>
@@ -22,27 +36,18 @@ const ImportLayout = (reduxProps) => {
       <Container className={classes.container}>
         <Suspense fallback={<Loading />}>
           <Switch>
-            <Route exact path="/auth/import" component={ImportBackground} />
             <Route
               exact
-              path="/auth/import/facilitiesdeck"
-              component={ImportBackground}
+              path={`${url}/:page`}
+              render={(props) => (
+                <ImportSelector
+                  {...props}
+                  {...reduxProps}
+                  boundUILayoutActions={boundUILayoutActions}
+                />
+              )}
             />
-            <Route
-              exact
-              path="/auth/import/forecastdeck"
-              component={ImportBackground}
-            />
-            <Route
-              exact
-              path="/auth/import/productiondata"
-              component={ImportBackground}
-            />
-            <Route
-              exact
-              path="/auth/import/economicsdata"
-              component={ImportBackground}
-            />
+            <Route path="*" render={(props) => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
         {contextDrawerPresent && (
@@ -58,10 +63,4 @@ const ImportLayout = (reduxProps) => {
 
 ImportLayout.propTypes = {};
 
-const mapStateToProps = (state) => {
-  return {
-    allReduxProps: state.UILayoutReducer,
-  };
-};
-
-export default connect(mapStateToProps, null)(ImportLayout);
+export default ImportLayout;
