@@ -1,11 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Route, Switch, useRouteMatch, useParams } from "react-router-dom";
+import Image from "../../../Application/Components/Image";
 import ImportCard from "../../Components/ImportCard";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
-import MSExcel from "../../Images/MSExcel.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
-import Image from "../../../Application/Components/Image";
-import { makeStyles } from "@material-ui/core";
+import MSExcel from "../../Images/MSExcel.svg";
+import ImportExcel from "./ImportExcelWorkflow/ImportExcel";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { navigateToWorkflowAction } from "../../../Application/Redux/Actions/UILayoutActions";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: "100px", width: "100px" },
@@ -13,14 +17,31 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "calc(100vh - 67.77px)",
-    width: "calc(100% - 40px - 40px)",
+    height: "100%",
+    width: "100%",
     "& > *": { margin: "20px", height: "60%" },
+  },
+  ImportWorkflow: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+    height: "95%",
   },
 }));
 
 const ImportFacilitiesLanding = (props) => {
   const classes = useStyles();
+  const { url, path } = useRouteMatch();
+  const dispatch = useDispatch();
+  const navigatedToWorkflow = useSelector(
+    (state) => state.UILayoutReducer.navigatedToWorkflow
+  );
+
+  // useEffect(() => {
+  //   dispatch(navigateToWorkflowAction());
+  // }, []);
+
   const data = [
     {
       mainTitle: "Excel + Plain Text",
@@ -33,6 +54,7 @@ const ImportFacilitiesLanding = (props) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
+      urlPath: `${url}/excel`,
     },
     {
       mainTitle: "Database",
@@ -45,6 +67,7 @@ const ImportFacilitiesLanding = (props) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
+      urlPath: `${url}/database`,
     },
     {
       mainTitle: "Approved Facilities Deck",
@@ -57,22 +80,52 @@ const ImportFacilitiesLanding = (props) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
+      urlPath: `${url}/approveddeck`,
     },
   ];
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
+
   return (
-    <div className={classes.ImportFacilitiesLanding}>
-      {data.map((d) => (
-        <ImportCard
-          key={d.mainTitle}
-          MainTitle={d.mainTitle}
-          Description={d.Description}
-          Icon={d.landingIcon}
-        />
-      ))}
-    </div>
+    <>
+      {!navigatedToWorkflow ? (
+        <div className={classes.ImportFacilitiesLanding}>
+          {data.map((d) => (
+            <ImportCard
+              key={d.mainTitle}
+              MainTitle={d.mainTitle}
+              Description={d.Description}
+              Icon={d.landingIcon}
+              UrlPath={d.urlPath}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className={classes.ImportWorkflow}>
+          <Switch>
+            <Route
+              exact
+              path={`${path}/:datatype`}
+              render={(props) => {
+                const { match } = props;
+                const {
+                  params: { datatype },
+                } = match;
+
+                const ImportFacilitiesWorkflows = {
+                  excel: <ImportExcel />,
+                  database: <ImportExcel />,
+                  facilitiesdeck: <ImportExcel />,
+                };
+
+                return ImportFacilitiesWorkflows[datatype];
+              }}
+            />
+          </Switch>
+        </div>
+      )}
+    </>
   );
 };
 

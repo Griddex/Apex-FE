@@ -34,6 +34,7 @@ const useLayoutStyles = makeStyles((theme) => {
     },
     container: {
       display: "flex",
+      height: "100%",
       width: (reduxProps) =>
         `calc(100% - ${reduxProps.contextDrawerExpanded ? 40 : 150})`,
       marginRight: (reduxProps) =>
@@ -77,29 +78,19 @@ const useLayoutStyles = makeStyles((theme) => {
       justifyContent: "flex-start",
       alignItems: "center",
       width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 40 : 150),
-      height: (reduxProps) =>
-        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
       maxHeight: (reduxProps) =>
-        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
-      marginTop: (reduxProps) =>
-        NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0),
+        `calc(100vh - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
+      marginTop: NavBarHeight,
     },
     contextDrawerOpen: {
       width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 40 : 150),
-      maxHeight: (reduxProps) =>
-        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
-      marginTop: (reduxProps) =>
-        NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0),
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
     contextDrawerClose: {
-      maxHeight: (reduxProps) =>
-        `calc(100vw - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
-      marginTop: (reduxProps) =>
-        NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0),
+      marginTop: NavBarHeight,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,

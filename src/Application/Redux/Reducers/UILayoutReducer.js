@@ -21,6 +21,8 @@ import {
   UILAYOUT_LOGOUTMODAL_CLOSE,
   UILAYOUT_LOGOUT_USER,
   UILAYOUT_DEFAULT,
+  UILAYOUT_NAVIGATE_TO_WORKFLOW,
+  UILAYOUT_NAVIGATE_RESET_WORKFLOW,
 } from "./../Actions/UILayoutActions";
 import LayoutUIState from "../State/UIState/LayoutUIState";
 
@@ -142,6 +144,16 @@ export const UILayoutReducer = (state = LayoutUIState, action) => {
       };
     case UILAYOUT_DEFAULT:
       return { ...state };
+    case UILAYOUT_NAVIGATE_TO_WORKFLOW:
+      return {
+        ...state,
+        navigatedToWorkflow: action.payload.navigatedToWorkflow,
+      };
+    case UILAYOUT_NAVIGATE_RESET_WORKFLOW:
+      return {
+        ...state,
+        navigatedToWorkflow: action.payload.navigatedToWorkflow,
+      };
     default:
       return {
         ...state,

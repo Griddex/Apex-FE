@@ -24,7 +24,7 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
         [classes.contextDrawerClose]: !expandContextDrawer,
       })}
       classes={{
-        paper: clsx({
+        paper: clsx(classes.contextDrawer, {
           [classes.contextDrawerOpen]: expandContextDrawer,
           [classes.contextDrawerClose]: !expandContextDrawer,
         }),

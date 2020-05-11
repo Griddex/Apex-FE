@@ -1,14 +1,15 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import React from "react";
+import history from "./../../Application/Services/HistoryService";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { navigateToWorkflowAction } from "../../Application/Redux/Actions/UILayoutActions";
 
 const cardWidth = 300;
 const useStyles = makeStyles((theme) => ({
@@ -42,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ImportCard(props) {
-  const { MainTitle, Description, Icon } = props;
+  const { MainTitle, Description, Icon, UrlPath } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Card className={classes.root}>
@@ -59,7 +61,15 @@ export default function ImportCard(props) {
         </CardContent>
       </Box>
       <CardActions className={classes.cardActions}>
-        <Button className={classes.button} size="large" variant="contained">
+        <Button
+          className={classes.button}
+          size="large"
+          variant="contained"
+          onClick={() => {
+            dispatch(navigateToWorkflowAction());
+            history.push(UrlPath);
+          }}
+        >
           Select
         </Button>
       </CardActions>

@@ -1,7 +1,6 @@
-import React, { Suspense, lazy } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { lazy, Suspense } from "react";
+import { Route, Switch } from "react-router-dom";
 import Loading from "./../Components/Loading";
-import LayoutSelector from "./../Routes/LayoutSelector";
 
 const LandingView = lazy(() => import("../Routes/Landing/LandingView"));
 const LoginView = lazy(() => import("../Routes/Login/LoginView"));

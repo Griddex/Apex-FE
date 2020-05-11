@@ -5,8 +5,11 @@ import ContextDrawer from "./../../../Application/Components/ContextDrawer";
 import Loading from "./../../../Application/Components/Loading";
 import SubNavBar from "./../../../Application/Components/SubNavBar";
 import useLayoutStyles from "./../../../Application/Styles/LayoutStyles";
-import ImportSelector from "./ImportSelector";
 import ImportBackground from "./ImportBackground";
+import ImportFacilitiesLanding from "./../FacilitiesDeck/ImportFacilitiesLanding";
+import ImportForecastLanding from "./../ForecastDeck/ImportForecastLanding";
+import ConnectProductionLanding from "./../ProductionData/ConnectProductionLanding";
+import ImportEconomicsLanding from "./../EconomicsData/ImportEconomicsLanding";
 
 const ImportLayout = (reduxProps) => {
   const classes = useLayoutStyles();
@@ -15,6 +18,7 @@ const ImportLayout = (reduxProps) => {
 
   const { contextDrawerPresent, subNavBarPresent } = reduxProps;
   const { boundUILayoutActions } = reduxProps;
+
   const {
     subNavBarPresentAction,
     collapseSubNavBarAction,
@@ -31,21 +35,30 @@ const ImportLayout = (reduxProps) => {
 
   return (
     <main className={classes.mainContent}>
-      {subNavBarPresent && <SubNavBar reduxProps={reduxProps} />}
+      {subNavBarPresent && <SubNavBar {...reduxProps} />}
       <Container className={classes.container}>
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route exact path={path} component={ImportBackground} />
             <Route
-              exact
               path={`${url}/:subNavbarId`}
-              render={(props) => (
-                <ImportSelector
-                  {...props}
-                  {...reduxProps}
-                  boundUILayoutActions={boundUILayoutActions}
-                />
-              )}
+              render={(props) => {
+                const {
+                  match: {
+                    params: { subNavbarId },
+                  },
+                } = props;
+
+                const Layouts = {
+                  background: <ImportBackground {...props} />,
+                  facilitiesdeck: <ImportFacilitiesLanding {...props} />,
+                  forecastdeck: <ImportForecastLanding {...props} />,
+                  productiondata: <ConnectProductionLanding {...props} />,
+                  economicsdata: <ImportEconomicsLanding {...props} />,
+                };
+
+                return Layouts[subNavbarId];
+              }}
             />
             <Route path="*" render={(props) => <h1>Not Available</h1>} />
           </Switch>

@@ -14,6 +14,8 @@ const LayoutUIState = {
   expandNavBar: false,
 
   logoutModalOpen: false,
+
+  navigatedToWorkflow: false,
 };
 
 export default LayoutUIState;

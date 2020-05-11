@@ -12,10 +12,9 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CompanyLogo from "../Images/CompanyLogo.svg";
+import history from "../Services/HistoryService";
 import IconsService from "../Services/IconsService";
 import useLayoutStyles from "./../Styles/LayoutStyles";
-import history from "../Services/HistoryService";
-import { Route, useLocation, useRouteMatch, useParams } from "react-router-dom";
 
 const menuTitle = (link) => {
   const menuLinkTitle = {
@@ -32,8 +31,7 @@ const MainDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
   const { expandMainDrawer } = reduxProps;
   const { setMainDrawerMenuAction } = boundUILayoutActions;
   const [selected, setMainMenuSelected] = useState("");
-  const match = useRouteMatch();
-  const location = useLocation();
+
   const handleClick = (route, e) => {
     setMainMenuSelected(route);
   };

@@ -2,16 +2,17 @@ import { makeStyles } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { lazy, Suspense, useEffect } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import * as UILayoutActions from "../../Application/Redux/Actions/UILayoutActions";
 import NavBar from "../Components/NavBar";
 import useLayoutStyles from "../Styles/LayoutStyles";
+import ImportLayout from "./../../Import/Routes/Common/ImportLayout";
+import NetworkLayout from "./../../Network/Common/NetworkLayout";
+import VisualizationLayout from "./../../Visualization/Common/VisualizationLayout";
 import Loading from "./../Components/Loading";
 import MainDrawer from "./../Components/MainDrawer";
 import ProductBackground from "./../Routes/ProductBackground";
-
-const LayoutSelector = lazy(() => import("./../Routes/LayoutSelector"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,7 @@ const Layout = (reduxProps) => {
 
   const { dispatch, mainDrawerPresent, navBarPresent } = reduxProps;
   const boundUILayoutActions = bindActionCreators(UILayoutActions, dispatch);
+  const allProps = { ...reduxProps, boundUILayoutActions };
 
   const {
     mainDrawerPresentAction,
@@ -67,13 +69,22 @@ const Layout = (reduxProps) => {
             <Route exact path={url} component={ProductBackground} />
             <Route
               path={`${url}/:layoutId`}
-              render={(props) => (
-                <LayoutSelector
-                  {...props}
-                  {...reduxProps}
-                  boundUILayoutActions={boundUILayoutActions}
-                />
-              )}
+              render={(props) => {
+                const {
+                  match: {
+                    params: { layoutId },
+                  },
+                } = props;
+
+                const Layouts = {
+                  background: <ProductBackground {...allProps} />,
+                  import: <ImportLayout {...allProps} />,
+                  network: <NetworkLayout {...allProps} />,
+                  visualization: <VisualizationLayout {...allProps} />,
+                };
+
+                return Layouts[layoutId];
+              }}
             />
             <Route path="*" render={(props) => <h1>Layout not found</h1>} />
           </Switch>

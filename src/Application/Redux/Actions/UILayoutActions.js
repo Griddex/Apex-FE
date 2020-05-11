@@ -21,6 +21,9 @@ export const UILAYOUT_LOGOUTMODAL_OPEN = "UILAYOUT_LOGOUTMODAL_OPEN";
 export const UILAYOUT_LOGOUTMODAL_CLOSE = "UILAYOUT_LOGOUTMODAL_CLOSE";
 export const UILAYOUT_LOGOUT_USER = "UILAYOUT_LOGOUT_USER";
 export const UILAYOUT_DEFAULT = "UILAYOUT_DEFAULT";
+export const UILAYOUT_NAVIGATE_TO_WORKFLOW = "UILAYOUT_NAVIGATE_TO_WORKFLOW";
+export const UILAYOUT_NAVIGATE_RESET_WORKFLOW =
+  "UILAYOUT_NAVIGATE_RESET_WORKFLOW";
 
 //MAIN DRAWER
 export const mainDrawerPresentAction = () => {
@@ -165,5 +168,18 @@ export const defaultLayoutAction = () => {
   collapseNavBarAction();
   return {
     type: UILAYOUT_DEFAULT,
+  };
+};
+
+export const navigateToWorkflowAction = () => {
+  return {
+    type: UILAYOUT_NAVIGATE_TO_WORKFLOW,
+    payload: { navigatedToWorkflow: true },
+  };
+};
+export const navigateResetWorkflowAction = () => {
+  return {
+    type: UILAYOUT_NAVIGATE_RESET_WORKFLOW,
+    payload: { navigatedToWorkflow: false },
   };
 };

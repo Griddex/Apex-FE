@@ -12,9 +12,13 @@ import IconsService from "./../Services/IconsService";
 import { Toolbar, ButtonGroup, Button } from "@material-ui/core";
 import history from "./../Services/HistoryService";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-const SubNavBar = React.memo(({ expandMainDrawer }) => {
+const SubNavBar = React.memo((props) => {
   const classes = useSubNavBarStyles();
+  const { expandMainDrawer, boundUILayoutActions } = props;
+  const dispatch = useDispatch();
+  const { navigateResetWorkflowAction } = boundUILayoutActions;
 
   const subNavbarItems = [
     {
@@ -46,6 +50,7 @@ const SubNavBar = React.memo(({ expandMainDrawer }) => {
       "/valid/import/productiondata": "Production Data",
       "/valid/import/economicsdata": "Economics Data",
     };
+
     return menuLinkText[link];
   };
 
@@ -62,7 +67,10 @@ const SubNavBar = React.memo(({ expandMainDrawer }) => {
             <Button
               key={i}
               // component={Link}
-              onClick={() => history.replace(row.route)}
+              onClick={() => {
+                dispatch(navigateResetWorkflowAction());
+                history.push(row.route);
+              }}
               className={classes.button}
               endIcon={IconsService(row.route)}
             >
