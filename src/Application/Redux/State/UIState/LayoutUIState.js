@@ -5,12 +5,12 @@ const LayoutUIState = {
 
   contextDrawerPresent: false,
   expandContextDrawer: false,
-  contextDrawertext: "",
+  contextDrawerContentTrigger: "",
 
-  subNavBarPresent: false,
+  subNavBarPresent: true,
   expandSubNavBar: false,
 
-  navBarPresent: false,
+  navBarPresent: true,
   expandNavBar: false,
 
   logoutModalOpen: false,

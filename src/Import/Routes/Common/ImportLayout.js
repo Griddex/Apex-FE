@@ -34,7 +34,7 @@ const ImportLayout = (reduxProps) => {
   });
 
   return (
-    <main className={classes.mainContent}>
+    <main className={classes.mainContainer}>
       {subNavBarPresent && <SubNavBar {...reduxProps} />}
       <Container className={classes.container}>
         <Suspense fallback={<Loading />}>

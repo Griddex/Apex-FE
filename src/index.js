@@ -11,8 +11,10 @@ import App from "./Application/App";
 import history from "./Application/Services/HistoryService";
 import { UILayoutReducer } from "./Application/Redux/Reducers/UILayoutReducer";
 import { UILayoutMiddleware } from "./Application/Redux/Middlewares/UILayoutMiddleware";
+import { ImportReducer } from "./Import/Redux/Reducers/ImportReducer";
 
 const rootReducer = combineReducers({
+  ImportReducer,
   UILayoutReducer,
 });
 

@@ -5,9 +5,15 @@ import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
 import useLayoutStyles from "./../Styles/LayoutStyles";
+import ContextDrawerContentService from "./../../Import/Services/ContextDrawerContentService";
+import { useSelector } from "react-redux";
 
 const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
+  const contextDrawerContentTrigger = useSelector(
+    (state) => state.ImportReducer.contextDrawerContentTrigger
+  );
   const { expandContextDrawer } = reduxProps;
+
   const {
     expandContextDrawerAction,
     collapseContextDrawerAction,
@@ -55,6 +61,7 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
           <ChevronRightIcon />
         </IconButton>
       )}
+      {ContextDrawerContentService(contextDrawerContentTrigger)}
     </Drawer>
   );
 });

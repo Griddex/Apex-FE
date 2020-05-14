@@ -1,15 +1,14 @@
 import { makeStyles } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { Route, Switch, useRouteMatch, useParams } from "react-router-dom";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Image from "../../../Application/Components/Image";
 import ImportCard from "../../Components/ImportCard";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import ImportExcel from "./ImportExcelWorkflow/ImportExcel";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { navigateToWorkflowAction } from "../../../Application/Redux/Actions/UILayoutActions";
+import { SetContextDrawerContentAction } from "../../Redux/Actions/SetContextDrawerContentAction";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: "100px", width: "100px" },
@@ -25,8 +24,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "90%",
+    width: "100%",
     height: "95%",
+    // "& > *": {
+
+    // }
   },
 }));
 
@@ -45,7 +47,7 @@ const ImportFacilitiesLanding = (props) => {
   const data = [
     {
       mainTitle: "Excel + Plain Text",
-      Description:
+      description:
         "Import excel sheets in the following formats: .xls, .xlsx & csv. Also import in .txt or .dat formats",
       landingIcon: () => (
         <Image
@@ -55,10 +57,12 @@ const ImportFacilitiesLanding = (props) => {
         />
       ),
       urlPath: `${url}/excel`,
+      contextAction: SetContextDrawerContentAction,
+      contextTrigger: "ImportExcel",
     },
     {
       mainTitle: "Database",
-      Description:
+      description:
         "Connect to and import from the following databases: AccessDb, MSSQL, MySQL etc",
       landingIcon: () => (
         <Image
@@ -68,10 +72,12 @@ const ImportFacilitiesLanding = (props) => {
         />
       ),
       urlPath: `${url}/database`,
+      contextAction: SetContextDrawerContentAction,
+      contextTrigger: "connectDatabase",
     },
     {
       mainTitle: "Approved Facilities Deck",
-      Description:
+      description:
         "Select a pre-exisiting and approved facilties deck from your database",
       landingIcon: () => (
         <Image
@@ -81,6 +87,8 @@ const ImportFacilitiesLanding = (props) => {
         />
       ),
       urlPath: `${url}/approveddeck`,
+      contextAction: SetContextDrawerContentAction,
+      contextTrigger: "selectDeck",
     },
   ];
 
@@ -95,9 +103,11 @@ const ImportFacilitiesLanding = (props) => {
             <ImportCard
               key={d.mainTitle}
               MainTitle={d.mainTitle}
-              Description={d.Description}
+              Description={d.description}
               Icon={d.landingIcon}
               UrlPath={d.urlPath}
+              ContextAction={d.contextAction || null}
+              ContextTrigger={d.contextTrigger || null}
             />
           ))}
         </div>

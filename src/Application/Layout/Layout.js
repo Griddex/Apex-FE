@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     height: "100%",
     width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-end",
+    // justifyContent: "center",
   },
 }));
 
@@ -99,6 +99,8 @@ const mapStateToProps = (state) => {
     mainDrawerPresent: state.UILayoutReducer.mainDrawerPresent,
     expandMainDrawer: state.UILayoutReducer.expandMainDrawer,
     contextDrawerPresent: state.UILayoutReducer.contextDrawerPresent,
+    contextDrawerContentTrigger:
+      state.UILayoutReducer.contextDrawerContentTrigger,
     expandContextDrawer: state.UILayoutReducer.expandContextDrawer,
     subNavBarPresent: state.UILayoutReducer.subNavBarPresent,
     expandSubNavBar: state.UILayoutReducer.expandSubNavBar,

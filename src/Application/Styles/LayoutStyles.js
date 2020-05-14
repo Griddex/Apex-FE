@@ -1,6 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const NavBarHeight = 43;
+const subNavBarHeight = 25;
+
 const useLayoutStyles = makeStyles((theme) => {
   return {
     root: {
@@ -32,18 +34,68 @@ const useLayoutStyles = makeStyles((theme) => {
     hide: {
       display: "none",
     },
+    mainContainer: {
+      flexGrow: 1,
+      maxWidth: "100%",
+      height: (reduxProps) =>
+        `calc(100% - ${
+          NavBarHeight + (reduxProps.subNavBarPresent ? subNavBarHeight : 0)
+        }px)`,
+      width: (reduxProps) =>
+        `calc(100% - ${
+          reduxProps.mainDrawerPresent
+            ? reduxProps.expandMainDrawer
+              ? 60
+              : 0
+            : 0
+        } - ${
+          reduxProps.contextDrawerPresent
+            ? reduxProps.expandContextDrawer
+              ? 150
+              : 40
+            : 0
+        })`,
+      marginTop: (reduxProps) =>
+        (reduxProps.navBarPresent ? NavBarHeight : 0) +
+        (reduxProps.subNavBarPresent ? subNavBarHeight : 0) +
+        5,
+      marginRight: (reduxProps) =>
+        reduxProps.contextDrawerPresent
+          ? reduxProps.expandContextDrawer
+            ? 150
+            : 40
+          : 0,
+      marginLeft: (reduxProps) =>
+        reduxProps.mainDrawerPresent
+          ? reduxProps.expandMainDrawer
+            ? 60
+            : 0
+          : 0,
+    },
     container: {
       display: "flex",
+      alignItems: "flex-end",
       height: "100%",
       width: (reduxProps) =>
-        `calc(100% - ${reduxProps.contextDrawerExpanded ? 40 : 150})`,
-      marginRight: (reduxProps) =>
-        reduxProps.contextDrawerExpanded ? 40 : 150,
-      // maxWidth: "100vw",
+        `calc(100% - ${
+          reduxProps.mainDrawerPresent
+            ? reduxProps.expandMainDrawer
+              ? 60
+              : 0
+            : 0
+        } - ${
+          reduxProps.contextDrawerPresent
+            ? reduxProps.expandContextDrawer
+              ? 150
+              : 40
+            : 0
+        })`,
+      maxWidth: "100%",
       padding: 0,
-      margin: 0,
-      marginTop: NavBarHeight,
-      paddingTop: (reduxProps) => (reduxProps.subNavBarOpen ? 25 : 0),
+      marginRight: (reduxProps) =>
+        reduxProps.contextDrawerExpanded ? 150 : 40,
+      paddingTop: (reduxProps) =>
+        reduxProps.subNavBarPresent ? subNavBarHeight : 0,
     },
     //Main Drawer
     mainDrawer: {
@@ -77,13 +129,15 @@ const useLayoutStyles = makeStyles((theme) => {
       whiteSpace: "nowrap",
       justifyContent: "flex-start",
       alignItems: "center",
-      width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 40 : 150),
+      width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 150 : 40),
       maxHeight: (reduxProps) =>
-        `calc(100vh - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
+        `calc(100vh - ${
+          NavBarHeight + (reduxProps.subNavBarPresent ? subNavBarHeight : 0)
+        }px)`,
       marginTop: NavBarHeight,
     },
     contextDrawerOpen: {
-      width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 40 : 150),
+      width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 150 : 40),
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -133,27 +187,7 @@ const useLayoutStyles = makeStyles((theme) => {
       justifyContent: "center",
       minHeight: NavBarHeight,
     },
-    mainContent: {
-      flexGrow: 1,
-      marginTop: NavBarHeight,
-      height: (reduxProps) =>
-        `calc(100% - ${NavBarHeight + (reduxProps.subNavBarOpen ? 25 : 0)}px)`,
-      paddingTop: theme.spacing(3) + 1,
-      width: (reduxProps) =>
-        `calc(100% - ${
-          reduxProps.subNavBarOpen
-            ? reduxProps.subNavBarExpanded
-              ? 150
-              : 40
-            : 0
-        })`,
-      marginRight: (reduxProps) =>
-        reduxProps.subNavBarOpen
-          ? reduxProps.subNavBarExpanded
-            ? 150
-            : 40
-          : 0,
-    },
+
     smallAvatar: {
       width: theme.spacing(3),
       height: theme.spacing(3),
