@@ -75,10 +75,6 @@ const ImportExcel_1_DnD = (props) => {
             setFileType(type);
             setFileName(name);
             setFileSize(size);
-            console.log(
-              "Logged output -->: ImportExcel_1_DnD -> acceptedFiles",
-              acceptedFiles
-            );
           }}
         >
           {({ getRootProps, getInputProps }) => (

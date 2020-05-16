@@ -7,9 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import history from "./../../Application/Services/HistoryService";
-import { useDispatch, useSelector } from "react-redux";
-import { navigateToWorkflowAction } from "../../Application/Redux/Actions/UILayoutActions";
-import { setStepperStepsAndActiveStep } from "../Redux/Actions/SetStepperActions";
+import { loadWorkflowAction } from "./../../Application/Redux/Actions/UILayoutActions";
+import { useDispatch } from "react-redux";
 
 const cardWidth = 300;
 const useStyles = makeStyles((theme) => ({
@@ -43,19 +42,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ImportCard(props) {
-  const {
-    MainTitle,
-    Description,
-    Icon,
-    UrlPath,
-    ContextAction,
-    ContextTrigger,
-  } = props;
+  const { MainTitle, Description, Icon, UrlPath } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  let steps = useSelector((state) => state.ImportReducer.Steps);
-  const activeStep = useSelector((state) => state.ImportReducer.ActiveStep);
 
   return (
     <Card className={classes.root}>
@@ -76,18 +65,7 @@ export default function ImportCard(props) {
           size="large"
           variant="contained"
           onClick={() => {
-            dispatch(navigateToWorkflowAction());
-            dispatch(ContextAction(ContextTrigger));
-            dispatch(
-              setStepperStepsAndActiveStep(
-                (steps = [
-                  "Import Excel Drag and Drop",
-                  "Import Excel Preview",
-                  "Import Excel Match",
-                ]),
-                activeStep
-              )
-            );
+            dispatch(loadWorkflowAction());
             history.push(UrlPath);
           }}
         >

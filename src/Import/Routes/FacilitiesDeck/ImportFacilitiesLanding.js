@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Image from "../../../Application/Components/Image";
 import ImportCard from "../../Components/ImportCard";
@@ -8,7 +8,6 @@ import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import ImportExcel from "./ImportExcelWorkflow/ImportExcel";
-import { SetContextDrawerContentAction } from "../../Redux/Actions/SetContextDrawerContentAction";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: "100px", width: "100px" },
@@ -35,14 +34,9 @@ const useStyles = makeStyles((theme) => ({
 const ImportFacilitiesLanding = (props) => {
   const classes = useStyles();
   const { url, path } = useRouteMatch();
-  const dispatch = useDispatch();
-  const navigatedToWorkflow = useSelector(
-    (state) => state.UILayoutReducer.navigatedToWorkflow
+  const loadWorkflow = useSelector(
+    (state) => state.UILayoutReducer.loadWorkflow
   );
-
-  // useEffect(() => {
-  //   dispatch(navigateToWorkflowAction());
-  // }, []);
 
   const data = [
     {
@@ -57,8 +51,6 @@ const ImportFacilitiesLanding = (props) => {
         />
       ),
       urlPath: `${url}/excel`,
-      contextAction: SetContextDrawerContentAction,
-      contextTrigger: "ImportExcel",
     },
     {
       mainTitle: "Database",
@@ -72,8 +64,6 @@ const ImportFacilitiesLanding = (props) => {
         />
       ),
       urlPath: `${url}/database`,
-      contextAction: SetContextDrawerContentAction,
-      contextTrigger: "connectDatabase",
     },
     {
       mainTitle: "Approved Facilities Deck",
@@ -87,8 +77,6 @@ const ImportFacilitiesLanding = (props) => {
         />
       ),
       urlPath: `${url}/approveddeck`,
-      contextAction: SetContextDrawerContentAction,
-      contextTrigger: "selectDeck",
     },
   ];
 
@@ -97,7 +85,7 @@ const ImportFacilitiesLanding = (props) => {
 
   return (
     <>
-      {!navigatedToWorkflow ? (
+      {!loadWorkflow ? (
         <div className={classes.ImportFacilitiesLanding}>
           {data.map((d) => (
             <ImportCard
@@ -106,8 +94,6 @@ const ImportFacilitiesLanding = (props) => {
               Description={d.description}
               Icon={d.landingIcon}
               UrlPath={d.urlPath}
-              ContextAction={d.contextAction || null}
-              ContextTrigger={d.contextTrigger || null}
             />
           ))}
         </div>

@@ -21,7 +21,7 @@ export const UILAYOUT_LOGOUTMODAL_OPEN = "UILAYOUT_LOGOUTMODAL_OPEN";
 export const UILAYOUT_LOGOUTMODAL_CLOSE = "UILAYOUT_LOGOUTMODAL_CLOSE";
 export const UILAYOUT_LOGOUT_USER = "UILAYOUT_LOGOUT_USER";
 export const UILAYOUT_DEFAULT = "UILAYOUT_DEFAULT";
-export const UILAYOUT_NAVIGATE_TO_WORKFLOW = "UILAYOUT_NAVIGATE_TO_WORKFLOW";
+export const UILAYOUT_LOAD_WORKFLOW = "UILAYOUT_LOAD_WORKFLOW";
 export const UILAYOUT_NAVIGATE_RESET_WORKFLOW =
   "UILAYOUT_NAVIGATE_RESET_WORKFLOW";
 
@@ -171,15 +171,15 @@ export const defaultLayoutAction = () => {
   };
 };
 
-export const navigateToWorkflowAction = () => {
+export const loadWorkflowAction = () => {
   return {
-    type: UILAYOUT_NAVIGATE_TO_WORKFLOW,
-    payload: { navigatedToWorkflow: true },
+    type: UILAYOUT_LOAD_WORKFLOW,
+    payload: { loadWorkflow: true },
   };
 };
 export const navigateResetWorkflowAction = () => {
   return {
     type: UILAYOUT_NAVIGATE_RESET_WORKFLOW,
-    payload: { navigatedToWorkflow: false },
+    payload: { loadWorkflow: false },
   };
 };

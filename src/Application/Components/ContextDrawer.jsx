@@ -6,12 +6,14 @@ import clsx from "clsx";
 import React from "react";
 import useLayoutStyles from "./../Styles/LayoutStyles";
 import ContextDrawerContentService from "./../../Import/Services/ContextDrawerContentService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
-  const contextDrawerContentTrigger = useSelector(
-    (state) => state.ImportReducer.contextDrawerContentTrigger
+  const dispatch = useDispatch();
+  const ContextImportPerspective = useSelector(
+    (state) => state.ImportReducer.ContextImportPerspective
   );
+
   const { expandContextDrawer } = reduxProps;
 
   const {
@@ -40,7 +42,7 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={expandContextDrawerAction}
+          onClick={() => dispatch(expandContextDrawerAction())}
           edge="start"
           className={clsx(classes.contextDrawerMenuIcon, {
             [classes.hide]: expandContextDrawer,
@@ -52,7 +54,7 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
         <IconButton
           color="inherit"
           aria-label="close drawer"
-          onClick={collapseContextDrawerAction}
+          onClick={() => dispatch(collapseContextDrawerAction())}
           edge="start"
           className={clsx(classes.menuButton, {
             [classes.hide]: !expandContextDrawer,
@@ -61,7 +63,7 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
           <ChevronRightIcon />
         </IconButton>
       )}
-      {ContextDrawerContentService(contextDrawerContentTrigger)}
+      {ContextDrawerContentService(ContextImportPerspective)}
     </Drawer>
   );
 });

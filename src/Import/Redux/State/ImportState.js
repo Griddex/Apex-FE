@@ -3,7 +3,13 @@ const ImportState = {
 
   IsStepFailed: null,
   IsStepSkipped: null,
+
+  ImportModule: "",
+  ContextImportPerspective: "",
   Steps: [],
+  OptionalSteps: [],
+  ErrorSteps: [],
+  Skipped: new Set(),
   ActiveStep: 0,
 };
 

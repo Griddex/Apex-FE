@@ -1,11 +1,10 @@
-const LayoutUIState = {
+const UILayoutState = {
   mainDrawerPresent: true,
   expandMainDrawer: false,
   mainDrawertext: "",
 
   contextDrawerPresent: false,
   expandContextDrawer: false,
-  contextDrawerContentTrigger: "",
 
   subNavBarPresent: true,
   expandSubNavBar: false,
@@ -15,7 +14,7 @@ const LayoutUIState = {
 
   logoutModalOpen: false,
 
-  navigatedToWorkflow: false,
+  loadWorkflow: false,
 };
 
-export default LayoutUIState;
+export default UILayoutState;

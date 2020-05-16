@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ImportStepper from "./../Components/ImportStepper";
+import ImportExcelStepper from "./../Components/ImportExcelStepper";
 
-const ImportDrawerContent = {
-  importexcel: <ImportStepper />,
-  connectDatabase: <h1>Database</h1>,
-  selectDeck: <h1>Deck</h1>,
+const ImportContextDrawerContent = {
+  ImportExcel: <ImportExcelStepper />,
+  ConnectDatabase: <h1>Database</h1>,
+  SelectDeck: <h1>Deck</h1>,
 };
 
 const ContextDrawerContentService = (trigger) => {
-  return ImportDrawerContent[trigger];
+  return ImportContextDrawerContent[trigger];
 };
 
 ContextDrawerContentService.propTypes = {};

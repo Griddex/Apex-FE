@@ -21,12 +21,12 @@ import {
   UILAYOUT_LOGOUTMODAL_CLOSE,
   UILAYOUT_LOGOUT_USER,
   UILAYOUT_DEFAULT,
-  UILAYOUT_NAVIGATE_TO_WORKFLOW,
+  UILAYOUT_LOAD_WORKFLOW,
   UILAYOUT_NAVIGATE_RESET_WORKFLOW,
 } from "./../Actions/UILayoutActions";
-import LayoutUIState from "../State/UIState/LayoutUIState";
+import UILayoutState from "../State/UIState/UILayoutState";
 
-export const UILayoutReducer = (state = LayoutUIState, action) => {
+export const UILayoutReducer = (state = UILayoutState, action) => {
   switch (action.type) {
     //MAIN DRAWER
     case UILAYOUT_MAINDRAWER_PRESENT:
@@ -144,15 +144,15 @@ export const UILayoutReducer = (state = LayoutUIState, action) => {
       };
     case UILAYOUT_DEFAULT:
       return { ...state };
-    case UILAYOUT_NAVIGATE_TO_WORKFLOW:
+    case UILAYOUT_LOAD_WORKFLOW:
       return {
         ...state,
-        navigatedToWorkflow: action.payload.navigatedToWorkflow,
+        loadWorkflow: action.payload.loadWorkflow,
       };
     case UILAYOUT_NAVIGATE_RESET_WORKFLOW:
       return {
         ...state,
-        navigatedToWorkflow: action.payload.navigatedToWorkflow,
+        loadWorkflow: action.payload.loadWorkflow,
       };
     default:
       return {
