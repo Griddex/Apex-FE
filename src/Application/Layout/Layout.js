@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     alignItems: "flex-end",
-    // justifyContent: "center",
   },
 }));
 
@@ -33,20 +32,11 @@ const Layout = (reduxProps) => {
   const boundUILayoutActions = bindActionCreators(UILayoutActions, dispatch);
   const allProps = { ...reduxProps, boundUILayoutActions };
 
-  const {
-    mainDrawerPresentAction,
-    collapseMainDrawerAction,
-    navBarPresentAction,
-    collapseNavBarAction,
-  } = boundUILayoutActions;
+  const { UILayoutDefaultAction } = boundUILayoutActions;
 
   useEffect(() => {
-    mainDrawerPresentAction();
-    collapseMainDrawerAction();
-    navBarPresentAction();
-    collapseNavBarAction();
-    // defaultLayoutAction();
-  });
+    dispatch(UILayoutDefaultAction());
+  }, []);
 
   return (
     <div className={classes.root}>

@@ -5,7 +5,7 @@ export const IMPORT_WORKFLOW_BACK = "IMPORT_WORKFLOW_BACK";
 export const IMPORT_WORKFLOW_SKIP = "IMPORT_WORKFLOW_SKIP";
 export const IMPORT_WORKFLOW_SAVE = "IMPORT_WORKFLOW_SAVE";
 
-export const handleWorkflowInitializeAction = (
+export const handleWorkflowInitializationAction = (
   moduleText,
   perspectiveText,
   steps

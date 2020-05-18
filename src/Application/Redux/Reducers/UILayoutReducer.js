@@ -21,13 +21,33 @@ import {
   UILAYOUT_LOGOUTMODAL_CLOSE,
   UILAYOUT_LOGOUT_USER,
   UILAYOUT_DEFAULT,
+  IMPORTLAYOUT_DEFAULT,
   UILAYOUT_LOAD_WORKFLOW,
-  UILAYOUT_NAVIGATE_RESET_WORKFLOW,
+  UILAYOUT_WORKFLOWS_LANDING,
 } from "./../Actions/UILayoutActions";
 import UILayoutState from "../State/UIState/UILayoutState";
 
 export const UILayoutReducer = (state = UILayoutState, action) => {
   switch (action.type) {
+    //UI LAYOUT DEFAULT
+    case UILAYOUT_DEFAULT:
+      return {
+        ...state,
+        mainDrawerPresent: action.payload.mainDrawerPresent,
+        expandMainDrawer: action.payload.expandMainDrawer,
+        navBarPresent: action.payload.navBarPresent,
+        expandNavBar: action.payload.expandNavBar,
+      };
+    //IMPORT LAYOUT DEFAULT
+    case IMPORTLAYOUT_DEFAULT:
+      return {
+        ...state,
+        subNavBarPresent: action.payload.subNavBarPresent,
+        expandSubNavBar: action.payload.expandSubNavBar,
+        contextDrawerPresent: action.payload.contextDrawerPresent,
+        expandContextDrawer: action.payload.expandContextDrawer,
+      };
+
     //MAIN DRAWER
     case UILAYOUT_MAINDRAWER_PRESENT:
       return {
@@ -142,14 +162,12 @@ export const UILayoutReducer = (state = UILayoutState, action) => {
         ...state,
         logoutModalOpen: action.payload.logoutModalOpen,
       };
-    case UILAYOUT_DEFAULT:
-      return { ...state };
     case UILAYOUT_LOAD_WORKFLOW:
       return {
         ...state,
         loadWorkflow: action.payload.loadWorkflow,
       };
-    case UILAYOUT_NAVIGATE_RESET_WORKFLOW:
+    case UILAYOUT_WORKFLOWS_LANDING:
       return {
         ...state,
         loadWorkflow: action.payload.loadWorkflow,

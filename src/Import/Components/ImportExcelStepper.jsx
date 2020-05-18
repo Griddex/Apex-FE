@@ -10,8 +10,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    height: "inherit",
+    justifyContent: "center",
     padding: 0,
+    "& > *": {
+      alignItems: "center",
+    },
   },
 }));
 
@@ -21,6 +24,9 @@ const ImportExcelStepper = () => {
   const ActiveStep = useSelector((state) => state.ImportReducer.ActiveStep);
   const Skipped = useSelector((state) => state.ImportReducer.Skipped);
   const ErrorSteps = useSelector((state) => state.ImportReducer.ErrorSteps);
+  const expandContextDrawer = useSelector(
+    (state) => state.UILayoutReducer.expandContextDrawer
+  );
 
   return (
     <Stepper
@@ -41,7 +47,9 @@ const ImportExcelStepper = () => {
 
         return (
           <Step key={label} {...stepProps}>
-            <StepLabel {...labelProps}>{label}</StepLabel>
+            <StepLabel {...labelProps}>
+              {expandContextDrawer && label}
+            </StepLabel>
           </Step>
         );
       })}

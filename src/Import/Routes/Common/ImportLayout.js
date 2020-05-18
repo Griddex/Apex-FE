@@ -10,33 +10,26 @@ import ImportFacilitiesLanding from "./../FacilitiesDeck/ImportFacilitiesLanding
 import ImportForecastLanding from "./../ForecastDeck/ImportForecastLanding";
 import ConnectProductionLanding from "./../ProductionData/ConnectProductionLanding";
 import ImportEconomicsLanding from "./../EconomicsData/ImportEconomicsLanding";
+import { useDispatch } from "react-redux";
+import clsx from "clsx";
 
 const ImportLayout = (reduxProps) => {
   const classes = useLayoutStyles();
-
+  const dispatch = useDispatch();
   const { path, url } = useRouteMatch();
 
   const { contextDrawerPresent, subNavBarPresent } = reduxProps;
   const { boundUILayoutActions } = reduxProps;
-
-  const {
-    subNavBarPresentAction,
-    collapseSubNavBarAction,
-    contextDrawerPresentAction,
-    collapseContextDrawerAction,
-  } = boundUILayoutActions;
+  const { ImportLayoutDefaultAction } = boundUILayoutActions;
 
   useEffect(() => {
-    subNavBarPresentAction();
-    collapseSubNavBarAction();
-    contextDrawerPresentAction();
-    collapseContextDrawerAction();
-  });
+    dispatch(ImportLayoutDefaultAction());
+  }, []);
 
   return (
     <main className={classes.mainContainer}>
       {subNavBarPresent && <SubNavBar {...reduxProps} />}
-      <Container className={classes.container}>
+      <div className={clsx(classes.container)}>
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route exact path={path} component={ImportBackground} />
@@ -69,7 +62,7 @@ const ImportLayout = (reduxProps) => {
             boundUILayoutActions={boundUILayoutActions}
           />
         )}
-      </Container>
+      </div>
     </main>
   );
 };

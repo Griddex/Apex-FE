@@ -1,7 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Dropzone from "react-dropzone";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import PublishIcon from "@material-ui/icons/Publish";
 import DragAndDrop from "../../../Images/DragAndDrop.svg";
 import MSExcel from "../../../Images/MSExcel.svg";
 import FileIconService from "../../../Services/FileIconService";
@@ -14,8 +16,16 @@ const useStyles = makeStyles((theme) => ({
     height: "90%",
     "& > *": { margin: theme.spacing(2) },
   },
+  menuIcons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    width: "100%",
+    height: "24px",
+  },
   paper1: {
     display: "flex",
+    flexDirection: "column",
     flexGrow: 5,
     alignItems: "center",
     justifyContent: "center",
@@ -61,6 +71,10 @@ const ImportExcel_1_DnD = (props) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper1}>
+        <div className={classes.menuIcons}>
+          <DeleteOutlineIcon />
+          <PublishIcon />
+        </div>
         <Dropzone
           onDrop={(acceptedFiles) => {
             const {

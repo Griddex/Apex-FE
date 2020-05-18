@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
     height: "100%",
+    padding: 0,
   },
   button: {
     marginRight: theme.spacing(1),
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     width: "100%",
     height: "95%",
+    padding: 0,
   },
   navigationbuttons: {
     display: "flex",
@@ -54,7 +56,7 @@ const Steps = [
 ];
 
 const {
-  handleWorkflowInitializeAction,
+  handleWorkflowInitializationAction,
   handleResetAction,
   handleNextAction,
   handleBackAction,
@@ -70,9 +72,8 @@ function ImportExcel() {
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
-
     dispatch(
-      handleWorkflowInitializeAction("Facilities", "ImportExcel", Steps)
+      handleWorkflowInitializationAction("Facilities", "ImportExcel", Steps)
     );
   }, []);
 
@@ -91,7 +92,7 @@ function ImportExcel() {
         return <ImportExcel_3_Match />;
     }
   }
-
+  //take a look at loading again
   return (
     <>
       <Backdrop className={classes.backdrop} open={Loading}>
@@ -99,9 +100,7 @@ function ImportExcel() {
       </Backdrop>
       <Container maxwidth="lg" className={classes.root}>
         <Container maxWidth="lg" className={classes.maincontent}>
-          {renderImportStep(ActiveStep) || (
-            <div>Oops...something went wrong</div>
-          )}
+          {renderImportStep(ActiveStep)}
         </Container>
         <div className={classes.navigationbuttons}>
           <Button

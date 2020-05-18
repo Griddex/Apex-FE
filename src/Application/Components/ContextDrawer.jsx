@@ -8,7 +8,7 @@ import useLayoutStyles from "./../Styles/LayoutStyles";
 import ContextDrawerContentService from "./../../Import/Services/ContextDrawerContentService";
 import { useDispatch, useSelector } from "react-redux";
 
-const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
+const ContextDrawer = ({ reduxProps, boundUILayoutActions }) => {
   const dispatch = useDispatch();
   const ContextImportPerspective = useSelector(
     (state) => state.ImportReducer.ContextImportPerspective
@@ -32,7 +32,7 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
         [classes.contextDrawerClose]: !expandContextDrawer,
       })}
       classes={{
-        paper: clsx(classes.contextDrawer, {
+        paper: clsx({
           [classes.contextDrawerOpen]: expandContextDrawer,
           [classes.contextDrawerClose]: !expandContextDrawer,
         }),
@@ -66,6 +66,6 @@ const ContextDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
       {ContextDrawerContentService(ContextImportPerspective)}
     </Drawer>
   );
-});
+};
 
-export default ContextDrawer;
+export default React.memo(ContextDrawer);

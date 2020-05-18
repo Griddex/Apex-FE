@@ -14,7 +14,7 @@ import history from "./../Services/HistoryService";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-const SubNavBar = React.memo((props) => {
+const SubNavBar = (props) => {
   const classes = useSubNavBarStyles();
   const { expandMainDrawer, boundUILayoutActions } = props;
   const dispatch = useDispatch();
@@ -81,8 +81,8 @@ const SubNavBar = React.memo((props) => {
       </Toolbar>
     </AppBar>
   );
-});
+};
 
 SubNavBar.propTypes = {};
 
-export default SubNavBar;
+export default React.memo(SubNavBar);

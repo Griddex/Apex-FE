@@ -15,6 +15,7 @@ import CompanyLogo from "../Images/CompanyLogo.svg";
 import history from "../Services/HistoryService";
 import IconsService from "../Services/IconsService";
 import useLayoutStyles from "./../Styles/LayoutStyles";
+import { useDispatch } from "react-redux";
 
 const menuTitle = (link) => {
   const menuLinkTitle = {
@@ -26,11 +27,12 @@ const menuTitle = (link) => {
   return menuLinkTitle[link];
 };
 
-const MainDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
+const MainDrawer = ({ reduxProps, boundUILayoutActions }) => {
   const classes = useLayoutStyles(reduxProps);
   const { expandMainDrawer } = reduxProps;
   const { setMainDrawerMenuAction } = boundUILayoutActions;
   const [selected, setMainMenuSelected] = useState("");
+  const dispatch = useDispatch();
 
   const handleClick = (route, e) => {
     setMainMenuSelected(route);
@@ -86,7 +88,7 @@ const MainDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
                 selected={route === selected}
                 onClick={(e) => {
                   handleClick(route, e);
-                  setMainDrawerMenuAction(menuTitle(route));
+                  dispatch(setMainDrawerMenuAction(menuTitle(route)));
                   history.push(route);
                 }}
                 disableGutters
@@ -107,7 +109,7 @@ const MainDrawer = React.memo(({ reduxProps, boundUILayoutActions }) => {
       </MenuList>
     </Drawer>
   );
-});
+};
 
 MainDrawer.propTypes = {
   animation: PropTypes.string,
@@ -115,4 +117,4 @@ MainDrawer.propTypes = {
   visible: PropTypes.bool,
 };
 
-export default MainDrawer;
+export default React.memo(MainDrawer);

@@ -19,9 +19,11 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import useLayoutStyles from "./../Styles/LayoutStyles";
 import history from "./../Services/HistoryService";
 import GetInitials from "./../Utils/GetInitials";
+import { useDispatch } from "react-redux";
 
-const NavBar = React.memo(({ reduxProps, boundUILayoutActions }) => {
+const NavBar = ({ reduxProps, boundUILayoutActions }) => {
   const classes = useLayoutStyles(reduxProps);
+  const dispatch = useDispatch();
   const username = faker.name.findName();
   const userinitials = GetInitials(username);
 
@@ -44,7 +46,7 @@ const NavBar = React.memo(({ reduxProps, boundUILayoutActions }) => {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={expandMainDrawerAction}
+              onClick={() => dispatch(expandMainDrawerAction())}
               edge="start"
               className={clsx(classes.menuButton, {
                 [classes.hide]: expandMainDrawer,
@@ -56,7 +58,7 @@ const NavBar = React.memo(({ reduxProps, boundUILayoutActions }) => {
             <IconButton
               color="inherit"
               aria-label="close drawer"
-              onClick={collapseMainDrawerAction}
+              onClick={() => dispatch(collapseMainDrawerAction())}
               edge="start"
               className={clsx(classes.menuButton, {
                 [classes.hide]: !expandMainDrawer,
@@ -106,10 +108,10 @@ const NavBar = React.memo(({ reduxProps, boundUILayoutActions }) => {
       )}
     </AppBar>
   );
-});
+};
 
 NavBar.propTypes = {
   children: PropTypes.node,
 };
 
-export default NavBar;
+export default React.memo(NavBar);

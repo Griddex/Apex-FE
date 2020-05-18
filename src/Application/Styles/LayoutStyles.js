@@ -2,6 +2,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const NavBarHeight = 43;
 const subNavBarHeight = 25;
+const contextDrawerWidthExpanded = 150;
+const contextDrawerWidthCollapsed = 40;
 
 const useLayoutStyles = makeStyles((theme) => {
   return {
@@ -62,8 +64,8 @@ const useLayoutStyles = makeStyles((theme) => {
       marginRight: (reduxProps) =>
         reduxProps.contextDrawerPresent
           ? reduxProps.expandContextDrawer
-            ? 150
-            : 40
+            ? -150
+            : -40
           : 0,
       marginLeft: (reduxProps) =>
         reduxProps.mainDrawerPresent
@@ -93,7 +95,11 @@ const useLayoutStyles = makeStyles((theme) => {
       maxWidth: "100%",
       padding: 0,
       marginRight: (reduxProps) =>
-        reduxProps.contextDrawerExpanded ? 150 : 40,
+        reduxProps.contextDrawerPresent
+          ? reduxProps.contextDrawerExpanded
+            ? 0
+            : -110
+          : -150,
       paddingTop: (reduxProps) =>
         reduxProps.subNavBarPresent ? subNavBarHeight : 0,
     },
@@ -121,30 +127,28 @@ const useLayoutStyles = makeStyles((theme) => {
       //   width: theme.spacing(5) + 1,
       // },
     },
+
     //Context Drawer
     contextDrawer: {
       display: "flex",
-      flexDirection: "column",
-      flex: "0 1 auto",
+      flexShrink: 0,
       whiteSpace: "nowrap",
-      justifyContent: "flex-start",
-      alignItems: "center",
       width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 150 : 40),
-      maxHeight: (reduxProps) =>
-        `calc(100vh - ${
+      height: (reduxProps) =>
+        `calc(100% - ${
           NavBarHeight + (reduxProps.subNavBarPresent ? subNavBarHeight : 0)
         }px)`,
-      marginTop: NavBarHeight,
     },
     contextDrawerOpen: {
-      width: (reduxProps) => (reduxProps.contextDrawerExpanded ? 150 : 40),
+      width: 150,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
+      marginTop: NavBarHeight,
     },
     contextDrawerClose: {
-      marginTop: NavBarHeight,
+      width: 40,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -154,6 +158,7 @@ const useLayoutStyles = makeStyles((theme) => {
       // [theme.breakpoints.up("sm")]: {
       //   width: theme.spacing(5) + 1,
       // },
+      marginTop: NavBarHeight,
     },
     contextDrawerMenuIcon: {
       margin: 0,

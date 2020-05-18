@@ -21,9 +21,9 @@ export const UILAYOUT_LOGOUTMODAL_OPEN = "UILAYOUT_LOGOUTMODAL_OPEN";
 export const UILAYOUT_LOGOUTMODAL_CLOSE = "UILAYOUT_LOGOUTMODAL_CLOSE";
 export const UILAYOUT_LOGOUT_USER = "UILAYOUT_LOGOUT_USER";
 export const UILAYOUT_DEFAULT = "UILAYOUT_DEFAULT";
+export const IMPORTLAYOUT_DEFAULT = "IMPORTLAYOUT_DEFAULT";
 export const UILAYOUT_LOAD_WORKFLOW = "UILAYOUT_LOAD_WORKFLOW";
-export const UILAYOUT_NAVIGATE_RESET_WORKFLOW =
-  "UILAYOUT_NAVIGATE_RESET_WORKFLOW";
+export const UILAYOUT_WORKFLOWS_LANDING = "UILAYOUT_WORKFLOWS_LANDING";
 
 //MAIN DRAWER
 export const mainDrawerPresentAction = () => {
@@ -161,13 +161,26 @@ export const logoutUserAction = () => {
   };
 };
 
-export const defaultLayoutAction = () => {
-  mainDrawerPresentAction();
-  collapseMainDrawerAction();
-  navBarPresentAction();
-  collapseNavBarAction();
+export const UILayoutDefaultAction = () => {
   return {
     type: UILAYOUT_DEFAULT,
+    payload: {
+      mainDrawerPresent: true,
+      expandMainDrawer: false,
+      navBarPresent: true,
+      expandNavBar: false,
+    },
+  };
+};
+export const ImportLayoutDefaultAction = () => {
+  return {
+    type: IMPORTLAYOUT_DEFAULT,
+    payload: {
+      subNavBarPresent: true,
+      expandSubNavBar: false,
+      contextDrawerPresent: true,
+      expandContextDrawer: false,
+    },
   };
 };
 
@@ -179,7 +192,7 @@ export const loadWorkflowAction = () => {
 };
 export const navigateResetWorkflowAction = () => {
   return {
-    type: UILAYOUT_NAVIGATE_RESET_WORKFLOW,
+    type: UILAYOUT_WORKFLOWS_LANDING,
     payload: { loadWorkflow: false },
   };
 };
