@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^7.2.1",
     "clsx": "^1.1.0",
     "faker": "^4.1.0",
+    "fuse.js": "^6.0.0",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -21,9 +22,12 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "react-spring": "^8.0.27",
+    "react-virtualized": "^9.21.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "xlsx": "^0.16.1"
   },
   "scripts": {
     "start": "react-scripts start",

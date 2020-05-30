@@ -15,6 +15,8 @@ const UILayoutState = {
   logoutModalOpen: false,
 
   loadWorkflow: false,
+
+  simpleDialogOpen: false,
 };
 
 export default UILayoutState;

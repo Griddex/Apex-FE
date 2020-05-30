@@ -24,6 +24,7 @@ import {
   IMPORTLAYOUT_DEFAULT,
   UILAYOUT_LOAD_WORKFLOW,
   UILAYOUT_WORKFLOWS_LANDING,
+  UILAYOUT_SIMPLEDIALOG_TOGGLE,
 } from "./../Actions/UILayoutActions";
 import UILayoutState from "../State/UIState/UILayoutState";
 
@@ -171,6 +172,11 @@ export const UILayoutReducer = (state = UILayoutState, action) => {
       return {
         ...state,
         loadWorkflow: action.payload.loadWorkflow,
+      };
+    case UILAYOUT_SIMPLEDIALOG_TOGGLE:
+      return {
+        ...state,
+        simpleDialogOpen: action.payload.simpleDialogOpen,
       };
     default:
       return {

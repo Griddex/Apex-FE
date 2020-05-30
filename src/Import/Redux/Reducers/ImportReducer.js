@@ -1,4 +1,9 @@
-import { IMPORT_EXCEL_LOADING } from "../Actions/ImportLoadingAction";
+import {
+  IMPORT_EXCEL_LOADING,
+  IMPORT_EXCEL_MATCHING,
+  IMPORT_FILE_SAVE,
+  IMPORT_EXCELWORKSHEETNAME_SET,
+} from "../Actions/ImportAction";
 import {
   IMPORT_WORKFLOW_INITIALIZE,
   IMPORT_WORKFLOW_RESET,
@@ -27,6 +32,8 @@ export const ImportReducer = (state = ImportState, action) => {
   switch (action.type) {
     case IMPORT_EXCEL_LOADING:
       return { ...state, Loading: action.payload.Loading };
+    case IMPORT_EXCEL_MATCHING:
+      return { ...state, Loading: action.payload.Matching };
     case IMPORT_WORKFLOW_INITIALIZE:
       return {
         ...state,
@@ -80,6 +87,13 @@ export const ImportReducer = (state = ImportState, action) => {
       };
     case IMPORT_WORKFLOW_SAVE:
       return { ...state };
+    case IMPORT_FILE_SAVE:
+      return { ...state, AcceptedFile: action.payload.AcceptedFile };
+    case IMPORT_EXCELWORKSHEETNAME_SET:
+      return {
+        ...state,
+        SelectedWorksheetName: action.payload.SelectedWorksheetName,
+      };
     default:
       return state;
   }

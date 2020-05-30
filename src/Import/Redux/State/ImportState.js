@@ -1,6 +1,6 @@
 const ImportState = {
   Loading: false,
-
+  Matching: false,
   IsStepFailed: null,
   IsStepSkipped: null,
 
@@ -11,6 +11,9 @@ const ImportState = {
   ErrorSteps: [],
   Skipped: new Set(),
   ActiveStep: 0,
+
+  AcceptedFile: null,
+  SelectedWorksheetName: "",
 };
 
 export default ImportState;

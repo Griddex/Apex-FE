@@ -19,12 +19,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     flexDirection: "column",
     maxWidth: cardWidth,
+    minWidth: cardWidth * 0.8,
+    minHeight: cardWidth * 1.1,
     maxHeight: cardWidth * 1.5,
   },
 
   cardBoxHeader: {
     paddingTop: "10%",
-    minHeight: "85%",
+    minHeight: "100%",
+    cursor: "pointer ",
+    "&:hover": {
+      borderColor: theme.palette.primary.light,
+    },
   },
   cardActions: {
     height: "15%",
@@ -48,7 +54,13 @@ export default function ImportCard(props) {
 
   return (
     <Card className={classes.root}>
-      <Box className={classes.cardBoxHeader}>
+      <Box
+        className={classes.cardBoxHeader}
+        onClick={() => {
+          dispatch(loadWorkflowAction());
+          history.push(UrlPath);
+        }}
+      >
         {Icon()}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -59,7 +71,7 @@ export default function ImportCard(props) {
           </Typography>
         </CardContent>
       </Box>
-      <CardActions className={classes.cardActions}>
+      {/* <CardActions className={classes.cardActions}>
         <Button
           className={classes.button}
           size="large"
@@ -71,7 +83,7 @@ export default function ImportCard(props) {
         >
           Select
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }

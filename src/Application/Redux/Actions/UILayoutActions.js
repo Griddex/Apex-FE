@@ -24,6 +24,7 @@ export const UILAYOUT_DEFAULT = "UILAYOUT_DEFAULT";
 export const IMPORTLAYOUT_DEFAULT = "IMPORTLAYOUT_DEFAULT";
 export const UILAYOUT_LOAD_WORKFLOW = "UILAYOUT_LOAD_WORKFLOW";
 export const UILAYOUT_WORKFLOWS_LANDING = "UILAYOUT_WORKFLOWS_LANDING";
+export const UILAYOUT_SIMPLEDIALOG_TOGGLE = "UILAYOUT_SIMPLEDIALOG_TOGGLE";
 
 //MAIN DRAWER
 export const mainDrawerPresentAction = () => {
@@ -194,5 +195,12 @@ export const navigateResetWorkflowAction = () => {
   return {
     type: UILAYOUT_WORKFLOWS_LANDING,
     payload: { loadWorkflow: false },
+  };
+};
+
+export const simpleDialogOpenAction = (toggleState) => {
+  return {
+    type: UILAYOUT_SIMPLEDIALOG_TOGGLE,
+    payload: { simpleDialogOpen: toggleState },
   };
 };
