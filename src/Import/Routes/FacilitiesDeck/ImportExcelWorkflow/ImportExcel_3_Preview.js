@@ -1,19 +1,12 @@
-import {
-  makeStyles,
-  Typography,
-  Divider,
-  Box,
-  Button,
-} from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
+import { Button, Divider, makeStyles, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import React from "react";
+import Paper from "@material-ui/core/Paper";
 import BeenhereIcon from "@material-ui/icons/Beenhere";
 import TimelineIcon from "@material-ui/icons/Timeline";
-import LaunchIcon from "@material-ui/icons/Launch";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import * as xlsx from "xlsx";
-import MaterialUITable from "./../../../../Application/Components/MaterialUITable";
+import { AutoSizer, Column, Table } from "react-virtualized";
+import ToTitleCase from "../../../../Application/Utils/ToTitleCase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/*START HERE */
+
 function getDataRows(sheetData) {
   const headerRow = getHeadCells(sheetData);
 
@@ -98,17 +93,15 @@ function getHeadCells(sheetData) {
   return headCellsWithSN;
 }
 
-const ImportExcel_2_Preview = (props) => {
+const ImportExcel_3_Preview = (props) => {
   const classes = useStyles();
-  const wb = useSelector((state) => state.ImportReducer.AcceptedFile);
-  const sheetName = useSelector(
-    (state) => state.ImportReducer.SelectedWorksheetName
-  );
-  const selectedSheet = wb.Sheets[sheetName];
-  const sheetData = xlsx.utils.sheet_to_json(selectedSheet, { header: 1 });
 
-  const headerRow = getHeadCells(sheetData);
-  const dataRows = getDataRows(sheetData);
+  const [columnWidths, setColumnWidths] = useState([]);
+
+  const headerData = useSelector(
+    (state) => state.ImportReducer.TableHeaderData
+  );
+  const bodyData = useSelector((state) => state.ImportReducer.TableBodyData);
 
   return (
     <div className={classes.root}>
@@ -156,15 +149,48 @@ const ImportExcel_2_Preview = (props) => {
           </Grid>
         </Grid>
       </Paper>
-      <MaterialUITable
-        className={classes.paper2}
-        headerRow={headerRow}
-        dataRows={dataRows}
-      />
+
+      <div className={classes.table}>
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <Table
+              width={width}
+              headerHeight={30}
+              rowHeight={30}
+              rowCount={bodyData.length}
+              rowGetter={({ index }) => bodyData[index]}
+            >
+              {headerData &&
+                headerData.map((key) => {
+                  return (
+                    <Column
+                      className={classes.column}
+                      key={key}
+                      label={ToTitleCase(key)}
+                      dataKey={key}
+                      width={columnWidths[key] * width}
+                      // headerRenderer={headerRenderer}
+                      // noRowsRenderer={_noRowsRenderer}
+                      // overscanRowCount={overscanRowCount}
+                      // rowClassName={_rowClassName}
+                      // rowHeight={useDynamicRowHeight ? _getRowHeight : rowHeight}
+                      // rowGetter={rowGetter}
+                      // rowCount={rowCount}
+                      // scrollToIndex={scrollToIndex}
+                      // sort={_sort}
+                      // sortBy={sortBy}
+                      // sortDirection={sortDirection}
+                    />
+                  );
+                })}
+            </Table>
+          )}
+        </AutoSizer>
+      </div>
     </div>
   );
 };
 
-ImportExcel_2_Preview.propTypes = {};
+ImportExcel_3_Preview.propTypes = {};
 
-export default ImportExcel_2_Preview;
+export default ImportExcel_3_Preview;

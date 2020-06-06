@@ -17,21 +17,8 @@ export default function NotificationDialog({
   handleClickOpen,
   handleClose,
 }) {
-  const [open, setOpen] = React.useState(false);
-
-  //   const handleClickOpen = () => {
-  //     setOpen(true);
-  //   };
-
-  //   const handleClose = () => {
-  //     setOpen(false);
-  //   };
-
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Slide in alert dialog
-      </Button> */}
       <Dialog
         open={rematch}
         TransitionComponent={Transition}

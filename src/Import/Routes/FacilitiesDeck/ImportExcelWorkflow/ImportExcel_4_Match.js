@@ -3,26 +3,31 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import LaunchIcon from "@material-ui/icons/Launch";
+import SearchIcon from "@material-ui/icons/Search";
 import Fuse from "fuse.js";
 import React, { useEffect, useReducer, useState } from "react";
+import Draggable from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
-import * as xlsx from "xlsx";
-import MaterialUITable from "../../../../Application/Components/MaterialUITable";
-import { ImportMatchingAction } from "./../../../Redux/Actions/ImportAction";
-import NotificationDialog from "./../../../Components/NotificationDialog";
-import { Column, Table } from "react-virtualized";
+import { AutoSizer, Column, Table } from "react-virtualized";
 import "react-virtualized/styles.css";
+import * as xlsx from "xlsx";
+import ToTitleCase from "../../../../Application/Utils/ToTitleCase";
+import NotificationDialog from "../../../Components/NotificationDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    width: "70%",
+    width: "88%",
+    [theme.breakpoints.down("sm")]: { width: "95%" },
     height: "100%",
     "& > *": { margin: theme.spacing(2) },
   },
@@ -68,6 +73,34 @@ const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff",
+  },
+  table: {
+    width: "100%",
+    height: "100%",
+  },
+  tableHeader: {
+    cursor: "col-resize",
+  },
+  column: {
+    borderWidth: "4px",
+  },
+  tableSearch: {
+    height: "100%",
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  expansionPanelSummary: {
+    display: "flex",
+    width: "100%",
+    height: "100%",
+  },
+  expansionPanel: {
+    // display: "flex",
+    width: "100%",
+    height: "80px",
+  },
+  outlinedInput: {
+    height: "20px",
   },
 }));
 
@@ -162,7 +195,7 @@ function getMatchesAndScores(headerMatchObject) {
   return [dbHeaderNameMatches, dbHeaderScoreMatches];
 }
 
-const ImportExcel_3_Match = () => {
+const ImportExcel_4_Match = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [bestHeadermatch, setBestHeadermatch] = useState("");
@@ -186,13 +219,6 @@ const ImportExcel_3_Match = () => {
   const InputDeckSheetName = useSelector(
     (state) => state.ImportReducer.SelectedWorksheetName
   );
-
-  const list = [
-    { name: "Brian Vaughn", description: "Software engineer" },
-    { name: "Gideon Sanni", description: "CEO" },
-    { name: "Natasha Chris", description: "Project Engineer" },
-    // And so on...
-  ];
 
   const fileHeaderRow = getHeadCells();
 
@@ -341,20 +367,134 @@ const ImportExcel_3_Match = () => {
     setAllDataRows(newAllDataRows);
   };
 
+  const headerRenderer = ({
+    columnData,
+    dataKey,
+    disableSort,
+    label,
+    sortBy,
+    sortDirection,
+  }) => {
+    return (
+      <React.Fragment key={dataKey}>
+        <Draggable
+          axis="x"
+          defaultClassName="DragHandle"
+          defaultClassNameDragging="DragHandleActive"
+          onDrag={(event, { deltaX }) => {
+            resizeRow({
+              dataKey,
+              deltaX,
+            });
+          }}
+          position={{ x: 0 }}
+          zIndex={999}
+        >
+          <div>
+            <div
+              onMouseDown={(evt) => {
+                evt.persist();
+                setCurrentDataKey(dataKey);
+              }}
+              className="ReactVirtualized__Table__headerTruncatedText"
+            >
+              {label}
+            </div>
+            <span className="DragHandleIcon"> ⋮ </span>
+          </div>
+        </Draggable>
+      </React.Fragment>
+    );
+  };
+
+  const list = [
+    {
+      name: "Brian Vaughn",
+      location: "Seattle",
+      description: "Software engineer",
+    },
+    { name: "Gideon Sanni", location: "Houston", description: "CEO" },
+    {
+      name: "Natasha Chris",
+      location: "Calgary",
+      description: "Project Engineer",
+    },
+    // And so on...
+  ];
+  const TOTAL_WIDTH = 800;
+  const [currentDataKey, setCurrentDataKey] = useState("");
+  //use headers from file as selected in previous step
+  const [deckTableHeaders, setDeckTableHeaders] = useState([]);
+
+  const initializeColumnWidths = () => {
+    let initialColumnWidths = {};
+    const datakeys = Object.keys(allDataRows[0]);
+    const initialColumnWidth = 1 / datakeys.length;
+    datakeys.map((key) => (initialColumnWidths[key] = initialColumnWidth));
+
+    return initialColumnWidths;
+  };
+
+  const resizeColumnReducer = (columnWidths, action) => {
+    const { type, dataKey, deltaX } = action;
+    const percentDelta = deltaX / TOTAL_WIDTH;
+
+    const getNextDataKeyIndex = () => {
+      const currentDataKeyIndex = deckTableHeaders.indexOf(dataKey);
+      if (currentDataKeyIndex === deckTableHeaders.length - 1)
+        return deckTableHeaders.length - 1;
+      return currentDataKeyIndex + 1;
+    };
+
+    const nextDataKeyIndex = getNextDataKeyIndex();
+    const nextDataKey = deckTableHeaders[nextDataKeyIndex];
+
+    switch (type) {
+      case "drag":
+        const newColumnWidths = {
+          ...columnWidths,
+          [dataKey]: columnWidths[dataKey] + percentDelta,
+          [nextDataKey]: columnWidths[nextDataKey] - percentDelta,
+        };
+        return newColumnWidths;
+      default:
+        return {
+          ...columnWidths,
+        };
+    }
+  };
+
+  const [columnWidths, columnWidthsDispatch] = useReducer(
+    resizeColumnReducer,
+    initializeColumnWidths()
+  );
+
+  const resizeRow = ({ dataKey, deltaX }) =>
+    columnWidthsDispatch({ type: "drag", dataKey, deltaX });
+
   useEffect(() => {
-    console.log("First");
     // dispatch(ImportMatchingAction(true));
     generateAllDataRows();
     // dispatch(ImportMatchingAction(false));
+    const headers = Object.keys(allDataRows[0]);
+    setDeckTableHeaders(headers);
+    initializeColumnWidths();
   }, []);
 
-  useEffect(() => {
-    console.log("Second");
-    // dispatch(ImportMatchingAction(true));
-    modifyAllDataRows();
-    // dispatch(ImportMatchingAction(false));
-  }, [selectValues]);
+  // useEffect(() => {
+  //   console.log("Second");
+  //   // dispatch(ImportMatchingAction(true));
+  //   modifyAllDataRows();
+  //   // dispatch(ImportMatchingAction(false));
+  // }, [selectValues]);
 
+  const [tableSearch, setTableSearch] = useState("");
+  const handleTableSearch = (evt) => {
+    setTableSearch(evt.target.value);
+  };
+  const _noRowsRenderer = () => {
+    return <div>No data to display...</div>; //return a button here to import data?
+  };
   return (
     <div className={classes.root}>
       <Backdrop className={classes.backdrop} open={Matching}>
@@ -428,26 +568,75 @@ const ImportExcel_3_Match = () => {
           </Grid>
         </Grid>
       </Paper>
-      {/* <MaterialUITable
-        headerRow={fileHeaderRow}
-        dataRows={allDataRows}
-        displayCheckbox={false}
-      /> */}
-      <Table
-        width={300}
-        height={300}
-        headerHeight={20}
-        rowHeight={30}
-        rowCount={list.length}
-        rowGetter={({ index }) => list[index]}
-      >
-        <Column label="Name" dataKey="name" width={100} />
-        <Column width={200} label="Description" dataKey="description" />
-      </Table>
+      <div>
+        <div>
+          <FormControl className={classes.tableSearch} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Search
+            </InputLabel>
+            <OutlinedInput
+              className={classes.outlinedInput}
+              id="outlined-adornment-password"
+              value={tableSearch}
+              onChange={handleTableSearch}
+              startAdornment={
+                <InputAdornment position="start">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    edge="end"
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={70}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.table}>
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <Table
+                width={width}
+                headerHeight={30}
+                rowHeight={30}
+                rowCount={allDataRows.length}
+                rowGetter={({ index }) => allDataRows[index]}
+              >
+                {deckTableHeaders &&
+                  deckTableHeaders
+                    .slice(0, deckTableHeaders.length)
+                    .map((key) => {
+                      return (
+                        <Column
+                          className={classes.column}
+                          key={key}
+                          label={ToTitleCase(key)}
+                          dataKey={key}
+                          width={columnWidths[key] * width}
+                          // headerRenderer={headerRenderer}
+                          // noRowsRenderer={_noRowsRenderer}
+                          // overscanRowCount={overscanRowCount}
+                          // rowClassName={_rowClassName}
+                          // rowHeight={useDynamicRowHeight ? _getRowHeight : rowHeight}
+                          // rowGetter={rowGetter}
+                          // rowCount={rowCount}
+                          // scrollToIndex={scrollToIndex}
+                          // sort={_sort}
+                          // sortBy={sortBy}
+                          // sortDirection={sortDirection}
+                        />
+                      );
+                    })}
+              </Table>
+            )}
+          </AutoSizer>
+        </div>
+      </div>
     </div>
   );
 };
 
-ImportExcel_3_Match.propTypes = {};
+ImportExcel_4_Match.propTypes = {};
 
-export default ImportExcel_3_Match;
+export default ImportExcel_4_Match;

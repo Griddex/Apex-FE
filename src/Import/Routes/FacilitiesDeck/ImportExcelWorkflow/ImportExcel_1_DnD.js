@@ -10,12 +10,17 @@ import Dropzone from "react-dropzone";
 import DragAndDrop from "../../../Images/DragAndDrop.svg";
 import FileIconService from "../../../Services/FileIconService";
 import { ImportFileSaveAction } from "./../../../Redux/Actions/ImportAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSpring, animated } from "react-spring";
 import * as xlsx from "xlsx";
 import { simpleDialogOpenAction } from "../../../../Application/Redux/Actions/UILayoutActions";
 import SimpleDialog from "./../../../Components/SimpleDialog";
-import { handleNextAction } from "../../../Redux/Actions/SetStepperActions";
+import { stepperNextAction } from "../../../Redux/Actions/SetStepperActions";
+import {
+  ImportSetWorksheetNameAction,
+  ImportSetWorksheetDataAction,
+} from "../../../Redux/Actions/ImportAction";
+import ImportExcel_2_ParseTable from "./ImportExcel_2_ParseTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -117,6 +122,12 @@ const ImportExcel_1_DnD = (props) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isFileAccepted, setIsFileAccepted] = useState(false);
   const [sheetNames, setSheetNames] = useState([]);
+  const ExtrudeParseTable = useSelector(
+    (state) => state.ImportReducer.ExtrudeParseTable
+  );
+  const simpleDialogOpen = useSelector(
+    (state) => state.UILayoutReducer.simpleDialogOpen
+  );
 
   const sizeProps = useSpring({
     fileSize: parseFloat((parseFloat(FileSize) / 1024).toFixed()),
@@ -167,10 +178,19 @@ const ImportExcel_1_DnD = (props) => {
             reader.onerror = () => console.log("file reading has failed");
             reader.onload = () => {
               const data = new Uint8Array(reader.result);
-              const wb = xlsx.read(data, { type: "array" });
-              dispatch(ImportFileSaveAction(wb));
-              dispatch(simpleDialogOpenAction(true));
-              setSheetNames(wb.SheetNames);
+              const InputDeckWorkbook = xlsx.read(data, { type: "array" });
+              dispatch(ImportFileSaveAction(InputDeckWorkbook));
+
+              const sheetsNamesArray = InputDeckWorkbook.SheetNames;
+              setSheetNames(sheetsNamesArray);
+              if (sheetsNamesArray.length > 1) {
+                dispatch(simpleDialogOpenAction(true));
+              } else {
+                const sheetName = sheetsNamesArray[0];
+                dispatch(ImportSetWorksheetNameAction(sheetName));
+                const selectedSheetData = InputDeckWorkbook.Sheets[sheetName];
+                dispatch(ImportSetWorksheetDataAction(selectedSheetData));
+              }
             };
             reader.onprogress = (e) => {
               // console.log("Logged output -->: ImportExcel_1_DnD -> e", e);
@@ -221,12 +241,13 @@ const ImportExcel_1_DnD = (props) => {
           }}
         </Dropzone>
       </Paper>
-      {sheetNames.length > 1 && (
+      {simpleDialogOpen && (
         <SimpleDialog
           sheetNames={sheetNames}
-          handleNextAction={handleNextAction}
+          stepperNextAction={stepperNextAction}
         />
       )}
+      {ExtrudeParseTable && <ImportExcel_2_ParseTable />}
       <Paper className={classes.paper2}>
         <Grid className={classes.grid} container spacing={2}>
           <Grid

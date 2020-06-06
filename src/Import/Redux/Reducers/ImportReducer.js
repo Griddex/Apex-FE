@@ -3,6 +3,8 @@ import {
   IMPORT_EXCEL_MATCHING,
   IMPORT_FILE_SAVE,
   IMPORT_EXCELWORKSHEETNAME_SET,
+  IMPORT_EXCELWORKSHEETDATA_SET,
+  IMPORT_EXCELWORKSHEETPARSE_NAVIGATE,
 } from "../Actions/ImportAction";
 import {
   IMPORT_WORKFLOW_INITIALIZE,
@@ -93,6 +95,16 @@ export const ImportReducer = (state = ImportState, action) => {
       return {
         ...state,
         SelectedWorksheetName: action.payload.SelectedWorksheetName,
+      };
+    case IMPORT_EXCELWORKSHEETDATA_SET:
+      return {
+        ...state,
+        SelectedWorksheetData: action.payload.SelectedWorksheetData,
+      };
+    case IMPORT_EXCELWORKSHEETPARSE_NAVIGATE:
+      return {
+        ...state,
+        ExtrudeParseTable: action.payload.ExtrudeParseTable,
       };
     default:
       return state;

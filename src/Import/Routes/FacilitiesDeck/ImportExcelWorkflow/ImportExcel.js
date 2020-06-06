@@ -1,19 +1,18 @@
 import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import ImportExcel_1_DnD from "./ImportExcel_1_DnD";
-import ImportExcel_2_Preview from "./ImportExcel_2_Preview";
-import ImportExcel_3_Match from "./ImportExcel_3_Match";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import SaveIcon from "@material-ui/icons/Save";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import * as StepperActions from "../../../Redux/Actions/SetStepperActions";
-import { loadWorkflowAction } from "./../../../../Application/Redux/Actions/UILayoutActions";
+import ImportExcel_1_DnD from "./ImportExcel_1_DnD";
+import ImportExcel_2_ParseTable from "./ImportExcel_2_ParseTable";
+import ImportExcel_3_Preview from "./ImportExcel_3_Preview";
+import ImportExcel_4_Match from "./ImportExcel_4_Match";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,21 +50,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Steps = [
   "Import Excel Drag and Drop",
+  "Import Excel Set Header & Units",
   "Import Excel Preview",
-  "Import Excel Match",
+  "Import Excel Header Match",
 ];
 
 const {
-  handleWorkflowInitializationAction,
-  handleResetAction,
-  handleNextAction,
-  handleBackAction,
-  handleSkipAction,
-  handleSaveAction,
+  stepperWorkflowInitializationAction,
+  stepperResetAction,
+  stepperNextAction,
+  stepperBackAction,
+  stepperSkipAction,
+  stepperSaveAction,
 } = StepperActions;
 
 function isStepOptional(step) {
-  return step === 5;
+  return step === 50;
 }
 
 function ImportExcel() {
@@ -73,41 +73,43 @@ function ImportExcel() {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(
-      handleWorkflowInitializationAction("Facilities", "ImportExcel", Steps)
+      stepperWorkflowInitializationAction("Facilities", "ImportExcel", Steps)
     );
   }, []);
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const Loading = useSelector((state) => state.ImportReducer.Loading);
-  const ActiveStep = useSelector((state) => state.ImportReducer.ActiveStep);
+  const loading = useSelector((state) => state.ImportReducer.Loading);
+  const activeStep = useSelector((state) => state.ImportReducer.ActiveStep);
 
   function renderImportStep(ActiveStep) {
     switch (ActiveStep) {
       case 0:
         return <ImportExcel_1_DnD />;
       case 1:
-        return <ImportExcel_2_Preview />;
+        return <ImportExcel_2_ParseTable />;
       case 2:
-        return <ImportExcel_3_Match />;
+        return <ImportExcel_3_Preview />;
+      case 3:
+        return <ImportExcel_4_Match />;
     }
   }
   //take a look at loading again
   return (
     <>
-      <Backdrop className={classes.backdrop} open={Loading}>
+      <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Container maxwidth="lg" className={classes.root}>
-        <Container maxWidth="lg" className={classes.maincontent}>
-          {renderImportStep(ActiveStep)}
-        </Container>
+      <div className={classes.root}>
+        <div className={classes.maincontent}>
+          {renderImportStep(activeStep)}
+        </div>
         <div className={classes.navigationbuttons}>
           <Button
             variant="contained"
             color="primary"
             onClick={() =>
-              dispatch(handleResetAction("Facilities", "ImportExcel"))
+              dispatch(stepperResetAction("Facilities", "ImportExcel"))
             }
             className={classes.button}
             startIcon={<RotateLeftIcon />}
@@ -115,10 +117,10 @@ function ImportExcel() {
             Reset
           </Button>
           <Button
-            disabled={ActiveStep === 0}
+            disabled={activeStep === 0}
             onClick={() =>
               dispatch(
-                handleBackAction("Facilities", "ImportExcel", ActiveStep)
+                stepperBackAction("Facilities", "ImportExcel", activeStep)
               )
             }
             className={classes.button}
@@ -126,13 +128,13 @@ function ImportExcel() {
           >
             Back
           </Button>
-          {isStepOptional(ActiveStep) && (
+          {isStepOptional(activeStep) && (
             <Button
               variant="contained"
               color="primary"
               onClick={() =>
                 dispatch(
-                  handleSkipAction("Facilities", "ImportExcel", ActiveStep)
+                  stepperSkipAction("Facilities", "ImportExcel", activeStep)
                 )
               }
               className={classes.button}
@@ -144,25 +146,25 @@ function ImportExcel() {
             variant="contained"
             color="primary"
             onClick={() => {
-              ActiveStep === Steps
-                ? dispatch(handleSaveAction())
+              activeStep === Steps
+                ? dispatch(stepperSaveAction())
                 : dispatch(
-                    handleNextAction("Facilities", "ImportExcel", ActiveStep)
+                    stepperNextAction("Facilities", "ImportExcel", activeStep)
                   );
             }}
             className={classes.button}
             endIcon={
-              ActiveStep === Steps.length - 1 ? (
+              activeStep === Steps.length - 1 ? (
                 <SaveIcon />
               ) : (
                 <ArrowForwardIosIcon />
               )
             }
           >
-            {ActiveStep === Steps.length - 1 ? "Save" : "Next"}
+            {activeStep === Steps.length - 1 ? "Save" : "Next"}
           </Button>
         </div>
-      </Container>
+      </div>
     </>
   );
 }

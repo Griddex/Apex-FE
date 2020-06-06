@@ -198,9 +198,9 @@ export const navigateResetWorkflowAction = () => {
   };
 };
 
-export const simpleDialogOpenAction = (toggleState) => {
+export const simpleDialogOpenAction = (trueOrFalse) => {
   return {
     type: UILAYOUT_SIMPLEDIALOG_TOGGLE,
-    payload: { simpleDialogOpen: toggleState },
+    payload: { simpleDialogOpen: trueOrFalse },
   };
 };

@@ -5,7 +5,7 @@ export const IMPORT_WORKFLOW_BACK = "IMPORT_WORKFLOW_BACK";
 export const IMPORT_WORKFLOW_SKIP = "IMPORT_WORKFLOW_SKIP";
 export const IMPORT_WORKFLOW_SAVE = "IMPORT_WORKFLOW_SAVE";
 
-export const handleWorkflowInitializationAction = (
+export const stepperWorkflowInitializationAction = (
   moduleText,
   perspectiveText,
   steps
@@ -20,7 +20,7 @@ export const handleWorkflowInitializationAction = (
     },
   };
 };
-export const handleResetAction = (moduleText, perspectiveText) => {
+export const stepperResetAction = (moduleText, perspectiveText) => {
   return {
     type: IMPORT_WORKFLOW_RESET,
     payload: {
@@ -29,7 +29,7 @@ export const handleResetAction = (moduleText, perspectiveText) => {
     },
   };
 };
-export const handleNextAction = (moduleText, perspectiveText, activeStep) => {
+export const stepperNextAction = (moduleText, perspectiveText, activeStep) => {
   return {
     type: IMPORT_WORKFLOW_NEXT,
     payload: {
@@ -38,7 +38,7 @@ export const handleNextAction = (moduleText, perspectiveText, activeStep) => {
     },
   };
 };
-export const handleBackAction = (moduleText, perspectiveText, activeStep) => {
+export const stepperBackAction = (moduleText, perspectiveText, activeStep) => {
   return {
     type: IMPORT_WORKFLOW_BACK,
     payload: {
@@ -47,7 +47,7 @@ export const handleBackAction = (moduleText, perspectiveText, activeStep) => {
     },
   };
 };
-export const handleSkipAction = (moduleText, perspectiveText, activeStep) => {
+export const stepperSkipAction = (moduleText, perspectiveText, activeStep) => {
   return {
     type: IMPORT_WORKFLOW_SKIP,
     payload: {
@@ -56,7 +56,7 @@ export const handleSkipAction = (moduleText, perspectiveText, activeStep) => {
     },
   };
 };
-export const handleSaveAction = (activeStep, moduleText, perspectiveText) => {
+export const stepperSaveAction = (activeStep, moduleText, perspectiveText) => {
   return {
     type: IMPORT_WORKFLOW_SAVE,
   };

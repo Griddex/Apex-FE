@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ImportExcelStepper = () => {
   const classes = useStyles();
+
   const Steps = useSelector((state) => state.ImportReducer.Steps);
   const ActiveStep = useSelector((state) => state.ImportReducer.ActiveStep);
   const Skipped = useSelector((state) => state.ImportReducer.Skipped);
