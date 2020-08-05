@@ -15,6 +15,8 @@
     "fuse.js": "^6.0.0",
     "jwt-decode": "^2.2.0",
     "lodash.mapkeys": "^4.6.0",
+    "lodash.orderby": "^4.6.0",
+    "lodash.zip": "^4.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
