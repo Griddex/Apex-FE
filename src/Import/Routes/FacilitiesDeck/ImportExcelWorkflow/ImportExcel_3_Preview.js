@@ -99,9 +99,9 @@ const ImportExcel_3_Preview = (props) => {
   const [columnWidths, setColumnWidths] = useState([]);
 
   const headerData = useSelector(
-    (state) => state.ImportReducer.TableHeaderData
+    (state) => state.importReducer.TableHeaderData
   );
-  const bodyData = useSelector((state) => state.ImportReducer.TableBodyData);
+  const bodyData = useSelector((state) => state.importReducer.TableBodyData);
 
   return (
     <div className={classes.root}>

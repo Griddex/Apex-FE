@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ImportExcelStepper from "./../Components/ImportExcelStepper";
+import WorkflowStepper from "./../../Application/Components/WorkflowStepper";
 
 const ImportContextDrawerContent = {
-  ImportExcel: <ImportExcelStepper />,
+  ImportExcel: <WorkflowStepper />,
   ConnectDatabase: <h1>Database</h1>,
   SelectDeck: <h1>Deck</h1>,
 };

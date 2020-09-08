@@ -1,35 +1,44 @@
-import Container from "@material-ui/core/Container";
-import React, { Suspense, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+import React, { Suspense } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import ContextDrawer from "./../../../Application/Components/ContextDrawer";
 import Loading from "./../../../Application/Components/Loading";
-import SubNavBar from "./../../../Application/Components/SubNavBar";
-import useLayoutStyles from "./../../../Application/Styles/LayoutStyles";
-import ImportBackground from "./ImportBackground";
+import SubNavbar from "../../../Application/Components/SubNavbar";
+import ImportEconomicsLanding from "./../EconomicsData/ImportEconomicsLanding";
 import ImportFacilitiesLanding from "./../FacilitiesDeck/ImportFacilitiesLanding";
 import ImportForecastLanding from "./../ForecastDeck/ImportForecastLanding";
 import ConnectProductionLanding from "./../ProductionData/ConnectProductionLanding";
-import ImportEconomicsLanding from "./../EconomicsData/ImportEconomicsLanding";
-import { useDispatch } from "react-redux";
-import clsx from "clsx";
+import ImportBackground from "./ImportBackground";
+import { useSelector } from "react-redux";
 
-const ImportLayout = (reduxProps) => {
-  const classes = useLayoutStyles();
-  const dispatch = useDispatch();
+const navbarHeight = 43;
+const subNavBarHeight = 25;
+const useStyles = makeStyles((theme) => {
+  return {
+    importLayoutRoot: {
+      display: "flex",
+      flexGrow: 1,
+    },
+    importLayoutContainer: {
+      display: "flex",
+      flexGrow: 1,
+      marginTop: navbarHeight + subNavBarHeight,
+      height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
+    },
+  };
+});
+
+const ImportLayout = () => {
+  const classes = useStyles();
   const { path, url } = useRouteMatch();
-
-  const { contextDrawerPresent, subNavBarPresent } = reduxProps;
-  const { boundUILayoutActions } = reduxProps;
-  const { ImportLayoutDefaultAction } = boundUILayoutActions;
-
-  useEffect(() => {
-    dispatch(ImportLayoutDefaultAction());
-  }, []);
+  const layoutProps = useSelector((state) => state.layoutReducer);
+  const { showContextDrawer, showSubNavbar } = layoutProps;
 
   return (
-    <main className={classes.mainContainer}>
-      {subNavBarPresent && <SubNavBar {...reduxProps} />}
-      <div className={clsx(classes.container)}>
+    <main className={classes.importLayoutRoot}>
+      {showSubNavbar && <SubNavbar />}
+      <div className={clsx(classes.importLayoutContainer)}>
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route exact path={path} component={ImportBackground} />
@@ -43,30 +52,23 @@ const ImportLayout = (reduxProps) => {
                 } = props;
 
                 const Layouts = {
-                  background: <ImportBackground {...props} />,
-                  facilitiesdeck: <ImportFacilitiesLanding {...props} />,
-                  forecastdeck: <ImportForecastLanding {...props} />,
-                  productiondata: <ConnectProductionLanding {...props} />,
-                  economicsdata: <ImportEconomicsLanding {...props} />,
+                  background: <ImportBackground />,
+                  facilitiesdeck: <ImportFacilitiesLanding />,
+                  forecastdeck: <ImportForecastLanding />,
+                  productiondata: <ConnectProductionLanding />,
+                  economicsdata: <ImportEconomicsLanding />,
                 };
 
                 return Layouts[subNavbarId];
               }}
             />
-            <Route path="*" render={(props) => <h1>Not Available</h1>} />
+            <Route path="*" render={() => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
-        {contextDrawerPresent && (
-          <ContextDrawer
-            reduxProps={reduxProps}
-            boundUILayoutActions={boundUILayoutActions}
-          />
-        )}
+        {showContextDrawer && <ContextDrawer />}
       </div>
     </main>
   );
 };
-
-ImportLayout.propTypes = {};
 
 export default ImportLayout;

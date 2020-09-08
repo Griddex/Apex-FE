@@ -11,24 +11,24 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\DimmedModal.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 27, 0, 2, 29
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Footer.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 21, 3, 6, 30
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Image.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 7, 0, 4, 11
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\InViewModal.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 30, 0, 4, 34
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\InRouteModal.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 30, 0, 4, 34
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Loading.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 21, 0, 6, 27
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\MainDrawer.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 113, 1, 7, 121
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\MaterialUITable.js", "JavaScript", 0, 0, 0, 0, 352, 0, 0, 1, 27, 380
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\NavBar.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 112, 0, 6, 118
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\SubNavBar.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 80, 1, 8, 89
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Navbar.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 112, 0, 6, 118
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\SubNavbar.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 80, 1, 8, 89
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Images\CompanyLogo.svg", "XML", 0, 0, 0, 0, 0, 10, 0, 0, 0, 10
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Layout\Layout.js", "JavaScript", 0, 0, 0, 0, 90, 0, 0, 0, 11, 101
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Actions\UILayoutActions.js", "JavaScript", 0, 0, 0, 0, 193, 0, 0, 5, 9, 207
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Actions\UserAction.js", "JavaScript", 0, 0, 0, 0, 110, 0, 0, 0, 13, 123
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Middlewares\AuthMiddleware.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Middlewares\UILayoutMiddleware.js", "JavaScript", 0, 0, 0, 0, 6, 0, 0, 2, 2, 10
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Reducers\UILayoutReducer.js", "JavaScript", 0, 0, 0, 0, 173, 0, 0, 7, 7, 187
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Reducers\UserReducer.js", "JavaScript", 0, 0, 0, 0, 60, 0, 0, 0, 2, 62
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Middlewares\LayoutMiddleware.js", "JavaScript", 0, 0, 0, 0, 6, 0, 0, 2, 2, 10
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Reducers\LayoutReducer.js", "JavaScript", 0, 0, 0, 0, 173, 0, 0, 7, 7, 187
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\Reducers\LoginReducer.js", "JavaScript", 0, 0, 0, 0, 60, 0, 0, 0, 2, 62
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\State\UIState\UILayoutState.js", "JavaScript", 0, 0, 0, 0, 15, 0, 0, 0, 8, 23
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Redux\State\UserState\UserState.js", "JavaScript", 0, 0, 0, 0, 18, 0, 0, 0, 1, 19
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Routes\Landing\LandingView.js", "JavaScript", 0, 0, 0, 0, 71, 0, 0, 1, 6, 78
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Routes\Login\LoginView.js", "JavaScript", 0, 0, 0, 0, 134, 0, 0, 1, 7, 142
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Routes\Landing\LandingRoute.js", "JavaScript", 0, 0, 0, 0, 71, 0, 0, 1, 6, 78
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Routes\Login\LoginRoute.js", "JavaScript", 0, 0, 0, 0, 134, 0, 0, 1, 7, 142
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Routes\ProductBackground.js", "JavaScript", 0, 0, 0, 0, 21, 0, 0, 0, 5, 26
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Routes\ProtectedRoute.js", "JavaScript", 0, 0, 0, 0, 33, 0, 0, 0, 6, 39
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Services\AuthService.js", "JavaScript", 0, 0, 0, 0, 23, 0, 0, 0, 4, 27
@@ -40,7 +40,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Styles\SubNavbarStyles.js", "JavaScript", 0, 0, 0, 0, 60, 0, 0, 0, 3, 63
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Utils\GetInitials.js", "JavaScript", 0, 0, 0, 0, 6, 0, 0, 0, 2, 8
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\ImportCard.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 73, 12, 5, 90
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\ImportExcelStepper.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 55, 0, 8, 63
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\WorkflowStepper.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 55, 0, 8, 63
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\NotificationDialog.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 50, 7, 6, 63
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\SimpleDialog.js", "JavaScript", 0, 0, 0, 0, 86, 0, 0, 3, 6, 95
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\DragAndDrop.svg", "XML", 0, 0, 0, 0, 0, 79, 0, 0, 1, 80

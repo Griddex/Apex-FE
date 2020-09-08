@@ -1,6 +1,4 @@
-import Backdrop from "@material-ui/core/Backdrop";
 import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -48,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Steps = [
+const steps = [
   "Import Excel Drag and Drop",
   "Import Excel Set Header & Units",
   "Import Excel Preview",
@@ -56,12 +54,12 @@ const Steps = [
 ];
 
 const {
-  stepperWorkflowInitializationAction,
-  stepperResetAction,
-  stepperNextAction,
-  stepperBackAction,
-  stepperSkipAction,
-  stepperSaveAction,
+  workflowInitAction,
+  workflowResetAction,
+  workflowNextAction,
+  workflowBackAction,
+  workflowSkipAction,
+  workflowSaveAction,
 } = StepperActions;
 
 function isStepOptional(step) {
@@ -72,18 +70,15 @@ function ImportExcel() {
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
-    dispatch(
-      stepperWorkflowInitializationAction("Facilities", "ImportExcel", Steps)
-    );
+    dispatch(workflowInitAction("Facilities", "ImportExcel", steps));
   }, []);
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.ImportReducer.Loading);
-  const activeStep = useSelector((state) => state.ImportReducer.ActiveStep);
+  const activeStep = useSelector((state) => state.importReducer.activeStep);
 
-  function renderImportStep(ActiveStep) {
-    switch (ActiveStep) {
+  function renderImportStep(activeStep) {
+    switch (activeStep) {
       case 0:
         return <ImportExcel_1_DnD />;
       case 1:
@@ -94,78 +89,71 @@ function ImportExcel() {
         return <ImportExcel_4_Match />;
     }
   }
-  //take a look at loading again
+
   return (
-    <>
-      <Backdrop className={classes.backdrop} open={loading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      <div className={classes.root}>
-        <div className={classes.maincontent}>
-          {renderImportStep(activeStep)}
-        </div>
-        <div className={classes.navigationbuttons}>
+    <div className={classes.root}>
+      <div className={classes.maincontent}>{renderImportStep(activeStep)}</div>
+      <div className={classes.navigationbuttons}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() =>
+            dispatch(workflowResetAction("Facilities", "ImportExcel"))
+          }
+          className={classes.button}
+          startIcon={<RotateLeftIcon />}
+        >
+          Reset
+        </Button>
+        <Button
+          disabled={activeStep === 0}
+          onClick={() =>
+            dispatch(
+              workflowBackAction("Facilities", "ImportExcel", activeStep)
+            )
+          }
+          className={classes.button}
+          startIcon={<ArrowBackIosIcon />}
+        >
+          Back
+        </Button>
+        {isStepOptional(activeStep) && (
           <Button
             variant="contained"
             color="primary"
-            onClick={() =>
-              dispatch(stepperResetAction("Facilities", "ImportExcel"))
-            }
-            className={classes.button}
-            startIcon={<RotateLeftIcon />}
-          >
-            Reset
-          </Button>
-          <Button
-            disabled={activeStep === 0}
             onClick={() =>
               dispatch(
-                stepperBackAction("Facilities", "ImportExcel", activeStep)
+                workflowSkipAction("Facilities", "ImportExcel", activeStep)
               )
             }
             className={classes.button}
-            startIcon={<ArrowBackIosIcon />}
           >
-            Back
+            Skip
           </Button>
-          {isStepOptional(activeStep) && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() =>
-                dispatch(
-                  stepperSkipAction("Facilities", "ImportExcel", activeStep)
-                )
-              }
-              className={classes.button}
-            >
-              Skip
-            </Button>
-          )}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              activeStep === Steps
-                ? dispatch(stepperSaveAction())
-                : dispatch(
-                    stepperNextAction("Facilities", "ImportExcel", activeStep)
-                  );
-            }}
-            className={classes.button}
-            endIcon={
-              activeStep === Steps.length - 1 ? (
-                <SaveIcon />
-              ) : (
-                <ArrowForwardIosIcon />
-              )
-            }
-          >
-            {activeStep === Steps.length - 1 ? "Save" : "Next"}
-          </Button>
-        </div>
+        )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            activeStep === steps
+              ? dispatch(workflowSaveAction())
+              : dispatch(
+                  workflowNextAction("Facilities", "ImportExcel", activeStep)
+                );
+          }}
+          className={classes.button}
+          endIcon={
+            activeStep === steps.length - 1 ? (
+              <SaveIcon />
+            ) : (
+              <ArrowForwardIosIcon />
+            )
+          }
+        >
+          {activeStep === steps.length - 1 ? "Save" : "Next"}
+        </Button>
       </div>
-    </>
+    </div>
   );
 }
 

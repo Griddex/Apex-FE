@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import history from "./../../Application/Services/HistoryService";
-import { loadWorkflowAction } from "./../../Application/Redux/Actions/UILayoutActions";
+import { loadWorkflowAction } from "../../Application/Redux/Actions/LayoutActions";
 import { useDispatch } from "react-redux";
 
 const cardWidth = 300;

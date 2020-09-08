@@ -10,15 +10,15 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 const IconsService = (icon, FontSize) => {
   const icons = {
-    "/valid/import": <ExitToAppIcon fontSize={FontSize} />,
-    "/valid/network": <AccountTreeIcon fontSize={FontSize} />,
-    "/valid/visualization": <BarChartIcon fontSize={FontSize} />,
-    "/valid/settings": <TuneIcon fontSize={FontSize} />,
+    "/apex/import": <ExitToAppIcon fontSize={FontSize} />,
+    "/apex/network": <AccountTreeIcon fontSize={FontSize} />,
+    "/apex/visualization": <BarChartIcon fontSize={FontSize} />,
+    "/apex/settings": <TuneIcon fontSize={FontSize} />,
 
-    "/valid/import/facilitiesdeck": <AppsIcon fontSize={FontSize} />,
-    "/valid/import/forecastdeck": <LandscapeIcon fontSize={FontSize} />,
-    "/valid/import/productiondata": <BubbleChartIcon fontSize={FontSize} />,
-    "/valid/import/economicsdata": <AttachMoneyIcon fontSize={FontSize} />,
+    "/apex/import/facilitiesdeck": <AppsIcon fontSize={FontSize} />,
+    "/apex/import/forecastdeck": <LandscapeIcon fontSize={FontSize} />,
+    "/apex/import/productiondata": <BubbleChartIcon fontSize={FontSize} />,
+    "/apex/import/economicsdata": <AttachMoneyIcon fontSize={FontSize} />,
   };
 
   return icons[icon];

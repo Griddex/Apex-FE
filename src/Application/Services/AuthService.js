@@ -1,26 +1,34 @@
-import decodeJwt from "jwt-decode";
+import axios from "axios";
 
-let currentUserToken = null;
+export const post = (...args) => {
+  const [url, data, config] = args;
 
-export function setToken(token) {
-  currentUserToken = token;
-}
+  return axios.post(url, data, config);
+};
 
-export default function authService(type) {
-  if (currentUserToken !== null) {
-    if (type === "token") {
-      return currentUserToken;
-    } else {
-      const identity = decodeJwt(currentUserToken);
-      return identity;
-    }
-  } else {
-    if (type === "token") {
-      return window.sessionStorage.getItem("token");
-    } else {
-      const userToken = window.sessionStorage.getItem("token");
-      const identity = decodeJwt(userToken);
-      return identity;
-    }
-  }
-}
+// import decodeJwt from "jwt-decode";
+
+// let currentUserToken = null;
+
+// export function setToken(token) {
+//   currentUserToken = token;
+// }
+
+// export default function authService(type) {
+//   if (currentUserToken !== null) {
+//     if (type === "token") {
+//       return currentUserToken;
+//     } else {
+//       const identity = decodeJwt(currentUserToken);
+//       return identity;
+//     }
+//   } else {
+//     if (type === "token") {
+//       return window.sessionStorage.getItem("token");
+//     } else {
+//       const userToken = window.sessionStorage.getItem("token");
+//       const identity = decodeJwt(userToken);
+//       return identity;
+//     }
+//   }
+// }

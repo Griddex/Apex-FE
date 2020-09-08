@@ -17,7 +17,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
-import { simpleDialogOpenAction } from "../../Application/Redux/Actions/UILayoutActions";
+import { simpleDialogOpenAction } from "../../Application/Redux/Actions/LayoutActions";
 import {
   ImportSetWorksheetDataAction,
   ImportSetWorksheetNameAction,
@@ -30,19 +30,19 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleDialog({ sheetNames, stepperNextAction }) {
+export default function SimpleDialog({ sheetNames, workflowNextAction }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const open = useSelector((state) => state.UILayoutReducer.simpleDialogOpen);
+  const open = useSelector((state) => state.layoutReducer.simpleDialogOpen);
   const InputDeckWorkbook = useSelector(
-    (state) => state.ImportReducer.AcceptedFile
+    (state) => state.importReducer.AcceptedFile
   );
-  const moduleText = useSelector((state) => state.ImportReducer.ImportModule);
+  const moduleName = useSelector((state) => state.importReducer.moduleName);
   const perspectiveText = useSelector(
-    (state) => state.ImportReducer.ContextImportPerspective
+    (state) => state.importReducer.workflowName
   );
-  const activeStep = useSelector((state) => state.ImportReducer.ActiveStep);
+  const activeStep = useSelector((state) => state.importReducer.activeStep);
   //   const theme = useTheme();
   //   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const handleClose = () => {
@@ -110,9 +110,7 @@ export default function SimpleDialog({ sheetNames, stepperNextAction }) {
                   const finalDataArray = [firstRowObject, ...finalArray];
 
                   dispatch(ImportSetWorksheetDataAction(finalDataArray));
-                  dispatch(
-                    stepperNextAction(moduleText, perspectiveText, activeStep)
-                  );
+                  dispatch(workflowNextAction(moduleName, activeStep));
                   handleClose();
                 }}
               >

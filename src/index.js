@@ -1,35 +1,16 @@
+import { ThemeProvider } from "@material-ui/core";
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import * as serviceWorker from "./serviceWorker";
-import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import App from "./Application/App";
 import history from "./Application/Services/HistoryService";
-import { UILayoutReducer } from "./Application/Redux/Reducers/UILayoutReducer";
-import { UILayoutMiddleware } from "./Application/Redux/Middlewares/UILayoutMiddleware";
-import { ImportReducer } from "./Import/Redux/Reducers/ImportReducer";
-
-const rootReducer = combineReducers({
-  ImportReducer,
-  UILayoutReducer,
-});
-
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(UILayoutMiddleware))
-);
-
-const theme = createMuiTheme({
-  palette: { primary: { main: "#03A9F4" } },
-  background: "#EFEFEF",
-});
+import theme from "./Application/Theme/Theme";
+import store from "./Application/Redux/Store/Store";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <SnackbarProvider maxSnack={3}>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Router history={history}>
@@ -37,11 +18,6 @@ ReactDOM.render(
         </Router>
       </ThemeProvider>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </SnackbarProvider>,
+  document.getElementById("app")
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

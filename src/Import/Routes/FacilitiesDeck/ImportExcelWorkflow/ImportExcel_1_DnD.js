@@ -13,9 +13,9 @@ import { ImportFileSaveAction } from "./../../../Redux/Actions/ImportAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useSpring, animated } from "react-spring";
 import * as xlsx from "xlsx";
-import { simpleDialogOpenAction } from "../../../../Application/Redux/Actions/UILayoutActions";
+import { simpleDialogOpenAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import SimpleDialog from "./../../../Components/SimpleDialog";
-import { stepperNextAction } from "../../../Redux/Actions/SetStepperActions";
+import { workflowNextAction } from "../../../Redux/Actions/SetStepperActions";
 import {
   ImportSetWorksheetNameAction,
   ImportSetWorksheetDataAction,
@@ -123,10 +123,10 @@ const ImportExcel_1_DnD = (props) => {
   const [isFileAccepted, setIsFileAccepted] = useState(false);
   const [sheetNames, setSheetNames] = useState([]);
   const ExtrudeParseTable = useSelector(
-    (state) => state.ImportReducer.ExtrudeParseTable
+    (state) => state.importReducer.ExtrudeParseTable
   );
   const simpleDialogOpen = useSelector(
-    (state) => state.UILayoutReducer.simpleDialogOpen
+    (state) => state.layoutReducer.simpleDialogOpen
   );
 
   const sizeProps = useSpring({
@@ -244,7 +244,7 @@ const ImportExcel_1_DnD = (props) => {
       {simpleDialogOpen && (
         <SimpleDialog
           sheetNames={sheetNames}
-          stepperNextAction={stepperNextAction}
+          workflowNextAction={workflowNextAction}
         />
       )}
       {ExtrudeParseTable && <ImportExcel_2_ParseTable />}

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Modal } from "semantic-ui-react";
 import history from "./../Services/HistoryService";
 
-const InViewModal = (props) => {
+const InRouteModal = (props) => {
   const { modalOpen, size, message, actions } = props;
 
   return (
@@ -21,7 +21,7 @@ const InViewModal = (props) => {
           labelPosition="right"
           content="Yes"
           onClick={() => {
-            actions.logoutUserAction();
+            actions.logoutAction();
             history.replace("/login");
           }}
         />
@@ -30,4 +30,4 @@ const InViewModal = (props) => {
   );
 };
 
-export default InViewModal;
+export default InRouteModal;

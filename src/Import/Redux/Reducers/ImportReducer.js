@@ -7,28 +7,28 @@ import {
   IMPORT_EXCELWORKSHEETPARSE_NAVIGATE,
 } from "../Actions/ImportAction";
 import {
-  IMPORT_WORKFLOW_INITIALIZE,
-  IMPORT_WORKFLOW_RESET,
-  IMPORT_WORKFLOW_NEXT,
-  IMPORT_WORKFLOW_BACK,
-  IMPORT_WORKFLOW_SKIP,
-  IMPORT_WORKFLOW_SAVE,
+  INITIALIZE_WORKFLOW,
+  RESET_WORKFLOW,
+  NEXT_WORKFLOW,
+  BACK_WORKFLOW,
+  SKIP_WORKFLOW,
+  SAVE_WORKFLOW,
 } from "../Actions/SetStepperActions";
 import ImportState from "./../State/ImportState";
 
-export const ImportReducer = (state = ImportState, action) => {
-  const { ActiveStep, Steps, Skipped, ErrorSteps, OptionalSteps } = state;
+const importReducer = (state = ImportState, action) => {
+  const { activeStep, steps, skipped, errorSteps, OptionalSteps } = state;
 
   function isStepOptional(step) {
     return OptionalSteps.includes(step);
   }
 
   function isStepFailed(step) {
-    return ErrorSteps.includes(step);
+    return errorSteps.includes(step);
   }
 
   function isStepSkipped(step) {
-    return Skipped.has(step);
+    return skipped.has(step);
   }
 
   switch (action.type) {
@@ -36,58 +36,58 @@ export const ImportReducer = (state = ImportState, action) => {
       return { ...state, Loading: action.payload.Loading };
     case IMPORT_EXCEL_MATCHING:
       return { ...state, Loading: action.payload.Matching };
-    case IMPORT_WORKFLOW_INITIALIZE:
+    case INITIALIZE_WORKFLOW:
       return {
         ...state,
-        ImportModule: action.payload.ImportModule,
-        ContextImportPerspective: action.payload.ContextImportPerspective,
-        Steps: action.payload.Steps,
-        ActiveStep: action.payload.ActiveStep,
+        moduleName: action.payload.moduleName,
+        workflowName: action.payload.workflowName,
+        steps: action.payload.steps,
+        activeStep: action.payload.activeStep,
       };
-    case IMPORT_WORKFLOW_RESET:
+    case RESET_WORKFLOW:
       return {
         ...state,
-        ImportModule: action.payload.ImportModule,
-        ActiveStep: action.payload.ActiveStep,
+        moduleName: action.payload.moduleName,
+        activeStep: action.payload.activeStep,
       };
-    case IMPORT_WORKFLOW_NEXT:
-      const newSkipped = state.Skipped;
+    case NEXT_WORKFLOW:
+      const newSkipped = state.skipped;
 
-      if (isStepSkipped(ActiveStep)) {
-        newSkipped = new Set(Skipped.values());
-        newSkipped.delete(ActiveStep);
+      if (isStepSkipped(activeStep)) {
+        newSkipped = new Set(skipped.values());
+        newSkipped.delete(activeStep);
       }
-      if (ActiveStep === Steps.length - 1) {
+      if (activeStep === steps.length - 1) {
       }
 
       return {
         ...state,
-        ImportModule: action.payload.ImportModule,
-        ActiveStep: action.payload.ActiveStep,
-        Skipped: newSkipped,
+        moduleName: action.payload.moduleName,
+        activeStep: action.payload.activeStep,
+        skipped: newSkipped,
       };
-    case IMPORT_WORKFLOW_BACK:
+    case BACK_WORKFLOW:
       return {
         ...state,
-        ImportModule: action.payload.ImportModule,
-        ActiveStep: action.payload.ActiveStep,
+        moduleName: action.payload.moduleName,
+        activeStep: action.payload.activeStep,
       };
-    case IMPORT_WORKFLOW_SKIP:
+    case SKIP_WORKFLOW:
       if (!isStepOptional()) {
         // You probably want to guard against something like this,
         // it should never occur unless someone's actively trying to break something.
         throw new Error("You can't skip a step that isn't optional.");
       }
-      const newSkippedSet = new Set(state.Skipped.values());
-      newSkippedSet.add(ActiveStep);
+      const newSkippedSet = new Set(state.skipped.values());
+      newSkippedSet.add(activeStep);
 
       return {
         ...state,
-        ImportModule: action.payload.ImportModule,
-        ActiveStep: action.payload.ActiveStep,
-        Skipped: newSkippedSet,
+        moduleName: action.payload.moduleName,
+        activeStep: action.payload.activeStep,
+        skipped: newSkippedSet,
       };
-    case IMPORT_WORKFLOW_SAVE:
+    case SAVE_WORKFLOW:
       return { ...state };
     case IMPORT_FILE_SAVE:
       return { ...state, AcceptedFile: action.payload.AcceptedFile };
@@ -110,3 +110,5 @@ export const ImportReducer = (state = ImportState, action) => {
       return state;
   }
 };
+
+export default importReducer;

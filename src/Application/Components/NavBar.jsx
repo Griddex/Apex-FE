@@ -16,22 +16,76 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import useLayoutStyles from "./../Styles/LayoutStyles";
-import history from "./../Services/HistoryService";
-import GetInitials from "./../Utils/GetInitials";
-import { useDispatch } from "react-redux";
+import history from "../Services/HistoryService";
+import GetInitials from "../Utils/GetInitials";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  mainDrawerExpandAction,
+  mainDrawerCollapseAction,
+} from "./../Redux/Actions/LayoutActions";
 
-const NavBar = ({ reduxProps, boundUILayoutActions }) => {
-  const classes = useLayoutStyles(reduxProps);
+const navbarHeight = 43;
+const useStyles = makeStyles((theme) => {
+  return {
+    appBar: {
+      backgroundColor: "#FFF",
+      width: (props) => {
+        return `calc(100% - ${props.expandMainDrawer ? 100 : 40}px)`;
+      },
+      height: navbarHeight,
+      zIndex: theme.zIndex.drawer,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      marginLeft: (props) => (props.expandMainDrawer ? 100 : 40),
+      width: (props) => `calc(100% - ${props.expandMainDrawer ? 100 : 40}px)`,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    hide: {
+      display: "none",
+    },
+
+    appbarToolBar: {
+      paddingLeft: "10px",
+      paddingRight: "10px",
+      height: "100%",
+      minHeight: "100%",
+    },
+    userToolBar: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      marginLeft: "auto",
+      marginRight: 0,
+      minHeight: "inherit",
+    },
+    smallAvatar: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+      marginRight: theme.spacing(1),
+    },
+    userExpandMoreIcon: { marginRight: theme.spacing(2) },
+    userBadge: { marginRight: theme.spacing(4), marginTop: theme.spacing(1) },
+    userTypography: { marginRight: theme.spacing(1) },
+    userLogout: { marginRight: theme.spacing(0) },
+  };
+});
+
+const Navbar = () => {
   const dispatch = useDispatch();
+  const layoutProps = useSelector((state) => state.layoutReducer);
+  const classes = useStyles(layoutProps);
+
+  const { expandMainDrawer, showNavbar } = layoutProps;
   const username = faker.name.findName();
   const userinitials = GetInitials(username);
-
-  const { expandMainDrawer, navBarPresent } = reduxProps;
-  const {
-    expandMainDrawerAction,
-    collapseMainDrawerAction,
-  } = boundUILayoutActions;
 
   return (
     <AppBar
@@ -40,13 +94,13 @@ const NavBar = ({ reduxProps, boundUILayoutActions }) => {
         [classes.appBarShift]: expandMainDrawer,
       })}
     >
-      {navBarPresent && (
+      {showNavbar && (
         <Toolbar className={classes.appbarToolBar}>
           {!expandMainDrawer ? (
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={() => dispatch(expandMainDrawerAction())}
+              onClick={() => dispatch(mainDrawerExpandAction())}
               edge="start"
               className={clsx(classes.menuButton, {
                 [classes.hide]: expandMainDrawer,
@@ -58,7 +112,7 @@ const NavBar = ({ reduxProps, boundUILayoutActions }) => {
             <IconButton
               color="inherit"
               aria-label="close drawer"
-              onClick={() => dispatch(collapseMainDrawerAction())}
+              onClick={() => dispatch(mainDrawerCollapseAction())}
               edge="start"
               className={clsx(classes.menuButton, {
                 [classes.hide]: !expandMainDrawer,
@@ -110,8 +164,8 @@ const NavBar = ({ reduxProps, boundUILayoutActions }) => {
   );
 };
 
-NavBar.propTypes = {
+Navbar.propTypes = {
   children: PropTypes.node,
 };
 
-export default React.memo(NavBar);
+export default React.memo(Navbar);

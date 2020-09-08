@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button, Typography, Divider } from "@material-ui/core";
-import history from "./../../Services/HistoryService";
+import history from "../../Services/HistoryService";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
-import Image from "./../../Components/Image";
+import Image from "../../Components/Image";
 
 //Please change font type!!!
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LandingView = (props) => {
+const LandingRoute = (props) => {
   const classes = useStyles();
 
   return (
@@ -74,4 +74,4 @@ const LandingView = (props) => {
   );
 };
 
-export default LandingView;
+export default LandingRoute;

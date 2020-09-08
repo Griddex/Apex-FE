@@ -18,31 +18,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImportExcelStepper = () => {
+const WorkflowStepper = (props) => {
   const classes = useStyles();
 
-  const Steps = useSelector((state) => state.ImportReducer.Steps);
-  const ActiveStep = useSelector((state) => state.ImportReducer.ActiveStep);
-  const Skipped = useSelector((state) => state.ImportReducer.Skipped);
-  const ErrorSteps = useSelector((state) => state.ImportReducer.ErrorSteps);
+  const steps = useSelector((state) => state.importReducer.steps);
+  const activeStep = useSelector((state) => state.importReducer.activeStep);
+  const skipped = useSelector((state) => state.importReducer.skipped);
+  const errorSteps = useSelector((state) => state.importReducer.errorSteps);
   const expandContextDrawer = useSelector(
-    (state) => state.UILayoutReducer.expandContextDrawer
+    (state) => state.layoutReducer.expandContextDrawer
   );
 
   return (
     <Stepper
       className={classes.root}
-      activeStep={ActiveStep}
+      activeStep={activeStep}
       orientation="vertical"
     >
-      {Steps.map((label, index) => {
+      {steps.map((label, index) => {
         const stepProps = {};
         const labelProps = {};
 
-        if (ErrorSteps.includes(index)) {
+        if (errorSteps.includes(index)) {
           labelProps.error = true;
         }
-        if (Skipped.has(index)) {
+        if (skipped.has(index)) {
           stepProps.completed = false;
         }
 
@@ -58,6 +58,6 @@ const ImportExcelStepper = () => {
   );
 };
 
-ImportExcelStepper.propTypes = {};
+WorkflowStepper.propTypes = {};
 
-export default ImportExcelStepper;
+export default WorkflowStepper;

@@ -1,63 +1,64 @@
-export const IMPORT_WORKFLOW_INITIALIZE = "IMPORT_WORKFLOW_INITIALIZE";
-export const IMPORT_WORKFLOW_RESET = "IMPORT_WORKFLOW_RESET";
-export const IMPORT_WORKFLOW_NEXT = "IMPORT_WORKFLOW_NEXT";
-export const IMPORT_WORKFLOW_BACK = "IMPORT_WORKFLOW_BACK";
-export const IMPORT_WORKFLOW_SKIP = "IMPORT_WORKFLOW_SKIP";
-export const IMPORT_WORKFLOW_SAVE = "IMPORT_WORKFLOW_SAVE";
+export const INITIALIZE_WORKFLOW = "INITIALIZE_WORKFLOW";
+export const RESET_WORKFLOW = "RESET_WORKFLOW";
+export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
+export const BACK_WORKFLOW = "BACK_WORKFLOW";
+export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
+export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 
-export const stepperWorkflowInitializationAction = (
-  moduleText,
-  perspectiveText,
-  steps
-) => {
+export const workflowInitAction = (name, moduleName, steps) => {
   return {
-    type: IMPORT_WORKFLOW_INITIALIZE,
+    type: INITIALIZE_WORKFLOW,
     payload: {
-      ImportModule: moduleText,
-      ContextImportPerspective: perspectiveText,
-      Steps: steps,
-      ActiveStep: 0,
+      workflowName: name,
+      moduleName,
+      steps,
+      activeStep: 0,
     },
   };
 };
-export const stepperResetAction = (moduleText, perspectiveText) => {
+export const workflowResetAction = (name, moduleName, perspectiveText) => {
   return {
-    type: IMPORT_WORKFLOW_RESET,
+    type: RESET_WORKFLOW,
     payload: {
-      ImportModule: moduleText,
-      ActiveStep: 0,
+      workflowName: name,
+      moduleName,
+      activeStep: 0,
     },
   };
 };
-export const stepperNextAction = (moduleText, perspectiveText, activeStep) => {
+export const workflowNextAction = (name, moduleName, activeStep) => {
   return {
-    type: IMPORT_WORKFLOW_NEXT,
+    type: NEXT_WORKFLOW,
     payload: {
-      ImportModule: moduleText,
-      ActiveStep: activeStep + 1,
+      workflowName: name,
+      moduleName,
+      activeStep: activeStep + 1,
     },
   };
 };
-export const stepperBackAction = (moduleText, perspectiveText, activeStep) => {
+export const workflowBackAction = (name, moduleName, activeStep) => {
   return {
-    type: IMPORT_WORKFLOW_BACK,
+    type: BACK_WORKFLOW,
     payload: {
-      ImportModule: moduleText,
-      ActiveStep: activeStep - 1,
+      workflowName: name,
+      moduleName,
+      activeStep: activeStep - 1,
     },
   };
 };
-export const stepperSkipAction = (moduleText, perspectiveText, activeStep) => {
+export const workflowSkipAction = (name, moduleName, activeStep) => {
   return {
-    type: IMPORT_WORKFLOW_SKIP,
+    type: SKIP_WORKFLOW,
     payload: {
-      ImportModule: moduleText,
-      ActiveStep: activeStep - 1,
+      workflowName: name,
+      moduleName,
+      activeStep: activeStep - 1,
     },
   };
 };
-export const stepperSaveAction = (activeStep, moduleText, perspectiveText) => {
+export const workflowSaveAction = (name) => {
   return {
-    type: IMPORT_WORKFLOW_SAVE,
+    type: SAVE_WORKFLOW,
+    payload: { workflowName: name },
   };
 };

@@ -5,8 +5,7 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    width: "100%",
-    height: "100%",
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
   },

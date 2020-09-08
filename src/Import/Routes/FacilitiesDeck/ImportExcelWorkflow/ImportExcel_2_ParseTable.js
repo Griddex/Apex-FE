@@ -152,7 +152,7 @@ export default function ImportExcel_2_ParseTable() {
   const dispatch = useDispatch();
 
   const sheetDataArray = useSelector(
-    (state) => state.ImportReducer.SelectedWorksheetData
+    (state) => state.importReducer.SelectedWorksheetData
   );
   const noOfRows = sheetDataArray.length;
 

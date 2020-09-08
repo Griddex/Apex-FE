@@ -13,30 +13,27 @@ const useStyles = makeStyles((theme) => ({
   image: { height: "100px", width: "100px" },
   ImportFacilitiesLanding: {
     display: "flex",
+    flexGrow: 1,
+    flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    width: "100%",
-    "& > *": { margin: "20px", height: "60%" },
+    "& > *": {
+      margin: theme.spacing(3),
+    },
   },
   ImportWorkflow: {
     display: "flex",
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    height: "95%",
-    // "& > *": {
-
-    // }
   },
 }));
 
 const ImportFacilitiesLanding = (props) => {
   const classes = useStyles();
   const { url, path } = useRouteMatch();
-  const loadWorkflow = useSelector(
-    (state) => state.UILayoutReducer.loadWorkflow
-  );
+  const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
 
   const data = [
     {
@@ -85,7 +82,28 @@ const ImportFacilitiesLanding = (props) => {
 
   return (
     <>
-      {!loadWorkflow ? (
+      {loadWorkflow ? (
+        <div className={classes.ImportWorkflow}>
+          <Route
+            exact
+            path={`${path}/:dataType`}
+            render={(props) => {
+              const { match } = props;
+              const {
+                params: { dataType },
+              } = match;
+
+              const ImportFacilitiesWorkflows = {
+                excel: <ImportExcel />,
+                database: <ImportExcel />,
+                facilitiesdeck: <ImportExcel />,
+              };
+
+              return ImportFacilitiesWorkflows[dataType];
+            }}
+          />
+        </div>
+      ) : (
         <div className={classes.ImportFacilitiesLanding}>
           {data.map((d) => (
             <ImportCard
@@ -96,29 +114,6 @@ const ImportFacilitiesLanding = (props) => {
               UrlPath={d.urlPath}
             />
           ))}
-        </div>
-      ) : (
-        <div className={classes.ImportWorkflow}>
-          <Switch>
-            <Route
-              exact
-              path={`${path}/:datatype`}
-              render={(props) => {
-                const { match } = props;
-                const {
-                  params: { datatype },
-                } = match;
-
-                const ImportFacilitiesWorkflows = {
-                  excel: <ImportExcel />,
-                  database: <ImportExcel />,
-                  facilitiesdeck: <ImportExcel />,
-                };
-
-                return ImportFacilitiesWorkflows[datatype];
-              }}
-            />
-          </Switch>
         </div>
       )}
     </>
