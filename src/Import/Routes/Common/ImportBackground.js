@@ -16,7 +16,7 @@ const ImportBackground = () => {
 
   return (
     <div className={classes.root}>
-      <img src={Import} height={250} width={250} />
+      <img src={Import} alt="Import background" height={250} width={250} />
     </div>
   );
 };

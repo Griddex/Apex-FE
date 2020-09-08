@@ -16,7 +16,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import orderBy from "lodash.orderby";
 import zip from "lodash.zip";
 import React, { useEffect, useReducer, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   AutoSizer,
   Column,
@@ -24,7 +24,7 @@ import {
   SortIndicator,
   Table,
 } from "react-virtualized";
-import ToTitleCase from "./../../../../Application/Utils/ToTitleCase";
+import ToTitleCase from "../../../../Application/Utils/ToTitleCase";
 import Draggable from "react-draggable";
 
 const useStyles = makeStyles((theme) => ({
@@ -146,10 +146,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ImportExcel_2_ParseTable() {
+export default function ImportExcelParseTable() {
   const tableRef = useRef(null);
   const classes = useStyles();
-  const dispatch = useDispatch();
+  // const dispatch = );
 
   const sheetDataArray = useSelector(
     (state) => state.importReducer.SelectedWorksheetData
@@ -162,8 +162,8 @@ export default function ImportExcel_2_ParseTable() {
     const tableSelect = "all";
     const tablePagination = 0;
     const scrollToIndex = 1;
-    const currentRowIndex = null;
-    const currentColumnDatakey = null;
+    // const currentRowIndex = null;
+    // const currentColumnDatakey = null;
 
     const tableKeysArray = Object.keys(sheetDataArray[0]).map(
       (_, i) => `column_${i}`
@@ -173,16 +173,16 @@ export default function ImportExcel_2_ParseTable() {
     const noOfColumns = tableKeysArray.length;
 
     const singleColumnthicknessFraction = 1 / noOfColumns;
-    const columnWidthsArray = new Array(noOfColumns).fill(
-      singleColumnthicknessFraction
-    );
+    // const columnWidthsArray = new Array(noOfColumns).fill(
+    //   singleColumnthicknessFraction
+    // );
 
-    let columnWidthsObj = {};
-    let index = 0;
-    for (const key of tableKeysArray) {
-      columnWidthsObj[key] = columnWidthsArray[index];
-      index += 1;
-    }
+    // let columnWidthsObj = {};
+    // let index = 0;
+    // for (const key of tableKeysArray) {
+    //   columnWidthsObj[key] = columnWidthsArray[index];
+    //   index += 1;
+    // }
 
     const finalsheetDataArray = [];
     let columnWidthsNumberArray = [];
@@ -512,7 +512,6 @@ export default function ImportExcel_2_ParseTable() {
     tableKeysArray,
     columnWidthsObj,
     columnWidthsArrayfinal,
-    originalSheetDataArray,
     finalsheetDataArray,
   } = tableMetaData;
 

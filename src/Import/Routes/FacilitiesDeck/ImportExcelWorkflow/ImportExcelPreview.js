@@ -53,22 +53,22 @@ const useStyles = makeStyles((theme) => ({
 
 /*START HERE */
 
-function getDataRows(sheetData) {
-  const headerRow = getHeadCells(sheetData);
+// function getDataRows(sheetData) {
+//   const headerRow = getHeadCells(sheetData);
 
-  const bodyData = sheetData.slice(2, 349);
-  const bodyRows = bodyData.map((rowArray, i) => {
-    const bodyRow = Object.fromEntries(
-      headerRow.map((r, j) => {
-        const rowArrayWithSN = [i + 1, ...rowArray];
-        return [r.id, rowArrayWithSN[j]];
-      })
-    );
-    return bodyRow;
-  });
+//   const bodyData = sheetData.slice(2, 349);
+//   const bodyRows = bodyData.map((rowArray, i) => {
+//     const bodyRow = Object.fromEntries(
+//       headerRow.map((r, j) => {
+//         const rowArrayWithSN = [i + 1, ...rowArray];
+//         return [r.id, rowArrayWithSN[j]];
+//       })
+//     );
+//     return bodyRow;
+//   });
 
-  return bodyRows;
-}
+//   return bodyRows;
+// }
 
 function getHeadCells(sheetData) {
   const headerRow = sheetData[0];
@@ -93,7 +93,7 @@ function getHeadCells(sheetData) {
   return headCellsWithSN;
 }
 
-const ImportExcel_3_Preview = (props) => {
+const ImportExcelPreview = (props) => {
   const classes = useStyles();
 
   const [columnWidths, setColumnWidths] = useState([]);
@@ -191,6 +191,6 @@ const ImportExcel_3_Preview = (props) => {
   );
 };
 
-ImportExcel_3_Preview.propTypes = {};
+ImportExcelPreview.propTypes = {};
 
-export default ImportExcel_3_Preview;
+export default ImportExcelPreview;

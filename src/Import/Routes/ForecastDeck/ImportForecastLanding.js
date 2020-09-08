@@ -1,11 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ImportCard from "../../Components/ImportCard";
-import ExistingDeck from "../../Images/ExistingDeck.svg";
-import MSExcel from "../../Images/MSExcel.svg";
-import ImportDatabase from "../../Images/ImportDatabase.svg";
-import Image from "../../../Application/Components/Image";
 import { makeStyles } from "@material-ui/core";
+import React from "react";
+import { useRouteMatch } from "react-router-dom";
+import Image from "../../../Application/Components/Image";
+import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
+import ExistingDeck from "../../Images/ExistingDeck.svg";
+import ImportDatabase from "../../Images/ImportDatabase.svg";
+import MSExcel from "../../Images/MSExcel.svg";
+import ModuleCard from "./../../../Application/Components/ModuleCard";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: "100px", width: "100px" },
@@ -21,42 +22,48 @@ const useStyles = makeStyles((theme) => ({
 
 const ImportForecastLanding = (props) => {
   const classes = useStyles();
+  const { url /*path*/ } = useRouteMatch();
+  // const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
+
   const data = [
     {
-      mainTitle: "Excel + Plain Text",
-      Description:
+      name: "Excel + Plain Text",
+      description:
         "Import excel sheets in the following formats: .xls, .xlsx & csv. Also import in .txt or .dat formats",
-      landingIcon: () => (
+      icon: (
         <Image
           className={classes.image}
           src={MSExcel}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
+      route: `${url}/excel`,
     },
     {
-      mainTitle: "Database",
-      Description:
+      name: "Database",
+      description:
         "Connect to and import from the following databases: AccessDb, MSSQL, MySQL etc",
-      landingIcon: () => (
+      icon: (
         <Image
           className={classes.image}
           src={ImportDatabase}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
+      route: `${url}/database`,
     },
     {
-      mainTitle: "Approved Forecast Deck",
-      Description:
+      name: "Approved Facilities Deck",
+      description:
         "Select a pre-exisiting and approved facilties deck from your database",
-      landingIcon: () => (
+      icon: (
         <Image
           className={classes.image}
           src={ExistingDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
+      route: `${url}/approveddeck`,
     },
   ];
 
@@ -64,14 +71,19 @@ const ImportForecastLanding = (props) => {
   //CSS using overlap and z-index
   return (
     <div className={classes.ImportForecastLanding}>
-      {data.map((d) => (
-        <ImportCard
-          key={d.mainTitle}
-          MainTitle={d.mainTitle}
-          Description={d.Description}
-          Icon={d.landingIcon}
-        />
-      ))}
+      {data.map((module) => {
+        const { icon, name, description, route } = module;
+        return (
+          <ModuleCard
+            key={name}
+            moduleAction={loadWorkflowAction}
+            name={name}
+            description={description}
+            Icon={icon}
+            route={route}
+          />
+        );
+      })}
     </div>
   );
 };

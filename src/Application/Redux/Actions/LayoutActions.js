@@ -2,7 +2,6 @@ export const SHOW_MAINDRAWER = "SHOW_MAINDRAWER";
 export const HIDE_MAINDRAWER = "HIDE_MAINDRAWER";
 export const EXPAND_MAINDRAWER = "EXPAND_MAINDRAWER";
 export const COLLAPSE_MAINDRAWER = "COLLAPSE_MAINDRAWER";
-export const MAINDRAWERMENU_SET = "MAINDRAWERMENU_SET";
 export const SHOW_CONTEXTDRAWER = "SHOW_CONTEXTDRAWER";
 export const HIDE_CONTEXTDRAWER = "HIDE_CONTEXTDRAWER";
 export const EXPAND_CONTEXTDRAWER = "EXPAND_CONTEXTDRAWER";
@@ -16,7 +15,6 @@ export const SHOW_NAVBAR = "SHOW_NAVBAR";
 export const HIDE_NAVBAR = "HIDE_NAVBAR";
 export const EXPAND_NAVBAR = "EXPAND_NAVBAR";
 export const COLLAPSE_NAVBAR = "COLLAPSE_NAVBAR";
-
 export const LAYOUT_DEFAULT = "LAYOUT_DEFAULT";
 export const IMPORTLAYOUT_DEFAULT = "IMPORTLAYOUT_DEFAULT";
 export const LAYOUT_LOAD_WORKFLOW = "LAYOUT_LOAD_WORKFLOW";
@@ -46,12 +44,6 @@ export const mainDrawerCollapseAction = () => {
   return {
     type: COLLAPSE_MAINDRAWER,
     payload: { expandMainDrawer: false },
-  };
-};
-export const mainDrawerSetMenuAction = (text) => {
-  return {
-    type: MAINDRAWERMENU_SET,
-    payload: { mainDrawertext: text },
   };
 };
 

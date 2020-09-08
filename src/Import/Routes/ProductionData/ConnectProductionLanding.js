@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const ConnectProductionLanding = (props) => {
   return (

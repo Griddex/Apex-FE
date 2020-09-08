@@ -16,7 +16,7 @@ export const workflowInitAction = (name, moduleName, steps) => {
     },
   };
 };
-export const workflowResetAction = (name, moduleName, perspectiveText) => {
+export const workflowResetAction = (name, moduleName) => {
   return {
     type: RESET_WORKFLOW,
     payload: {

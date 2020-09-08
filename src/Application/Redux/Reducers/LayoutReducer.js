@@ -3,7 +3,6 @@ import {
   EXPAND_MAINDRAWER,
   HIDE_MAINDRAWER,
   COLLAPSE_MAINDRAWER,
-  MAINDRAWERMENU_SET,
   SHOW_CONTEXTDRAWER,
   HIDE_CONTEXTDRAWER,
   EXPAND_CONTEXTDRAWER,
@@ -67,11 +66,6 @@ const layoutReducer = (state = UILayoutState, action) => {
       return {
         ...state,
         expandMainDrawer: action.payload.expandMainDrawer,
-      };
-    case MAINDRAWERMENU_SET:
-      return {
-        ...state,
-        mainDrawertext: action.payload.mainDrawertext,
       };
 
     //CONTEXT DRAWER

@@ -6,7 +6,7 @@ const layoutState = {
   showNavbar: true,
   expandNavbar: false,
 
-  showContextDrawer: true,
+  showContextDrawer: false,
   expandContextDrawer: false,
 
   showSubNavbar: true,

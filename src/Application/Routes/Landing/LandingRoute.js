@@ -1,10 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { Button, Divider, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Button, Typography, Divider } from "@material-ui/core";
-import history from "../../Services/HistoryService";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
+import React from "react";
 import Image from "../../Components/Image";
+import CompanyLogo from "../../Images/CompanyLogo.svg";
+import history from "../../Services/HistoryService";
 
 //Please change font type!!!
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     background: theme.palette.primary.main,
     margin: "20px",
+    width: 150,
   },
 }));
 

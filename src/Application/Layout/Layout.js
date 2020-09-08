@@ -7,7 +7,7 @@ import Dialogs from "../Components/Dialogs";
 import Navbar from "../Components/Navbar";
 import ImportLayout from "./../../Import/Routes/Common/ImportLayout";
 import NetworkLayout from "./../../Network/Common/NetworkLayout";
-import VisualizationLayout from "./../../Visualization/Common/VisualizationLayout";
+import VisualyticsLayout from "./../../Visualytics/Common/VisualyticsLayout";
 import Loading from "./../Components/Loading";
 import MainDrawer from "./../Components/MainDrawer";
 import ProductBackground from "./../Routes/ProductBackground";
@@ -62,7 +62,7 @@ const Layout = (reduxProps) => {
                   background: <ProductBackground />,
                   import: <ImportLayout />,
                   network: <NetworkLayout />,
-                  visualization: <VisualizationLayout />,
+                  visualytics: <VisualyticsLayout />,
                 };
 
                 return Layouts[layoutId];

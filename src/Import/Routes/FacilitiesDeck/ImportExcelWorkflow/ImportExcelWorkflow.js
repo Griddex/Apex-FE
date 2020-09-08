@@ -7,10 +7,12 @@ import SaveIcon from "@material-ui/icons/Save";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as StepperActions from "../../../Redux/Actions/SetStepperActions";
-import ImportExcel_1_DnD from "./ImportExcel_1_DnD";
-import ImportExcel_2_ParseTable from "./ImportExcel_2_ParseTable";
-import ImportExcel_3_Preview from "./ImportExcel_3_Preview";
-import ImportExcel_4_Match from "./ImportExcel_4_Match";
+import ImportExcelDnD from "./ImportExcelDnD";
+import ImportExcelParseTable from "./ImportExcelParseTable";
+import ImportExcelPreview from "./ImportExcelPreview";
+import ImportExcelMatch from "./ImportExcelMatch";
+import WorkflowStepper from "./../../../../Application/Components/WorkflowStepper";
+import ContextDrawer from "../../../../Application/Components/ContextDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,10 +49,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const steps = [
-  "Import Excel Drag and Drop",
-  "Import Excel Set Header & Units",
-  "Import Excel Preview",
-  "Import Excel Header Match",
+  "Upload File",
+  "Select Worksheet",
+  "Map Headers, Units and Data",
+  "Match Headers",
+  "Match Units",
+  "Preview & Save",
 ];
 
 const {
@@ -62,44 +66,62 @@ const {
   workflowSaveAction,
 } = StepperActions;
 
-function isStepOptional(step) {
-  return step === 50;
-}
-
-function ImportExcel() {
+const ImportExcelWorkflow = () => {
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
-    dispatch(workflowInitAction("Facilities", "ImportExcel", steps));
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
   }, []);
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const activeStep = useSelector((state) => state.importReducer.activeStep);
+  const activeStep = useSelector((state) => state.workflowReducer.activeStep);
+  const { showContextDrawer } = useSelector((state) => state.layoutReducer);
+  const skipped = new Set();
+
+  const data = { steps, activeStep, skipped, errorSteps: [] };
+
+  function isStepOptional(step) {
+    return step === 50;
+  }
+
+  // const isStepFailed = (step) => {
+  //   return step === 1;
+  // };
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
 
   function renderImportStep(activeStep) {
     switch (activeStep) {
       case 0:
-        return <ImportExcel_1_DnD />;
+        return <ImportExcelDnD />;
       case 1:
-        return <ImportExcel_2_ParseTable />;
+        return <ImportExcelParseTable />;
       case 2:
-        return <ImportExcel_3_Preview />;
+        return <ImportExcelPreview />;
       case 3:
-        return <ImportExcel_4_Match />;
+        // return < ImportExcelMatch />;
+        return <h1>4th route</h1>;
+      default:
+        return <h1>No view</h1>;
     }
   }
 
   return (
     <div className={classes.root}>
       <div className={classes.maincontent}>{renderImportStep(activeStep)}</div>
+      {showContextDrawer && (
+        <ContextDrawer data={data}>
+          {(props) => <WorkflowStepper {...props} />}
+        </ContextDrawer>
+      )}
       <div className={classes.navigationbuttons}>
         <Button
           variant="contained"
           color="primary"
-          onClick={() =>
-            dispatch(workflowResetAction("Facilities", "ImportExcel"))
-          }
+          onClick={() => dispatch(workflowResetAction(0))}
           className={classes.button}
           startIcon={<RotateLeftIcon />}
         >
@@ -107,11 +129,7 @@ function ImportExcel() {
         </Button>
         <Button
           disabled={activeStep === 0}
-          onClick={() =>
-            dispatch(
-              workflowBackAction("Facilities", "ImportExcel", activeStep)
-            )
-          }
+          onClick={() => dispatch(workflowBackAction(activeStep))}
           className={classes.button}
           startIcon={<ArrowBackIosIcon />}
         >
@@ -122,9 +140,7 @@ function ImportExcel() {
             variant="contained"
             color="primary"
             onClick={() =>
-              dispatch(
-                workflowSkipAction("Facilities", "ImportExcel", activeStep)
-              )
+              dispatch(workflowSkipAction(isStepOptional, activeStep))
             }
             className={classes.button}
           >
@@ -138,7 +154,7 @@ function ImportExcel() {
             activeStep === steps
               ? dispatch(workflowSaveAction())
               : dispatch(
-                  workflowNextAction("Facilities", "ImportExcel", activeStep)
+                  workflowNextAction(skipped, isStepSkipped, activeStep, steps)
                 );
           }}
           className={classes.button}
@@ -155,6 +171,6 @@ function ImportExcel() {
       </div>
     </div>
   );
-}
+};
 
-export default ImportExcel;
+export default ImportExcelWorkflow;

@@ -195,9 +195,9 @@ function getMatchesAndScores(headerMatchObject) {
   return [dbHeaderNameMatches, dbHeaderScoreMatches];
 }
 
-const ImportExcel_4_Match = () => {
+const ImportExcelMatch = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [bestHeadermatch, setBestHeadermatch] = useState("");
   const [selectNameWithRowId, setSelectNameWithRowId] = useState("Select_0");
   const [bestScorematch, setBestScorematch] = useState(0);
@@ -637,6 +637,6 @@ const ImportExcel_4_Match = () => {
   );
 };
 
-ImportExcel_4_Match.propTypes = {};
+ImportExcelMatch.propTypes = {};
 
-export default ImportExcel_4_Match;
+export default ImportExcelMatch;

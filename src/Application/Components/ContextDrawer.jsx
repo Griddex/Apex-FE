@@ -6,7 +6,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawerContentService from "./../../Import/Services/ContextDrawerContentService";
+import Typography from "@material-ui/core/Typography";
 import {
   contextDrawerCollapseAction,
   contextDrawerExpandAction,
@@ -49,9 +49,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const ContextDrawer = () => {
+const ContextDrawer = ({ children, data }) => {
   const dispatch = useDispatch();
-  const workflowName = useSelector((state) => state.importReducer.workflowName);
+  const workflowData = useSelector((state) => state.applicationReducer);
+  const { moduleName, subModuleName, workflowName } = workflowData;
+
   const { expandContextDrawer } = useSelector((state) => state.layoutReducer);
 
   const classes = useStyles();
@@ -96,7 +98,12 @@ const ContextDrawer = () => {
           <MenuIcon />
         </IconButton>
       )}
-      {ContextDrawerContentService(workflowName)}
+      <div>
+        <Typography>{moduleName}</Typography>
+        <Typography>{subModuleName}</Typography>
+        <Typography>{workflowName}</Typography>
+      </div>
+      {children(data)}
     </Drawer>
   );
 };

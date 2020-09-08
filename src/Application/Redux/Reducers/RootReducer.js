@@ -5,6 +5,8 @@ import snackbarReducer from "./SnackbarReducer";
 import uiSpinnerReducer from "./UISpinnerReducer";
 import importReducer from "./../../../Import/Redux/Reducers/ImportReducer";
 import dialogsReducer from "./DialogsReducer";
+import workflowReducer from "./WorkflowReducer";
+import applicationReducer from "./ApplicationReducer";
 
 const rootReducer = combineReducers({
   loginReducer,
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
   uiSpinnerReducer,
   dialogsReducer,
   snackbarReducer,
+  workflowReducer,
+  applicationReducer,
   importReducer,
 });
 export default rootReducer;

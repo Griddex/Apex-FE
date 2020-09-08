@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import faker from "faker";
-import clsx from "clsx";
 import {
   AppBar,
-  Toolbar,
-  Box,
-  Badge,
   Avatar,
-  Typography,
+  Badge,
+  Box,
   Button,
+  Toolbar,
+  Typography,
 } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MenuIcon from "@material-ui/icons/Menu";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import clsx from "clsx";
+import faker from "faker";
+import PropTypes from "prop-types";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import history from "../Services/HistoryService";
 import GetInitials from "../Utils/GetInitials";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import {
-  mainDrawerExpandAction,
   mainDrawerCollapseAction,
+  mainDrawerExpandAction,
 } from "./../Redux/Actions/LayoutActions";
 
 const navbarHeight = 43;

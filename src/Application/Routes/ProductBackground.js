@@ -17,7 +17,12 @@ const ProductBackground = () => {
 
   return (
     <div className={classes.root}>
-      <img src={CompanyLogo} height={250} width={250} />
+      <img
+        src={CompanyLogo}
+        alt="Product background"
+        height={250}
+        width={250}
+      />
     </div>
   );
 };

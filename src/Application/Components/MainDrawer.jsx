@@ -15,11 +15,14 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import CompanyLogo from "../Images/CompanyLogo.svg";
-import { mainDrawerSetMenuAction } from "../Redux/Actions/LayoutActions";
+import { mainDrawerSetMenuAction } from "../Redux/Actions/ApplicationActions";
 import history from "../Services/HistoryService";
 import { makeStyles } from "@material-ui/core/styles";
+import TimelineIcon from "@material-ui/icons/Timeline";
+import BusinessOutlinedIcon from "@material-ui/icons/BusinessOutlined";
+import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => {
@@ -75,16 +78,6 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const menuTitle = (link) => {
-  const menuLinkTitle = {
-    "/apex/import": "Import",
-    "/apex/network": "Network",
-    "/apex/visualization": "Visualizations",
-    "/apex/settings": "Settings",
-  };
-  return menuLinkTitle[link];
-};
-
 const MainDrawer = () => {
   const dispatch = useDispatch();
   const layoutProps = useSelector((state) => state.layoutReducer);
@@ -92,32 +85,61 @@ const MainDrawer = () => {
   const { expandMainDrawer } = layoutProps;
 
   const [selected, setMainMenuSelected] = useState("");
+  const { url } = useRouteMatch();
 
   const handleClick = (route, e) => {
     setMainMenuSelected(route);
   };
 
-  const routes = [
-    "/apex/import",
-    "/apex/network",
-    "/apex/visualization",
-    "/apex/settings",
+  //Can replace with dynamically loaded json config file
+  //generated from license token
+  const mainDrawerData = [
+    {
+      name: "Import",
+      route: `${url}/import`,
+      icon: <ExitToAppIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+    },
+    {
+      name: "network",
+      route: `${url}/Network`,
+      icon: (
+        <AccountTreeIcon fontSize={expandMainDrawer ? "large" : "default"} />
+      ),
+    },
+    {
+      name: "Visualytics",
+      route: `${url}/visualytics`,
+      icon: <BarChartIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+    },
+    {
+      name: "DeclineCurveAnalysis",
+      route: `${url}/dca`,
+      icon: <TimelineIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+    },
+    {
+      name: "Corporate",
+      route: `${url}/corporate`,
+      icon: (
+        <BusinessOutlinedIcon
+          fontSize={expandMainDrawer ? "large" : "default"}
+        />
+      ),
+    },
+    {
+      name: "Admin",
+      route: `${url}/admin`,
+      icon: (
+        <SupervisorAccountOutlinedIcon
+          fontSize={expandMainDrawer ? "large" : "default"}
+        />
+      ),
+    },
+    {
+      name: "Settings",
+      route: `${url}/settings`,
+      icon: <TuneIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+    },
   ];
-
-  const mainDrawerIcons = {
-    "/apex/import": (
-      <ExitToAppIcon fontSize={expandMainDrawer ? "large" : "default"} />
-    ),
-    "/apex/network": (
-      <AccountTreeIcon fontSize={expandMainDrawer ? "large" : "default"} />
-    ),
-    "/apex/visualization": (
-      <BarChartIcon fontSize={expandMainDrawer ? "large" : "default"} />
-    ),
-    "/apex/settings": (
-      <TuneIcon fontSize={expandMainDrawer ? "large" : "default"} />
-    ),
-  };
 
   return (
     <Drawer
@@ -134,7 +156,7 @@ const MainDrawer = () => {
       }}
     >
       <div className={classes.companyLogoToolbar}>
-        <img src={CompanyLogo} height={24} width={24} />
+        <img src={CompanyLogo} alt="Company logo" height={24} width={24} />
       </div>
       <MenuList>
         <Grid
@@ -145,40 +167,42 @@ const MainDrawer = () => {
           justify="center"
           alignItems="center"
         >
-          {routes.map((route) => (
-            <Tooltip
-              key={route}
-              title={menuTitle(route)}
-              placement="right"
-              // interactive
-              arrow
-            >
-              <MenuItem
-                className={
-                  expandMainDrawer
-                    ? classes.menuItemBoxOpen
-                    : classes.menuItemBoxClosed
-                }
-                component={Link}
-                to={route}
-                selected={route === selected}
-                onClick={(e) => {
-                  handleClick(route, e);
-                  dispatch(mainDrawerSetMenuAction(menuTitle(route)));
-                  history.push(route);
-                }}
-                disableGutters
+          {mainDrawerData.map((drawerData) => {
+            const { name, route, icon } = drawerData;
+
+            return (
+              <Tooltip
+                key={name}
+                title={name}
+                placement="right"
+                // interactive
+                arrow
               >
-                <div className={classes.menuItemDiv}>
-                  <div>{mainDrawerIcons[route]}</div>
-                  {expandMainDrawer && (
-                    <Typography>{menuTitle(route)}</Typography>
-                  )}
-                  <Divider />
-                </div>
-              </MenuItem>
-            </Tooltip>
-          ))}
+                <MenuItem
+                  className={
+                    expandMainDrawer
+                      ? classes.menuItemBoxOpen
+                      : classes.menuItemBoxClosed
+                  }
+                  component={Link}
+                  to={route}
+                  selected={name === selected}
+                  onClick={(e) => {
+                    handleClick(name, e);
+                    dispatch(mainDrawerSetMenuAction(name));
+                    history.push(route);
+                  }}
+                  disableGutters
+                >
+                  <div className={classes.menuItemDiv}>
+                    <div>{icon}</div>
+                    {expandMainDrawer && <Typography>{name}</Typography>}
+                    <Divider />
+                  </div>
+                </MenuItem>
+              </Tooltip>
+            );
+          })}
         </Grid>
       </MenuList>
     </Drawer>

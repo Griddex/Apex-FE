@@ -12,7 +12,7 @@ const IconsService = (icon, FontSize) => {
   const icons = {
     "/apex/import": <ExitToAppIcon fontSize={FontSize} />,
     "/apex/network": <AccountTreeIcon fontSize={FontSize} />,
-    "/apex/visualization": <BarChartIcon fontSize={FontSize} />,
+    "/apex/visualytics": <BarChartIcon fontSize={FontSize} />,
     "/apex/settings": <TuneIcon fontSize={FontSize} />,
 
     "/apex/import/facilitiesdeck": <AppsIcon fontSize={FontSize} />,

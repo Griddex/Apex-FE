@@ -1,10 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
+import React from "react";
 import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,13 +20,11 @@ const useStyles = makeStyles((theme) => ({
 const WorkflowStepper = (props) => {
   const classes = useStyles();
 
-  const steps = useSelector((state) => state.importReducer.steps);
-  const activeStep = useSelector((state) => state.importReducer.activeStep);
-  const skipped = useSelector((state) => state.importReducer.skipped);
-  const errorSteps = useSelector((state) => state.importReducer.errorSteps);
   const expandContextDrawer = useSelector(
     (state) => state.layoutReducer.expandContextDrawer
   );
+
+  const { steps, activeStep, skipped, errorSteps } = props;
 
   return (
     <Stepper

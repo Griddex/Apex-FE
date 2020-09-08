@@ -17,12 +17,12 @@ function* registerSaga(action) {
   const {
     userName,
     firstName,
-    middleName,
-    lastName,
-    email,
-    mobileNumber,
-    role,
-    avatarURL,
+    // middleName,
+    // lastName,
+    // email,
+    // mobileNumber,
+    // role,
+    // avatarURL,
   } = payload;
 
   const data = {
