@@ -1,0 +1,98 @@
+export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
+export const PERSIST_FILE = "PERSIST_FILE";
+export const PERSIST_WORKSHEETNAMES = "PERSIST_WORKSHEETNAMES";
+export const PERSIST_WORKSHEET = "PERSIST_WORKSHEET";
+export const PERSIST_SELECTEDWORKSHEET = "PERSIST_SELECTEDWORKSHEET";
+export const PERSIST_WORKSHEETFORTABLE = "PERSIST_WORKSHEETFORTABLE";
+export const IMPORT_EXCEL_LOADING = "IMPORT_EXCEL_LOADING";
+export const IMPORT_EXCEL_MATCHING = "IMPORT_EXCEL_MATCHING";
+export const IMPORT_EXCELWORKSHEETNAME_SET = "IMPORT_EXCELWORKSHEETNAME_SET";
+export const IMPORT_EXCELWORKSHEETPARSE_NAVIGATE =
+  "IMPORT_EXCELWORKSHEETPARSE_NAVIGATE";
+
+export const importFileInitAction = (
+  fileLastModified,
+  filePath,
+  fileType,
+  fileName,
+  fileSize,
+  fileAuthor,
+  fileCreated,
+  fileAccepted,
+  dnDDisabled
+) => {
+  return {
+    type: IMPORTFILE_INITIALIZATION,
+    payload: {
+      fileLastModified,
+      filePath,
+      fileType,
+      fileName,
+      fileSize,
+      fileAuthor,
+      fileCreated,
+      fileAccepted,
+      dnDDisabled,
+    },
+  };
+};
+
+export const persistFileAction = (file) => {
+  return {
+    type: PERSIST_FILE,
+    payload: { file },
+  };
+};
+
+export const persistWorksheetNamesAction = (workSheetNames) => {
+  return {
+    type: PERSIST_WORKSHEETNAMES,
+    payload: { workSheetNames },
+  };
+};
+
+export const persistWorksheetAction = (
+  workSheetName,
+  selectedWorksheetData
+) => {
+  return {
+    type: PERSIST_WORKSHEET,
+    payload: { workSheetName, selectedWorksheetData },
+  };
+};
+
+export const persistSelectedWorksheetAction = (selectedWorkSheetName) => {
+  return {
+    type: PERSIST_SELECTEDWORKSHEET,
+    payload: { selectedWorkSheetName },
+  };
+};
+
+export const persistWorksheetForTableAction = (
+  selectedWorksheetDataForTable
+) => {
+  return {
+    type: PERSIST_WORKSHEETFORTABLE,
+    payload: { selectedWorksheetDataForTable },
+  };
+};
+
+export const ImportLoadingAction = () => {
+  return {
+    type: IMPORT_EXCEL_LOADING,
+    payload: { Loading: true },
+  };
+};
+export const ImportMatchingAction = (state) => {
+  return {
+    type: IMPORT_EXCEL_MATCHING,
+    payload: { Matching: state },
+  };
+};
+
+export const ImportParseTableAction = (result) => {
+  return {
+    type: IMPORT_EXCELWORKSHEETPARSE_NAVIGATE,
+    payload: { extrudeParseTable: result },
+  };
+};

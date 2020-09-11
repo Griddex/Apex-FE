@@ -14,11 +14,8 @@ const workflowReducer = (state = workflowState, action) => {
       return {
         ...state,
         steps: action.payload.steps,
-        activeStep: action.payload.activeStep,
         isStepSkipped: action.payload.isStepSkipped,
         isStepOptional: action.payload.isStepOptional,
-        skipped: action.payload.skipped,
-        errorSteps: action.payload.errorSteps,
       };
 
     case RESET_WORKFLOW:

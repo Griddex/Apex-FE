@@ -6,13 +6,9 @@ export const BACK_WORKFLOW = "BACK_WORKFLOW";
 export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 
-export const workflowInitializeAction = (
-  steps,
-  isStepOptional,
-  isStepSkipped
-) => {
+export const workflowInitAction = (steps, isStepOptional, isStepSkipped) => {
   return {
-    type: WORKFLOW_TO_STORE,
+    type: INITIALIZE_WORKFLOW,
     payload: {
       steps,
       isStepOptional,

@@ -19,9 +19,9 @@ import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { simpleDialogOpenAction } from "../../Application/Redux/Actions/LayoutActions";
 import {
-  ImportSetWorksheetDataAction,
-  ImportSetWorksheetNameAction,
-} from "../Redux/Actions/ImportAction";
+  persistWorksheetAction,
+  persistWorksheetNameAction,
+} from "../Redux/Actions/ImportActions";
 
 const useStyles = makeStyles({
   avatar: {
@@ -30,13 +30,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleDialog({ sheetNames, workflowNextAction }) {
+export default function SimpleDialog({ workSheetNames, workflowNextAction }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const open = useSelector((state) => state.layoutReducer.simpleDialogOpen);
-  const InputDeckWorkbook = useSelector(
-    (state) => state.importReducer.AcceptedFile
+  const inputDeckWorkbook = useSelector(
+    (state) => state.importReducer.acceptedFile
   );
   const moduleName = useSelector((state) => state.importReducer.moduleName);
   const perspectiveText = useSelector(
@@ -63,14 +63,14 @@ export default function SimpleDialog({ sheetNames, workflowNextAction }) {
             worksheet that contains the Facilities Deck
           </DialogContentText>
           <List>
-            {sheetNames.map((sheetName, i) => (
+            {workSheetNames.map((sheetName, i) => (
               <ListItem
                 key={i}
                 button
                 onClick={() => {
-                  dispatch(ImportSetWorksheetNameAction(sheetName));
+                  dispatch(persistWorksheetNameAction(sheetName));
 
-                  const selectedSheetData = InputDeckWorkbook.Sheets[sheetName];
+                  const selectedSheetData = inputDeckWorkbook.Sheets[sheetName];
                   const selectedSheetDataArray = xlsx.utils.sheet_to_json(
                     selectedSheetData
                   );
@@ -109,7 +109,7 @@ export default function SimpleDialog({ sheetNames, workflowNextAction }) {
 
                   const finalDataArray = [firstRowObject, ...finalArray];
 
-                  dispatch(ImportSetWorksheetDataAction(finalDataArray));
+                  dispatch(persistWorksheetAction(finalDataArray));
                   dispatch(workflowNextAction(moduleName, activeStep));
                   handleClose();
                 }}

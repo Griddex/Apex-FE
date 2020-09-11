@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     background: theme.palette.primary.main,
     margin: "20px",
-    width: 150,
+    width: 250,
+    height: 50,
   },
 }));
 

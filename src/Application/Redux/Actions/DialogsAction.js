@@ -1,3 +1,5 @@
+import { checkPropTypes } from "prop-types";
+
 export const PERSIST_STORE = "PERSIST_STORE";
 export const SHOW_DIALOG = "SHOW_DIALOG";
 export const HIDE_DIALOG = "HIDE_DIALOG";
@@ -13,29 +15,12 @@ export const persistToStoreAction = (name, value) => {
   };
 };
 
-export const showDialogAction = (
-  name,
-  show,
-  maxwidth,
-  icon,
-  title,
-  content,
-  actions,
-  handleHide,
-  exclusive
-) => {
+export const showDialogAction = (args, exclusive) => {
   return {
     type: SHOW_DIALOG,
     payload: {
       dialogData: {
-        name,
-        show,
-        maxwidth,
-        icon,
-        title,
-        content,
-        actions,
-        handleHide,
+        ...args,
       },
     },
     meta: { exclusive },

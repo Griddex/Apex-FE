@@ -1,22 +1,19 @@
 import { makeStyles } from "@material-ui/core/styles";
+import AppsIcon from "@material-ui/icons/Apps";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import BubbleChartIcon from "@material-ui/icons/BubbleChart";
+import LandscapeIcon from "@material-ui/icons/Landscape";
 import clsx from "clsx";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
+import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import ContextDrawer from "./../../../Application/Components/ContextDrawer";
-import Loading from "./../../../Application/Components/Loading";
 import SubNavbar from "../../../Application/Components/SubNavbar";
+import Loading from "./../../../Application/Components/Loading";
 import ImportEconomicsLanding from "./../EconomicsData/ImportEconomicsLanding";
 import ImportFacilitiesLanding from "./../FacilitiesDeck/ImportFacilitiesLanding";
 import ImportForecastLanding from "./../ForecastDeck/ImportForecastLanding";
 import ConnectProductionLanding from "./../ProductionData/ConnectProductionLanding";
 import ImportBackground from "./ImportBackground";
-import { useDispatch, useSelector } from "react-redux";
-import WorkflowStepper from "./../../../Application/Components/WorkflowStepper";
-import AppsIcon from "@material-ui/icons/Apps";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import BubbleChartIcon from "@material-ui/icons/BubbleChart";
-import LandscapeIcon from "@material-ui/icons/Landscape";
-import { subNavbarSetDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -37,11 +34,9 @@ const useStyles = makeStyles((theme) => {
 
 const ImportLayout = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { path, url } = useRouteMatch();
   const layoutProps = useSelector((state) => state.layoutReducer);
-  const workflowStepperProps = useSelector((state) => state.workflowReducer);
-  const { showContextDrawer, showSubNavbar } = layoutProps;
+  const { showSubNavbar } = layoutProps;
 
   const subNavbarData = [
     {
@@ -66,9 +61,9 @@ const ImportLayout = () => {
     },
   ];
 
-  useEffect(() => {
-    dispatch(subNavbarSetDataAction(subNavbarData));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(subNavbarSetDataAction(subNavbarData));
+  // }, []);
 
   return (
     <main className={classes.importLayoutRoot}>

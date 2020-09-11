@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     "& > *": {
       margin: theme.spacing(3),
-      height: 466,
-      width: 304,
+      height: 370,
+      width: 240,
     },
   },
   ImportWorkflow: {

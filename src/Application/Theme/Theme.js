@@ -28,7 +28,7 @@ theme.props = {
 theme.overrides = {
   MuiButton: {
     root: {
-      borderRadius: 5,
+      borderRadius: 2,
       textTransform: "none",
       height: 36,
     },

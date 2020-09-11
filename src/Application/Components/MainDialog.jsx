@@ -38,12 +38,12 @@ const useDialogContentStyles = makeStyles((theme) => ({
 }));
 
 const DialogTitle = withStyles(dialogTitleStyles)((props) => {
-  const { Icon, children, classes, onClose, ...other } = props;
+  const { icon, children, classes, onClose, ...other } = props;
 
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
-        <div className={classes.mainIcon}>{Icon}</div>
+        <div className={classes.mainIcon}>{icon}</div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
         </div>
@@ -81,11 +81,11 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function MainDialog({
-  Open,
-  Icon,
-  Title,
-  Content,
-  Actions,
+  open,
+  icon,
+  title,
+  content,
+  actions,
   handleHide,
   maxWidth,
 }) {
@@ -94,25 +94,29 @@ export default function MainDialog({
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
-      open={Open}
+      open={open}
       maxWidth={maxWidth}
       fullWidth
     >
       <DialogTitle
         id="customized-dialog-title"
         onClose={handleHide}
-        Icon={Icon}
+        icon={icon}
       >
-        {Title}
+        {title}
       </DialogTitle>
       <div>
         <DialogContent dividers>
           <div className={classes.leftIndent}></div>
-          <div className={classes.dialogContent}>{Content}</div>
+          <div className={classes.dialogContent}>
+            {content === "function" ? content() : content}
+          </div>
           <Divider />
         </DialogContent>
       </div>
-      <DialogActions>{Actions}</DialogActions>
+      <DialogActions>
+        {actions === "function" ? actions() : actions}
+      </DialogActions>
     </Dialog>
   );
 }

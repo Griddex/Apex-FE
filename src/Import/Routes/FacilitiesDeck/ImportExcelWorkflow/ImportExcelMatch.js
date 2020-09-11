@@ -213,11 +213,11 @@ const ImportExcelMatch = () => {
     { Select_0: "" }
   );
   const Matching = useSelector((state) => state.importReducer.Matching);
-  const InputDeckWorkbook = useSelector(
-    (state) => state.importReducer.AcceptedFile
+  const inputDeckWorkbook = useSelector(
+    (state) => state.importReducer.acceptedFile
   );
   const InputDeckSheetName = useSelector(
-    (state) => state.importReducer.SelectedWorksheetName
+    (state) => state.importReducer.selectedWorksheetName
   );
 
   const fileHeaderRow = getHeadCells();
@@ -303,7 +303,7 @@ const ImportExcelMatch = () => {
   const generateAllDataRows = () => {
     const databaseHeaders = getDatabaseHeaders();
 
-    const selectedSheet = InputDeckWorkbook.Sheets[InputDeckSheetName];
+    const selectedSheet = inputDeckWorkbook.Sheets[InputDeckSheetName];
     const sheetData = xlsx.utils.sheet_to_json(selectedSheet, { header: 1 });
     const fileHeaderArray = sheetData[0];
 

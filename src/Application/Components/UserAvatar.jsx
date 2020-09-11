@@ -43,8 +43,8 @@ const UserAvatar = () => {
   return (
     <Dropzone
       accept="image/*"
-      onDropAccepted={(AcceptedFile) => {
-        const avatarImage = AcceptedFile[0];
+      onDropAccepted={(acceptedFile) => {
+        const avatarImage = acceptedFile[0];
         const avatarUrl = URL.createObjectURL(avatarImage);
         dispatch(persistAvatarToReduxAction(avatarUrl));
       }}

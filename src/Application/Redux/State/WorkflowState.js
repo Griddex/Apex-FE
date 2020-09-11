@@ -9,3 +9,5 @@ const workflowState = {
   IsStepFailed: null,
   IsStepSkipped: null,
 };
+
+export default workflowState;

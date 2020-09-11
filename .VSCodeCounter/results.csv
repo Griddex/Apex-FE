@@ -1,4 +1,4 @@
-"filename", "language", "Markdown", "JSON", "HTML", "CSS", "JavaScript", "XML", "JavaScript React", "comment", "blank", "total"
+"fileName", "language", "Markdown", "JSON", "HTML", "CSS", "JavaScript", "XML", "JavaScript React", "comment", "blank", "total"
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\README.md", "Markdown", 37, 0, 0, 0, 0, 0, 0, 0, 32, 69
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\package-lock.json", "JSON", 0, 18761, 0, 0, 0, 0, 0, 0, 1, 18762
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\package.json", "JSON", 0, 53, 0, 0, 0, 0, 0, 0, 1, 54
@@ -49,7 +49,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\ImportDatabase.svg", "XML", 0, 0, 0, 0, 0, 52, 0, 1, 2, 55
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\MSExcel.svg", "XML", 0, 0, 0, 0, 0, 7, 0, 0, 0, 7
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\Notepad.svg", "XML", 0, 0, 0, 0, 0, 50, 0, 1, 1, 52
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\ImportAction.js", "JavaScript", 0, 0, 0, 0, 28, 0, 0, 0, 2, 30
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\ImportActions.js", "JavaScript", 0, 0, 0, 0, 28, 0, 0, 0, 2, 30
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\SetStepperActions.js", "JavaScript", 0, 0, 0, 0, 62, 0, 0, 0, 2, 64
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Reducers\ImportReducer.js", "JavaScript", 0, 0, 0, 0, 90, 0, 0, 2, 9, 101
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\ImportState.js", "JavaScript", 0, 0, 0, 0, 16, 0, 0, 0, 4, 20

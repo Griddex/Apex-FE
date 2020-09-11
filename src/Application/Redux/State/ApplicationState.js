@@ -5,3 +5,5 @@ const applicationState = {
 
   subNavbarData: [],
 };
+
+export default applicationState;

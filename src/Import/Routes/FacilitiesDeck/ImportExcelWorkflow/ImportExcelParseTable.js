@@ -152,7 +152,7 @@ export default function ImportExcelParseTable() {
   // const dispatch = );
 
   const sheetDataArray = useSelector(
-    (state) => state.importReducer.SelectedWorksheetData
+    (state) => state.importReducer.selectedWorksheetData
   );
   const noOfRows = sheetDataArray.length;
 
@@ -443,11 +443,6 @@ export default function ImportExcelParseTable() {
   const _onRowClick = ({ rowData, index, event }) =>
     localDispatch({ type: "setCurrentRowIndex", payload: index });
 
-  const _cellDataGetter = ({ columnData, dataKey, rowData }) => {
-    if (rowData === undefined) return;
-    return rowData[dataKey];
-  };
-
   const _resizeRow = ({ dataKey, deltaX }) => {
     const { columnWidthsArrayfinal, tableKeysArray } = tableMetaData;
     const index = tableKeysArray.indexOf(dataKey);
@@ -497,6 +492,11 @@ export default function ImportExcelParseTable() {
     );
   };
 
+  const _cellDataGetter = ({ columnData, dataKey, rowData }) => {
+    if (rowData === undefined) return;
+    return rowData[dataKey];
+  };
+
   //Reset sorted table
   const {
     currentRowIndex,
@@ -518,16 +518,14 @@ export default function ImportExcelParseTable() {
   return (
     <div className={classes.root}>
       <div className={classes.tableHeadBanner}>
-        <div>
-          <Typography
-            className={classes.tableTitle}
-            variant="overline"
-            display="block"
-            gutterBottom
-          >
-            FACILITIES DECK: SELECT HEADER AND UNITS ROW
-          </Typography>
-        </div>
+        <Typography
+          className={classes.tableTitle}
+          variant="overline"
+          display="block"
+          gutterBottom
+        >
+          FACILITIES DECK: SELECT HEADER AND UNITS ROW
+        </Typography>
         <div className={classes.tableFunctions}>
           <div className={classes.tableSearch}>
             <FormControl variant="outlined">
