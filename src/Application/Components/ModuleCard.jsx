@@ -13,13 +13,16 @@ const cardWidth = 250;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     textAlign: "center",
-    flexDirection: "column",
     width: cardWidth,
     height: cardWidth * 1.3,
   },
   cardActionArea: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     height: "60%",
     width: "100%",
     cursor: "pointer ",

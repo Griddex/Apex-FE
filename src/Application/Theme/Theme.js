@@ -7,6 +7,9 @@ const theme = createMuiTheme({
     primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
     secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
   },
+  typography: {
+    fontFamily: ['"Quicksand"', "sans-serif"].join(","),
+  },
 });
 
 theme.props = {
@@ -26,6 +29,11 @@ theme.props = {
 };
 
 theme.overrides = {
+  MuiCssBaseline: {
+    "@global": {
+      "@font-face": ["quicksand"],
+    },
+  },
   MuiButton: {
     root: {
       borderRadius: 2,
@@ -42,11 +50,11 @@ theme.overrides = {
       },
     },
     outlinedPrimary: {
-      borderWidth: 1.5,
+      borderWidth: 3,
       backgroundColor: theme.palette.primary.light,
       "&:hover": {
-        backgroundColor: theme.palette.primary.dark,
-        borderColor: theme.palette.primary.dark,
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
         color: "#FFF",
         fontWeight: 700,
       },

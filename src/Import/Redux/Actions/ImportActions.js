@@ -4,6 +4,8 @@ export const PERSIST_WORKSHEETNAMES = "PERSIST_WORKSHEETNAMES";
 export const PERSIST_WORKSHEET = "PERSIST_WORKSHEET";
 export const PERSIST_SELECTEDWORKSHEET = "PERSIST_SELECTEDWORKSHEET";
 export const PERSIST_WORKSHEETFORTABLE = "PERSIST_WORKSHEETFORTABLE";
+export const PERSIST_FILEHEADERS = "PERSIST_FILEHEADERS";
+export const PERSIST_TABLEROWSROLES = "PERSIST_TABLEROWSROLES";
 export const IMPORT_EXCEL_LOADING = "IMPORT_EXCEL_LOADING";
 export const IMPORT_EXCEL_MATCHING = "IMPORT_EXCEL_MATCHING";
 export const IMPORT_EXCELWORKSHEETNAME_SET = "IMPORT_EXCELWORKSHEETNAME_SET";
@@ -61,10 +63,10 @@ export const persistWorksheetAction = (
   };
 };
 
-export const persistSelectedWorksheetAction = (selectedWorkSheetName) => {
+export const persistSelectedWorksheetAction = (selectedWorksheetName) => {
   return {
     type: PERSIST_SELECTEDWORKSHEET,
-    payload: { selectedWorkSheetName },
+    payload: { selectedWorksheetName },
   };
 };
 
@@ -74,6 +76,20 @@ export const persistWorksheetForTableAction = (
   return {
     type: PERSIST_WORKSHEETFORTABLE,
     payload: { selectedWorksheetDataForTable },
+  };
+};
+
+export const persistFileHeadersAction = (fileHeaders) => {
+  return {
+    type: PERSIST_FILEHEADERS,
+    payload: { fileHeaders },
+  };
+};
+
+export const persistTableRowsRolesAction = (tableRowsRoles) => {
+  return {
+    type: PERSIST_TABLEROWSROLES,
+    payload: { tableRowsRoles },
   };
 };
 

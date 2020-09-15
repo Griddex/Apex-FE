@@ -1,17 +1,17 @@
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import TextField from "@material-ui/core/TextField";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import FileIconService from "./../../../Services/FileIconService";
-import { persistSelectedWorksheetAction } from "./../../../Redux/Actions/ImportActions";
-import Progress from "react-circle-progress-bar_no-css";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
+import React from "react";
+import Progress from "react-circle-progress-bar_no-css";
+import { useSelector } from "react-redux";
 import sizeConversions from "./../../../../Application/Utils/SizeConversions";
+import { persistSelectedWorksheetAction } from "./../../../Redux/Actions/ImportActions";
+import FileIconService from "./../../../Services/FileIconService";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ImportExcelSelectWorksheet = (props) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const importData = useSelector((state) => state.importReducer);
 
@@ -83,10 +82,7 @@ const ImportExcelSelectWorksheet = (props) => {
     fileAuthor,
     fileCreated,
   } = importData;
-  console.log(
-    "Logged output -->: ImportExcelSelectWorksheet -> fileSize",
-    fileSize
-  );
+
   const workSheetNames = useSelector(
     (state) => state.importReducer.workSheetNames
   );
@@ -97,7 +93,7 @@ const ImportExcelSelectWorksheet = (props) => {
   const [worksheetName, setWorksheetName] = React.useState(
     selectedWorksheetName
   );
-  const handleChange = (event) => {
+  const handleSelectChange = (event) => {
     setWorksheetName(event.target.value);
     persistSelectedWorksheetAction(event.target.value);
   };
@@ -119,7 +115,7 @@ const ImportExcelSelectWorksheet = (props) => {
         select
         label=""
         value={worksheetName}
-        onChange={handleChange}
+        onChange={handleSelectChange}
         variant="outlined"
       >
         {workSheetNames.map((worksheetName) => (
@@ -160,7 +156,8 @@ const ImportExcelSelectWorksheet = (props) => {
         <AnalyticsComp title="File Name" content={fileName} />
         <AnalyticsComp title="Select Worksheet" content={<SelectWorksheet />} />
       </div>
-      <Divider />
+      {/* <Divider /> why doesn't show? */}
+      <hr />
       <div className={classes.fileContent}>
         <Grid container spacing={3}>
           <Grid item container xs={12} sm={4}>

@@ -5,6 +5,8 @@ import {
   PERSIST_WORKSHEET,
   PERSIST_SELECTEDWORKSHEET,
   PERSIST_WORKSHEETFORTABLE,
+  PERSIST_FILEHEADERS,
+  PERSIST_TABLEROWSROLES,
   IMPORT_EXCEL_LOADING,
   IMPORT_EXCEL_MATCHING,
   IMPORT_EXCELWORKSHEETNAME_SET,
@@ -14,8 +16,6 @@ import {
 import importState from "./../State/ImportState";
 
 const importReducer = (state = importState, action) => {
-  const { skipped, /*errorSteps,*/ OptionalSteps } = state;
-
   switch (action.type) {
     case IMPORTFILE_INITIALIZATION:
       return { ...state, ...action.payload };
@@ -30,6 +30,12 @@ const importReducer = (state = importState, action) => {
       return { ...state, ...action.payload };
 
     case PERSIST_SELECTEDWORKSHEET:
+      return { ...state, ...action.payload };
+
+    case PERSIST_FILEHEADERS:
+      return { ...state, ...action.payload };
+
+    case PERSIST_TABLEROWSROLES:
       return { ...state, ...action.payload };
 
     case PERSIST_WORKSHEETFORTABLE:

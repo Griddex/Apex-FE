@@ -22,6 +22,9 @@ const importState = {
 
   message: "",
   errors: [],
+
+  fileHeaders: [],
+  tableRowsRoles: [],
 };
 
 export default importState;

@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     border: "1px dashed #707070",
     backgroundColor: "#F7F7F7",
+    borderRadius: 10,
     height: "100%",
     width: "100%",
   },
@@ -206,6 +207,7 @@ const ImportExcelDnD = () => {
           reader.onload = () => {
             const fileData = new Uint8Array(reader.result);
             const inputDeckWorkbook = xlsx.read(fileData, { type: "array" });
+
             //dispatch(persistFileAction(inputDeckWorkbook)); //why persist entire file?
             const {
               Author: fileAuthor,
@@ -240,6 +242,7 @@ const ImportExcelDnD = () => {
                 actions: () => SelectWorksheetDialogActions(),
                 handleHide: hideDialogAction,
               };
+
               dispatch(showDialogAction(dialogParameters, false));
             } else {
               const workSheetName = workSheetNames && workSheetNames[0];
@@ -248,10 +251,7 @@ const ImportExcelDnD = () => {
               const selectedWorksheetData = xlsx.utils.sheet_to_json(
                 selectedWorksheetDataInitialState
               );
-              console.log(
-                "Logged output -->: reader.onload -> selectedWorksheetData",
-                selectedWorksheetData
-              );
+
               dispatch(persistSelectedWorksheetAction(workSheetName));
               dispatch(
                 persistWorksheetAction(workSheetName, selectedWorksheetData)

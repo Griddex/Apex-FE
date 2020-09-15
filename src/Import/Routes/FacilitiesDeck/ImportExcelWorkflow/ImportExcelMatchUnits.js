@@ -1,10 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import ApexTable from "./../../../../Application/Components/ApexTable";
-import RowActions from "./../../../../Application/Components/RowActions";
-import Roles from "./../../../../Application/Components/Roles";
-// import { persistTableRowsRolesAction } from "./../../../Redux/Actions/ImportActions";
+import { useSelector } from "react-redux";
+import ApexTable from "../../../../Application/Components/ApexTable";
+import RowActions from "../../../../Application/Components/RowActions";
+import Roles from "../../../../Application/Components/Roles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,9 +16,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ImportExcelParseTable() {
+export default function ImportExcelMatchUnits() {
   const classes = useStyles();
-  // const dispatch = useDispatch();
 
   const handleEditAction = (e) => {
     e.persist();
@@ -37,6 +35,7 @@ export default function ImportExcelParseTable() {
   const rawTableData = useSelector(
     (state) => state.importReducer.selectedWorksheetData
   );
+
   const addedColumnsHeaders = ["ACTIONS", "ROLES"];
   const addedColumns = {
     ACTIONS: () => <RowActions />,
@@ -51,10 +50,9 @@ export default function ImportExcelParseTable() {
     // handleDeleteAction: () => handleDeleteAction(),
     // handlePickAction: () => handlePickAction(),
   };
-
   const rolesColumnProps = {
-    roles: ["#22BE34", "#DA1B57", "#2BB4C1", "#969498"],
-    texts: ["Headers", "Units", "Data", "-"],
+    roles: ["#22BE34", "#2BB4C1", "#969498"],
+    texts: ["Headers", "Data", "-"],
   };
 
   return (

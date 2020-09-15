@@ -21,6 +21,8 @@ import WorkflowStepper from "./../../../../Application/Components/WorkflowSteppe
 import ImportExcelDnD from "./ImportExcelDnD";
 import ImportExcelParseTable from "./ImportExcelParseTable";
 import ImportExcelPreview from "./ImportExcelPreview";
+import ImportExcelMatchHeaders from "./ImportExcelMatchHeaders";
+import ImportExcelMatchUnits from "./ImportExcelMatchUnits";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import ImportExcelSelectWorksheet from "./ImportExcelSelectWorksheet";
@@ -63,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     height: "95%",
     alignItems: "center",
-    justifyContent: "space-evenly", //around, between
+    justifyContent: "center", //around, between
+    // justifyContent: "space-evenly", //around, between
   },
   navigationbuttons: {
     display: "flex",
@@ -121,8 +124,13 @@ const ImportExcelWorkflow = () => {
       case 3:
         return <ImportExcelPreview />;
       case 4:
+        return <ImportExcelMatchHeaders />;
+      case 5:
+        // return <ImportExcelMatchUnits />;
+        return <h1>5th route</h1>;
+      case 6:
         // return < ImportExcelMatch />;
-        return <h1>4th route</h1>;
+        return <h1>6th route</h1>;
       default:
         return <h1>No view</h1>;
     }

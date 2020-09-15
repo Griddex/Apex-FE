@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
@@ -42,7 +41,6 @@ const Layout = (reduxProps) => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>

@@ -11,7 +11,6 @@ import ModuleCard from "./../../../Application/Components/ModuleCard";
 import ImportExcelWorkflow from "./ImportExcelWorkflow/ImportExcelWorkflow";
 
 const useStyles = makeStyles((theme) => ({
-  image: { height: "100px", width: "100px" },
   ImportFacilitiesLanding: {
     display: "flex",
     flexGrow: 1,
@@ -31,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  image: { height: 70, width: 70 },
 }));
 
 const ImportFacilitiesLanding = (props) => {
