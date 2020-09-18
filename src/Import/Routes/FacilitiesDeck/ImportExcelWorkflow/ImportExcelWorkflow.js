@@ -41,29 +41,32 @@ const useStyles = makeStyles((theme) => ({
   workflowHeaderRow: {
     display: "flex",
     justifyContent: "flex-start",
-    alignItems: "flex-end",
+    alignItems: "center",
     height: "5%",
+    margin: 0,
+    "& > *": { height: "60%" },
   },
   workflowBanner: {
     display: "flex",
     justifyContent: "center",
     width: 54,
-    height: 20,
+    margin: 0,
     backgroundColor: theme.palette.primary.main,
-    borderRadius: theme.spacing(0, 0, 1, 1),
+    borderRadius: theme.spacing(0, 0.5, 0.5, 0),
     // borderRadius: theme.spacing(0),
-    marginLeft: 6,
-    boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    // boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    "& > *": { fontWeight: "bold" },
   },
   workflowBannerHeader: {
     display: "flex",
     flexGrow: 1,
     marginLeft: 6,
+    "& > *": { fontWeight: "bold" },
   },
   workflowBody: {
     display: "flex",
     flexDirection: "column",
-    height: "95%",
+    height: "90%",
     alignItems: "center",
     justifyContent: "center", //around, between
     // justifyContent: "space-evenly", //around, between
@@ -72,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     width: "100%",
+    "& > *": { border: `2px solid` },
   },
   instructions: {
     marginTop: theme.spacing(1),
@@ -122,13 +126,11 @@ const ImportExcelWorkflow = () => {
       case 2:
         return <ImportExcelParseTable />;
       case 3:
-        return <ImportExcelPreview />;
-      case 4:
         return <ImportExcelMatchHeaders />;
-      case 5:
+      case 4:
         // return <ImportExcelMatchUnits />;
         return <h1>5th route</h1>;
-      case 6:
+      case 5:
         // return < ImportExcelMatch />;
         return <h1>6th route</h1>;
       default:
@@ -138,22 +140,17 @@ const ImportExcelWorkflow = () => {
 
   return (
     <div className={classes.root}>
-      <Container
-        className={classes.workflowHeaderRow}
-        maxWidth="md"
-        fixed
-        disableGutters
-      >
+      <Container className={classes.workflowHeaderRow} fixed disableGutters>
         <Box className={classes.workflowBanner}>
-          <Typography variant="subtitle2">{`${activeStep + 1}/${
+          <Typography variant="subtitle1">{`${activeStep + 1}/${
             steps.length
           }`}</Typography>
         </Box>
         <Box className={classes.workflowBannerHeader}>
-          <Typography variant="subtitle2">{`${moduleName} `}</Typography>
-          <Typography variant="subtitle2">{` > ${subModuleName}`}</Typography>
-          <Typography variant="subtitle2" color="primary">
-            {` > ${workflowName}`}
+          <Typography variant="subtitle1">{`${moduleName} `}</Typography>
+          <Typography variant="subtitle1">{` | ${subModuleName}`}</Typography>
+          <Typography variant="subtitle1" color="primary">
+            {` | ${workflowName}`}
           </Typography>
         </Box>
       </Container>
@@ -165,8 +162,8 @@ const ImportExcelWorkflow = () => {
       )}
       <div className={classes.navigationbuttons}>
         <Button
-          variant="contained"
-          color="primary"
+          variant="outlined"
+          color="secondary"
           onClick={() => dispatch(workflowResetAction(0))}
           className={classes.button}
           startIcon={<RotateLeftIcon />}
@@ -174,6 +171,7 @@ const ImportExcelWorkflow = () => {
           Reset
         </Button>
         <Button
+          variant="outlined"
           disabled={activeStep === 0}
           onClick={() => dispatch(workflowBackAction(activeStep))}
           className={classes.button}

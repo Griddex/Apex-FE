@@ -27,16 +27,21 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-evenly",
-    height: "75%",
-    width: "80%",
+    justifyContent: "space-between",
+    height: "65%",
+    width: "100%",
     // borderBottom: "1px solid #969498",
+    padding: 20,
   },
   fileContent: {
     display: "flex",
     justifyContent: "space-between",
-    height: "25%",
-    width: "80%",
+    height: "35%",
+    width: "100%",
+    padding: 20,
+  },
+  divider: {
+    margin: 20,
   },
   selectWorksheet: {
     height: 55,
@@ -142,7 +147,7 @@ const ImportExcelSelectWorksheet = (props) => {
   };
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
-      <div className={classes.fileHeader}>
+      <Grid container spacing={3} className={classes.fileHeader}>
         <AnalyticsComp
           title="File Type"
           content={
@@ -155,50 +160,47 @@ const ImportExcelSelectWorksheet = (props) => {
         />
         <AnalyticsComp title="File Name" content={fileName} />
         <AnalyticsComp title="Select Worksheet" content={<SelectWorksheet />} />
-      </div>
-      {/* <Divider /> why doesn't show? */}
-      <hr />
-      <div className={classes.fileContent}>
-        <Grid container spacing={3}>
-          <Grid item container xs={12} sm={4}>
-            <Grid item xs>
-              <AnalyticsComp
-                title="File Size"
-                content={<FileSizeProgressCircle />}
-              />
-            </Grid>
-            <Grid item container direction="column" alignItems="flex-start" xs>
-              <Grid item xs>
-                <StorageOutlinedIcon />
-              </Grid>
-              <Grid item xs>
-                <Typography variant="subtitle2">
-                  {`${sizeConversions(fileSize, "MB")} of 10MB`}
-                </Typography>
-              </Grid>
-            </Grid>
+      </Grid>
+      <Divider className={classes.divider} />
+      <Grid container spacing={3} className={classes.fileContent}>
+        <Grid item container xs={12} sm={4}>
+          <Grid item xs>
+            <AnalyticsComp
+              title="File Size"
+              content={<FileSizeProgressCircle />}
+            />
           </Grid>
-          <Grid item container direction="column" xs={12} sm={8}>
+          <Grid item container direction="column" alignItems="flex-start" xs>
             <Grid item xs>
-              <AnalyticsComp title="File Author" content={fileAuthor} />
+              <StorageOutlinedIcon />
             </Grid>
-            <Grid item container xs>
-              <Grid item xs>
-                <AnalyticsComp
-                  title="File Created"
-                  content={fileCreated.toString()}
-                />
-              </Grid>
-              <Grid item xs>
-                <AnalyticsComp
-                  title="File Last Modified"
-                  content={fileLastModified.toString()}
-                />
-              </Grid>
+            <Grid item xs>
+              <Typography variant="subtitle2">
+                {`${sizeConversions(fileSize, "MB")} of 10MB`}
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
-      </div>
+        <Grid item container direction="column" xs={12} sm={8}>
+          <Grid item xs>
+            <AnalyticsComp title="File Author" content={fileAuthor} />
+          </Grid>
+          <Grid item container xs>
+            <Grid item xs>
+              <AnalyticsComp
+                title="File Created"
+                content={fileCreated.toString()}
+              />
+            </Grid>
+            <Grid item xs>
+              <AnalyticsComp
+                title="File Last Modified"
+                content={fileLastModified.toString()}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

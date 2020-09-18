@@ -5,7 +5,13 @@ export const PERSIST_WORKSHEET = "PERSIST_WORKSHEET";
 export const PERSIST_SELECTEDWORKSHEET = "PERSIST_SELECTEDWORKSHEET";
 export const PERSIST_WORKSHEETFORTABLE = "PERSIST_WORKSHEETFORTABLE";
 export const PERSIST_FILEHEADERS = "PERSIST_FILEHEADERS";
+export const PERSIST_SELECTEDHEADERROWINDEX = "PERSIST_SELECTEDHEADERROWINDEX";
+export const PERSIST_SELECTEDHEADEROPTIONINDEX =
+  "PERSIST_SELECTEDHEADEROPTIONINDEX";
+export const PERSIST_FILEHEADERSMATCH = "PERSIST_FILEHEADERSMATCH";
+export const PERSIST_FILEUNITS = "PERSIST_FILEUNITS";
 export const PERSIST_TABLEROWSROLES = "PERSIST_TABLEROWSROLES";
+export const PERSIST_TABLEDATA = "PERSIST_TABLEDATA";
 export const IMPORT_EXCEL_LOADING = "IMPORT_EXCEL_LOADING";
 export const IMPORT_EXCEL_MATCHING = "IMPORT_EXCEL_MATCHING";
 export const IMPORT_EXCELWORKSHEETNAME_SET = "IMPORT_EXCELWORKSHEETNAME_SET";
@@ -86,10 +92,47 @@ export const persistFileHeadersAction = (fileHeaders) => {
   };
 };
 
-export const persistTableRowsRolesAction = (tableRowsRoles) => {
+export const persistFileHeadersMatchAction = (fileHeadersMatch) => {
+  return {
+    type: PERSIST_FILEHEADERSMATCH,
+    payload: { fileHeadersMatch },
+  };
+};
+
+export const persistSelectedHeaderRowIndexAction = (selectedHeaderRowIndex) => {
+  return {
+    type: PERSIST_SELECTEDHEADERROWINDEX,
+    payload: { selectedHeaderRowIndex },
+  };
+};
+
+export const persistSelectedHeaderOptionIndexAction = (
+  selectedHeaderOptionIndex
+) => {
+  return {
+    type: PERSIST_SELECTEDHEADEROPTIONINDEX,
+    payload: { selectedHeaderOptionIndex },
+  };
+};
+
+export const persistFileUnitsAction = (fileUnits) => {
+  return {
+    type: PERSIST_FILEUNITS,
+    payload: { fileUnits },
+  };
+};
+
+export const persistTableRolesAction = (tableRoles) => {
   return {
     type: PERSIST_TABLEROWSROLES,
-    payload: { tableRowsRoles },
+    payload: { tableRoles },
+  };
+};
+
+export const persistTableDataAction = (tableData) => {
+  return {
+    type: PERSIST_TABLEDATA,
+    payload: { tableData },
   };
 };
 

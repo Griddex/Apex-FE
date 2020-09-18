@@ -1,25 +1,25 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import ApexTable from "./../../../../Application/Components/ApexTable";
-import RowActions from "./../../../../Application/Components/RowActions";
 import Roles from "./../../../../Application/Components/Roles";
-// import { persistTableRowsRolesAction } from "./../../../Redux/Actions/ImportActions";
+import RowActions from "./../../../../Application/Components/RowActions";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  rootParseTable: {
     display: "flex",
     flexDirection: "column",
     width: "98%",
     height: "95%",
-    border: "1px solid #707070",
+    // border: "1px solid #707070",
+    border: "1px solid #A8A8A8",
     backgroundColor: "#FFF",
+    padding: 20,
   },
 }));
 
 export default function ImportExcelParseTable() {
   const classes = useStyles();
-  // const dispatch = useDispatch();
 
   const handleEditAction = (e) => {
     e.persist();
@@ -37,29 +37,28 @@ export default function ImportExcelParseTable() {
   const rawTableData = useSelector(
     (state) => state.importReducer.selectedWorksheetData
   );
+
   const addedColumnsHeaders = ["ACTIONS", "ROLES"];
   const addedColumns = {
     ACTIONS: () => <RowActions />,
     ROLES: () => <Roles />,
   };
-  const addedColumnsWidths = 100;
+  const addedColumnsWidths = [100, 100];
   const actionsColumnProps = {
     handleEditAction: handleEditAction,
     handleDeleteAction: handleDeleteAction,
     handlePickAction: handlePickAction,
-    // handleEditAction: () => handleEditAction(),
-    // handleDeleteAction: () => handleDeleteAction(),
-    // handlePickAction: () => handlePickAction(),
   };
-
   const rolesColumnProps = {
     roles: ["#22BE34", "#DA1B57", "#2BB4C1", "#969498"],
     texts: ["Headers", "Units", "Data", "-"],
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.rootParseTable}>
       <ApexTable
+        useInterimHeaders={true}
+        useCalculatedWidths={true}
         rawTableData={rawTableData}
         addedColumnsHeaders={addedColumnsHeaders}
         addedColumns={addedColumns}

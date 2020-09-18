@@ -36,22 +36,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     height: "95%",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     border: "1px solid #707070",
     backgroundColor: "#FFF",
   },
-  workflowButton: { width: 233, height: 50 },
+  workflowButton: { width: 200, height: 50 },
   dndSection: {
     display: "flex",
     flexDirection: "column",
-    height: "62%",
-    width: "65%",
+    height: "80%",
+    width: "80%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     cursor: "pointer",
   },
   dndInput: {
-    height: "100%",
+    height: "80%",
     width: "100%",
   },
   dndArea: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     border: "1px dashed #707070",
     backgroundColor: "#F7F7F7",
-    borderRadius: 10,
+    borderRadius: 2,
     height: "100%",
     width: "100%",
   },
@@ -281,17 +281,18 @@ const ImportExcelDnD = () => {
                   <p>Drag and Drop a file here or Browse a file to upload</p>
                 </div>
               </div>
+              <Button
+                className={classes.workflowButton}
+                color="primary"
+                variant="contained"
+                {...getRootProps()}
+              >
+                Select File
+              </Button>
             </section>
           );
         }}
       </Dropzone>
-      <Button
-        className={classes.workflowButton}
-        color="primary"
-        variant="contained"
-      >
-        Select File
-      </Button>
     </Container>
   );
 };

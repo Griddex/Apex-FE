@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,8 +17,9 @@ import Pagination from "@material-ui/lab/Pagination";
 import orderBy from "lodash.orderby";
 import zip from "lodash.zip";
 import zipobject from "lodash.zipobject";
-import React, { useReducer, useRef } from "react";
+import React from "react";
 import Draggable from "react-draggable";
+import { useDispatch } from "react-redux";
 import {
   AutoSizer,
   Column,
@@ -29,9 +30,9 @@ import {
 import "react-virtualized/styles.css";
 import {
   persistFileHeadersAction,
-  persistTableRowsRolesAction,
+  persistTableDataAction,
+  persistTableRolesAction,
 } from "./../../Import/Redux/Actions/ImportActions";
-import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,18 +40,20 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "98%",
     height: "95%",
-    border: "1px solid #707070",
+    border: "1px solid #A8A8A8",
+    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",
   },
   tableHeadBanner: {
-    width: "95%",
+    width: "100%",
     height: "8%",
   },
   tableRoot: {
-    width: "95%",
+    display: "flex",
+    alignItems: "flex-start",
+    overflow: "overlay",
+    width: "100%",
     height: "86%",
-    overflowX: "auto",
-    overflowY: "none",
   },
 
   tableIcons: {
@@ -69,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   tableColumnTitle: { "& > *": { textTransform: "capitalize" } },
   tablePagination: {
     display: "flex",
-    width: "95%",
+    width: "100%",
     height: "6%",
     margin: 0,
     justifyContent: "flex-end",
@@ -93,8 +96,9 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid #F1F1F1",
   },
   bodyRow: {
-    fontSize: "12px",
+    fontSize: "14px",
     borderBottom: "1px solid #F1F1F1",
+    height: "100%",
   },
   selectedRow: {
     backgroundColor: theme.palette.primary.light,
@@ -111,6 +115,9 @@ export default function ApexTable(props) {
   const dispatch = useDispatch();
 
   const {
+    useInterimHeaders,
+    useCalculatedWidths,
+    definedWidths,
     rawTableData,
     addedColumnsHeaders,
     addedColumns,
@@ -119,7 +126,7 @@ export default function ApexTable(props) {
     rolesColumnProps,
   } = props;
 
-  const tableRef = useRef(null);
+  const tableRef = React.useRef(null);
   const tableHeaderHeight = 40;
   const tableRowHeight = 35;
   const noOfTableRows = rawTableData.length;
@@ -143,64 +150,93 @@ export default function ApexTable(props) {
     });
 
     //Generate actual ColumnHeaders
-    const xlsxTableHeaders = Object.keys(rawTableData[headerRowIndex]);
+    const rawTableHeaders = Object.keys(rawTableData[headerRowIndex]);
 
     //Fill in blank spaces in table data
     const cleanTableData = rawTableData.map((row) => {
       const dataObj = {};
-      for (const header of xlsxTableHeaders) {
+      for (const header of rawTableHeaders) {
         dataObj[header] = row[header] ? row[header] : "";
       }
 
       return dataObj;
     });
 
-    //Generate interim ColumnHeaders
-    const interimTableHeaders = xlsxTableHeaders.map((_, i) => `Column_${i}`);
+    let tableData = [];
+    let tableHeaders = [];
+    let noAddsTableData = [];
+    if (useInterimHeaders) {
+      //Generate interim ColumnHeaders
+      const interimTableHeaders = rawTableHeaders.map((_, i) => `Column_${i}`);
 
-    //Zip ColumnHeaders with keys for the Table API
-    const headerRow = zipobject(interimTableHeaders, xlsxTableHeaders);
+      //Zip ColumnHeaders with keys for the Table API
+      const headerRow = zipobject(interimTableHeaders, rawTableHeaders);
 
-    //Bundle table headers with Table Data
-    const xlsxHeadersTableData = [headerRow, ...cleanTableData];
+      //Bundle table headers with Table Data
+      const rawHeadersCleanTableData = [headerRow, ...cleanTableData];
 
-    //Re-create table data by using interim headers
-    const noAddsTableData = xlsxHeadersTableData.map((row) => {
-      const rowValues = Object.values(row);
+      //Re-create table data by using interim headers
+      noAddsTableData = rawHeadersCleanTableData.map((row) => {
+        const rowValues = Object.values(row);
 
-      return zipobject(interimTableHeaders, rowValues);
-    });
+        return zipobject(interimTableHeaders, rowValues);
+      });
 
-    //Generate roles and actions array --> table api will be supplied this?
-    //Update table data with Serial number and any other column data
-    const tableData = noAddsTableData.map((row, i) => {
-      return {
-        SN: i + 1,
-        ...addedColumns,
-        ...row,
-      };
-    });
+      //Update table data with Serial number and any other column data
+      tableData = noAddsTableData.map((row, i) => {
+        return {
+          SN: i + 1,
+          ...addedColumns,
+          ...row,
+        };
+      });
 
-    //Update table headers with Serial number and any other column header
-    const tableHeaders = ["SN", ...addedColumnsHeaders, ...interimTableHeaders];
+      //Update table headers with Serial number and any other column header
+      tableHeaders = ["SN", ...addedColumnsHeaders, ...interimTableHeaders];
+    } else {
+      noAddsTableData = cleanTableData;
+
+      //Update table data with Serial number and any other column data
+      tableData = noAddsTableData.map((row, i) => {
+        return {
+          SN: i + 1,
+          ...addedColumns,
+          ...row,
+        };
+      });
+
+      tableHeaders = ["SN", ...addedColumnsHeaders, ...rawTableHeaders];
+    }
 
     //Initial Tables Roles
     const dataRowsExceptFirstTwo = new Array(noOfTableRows - 1).fill(2);
     const initialRolesProps = [0, 1, ...dataRowsExceptFirstTwo];
 
-    //Determine initial column widths
-    const columnWidthsData = tableData.map((row) => {
-      const rowWidths = Object.values(row).map(
-        (value) => String(value).length * 13
-      );
+    let columnWidthsData = [];
+    let columnMaxWidthsData = [];
+    if (useCalculatedWidths) {
+      //Determine initial column widths
+      columnWidthsData = tableData.map((row) => {
+        const rowWidths = Object.values(row).map(
+          (value) => String(value).length * 13
+        );
 
-      return rowWidths;
-    });
-    const columnWidthsDataZipped = zip(...columnWidthsData);
-    const columnMaxWidthsData = columnWidthsDataZipped.map((maxWidths, i) => {
-      if (addedColumns && (i === 1 || i === 2)) return addedColumnsWidths; //A hack, please address with props
-      return Math.max(...maxWidths);
-    });
+        return rowWidths;
+      });
+      const columnWidthsDataZipped = zip(...columnWidthsData);
+      columnMaxWidthsData = columnWidthsDataZipped.map((maxWidths, i) => {
+        return Math.max(...maxWidths);
+      });
+      //if actions and/or roles column present, use 100px
+      if (addedColumns) {
+        for (let i = 1; i <= addedColumnsWidths.length; i++) {
+          columnMaxWidthsData[i] = addedColumnsWidths[i - 1];
+        }
+      }
+    } else {
+      // columnMaxWidthsData = [];
+      columnMaxWidthsData = definedWidths;
+    }
 
     //Initial table widths from all calculated widths
     const tableWidth = columnMaxWidthsData.reduce((a, c) => a + c);
@@ -222,6 +258,7 @@ export default function ApexTable(props) {
       tableSearch,
       columnMaxWidthsData,
       tableHeaders,
+      noAddsTableData,
       tableData,
     };
   };
@@ -275,6 +312,7 @@ export default function ApexTable(props) {
         return {
           ...state,
           columnMaxWidthsData: action.payload.columnMaxWidthsData,
+          tableWidth: action.payload.tableWidth,
         };
       default:
         return {
@@ -283,7 +321,7 @@ export default function ApexTable(props) {
     }
   };
 
-  const [tableMetaData, localDispatch] = useReducer(
+  const [tableMetaData, localDispatch] = React.useReducer(
     tableMetaDataReducer,
     initialTableMetaData()
   );
@@ -296,9 +334,11 @@ export default function ApexTable(props) {
     setTablePagination(pagination);
     setTableHeight(tableHeight);
 
-    const { initialRolesProps, tableHeaders } = tableMetaData;
-    dispatch(persistTableRowsRolesAction(initialRolesProps));
-    dispatch(persistFileHeadersAction(tableHeaders));
+    const { initialRolesProps, noAddsTableData } = tableMetaData;
+    const initialHeaders = Object.values(noAddsTableData[0]);
+    dispatch(persistFileHeadersAction(initialHeaders));
+    dispatch(persistTableRolesAction(initialRolesProps));
+    dispatch(persistTableDataAction(noAddsTableData));
   }, []);
 
   const handleSelectChange = (e) => {
@@ -384,6 +424,7 @@ export default function ApexTable(props) {
     } else {
       scrollToIndex = pageNumber * rowsPerPage - 3;
     }
+    //if last page is clicked, use last index as scroll index
 
     localDispatch({ type: "SCROLLTO_TABLEROW", payload: { scrollToIndex } });
   };
@@ -433,22 +474,23 @@ export default function ApexTable(props) {
 
   const _resizeRow = ({ dataKey, deltaX }) => {
     //TODO: Optimize
-    const { columnMaxWidthsData, tableHeaders } = tableMetaData;
+    const { columnMaxWidthsData, tableWidth, tableHeaders } = tableMetaData;
     const index = tableHeaders.indexOf(dataKey);
 
     const columnWidth = columnMaxWidthsData[index] + deltaX;
-    const nextColumnWidth = columnMaxWidthsData[index + 1] - deltaX;
+    // const nextColumnWidth = columnMaxWidthsData[index + 1] - deltaX;
 
     columnMaxWidthsData.splice(index, 1, columnWidth);
-    columnMaxWidthsData.splice(index + 1, 1, nextColumnWidth);
+    // columnMaxWidthsData.splice(index + 1, 1, nextColumnWidth);
 
     localDispatch({
       type: "COLUMNWIDTHS_TABLE",
-      payload: { columnMaxWidthsData },
+      payload: { columnMaxWidthsData, tableWidth: tableWidth + deltaX },
     });
   };
 
   const _headerRenderer = ({ dataKey, label, sortBy, sortDirection }) => {
+    const lastHeader = tableHeaders[tableHeaders.length - 1];
     return (
       <Grid
         className={classes.tableHeader}
@@ -477,7 +519,7 @@ export default function ApexTable(props) {
             }
             zIndex={999}
           >
-            <span>⋮</span>
+            <span>{dataKey === lastHeader ? "" : "⋮"}</span>
           </Draggable>
         </Grid>
       </Grid>
@@ -507,7 +549,6 @@ export default function ApexTable(props) {
   };
 
   const {
-    initialRolesProps,
     sortBy,
     currentSortDirection,
     scrollToIndex,
@@ -530,7 +571,7 @@ export default function ApexTable(props) {
       >
         <Grid className={classes.tableSearch} item xs>
           <FormControl variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-search">Search</InputLabel>
+            {/* <InputLabel htmlFor="outlined-adornment-search">Search</InputLabel> */}
             <OutlinedInput
               id="outlined-adornment-search"
               value={tableSearch}
@@ -545,7 +586,7 @@ export default function ApexTable(props) {
                   </IconButton>
                 </InputAdornment>
               }
-              labelWidth={50}
+              // labelWidth={50}
             />
           </FormControl>
         </Grid>
@@ -558,10 +599,10 @@ export default function ApexTable(props) {
       </Grid>
       <div className={classes.tableRoot} ref={tableRef}>
         <AutoSizer>
-          {({ height }) => (
+          {({ height, width }) => (
             <Table
               height={height}
-              width={tableWidth}
+              width={width > tableWidth ? width : tableWidth}
               headerHeight={tableHeaderHeight}
               rowHeight={tableRowHeight}
               rowCount={tableData.length}

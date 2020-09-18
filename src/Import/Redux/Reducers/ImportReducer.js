@@ -6,7 +6,12 @@ import {
   PERSIST_SELECTEDWORKSHEET,
   PERSIST_WORKSHEETFORTABLE,
   PERSIST_FILEHEADERS,
+  PERSIST_SELECTEDHEADERROWINDEX,
+  PERSIST_SELECTEDHEADEROPTIONINDEX,
+  PERSIST_FILEHEADERSMATCH,
+  PERSIST_FILEUNITS,
   PERSIST_TABLEROWSROLES,
+  PERSIST_TABLEDATA,
   IMPORT_EXCEL_LOADING,
   IMPORT_EXCEL_MATCHING,
   IMPORT_EXCELWORKSHEETNAME_SET,
@@ -35,7 +40,22 @@ const importReducer = (state = importState, action) => {
     case PERSIST_FILEHEADERS:
       return { ...state, ...action.payload };
 
+    case PERSIST_SELECTEDHEADERROWINDEX:
+      return { ...state, ...action.payload };
+
+    case PERSIST_SELECTEDHEADEROPTIONINDEX:
+      return { ...state, ...action.payload };
+
+    case PERSIST_FILEHEADERSMATCH:
+      return { ...state, ...action.payload };
+
+    case PERSIST_FILEUNITS:
+      return { ...state, ...action.payload };
+
     case PERSIST_TABLEROWSROLES:
+      return { ...state, ...action.payload };
+
+    case PERSIST_TABLEDATA:
       return { ...state, ...action.payload };
 
     case PERSIST_WORKSHEETFORTABLE:

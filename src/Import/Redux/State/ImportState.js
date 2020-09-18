@@ -24,7 +24,12 @@ const importState = {
   errors: [],
 
   fileHeaders: [],
-  tableRowsRoles: [],
+  fileHeadersMatch: [],
+  selectedHeaderRowIndex: 0,
+  selectedHeaderOptionIndex: 0,
+  fileUnits: [],
+  tableRoles: [],
+  tableData: [],
 };
 
 export default importState;
