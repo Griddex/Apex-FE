@@ -132,7 +132,8 @@ const Navbar = () => {
             <Avatar
               className={classes.smallAvatar}
               alt={username}
-              src={faker.internet.avatar()}
+              // src={faker.internet.avatar()}
+              src={""}
               variant="rounded"
             >
               {userinitials}

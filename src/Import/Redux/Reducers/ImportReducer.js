@@ -10,7 +10,10 @@ import {
   PERSIST_SELECTEDHEADEROPTIONINDEX,
   PERSIST_FILEHEADERSMATCH,
   PERSIST_FILEUNITS,
-  PERSIST_TABLEROWSROLES,
+  PERSIST_SELECTEDUNITROWINDEX,
+  PERSIST_SELECTEDUNITOPTIONINDEX,
+  PERSIST_FILEUNITSMATCH,
+  PERSIST_TABLEROLESINDICES,
   PERSIST_TABLEDATA,
   IMPORT_EXCEL_LOADING,
   IMPORT_EXCEL_MATCHING,
@@ -52,7 +55,16 @@ const importReducer = (state = importState, action) => {
     case PERSIST_FILEUNITS:
       return { ...state, ...action.payload };
 
-    case PERSIST_TABLEROWSROLES:
+    case PERSIST_SELECTEDUNITROWINDEX:
+      return { ...state, ...action.payload };
+
+    case PERSIST_SELECTEDUNITOPTIONINDEX:
+      return { ...state, ...action.payload };
+
+    case PERSIST_FILEUNITSMATCH:
+      return { ...state, ...action.payload };
+
+    case PERSIST_TABLEROLESINDICES:
       return { ...state, ...action.payload };
 
     case PERSIST_TABLEDATA:

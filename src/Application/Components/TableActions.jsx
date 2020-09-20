@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RowActions = ({
+const TableActions = ({
   handleEditAction,
   handleDeleteAction,
   handlePickAction,
@@ -41,4 +41,4 @@ const RowActions = ({
   );
 };
 
-export default RowActions;
+export default TableActions;

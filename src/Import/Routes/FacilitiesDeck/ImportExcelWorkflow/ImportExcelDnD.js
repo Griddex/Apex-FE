@@ -151,7 +151,7 @@ const ImportExcelDnD = () => {
 
     dispatch(persistWorksheetForTableAction(finalDataArray));
     dispatch(workflowNextAction(skipped, isStepSkipped, activeStep, steps));
-    dispatch(hideDialogAction("Excel_Worksheet_Selection_Dialog"));
+    // dispatch(hideDialogAction("Excel_Worksheet_Selection_Dialog"));
   };
 
   const SelectWorksheetDialogActions = () => {
@@ -208,7 +208,6 @@ const ImportExcelDnD = () => {
             const fileData = new Uint8Array(reader.result);
             const inputDeckWorkbook = xlsx.read(fileData, { type: "array" });
 
-            //dispatch(persistFileAction(inputDeckWorkbook)); //why persist entire file?
             const {
               Author: fileAuthor,
               CreatedDate: fileCreated,
@@ -252,7 +251,7 @@ const ImportExcelDnD = () => {
                 selectedWorksheetDataInitialState
               );
 
-              dispatch(persistSelectedWorksheetAction(workSheetName));
+              // dispatch(persistSelectedWorksheetAction(workSheetName));
               dispatch(
                 persistWorksheetAction(workSheetName, selectedWorksheetData)
               );

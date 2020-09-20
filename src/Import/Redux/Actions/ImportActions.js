@@ -10,7 +10,11 @@ export const PERSIST_SELECTEDHEADEROPTIONINDEX =
   "PERSIST_SELECTEDHEADEROPTIONINDEX";
 export const PERSIST_FILEHEADERSMATCH = "PERSIST_FILEHEADERSMATCH";
 export const PERSIST_FILEUNITS = "PERSIST_FILEUNITS";
-export const PERSIST_TABLEROWSROLES = "PERSIST_TABLEROWSROLES";
+export const PERSIST_SELECTEDUNITROWINDEX = "PERSIST_SELECTEDUNITROWINDEX";
+export const PERSIST_SELECTEDUNITOPTIONINDEX =
+  "PERSIST_SELECTEDUNITOPTIONINDEX";
+export const PERSIST_FILEUNITSMATCH = "PERSIST_FILEUNITSMATCH";
+export const PERSIST_TABLEROLESINDICES = "PERSIST_TABLEROLESINDICES";
 export const PERSIST_TABLEDATA = "PERSIST_TABLEDATA";
 export const IMPORT_EXCEL_LOADING = "IMPORT_EXCEL_LOADING";
 export const IMPORT_EXCEL_MATCHING = "IMPORT_EXCEL_MATCHING";
@@ -60,15 +64,16 @@ export const persistWorksheetNamesAction = (workSheetNames) => {
 };
 
 export const persistWorksheetAction = (
-  workSheetName,
+  selectedWorksheetName,
   selectedWorksheetData
 ) => {
   return {
     type: PERSIST_WORKSHEET,
-    payload: { workSheetName, selectedWorksheetData },
+    payload: { selectedWorksheetName, selectedWorksheetData },
   };
 };
 
+//remove action and associated reducers and state
 export const persistSelectedWorksheetAction = (selectedWorksheetName) => {
   return {
     type: PERSIST_SELECTEDWORKSHEET,
@@ -122,10 +127,33 @@ export const persistFileUnitsAction = (fileUnits) => {
   };
 };
 
-export const persistTableRolesAction = (tableRoles) => {
+export const persistFileUnitsMatchAction = (fileUnitsMatch) => {
   return {
-    type: PERSIST_TABLEROWSROLES,
-    payload: { tableRoles },
+    type: PERSIST_FILEUNITSMATCH,
+    payload: { fileUnitsMatch },
+  };
+};
+
+export const persistSelectedUnitRowIndexAction = (selectedUnitRowIndex) => {
+  return {
+    type: PERSIST_SELECTEDUNITROWINDEX,
+    payload: { selectedUnitRowIndex },
+  };
+};
+
+export const persistSelectedUnitOptionIndexAction = (
+  selectedUnitOptionIndex
+) => {
+  return {
+    type: PERSIST_SELECTEDUNITOPTIONINDEX,
+    payload: { selectedUnitOptionIndex },
+  };
+};
+
+export const persistTableRolesIndicesAction = (currentRolesIndices) => {
+  return {
+    type: PERSIST_TABLEROLESINDICES,
+    payload: { currentRolesIndices },
   };
 };
 

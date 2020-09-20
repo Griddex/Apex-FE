@@ -8,7 +8,7 @@ import zipobject from "lodash.zipobject";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ApexTable from "../../../../Application/Components/ApexTable";
-import RowActions from "../../../../Application/Components/RowActions";
+import TableAction from "../../../../Application/Components/TableAction";
 import DoughnutChart from "./../../../../Visualytics/Components/DoughnutChart";
 import {
   persistFileHeadersAction,
@@ -16,6 +16,8 @@ import {
   persistSelectedHeaderRowIndexAction,
   persistSelectedHeaderOptionIndexAction,
 } from "./../../../Redux/Actions/ImportActions";
+import generateTableWidth from "./../../../../Application/Utils/GenerateTableWidth";
+import generateActualTable from "./../../../../Application/Utils/GenerateActualTable";
 
 const useStyles = makeStyles((theme) => ({
   rootMatchHeaders: {
@@ -109,29 +111,35 @@ export default function ImportExcelMatchHeaders() {
   const dispatch = useDispatch();
 
   //Actions
-  const handleEditAction = (e) => {
-    e.persist();
-    console.log("Logged output -->: handleEditAction -> e", e);
+  const handleEditAction = (event, i) => {
+    event.persist();
+    console.log("Logged output -->: handleEditAction -> i", i);
+    console.log(
+      "Logged output -->: handleEditAction -> event.target.name",
+      event.target.name
+    );
   };
-  const handleDeleteAction = (e) => {
-    e.persist();
-    console.log("Logged output -->: handleDeleteAction -> e", e);
+  const handleDeleteAction = (event, i) => {
+    event.persist();
+    console.log("Logged output -->: handleDeleteAction -> i", i);
+    console.log(
+      "Logged output -->: handleDeleteAction -> event.target.name",
+      event.target.name
+    );
   };
-  const handlePickAction = (e) => {
-    e.persist();
-    console.log("Logged output -->: handlePickAction -> e", e);
+  const handlePickAction = (event, i) => {
+    event.persist();
+    console.log("Logged output -->: handlePickAction -> i", i);
+    console.log(
+      "Logged output -->: handlePickAction -> event.target.name",
+      event.target.name
+    );
   };
-
-  const tableData = useSelector((state) => state.importReducer.tableData);
-  React.useEffect(() => {
-    const fileHeaders = Object.values(tableData[0]);
-
-    dispatch(persistFileHeadersAction(fileHeaders));
-    dispatch(persistFileHeadersMatchAction(headerMatches));
-  }, []);
 
   //File Headers
-  const fileHeaders = useSelector((state) => state.importReducer.fileHeaders);
+  const fileHeadersTableData = useSelector(
+    (state) => state.importReducer.fileHeaders
+  );
 
   //Application headers
   const applicationHeaders = getApplicationHeaders();
@@ -149,7 +157,7 @@ export default function ImportExcelMatchHeaders() {
   //set score to zero and red background
   //Monitor all currently selected to ensure no app header is
   //selected twice
-  const headerMatches = fileHeaders.map((fileHeader) => {
+  const fileHeaderMatches = fileHeadersTableData.map((fileHeader) => {
     const matchedHeaders = fuse
       .search(fileHeader)
       .map((match) => match["item"]);
@@ -169,14 +177,14 @@ export default function ImportExcelMatchHeaders() {
   });
 
   const HeaderSelect = ({ rowIndex }) => {
-    const headerMatches = useSelector(
+    const fileHeaderMatches = useSelector(
       (state) => state.importReducer.fileHeadersMatch
     );
 
     const selectedHeaderRowIndex = useSelector(
       (state) => state.importReducer.selectedHeaderRowIndex
     );
-    const matches = Object.keys(headerMatches[rowIndex]);
+    const matches = Object.keys(fileHeaderMatches[rowIndex]);
     const [header, setHeader] = React.useState(matches[selectedHeaderRowIndex]);
 
     const handleSelectChange = (event) => {
@@ -192,7 +200,7 @@ export default function ImportExcelMatchHeaders() {
     };
 
     //rowIndex encapsulated in name
-    //option index selected is headerMatches.indexOf(event.target.value)
+    //option index selected is fileHeaderMatches.indexOf(event.target.value)
     //persist both above in redux store
     //use both numbers to access scores and change it
     return (
@@ -216,7 +224,7 @@ export default function ImportExcelMatchHeaders() {
 
   //Match
   const MatchScore = ({ rowIndex }) => {
-    const headerMatches = useSelector(
+    const fileHeaderMatches = useSelector(
       (state) => state.importReducer.fileHeadersMatch
     );
     const selectedHeaderRowIndex = useSelector(
@@ -225,7 +233,7 @@ export default function ImportExcelMatchHeaders() {
     const selectedHeaderOptionIndex = useSelector(
       (state) => state.importReducer.selectedHeaderOptionIndex
     );
-    const matchScores = Object.values(headerMatches[rowIndex]);
+    const matchScores = Object.values(fileHeaderMatches[rowIndex]);
     const score =
       selectedHeaderRowIndex === rowIndex
         ? matchScores[selectedHeaderOptionIndex]
@@ -273,33 +281,54 @@ export default function ImportExcelMatchHeaders() {
     );
   };
 
-  //Generate from columns data above
-  const addedColumnsHeaders = ["ACTIONS"];
-  const addedColumns = {
-    ACTIONS: () => <RowActions />,
+  //Generate table actions
+  const tableActions = {
+    actionName: "ACTIONS",
+    width: 120,
+    actionComponent: () => <TableAction />,
+    actionMethods: {
+      handleEditAction: handleEditAction,
+      handleDeleteAction: handleDeleteAction,
+      handlePickAction: handlePickAction,
+    },
   };
-  const addedColumnsWidths = 100;
-  const actionsColumnProps = {
-    handleEditAction: handleEditAction,
-    handleDeleteAction: handleDeleteAction,
-    handlePickAction: handlePickAction,
-  };
-
-  const rawTableHeaders = [
+  const TableActions = [];
+  const { actionComponent, actionMethods } = tableActions;
+  for (let i = 0; i < fileHeadersTableData.length; i++) {
+    const action = React.cloneElement(actionComponent(), {
+      i,
+      ...actionMethods,
+    });
+    TableActions.push({ [tableActions.actionName]: action });
+  }
+  const addedColumnsHeaders = [tableActions.actionName];
+  const actualColumnHeaders = [
     "FILE HEADER",
     "APPLICATION HEADER",
     "MATCH",
     "ANCHOR MATCH",
   ];
-  const rawTableData = fileHeaders.map((fileHeader, i) => {
+  const cleanTableData = fileHeadersTableData.map((fileHeader, i) => {
     return {
-      [rawTableHeaders[0]]: fileHeader,
-      [rawTableHeaders[1]]: <HeaderSelect rowIndex={i} />,
-      [rawTableHeaders[2]]: <MatchScore rowIndex={i} />,
-      [rawTableHeaders[3]]: <AnchorMatch rowIndex={i} />,
+      [actualColumnHeaders[0]]: fileHeader,
+      [actualColumnHeaders[1]]: <HeaderSelect rowIndex={i} />,
+      [actualColumnHeaders[2]]: <MatchScore rowIndex={i} />,
+      [actualColumnHeaders[3]]: <AnchorMatch rowIndex={i} />,
     };
   });
-  const definedWidths = [39, 100, 250, 250, 120, 180];
+  const tableColumnWidths = [40, tableActions.width, 300, 300, 120, 150];
+  const tableWidth = generateTableWidth(tableColumnWidths);
+
+  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
+    addedColumnsHeaders,
+    TableActions,
+    actualColumnHeaders,
+    cleanTableData
+  );
+
+  React.useEffect(() => {
+    dispatch(persistFileHeadersMatchAction(fileHeaderMatches));
+  }, []);
 
   return (
     <div className={classes.rootMatchHeaders}>
@@ -308,14 +337,10 @@ export default function ImportExcelMatchHeaders() {
       </div>
       <div className={classes.table}>
         <ApexTable
-          useInterimHeaders={false}
-          useCalculatedWidths={false}
-          definedWidths={definedWidths}
-          rawTableData={rawTableData}
-          addedColumnsHeaders={addedColumnsHeaders}
-          addedColumns={addedColumns}
-          addedColumnsWidths={addedColumnsWidths}
-          actionsColumnProps={actionsColumnProps}
+          tableData={tableData}
+          tableHeaders={tableHeaders}
+          tableColumnWidths={tableColumnWidths}
+          tableWidth={tableWidth}
         />
       </div>
     </div>

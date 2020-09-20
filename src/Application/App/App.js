@@ -1,10 +1,10 @@
-import React, { lazy, Suspense } from "react";
+import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 import Loading from "./../Components/Loading";
 
-const LandingRoute = lazy(() => import("../Routes/Landing/LandingRoute"));
-const LoginRoute = lazy(() => import("../Routes/Login/LoginRoute"));
-const Layout = lazy(() => import("../Layout/Layout"));
+const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
+const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
+const Layout = React.lazy(() => import("../Layout/Layout"));
 
 const App = () => {
   return (

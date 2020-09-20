@@ -4,23 +4,23 @@ import clsx from "clsx";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  persistTableRolesAction,
+  persistTableRolesIndicesAction,
   persistFileHeadersAction,
   persistFileUnitsAction,
-} from "./../../Import/Redux/Actions/ImportActions";
+} from "../../Import/Redux/Actions/ImportActions";
 
 const useStyles = makeStyles((theme) => ({
   rolesRoot: {
     width: 80,
     height: 30,
   },
-  roles: {
+  tableRoles: {
     border: (props) => `2px solid ${props.roles[props.index]}`,
     color: (props) => `${props.roles[props.index]}`,
   },
 }));
 
-const Roles = (props) => {
+const TableRoles = (props) => {
   const dispatch = useDispatch();
   const { rowIndex, texts } = props;
 
@@ -36,14 +36,14 @@ const Roles = (props) => {
         else return role;
       });
 
-      dispatch(persistTableRolesAction(updatedTableRoles));
+      dispatch(persistTableRolesIndicesAction(updatedTableRoles));
     }
   };
 
   return (
     <Button
       id={rowIndex}
-      className={clsx(classes.rolesRoot, classes.roles)}
+      className={clsx(classes.rolesRoot, classes.tableRoles)}
       onClick={(event) => {
         event.persist();
         const nextIndex = index + 1;
@@ -72,4 +72,4 @@ const Roles = (props) => {
   );
 };
 
-export default Roles;
+export default TableRoles;

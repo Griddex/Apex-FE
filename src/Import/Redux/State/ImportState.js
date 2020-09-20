@@ -28,7 +28,10 @@ const importState = {
   selectedHeaderRowIndex: 0,
   selectedHeaderOptionIndex: 0,
   fileUnits: [],
-  tableRoles: [],
+  fileUnitsMatch: [],
+  selectedUnitRowIndex: 0,
+  selectedUnitOptionIndex: 0,
+  currentRolesIndices: [],
   tableData: [],
 };
 

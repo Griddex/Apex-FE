@@ -8,7 +8,7 @@ import zipobject from "lodash.zipobject";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ApexTable from "../../../../Application/Components/ApexTable";
-import RowActions from "../../../../Application/Components/RowActions";
+import TableActions from "../../../../Application/Components/TableActions";
 import DoughnutChart from "./../../../../Visualytics/Components/DoughnutChart";
 import {
   persistFileUnitsAction,
@@ -52,55 +52,22 @@ const useStyles = makeStyles((theme) => ({
 
 const getApplicationUnits = () => {
   return [
-    "Version",
-    "Asset Team",
-    "Field Name",
-    "Reservoir Identification",
-    "Drainage Point Nomenclature",
-    "String",
-    "Module",
-    "PEEP",
-    "Activity",
-    "Flow station",
-    "Hydrocarbon Stream",
-    "Resource Category",
-    "Change Category",
-    "1P Technique",
-    "URo 1P/1C",
-    "URo Low",
-    "URo 2P/2C",
-    "URo 3P/3C",
-    "Np",
-    "URg 1P/1C",
-    "URg Low",
-    "URg 2P/2C",
-    "URg 3P/3C",
-    "Gp",
-    "Init. Oil/Gas Rate 1P/1C",
-    "Init. Oil/Gas Rate Low",
-    "Init. Oil/Gas Rate 2P/2C",
-    "Init. Oil/Gas Rate 3P/3C",
-    "Aband. Oil/Gas Rate 1P/1C",
-    "Aband. Oil/Gas Rate 2P/2C",
-    "Aband. Oil/Gas Rate 3P/3C",
-    "Init. BSW/WGR",
-    "Aband. BSW/WGR 1P/1C",
-    "Aband. BSW/WGR 2P/2C",
-    "Aband. BSW/WGR 3P/3C",
-    "Init. GOR/CGR",
-    "Aband. GOR/CGR 1P/1C",
-    "Aband. GOR/CGR 2P/2C",
-    "Aband. GOR/CGR 3P/3C",
-    "lift Gas Rate",
-    "Plateau [Oil/Gas]",
-    "In-year Booking",
-    "LE/LV",
-    "PRCS",
-    "On-stream Date-1P/1C",
-    "On-stream Date-2P/2C",
-    "On-stream Date-3P/3C",
-    "Remarks",
-    "TRANCHE",
+    "(scf/stb)/(stb/scf)",
+    "(stb/d)/(MMscf/d)",
+    "1/psi",
+    "acre",
+    "barrel",
+    "Bscf",
+    "cp",
+    "dd/mm/yyyy",
+    "fraction",
+    "ft",
+    "int. Year / fraction",
+    "mD",
+    "MMscf",
+    "MMscf/d",
+    "MMstb",
+    "psi",
   ];
 };
 
@@ -109,29 +76,45 @@ export default function ImportExcelMatchUnits() {
   const dispatch = useDispatch();
 
   //Actions
-  const handleEditAction = (e) => {
-    e.persist();
-    console.log("Logged output -->: handleEditAction -> e", e);
+  const handleEditAction = (event, i) => {
+    event.persist();
+    console.log("Logged output -->: handleEditAction -> i", i);
+    console.log(
+      "Logged output -->: handleEditAction -> event.target.name",
+      event.target.name
+    );
   };
-  const handleDeleteAction = (e) => {
-    e.persist();
-    console.log("Logged output -->: handleDeleteAction -> e", e);
+  const handleDeleteAction = (event, i) => {
+    event.persist();
+    console.log("Logged output -->: handleDeleteAction -> i", i);
+    console.log(
+      "Logged output -->: handleDeleteAction -> event.target.name",
+      event.target.name
+    );
   };
-  const handlePickAction = (e) => {
-    e.persist();
-    console.log("Logged output -->: handlePickAction -> e", e);
+  const handlePickAction = (event, i) => {
+    event.persist();
+    console.log("Logged output -->: handlePickAction -> i", i);
+    console.log(
+      "Logged output -->: handlePickAction -> event.target.name",
+      event.target.name
+    );
   };
 
   const tableData = useSelector((state) => state.importReducer.tableData);
-  React.useEffect(() => {
-    const fileUnits = Object.values(tableData[0]);
+  // React.useEffect(() => {
+  //   const fileUnits = Object.values(tableData[1]);
 
-    dispatch(persistFileUnitsAction(fileUnits));
-    dispatch(persistFileUnitsMatchAction(unitMatches));
-  }, []);
+  //   dispatch(persistFileUnitsAction(fileUnits));
+  //   dispatch(persistFileUnitsMatchAction(unitMatches));
+  // }, []);
 
   //File Headers
   const fileUnits = useSelector((state) => state.importReducer.fileUnits);
+  console.log(
+    "Logged output -->: ImportExcelMatchUnits -> fileUnits",
+    fileUnits
+  );
 
   //Application headers
   const applicationUnits = getApplicationUnits();
@@ -163,6 +146,10 @@ export default function ImportExcelMatchUnits() {
       return zipobject(applicationUnits, zeroScores);
     }
   });
+  console.log(
+    "Logged output -->: ImportExcelMatchUnits -> unitMatches",
+    unitMatches
+  );
 
   const UnitSelect = ({ rowIndex }) => {
     const unitMatches = useSelector(
@@ -187,10 +174,6 @@ export default function ImportExcelMatchUnits() {
       nativeEvent.stopImmediatePropagation();
     };
 
-    //rowIndex encapsulated in name
-    //option index selected is unitMatches.indexOf(event.target.value)
-    //persist both above in redux store
-    //use both numbers to access scores and change it
     return (
       <Select
         key={rowIndex}
@@ -211,45 +194,38 @@ export default function ImportExcelMatchUnits() {
   };
 
   const UnitClassificationSelect = ({ rowIndex }) => {
+    const unitClassifications = ["SI", "FIELD", "MIXED"];
+
+    //Unit matches done on server
+    //Attached to matches will be unit classification
     const unitMatches = useSelector(
       (state) => state.importReducer.fileUnitsMatch
     );
-
     const selectedUnitRowIndex = useSelector(
       (state) => state.importReducer.selectedUnitRowIndex
     );
-    const matches = Object.keys(unitMatches[rowIndex]);
-    const [unit, setUnit] = React.useState(matches[selectedUnitRowIndex]);
+    const selectedUnitOptionIndex = useSelector(
+      (state) => state.importReducer.selectedUnitOptionIndex
+    );
+    // const matches = Object.keys(unitMatches[rowIndex]);
+    // const [unit, setUnit] = React.useState(matches[selectedUnitRowIndex]);
+    const unitClassification =
+      selectedUnitRowIndex === rowIndex
+        ? unitClassifications[1]
+        : unitClassifications[0];
 
-    const handleSelectChange = (event) => {
-      const { nativeEvent } = event;
-      event.persist();
-
-      dispatch(persistSelectedUnitRowIndexAction(rowIndex));
-      const selectedUnit = event.target.value;
-      setUnit(selectedUnit);
-      const optionIndex = matches.indexOf(selectedUnit);
-      dispatch(persistSelectedUnitOptionIndexAction(optionIndex));
-      nativeEvent.stopImmediatePropagation();
-    };
-
-    //rowIndex encapsulated in name
-    //option index selected is unitMatches.indexOf(event.target.value)
-    //persist both above in redux store
-    //use both numbers to access scores and change it
     return (
       <Select
         key={rowIndex}
         className={classes.select}
         name={rowIndex.toString()}
-        value={unit}
-        onChange={handleSelectChange}
+        value={unitClassification}
         label=""
         size="small"
       >
-        {matches.map((matchName, i) => (
-          <MenuItem key={i} value={matchName}>
-            {matchName}
+        {unitClassifications.map((unitClassification, i) => (
+          <MenuItem key={i} value={unitClassification}>
+            {unitClassification}
           </MenuItem>
         ))}
       </Select>
@@ -318,7 +294,7 @@ export default function ImportExcelMatchUnits() {
   //Generate from columns data above
   const addedColumnsHeaders = ["ACTIONS"];
   const addedColumns = {
-    ACTIONS: () => <RowActions />,
+    ACTIONS: () => <TableActions />,
   };
   const addedColumnsWidths = 100;
   const actionsColumnProps = {
