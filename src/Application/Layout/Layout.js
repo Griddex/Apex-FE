@@ -4,14 +4,15 @@ import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Dialogs from "../Components/Dialogs";
 import Navbar from "../Components/Navbar";
-import ImportLayout from "./../../Import/Routes/Common/ImportLayout";
+import Spinners from "../Components/Spinners";
+import InputLayout from "./../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "./../../Network/Common/NetworkLayout";
 import VisualyticsLayout from "./../../Visualytics/Common/VisualyticsLayout";
 import Loading from "./../Components/Loading";
 import MainDrawer from "./../Components/MainDrawer";
 import ProductBackground from "./../Routes/ProductBackground";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexGrow: 1,
@@ -23,20 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = (reduxProps) => {
+const Layout = () => {
   const classes = useStyles();
+
   const { url } = useRouteMatch();
   const layoutData = useSelector((state) => state.layoutReducer);
-  // const {
-  //   showMainDrawer,
-  //   expandMainDrawer,
-  //   showContextDrawer,
-  //   expandContextDrawer,
-  //   showSubNavbar,
-  //   expandSubNavbar,
-  //   showNavbar,
-  //   expandNavbar,
-  // } = layoutData;
   const { showMainDrawer, showNavbar } = layoutData;
 
   return (
@@ -58,7 +50,7 @@ const Layout = (reduxProps) => {
 
                 const Layouts = {
                   background: <ProductBackground />,
-                  import: <ImportLayout />,
+                  import: <InputLayout />,
                   network: <NetworkLayout />,
                   visualytics: <VisualyticsLayout />,
                 };
@@ -71,6 +63,7 @@ const Layout = (reduxProps) => {
         </Suspense>
       </main>
       <Dialogs />
+      <Spinners />
     </div>
   );
 };

@@ -7,11 +7,12 @@ import {
   PERSIST_WORKSHEETFORTABLE,
   PERSIST_FILEHEADERS,
   PERSIST_SELECTEDHEADERROWINDEX,
-  PERSIST_SELECTEDHEADEROPTIONINDEX,
+  PERSIST_SELECTEDHEADERROWOPTIONINDEX,
   PERSIST_FILEHEADERSMATCH,
   PERSIST_FILEUNITS,
   PERSIST_SELECTEDUNITROWINDEX,
-  PERSIST_SELECTEDUNITOPTIONINDEX,
+  PERSIST_SELECTEDUNITROWOPTIONINDEX,
+  PERSIST_ROWOPTIONSINDICESMAP,
   PERSIST_FILEUNITSMATCH,
   PERSIST_TABLEROLESINDICES,
   PERSIST_TABLEDATA,
@@ -46,8 +47,25 @@ const importReducer = (state = importState, action) => {
     case PERSIST_SELECTEDHEADERROWINDEX:
       return { ...state, ...action.payload };
 
-    case PERSIST_SELECTEDHEADEROPTIONINDEX:
-      return { ...state, ...action.payload };
+    case PERSIST_SELECTEDHEADERROWOPTIONINDEX:
+      const {
+        selectedHeaderRowIndex,
+        selectedHeaderOptionIndex,
+      } = action.payload;
+
+      const headerMap = [...state.headerRowOptionsIndices];
+      headerMap[selectedHeaderRowIndex] = selectedHeaderOptionIndex;
+
+      return {
+        ...state,
+        headerRowOptionsIndices: headerMap,
+      };
+
+    case PERSIST_ROWOPTIONSINDICESMAP:
+      return {
+        ...state,
+        unitRowOptionsIndices: action.payload.unitRowOptionsIndices,
+      };
 
     case PERSIST_FILEHEADERSMATCH:
       return { ...state, ...action.payload };
@@ -58,8 +76,20 @@ const importReducer = (state = importState, action) => {
     case PERSIST_SELECTEDUNITROWINDEX:
       return { ...state, ...action.payload };
 
-    case PERSIST_SELECTEDUNITOPTIONINDEX:
-      return { ...state, ...action.payload };
+    case PERSIST_SELECTEDUNITROWOPTIONINDEX:
+      const { selectedUnitRowIndex, selectedUnitOptionIndex } = action.payload;
+
+      console.log(
+        "Logged output -->: importReducer -> state.unitRowOptionsIndices",
+        state.unitRowOptionsIndices
+      );
+      const unitMap = [...state.unitRowOptionsIndices];
+      unitMap[selectedUnitRowIndex] = selectedUnitOptionIndex;
+
+      return {
+        ...state,
+        unitRowOptionsIndices: unitMap,
+      };
 
     case PERSIST_FILEUNITSMATCH:
       return { ...state, ...action.payload };

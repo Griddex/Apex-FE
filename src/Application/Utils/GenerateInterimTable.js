@@ -2,7 +2,7 @@ import zipobject from "lodash.zipobject";
 
 const generateInterimTable = (
   rawTableHeaders,
-  addedColumnsHeaders,
+  addedColumnHeaders,
   addedActionColumn,
   addedRoleColumn,
   cleanTableData
@@ -34,7 +34,7 @@ const generateInterimTable = (
   });
 
   //Update table headers with Serial number and any other column header
-  const tableHeaders = ["SN", ...addedColumnsHeaders, ...interimTableHeaders];
+  const tableHeaders = ["SN", ...addedColumnHeaders, ...interimTableHeaders];
 
   return [tableHeaders, noAddedColumnTableData, tableData];
 };

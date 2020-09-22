@@ -3,15 +3,16 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Route, useRouteMatch } from "react-router-dom";
 import Image from "../../../Application/Components/Image";
+import ModuleCard from "../../../Application/Components/ModuleCard";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import ModuleCard from "./../../../Application/Components/ModuleCard";
-import ImportExcelWorkflow from "./ImportExcelWorkflow/ImportExcelWorkflow";
+import ExcelWorkflow from "../FacilitiesDeck/FacilitiesInputWorkflows/ExcelWorkflow";
+//To be a prop for this component
 
 const useStyles = makeStyles((theme) => ({
-  ImportFacilitiesLanding: {
+  InputLanding: {
     display: "flex",
     flexGrow: 1,
     flexWrap: "wrap",
@@ -33,16 +34,18 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const ImportFacilitiesLanding = (props) => {
+const InputLanding = ({ subModule: { name } }) => {
   const classes = useStyles();
+
   const { url, path } = useRouteMatch();
   const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
+  const nameLowCase = name.toLowerCase();
 
-  const data = [
+  //Prop from forecasting or facilities
+  const inputLandingData = [
     {
       name: "Excel + Plain Text",
-      description:
-        "Import excel sheets in the following formats: .xls, .xlsx & csv. Also import in .txt or .dat formats",
+      description: `Import ${nameLowCase} from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
       icon: (
         <Image
           className={classes.image}
@@ -54,8 +57,7 @@ const ImportFacilitiesLanding = (props) => {
     },
     {
       name: "Database",
-      description:
-        "Connect to and import from the following databases: AccessDb, MSSQL, MySQL etc",
+      description: `Import ${nameLowCase} from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -66,9 +68,9 @@ const ImportFacilitiesLanding = (props) => {
       route: `${url}/database`,
     },
     {
-      name: "Approved Facilities Deck",
-      description:
-        "Select a pre-exisiting and approved facilties deck from your database",
+      // name: `Approved Name`,
+      name: `Approved ${name}`,
+      description: `Select a pre-exisiting and approved ${nameLowCase} stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
@@ -97,9 +99,9 @@ const ImportFacilitiesLanding = (props) => {
               } = match;
 
               const ImportFacilitiesWorkflows = {
-                excel: <ImportExcelWorkflow />,
-                database: <ImportExcelWorkflow />,
-                facilitiesdeck: <ImportExcelWorkflow />,
+                excel: <ExcelWorkflow />,
+                database: <ExcelWorkflow />,
+                existingdeck: <ExcelWorkflow />,
               };
 
               return ImportFacilitiesWorkflows[dataType];
@@ -107,8 +109,8 @@ const ImportFacilitiesLanding = (props) => {
           />
         </div>
       ) : (
-        <div className={classes.ImportFacilitiesLanding}>
-          {data.map((module) => {
+        <div className={classes.InputLanding}>
+          {inputLandingData.map((module) => {
             const { icon, name, description, route } = module;
             return (
               <ModuleCard
@@ -127,6 +129,6 @@ const ImportFacilitiesLanding = (props) => {
   );
 };
 
-ImportFacilitiesLanding.propTypes = {};
+InputLanding.propTypes = {};
 
-export default ImportFacilitiesLanding;
+export default InputLanding;

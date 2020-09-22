@@ -3,7 +3,8 @@ export const HIDE_SPINNER = "HIDE_SPINNER";
 
 export const showSpinnerAction = (message) => ({
   type: SHOW_SPINNER,
-  payload: { pending: true, message },
+  payload: { pending: true },
+  meta: { message },
 });
 
 export const hideSpinnerAction = () => ({

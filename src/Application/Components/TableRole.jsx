@@ -20,15 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TableRole = ({
-  i,
-  roleNames,
-  roleColors,
-  initialRolesIndices: tableRoleIndices,
-}) => {
+const TableRole = ({ i, roleNames, roleColors, tableRoleIndices }) => {
   const dispatch = useDispatch();
 
   const [roleNumber, setRoleNumber] = React.useState(tableRoleIndices[i]);
+  console.log("Logged output -->: roleNumber", roleNumber);
   const tableData = useSelector((state) => state.importReducer.tableData);
 
   const classes = useStyles({ roleNumber, roleColors });
@@ -39,10 +35,8 @@ const TableRole = ({
       className={clsx(classes.rolesRoot, classes.tableRole)}
       onClick={(event) => {
         event.persist();
-        console.log("Table role click");
         const nextRolesIndex = roleNumber + 1;
         const rowIndex = parseInt(event.target.name);
-        console.log("Logged output -->: rowIndex", rowIndex);
 
         if (nextRolesIndex > roleNames.length - 1) {
           setRoleNumber(0);

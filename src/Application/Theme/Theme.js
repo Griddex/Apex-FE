@@ -41,16 +41,17 @@ theme.overrides = {
       height: 36,
     },
     containedPrimary: {
+      border: `1.5px solid ${theme.palette.primary.main}`,
       backgroundColor: theme.palette.primary.main,
+      color: "#FFF",
       "&:hover": {
         backgroundColor: theme.palette.primary.dark,
         borderColor: theme.palette.primary.dark,
-        color: "#FFF",
         fontWeight: 700,
       },
     },
     outlinedPrimary: {
-      borderWidth: 3,
+      border: `1.5px solid ${theme.palette.primary.main}`,
       backgroundColor: theme.palette.primary.light,
       "&:hover": {
         backgroundColor: theme.palette.primary.main,
@@ -61,19 +62,19 @@ theme.overrides = {
     },
     containedSecondary: {
       backgroundColor: theme.palette.secondary.main,
+      color: "#FFF",
       "&:hover": {
         backgroundColor: theme.palette.secondary.dark,
         borderColor: theme.palette.secondary.dark,
-        color: "#FFF",
         fontWeight: 700,
       },
     },
     outlinedSecondary: {
-      borderWidth: 1.5,
+      border: `1.5px solid ${theme.palette.secondary.main}`,
       backgroundColor: theme.palette.secondary.light,
       "&:hover": {
-        backgroundColor: theme.palette.secondary.dark,
-        borderColor: theme.palette.secondary.dark,
+        backgroundColor: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.main,
         color: "#FFF",
         fontWeight: 700,
       },

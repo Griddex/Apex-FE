@@ -1,22 +1,23 @@
-import { makeStyles } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core";
+import uniq from "lodash.uniq";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ApexTable from "./../../../../Application/Components/ApexTable";
-import TableRole from "./../../../../Application/Components/TableRole";
-import TableAction from "./../../../../Application/Components/TableAction";
-import getTableHeaders from "./../../../../Application/Utils/GetTableHeaders";
-import cleanTableData from "./../../../../Application/Utils/CleanTableData";
-import generateInitialTableRoles from "./../../../../Application/Utils/GenerateInitialTableRoles";
-import generateInterimTable from "./../../../../Application/Utils/GenerateInterimTable";
-import generateTableColumnWidths from "./../../../../Application/Utils/GenerateTableColumnWidths";
-import generateTableWidth from "./../../../../Application/Utils/GenerateTableWidth";
-import uniq from "lodash.uniq";
+import ApexTable from "../../../../Application/Components/ApexTable";
+import TableAction from "../../../../Application/Components/TableAction";
+import TableRole from "../../../../Application/Components/TableRole";
+import cleanTableData from "../../../../Application/Utils/CleanTableData";
+import generateInterimTable from "../../../../Application/Utils/GenerateInterimTable";
+import generateTableColumnWidths from "../../../../Application/Utils/GenerateTableColumnWidths";
+import generatelTableRolesIndices from "../../../../Application/Utils/GenerateTableRolesIndices";
+import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
+import getTableHeaders from "../../../../Application/Utils/GetTableHeaders";
 import {
   persistFileHeadersAction,
   persistFileUnitsAction,
   persistTableDataAction,
   persistTableRolesIndicesAction,
-} from "./../../../Redux/Actions/ImportActions";
+} from "../../../Redux/Actions/ImportActions";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   rootParseTable: {
@@ -25,12 +26,13 @@ const useStyles = makeStyles((theme) => ({
     width: "98%",
     height: "95%",
     border: "1px solid #A8A8A8",
+    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",
     padding: 20,
   },
 }));
 
-export default function ImportExcelParseTable() {
+export default function SelectHeaderUnitData() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -49,22 +51,15 @@ export default function ImportExcelParseTable() {
 
   React.useEffect(() => {
     const initialHeaders = Object.values(noAddedColumnTableData[0]);
-    console.log(
-      "Logged output -->: ImportExcelParseTable -> initialHeaders",
-      initialHeaders
-    );
-    const initialUnits = uniq(Object.values(noAddedColumnTableData[1])).filter(
-      (unit) => unit !== ""
-    );
-    console.log(
-      "Logged output -->: ImportExcelParseTable -> initialUnits",
-      initialUnits
-    );
+    const fileUnits = Object.values(noAddedColumnTableData[1]);
+    const fileUnitsUnique = uniq(fileUnits).filter((unit) => unit !== "");
 
     dispatch(persistFileHeadersAction(initialHeaders));
-    dispatch(persistFileUnitsAction(initialUnits));
-    dispatch(persistTableRolesIndicesAction(initialRolesIndices));
+    dispatch(persistFileUnitsAction(fileUnits, fileUnitsUnique));
+    dispatch(persistTableRolesIndicesAction(tableRoleIndices));
     dispatch(persistTableDataAction(noAddedColumnTableData));
+
+    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
   }, []);
 
   const rawTableData = useSelector(
@@ -80,11 +75,7 @@ export default function ImportExcelParseTable() {
   const noOfRows = cleanedTableData.length;
 
   //Initial table roles
-  const initialRolesIndices = generateInitialTableRoles(noOfRows);
-  console.log(
-    "Logged output -->: ImportExcelParseTable -> initialRolesIndices",
-    initialRolesIndices
-  );
+  const tableRoleIndices = generatelTableRolesIndices(noOfRows);
 
   //Generate table actions
   const tableActions = {
@@ -122,7 +113,7 @@ export default function ImportExcelParseTable() {
       i,
       roleNames,
       roleColors,
-      initialRolesIndices,
+      tableRoleIndices,
     });
     TableRoles.push({ [tableRoles.roleName]: role });
   }

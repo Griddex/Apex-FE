@@ -1,6 +1,6 @@
+import { makeStyles } from "@material-ui/core";
 import React from "react";
 import Import from "../../Images/Import.svg";
-import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImportBackground = () => {
+const InputBackground = () => {
   const classes = useStyles();
 
   return (
@@ -21,4 +21,4 @@ const ImportBackground = () => {
   );
 };
 
-export default ImportBackground;
+export default InputBackground;

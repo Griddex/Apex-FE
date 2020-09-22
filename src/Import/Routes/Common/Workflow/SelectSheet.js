@@ -8,10 +8,14 @@ import Typography from "@material-ui/core/Typography";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
 import React from "react";
 import Progress from "react-circle-progress-bar_no-css";
-import { useSelector } from "react-redux";
-import sizeConversions from "./../../../../Application/Utils/SizeConversions";
-import { persistSelectedWorksheetAction } from "./../../../Redux/Actions/ImportActions";
-import FileIconService from "./../../../Services/FileIconService";
+import { useDispatch, useSelector } from "react-redux";
+import sizeConversions from "../../../../Application/Utils/SizeConversions";
+import { persistSelectedWorksheetAction } from "../../../Redux/Actions/ImportActions";
+import FileIconService from "../../../Services/FileIconService";
+import {
+  showSpinnerAction,
+  hideSpinnerAction,
+} from "../../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,10 +78,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImportExcelSelectWorksheet = (props) => {
+const SelectSheet = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const importData = useSelector((state) => state.importReducer);
+
+  React.useEffect(() => {
+    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+  }, []);
 
   const {
     fileLastModified,
@@ -145,6 +154,7 @@ const ImportExcelSelectWorksheet = (props) => {
       />
     );
   };
+
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
       <Grid container spacing={3} className={classes.fileHeader}>
@@ -205,4 +215,4 @@ const ImportExcelSelectWorksheet = (props) => {
   );
 };
 
-export default ImportExcelSelectWorksheet;
+export default SelectSheet;

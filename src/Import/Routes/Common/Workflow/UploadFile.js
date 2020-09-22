@@ -1,34 +1,32 @@
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import LibraryBooksOutlinedIcon from "@material-ui/icons/LibraryBooksOutlined";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import {
-  importFileInitAction,
-  persistFileAction,
-  persistWorksheetNamesAction,
-  persistWorksheetAction,
-  persistSelectedWorksheetAction,
-  persistWorksheetForTableAction,
-} from "../../../Redux/Actions/ImportActions";
-import {
-  showDialogAction,
   hideDialogAction,
-} from "./../../../../Application/Redux/Actions/DialogsAction";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import { workflowNextAction } from "./../../../../Application/Redux/Actions/WorkflowActions";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import LibraryBooksOutlinedIcon from "@material-ui/icons/LibraryBooksOutlined";
+  showDialogAction,
+} from "../../../../Application/Redux/Actions/DialogsAction";
+import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
+import {
+  importFileInitAction,
+  persistWorksheetAction,
+  persistWorksheetForTableAction,
+  persistWorksheetNamesAction,
+} from "../../../Redux/Actions/ImportActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #707070",
     backgroundColor: "#FFF",
   },
-  workflowButton: { width: 200, height: 50 },
+  selectFile: { width: 200, height: 50, fontWeight: "bold" },
   dndSection: {
     display: "flex",
     flexDirection: "column",
@@ -72,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImportExcelDnD = () => {
+const UploadFile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const dnDDisabled = useSelector((state) => state.importReducer.dnDDisabled);
@@ -223,7 +221,8 @@ const ImportExcelDnD = () => {
                 fileAuthor,
                 fileCreated,
                 true,
-                true
+                true,
+                "Uploading file..."
               )
             );
 
@@ -261,7 +260,7 @@ const ImportExcelDnD = () => {
             }
           };
           reader.onprogress = (e) => {
-            // console.log("Logged output -->: ImportExcelDnD -> e", e);
+            // console.log("Logged output -->: UploadFile -> e", e);
           };
         }}
         disabled={dnDDisabled}
@@ -281,7 +280,7 @@ const ImportExcelDnD = () => {
                 </div>
               </div>
               <Button
-                className={classes.workflowButton}
+                className={classes.selectFile}
                 color="primary"
                 variant="contained"
                 {...getRootProps()}
@@ -296,4 +295,4 @@ const ImportExcelDnD = () => {
   );
 };
 
-export default ImportExcelDnD;
+export default UploadFile;

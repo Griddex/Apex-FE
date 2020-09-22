@@ -1,4 +1,4 @@
-import { makeStyles, fade } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -6,18 +6,18 @@ import Typography from "@material-ui/core/Typography";
 import Fuse from "fuse.js";
 import zipobject from "lodash.zipobject";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ApexTable from "../../../../Application/Components/ApexTable";
 import TableAction from "../../../../Application/Components/TableAction";
-import DoughnutChart from "./../../../../Visualytics/Components/DoughnutChart";
+import generateActualTable from "../../../../Application/Utils/GenerateActualTable";
+import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
+import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
-  persistFileHeadersAction,
   persistFileHeadersMatchAction,
-  persistSelectedHeaderRowIndexAction,
-  persistSelectedHeaderOptionIndexAction,
-} from "./../../../Redux/Actions/ImportActions";
-import generateTableWidth from "./../../../../Application/Utils/GenerateTableWidth";
-import generateActualTable from "./../../../../Application/Utils/GenerateActualTable";
+  persistRowsOptionsIndicesMapAction,
+  persistSelectedHeaderRowOptionIndicesAction,
+} from "../../../Redux/Actions/ImportActions";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   rootMatchHeaders: {
@@ -106,7 +106,7 @@ const getApplicationHeaders = () => {
   ];
 };
 
-export default function ImportExcelMatchHeaders() {
+export default function MatchHeaders() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -176,6 +176,11 @@ export default function ImportExcelMatchHeaders() {
     }
   });
 
+  //Initialize Row & Select options map
+  const headerRowOptionsIndices = new Array(fileHeadersTableData.length).fill(
+    0
+  );
+
   const HeaderSelect = ({ rowIndex }) => {
     const fileHeaderMatches = useSelector(
       (state) => state.importReducer.fileHeadersMatch
@@ -188,14 +193,17 @@ export default function ImportExcelMatchHeaders() {
     const [header, setHeader] = React.useState(matches[selectedHeaderRowIndex]);
 
     const handleSelectChange = (event) => {
-      const { nativeEvent } = event;
       event.persist();
 
-      dispatch(persistSelectedHeaderRowIndexAction(rowIndex));
+      const { nativeEvent } = event;
       const selectedHeader = event.target.value;
+
       setHeader(selectedHeader);
       const optionIndex = matches.indexOf(selectedHeader);
-      dispatch(persistSelectedHeaderOptionIndexAction(optionIndex));
+
+      dispatch(
+        persistSelectedHeaderRowOptionIndicesAction(rowIndex, optionIndex)
+      );
       nativeEvent.stopImmediatePropagation();
     };
 
@@ -301,13 +309,18 @@ export default function ImportExcelMatchHeaders() {
     });
     TableActions.push({ [tableActions.actionName]: action });
   }
-  const addedColumnsHeaders = [tableActions.actionName];
+  const addedColumnHeaders = [tableActions.actionName];
+
+  //No table roles
+  const TableRoles = undefined;
+
   const actualColumnHeaders = [
     "FILE HEADER",
     "APPLICATION HEADER",
     "MATCH",
     "ANCHOR MATCH",
   ];
+
   const cleanTableData = fileHeadersTableData.map((fileHeader, i) => {
     return {
       [actualColumnHeaders[0]]: fileHeader,
@@ -320,14 +333,18 @@ export default function ImportExcelMatchHeaders() {
   const tableWidth = generateTableWidth(tableColumnWidths);
 
   const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
-    addedColumnsHeaders,
+    addedColumnHeaders,
     TableActions,
+    TableRoles,
     actualColumnHeaders,
     cleanTableData
   );
 
   React.useEffect(() => {
+    dispatch(persistRowsOptionsIndicesMapAction(headerRowOptionsIndices));
     dispatch(persistFileHeadersMatchAction(fileHeaderMatches));
+
+    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
   }, []);
 
   return (

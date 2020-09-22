@@ -27,11 +27,15 @@ const importState = {
   fileHeadersMatch: [],
   selectedHeaderRowIndex: 0,
   selectedHeaderOptionIndex: 0,
+  headerRowOptionsIndices: [],
   fileUnits: [],
+  fileUnitsUnique: [],
   fileUnitsMatch: [],
+  fileUnitsMatchUnique: [],
   selectedUnitRowIndex: 0,
   selectedUnitOptionIndex: 0,
-  currentRolesIndices: [],
+  unitRowOptionsIndices: [],
+  tableRoleIndices: [],
   tableData: [],
 };
 

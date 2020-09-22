@@ -30,7 +30,8 @@ export const workflowNextAction = (
   skipped,
   isStepSkipped,
   activeStep,
-  steps
+  steps,
+  message
 ) => {
   return {
     type: NEXT_WORKFLOW,
@@ -40,6 +41,7 @@ export const workflowNextAction = (
       activeStep,
       steps,
     },
+    meta: { showSpinner: true, message },
   };
 };
 

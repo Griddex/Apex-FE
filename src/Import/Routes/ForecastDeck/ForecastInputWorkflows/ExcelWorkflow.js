@@ -17,15 +17,15 @@ import {
   workflowSaveAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
-import WorkflowStepper from "./../../../../Application/Components/WorkflowStepper";
-import ImportExcelDnD from "./ImportExcelDnD";
-import ImportExcelParseTable from "./ImportExcelParseTable";
-import ImportExcelPreview from "./ImportExcelPreview";
-import ImportExcelMatchHeaders from "./ImportExcelMatchHeaders";
-import ImportExcelMatchUnits from "./ImportExcelMatchUnits";
+import WorkflowStepper from "../../../../Application/Components/WorkflowStepper";
+import UploadFile from "./UploadFile";
+import SelectHeaderUnitData from "./SelectHeaderUnitData";
+import PreviewSave from "./PreviewSave";
+import MatchHeaders from "../../Common/Workflow/MatchHeaders";
+import MatchUnits from "./MatchUnits";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import ImportExcelSelectWorksheet from "./ImportExcelSelectWorksheet";
+import SelectSheet from "./SelectSheet";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,7 +96,7 @@ const steps = [
   "Preview & Save",
 ];
 
-const ImportExcelWorkflow = () => {
+const ExcelWorkflow = () => {
   const isStepOptional = useCallback(() => activeStep === 50, [steps]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [steps]);
   // const isStepFailed = useCallback((step) => activeStep === 50, [steps]);
@@ -120,20 +120,17 @@ const ImportExcelWorkflow = () => {
   function renderImportStep(activeStep) {
     switch (activeStep) {
       case 0:
-        return <ImportExcelDnD />;
+        return <UploadFile />;
       case 1:
-        return <ImportExcelSelectWorksheet />;
+        return <SelectSheet />;
       case 2:
-        return <ImportExcelParseTable />;
+        return <SelectHeaderUnitData />;
       case 3:
-        return <ImportExcelMatchHeaders />;
-      // return <h1>5th route</h1>;
+        return <MatchHeaders />;
       case 4:
-        return <ImportExcelMatchUnits />;
-      // return <h1>5th route</h1>;
+        return <MatchUnits />;
       case 5:
-        // return < ImportExcelMatch />;
-        return <h1>6th route</h1>;
+        return <PreviewSave />;
       default:
         return <h1>No view</h1>;
     }
@@ -218,4 +215,4 @@ const ImportExcelWorkflow = () => {
   );
 };
 
-export default ImportExcelWorkflow;
+export default ExcelWorkflow;

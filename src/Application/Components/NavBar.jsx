@@ -53,8 +53,8 @@ const useStyles = makeStyles((theme) => {
     },
 
     appbarToolBar: {
-      paddingLeft: "10px",
-      paddingRight: "10px",
+      paddingLeft: 10,
+      paddingRight: 10,
       height: "100%",
       minHeight: "100%",
     },
@@ -74,7 +74,12 @@ const useStyles = makeStyles((theme) => {
     userExpandMoreIcon: { marginRight: theme.spacing(2) },
     userBadge: { marginRight: theme.spacing(4), marginTop: theme.spacing(1) },
     userTypography: { marginRight: theme.spacing(1) },
-    userLogout: { marginRight: theme.spacing(0) },
+    userLogout: {
+      marginRight: theme.spacing(0),
+      border: `2px solid ${theme.palette.secondary.main}`,
+      color: `${theme.palette.secondary.main}`,
+      fontWeight: "bold",
+    },
   };
 });
 
@@ -132,7 +137,7 @@ const Navbar = () => {
             <Avatar
               className={classes.smallAvatar}
               alt={username}
-              // src={faker.internet.avatar()}
+              src={faker.internet.avatar()}
               src={""}
               variant="rounded"
             >
@@ -149,8 +154,6 @@ const Navbar = () => {
             <Button
               className={classes.userLogout}
               size="small"
-              variant="outlined"
-              color="primary"
               onClick={() => {
                 sessionStorage.clear();
                 history.replace("/login");

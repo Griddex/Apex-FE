@@ -7,6 +7,7 @@ import watchRegisterSaga from "../Sagas/RegisterSaga";
 // import watchSavePayPolicySaga from "../../../HRMgt/Redux/Sagas/SavePayPolicySaga";
 import { spawn } from "redux-saga/effects";
 import authMiddleware from "./../Middlewares/AuthMiddleware";
+import uiSpinnerMiddleware from "./../Middlewares/UISpinnerMiddleware";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -18,7 +19,9 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(authMiddleware, sagaMiddleware))
+  composeWithDevTools(
+    applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
+  )
 );
 
 sagaMiddleware.run(rootSaga);

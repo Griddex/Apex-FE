@@ -1,4 +1,4 @@
-import { makeStyles, fade } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -6,16 +6,17 @@ import Typography from "@material-ui/core/Typography";
 import Fuse from "fuse.js";
 import zipobject from "lodash.zipobject";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ApexTable from "../../../../Application/Components/ApexTable";
-import TableActions from "../../../../Application/Components/TableActions";
-import DoughnutChart from "./../../../../Visualytics/Components/DoughnutChart";
+import TableAction from "../../../../Application/Components/TableAction";
+import generateActualTable from "../../../../Application/Utils/GenerateActualTable";
+import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
+import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
-  persistFileUnitsAction,
   persistFileUnitsMatchAction,
-  persistSelectedUnitRowIndexAction,
-  persistSelectedUnitOptionIndexAction,
-} from "./../../../Redux/Actions/ImportActions";
+  persistSelectedUnitRowOptionIndicesAction,
+} from "../../../Redux/Actions/ImportActions";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   rootMatchUnits: {
@@ -47,6 +48,12 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
     fontSize: 14,
   },
+  unitClassification: {
+    top: 0,
+    height: 30,
+    width: 170,
+    fontSize: 14,
+  },
   score: { fontSize: 14 },
 }));
 
@@ -71,7 +78,7 @@ const getApplicationUnits = () => {
   ];
 };
 
-export default function ImportExcelMatchUnits() {
+export default function MatchUnits() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -101,19 +108,10 @@ export default function ImportExcelMatchUnits() {
     );
   };
 
-  const tableData = useSelector((state) => state.importReducer.tableData);
-  // React.useEffect(() => {
-  //   const fileUnits = Object.values(tableData[1]);
-
-  //   dispatch(persistFileUnitsAction(fileUnits));
-  //   dispatch(persistFileUnitsMatchAction(unitMatches));
-  // }, []);
-
   //File Headers
-  const fileUnits = useSelector((state) => state.importReducer.fileUnits);
-  console.log(
-    "Logged output -->: ImportExcelMatchUnits -> fileUnits",
-    fileUnits
+
+  const fileUnitsUnique = useSelector(
+    (state) => state.importReducer.fileUnitsUnique
   );
 
   //Application headers
@@ -132,7 +130,7 @@ export default function ImportExcelMatchUnits() {
   //set score to zero and red background
   //Monitor all currently selected to ensure no app header is
   //selected twice
-  const unitMatches = fileUnits.map((fileUnit) => {
+  const unitMatches = fileUnitsUnique.map((fileUnit) => {
     const matchedUnits = fuse.search(fileUnit).map((match) => match["item"]);
     const matchedScores = fuse.search(fileUnit).map((match) => match["score"]);
 
@@ -146,10 +144,7 @@ export default function ImportExcelMatchUnits() {
       return zipobject(applicationUnits, zeroScores);
     }
   });
-  console.log(
-    "Logged output -->: ImportExcelMatchUnits -> unitMatches",
-    unitMatches
-  );
+  console.log("Logged output -->: MatchUnits -> unitMatches", unitMatches);
 
   const UnitSelect = ({ rowIndex }) => {
     const unitMatches = useSelector(
@@ -163,14 +158,16 @@ export default function ImportExcelMatchUnits() {
     const [unit, setUnit] = React.useState(matches[selectedUnitRowIndex]);
 
     const handleSelectChange = (event) => {
-      const { nativeEvent } = event;
       event.persist();
 
-      dispatch(persistSelectedUnitRowIndexAction(rowIndex));
+      const { nativeEvent } = event;
       const selectedUnit = event.target.value;
+
       setUnit(selectedUnit);
       const optionIndex = matches.indexOf(selectedUnit);
-      dispatch(persistSelectedUnitOptionIndexAction(optionIndex));
+      dispatch(
+        persistSelectedUnitRowOptionIndicesAction(rowIndex, optionIndex)
+      );
       nativeEvent.stopImmediatePropagation();
     };
 
@@ -198,15 +195,15 @@ export default function ImportExcelMatchUnits() {
 
     //Unit matches done on server
     //Attached to matches will be unit classification
-    const unitMatches = useSelector(
-      (state) => state.importReducer.fileUnitsMatch
-    );
+    // const unitMatches = useSelector(
+    //   (state) => state.importReducer.fileUnitsMatch
+    // );
     const selectedUnitRowIndex = useSelector(
       (state) => state.importReducer.selectedUnitRowIndex
     );
-    const selectedUnitOptionIndex = useSelector(
-      (state) => state.importReducer.selectedUnitOptionIndex
-    );
+    // const selectedUnitOptionIndex = useSelector(
+    //   (state) => state.importReducer.selectedUnitOptionIndex
+    // );
     // const matches = Object.keys(unitMatches[rowIndex]);
     // const [unit, setUnit] = React.useState(matches[selectedUnitRowIndex]);
     const unitClassification =
@@ -217,7 +214,7 @@ export default function ImportExcelMatchUnits() {
     return (
       <Select
         key={rowIndex}
-        className={classes.select}
+        className={classes.unitClassification}
         name={rowIndex.toString()}
         value={unitClassification}
         label=""
@@ -292,34 +289,62 @@ export default function ImportExcelMatchUnits() {
   };
 
   //Generate from columns data above
-  const addedColumnsHeaders = ["ACTIONS"];
-  const addedColumns = {
-    ACTIONS: () => <TableActions />,
+  const tableActions = {
+    actionName: "ACTIONS",
+    width: 120,
+    actionComponent: () => <TableAction />,
+    actionMethods: {
+      handleEditAction: handleEditAction,
+      handleDeleteAction: handleDeleteAction,
+      handlePickAction: handlePickAction,
+    },
   };
-  const addedColumnsWidths = 100;
-  const actionsColumnProps = {
-    handleEditAction: handleEditAction,
-    handleDeleteAction: handleDeleteAction,
-    handlePickAction: handlePickAction,
-  };
+  const TableActions = [];
+  const { actionComponent, actionMethods } = tableActions;
+  for (let i = 0; i < fileUnitsUnique.length; i++) {
+    const action = React.cloneElement(actionComponent(), {
+      i,
+      ...actionMethods,
+    });
+    TableActions.push({ [tableActions.actionName]: action });
+  }
+  const addedColumnHeaders = [tableActions.actionName];
 
-  const rawTableHeaders = [
+  //No table roles
+  const TableRoles = undefined;
+
+  const actualColumnHeaders = [
     "FILE UNIT",
     "APPLICATION UNIT",
     "UNIT CLASSIFICATION",
     "MATCH",
     "ANCHOR MATCH",
   ];
-  const rawTableData = fileUnits.map((fileUnit, i) => {
+  const cleanTableData = fileUnitsUnique.map((fileUnit, i) => {
     return {
-      [rawTableHeaders[0]]: fileUnit,
-      [rawTableHeaders[1]]: <UnitSelect rowIndex={i} />,
-      [rawTableHeaders[2]]: <UnitClassificationSelect rowIndex={i} />,
-      [rawTableHeaders[3]]: <MatchScore rowIndex={i} />,
-      [rawTableHeaders[4]]: <AnchorMatch rowIndex={i} />,
+      [actualColumnHeaders[0]]: fileUnit,
+      [actualColumnHeaders[1]]: <UnitSelect rowIndex={i} />,
+      [actualColumnHeaders[2]]: <UnitClassificationSelect rowIndex={i} />,
+      [actualColumnHeaders[3]]: <MatchScore rowIndex={i} />,
+      [actualColumnHeaders[4]]: <AnchorMatch rowIndex={i} />,
     };
   });
-  const definedWidths = [39, 100, 150, 150, 120, 120, 180];
+  const tableColumnWidths = [40, tableActions.width, 300, 300, 200, 120, 180];
+  const tableWidth = generateTableWidth(tableColumnWidths);
+
+  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
+    addedColumnHeaders,
+    TableActions,
+    TableRoles,
+    actualColumnHeaders,
+    cleanTableData
+  );
+
+  React.useEffect(() => {
+    dispatch(persistFileUnitsMatchAction(unitMatches));
+
+    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+  }, []);
 
   return (
     <div className={classes.rootMatchUnits}>
@@ -328,14 +353,10 @@ export default function ImportExcelMatchUnits() {
       </div>
       <div className={classes.table}>
         <ApexTable
-          useInterimHeaders={false}
-          useCalculatedWidths={false}
-          definedWidths={definedWidths}
-          rawTableData={rawTableData}
-          addedColumnsHeaders={addedColumnsHeaders}
-          addedColumns={addedColumns}
-          addedColumnsWidths={addedColumnsWidths}
-          actionsColumnProps={actionsColumnProps}
+          tableData={tableData}
+          tableHeaders={tableHeaders}
+          tableColumnWidths={tableColumnWidths}
+          tableWidth={tableWidth}
         />
       </div>
     </div>

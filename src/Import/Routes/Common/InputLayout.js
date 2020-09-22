@@ -7,13 +7,12 @@ import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import Loading from "../../../Application/Components/Loading";
 import SubNavbar from "../../../Application/Components/SubNavbar";
-import Loading from "./../../../Application/Components/Loading";
-import ImportEconomicsLanding from "./../EconomicsData/ImportEconomicsLanding";
-import ImportFacilitiesLanding from "./../FacilitiesDeck/ImportFacilitiesLanding";
-import ImportForecastLanding from "./../ForecastDeck/ImportForecastLanding";
-import ConnectProductionLanding from "./../ProductionData/ConnectProductionLanding";
-import ImportBackground from "./ImportBackground";
+import EconomicsLanding from "../EconomicsData/EconomicsLanding";
+import ProductionLanding from "../ProductionData/ProductionLanding";
+import InputBackground from "./InputBackground";
+import InputLanding from "./InputLanding";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const ImportLayout = () => {
+const InputLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
   const layoutProps = useSelector((state) => state.layoutReducer);
@@ -61,9 +60,10 @@ const ImportLayout = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   dispatch(subNavbarSetDataAction(subNavbarData));
-  // }, []);
+  const subModule = {
+    facilitiesdeck: { name: "Facilities Deck", data: {} },
+    forecastdeck: { name: "Forecast Deck", data: {} },
+  };
 
   return (
     <main className={classes.importLayoutRoot}>
@@ -71,7 +71,7 @@ const ImportLayout = () => {
       <div className={clsx(classes.importLayoutContainer)}>
         <Suspense fallback={<Loading />}>
           <Switch>
-            <Route exact path={path} component={ImportBackground} />
+            <Route exact path={path} component={InputBackground} />
             <Route
               path={`${url}/:subNavbarId`}
               render={(props) => {
@@ -82,11 +82,19 @@ const ImportLayout = () => {
                 } = props;
 
                 const Layouts = {
-                  background: <ImportBackground />,
-                  facilitiesdeck: <ImportFacilitiesLanding />,
-                  forecastdeck: <ImportForecastLanding />,
-                  productiondata: <ConnectProductionLanding />,
-                  economicsdata: <ImportEconomicsLanding />,
+                  background: <InputBackground />,
+                  facilitiesdeck: (
+                    <InputLanding subModule={subModule.facilitiesdeck} />
+                  ),
+                  forecastdeck: (
+                    <InputLanding subModule={subModule.forecastdeck} />
+                  ),
+                  productiondata: (
+                    <ProductionLanding subModule={subModule.productiondata} />
+                  ),
+                  economicsdata: (
+                    <EconomicsLanding subModule={subModule.economicsdata} />
+                  ),
                 };
 
                 return Layouts[subNavbarId];
@@ -105,4 +113,4 @@ const ImportLayout = () => {
   );
 };
 
-export default ImportLayout;
+export default InputLayout;

@@ -6,13 +6,14 @@ export const PERSIST_SELECTEDWORKSHEET = "PERSIST_SELECTEDWORKSHEET";
 export const PERSIST_WORKSHEETFORTABLE = "PERSIST_WORKSHEETFORTABLE";
 export const PERSIST_FILEHEADERS = "PERSIST_FILEHEADERS";
 export const PERSIST_SELECTEDHEADERROWINDEX = "PERSIST_SELECTEDHEADERROWINDEX";
-export const PERSIST_SELECTEDHEADEROPTIONINDEX =
-  "PERSIST_SELECTEDHEADEROPTIONINDEX";
+export const PERSIST_SELECTEDHEADERROWOPTIONINDEX =
+  "PERSIST_SELECTEDHEADERROWOPTIONINDEX";
 export const PERSIST_FILEHEADERSMATCH = "PERSIST_FILEHEADERSMATCH";
 export const PERSIST_FILEUNITS = "PERSIST_FILEUNITS";
 export const PERSIST_SELECTEDUNITROWINDEX = "PERSIST_SELECTEDUNITROWINDEX";
-export const PERSIST_SELECTEDUNITOPTIONINDEX =
-  "PERSIST_SELECTEDUNITOPTIONINDEX";
+export const PERSIST_SELECTEDUNITROWOPTIONINDEX =
+  "PERSIST_SELECTEDUNITROWOPTIONINDEX";
+export const PERSIST_ROWOPTIONSINDICESMAP = "PERSIST_ROWOPTIONSINDICESMAP";
 export const PERSIST_FILEUNITSMATCH = "PERSIST_FILEUNITSMATCH";
 export const PERSIST_TABLEROLESINDICES = "PERSIST_TABLEROLESINDICES";
 export const PERSIST_TABLEDATA = "PERSIST_TABLEDATA";
@@ -31,7 +32,8 @@ export const importFileInitAction = (
   fileAuthor,
   fileCreated,
   fileAccepted,
-  dnDDisabled
+  dnDDisabled,
+  message
 ) => {
   return {
     type: IMPORTFILE_INITIALIZATION,
@@ -46,6 +48,7 @@ export const importFileInitAction = (
       fileAccepted,
       dnDDisabled,
     },
+    meta: { showSpinner: true, message },
   };
 };
 
@@ -104,26 +107,20 @@ export const persistFileHeadersMatchAction = (fileHeadersMatch) => {
   };
 };
 
-export const persistSelectedHeaderRowIndexAction = (selectedHeaderRowIndex) => {
-  return {
-    type: PERSIST_SELECTEDHEADERROWINDEX,
-    payload: { selectedHeaderRowIndex },
-  };
-};
-
-export const persistSelectedHeaderOptionIndexAction = (
+export const persistSelectedHeaderRowOptionIndicesAction = (
+  selectedHeaderRowIndex,
   selectedHeaderOptionIndex
 ) => {
   return {
-    type: PERSIST_SELECTEDHEADEROPTIONINDEX,
-    payload: { selectedHeaderOptionIndex },
+    type: PERSIST_SELECTEDHEADERROWOPTIONINDEX,
+    payload: { selectedHeaderRowIndex, selectedHeaderOptionIndex },
   };
 };
 
-export const persistFileUnitsAction = (fileUnits) => {
+export const persistFileUnitsAction = (fileUnits, fileUnitsUnique) => {
   return {
     type: PERSIST_FILEUNITS,
-    payload: { fileUnits },
+    payload: { fileUnits, fileUnitsUnique },
   };
 };
 
@@ -141,19 +138,27 @@ export const persistSelectedUnitRowIndexAction = (selectedUnitRowIndex) => {
   };
 };
 
-export const persistSelectedUnitOptionIndexAction = (
+export const persistSelectedUnitRowOptionIndicesAction = (
+  selectedUnitRowIndex,
   selectedUnitOptionIndex
 ) => {
   return {
-    type: PERSIST_SELECTEDUNITOPTIONINDEX,
-    payload: { selectedUnitOptionIndex },
+    type: PERSIST_SELECTEDUNITROWOPTIONINDEX,
+    payload: { selectedUnitRowIndex, selectedUnitOptionIndex },
   };
 };
 
-export const persistTableRolesIndicesAction = (currentRolesIndices) => {
+export const persistRowsOptionsIndicesMapAction = (headerRowOptionsIndices) => {
+  return {
+    type: PERSIST_ROWOPTIONSINDICESMAP,
+    payload: { headerRowOptionsIndices },
+  };
+};
+
+export const persistTableRolesIndicesAction = (tableRoleIndices) => {
   return {
     type: PERSIST_TABLEROLESINDICES,
-    payload: { currentRolesIndices },
+    payload: { tableRoleIndices },
   };
 };
 
@@ -170,6 +175,7 @@ export const ImportLoadingAction = () => {
     payload: { Loading: true },
   };
 };
+
 export const ImportMatchingAction = (state) => {
   return {
     type: IMPORT_EXCEL_MATCHING,

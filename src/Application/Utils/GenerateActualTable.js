@@ -1,6 +1,7 @@
 const generateActualTable = (
-  addedColumnsHeaders,
+  addedColumnHeaders,
   addedActionColumn,
+  addedRoleColumn = undefined,
   actualColumnHeaders,
   cleanTableData
 ) => {
@@ -8,14 +9,18 @@ const generateActualTable = (
 
   //Update table data with Serial number and any other column data
   const tableData = noAddedColumnTableData.map((row, i) => {
+    const actionColumn = addedActionColumn[i];
+    const roleColumn = addedRoleColumn && addedRoleColumn[i];
+
     return {
       SN: i + 1,
-      ...addedActionColumn[i],
+      ...actionColumn,
+      ...roleColumn,
       ...row,
     };
   });
 
-  const tableHeaders = ["SN", ...addedColumnsHeaders, ...actualColumnHeaders];
+  const tableHeaders = ["SN", ...addedColumnHeaders, ...actualColumnHeaders];
 
   return [tableHeaders, noAddedColumnTableData, tableData];
 };
