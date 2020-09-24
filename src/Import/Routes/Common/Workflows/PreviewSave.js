@@ -3,9 +3,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ApexTable from "../../../../Application/Components/ApexTable";
-import TableAction from "../../../../Application/Components/TableAction";
-import TableRole from "../../../../Application/Components/TableRole";
+import ApexTable from "../../../../Application/Components/Table/ApexTable";
+import TableAction from "../../../../Application/Components/Table/TableAction";
+import TableRole from "../../../../Application/Components/Table/TableRole";
 import generateActualTable from "../../../../Application/Utils/GenerateActualTable";
 import generateTableColumnWidths from "../../../../Application/Utils/GenerateTableColumnWidths";
 import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
@@ -77,7 +77,7 @@ export default function PreviewSave() {
 
   React.useEffect(() => {
     setTimeout(() => dispatch(hideSpinnerAction()), 4000);
-  });
+  }, []);
 
   //File Headers
   const noAddedColumnstableData = useSelector(

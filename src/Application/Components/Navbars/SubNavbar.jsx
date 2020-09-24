@@ -5,9 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import history from "../Services/HistoryService";
-import { navigateResetWorkflowAction } from "./../Redux/Actions/LayoutActions";
-import { subNavbarSetMenuAction } from "./../Redux/Actions/ApplicationActions";
+import history from "../../Services/HistoryService";
+import { navigateResetWorkflowAction } from "../../Redux/Actions/LayoutActions";
+import { subNavbarSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 
 const mainDrawerExpanded = 96;
 const mainDrawerWidthCollapsed = 40;
@@ -54,10 +54,6 @@ const SubNavbar = ({ subNavbarData }) => {
   const dispatch = useDispatch();
 
   const { expandMainDrawer } = useSelector((state) => state.layoutReducer);
-  // const subNavbarData = useSelector(
-  //   (state) => state.applicationReducer.subNavbarData
-  // );
-  // console.log("Logged output -->: SubNavbar -> subNavbarData", subNavbarData);
 
   return (
     <AppBar

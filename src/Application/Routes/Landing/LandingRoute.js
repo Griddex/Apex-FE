@@ -1,7 +1,7 @@
 import { Button, Divider, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import Image from "../../Components/Image";
+import Image from "../../Components/Visuals/Image";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
 import history from "../../Services/HistoryService";
 

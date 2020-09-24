@@ -8,43 +8,59 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
+import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { useDispatch } from "react-redux";
 
 const dialogTitleStyles = (theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(2),
+    padding: theme.spacing(1.5),
+    height: 48,
   },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-    width: 30,
-    height: 30,
-  },
+
   dialogHeader: {
     display: "flex",
     flexWrap: "wrap",
-    flexDirection: "row",
     width: "100%",
   },
-  mainIcon: { width: "10%" },
-  dialogTitle: { width: "85%" },
+  mainIcon: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "5%",
+    height: "100%",
+  },
+  dialogTitle: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "90%",
+    height: "100%",
+  },
+  closeButton: {
+    // position: "absolute",
+    // right: theme.spacing(1),
+    // top: theme.spacing(1),
+    color: theme.palette.grey[500],
+    width: "5%",
+    height: "100%",
+    padding: 0,
+  },
 });
 
 const useDialogContentStyles = makeStyles((theme) => ({
-  leftIndent: { width: "10%" },
-  dialogContent: { width: "90%" },
+  dialogContent: { marginLeft: "5%", width: "95%" },
 }));
 
 const DialogTitle = withStyles(dialogTitleStyles)((props) => {
   const { icon, children, classes, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>{icon}</div>
         <div className={classes.dialogTitle}>
+          {/* <Typography variant="h5" component="h2"> */}
           <Typography variant="h6">{children}</Typography>
         </div>
         {/* <div className={classes.closeIcon}> */}
@@ -68,55 +84,50 @@ const DialogContent = withStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     flexWrap: "nowrap",
-    padding: theme.spacing(2),
-    width: "90%",
+    padding: theme.spacing(1.5),
+    width: "100%",
   },
 }))(MuiDialogContent);
 
 const DialogActions = withStyles((theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(1),
+    padding: theme.spacing(1.5),
   },
 }))(MuiDialogActions);
 
-export default function MainDialog({
-  open,
+export default function PlainTextDialog({
+  show,
   icon,
   title,
   content,
   actions,
-  handleHide,
   maxWidth,
 }) {
   const classes = useDialogContentStyles();
+  const dispatch = useDispatch();
 
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
-      open={open}
+      open={show}
       maxWidth={maxWidth}
       fullWidth
     >
       <DialogTitle
         id="customized-dialog-title"
-        onClose={handleHide}
+        onClose={() => dispatch(hideDialogAction())}
         icon={icon}
       >
         {title}
       </DialogTitle>
-      <div>
-        <DialogContent dividers>
-          <div className={classes.leftIndent}></div>
-          <div className={classes.dialogContent}>
-            {content === "function" ? content() : content}
-          </div>
-          <Divider />
-        </DialogContent>
-      </div>
-      <DialogActions>
-        {actions === "function" ? actions() : actions}
-      </DialogActions>
+      <DialogContent dividers>
+        <Typography className={classes.dialogContent} variant="body1">
+          {content}
+        </Typography>
+        <Divider />
+      </DialogContent>
+      <DialogActions>{actions()}</DialogActions>
     </Dialog>
   );
 }

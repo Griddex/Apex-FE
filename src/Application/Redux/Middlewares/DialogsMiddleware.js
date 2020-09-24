@@ -1,22 +1,16 @@
-import { SHOW_DIALOG } from "./../Actions/DialogsAction";
+import {
+  SHOW_DIALOG,
+  showDialogExclusivelyAction,
+} from "./../Actions/DialogsAction";
 
-const dialogsMiddleware = ({ getState }) => (next) => (action) => {
-  if (action.type === SHOW_DIALOG && action.meta && action.meta.exclusive) {
-    const dialogs = getState().dialogsReducer.dialogs;
+const dialogsMiddleware = ({ dispatch, getState }) => (next) => (action) => {
+  let dialogs = getState().dialogsReducer.dialogs;
+  let currentDialogs = [];
 
-    for (const dialog of dialogs) {
-      if (dialog[show]) dialog[show] = false;
-    }
-
-    const updatedDialogs = [...dialogs, action.payload.dialogData];
-    const updatedAction = {
-      ...action,
-      payload: { ...action.payload, dialogData: updatedDialogs },
-    };
-    return next(updatedAction);
+  if (action.type === SHOW_DIALOG) {
+    currentDialogs = dialogs.pop();
+    dispatch(showDialogExclusivelyAction(action.payload));
+    return next(action);
   }
-
-  return next(action);
 };
-
 export default dialogsMiddleware;

@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
+import Dialogs from "../../../../Application/Components/Dialogs/Dialogs";
 import {
   hideDialogAction,
   showDialogAction,
@@ -23,8 +24,8 @@ import {
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import {
   importFileInitAction,
+  persistFileAction,
   persistWorksheetAction,
-  persistWorksheetForTableAction,
   persistWorksheetNamesAction,
 } from "../../../Redux/Actions/ImportActions";
 
@@ -68,106 +69,90 @@ const useStyles = makeStyles((theme) => ({
     height: 80,
     color: theme.palette.primary.main,
   },
+  listBorder: {
+    height: 200,
+    overflow: "overlay",
+    border: "1px solid #F7F7F7",
+  },
 }));
 
 const UploadFile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const dnDDisabled = useSelector((state) => state.importReducer.dnDDisabled);
-  const selectedWorksheetData = useSelector(
-    (state) => state.importReducer.selectedWorksheetData
-  );
+
   const workSheetNames = useSelector(
     (state) => state.importReducer.workSheetNames
   );
+
+  const selectedWorksheetName = useSelector(
+    (state) => state.importReducer.selectedWorksheetName
+  );
+
   const workflowData = useSelector((state) => state.workflowReducer);
   const { skipped, isStepSkipped, activeStep, steps } = workflowData;
   const [selected, setListItemSelected] = useState("");
 
-  const SelectWorksheetDialogContent = () => {
-    return (
-      <>
-        <Typography variant="h6">
-          Workbook contains more than one worksheet. Please select the worksheet
-          that contains the Facilities Deck
-        </Typography>
-        <List>
-          {workSheetNames &&
-            workSheetNames.map((worksheetNames, i) => (
-              <ListItem
-                key={i}
-                selected={worksheetNames === selected}
-                button
-                onClick={() => {
-                  setListItemSelected(worksheetNames);
-                }}
-              >
-                <ListItemAvatar>
-                  <Avatar className={classes.avatar}>
-                    <DescriptionOutlinedIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText>{worksheetNames}</ListItemText>
-              </ListItem>
-            ))}
-        </List>
-      </>
+  const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
+
+  const SelectWorksheetDialogContent = (
+    <>
+      <Typography variant="h6">
+        Workbook contains more than one worksheet. Please select the worksheet
+        that contains the Facilities Deck
+      </Typography>
+      <List className={classes.listBorder}>
+        {workSheetNames &&
+          workSheetNames.map((name, i) => (
+            <ListItem
+              key={i}
+              selected={name === selected}
+              button
+              onClick={() => {
+                setListItemSelected(name);
+                dispatch(persistWorksheetAction(name, []));
+              }}
+            >
+              <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                  <DescriptionOutlinedIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText>{name}</ListItemText>
+            </ListItem>
+          ))}
+      </List>
+    </>
+  );
+
+  const prepareSelectWorksheetRoute = (selectedWorksheetName) => {
+    const selectedWorksheetDataXLSX =
+      inputDeckWorkbook.Sheets[selectedWorksheetName];
+    const selectedWorksheetData = xlsx.utils.sheet_to_json(
+      selectedWorksheetDataXLSX
     );
-  };
 
-  const prepareSelectWorksheetRoute = () => {
-    let maxLength = 0;
-    let finalMaxLength = 0;
-    let index = 0;
-    let finalIndex = 0;
-    for (const obj of selectedWorksheetData) {
-      maxLength = Object.keys(obj).length;
-      if (maxLength > finalMaxLength) {
-        finalMaxLength = maxLength;
-        finalIndex = index;
-      }
-      index += 1;
-    }
-
-    const firstDataRow = Object.keys(selectedWorksheetData[finalIndex]);
-    const finalArray = [];
-    for (const obj of selectedWorksheetData) {
-      const dataRowObj = {};
-      for (const el of firstDataRow) {
-        if (obj.hasOwnProperty(el) && el in obj) dataRowObj[el] = obj[el];
-        else dataRowObj[el] = "";
-      }
-      finalArray.push(dataRowObj);
-    }
-
-    const firstRowObject = {};
-    for (const el of firstDataRow) {
-      firstRowObject[el] = el;
-    }
-
-    const finalDataArray = [firstRowObject, ...finalArray];
-
-    dispatch(persistWorksheetForTableAction(finalDataArray));
+    dispatch(
+      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
+    );
     dispatch(workflowNextAction(skipped, isStepSkipped, activeStep, steps));
-    // dispatch(hideDialogAction("Excel_Worksheet_Selection_Dialog"));
   };
 
-  const SelectWorksheetDialogActions = () => {
+  const SelectWorksheetDialogActions = (selectedWorksheetName) => {
     const buttonsData = [
       {
         title: "Cancel",
         variant: "contained",
         color: "secondary",
         startIcon: <CloseOutlinedIcon />,
-        handleAction: () =>
-          dispatch(hideDialogAction("Excel_Worksheet_Selection_Dialog")),
+        handleAction: () => dispatch(hideDialogAction()),
       },
       {
         title: "Okay",
         variant: "contained",
         color: "primary",
         startIcon: <DoneOutlinedIcon />,
-        handleAction: () => prepareSelectWorksheetRoute(),
+        handleAction: () => prepareSelectWorksheetRoute(selectedWorksheetName),
       },
     ];
 
@@ -185,6 +170,10 @@ const UploadFile = () => {
 
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
+      <Dialogs
+        content={SelectWorksheetDialogContent}
+        actions={() => SelectWorksheetDialogActions(selectedWorksheetName)}
+      />
       <Dropzone
         accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         onDropAccepted={(acceptedFile) => {
@@ -204,12 +193,14 @@ const UploadFile = () => {
           reader.onerror = () => console.log("file reading has failed");
           reader.onload = () => {
             const fileData = new Uint8Array(reader.result);
-            const inputDeckWorkbook = xlsx.read(fileData, { type: "array" });
+            const inputWorkbook = xlsx.read(fileData, { type: "array" });
+            setInputDeckWorkbook(inputWorkbook);
+            dispatch(persistFileAction(inputWorkbook));
 
             const {
               Author: fileAuthor,
               CreatedDate: fileCreated,
-            } = inputDeckWorkbook.Props;
+            } = inputWorkbook.Props;
 
             dispatch(
               importFileInitAction(
@@ -226,33 +217,36 @@ const UploadFile = () => {
               )
             );
 
-            const workSheetNames = inputDeckWorkbook.SheetNames;
+            const workSheetNames = inputWorkbook.SheetNames;
             dispatch(persistWorksheetNamesAction(workSheetNames));
 
             if (workSheetNames.length > 1) {
               const dialogParameters = {
-                name: "Excel_Worksheet_Selection_Dialog",
-                show: true,
-                maxwidth: "sm",
-                icon: <LibraryBooksOutlinedIcon />,
-                title: "Excel Worksheet Selection",
-                content: () => SelectWorksheetDialogContent(),
-                actions: () => SelectWorksheetDialogActions(),
-                handleHide: hideDialogAction,
+                dialogType: "plainTextDialog",
+                dialogProps: {
+                  name: "Excel_Worksheet_Selection_Dialog",
+                  title: "Excel Worksheet Selection",
+                  show: true,
+                  exclusive: true,
+                  maxwidth: "sm",
+                  icon: <LibraryBooksOutlinedIcon />,
+                },
               };
 
-              dispatch(showDialogAction(dialogParameters, false));
+              dispatch(showDialogAction(dialogParameters));
             } else {
-              const workSheetName = workSheetNames && workSheetNames[0];
-              const selectedWorksheetDataInitialState =
-                inputDeckWorkbook.Sheets[workSheetName];
+              const selectedWorksheetName = workSheetNames && workSheetNames[0];
+              const selectedWorksheetDataXLSX =
+                inputWorkbook.Sheets[selectedWorksheetName];
               const selectedWorksheetData = xlsx.utils.sheet_to_json(
-                selectedWorksheetDataInitialState
+                selectedWorksheetDataXLSX
               );
 
-              // dispatch(persistSelectedWorksheetAction(workSheetName));
               dispatch(
-                persistWorksheetAction(workSheetName, selectedWorksheetData)
+                persistWorksheetAction(
+                  selectedWorksheetName,
+                  selectedWorksheetData
+                )
               );
               dispatch(
                 workflowNextAction(skipped, isStepSkipped, activeStep, steps)

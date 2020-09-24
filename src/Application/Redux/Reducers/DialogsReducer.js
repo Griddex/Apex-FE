@@ -2,7 +2,6 @@ import {
   PERSIST_STORE,
   SHOW_DIALOG,
   HIDE_DIALOG,
-  HIDE_OTHERDIALOGS,
 } from "../Actions/DialogsAction";
 import dialogsState from "../State/DialogsState";
 
@@ -12,30 +11,26 @@ const dialogsReducer = (state = dialogsState, action) => {
       return {
         ...state,
         [action.name]: action.value,
-      };
+      }; //Run down object tree till you find key, then change its value
 
     case SHOW_DIALOG:
+      // if(action.meta.exclusive)
+      const d = [action.payload];
+      console.log("Logged output -->: dialogsReducer -> d", d);
       return {
         ...state,
-        dialogs: [...state.dialogs, action.payload.dialogData],
+        dialogs: action.meta.exclusive
+          ? [action.payload]
+          : [...state.dialogs, action.payload],
       };
 
     case HIDE_DIALOG:
-      return {
-        ...state,
-        dialogs: [
-          ...state.dialogs.map((dialog) =>
-            dialog.name === action.payload.name
-              ? (dialog.show = false)
-              : (dialog.show = true)
-          ),
-        ],
-      };
+      const keptDialogs = [...state.dialogs];
+      keptDialogs.pop();
 
-    case HIDE_OTHERDIALOGS:
       return {
         ...state,
-        dialogs: [...action.payload.dialogs],
+        dialogs: keptDialogs,
       };
 
     default:

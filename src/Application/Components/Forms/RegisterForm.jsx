@@ -8,8 +8,8 @@ import { Formik } from "formik";
 import { default as React, default as React } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { registerAction } from "../Redux/Actions/RegisterActions";
-import userState from "../Redux/State/UserState";
+import { registerAction } from "../../Redux/Actions/RegisterActions";
+import userState from "../../Redux/State/UserState";
 import UserAvatar from "./UserAvatar";
 
 const useStyles = makeStyles((theme) => ({

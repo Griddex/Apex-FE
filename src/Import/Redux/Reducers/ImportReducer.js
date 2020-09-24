@@ -36,6 +36,10 @@ const importReducer = (state = importState, action) => {
       return { ...state, ...action.payload };
 
     case PERSIST_WORKSHEET:
+      console.log(
+        "Logged output -->: importReducer -> action.payload",
+        action.payload
+      );
       return { ...state, ...action.payload };
 
     case PERSIST_SELECTEDWORKSHEET:
@@ -79,10 +83,6 @@ const importReducer = (state = importState, action) => {
     case PERSIST_SELECTEDUNITROWOPTIONINDEX:
       const { selectedUnitRowIndex, selectedUnitOptionIndex } = action.payload;
 
-      console.log(
-        "Logged output -->: importReducer -> state.unitRowOptionsIndices",
-        state.unitRowOptionsIndices
-      );
       const unitMap = [...state.unitRowOptionsIndices];
       unitMap[selectedUnitRowIndex] = selectedUnitOptionIndex;
 

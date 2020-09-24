@@ -3,7 +3,7 @@ import { css } from "@emotion/core";
 import HashLoader from "react-spinners/HashLoader";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { useDispatch } from "react-redux";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -46,11 +46,10 @@ const Spinners = () => {
   const dispatch = useDispatch();
   const pending = useSelector((state) => state.uiSpinnerReducer.pending);
   const message = useSelector((state) => state.uiSpinnerReducer.message);
-  // console.log("Logged output -->: Spinners -> message", message);
+
   const handleClose = () => {
     dispatch(hideSpinnerAction());
   };
-  console.log("Logged output -->: Spinners -> pending", pending);
 
   return (
     <Backdrop className={classes.backdrop} open={pending} onClick={handleClose}>

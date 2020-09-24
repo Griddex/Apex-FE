@@ -9,8 +9,8 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SaveIcon from "@material-ui/icons/Save";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../../../Application/Components/ContextDrawer";
-import WorkflowStepper from "../../../../Application/Components/WorkflowStepper";
+import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -19,12 +19,12 @@ import {
   workflowSaveAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
-import MatchHeaders from "../../Common/Workflow/MatchHeaders";
-import MatchUnits from "../../Common/Workflow/MatchUnits";
-import PreviewSave from "../../Common/Workflow/PreviewSave";
-import SelectHeaderUnitData from "../../Common/Workflow/SelectHeaderUnitData";
-import SelectSheet from "../../Common/Workflow/SelectSheet";
-import UploadFile from "../../Common/Workflow/UploadFile";
+import MatchHeaders from "../../Common/Workflows/MatchHeaders";
+import MatchUnits from "../../Common/Workflows/MatchUnits";
+import PreviewSave from "../../Common/Workflows/PreviewSave";
+import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
+import SelectSheet from "../../Common/Workflows/SelectSheet";
+import UploadFile from "../../Common/Workflows/UploadFile";
 
 const useStyles = makeStyles((theme) => ({
   root: {

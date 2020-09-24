@@ -14,6 +14,7 @@ const data = [
   { name: "Group B", value: 300 },
   { name: "Group C", value: 300 },
 ]; //"#22BE34"
+
 const COLORS = ["#2BB4C1", "#00C49F", "#DA1B57"];
 
 const renderActiveShape = (props) => {

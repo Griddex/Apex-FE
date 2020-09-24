@@ -19,7 +19,7 @@ import {
   workflowSaveAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
-import MatchHeaders from "../../Common/Workflow/MatchHeaders";
+import MatchHeaders from "../../Common/Workflows/MatchHeaders";
 import MatchUnits from "./MatchUnits";
 import PreviewSave from "./PreviewSave";
 import SelectHeaderUnitData from "./SelectHeaderUnitData";

@@ -1,9 +1,9 @@
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { LoginForm } from "../../Components/LoginForm";
+import { LoginForm } from "../../Components/Forms/LoginForm";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
-import Image from "../../Components/Image";
+import Image from "../../Components/Visuals/Image";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import {
   contextDrawerCollapseAction,
   contextDrawerExpandAction,
-} from "./../Redux/Actions/LayoutActions";
+} from "../../Redux/Actions/LayoutActions";
 
 const navbarHeight = 43;
 

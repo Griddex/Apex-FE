@@ -6,8 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { workflowSetMenuAction } from "../Redux/Actions/ApplicationActions";
-import { contextDrawerShowAction } from "../Redux/Actions/LayoutActions";
+import { workflowSetMenuAction } from "../../Redux/Actions/ApplicationActions";
+import { contextDrawerShowAction } from "../../Redux/Actions/LayoutActions";
 
 const cardWidth = 250;
 const useStyles = makeStyles((theme) => ({

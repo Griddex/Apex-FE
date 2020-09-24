@@ -14,8 +14,8 @@ import { Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { loginAction } from "./../Redux/Actions/LoginActions";
-import userState from "./../Redux/State/UserState";
+import { loginAction } from "../../Redux/Actions/LoginActions";
+import userState from "../../Redux/State/UserState";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -35,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.primary,
     background: theme.palette.primary.main,
-    margin: 20,
     width: "100%",
     height: 50,
+    margin: 0,
+    fontWeight: "bold",
   },
   textfield: {
     margin: theme.spacing(1),

@@ -7,7 +7,7 @@ import {
   persistTableRolesIndicesAction,
   persistFileHeadersAction,
   persistFileUnitsAction,
-} from "../../Import/Redux/Actions/ImportActions";
+} from "../../../Import/Redux/Actions/ImportActions";
 
 const useStyles = makeStyles((theme) => ({
   rolesRoot: {
@@ -24,7 +24,6 @@ const TableRole = ({ i, roleNames, roleColors, tableRoleIndices }) => {
   const dispatch = useDispatch();
 
   const [roleNumber, setRoleNumber] = React.useState(tableRoleIndices[i]);
-  console.log("Logged output -->: roleNumber", roleNumber);
   const tableData = useSelector((state) => state.importReducer.tableData);
 
   const classes = useStyles({ roleNumber, roleColors });

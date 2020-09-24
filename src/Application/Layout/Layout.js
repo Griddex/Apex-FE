@@ -2,14 +2,13 @@ import { makeStyles } from "@material-ui/core";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import Dialogs from "../Components/Dialogs";
-import Navbar from "../Components/Navbar";
-import Spinners from "../Components/Spinners";
+import Navbar from "../Components/Navbars/Navbar";
+import Spinners from "../Components/Visuals/Spinners";
 import InputLayout from "./../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "./../../Network/Common/NetworkLayout";
 import VisualyticsLayout from "./../../Visualytics/Common/VisualyticsLayout";
-import Loading from "./../Components/Loading";
-import MainDrawer from "./../Components/MainDrawer";
+import Loading from "./../Components/Visuals/Loading";
+import MainDrawer from "./../Components/Drawers/MainDrawer";
 import ProductBackground from "./../Routes/ProductBackground";
 
 const useStyles = makeStyles(() => ({
@@ -62,7 +61,7 @@ const Layout = () => {
           </Switch>
         </Suspense>
       </main>
-      <Dialogs />
+      {/* <Dialogs /> */}
       <Spinners />
     </div>
   );

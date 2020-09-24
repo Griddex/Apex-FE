@@ -18,12 +18,12 @@ import faker from "faker";
 import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import history from "../Services/HistoryService";
-import GetInitials from "../Utils/GetInitials";
+import history from "../../Services/HistoryService";
+import GetInitials from "../../Utils/GetInitials";
 import {
   mainDrawerCollapseAction,
   mainDrawerExpandAction,
-} from "./../Redux/Actions/LayoutActions";
+} from "../../Redux/Actions/LayoutActions";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => {

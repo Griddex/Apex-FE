@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
-import Loading from "./../Components/Loading";
+import Loading from "./../Components/Visuals/Loading";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));

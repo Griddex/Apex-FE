@@ -2,20 +2,20 @@ import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
 import React from "react";
 import Progress from "react-circle-progress-bar_no-css";
 import { useDispatch, useSelector } from "react-redux";
+import * as xlsx from "xlsx";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import sizeConversions from "../../../../Application/Utils/SizeConversions";
-import { persistSelectedWorksheetAction } from "../../../Redux/Actions/ImportActions";
+import { persistWorksheetAction } from "../../../Redux/Actions/ImportActions";
 import FileIconService from "../../../Services/FileIconService";
-import {
-  showSpinnerAction,
-  hideSpinnerAction,
-} from "../../../../Application/Redux/Actions/UISpinnerActions";
+import { useSnackbar } from "notistack";
+import AnalyticsComp from "./../../../../Application/Components/Basic/AnalyticsComp";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,23 +51,6 @@ const useStyles = makeStyles((theme) => ({
     height: 55,
     width: 400,
   },
-  analyticsComp: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-  analyticsTitle: {
-    borderStyle: "solid",
-    borderColor: theme.palette.primary.main,
-    borderLeftWidth: 2,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    paddingLeft: 5,
-    lineHeight: "100%",
-    marginBottom: theme.spacing(1),
-    color: theme.palette.primary.main,
-  },
   fileImage: {
     width: 115,
     height: 139,
@@ -81,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 const SelectSheet = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const importData = useSelector((state) => state.importReducer);
 
@@ -97,27 +82,29 @@ const SelectSheet = (props) => {
     fileCreated,
   } = importData;
 
-  const workSheetNames = useSelector(
-    (state) => state.importReducer.workSheetNames
-  );
-  const selectedWorksheetName = useSelector(
-    (state) => state.importReducer.selectedWorksheetName
+  const { workSheetNames, selectedWorksheetName, file } = useSelector(
+    (state) => state.importReducer
   );
 
   const [worksheetName, setWorksheetName] = React.useState(
     selectedWorksheetName
   );
   const handleSelectChange = (event) => {
-    setWorksheetName(event.target.value);
-    persistSelectedWorksheetAction(event.target.value);
-  };
+    const selectedWorksheetName = event.target.value;
 
-  const AnalyticsComp = ({ title, content }) => {
-    return (
-      <div className={classes.analyticsComp}>
-        <Typography className={classes.analyticsTitle}>{title}</Typography>
-        <div>{content}</div>
-      </div>
+    setWorksheetName(selectedWorksheetName);
+
+    const selectedWorksheetDataXLSX = file.Sheets[selectedWorksheetName];
+    const selectedWorksheetData = xlsx.utils.sheet_to_json(
+      selectedWorksheetDataXLSX
+    );
+
+    if (selectedWorksheetData.length === 0) {
+      enqueueSnackbar("Empty worksheet!", { variant: "error" });
+    }
+
+    dispatch(
+      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
     );
   };
 
@@ -149,7 +136,9 @@ const SelectSheet = (props) => {
         progress={fileSizePercent}
         strokeWidth={3}
         reduction={0}
-        background={"#969498"}
+        background={
+          fileSizePercent >= 100 ? `${theme.palette.secondary.main}` : "#969498"
+        }
         ballStrokeWidth={12}
       />
     );

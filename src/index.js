@@ -9,9 +9,26 @@ import history from "./Application/Services/HistoryService";
 import theme from "./Application/Theme/Theme";
 import store from "./Application/Redux/Store/Store";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Button from "@material-ui/core/Button";
+
+const notistackRef = React.createRef();
+const onClickDismiss = (key) => () => {
+  notistackRef.current.closeSnackbar(key);
+};
 
 ReactDOM.render(
-  <SnackbarProvider maxSnack={3}>
+  <SnackbarProvider
+    maxSnack={3}
+    ref={notistackRef}
+    action={(key) => (
+      <Button
+        style={{ border: "2px solid black" }}
+        onClick={onClickDismiss(key)}
+      >
+        Dismiss
+      </Button>
+    )}
+  >
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Router history={history}>
