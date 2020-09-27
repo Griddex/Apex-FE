@@ -9,8 +9,8 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SaveIcon from "@material-ui/icons/Save";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../../../Application/Components/ContextDrawer";
-import WorkflowStepper from "../../../../Application/Components/WorkflowStepper";
+import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -20,11 +20,12 @@ import {
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
 import MatchHeaders from "../../Common/Workflows/MatchHeaders";
-import MatchUnits from "./MatchUnits";
-import PreviewSave from "./PreviewSave";
-import SelectHeaderUnitData from "./SelectHeaderUnitData";
-import SelectSheet from "./SelectSheet";
-import UploadFile from "./UploadFile";
+import MatchUnits from "../../Common/Workflows/MatchUnits";
+import PreviewSave from "../../Common/Workflows/PreviewSave";
+import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
+import SelectSheet from "../../Common/Workflows/SelectSheet";
+import UploadFile from "../../Common/Workflows/UploadFile";
+import ConnectDatabase from "./../../Common/Workflows/ConnectDatabase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,7 +120,7 @@ const ExcelWorkflow = () => {
   function renderImportStep(activeStep) {
     switch (activeStep) {
       case 0:
-        return <UploadFile />;
+        return <ConnectDatabase />;
       case 1:
         return <SelectSheet />;
       case 2:

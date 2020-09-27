@@ -6,6 +6,7 @@ const theme = createMuiTheme({
   palette: {
     primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
     secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
+    tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
   },
   typography: {
     fontFamily: ['"Quicksand"', "sans-serif"].join(","),

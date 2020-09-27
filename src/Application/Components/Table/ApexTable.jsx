@@ -91,6 +91,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     borderBottom: "1px solid #F1F1F1",
     height: "100%",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.light,
+      // border: `1px solid ${theme.palette.primary.light}`,
+    },
   },
   selectedRow: {
     backgroundColor: theme.palette.primary.light,

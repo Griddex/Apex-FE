@@ -15,8 +15,6 @@ const Dialogs = (props) => {
       <div>
         {dialogs.map((dialog, i) => {
           const { dialogType, dialogProps } = dialog;
-          console.log("Logged output -->: Dialogs -> dialogProps", dialogProps);
-          console.log("Logged output -->: Dialogs -> dialogType", dialogType);
 
           if (dialog === undefined || dialog.show === false) return;
 

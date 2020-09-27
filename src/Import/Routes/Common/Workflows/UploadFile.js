@@ -28,6 +28,7 @@ import {
   persistWorksheetAction,
   persistWorksheetNamesAction,
 } from "../../../Redux/Actions/ImportActions";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -80,6 +81,7 @@ const UploadFile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const dnDDisabled = useSelector((state) => state.importReducer.dnDDisabled);
+  const { enqueueSnackbar } = useSnackbar();
 
   const workSheetNames = useSelector(
     (state) => state.importReducer.workSheetNames
@@ -132,6 +134,10 @@ const UploadFile = () => {
       selectedWorksheetDataXLSX
     );
 
+    if (selectedWorksheetData.length === 0) {
+      enqueueSnackbar("Empty worksheet!", { persist: true, variant: "error" });
+    }
+
     dispatch(
       persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
     );
@@ -152,7 +158,9 @@ const UploadFile = () => {
         variant: "contained",
         color: "primary",
         startIcon: <DoneOutlinedIcon />,
-        handleAction: () => prepareSelectWorksheetRoute(selectedWorksheetName),
+        handleAction: () => {
+          prepareSelectWorksheetRoute(selectedWorksheetName);
+        },
       },
     ];
 

@@ -1,13 +1,15 @@
 import React from "react";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 // import HighlightOffOutlinedIcon from "@material-ui/icons/HighlightOffOutlined";
-
 // import HorizontalSplitOutlinedIcon from "@material-ui/icons/HorizontalSplitOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 // import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
 import { makeStyles } from "@material-ui/core";
+import EditDeleteActionsPopover from "./../Popovers/EditDeleteActionsPopover";
+import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import Popover, { ArrowContainer } from "react-tiny-popover";
 
 const useStyles = makeStyles((theme) => ({
   actionsRoot: {
@@ -32,14 +34,124 @@ const TableAction = ({
   handlePickAction,
 }) => {
   const classes = useStyles();
+  const [isEditPopoverOpen, setIsEditPopoverOpen] = React.useState(false);
+  const [isDeletePopoverOpen, setIsDeletePopoverOpen] = React.useState(false);
+  const [isPickPopoverOpen, setIsPickPopoverOpen] = React.useState(false);
 
   return (
     <div className={classes.actionsRoot}>
-      <EditOutlinedIcon onClick={(e) => handleEditAction(e, i)} />
-      <DeleteOutlinedIcon onClick={(e) => handleDeleteAction(e, i)} />
-      <MenuOpenOutlinedIcon onClick={(e) => handlePickAction(e, i)} />
+      <Popover
+        isOpen={isEditPopoverOpen}
+        position={["bottom", "right", "top", "left"]}
+        padding={5}
+        transitionDuration={0.1}
+        onClickOutside={() => setIsEditPopoverOpen(false)}
+        content={({ position, targetRect, popoverRect }) => (
+          <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+            position={position}
+            targetRect={targetRect}
+            popoverRect={popoverRect}
+            arrowColor={"grey"}
+            arrowSize={10}
+            arrowStyle={{
+              opacity: 1,
+            }}
+            // style={{ border: "1px solid #707070", backgroundColor: "#F7F7F7" }}
+          >
+            <EditDeleteActionsPopover
+              icon={<HelpOutlineOutlinedIcon />}
+              closeIcon={
+                <CloseOutlinedIcon
+                  onClick={() => setIsEditPopoverOpen(false)}
+                />
+              }
+              title="Confirmation"
+              description={`Do you want to edit row ${i}?`}
+              handleCancel={() => setIsEditPopoverOpen(false)}
+              handleYes={handleEditAction}
+            />
+          </ArrowContainer>
+        )}
+      >
+        <EditOutlinedIcon
+          onClick={() => setIsEditPopoverOpen(!isEditPopoverOpen)}
+        />
+      </Popover>
+      <Popover
+        isOpen={isDeletePopoverOpen}
+        position={["bottom", "right", "top", "left"]}
+        padding={5}
+        transitionDuration={0.1}
+        onClickOutside={() => setIsDeletePopoverOpen(false)}
+        content={({ position, targetRect, popoverRect }) => (
+          <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+            position={position}
+            targetRect={targetRect}
+            popoverRect={popoverRect}
+            arrowColor={"grey"}
+            arrowSize={10}
+            arrowStyle={{
+              opacity: 1,
+            }}
+            // style={{ border: "1px solid #707070", backgroundColor: "#F7F7F7" }}
+          >
+            <EditDeleteActionsPopover
+              icon={<HelpOutlineOutlinedIcon />}
+              closeIcon={
+                <CloseOutlinedIcon
+                  onClick={() => setIsDeletePopoverOpen(false)}
+                />
+              }
+              title="Confirmation"
+              description={`Do you want to delete row ${i}?`}
+              handleCancel={() => setIsDeletePopoverOpen(false)}
+              handleYes={handleDeleteAction}
+            />
+          </ArrowContainer>
+        )}
+      >
+        <DeleteOutlinedIcon
+          onClick={() => setIsDeletePopoverOpen(!isDeletePopoverOpen)}
+        />
+      </Popover>
+      <Popover
+        isOpen={isPickPopoverOpen}
+        position={["bottom", "right", "top", "left"]}
+        padding={5}
+        transitionDuration={0.1}
+        onClickOutside={() => setIsPickPopoverOpen(false)}
+        content={({ position, targetRect, popoverRect }) => (
+          <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+            position={position}
+            targetRect={targetRect}
+            popoverRect={popoverRect}
+            arrowColor={"grey"}
+            arrowSize={10}
+            arrowStyle={{
+              opacity: 1,
+            }}
+            // style={{ border: "1px solid #707070", backgroundColor: "#F7F7F7" }}
+          >
+            <EditDeleteActionsPopover
+              icon={<HelpOutlineOutlinedIcon />}
+              closeIcon={
+                <CloseOutlinedIcon
+                  onClick={() => setIsPickPopoverOpen(false)}
+                />
+              }
+              title="Confirmation"
+              description={`Do you want to edit row ${i}?`}
+              handleCancel={() => setIsPickPopoverOpen(false)}
+              handleYes={handlePickAction}
+            />
+          </ArrowContainer>
+        )}
+      >
+        <MenuOpenOutlinedIcon
+          onClick={() => setIsPickPopoverOpen(!isPickPopoverOpen)}
+        />
+      </Popover>
     </div>
   );
 };
-
 export default TableAction;

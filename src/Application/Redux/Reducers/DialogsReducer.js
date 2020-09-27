@@ -16,7 +16,6 @@ const dialogsReducer = (state = dialogsState, action) => {
     case SHOW_DIALOG:
       // if(action.meta.exclusive)
       const d = [action.payload];
-      console.log("Logged output -->: dialogsReducer -> d", d);
       return {
         ...state,
         dialogs: action.meta.exclusive

@@ -59,7 +59,8 @@ export default function SelectHeaderUnitData() {
     dispatch(persistTableRolesIndicesAction(tableRoleIndices));
     dispatch(persistTableDataAction(noAddedColumnTableData));
 
-    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
   }, []);
 
   const rawTableData = useSelector(

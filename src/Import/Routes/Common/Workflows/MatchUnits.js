@@ -144,7 +144,6 @@ export default function MatchUnits() {
       return zipobject(applicationUnits, zeroScores);
     }
   });
-  console.log("Logged output -->: MatchUnits -> unitMatches", unitMatches);
 
   const UnitSelect = ({ rowIndex }) => {
     const unitMatches = useSelector(
@@ -343,7 +342,8 @@ export default function MatchUnits() {
   React.useEffect(() => {
     dispatch(persistFileUnitsMatchAction(unitMatches));
 
-    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
   }, []);
 
   return (

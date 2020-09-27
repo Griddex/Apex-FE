@@ -76,7 +76,8 @@ export default function PreviewSave() {
   };
 
   React.useEffect(() => {
-    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
   }, []);
 
   //File Headers
@@ -106,7 +107,6 @@ export default function PreviewSave() {
     );
 
     const matches = Object.keys(unitMatches[columnIndex]);
-    console.log("Logged output -->: UnitSelect -> matches", matches);
     const [unit, setUnit] = React.useState(matches[selectedUnitRowIndex]);
 
     const handleSelectChange = (event) => {
@@ -166,7 +166,6 @@ export default function PreviewSave() {
     if (i === 0) tableRoleIndices.push(1);
     else tableRoleIndices.push(2);
   }
-  console.log("Logged output -->: tableRoleIndices", tableRoleIndices);
 
   const applicationHeaders = Object.values(headerRow);
   const interimHeaders = Object.keys(headerRow);
@@ -241,9 +240,7 @@ export default function PreviewSave() {
     tableRoles.width
   );
 
-  console.log("Logged output -->: tableColumnWidths", tableColumnWidths);
   const tableWidth = generateTableWidth(tableColumnWidths);
-  console.log("Logged output -->: tableWidth", tableWidth);
 
   return (
     <div className={classes.rootPreviewSave}>

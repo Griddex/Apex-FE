@@ -36,10 +36,6 @@ const importReducer = (state = importState, action) => {
       return { ...state, ...action.payload };
 
     case PERSIST_WORKSHEET:
-      console.log(
-        "Logged output -->: importReducer -> action.payload",
-        action.payload
-      );
       return { ...state, ...action.payload };
 
     case PERSIST_SELECTEDWORKSHEET:

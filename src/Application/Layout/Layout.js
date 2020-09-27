@@ -61,7 +61,6 @@ const Layout = () => {
           </Switch>
         </Suspense>
       </main>
-      {/* <Dialogs /> */}
       <Spinners />
     </div>
   );

@@ -65,12 +65,13 @@ const SelectSheet = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const importData = useSelector((state) => state.importReducer);
 
   React.useEffect(() => {
-    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
   }, []);
 
   const {
@@ -100,7 +101,7 @@ const SelectSheet = (props) => {
     );
 
     if (selectedWorksheetData.length === 0) {
-      enqueueSnackbar("Empty worksheet!", { variant: "error" });
+      enqueueSnackbar("Empty worksheet!", { persist: true, variant: "error" });
     }
 
     dispatch(

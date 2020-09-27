@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    width: "100%",
   },
   analyticsTitle: {
     borderStyle: "solid",

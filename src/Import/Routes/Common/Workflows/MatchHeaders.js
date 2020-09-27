@@ -344,7 +344,8 @@ export default function MatchHeaders() {
     dispatch(persistRowsOptionsIndicesMapAction(headerRowOptionsIndices));
     dispatch(persistFileHeadersMatchAction(fileHeaderMatches));
 
-    setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
   }, []);
 
   return (

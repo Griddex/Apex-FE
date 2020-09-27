@@ -63,6 +63,8 @@ const InputLayout = () => {
   const subModule = {
     facilitiesdeck: { name: "Facilities Deck", data: {} },
     forecastdeck: { name: "Forecast Deck", data: {} },
+    productiondata: { name: "Production Data", data: {} },
+    economicsdata: { name: "Economics Data", data: {} },
   };
 
   return (

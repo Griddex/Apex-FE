@@ -9,6 +9,7 @@ import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import ExcelWorkflow from "../FacilitiesDeck/FacilitiesInputWorkflows/ExcelWorkflow";
+import DatabaseWorkflow from "../FacilitiesDeck/FacilitiesInputWorkflows/DatabaseWorkflow";
 //To be a prop for this component
 
 const useStyles = makeStyles((theme) => ({
@@ -100,7 +101,7 @@ const InputLanding = ({ subModule: { name } }) => {
 
               const ImportFacilitiesWorkflows = {
                 excel: <ExcelWorkflow />,
-                database: <ExcelWorkflow />,
+                database: <DatabaseWorkflow />,
                 existingdeck: <ExcelWorkflow />,
               };
 
