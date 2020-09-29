@@ -1,7 +1,7 @@
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, fade } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -35,7 +35,16 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   button: {
+    // width: 55,
+    // height: 45,
     marginRight: theme.spacing(1),
+  },
+  buttonContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    "& svg:first-child": { width: 15, height: 15 },
+    "& p:last-child": { fontSize: 12, fontWeight: "bold" },
   },
   workflowHeaderRow: {
     display: "flex",
@@ -74,7 +83,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     width: "100%",
-    "& > *": { padding: theme.spacing(0.5), height: 30, width: 30 },
+    "& > *": {
+      padding: theme.spacing(0.5),
+      height: 40,
+      width: 50,
+      // border: "1.5px solid",
+    },
   },
   instructions: {
     marginTop: theme.spacing(1),
@@ -164,20 +178,22 @@ const ExcelWorkflow = () => {
           color="secondary"
           onClick={() => dispatch(workflowResetAction(0))}
           className={classes.button}
-          // startIcon={<RotateLeftIcon />}
         >
-          {<RotateLeftIcon />}
-          {/* Reset */}
+          <div className={classes.buttonContent}>
+            <RotateLeftIcon />
+            <Typography>{"Reset"}</Typography>
+          </div>
         </Button>
         <Button
           variant="outlined"
           disabled={activeStep === 0}
           onClick={() => dispatch(workflowBackAction(activeStep))}
           className={classes.button}
-          // startIcon={<ArrowBackIosIcon />}
         >
-          {<ArrowBackIosIcon />}
-          {/* Back */}
+          <div className={classes.buttonContent}>
+            <ArrowBackIosIcon />
+            <Typography>{"Back"}</Typography>
+          </div>
         </Button>
         {isStepOptional(activeStep) && (
           <Button
@@ -208,20 +224,18 @@ const ExcelWorkflow = () => {
                 );
           }}
           className={classes.button}
-          // endIcon={
-          //   activeStep === steps.length - 1 ? (
-          //     <SaveIcon />
-          //   ) : (
-          //     <ArrowForwardIosIcon />
-          //   )
-          // }
         >
           {activeStep === steps.length - 1 ? (
-            <SaveIcon />
+            <div className={classes.buttonContent}>
+              <SaveIcon />
+              <Typography>{"Save"}</Typography>
+            </div>
           ) : (
-            <ArrowForwardIosIcon />
+            <div className={classes.buttonContent}>
+              <ArrowForwardIosIcon />
+              <Typography>{"Next"}</Typography>
+            </div>
           )}
-          {/* {activeStep === steps.length - 1 ? "Save" : "Next"} */}
         </Button>
       </div>
     </div>

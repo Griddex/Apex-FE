@@ -5,13 +5,13 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, fade } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import LibraryBooksOutlinedIcon from "@material-ui/icons/LibraryBooksOutlined";
+import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     border: "1px solid #707070",
+    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",
   },
   selectFile: { width: 200, height: 50, fontWeight: "bold" },
@@ -93,7 +94,7 @@ const UploadFile = () => {
 
   const workflowData = useSelector((state) => state.workflowReducer);
   const { skipped, isStepSkipped, activeStep, steps } = workflowData;
-  const [selected, setListItemSelected] = useState("");
+  const [listItemSelected, setListItemSelected] = useState("");
 
   const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
 
@@ -108,7 +109,7 @@ const UploadFile = () => {
           workSheetNames.map((name, i) => (
             <ListItem
               key={i}
-              selected={name === selected}
+              selected={name === listItemSelected}
               button
               onClick={() => {
                 setListItemSelected(name);
@@ -159,7 +160,12 @@ const UploadFile = () => {
         color: "primary",
         startIcon: <DoneOutlinedIcon />,
         handleAction: () => {
-          prepareSelectWorksheetRoute(selectedWorksheetName);
+          if (listItemSelected === "")
+            enqueueSnackbar("Select a worksheet", {
+              persist: false,
+              variant: "error",
+            });
+          else prepareSelectWorksheetRoute(selectedWorksheetName);
         },
       },
     ];
@@ -237,7 +243,7 @@ const UploadFile = () => {
                   show: true,
                   exclusive: true,
                   maxwidth: "sm",
-                  icon: <LibraryBooksOutlinedIcon />,
+                  icon: <PlaylistAddCheckOutlinedIcon />,
                 },
               };
 
@@ -271,7 +277,7 @@ const UploadFile = () => {
         multiple={false}
       >
         {({ getRootProps, getInputProps }) => {
-          //if file is not accepted etc, dispatch dialog
+          //TODO: if file is not accepted etc, dispatch dialog
           return (
             <section className={classes.dndSection}>
               <div {...getRootProps()} className={classes.dndInput}>

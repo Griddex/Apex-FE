@@ -8,10 +8,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
-import AddIcon from "@material-ui/icons/Add";
-import BeenhereIcon from "@material-ui/icons/Beenhere";
-import BuildIcon from "@material-ui/icons/Build";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
 import orderBy from "lodash.orderby";
@@ -25,6 +21,7 @@ import {
   Table,
 } from "react-virtualized";
 import "react-virtualized/styles.css";
+import TableIcons from "./TableIcons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,8 +50,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-end",
     justifyContent: "flex-end",
     "& > *": {
-      width: "24px",
-      height: "24px",
+      marginLeft: 10,
     },
   },
   tableSearch: {
@@ -443,10 +439,7 @@ export default function ApexTable({
           </FormControl>
         </Grid>
         <Grid item container className={classes.tableIcons}>
-          <AddIcon />
-          <BeenhereIcon />
-          <BuildIcon />
-          <CardGiftcardIcon />
+          <TableIcons localDispatch={localDispatch} />
         </Grid>
       </Grid>
       <div className={classes.tableRoot} ref={tableRef}>

@@ -1,7 +1,7 @@
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, fade } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -74,7 +74,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     width: "100%",
-    "& > *": { border: `2px solid` },
+    "& > *": {
+      border: `2px solid`,
+      boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    },
   },
   instructions: {
     marginTop: theme.spacing(1),

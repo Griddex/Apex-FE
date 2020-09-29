@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "85%",
-    height: "100%",
+    height: "90%",
     border: "1px solid #A8A8A8",
     boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",

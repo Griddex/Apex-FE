@@ -10,6 +10,7 @@ import EditDeleteActionsPopover from "./../Popovers/EditDeleteActionsPopover";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import Popover, { ArrowContainer } from "react-tiny-popover";
+import RolesActionPopover from "./../Popovers/RolesActionPopover";
 
 const useStyles = makeStyles((theme) => ({
   actionsRoot: {
@@ -56,7 +57,6 @@ const TableAction = ({
             arrowStyle={{
               opacity: 1,
             }}
-            // style={{ border: "1px solid #707070", backgroundColor: "#F7F7F7" }}
           >
             <EditDeleteActionsPopover
               icon={<HelpOutlineOutlinedIcon />}
@@ -65,7 +65,7 @@ const TableAction = ({
                   onClick={() => setIsEditPopoverOpen(false)}
                 />
               }
-              title="Confirmation"
+              title="Edit Confirmation"
               description={`Do you want to edit row ${i}?`}
               handleCancel={() => setIsEditPopoverOpen(false)}
               handleYes={handleEditAction}
@@ -93,7 +93,6 @@ const TableAction = ({
             arrowStyle={{
               opacity: 1,
             }}
-            // style={{ border: "1px solid #707070", backgroundColor: "#F7F7F7" }}
           >
             <EditDeleteActionsPopover
               icon={<HelpOutlineOutlinedIcon />}
@@ -102,7 +101,7 @@ const TableAction = ({
                   onClick={() => setIsDeletePopoverOpen(false)}
                 />
               }
-              title="Confirmation"
+              title="Delete Confirmation"
               description={`Do you want to delete row ${i}?`}
               handleCancel={() => setIsDeletePopoverOpen(false)}
               handleYes={handleDeleteAction}
@@ -130,17 +129,16 @@ const TableAction = ({
             arrowStyle={{
               opacity: 1,
             }}
-            // style={{ border: "1px solid #707070", backgroundColor: "#F7F7F7" }}
           >
-            <EditDeleteActionsPopover
+            <RolesActionPopover
               icon={<HelpOutlineOutlinedIcon />}
               closeIcon={
                 <CloseOutlinedIcon
                   onClick={() => setIsPickPopoverOpen(false)}
                 />
               }
+              // title="Assignment Confirmation"
               title="Confirmation"
-              description={`Do you want to edit row ${i}?`}
               handleCancel={() => setIsPickPopoverOpen(false)}
               handleYes={handlePickAction}
             />

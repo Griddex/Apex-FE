@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "60%",
     width: "100%",
+    overflow: "overlay",
   },
   footer: {
     display: "flex",
@@ -39,6 +40,18 @@ const useStyles = makeStyles((theme) => ({
     height: "25%",
     width: "100%",
     "& > *": { width: 30, height: 20, margin: 5 },
+  },
+  cancelButton: {
+    border: `2px solid ${theme.palette.secondary.main}`,
+    backgroundColor: "#FFF",
+    fontWeight: "bold",
+    color: theme.palette.secondary.main,
+  },
+  yesButton: {
+    border: `2px solid ${theme.palette.primary.main}`,
+    backgroundColor: "#FFF",
+    fontWeight: "bold",
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -55,10 +68,10 @@ const EditDeleteActionsPopover = React.forwardRef(
         </div>
         <div className={classes.body}>{description}</div>
         <div className={classes.footer}>
-          <Button variant="outlined" color="secondary" onClick={handleCancel}>
+          <Button className={classes.cancelButton} onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="outlined" color="primary" onClick={handleYes}>
+          <Button className={classes.yesButton} onClick={handleYes}>
             Yes
           </Button>
         </div>

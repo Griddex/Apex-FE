@@ -7,6 +7,7 @@ const theme = createMuiTheme({
     primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
     secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
     tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
+    quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },
   },
   typography: {
     fontFamily: ['"Quicksand"', "sans-serif"].join(","),
@@ -104,12 +105,12 @@ theme.overrides = {
       border: `1px solid ${grey[500]}`,
       outline: `1px solid transparent`,
       padding: theme.spacing(1),
-      "&$focused": {
-        border: `1px solid ${theme.palette.primary.main}`,
-        outline: `1px solid ${theme.palette.primary.main}`,
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
-        borderRadius: 2,
-      },
+      // "&$focused": {
+      //   border: `1px solid ${theme.palette.primary.main}`,
+      //   outline: `1px solid ${theme.palette.primary.main}`,
+      //   boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+      //   borderRadius: 2,
+      // },
     },
   },
   MuiTooltip: {

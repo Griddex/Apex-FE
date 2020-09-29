@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     height: "65%",
     width: "100%",
     // borderBottom: "1px solid #969498",
+    // borderBottom: "1px solid #707070",
     padding: 20,
   },
   fileContent: {
@@ -148,22 +149,31 @@ const SelectSheet = (props) => {
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
       <Grid container spacing={3} className={classes.fileHeader}>
-        <AnalyticsComp
-          title="File Type"
-          content={
-            <img
-              className={classes.fileImage}
-              src={FileIconService(fileType)}
-              alt="Analytics diagram"
-            />
-          }
-        />
-        <AnalyticsComp title="File Name" content={fileName} />
-        <AnalyticsComp title="Select Worksheet" content={<SelectWorksheet />} />
+        <Grid item xs>
+          <AnalyticsComp
+            title="File Type"
+            content={
+              <img
+                className={classes.fileImage}
+                src={FileIconService(fileType)}
+                alt="Analytics diagram"
+              />
+            }
+          />
+        </Grid>
+        <Grid item xs>
+          <AnalyticsComp title="File Name" content={fileName} />
+        </Grid>
+        <Grid item xs>
+          <AnalyticsComp
+            title="Select Worksheet"
+            content={<SelectWorksheet />}
+          />
+        </Grid>
       </Grid>
       <Divider className={classes.divider} />
       <Grid container spacing={3} className={classes.fileContent}>
-        <Grid item container xs={12} sm={4}>
+        <Grid item container xs={12} sm={3}>
           <Grid item xs>
             <AnalyticsComp
               title="File Size"
@@ -181,11 +191,11 @@ const SelectSheet = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item container direction="column" xs={12} sm={8}>
+        <Grid item container direction="column" xs={12} sm={9}>
           <Grid item xs>
             <AnalyticsComp title="File Author" content={fileAuthor} />
           </Grid>
-          <Grid item container xs>
+          <Grid item container xs spacing={1}>
             <Grid item xs>
               <AnalyticsComp
                 title="File Created"

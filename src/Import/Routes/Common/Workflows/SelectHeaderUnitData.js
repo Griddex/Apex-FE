@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   rootParseTable: {
     display: "flex",
     flexDirection: "column",
-    width: "98%",
+    width: "90%",
     height: "95%",
     border: "1px solid #A8A8A8",
     boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
