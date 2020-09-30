@@ -346,7 +346,7 @@ export default function MatchHeaders() {
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-  }, []);
+  }, [dispatch, headerRowOptionsIndices, fileHeaderMatches]);
 
   return (
     <div className={classes.rootMatchHeaders}>

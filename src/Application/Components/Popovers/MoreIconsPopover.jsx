@@ -4,24 +4,23 @@ import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import { useSelector } from "react-redux";
-import InsertLinkOutlinedIcon from "@material-ui/icons/InsertLinkOutlined";
-import ViewQuiltOutlinedIcon from "@material-ui/icons/ViewQuiltOutlined";
-import ViewModuleOutlinedIcon from "@material-ui/icons/ViewModuleOutlined";
-import ViewStreamOutlinedIcon from "@material-ui/icons/ViewStreamOutlined";
-import UndoOutlinedIcon from "@material-ui/icons/UndoOutlined";
-import RedoOutlinedIcon from "@material-ui/icons/RedoOutlined";
-import PrintOutlinedIcon from "@material-ui/icons/PrintOutlined";
-import FilterNoneOutlinedIcon from "@material-ui/icons/FilterNoneOutlined";
-import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
-import ScoreOutlinedIcon from "@material-ui/icons/ScoreOutlined"; //statistics
-import PublishOutlinedIcon from "@material-ui/icons/PublishOutlined";
-import LandscapeOutlinedIcon from "@material-ui/icons/LandscapeOutlined";
-import PanoramaHorizontalOutlinedIcon from "@material-ui/icons/PanoramaHorizontalOutlined";
 import BrushOutlinedIcon from "@material-ui/icons/BrushOutlined";
+import FilterNoneOutlinedIcon from "@material-ui/icons/FilterNoneOutlined";
 import FormatPaintOutlinedIcon from "@material-ui/icons/FormatPaintOutlined";
+import InsertLinkOutlinedIcon from "@material-ui/icons/InsertLinkOutlined";
 import KeyboardArrowRightOutlinedIcon from "@material-ui/icons/KeyboardArrowRightOutlined";
+import LandscapeOutlinedIcon from "@material-ui/icons/LandscapeOutlined";
+import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
+import PanoramaHorizontalOutlinedIcon from "@material-ui/icons/PanoramaHorizontalOutlined";
+import PrintOutlinedIcon from "@material-ui/icons/PrintOutlined";
+import PublishOutlinedIcon from "@material-ui/icons/PublishOutlined";
+import RedoOutlinedIcon from "@material-ui/icons/RedoOutlined";
+import ScoreOutlinedIcon from "@material-ui/icons/ScoreOutlined"; //statistics
+import UndoOutlinedIcon from "@material-ui/icons/UndoOutlined";
+import ViewModuleOutlinedIcon from "@material-ui/icons/ViewModuleOutlined";
+import ViewQuiltOutlinedIcon from "@material-ui/icons/ViewQuiltOutlined";
+import ViewStreamOutlinedIcon from "@material-ui/icons/ViewStreamOutlined";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -166,7 +165,7 @@ const moreIconsData = [
 const MoreIconsPopover = React.forwardRef(
   ({ closeIcon, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
-    const headers = useSelector((state) => state.importReducer.fileHeaders);
+    // const headers = useSelector((state) => state.importReducer.fileHeaders);
 
     return (
       <div className={classes.container} ref={ref}>

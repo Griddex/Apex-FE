@@ -23,6 +23,7 @@ export const serverLoginSuccessAction = () => {
     type: SERVERLOGIN_SUCCESS,
     payload: {
       statusCode: "",
+      databases: [],
     },
   };
 };

@@ -96,7 +96,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function PlainTextDialog({
+export default function TextDialog({
   show,
   icon,
   title,

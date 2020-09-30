@@ -206,7 +206,7 @@ export default function ApexTable({
     );
     setTablePagination(pagination);
     setTableHeight(tableHeight);
-  }, []);
+  }, [noOfTableRows]);
 
   const handleSelectChange = (e) => {
     const tableSelectValue = e.target.value;

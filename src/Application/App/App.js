@@ -10,10 +10,10 @@ const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
 const Layout = React.lazy(() => import("../Layout/Layout"));
 
 const useStyles = makeStyles((theme) => ({
-  success: { backgroundColor: `${theme.palette.tertiary.main}` },
-  error: { backgroundColor: `${theme.palette.secondary.main}` },
-  warning: { backgroundColor: `${theme.palette.quaternary.main}` },
-  info: { backgroundColor: `${theme.palette.primary.main}` },
+  success: { backgroundColor: theme.palette.tertiary.main },
+  error: { backgroundColor: theme.palette.secondary.main },
+  warning: { backgroundColor: theme.palette.quaternary.main },
+  info: { backgroundColor: theme.palette.primary.main },
 }));
 
 const App = () => {

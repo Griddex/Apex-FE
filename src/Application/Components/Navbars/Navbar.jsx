@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => {
     hide: {
       display: "none",
     },
-
     appbarToolBar: {
       paddingLeft: 10,
       paddingRight: 10,
@@ -137,8 +136,8 @@ const Navbar = () => {
             <Avatar
               className={classes.smallAvatar}
               alt={username}
-              src={faker.internet.avatar()}
-              src={""}
+              // src={faker.internet.avatar()}
+              src={"GS"}
               variant="rounded"
             >
               {userinitials}

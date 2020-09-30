@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import PlainTextDialog from "./PlainTextDialog";
+import ListDialog from "./ListDialog";
+import TextDialog from "./TextDialog";
 
 const apexDialogs = {
-  plainTextDialog: PlainTextDialog,
+  listDialog: ListDialog,
+  textDialog: TextDialog,
 };
 
 const Dialogs = (props) => {
@@ -16,7 +18,7 @@ const Dialogs = (props) => {
         {dialogs.map((dialog, i) => {
           const { dialogType, dialogProps } = dialog;
 
-          if (dialog === undefined || dialog.show === false) return;
+          if (dialog === undefined || dialog.show === false) return null;
 
           const SpecificDialog = apexDialogs[dialogType];
 

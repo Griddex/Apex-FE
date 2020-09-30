@@ -73,7 +73,7 @@ const SelectSheet = (props) => {
   React.useEffect(() => {
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-  }, []);
+  }, [dispatch]);
 
   const {
     fileLastModified,

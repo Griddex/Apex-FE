@@ -12,13 +12,13 @@ import PersonIcon from "@material-ui/icons/Person";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import React, { useState } from "react";
+import { Formik } from "formik";
+import React from "react";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { serverLoginRequestAction } from "./../../../Import/Redux/Actions/DatabaseServerActions";
 import databaseServerState from "./../../../Import/Redux/State/DatabaseServerState";
-import * as Yup from "yup";
-import { Formik } from "formik";
-import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,12 +50,14 @@ const useStyles = makeStyles((theme) => ({
     border: `1.5px solid ${theme.palette.primary.main}`,
     fontWeight: "bold",
   },
+  form: { height: "100%" },
   connectButton: {
     color: theme.palette.primary.main,
     border: `1.5px solid ${theme.palette.primary.main}`,
     fontWeight: "bold",
     width: 184,
   },
+  grid: { width: "100%", height: "100%" },
   checkBox: { margin: 0 },
   selectItem: {},
 }));
@@ -137,12 +139,11 @@ const ServerLoginForm = () => {
         return (
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid
-              className={classes.bottomSection}
+              className={classes.grid}
               container
               direction="column"
               wrap="nowrap"
               justify="space-evenly"
-              alignItems="flex-start"
             >
               <Grid item container xs={8}>
                 <AnalyticsComp
@@ -219,18 +220,16 @@ const ServerLoginForm = () => {
                   label="Remember Password"
                 />
               </Grid>
+              <Grid item xs={12} container justify="center" alignItems="center">
+                <Button
+                  className={classes.connectButton}
+                  startIcon={<StorageOutlinedIcon />}
+                  disabled={!isValid}
+                >
+                  Connect
+                </Button>
+              </Grid>
             </Grid>
-
-            <div className={classes.connect}>
-              <Button
-                className={classes.connectButton}
-                startIcon={<StorageOutlinedIcon />}
-                onClick={() => console.log("Connect")}
-                disabled={!isValid}
-              >
-                Connect
-              </Button>
-            </div>
           </form>
         );
       }}

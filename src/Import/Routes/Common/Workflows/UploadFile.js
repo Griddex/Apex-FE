@@ -94,7 +94,7 @@ const UploadFile = () => {
 
   const workflowData = useSelector((state) => state.workflowReducer);
   const { skipped, isStepSkipped, activeStep, steps } = workflowData;
-  const [listItemSelected, setListItemSelected] = useState("");
+  const [selectedListItem, setSelectedListItem] = useState("");
 
   const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
 
@@ -109,10 +109,10 @@ const UploadFile = () => {
           workSheetNames.map((name, i) => (
             <ListItem
               key={i}
-              selected={name === listItemSelected}
+              selected={name === selectedListItem}
               button
               onClick={() => {
-                setListItemSelected(name);
+                setSelectedListItem(name);
                 dispatch(persistWorksheetAction(name, []));
               }}
             >
@@ -160,7 +160,7 @@ const UploadFile = () => {
         color: "primary",
         startIcon: <DoneOutlinedIcon />,
         handleAction: () => {
-          if (listItemSelected === "")
+          if (selectedListItem === "")
             enqueueSnackbar("Select a worksheet", {
               persist: false,
               variant: "error",
@@ -236,7 +236,7 @@ const UploadFile = () => {
 
             if (workSheetNames.length > 1) {
               const dialogParameters = {
-                dialogType: "plainTextDialog",
+                dialogType: "listDialog",
                 dialogProps: {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",

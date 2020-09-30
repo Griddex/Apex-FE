@@ -1,7 +1,7 @@
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import { makeStyles, fade } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -25,7 +25,6 @@ import PreviewSave from "../../Common/Workflows/PreviewSave";
 import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../Common/Workflows/SelectSheet";
 import UploadFile from "../../Common/Workflows/UploadFile";
-import ConnectDatabase from "./../../Common/Workflows/ConnectDatabase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +35,16 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   button: {
+    // width: 55,
+    // height: 45,
     marginRight: theme.spacing(1),
+  },
+  buttonContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    "& svg:first-child": { width: 15, height: 15 },
+    "& p:last-child": { fontSize: 12, fontWeight: "bold" },
   },
   workflowHeaderRow: {
     display: "flex",
@@ -76,8 +84,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
     "& > *": {
-      border: `2px solid`,
-      boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+      padding: theme.spacing(0.5),
+      height: 40,
+      width: 50,
+      // border: "1.5px solid",
     },
   },
   instructions: {
@@ -90,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//Props for excel workflow from forecasting or facilities
 const steps = [
   "Upload File",
   "Select Worksheet",
@@ -100,16 +111,6 @@ const steps = [
 ];
 
 const ExcelWorkflow = () => {
-  const isStepOptional = useCallback(() => activeStep === 50, [steps]);
-  const isStepSkipped = useCallback((step) => skipped.has(step), [steps]);
-  // const isStepFailed = useCallback((step) => activeStep === 50, [steps]);
-
-  useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
-  }, [steps, isStepOptional, isStepSkipped]);
-
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -118,12 +119,24 @@ const ExcelWorkflow = () => {
   const activeStep = useSelector((state) => state.workflowReducer.activeStep);
   const applicationData = useSelector((state) => state.applicationReducer);
   const { moduleName, subModuleName, workflowName } = applicationData;
+
+  const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
+  const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
+
   const data = { skipped, isStepSkipped, activeStep, steps, errorSteps: [] };
+  // const isStepFailed = useCallback((step) => activeStep === 50, [steps]);
+
+  useEffect(() => {
+    //Set optional steps here
+    //Error steps can be set from any view in a workflow
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
+    console.log("Hi!");
+  }, [dispatch, isStepOptional, isStepSkipped]);
 
   function renderImportStep(activeStep) {
     switch (activeStep) {
       case 0:
-        return <ConnectDatabase />;
+        return <UploadFile />;
       case 1:
         return <SelectSheet />;
       case 2:
@@ -135,7 +148,7 @@ const ExcelWorkflow = () => {
       case 5:
         return <PreviewSave />;
       default:
-        return <h1>No view</h1>;
+        return <h1>End</h1>;
     }
   }
 
@@ -167,18 +180,22 @@ const ExcelWorkflow = () => {
           color="secondary"
           onClick={() => dispatch(workflowResetAction(0))}
           className={classes.button}
-          startIcon={<RotateLeftIcon />}
         >
-          Reset
+          <div className={classes.buttonContent}>
+            <RotateLeftIcon />
+            <Typography>{"Reset"}</Typography>
+          </div>
         </Button>
         <Button
           variant="outlined"
           disabled={activeStep === 0}
           onClick={() => dispatch(workflowBackAction(activeStep))}
           className={classes.button}
-          startIcon={<ArrowBackIosIcon />}
         >
-          Back
+          <div className={classes.buttonContent}>
+            <ArrowBackIosIcon />
+            <Typography>{"Back"}</Typography>
+          </div>
         </Button>
         {isStepOptional(activeStep) && (
           <Button
@@ -189,29 +206,38 @@ const ExcelWorkflow = () => {
             }
             className={classes.button}
           >
-            Skip
+            {/* Skip */}
           </Button>
         )}
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
           onClick={() => {
             activeStep === steps
               ? dispatch(workflowSaveAction())
               : dispatch(
-                  workflowNextAction(skipped, isStepSkipped, activeStep, steps)
+                  workflowNextAction(
+                    skipped,
+                    isStepSkipped,
+                    activeStep,
+                    steps,
+                    "Loading..."
+                  )
                 );
           }}
           className={classes.button}
-          endIcon={
-            activeStep === steps.length - 1 ? (
-              <SaveIcon />
-            ) : (
-              <ArrowForwardIosIcon />
-            )
-          }
         >
-          {activeStep === steps.length - 1 ? "Save" : "Next"}
+          {activeStep === steps.length - 1 ? (
+            <div className={classes.buttonContent}>
+              <SaveIcon />
+              <Typography>{"Save"}</Typography>
+            </div>
+          ) : (
+            <div className={classes.buttonContent}>
+              <ArrowForwardIosIcon />
+              <Typography>{"Next"}</Typography>
+            </div>
+          )}
         </Button>
       </div>
     </div>

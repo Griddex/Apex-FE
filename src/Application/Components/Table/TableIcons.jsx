@@ -1,16 +1,15 @@
-import React from "react";
-import { makeStyles, fade } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
-import Popover, { ArrowContainer } from "react-tiny-popover";
-import SortPopover from "./../Popovers/SortPopover";
-import FilterPopover from "./../Popovers/FilterPopover";
-import MoreIconsPopover from "./../Popovers/MoreIconsPopover";
-import SortIcon from "@material-ui/icons/Sort";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
-import Button from "@material-ui/core/Button";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import SortIcon from "@material-ui/icons/Sort";
+import React from "react";
+import Popover, { ArrowContainer } from "react-tiny-popover";
+import FilterPopover from "./../Popovers/FilterPopover";
+import MoreIconsPopover from "./../Popovers/MoreIconsPopover";
+import SortPopover from "./../Popovers/SortPopover";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 const TableIcons = ({ localDispatch }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [isSortPopoverOpen, setIsSortPopoverOpen] = React.useState(false);
   const [isFilterPopoverOpen, setIsFilterPopoverOpen] = React.useState(false);
   const [isMoreIconsPopoverOpen, setIsMoreIconsPopoverOpen] = React.useState(

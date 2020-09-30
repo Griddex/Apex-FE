@@ -14,8 +14,6 @@ const dialogsReducer = (state = dialogsState, action) => {
       }; //Run down object tree till you find key, then change its value
 
     case SHOW_DIALOG:
-      // if(action.meta.exclusive)
-      const d = [action.payload];
       return {
         ...state,
         dialogs: action.meta.exclusive

@@ -78,7 +78,7 @@ export default function PreviewSave() {
   React.useEffect(() => {
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-  }, []);
+  }, [dispatch]);
 
   //File Headers
   const noAddedColumnstableData = useSelector(
@@ -226,7 +226,7 @@ export default function PreviewSave() {
 
   const addedColumnHeaders = [tableActions.actionName, tableRoles.roleName];
 
-  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
+  const [tableHeaders, tableData] = generateActualTable(
     addedColumnHeaders,
     TableActions,
     TableRoles,

@@ -266,6 +266,21 @@ export default function MatchUnits() {
       setSelectedAnchorMatchRowIndex,
     ] = React.useState(0);
 
+    const unitMatches = useSelector(
+      (state) => state.importReducer.fileUnitsMatch
+    );
+    const selectedUnitRowIndex = useSelector(
+      (state) => state.importReducer.selectedUnitRowIndex
+    );
+    const selectedUnitOptionIndex = useSelector(
+      (state) => state.importReducer.selectedUnitOptionIndex
+    );
+    const matchScores = Object.values(unitMatches[rowIndex]);
+    const score =
+      selectedUnitRowIndex === rowIndex
+        ? matchScores[selectedUnitOptionIndex]
+        : matchScores[0];
+
     const handleCheckboxChange = (event) => {
       event.persist();
 
@@ -331,7 +346,7 @@ export default function MatchUnits() {
   const tableColumnWidths = [40, tableActions.width, 300, 300, 200, 120, 180];
   const tableWidth = generateTableWidth(tableColumnWidths);
 
-  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
+  const [tableHeaders, tableData] = generateActualTable(
     addedColumnHeaders,
     TableActions,
     TableRoles,
@@ -344,7 +359,7 @@ export default function MatchUnits() {
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-  }, []);
+  }, [dispatch, unitMatches]);
 
   return (
     <div className={classes.rootMatchUnits}>

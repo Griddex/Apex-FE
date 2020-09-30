@@ -1,5 +1,3 @@
-import { checkPropTypes } from "prop-types";
-
 export const PERSIST_STORE = "PERSIST_STORE";
 export const SHOW_DIALOG = "SHOW_DIALOG";
 export const HIDE_DIALOG = "HIDE_DIALOG";

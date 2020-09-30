@@ -1,5 +1,4 @@
 const dialogsState = {
-  newDialogName: "",
   dialogs: [],
 };
 

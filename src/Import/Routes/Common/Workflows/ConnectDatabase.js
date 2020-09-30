@@ -10,6 +10,10 @@ import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import React, { useState } from "react";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ServerLoginForm from "./../../../../Application/Components/Forms/ServerLoginForm";
+import { useSelector, useDispatch } from "react-redux";
+import { hideDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import Dialogs from "./../../../../Application/Components/Dialogs/Dialogs";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,14 +31,15 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid #C4C4C4",
   },
   bottomSection: {
-    height: "50%",
+    height: "100%",
+    width: "100%",
     paddingTop: 20,
   },
   connect: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "10%",
+    height: "auto",
   },
   button: {
     color: theme.palette.primary.main,
@@ -53,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
 
 const ConnectDatabase = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const dbSourcesItemData = ["MSSQL Server", "Oracle Server"];
   const serverNameItemData = ["SQLDBSQLExpress", "OracleExpress"];
 
   const [itemName, setItemName] = useState("");
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
 
   const handleSelectChange = (event) => {
     const item = event.target.value;
@@ -86,19 +91,39 @@ const ConnectDatabase = () => {
     );
   };
 
-  const handleCheckboxChange = (event) => {
-    event.persist();
+  const connectDatabaseSuccessDialogActions = () => {
+    const buttonsData = [
+      {
+        title: "Cancel",
+        variant: "contained",
+        color: "primary",
+        startIcon: <DoneOutlinedIcon />,
+        handleAction: () => dispatch(hideDialogAction()),
+      },
+    ];
 
-    setCheckboxSelected(!checkboxSelected);
+    return buttonsData.map((button) => (
+      <Button
+        variant={button.variant}
+        color={button.color}
+        onClick={button.handleAction}
+        startIcon={button.startIcon}
+      >
+        {button.title}
+      </Button>
+    ));
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  const { dialogs } = useSelector((state) => state.dialogsReducer);
+  const currentDialog = dialogs[dialogs.length - 1];
+  const dialogsText = currentDialog && currentDialog.dialogsText;
 
   return (
     <Container className={classes.container} maxWidth="sm" fixed disableGutters>
+      <Dialogs
+        content={dialogsText}
+        actions={() => connectDatabaseSuccessDialogActions()}
+      />
       <Grid
         className={classes.topSection}
         container
@@ -157,7 +182,9 @@ const ConnectDatabase = () => {
           </Grid>
         </Grid>
       </Grid>
-      <ServerLoginForm />
+      <div className={classes.bottomSection}>
+        <ServerLoginForm />
+      </div>
     </Container>
   );
 };

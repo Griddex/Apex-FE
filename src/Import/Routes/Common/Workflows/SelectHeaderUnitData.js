@@ -49,20 +49,6 @@ export default function SelectHeaderUnitData() {
     console.log("Logged output -->: handlePickAction -> event", event);
   };
 
-  React.useEffect(() => {
-    const initialHeaders = Object.values(noAddedColumnTableData[0]);
-    const fileUnits = Object.values(noAddedColumnTableData[1]);
-    const fileUnitsUnique = uniq(fileUnits).filter((unit) => unit !== "");
-
-    dispatch(persistFileHeadersAction(initialHeaders));
-    dispatch(persistFileUnitsAction(fileUnits, fileUnitsUnique));
-    dispatch(persistTableRolesIndicesAction(tableRoleIndices));
-    dispatch(persistTableDataAction(noAddedColumnTableData));
-
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
-    dispatch(hideSpinnerAction());
-  }, []);
-
   const rawTableData = useSelector(
     (state) => state.importReducer.selectedWorksheetData
   );
@@ -137,6 +123,20 @@ export default function SelectHeaderUnitData() {
     tableRoles.width
   );
   const tableWidth = generateTableWidth(tableColumnWidths);
+
+  React.useEffect(() => {
+    const initialHeaders = Object.values(noAddedColumnTableData[0]);
+    const fileUnits = Object.values(noAddedColumnTableData[1]);
+    const fileUnitsUnique = uniq(fileUnits).filter((unit) => unit !== "");
+
+    dispatch(persistFileHeadersAction(initialHeaders));
+    dispatch(persistFileUnitsAction(fileUnits, fileUnitsUnique));
+    dispatch(persistTableRolesIndicesAction(tableRoleIndices));
+    dispatch(persistTableDataAction(noAddedColumnTableData));
+
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
+  }, [dispatch, noAddedColumnTableData, tableRoleIndices]);
 
   return (
     <div className={classes.rootParseTable}>

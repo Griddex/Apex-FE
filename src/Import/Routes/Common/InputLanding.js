@@ -8,9 +8,8 @@ import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutAct
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import ExcelWorkflow from "../FacilitiesDeck/FacilitiesInputWorkflows/ExcelWorkflow";
-import DatabaseWorkflow from "../FacilitiesDeck/FacilitiesInputWorkflows/DatabaseWorkflow";
-//To be a prop for this component
+import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
+import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   InputLanding: {
@@ -42,7 +41,6 @@ const InputLanding = ({ subModule: { name } }) => {
   const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
   const nameLowCase = name.toLowerCase();
 
-  //Prop from forecasting or facilities
   const inputLandingData = [
     {
       name: "Excel + Plain Text",

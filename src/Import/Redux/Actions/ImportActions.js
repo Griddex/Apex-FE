@@ -168,24 +168,3 @@ export const persistTableDataAction = (tableData) => {
     payload: { tableData },
   };
 };
-
-export const ImportLoadingAction = () => {
-  return {
-    type: IMPORT_EXCEL_LOADING,
-    payload: { Loading: true },
-  };
-};
-
-export const ImportMatchingAction = (state) => {
-  return {
-    type: IMPORT_EXCEL_MATCHING,
-    payload: { Matching: state },
-  };
-};
-
-export const ImportParseTableAction = (result) => {
-  return {
-    type: IMPORT_EXCELWORKSHEETPARSE_NAVIGATE,
-    payload: { extrudeParseTable: result },
-  };
-};
