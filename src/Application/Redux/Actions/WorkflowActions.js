@@ -41,7 +41,7 @@ export const workflowNextAction = (
       activeStep,
       steps,
     },
-    meta: { showSpinner: true, message },
+    meta: { showSpinner: false, message },
   };
 };
 

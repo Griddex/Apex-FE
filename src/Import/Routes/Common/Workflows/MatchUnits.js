@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "85%",
-    height: "90%",
+    height: "95%",
     border: "1px solid #A8A8A8",
     boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",
@@ -343,23 +343,26 @@ export default function MatchUnits() {
       [actualColumnHeaders[4]]: <AnchorMatch rowIndex={i} />,
     };
   });
+  console.log("Logged output -->: cleanTableData", cleanTableData);
   const tableColumnWidths = [40, tableActions.width, 300, 300, 200, 120, 180];
   const tableWidth = generateTableWidth(tableColumnWidths);
 
-  const [tableHeaders, tableData] = generateActualTable(
+  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
     addedColumnHeaders,
     TableActions,
     TableRoles,
     actualColumnHeaders,
     cleanTableData
   );
+  console.log("Logged output -->: tableData", tableData);
+  console.log("Logged output -->: tableHeaders", tableHeaders);
 
   React.useEffect(() => {
     dispatch(persistFileUnitsMatchAction(unitMatches));
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-  }, [dispatch, unitMatches]);
+  }, [dispatch]);
 
   return (
     <div className={classes.rootMatchUnits}>

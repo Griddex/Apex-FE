@@ -243,7 +243,7 @@ const UploadFile = () => {
                   show: true,
                   exclusive: true,
                   maxwidth: "sm",
-                  icon: <PlaylistAddCheckOutlinedIcon />,
+                  iconClass: "select",
                 },
               };
 

@@ -25,6 +25,7 @@ import PreviewSave from "../Workflows/PreviewSave";
 import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
 import ConnectDatabase from "../Workflows/ConnectDatabase";
 import SelectDatabase from "../../../Components/SelectDatabase";
+import UploadFile from "./../Workflows/UploadFile";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,8 +65,9 @@ const useStyles = makeStyles((theme) => ({
   },
   workflowBody: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     height: "90%",
+    width: "100%",
     alignItems: "center",
     justifyContent: "center", //around, between
     // justifyContent: "space-evenly", //around, between
@@ -73,10 +75,15 @@ const useStyles = makeStyles((theme) => ({
   workflowDatabasePanel: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
+    alignSelf: "flex-start",
+    height: "95%",
     width: "20%",
+    border: "1px solid #A8A8A8",
+    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    backgroundColor: "#FFF",
+    padding: 20,
   },
-  workflowContent: { height: "100%", width: "80%" },
+  workflowContent: { height: "100%", width: "90%" },
   navigationbuttons: {
     display: "flex",
     justifyContent: "center",
@@ -98,6 +105,7 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = [
   "Connect Database",
+  "Upload File",
   "Map Headers, Units and Data",
   "Match Headers",
   "Match Units",
@@ -131,12 +139,14 @@ const DatabaseWorkflow = () => {
       case 0:
         return <ConnectDatabase />;
       case 1:
-        return <SelectHeaderUnitData />;
+        return <UploadFile />;
       case 2:
-        return <MatchHeaders />;
+        return <SelectHeaderUnitData />;
       case 3:
-        return <MatchUnits />;
+        return <MatchHeaders />;
       case 4:
+        return <MatchUnits />;
+      case 5:
         return <PreviewSave />;
       default:
         return <h1>No view</h1>;
@@ -160,7 +170,7 @@ const DatabaseWorkflow = () => {
         </Box>
       </Container>
       <div className={classes.workflowBody}>
-        {activeStep > 0 && (
+        {activeStep > 1 && (
           <div className={classes.workflowDatabasePanel}>
             <SelectDatabase />
           </div>

@@ -136,7 +136,7 @@ export default function SelectHeaderUnitData() {
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-  }, [dispatch, noAddedColumnTableData, tableRoleIndices]);
+  }, [dispatch]);
 
   return (
     <div className={classes.rootParseTable}>

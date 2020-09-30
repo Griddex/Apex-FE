@@ -16,6 +16,7 @@ export default function* watchConnectDatabaseSaga() {
 
 function* connectDatabaseSaga(action) {
   const { payload } = action;
+  const { successDialogPayload, failureDialogPayload } = payload;
   //add authenticationType
   const { userName, password } = payload;
 
@@ -43,20 +44,8 @@ function* connectDatabaseSaga(action) {
 
     //dispatch spinner
     //after success,
-    const dialogParameters = {
-      dialogType: "textDialog",
-      dialogProps: {
-        name: "Connect_Database_Success_Dialog",
-        title: "Save Operation Success",
-        show: true,
-        exclusive: true,
-        maxwidth: "xs",
-        icon: <CheckCircleIcon />,
-        dialogText: "Database connection successful",
-      },
-    };
 
-    yield put(showDialogAction(dialogParameters));
+    yield put(showDialogAction(successDialogPayload));
   } catch (errors) {
     const failureAction = serverLoginFailureAction();
 
@@ -64,6 +53,8 @@ function* connectDatabaseSaga(action) {
       ...failureAction,
       payload: { ...payload, statusCode: statusCode, errors: errors },
     });
+
+    yield put(showDialogAction(failureDialogPayload));
   }
 
   yield put(hideSpinnerAction());

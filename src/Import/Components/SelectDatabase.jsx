@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "overlay",
     border: "1px solid #F7F7F7",
   },
+  dbTables: { marginTop: 50 },
 }));
 
 const databases = ["ForecastingDb", "MainDb"];
@@ -114,14 +115,18 @@ const SelectDatabase = () => {
 
   return (
     <>
-      <AnalyticsComp
-        title="Select Database"
-        content={<SelectItem classes={classes} />}
-      />
-      <AnalyticsComp
-        title="List of Tables"
-        content={<DatabaseTables classes={classes} />}
-      />
+      <div>
+        <AnalyticsComp
+          title="Select Database"
+          content={<SelectItem classes={classes} />}
+        />
+      </div>
+      <div className={classes.dbTables}>
+        <AnalyticsComp
+          title="List of Tables"
+          content={<DatabaseTables classes={classes} />}
+        />
+      </div>
     </>
   );
 };

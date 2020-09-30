@@ -94,8 +94,8 @@ const ConnectDatabase = () => {
   const connectDatabaseSuccessDialogActions = () => {
     const buttonsData = [
       {
-        title: "Cancel",
-        variant: "contained",
+        title: "Okay",
+        variant: "outlined",
         color: "primary",
         startIcon: <DoneOutlinedIcon />,
         handleAction: () => dispatch(hideDialogAction()),

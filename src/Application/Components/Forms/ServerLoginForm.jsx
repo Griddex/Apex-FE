@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import LockIcon from "@material-ui/icons/Lock";
 import PersonIcon from "@material-ui/icons/Person";
@@ -19,6 +19,8 @@ import * as Yup from "yup";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { serverLoginRequestAction } from "./../../../Import/Redux/Actions/DatabaseServerActions";
 import databaseServerState from "./../../../Import/Redux/State/DatabaseServerState";
+import WarningIcon from "@material-ui/icons/Warning";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,7 +54,8 @@ const useStyles = makeStyles((theme) => ({
   },
   form: { height: "100%" },
   connectButton: {
-    color: theme.palette.primary.main,
+    color: "#FFF",
+    backgroundColor: theme.palette.primary.main,
     border: `1.5px solid ${theme.palette.primary.main}`,
     fontWeight: "bold",
     width: 184,
@@ -85,6 +88,7 @@ const SelectItem = ({ handleChange, authenticationType, itemData }) => {
 const ServerLoginForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const authenticationTypeList = [
     "Server Authentication",
@@ -109,6 +113,36 @@ const ServerLoginForm = () => {
     setCheckboxSelected(!checkboxSelected);
   };
 
+  const successDialogPayload = {
+    dialogType: "textDialog",
+    dialogProps: {
+      name: "Connect_Database_Success_Dialog",
+      title: "Save Operation Success",
+      show: true,
+      exclusive: true,
+      maxwidth: "xs",
+      icon: () => <CheckCircleIcon />,
+      iconClass: "success",
+      iconColor: theme.palette.primary.main,
+      dialogText: "Database connection successful",
+    },
+  };
+
+  const failureDialogPayload = {
+    dialogType: "textDialog",
+    dialogProps: {
+      name: "Connect_Database_Failure_Dialog",
+      title: "Save Operation Failure",
+      show: true,
+      exclusive: true,
+      maxwidth: "xs",
+      icon: () => <WarningIcon />,
+      iconClass: "error",
+      iconColor: theme.palette.secondary.main,
+      dialogText: "Database connection failure",
+    },
+  };
+
   return (
     <Formik
       initialValues={databaseServerState}
@@ -121,8 +155,15 @@ const ServerLoginForm = () => {
       })}
       onSubmit={({ authenticationType, userName, password }) => {
         //write saga for async
+        console.log("Hey");
         dispatch(
-          serverLoginRequestAction(authenticationType, userName, password)
+          serverLoginRequestAction(
+            authenticationType,
+            userName,
+            password,
+            successDialogPayload,
+            failureDialogPayload
+          )
         );
       }}
     >
@@ -222,6 +263,7 @@ const ServerLoginForm = () => {
               </Grid>
               <Grid item xs={12} container justify="center" alignItems="center">
                 <Button
+                  type="submit"
                   className={classes.connectButton}
                   startIcon={<StorageOutlinedIcon />}
                   disabled={!isValid}

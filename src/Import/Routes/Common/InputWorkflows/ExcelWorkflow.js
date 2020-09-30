@@ -131,7 +131,7 @@ const ExcelWorkflow = () => {
     //Error steps can be set from any view in a workflow
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
     console.log("Hi!");
-  }, [dispatch, isStepOptional, isStepSkipped]);
+  }, [dispatch]);
 
   function renderImportStep(activeStep) {
     switch (activeStep) {

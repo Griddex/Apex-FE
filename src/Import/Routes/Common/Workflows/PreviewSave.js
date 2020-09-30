@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "85%",
-    height: "100%",
+    height: "95%",
     border: "1px solid #A8A8A8",
     boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",
@@ -226,7 +226,7 @@ export default function PreviewSave() {
 
   const addedColumnHeaders = [tableActions.actionName, tableRoles.roleName];
 
-  const [tableHeaders, tableData] = generateActualTable(
+  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
     addedColumnHeaders,
     TableActions,
     TableRoles,

@@ -10,6 +10,15 @@ import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { useDispatch } from "react-redux";
+import WarningIcon from "@material-ui/icons/Warning";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
+
+const icons = {
+  error: <WarningIcon style={{ color: "#DA1B57" }} />,
+  success: <CheckCircleIcon style={{ color: "#2BB4C1" }} />,
+  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#2BB4C1" }} />,
+};
 
 const dialogTitleStyles = (theme) => ({
   root: {
@@ -17,7 +26,6 @@ const dialogTitleStyles = (theme) => ({
     padding: theme.spacing(1.5),
     height: 48,
   },
-
   dialogHeader: {
     display: "flex",
     flexWrap: "wrap",
@@ -29,6 +37,7 @@ const dialogTitleStyles = (theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
+    // color: (props) => props.iconColor,
   },
   dialogTitle: {
     display: "flex",
@@ -53,6 +62,7 @@ const useDialogContentStyles = makeStyles((theme) => ({
 }));
 
 const DialogTitle = withStyles(dialogTitleStyles)((props) => {
+  console.log("Logged output -->: DialogTitle -> props", props);
   const { icon, children, classes, onClose, ...other } = props;
 
   return (
@@ -60,10 +70,8 @@ const DialogTitle = withStyles(dialogTitleStyles)((props) => {
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>{icon}</div>
         <div className={classes.dialogTitle}>
-          {/* <Typography variant="h5" component="h2"> */}
           <Typography variant="h6">{children}</Typography>
         </div>
-        {/* <div className={classes.closeIcon}> */}
         {onClose ? (
           <IconButton
             className={classes.closeButton}
@@ -73,7 +81,6 @@ const DialogTitle = withStyles(dialogTitleStyles)((props) => {
             <CloseIcon />
           </IconButton>
         ) : null}
-        {/* </div> */}
       </div>
     </MuiDialogTitle>
   );
@@ -99,14 +106,17 @@ const DialogActions = withStyles((theme) => ({
 export default function TextDialog({
   show,
   icon,
+  iconClass,
   title,
-  content,
   actions,
+  dialogText,
   maxWidth,
 }) {
   const classes = useDialogContentStyles();
   const dispatch = useDispatch();
 
+  console.log("Logged output -->: icon", icon);
+  console.log("Logged output -->: icons[iconClass]", icons[iconClass]);
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
@@ -117,13 +127,13 @@ export default function TextDialog({
       <DialogTitle
         id="customized-dialog-title"
         onClose={() => dispatch(hideDialogAction())}
-        icon={icon}
+        icon={icons[iconClass]}
       >
         {title}
       </DialogTitle>
       <DialogContent dividers>
         <Typography className={classes.dialogContent} variant="body1">
-          {content}
+          {dialogText}
         </Typography>
         <Divider />
       </DialogContent>

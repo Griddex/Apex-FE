@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 const dialogTitleStyles = (theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(1),
     height: 48,
   },
 
@@ -29,6 +29,11 @@ const dialogTitleStyles = (theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
+    // backgroundColor: (props) => props.iconColor,
+    color: (props) => {
+      console.log(props);
+      return props.iconColor;
+    },
   },
   dialogTitle: {
     display: "flex",
@@ -53,17 +58,16 @@ const useDialogContentStyles = makeStyles((theme) => ({
 }));
 
 const DialogTitle = withStyles(dialogTitleStyles)((props) => {
-  const { icon, children, classes, onClose, ...other } = props;
+  console.log("Logged output -->: DialogTitle -> props", props);
+  const { icon, iconColor, children, classes, onClose, ...other } = props;
 
   return (
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>{icon}</div>
         <div className={classes.dialogTitle}>
-          {/* <Typography variant="h5" component="h2"> */}
           <Typography variant="h6">{children}</Typography>
         </div>
-        {/* <div className={classes.closeIcon}> */}
         {onClose ? (
           <IconButton
             className={classes.closeButton}
@@ -73,7 +77,6 @@ const DialogTitle = withStyles(dialogTitleStyles)((props) => {
             <CloseIcon />
           </IconButton>
         ) : null}
-        {/* </div> */}
       </div>
     </MuiDialogTitle>
   );
@@ -99,6 +102,8 @@ const DialogActions = withStyles((theme) => ({
 export default function ListDialog({
   show,
   icon,
+  iconColor,
+  iconClass,
   title,
   content,
   actions,
@@ -117,7 +122,8 @@ export default function ListDialog({
       <DialogTitle
         id="customized-dialog-title"
         onClose={() => dispatch(hideDialogAction())}
-        icon={icon}
+        icon={iconClass[iconClass]}
+        iconColor={iconColor}
       >
         {title}
       </DialogTitle>
