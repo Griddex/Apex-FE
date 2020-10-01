@@ -12,6 +12,7 @@ import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth
 import regenerateTableWithActualHeaders from "../../../../Application/Utils/RegenerateTableWithActualHeaders";
 import { persistSelectedUnitRowOptionIndicesAction } from "../../../Redux/Actions/ImportActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import { persistTableRolesIndicesAction } from "./../../../Redux/Actions/ImportActions";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -74,11 +75,6 @@ export default function PreviewSave() {
       event.target.name
     );
   };
-
-  React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
 
   //File Headers
   const noAddedColumnstableData = useSelector(
@@ -143,19 +139,18 @@ export default function PreviewSave() {
   };
 
   //Grab indices that defines header, units and body rows
-  const tableRoleIndicesInitial = useSelector(
+  const tableRoleIndices = useSelector(
     (state) => state.importReducer.tableRoleIndices
   );
 
   let headerRow = {};
   let tableRows = [];
-  let tableRoleIndices = [];
+  let newtableRoleIndices = [];
   for (let i = 0; i < noAddedColumnstableData.length; i++) {
-    const roleIndex = tableRoleIndicesInitial[i];
-    switch (roleIndex) {
+    const roleNumber = tableRoleIndices[i];
+    switch (roleNumber) {
       case 0:
         headerRow = noAddedColumnstableData[i];
-
         break;
       case 2:
         tableRows.push(noAddedColumnstableData[i]);
@@ -163,19 +158,21 @@ export default function PreviewSave() {
       default:
         break;
     }
-    if (i === 0) tableRoleIndices.push(1);
-    else tableRoleIndices.push(2);
+    if (i === 0) newtableRoleIndices.push(1);
+    else newtableRoleIndices.push(2);
   }
 
+  //Define headers
   const applicationHeaders = Object.values(headerRow);
   const interimHeaders = Object.keys(headerRow);
+
+  //Define units row
   const unitSelectRow = applicationHeaders.reduce((a, _, i) => {
     return {
       ...a,
       [interimHeaders[i]]: <UnitSelect columnIndex={i} />, //what header is this?
     };
   }, {});
-
   const aggregateTableData = [unitSelectRow, ...tableRows];
 
   //Regenerate Table with actual headers
@@ -219,7 +216,6 @@ export default function PreviewSave() {
       i,
       roleNames,
       roleColors,
-      tableRoleIndices, //pass in disabled button prop here
     });
     TableRoles.push({ [tableRoles.roleName]: role });
   }
@@ -241,6 +237,12 @@ export default function PreviewSave() {
   );
 
   const tableWidth = generateTableWidth(tableColumnWidths);
+
+  React.useEffect(() => {
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
+    dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
+  }, [dispatch]);
 
   return (
     <div className={classes.rootPreviewSave}>

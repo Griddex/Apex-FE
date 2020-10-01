@@ -100,7 +100,6 @@ export default function SelectHeaderUnitData() {
       i,
       roleNames,
       roleColors,
-      tableRoleIndices,
     });
     TableRoles.push({ [tableRoles.roleName]: role });
   }

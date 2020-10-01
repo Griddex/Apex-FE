@@ -26,6 +26,7 @@ import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
 import ConnectDatabase from "../Workflows/ConnectDatabase";
 import SelectDatabase from "../../../Components/SelectDatabase";
 import UploadFile from "./../Workflows/UploadFile";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -228,13 +229,13 @@ const DatabaseWorkflow = () => {
           className={classes.button}
           endIcon={
             activeStep === steps.length - 1 ? (
-              <SaveIcon />
+              <DoneAllIcon />
             ) : (
               <ArrowForwardIosIcon />
             )
           }
         >
-          {activeStep === steps.length - 1 ? "Save" : "Next"}
+          {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
       </div>
     </div>

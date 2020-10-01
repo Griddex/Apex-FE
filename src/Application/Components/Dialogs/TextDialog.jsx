@@ -62,7 +62,6 @@ const useDialogContentStyles = makeStyles((theme) => ({
 }));
 
 const DialogTitle = withStyles(dialogTitleStyles)((props) => {
-  console.log("Logged output -->: DialogTitle -> props", props);
   const { icon, children, classes, onClose, ...other } = props;
 
   return (
@@ -115,8 +114,6 @@ export default function TextDialog({
   const classes = useDialogContentStyles();
   const dispatch = useDispatch();
 
-  console.log("Logged output -->: icon", icon);
-  console.log("Logged output -->: icons[iconClass]", icons[iconClass]);
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"

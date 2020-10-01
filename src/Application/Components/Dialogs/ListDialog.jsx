@@ -31,7 +31,6 @@ const dialogTitleStyles = (theme) => ({
     height: "100%",
     // backgroundColor: (props) => props.iconColor,
     color: (props) => {
-      console.log(props);
       return props.iconColor;
     },
   },
@@ -58,7 +57,6 @@ const useDialogContentStyles = makeStyles((theme) => ({
 }));
 
 const DialogTitle = withStyles(dialogTitleStyles)((props) => {
-  console.log("Logged output -->: DialogTitle -> props", props);
   const { icon, iconColor, children, classes, onClose, ...other } = props;
 
   return (

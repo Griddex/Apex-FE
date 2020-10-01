@@ -130,6 +130,10 @@ export default function MatchUnits() {
   //set score to zero and red background
   //Monitor all currently selected to ensure no app header is
   //selected twice
+  console.log(
+    "Logged output -->: MatchUnits -> fileUnitsUnique",
+    fileUnitsUnique
+  );
   const unitMatches = fileUnitsUnique.map((fileUnit) => {
     const matchedUnits = fuse.search(fileUnit).map((match) => match["item"]);
     const matchedScores = fuse.search(fileUnit).map((match) => match["score"]);
@@ -354,8 +358,6 @@ export default function MatchUnits() {
     actualColumnHeaders,
     cleanTableData
   );
-  console.log("Logged output -->: tableData", tableData);
-  console.log("Logged output -->: tableHeaders", tableHeaders);
 
   React.useEffect(() => {
     dispatch(persistFileUnitsMatchAction(unitMatches));

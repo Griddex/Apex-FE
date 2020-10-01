@@ -155,7 +155,6 @@ const ServerLoginForm = () => {
       })}
       onSubmit={({ authenticationType, userName, password }) => {
         //write saga for async
-        console.log("Hey");
         dispatch(
           serverLoginRequestAction(
             authenticationType,

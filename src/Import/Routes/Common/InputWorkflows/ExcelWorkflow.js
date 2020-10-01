@@ -25,6 +25,7 @@ import PreviewSave from "../../Common/Workflows/PreviewSave";
 import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../Common/Workflows/SelectSheet";
 import UploadFile from "../../Common/Workflows/UploadFile";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -130,7 +131,6 @@ const ExcelWorkflow = () => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
-    console.log("Hi!");
   }, [dispatch]);
 
   function renderImportStep(activeStep) {
@@ -229,8 +229,8 @@ const ExcelWorkflow = () => {
         >
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
-              <SaveIcon />
-              <Typography>{"Save"}</Typography>
+              <DoneAllIcon />
+              <Typography>{"Finish"}</Typography>
             </div>
           ) : (
             <div className={classes.buttonContent}>
