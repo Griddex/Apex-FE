@@ -7,6 +7,7 @@ const applicationState = {
 
   newTabs: [],
   newTabPanels: [],
+  currentMainTabValue: 0,
 };
 
 export default applicationState;

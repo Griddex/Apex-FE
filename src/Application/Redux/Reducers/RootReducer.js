@@ -6,6 +6,7 @@ import importReducer from "./../../../Import/Redux/Reducers/ImportReducer";
 import dialogsReducer from "./DialogsReducer";
 import workflowReducer from "./WorkflowReducer";
 import applicationReducer from "./ApplicationReducer";
+import chartReducer from "./../../../Visualytics/Redux/ChartReducer/ChartReducer";
 
 const rootReducer = combineReducers({
   loginReducer,
@@ -15,5 +16,6 @@ const rootReducer = combineReducers({
   workflowReducer,
   applicationReducer,
   importReducer,
+  chartReducer,
 });
 export default rootReducer;

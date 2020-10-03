@@ -16,6 +16,7 @@ import { persistWorksheetAction } from "../../../Redux/Actions/ImportActions";
 import FileIconService from "../../../Services/FileIconService";
 import { useSnackbar } from "notistack";
 import AnalyticsComp from "./../../../../Application/Components/Basic/AnalyticsComp";
+import formatDate from "./../../../../Application/Utils/FormatDate";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -199,13 +200,13 @@ const SelectSheet = (props) => {
             <Grid item xs>
               <AnalyticsComp
                 title="File Created"
-                content={fileCreated.toString()}
+                content={formatDate(fileCreated).toString()}
               />
             </Grid>
             <Grid item xs>
               <AnalyticsComp
                 title="File Last Modified"
-                content={fileLastModified.toString()}
+                content={formatDate(fileLastModified).toString()}
               />
             </Grid>
           </Grid>

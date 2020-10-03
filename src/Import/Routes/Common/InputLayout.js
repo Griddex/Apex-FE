@@ -10,7 +10,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import EconomicsLanding from "../EconomicsData/EconomicsLanding";
-import ProductionLanding from "../ProductionData/ProductionLanding";
+import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
 import InputBackground from "./InputBackground";
 import InputLanding from "./InputLanding";
 
@@ -92,7 +92,9 @@ const InputLayout = () => {
                     <InputLanding subModule={subModule.forecastdeck} />
                   ),
                   productiondata: (
-                    <ProductionLanding subModule={subModule.productiondata} />
+                    <ProductionDataLanding
+                      subModule={subModule.productiondata}
+                    />
                   ),
                   economicsdata: (
                     <EconomicsLanding subModule={subModule.economicsdata} />

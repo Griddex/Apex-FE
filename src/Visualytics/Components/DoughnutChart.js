@@ -3,7 +3,7 @@ import React from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 const useStyles = makeStyles(() => ({
-  root: {
+  rootDoughnutChart: {
     marginTop: 10,
   },
 }));
@@ -60,13 +60,13 @@ const DoughnutChart = ({ data }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart className={classes.root}>
+      <PieChart className={classes.rootDoughnutChart}>
         <Pie
           data={data}
           dataKey="value"
           nameKey="name"
-          innerRadius={35}
-          outerRadius={50}
+          innerRadius={"60%"}
+          outerRadius={"80%"}
           paddingAngle={3}
           onMouseEnter={onPieEnter}
           label={renderLabel}

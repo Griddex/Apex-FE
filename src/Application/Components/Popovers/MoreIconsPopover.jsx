@@ -22,7 +22,10 @@ import ViewQuiltOutlinedIcon from "@material-ui/icons/ViewQuiltOutlined";
 import ViewStreamOutlinedIcon from "@material-ui/icons/ViewStreamOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addTabAction } from "../../Redux/Actions/ApplicationActions";
+import {
+  addTabAction,
+  setCurrentMainTabValueAction,
+} from "../../Redux/Actions/ApplicationActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,16 +60,12 @@ const useStyles = makeStyles((theme) => ({
   listItem: { padding: 0, cursor: "pointer" },
   itemIcon: {
     color: theme.palette.primary.main,
+    minWidth: 30,
   },
   moreItems: {
     display: "flex",
     justifyContent: "flex-end",
     color: theme.palette.primary.main,
-  },
-  listItemAvatar: {
-    textAlign: "center",
-    color: theme.palette.primary.main,
-    fontWeight: "bold",
   },
   cancelButton: {
     border: `2px solid ${theme.palette.secondary.main}`,
@@ -162,12 +161,14 @@ const MoreIconsPopover = React.forwardRef(
         icon: <LandscapeOutlinedIcon />,
         title: "Show Visualization",
         children: null,
-        callBack: () =>
+        callBack: () => {
           dispatch(
             addTabAction({ label: "visualytics", displayed: false }, [
               "visualytics",
             ])
-          ),
+          );
+          dispatch(setCurrentMainTabValueAction(1));
+        },
       },
       {
         icon: <PanoramaHorizontalOutlinedIcon />,

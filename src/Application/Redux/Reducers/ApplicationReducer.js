@@ -5,6 +5,7 @@ import {
   SET_WORKFLOWMENU,
   SET_SUBNAVBARDATA,
   ADD_TAB,
+  SET_CURRENTMAINTABVALUE,
 } from "../Actions/ApplicationActions";
 import applicationState from "../State/ApplicationState";
 
@@ -39,11 +40,18 @@ const applicationReducer = (state = applicationState, action) => {
         ...state,
         subNavbarData: action.payload.subNavbarData,
       };
+
     case ADD_TAB:
       return {
         ...state,
         newTabs: [...state.newTabs, action.payload.newTab],
         newTabPanels: [...state.newTabPanels, action.payload.newTabPanel],
+      };
+
+    case SET_CURRENTMAINTABVALUE:
+      return {
+        ...state,
+        ...action.payload,
       };
 
     default:

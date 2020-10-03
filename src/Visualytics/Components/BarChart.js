@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -12,7 +12,7 @@ import {
 } from "recharts";
 
 const useStyles = makeStyles(() => ({
-  rootLineChart: {
+  rootBarChart: {
     marginTop: 10,
   },
 }));
@@ -27,31 +27,26 @@ const data = [
   { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-const SimpleLineChart = () => {
+const SimpleBarChart = () => {
   const classes = useStyles();
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        className={classes.rootLineChart}
+      <BarChart
+        className={classes.rootBarChart}
         data={data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
+        <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
-        <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
         <Legend />
-        <Line
-          type="monotone"
-          dataKey="pv"
-          stroke="#8884d8"
-          activeDot={{ r: 8 }}
-        />
-        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-      </LineChart>
+        <Bar dataKey="pv" fill="#8884d8" />
+        <Bar dataKey="uv" fill="#82ca9d" />
+      </BarChart>
     </ResponsiveContainer>
   );
 };
 
-export default SimpleLineChart;
+export default SimpleBarChart;

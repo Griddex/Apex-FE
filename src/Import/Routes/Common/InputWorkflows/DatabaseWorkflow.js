@@ -171,7 +171,7 @@ const DatabaseWorkflow = () => {
         </Box>
       </Container>
       <div className={classes.workflowBody}>
-        {activeStep > 1 && (
+        {activeStep === 2 && (
           <div className={classes.workflowDatabasePanel}>
             <SelectDatabase />
           </div>
