@@ -16,6 +16,8 @@ import {
   PERSIST_FILEUNITSMATCH,
   PERSIST_TABLEROLESINDICES,
   PERSIST_TABLEDATA,
+  PERSIST_TABLEHEADERS,
+  PERSIST_OPTIONINDICES,
   IMPORT_EXCEL_LOADING,
   IMPORT_EXCEL_MATCHING,
   IMPORT_EXCELWORKSHEETNAME_SET,
@@ -94,6 +96,12 @@ const importReducer = (state = importState, action) => {
       return { ...state, ...action.payload };
 
     case PERSIST_TABLEDATA:
+      return { ...state, ...action.payload };
+
+    case PERSIST_TABLEHEADERS:
+      return { ...state, ...action.payload };
+
+    case PERSIST_OPTIONINDICES:
       return { ...state, ...action.payload };
 
     case PERSIST_WORKSHEETFORTABLE:

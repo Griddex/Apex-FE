@@ -4,6 +4,9 @@ const applicationState = {
   workflowName: "",
 
   subNavbarData: [],
+
+  newTabs: [],
+  newTabPanels: [],
 };
 
 export default applicationState;

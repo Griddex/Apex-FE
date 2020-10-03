@@ -1,4 +1,4 @@
-import { fade, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -9,6 +9,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ApexTable from "../../../../Application/Components/Table/ApexTable";
 import TableAction from "../../../../Application/Components/Table/TableAction";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import generateActualTable from "../../../../Application/Utils/GenerateActualTable";
 import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
@@ -16,17 +17,14 @@ import {
   persistFileUnitsMatchAction,
   persistSelectedUnitRowOptionIndicesAction,
 } from "../../../Redux/Actions/ImportActions";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   rootMatchUnits: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "85%",
-    height: "95%",
-    border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    width: "100%",
+    height: "100%",
     backgroundColor: "#FFF",
   },
   chart: {
@@ -85,27 +83,12 @@ export default function MatchUnits() {
   //Actions
   const handleEditAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleEditAction -> i", i);
-    console.log(
-      "Logged output -->: handleEditAction -> event.target.name",
-      event.target.name
-    );
   };
   const handleDeleteAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleDeleteAction -> i", i);
-    console.log(
-      "Logged output -->: handleDeleteAction -> event.target.name",
-      event.target.name
-    );
   };
   const handlePickAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handlePickAction -> i", i);
-    console.log(
-      "Logged output -->: handlePickAction -> event.target.name",
-      event.target.name
-    );
   };
 
   //File Headers
@@ -130,10 +113,7 @@ export default function MatchUnits() {
   //set score to zero and red background
   //Monitor all currently selected to ensure no app header is
   //selected twice
-  console.log(
-    "Logged output -->: MatchUnits -> fileUnitsUnique",
-    fileUnitsUnique
-  );
+
   const unitMatches = fileUnitsUnique.map((fileUnit) => {
     const matchedUnits = fuse.search(fileUnit).map((match) => match["item"]);
     const matchedScores = fuse.search(fileUnit).map((match) => match["score"]);
@@ -148,6 +128,34 @@ export default function MatchUnits() {
       return zipobject(applicationUnits, zeroScores);
     }
   });
+
+  const fullMatch = unitMatches.reduce((a, match) => {
+    const bestMatch = 1 - parseFloat(Object.values(match)[0]);
+
+    if (bestMatch === 0.0) {
+      return a + 1;
+    } else return a;
+  }, 0);
+  const partialMatch = unitMatches.reduce((a, match) => {
+    const bestMatch = 1 - parseFloat(Object.values(match)[0]);
+
+    if (bestMatch > 0.0 && bestMatch < 1.0) {
+      return a + 1;
+    } else return a;
+  }, 0);
+  const NoMatch = unitMatches.reduce((a, match) => {
+    const bestMatch = 1 - parseFloat(Object.values(match)[0]);
+
+    if (bestMatch === 1.0) {
+      return a + 1;
+    } else return a;
+  }, 0);
+
+  const unitsMatchChartData = [
+    { name: "Full Match", value: fullMatch },
+    { name: "Partial Match", value: partialMatch },
+    { name: "No Match", value: NoMatch },
+  ];
 
   const UnitSelect = ({ rowIndex }) => {
     const unitMatches = useSelector(
@@ -288,10 +296,6 @@ export default function MatchUnits() {
     const handleCheckboxChange = (event) => {
       event.persist();
 
-      console.log(
-        "Logged output -->: AnchorMatch -> checkboxSelected",
-        checkboxSelected
-      );
       setCheckboxSelected(!checkboxSelected);
       const selectedAnchorMatchRowIndex = event.target.name;
     };
@@ -347,7 +351,6 @@ export default function MatchUnits() {
       [actualColumnHeaders[4]]: <AnchorMatch rowIndex={i} />,
     };
   });
-  console.log("Logged output -->: cleanTableData", cleanTableData);
   const tableColumnWidths = [40, tableActions.width, 300, 300, 200, 120, 180];
   const tableWidth = generateTableWidth(tableColumnWidths);
 
@@ -369,7 +372,7 @@ export default function MatchUnits() {
   return (
     <div className={classes.rootMatchUnits}>
       <div className={classes.chart}>
-        <DoughnutChart />
+        <DoughnutChart data={unitsMatchChartData} />
       </div>
       <div className={classes.table}>
         <ApexTable

@@ -36,7 +36,7 @@ const generateInterimTable = (
   //Update table headers with Serial number and any other column header
   const tableHeaders = ["SN", ...addedColumnHeaders, ...interimTableHeaders];
 
-  return [tableHeaders, noAddedColumnTableData, tableData];
+  return [interimTableHeaders, tableHeaders, noAddedColumnTableData, tableData];
 };
 
 export default generateInterimTable;

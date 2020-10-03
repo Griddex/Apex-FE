@@ -26,6 +26,7 @@ import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../Common/Workflows/SelectSheet";
 import UploadFile from "../../Common/Workflows/UploadFile";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
+import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     height: "90%",
+    width: "100%",
     alignItems: "center",
     justifyContent: "center", //around, between
     // justifyContent: "space-evenly", //around, between
@@ -140,13 +142,29 @@ const ExcelWorkflow = () => {
       case 1:
         return <SelectSheet />;
       case 2:
-        return <SelectHeaderUnitData />;
+        return (
+          <TabsWrapper>
+            <SelectHeaderUnitData />
+          </TabsWrapper>
+        );
       case 3:
-        return <MatchHeaders />;
+        return (
+          <TabsWrapper>
+            <MatchHeaders />
+          </TabsWrapper>
+        );
       case 4:
-        return <MatchUnits />;
+        return (
+          <TabsWrapper>
+            <MatchUnits />
+          </TabsWrapper>
+        );
       case 5:
-        return <PreviewSave />;
+        return (
+          <TabsWrapper>
+            <PreviewSave />
+          </TabsWrapper>
+        );
       default:
         return <h1>End</h1>;
     }
@@ -168,6 +186,7 @@ const ExcelWorkflow = () => {
           </Typography>
         </Box>
       </Container>
+
       <div className={classes.workflowBody}>{renderImportStep(activeStep)}</div>
       {showContextDrawer && (
         <ContextDrawer data={data}>

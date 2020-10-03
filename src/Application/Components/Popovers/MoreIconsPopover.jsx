@@ -21,6 +21,8 @@ import ViewModuleOutlinedIcon from "@material-ui/icons/ViewModuleOutlined";
 import ViewQuiltOutlinedIcon from "@material-ui/icons/ViewQuiltOutlined";
 import ViewStreamOutlinedIcon from "@material-ui/icons/ViewStreamOutlined";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addTabAction } from "../../Redux/Actions/ApplicationActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,89 +85,109 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const moreIconsData = [
-  {
-    icon: <InsertLinkOutlinedIcon />,
-    title: "Connect",
-    children: null,
-  },
-  {
-    icon: <ViewQuiltOutlinedIcon />,
-    title: "View",
-    children: [
-      {
-        icon: <ViewModuleOutlinedIcon />,
-        title: "Grid",
-        children: null,
-      },
-      {
-        icon: <ViewStreamOutlinedIcon />,
-        title: "Table",
-        children: null,
-      },
-    ],
-  },
-  {
-    icon: <UndoOutlinedIcon />,
-    title: "Undo",
-    children: null,
-  },
-  {
-    icon: <RedoOutlinedIcon />,
-    title: "Redo",
-    children: null,
-  },
-  {
-    icon: <PrintOutlinedIcon />,
-    title: "Print",
-    children: null,
-  },
-  {
-    icon: <FilterNoneOutlinedIcon />,
-    title: "Clone",
-    children: null,
-  },
-  {
-    icon: <LaunchOutlinedIcon />,
-    title: "Extrude Table",
-    children: null,
-  },
-  {
-    icon: <PublishOutlinedIcon />,
-    title: "Export Table",
-    children: null,
-  },
-  {
-    icon: <ScoreOutlinedIcon />,
-    title: "Show Statistics",
-    children: null,
-  },
-  {
-    icon: <LandscapeOutlinedIcon />,
-    title: "Show Visualization",
-    children: null,
-  },
-  {
-    icon: <PanoramaHorizontalOutlinedIcon />,
-    title: "Polygon",
-    children: null,
-  },
-  {
-    icon: <BrushOutlinedIcon />,
-    title: "Brush",
-    children: null,
-  },
-  {
-    icon: <FormatPaintOutlinedIcon />,
-    title: "Eraser",
-    children: null,
-  },
-];
-
 const MoreIconsPopover = React.forwardRef(
   ({ closeIcon, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
     // const headers = useSelector((state) => state.importReducer.fileHeaders);
+    const dispatch = useDispatch();
+
+    const moreIconsData = [
+      {
+        icon: <InsertLinkOutlinedIcon />,
+        title: "Connect",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <ViewQuiltOutlinedIcon />,
+        title: "View",
+        children: [
+          {
+            icon: <ViewModuleOutlinedIcon />,
+            title: "Grid",
+            children: null,
+            callBack: () => {},
+          },
+          {
+            icon: <ViewStreamOutlinedIcon />,
+            title: "Table",
+            children: null,
+            callBack: () => {},
+          },
+        ],
+      },
+      {
+        icon: <UndoOutlinedIcon />,
+        title: "Undo",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <RedoOutlinedIcon />,
+        title: "Redo",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <PrintOutlinedIcon />,
+        title: "Print",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <FilterNoneOutlinedIcon />,
+        title: "Clone",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <LaunchOutlinedIcon />,
+        title: "Extrude Table",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <PublishOutlinedIcon />,
+        title: "Export Table",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <ScoreOutlinedIcon />,
+        title: "Show Statistics",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <LandscapeOutlinedIcon />,
+        title: "Show Visualization",
+        children: null,
+        callBack: () =>
+          dispatch(
+            addTabAction({ label: "visualytics", displayed: false }, [
+              "visualytics",
+            ])
+          ),
+      },
+      {
+        icon: <PanoramaHorizontalOutlinedIcon />,
+        title: "Polygon",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <BrushOutlinedIcon />,
+        title: "Brush",
+        children: null,
+        callBack: () => {},
+      },
+      {
+        icon: <FormatPaintOutlinedIcon />,
+        title: "Eraser",
+        children: null,
+        callBack: () => {},
+      },
+    ];
 
     return (
       <div className={classes.container} ref={ref}>
@@ -185,12 +207,7 @@ const MoreIconsPopover = React.forwardRef(
                   className={classes.listItem}
                   key={item.title}
                   name={item.title}
-                  // onClick={() =>
-                  //   localDispatch({
-                  //     type: "ACTIVECOLUMN_TABLE",
-                  //     payload: header,
-                  //   })
-                  // }
+                  onClick={item.callBack}
                 >
                   <ListItemIcon className={classes.itemIcon}>
                     {item.icon}

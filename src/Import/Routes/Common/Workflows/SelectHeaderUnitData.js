@@ -1,4 +1,4 @@
-import { fade, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import uniq from "lodash.uniq";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,17 +16,18 @@ import {
   persistFileUnitsAction,
   persistTableDataAction,
   persistTableRolesIndicesAction,
+  persistCurrentTableHeadersAction,
+  persistOptionIndicesAction,
 } from "../../../Redux/Actions/ImportActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import generateOptionIndices from "./../../../../Application/Utils/GenerateOptionIndices";
 
 const useStyles = makeStyles((theme) => ({
   rootParseTable: {
     display: "flex",
     flexDirection: "column",
-    width: "90%",
-    height: "95%",
-    border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    width: "100%",
+    height: "100%",
     backgroundColor: "#FFF",
     padding: 20,
   },
@@ -38,15 +39,12 @@ export default function SelectHeaderUnitData() {
 
   const handleEditAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleEditAction -> event", event);
   };
   const handleDeleteAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleDeleteAction -> event", event);
   };
   const handlePickAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handlePickAction -> event", event);
   };
 
   const rawTableData = useSelector(
@@ -105,6 +103,7 @@ export default function SelectHeaderUnitData() {
   }
 
   const [
+    interimTableHeaders,
     tableHeaders,
     noAddedColumnTableData,
     tableData,
@@ -123,6 +122,8 @@ export default function SelectHeaderUnitData() {
   );
   const tableWidth = generateTableWidth(tableColumnWidths);
 
+  const optionIndices = generateOptionIndices(noOfRows);
+
   React.useEffect(() => {
     const initialHeaders = Object.values(noAddedColumnTableData[0]);
     const fileUnits = Object.values(noAddedColumnTableData[1]);
@@ -132,6 +133,9 @@ export default function SelectHeaderUnitData() {
     dispatch(persistFileUnitsAction(fileUnits, fileUnitsUnique));
     dispatch(persistTableRolesIndicesAction(tableRoleIndices));
     dispatch(persistTableDataAction(noAddedColumnTableData));
+    dispatch(persistOptionIndicesAction(optionIndices));
+
+    dispatch(persistCurrentTableHeadersAction(interimTableHeaders));
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());

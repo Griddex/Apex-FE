@@ -11,12 +11,13 @@ import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flex: "auto",
+    // flex: "auto",
     flexDirection: "column",
     height: 500,
     backgroundColor: "#F7F7F7",
     border: "1px solid #707070",
     padding: 5,
+    width: 150,
   },
   header: {
     display: "flex",
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.primary.main,
     fontWeight: "bold",
+    minWidth: 20,
   },
   cancelButton: {
     border: `2px solid ${theme.palette.secondary.main}`,
@@ -64,7 +66,9 @@ const useStyles = makeStyles((theme) => ({
 const FilterPopover = React.forwardRef(
   ({ icon, closeIcon, title, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
-    const headers = useSelector((state) => state.importReducer.fileHeaders);
+    const headers = useSelector(
+      (state) => state.importReducer.currentTableHeaders
+    );
 
     return (
       <div className={classes.container} ref={ref}>

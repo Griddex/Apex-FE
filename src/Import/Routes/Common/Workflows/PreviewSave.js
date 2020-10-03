@@ -1,4 +1,4 @@
-import { fade, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import React from "react";
@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import ApexTable from "../../../../Application/Components/Table/ApexTable";
 import TableAction from "../../../../Application/Components/Table/TableAction";
 import TableRole from "../../../../Application/Components/Table/TableRole";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import generateActualTable from "../../../../Application/Utils/GenerateActualTable";
 import generateTableColumnWidths from "../../../../Application/Utils/GenerateTableColumnWidths";
 import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
 import regenerateTableWithActualHeaders from "../../../../Application/Utils/RegenerateTableWithActualHeaders";
 import { persistSelectedUnitRowOptionIndicesAction } from "../../../Redux/Actions/ImportActions";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { persistTableRolesIndicesAction } from "./../../../Redux/Actions/ImportActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,10 +19,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "85%",
-    height: "95%",
-    border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    width: "100%",
+    height: "100%",
     backgroundColor: "#FFF",
     padding: 20,
   },
@@ -53,27 +51,12 @@ export default function PreviewSave() {
   //Actions
   const handleEditAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleEditAction -> i", i);
-    console.log(
-      "Logged output -->: handleEditAction -> event.target.name",
-      event.target.name
-    );
   };
   const handleDeleteAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleDeleteAction -> i", i);
-    console.log(
-      "Logged output -->: handleDeleteAction -> event.target.name",
-      event.target.name
-    );
   };
   const handlePickAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handlePickAction -> i", i);
-    console.log(
-      "Logged output -->: handlePickAction -> event.target.name",
-      event.target.name
-    );
   };
 
   //File Headers

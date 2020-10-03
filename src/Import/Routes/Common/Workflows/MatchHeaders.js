@@ -1,4 +1,4 @@
-import { fade, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -9,25 +9,23 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ApexTable from "../../../../Application/Components/Table/ApexTable";
 import TableAction from "../../../../Application/Components/Table/TableAction";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import generateActualTable from "../../../../Application/Utils/GenerateActualTable";
 import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistFileHeadersMatchAction,
+  persistOptionIndicesAction,
   persistRowsOptionsIndicesMapAction,
-  persistSelectedHeaderRowOptionIndicesAction,
 } from "../../../Redux/Actions/ImportActions";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   rootMatchHeaders: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "85%",
-    height: "95%",
-    border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    width: "100%",
+    height: "100%",
     backgroundColor: "#FFF",
   },
   chart: {
@@ -113,27 +111,12 @@ export default function MatchHeaders() {
   //Actions
   const handleEditAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleEditAction -> i", i);
-    console.log(
-      "Logged output -->: handleEditAction -> event.target.name",
-      event.target.name
-    );
   };
   const handleDeleteAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handleDeleteAction -> i", i);
-    console.log(
-      "Logged output -->: handleDeleteAction -> event.target.name",
-      event.target.name
-    );
   };
   const handlePickAction = (event, i) => {
     event.persist();
-    console.log("Logged output -->: handlePickAction -> i", i);
-    console.log(
-      "Logged output -->: handlePickAction -> event.target.name",
-      event.target.name
-    );
   };
 
   //File Headers
@@ -171,11 +154,50 @@ export default function MatchHeaders() {
       );
       return zipobject(matchedHeaders, cleanedMatchedScores);
     } else {
-      const zeroScores = new Array(applicationHeaders.length).fill(0);
+      const zeroScores = new Array(applicationHeaders.length).fill(1);
+
       return zipobject(applicationHeaders, zeroScores);
     }
   });
 
+  //Calculate Match Groups
+  // const FullMatch = 0;
+  // const PartialMatch = 0;
+  // const NoMatch = 0;
+  // for (const match of fileHeaderMatches) {
+  //   const bestMatch = match[0];
+  //   if (bestMatch === 0) {FullMatch = FullMatch + bestMatch};
+  //   else if (bestMatch === 1) {NoMatch = NoMatch + bestMatch};
+  //   else {PartialMatch = PartialMatch + bestMatch};
+  // }
+
+  const fullMatch = fileHeaderMatches.reduce((a, match) => {
+    const bestMatch = 1 - parseFloat(Object.values(match)[0]);
+
+    if (bestMatch === 0.0) {
+      return a + 1;
+    } else return a;
+  }, 0);
+  const partialMatch = fileHeaderMatches.reduce((a, match) => {
+    const bestMatch = 1 - parseFloat(Object.values(match)[0]);
+
+    if (bestMatch > 0.0 && bestMatch < 1.0) {
+      return a + 1;
+    } else return a;
+  }, 0);
+  const NoMatch = fileHeaderMatches.reduce((a, match) => {
+    const bestMatch = 1 - parseFloat(Object.values(match)[0]);
+
+    if (bestMatch === 1.0) {
+      return a + 1;
+    } else return a;
+  }, 0);
+
+  const headerMatchChartData = [
+    { name: "Full Match", value: fullMatch },
+    { name: "Partial Match", value: partialMatch },
+    { name: "No Match", value: NoMatch },
+  ];
   //Initialize Row & Select options map
   const headerRowOptionsIndices = new Array(fileHeadersTableData.length).fill(
     0
@@ -185,26 +207,27 @@ export default function MatchHeaders() {
     const fileHeaderMatches = useSelector(
       (state) => state.importReducer.fileHeadersMatch
     );
-
-    const selectedHeaderRowIndex = useSelector(
-      (state) => state.importReducer.selectedHeaderRowIndex
+    const optionIndices = useSelector(
+      (state) => state.importReducer.optionIndices
     );
+
     const matches = Object.keys(fileHeaderMatches[rowIndex]);
-    const [header, setHeader] = React.useState(matches[selectedHeaderRowIndex]);
+    const [header, setHeader] = React.useState(matches[0]);
+    // const [header, setHeader] = React.useState(0);
 
     const handleSelectChange = (event) => {
       event.persist();
 
-      const { nativeEvent } = event;
       const selectedHeader = event.target.value;
+      const currentRowIndex = parseInt(event.target.name);
 
       setHeader(selectedHeader);
       const optionIndex = matches.indexOf(selectedHeader);
+      optionIndices[rowIndex] = optionIndex;
 
-      dispatch(
-        persistSelectedHeaderRowOptionIndicesAction(rowIndex, optionIndex)
-      );
-      nativeEvent.stopImmediatePropagation();
+      dispatch(persistOptionIndicesAction(optionIndices));
+
+      // event.nativeEvent.stopImmediatePropagation();
     };
 
     //rowIndex encapsulated in name
@@ -271,10 +294,6 @@ export default function MatchHeaders() {
     const handleCheckboxChange = (event) => {
       event.persist();
 
-      console.log(
-        "Logged output -->: AnchorMatch -> checkboxSelected",
-        checkboxSelected
-      );
       setCheckboxSelected(!checkboxSelected);
       const selectedAnchorMatchRowIndex = event.target.name;
     };
@@ -351,7 +370,7 @@ export default function MatchHeaders() {
   return (
     <div className={classes.rootMatchHeaders}>
       <div className={classes.chart}>
-        <DoughnutChart />
+        <DoughnutChart data={headerMatchChartData} />
       </div>
       <div className={classes.table}>
         <ApexTable

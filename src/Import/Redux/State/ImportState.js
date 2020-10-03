@@ -15,7 +15,6 @@ const importState = {
   selectedWorksheetName: "",
   selectedWorksheetData: [],
   selectedWorksheetDataForTable: [],
-
   tableHeaderData: [],
   tableBodyData: [],
   extrudeParseTable: false,
@@ -36,7 +35,9 @@ const importState = {
   selectedUnitOptionIndex: 0,
   unitRowOptionsIndices: [],
   tableRoleIndices: [],
+  optionIndices: [],
   tableData: [],
+  currentTableHeaders: [],
 };
 
 export default importState;

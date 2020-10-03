@@ -17,6 +17,8 @@ export const PERSIST_ROWOPTIONSINDICESMAP = "PERSIST_ROWOPTIONSINDICESMAP";
 export const PERSIST_FILEUNITSMATCH = "PERSIST_FILEUNITSMATCH";
 export const PERSIST_TABLEROLESINDICES = "PERSIST_TABLEROLESINDICES";
 export const PERSIST_TABLEDATA = "PERSIST_TABLEDATA";
+export const PERSIST_TABLEHEADERS = "PERSIST_TABLEHEADERS";
+export const PERSIST_OPTIONINDICES = "PERSIST_OPTIONINDICES";
 export const IMPORT_EXCEL_LOADING = "IMPORT_EXCEL_LOADING";
 export const IMPORT_EXCEL_MATCHING = "IMPORT_EXCEL_MATCHING";
 export const IMPORT_EXCELWORKSHEETNAME_SET = "IMPORT_EXCELWORKSHEETNAME_SET";
@@ -166,5 +168,18 @@ export const persistTableDataAction = (tableData) => {
   return {
     type: PERSIST_TABLEDATA,
     payload: { tableData },
+  };
+};
+
+export const persistCurrentTableHeadersAction = (currentTableHeaders) => {
+  return {
+    type: PERSIST_TABLEHEADERS,
+    payload: { currentTableHeaders },
+  };
+};
+export const persistOptionIndicesAction = (optionIndices) => {
+  return {
+    type: PERSIST_OPTIONINDICES,
+    payload: { optionIndices },
   };
 };

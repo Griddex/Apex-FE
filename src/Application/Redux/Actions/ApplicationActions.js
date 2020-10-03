@@ -3,6 +3,7 @@ export const SET_MAINDRAWERMENU = "SET_MAINDRAWERMENU";
 export const SET_SUBNAVBARMENU = "SET_SUBNAVBARMENU";
 export const SET_WORKFLOWMENU = "SET_WORKFLOWMENU";
 export const SET_SUBNAVBARDATA = "SET_SUBNAVBARDATA";
+export const ADD_TAB = "ADD_TAB";
 
 export const applicationDataToStoreAction = (name, value) => {
   return {
@@ -39,5 +40,12 @@ export const subNavbarSetDataAction = (subNavbarData) => {
   return {
     type: SET_SUBNAVBARDATA,
     payload: { subNavbarData },
+  };
+};
+
+export const addTabAction = (newTab, newTabPanel) => {
+  return {
+    type: ADD_TAB,
+    payload: { newTab, newTabPanel },
   };
 };

@@ -11,12 +11,13 @@ import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flex: "auto",
+    // flex: "auto",
     flexDirection: "column",
     height: 500,
     backgroundColor: "#F7F7F7",
     border: "1px solid #707070",
     padding: 5,
+    width: 150,
   },
   header: {
     display: "flex",
@@ -36,13 +37,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "auto",
     width: "100%",
-    overflow: "overlay",
+    overflow: "auto",
   },
+  list: { overflow: "auto" },
   listItem: { padding: 0, cursor: "pointer" },
   listItemAvatar: {
     textAlign: "center",
     color: theme.palette.primary.main,
     fontWeight: "bold",
+    minWidth: 20,
   },
   cancelButton: {
     border: `2px solid ${theme.palette.secondary.main}`,
@@ -64,7 +67,9 @@ const useStyles = makeStyles((theme) => ({
 const SortPopover = React.forwardRef(
   ({ icon, closeIcon, title, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
-    const headers = useSelector((state) => state.importReducer.fileHeaders);
+    const headers = useSelector(
+      (state) => state.importReducer.currentTableHeaders
+    );
 
     return (
       <div className={classes.container} ref={ref}>
@@ -74,7 +79,7 @@ const SortPopover = React.forwardRef(
           <div className={classes.closeIcon}>{closeIcon}</div>
         </div>
         <div className={classes.body}>
-          <List dense>
+          <List dense className={classes.list}>
             {headers.map((header, listIndex) => {
               const avatar = getFirstCharFromEveryWord(header);
               //TODO: Clear all
