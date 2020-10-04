@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     height: 80,
     color: theme.palette.primary.main,
   },
+  listDialogContent: { display: "flex", flexDirection: "column" },
   listBorder: {
     height: 200,
     overflow: "overlay",
@@ -99,7 +100,7 @@ const UploadFile = () => {
   const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
 
   const SelectWorksheetDialogContent = (
-    <>
+    <div className={classes.listDialogContent}>
       <Typography variant="h6">
         Workbook contains more than one worksheet. Please select the worksheet
         that contains the Facilities Deck
@@ -125,7 +126,7 @@ const UploadFile = () => {
             </ListItem>
           ))}
       </List>
-    </>
+    </div>
   );
 
   const prepareSelectWorksheetRoute = (selectedWorksheetName) => {
@@ -136,7 +137,7 @@ const UploadFile = () => {
     );
 
     if (selectedWorksheetData.length === 0) {
-      enqueueSnackbar("Empty worksheet!", { persist: true, variant: "error" });
+      enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
     }
 
     dispatch(
@@ -170,8 +171,9 @@ const UploadFile = () => {
       },
     ];
 
-    return buttonsData.map((button) => (
+    return buttonsData.map((button, i) => (
       <Button
+        key={i}
         variant={button.variant}
         color={button.color}
         onClick={button.handleAction}

@@ -10,6 +10,15 @@ import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { useDispatch } from "react-redux";
+import WarningIcon from "@material-ui/icons/Warning";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
+
+const icons = {
+  error: <WarningIcon style={{ color: "#DA1B57" }} />,
+  success: <CheckCircleIcon style={{ color: "#2BB4C1" }} />,
+  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#2BB4C1" }} />,
+};
 
 const dialogTitleStyles = (theme) => ({
   root: {
@@ -52,7 +61,7 @@ const dialogTitleStyles = (theme) => ({
   },
 });
 
-const useDialogContentStyles = makeStyles((theme) => ({
+const useDialogContentStyles = makeStyles(() => ({
   dialogContent: { marginLeft: "5%", width: "95%" },
 }));
 
@@ -99,7 +108,6 @@ const DialogActions = withStyles((theme) => ({
 
 export default function ListDialog({
   show,
-  icon,
   iconColor,
   iconClass,
   title,
@@ -120,7 +128,7 @@ export default function ListDialog({
       <DialogTitle
         id="customized-dialog-title"
         onClose={() => dispatch(hideDialogAction())}
-        icon={iconClass[iconClass]}
+        icon={icons[iconClass]}
         iconColor={iconColor}
       >
         {title}

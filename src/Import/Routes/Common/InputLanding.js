@@ -10,6 +10,7 @@ import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
+import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   InputLanding: {
@@ -100,7 +101,7 @@ const InputLanding = ({ subModule: { name } }) => {
               const ImportFacilitiesWorkflows = {
                 excel: <ExcelWorkflow />,
                 database: <DatabaseWorkflow />,
-                existingdeck: <ExcelWorkflow />,
+                existingdeck: <ExistingDataWorkflow />,
               };
 
               return ImportFacilitiesWorkflows[dataType];

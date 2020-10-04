@@ -128,7 +128,6 @@ export default function PreviewSave() {
 
   let headerRow = {};
   let tableRows = [];
-  let newtableRoleIndices = [];
   for (let i = 0; i < noAddedColumnstableData.length; i++) {
     const roleNumber = tableRoleIndices[i];
     switch (roleNumber) {
@@ -141,8 +140,6 @@ export default function PreviewSave() {
       default:
         break;
     }
-    if (i === 0) newtableRoleIndices.push(1);
-    else newtableRoleIndices.push(2);
   }
 
   //Define headers
@@ -163,6 +160,7 @@ export default function PreviewSave() {
     aggregateTableData,
     applicationHeaders
   );
+
   //Generate from columns data above
   const tableActions = {
     actionName: "ACTIONS",
@@ -205,7 +203,7 @@ export default function PreviewSave() {
 
   const addedColumnHeaders = [tableActions.actionName, tableRoles.roleName];
 
-  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
+  const { tableHeaders, tableData } = generateActualTable(
     addedColumnHeaders,
     TableActions,
     TableRoles,
@@ -224,7 +222,7 @@ export default function PreviewSave() {
   React.useEffect(() => {
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-    dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
+    // dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
   }, [dispatch]);
 
   return (

@@ -354,7 +354,7 @@ export default function MatchUnits() {
   const tableColumnWidths = [40, tableActions.width, 300, 300, 200, 120, 180];
   const tableWidth = generateTableWidth(tableColumnWidths);
 
-  const [tableHeaders, noAddedColumnTableData, tableData] = generateActualTable(
+  const { tableHeaders, tableData } = generateActualTable(
     addedColumnHeaders,
     TableActions,
     TableRoles,

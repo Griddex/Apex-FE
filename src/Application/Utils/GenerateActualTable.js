@@ -22,7 +22,7 @@ const generateActualTable = (
 
   const tableHeaders = ["SN", ...addedColumnHeaders, ...actualColumnHeaders];
 
-  return [tableHeaders, noAddedColumnTableData, tableData];
+  return { tableHeaders, noAddedColumnTableData, tableData };
 };
 
 export default generateActualTable;

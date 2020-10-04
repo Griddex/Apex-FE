@@ -1,9 +1,9 @@
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import SelectChartDataPanel from "./SelectChartDataPanel";
-import SelectChart from "./SelectChart";
+import { useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
+import SelectChart from "./SelectChart";
+import SelectChartDataPanel from "./SelectChartDataPanel";
 // import WorkflowStepper from "../../Application/Components/Workflows/WorkflowStepper";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "15%",
     border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",
     padding: 5,
   },

@@ -2,7 +2,7 @@ import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme, fade } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "space-evenly",
     border: "1px solid #707070",
+    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
     backgroundColor: "#FFF",
   },
   fileHeader: {

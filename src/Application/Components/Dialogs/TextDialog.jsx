@@ -104,7 +104,6 @@ const DialogActions = withStyles((theme) => ({
 
 export default function TextDialog({
   show,
-  icon,
   iconClass,
   title,
   actions,

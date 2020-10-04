@@ -19,7 +19,6 @@ const Dialogs = (props) => {
           const { dialogType, dialogProps } = dialog;
 
           if (dialog === undefined || dialog.show === false) return null;
-
           const SpecificDialog = apexDialogs[dialogType];
 
           return <SpecificDialog key={i} {...dialogProps} {...props} />;
