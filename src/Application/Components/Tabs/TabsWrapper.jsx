@@ -83,6 +83,7 @@ const TabsWrapper = ({ children }) => {
                 {tabPanels[tabPanel]}
               </TabPanel>
             );
+          else return null;
         })}
       <Tabs
         className={classes.tabs}
@@ -111,6 +112,7 @@ const TabsWrapper = ({ children }) => {
                   onClick={() => dispatch(setCurrentMainTabValueAction(i + 1))}
                 />
               );
+            else return null;
           })}
       </Tabs>
     </div>

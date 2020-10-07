@@ -11,7 +11,7 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
+// import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
@@ -88,15 +88,13 @@ const UploadFile = () => {
   const workSheetNames = useSelector(
     (state) => state.importReducer.workSheetNames
   );
-
   const selectedWorksheetName = useSelector(
     (state) => state.importReducer.selectedWorksheetName
   );
-
   const workflowData = useSelector((state) => state.workflowReducer);
+
   const { skipped, isStepSkipped, activeStep, steps } = workflowData;
   const [selectedListItem, setSelectedListItem] = useState("");
-
   const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
 
   const SelectWorksheetDialogContent = (
@@ -248,7 +246,6 @@ const UploadFile = () => {
                   iconClass: "select",
                 },
               };
-
               dispatch(showDialogAction(dialogParameters));
             } else {
               const selectedWorksheetName = workSheetNames && workSheetNames[0];

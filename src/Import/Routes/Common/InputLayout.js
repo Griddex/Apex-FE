@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
-import EconomicsLanding from "../EconomicsData/EconomicsLanding";
+import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
 import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
 import InputBackground from "./InputBackground";
 import InputLanding from "./InputLanding";

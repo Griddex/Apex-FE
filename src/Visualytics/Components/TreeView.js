@@ -1,11 +1,37 @@
-import React from "react";
-import PropTypes from "prop-types";
-import SvgIcon from "@material-ui/core/SvgIcon";
-import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
+import Button from "@material-ui/core/Button";
 import Collapse from "@material-ui/core/Collapse";
-import { useSpring, animated } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
+import Container from "@material-ui/core/Container";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import {
+  fade,
+  makeStyles,
+  withStyles,
+  useTheme,
+} from "@material-ui/core/styles";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import Typography from "@material-ui/core/Typography";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import TreeItem from "@material-ui/lab/TreeItem";
+import TreeView from "@material-ui/lab/TreeView";
+import { useSnackbar } from "notistack";
+import PropTypes from "prop-types";
+import React from "react";
+import Draggable from "react-draggable";
+import Dropzone from "react-dropzone";
+import { useDispatch } from "react-redux";
+import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
+import * as xlsx from "xlsx";
+import Dialogs from "./../../Application/Components/Dialogs/Dialogs";
+import {
+  hideDialogAction,
+  showDialogAction,
+} from "./../../Application/Redux/Actions/DialogsAction";
+import getTableHeaders from "./../../Application/Utils/GetTableHeaders";
 
 function MinusSquare(props) {
   return (
@@ -77,39 +103,240 @@ const StyledTreeItem = withStyles((theme) => ({
   <TreeItem {...props} TransitionComponent={TransitionComponent} />
 ));
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   rootTreeView: {
-    height: 264,
+    height: 250,
+    width: "100%",
     flexGrow: 1,
-    maxWidth: 400,
+    maxWidth: 300,
   },
-});
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: 500,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    border: "1px solid #C4C4C4",
+    // boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    // backgroundColor: "#FFF",
+    overflow: "auto",
+  },
+  itemIcon: {
+    color: theme.palette.primary.main,
+    minWidth: 30,
+  },
+  listDialogContent: { display: "flex", flexDirection: "column" },
+  listBorder: {
+    height: 200,
+    overflow: "overlay",
+    border: "1px solid #F7F7F7",
+  },
+}));
 
 export default function CustomizedTreeView() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const theme = useTheme();
+
+  const [selectedListItem, setSelectedListItem] = React.useState("");
+  const [inputDeckWorkbook, setInputDeckWorkbook] = React.useState([]);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [worksheetNames, setWorksheetNames] = React.useState("");
+  const [selectedWorksheetName, setSelectedWorksheetName] = React.useState("");
+  const [selectedWorksheetData, setSelectedWorksheetData] = React.useState([]);
+
+  const SelectWorksheetDialogContent = () => {
+    return (
+      <div className={classes.listDialogContent}>
+        <Typography variant="h6">
+          Workbook contains more than one worksheet. Please select the worksheet
+          that contains your data
+        </Typography>
+        <List className={classes.listBorder}>
+          {worksheetNames &&
+            worksheetNames.map((name, i) => (
+              <ListItem
+                key={i}
+                selected={name === selectedListItem}
+                button
+                onClick={() => {
+                  setSelectedListItem(name);
+                }}
+              >
+                <ListItemIcon className={classes.itemIcon}>
+                  <DescriptionOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText>{name}</ListItemText>
+              </ListItem>
+            ))}
+        </List>
+      </div>
+    );
+  };
+
+  const prepareSelectWorksheetRoute = (selectedWorksheetName) => {
+    const selectedWorksheetDataXLSX =
+      inputDeckWorkbook.Sheets[selectedWorksheetName];
+    const selectedWorksheetData = xlsx.utils.sheet_to_json(
+      selectedWorksheetDataXLSX
+    );
+
+    if (selectedWorksheetData.length === 0) {
+      enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
+    }
+  };
+
+  const SelectWorksheetDialogActions = (selectedWorksheetName) => {
+    const buttonsData = [
+      {
+        title: "Cancel",
+        variant: "contained",
+        color: "secondary",
+        startIcon: <CloseOutlinedIcon />,
+        handleAction: () => dispatch(hideDialogAction()),
+      },
+      {
+        title: "Okay",
+        variant: "contained",
+        color: "primary",
+        startIcon: <DoneOutlinedIcon />,
+        handleAction: () => {
+          if (selectedListItem === "")
+            enqueueSnackbar("Select a worksheet", {
+              persist: false,
+              variant: "error",
+            });
+          else prepareSelectWorksheetRoute(selectedWorksheetName);
+        },
+      },
+    ];
+
+    return buttonsData.map((button, i) => (
+      <Button
+        key={i}
+        variant={button.variant}
+        color={button.color}
+        onClick={button.handleAction}
+        startIcon={button.startIcon}
+      >
+        {button.title}
+      </Button>
+    ));
+  };
+
+  const headers = getTableHeaders(selectedWorksheetData);
 
   return (
-    <TreeView
-      className={classes.rootTreeView}
-      defaultExpanded={["1"]}
-      defaultCollapseIcon={<MinusSquare />}
-      defaultExpandIcon={<PlusSquare />}
-      defaultEndIcon={<CloseSquare />}
+    <Dropzone
+      accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      onDropAccepted={(acceptedFile) => {
+        const file = acceptedFile[0];
+        console.log(
+          "Logged output -->: CustomizedTreeView -> acceptedFile",
+          acceptedFile
+        );
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onabort = () => console.log("file reading was aborted");
+        reader.onerror = () => console.log("file reading has failed");
+        reader.onload = () => {
+          const fileData = new Uint8Array(reader.result);
+          const inputWorkbook = xlsx.read(fileData, { type: "array" });
+          const { SheetNames, Sheets } = inputWorkbook;
+
+          setInputDeckWorkbook(inputWorkbook);
+          setWorksheetNames(SheetNames);
+
+          if (SheetNames.length > 1) {
+            const dialogParameters = {
+              dialogType: "listDialog",
+              dialogProps: {
+                name: "Excel_Worksheet_Selection_Dialog",
+                title: "Excel Worksheet Selection",
+                show: true,
+                exclusive: true,
+                maxwidth: "sm",
+                iconClass: "select",
+              },
+            };
+            dispatch(showDialogAction(dialogParameters));
+          } else {
+            const selectedWorksheetName = SheetNames && SheetNames[0];
+
+            const selectedWorksheetDataXLSX = Sheets[selectedWorksheetName];
+            const worksheetData = xlsx.utils.sheet_to_json(
+              selectedWorksheetDataXLSX
+            );
+            setSelectedWorksheetName(selectedWorksheetName);
+            setSelectedWorksheetData(worksheetData);
+          }
+        };
+        reader.onprogress = (e) => {
+          // console.log("Logged output -->: UploadFile -> e", e);
+        };
+      }}
+      onDropRejected={(rejectedFile) => {
+        enqueueSnackbar("File format not supported!", {
+          persist: false,
+          variant: "error",
+        });
+      }}
+      //   disabled={isDisabled}
+      minSize={0}
+      maxSize={10485760}
+      multiple={false}
     >
-      <StyledTreeItem nodeId="1" label="Main">
-        <StyledTreeItem nodeId="2" label="Hello" />
-        <StyledTreeItem nodeId="3" label="Subtree with children">
-          <StyledTreeItem nodeId="6" label="Hello" />
-          <StyledTreeItem nodeId="7" label="Sub-subtree with children">
-            <StyledTreeItem nodeId="9" label="Child 1" />
-            <StyledTreeItem nodeId="10" label="Child 2" />
-            <StyledTreeItem nodeId="11" label="Child 3" />
-          </StyledTreeItem>
-          <StyledTreeItem nodeId="8" label="Hello" />
-        </StyledTreeItem>
-        <StyledTreeItem nodeId="4" label="World" />
-        <StyledTreeItem nodeId="5" label="Something something" />
-      </StyledTreeItem>
-    </TreeView>
+      {({ getRootProps, getInputProps, isDragReject }) => {
+        return (
+          <Container
+            className={classes.container}
+            maxWidth="md"
+            disableGutters
+            {...getRootProps()}
+          >
+            <Dialogs
+              content={SelectWorksheetDialogContent()}
+              actions={() =>
+                SelectWorksheetDialogActions(selectedWorksheetName)
+              }
+            />
+            <input {...getInputProps()} />
+            <TreeView
+              className={classes.rootTreeView}
+              defaultExpanded={["1"]}
+              defaultCollapseIcon={<MinusSquare />}
+              defaultExpandIcon={<PlusSquare />}
+              defaultEndIcon={<CloseSquare />}
+            >
+              <StyledTreeItem nodeId="1" label="Headers">
+                {headers &&
+                  headers.map((header, i) => {
+                    const Id = "2";
+
+                    return (
+                      <Draggable
+                        key={i}
+                        axis="both"
+                        // onDrag={(event, { deltaX }) =>
+                        //   _resizeRow({
+                        //     dataKey,
+                        //     deltaX,
+                        //   })
+                        // }
+                        bounds={(0, 0, 1920, 1000)}
+                        zIndex={theme.zIndex.drawer}
+                      >
+                        <StyledTreeItem key={i} nodeId={Id} label={header} />
+                      </Draggable>
+                    );
+                  })}
+              </StyledTreeItem>
+            </TreeView>
+          </Container>
+        );
+      }}
+    </Dropzone>
   );
 }

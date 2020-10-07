@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme) => ({
   analyticsComp: {
     display: "flex",
     flexDirection: "column",
-    flexGrow: 1,
+    flexBasis: "auto",
+    // flexBasis:"content",
     justifyContent: "space-between",
   },
   analyticsTitle: {

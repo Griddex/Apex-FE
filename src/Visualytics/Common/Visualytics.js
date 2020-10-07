@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-start",
     height: "100%",
     width: "15%",
-    border: "1px solid #A8A8A8",
+    // border: "1px solid #A8A8A8",
     backgroundColor: "#FFF",
     padding: 5,
   },

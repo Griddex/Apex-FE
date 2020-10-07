@@ -1,14 +1,12 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import history from "../../../Application/Services/HistoryService";
+import { showDialogAction } from "./../../../Application/Redux/Actions/DialogsAction";
 import {
-  SERVERLOGIN_REQUEST,
   serverLoginFailureAction,
   serverLoginSuccessAction,
+  SERVERLOGIN_REQUEST,
 } from "./../Actions/DatabaseServerActions";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { showDialogAction } from "./../../../Application/Redux/Actions/DialogsAction";
 
 export default function* watchConnectDatabaseSaga() {
   yield takeLatest(SERVERLOGIN_REQUEST, connectDatabaseSaga);

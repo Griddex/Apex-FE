@@ -273,31 +273,31 @@ export default function MatchUnits() {
   //Anchor Match
   const AnchorMatch = ({ rowIndex }) => {
     const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-    const [
-      selectedAnchorMatchRowIndex,
-      setSelectedAnchorMatchRowIndex,
-    ] = React.useState(0);
+    // const [
+    //   selectedAnchorMatchRowIndex,
+    //   setSelectedAnchorMatchRowIndex,
+    // ] = React.useState(0);
 
-    const unitMatches = useSelector(
-      (state) => state.importReducer.fileUnitsMatch
-    );
-    const selectedUnitRowIndex = useSelector(
-      (state) => state.importReducer.selectedUnitRowIndex
-    );
-    const selectedUnitOptionIndex = useSelector(
-      (state) => state.importReducer.selectedUnitOptionIndex
-    );
-    const matchScores = Object.values(unitMatches[rowIndex]);
-    const score =
-      selectedUnitRowIndex === rowIndex
-        ? matchScores[selectedUnitOptionIndex]
-        : matchScores[0];
+    // const unitMatches = useSelector(
+    //   (state) => state.importReducer.fileUnitsMatch
+    // );
+    // const selectedUnitRowIndex = useSelector(
+    //   (state) => state.importReducer.selectedUnitRowIndex
+    // );
+    // const selectedUnitOptionIndex = useSelector(
+    //   (state) => state.importReducer.selectedUnitOptionIndex
+    // );
+    // const matchScores = Object.values(unitMatches[rowIndex]);
+    // const score =
+    //   selectedUnitRowIndex === rowIndex
+    //     ? matchScores[selectedUnitOptionIndex]
+    //     : matchScores[0];
 
     const handleCheckboxChange = (event) => {
       event.persist();
 
       setCheckboxSelected(!checkboxSelected);
-      const selectedAnchorMatchRowIndex = event.target.name;
+      // const selectedAnchorMatchRowIndex = event.target.name;
     };
 
     return (
@@ -367,6 +367,7 @@ export default function MatchUnits() {
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (

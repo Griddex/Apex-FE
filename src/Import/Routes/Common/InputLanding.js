@@ -101,7 +101,7 @@ const InputLanding = ({ subModule: { name } }) => {
               const ImportFacilitiesWorkflows = {
                 excel: <ExcelWorkflow />,
                 database: <DatabaseWorkflow />,
-                existingdeck: <ExistingDataWorkflow />,
+                approveddeck: <ExistingDataWorkflow />,
               };
 
               return ImportFacilitiesWorkflows[dataType];

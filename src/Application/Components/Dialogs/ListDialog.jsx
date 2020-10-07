@@ -4,15 +4,15 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CloseIcon from "@material-ui/icons/Close";
-import React from "react";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { useDispatch } from "react-redux";
-import WarningIcon from "@material-ui/icons/Warning";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CloseIcon from "@material-ui/icons/Close";
 import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
+import WarningIcon from "@material-ui/icons/Warning";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 
 const icons = {
   error: <WarningIcon style={{ color: "#DA1B57" }} />,
@@ -61,9 +61,9 @@ const dialogTitleStyles = (theme) => ({
   },
 });
 
-const useDialogContentStyles = makeStyles(() => ({
-  dialogContent: { marginLeft: "5%", width: "95%" },
-}));
+// const useDialogContentStyles = makeStyles(() => ({
+//   dialogContent: { marginLeft: "5%", width: "95%" },
+// }));
 
 const DialogTitle = withStyles(dialogTitleStyles)((props) => {
   const { icon, iconColor, children, classes, onClose, ...other } = props;
@@ -115,7 +115,7 @@ export default function ListDialog({
   actions,
   maxWidth,
 }) {
-  const classes = useDialogContentStyles();
+  // const classes = useDialogContentStyles();
   const dispatch = useDispatch();
 
   return (

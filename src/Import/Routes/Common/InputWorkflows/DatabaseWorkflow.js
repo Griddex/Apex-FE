@@ -5,8 +5,8 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import SaveIcon from "@material-ui/icons/Save";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
@@ -19,14 +19,13 @@ import {
   workflowSaveAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
+import SelectDatabase from "../../../Components/SelectDatabase";
+import ConnectDatabase from "../Workflows/ConnectDatabase";
 import MatchHeaders from "../Workflows/MatchHeaders";
 import MatchUnits from "../Workflows/MatchUnits";
 import PreviewSave from "../Workflows/PreviewSave";
 import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
-import ConnectDatabase from "../Workflows/ConnectDatabase";
-import SelectDatabase from "../../../Components/SelectDatabase";
 import UploadFile from "./../Workflows/UploadFile";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,6 +132,7 @@ const DatabaseWorkflow = () => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   function renderImportStep(activeStep) {

@@ -219,7 +219,7 @@ export default function MatchHeaders() {
       event.persist();
 
       const selectedHeader = event.target.value;
-      const currentRowIndex = parseInt(event.target.name);
+      // const currentRowIndex = parseInt(event.target.name);
 
       setHeader(selectedHeader);
       const optionIndex = matches.indexOf(selectedHeader);
@@ -286,16 +286,16 @@ export default function MatchHeaders() {
   //Anchor Match
   const AnchorMatch = ({ rowIndex }) => {
     const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-    const [
-      selectedAnchorMatchRowIndex,
-      setSelectedAnchorMatchRowIndex,
-    ] = React.useState(0);
+    // const [
+    //   selectedAnchorMatchRowIndex,
+    //   setSelectedAnchorMatchRowIndex,
+    // ] = React.useState(0);
 
     const handleCheckboxChange = (event) => {
       event.persist();
 
       setCheckboxSelected(!checkboxSelected);
-      const selectedAnchorMatchRowIndex = event.target.name;
+      // const selectedAnchorMatchRowIndex = event.target.name;
     };
 
     return (
@@ -365,6 +365,7 @@ export default function MatchHeaders() {
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (

@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import SaveIcon from "@material-ui/icons/Save";
+// import SaveIcon from "@material-ui/icons/Save";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
@@ -133,6 +133,7 @@ const ExcelWorkflow = () => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   function renderImportStep(activeStep) {

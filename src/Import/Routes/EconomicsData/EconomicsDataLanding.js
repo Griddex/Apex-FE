@@ -2,18 +2,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, useRouteMatch } from "react-router-dom";
+import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
-import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
+import Input from "../../Images/Input.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import ModuleCard from "./../../../Application/Components/Cards/ModuleCard";
-import DatabaseExcelWorkflow from "./../Common/InputWorkflows/DatabaseExcelWorkflow";
-import ExistingDataWorkflow from "./../Common/InputWorkflows/ExistingDataWorkflow";
-// import AvatarStack from "react-avatar-stack";
+import DatabaseExcelWorkflow from "../Common/InputWorkflows/DatabaseExcelWorkflow";
+import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
+import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
 
 const useStyles = makeStyles((theme) => ({
-  ProductionDataLanding: {
+  EconomicsDataLanding: {
     display: "flex",
     flexGrow: 1,
     flexWrap: "wrap",
@@ -35,15 +35,14 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const ProductionDataLanding = ({ subModule: { name } }) => {
+const EconomicsDataLanding = ({ subModule: { name } }) => {
   const classes = useStyles();
-  // const theme = useTheme();
 
   const { url, path } = useRouteMatch();
   const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
   const nameLowCase = name.toLowerCase();
 
-  const productionLandingData = [
+  const economicsLandingData = [
     {
       name: "Excel",
       description: `Utilize ${nameLowCase} by connecting to Microsoft Excel`,
@@ -54,7 +53,7 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/productionexcel`,
+      route: `${url}/economicsexcel`,
     },
     {
       name: "Database",
@@ -66,20 +65,20 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/productiondatabase`,
+      route: `${url}/economicsdatabase`,
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Approved ${name}`,
-      description: `Select pre-exisiting and approved ${nameLowCase} from your database`,
+      name: `Input ${name}`,
+      description: `Type in ${nameLowCase} parameters and generate future cashflow`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={Input}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/approvedproductiondata`,
+      route: `${url}/economicstypein`,
     },
   ];
 
@@ -96,19 +95,19 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
                 params: { dataType },
               } = match;
 
-              const inputProductionDataWorkflows = {
-                productiondatabase: <DatabaseExcelWorkflow />,
-                productionexcel: <DatabaseExcelWorkflow />,
-                approvedproductiondata: <ExistingDataWorkflow />,
+              const inputEconomicsDataWorkflows = {
+                economicsexcel: <ExcelWorkflow />,
+                economicsdatabase: <DatabaseExcelWorkflow />,
+                economicstypein: <ExistingDataWorkflow />,
               };
 
-              return inputProductionDataWorkflows[dataType];
+              return inputEconomicsDataWorkflows[dataType];
             }}
           />
         </div>
       ) : (
-        <div className={classes.ProductionDataLanding}>
-          {productionLandingData.map((module) => {
+        <div className={classes.EconomicsDataLanding}>
+          {economicsLandingData.map((module) => {
             const { icon, name, description, route } = module;
             return (
               <ModuleCard
@@ -127,4 +126,4 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
   );
 };
 
-export default ProductionDataLanding;
+export default EconomicsDataLanding;

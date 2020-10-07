@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import React from "react";
 import {
   AreaChart,
@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 const useStyles = makeStyles(() => ({
@@ -28,6 +29,10 @@ const data = [
 
 const StackedAreaChart = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const primaryColor = theme.palette.primary.main;
+  const secondaryColor = theme.palette.secondary.main;
+  const tertiaryColor = theme.palette.tertiary.main;
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -36,30 +41,48 @@ const StackedAreaChart = () => {
         data={data}
         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
       >
+        <defs>
+          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor={primaryColor} stopOpacity={0.8} />
+            <stop offset="95%" stopColor={primaryColor} stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor={secondaryColor} stopOpacity={0.8} />
+            <stop offset="95%" stopColor={secondaryColor} stopOpacity={0} />
+          </linearGradient>
+        </defs>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
+        <Legend verticalAlign="middle" align="right" height={36} />
         <Area
           type="monotone"
           dataKey="uv"
           stackId="1"
-          stroke="#8884d8"
-          fill="#8884d8"
+          stroke={primaryColor}
+          fill={primaryColor}
+          legendType="wye"
+          // dot={{ stroke: "red", strokeWidth: 4 }}
+          // activeDot={{ stroke: "red", strokeWidth: 4 }}
+          // label={{ fill: "red", fontSize: 20 }}
+          // layout="vertical"
+          // baseLine={[{ x: 12, y: 15 }]}
+          // points={[{ x: 12, y: 12, value: 240 }]}
         />
         <Area
           type="monotone"
           dataKey="pv"
           stackId="1"
-          stroke="#82ca9d"
-          fill="#82ca9d"
+          stroke={secondaryColor}
+          fill={secondaryColor}
         />
         <Area
           type="monotone"
           dataKey="amt"
           stackId="1"
-          stroke="#ffc658"
-          fill="#ffc658"
+          stroke={tertiaryColor}
+          fill={tertiaryColor}
         />
       </AreaChart>
     </ResponsiveContainer>

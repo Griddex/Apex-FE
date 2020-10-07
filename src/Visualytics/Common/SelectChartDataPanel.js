@@ -5,6 +5,7 @@ import React from "react";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { persistChartIndexAction } from "./../Redux/ChartActions/ChartActions";
 import { useDispatch } from "react-redux";
+import StackedAreaChartPanel from "./../Components/StackedAreaChartPanel";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,14 +24,15 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #C4C4C4",
     width: "100%",
   },
-  chartProps: {
+  chartPanel: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "90%",
-    border: "1px solid #C4C4C4",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    height: "auto",
+    // border: "1px solid #C4C4C4",
     width: "100%",
+    // overflow: "auto",
   },
 }));
 
@@ -78,7 +80,7 @@ const SelectChartDataPanel = () => {
   const renderChartDataPanel = (chartName) => {
     switch (chartName) {
       case "StackedAreaChartPanel":
-        return <h6>{"StackedAreaChartPanel"}</h6>;
+        return <StackedAreaChartPanel />;
 
       case "LineChartPanel":
         return <h6>{"LineChartPanel"}</h6>;
@@ -96,13 +98,11 @@ const SelectChartDataPanel = () => {
 
   return (
     <>
-      {/* <div className={classes.chartSelect}> */}
       <AnalyticsComp
         title="Select Chart"
         content={<SelectItem classes={classes} />}
       />
-      {/* </div> */}
-      <div className={classes.chartProps}>
+      <div className={classes.chartPanel}>
         {renderChartDataPanel(chartName)}
       </div>
     </>

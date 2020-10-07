@@ -128,6 +128,7 @@ const DatabaseExcelWorkflow = () => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   function renderImportStep(activeStep) {

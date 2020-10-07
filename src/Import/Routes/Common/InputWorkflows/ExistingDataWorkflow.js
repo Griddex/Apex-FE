@@ -1,6 +1,5 @@
 import { makeStyles, useTheme } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import clsx from "clsx";
 import React from "react";
 import AvatarStack from "react-avatar-stack";
 import { useDispatch } from "react-redux";
@@ -134,11 +133,13 @@ export default function ExistingDataWorkflow() {
           color: theme.palette.tertiary.main,
           backgroundColor: theme.palette.tertiary.light,
         };
+
       case "Pending":
         return {
           color: theme.palette.quaternary.main,
           backgroundColor: theme.palette.quaternary.light,
         };
+
       case "Returned":
         return {
           color: theme.palette.secondary.main,
@@ -148,15 +149,24 @@ export default function ExistingDataWorkflow() {
       default:
         break;
     }
+
+    // return statusStyle;
   };
   const Status = ({ rowIndex, statusText }) => {
+    const classes = useStyles();
+    console.log("Logged output -->: Status -> classes", classes);
     const statusStyle = statusColor(statusText);
+    console.log("Logged output -->: Status -> statusStyle", statusStyle);
+
     return (
       <div
         key={rowIndex}
-        className={clsx(classes.status, statusStyle)}
+        className={classes.status}
+        style={statusStyle}
         name={rowIndex.toString()}
-      ></div>
+      >
+        {statusText}
+      </div>
     );
   };
 
@@ -172,7 +182,6 @@ export default function ExistingDataWorkflow() {
 
   //Approvers
   const Approvers = ({ rowIndex, approvers }) => {
-    console.log("Logged output -->: Approvers -> approvers", approvers);
     return (
       <div
         className={classes.approvers}
@@ -237,7 +246,7 @@ export default function ExistingDataWorkflow() {
 
   const cleanTableData = fileHeadersTableData.map((row, i) => {
     return {
-      [actualColumnHeaders[0]]: <Status rowIndex={i} statusTect={row.status} />,
+      [actualColumnHeaders[0]]: <Status rowIndex={i} statusText={row.status} />,
       [actualColumnHeaders[1]]: row.forecastDeck,
       [actualColumnHeaders[2]]: <Author rowIndex={i} author={row.author} />,
       [actualColumnHeaders[3]]: (
