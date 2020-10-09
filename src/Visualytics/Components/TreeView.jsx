@@ -26,12 +26,12 @@ import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import * as xlsx from "xlsx";
-import Dialogs from "./../../Application/Components/Dialogs/Dialogs";
+import Dialogs from "../../Application/Components/Dialogs/Dialogs";
 import {
   hideDialogAction,
   showDialogAction,
-} from "./../../Application/Redux/Actions/DialogsAction";
-import getTableHeaders from "./../../Application/Utils/GetTableHeaders";
+} from "../../Application/Redux/Actions/DialogsAction";
+import getTableHeaders from "../../Application/Utils/GetTableHeaders";
 
 function MinusSquare(props) {
   return (

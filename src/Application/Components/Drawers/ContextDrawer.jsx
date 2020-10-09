@@ -27,9 +27,10 @@ const useStyles = makeStyles((theme) => {
         marginTop: navbarHeight,
         height: `calc(100% - ${navbarHeight}px)`,
       },
+      padding: 5,
     },
     expandContextDrawer: {
-      width: theme.spacing(20),
+      width: theme.spacing(30),
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -46,17 +47,38 @@ const useStyles = makeStyles((theme) => {
     contextDrawerMenuIcon: {
       margin: 0,
     },
+    contextDrawerHeader: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      borderBottom: "1px solid #C4C4C4",
+      "& > *": { fontSize: 14 },
+      "& p:first-child": {
+        textTransform: "uppercase",
+        color: theme.palette.primary.main,
+      },
+      "& p:nth-child(2)": {
+        textTransform: "capitalize",
+      },
+      "& p:nth-child(3)": {
+        textTransform: "capitalize",
+        fontWeight: "bold",
+      },
+    },
+    contextDrawerContent: {
+      marginTop: 20,
+    },
   };
 });
 
 const ContextDrawer = ({ children, data }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
+
   const workflowData = useSelector((state) => state.applicationReducer);
   const { moduleName, subModuleName, workflowName } = workflowData;
-
   const { expandContextDrawer } = useSelector((state) => state.layoutReducer);
-
-  const classes = useStyles();
 
   return (
     <Drawer
@@ -98,12 +120,12 @@ const ContextDrawer = ({ children, data }) => {
           <MenuIcon />
         </IconButton>
       )}
-      <div>
+      <div className={classes.contextDrawerHeader}>
         <Typography>{moduleName}</Typography>
         <Typography>{subModuleName}</Typography>
         <Typography>{workflowName}</Typography>
       </div>
-      {children(data)}
+      <div className={classes.contextDrawerContent}>{children(data)}</div>
     </Drawer>
   );
 };

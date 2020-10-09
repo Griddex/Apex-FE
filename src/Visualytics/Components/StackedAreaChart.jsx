@@ -10,10 +10,15 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { persistChartItemAction } from "./../Redux/ChartActions/ChartActions";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
     marginTop: 10,
+  },
+  area: {
+    "&:hover": { backgroundColor: "green" },
   },
 }));
 
@@ -29,6 +34,7 @@ const data = [
 
 const StackedAreaChart = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const primaryColor = theme.palette.primary.main;
   const secondaryColor = theme.palette.secondary.main;
@@ -40,6 +46,7 @@ const StackedAreaChart = () => {
         className={classes.rootStackedAreaChart}
         data={data}
         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+        onClick={() => dispatch(persistChartItemAction("chartArea"))}
       >
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -49,6 +56,10 @@ const StackedAreaChart = () => {
           <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor={secondaryColor} stopOpacity={0.8} />
             <stop offset="95%" stopColor={secondaryColor} stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id="colorAmt" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor={tertiaryColor} stopOpacity={0.8} />
+            <stop offset="95%" stopColor={tertiaryColor} stopOpacity={0} />
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" />
@@ -61,7 +72,8 @@ const StackedAreaChart = () => {
           dataKey="uv"
           stackId="1"
           stroke={primaryColor}
-          fill={primaryColor}
+          fillOpacity={1}
+          fill="url(#colorUv)"
           legendType="wye"
           // dot={{ stroke: "red", strokeWidth: 4 }}
           // activeDot={{ stroke: "red", strokeWidth: 4 }}
@@ -69,20 +81,24 @@ const StackedAreaChart = () => {
           // layout="vertical"
           // baseLine={[{ x: 12, y: 15 }]}
           // points={[{ x: 12, y: 12, value: 240 }]}
+          onClick={(e) => console.log(e)}
+          className={classes.area}
         />
         <Area
           type="monotone"
           dataKey="pv"
           stackId="1"
           stroke={secondaryColor}
-          fill={secondaryColor}
+          fillOpacity={1}
+          fill="url(#colorPv)"
         />
         <Area
           type="monotone"
           dataKey="amt"
           stackId="1"
           stroke={tertiaryColor}
-          fill={tertiaryColor}
+          fillOpacity={1}
+          fill="url(#colorAmt)"
         />
       </AreaChart>
     </ResponsiveContainer>

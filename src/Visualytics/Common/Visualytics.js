@@ -1,10 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import SelectChart from "./SelectChart";
 import SelectChartDataPanel from "./SelectChartDataPanel";
-// import WorkflowStepper from "../../Application/Components/Workflows/WorkflowStepper";
+import FormatAggregator from "../Components/FormatAggregator";
+import { contextDrawerShowAction } from "./../../Application/Redux/Actions/LayoutActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,12 +39,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Visualytics = () => {
   const classes = useStyles();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { showContextDrawer } = useSelector((state) => state.layoutReducer);
   const data = [];
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(contextDrawerShowAction());
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -55,12 +58,8 @@ const Visualytics = () => {
           <SelectChart />
         </div>
       </div>
-      {/*TODO: Chart formatting controls */}
       {showContextDrawer && (
-        <ContextDrawer data={data}>
-          {/* {(props) => <WorkflowStepper {...props} />} */}
-          {(props) => <h1>Chart Formats</h1>}
-        </ContextDrawer>
+        <ContextDrawer data={data}>{() => <FormatAggregator />}</ContextDrawer>
       )}
     </div>
   );

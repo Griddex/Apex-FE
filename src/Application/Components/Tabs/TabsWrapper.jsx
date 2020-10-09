@@ -64,8 +64,8 @@ const TabsWrapper = ({ children }) => {
   // };
 
   const {
-    newTabs,
-    newTabPanels,
+    newMainTabs,
+    newMainTabPanels,
     workflowName,
     currentMainTabValue,
   } = useSelector((state) => state.applicationReducer);
@@ -75,9 +75,9 @@ const TabsWrapper = ({ children }) => {
       <TabPanel value={currentMainTabValue} index={0}>
         {children}
       </TabPanel>
-      {newTabPanels &&
-        newTabPanels.map((tabPanel, i) => {
-          if (!newTabs[i].displayed)
+      {newMainTabPanels &&
+        newMainTabPanels.map((tabPanel, i) => {
+          if (!newMainTabs[i].displayed)
             return (
               <TabPanel key={i} value={currentMainTabValue} index={i + 1}>
                 {tabPanels[tabPanel]}
@@ -101,8 +101,8 @@ const TabsWrapper = ({ children }) => {
           label={workflowName}
           onClick={() => dispatch(setCurrentMainTabValueAction(0))}
         />
-        {newTabs &&
-          newTabs.map((tab, i) => {
+        {newMainTabs &&
+          newMainTabs.map((tab, i) => {
             if (!tab.displayed)
               return (
                 <Tab

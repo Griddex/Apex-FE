@@ -44,8 +44,11 @@ const applicationReducer = (state = applicationState, action) => {
     case ADD_TAB:
       return {
         ...state,
-        newTabs: [...state.newTabs, action.payload.newTab],
-        newTabPanels: [...state.newTabPanels, action.payload.newTabPanel],
+        newMainTabs: [...state.newMainTabs, action.payload.newTab],
+        newMainTabPanels: [
+          ...state.newMainTabPanels,
+          action.payload.newTabPanel,
+        ],
       };
 
     case SET_CURRENTMAINTABVALUE:
