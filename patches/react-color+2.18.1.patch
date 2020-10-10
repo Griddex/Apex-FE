@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-color/lib/components/sketch/Sketch.js b/node_modules/react-color/lib/components/sketch/Sketch.js
+index 2f63173..8c70a64 100644
+--- a/node_modules/react-color/lib/components/sketch/Sketch.js
++++ b/node_modules/react-color/lib/components/sketch/Sketch.js
+@@ -59,7 +59,7 @@ var Sketch = exports.Sketch = function Sketch(_ref) {
+         boxSizing: 'initial',
+         background: '#fff',
+         borderRadius: '4px',
+-        boxShadow: '0 0 0 1px rgba(0,0,0,.15), 0 8px 16px rgba(0,0,0,.15)'
++        // boxShadow: '0 0 0 1px rgba(0,0,0,.15), 0 8px 16px rgba(0,0,0,.15)'
+       },
+       saturation: {
+         width: '100%',
