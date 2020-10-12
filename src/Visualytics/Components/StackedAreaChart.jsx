@@ -10,12 +10,21 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { persistChartItemAction } from "./../Redux/ChartActions/ChartActions";
-import { useDispatch } from "react-redux";
+import {
+  setSelectedChartElementIdAction,
+  setChartElementObjectAction,
+} from "./../Redux/ChartActions/ChartActions";
+import { useDispatch, useSelector } from "react-redux";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import removeAllSpaces from "./../Utils/RemoveAllSpaces";
+import { v4 as uuidv4 } from "uuid";
+import { contextDrawerCollapseAction } from "./../../Application/Redux/Actions/LayoutActions";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
     marginTop: 10,
+    backgroundColor: (props) => props.chartLayoutColor,
+    border: (props) => `${props.chartAreaBorder}px solid`,
   },
   area: {
     "&:hover": { backgroundColor: "green" },
@@ -32,76 +41,184 @@ const data = [
   { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-const StackedAreaChart = () => {
-  const classes = useStyles();
+const StackedAreaChart = (props) => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const primaryColor = theme.palette.primary.main;
-  const secondaryColor = theme.palette.secondary.main;
-  const tertiaryColor = theme.palette.tertiary.main;
+
+  const chartRef = React.useRef(null);
+  const [again, setAgain] = React.useState(0);
+
+  React.useEffect(() => {
+    const chartId = chartRef.current && chartRef.current.uniqueChartId;
+
+    if (chartId === null) setAgain(1);
+    else dispatch(setChartElementObjectAction({ id: chartId }));
+  }, [again]);
+
+  const chartElementObjects = useSelector(
+    (state) => state.chartReducer.chartElementObjects
+  );
+  const chartLayoutObject = chartElementObjects.find(
+    (obj) => obj.id === chartRef.current.uniqueChartId
+  );
+  console.log(
+    "Logged output -->: StackedAreaChart -> chartLayoutObject",
+    chartLayoutObject
+  );
+  const chartLayoutColor = chartLayoutObject && chartLayoutObject.color;
+  const { chartSeriesSolidColors } = useSelector((state) => state.chartReducer);
+
+  const handleClickAway = () => {
+    localDispatch({
+      type: "RESET",
+    });
+    // dispatch(
+    //   setSelectedChartElementIdAction({
+    //     id: chartRef.current.uniqueChartId,
+    //     chartElementType: "none",
+    //   })
+    // );
+    // dispatch(contextDrawerCollapseAction());
+  };
+
+  const initializeChartMetaData = () => {
+    const activeIndex = null;
+    const chartAreaBorder = 0;
+    const activeDataKey = null;
+
+    return {
+      activeIndex,
+      chartAreaBorder,
+      activeDataKey,
+    };
+  };
+
+  const chartMetaDataReducer = (state, action) => {
+    switch (action.type) {
+      case "SET_ACTIVEINDEX":
+        return { ...state, activeIndex: action.payload.activeIndex };
+
+      case "SET_CHARTAREABORDER":
+        return {
+          ...state,
+          chartAreaBorder: action.payload.chartAreaBorder,
+        };
+
+      case "SET_ACTIVEDATAKEY":
+        return {
+          ...state,
+          activeDataKey: action.payload.activeDataKey,
+        };
+
+      case "RESET":
+        return {
+          ...state,
+          activeIndex: null,
+          chartAreaBorder: 0,
+        };
+
+      default:
+        return state;
+    }
+  };
+
+  const [chartMetaData, localDispatch] = React.useReducer(
+    chartMetaDataReducer,
+    initializeChartMetaData()
+  );
+
+  const dataKeys = Object.keys(data[0]);
+  const colors = chartSeriesSolidColors.slice(0, dataKeys.length);
+
+  const { activeIndex, activeDataKey } = chartMetaData;
+
+  const allProps = { ...props, chartLayoutColor, ...chartMetaData };
+  const classes = useStyles(allProps);
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <AreaChart
-        className={classes.rootStackedAreaChart}
-        data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        onClick={() => dispatch(persistChartItemAction("chartArea"))}
-      >
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor={primaryColor} stopOpacity={0.8} />
-            <stop offset="95%" stopColor={primaryColor} stopOpacity={0} />
-          </linearGradient>
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor={secondaryColor} stopOpacity={0.8} />
-            <stop offset="95%" stopColor={secondaryColor} stopOpacity={0} />
-          </linearGradient>
-          <linearGradient id="colorAmt" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor={tertiaryColor} stopOpacity={0.8} />
-            <stop offset="95%" stopColor={tertiaryColor} stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend verticalAlign="middle" align="right" height={36} />
-        <Area
-          type="monotone"
-          dataKey="uv"
-          stackId="1"
-          stroke={primaryColor}
-          fillOpacity={1}
-          fill="url(#colorUv)"
-          legendType="wye"
-          // dot={{ stroke: "red", strokeWidth: 4 }}
-          // activeDot={{ stroke: "red", strokeWidth: 4 }}
-          // label={{ fill: "red", fontSize: 20 }}
-          // layout="vertical"
-          // baseLine={[{ x: 12, y: 15 }]}
-          // points={[{ x: 12, y: 12, value: 240 }]}
-          onClick={(e) => console.log(e)}
-          className={classes.area}
-        />
-        <Area
-          type="monotone"
-          dataKey="pv"
-          stackId="1"
-          stroke={secondaryColor}
-          fillOpacity={1}
-          fill="url(#colorPv)"
-        />
-        <Area
-          type="monotone"
-          dataKey="amt"
-          stackId="1"
-          stroke={tertiaryColor}
-          fillOpacity={1}
-          fill="url(#colorAmt)"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          ref={chartRef}
+          syncId="chartId1"
+          className={classes.rootStackedAreaChart}
+          data={data}
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          // strokeWidth={chartAreaBorder}
+          onClick={(chartEventObj, event) => {
+            dispatch(
+              setSelectedChartElementIdAction({
+                id: chartRef.current.uniqueChartId,
+                chartElementType: "chartLayout",
+              })
+            );
+            localDispatch({
+              type: "SET_CHARTAREABORDER",
+              payload: { chartAreaBorder: 1 },
+            });
+            event.stopPropagation();
+            console.log(
+              "Logged output -->: StackedAreaChart -> chartEventObj",
+              chartEventObj
+            );
+          }}
+        >
+          <defs>
+            {data.map((dataPoint, i) => {
+              const name = removeAllSpaces(dataPoint.name);
+
+              return (
+                <linearGradient key={i} id={name} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={colors[i]} stopOpacity={0.8} />
+                  <stop offset="95%" stopColor={colors[i]} stopOpacity={0} />
+                </linearGradient>
+              );
+            })}
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend verticalAlign="middle" align="right" height={36} />
+          {data.map((dataPoint, i) => {
+            const name = removeAllSpaces(dataPoint.name);
+
+            return (
+              <Area
+                key={i}
+                type="monotone"
+                dataKey={dataKeys && dataKeys[i + 1]}
+                stackId="1" //Create a unique id and store one time - useRef
+                stroke={activeIndex === i ? "black" : colors[i]}
+                fillOpacity={1}
+                strokeWidth={activeIndex === i ? 3 : 1}
+                fill={`url(#${name})`}
+                // fill={colors[i]}
+                legendType="wye"
+                isAnimationActive={false}
+                // dot={{ stroke: "red", strokeWidth: 4 }}
+                // activeDot={{ stroke: "red", strokeWidth: 4 }}
+                // label={{ fill: "red", fontSize: 20 }}
+                // layout="vertical"
+                // baseLine={[{ x: 12, y: 15 }]}
+                // points={[{ x: 12, y: 12, value: 240 }]}
+                onClick={(event) => {
+                  localDispatch({
+                    type: "SET_ACTIVEINDEX",
+                    payload: { activeIndex: i },
+                  });
+                  localDispatch({
+                    type: "SET_ACTIVEDATAKEY",
+                    payload: { activeDataKey: event.dataKey },
+                  });
+                }}
+                className={classes.area}
+              />
+            );
+          })}
+        </AreaChart>
+      </ResponsiveContainer>
+    </ClickAwayListener>
   );
 };
 

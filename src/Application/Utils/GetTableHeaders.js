@@ -1,5 +1,4 @@
 const getTableHeaders = (tableData) => {
-  console.log("Logged output -->: getTableHeaders -> tableData", tableData);
   if (tableData.length === 0) return [];
 
   const headerRowIndex = tableData.reduce((maxNumber, row, i) => {

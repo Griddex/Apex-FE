@@ -62,10 +62,6 @@ const ChartTabsWrapper = ({ chartItemsContent }) => {
   };
 
   const { subContextTabs, subContextTabPanels } = chartItemsContent;
-  console.log(
-    "Logged output -->: ChartTabsWrapper -> chartItemsContent",
-    chartItemsContent
-  );
 
   return (
     <div className={classes.rootSubContextTabs}>

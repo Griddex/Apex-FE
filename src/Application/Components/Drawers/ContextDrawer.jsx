@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => {
       padding: 5,
     },
     expandContextDrawer: {
-      width: theme.spacing(30),
+      width: theme.spacing(40),
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,

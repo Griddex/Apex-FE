@@ -1,7 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import Fill from "./Fill";
-import Gradient from "./Gradient";
+import Border from "./Border";
+import Palette from "./Palette";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +18,8 @@ export default function FillBorderOptions() {
   return (
     <div className={classes.root}>
       <Fill />
-      <Gradient />
+      <Border />
+      <Palette />
     </div>
   );
 }

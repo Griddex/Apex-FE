@@ -10,7 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
 import { SketchPicker } from "react-color";
-import ReactGradientColorPicker from "react-gradient-color-picker";
+import { ColorPicker } from "react-color-gradient-picker";
+import "react-color-gradient-picker/dist/index.css";
 
 const useStyles = makeStyles((theme) => ({
   rootGradient: {
@@ -24,12 +25,14 @@ const useStyles = makeStyles((theme) => ({
   gradientAccordionSummary: {
     borderRadius: 0,
     margin: 0,
-    height: 30,
-    minHeight: 30,
+    height: 20,
+    minHeight: 20,
+    "&.Mui-expanded": { height: 20, minHeight: 20 },
   },
+  gradientFormControlLabel: { height: 20 },
 }));
 
-export default function Gradient() {
+export default function Border() {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -50,8 +53,30 @@ export default function Gradient() {
   const handleSolidColorChangeComplete = (solidColor) => {
     setSolidColor(solidColor);
   };
-  const handleGradientColorStopsChange = (colorStops, colorMap) => {
-    setGradientColorStops(colorStops);
+
+  const [gradientAttrs, setGradientAttrs] = React.useState({
+    points: [
+      {
+        left: 0,
+        red: 0,
+        green: 0,
+        blue: 0,
+        alpha: 1,
+      },
+      {
+        left: 100,
+        red: 255,
+        green: 0,
+        blue: 0,
+        alpha: 1,
+      },
+    ],
+    degree: 0,
+    type: "linear",
+  });
+
+  const handleGradientAttrsChange = (gradientAttrs) => {
+    setGradientAttrs(gradientAttrs);
   };
 
   const presetColors = [
@@ -66,29 +91,23 @@ export default function Gradient() {
 
       case "solid":
         return (
-          <div>
-            <SketchPicker
-              color={solidColor}
-              onChangeComplete={handleSolidColorChangeComplete}
-              presetColors={presetColors}
-              // onSwatchHover={(color, event) => console.log(color, event)}
-            />
-            {/*width increment/decrement control*/}
-            {/*dashline type menu dropdown control*/}
-          </div>
+          <SketchPicker
+            color={solidColor}
+            onChangeComplete={handleSolidColorChangeComplete}
+            presetColors={presetColors}
+            // onSwatchHover={(color, event) => console.log(color, event)}
+          />
         );
 
       case "gradient":
         return (
-          <div>
-            <ReactGradientColorPicker
-              style={{ width: "100%" }}
-              stops={gradientColorStops}
-              onChange={handleGradientColorStopsChange}
-            />
-            {/*width increment/decrement control*/}
-            {/*dashline type menu dropdown control*/}
-          </div>
+          <ColorPicker
+            isGradient
+            onStartChange={handleGradientAttrsChange}
+            onChange={handleGradientAttrsChange}
+            onEndChange={handleGradientAttrsChange}
+            gradient={gradientAttrs}
+          />
         );
 
       default:
@@ -105,7 +124,7 @@ export default function Gradient() {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>Gradient</Typography>
+          <Typography className={classes.heading}>Border</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <div>
@@ -119,6 +138,7 @@ export default function Gradient() {
                 {options.map((option, i) => {
                   return (
                     <FormControlLabel
+                      className={classes.gradientFormControlLabel}
                       key={i}
                       value={option.toLowerCase()}
                       control={<Radio />}

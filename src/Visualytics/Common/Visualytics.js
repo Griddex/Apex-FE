@@ -34,7 +34,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     padding: 5,
   },
-  chartContent: { height: "100%", width: "85%" },
+  chartContent: {
+    marginLeft: 5,
+    height: "100%",
+    width: "85%",
+    backgroundColor: "#FFF",
+  },
 }));
 
 const Visualytics = () => {

@@ -18,8 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const chartItemsHeader = {
-  chartArea: "Chart Area",
+const chartElements = {
+  none: null,
+  chartLayout: "Chart Layout",
   charplotArea: "Plot Area",
   Legend: "Legend",
   yAxis: "Y Axis",
@@ -33,7 +34,8 @@ const chartItemsHeader = {
 };
 
 const chartItemsContent = {
-  chartArea: {
+  none: null,
+  chartLayout: {
     subContextTabs: [
       { name: "ColorFormatting", icon: () => <FormatColorFillIcon /> },
       { name: "OtherFormatting", icon: () => <ViewCarouselIcon /> },
@@ -48,8 +50,10 @@ const chartItemsContent = {
 export default function FormatAggregator() {
   const classes = useStyles();
 
-  const { currentChartItem } = useSelector((state) => state.chartReducer);
-  const header = chartItemsHeader[currentChartItem];
+  const { chartElementType } = useSelector(
+    (state) => state.chartReducer.selectedChartElementId
+  );
+  const header = chartElements[chartElementType];
 
   return (
     <div className={classes.rootFormatAggregator}>
@@ -58,7 +62,7 @@ export default function FormatAggregator() {
       </Typography>
       {header ? (
         <ChartTabsWrapper
-          chartItemsContent={chartItemsContent[currentChartItem]}
+          chartItemsContent={chartItemsContent[chartElementType]}
         />
       ) : (
         <div>Chart</div>
