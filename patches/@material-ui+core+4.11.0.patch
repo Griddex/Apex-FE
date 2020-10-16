@@ -1,0 +1,30 @@
+diff --git a/node_modules/@material-ui/core/styles/createPalette.d.ts b/node_modules/@material-ui/core/styles/createPalette.d.ts
+index fa4a5c1..b4a027e 100644
+--- a/node_modules/@material-ui/core/styles/createPalette.d.ts
++++ b/node_modules/@material-ui/core/styles/createPalette.d.ts
+@@ -1,6 +1,6 @@
+ import { Color, PaletteType } from '..';
+ 
+-export {};
++export { };
+ // use standalone interface over typeof colors/commons
+ // to enable module augmentation
+ export interface CommonColors {
+@@ -78,6 +78,8 @@ export interface Palette {
+   tonalOffset: PaletteTonalOffset;
+   primary: PaletteColor;
+   secondary: PaletteColor;
++  tertiary: PaletteColor;
++  quaternary: PaletteColor;
+   error: PaletteColor;
+   warning: PaletteColor;
+   info: PaletteColor;
+@@ -104,6 +106,8 @@ export type PartialTypeObject = { [P in keyof TypeObject]?: Partial<TypeObject[P
+ export interface PaletteOptions {
+   primary?: PaletteColorOptions;
+   secondary?: PaletteColorOptions;
++  tertiary: PaletteColorOptions;
++  quaternary: PaletteColorOptions;
+   error?: PaletteColorOptions;
+   warning?: PaletteColorOptions;
+   info?: PaletteColorOptions;
