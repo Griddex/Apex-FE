@@ -325,7 +325,8 @@ export default function CustomizedTreeView() {
                         //     deltaX,
                         //   })
                         // }
-                        bounds={(0, 0, 1920, 1000)}
+                        // bounds={(0, 0, 1920, 1000)}
+                        bounds="parent"
                         zIndex={theme.zIndex.drawer}
                       >
                         <StyledTreeItem key={i} nodeId={Id} label={header} />

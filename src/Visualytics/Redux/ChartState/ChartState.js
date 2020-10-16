@@ -309,7 +309,7 @@ const chartState = {
     "#81cdd1",
     "#db81b2",
   ],
-  chartElementObjects: [],
+  chartObjects: [],
   xAxes: [],
   yAxes: [],
 };

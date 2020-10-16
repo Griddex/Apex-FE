@@ -1,16 +1,63 @@
 import { grey } from "@material-ui/core/colors";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme, ThemeOptions } from "@material-ui/core/styles";
 
-const theme = createMuiTheme({
-  background: "#EFEFEF",
+// tertiary: { light: "#EBFFFB"; main: "#00C49F"; dark: "#008F72" };
+// quaternary: { light: "#FFFAEB"; main: "#F5B400"; dark: "#CC9900" };
+
+declare module "@material-ui/core/styles/createMuiTheme" {
+  export type PaletteColorOptions = SimplePaletteColorOptions;
+
+  export interface SimplePaletteColorOptions {
+    light?: string;
+    main: string;
+    dark?: string;
+    contrastText?: string;
+  }
+
+  interface PaletteOptions {
+    tertiary?: PaletteColorOptions;
+    quaternary?: PaletteColorOptions;
+    // palette?: PaletteOptions | undefined;
+  }
+  interface Palette {
+    tertiary?: PaletteColorOptions;
+    quaternary?: PaletteColorOptions;
+    // palette?: PaletteOptions | undefined;
+  }
+}
+
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
+//     secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
+//     tertiary: { light: "#EBFFFB"; main: "#00C49F"; dark: "#008F72" };
+// quaternary: { light: "#FFFAEB"; main: "#F5B400"; dark: "#CC9900" };
+//   },
+//   typography: {
+//     fontFamily: ['"Quicksand"', "sans-serif"].join(","),
+//   },
+// });
+
+function createApexTheme(options: ThemeOptions) {
+  return createMuiTheme({
+    palette: {
+      primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
+      secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
+      tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
+      quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },
+    },
+    typography: {
+      fontFamily: ['"Quicksand"', "sans-serif"].join(","),
+    },
+
+    ...options,
+  });
+}
+
+const theme = createApexTheme({
   palette: {
-    primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
-    secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
     tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
     quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },
-  },
-  typography: {
-    fontFamily: ['"Quicksand"', "sans-serif"].join(","),
   },
 });
 
@@ -33,7 +80,7 @@ theme.props = {
 theme.overrides = {
   MuiCssBaseline: {
     "@global": {
-      "@font-face": ["quicksand"],
+      "@font-face": [{ fontFamily: "quicksand" }],
     },
   },
   MuiButton: {

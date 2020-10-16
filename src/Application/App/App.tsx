@@ -1,15 +1,13 @@
-import React, { Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
-import Loading from "./../Components/Visuals/Loading";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
 const Layout = React.lazy(() => import("../Layout/Layout"));
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   success: { backgroundColor: theme.palette.tertiary.main },
   error: { backgroundColor: theme.palette.secondary.main },
   warning: { backgroundColor: theme.palette.quaternary.main },
@@ -21,14 +19,8 @@ const App = () => {
   const notistackRef = React.useRef(null);
 
   return (
-    <SnackbarProvider
-      maxSnack={3}
-      ref={notistackRef}
-      action={(key) => (
-        <Button
-          style={{ color: "white" }}
-          onClick={() => notistackRef.current.closeSnackbar(key)}
-        >
+    <SnackbarProvider  maxSnack={3}  ref={notistackRef} action={(key) => (
+        <Button style={{ color: "white" }} onClick={() => notistackRef.current.closeSnackbar(key)}>
           Dismiss
         </Button>
       )}
@@ -37,8 +29,7 @@ const App = () => {
         variantError: classes.error,
         variantWarning: classes.warning,
         variantInfo: classes.info,
-      }}
-    >
+      }}>
       <Suspense fallback={<Loading />}>
         <Switch>
           <Route exact path="/" component={LandingRoute} />

@@ -13,6 +13,7 @@ import {
 import {
   setSelectedChartElementIdAction,
   setChartElementObjectAction,
+  updateChartElementObjectAction,
 } from "./../Redux/ChartActions/ChartActions";
 import { useDispatch, useSelector } from "react-redux";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -23,12 +24,16 @@ import { contextDrawerCollapseAction } from "./../../Application/Redux/Actions/L
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
     marginTop: 10,
-    backgroundColor: (props) => props.chartLayoutColor,
+    backgroundColor: (props) =>
+      props.chartLayoutColor ? props.chartLayoutColor : "white",
+    background: (props) =>
+      props.chartLayoutGradient ? props.chartLayoutGradient.style : null,
     border: (props) => `${props.chartAreaBorder}px solid`,
   },
   area: {
     "&:hover": { backgroundColor: "green" },
   },
+  yAxis: { fill: "#FCD123", stroke: "#FCA345", fontSize: 16 },
 }));
 
 const data = [
@@ -46,7 +51,9 @@ const StackedAreaChart = (props) => {
   const theme = useTheme();
 
   const chartRef = React.useRef(null);
+
   const [again, setAgain] = React.useState(0);
+  const [yAxisStyleOnHover, setyAxisStyleOnHover] = React.useState(false);
 
   React.useEffect(() => {
     const chartId = chartRef.current && chartRef.current.uniqueChartId;
@@ -55,17 +62,13 @@ const StackedAreaChart = (props) => {
     else dispatch(setChartElementObjectAction({ id: chartId }));
   }, [again]);
 
-  const chartElementObjects = useSelector(
-    (state) => state.chartReducer.chartElementObjects
-  );
-  const chartLayoutObject = chartElementObjects.find(
+  const chartObjects = useSelector((state) => state.chartReducer.chartObjects);
+  const chartObject = chartObjects.find(
     (obj) => obj.id === chartRef.current.uniqueChartId
   );
-  console.log(
-    "Logged output -->: StackedAreaChart -> chartLayoutObject",
-    chartLayoutObject
-  );
-  const chartLayoutColor = chartLayoutObject && chartLayoutObject.color;
+
+  const chartLayoutColor = chartObject && chartObject.color;
+  const chartLayoutGradient = chartObject && chartObject.gradient;
   const { chartSeriesSolidColors } = useSelector((state) => state.chartReducer);
 
   const handleClickAway = () => {
@@ -132,8 +135,24 @@ const StackedAreaChart = (props) => {
 
   const { activeIndex, activeDataKey } = chartMetaData;
 
-  const allProps = { ...props, chartLayoutColor, ...chartMetaData };
+  const allProps = {
+    ...props,
+    chartLayoutColor,
+    chartLayoutGradient,
+    ...chartMetaData,
+  };
   const classes = useStyles(allProps);
+
+  const yAxisStyle = () =>
+    yAxisStyleOnHover
+      ? {
+          // fill: "#FCD123",
+          // stroke: "#FCA345",
+          strokeWidth: 2,
+          fontSize: 16,
+          border: "1px solid black",
+        }
+      : {};
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -143,7 +162,7 @@ const StackedAreaChart = (props) => {
           syncId="chartId1"
           className={classes.rootStackedAreaChart}
           data={data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
           // strokeWidth={chartAreaBorder}
           onClick={(chartEventObj, event) => {
             dispatch(
@@ -157,10 +176,6 @@ const StackedAreaChart = (props) => {
               payload: { chartAreaBorder: 1 },
             });
             event.stopPropagation();
-            console.log(
-              "Logged output -->: StackedAreaChart -> chartEventObj",
-              chartEventObj
-            );
           }}
         >
           <defs>
@@ -177,7 +192,42 @@ const StackedAreaChart = (props) => {
           </defs>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          {/* {yAxes &&
+            yAxes.map((axis, i) => <YAxis yAxisId={i} orientation="left" />)} */}
+          <YAxis
+            id="yAxes1"
+            className={classes.yAxis}
+            yAxisId="left1"
+            orientation="left"
+            scale="auto"
+            dataKey="amt"
+            type="number"
+            // domain={["dataMin", "dataMax"]}
+            onMouseOver={(o, e, a, b) => console.log(o, e, a, b)}
+            // onMouseEnter={(o, e, a) => setyAxisStyleOnHover(true)}
+            // onMouseLeave={(o, e, a) => setyAxisStyleOnHover(false)}
+            style={yAxisStyle()}
+            id="1"
+            name="1"
+          />
+          <YAxis
+            yAxisId="left2"
+            orientation="left"
+            scale="auto"
+            dataKey="amt"
+            type="number"
+            // domain={["dataMin", "dataMax"]}
+            // onMouseOver={(o, e, a) => console.log(o, e, a)}
+          />
+          <YAxis
+            // yAxisId="right"
+            orientation="right"
+            scale="auto"
+            dataKey="pv"
+            type="number"
+            // domain={["dataMin", "dataMax"]}
+            // onMouseOver={(o, e) => console.log(o, e)}
+          />
           <Tooltip />
           <Legend verticalAlign="middle" align="right" height={36} />
           {data.map((dataPoint, i) => {

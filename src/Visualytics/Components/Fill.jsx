@@ -81,6 +81,7 @@ export default function Fill() {
         id: selectedChartElementId.id,
         colorScheme: "solid",
         color: solidColor.hex,
+        gradient: null,
       })
     );
     // setPresetColors((prevState) => [...prevState, solidColor]);
@@ -109,6 +110,15 @@ export default function Fill() {
 
   const handleGradientAttrsChange = (gradientAttrs) => {
     setGradientAttrs(gradientAttrs);
+
+    dispatch(
+      updateChartElementObjectAction({
+        id: selectedChartElementId.id,
+        colorScheme: "gradient",
+        gradient: gradientAttrs,
+        color: null,
+      })
+    );
   };
 
   const renderFillOption = (option) => {

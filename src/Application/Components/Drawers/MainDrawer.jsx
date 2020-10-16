@@ -101,7 +101,7 @@ const MainDrawer = () => {
     },
     {
       name: "network",
-      route: `${url}/Network`,
+      route: `${url}/network`,
       icon: (
         <AccountTreeIcon fontSize={expandMainDrawer ? "large" : "default"} />
       ),
