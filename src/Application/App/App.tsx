@@ -1,7 +1,11 @@
+import Button from "@material-ui/core/Button";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
-import React from "react";
+import React, { Suspense } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
+import PerpetualSpinner from "./../Components/Visuals/PerpetualSpinner";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
@@ -16,11 +20,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const App = () => {
   const classes = useStyles();
-  const notistackRef = React.useRef(null);
+  const notistackRef = React.useRef<SnackbarProvider>(null);
 
   return (
-    <SnackbarProvider  maxSnack={3}  ref={notistackRef} action={(key) => (
-        <Button style={{ color: "white" }} onClick={() => notistackRef.current.closeSnackbar(key)}>
+    <SnackbarProvider
+      maxSnack={3}
+      ref={notistackRef}
+      action={(key) => (
+        <Button
+          style={{ color: "white" }}
+          onClick={() => {
+            if (notistackRef && notistackRef.current)
+              notistackRef.current.closeSnackbar(key);
+          }}
+        >
           Dismiss
         </Button>
       )}
@@ -29,21 +42,24 @@ const App = () => {
         variantError: classes.error,
         variantWarning: classes.warning,
         variantInfo: classes.info,
-      }}>
-      <Suspense fallback={<Loading />}>
-        <Switch>
-          <Route exact path="/" component={LandingRoute} />
-          <Route path="/login" component={LoginRoute} />
-          <Route path="/apex" component={Layout} />
-          {/* Not authorized will be inside protected route */}
-          {/* <ProtectedRoute
+      }}
+    >
+      <DndProvider backend={HTML5Backend}>
+        <Suspense fallback={<PerpetualSpinner message={"Loading..."} />}>
+          <Switch>
+            <Route exact path="/" component={LandingRoute} />
+            <Route path="/login" component={LoginRoute} />
+            <Route path="/apex" component={Layout} />
+            {/* Not authorized will be inside protected route */}
+            {/* <ProtectedRoute
         path={"/#"}
         roles={["Officer", "Admin"]}
         component={Layout}
       /> */}
-          <Route render={() => <h1>Not Found</h1>} />
-        </Switch>
-      </Suspense>
+            <Route render={() => <h1>Not Found</h1>} />
+          </Switch>
+        </Suspense>
+      </DndProvider>
     </SnackbarProvider>
   );
 };

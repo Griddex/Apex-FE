@@ -1,5 +1,5 @@
 import { grey } from "@material-ui/core/colors";
-import { createMuiTheme, ThemeOptions } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 
 // tertiary: { light: "#EBFFFB"; main: "#00C49F"; dark: "#008F72" };
 // quaternary: { light: "#FFFAEB"; main: "#F5B400"; dark: "#CC9900" };
@@ -38,23 +38,22 @@ declare module "@material-ui/core/styles/createMuiTheme" {
 //   },
 // });
 
-function createApexTheme(options: ThemeOptions) {
-  return createMuiTheme({
-    palette: {
-      primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
-      secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
-      tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
-      quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },
-    },
-    typography: {
-      fontFamily: ['"Quicksand"', "sans-serif"].join(","),
-    },
+// function createApexTheme(options: ThemeOptions) {
+//   return createMuiTheme({
+//     palette: {
+//       primary: { light: "#EEFAFB", main: "#2BB4C1", dark: "#165E64" },
+//       secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
+//       tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
+//       quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },
+//     },
+//     typography: {
+//       fontFamily: ['"Quicksand"', "sans-serif"].join(","),
+//     },
+//     ...options,
+//   });
+// }
 
-    ...options,
-  });
-}
-
-const theme = createApexTheme({
+const theme = createMuiTheme({
   palette: {
     tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
     quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },

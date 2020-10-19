@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  Label,
 } from "recharts";
 import {
   setSelectedChartElementIdAction,
@@ -20,6 +21,9 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import removeAllSpaces from "./../Utils/RemoveAllSpaces";
 import { v4 as uuidv4 } from "uuid";
 import { contextDrawerCollapseAction } from "./../../Application/Redux/Actions/LayoutActions";
+import { useDrop } from "react-dnd";
+import composeRefs from "@seznam/compose-react-refs";
+import ItemTypes from "./../Utils/DragAndDropItemTypes";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
@@ -54,6 +58,38 @@ const StackedAreaChart = (props) => {
 
   const [again, setAgain] = React.useState(0);
   const [yAxisStyleOnHover, setyAxisStyleOnHover] = React.useState(false);
+
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: ItemTypes.TABLE_COLUMNDATA,
+    drop: () => ({ name: "StackedAreaChart" }),
+    collect: (monitor) => {
+      return {
+        isOver: !!monitor.isOver(),
+        canDrop: !!monitor.canDrop(),
+      };
+    },
+  });
+  const isActive = canDrop && isOver;
+  console.log("Logged output -->: isOver", isOver);
+  let dndYAxisStyle = {};
+  if (isActive) {
+    dndYAxisStyle = {
+      strokeWidth: 2,
+      opacity: 0.5,
+      fontSize: 16,
+      outline: "1px solid black",
+      outlineStyle: "dashed",
+      fill: "green",
+      stroke: "green",
+    };
+  } else if (canDrop) {
+    dndYAxisStyle = {
+      fill: "red",
+      stroke: "red",
+      outline: "1px solid red",
+      outlineStyle: "dashed",
+    };
+  }
 
   React.useEffect(() => {
     const chartId = chartRef.current && chartRef.current.uniqueChartId;
@@ -149,8 +185,10 @@ const StackedAreaChart = (props) => {
           // fill: "#FCD123",
           // stroke: "#FCA345",
           strokeWidth: 2,
+          opacity: 0.5,
           fontSize: 16,
-          border: "1px solid black",
+          outline: "1px solid black",
+          outlineStyle: "dashed",
         }
       : {};
 
@@ -190,11 +228,16 @@ const StackedAreaChart = (props) => {
               );
             })}
           </defs>
+          <foreignObject height={400}>
+            <div>Hello</div>
+          </foreignObject>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           {/* {yAxes &&
             yAxes.map((axis, i) => <YAxis yAxisId={i} orientation="left" />)} */}
+
           <YAxis
+            ref={drop}
             id="yAxes1"
             className={classes.yAxis}
             yAxisId="left1"
@@ -203,13 +246,19 @@ const StackedAreaChart = (props) => {
             dataKey="amt"
             type="number"
             // domain={["dataMin", "dataMax"]}
-            onMouseOver={(o, e, a, b) => console.log(o, e, a, b)}
+            // onMouseOver={(obj, index, event) => {
+            //   console.log(obj, index, event);
+            //   event.nativeEvent.stopPropagation();
+            // }}
+            onClick={(obj, index, event) => console.log(obj, index, event)}
             // onMouseEnter={(o, e, a) => setyAxisStyleOnHover(true)}
             // onMouseLeave={(o, e, a) => setyAxisStyleOnHover(false)}
-            style={yAxisStyle()}
+            // style={yAxisStyle()}
+            style={dndYAxisStyle}
             id="1"
             name="1"
           />
+
           <YAxis
             yAxisId="left2"
             orientation="left"

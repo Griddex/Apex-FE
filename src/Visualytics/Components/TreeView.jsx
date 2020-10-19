@@ -8,8 +8,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import {
   fade,
   makeStyles,
-  withStyles,
   useTheme,
+  withStyles,
 } from "@material-ui/core/styles";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Typography from "@material-ui/core/Typography";
@@ -21,7 +21,7 @@ import TreeView from "@material-ui/lab/TreeView";
 import { useSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import React from "react";
-import Draggable from "react-draggable";
+import { useDrag } from "react-dnd";
 import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
@@ -32,6 +32,7 @@ import {
   showDialogAction,
 } from "../../Application/Redux/Actions/DialogsAction";
 import getTableHeaders from "../../Application/Utils/GetTableHeaders";
+import ItemTypes from "./../Utils/DragAndDropItemTypes";
 
 function MinusSquare(props) {
   return (
@@ -99,9 +100,30 @@ const StyledTreeItem = withStyles((theme) => ({
     paddingLeft: 18,
     borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
   },
-}))((props) => (
-  <TreeItem {...props} TransitionComponent={TransitionComponent} />
-));
+}))((props) => {
+  const { label } = props;
+
+  const [{ isDragging }, drag] = useDrag({
+    item: { label, type: ItemTypes.TABLE_COLUMNDATA },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (item && dropResult) {
+        alert(`You dropped ${item.label} into ${dropResult.name}`);
+      }
+    },
+    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
+  });
+  const opacity = isDragging ? 0.4 : 1;
+
+  return (
+    <TreeItem
+      ref={drag}
+      style={{ opacity }}
+      {...props}
+      TransitionComponent={TransitionComponent}
+    />
+  );
+});
 
 const useStyles = makeStyles((theme) => ({
   rootTreeView: {
@@ -232,10 +254,7 @@ export default function CustomizedTreeView() {
       accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       onDropAccepted={(acceptedFile) => {
         const file = acceptedFile[0];
-        console.log(
-          "Logged output -->: CustomizedTreeView -> acceptedFile",
-          acceptedFile
-        );
+
         const reader = new FileReader();
         reader.readAsArrayBuffer(file);
 
@@ -316,21 +335,7 @@ export default function CustomizedTreeView() {
                     const Id = "2";
 
                     return (
-                      <Draggable
-                        key={i}
-                        axis="both"
-                        // onDrag={(event, { deltaX }) =>
-                        //   _resizeRow({
-                        //     dataKey,
-                        //     deltaX,
-                        //   })
-                        // }
-                        // bounds={(0, 0, 1920, 1000)}
-                        bounds="parent"
-                        zIndex={theme.zIndex.drawer}
-                      >
-                        <StyledTreeItem key={i} nodeId={Id} label={header} />
-                      </Draggable>
+                      <StyledTreeItem key={i} nodeId={Id} label={header} />
                     );
                   })}
               </StyledTreeItem>
