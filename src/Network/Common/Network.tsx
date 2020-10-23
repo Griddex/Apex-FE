@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { useDrop } from "react-dnd";
+import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
   addEdge,
   Background,
@@ -8,11 +8,18 @@ import ReactFlow, {
   Controls,
   Edge,
   Elements,
+  FlowElement,
   MiniMap,
+  Node,
+  NodeTypesType,
+  OnLoadParams,
+  project,
   removeElements,
+  XYPosition,
 } from "react-flow-renderer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import Widgets from "../Components/Widgets/Widgets";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
 import NetworkPanel from "./NetworkPanel";
 
@@ -52,6 +59,18 @@ const useStyles = makeStyles((theme) => ({
   },
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
+
+const onLoad = (reactFlowInstance: OnLoadParams) => {
+  reactFlowInstance.fitView();
+};
+
+const nodeTypes: NodeTypesType = {
+  // wellheadNode: () => <Widgets nodeType="Wellhead" />,
+  wellheadNode: () => <Widgets nodeType="Wellhead" />,
+  // wellheadNode: () => (
+  //   <div style={{ width: "40px", height: "40px", backgroundColor: "blue" }} />
+  // ),
+};
 
 const initialElements = [
   {
@@ -126,6 +145,13 @@ const initialElements = [
     data: { label: "Another output node" },
     position: { x: 400, y: 450 },
   },
+  {
+    id: "8",
+    type: "output",
+    style: { width: "auto", padding: "0px" },
+    data: { label: <Widgets nodeType="wellhead" /> },
+    position: { x: 200, y: 200 },
+  },
   { id: "e1-2", source: "1", target: "2", label: "this is an edge label" },
   { id: "e1-3", source: "1", target: "3" },
   {
@@ -161,25 +187,19 @@ const initialElements = [
   },
 ] as Elements;
 
-const onLoad = (reactFlowInstance: { fitView: () => void }) => {
-  console.log("flow loaded:", reactFlowInstance);
-  reactFlowInstance.fitView();
-};
-
 const Network = () => {
   const classes = useStyles();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
-  const [{ isOver, canDrop, currentPoint }, drop] = useDrop({
+  const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.NETWORK_ELEMENT,
     drop: (item, monitor) => handleWidgetDrop(item, monitor),
     collect: (monitor) => {
       return {
         isOver: !!monitor.isOver(),
         canDrop: !!monitor.canDrop(),
-        currentPoint: monitor.getClientOffset(),
       };
     },
   });
@@ -198,13 +218,46 @@ const Network = () => {
     };
   }
 
-  const [elements, setElements] = React.useState(initialElements);
+  const elem = [
+    {
+      id: "0",
+      type: "output",
+      style: { width: "auto", padding: "0px" },
+      data: { label: <Widgets nodeType="wellhead" /> },
+      position: { x: 200, y: 200 },
+    },
+  ] as Elements;
+
+  const [elements, setElements] = React.useState(elem);
   const onElementsRemove = (elementsToRemove: Elements) =>
     setElements((els) => removeElements(elementsToRemove, els));
 
   const onConnect = (params: Edge | Connection) =>
     setElements((els) => addEdge(params, els));
 
+  // const [mousePoint, setMousePoint] = React.useState({ x: 100, y: 100 });
+  // const [nodeType, setNodeType] = React.useState("default");
+
+  const handleWidgetDrop = (
+    item: DragObjectWithType,
+    monitor: DropTargetMonitor
+  ) => {
+    const { nodeType } = monitor.getItem();
+    const mouseCoord = monitor.getClientOffset() as XYPosition;
+    // setMousePoint(mouseCoord);
+    // setNodeType(nodeType);
+    // const flowPoint = project({ x: mousePoint?.x, y: mousePoint?.y });
+    const flowPosition = project(mouseCoord as XYPosition);
+
+    const newElement: FlowElement = {
+      id: elements.length.toString(),
+      type: "output",
+      style: { width: "auto", padding: "0px" },
+      data: { label: <Widgets nodeType={nodeType} /> },
+      position: { ...flowPosition } as XYPosition,
+    };
+    setElements((els) => [...els, newElement]);
+  };
   //TODO: show context drawer from first render or contextually
   //from right clicking on an object on the canvas
   // useEffect(() => {
@@ -215,7 +268,7 @@ const Network = () => {
     <div className={classes.root}>
       <div className={classes.networkBody}>
         <div className={classes.networkPanel}>
-          <NetworkPanel model={model} />
+          <NetworkPanel />
         </div>
         <div
           ref={drop}
@@ -229,22 +282,25 @@ const Network = () => {
             onLoad={onLoad}
             snapToGrid={true}
             snapGrid={[15, 15]}
+            nodeTypes={nodeTypes}
           >
             <MiniMap
-              nodeStrokeColor={(n) => {
-                if (n.style?.background) return n.style.background;
+              nodeStrokeColor={(n: Node) => {
+                if (n.style?.background) return n.style.background.toString();
                 if (n.type === "input") return "#0041d0";
                 if (n.type === "output") return "#ff0072";
+                if (n.type === "wellheadNode") return "#ff3400";
                 if (n.type === "default") return "#1a192b";
                 return "#eee";
               }}
               nodeColor={(n) => {
-                if (n.style?.background) return n.style.background;
+                if (n.style?.background) return n.style.background.toString();
                 return "#fff";
               }}
-              borderRadius={2}
+              nodeBorderRadius={2}
             />
-            <Controls />
+            <Controls />{" "}
+            {/* Write individual controls to grow with container size */}
             <Background color="#aaa" gap={16} />
           </ReactFlow>
         </div>
