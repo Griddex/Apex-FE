@@ -28,18 +28,19 @@ const NetworkPanel = () => {
   const dispatch = useDispatch();
 
   const nodeNames = [
+    "wellhead",
+    "manifold",
     "flowstation",
     "gasFacility",
     "gatheringCenter",
     "terminal",
-    "wellhead",
   ];
 
   const renderNetworkPanel = () => {
     return (
       <>
         {nodeNames.map((nodeName, i) => (
-          <NodeTemplate name={nodeName} />
+          <NodeTemplate key={i} name={nodeName} />
         ))}
       </>
     );

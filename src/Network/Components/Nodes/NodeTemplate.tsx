@@ -33,32 +33,74 @@ const NodeTemplate: React.FC<nodeProps> = ({ name }) => {
     {
       name: "manifold",
       label: "Manifold",
-      icon: <img src={Manifold} alt="Network background" height={80} />,
+      icon: (
+        <img
+          src={Manifold}
+          alt="Network background"
+          height={"100%"}
+          width={"100%"}
+        />
+      ),
     },
     {
       name: "flowstation",
       label: "Flowstation",
-      icon: <img src={Flowstation} alt="Network background" height={80} />,
+      icon: (
+        <img
+          src={Flowstation}
+          alt="Network background"
+          height={"100%"}
+          width={"100%"}
+        />
+      ),
     },
     {
       name: "gasFacility",
       label: "Gas Facility",
-      icon: <img src={GasFacility} alt="Network background" height={80} />,
+      icon: (
+        <img
+          src={GasFacility}
+          alt="Network background"
+          height={"100%"}
+          width={"100%"}
+        />
+      ),
     },
     {
       name: "gatheringCenter",
       label: "Gathering Center",
-      icon: <img src={GatheringCenter} alt="Network background" height={80} />,
+      icon: (
+        <img
+          src={GatheringCenter}
+          alt="Network background"
+          height={"100%"}
+          width={"100%"}
+        />
+      ),
     },
     {
       name: "terminal",
       label: "Terminal",
-      icon: <img src={Terminal} alt="Network background" height={80} />,
+      icon: (
+        <img
+          src={Terminal}
+          alt="Network background"
+          height={"100%"}
+          width={"100%"}
+        />
+      ),
     },
     {
       name: "wellhead",
       label: "Wellhead",
-      icon: <img src={Wellhead} alt="Network background" height={80} />,
+      icon: (
+        <img
+          src={Wellhead}
+          alt="Network background"
+          height={"100%"}
+          width={"100%"}
+        />
+      ),
     },
   ];
 
@@ -70,16 +112,37 @@ const NodeTemplate: React.FC<nodeProps> = ({ name }) => {
 
   return (
     <div
-      ref={drag}
       style={{
-        opacity,
-        height: "auto",
-        width: "auto",
-        cursor: "pointer",
-        border: "1px solid grey",
+        height: "80px",
+        width: "100%",
+        padding: "10px",
+        display: "flex",
+        flexDirection: "row",
       }}
     >
-      {currentNode.icon}
+      <div
+        ref={drag}
+        style={{
+          opacity,
+          height: "60px",
+          width: "60px",
+          cursor: "pointer",
+          border: "1px solid grey",
+          padding: "5px",
+        }}
+      >
+        {currentNode.icon}
+      </div>
+      <div
+        style={{
+          height: "60px",
+          width: "auto",
+          padding: "5px",
+          verticalAlign: "middle",
+        }}
+      >
+        {currentNode.label}
+      </div>
     </div>
   );
 };

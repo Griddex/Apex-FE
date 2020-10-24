@@ -11,23 +11,51 @@ const NodeWrapper = React.memo(({ children }) => {
   return (
     <>
       <Handle
+        type="source"
+        position={Position.Top}
+        style={{
+          background: "#555",
+          // borderRadius: "0px",
+          borderWidth: "0px",
+          width: "8px",
+          height: "8px",
+        }}
+        isValidConnection={(connection) => true}
+      />
+      <Handle
         type="target"
         position={Position.Left}
-        style={{ background: "#555" }}
-        onConnect={(params) => console.log("handle onConnect", params)}
+        style={{
+          background: "#555",
+          // borderRadius: "0px",
+          borderWidth: "0px",
+          height: "8px",
+          width: "8px",
+        }}
+        isValidConnection={(connection) => true}
       />
       {children}
       <Handle
-        type="source"
+        type="target"
         position={Position.Right}
-        id="a"
-        style={{ background: "#555" }}
+        style={{
+          background: "#555",
+          // borderRadius: "0px",
+          borderWidth: "0px",
+          height: "8px",
+          width: "8px",
+        }}
       />
       <Handle
         type="source"
         position={Position.Bottom}
-        id="b"
-        style={{ background: "#555" }}
+        style={{
+          background: "#555",
+          // borderRadius: "0px",
+          borderWidth: "0px",
+          width: "8px",
+          height: "8px",
+        }}
       />
     </>
   );
@@ -42,7 +70,18 @@ const Widgets: React.FC<NodeType> = ({ nodeType }: NodeType) => {
     case "wellhead":
       return (
         <NodeWrapper>
-          <img src={Wellhead} width={40} height={40} />
+          <img
+            src={Wellhead}
+            width={40}
+            height={40}
+            style={{ margin: "5px" }}
+          />
+        </NodeWrapper>
+      );
+    case "manifold":
+      return (
+        <NodeWrapper>
+          <img src={Manifold} width={40} height={40} />
         </NodeWrapper>
       );
     case "flowstation":
@@ -63,12 +102,7 @@ const Widgets: React.FC<NodeType> = ({ nodeType }: NodeType) => {
           <img src={GatheringCenter} width={40} height={40} />
         </NodeWrapper>
       );
-    case "nanifold":
-      return (
-        <NodeWrapper>
-          <img src={Manifold} width={40} height={40} />
-        </NodeWrapper>
-      );
+
     case "terminal":
       return (
         <NodeWrapper>
