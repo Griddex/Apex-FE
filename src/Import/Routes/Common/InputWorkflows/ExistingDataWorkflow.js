@@ -130,14 +130,18 @@ export default function ExistingDataWorkflow() {
     switch (statusText) {
       case "Approved":
         return {
-          color: theme.palette.tertiary.main,
-          backgroundColor: theme.palette.tertiary.light,
+          // color: theme.palette.tertiary.main,
+          color: theme.palette.primary.main,
+          // backgroundColor: theme.palette.tertiary.light,
+          backgroundColor: theme.palette.primary.light,
         };
 
       case "Pending":
         return {
-          color: theme.palette.quaternary.main,
-          backgroundColor: theme.palette.quaternary.light,
+          // color: theme.palette.quaternary.main,
+          // backgroundColor: theme.palette.quaternary.light,
+          color: theme.palette.secondary.main,
+          backgroundColor: theme.palette.secondary.light,
         };
 
       case "Returned":

@@ -82,7 +82,8 @@ export default function Border() {
   const presetColors = [
     theme.palette.primary.main,
     theme.palette.secondary.main,
-    theme.palette.tertiary.main,
+    // theme.palette.tertiary.main,
+    theme.palette.secondary.main,
   ];
   const renderFillOption = (option) => {
     switch (option) {

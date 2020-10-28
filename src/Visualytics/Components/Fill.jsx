@@ -66,7 +66,8 @@ export default function Fill() {
   const [presetColors, setPresetColors] = React.useState([
     theme.palette.primary.main,
     theme.palette.secondary.main,
-    theme.palette.tertiary.main,
+    // theme.palette.tertiary.main,
+    theme.palette.secondary.main,
   ]);
 
   const handleFillOptionChange = (event) => {
