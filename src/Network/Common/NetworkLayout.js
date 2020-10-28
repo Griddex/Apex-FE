@@ -5,6 +5,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Loading from "../../Application/Components/Visuals/Loading";
 import Network from "./Network";
 import NetworkBackground from "./NetworkBackground";
+import { ReactFlowProvider } from "react-flow-renderer";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -32,7 +33,15 @@ const NetworkLayout = () => {
       <div className={clsx(classes.networkLayoutContainer)}>
         <Suspense fallback={<Loading />}>
           <Switch>
-            <Route exact path={path} component={Network} />
+            <Route
+              exact
+              path={path}
+              render={(props) => (
+                <ReactFlowProvider>
+                  <Network />
+                </ReactFlowProvider>
+              )}
+            />
             <Route
               path={`${url}/:networkId`}
               render={(props) => {

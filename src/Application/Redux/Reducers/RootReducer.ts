@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import importReducer from "../../../Import/Redux/Reducers/ImportReducer";
 import chartReducer from "../../../Visualytics/Redux/ChartReducer/ChartReducer";
+import networkReducer from "./../../../Network/Redux/Reducers/NetworkReducers";
 import applicationReducer from "./ApplicationReducer";
 import dialogsReducer from "./DialogsReducer";
 import layoutReducer from "./LayoutReducer";
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   applicationReducer,
   importReducer,
   chartReducer,
+  networkReducer,
 });
 export default rootReducer;
 

@@ -1,8 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { useDispatch } from "react-redux";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import NodeTemplate from "../Components/Nodes/NodeTemplate";
+import NodePanel from "../Components/Nodes/NodePanel";
 
 const useStyles = makeStyles((theme) => ({
   networkPanel: {
@@ -25,7 +24,6 @@ export interface WellheadWidgetProps {
 
 const NetworkPanel = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const nodeNames = [
     "wellhead",
@@ -40,7 +38,7 @@ const NetworkPanel = () => {
     return (
       <>
         {nodeNames.map((nodeName, i) => (
-          <NodeTemplate key={i} name={nodeName} />
+          <NodePanel key={i} name={nodeName} />
         ))}
       </>
     );

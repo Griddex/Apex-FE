@@ -5,12 +5,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import {
-  fade,
-  makeStyles,
-  useTheme,
-  withStyles,
-} from "@material-ui/core/styles";
+import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Typography from "@material-ui/core/Typography";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
@@ -158,7 +153,6 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomizedTreeView() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const [selectedListItem, setSelectedListItem] = React.useState("");
   const [inputDeckWorkbook, setInputDeckWorkbook] = React.useState([]);

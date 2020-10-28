@@ -4,6 +4,7 @@ import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
   addEdge,
   Background,
+  BackgroundVariant,
   Connection,
   ConnectionLineType,
   Controls,
@@ -14,14 +15,24 @@ import ReactFlow, {
   Node,
   NodeTypesType,
   OnLoadParams,
-  project,
+  ReactFlowProvider,
+  // project,
   removeElements,
+  useStoreActions,
   XYPosition,
 } from "react-flow-renderer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
-import Widgets from "../Components/Widgets/Widgets";
+import {
+  FlowstationNode,
+  GasFacilityNode,
+  GatheringCenterNode,
+  ManifoldNode,
+  TerminalNode,
+  WellheadNode,
+} from "../Components/Widgets/Widgets";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
+import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import NetworkPanel from "./NetworkPanel";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,20 +75,53 @@ const useStyles = makeStyles((theme) => ({
 const onLoad = (reactFlowInstance: OnLoadParams) => {
   reactFlowInstance.fitView();
 };
-const onNodeDragStop = (
-  event: React.MouseEvent<Element, MouseEvent>,
-  node: Node
-) => console.log("drag stop", node);
-const onElementClick = (
-  event: React.MouseEvent<Element, MouseEvent>,
-  element: FlowElement
-) => console.log("click", element);
 
 const nodeTypes: NodeTypesType = {
-  wellheadNode: () => <Widgets nodeType="Wellhead" />,
+  wellheadNode: WellheadNode,
+  manifoldNode: ManifoldNode,
+  flowstationNode: FlowstationNode,
+  gasFacilityNode: GasFacilityNode,
+  gatheringCenterNode: GatheringCenterNode,
+  terminalNode: TerminalNode,
+};
+
+interface NodeComponentsType {
+  [key: string]: React.MemoExoticComponent<() => JSX.Element>;
+}
+
+const nodeComponents: NodeComponentsType = {
+  wellhead: WellheadNode,
+  manifold: ManifoldNode,
+  flowstation: FlowstationNode,
+  gasFacility: GasFacilityNode,
+  gatheringCenter: GatheringCenterNode,
+  terminal: TerminalNode,
 };
 
 const Network = () => {
+  const dispatch = useDispatch();
+
+  const { updateNodePosDiff } = useStoreActions((actions) => actions);
+  const [currentElement, setCurrentElement] = React.useState<FlowElement>(
+    {} as FlowElement
+  );
+  const onNodeDragStop = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    node: Node
+  ) => {
+    console.log("Drag stop");
+    updateNodePosDiff({ id: currentElement.id, isDragging: false });
+  };
+
+  const onElementClick = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    element: FlowElement
+  ) => {
+    console.log("click", element);
+    dispatch(setCurrentElementAction(element));
+    setCurrentElement(element);
+  };
+
   const classes = useStyles();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -111,7 +155,7 @@ const Network = () => {
       id: "0",
       type: "output",
       style: { width: "auto", padding: "0px" },
-      data: { label: <Widgets nodeType="wellhead" /> },
+      data: { label: "Hello" },
       position: { x: 200, y: 200 },
     },
   ] as Elements;
@@ -130,15 +174,37 @@ const Network = () => {
     const { nodeType } = monitor.getItem();
     const mouseCoord = monitor.getClientOffset() as XYPosition;
     console.log("Logged output -->: mouseCoord", mouseCoord);
-    const flowPosition = project(mouseCoord as XYPosition);
-    console.log("Logged output -->: flowPosition", flowPosition);
+    // const flowPosition = project(mouseCoord as XYPosition);
+    // console.log("Logged output -->: flowPosition", flowPosition);
+    interface NodeDimensionsType {
+      [key: string]: [string, string];
+    }
 
+    const nodeDimensions: NodeDimensionsType = {
+      wellhead: ["20px", "20px"],
+      manifold: ["60px", "40px"],
+      flowstation: ["60px", "40px"],
+      gasFacility: ["60px", "40px"],
+      gatheringCenter: ["80px", "40px"],
+      terminal: ["80px", "40px"],
+    };
+    const CurrentNode = nodeComponents[nodeType];
+    const CurrentDimensions = nodeDimensions[nodeType];
     const newElement: FlowElement = {
       id: elements.length.toString(),
-      type: "input",
-      style: { width: "100px", padding: "5px", borderColor: "#2BB4C1" },
-      data: { label: <Widgets nodeType={nodeType} /> },
-      position: { ...flowPosition } as XYPosition,
+      type: `${nodeType}Node`,
+      style: {
+        width: CurrentDimensions[0],
+        height: CurrentDimensions[1],
+        padding: "0px",
+        borderColor: "#2BB4C1",
+      },
+      data: {
+        label: <CurrentNode />,
+        onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+          console.log("Mouse over"),
+      },
+      position: { ...mouseCoord } as XYPosition,
     };
     setElements((els) => [...els, newElement]);
   };
@@ -150,55 +216,61 @@ const Network = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.networkBody}>
-        <div className={classes.networkPanel}>
-          <NetworkPanel />
-        </div>
-        <div
-          ref={drop}
-          style={dndCanvasStyle}
-          className={classes.networkContent}
-        >
-          <ReactFlow
-            elements={elements}
-            onElementsRemove={onElementsRemove}
-            onConnect={onConnect}
-            onLoad={onLoad}
-            // snapToGrid={true}
-            // snapGrid={[15, 15]}
-            nodeTypes={nodeTypes}
-            connectionLineType={ConnectionLineType.Step}
-            // connectionLineStyle={{ strokeWidth: "2px" }}
-            onElementClick={onElementClick}
-            onNodeDragStop={onNodeDragStop}
-            deleteKeyCode={46}
-            // defaultZoom={0.2}
-            // minZoom={0.2}
-            // maxZoom={4}
-            // ref={drop}
+      <ReactFlowProvider>
+        <div className={classes.networkBody}>
+          <div className={classes.networkPanel}>
+            <NetworkPanel />
+          </div>
+          <div
+            ref={drop}
+            style={dndCanvasStyle}
+            className={classes.networkContent}
           >
-            <MiniMap
-              nodeStrokeColor={(n: Node) => {
-                if (n.style?.background) return n.style.background.toString();
-                // if (n.type === "input") return "#0041d0";
-                if (n.type === "input") return "#2BB4C1";
-                if (n.type === "output") return "#ff0072";
-                if (n.type === "wellheadNode") return "#ff3400";
-                if (n.type === "default") return "#1a192b";
-                return "#eee";
-              }}
-              nodeColor={(n) => {
-                if (n.style?.background) return n.style.background.toString();
-                return "#fff";
-              }}
-              nodeBorderRadius={2}
-            />
-            <Controls />
-            {/* Write individual controls to grow with container size */}
-            <Background color="#aaa" gap={16} />
-          </ReactFlow>
+            <ReactFlow
+              elements={elements}
+              onElementsRemove={onElementsRemove}
+              onConnect={onConnect}
+              onLoad={onLoad}
+              // snapToGrid={true}
+              // snapGrid={[15, 15]}
+              nodeTypes={nodeTypes}
+              connectionLineType={ConnectionLineType.Step}
+              // connectionLineStyle={{ strokeWidth: "2px" }}
+              onElementClick={onElementClick}
+              onNodeDragStop={onNodeDragStop}
+              deleteKeyCode={46}
+              defaultZoom={0.2}
+              // minZoom={0.2}
+              // maxZoom={4}
+              // ref={drop}
+            >
+              <MiniMap
+                nodeStrokeColor={(n: Node) => {
+                  if (n.style?.background) return n.style.background.toString();
+                  if (n.type === "manifoldNode") return "#0041d0";
+                  if (n.type === "flowstationNode") return "#2BB4C1";
+                  if (n.type === "gasFacilityNode") return "#ff0072";
+                  if (n.type === "wellheadNode") return "#ff3400";
+                  if (n.type === "terminal") return "#1a192b";
+                  return "#eee";
+                }}
+                nodeColor={(n) => {
+                  if (n.style?.background) return n.style.background.toString();
+                  return "#fff";
+                }}
+                nodeBorderRadius={2}
+              />
+              <Controls />
+              {/* Write individual controls to grow with container size */}
+              <Background
+                variant={BackgroundVariant.Lines}
+                color="#F8F8F8"
+                gap={16}
+              />
+            </ReactFlow>
+          </div>
         </div>
-      </div>
+      </ReactFlowProvider>
       {showContextDrawer && (
         <div>Network</div>
         // <ContextDrawer data={data}>{() => <FormatAggregator />}</ContextDrawer>

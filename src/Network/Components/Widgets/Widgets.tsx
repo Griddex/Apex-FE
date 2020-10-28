@@ -6,19 +6,25 @@ import GatheringCenter from "../../Images/GatheringCenter.svg";
 import Manifold from "../../Images/Manifold.svg";
 import Terminal from "../../Images/Terminal.svg";
 import Wellhead from "../../Images/Wellhead.svg";
+// import { ReactComponent as Wellhead } from "../../Images/Wellhead.svg";
 
 const NodeWrapper = React.memo(({ children }) => {
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Handle
         type="source"
         position={Position.Top}
         style={{
           background: "#555",
-          // borderRadius: "0px",
           borderWidth: "0px",
-          width: "8px",
-          height: "8px",
+          width: "4px",
+          height: "4px",
         }}
         isValidConnection={(connection) => true}
       />
@@ -27,10 +33,9 @@ const NodeWrapper = React.memo(({ children }) => {
         position={Position.Left}
         style={{
           background: "#555",
-          // borderRadius: "0px",
           borderWidth: "0px",
-          height: "8px",
-          width: "8px",
+          height: "4px",
+          width: "4px",
         }}
         isValidConnection={(connection) => true}
       />
@@ -40,10 +45,9 @@ const NodeWrapper = React.memo(({ children }) => {
         position={Position.Right}
         style={{
           background: "#555",
-          // borderRadius: "0px",
           borderWidth: "0px",
-          height: "8px",
-          width: "8px",
+          height: "4px",
+          width: "4px",
         }}
       />
       <Handle
@@ -51,13 +55,12 @@ const NodeWrapper = React.memo(({ children }) => {
         position={Position.Bottom}
         style={{
           background: "#555",
-          // borderRadius: "0px",
           borderWidth: "0px",
-          width: "8px",
-          height: "8px",
+          width: "4px",
+          height: "4px",
         }}
       />
-    </>
+    </div>
   );
 });
 
@@ -65,54 +68,86 @@ export interface NodeType {
   nodeType: string;
 }
 
-const Widgets: React.FC<NodeType> = ({ nodeType }: NodeType) => {
-  switch (nodeType) {
-    case "wellhead":
-      return (
-        <NodeWrapper>
-          <img
-            src={Wellhead}
-            width={40}
-            height={40}
-            style={{ margin: "5px" }}
-          />
-        </NodeWrapper>
-      );
-    case "manifold":
-      return (
-        <NodeWrapper>
-          <img src={Manifold} width={40} height={40} />
-        </NodeWrapper>
-      );
-    case "flowstation":
-      return (
-        <NodeWrapper>
-          <img src={Flowstation} width={40} height={40} />
-        </NodeWrapper>
-      );
-    case "gasFacility":
-      return (
-        <NodeWrapper>
-          <img src={GasFacility} width={40} height={40} />
-        </NodeWrapper>
-      );
-    case "gatheringCenter":
-      return (
-        <NodeWrapper>
-          <img src={GatheringCenter} width={40} height={40} />
-        </NodeWrapper>
-      );
+export const WellheadNode = React.memo(() => {
+  return (
+    <NodeWrapper>
+      <img
+        src={Wellhead}
+        width={20}
+        height={20}
+        draggable={false}
+        alt="Wellhead"
+      />
+    </NodeWrapper>
+  );
+});
 
-    case "terminal":
-      return (
-        <NodeWrapper>
-          <img src={Terminal} width={40} height={40} />
-        </NodeWrapper>
-      );
+export const ManifoldNode = React.memo(() => {
+  return (
+    <NodeWrapper>
+      <img
+        src={Manifold}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Manifold"
+      />
+    </NodeWrapper>
+  );
+});
 
-    default:
-      return null;
-  }
-};
+export const FlowstationNode = React.memo(() => {
+  return (
+    <NodeWrapper>
+      <img
+        src={Flowstation}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Flowstation"
+      />
+    </NodeWrapper>
+  );
+});
 
-export default Widgets;
+export const GasFacilityNode = React.memo(() => {
+  return (
+    <NodeWrapper>
+      <img
+        src={GasFacility}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Gas Facility"
+      />
+    </NodeWrapper>
+  );
+});
+
+export const GatheringCenterNode = React.memo(() => {
+  return (
+    <NodeWrapper>
+      <img
+        src={GatheringCenter}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Gathering Center"
+      />
+    </NodeWrapper>
+  );
+});
+
+export const TerminalNode = React.memo(() => {
+  return (
+    <NodeWrapper>
+      <img
+        src={Terminal}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Terminal"
+      />
+    </NodeWrapper>
+  );
+});

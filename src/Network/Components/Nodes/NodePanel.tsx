@@ -20,7 +20,14 @@ interface currentNodeType {
   >;
 }
 
-const NodeTemplate: React.FC<nodeProps> = ({ name }) => {
+const NodePanel: React.FC<nodeProps> = ({ name }) => {
+  // const { currentElement } = useSelector(
+  //   (state: RootState) => state.networkReducer
+  // );
+
+  // const { updateNodePosDiff } = useStoreActions((actions) => actions);
+  // const allNodes = useStoreState((store) => store.nodes);
+
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.NETWORK_ELEMENT,
@@ -39,6 +46,8 @@ const NodeTemplate: React.FC<nodeProps> = ({ name }) => {
           alt="Network background"
           height={"100%"}
           width={"100%"}
+          onDragEnd={(e) => console.log("Drag Ended")}
+          onMouseMove={(e) => e.nativeEvent.stopImmediatePropagation()}
         />
       ),
     },
@@ -136,7 +145,7 @@ const NodeTemplate: React.FC<nodeProps> = ({ name }) => {
       <div
         style={{
           height: "60px",
-          width: "auto",
+          width: "20px",
           padding: "5px",
           verticalAlign: "middle",
         }}
@@ -147,4 +156,4 @@ const NodeTemplate: React.FC<nodeProps> = ({ name }) => {
   );
 };
 
-export default NodeTemplate;
+export default NodePanel;

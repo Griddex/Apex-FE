@@ -55,11 +55,11 @@ export default function Fill() {
     (state) => state.chartReducer.selectedChartElementId
   );
 
-  const [gradientColorStops, setGradientColorStops] = React.useState([
-    { offset: 0.0, color: theme.palette.primary.light, opacity: 1.0 },
-    { offset: 0.5, color: theme.palette.primary.main, opacity: 1.0 },
-    { offset: 1.0, color: theme.palette.primary.dark, opacity: 1.0 },
-  ]);
+  // const [gradientColorStops, setGradientColorStops] = React.useState([
+  //   { offset: 0.0, color: theme.palette.primary.light, opacity: 1.0 },
+  //   { offset: 0.5, color: theme.palette.primary.main, opacity: 1.0 },
+  //   { offset: 1.0, color: theme.palette.primary.dark, opacity: 1.0 },
+  // ]);
 
   //Ability to add and store user's own preset colors
 

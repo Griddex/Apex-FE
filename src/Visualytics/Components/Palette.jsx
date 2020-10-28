@@ -6,7 +6,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Palette() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const options = ["None", "Predefined", "User"];
   const [option, setOption] = React.useState("none");

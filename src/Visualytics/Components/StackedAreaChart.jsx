@@ -1,29 +1,24 @@
 import { makeStyles, useTheme } from "@material-ui/core";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import React from "react";
+import { useDrop } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  AreaChart,
   Area,
+  AreaChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  Label,
 } from "recharts";
 import {
-  setSelectedChartElementIdAction,
   setChartElementObjectAction,
-  updateChartElementObjectAction,
+  setSelectedChartElementIdAction,
 } from "./../Redux/ChartActions/ChartActions";
-import { useDispatch, useSelector } from "react-redux";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import removeAllSpaces from "./../Utils/RemoveAllSpaces";
-import { v4 as uuidv4 } from "uuid";
-import { contextDrawerCollapseAction } from "./../../Application/Redux/Actions/LayoutActions";
-import { useDrop } from "react-dnd";
-import composeRefs from "@seznam/compose-react-refs";
 import ItemTypes from "./../Utils/DragAndDropItemTypes";
+import removeAllSpaces from "./../Utils/RemoveAllSpaces";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
@@ -52,7 +47,6 @@ const data = [
 
 const StackedAreaChart = (props) => {
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const chartRef = React.useRef(null);
 
