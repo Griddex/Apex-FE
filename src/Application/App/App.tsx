@@ -1,5 +1,4 @@
 import Button from "@material-ui/core/Button";
-import { makeStyles, Theme } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
 import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";
@@ -11,15 +10,15 @@ const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
 const Layout = React.lazy(() => import("../Layout/Layout"));
 
-const useStyles = makeStyles((theme: Theme) => ({
-  success: { backgroundColor: theme.palette.tertiary.main },
-  error: { backgroundColor: theme.palette.secondary.main },
-  warning: { backgroundColor: theme.palette.quaternary.main },
-  info: { backgroundColor: theme.palette.primary.main },
-}));
+// const useStyles = makeStyles((theme: Theme) => ({
+//   success: { backgroundColor: theme.palette.tertiary.main },
+//   error: { backgroundColor: theme.palette.secondary.main },
+//   warning: { backgroundColor: theme.palette.quaternary.main },
+//   info: { backgroundColor: theme.palette.primary.main },
+// }));
 
 const App = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const notistackRef = React.useRef<SnackbarProvider>(null);
 
   return (
@@ -37,12 +36,12 @@ const App = () => {
           Dismiss
         </Button>
       )}
-      classes={{
-        variantSuccess: classes.success,
-        variantError: classes.error,
-        variantWarning: classes.warning,
-        variantInfo: classes.info,
-      }}
+      // classes={{
+      //   variantSuccess: classes.success,
+      //   variantError: classes.error,
+      //   variantWarning: classes.warning,
+      //   variantInfo: classes.info,
+      // }}
     >
       <DndProvider backend={HTML5Backend}>
         <Suspense fallback={<PerpetualSpinner message={"Loading..."} />}>
