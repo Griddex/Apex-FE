@@ -1,29 +1,29 @@
 import { grey } from "@material-ui/core/colors";
-import { createMuiTheme, PaletteColorOptions } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 
 // tertiary: { light: "#EBFFFB"; main: "#00C49F"; dark: "#008F72" };
 // quaternary: { light: "#FFFAEB"; main: "#F5B400"; dark: "#CC9900" };
 
-declare module "@material-ui/core/styles/createMuiTheme" {
-  // export interface SimplePaletteColorOptions {
-  //   light?: string;
-  //   main: string;
-  //   dark?: string;
-  //   contrastText?: string;
-  // }
-  // export type PaletteColorOptions = SimplePaletteColorOptions;
+// declare module "@material-ui/core/styles/createMuiTheme" {
+//   // export interface SimplePaletteColorOptions {
+//   //   light?: string;
+//   //   main: string;
+//   //   dark?: string;
+//   //   contrastText?: string;
+//   // }
+//   // export type PaletteColorOptions = SimplePaletteColorOptions;
 
-  interface PaletteOptions {
-    tertiary?: PaletteColorOptions;
-    quaternary?: PaletteColorOptions;
-    // palette?: PaletteOptions | undefined;
-  }
-  interface Palette {
-    tertiary?: PaletteColorOptions;
-    quaternary?: PaletteColorOptions;
-    // palette?: PaletteOptions | undefined;
-  }
-}
+//   interface PaletteOptions {
+//     tertiary?: PaletteColorOptions;
+//     quaternary?: PaletteColorOptions;
+//     // palette?: PaletteOptions | undefined;
+//   }
+//   interface Palette {
+//     tertiary?: PaletteColorOptions;
+//     quaternary?: PaletteColorOptions;
+//     // palette?: PaletteOptions | undefined;
+//   }
+// }
 
 // const theme = createMuiTheme({
 //   palette: {

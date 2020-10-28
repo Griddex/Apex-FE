@@ -1,4 +1,4 @@
-import { makeStyles, useTheme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import React from "react";
 import { useDrop } from "react-dnd";
@@ -51,7 +51,7 @@ const StackedAreaChart = (props) => {
   const chartRef = React.useRef(null);
 
   const [again, setAgain] = React.useState(0);
-  const [yAxisStyleOnHover, setyAxisStyleOnHover] = React.useState(false);
+  // const [yAxisStyleOnHover, setyAxisStyleOnHover] = React.useState(false);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.TABLE_COLUMNDATA,
@@ -163,7 +163,7 @@ const StackedAreaChart = (props) => {
   const dataKeys = Object.keys(data[0]);
   const colors = chartSeriesSolidColors.slice(0, dataKeys.length);
 
-  const { activeIndex, activeDataKey } = chartMetaData;
+  const { activeIndex } = chartMetaData;
 
   const allProps = {
     ...props,
@@ -173,18 +173,18 @@ const StackedAreaChart = (props) => {
   };
   const classes = useStyles(allProps);
 
-  const yAxisStyle = () =>
-    yAxisStyleOnHover
-      ? {
-          // fill: "#FCD123",
-          // stroke: "#FCA345",
-          strokeWidth: 2,
-          opacity: 0.5,
-          fontSize: 16,
-          outline: "1px solid black",
-          outlineStyle: "dashed",
-        }
-      : {};
+  // const yAxisStyle = () =>
+  //   yAxisStyleOnHover
+  //     ? {
+  //         // fill: "#FCD123",
+  //         // stroke: "#FCA345",
+  //         strokeWidth: 2,
+  //         opacity: 0.5,
+  //         fontSize: 16,
+  //         outline: "1px solid black",
+  //         outlineStyle: "dashed",
+  //       }
+  //     : {};
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -249,7 +249,6 @@ const StackedAreaChart = (props) => {
             // onMouseLeave={(o, e, a) => setyAxisStyleOnHover(false)}
             // style={yAxisStyle()}
             style={dndYAxisStyle}
-            id="1"
             name="1"
           />
 
