@@ -90,6 +90,7 @@ const StackedAreaChart = (props) => {
 
     if (chartId === null) setAgain(1);
     else dispatch(setChartElementObjectAction({ id: chartId }));
+    // eslint-disable-next-line
   }, [again]);
 
   const chartObjects = useSelector((state) => state.chartReducer.chartObjects);

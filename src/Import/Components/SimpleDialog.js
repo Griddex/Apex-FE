@@ -95,7 +95,10 @@ export default function SimpleDialog({ workSheetNames, workflowNextAction }) {
                   for (const obj of selectedSheetDataArray) {
                     const dataRowObj = {};
                     for (const el of firstDataRowArray) {
-                      if (obj.hasOwnProperty(el) && el in obj)
+                      if (
+                        Object.prototype.hasOwnProperty.call(obj, el) &&
+                        el in obj
+                      )
                         dataRowObj[el] = obj[el];
                       else dataRowObj[el] = "";
                     }

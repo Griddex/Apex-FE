@@ -21,7 +21,7 @@ const dialogsReducer = (state = dialogsState, action) => {
           : [...state.dialogs, action.payload],
       };
 
-    case HIDE_DIALOG:
+    case HIDE_DIALOG: {
       const keptDialogs = [...state.dialogs];
       keptDialogs.pop();
 
@@ -29,7 +29,7 @@ const dialogsReducer = (state = dialogsState, action) => {
         ...state,
         dialogs: keptDialogs,
       };
-
+    }
     default:
       return { ...state };
   }

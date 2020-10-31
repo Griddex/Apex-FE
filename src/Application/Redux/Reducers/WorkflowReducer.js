@@ -24,7 +24,7 @@ const workflowReducer = (state = workflowState, action) => {
         activeStep: action.payload.activeStep,
       };
 
-    case NEXT_WORKFLOW:
+    case NEXT_WORKFLOW: {
       let newSkipped = state.skipped;
       const { skipped, isStepSkipped, activeStep, steps } = action.payload;
 
@@ -42,15 +42,15 @@ const workflowReducer = (state = workflowState, action) => {
         activeStep: action.payload.activeStep + 1,
         skipped: newSkipped,
       };
-
+    }
     case BACK_WORKFLOW:
       return {
         ...state,
         activeStep: action.payload.activeStep - 1,
       };
 
-    case SKIP_WORKFLOW:
-      const { isStepOptional } = action.payload;
+    case SKIP_WORKFLOW: {
+      const { isStepOptional, activeStep } = action.payload;
 
       if (!isStepOptional()) {
         // You probably want to guard against something like this,
@@ -65,7 +65,7 @@ const workflowReducer = (state = workflowState, action) => {
         activeStep: action.payload.activeStep + 1,
         skipped: newSkippedSet,
       };
-
+    }
     case SAVE_WORKFLOW: //Not yet complete
       return { ...state };
 

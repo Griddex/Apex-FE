@@ -2,6 +2,8 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import { persistAvatarToReduxAction } from "./../../Redux/Actions/RegisterActions";
 
 const useStyles = makeStyles((theme) => ({
   dropZone: {

@@ -1,11 +1,7 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-
-import Image from "../../Components/Image";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
-import { persistAvatarToReduxAction } from "./../../Redux/Actions/RegisterActions";
-import { useDispatch, useSelector } from "react-redux";
+import RegisterForm from "./../../Components/Forms/RegisterForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {

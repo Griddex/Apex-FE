@@ -7,11 +7,6 @@ import databaseServerState from "../State/DatabaseServerState";
 
 const loginReducer = (state = databaseServerState, action) => {
   switch (action.type) {
-    case PERSIST_STORE:
-      return {
-        ...state,
-        [action.payload.name]: action.payload.value,
-      };
     case SERVERLOGIN_REQUEST:
       return {
         ...state,

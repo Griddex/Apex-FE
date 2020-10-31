@@ -49,7 +49,7 @@ const importReducer = (state = importState, action) => {
     case PERSIST_SELECTEDHEADERROWINDEX:
       return { ...state, ...action.payload };
 
-    case PERSIST_SELECTEDHEADERROWOPTIONINDEX:
+    case PERSIST_SELECTEDHEADERROWOPTIONINDEX: {
       const {
         selectedHeaderRowIndex,
         selectedHeaderOptionIndex,
@@ -62,7 +62,7 @@ const importReducer = (state = importState, action) => {
         ...state,
         headerRowOptionsIndices: headerMap,
       };
-
+    }
     case PERSIST_ROWOPTIONSINDICESMAP:
       return {
         ...state,
@@ -78,7 +78,7 @@ const importReducer = (state = importState, action) => {
     case PERSIST_SELECTEDUNITROWINDEX:
       return { ...state, ...action.payload };
 
-    case PERSIST_SELECTEDUNITROWOPTIONINDEX:
+    case PERSIST_SELECTEDUNITROWOPTIONINDEX: {
       const { selectedUnitRowIndex, selectedUnitOptionIndex } = action.payload;
 
       const unitMap = [...state.unitRowOptionsIndices];
@@ -88,7 +88,7 @@ const importReducer = (state = importState, action) => {
         ...state,
         unitRowOptionsIndices: unitMap,
       };
-
+    }
     case PERSIST_FILEUNITSMATCH:
       return { ...state, ...action.payload };
 

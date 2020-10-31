@@ -3,7 +3,7 @@ import NetworkState from "../State/NetworkState";
 
 interface IAction {
   type: string;
-  payload: { currentElement: {} };
+  payload: { currentElement: Record<string, unknown> };
 }
 
 const networkReducer = (state = NetworkState, action: IAction) => {

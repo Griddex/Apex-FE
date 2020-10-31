@@ -102,8 +102,9 @@ const ConnectDatabase = () => {
       },
     ];
 
-    return buttonsData.map((button) => (
+    return buttonsData.map((button, i) => (
       <Button
+        key={i}
         variant={button.variant}
         color={button.color}
         onClick={button.handleAction}

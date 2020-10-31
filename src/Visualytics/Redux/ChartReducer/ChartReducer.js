@@ -37,7 +37,7 @@ const chartReducer = (state = chartState, action) => {
         ...action.payload,
       };
 
-    case SET_CHARTELEMENTOBJECT:
+    case SET_CHARTELEMENTOBJECT: {
       const filteredObjects =
         state.chartObjects &&
         state.chartObjects.filter((obj) => obj.id !== action.payload.id);
@@ -46,8 +46,8 @@ const chartReducer = (state = chartState, action) => {
         ...state,
         chartObjects: [...filteredObjects, action.payload],
       };
-
-    case UPDATE_CHARTELEMENTOBJECT:
+    }
+    case UPDATE_CHARTELEMENTOBJECT: {
       const selectedChartElement =
         state.chartObjects &&
         state.chartObjects.find((obj) => obj.id === action.payload.id);
@@ -65,7 +65,7 @@ const chartReducer = (state = chartState, action) => {
         ...state,
         chartObjects: [...otherObjects, updatedSelectedChartElement],
       };
-
+    }
     default:
       return { ...state };
   }

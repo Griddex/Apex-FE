@@ -14,7 +14,9 @@ const COLORS = ["#2BB4C1", "#00C49F", "#DA1B57"]; //"#22BE34"
 const DoughnutChart = ({ data }) => {
   const classes = useStyles();
 
-  const onPieEnter = (data, index) => {};
+  const onPieEnter = (data, index) => {
+    console.log(data, index);
+  };
 
   const RADIAN = Math.PI / 180;
   const renderLabel = ({

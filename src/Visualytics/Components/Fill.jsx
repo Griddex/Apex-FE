@@ -85,7 +85,7 @@ export default function Fill() {
         gradient: null,
       })
     );
-    // setPresetColors((prevState) => [...prevState, solidColor]);
+    setPresetColors((prevState) => [...prevState, solidColor]);
   };
 
   const [gradientAttrs, setGradientAttrs] = React.useState({
