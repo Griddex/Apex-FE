@@ -6,12 +6,14 @@ import applicationReducer from "./ApplicationReducer";
 import dialogsReducer from "./DialogsReducer";
 import layoutReducer from "./LayoutReducer";
 import loginReducer from "./LoginReducer";
+import registerReducer from "./RegisterReducer";
 import uiSpinnerReducer from "./UISpinnerReducer";
 import workflowReducer from "./WorkflowReducer";
 
 const rootReducer = combineReducers({
   loginReducer,
   layoutReducer,
+  registerReducer,
   uiSpinnerReducer,
   dialogsReducer,
   workflowReducer,

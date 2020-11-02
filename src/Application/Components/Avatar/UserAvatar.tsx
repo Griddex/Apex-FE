@@ -3,9 +3,10 @@ import Dropzone from "react-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import { persistAvatarToReduxAction } from "./../../Redux/Actions/RegisterActions";
-
-const useStyles = makeStyles((theme) => ({
+import Typography from "@material-ui/core/Typography";
+import { persistAvatarToReduxAction } from "../../Redux/Actions/RegisterActions";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+const useStyles = makeStyles(() => ({
   dropZone: {
     borderStyle: "dotted",
     borderWidth: 0,
@@ -37,10 +38,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserAvatar = () => {
+const UserAvatar: React.FC<JSX.Element> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const avatarURL = useSelector((state) => state.registerReducer.avatarURL);
+  const avatarURL = useSelector(
+    (state: RootState) => state.registerReducer.avatarURL
+  );
 
   return (
     <Dropzone
@@ -57,11 +60,9 @@ const UserAvatar = () => {
     >
       {({ getRootProps, getInputProps, isDragReject }) => {
         return (
-          <Grid container dire>
+          <Grid container>
             <section className={classes.dropZone}>
-              {/* {isDragReject && (
-                  <Typography>File type not accepted</Typography>
-                )} */}
+              {isDragReject && <Typography>File type not accepted</Typography>}
               <div {...getRootProps()} className={classes.dropZoneDiv}>
                 <input {...getInputProps()} className={classes.dropZoneInput} />
                 <div className={classes.dropZoneImgPDiv}>

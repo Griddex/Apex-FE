@@ -1,10 +1,10 @@
-import { Divider } from "@material-ui/core";
+import { DialogTitle, Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import WarningIcon from "@material-ui/icons/Warning";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
+import { IDialogTitleProps, TextDialogProps } from "./Types";
 
 const icons = {
   error: <WarningIcon style={{ color: "#DA1B57" }} />,
@@ -20,7 +21,7 @@ const icons = {
   select: <PlaylistAddCheckOutlinedIcon style={{ color: "#2BB4C1" }} />,
 };
 
-const dialogTitleStyles = (theme) => ({
+const useDialogTitleStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1.5),
@@ -55,14 +56,10 @@ const dialogTitleStyles = (theme) => ({
     height: "100%",
     padding: 0,
   },
-});
-
-const useDialogContentStyles = makeStyles((theme) => ({
-  dialogContent: { marginLeft: "5%", width: "95%" },
 }));
-
-const DialogTitle = withStyles(dialogTitleStyles)((props) => {
-  const { icon, children, classes, onClose, ...other } = props;
+const TextDialogTitle: React.FC<IDialogTitleProps> = (props) => {
+  const classes = useDialogTitleStyles(props);
+  const { icon, iconColor, children, onClose, ...other } = props;
 
   return (
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
@@ -83,8 +80,11 @@ const DialogTitle = withStyles(dialogTitleStyles)((props) => {
       </div>
     </MuiDialogTitle>
   );
-});
+};
 
+const useDialogContentStyles = makeStyles((theme) => ({
+  dialogContent: { marginLeft: "5%", width: "95%" },
+}));
 const DialogContent = withStyles((theme) => ({
   root: {
     display: "flex",
@@ -102,14 +102,15 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function TextDialog({
+const TextDialog: React.FC<TextDialogProps> = ({
   show,
+  iconColor,
   iconClass,
   title,
-  actions,
   dialogText,
+  actions,
   maxWidth,
-}) {
+}) => {
   const classes = useDialogContentStyles();
   const dispatch = useDispatch();
 
@@ -120,13 +121,15 @@ export default function TextDialog({
       maxWidth={maxWidth}
       fullWidth
     >
-      <DialogTitle
-        id="customized-dialog-title"
+      <TextDialogTitle
+        // id="customized-dialog-title"
         onClose={() => dispatch(hideDialogAction())}
         icon={icons[iconClass]}
+        iconColor={iconColor}
+        iconClass={iconClass}
       >
         {title}
-      </DialogTitle>
+      </TextDialogTitle>
       <DialogContent dividers>
         <Typography className={classes.dialogContent} variant="body1">
           {dialogText}
@@ -136,4 +139,5 @@ export default function TextDialog({
       <DialogActions>{actions()}</DialogActions>
     </Dialog>
   );
-}
+};
+export default TextDialog;

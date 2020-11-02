@@ -24,7 +24,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnalyticsComp = ({ title, content }) => {
+interface IAnalyticsCompProps {
+  title: string;
+  content: JSX.Element | string;
+}
+
+const AnalyticsComp: React.FC<IAnalyticsCompProps> = ({ title, content }) => {
   const classes = useStyles();
 
   return (

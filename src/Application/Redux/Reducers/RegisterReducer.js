@@ -6,7 +6,7 @@ import {
   REGISTER_FAILURE,
 } from "./../Actions/RegisterActions";
 
-export const registerReducer = (state = UserState, action) => {
+const registerReducer = (state = UserState, action) => {
   switch (action.type) {
     case PERSIST_AVATAR:
       return {
@@ -33,3 +33,5 @@ export const registerReducer = (state = UserState, action) => {
       return { ...state };
   }
 };
+
+export default registerReducer;

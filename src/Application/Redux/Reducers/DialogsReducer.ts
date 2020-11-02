@@ -4,8 +4,22 @@ import {
   HIDE_DIALOG,
 } from "../Actions/DialogsAction";
 import dialogsState from "../State/DialogsState";
+import {
+  DialogPayloadProps,
+  IDialogState,
+  IDialogStateProps,
+} from "../../Components/Dialogs/Types";
 
-const dialogsReducer = (state = dialogsState, action) => {
+const dialogsReducer = (
+  state = dialogsState,
+  action: {
+    type: string;
+    name: string;
+    value: unknown;
+    meta: { exclusive: boolean };
+    payload: DialogPayloadProps;
+  }
+): IDialogState<DialogPayloadProps> => {
   switch (action.type) {
     case PERSIST_STORE: //Rewrite
       return {

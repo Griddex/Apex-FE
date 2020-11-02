@@ -17,7 +17,7 @@ const Layout = React.lazy(() => import("../Layout/Layout"));
 //   info: { backgroundColor: theme.palette.primary.main },
 // }));
 
-const App = () => {
+const App: React.FC<JSX.Element> = () => {
   // const classes = useStyles();
   const notistackRef = React.useRef<SnackbarProvider>(null);
 

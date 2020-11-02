@@ -3,6 +3,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import { string } from "prop-types";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -52,7 +53,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ModuleCard(props) {
+interface IModuleCardProps {
+  moduleAction: () => { type: string; payload: { loadWorkflow: boolean } };
+  Icon: JSX.Element;
+  name: string;
+  description: string;
+  route: string;
+}
+
+const ModuleCard: React.FC<IModuleCardProps> = (props) => {
   const { moduleAction, Icon, name, description, route } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -91,4 +100,6 @@ export default function ModuleCard(props) {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default ModuleCard;

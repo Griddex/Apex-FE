@@ -17,7 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnalyticsTitle = ({ title }) => {
+interface IAnalyticsTitleProps {
+  title: string;
+}
+
+const AnalyticsTitle: React.FC<IAnalyticsTitleProps> = ({ title }) => {
   const classes = useStyles();
 
   return <Typography className={classes.analyticsTitle}>{title}</Typography>;
