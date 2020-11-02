@@ -39,9 +39,7 @@ export default function SimpleDialog({ workSheetNames, workflowNextAction }) {
     (state) => state.importReducer.acceptedFile
   );
   const moduleName = useSelector((state) => state.importReducer.moduleName);
-  const perspectiveText = useSelector(
-    (state) => state.importReducer.workflowName
-  );
+
   const activeStep = useSelector((state) => state.importReducer.activeStep);
   //   const theme = useTheme();
   //   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));

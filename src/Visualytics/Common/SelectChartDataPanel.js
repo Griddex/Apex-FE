@@ -7,7 +7,7 @@ import { persistChartIndexAction } from "./../Redux/ChartActions/ChartActions";
 import { useDispatch } from "react-redux";
 import StackedAreaChartPanel from "./../Components/StackedAreaChartPanel";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "row",

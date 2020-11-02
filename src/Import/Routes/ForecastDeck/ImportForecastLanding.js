@@ -8,7 +8,7 @@ import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import ModuleCard from "./../../../Application/Components/ModuleCard";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   image: { height: "100px", width: "100px" },
   ImportForecastLanding: {
     display: "flex",
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImportForecastLanding = (props) => {
+const ImportForecastLanding = () => {
   const classes = useStyles();
   const { url /*path*/ } = useRouteMatch();
   // const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);

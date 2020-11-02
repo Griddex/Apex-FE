@@ -266,7 +266,7 @@ const UploadFile = () => {
               );
             }
           };
-          reader.onprogress = (e) => {
+          reader.onprogress = () => {
             // console.log("Logged output -->: UploadFile -> e", e);
           };
         }}

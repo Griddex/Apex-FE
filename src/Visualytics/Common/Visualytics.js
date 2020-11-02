@@ -7,7 +7,7 @@ import SelectChartDataPanel from "./SelectChartDataPanel";
 import FormatAggregator from "../Components/FormatAggregator";
 import { contextDrawerShowAction } from "./../../Application/Redux/Actions/LayoutActions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",

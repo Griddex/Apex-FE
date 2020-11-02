@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function NotificationDialog({
   algorithm,
   rematch,
-  handleClickOpen,
+  // handleClickOpen,
   handleClose,
 }) {
   return (

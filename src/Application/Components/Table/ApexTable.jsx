@@ -272,7 +272,7 @@ export default function ApexTable({
             payload: { searchedTableData },
           });
         })
-        .catch((error) =>
+        .catch(() =>
           localDispatch({
             type: "SEARCH_TABLE",
             payload: { searchedTableData: [] },

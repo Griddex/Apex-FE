@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import RegisterForm from "./../../Components/Forms/RegisterForm";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     height: "100%",
     textAlign: "center",

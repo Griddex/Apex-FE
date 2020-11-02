@@ -1,6 +1,6 @@
 // import history from "../../Services/HistoryService";
 
-export const LayoutMiddleware = (store) => (next) => (action) => {
+export const LayoutMiddleware = () => (next) => (action) => {
   //handle logout success and failure?
   //Clean up localstorage
   if (action.type === "") {

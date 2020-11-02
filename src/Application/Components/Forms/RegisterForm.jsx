@@ -1,4 +1,5 @@
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 // import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,12 +7,11 @@ import TextField from "@material-ui/core/TextField";
 // import PersonIcon from "@material-ui/icons/Person";
 import { Formik } from "formik";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { registerAction } from "../../Redux/Actions/RegisterActions";
 import userState from "../../Redux/State/UserState";
 import UserAvatar from "./UserAvatar";
-import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -69,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
 const RegisterForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const avatarURL = useSelector((state) => state.registerReducer.avatarURL);
-  const pending = useSelector((state) => state.uiSpinnerReducer.pending);
+  // const avatarURL = useSelector((state) => state.registerReducer.avatarURL);
+  // const pending = useSelector((state) => state.uiSpinnerReducer.pending);
 
   return (
     <Formik
@@ -115,9 +115,9 @@ const RegisterForm = () => {
           errors,
           touched,
           handleChange,
-          isValid,
+          // isValid,
           handleSubmit,
-          status,
+          // status,
         } = props;
 
         const registerData = [

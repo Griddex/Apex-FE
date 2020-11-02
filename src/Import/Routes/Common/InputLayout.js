@@ -16,7 +16,7 @@ import InputLanding from "./InputLanding";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles(() => {
   return {
     importLayoutRoot: {
       display: "flex",

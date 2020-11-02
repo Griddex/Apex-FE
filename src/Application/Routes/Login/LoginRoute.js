@@ -5,7 +5,7 @@ import { LoginForm } from "../../Components/Forms/LoginForm";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
 import Image from "../../Components/Visuals/Image";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexWrap: "nowrap",
     height: "100%",

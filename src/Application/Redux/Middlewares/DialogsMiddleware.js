@@ -3,12 +3,11 @@ import {
   showDialogExclusivelyAction,
 } from "./../Actions/DialogsAction";
 
-const dialogsMiddleware = ({ dispatch, getState }) => (next) => (action) => {
-  let dialogs = getState().dialogsReducer.dialogs;
-  let currentDialogs = [];
+const dialogsMiddleware = ({ dispatch }) => (next) => (action) => {
+  // let dialogs = getState().dialogsReducer.dialogs;
 
   if (action.type === SHOW_DIALOG) {
-    currentDialogs = dialogs.pop();
+    // const currentDialogs = dialogs.pop();
     dispatch(showDialogExclusivelyAction(action.payload));
     return next(action);
   }

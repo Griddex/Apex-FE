@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Loading = (props) => {
+const Loading = () => {
   const classes = useStyles();
 
   return (

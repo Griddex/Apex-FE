@@ -10,7 +10,7 @@ import Dropzone from "react-dropzone";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import TreeView from "./TreeView";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "row",
@@ -56,7 +56,7 @@ const StackedAreaChartPanel = () => {
           setInputList(acceptedText);
         }}
         onDropRejected={(rejectedText) => {
-          enqueueSnackbar("Data format not supported!", {
+          enqueueSnackbar(`Data format not supported! ${rejectedText}`, {
             persist: false,
             variant: "error",
           });
@@ -66,7 +66,7 @@ const StackedAreaChartPanel = () => {
         maxSize={1048}
         multiple={true}
       >
-        {({ getRootProps, getInputProps, isDragReject }) => {
+        {({ getRootProps, getInputProps }) => {
           return (
             <List dense {...getRootProps()} {...getInputProps()}>
               {inputList.map((item) => {

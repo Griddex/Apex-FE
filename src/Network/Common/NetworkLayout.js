@@ -9,7 +9,7 @@ import { ReactFlowProvider } from "react-flow-renderer";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles(() => {
   return {
     networkLayoutRoot: {
       display: "flex",
@@ -36,7 +36,7 @@ const NetworkLayout = () => {
             <Route
               exact
               path={path}
-              render={(props) => (
+              render={() => (
                 <ReactFlowProvider>
                   <Network />
                 </ReactFlowProvider>

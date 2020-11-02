@@ -8,7 +8,7 @@ import VisualyticsBackground from "./VisualyticsBackground";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles(() => {
   return {
     visualyticsLayoutRoot: {
       display: "flex",

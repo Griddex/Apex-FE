@@ -1,18 +1,18 @@
-import { DialogTitle, Divider } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
-import { withStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CloseIcon from "@material-ui/icons/Close";
-import React from "react";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { useDispatch } from "react-redux";
-import WarningIcon from "@material-ui/icons/Warning";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CloseIcon from "@material-ui/icons/Close";
 import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
+import WarningIcon from "@material-ui/icons/Warning";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { IDialogTitleProps, TextDialogProps } from "./Types";
 
 const icons = {
@@ -59,7 +59,7 @@ const useDialogTitleStyles = makeStyles((theme: Theme) => ({
 }));
 const TextDialogTitle: React.FC<IDialogTitleProps> = (props) => {
   const classes = useDialogTitleStyles(props);
-  const { icon, iconColor, children, onClose, ...other } = props;
+  const { icon, children, onClose, ...other } = props;
 
   return (
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
@@ -82,7 +82,7 @@ const TextDialogTitle: React.FC<IDialogTitleProps> = (props) => {
   );
 };
 
-const useDialogContentStyles = makeStyles((theme) => ({
+const useDialogContentStyles = makeStyles(() => ({
   dialogContent: { marginLeft: "5%", width: "95%" },
 }));
 const DialogContent = withStyles((theme) => ({

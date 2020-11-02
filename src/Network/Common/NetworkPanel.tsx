@@ -3,7 +3,7 @@ import React from "react";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import NodePanel from "../Components/Nodes/NodePanel";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   networkPanel: {
     display: "flex",
     flexDirection: "column",
@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface WellheadWidgetProps {
-  model: any;
-  color?: string;
-  name?: string;
-}
+// export interface WellheadWidgetProps {
+//   model: any;
+//   color?: string;
+//   name?: string;
+// }
 
 const NetworkPanel = () => {
   const classes = useStyles();

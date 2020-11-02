@@ -26,7 +26,6 @@ const NodeWrapper = React.memo(({ children }) => {
           width: "4px",
           height: "4px",
         }}
-        isValidConnection={(connection) => true}
       />
       <Handle
         type="target"
@@ -37,7 +36,6 @@ const NodeWrapper = React.memo(({ children }) => {
           height: "4px",
           width: "4px",
         }}
-        isValidConnection={(connection) => true}
       />
       {children}
       <Handle

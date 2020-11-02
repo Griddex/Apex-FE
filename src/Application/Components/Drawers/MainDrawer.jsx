@@ -89,6 +89,7 @@ const MainDrawer = () => {
 
   const handleClick = (route, e) => {
     setMainMenuSelected(route);
+    console.log(e);
   };
 
   //Can replace with dynamically loaded json config file

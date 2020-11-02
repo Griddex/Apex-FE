@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LandingRoute = (props) => {
+const LandingRoute = () => {
   const classes = useStyles();
 
   return (

@@ -286,12 +286,12 @@ export default function CustomizedTreeView() {
             setSelectedWorksheetData(worksheetData);
           }
         };
-        reader.onprogress = (e) => {
+        reader.onprogress = () => {
           // console.log("Logged output -->: UploadFile -> e", e);
         };
       }}
       onDropRejected={(rejectedFile) => {
-        enqueueSnackbar("File format not supported!", {
+        enqueueSnackbar(`File format not supported! ${rejectedFile}`, {
           persist: false,
           variant: "error",
         });
@@ -301,7 +301,7 @@ export default function CustomizedTreeView() {
       maxSize={10485760}
       multiple={false}
     >
-      {({ getRootProps, getInputProps, isDragReject }) => {
+      {({ getRootProps, getInputProps }) => {
         return (
           <Container
             className={classes.container}

@@ -46,8 +46,6 @@ const NodePanel: React.FC<nodeProps> = ({ name }) => {
           alt="Network background"
           height={"100%"}
           width={"100%"}
-          onDragEnd={(e) => console.log("Drag Ended")}
-          onMouseMove={(e) => e.nativeEvent.stopImmediatePropagation()}
         />
       ),
     },

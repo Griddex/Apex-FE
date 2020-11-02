@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import React from "react";
 import CompanyLogo from "../Images/CompanyLogo.svg";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     width: "100%",

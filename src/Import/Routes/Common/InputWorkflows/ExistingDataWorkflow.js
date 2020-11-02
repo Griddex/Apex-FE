@@ -12,7 +12,7 @@ import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import Image from "./../../../../Application/Components/Visuals/Image";
 import formatDate from "./../../../../Application/Utils/FormatDate";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rootExistingData: {
     display: "flex",
     flexDirection: "column",
@@ -64,13 +64,13 @@ export default function ExistingDataWorkflow() {
   const theme = useTheme();
 
   //Actions
-  const handleEditAction = (event, i) => {
+  const handleEditAction = (event) => {
     event.persist();
   };
-  const handleDeleteAction = (event, i) => {
+  const handleDeleteAction = (event) => {
     event.persist();
   };
-  const handlePickAction = (event, i) => {
+  const handlePickAction = (event) => {
     event.persist();
   };
 

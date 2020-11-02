@@ -12,7 +12,7 @@ import CircularArray from "./../../Utils/CircularArray";
 import { useSnackbar } from "notistack";
 import uniq from "lodash.uniq";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rolesRoot: {
     width: 80,
     height: 30,

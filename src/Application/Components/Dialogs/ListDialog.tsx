@@ -63,7 +63,7 @@ const useDialogTitleStyles = makeStyles((theme: Theme) => ({
 
 const ListDialogTitle: React.FC<IDialogTitleProps> = (props) => {
   const classes = useDialogTitleStyles(props);
-  const { icon, iconColor, children, onClose, ...other } = props;
+  const { icon, children, onClose, ...other } = props;
 
   return (
     <MuiDialogTitle className={classes.root} {...other} disableTypography>

@@ -9,7 +9,7 @@ import {
   persistFileUnitsAction,
 } from "../../Import/Redux/Actions/ImportActions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rolesRoot: {
     width: 80,
     height: 30,

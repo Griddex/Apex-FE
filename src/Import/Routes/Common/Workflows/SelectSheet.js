@@ -18,7 +18,7 @@ import { useSnackbar } from "notistack";
 import AnalyticsComp from "./../../../../Application/Components/Basic/AnalyticsComp";
 import formatDate from "./../../../../Application/Utils/FormatDate";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "column",
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectSheet = (props) => {
+const SelectSheet = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();

@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MoreIconsPopover = React.forwardRef(
-  ({ closeIcon, handleCancel, localDispatch }, ref) => {
+  ({ closeIcon, handleCancel }, ref) => {
     const classes = useStyles();
     // const headers = useSelector((state) => state.importReducer.fileHeaders);
     const dispatch = useDispatch();
@@ -199,7 +199,7 @@ const MoreIconsPopover = React.forwardRef(
         </div>
         <div className={classes.body}>
           <List dense>
-            {moreIconsData.map((item, listIndex) => {
+            {moreIconsData.map((item) => {
               //TODO: Clear all
 
               return (

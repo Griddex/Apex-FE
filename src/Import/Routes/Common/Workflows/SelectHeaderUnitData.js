@@ -22,7 +22,7 @@ import {
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import generateOptionIndices from "./../../../../Application/Utils/GenerateOptionIndices";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rootParseTable: {
     display: "flex",
     flexDirection: "column",
@@ -37,13 +37,13 @@ export default function SelectHeaderUnitData() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleEditAction = (event, i) => {
+  const handleEditAction = (event) => {
     event.persist();
   };
-  const handleDeleteAction = (event, i) => {
+  const handleDeleteAction = (event) => {
     event.persist();
   };
-  const handlePickAction = (event, i) => {
+  const handlePickAction = (event) => {
     event.persist();
   };
 

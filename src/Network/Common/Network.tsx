@@ -35,7 +35,7 @@ import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
 import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import NetworkPanel from "./NetworkPanel";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -109,7 +109,7 @@ const Network = () => {
     event: React.MouseEvent<Element, MouseEvent>,
     node: Node
   ) => {
-    console.log("Drag stop");
+    console.log("Drag stop", event, node);
     updateNodePosDiff({ id: currentElement.id, isDragging: false });
   };
 
@@ -201,8 +201,8 @@ const Network = () => {
       },
       data: {
         label: <CurrentNode />,
-        onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-          console.log("Mouse over"),
+        // onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+        //   console.log("Mouse over"),
       },
       position: { ...mouseCoord } as XYPosition,
     };

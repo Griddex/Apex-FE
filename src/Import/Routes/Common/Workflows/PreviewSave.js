@@ -14,7 +14,7 @@ import regenerateTableWithActualHeaders from "../../../../Application/Utils/Rege
 import { persistSelectedUnitRowOptionIndicesAction } from "../../../Redux/Actions/ImportActions";
 // import { persistTableRolesIndicesAction } from "./../../../Redux/Actions/ImportActions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rootPreviewSave: {
     display: "flex",
     flexDirection: "column",
@@ -49,13 +49,13 @@ export default function PreviewSave() {
   const dispatch = useDispatch();
 
   //Actions
-  const handleEditAction = (event, i) => {
+  const handleEditAction = (event) => {
     event.persist();
   };
-  const handleDeleteAction = (event, i) => {
+  const handleDeleteAction = (event) => {
     event.persist();
   };
-  const handlePickAction = (event, i) => {
+  const handlePickAction = (event) => {
     event.persist();
   };
 
@@ -73,7 +73,7 @@ export default function PreviewSave() {
       (state) => state.importReducer.fileUnitsUnique
     );
 
-    const unitMatches = fileUnits.map((unit, i) => {
+    const unitMatches = fileUnits.map((unit) => {
       if (unit === "") return { None: "None" };
       else {
         const unitIndex = fileUnitsUnique.indexOf(unit);

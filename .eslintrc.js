@@ -27,6 +27,7 @@ module.exports = {
         "@typescript-eslint/no-empty-function": "off",
         "react/display-name": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
       },
     },
   ],

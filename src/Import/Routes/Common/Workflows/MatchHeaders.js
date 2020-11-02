@@ -19,7 +19,7 @@ import {
   persistRowsOptionsIndicesMapAction,
 } from "../../../Redux/Actions/ImportActions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
     display: "flex",
     flexDirection: "column",
@@ -109,13 +109,13 @@ export default function MatchHeaders() {
   const dispatch = useDispatch();
 
   //Actions
-  const handleEditAction = (event, i) => {
+  const handleEditAction = (event) => {
     event.persist();
   };
-  const handleDeleteAction = (event, i) => {
+  const handleDeleteAction = (event) => {
     event.persist();
   };
-  const handlePickAction = (event, i) => {
+  const handlePickAction = (event) => {
     event.persist();
   };
 

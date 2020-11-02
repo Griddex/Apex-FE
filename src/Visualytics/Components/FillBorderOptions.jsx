@@ -4,7 +4,7 @@ import Fill from "./Fill";
 import Border from "./Border";
 import Palette from "./Palette";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
     height: "auto",

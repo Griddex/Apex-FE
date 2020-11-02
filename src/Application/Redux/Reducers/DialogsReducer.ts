@@ -7,7 +7,6 @@ import dialogsState from "../State/DialogsState";
 import {
   DialogPayloadProps,
   IDialogState,
-  IDialogStateProps,
 } from "../../Components/Dialogs/Types";
 
 const dialogsReducer = (
