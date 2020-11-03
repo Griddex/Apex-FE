@@ -104,7 +104,6 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 const ListDialog: React.FC<ListDialogProps> = (props: ListDialogProps) => {
-  console.log("Logged output -->: props", props);
   const {
     show,
     iconColor,
@@ -114,7 +113,6 @@ const ListDialog: React.FC<ListDialogProps> = (props: ListDialogProps) => {
     actions,
     maxWidth,
   } = props;
-  console.log("Logged output -->: actions", actions);
   const dispatch = useDispatch();
 
   return (

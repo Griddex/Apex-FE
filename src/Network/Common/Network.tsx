@@ -117,7 +117,6 @@ const Network = () => {
     event: React.MouseEvent<Element, MouseEvent>,
     element: FlowElement
   ) => {
-    console.log("click", element);
     dispatch(setCurrentElementAction(element));
     setCurrentElement(element);
   };

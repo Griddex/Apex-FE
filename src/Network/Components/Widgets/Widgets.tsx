@@ -10,6 +10,8 @@ import Wellhead from "../../Images/Wellhead.svg";
 // import { ReactComponent as Wellhead } from "../../Images/Wellhead.svg";
 
 const NodeWrapper = React.memo(({ children }) => {
+  const [showHandle, setShowHandle] = React.useState(false);
+
   return (
     <div
       style={{
@@ -17,48 +19,58 @@ const NodeWrapper = React.memo(({ children }) => {
         alignItems: "center",
         justifyContent: "center",
       }}
+      onMouseOver={() => setShowHandle(true)}
+      onMouseLeave={() => setShowHandle(false)}
     >
-      <Handle
-        type="source"
-        position={Position.Top}
-        style={{
-          background: "#555",
-          borderWidth: "0px",
-          width: "4px",
-          height: "4px",
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Left}
-        style={{
-          background: "#555",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-        }}
-      />
+      {showHandle && (
+        <Handle
+          type="source"
+          position={Position.Top}
+          style={{
+            background: "#555",
+            borderWidth: "0px",
+            width: "4px",
+            height: "4px",
+          }}
+        />
+      )}
+      {showHandle && (
+        <Handle
+          type="target"
+          position={Position.Left}
+          style={{
+            background: "#555",
+            borderWidth: "0px",
+            height: "4px",
+            width: "4px",
+          }}
+        />
+      )}
       {children}
-      <Handle
-        type="target"
-        position={Position.Right}
-        style={{
-          background: "#555",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-        }}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        style={{
-          background: "#555",
-          borderWidth: "0px",
-          width: "4px",
-          height: "4px",
-        }}
-      />
+      {showHandle && (
+        <Handle
+          type="target"
+          position={Position.Right}
+          style={{
+            background: "#555",
+            borderWidth: "0px",
+            height: "4px",
+            width: "4px",
+          }}
+        />
+      )}
+      {showHandle && (
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          style={{
+            background: "#555",
+            borderWidth: "0px",
+            width: "4px",
+            height: "4px",
+          }}
+        />
+      )}
     </div>
   );
 });

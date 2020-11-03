@@ -158,9 +158,7 @@ export default function ExistingDataWorkflow() {
   };
   const Status = ({ rowIndex, statusText }) => {
     const classes = useStyles();
-    console.log("Logged output -->: Status -> classes", classes);
     const statusStyle = statusColor(statusText);
-    console.log("Logged output -->: Status -> statusStyle", statusStyle);
 
     return (
       <div
