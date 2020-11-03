@@ -10,7 +10,10 @@ const apexDialogs: IApexDialogs = {
   textDialog: TextDialog,
 };
 
-const Dialogs: React.FC<IDialogStateProps> = ({ dialogTitleProps }) => {
+const Dialogs: React.FC<IDialogStateProps> = ({
+  dialogTitleProps,
+  ...rest
+}) => {
   const dialogs = useSelector(
     (state: RootState) => state.dialogsReducer.dialogs
   );
@@ -28,7 +31,12 @@ const Dialogs: React.FC<IDialogStateProps> = ({ dialogTitleProps }) => {
         const SpecificDialog = apexDialogs[dialogType];
 
         return (
-          <SpecificDialog key={i} {...dialogProps} {...dialogTitleProps} />
+          <SpecificDialog
+            key={i}
+            {...dialogProps}
+            {...dialogTitleProps}
+            {...rest}
+          />
         );
       })}
     </div>

@@ -1,5 +1,6 @@
 import React from "react";
-import { Handle, Position } from "react-flow-renderer";
+// import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "@griddex/react-flow-updated";
 import Flowstation from "../../Images/Flowstation.svg";
 import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";

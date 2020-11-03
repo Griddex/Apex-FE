@@ -5,7 +5,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Loading from "../../Application/Components/Visuals/Loading";
 import Network from "./Network";
 import NetworkBackground from "./NetworkBackground";
-import { ReactFlowProvider } from "react-flow-renderer";
+import { ReactFlowProvider } from "@griddex/react-flow-updated";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;

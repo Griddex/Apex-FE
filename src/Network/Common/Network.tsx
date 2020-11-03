@@ -16,11 +16,11 @@ import ReactFlow, {
   NodeTypesType,
   OnLoadParams,
   ReactFlowProvider,
-  // project,
+  project,
   removeElements,
   useStoreActions,
   XYPosition,
-} from "react-flow-renderer";
+} from "@griddex/react-flow-updated";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
 import {
@@ -174,6 +174,21 @@ const Network = () => {
     const { nodeType } = monitor.getItem();
     const mouseCoord = monitor.getClientOffset() as XYPosition;
     console.log("Logged output -->: mouseCoord", mouseCoord);
+    const mouseCoord1 = monitor.getInitialClientOffset() as XYPosition;
+    console.log("Logged output -->: mouseCoord1", mouseCoord1);
+    const mouseCoord2 = monitor.getInitialSourceClientOffset() as XYPosition;
+    console.log("Logged output -->: mouseCoord2", mouseCoord2);
+    const mouseCoord3 = monitor.getDifferenceFromInitialOffset() as XYPosition;
+    console.log("Logged output -->: mouseCoord3", mouseCoord3);
+    const mouseCoord4 = monitor.getSourceClientOffset() as XYPosition;
+    console.log("Logged output -->: mouseCoord4", mouseCoord4);
+    const mouseCoordProjected = project(mouseCoord4);
+    console.log("Logged output -->: mouseCoordProjected", mouseCoordProjected);
+    const mouseCoordUpdated = {
+      x: mouseCoordProjected.x - 246,
+      y: mouseCoordProjected.y - 70,
+    } as XYPosition;
+    console.log("Logged output -->: mouseCoordUpdated", mouseCoordUpdated);
     // const flowPosition = project(mouseCoord as XYPosition);
     // console.log("Logged output -->: flowPosition", flowPosition);
     interface NodeDimensionsType {
@@ -204,7 +219,7 @@ const Network = () => {
         // onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
         //   console.log("Mouse over"),
       },
-      position: { ...mouseCoord } as XYPosition,
+      position: { ...mouseCoordUpdated } as XYPosition,
     };
     setElements((els) => [...els, newElement]);
   };
@@ -239,10 +254,9 @@ const Network = () => {
               onElementClick={onElementClick}
               onNodeDragStop={onNodeDragStop}
               deleteKeyCode={46}
-              defaultZoom={0.2}
-              // minZoom={0.2}
-              // maxZoom={4}
-              // ref={drop}
+              defaultZoom={1.5}
+              minZoom={0.2}
+              maxZoom={4}
             >
               <MiniMap
                 nodeStrokeColor={(n: Node) => {
@@ -262,11 +276,7 @@ const Network = () => {
               />
               <Controls />
               {/* Write individual controls to grow with container size */}
-              <Background
-                variant={BackgroundVariant.Lines}
-                color="#F8F8F8"
-                gap={16}
-              />
+              <Background variant={BackgroundVariant.Lines} gap={16} />
             </ReactFlow>
           </div>
         </div>

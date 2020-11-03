@@ -103,15 +103,18 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const ListDialog: React.FC<ListDialogProps> = ({
-  show,
-  iconColor,
-  iconClass,
-  title,
-  content,
-  actions,
-  maxWidth,
-}: ListDialogProps) => {
+const ListDialog: React.FC<ListDialogProps> = (props: ListDialogProps) => {
+  console.log("Logged output -->: props", props);
+  const {
+    show,
+    iconColor,
+    iconClass,
+    title,
+    content,
+    actions,
+    maxWidth,
+  } = props;
+  console.log("Logged output -->: actions", actions);
   const dispatch = useDispatch();
 
   return (

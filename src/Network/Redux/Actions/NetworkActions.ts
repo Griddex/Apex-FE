@@ -1,4 +1,4 @@
-import { FlowElement } from "react-flow-renderer";
+import { FlowElement } from "@griddex/react-flow-updated";
 
 export const SET_CURRENTELEMENT = "SET_CURRENTELEMENT";
 
