@@ -10,7 +10,7 @@ import Wellhead from "../../Images/Wellhead.svg";
 // import { ReactComponent as Wellhead } from "../../Images/Wellhead.svg";
 
 const NodeWrapper = React.memo(({ children }) => {
-  const [showHandle, setShowHandle] = React.useState(false);
+  const [showHandle, setShowHandle] = React.useState(true);
 
   return (
     <div
@@ -19,8 +19,8 @@ const NodeWrapper = React.memo(({ children }) => {
         alignItems: "center",
         justifyContent: "center",
       }}
-      onMouseOver={() => setShowHandle(true)}
-      onMouseLeave={() => setShowHandle(false)}
+      // onMouseOver={() => setShowHandle(true)}
+      // onMouseLeave={() => setShowHandle(false)}
     >
       {showHandle && (
         <Handle

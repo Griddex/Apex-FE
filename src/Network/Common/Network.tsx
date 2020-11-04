@@ -23,14 +23,12 @@ import ReactFlow, {
 } from "@griddex/react-flow-updated";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
-import {
-  FlowstationNode,
-  GasFacilityNode,
-  GatheringCenterNode,
-  ManifoldNode,
-  TerminalNode,
-  WellheadNode,
-} from "../Components/Widgets/Widgets";
+import WellheadNode from "../Components/Widgets/WellheadWidget";
+import FlowstationNode from "../Components/Widgets/FlowstationWidget";
+import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
+import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
+import ManifoldNode from "../Components/Widgets/ManifoldWidget";
+import TerminalNode from "../Components/Widgets/TerminalWidget";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
 import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import NetworkPanel from "./NetworkPanel";
