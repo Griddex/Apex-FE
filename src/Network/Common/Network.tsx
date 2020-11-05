@@ -1,6 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
   addEdge,
   Background,
@@ -16,19 +13,21 @@ import ReactFlow, {
   NodeTypesType,
   OnLoadParams,
   ReactFlowProvider,
-  project,
   removeElements,
   useStoreActions,
   XYPosition,
 } from "@griddex/react-flow-updated";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
-import WellheadNode from "../Components/Widgets/WellheadWidget";
 import FlowstationNode from "../Components/Widgets/FlowstationWidget";
 import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
 import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
 import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
+import WellheadNode from "../Components/Widgets/WellheadWidget";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
 import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import NetworkPanel from "./NetworkPanel";
@@ -70,10 +69,6 @@ const useStyles = makeStyles(() => ({
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
-const onLoad = (reactFlowInstance: OnLoadParams) => {
-  reactFlowInstance.fitView();
-};
-
 const nodeTypes: NodeTypesType = {
   wellheadNode: WellheadNode,
   manifoldNode: ManifoldNode,
@@ -97,6 +92,11 @@ const nodeComponents: NodeComponentsType = {
 };
 
 const Network = () => {
+  const [rfi, setRfi] = React.useState<OnLoadParams>({} as OnLoadParams);
+  const onLoad = (reactFlowInstance: OnLoadParams) => {
+    reactFlowInstance.fitView();
+    setRfi(reactFlowInstance);
+  };
   const dispatch = useDispatch();
 
   const { updateNodePosDiff } = useStoreActions((actions) => actions);
@@ -170,24 +170,13 @@ const Network = () => {
   ) => {
     const { nodeType } = monitor.getItem();
     const mouseCoord = monitor.getClientOffset() as XYPosition;
-    console.log("Logged output -->: mouseCoord", mouseCoord);
-    const mouseCoord1 = monitor.getInitialClientOffset() as XYPosition;
-    console.log("Logged output -->: mouseCoord1", mouseCoord1);
-    const mouseCoord2 = monitor.getInitialSourceClientOffset() as XYPosition;
-    console.log("Logged output -->: mouseCoord2", mouseCoord2);
-    const mouseCoord3 = monitor.getDifferenceFromInitialOffset() as XYPosition;
-    console.log("Logged output -->: mouseCoord3", mouseCoord3);
-    const mouseCoord4 = monitor.getSourceClientOffset() as XYPosition;
-    console.log("Logged output -->: mouseCoord4", mouseCoord4);
-    const mouseCoordProjected = project(mouseCoord4);
-    console.log("Logged output -->: mouseCoordProjected", mouseCoordProjected);
+
     const mouseCoordUpdated = {
-      x: mouseCoordProjected.x - 246,
-      y: mouseCoordProjected.y - 70,
+      x: mouseCoord.x - 245,
+      y: mouseCoord.y - 68,
     } as XYPosition;
-    console.log("Logged output -->: mouseCoordUpdated", mouseCoordUpdated);
-    // const flowPosition = project(mouseCoord as XYPosition);
-    // console.log("Logged output -->: flowPosition", flowPosition);
+    const mouseCoordProjected = rfi.project(mouseCoordUpdated);
+
     interface NodeDimensionsType {
       [key: string]: [string, string];
     }
@@ -213,10 +202,8 @@ const Network = () => {
       },
       data: {
         label: <CurrentNode />,
-        // onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-        //   console.log("Mouse over"),
       },
-      position: { ...mouseCoordUpdated } as XYPosition,
+      position: { ...mouseCoordProjected } as XYPosition,
     };
     setElements((els) => [...els, newElement]);
   };
@@ -243,8 +230,8 @@ const Network = () => {
               onElementsRemove={onElementsRemove}
               onConnect={onConnect}
               onLoad={onLoad}
-              // snapToGrid={true}
-              // snapGrid={[15, 15]}
+              snapToGrid={true}
+              snapGrid={[15, 15]}
               nodeTypes={nodeTypes}
               connectionLineType={ConnectionLineType.Step}
               // connectionLineStyle={{ strokeWidth: "2px" }}
