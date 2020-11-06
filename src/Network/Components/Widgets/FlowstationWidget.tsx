@@ -12,7 +12,7 @@ const NodeWrapper = React.memo(({ children }) => {
       }}
     >
       <Handle
-        type="target"
+        type="source"
         position={Position.Left}
         style={{
           background: "#555",

@@ -238,6 +238,7 @@ const Network = () => {
               onElementClick={onElementClick}
               onNodeDragStop={onNodeDragStop}
               deleteKeyCode={46}
+              // multiSelectionKeyCode={17}
               defaultZoom={1.5}
               minZoom={0.2}
               maxZoom={4}
