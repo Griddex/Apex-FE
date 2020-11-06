@@ -12,7 +12,7 @@ const NodeWrapper = React.memo(({ children }) => {
       }}
     >
       <Handle
-        type="target"
+        type="source"
         position={Position.Top}
         style={{
           background: "#555",
@@ -23,7 +23,7 @@ const NodeWrapper = React.memo(({ children }) => {
         }}
       />
       <Handle
-        type="source"
+        type="target"
         position={Position.Left}
         style={{
           background: "#555",
@@ -35,7 +35,7 @@ const NodeWrapper = React.memo(({ children }) => {
       />
       {children}
       <Handle
-        type="target"
+        type="source"
         position={Position.Right}
         style={{
           background: "#555",
@@ -46,7 +46,7 @@ const NodeWrapper = React.memo(({ children }) => {
         }}
       />
       <Handle
-        type="source"
+        type="target"
         position={Position.Bottom}
         style={{
           background: "#555",
