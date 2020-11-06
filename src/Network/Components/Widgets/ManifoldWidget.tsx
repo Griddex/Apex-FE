@@ -15,7 +15,7 @@ const NodeWrapper = React.memo(({ children }) => {
         type="target"
         position={Position.Left}
         style={{
-          background: "#555",
+          background: "#999",
           borderWidth: "0px",
           height: "4px",
           width: "4px",
@@ -27,7 +27,7 @@ const NodeWrapper = React.memo(({ children }) => {
         type="source"
         position={Position.Right}
         style={{
-          background: "#555",
+          background: "#999",
           borderWidth: "0px",
           height: "4px",
           width: "4px",

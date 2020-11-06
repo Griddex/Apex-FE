@@ -230,7 +230,7 @@ const Network = () => {
               onElementsRemove={onElementsRemove}
               onConnect={onConnect}
               onLoad={onLoad}
-              snapToGrid={true}
+              snapToGrid={false}
               snapGrid={[15, 15]}
               nodeTypes={nodeTypes}
               connectionLineType={ConnectionLineType.Step}
