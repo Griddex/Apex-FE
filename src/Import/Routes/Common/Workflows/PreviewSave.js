@@ -1,5 +1,6 @@
-import { makeStyles } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,9 +13,17 @@ import generateTableColumnWidths from "../../../../Application/Utils/GenerateTab
 import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
 import regenerateTableWithActualHeaders from "../../../../Application/Utils/RegenerateTableWithActualHeaders";
 import { persistSelectedUnitRowOptionIndicesAction } from "../../../Redux/Actions/ImportActions";
-// import { persistTableRolesIndicesAction } from "./../../../Redux/Actions/ImportActions";
+import Dialogs from "./../../../../Application/Components/Dialogs/Dialogs";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
+import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
+import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import { hideDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
+import { useSnackbar } from "notistack";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
     display: "flex",
     flexDirection: "column",
@@ -42,6 +51,20 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
   },
   score: { fontSize: 14 },
+  dialogContent: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "flex-end",
+    height: 350,
+    width: "100%",
+    "& > *": {
+      height: 50,
+      width: "95%",
+      boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+      border: `1px solid ${theme.palette.primary.main}`,
+    },
+  },
 }));
 
 export default function PreviewSave() {
@@ -225,14 +248,115 @@ export default function PreviewSave() {
     // dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
   }, [dispatch]);
 
+  const [isSelected, setIsSelected] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const ManageDeckContent = () => {
+    const buttonsData = [
+      {
+        title: "Save Deck Only",
+
+        color: "primary",
+        startIcon: <SaveOutlinedIcon />,
+        handleAction: () => {
+          setIsSelected(true);
+          dispatch(hideDialogAction());
+        },
+      },
+      {
+        title: "Save and Automatically Generate Network",
+
+        color: "primary",
+        startIcon: <ControlCameraOutlinedIcon />,
+        handleAction: () => {
+          enqueueSnackbar("Save and Automatically Generate Network", {
+            persist: false,
+            variant: "error",
+          });
+        },
+      },
+      {
+        title: "Save and Manually Generate Network",
+
+        color: "primary",
+        startIcon: <DeviceHubOutlinedIcon />,
+        handleAction: () => {
+          setIsSelected(true);
+          dispatch(hideDialogAction());
+        },
+      },
+      {
+        title: "Save and Link Deck to Existing Network",
+
+        color: "primary",
+        startIcon: <LinkOutlinedIcon />,
+        handleAction: () => {
+          setIsSelected(true);
+          dispatch(hideDialogAction());
+        },
+      },
+    ];
+
+    return (
+      <div className={classes.dialogContent}>
+        {buttonsData.map((button, i) => (
+          <Button
+            key={i}
+            variant={button.variant}
+            color={button.color}
+            onClick={button.handleAction}
+            startIcon={button.startIcon}
+            endIcon={
+              isSelected ? (
+                <DoneOutlinedIcon style={{ color: "#00ff00" }} />
+              ) : null
+            }
+          >
+            {button.title}
+          </Button>
+        ))}
+      </div>
+    );
+  };
+
+  const ManageDeckDialogActions = () => {
+    const buttonsData = [
+      {
+        title: "Cancel",
+        variant: "outlined",
+        color: "secondary",
+        startIcon: <CloseOutlinedIcon />,
+        handleAction: () => dispatch(hideDialogAction()),
+      },
+    ];
+
+    return buttonsData.map((button, i) => (
+      <Button
+        key={i}
+        variant={button.variant}
+        color={button.color}
+        onClick={button.handleAction}
+        startIcon={button.startIcon}
+      >
+        {button.title}
+      </Button>
+    ));
+  };
+
   return (
-    <div className={classes.rootPreviewSave}>
-      <ApexTable
-        tableData={tableData}
-        tableHeaders={tableHeaders}
-        tableColumnWidths={tableColumnWidths}
-        tableWidth={tableWidth}
+    <>
+      <Dialogs
+        content={ManageDeckContent()}
+        actions={() => ManageDeckDialogActions()}
       />
-    </div>
+      <div className={classes.rootPreviewSave}>
+        <ApexTable
+          tableData={tableData}
+          tableHeaders={tableHeaders}
+          tableColumnWidths={tableColumnWidths}
+          tableWidth={tableWidth}
+        />
+      </div>
+    </>
   );
 }

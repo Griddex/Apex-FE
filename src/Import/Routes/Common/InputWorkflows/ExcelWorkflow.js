@@ -5,18 +5,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-// import SaveIcon from "@material-ui/icons/Save";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
 import {
   workflowBackAction,
   workflowInitAction,
   workflowNextAction,
   workflowResetAction,
-  workflowSaveAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
 import MatchHeaders from "../../Common/Workflows/MatchHeaders";
@@ -25,8 +25,7 @@ import PreviewSave from "../../Common/Workflows/PreviewSave";
 import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../Common/Workflows/SelectSheet";
 import UploadFile from "../../Common/Workflows/UploadFile";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
+import { showDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -233,8 +232,23 @@ const ExcelWorkflow = () => {
           variant="outlined"
           color="primary"
           onClick={() => {
-            activeStep === steps
-              ? dispatch(workflowSaveAction())
+            const dialogParameters = {
+              dialogType: "listDialog",
+              dialogProps: {
+                name: "Manage_Deck_Dialog",
+                title: `Manage ${subModuleName}`,
+                show: true,
+                exclusive: true,
+                maxwidth: "sm",
+                iconClass: "information",
+              },
+            };
+
+            console.log(activeStep);
+            console.log(steps.length - 1);
+
+            activeStep === steps.length - 1
+              ? dispatch(showDialogAction(dialogParameters))
               : dispatch(
                   workflowNextAction(
                     skipped,

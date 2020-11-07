@@ -14,7 +14,7 @@ export interface IDialogProps {
   exclusive: boolean;
   maxWidth: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
   dialogText: string;
-  content: JSX.Element;
+  content: () => ReactNode | ReactNode;
   actions: () => ReactNode;
   classes: Record<string, string>;
 }

@@ -18,8 +18,6 @@ const Dialogs: React.FC<IDialogStateProps> = ({
     (state: RootState) => state.dialogsReducer.dialogs
   );
 
-  // if (dialogs === undefined || dialogs === []) return;
-  // else
   return (
     <div>
       {(dialogs as any[]).map((dialog: IDialogStateProps, i: number) => {
@@ -27,7 +25,7 @@ const Dialogs: React.FC<IDialogStateProps> = ({
 
         if (dialog === undefined || dialog.dialogProps.show === false)
           return null;
-        // if (dialogType === "") return null;
+
         const SpecificDialog = apexDialogs[dialogType];
 
         return (
