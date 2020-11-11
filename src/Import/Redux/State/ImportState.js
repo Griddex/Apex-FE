@@ -37,6 +37,7 @@ const importState = {
   tableRoleIndices: [],
   optionIndices: [],
   tableData: [],
+  finalTableData: [],
   currentTableHeaders: [],
 };
 

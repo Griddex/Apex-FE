@@ -14,13 +14,13 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { IDialogTitleProps, ListDialogProps } from "./Types";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import InfoIcon from "@material-ui/icons/Info";
 
 const icons = {
   error: <WarningIcon style={{ color: "#DA1B57" }} />,
   success: <CheckCircleIcon style={{ color: "#2BB4C1" }} />,
   select: <PlaylistAddCheckOutlinedIcon style={{ color: "#2BB4C1" }} />,
-  information: <InfoOutlinedIcon style={{ color: "#2BB4C1" }} />,
+  information: <InfoIcon style={{ color: "#2BB4C1" }} />,
 };
 
 const useDialogTitleStyles = makeStyles((theme: Theme) => ({

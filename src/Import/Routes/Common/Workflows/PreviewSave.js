@@ -1,7 +1,13 @@
 import { fade, makeStyles } from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
+import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
+import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ApexTable from "../../../../Application/Components/Table/ApexTable";
@@ -14,14 +20,19 @@ import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth
 import regenerateTableWithActualHeaders from "../../../../Application/Utils/RegenerateTableWithActualHeaders";
 import { persistSelectedUnitRowOptionIndicesAction } from "../../../Redux/Actions/ImportActions";
 import Dialogs from "./../../../../Application/Components/Dialogs/Dialogs";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
-import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
-import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import { hideDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
-import { useSnackbar } from "notistack";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import { persistFinalTableDataAction } from "./../../../Redux/Actions/ImportActions";
+import { useHistory } from "react-router-dom";
+import GenerateUniqueElements from "./../../../../Network/Utils/GenerateUniqueElements";
+import ClusterDrainagePointData from "../../../../Network/Utils/ClusterDrainagePointData";
+import GenerateWellheadNodes from "./../../../../Network/Utils/GenerateWellheadNodes";
+import GenerateFlowstationNodes from "./../../../../Network/Utils/GenerateFlowstationNodes";
+import GenerateGasFacilityNodes from "./../../../../Network/Utils/GenerateGasFacilityNodes";
+import GenerateManifoldNodes from "./../../../../Network/Utils/GenerateManifoldNodes";
+import ConnectWellheadsToManifolds from "./../../../../Network/Utils/ConnectWellheadsToManifolds";
+import ConnectManifoldsToFlowstations from "../../../../Network/Utils/ConnectManifoldsToFlowstations";
+import GenerateTerminalNodes from "./../../../../Network/Utils/GenerateTerminalNodes";
+import ConnectFlowstationsToTerminal from "./../../../../Network/Utils/ConnectFlowstationsToTerminal";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -122,6 +133,9 @@ export default function PreviewSave() {
       dispatch(
         persistSelectedUnitRowOptionIndicesAction(columnIndex, optionIndex)
       );
+
+      //TODO: dispatch selected unit to update unit in redux store
+
       nativeEvent.stopImmediatePropagation();
     };
 
@@ -242,57 +256,110 @@ export default function PreviewSave() {
 
   const tableWidth = generateTableWidth(tableColumnWidths);
 
+  const finalTableData = cleanTableData.slice(1, tableData.length);
   React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-    // dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
+    dispatch(persistFinalTableDataAction(finalTableData));
+    console.log("Logged output -->: finalTableData", finalTableData);
   }, [dispatch]);
 
-  const [isSelected, setIsSelected] = React.useState(false);
+  // const [isSelected, setIsSelected] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const { subModuleName } = useSelector((state) => state.applicationReducer);
+  const history = useHistory();
 
   const ManageDeckContent = () => {
     const buttonsData = [
       {
         title: "Save Deck Only",
-
         color: "primary",
         startIcon: <SaveOutlinedIcon />,
         handleAction: () => {
-          setIsSelected(true);
-          dispatch(hideDialogAction());
-        },
-      },
-      {
-        title: "Save and Automatically Generate Network",
-
-        color: "primary",
-        startIcon: <ControlCameraOutlinedIcon />,
-        handleAction: () => {
-          enqueueSnackbar("Save and Automatically Generate Network", {
+          enqueueSnackbar(`${subModuleName} saved`, {
             persist: false,
-            variant: "error",
+            variant: "success",
           });
         },
       },
       {
-        title: "Save and Manually Generate Network",
+        title: "Save and Automatically Generate Network",
+        color: "primary",
+        startIcon: <ControlCameraOutlinedIcon />,
+        handleAction: () => {
+          enqueueSnackbar(`${subModuleName} saved`, {
+            persist: false,
+            variant: "success",
+          });
 
+          const {
+            drainagePointsUnique,
+            flowStationsUnique,
+            gasFacilitiesUnique,
+            manifoldsUnique,
+          } = GenerateUniqueElements(finalTableData);
+
+          const drainagePointsData = ClusterDrainagePointData(
+            tableData,
+            drainagePointsUnique
+          );
+
+          const wellheadNodes = GenerateWellheadNodes(drainagePointsData);
+          const manifoldNodes = GenerateManifoldNodes(manifoldsUnique);
+          const flowstationNodes = GenerateFlowstationNodes(flowStationsUnique);
+          const gasFacilityNodes = GenerateGasFacilityNodes(
+            gasFacilitiesUnique
+          );
+          // const terminalNodes = GenerateTerminalNodes(["Forcados Yokri"]);
+          const terminalNodes = GenerateTerminalNodes([
+            "Forcados Yokri",
+            "Tunu",
+            "Kanbo",
+          ]);
+          console.log(
+            "Logged output -->: ManageDeckContent -> terminalNodes",
+            terminalNodes
+          );
+
+          const wellheadManifoldEdges = ConnectWellheadsToManifolds(
+            wellheadNodes,
+            manifoldNodes
+          );
+          const manifoldFlowstationEdges = ConnectManifoldsToFlowstations(
+            manifoldNodes,
+            flowstationNodes,
+            gasFacilityNodes
+          );
+          const flowstationTerminalEdges = ConnectFlowstationsToTerminal(
+            terminalNodes,
+            flowstationNodes,
+            gasFacilityNodes
+          );
+
+          history.push("/apex/network");
+        },
+      },
+      {
+        title: "Save and Manually Generate Network",
         color: "primary",
         startIcon: <DeviceHubOutlinedIcon />,
         handleAction: () => {
-          setIsSelected(true);
-          dispatch(hideDialogAction());
+          enqueueSnackbar(`${subModuleName} saved`, {
+            persist: false,
+            variant: "success",
+          });
+
+          history.push("/apex/network");
         },
       },
       {
         title: "Save and Link Deck to Existing Network",
-
         color: "primary",
         startIcon: <LinkOutlinedIcon />,
         handleAction: () => {
-          setIsSelected(true);
-          dispatch(hideDialogAction());
+          enqueueSnackbar(`${subModuleName} saved`, {
+            persist: false,
+            variant: "error",
+          });
         },
       },
     ];
@@ -306,14 +373,12 @@ export default function PreviewSave() {
             color={button.color}
             onClick={button.handleAction}
             startIcon={button.startIcon}
-            endIcon={
-              isSelected ? (
-                <DoneOutlinedIcon style={{ color: "#00ff00" }} />
-              ) : null
-            }
           >
             {button.title}
           </Button>
+          // <div>
+
+          // </div>
         ))}
       </div>
     );

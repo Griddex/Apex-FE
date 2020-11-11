@@ -31,6 +31,7 @@ import WellheadNode from "../Components/Widgets/WellheadWidget";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
 import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import NetworkPanel from "./NetworkPanel";
+import GenerateNodeService from "./../Services/GenerateNodeService";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,7 +55,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignSelf: "flex-start",
     height: "100%",
-    width: "15%",
+    width: 200,
     minWidth: 200,
     // border: "1px solid #A8A8A8",
     backgroundColor: "#FFF",
@@ -76,19 +77,6 @@ const nodeTypes: NodeTypesType = {
   gasFacilityNode: GasFacilityNode,
   gatheringCenterNode: GatheringCenterNode,
   terminalNode: TerminalNode,
-};
-
-interface NodeComponentsType {
-  [key: string]: React.MemoExoticComponent<() => JSX.Element>;
-}
-
-const nodeComponents: NodeComponentsType = {
-  wellhead: WellheadNode,
-  manifold: ManifoldNode,
-  flowstation: FlowstationNode,
-  gasFacility: GasFacilityNode,
-  gatheringCenter: GatheringCenterNode,
-  terminal: TerminalNode,
 };
 
 const Network = () => {
@@ -147,17 +135,7 @@ const Network = () => {
     };
   }
 
-  const elem = [
-    {
-      id: "0",
-      type: "output",
-      style: { width: "auto", padding: "0px" },
-      data: { label: "Hello" },
-      position: { x: 200, y: 200 },
-    },
-  ] as Elements;
-
-  const [elements, setElements] = React.useState(elem);
+  const [elements, setElements] = React.useState([] as Elements);
   const onElementsRemove = (elementsToRemove: Elements) =>
     setElements((els) => removeElements(elementsToRemove, els));
 
@@ -172,40 +150,18 @@ const Network = () => {
     const mouseCoord = monitor.getClientOffset() as XYPosition;
 
     const mouseCoordUpdated = {
-      x: mouseCoord.x - 245,
-      y: mouseCoord.y - 68,
+      x: mouseCoord.x - 250,
+      y: mouseCoord.y - 80,
     } as XYPosition;
     const mouseCoordProjected = rfi.project(mouseCoordUpdated);
 
-    interface NodeDimensionsType {
-      [key: string]: [string, string];
-    }
-
-    const nodeDimensions: NodeDimensionsType = {
-      wellhead: ["20px", "20px"],
-      manifold: ["60px", "40px"],
-      flowstation: ["60px", "40px"],
-      gasFacility: ["60px", "40px"],
-      gatheringCenter: ["80px", "40px"],
-      terminal: ["80px", "40px"],
-    };
-    const CurrentNode = nodeComponents[nodeType];
-    const CurrentDimensions = nodeDimensions[nodeType];
-    const newElement: FlowElement = {
-      id: elements.length.toString(),
-      type: `${nodeType}Node`,
-      style: {
-        width: CurrentDimensions[0],
-        height: CurrentDimensions[1],
-        padding: "0px",
-        borderColor: "#2BB4C1",
-      },
-      data: {
-        label: <CurrentNode />,
-      },
+    const newElement: FlowElement = GenerateNodeService(nodeType);
+    const updatedNewElement = {
+      ...newElement,
       position: { ...mouseCoordProjected } as XYPosition,
     };
-    setElements((els) => [...els, newElement]);
+
+    setElements((els) => [...els, updatedNewElement]);
   };
   //TODO: show context drawer from first render or contextually
   //from right clicking on an object on the canvas

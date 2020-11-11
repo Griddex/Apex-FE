@@ -16,6 +16,7 @@ import {
   PERSIST_FILEUNITSMATCH,
   PERSIST_TABLEROLESINDICES,
   PERSIST_TABLEDATA,
+  PERSIST_FINALTABLEDATA,
   PERSIST_TABLEHEADERS,
   PERSIST_OPTIONINDICES,
   IMPORT_EXCEL_LOADING,
@@ -96,6 +97,9 @@ const importReducer = (state = importState, action) => {
       return { ...state, ...action.payload };
 
     case PERSIST_TABLEDATA:
+      return { ...state, ...action.payload };
+
+    case PERSIST_FINALTABLEDATA:
       return { ...state, ...action.payload };
 
     case PERSIST_TABLEHEADERS:

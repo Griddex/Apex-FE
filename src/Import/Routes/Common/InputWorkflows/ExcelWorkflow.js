@@ -244,9 +244,6 @@ const ExcelWorkflow = () => {
               },
             };
 
-            console.log(activeStep);
-            console.log(steps.length - 1);
-
             activeStep === steps.length - 1
               ? dispatch(showDialogAction(dialogParameters))
               : dispatch(
