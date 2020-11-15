@@ -1,3 +1,6 @@
+import SolveWellheadNodePositions from "./SolveWellheadNodePositions";
+import uniqBy from "lodash/uniqBy";
+
 const generateRepeatingSequence = (noOfNodes) => {
   const arr = [];
   for (let i = 0; i < noOfNodes; i++) {
@@ -14,10 +17,7 @@ const generateAltSequence = (shift, noOfNodes, multNumbers) => {
     const multNo = multNumbers[i];
     altSequence.push(seqEle * multNo * shift);
   }
-  console.log(
-    "Logged output -->: GenerateTerminalNodes -> altSequence",
-    altSequence
-  );
+
   return altSequence;
 };
 
@@ -41,11 +41,6 @@ const generatePositions = (
     positions.unshift(originalPosition);
     positions.pop();
   }
-
-  console.log(
-    "Logged output -->: GenerateTerminalNodes -> positions",
-    positions
-  );
 
   return positions;
 };
@@ -98,17 +93,35 @@ export const GenerateGasfacilityNodePositions = (gasFacilitiesUnique) => {
   return positions;
 };
 
-export const GenerateManifoldNodePositions = (manifoldUnique) => {
-  const originalPosition = { x: 660, y: 180 };
-  const noOfNodes = manifoldUnique.length;
-  const shift = 80;
-  const multNumbers = generateRepeatingSequence(noOfNodes);
-  const altSequence = generateAltSequence(shift, noOfNodes, multNumbers);
-  const positions = generatePositions(
-    noOfNodes,
-    manifoldUnique,
-    altSequence,
-    originalPosition
+export const GenerateManifoldNodePositions = (
+  flowstationNodes,
+  gasFacilityNodes
+) => {
+  const flowstationGasFacilityNodes = [
+    ...flowstationNodes,
+    ...gasFacilityNodes,
+  ];
+
+  const positions = flowstationGasFacilityNodes.map((node) => {
+    const position = { x: node.position.x, y: 150 };
+
+    return position;
+  });
+
+  return positions;
+};
+
+export const GenerateWellheadNodePositions = (
+  manifoldPosition,
+  manifoldWells
+) => {
+  const wellsUnique = uniqBy(manifoldWells, (row) => row["Drainage Point"]);
+  const initialWellToManifoldDistance = 40;
+
+  const positions = SolveWellheadNodePositions(
+    manifoldPosition,
+    initialWellToManifoldDistance,
+    wellsUnique.length
   );
 
   return positions;

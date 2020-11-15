@@ -1,17 +1,26 @@
 import GenerateNodeService from "../Services/GenerateNodeService";
 import { GenerateManifoldNodePositions } from "./GenerateNodePositions";
 
-const GenerateManifoldNodes = (manifoldUnique) => {
-  const manifoldPositions = GenerateManifoldNodePositions(manifoldUnique);
+const GenerateManifoldNodes = (flowstationNodes, gasFacilityNodes) => {
+  const manifoldPositions = GenerateManifoldNodePositions(
+    flowstationNodes,
+    gasFacilityNodes
+  );
 
-  const manifoldNodes = manifoldUnique
+  const flowstationGasFacilityNodes = [
+    ...flowstationNodes,
+    ...gasFacilityNodes,
+  ];
+
+  const manifoldNodes = flowstationGasFacilityNodes
     .filter((manifold) => manifold && manifold !== undefined)
     .map((manifold, i) => {
       if (manifold && manifold !== undefined) {
         const manifoldNode = GenerateNodeService("manifold");
+
         const manifoldNodeUpdated = {
           ...manifoldNode,
-          data: { ...manifoldNode.data, name: manifold },
+          data: { ...manifoldNode.data, station: manifold },
           position: manifoldPositions[i],
         };
 

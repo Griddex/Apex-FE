@@ -7,9 +7,11 @@ import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined"
 import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
 import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import groupBy from "lodash/groupBy";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ApexTable from "../../../../Application/Components/Table/ApexTable";
 import TableAction from "../../../../Application/Components/Table/TableAction";
 import TableRole from "../../../../Application/Components/Table/TableRole";
@@ -18,21 +20,20 @@ import generateActualTable from "../../../../Application/Utils/GenerateActualTab
 import generateTableColumnWidths from "../../../../Application/Utils/GenerateTableColumnWidths";
 import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
 import regenerateTableWithActualHeaders from "../../../../Application/Utils/RegenerateTableWithActualHeaders";
+import ConnectManifoldsToFlowstations from "../../../../Network/Utils/ConnectManifoldsToFlowstations";
 import { persistSelectedUnitRowOptionIndicesAction } from "../../../Redux/Actions/ImportActions";
 import Dialogs from "./../../../../Application/Components/Dialogs/Dialogs";
 import { hideDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
-import { persistFinalTableDataAction } from "./../../../Redux/Actions/ImportActions";
-import { useHistory } from "react-router-dom";
-import GenerateUniqueElements from "./../../../../Network/Utils/GenerateUniqueElements";
-import ClusterDrainagePointData from "../../../../Network/Utils/ClusterDrainagePointData";
-import GenerateWellheadNodes from "./../../../../Network/Utils/GenerateWellheadNodes";
+import ConnectFlowstationsToTerminal from "./../../../../Network/Utils/ConnectFlowstationsToTerminal";
+import ConnectWellheadsToManifolds from "./../../../../Network/Utils/ConnectWellheadsToManifolds";
 import GenerateFlowstationNodes from "./../../../../Network/Utils/GenerateFlowstationNodes";
 import GenerateGasFacilityNodes from "./../../../../Network/Utils/GenerateGasFacilityNodes";
 import GenerateManifoldNodes from "./../../../../Network/Utils/GenerateManifoldNodes";
-import ConnectWellheadsToManifolds from "./../../../../Network/Utils/ConnectWellheadsToManifolds";
-import ConnectManifoldsToFlowstations from "../../../../Network/Utils/ConnectManifoldsToFlowstations";
 import GenerateTerminalNodes from "./../../../../Network/Utils/GenerateTerminalNodes";
-import ConnectFlowstationsToTerminal from "./../../../../Network/Utils/ConnectFlowstationsToTerminal";
+import GenerateWellheadNodes from "./../../../../Network/Utils/GenerateWellheadNodes";
+import SplitFlowstationsGasFacilities from "./../../../../Network/Utils/SplitFlowstationsGasFacilities";
+import { persistFinalTableDataAction } from "./../../../Redux/Actions/ImportActions";
+import { persistNetworkElementsAction } from "./../../../Redux/Actions/AutomaticNetworkActions";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -256,11 +257,10 @@ export default function PreviewSave() {
 
   const tableWidth = generateTableWidth(tableColumnWidths);
 
-  const finalTableData = cleanTableData.slice(1, tableData.length);
+  const finalTableData = cleanTableData.slice(1, cleanTableData.length);
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
     dispatch(persistFinalTableDataAction(finalTableData));
-    console.log("Logged output -->: finalTableData", finalTableData);
   }, [dispatch]);
 
   // const [isSelected, setIsSelected] = React.useState(false);
@@ -291,49 +291,89 @@ export default function PreviewSave() {
             variant: "success",
           });
 
+          //Grouping by each Network Element
+          const drainagePointsData = groupBy(
+            finalTableData,
+            (row) => row["Drainage Point"]
+          );
+          const flowStationsGasFacilitiesData = groupBy(
+            finalTableData,
+            (row) => row["Flow station"]
+          );
           const {
-            drainagePointsUnique,
-            flowStationsUnique,
-            gasFacilitiesUnique,
-            manifoldsUnique,
-          } = GenerateUniqueElements(finalTableData);
+            flowStationsData,
+            gasFacilitiesData,
+          } = SplitFlowstationsGasFacilities(flowStationsGasFacilitiesData);
 
-          const drainagePointsData = ClusterDrainagePointData(
-            tableData,
-            drainagePointsUnique
-          );
-
-          const wellheadNodes = GenerateWellheadNodes(drainagePointsData);
-          const manifoldNodes = GenerateManifoldNodes(manifoldsUnique);
-          const flowstationNodes = GenerateFlowstationNodes(flowStationsUnique);
-          const gasFacilityNodes = GenerateGasFacilityNodes(
-            gasFacilitiesUnique
-          );
-          // const terminalNodes = GenerateTerminalNodes(["Forcados Yokri"]);
+          //Nodes
           const terminalNodes = GenerateTerminalNodes([
-            "Forcados Yokri",
-            "Tunu",
-            "Kanbo",
+            "Forcados Yokri Terminal",
           ]);
           console.log(
             "Logged output -->: ManageDeckContent -> terminalNodes",
             terminalNodes
           );
-
-          const wellheadManifoldEdges = ConnectWellheadsToManifolds(
-            wellheadNodes,
+          const flowstationNodes = GenerateFlowstationNodes(flowStationsData);
+          console.log(
+            "Logged output -->: ManageDeckContent -> flowstationNodes",
+            flowstationNodes
+          );
+          const gasFacilityNodes = GenerateGasFacilityNodes(gasFacilitiesData);
+          console.log(
+            "Logged output -->: ManageDeckContent -> gasFacilityNodes",
+            gasFacilityNodes
+          );
+          const manifoldNodes = GenerateManifoldNodes(
+            flowstationNodes,
+            gasFacilityNodes
+          );
+          console.log(
+            "Logged output -->: ManageDeckContent -> manifoldNodes",
             manifoldNodes
+          );
+
+          const wellheadNodes = GenerateWellheadNodes(
+            flowstationNodes,
+            gasFacilityNodes,
+            flowStationsData,
+            gasFacilitiesData
+          );
+          const wellheadNodesMerged = [];
+          for (const node of wellheadNodes) {
+            wellheadNodesMerged.push(...node);
+          }
+
+          const allNodes = [
+            ...terminalNodes,
+            ...flowstationNodes,
+            ...gasFacilityNodes,
+            ...manifoldNodes,
+            ...wellheadNodesMerged,
+          ];
+          //Edges
+          const flowstationTerminalEdges = ConnectFlowstationsToTerminal(
+            terminalNodes,
+            flowstationNodes,
+            gasFacilityNodes
           );
           const manifoldFlowstationEdges = ConnectManifoldsToFlowstations(
             manifoldNodes,
             flowstationNodes,
             gasFacilityNodes
           );
-          const flowstationTerminalEdges = ConnectFlowstationsToTerminal(
-            terminalNodes,
-            flowstationNodes,
-            gasFacilityNodes
+          const wellheadManifoldEdges = ConnectWellheadsToManifolds(
+            wellheadNodes,
+            manifoldNodes
           );
+
+          const allEdges = [
+            ...flowstationTerminalEdges,
+            ...manifoldFlowstationEdges,
+            ...wellheadManifoldEdges,
+          ];
+
+          const allNetworkElements = [...allNodes, ...allEdges];
+          dispatch(persistNetworkElementsAction(allNetworkElements));
 
           history.push("/apex/network");
         },

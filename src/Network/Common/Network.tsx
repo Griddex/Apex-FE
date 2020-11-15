@@ -135,7 +135,10 @@ const Network = () => {
     };
   }
 
-  const [elements, setElements] = React.useState([] as Elements);
+  const { networkElements } = useSelector(
+    (state: RootState) => state.automaticNetworkReducer
+  );
+  const [elements, setElements] = React.useState(networkElements as Elements);
   const onElementsRemove = (elementsToRemove: Elements) =>
     setElements((els) => removeElements(elementsToRemove, els));
 

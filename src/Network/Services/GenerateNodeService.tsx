@@ -42,7 +42,7 @@ const GenerateNodeService = (nodeType: string) => {
     id: uuid(),
     type: `${nodeType}Node`,
     data: {
-      label: <CurrentNode />,
+      label: JSON.stringify(<CurrentNode />),
     },
     style: {
       width: CurrentDimensions[0],

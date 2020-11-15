@@ -9,6 +9,7 @@ import loginReducer from "./LoginReducer";
 import registerReducer from "./RegisterReducer";
 import uiSpinnerReducer from "./UISpinnerReducer";
 import workflowReducer from "./WorkflowReducer";
+import automaticNetworkReducer from "./../../../Import/Redux/Reducers/AutomaticNetworkReducers";
 
 const rootReducer = combineReducers({
   loginReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   importReducer,
   chartReducer,
   networkReducer,
+  automaticNetworkReducer,
 });
 export default rootReducer;
 
