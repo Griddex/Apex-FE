@@ -12,19 +12,8 @@ const NodeWrapper = React.memo(({ children }) => {
       }}
     >
       <Handle
-        type="source"
-        position={Position.Top}
-        style={{
-          background: "#999",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-          borderRadius: "0px",
-        }}
-      />
-      <Handle
         type="target"
-        position={Position.Left}
+        position={Position.Bottom}
         style={{
           background: "#999",
           borderWidth: "0px",
@@ -37,17 +26,6 @@ const NodeWrapper = React.memo(({ children }) => {
       <Handle
         type="source"
         position={Position.Right}
-        style={{
-          background: "#999",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-          borderRadius: "0px",
-        }}
-      />
-      <Handle
-        type="target"
-        position={Position.Bottom}
         style={{
           background: "#999",
           borderWidth: "0px",

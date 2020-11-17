@@ -87,17 +87,16 @@ const Network = () => {
   };
   const dispatch = useDispatch();
 
-  const { updateNodePosDiff } = useStoreActions((actions) => actions);
+  // const { updateNodePosDiff } = useStoreActions((actions) => actions);
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
-  const onNodeDragStop = (
-    event: React.MouseEvent<Element, MouseEvent>,
-    node: Node
-  ) => {
-    console.log("Drag stop", event, node);
-    updateNodePosDiff({ id: currentElement.id, isDragging: false });
-  };
+  // const onNodeDragStop = (
+  //   event: React.MouseEvent<Element, MouseEvent>,
+  //   node: Node
+  // ) => {
+  //   updateNodePosDiff({ id: currentElement.id, isDragging: false });
+  // };
 
   const onElementClick = (
     event: React.MouseEvent<Element, MouseEvent>,
@@ -192,10 +191,10 @@ const Network = () => {
               snapToGrid={false}
               snapGrid={[15, 15]}
               nodeTypes={nodeTypes}
-              connectionLineType={ConnectionLineType.Step}
+              connectionLineType={ConnectionLineType.Bezier}
               // connectionLineStyle={{ strokeWidth: "2px" }}
               onElementClick={onElementClick}
-              onNodeDragStop={onNodeDragStop}
+              // onNodeDragStop={onNodeDragStop}
               deleteKeyCode={46}
               // multiSelectionKeyCode={17}
               defaultZoom={1.5}

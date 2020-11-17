@@ -1,20 +1,4 @@
-import range from "lodash/range";
-
-const pendulumArray = (positions) => {
-  const evenPositions = [];
-  const oddPositions = [];
-
-  for (const position of positions) {
-    if (position % 2 === 0) evenPositions.push(position);
-    else oddPositions.push(position);
-  }
-
-  oddPositions.reverse();
-
-  return [...oddPositions, ...evenPositions];
-};
-
-const SolveWellheadNodePositions = (
+const SolveWellheadNodePositionsArc = (
   manifoldPosition,
   radius,
   numberOfWells
@@ -73,4 +57,4 @@ const SolveWellheadNodePositions = (
   return wellheadPositions.slice(0, numberOfWells);
 };
 
-export default SolveWellheadNodePositions;
+export default SolveWellheadNodePositionsArc;

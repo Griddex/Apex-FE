@@ -1,4 +1,4 @@
-import SolveWellheadNodePositions from "./SolveWellheadNodePositions";
+import SolveWellheadNodePositionsSquare from "./SolveWellheadNodePositionsSquare";
 import uniqBy from "lodash/uniqBy";
 
 const generateRepeatingSequence = (noOfNodes) => {
@@ -62,9 +62,9 @@ export const GenerateTerminalNodePositions = (terminalData) => {
 };
 
 export const GenerateFlowstationNodePositions = (flowStationsUnique) => {
-  const originalPosition = { x: 260, y: 80 };
+  const originalPosition = { x: 260, y: 100 };
   const noOfNodes = flowStationsUnique.length;
-  const shift = 80;
+  const shift = 120;
   const multNumbers = generateRepeatingSequence(noOfNodes);
   const altSequence = generateAltSequence(shift, noOfNodes, multNumbers);
   const positions = generatePositions(
@@ -78,9 +78,9 @@ export const GenerateFlowstationNodePositions = (flowStationsUnique) => {
 };
 
 export const GenerateGasfacilityNodePositions = (gasFacilitiesUnique) => {
-  const originalPosition = { x: 660, y: 80 };
+  const originalPosition = { x: 900, y: 100 };
   const noOfNodes = gasFacilitiesUnique.length;
-  const shift = 80;
+  const shift = 120;
   const multNumbers = generateRepeatingSequence(noOfNodes);
   const altSequence = generateAltSequence(shift, noOfNodes, multNumbers);
   const positions = generatePositions(
@@ -103,7 +103,7 @@ export const GenerateManifoldNodePositions = (
   ];
 
   const positions = flowstationGasFacilityNodes.map((node) => {
-    const position = { x: node.position.x, y: 150 };
+    const position = { x: node.position.x, y: 250 };
 
     return position;
   });
@@ -113,15 +113,15 @@ export const GenerateManifoldNodePositions = (
 
 export const GenerateWellheadNodePositions = (
   manifoldPosition,
-  manifoldWells
+  manifoldWells,
+  wellheadGroupOffset
 ) => {
   const wellsUnique = uniqBy(manifoldWells, (row) => row["Drainage Point"]);
-  const initialWellToManifoldDistance = 40;
 
-  const positions = SolveWellheadNodePositions(
+  const positions = SolveWellheadNodePositionsSquare(
     manifoldPosition,
-    initialWellToManifoldDistance,
-    wellsUnique.length
+    wellsUnique.length,
+    wellheadGroupOffset
   );
 
   return positions;

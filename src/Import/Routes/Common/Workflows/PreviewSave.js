@@ -292,10 +292,6 @@ export default function PreviewSave() {
           });
 
           //Grouping by each Network Element
-          const drainagePointsData = groupBy(
-            finalTableData,
-            (row) => row["Drainage Point"]
-          );
           const flowStationsGasFacilitiesData = groupBy(
             finalTableData,
             (row) => row["Flow station"]
@@ -309,35 +305,19 @@ export default function PreviewSave() {
           const terminalNodes = GenerateTerminalNodes([
             "Forcados Yokri Terminal",
           ]);
-          console.log(
-            "Logged output -->: ManageDeckContent -> terminalNodes",
-            terminalNodes
-          );
           const flowstationNodes = GenerateFlowstationNodes(flowStationsData);
-          console.log(
-            "Logged output -->: ManageDeckContent -> flowstationNodes",
-            flowstationNodes
-          );
           const gasFacilityNodes = GenerateGasFacilityNodes(gasFacilitiesData);
-          console.log(
-            "Logged output -->: ManageDeckContent -> gasFacilityNodes",
-            gasFacilityNodes
-          );
           const manifoldNodes = GenerateManifoldNodes(
             flowstationNodes,
             gasFacilityNodes
           );
-          console.log(
-            "Logged output -->: ManageDeckContent -> manifoldNodes",
-            manifoldNodes
-          );
 
           const wellheadNodes = GenerateWellheadNodes(
-            flowstationNodes,
-            gasFacilityNodes,
+            manifoldNodes,
             flowStationsData,
             gasFacilitiesData
           );
+
           const wellheadNodesMerged = [];
           for (const node of wellheadNodes) {
             wellheadNodesMerged.push(...node);

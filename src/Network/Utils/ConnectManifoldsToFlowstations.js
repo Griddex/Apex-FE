@@ -12,17 +12,18 @@ const ConnectManifoldsToFlowstations = (
   ];
 
   for (const manifoldNode of manifoldNodes) {
-    for (const flowstationNode of manifoldAndflowstationNodes) {
-      const flowstation = manifoldNode.data.name;
-      const flowstationName = flowstationNode.data.name;
+    for (const stationNode of manifoldAndflowstationNodes) {
+      console.log("Logged output -->: stationNode", stationNode);
+      const flowstation = manifoldNode.data.station.data.name;
+      const stationName = stationNode.data.name;
 
-      if (flowstation === flowstationName) {
+      if (flowstation === stationName) {
         const edge = GenerateEdgeService();
 
         const edgeUpdated = {
           ...edge,
           source: manifoldNode.id,
-          target: flowstationNode.id,
+          target: stationNode.id,
         };
 
         allEdges.push(edgeUpdated);

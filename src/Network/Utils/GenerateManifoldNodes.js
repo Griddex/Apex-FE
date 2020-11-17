@@ -13,14 +13,14 @@ const GenerateManifoldNodes = (flowstationNodes, gasFacilityNodes) => {
   ];
 
   const manifoldNodes = flowstationGasFacilityNodes
-    .filter((manifold) => manifold && manifold !== undefined)
-    .map((manifold, i) => {
-      if (manifold && manifold !== undefined) {
+    .filter((station) => station && station !== undefined)
+    .map((station, i) => {
+      if (station && station !== undefined) {
         const manifoldNode = GenerateNodeService("manifold");
 
         const manifoldNodeUpdated = {
           ...manifoldNode,
-          data: { ...manifoldNode.data, station: manifold },
+          data: { ...manifoldNode.data, station },
           position: manifoldPositions[i],
         };
 

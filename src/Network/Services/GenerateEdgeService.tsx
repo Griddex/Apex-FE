@@ -6,7 +6,7 @@ const GenerateEdgeService = () => {
     id: uuid(),
     source: "0",
     target: "1",
-    type: "step",
+    type: "bezier",
     arrowHeadType: ArrowHeadType.ArrowClosed,
   };
 
