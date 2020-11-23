@@ -1,5 +1,5 @@
 import SolveWellheadNodePositionsSquare from "./SolveWellheadNodePositionsSquare";
-import uniqBy from "lodash/uniqBy";
+import uniq from "lodash/uniq";
 
 const generateRepeatingSequence = (noOfNodes) => {
   const arr = [];
@@ -113,14 +113,14 @@ export const GenerateManifoldNodePositions = (
 
 export const GenerateWellheadNodePositions = (
   manifoldPosition,
-  manifoldWells,
+  manifoldWellNames,
   wellheadGroupOffset
 ) => {
-  const wellsUnique = uniqBy(manifoldWells, (row) => row["Drainage Point"]);
+  const uniqueManifoldWellNames = uniq(manifoldWellNames);
 
   const positions = SolveWellheadNodePositionsSquare(
     manifoldPosition,
-    wellsUnique.length,
+    uniqueManifoldWellNames.length,
     wellheadGroupOffset
   );
 

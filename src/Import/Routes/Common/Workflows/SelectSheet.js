@@ -86,7 +86,7 @@ const SelectSheet = () => {
     fileCreated,
   } = importData;
 
-  const { workSheetNames, selectedWorksheetName, file } = useSelector(
+  const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state) => state.importReducer
   );
 
@@ -98,13 +98,15 @@ const SelectSheet = () => {
 
     setWorksheetName(selectedWorksheetName);
 
-    const selectedWorksheetDataXLSX = file.Sheets[selectedWorksheetName];
+    const selectedWorksheetDataXLSX = inputFile.Sheets[selectedWorksheetName];
     const selectedWorksheetData = xlsx.utils.sheet_to_json(
       selectedWorksheetDataXLSX
     );
 
     if (selectedWorksheetData.length === 0) {
-      enqueueSnackbar("Empty worksheet!", { persist: true, variant: "error" });
+      enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
+    } else {
+      enqueueSnackbar("Data worksheet...", { persist: false, variant: "info" });
     }
 
     dispatch(

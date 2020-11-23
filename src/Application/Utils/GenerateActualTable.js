@@ -1,22 +1,30 @@
+import pick from "lodash/pick";
+
 const generateActualTable = (
   addedColumnHeaders,
   addedActionColumn,
   addedRoleColumn = undefined,
   actualColumnHeaders,
-  cleanTableData
+  cleanTableDataWithSN
 ) => {
-  const noAddedColumnTableData = cleanTableData;
+  const noAddedColumnTableData = cleanTableDataWithSN;
 
   //Update table data with Serial number and any other column data
+  const headers = Object.keys(noAddedColumnTableData[0]);
+  const snArray = [headers.shift()];
+  const restArray = headers;
   const tableData = noAddedColumnTableData.map((row, i) => {
     const actionColumn = addedActionColumn[i];
     const roleColumn = addedRoleColumn && addedRoleColumn[i];
 
+    const snObj = pick(row, snArray);
+    const restObj = pick(row, restArray);
+
     return {
-      SN: i + 1,
+      ...snObj,
       ...actionColumn,
       ...roleColumn,
-      ...row,
+      ...restObj,
     };
   });
 

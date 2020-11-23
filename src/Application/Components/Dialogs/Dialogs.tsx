@@ -2,40 +2,33 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ListDialog from "./ListDialog";
 import TextDialog from "./TextDialog";
+import SelectWorksheetDialog from "./SelectWorksheetDialog";
+import FinalizeInputDialog from "./FinalizeInputDialog";
 import { RootState } from "../../Redux/Reducers/RootReducer";
-import { IApexDialogs, IDialogStateProps } from "./Types";
+import { IApplicationDialogs, DialogStuff } from "./DialogTypes";
 
-const apexDialogs: IApexDialogs = {
+const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
+  selectWorksheetDialog: SelectWorksheetDialog,
+  finalizeInputDialog: FinalizeInputDialog,
 };
 
-const Dialogs: React.FC<IDialogStateProps> = ({
-  dialogTitleProps,
-  ...rest
-}) => {
+const Dialogs: React.FC<DialogStuff> = () => {
   const dialogs = useSelector(
     (state: RootState) => state.dialogsReducer.dialogs
   );
 
   return (
     <div>
-      {(dialogs as any[]).map((dialog: IDialogStateProps, i: number) => {
-        const { dialogType, dialogProps } = dialog;
+      {(dialogs as any[]).map((dialog: DialogStuff, i: number) => {
+        const { type } = dialog;
 
-        if (dialog === undefined || dialog.dialogProps.show === false)
-          return null;
+        if (dialog !== undefined && dialog.show === true && type) {
+          const SpecificDialog = applicationDialogs[type];
 
-        const SpecificDialog = apexDialogs[dialogType];
-
-        return (
-          <SpecificDialog
-            key={i}
-            {...dialogProps}
-            {...dialogTitleProps}
-            {...rest}
-          />
-        );
+          return <SpecificDialog key={i} {...dialog} />;
+        }
       })}
     </div>
   );

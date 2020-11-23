@@ -1,4 +1,7 @@
-import { SET_CURRENTELEMENT } from "../Actions/NetworkActions";
+import {
+  SET_CURRENTELEMENT,
+  PERSIST_NETWORKELEMENTS,
+} from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
 interface IAction {
@@ -12,6 +15,11 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       return {
         ...state,
         ...action.payload.currentElement,
+      };
+    case PERSIST_NETWORKELEMENTS:
+      return {
+        ...state,
+        ...action.payload,
       };
 
     default:

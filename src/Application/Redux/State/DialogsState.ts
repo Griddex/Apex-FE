@@ -1,9 +1,9 @@
 import {
-  DialogPayloadProps,
+  DialogStuff,
   IDialogState,
-} from "../../Components/Dialogs/Types";
+} from "../../Components/Dialogs/DialogTypes";
 
-const dialogsState: IDialogState<DialogPayloadProps> = {
+const dialogsState: IDialogState<DialogStuff> = {
   dialogs: [],
 };
 

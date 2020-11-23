@@ -3,11 +3,11 @@ const workflowState = {
   activeStep: 0,
   skipped: new Set(),
   errorSteps: [],
-  OptionalSteps: [],
+  optionalSteps: [],
 
   isStepOptional: null,
-  IsStepFailed: null,
-  IsStepSkipped: null,
+  isStepFailed: null,
+  isStepSkipped: null,
 };
 
 export default workflowState;

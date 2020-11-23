@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   Divider,
   List,
   ListItem,
@@ -15,22 +16,21 @@ import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import InfoIcon from "@material-ui/icons/Info";
 import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
 import WarningIcon from "@material-ui/icons/Warning";
+import { useSnackbar } from "notistack";
 import React, { ReactNode } from "react";
-import { useDispatch } from "react-redux";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { DialogStuff } from "./DialogTypes";
-import InfoIcon from "@material-ui/icons/Info";
+import { useDispatch, useSelector } from "react-redux";
+import * as xlsx from "xlsx";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-
-const icons = {
-  error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-  information: <InfoIcon style={{ color: "#31BFCC" }} />,
-};
+import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -77,10 +77,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
-    backgroundColor: theme.palette.primary.main,
+    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
+
+const icons = {
+  error: <WarningIcon style={{ color: "#DA1B57" }} />,
+  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
+  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
+  information: <InfoIcon style={{ color: "#31BFCC" }} />,
+};
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);
@@ -126,36 +133,28 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    contentText,
-    contentList,
-    actionsList,
-  } = props;
+const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { title, show, maxWidth, iconType, contentList } = props;
+
+  const { skipped, isStepSkipped, activeStep, steps } = useSelector(
+    (state: RootState) => state.workflowReducer
+  );
+  const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
+    (state: RootState) => state.importReducer
+  );
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
-  return (
-    <Dialog
-      aria-labelledby="customized-dialog-title"
-      open={show as boolean}
-      maxWidth={maxWidth}
-      fullWidth
-    >
-      <DialogTitle
-        onClose={() => dispatch(hideDialogAction())}
-        iconType={iconType}
-      >
-        {title}
-      </DialogTitle>
-      <DialogContent dividers>
-        {/* {content && content} */}
-        <Typography variant="h6">{contentText && contentText}</Typography>
+  const SelectWorksheetDialogContent = () => {
+    return (
+      <div className={classes.listDialogContent}>
+        <Typography variant="h6">
+          Workbook contains more than one worksheet. Please select the worksheet
+          that contains the Facilities Deck
+        </Typography>
         <List className={classes.listBorder}>
           {contentList &&
             contentList.map(
@@ -179,10 +178,86 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
               )
             )}
         </List>
+      </div>
+    );
+  };
+
+  const prepareSelectWorksheetRoute = () => {
+    const selectedWorksheetDataXLSX =
+      inputDeckWorkbook.Sheets[selectedWorksheetName];
+
+    const selectedWorksheetData = xlsx.utils.sheet_to_json(
+      selectedWorksheetDataXLSX
+    );
+
+    if (selectedWorksheetData.length === 0) {
+      enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
+    }
+
+    dispatch(
+      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
+    );
+    dispatch(workflowNextAction(skipped, isStepSkipped, activeStep, steps));
+    dispatch(hideDialogAction());
+  };
+
+  const SelectWorksheetDialogActions = () => {
+    const buttonsData: ButtonProps[] = [
+      {
+        title: "Cancel",
+        variant: "contained",
+        color: "secondary",
+        startIcon: <CloseOutlinedIcon />,
+        handleAction: () => dispatch(hideDialogAction()),
+      },
+      {
+        title: "Okay",
+        variant: "contained",
+        color: "primary",
+        startIcon: <DoneOutlinedIcon />,
+        handleAction: () => {
+          if (selectedListItem === "")
+            enqueueSnackbar("Select a worksheet", {
+              persist: false,
+              variant: "error",
+            });
+          else prepareSelectWorksheetRoute();
+        },
+      },
+    ];
+
+    return buttonsData.map((button, i) => (
+      <Button
+        key={i}
+        variant={button.variant}
+        color={button.color}
+        startIcon={button.startIcon}
+        onClick={button.handleAction}
+      >
+        {button.title}
+      </Button>
+    ));
+  };
+
+  return (
+    <Dialog
+      aria-labelledby="customized-dialog-title"
+      open={show as boolean}
+      maxWidth={maxWidth}
+      fullWidth
+    >
+      <DialogTitle
+        onClose={() => dispatch(hideDialogAction())}
+        iconType={iconType}
+      >
+        {title}
+      </DialogTitle>
+      <DialogContent dividers>
+        {SelectWorksheetDialogContent()}
         <Divider />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList}</DialogActions>
+      <DialogActions>{SelectWorksheetDialogActions()}</DialogActions>
     </Dialog>
   );
 };
-export default ListDialog;
+export default SelectWorksheetDialog;

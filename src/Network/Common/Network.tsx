@@ -32,6 +32,7 @@ import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
 import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import NetworkPanel from "./NetworkPanel";
 import GenerateNodeService from "./../Services/GenerateNodeService";
+import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -86,17 +87,13 @@ const Network = () => {
     setRfi(reactFlowInstance);
   };
   const dispatch = useDispatch();
-
-  // const { updateNodePosDiff } = useStoreActions((actions) => actions);
+  const classes = useStyles();
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
-  // const onNodeDragStop = (
-  //   event: React.MouseEvent<Element, MouseEvent>,
-  //   node: Node
-  // ) => {
-  //   updateNodePosDiff({ id: currentElement.id, isDragging: false });
-  // };
+  const { showContextDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
 
   const onElementClick = (
     event: React.MouseEvent<Element, MouseEvent>,
@@ -105,11 +102,6 @@ const Network = () => {
     dispatch(setCurrentElementAction(element));
     setCurrentElement(element);
   };
-
-  const classes = useStyles();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.NETWORK_ELEMENT,
@@ -134,10 +126,15 @@ const Network = () => {
     };
   }
 
-  const { networkElements } = useSelector(
-    (state: RootState) => state.automaticNetworkReducer
+  const { nodeElements, edgeElements } = useSelector(
+    (state: RootState) => state.networkReducer
   );
-  const [elements, setElements] = React.useState(networkElements as Elements);
+  const nodeElementsWithWidgets = AddWidgetsToNodes(nodeElements);
+  const allNetworkElements = [...nodeElementsWithWidgets, ...edgeElements];
+
+  const [elements, setElements] = React.useState(
+    allNetworkElements as Elements
+  );
   const onElementsRemove = (elementsToRemove: Elements) =>
     setElements((els) => removeElements(elementsToRemove, els));
 
@@ -165,6 +162,7 @@ const Network = () => {
 
     setElements((els) => [...els, updatedNewElement]);
   };
+
   //TODO: show context drawer from first render or contextually
   //from right clicking on an object on the canvas
   // useEffect(() => {
@@ -205,7 +203,7 @@ const Network = () => {
                 nodeStrokeColor={(n: Node) => {
                   if (n.style?.background) return n.style.background.toString();
                   if (n.type === "manifoldNode") return "#0041d0";
-                  if (n.type === "flowstationNode") return "#2BB4C1";
+                  if (n.type === "flowstationNode") return "#31BFCC";
                   if (n.type === "gasFacilityNode") return "#ff0072";
                   if (n.type === "wellheadNode") return "#ff3400";
                   if (n.type === "terminal") return "#1a192b";

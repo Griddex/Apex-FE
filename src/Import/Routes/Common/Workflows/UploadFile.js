@@ -1,26 +1,13 @@
-import Avatar from "@material-ui/core/Avatar";
+import { useTheme } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles, fade } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import { fade, makeStyles } from "@material-ui/core/styles";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-// import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import React, { useState } from "react";
+import React from "react";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
-import Dialogs from "../../../../Application/Components/Dialogs/Dialogs";
-import {
-  hideDialogAction,
-  showDialogAction,
-} from "../../../../Application/Redux/Actions/DialogsAction";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import {
   importFileInitAction,
@@ -28,7 +15,6 @@ import {
   persistWorksheetAction,
   persistWorksheetNamesAction,
 } from "../../../Redux/Actions/ImportActions";
-import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,111 +69,14 @@ const UploadFile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const dnDDisabled = useSelector((state) => state.importReducer.dnDDisabled);
-  const { enqueueSnackbar } = useSnackbar();
+  const theme = useTheme();
 
-  const workSheetNames = useSelector(
-    (state) => state.importReducer.workSheetNames
-  );
-  const selectedWorksheetName = useSelector(
-    (state) => state.importReducer.selectedWorksheetName
-  );
   const workflowData = useSelector((state) => state.workflowReducer);
-
   const { skipped, isStepSkipped, activeStep, steps } = workflowData;
-  const [selectedListItem, setSelectedListItem] = useState("");
-  const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
-
-  const SelectWorksheetDialogContent = (
-    <div className={classes.listDialogContent}>
-      <Typography variant="h6">
-        Workbook contains more than one worksheet. Please select the worksheet
-        that contains the Facilities Deck
-      </Typography>
-      <List className={classes.listBorder}>
-        {workSheetNames &&
-          workSheetNames.map((name, i) => (
-            <ListItem
-              key={i}
-              selected={name === selectedListItem}
-              button
-              onClick={() => {
-                setSelectedListItem(name);
-                dispatch(persistWorksheetAction(name, []));
-              }}
-            >
-              <ListItemAvatar>
-                <Avatar className={classes.avatar}>
-                  <DescriptionOutlinedIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText>{name}</ListItemText>
-            </ListItem>
-          ))}
-      </List>
-    </div>
-  );
-
-  const prepareSelectWorksheetRoute = (selectedWorksheetName) => {
-    const selectedWorksheetDataXLSX =
-      inputDeckWorkbook.Sheets[selectedWorksheetName];
-    const selectedWorksheetData = xlsx.utils.sheet_to_json(
-      selectedWorksheetDataXLSX
-    );
-
-    if (selectedWorksheetData.length === 0) {
-      enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
-    }
-
-    dispatch(
-      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
-    );
-    dispatch(workflowNextAction(skipped, isStepSkipped, activeStep, steps));
-  };
-
-  const SelectWorksheetDialogActions = (selectedWorksheetName) => {
-    const buttonsData = [
-      {
-        title: "Cancel",
-        variant: "contained",
-        color: "secondary",
-        startIcon: <CloseOutlinedIcon />,
-        handleAction: () => dispatch(hideDialogAction()),
-      },
-      {
-        title: "Okay",
-        variant: "contained",
-        color: "primary",
-        startIcon: <DoneOutlinedIcon />,
-        handleAction: () => {
-          if (selectedListItem === "")
-            enqueueSnackbar("Select a worksheet", {
-              persist: false,
-              variant: "error",
-            });
-          else prepareSelectWorksheetRoute(selectedWorksheetName);
-        },
-      },
-    ];
-
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        onClick={button.handleAction}
-        startIcon={button.startIcon}
-      >
-        {button.title}
-      </Button>
-    ));
-  };
+  // const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
 
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
-      <Dialogs
-        content={SelectWorksheetDialogContent}
-        actions={() => SelectWorksheetDialogActions(selectedWorksheetName)}
-      />
       <Dropzone
         accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         onDropAccepted={(acceptedFile) => {
@@ -208,7 +97,6 @@ const UploadFile = () => {
           reader.onload = () => {
             const fileData = new Uint8Array(reader.result);
             const inputWorkbook = xlsx.read(fileData, { type: "array" });
-            setInputDeckWorkbook(inputWorkbook);
             dispatch(persistFileAction(inputWorkbook));
 
             const {
@@ -236,15 +124,16 @@ const UploadFile = () => {
 
             if (workSheetNames.length > 1) {
               const dialogParameters = {
-                dialogType: "listDialog",
-                dialogProps: {
-                  name: "Excel_Worksheet_Selection_Dialog",
-                  title: "Excel Worksheet Selection",
-                  show: true,
-                  exclusive: true,
-                  maxwidth: "sm",
-                  iconClass: "select",
-                },
+                name: "Excel_Worksheet_Selection_Dialog",
+                title: "Excel Worksheet Selection",
+                type: "selectWorksheetDialog",
+                show: true,
+                exclusive: true,
+                maxwidth: "sm",
+                iconType: "select",
+                dialogText: "",
+                iconColor: theme.palette.primary.main,
+                contentList: workSheetNames,
               };
               dispatch(showDialogAction(dialogParameters));
             } else {

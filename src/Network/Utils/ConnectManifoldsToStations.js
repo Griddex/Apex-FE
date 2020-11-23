@@ -1,6 +1,6 @@
 import GenerateEdgeService from "../Services/GenerateEdgeService";
 
-const ConnectManifoldsToFlowstations = (
+const ConnectManifoldsToStations = (
   manifoldNodes,
   flowstationNodes,
   gasFacilityNodes
@@ -13,11 +13,10 @@ const ConnectManifoldsToFlowstations = (
 
   for (const manifoldNode of manifoldNodes) {
     for (const stationNode of manifoldAndflowstationNodes) {
-      console.log("Logged output -->: stationNode", stationNode);
-      const flowstation = manifoldNode.data.station.data.name;
+      const station = manifoldNode.data.rowData[0].stationName;
       const stationName = stationNode.data.name;
 
-      if (flowstation === stationName) {
+      if (station === stationName) {
         const edge = GenerateEdgeService();
 
         const edgeUpdated = {
@@ -34,4 +33,4 @@ const ConnectManifoldsToFlowstations = (
   return allEdges;
 };
 
-export default ConnectManifoldsToFlowstations;
+export default ConnectManifoldsToStations;

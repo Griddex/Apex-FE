@@ -13,14 +13,14 @@ import WarningIcon from "@material-ui/icons/Warning";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { IDialogTitleProps, TextDialogProps } from "./Types";
+import { DialogStuff } from "./DialogTypes";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 
 const icons = {
   error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#2BB4C1" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#2BB4C1" }} />,
-  information: <InfoOutlinedIcon style={{ color: "#2BB4C1" }} />,
+  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
+  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
+  information: <InfoOutlinedIcon style={{ color: "#31BFCC" }} />,
 };
 
 const useDialogTitleStyles = makeStyles((theme: Theme) => ({
@@ -59,14 +59,16 @@ const useDialogTitleStyles = makeStyles((theme: Theme) => ({
     padding: 0,
   },
 }));
-const TextDialogTitle: React.FC<IDialogTitleProps> = (props) => {
+const TextDialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useDialogTitleStyles(props);
-  const { icon, children, onClose, ...other } = props;
+  const { iconType, children, onClose, ...other } = props;
 
   return (
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
-        <div className={classes.mainIcon}>{icon}</div>
+        <div className={classes.mainIcon}>
+          {icons[iconType ? iconType : "select"]}
+        </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
         </div>
@@ -104,14 +106,13 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const TextDialog: React.FC<TextDialogProps> = ({
-  show,
-  iconColor,
-  iconClass,
+const TextDialog: React.FC<DialogStuff> = ({
   title,
-  dialogText,
-  actions,
+  show,
   maxWidth,
+  iconType,
+  dialogText,
+  actionsList,
 }) => {
   const classes = useDialogContentStyles();
   const dispatch = useDispatch();
@@ -119,16 +120,13 @@ const TextDialog: React.FC<TextDialogProps> = ({
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
-      open={show}
+      open={show as boolean}
       maxWidth={maxWidth}
       fullWidth
     >
       <TextDialogTitle
-        // id="customized-dialog-title"
         onClose={() => dispatch(hideDialogAction())}
-        icon={icons[iconClass]}
-        iconColor={iconColor}
-        iconClass={iconClass}
+        iconType={iconType}
       >
         {title}
       </TextDialogTitle>
@@ -138,7 +136,7 @@ const TextDialog: React.FC<TextDialogProps> = ({
         </Typography>
         <Divider />
       </DialogContent>
-      <DialogActions>{actions()}</DialogActions>
+      <DialogActions>{actionsList && actionsList}</DialogActions>
     </Dialog>
   );
 };

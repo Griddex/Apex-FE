@@ -1,17 +1,8 @@
-import { fade, makeStyles } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
-import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
-import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import groupBy from "lodash/groupBy";
-import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import ApexTable from "../../../../Application/Components/Table/ApexTable";
 import TableAction from "../../../../Application/Components/Table/TableAction";
 import TableRole from "../../../../Application/Components/Table/TableRole";
@@ -20,20 +11,9 @@ import generateActualTable from "../../../../Application/Utils/GenerateActualTab
 import generateTableColumnWidths from "../../../../Application/Utils/GenerateTableColumnWidths";
 import generateTableWidth from "../../../../Application/Utils/GenerateTableWidth";
 import regenerateTableWithActualHeaders from "../../../../Application/Utils/RegenerateTableWithActualHeaders";
-import ConnectManifoldsToFlowstations from "../../../../Network/Utils/ConnectManifoldsToFlowstations";
 import { persistSelectedUnitRowOptionIndicesAction } from "../../../Redux/Actions/ImportActions";
-import Dialogs from "./../../../../Application/Components/Dialogs/Dialogs";
-import { hideDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
-import ConnectFlowstationsToTerminal from "./../../../../Network/Utils/ConnectFlowstationsToTerminal";
-import ConnectWellheadsToManifolds from "./../../../../Network/Utils/ConnectWellheadsToManifolds";
-import GenerateFlowstationNodes from "./../../../../Network/Utils/GenerateFlowstationNodes";
-import GenerateGasFacilityNodes from "./../../../../Network/Utils/GenerateGasFacilityNodes";
-import GenerateManifoldNodes from "./../../../../Network/Utils/GenerateManifoldNodes";
-import GenerateTerminalNodes from "./../../../../Network/Utils/GenerateTerminalNodes";
-import GenerateWellheadNodes from "./../../../../Network/Utils/GenerateWellheadNodes";
-import SplitFlowstationsGasFacilities from "./../../../../Network/Utils/SplitFlowstationsGasFacilities";
 import { persistFinalTableDataAction } from "./../../../Redux/Actions/ImportActions";
-import { persistNetworkElementsAction } from "./../../../Redux/Actions/AutomaticNetworkActions";
+import addSerialNumberToActualTable from "./../../../../Application/Utils/AddSerialNumberToActualTable";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -63,20 +43,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
   },
   score: { fontSize: 14 },
-  dialogContent: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    alignItems: "flex-end",
-    height: 350,
-    width: "100%",
-    "& > *": {
-      height: 50,
-      width: "95%",
-      boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
-      border: `1px solid ${theme.palette.primary.main}`,
-    },
-  },
 }));
 
 export default function PreviewSave() {
@@ -226,7 +192,7 @@ export default function PreviewSave() {
     width: 120,
     roleComponent: () => <TableRole />,
     roleNames: ["Headers", "Units", "Data", "-"],
-    roleColors: ["#22BE34", "#DA1B57", "#2BB4C1", "#969498"],
+    roleColors: ["#22BE34", "#DA1B57", "#31BFCC", "#969498"],
   };
   const TableRoles = [];
   const { roleComponent, roleNames, roleColors } = tableRoles;
@@ -241,12 +207,13 @@ export default function PreviewSave() {
 
   const addedColumnHeaders = [tableActions.actionName, tableRoles.roleName];
 
+  const cleanTableDataWithSN = addSerialNumberToActualTable(cleanTableData);
   const { tableHeaders, tableData } = generateActualTable(
     addedColumnHeaders,
     TableActions,
     TableRoles,
     applicationHeaders,
-    cleanTableData
+    cleanTableDataWithSN
   );
 
   const tableColumnWidths = generateTableColumnWidths(
@@ -257,191 +224,24 @@ export default function PreviewSave() {
 
   const tableWidth = generateTableWidth(tableColumnWidths);
 
-  const finalTableData = cleanTableData.slice(1, cleanTableData.length);
+  const finalTableData = cleanTableDataWithSN.slice(
+    1,
+    cleanTableDataWithSN.length
+  );
+
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
     dispatch(persistFinalTableDataAction(finalTableData));
   }, [dispatch]);
 
-  // const [isSelected, setIsSelected] = React.useState(false);
-  const { enqueueSnackbar } = useSnackbar();
-  const { subModuleName } = useSelector((state) => state.applicationReducer);
-  const history = useHistory();
-
-  const ManageDeckContent = () => {
-    const buttonsData = [
-      {
-        title: "Save Deck Only",
-        color: "primary",
-        startIcon: <SaveOutlinedIcon />,
-        handleAction: () => {
-          enqueueSnackbar(`${subModuleName} saved`, {
-            persist: false,
-            variant: "success",
-          });
-        },
-      },
-      {
-        title: "Save and Automatically Generate Network",
-        color: "primary",
-        startIcon: <ControlCameraOutlinedIcon />,
-        handleAction: () => {
-          enqueueSnackbar(`${subModuleName} saved`, {
-            persist: false,
-            variant: "success",
-          });
-
-          //Grouping by each Network Element
-          const flowStationsGasFacilitiesData = groupBy(
-            finalTableData,
-            (row) => row["Flow station"]
-          );
-          const {
-            flowStationsData,
-            gasFacilitiesData,
-          } = SplitFlowstationsGasFacilities(flowStationsGasFacilitiesData);
-
-          //Nodes
-          const terminalNodes = GenerateTerminalNodes([
-            "Forcados Yokri Terminal",
-          ]);
-          const flowstationNodes = GenerateFlowstationNodes(flowStationsData);
-          const gasFacilityNodes = GenerateGasFacilityNodes(gasFacilitiesData);
-          const manifoldNodes = GenerateManifoldNodes(
-            flowstationNodes,
-            gasFacilityNodes
-          );
-
-          const wellheadNodes = GenerateWellheadNodes(
-            manifoldNodes,
-            flowStationsData,
-            gasFacilitiesData
-          );
-
-          const wellheadNodesMerged = [];
-          for (const node of wellheadNodes) {
-            wellheadNodesMerged.push(...node);
-          }
-
-          const allNodes = [
-            ...terminalNodes,
-            ...flowstationNodes,
-            ...gasFacilityNodes,
-            ...manifoldNodes,
-            ...wellheadNodesMerged,
-          ];
-          //Edges
-          const flowstationTerminalEdges = ConnectFlowstationsToTerminal(
-            terminalNodes,
-            flowstationNodes,
-            gasFacilityNodes
-          );
-          const manifoldFlowstationEdges = ConnectManifoldsToFlowstations(
-            manifoldNodes,
-            flowstationNodes,
-            gasFacilityNodes
-          );
-          const wellheadManifoldEdges = ConnectWellheadsToManifolds(
-            wellheadNodes,
-            manifoldNodes
-          );
-
-          const allEdges = [
-            ...flowstationTerminalEdges,
-            ...manifoldFlowstationEdges,
-            ...wellheadManifoldEdges,
-          ];
-
-          const allNetworkElements = [...allNodes, ...allEdges];
-          dispatch(persistNetworkElementsAction(allNetworkElements));
-
-          history.push("/apex/network");
-        },
-      },
-      {
-        title: "Save and Manually Generate Network",
-        color: "primary",
-        startIcon: <DeviceHubOutlinedIcon />,
-        handleAction: () => {
-          enqueueSnackbar(`${subModuleName} saved`, {
-            persist: false,
-            variant: "success",
-          });
-
-          history.push("/apex/network");
-        },
-      },
-      {
-        title: "Save and Link Deck to Existing Network",
-        color: "primary",
-        startIcon: <LinkOutlinedIcon />,
-        handleAction: () => {
-          enqueueSnackbar(`${subModuleName} saved`, {
-            persist: false,
-            variant: "error",
-          });
-        },
-      },
-    ];
-
-    return (
-      <div className={classes.dialogContent}>
-        {buttonsData.map((button, i) => (
-          <Button
-            key={i}
-            variant={button.variant}
-            color={button.color}
-            onClick={button.handleAction}
-            startIcon={button.startIcon}
-          >
-            {button.title}
-          </Button>
-          // <div>
-
-          // </div>
-        ))}
-      </div>
-    );
-  };
-
-  const ManageDeckDialogActions = () => {
-    const buttonsData = [
-      {
-        title: "Cancel",
-        variant: "outlined",
-        color: "secondary",
-        startIcon: <CloseOutlinedIcon />,
-        handleAction: () => dispatch(hideDialogAction()),
-      },
-    ];
-
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        onClick={button.handleAction}
-        startIcon={button.startIcon}
-      >
-        {button.title}
-      </Button>
-    ));
-  };
-
   return (
-    <>
-      <Dialogs
-        content={ManageDeckContent()}
-        actions={() => ManageDeckDialogActions()}
+    <div className={classes.rootPreviewSave}>
+      <ApexTable
+        tableData={tableData}
+        tableHeaders={tableHeaders}
+        tableColumnWidths={tableColumnWidths}
+        tableWidth={tableWidth}
       />
-      <div className={classes.rootPreviewSave}>
-        <ApexTable
-          tableData={tableData}
-          tableHeaders={tableHeaders}
-          tableColumnWidths={tableColumnWidths}
-          tableWidth={tableWidth}
-        />
-      </div>
-    </>
+    </div>
   );
 }

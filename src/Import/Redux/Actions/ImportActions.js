@@ -58,7 +58,7 @@ export const importFileInitAction = (
 export const persistFileAction = (file) => {
   return {
     type: PERSIST_FILE,
-    payload: { file },
+    payload: { inputFile: file },
   };
 };
 

@@ -1,8 +1,13 @@
+import { FlowElement } from "@griddex/react-flow-updated";
 interface INetworkState {
-  [key: string]: number | string | Record<string, unknown>;
+  currentElement: number | string | Record<string, unknown>;
+  nodeElements: FlowElement[];
+  edgeElements: FlowElement[];
 }
 const networkState: INetworkState = {
   currentElement: {},
+  nodeElements: [],
+  edgeElements: [],
 };
 
 export default networkState;

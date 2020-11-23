@@ -235,7 +235,7 @@ const DatabaseWorkflow = () => {
             )
           }
         >
-          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          {activeStep === steps.length - 1 ? "Finalize" : "Next"}
         </Button>
       </div>
     </div>

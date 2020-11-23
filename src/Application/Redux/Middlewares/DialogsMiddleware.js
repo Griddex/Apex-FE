@@ -8,7 +8,7 @@ const dialogsMiddleware = ({ dispatch }) => (next) => (action) => {
 
   if (action.type === SHOW_DIALOG) {
     // const currentDialogs = dialogs.pop();
-    dispatch(showDialogExclusivelyAction(action.payload));
+    // dispatch(showDialogExclusivelyAction(action.payload));
     return next(action);
   }
 };

@@ -9,7 +9,7 @@ const importState = {
 
   fileAccepted: false,
   dnDDisabled: false,
-  file: null,
+  inputFile: null,
 
   workSheetNames: [],
   selectedWorksheetName: "",

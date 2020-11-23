@@ -26,6 +26,7 @@ import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../Common/Workflows/SelectSheet";
 import UploadFile from "../../Common/Workflows/UploadFile";
 import { showDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
+import { useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,6 +116,7 @@ const steps = [
 const ExcelWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const skipped = new Set();
   const { showContextDrawer } = useSelector((state) => state.layoutReducer);
@@ -233,15 +235,14 @@ const ExcelWorkflow = () => {
           color="primary"
           onClick={() => {
             const dialogParameters = {
-              dialogType: "listDialog",
-              dialogProps: {
-                name: "Manage_Deck_Dialog",
-                title: `Manage ${subModuleName}`,
-                show: true,
-                exclusive: true,
-                maxwidth: "sm",
-                iconClass: "information",
-              },
+              name: "Manage_Deck_Dialog",
+              title: `Manage ${subModuleName}`,
+              type: "finalizeInputDialog",
+              show: true,
+              exclusive: true,
+              maxWidth: "sm",
+              iconType: "information",
+              iconColor: theme.palette.primary.main,
             };
 
             activeStep === steps.length - 1
@@ -261,7 +262,7 @@ const ExcelWorkflow = () => {
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
               <DoneAllIcon />
-              <Typography>{"Finish"}</Typography>
+              <Typography>{"Finalize"}</Typography>
             </div>
           ) : (
             <div className={classes.buttonContent}>

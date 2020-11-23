@@ -10,6 +10,7 @@ import VisualyticsLayout from "./../../Visualytics/Common/VisualyticsLayout";
 import Loading from "./../Components/Visuals/Loading";
 import MainDrawer from "./../Components/Drawers/MainDrawer";
 import ProductBackground from "./../Routes/ProductBackground";
+import Dialogs from "./../Components/Dialogs/Dialogs";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -27,8 +28,9 @@ const Layout = () => {
   const classes = useStyles();
 
   const { url } = useRouteMatch();
-  const layoutData = useSelector((state) => state.layoutReducer);
-  const { showMainDrawer, showNavbar } = layoutData;
+  const { showMainDrawer, showNavbar } = useSelector(
+    (state) => state.layoutReducer
+  );
 
   return (
     <div className={classes.root}>
@@ -62,6 +64,7 @@ const Layout = () => {
         </Suspense>
       </main>
       <Spinners />
+      <Dialogs />
     </div>
   );
 };

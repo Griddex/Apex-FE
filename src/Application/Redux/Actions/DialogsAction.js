@@ -12,14 +12,11 @@ export const persistToStoreAction = (name, value) => {
   };
 };
 
-export const showDialogAction = ({ dialogType, dialogProps }) => {
+export const showDialogAction = (dialog) => {
   return {
     type: SHOW_DIALOG,
-    payload: {
-      dialogType,
-      dialogProps,
-    },
-    meta: { exclusive: dialogProps.exclusive },
+    payload: dialog,
+    meta: { exclusive: dialog.exclusive },
   };
 };
 

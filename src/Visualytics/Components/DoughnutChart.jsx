@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const COLORS = ["#2BB4C1", "#00C49F", "#DA1B57"]; //"#22BE34"
+const COLORS = ["#31BFCC", "#00C49F", "#DA1B57"]; //"#22BE34"
 
 //May implement scale on hover
 const DoughnutChart = ({ data }) => {

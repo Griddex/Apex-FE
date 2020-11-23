@@ -21,13 +21,13 @@ import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import * as xlsx from "xlsx";
-import Dialogs from "../../Application/Components/Dialogs/Dialogs";
 import {
   hideDialogAction,
   showDialogAction,
 } from "../../Application/Redux/Actions/DialogsAction";
 import getTableHeaders from "../../Application/Utils/GetTableHeaders";
 import ItemTypes from "./../Utils/DragAndDropItemTypes";
+import { useTheme } from "@material-ui/core";
 
 function MinusSquare(props) {
   return (
@@ -153,6 +153,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomizedTreeView() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const [selectedListItem, setSelectedListItem] = React.useState("");
   const [inputDeckWorkbook, setInputDeckWorkbook] = React.useState([]);
@@ -264,15 +265,19 @@ export default function CustomizedTreeView() {
 
           if (SheetNames.length > 1) {
             const dialogParameters = {
-              dialogType: "listDialog",
-              dialogProps: {
-                name: "Excel_Worksheet_Selection_Dialog",
-                title: "Excel Worksheet Selection",
-                show: true,
-                exclusive: true,
-                maxwidth: "sm",
-                iconClass: "select",
-              },
+              name: "Excel_Worksheet_Selection_Dialog",
+              title: "Excel Worksheet Selection",
+              type: "listDialog",
+              show: true,
+              exclusive: true,
+              maxWidth: "sm",
+              iconType: "select",
+              dialogText: "",
+              iconColor: theme.palette.primary.main,
+              content: JSON.stringify(() => SelectWorksheetDialogContent()),
+              actions: JSON.stringify(() =>
+                SelectWorksheetDialogActions(selectedWorksheetName)
+              ),
             };
             dispatch(showDialogAction(dialogParameters));
           } else {
@@ -309,12 +314,6 @@ export default function CustomizedTreeView() {
             disableGutters
             {...getRootProps()}
           >
-            <Dialogs
-              content={SelectWorksheetDialogContent()}
-              actions={() =>
-                SelectWorksheetDialogActions(selectedWorksheetName)
-              }
-            />
             <input {...getInputProps()} />
             <TreeView
               className={classes.rootTreeView}

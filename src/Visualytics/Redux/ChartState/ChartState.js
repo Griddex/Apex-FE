@@ -4,7 +4,7 @@ const chartState = {
   selectedChartElementId: {},
   chartLayoutColor: "white",
   chartSeriesSolidColors: [
-    "#2BB4C1",
+    "#31BFCC",
     "#DA1B57",
     "#00C49F",
     "#F5B400",

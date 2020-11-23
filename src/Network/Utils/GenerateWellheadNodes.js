@@ -1,14 +1,14 @@
 import GenerateNodeService from "./../Services/GenerateNodeService";
 import { GenerateWellheadNodePositions } from "./GenerateNodePositions";
 
-const injectWellheadPositions = (wellheadPositions, manifoldWells) => {
+const injectWellheadPositions = (wellheadPositions, rowData) => {
   const wellheadNodes = wellheadPositions.map((wellheadPosition, i) => {
     if (wellheadPosition !== [] && wellheadPosition !== undefined) {
       const wellheadNode = GenerateNodeService("wellhead");
 
       const wellheadNodeUpdated = {
         ...wellheadNode,
-        data: { ...wellheadNode.data, forecastData: manifoldWells[i] },
+        data: { ...wellheadNode.data, forecastData: rowData },
         position: wellheadPosition,
       };
 
@@ -24,21 +24,23 @@ export const GenerateWellheadNodes = (
   flowStationsData,
   gasFacilitiesData
 ) => {
-  const wellNodes = [];
+  const wellNodes = {};
 
   let i = 1;
   for (const node of manifoldNodes) {
     const wellheadGroupOffset = i % 2 === 0 ? 50 : 100;
 
-    const { type, data } = node.data.station;
-    const stationName =
-      type === "flowstationNode" ? "flowStation" : "gasFacility";
+    const rowData = node.data.rowData;
+    const { stationName } = rowData[0];
+    // const stationName =
+    // stationType === "flowstationNode" ? "flowStation" : "gasFacility";
     const manifoldPosition = node.position;
-    const manifoldWells = data[stationName];
+    const manifoldWellNames =
+      rowData && rowData.map((row) => row["drainagePoint"]);
 
     const wellheadNodePositions = GenerateWellheadNodePositions(
       manifoldPosition,
-      manifoldWells,
+      manifoldWellNames,
       wellheadGroupOffset
     );
     const flowStationNames = Object.keys(flowStationsData);
@@ -46,10 +48,10 @@ export const GenerateWellheadNodes = (
     const stationNames = [...flowStationNames, ...gasFacilityNames];
     const nodes = injectWellheadPositions(
       wellheadNodePositions,
-      manifoldWells,
+      rowData,
       stationNames
     );
-    wellNodes.push(nodes);
+    wellNodes[stationName] = nodes;
     i += 1;
   }
 

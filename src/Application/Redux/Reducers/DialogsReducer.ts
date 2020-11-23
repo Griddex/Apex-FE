@@ -1,13 +1,9 @@
 import {
-  PERSIST_STORE,
-  SHOW_DIALOG,
-  HIDE_DIALOG,
-} from "../Actions/DialogsAction";
-import dialogsState from "../State/DialogsState";
-import {
-  DialogPayloadProps,
+  DialogStuff,
   IDialogState,
-} from "../../Components/Dialogs/Types";
+} from "../../Components/Dialogs/DialogTypes";
+import { HIDE_DIALOG, SHOW_DIALOG } from "../Actions/DialogsAction";
+import dialogsState from "../State/DialogsState";
 
 const dialogsReducer = (
   state = dialogsState,
@@ -16,23 +12,35 @@ const dialogsReducer = (
     name: string;
     value: unknown;
     meta: { exclusive: boolean };
-    payload: DialogPayloadProps;
+    payload: DialogStuff;
   }
-): IDialogState<DialogPayloadProps> => {
+): IDialogState<DialogStuff> => {
   switch (action.type) {
-    case PERSIST_STORE: //Rewrite
-      return {
-        ...state,
-        [action.name]: action.value,
-      }; //Run down object tree till you find key, then change its value
+    // case PERSIST_STORE: //Rewrite
+    //   return {
+    //     ...state,
+    //     [action.name]: action.value,
+    //   }; //Run down object tree till you find key, then change its value
 
-    case SHOW_DIALOG:
+    case SHOW_DIALOG: {
+      let updatedDialogs: DialogStuff[] = [];
+
+      if (action.meta.exclusive) {
+        updatedDialogs = (state.dialogs as any[]).map((dialog) => {
+          dialog.show = false;
+          return dialog;
+        });
+
+        updatedDialogs.push(action.payload);
+      } else {
+        updatedDialogs = [...state.dialogs, action.payload];
+      }
+
       return {
         ...state,
-        dialogs: action.meta.exclusive
-          ? [action.payload]
-          : [...state.dialogs, action.payload],
+        dialogs: updatedDialogs,
       };
+    }
 
     case HIDE_DIALOG: {
       const keptDialogs = [...state.dialogs];

@@ -1,32 +1,25 @@
 import GenerateEdgeService from "./../Services/GenerateEdgeService";
 import groupBy from "lodash/groupBy";
 
-const ConnectWellheadsToManifolds = (wellheadNodesArray, manifoldNodes) => {
+const ConnectWellheadsToManifolds = (wellheadNodesObj, manifoldNodes) => {
   const allEdges = [];
 
-  const manifoldNodesObj = groupBy(
-    manifoldNodes,
-    (row) => row.data.station.data.name
-  );
+  for (const manifoldNode of manifoldNodes) {
+    const manifoldName = manifoldNode.data.rowData[0].stationName;
+    const wellheadNodes = wellheadNodesObj[manifoldName];
 
-  for (const wellheadNodes of wellheadNodesArray) {
     for (const wellheadNode of wellheadNodes) {
-      const wellheadManifold = wellheadNode.data.forecastData["Flow station"];
-
-      const manifoldNode = manifoldNodesObj[wellheadManifold];
-
       const edge = GenerateEdgeService();
 
       const edgeUpdated = {
         ...edge,
         source: wellheadNode.id,
-        target: manifoldNode[0].id,
+        target: manifoldNode.id,
       };
 
       allEdges.push(edgeUpdated);
     }
   }
-
   return allEdges;
 };
 

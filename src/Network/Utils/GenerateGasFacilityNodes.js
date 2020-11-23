@@ -13,13 +13,20 @@ const GenerateGasFacilityNodes = (gasFacilitiesData) => {
     .map((data, i) => {
       if (data && data !== undefined) {
         const stationName = data[0]["Flow station"];
+        const rowData = data.map((row) => ({
+          SN: row.SN,
+          drainagePoint: row["Drainage Point"],
+          stationName: row["Flow station"],
+          stationType: "gasfacilityNode",
+        }));
+
         const gasFacilityNode = GenerateNodeService("gasFacility");
 
         const gasFacilityNodeUpdated = {
           ...gasFacilityNode,
           data: {
             ...gasFacilityNode.data,
-            gasFacility: data,
+            gasFacility: rowData,
             name: stationName,
           },
           position: gasfacilityPositions[i],

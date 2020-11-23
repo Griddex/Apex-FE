@@ -64,7 +64,6 @@ const StackedAreaChart = (props) => {
     },
   });
   const isActive = canDrop && isOver;
-  console.log("Logged output -->: isOver", isOver);
   let dndYAxisStyle = {};
   if (isActive) {
     dndYAxisStyle = {
