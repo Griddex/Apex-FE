@@ -1,8 +1,12 @@
-import { Handle, Position } from "@griddex/react-flow-updated";
+import { Handle, Position, FlowElement } from "@griddex/react-flow-updated";
 import React from "react";
 import Flowstation from "../../Images/Flowstation.svg";
 
-const NodeWrapper = React.memo(({ children }) => {
+export interface NodeType {
+  nodeType: string;
+}
+
+const FlowstationNode = React.memo(() => {
   return (
     <div
       style={{
@@ -22,7 +26,13 @@ const NodeWrapper = React.memo(({ children }) => {
           borderRadius: "0px",
         }}
       />
-      {children}
+      <img
+        src={Flowstation}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Flowstation"
+      />
       <Handle
         type="source"
         position={Position.Top}
@@ -35,24 +45,6 @@ const NodeWrapper = React.memo(({ children }) => {
         }}
       />
     </div>
-  );
-});
-
-export interface NodeType {
-  nodeType: string;
-}
-
-const FlowstationNode = React.memo(() => {
-  return (
-    <NodeWrapper>
-      <img
-        src={Flowstation}
-        width={40}
-        height={40}
-        draggable={false}
-        alt="Flowstation"
-      />
-    </NodeWrapper>
   );
 });
 

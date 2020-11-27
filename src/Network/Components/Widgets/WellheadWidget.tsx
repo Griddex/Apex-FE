@@ -1,8 +1,12 @@
-import { Handle, Position } from "@griddex/react-flow-updated";
+import { Handle, Node, Position } from "@griddex/react-flow-updated";
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
 import Wellhead from "../../Images/Wellhead.svg";
+import WellheadPopover from "./../Popovers/WellheadPopover";
+import WellheadContextMenu from "./../ContextMenu/WellheadContextMenu";
 
-const NodeWrapper = React.memo(({ children }) => {
+const WellheadWidget = () => {
   return (
     <div
       style={{
@@ -15,7 +19,6 @@ const NodeWrapper = React.memo(({ children }) => {
         type="source"
         position={Position.Top}
         style={{
-          // background: "#555",
           background: "#999",
           borderWidth: "0px",
           width: "4px",
@@ -23,18 +26,6 @@ const NodeWrapper = React.memo(({ children }) => {
           borderRadius: "0px",
         }}
       />
-      {children}
-    </div>
-  );
-});
-
-export interface NodeType {
-  nodeType: string;
-}
-
-const WellheadNode = React.memo(() => {
-  return (
-    <NodeWrapper>
       <img
         src={Wellhead}
         width={20}
@@ -42,7 +33,33 @@ const WellheadNode = React.memo(() => {
         draggable={false}
         alt="Wellhead"
       />
-    </NodeWrapper>
+    </div>
+  );
+};
+
+const WellheadNode = React.memo((props: Node) => {
+  const { data } = props;
+  const { forecastData, position } = data;
+  const { showPopover, currentPopoverId } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
+  return (
+    <>
+      {showPopover && props.id === currentPopoverId ? (
+        <WellheadPopover data={forecastData}>
+          <div>
+            <WellheadContextMenu position={position}>
+              <WellheadWidget />
+            </WellheadContextMenu>
+          </div>
+        </WellheadPopover>
+      ) : (
+        <WellheadContextMenu position={position}>
+          <WellheadWidget />
+        </WellheadContextMenu>
+      )}
+    </>
   );
 });
 

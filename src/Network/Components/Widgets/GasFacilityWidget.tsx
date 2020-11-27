@@ -1,8 +1,12 @@
-import { Handle, Position } from "@griddex/react-flow-updated";
+import { Handle, Position, FlowElement } from "@griddex/react-flow-updated";
 import React from "react";
 import GasFacility from "../../Images/GasFacility.svg";
 
-const NodeWrapper = React.memo(({ children }) => {
+export interface NodeType {
+  nodeType: string;
+}
+
+const GasFacilityNode = React.memo(() => {
   return (
     <div
       style={{
@@ -22,7 +26,13 @@ const NodeWrapper = React.memo(({ children }) => {
           borderRadius: "0px",
         }}
       />
-      {children}
+      <img
+        src={GasFacility}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Gas Facility"
+      />
       <Handle
         type="source"
         position={Position.Top}
@@ -35,24 +45,6 @@ const NodeWrapper = React.memo(({ children }) => {
         }}
       />
     </div>
-  );
-});
-
-export interface NodeType {
-  nodeType: string;
-}
-
-const GasFacilityNode = React.memo(() => {
-  return (
-    <NodeWrapper>
-      <img
-        src={GasFacility}
-        width={40}
-        height={40}
-        draggable={false}
-        alt="Gas Facility"
-      />
-    </NodeWrapper>
   );
 });
 

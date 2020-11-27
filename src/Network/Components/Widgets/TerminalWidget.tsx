@@ -1,8 +1,11 @@
-import { Handle, Position } from "@griddex/react-flow-updated";
+import { Handle, Position, Node } from "@griddex/react-flow-updated";
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
 import Terminal from "../../Images/Terminal.svg";
+import TerminalPopover from "../Popovers/TerminalPopover";
 
-const NodeWrapper = React.memo(({ children }) => {
+const TerminalWidget = () => {
   return (
     <div
       style={{
@@ -22,7 +25,13 @@ const NodeWrapper = React.memo(({ children }) => {
           borderRadius: "0px",
         }}
       />
-      {children}
+      <img
+        src={Terminal}
+        width={40}
+        height={40}
+        draggable={false}
+        alt="Terminal"
+      />
       <Handle
         type="source"
         position={Position.Right}
@@ -36,23 +45,27 @@ const NodeWrapper = React.memo(({ children }) => {
       />
     </div>
   );
-});
+};
 
-export interface NodeType {
-  nodeType: string;
-}
+const TerminalNode = React.memo((props: Node) => {
+  const { data } = props;
+  const { name } = data;
+  const { showPopover, currentPopoverId } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
 
-const TerminalNode = React.memo(() => {
   return (
-    <NodeWrapper>
-      <img
-        src={Terminal}
-        width={40}
-        height={40}
-        draggable={false}
-        alt="Terminal"
-      />
-    </NodeWrapper>
+    <>
+      {showPopover && props.id === currentPopoverId ? (
+        <TerminalPopover data={name}>
+          <div>
+            <TerminalWidget />
+          </div>
+        </TerminalPopover>
+      ) : (
+        <TerminalWidget />
+      )}
+    </>
   );
 });
 

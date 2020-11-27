@@ -188,7 +188,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
             variant: "success",
           });
 
-          //Grouping by each Network Element
+          //Group forecast data by station
           const flowStationsGasFacilitiesData = groupBy(
             finalTableData,
             (row) => row["Flow station"]
@@ -197,6 +197,12 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
             flowStationsData,
             gasFacilitiesData,
           } = SplitFlowstationsGasFacilities(flowStationsGasFacilitiesData);
+
+          //Group forecast data by station
+          const wellheadDatabyManifold = groupBy(
+            finalTableData,
+            (row) => row["Drainage Point"]
+          );
 
           //Nodes
           const terminalNodes = GenerateTerminalNodes([
@@ -211,7 +217,8 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
           const wellheadNodes = GenerateWellheadNodes(
             manifoldNodes,
             flowStationsData,
-            gasFacilitiesData
+            gasFacilitiesData,
+            wellheadDatabyManifold
           );
           const wellheadNodesMerged = [];
           for (const node of Object.values(wellheadNodes)) {
@@ -247,7 +254,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
           ];
 
           dispatch(persistNetworkElementsAction(allNodes, allEdges));
-
+          dispatch(hideDialogAction());
           history.push("/apex/network");
         },
       },

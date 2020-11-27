@@ -14,13 +14,13 @@ import ReactFlow, {
   OnLoadParams,
   ReactFlowProvider,
   removeElements,
-  useStoreActions,
   XYPosition,
 } from "@griddex/react-flow-updated";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
 import FlowstationNode from "../Components/Widgets/FlowstationWidget";
 import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
@@ -28,11 +28,17 @@ import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
 import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
 import WellheadNode from "../Components/Widgets/WellheadWidget";
-import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
-import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
-import NetworkPanel from "./NetworkPanel";
-import GenerateNodeService from "./../Services/GenerateNodeService";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
+import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
+import WellheadContextDrawer from "./../Components/ContextDrawer/WellheadContextDrawer";
+import {
+  setCurrentElementAction,
+  setCurrentPopoverDataAction,
+  setCurrentPopoverIdAction,
+  showPopoverAction,
+} from "./../Redux/Actions/NetworkActions";
+import GenerateNodeService from "./../Services/GenerateNodeService";
+import NetworkPanel from "./NetworkPanel";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -163,11 +169,9 @@ const Network = () => {
     setElements((els) => [...els, updatedNewElement]);
   };
 
-  //TODO: show context drawer from first render or contextually
-  //from right clicking on an object on the canvas
-  // useEffect(() => {
-  //   dispatch(contextDrawerShowAction());
-  // }, [dispatch]);
+  const { currentPopoverData } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
 
   return (
     <div className={classes.root}>
@@ -192,12 +196,16 @@ const Network = () => {
               connectionLineType={ConnectionLineType.Bezier}
               // connectionLineStyle={{ strokeWidth: "2px" }}
               onElementClick={onElementClick}
-              // onNodeDragStop={onNodeDragStop}
               deleteKeyCode={46}
-              // multiSelectionKeyCode={17}
               defaultZoom={1.5}
               minZoom={0.2}
               maxZoom={4}
+              onNodeContextMenu={(_, node) => console.log("Right click", node)}
+              onNodeMouseEnter={(_, node) => {
+                dispatch(showPopoverAction(true));
+                dispatch(setCurrentPopoverIdAction(node.id));
+              }}
+              onNodeMouseLeave={(_, node) => dispatch(showPopoverAction(false))}
             >
               <MiniMap
                 nodeStrokeColor={(n: Node) => {
@@ -223,8 +231,11 @@ const Network = () => {
         </div>
       </ReactFlowProvider>
       {showContextDrawer && (
-        <div>Network</div>
-        // <ContextDrawer data={data}>{() => <FormatAggregator />}</ContextDrawer>
+        <ContextDrawer data={currentPopoverData}>
+          {(data: Record<string, unknown>) => (
+            <WellheadContextDrawer data={data} />
+          )}
+        </ContextDrawer>
       )}
     </div>
   );

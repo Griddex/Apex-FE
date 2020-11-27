@@ -1,14 +1,27 @@
 import GenerateNodeService from "./../Services/GenerateNodeService";
 import { GenerateWellheadNodePositions } from "./GenerateNodePositions";
 
-const injectWellheadPositions = (wellheadPositions, rowData) => {
+const injectWellheadPositions = (
+  wellheadPositions,
+  rowData,
+  stationsData,
+  wellheadDatabyManifold
+) => {
+  const { stationName } = rowData[0];
+  const wellheadData = stationsData[stationName];
+
   const wellheadNodes = wellheadPositions.map((wellheadPosition, i) => {
     if (wellheadPosition !== [] && wellheadPosition !== undefined) {
       const wellheadNode = GenerateNodeService("wellhead");
+      const wellData = wellheadData[i]["Drainage Point"];
 
       const wellheadNodeUpdated = {
         ...wellheadNode,
-        data: { ...wellheadNode.data, forecastData: rowData },
+        data: {
+          ...wellheadNode.data,
+          forecastData: wellheadDatabyManifold[wellData],
+          position: wellheadPosition,
+        },
         position: wellheadPosition,
       };
 
@@ -22,8 +35,10 @@ const injectWellheadPositions = (wellheadPositions, rowData) => {
 export const GenerateWellheadNodes = (
   manifoldNodes,
   flowStationsData,
-  gasFacilitiesData
+  gasFacilitiesData,
+  wellheadDatabyManifold
 ) => {
+  const stationsData = { ...flowStationsData, ...gasFacilitiesData };
   const wellNodes = {};
 
   let i = 1;
@@ -32,8 +47,6 @@ export const GenerateWellheadNodes = (
 
     const rowData = node.data.rowData;
     const { stationName } = rowData[0];
-    // const stationName =
-    // stationType === "flowstationNode" ? "flowStation" : "gasFacility";
     const manifoldPosition = node.position;
     const manifoldWellNames =
       rowData && rowData.map((row) => row["drainagePoint"]);
@@ -43,15 +56,15 @@ export const GenerateWellheadNodes = (
       manifoldWellNames,
       wellheadGroupOffset
     );
-    const flowStationNames = Object.keys(flowStationsData);
-    const gasFacilityNames = Object.keys(gasFacilitiesData);
-    const stationNames = [...flowStationNames, ...gasFacilityNames];
+    // const stationNames = Object.keys(stationsData);
     const nodes = injectWellheadPositions(
       wellheadNodePositions,
       rowData,
-      stationNames
+      stationsData,
+      wellheadDatabyManifold
     );
     wellNodes[stationName] = nodes;
+
     i += 1;
   }
 
