@@ -49,13 +49,16 @@ const WellheadNode = React.memo((props: Node) => {
       {showPopover && props.id === currentPopoverId ? (
         <WellheadPopover data={forecastData}>
           <div>
-            <WellheadContextMenu position={position}>
+            <WellheadContextMenu
+              position={position}
+              forecastData={forecastData}
+            >
               <WellheadWidget />
             </WellheadContextMenu>
           </div>
         </WellheadPopover>
       ) : (
-        <WellheadContextMenu position={position}>
+        <WellheadContextMenu position={position} forecastData={forecastData}>
           <WellheadWidget />
         </WellheadContextMenu>
       )}

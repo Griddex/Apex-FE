@@ -169,7 +169,7 @@ const Network = () => {
     setElements((els) => [...els, updatedNewElement]);
   };
 
-  const { currentPopoverData } = useSelector(
+  const { currentPopoverData, showContextMenu } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
@@ -204,6 +204,7 @@ const Network = () => {
               onNodeMouseEnter={(_, node) => {
                 dispatch(showPopoverAction(true));
                 dispatch(setCurrentPopoverIdAction(node.id));
+                dispatch(setCurrentPopoverDataAction(node.data.forecastData));
               }}
               onNodeMouseLeave={(_, node) => dispatch(showPopoverAction(false))}
             >
@@ -230,7 +231,7 @@ const Network = () => {
           </div>
         </div>
       </ReactFlowProvider>
-      {showContextDrawer && (
+      {showContextMenu && showContextDrawer && (
         <ContextDrawer data={currentPopoverData}>
           {(data: Record<string, unknown>) => (
             <WellheadContextDrawer data={data} />

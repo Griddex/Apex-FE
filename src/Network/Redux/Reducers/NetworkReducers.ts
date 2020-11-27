@@ -4,6 +4,8 @@ import {
   PERSIST_POPOVER,
   SHOW_POPOVER,
   PERSIST_POPOVERID,
+  SHOW_CONTEXTMENU,
+  HIDE_CONTEXTMENU,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -35,6 +37,16 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...action.payload,
       };
     case SHOW_POPOVER:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case SHOW_CONTEXTMENU:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case HIDE_CONTEXTMENU:
       return {
         ...state,
         ...action.payload,

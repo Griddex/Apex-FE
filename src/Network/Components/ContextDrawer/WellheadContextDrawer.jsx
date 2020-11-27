@@ -5,10 +5,8 @@ const useStyles = makeStyles((theme) => ({
   contextStatRoot: {
     display: "flex",
     flexDirection: "column",
-    height: 120,
-    width: 180,
-    backgroundColor: "#F7F7F7",
-    border: "1px solid #707070",
+    height: "100%",
+    width: "100%",
     padding: 5,
   },
   contextStat: {
@@ -16,29 +14,52 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     height: 20,
   },
+  titleStat: {
+    width: "70%",
+    borderBottom: "1px solid #707070",
+  },
+  contentStat: {
+    width: "30%",
+    borderBottom: "1px solid #707070",
+  },
 }));
 
 const ContextStat = ({ caption, text }) => {
   const classes = useStyles();
   return (
     <div className={classes.contextStat}>
-      <div>{caption}:</div>
-      <div>{` ${text}`}</div>
+      <div className={classes.titleStat}>{caption}:</div>
+      <div className={classes.contentStat}>
+        <span>&nbsp;&nbsp;</span>
+        {`${text}`}
+      </div>
     </div>
   );
 };
 
 const WellheadContextDrawer = ({ data }) => {
+  console.log(
+    "Logged output --> ~ file: WellheadContextDrawer.jsx ~ line 46 ~ WellheadContextDrawer ~ data",
+    data
+  );
   const classes = useStyles();
-  const keys = Object.keys(data);
+  const keys = Object.keys(data[0]);
 
   return (
     <div className={classes.contextStatRoot}>
       {data &&
-        keys.map((k, i) => {
-          const text = data[k];
+        data.map((obj) => {
+          const allStat = keys.map((k, i) => {
+            const text = obj[k];
 
-          return <ContextStat key={i} caption={k} text={text} />;
+            return (
+              <div key={i}>
+                <ContextStat caption={k} text={text} />
+              </div>
+            );
+          });
+
+          return allStat;
         })}
     </div>
   );

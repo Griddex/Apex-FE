@@ -5,6 +5,8 @@ export const PERSIST_NETWORKELEMENTS = "PERSIST_NETWORKELEMENTS";
 export const PERSIST_POPOVER = "PERSIST_POPOVER";
 export const SHOW_POPOVER = "SHOW_POPOVER";
 export const PERSIST_POPOVERID = "PERSIST_POPOVERID";
+export const SHOW_CONTEXTMENU = "SHOW_CONTEXTMENU";
+export const HIDE_CONTEXTMENU = "HIDE_CONTEXTMENU";
 
 export const setCurrentElementAction = (currentElement: FlowElement) => {
   return {
@@ -55,5 +57,23 @@ export const persistNetworkElementsAction = (
       edgeElements,
     },
     meta: { showSpinner: false, message: "Persisting to store..." },
+  };
+};
+
+export const showContextMenuAction = () => {
+  return {
+    type: SHOW_CONTEXTMENU,
+    payload: {
+      showContextMenu: true,
+    },
+  };
+};
+
+export const hideContextMenuAction = () => {
+  return {
+    type: HIDE_CONTEXTMENU,
+    payload: {
+      showContextMenu: false,
+    },
   };
 };
