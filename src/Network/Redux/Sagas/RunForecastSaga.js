@@ -26,7 +26,7 @@ function* runForecastSaga(action) {
   try {
     const result = yield call(
       runForecastAPI,
-      "https://jsonplaceholder.typicode.com/posts"
+      "https://jsonplaceholder.typicode.com/posts" //This is the URL endpoint you should change
     );
 
     const successAction = runForecastSuccessAction();
