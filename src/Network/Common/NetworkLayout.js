@@ -5,10 +5,11 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Loading from "../../Application/Components/Visuals/Loading";
 import Network from "./Network";
 import NetworkBackground from "./NetworkBackground";
-import { ReactFlowProvider } from "@griddex/react-flow-updated";
+import { ReactFlowProvider } from "react-flow-renderer";
 
 const navbarHeight = 43;
-const subNavBarHeight = 25;
+// const subNavBarHeight = 25;
+const addedHeight = 10;
 const useStyles = makeStyles(() => {
   return {
     networkLayoutRoot: {
@@ -18,8 +19,8 @@ const useStyles = makeStyles(() => {
     networkLayoutContainer: {
       display: "flex",
       flexGrow: 1,
-      marginTop: navbarHeight + subNavBarHeight,
-      height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
+      marginTop: navbarHeight + addedHeight,
+      height: `calc(100% - ${navbarHeight + addedHeight})`,
     },
   };
 });

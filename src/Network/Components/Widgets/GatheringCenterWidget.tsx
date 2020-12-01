@@ -1,12 +1,9 @@
-import { Handle, Position, FlowElement } from "@griddex/react-flow-updated";
 import React from "react";
+import { Handle, Position, XYPosition } from "react-flow-renderer";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
+import GatheringCenterContextMenu from "../ContextMenu/GatheringCenterContextMenu";
 
-export interface NodeType {
-  nodeType: string;
-}
-
-const GatheringCenterNode = React.memo(() => {
+const GatheringCenterWidget = () => {
   return (
     <div
       style={{
@@ -45,6 +42,25 @@ const GatheringCenterNode = React.memo(() => {
         }}
       />
     </div>
+  );
+};
+
+interface IXYPos {
+  xPos: number;
+  yPos: number;
+}
+
+const GatheringCenterNode = React.memo((props: Node & IXYPos) => {
+  const { xPos, yPos } = props;
+  const position: XYPosition = {
+    x: xPos,
+    y: yPos,
+  };
+
+  return (
+    <GatheringCenterContextMenu position={position}>
+      <GatheringCenterWidget />
+    </GatheringCenterContextMenu>
   );
 });
 

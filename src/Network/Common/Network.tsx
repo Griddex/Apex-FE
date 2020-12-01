@@ -15,7 +15,7 @@ import ReactFlow, {
   ReactFlowProvider,
   removeElements,
   XYPosition,
-} from "@griddex/react-flow-updated";
+} from "react-flow-renderer";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
@@ -28,9 +28,11 @@ import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
 import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
 import WellheadNode from "../Components/Widgets/WellheadWidget";
+import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
-import WellheadContextDrawer from "./../Components/ContextDrawer/WellheadContextDrawer";
+import WellheadContextDrawer from "../Components/ContextDrawer/ManifoldContextDrawer";
+import ManifoldContextDrawer from "../Components/ContextDrawer/ManifoldContextDrawer";
 import {
   setCurrentElementAction,
   setCurrentPopoverDataAction,
@@ -39,6 +41,14 @@ import {
 } from "./../Redux/Actions/NetworkActions";
 import GenerateNodeService from "./../Services/GenerateNodeService";
 import NetworkPanel from "./NetworkPanel";
+import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
+import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
+import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
+import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
+import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
+import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
+import Button from "@material-ui/core/Button";
+import { runForecastRequestAction } from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -64,7 +74,7 @@ const useStyles = makeStyles(() => ({
     height: "100%",
     width: 200,
     minWidth: 200,
-    // border: "1px solid #A8A8A8",
+    border: "1px solid #E7E7E7",
     backgroundColor: "#FFF",
     padding: 5,
   },
@@ -72,12 +82,22 @@ const useStyles = makeStyles(() => ({
     marginLeft: 5,
     height: "100%",
     width: "85%",
+    border: "1px solid #E7E7E7",
     backgroundColor: "#FFF",
+  },
+  networkContentIcons: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottom: "1px solid #E7E7E7",
+    height: 28,
   },
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
 const nodeTypes: NodeTypesType = {
+  wellheadSummaryNode: WellheadSummaryNode,
   wellheadNode: WellheadNode,
   manifoldNode: ManifoldNode,
   flowstationNode: FlowstationNode,
@@ -169,9 +189,12 @@ const Network = () => {
     setElements((els) => [...els, updatedNewElement]);
   };
 
-  const { currentPopoverData, showContextMenu } = useSelector(
+  const { currentPopoverData, showNetworkElementContextMenu } = useSelector(
     (state: RootState) => state.networkReducer
   );
+
+  const [showMiniMap, setShowMiniMap] = React.useState(false);
+  const [showControls, setShowControls] = React.useState(false);
 
   return (
     <div className={classes.root}>
@@ -185,6 +208,35 @@ const Network = () => {
             style={dndCanvasStyle}
             className={classes.networkContent}
           >
+            <div className={classes.networkContentIcons}>
+              <Button
+                startIcon={<SubscriptionsOutlinedIcon />}
+                variant="outlined"
+                color="secondary"
+                style={{ height: "28px" }}
+                onClick={() => dispatch(runForecastRequestAction())}
+              >
+                Run Forecast
+              </Button>
+              <Button
+                startIcon={<MapOutlinedIcon />}
+                variant="outlined"
+                color="primary"
+                style={{ height: "28px" }}
+                onClick={() => setShowMiniMap(!showMiniMap)}
+              >
+                Toggle Minimap
+              </Button>
+              <Button
+                startIcon={<ViewAgendaOutlinedIcon />}
+                variant="outlined"
+                color="default"
+                style={{ height: "28px" }}
+                onClick={() => setShowControls(!showControls)}
+              >
+                Toggle Controls
+              </Button>
+            </div>
             <ReactFlow
               elements={elements}
               onElementsRemove={onElementsRemove}
@@ -200,42 +252,62 @@ const Network = () => {
               defaultZoom={1.5}
               minZoom={0.2}
               maxZoom={4}
-              onNodeContextMenu={(_, node) => console.log("Right click", node)}
+              // onNodeContextMenu={(_, node) => console.log("Right click", node)}
               onNodeMouseEnter={(_, node) => {
                 dispatch(showPopoverAction(true));
                 dispatch(setCurrentPopoverIdAction(node.id));
                 dispatch(setCurrentPopoverDataAction(node.data.forecastData));
               }}
-              onNodeMouseLeave={(_, node) => dispatch(showPopoverAction(false))}
+              // onNodeMouseLeave={(_, node) => dispatch(showPopoverAction(false))}
             >
-              <MiniMap
-                nodeStrokeColor={(n: Node) => {
-                  if (n.style?.background) return n.style.background.toString();
-                  if (n.type === "manifoldNode") return "#0041d0";
-                  if (n.type === "flowstationNode") return "#31BFCC";
-                  if (n.type === "gasFacilityNode") return "#ff0072";
-                  if (n.type === "wellheadNode") return "#ff3400";
-                  if (n.type === "terminal") return "#1a192b";
-                  return "#eee";
-                }}
-                nodeColor={(n) => {
-                  if (n.style?.background) return n.style.background.toString();
-                  return "#fff";
-                }}
-                nodeBorderRadius={2}
-              />
-              <Controls />
-              {/* Write individual controls to grow with container size */}
+              {showMiniMap && (
+                <MiniMap
+                  nodeStrokeColor={(n: Node) => {
+                    if (n.style?.background)
+                      return n.style.background.toString();
+                    if (n.type === "manifoldNode") return "#0041d0";
+                    if (n.type === "flowstationNode") return "#31BFCC";
+                    if (n.type === "gasFacilityNode") return "#ff0072";
+                    if (n.type === "wellheadNode") return "#ff3400";
+                    if (n.type === "terminal") return "#1a192b";
+                    return "#eee";
+                  }}
+                  nodeColor={(n) => {
+                    if (n.style?.background)
+                      return n.style.background.toString();
+                    return "#fff";
+                  }}
+                  nodeBorderRadius={2}
+                />
+              )}
+              {showControls && <Controls />}
               <Background variant={BackgroundVariant.Lines} gap={16} />
             </ReactFlow>
           </div>
         </div>
       </ReactFlowProvider>
-      {showContextMenu && showContextDrawer && (
+      {showContextDrawer && (
         <ContextDrawer data={currentPopoverData}>
-          {(data: Record<string, unknown>) => (
-            <WellheadContextDrawer data={data} />
-          )}
+          {(data: Record<string, unknown>) => {
+            if (showNetworkElementContextMenu === "showWellheadContextMenu")
+              return <WellheadContextDrawer data={data} />;
+            else if (
+              showNetworkElementContextMenu === "showManifoldContextMenu"
+            )
+              return <ManifoldContextDrawer data={data} />;
+            else if (
+              showNetworkElementContextMenu === "showFlowstationContextMenu"
+            )
+              return <FlowstationContextDrawer data={data} />;
+            else if (
+              showNetworkElementContextMenu === "showGasfacilityContextMenu"
+            )
+              return <GasfacilityContextDrawer data={data} />;
+            else if (
+              showNetworkElementContextMenu === "showTerminalContextMenu"
+            )
+              return <TerminalContextDrawer data={data} />;
+          }}
         </ContextDrawer>
       )}
     </div>

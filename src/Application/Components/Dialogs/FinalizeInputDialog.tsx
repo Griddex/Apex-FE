@@ -24,6 +24,7 @@ import { useHistory } from "react-router-dom";
 import ConnectFlowstationsToTerminal from "../../../Network/Utils/ConnectFlowstationsToTerminal";
 import ConnectManifoldsToStations from "../../../Network/Utils/ConnectManifoldsToStations";
 import ConnectWellheadsToManifolds from "../../../Network/Utils/ConnectWellheadsToManifolds";
+import ConnectWellheadSummariesToManifolds from "../../../Network/Utils/ConnectWellheadSummariesToManifolds";
 import GenerateFlowstationNodes from "../../../Network/Utils/GenerateFlowstationNodes";
 import GenerateGasFacilityNodes from "../../../Network/Utils/GenerateGasFacilityNodes";
 import GenerateManifoldNodes from "../../../Network/Utils/GenerateManifoldNodes";
@@ -34,6 +35,7 @@ import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { RootState } from "../../Redux/Reducers/RootReducer";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 import { persistNetworkElementsAction } from "./../../../Network/Redux/Actions/NetworkActions";
+import { GenerateWellheadSummaryNodes } from "./../../../Network/Utils/GenerateWellheadSummaryNodes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -164,6 +166,9 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const { finalTableData } = useSelector(
     (state: RootState) => state.importReducer
   );
+  const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
 
   const ManageDeckDialogContent = () => {
     const buttonsData: ButtonProps[] = [
@@ -224,12 +229,20 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
           for (const node of Object.values(wellheadNodes)) {
             wellheadNodesMerged.push(...node);
           }
+
+          const wellheadSummaryNodes = GenerateWellheadSummaryNodes(
+            manifoldNodes
+          );
+          const wellheadOrSummaryNodes = showWellheadSummaryNodes
+            ? wellheadSummaryNodes
+            : wellheadNodesMerged;
+
           const allNodes = [
             ...terminalNodes,
             ...flowstationNodes,
             ...gasFacilityNodes,
             ...manifoldNodes,
-            ...wellheadNodesMerged,
+            ...wellheadOrSummaryNodes,
           ];
 
           //Edges
@@ -247,10 +260,18 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
             wellheadNodes,
             manifoldNodes
           );
+          const wellheadSummaryManifoldEdges = ConnectWellheadSummariesToManifolds(
+            wellheadSummaryNodes,
+            manifoldNodes
+          );
+          const wellheadOrSummaryEdges = showWellheadSummaryEdges
+            ? wellheadSummaryManifoldEdges
+            : wellheadManifoldEdges;
+
           const allEdges = [
             ...flowstationTerminalEdges,
             ...manifoldFlowstationEdges,
-            ...wellheadManifoldEdges,
+            ...wellheadOrSummaryEdges,
           ];
 
           dispatch(persistNetworkElementsAction(allNodes, allEdges));

@@ -16,7 +16,10 @@ const nodeDimensions: NodeDimensionsType = {
   terminal: ["80px", "40px"],
 };
 
-const GenerateNodeService = (nodeType: string) => {
+const GenerateNodeByPositionService = (
+  nodeType: string,
+  nodePosition: XYPosition
+) => {
   const CurrentDimensions = nodeDimensions[nodeType];
 
   const newElement: FlowElement = {
@@ -31,10 +34,9 @@ const GenerateNodeService = (nodeType: string) => {
       padding: "0px",
       borderColor: "#31BFCC",
     },
-    position: { x: 0, y: 0 } as XYPosition,
+    position: nodePosition,
   };
-
   return newElement;
 };
 
-export default GenerateNodeService;
+export default GenerateNodeByPositionService;

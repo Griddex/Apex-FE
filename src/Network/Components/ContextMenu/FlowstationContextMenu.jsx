@@ -1,20 +1,10 @@
 import Menu from "@material-ui/core/Menu";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import NetworkContextMenu from "./NetworkContextMenu";
 
-const WellheadContextMenu = ({ children, position }) => {
-  const dispatch = useDispatch();
+const FlowstationContextMenu = ({ children, position }) => {
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
-  const { showContextDrawer, expandContextDrawer } = useSelector(
-    (state) => state.layoutReducer
-  );
-  const { showWellheadContextMenu } = useSelector(
-    (state) => state.networkReducer
-  );
-
-  // dispatch(showNetworkElementContextMenuAction());
 
   const handleOpenContextMenu = (event) => {
     event.preventDefault();
@@ -52,10 +42,10 @@ const WellheadContextMenu = ({ children, position }) => {
             : undefined
         }
       >
-        <NetworkContextMenu elementName={"wellhead"} />
+        <NetworkContextMenu elementName={"flowstation"} />
       </Menu>
     </div>
   );
 };
 
-export default WellheadContextMenu;
+export default FlowstationContextMenu;

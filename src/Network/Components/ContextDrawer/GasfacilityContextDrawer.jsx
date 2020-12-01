@@ -37,7 +37,7 @@ const ContextStat = ({ caption, text }) => {
   );
 };
 
-const WellheadContextDrawer = ({ data }) => {
+const GasfacilityContextDrawer = ({ data }) => {
   const classes = useStyles();
   const keys = Object.keys(data[0]);
 
@@ -61,4 +61,4 @@ const WellheadContextDrawer = ({ data }) => {
   );
 };
 
-export default WellheadContextDrawer;
+export default GasfacilityContextDrawer;

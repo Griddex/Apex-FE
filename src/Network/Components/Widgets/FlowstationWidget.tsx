@@ -1,12 +1,9 @@
-import { Handle, Position, FlowElement } from "@griddex/react-flow-updated";
+import { Handle, Position, FlowElement, XYPosition } from "react-flow-renderer";
 import React from "react";
 import Flowstation from "../../Images/Flowstation.svg";
+import FlowstationContextMenu from "../ContextMenu/FlowstationContextMenu";
 
-export interface NodeType {
-  nodeType: string;
-}
-
-const FlowstationNode = React.memo(() => {
+const FlowstationWidget = () => {
   return (
     <div
       style={{
@@ -45,6 +42,25 @@ const FlowstationNode = React.memo(() => {
         }}
       />
     </div>
+  );
+};
+
+interface IXYPos {
+  xPos: number;
+  yPos: number;
+}
+
+const FlowstationNode = React.memo((props: Node & IXYPos) => {
+  const { xPos, yPos } = props;
+  const position: XYPosition = {
+    x: xPos,
+    y: yPos,
+  };
+
+  return (
+    <FlowstationContextMenu position={position}>
+      <FlowstationWidget />
+    </FlowstationContextMenu>
   );
 });
 

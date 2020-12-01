@@ -1,5 +1,4 @@
 import GenerateEdgeService from "./../Services/GenerateEdgeService";
-import groupBy from "lodash/groupBy";
 
 const ConnectWellheadsToManifolds = (wellheadNodesObj, manifoldNodes) => {
   const allEdges = [];

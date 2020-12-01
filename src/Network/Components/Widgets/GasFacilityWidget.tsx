@@ -1,12 +1,9 @@
-import { Handle, Position, FlowElement } from "@griddex/react-flow-updated";
 import React from "react";
+import { Handle, Position, XYPosition } from "react-flow-renderer";
 import GasFacility from "../../Images/GasFacility.svg";
+import GasfacilityContextMenu from "../ContextMenu/GasfacilityContextMenu";
 
-export interface NodeType {
-  nodeType: string;
-}
-
-const GasFacilityNode = React.memo(() => {
+const GasFacilityWidget = () => {
   return (
     <div
       style={{
@@ -45,6 +42,25 @@ const GasFacilityNode = React.memo(() => {
         }}
       />
     </div>
+  );
+};
+
+interface IXYPos {
+  xPos: number;
+  yPos: number;
+}
+
+const GasFacilityNode = React.memo((props: Node & IXYPos) => {
+  const { xPos, yPos } = props;
+  const position: XYPosition = {
+    x: xPos,
+    y: yPos,
+  };
+
+  return (
+    <GasfacilityContextMenu position={position}>
+      <GasFacilityWidget />
+    </GasfacilityContextMenu>
   );
 });
 

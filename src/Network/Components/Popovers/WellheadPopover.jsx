@@ -1,15 +1,15 @@
-import React from "react";
-import Popover, { ArrowContainer } from "react-tiny-popover";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
+import Popover, { ArrowContainer } from "react-tiny-popover";
 import { showPopoverAction } from "./../../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
   popoverWidget: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
-    width: "100%",
+    height: "auto",
+    width: "auto",
     backgroundColor: "#F7F7F7",
     border: "1px solid #707070",
     padding: 5,
@@ -31,8 +31,11 @@ const WellheadPopoverWidget = React.forwardRef(({ data }, ref) => {
 
   return (
     <div className={classes.popoverWidget} ref={ref}>
-      <div>{name}</div>
-      <hr />
+      <div>Name:</div>
+      <div>
+        <span>&nbsp;&nbsp;</span>
+        {name}
+      </div>
       <div>
         {data &&
           data.map((obj, i) => {
@@ -40,25 +43,37 @@ const WellheadPopoverWidget = React.forwardRef(({ data }, ref) => {
               <div key={i} className={classes.popoverItemContainer}>
                 <div className={classes.popoverItem}>
                   <div>String:</div>
-                  <div>{` ${obj.String}`}</div>
+                  <div>
+                    <span>&nbsp;&nbsp;</span>
+                    {`${obj.String}`}
+                  </div>
                 </div>
                 <div className={classes.popoverItem}>
                   <div>Reservoir:</div>
-                  <div>{` ${obj.Reservoir}`}</div>
+                  <div>
+                    <span>&nbsp;&nbsp;</span>
+                    {`${obj.Reservoir}`}
+                  </div>
                 </div>
                 <div className={classes.popoverItem}>
                   <div>Hydrocarbon Stream:</div>
-                  <div>{` ${obj["Hydrocarbon Stream"]}`}</div>
+                  <div>
+                    <span>&nbsp;&nbsp;</span>
+                    {`${obj["Hydrocarbon Stream"]}`}
+                  </div>
                 </div>
                 <div className={classes.popoverItem}>
                   <div>
-                    {` ${
+                    {`${
                       obj["Hydrocarbon Stream"] === "OIL"
                         ? "Initial Oil Rate"
                         : "Initial Gas Rate"
                     }`}
                   </div>
-                  <div>{obj["Init. Oil/Gas Rate 2P/2C"]}</div>
+                  <div>
+                    <span>&nbsp;&nbsp;</span>
+                    {obj["Init. Oil/Gas Rate 2P/2C"]}
+                  </div>
                 </div>
                 <hr />
               </div>

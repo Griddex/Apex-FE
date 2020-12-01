@@ -1,4 +1,4 @@
-import { Handle, Node, Position } from "@griddex/react-flow-updated";
+import { Handle, Node, Position } from "react-flow-renderer";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
@@ -49,16 +49,13 @@ const WellheadNode = React.memo((props: Node) => {
       {showPopover && props.id === currentPopoverId ? (
         <WellheadPopover data={forecastData}>
           <div>
-            <WellheadContextMenu
-              position={position}
-              forecastData={forecastData}
-            >
+            <WellheadContextMenu position={position}>
               <WellheadWidget />
             </WellheadContextMenu>
           </div>
         </WellheadPopover>
       ) : (
-        <WellheadContextMenu position={position} forecastData={forecastData}>
+        <WellheadContextMenu position={position}>
           <WellheadWidget />
         </WellheadContextMenu>
       )}

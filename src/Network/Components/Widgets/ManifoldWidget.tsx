@@ -1,12 +1,9 @@
-import { Handle, Position, FlowElement } from "@griddex/react-flow-updated";
+import { Handle, Position, Node, XYPosition } from "react-flow-renderer";
 import React from "react";
 import Manifold from "../../Images/Manifold.svg";
+import ManifoldContextMenu from "./../ContextMenu/ManifoldContextMenu";
 
-export interface NodeType {
-  nodeType: string;
-}
-
-const ManifoldNode = React.memo(() => {
+const ManifoldWidget = () => {
   return (
     <div
       style={{
@@ -45,6 +42,25 @@ const ManifoldNode = React.memo(() => {
         }}
       />
     </div>
+  );
+};
+
+interface IXYPos {
+  xPos: number;
+  yPos: number;
+}
+
+const ManifoldNode = React.memo((props: Node & IXYPos) => {
+  const { xPos, yPos } = props;
+  const position: XYPosition = {
+    x: xPos,
+    y: yPos,
+  };
+
+  return (
+    <ManifoldContextMenu position={position}>
+      <ManifoldWidget />
+    </ManifoldContextMenu>
   );
 });
 

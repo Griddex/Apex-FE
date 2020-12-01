@@ -8,11 +8,13 @@ import watchConnectDatabaseSaga from "../../../Import/Redux/Sagas/connectDatabas
 import { spawn } from "redux-saga/effects";
 import authMiddleware from "./../Middlewares/AuthMiddleware";
 import uiSpinnerMiddleware from "./../Middlewares/UISpinnerMiddleware";
+import watchRunForecastSaga from "../../../Network/Redux/Sagas/RunForecastSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
   yield spawn(watchRegisterSaga);
   yield spawn(watchConnectDatabaseSaga);
+  yield spawn(watchRunForecastSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

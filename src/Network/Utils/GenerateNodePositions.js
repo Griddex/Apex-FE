@@ -126,3 +126,14 @@ export const GenerateWellheadNodePositions = (
 
   return positions;
 };
+
+export const GenerateWellheadSummaryNodePositions = (manifoldNodes) => {
+  const wellheadSummaryNodePositions = manifoldNodes.map((node) => {
+    return {
+      x: node.position.x,
+      y: node.position.y + 100,
+    };
+  });
+
+  return wellheadSummaryNodePositions;
+};

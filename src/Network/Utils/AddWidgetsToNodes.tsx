@@ -1,4 +1,4 @@
-import { FlowElement } from "@griddex/react-flow-updated";
+import { FlowElement } from "react-flow-renderer";
 import React from "react";
 
 export interface NodeComponentsType {
@@ -7,6 +7,7 @@ export interface NodeComponentsType {
   >;
 }
 
+//TODO: Not needed
 const AddWidgetsToNodes = (nodes: FlowElement[]) => {
   const nodesWithWidgets = nodes.map((node) => {
     return node;

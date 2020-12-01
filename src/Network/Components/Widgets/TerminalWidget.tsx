@@ -1,9 +1,7 @@
-import { Handle, Position, Node } from "@griddex/react-flow-updated";
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
 import Terminal from "../../Images/Terminal.svg";
-import TerminalPopover from "../Popovers/TerminalPopover";
+import TerminalContextMenu from "../ContextMenu/TerminalContextMenu";
 
 const TerminalWidget = () => {
   return (
@@ -47,25 +45,22 @@ const TerminalWidget = () => {
   );
 };
 
-const TerminalNode = React.memo((props: Node) => {
-  const { data } = props;
-  const { name } = data;
-  const { showPopover, currentPopoverId } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+interface IXYPos {
+  xPos: number;
+  yPos: number;
+}
+
+const TerminalNode = React.memo((props: Node & IXYPos) => {
+  const { xPos, yPos } = props;
+  const position: XYPosition = {
+    x: xPos,
+    y: yPos,
+  };
 
   return (
-    <>
-      {showPopover && props.id === currentPopoverId ? (
-        <TerminalPopover data={name}>
-          <div>
-            <TerminalWidget />
-          </div>
-        </TerminalPopover>
-      ) : (
-        <TerminalWidget />
-      )}
-    </>
+    <TerminalContextMenu position={position}>
+      <TerminalWidget />
+    </TerminalContextMenu>
   );
 });
 

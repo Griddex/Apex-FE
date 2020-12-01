@@ -1,4 +1,4 @@
-import { ArrowHeadType, FlowElement } from "@griddex/react-flow-updated";
+import { ArrowHeadType, FlowElement } from "react-flow-renderer";
 import { uuid } from "uuidv4";
 
 const GenerateEdgeService = () => {
