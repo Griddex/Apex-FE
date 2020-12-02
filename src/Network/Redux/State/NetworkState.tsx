@@ -4,13 +4,13 @@ interface INetworkState {
   currentPopoverId: string;
   currentPopoverData: number | string | Record<string, unknown>[];
   showPopover: boolean;
-  showNetworkElementContextMenu:
+  showNetworkElementDetails:
     | null
-    | "showWellheadContextMenu"
-    | "showManifoldContextMenu"
-    | "showFlowstationContextMenu"
-    | "showGasfacilityContextMenu"
-    | "showTerminalContextMenu";
+    | "showWellheadDetails"
+    | "showManifoldDetails"
+    | "showFlowstationDetails"
+    | "showGasfacilityDetails"
+    | "showTerminalDetails";
   nodeElements: FlowElement[];
   edgeElements: FlowElement[];
   showWellheadSummaryNodes: boolean;
@@ -24,7 +24,7 @@ const networkState: INetworkState = {
   currentPopoverId: "",
   currentPopoverData: [],
   showPopover: false,
-  showNetworkElementContextMenu: null,
+  showNetworkElementDetails: null,
   nodeElements: [],
   edgeElements: [],
   showWellheadSummaryNodes: true,

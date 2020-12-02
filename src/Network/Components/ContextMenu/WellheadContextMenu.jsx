@@ -10,11 +10,9 @@ const WellheadContextMenu = ({ children, position }) => {
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state) => state.layoutReducer
   );
-  const { showWellheadContextMenu } = useSelector(
-    (state) => state.networkReducer
-  );
+  const { showWellheadDetails } = useSelector((state) => state.networkReducer);
 
-  // dispatch(showNetworkElementContextMenuAction());
+  // dispatch(showNetworkElementDetailsAction());
 
   const handleOpenContextMenu = (event) => {
     event.preventDefault();

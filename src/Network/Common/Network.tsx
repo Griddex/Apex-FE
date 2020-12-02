@@ -189,7 +189,7 @@ const Network = () => {
     setElements((els) => [...els, updatedNewElement]);
   };
 
-  const { currentPopoverData, showNetworkElementContextMenu } = useSelector(
+  const { currentPopoverData, showNetworkElementDetails } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
@@ -246,7 +246,6 @@ const Network = () => {
               snapGrid={[15, 15]}
               nodeTypes={nodeTypes}
               connectionLineType={ConnectionLineType.Bezier}
-              // connectionLineStyle={{ strokeWidth: "2px" }}
               onElementClick={onElementClick}
               deleteKeyCode={46}
               defaultZoom={1.5}
@@ -288,23 +287,15 @@ const Network = () => {
       {showContextDrawer && (
         <ContextDrawer data={currentPopoverData}>
           {(data: Record<string, unknown>) => {
-            if (showNetworkElementContextMenu === "showWellheadContextMenu")
+            if (showNetworkElementDetails === "showWellheadDetails")
               return <WellheadContextDrawer data={data} />;
-            else if (
-              showNetworkElementContextMenu === "showManifoldContextMenu"
-            )
+            else if (showNetworkElementDetails === "showManifoldDetails")
               return <ManifoldContextDrawer data={data} />;
-            else if (
-              showNetworkElementContextMenu === "showFlowstationContextMenu"
-            )
+            else if (showNetworkElementDetails === "showFlowstationDetails")
               return <FlowstationContextDrawer data={data} />;
-            else if (
-              showNetworkElementContextMenu === "showGasfacilityContextMenu"
-            )
+            else if (showNetworkElementDetails === "showGasfacilityDetails")
               return <GasfacilityContextDrawer data={data} />;
-            else if (
-              showNetworkElementContextMenu === "showTerminalContextMenu"
-            )
+            else if (showNetworkElementDetails === "showTerminalDetails")
               return <TerminalContextDrawer data={data} />;
           }}
         </ContextDrawer>

@@ -5,8 +5,8 @@ import {
   PERSIST_POPOVER,
   SHOW_POPOVER,
   PERSIST_POPOVERID,
-  SHOW_CONTEXTMENU,
-  HIDE_CONTEXTMENU,
+  SHOW_NETWORKELEMENTDETAILS,
+  HIDE_NETWORKELEMENTDETAILS,
   HIDE_WELHEADSUMMARYNODES,
   HIDE_WELHEADSUMMARYEDGES,
   RUN_FORECAST_REQUEST,
@@ -61,12 +61,12 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         ...action.payload,
       };
-    case SHOW_CONTEXTMENU:
+    case SHOW_NETWORKELEMENTDETAILS:
       return {
         ...state,
         ...action.payload,
       };
-    case HIDE_CONTEXTMENU:
+    case HIDE_NETWORKELEMENTDETAILS:
       return {
         ...state,
         ...action.payload,

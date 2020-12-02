@@ -6,8 +6,8 @@ export const ADD_NETWORKELEMENT = "ADD_NETWORKELEMENT";
 export const PERSIST_POPOVER = "PERSIST_POPOVER";
 export const SHOW_POPOVER = "SHOW_POPOVER";
 export const PERSIST_POPOVERID = "PERSIST_POPOVERID";
-export const SHOW_CONTEXTMENU = "SHOW_CONTEXTMENU";
-export const HIDE_CONTEXTMENU = "HIDE_CONTEXTMENU";
+export const SHOW_NETWORKELEMENTDETAILS = "SHOW_NETWORKELEMENTDETAILS";
+export const HIDE_NETWORKELEMENTDETAILS = "HIDE_NETWORKELEMENTDETAILS";
 export const HIDE_WELHEADSUMMARYNODES = "HIDE_WELHEADSUMMARYNODES";
 export const HIDE_WELHEADSUMMARYEDGES = "HIDE_WELHEADSUMMARYEDGES";
 export const RUN_FORECAST_REQUEST = "RUN_FORECAST_REQUEST";
@@ -74,22 +74,20 @@ export const addNetworkElementAction = (element: FlowElement[]) => {
   };
 };
 
-export const showNetworkElementContextMenuAction = (
-  contextMenuName: string
-) => {
+export const showNetworkElementDetailsAction = (networkElement: string) => {
   return {
-    type: SHOW_CONTEXTMENU,
+    type: SHOW_NETWORKELEMENTDETAILS,
     payload: {
-      showNetworkElementContextMenu: contextMenuName,
+      showNetworkElementDetails: networkElement,
     },
   };
 };
 
-export const hideNetworkElementContextMenuAction = () => {
+export const hideNetworkElementDetailsAction = () => {
   return {
-    type: HIDE_CONTEXTMENU,
+    type: HIDE_NETWORKELEMENTDETAILS,
     payload: {
-      showWellheadContextMenu: false,
+      showWellheadDetails: false,
     },
   };
 };
