@@ -6,10 +6,6 @@ const GenerateManifoldNodes = (flowstationNodes, gasFacilityNodes) => {
     flowstationNodes,
     gasFacilityNodes
   );
-  console.log(
-    "Logged output --> ~ file: GenerateManifoldNodes.js ~ line 9 ~ GenerateManifoldNodes ~ manifoldPositions",
-    manifoldPositions
-  );
 
   const flowstationGasFacilityNodes = [
     ...flowstationNodes,

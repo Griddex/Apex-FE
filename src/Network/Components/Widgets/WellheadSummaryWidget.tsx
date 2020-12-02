@@ -67,10 +67,6 @@ const WellheadSummaryWidget = ({
 };
 
 const WellheadSummaryNode = React.memo((props: Node) => {
-  console.log(
-    "Logged output --> ~ file: WellheadSummaryWidget.tsx ~ line 70 ~ WellheadSummaryNode ~ props",
-    props
-  );
   const { data } = props;
   const { forecastData, position } = data;
 

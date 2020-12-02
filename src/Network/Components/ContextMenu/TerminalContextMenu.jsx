@@ -19,10 +19,7 @@ const TerminalContextMenu = ({ children, position }) => {
   };
 
   const handleClose = () => {
-    setNodePosition({
-      x: null,
-      y: null,
-    });
+    setOpen(false);
   };
 
   return (
@@ -30,7 +27,7 @@ const TerminalContextMenu = ({ children, position }) => {
       onContextMenu={handleOpenContextMenu}
       style={{ cursor: "context-menu" }}
     >
-      <div>{children}</div>
+      {children}
       <Menu
         keepMounted
         open={open}
@@ -42,7 +39,7 @@ const TerminalContextMenu = ({ children, position }) => {
             : undefined
         }
       >
-        <NetworkContextMenu elementName={"flowstation"} />
+        <NetworkContextMenu elementName={"terminal"} />
       </Menu>
     </div>
   );

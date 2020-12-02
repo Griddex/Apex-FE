@@ -1,9 +1,9 @@
 import { ArrowHeadType, FlowElement } from "react-flow-renderer";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 
 const GenerateEdgeService = () => {
   const newEdge: FlowElement = {
-    id: uuid(),
+    id: uuidv4(),
     source: "0",
     target: "1",
     type: "bezier",

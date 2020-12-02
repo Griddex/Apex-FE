@@ -19,10 +19,7 @@ const GatheringCenterContextMenu = ({ children, position }) => {
   };
 
   const handleClose = () => {
-    setNodePosition({
-      x: null,
-      y: null,
-    });
+    setOpen(false);
   };
 
   return (
@@ -30,7 +27,7 @@ const GatheringCenterContextMenu = ({ children, position }) => {
       onContextMenu={handleOpenContextMenu}
       style={{ cursor: "context-menu" }}
     >
-      <div>{children}</div>
+      {children}
       <Menu
         keepMounted
         open={open}

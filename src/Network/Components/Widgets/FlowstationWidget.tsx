@@ -1,5 +1,5 @@
-import { Handle, Position, FlowElement, XYPosition } from "react-flow-renderer";
 import React from "react";
+import { Handle, Position, XYPosition } from "react-flow-renderer";
 import Flowstation from "../../Images/Flowstation.svg";
 import FlowstationContextMenu from "../ContextMenu/FlowstationContextMenu";
 

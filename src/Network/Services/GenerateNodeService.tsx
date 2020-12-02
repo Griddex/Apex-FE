@@ -1,6 +1,5 @@
-import * as React from "react";
 import { FlowElement, XYPosition } from "react-flow-renderer";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 
 export interface NodeDimensionsType {
   [key: string]: [string, string];
@@ -20,7 +19,7 @@ const GenerateNodeService = (nodeType: string) => {
   const CurrentDimensions = nodeDimensions[nodeType];
 
   const newElement: FlowElement = {
-    id: uuid(),
+    id: uuidv4(),
     type: `${nodeType}Node`,
     data: {
       label: nodeType,

@@ -29,10 +29,7 @@ const WellheadContextMenu = ({ children, position }) => {
   };
 
   const handleClose = () => {
-    setNodePosition({
-      x: null,
-      y: null,
-    });
+    setOpen(false);
   };
 
   return (
@@ -40,7 +37,7 @@ const WellheadContextMenu = ({ children, position }) => {
       onContextMenu={handleOpenContextMenu}
       style={{ cursor: "context-menu" }}
     >
-      <div>{children}</div>
+      {children}
       <Menu
         keepMounted
         open={open}
