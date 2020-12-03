@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NetworkContextMenu from "./NetworkContextMenu";
 
-const WellheadContextMenu = ({ children, position }) => {
+const WellheadSummaryContextMenu = ({ children, position }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
@@ -40,6 +40,7 @@ const WellheadContextMenu = ({ children, position }) => {
         keepMounted
         open={open}
         onClose={handleClose}
+        onMouseLeave={handleClose}
         anchorReference="anchorPosition"
         anchorPosition={
           nodePosition.y !== null && nodePosition.x !== null
@@ -47,10 +48,10 @@ const WellheadContextMenu = ({ children, position }) => {
             : undefined
         }
       >
-        <NetworkContextMenu elementName={"wellhead"} />
+        <NetworkContextMenu elementName={"wellheadSummary"} />
       </Menu>
     </div>
   );
 };
 
-export default WellheadContextMenu;
+export default WellheadSummaryContextMenu;

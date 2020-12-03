@@ -1,7 +1,8 @@
 import { Handle, Node, Position } from "react-flow-renderer";
 import React from "react";
 import Wellhead from "../../Images/Wellhead.svg";
-import WellheadContextMenu from "../ContextMenu/WellheadContextMenu";
+import WellheadSummaryContextMenu from "../ContextMenu/WellheadSummaryContextMenu";
+import { Typography } from "@material-ui/core";
 
 const WellheadSummaryWidget = ({
   forecastData,
@@ -16,7 +17,7 @@ const WellheadSummaryWidget = ({
         width: "100%",
         height: "100%",
         border: "1px solid #999",
-        padding: "5px",
+        padding: "2px",
       }}
     >
       <Handle
@@ -55,11 +56,29 @@ const WellheadSummaryWidget = ({
           height: "100%",
         }}
       >
-        <div style={{ width: "100%", height: "50%", fontSize: "10" }}>
-          {forecastData.length}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "50%",
+          }}
+        >
+          <Typography variant="caption">{forecastData.length}</Typography>
         </div>
-        <div style={{ width: "100%", height: "50%", fontSize: "10" }}>
-          Wellheads
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "50%",
+          }}
+        >
+          <Typography style={{ fontSize: "8px" }} variant="caption">
+            Wells
+          </Typography>
         </div>
       </div>
     </div>
@@ -71,9 +90,9 @@ const WellheadSummaryNode = React.memo((props: Node) => {
   const { forecastData, position } = data;
 
   return (
-    <WellheadContextMenu position={position}>
+    <WellheadSummaryContextMenu position={position}>
       <WellheadSummaryWidget forecastData={forecastData} />
-    </WellheadContextMenu>
+    </WellheadSummaryContextMenu>
   );
 });
 

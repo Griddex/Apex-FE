@@ -30,6 +30,7 @@ import GenerateNodeByPositionService from "./../../Services/GenerateNodeByPositi
 export const AddNetworkElementMenu = ({ elementName }) => {
   const NetworkIcons = {
     wellhead: Wellhead,
+    wellheadSummary: Wellhead,
     manifold: Manifold,
     flowstation: Flowstation,
     gasFacility: GasFacility,
@@ -91,13 +92,13 @@ export const NetworkElementsMenu = ({ children }) => {
     { Terminal: Terminal },
   ];
 
-  const handleOpenMouseOver = (event) => {
+  const handleOpenMouseEnter = (event) => {
     event.preventDefault();
     event.persist();
 
     setNodePosition({
-      x: event.clientX,
-      y: event.clientY,
+      x: event.clientX + 35,
+      y: event.clientY - 7,
     });
 
     setOpen(true);
@@ -105,12 +106,14 @@ export const NetworkElementsMenu = ({ children }) => {
 
   const handleClose = () => {
     setOpen(false);
-    // setNodePosition(initialPosition);
   };
 
   return (
     <div
-      onMouseOver={handleOpenMouseOver}
+      onMouseEnter={(event) => {
+        handleOpenMouseEnter(event);
+        event.nativeEvent.stopImmediatePropagation();
+      }}
       onMouseLeave={handleClose}
       style={{ cursor: "context-menu" }}
     >

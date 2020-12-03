@@ -25,6 +25,7 @@ const FlowstationContextMenu = ({ children, position }) => {
   return (
     <div
       onContextMenu={handleOpenContextMenu}
+      onMouseLeave={handleClose}
       style={{ cursor: "context-menu" }}
     >
       {children}

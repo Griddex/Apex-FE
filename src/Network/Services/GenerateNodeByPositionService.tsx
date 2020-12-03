@@ -5,7 +5,7 @@ export interface NodeDimensionsType {
 }
 
 const nodeDimensions: NodeDimensionsType = {
-  wellheadSummary: ["40px", "30px"],
+  wellheadSummary: ["50px", "30px"],
   wellhead: ["20px", "20px"],
   manifold: ["60px", "40px"],
   flowstation: ["60px", "40px"],

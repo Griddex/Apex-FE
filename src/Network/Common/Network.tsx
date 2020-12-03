@@ -251,10 +251,12 @@ const Network = () => {
               defaultZoom={1.5}
               minZoom={0.2}
               maxZoom={4}
-              onNodeMouseEnter={(_, node) => {
-                dispatch(showPopoverAction(true));
+              onNodeMouseEnter={(event, node) => {
+                // dispatch(showPopoverAction(true));
                 dispatch(setCurrentPopoverIdAction(node.id));
                 dispatch(setCurrentPopoverDataAction(node.data.forecastData));
+
+                event.nativeEvent.stopImmediatePropagation();
               }}
               onPaneContextMenu={(event) => console.log(event)}
             >
