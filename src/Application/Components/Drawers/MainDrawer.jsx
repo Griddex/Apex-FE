@@ -23,6 +23,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import BusinessOutlinedIcon from "@material-ui/icons/BusinessOutlined";
 import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
+import LocalAtmOutlinedIcon from "@material-ui/icons/LocalAtmOutlined";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => {
@@ -113,8 +114,17 @@ const MainDrawer = () => {
       icon: <BarChartIcon fontSize={expandMainDrawer ? "large" : "default"} />,
     },
     {
+      name: "Economics",
+      route: `${url}/economics`,
+      icon: (
+        <LocalAtmOutlinedIcon
+          fontSize={expandMainDrawer ? "large" : "default"}
+        />
+      ),
+    },
+    {
       name: "DeclineCurveAnalysis",
-      route: `${url}/dca`,
+      route: `${url}/declineCurveAnalysis`,
       icon: <TimelineIcon fontSize={expandMainDrawer ? "large" : "default"} />,
     },
     {
@@ -127,8 +137,8 @@ const MainDrawer = () => {
       ),
     },
     {
-      name: "Admin",
-      route: `${url}/admin`,
+      name: "Administration",
+      route: `${url}/administration`,
       icon: (
         <SupervisorAccountOutlinedIcon
           fontSize={expandMainDrawer ? "large" : "default"}

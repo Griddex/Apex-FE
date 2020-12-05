@@ -6,7 +6,12 @@ import Navbar from "../Components/Navbars/Navbar";
 import Spinners from "../Components/Visuals/Spinners";
 import InputLayout from "./../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "./../../Network/Common/NetworkLayout";
+import EconomicsLayout from "../../Economics/Routes/Common/EconomicsLayout";
 import VisualyticsLayout from "./../../Visualytics/Common/VisualyticsLayout";
+import DeclineCurveAnalysisLayout from "./../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout";
+import CorporateLayout from "./../../Corporate/Routes/Common/CorporateLayout";
+import AdministrationLayout from "./../../Administration/Routes/Common/AdministrationLayout";
+import SettingsLayout from "./../../Settings/Routes/Common/SettingsLayout";
 import Loading from "./../Components/Visuals/Loading";
 import MainDrawer from "./../Components/Drawers/MainDrawer";
 import ProductBackground from "./../Routes/ProductBackground";
@@ -54,6 +59,11 @@ const Layout = () => {
                   import: <InputLayout />,
                   network: <NetworkLayout />,
                   visualytics: <VisualyticsLayout />,
+                  economics: <EconomicsLayout />,
+                  declineCurveAnalysis: <DeclineCurveAnalysisLayout />,
+                  corporate: <CorporateLayout />,
+                  administration: <AdministrationLayout />,
+                  settings: <SettingsLayout />,
                 };
 
                 return Layouts[layoutId];
