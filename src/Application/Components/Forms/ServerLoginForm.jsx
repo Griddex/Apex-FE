@@ -195,6 +195,7 @@ const ServerLoginForm = () => {
                       itemData={authenticationTypeList}
                     />
                   }
+                  direction="Vertical"
                 />
               </Grid>
               <Grid item xs={8} container alignItems="center">

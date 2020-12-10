@@ -1,19 +1,19 @@
-import React from "react";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import { makeStyles } from "@material-ui/core/styles";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
+import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
+import React from "react";
+import Popover, { ArrowContainer } from "react-tiny-popover";
+import EditDeleteActionsPopover from "../Popovers/EditDeleteActionsPopover";
+import RolesActionPopover from "../Popovers/RolesActionPopover";
 // import HighlightOffOutlinedIcon from "@material-ui/icons/HighlightOffOutlined";
 // import HorizontalSplitOutlinedIcon from "@material-ui/icons/HorizontalSplitOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 // import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import { makeStyles } from "@material-ui/core";
-import EditDeleteActionsPopover from "./../Popovers/EditDeleteActionsPopover";
-import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import Popover, { ArrowContainer } from "react-tiny-popover";
-import RolesActionPopover from "./../Popovers/RolesActionPopover";
 
 const useStyles = makeStyles((theme) => ({
-  actionsRoot: {
+  rootTableAction: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -23,24 +23,28 @@ const useStyles = makeStyles((theme) => ({
       "&:hover": { color: theme.palette.primary.main },
     },
     alignSelf: "center",
-    color: theme.palette.text,
+    // color: theme.palette.text,
     width: 80,
   },
 }));
 
-const TableAction = ({
-  i,
-  handleEditAction,
-  handleDeleteAction,
-  handlePickAction,
-}) => {
+export interface ITableAction {
+  i?: number;
+  handleEditAction?: () => void;
+  handleDeleteAction?: () => void;
+  handlePickAction?: () => void;
+}
+
+const TableAction = (props: ITableAction) => {
+  const { i, handleEditAction, handleDeleteAction, handlePickAction } = props;
+
   const classes = useStyles();
   const [isEditPopoverOpen, setIsEditPopoverOpen] = React.useState(false);
   const [isDeletePopoverOpen, setIsDeletePopoverOpen] = React.useState(false);
   const [isPickPopoverOpen, setIsPickPopoverOpen] = React.useState(false);
 
   return (
-    <div className={classes.actionsRoot}>
+    <div className={classes.rootTableAction}>
       <Popover
         isOpen={isEditPopoverOpen}
         position={["bottom", "right", "top", "left"]}

@@ -1,11 +1,12 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import { ListItem } from "@material-ui/core";
-import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
+import { IPopover } from "./PopoverTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,9 +61,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RolesActionPopover = React.forwardRef(
-  ({ icon, closeIcon, title, handleCancel, handleYes }, ref) => {
+const RolesActionPopover = React.forwardRef<HTMLDivElement, IPopover>(
+  (props, ref) => {
     const classes = useStyles();
+    const { icon, closeIcon, title, handleCancel, handleYes } = props;
 
     return (
       <div className={classes.container} ref={ref}>
@@ -81,7 +83,7 @@ const RolesActionPopover = React.forwardRef(
                 <ListItem
                   className={classes.listItem}
                   key={listIndex}
-                  name={listIndex}
+                  // name={listIndex}
                   onClick={handleYes}
                 >
                   <ListItemAvatar className={classes.listItemAvatar}>

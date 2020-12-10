@@ -119,12 +119,14 @@ const SelectDatabase = () => {
         <AnalyticsComp
           title="Select Database"
           content={<SelectItem classes={classes} />}
+          direction="Vertical"
         />
       </div>
       <div className={classes.dbTables}>
         <AnalyticsComp
           title="List of Tables"
           content={<DatabaseTables classes={classes} />}
+          direction="Vertical"
         />
       </div>
     </>

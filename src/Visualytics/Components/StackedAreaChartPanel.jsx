@@ -103,16 +103,32 @@ const StackedAreaChartPanel = () => {
     <>
       <TreeView />
       <div className={classes.chartProps}>
-        <AnalyticsComp title="X Category" content={<ChartInput />} />
+        <AnalyticsComp
+          title="X Category"
+          content={<ChartInput />}
+          direction="Vertical"
+        />
       </div>
       <div className={classes.chartProps}>
-        <AnalyticsComp title="Y Category" content={<ChartInput />} />
+        <AnalyticsComp
+          title="Y Category"
+          content={<ChartInput />}
+          direction="Vertical"
+        />
       </div>
       <div className={classes.chartProps}>
-        <AnalyticsComp title="Filter" content={<ChartInput />} />
+        <AnalyticsComp
+          title="Filter"
+          content={<ChartInput />}
+          direction="Vertical"
+        />
       </div>
       <div className={classes.chartProps}>
-        <AnalyticsComp title="Color" content={<ChartInput />} />
+        <AnalyticsComp
+          title="Color"
+          content={<ChartInput />}
+          direction="Vertical"
+        />
       </div>
     </>
   );

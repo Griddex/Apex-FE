@@ -1,16 +1,18 @@
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import uniq from "lodash/uniq";
+import { useSnackbar } from "notistack";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  persistTableRolesIndicesAction,
   persistFileHeadersAction,
   persistFileUnitsAction,
+  persistTableRolesIndicesAction,
 } from "../../../Import/Redux/Actions/ImportActions";
-import CircularArray from "./../../Utils/CircularArray";
-import { useSnackbar } from "notistack";
-import uniq from "lodash.uniq";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+import CircularArray from "../../Utils/CircularArray";
+import { ITableRoles, ITableRolesProps, RoleNumberType } from "./TableTypes";
 
 const useStyles = makeStyles(() => ({
   rolesRoot: {
@@ -18,25 +20,38 @@ const useStyles = makeStyles(() => ({
     height: 30,
   },
   tableRole: {
-    border: (props) => `2px solid ${props.roleColors[props.roleNumber]}`,
-    color: (props) => `${props.roleColors[props.roleNumber]}`,
+    border: (props: ITableRolesProps) => {
+      const { rolesProps, roleNumber } = props;
+      return `2px solid ${
+        rolesProps && rolesProps.roleColors[roleNumber as number]
+      }`;
+    },
+    color: (props: ITableRolesProps) => {
+      const { rolesProps, roleNumber } = props;
+      return `${rolesProps && rolesProps.roleColors[roleNumber as number]}`;
+    },
   },
 }));
 
-const TableRole = ({ i, roleNames, roleColors }) => {
+const TableRole = (props: ITableRolesProps) => {
+  const { rolesProps } = props;
+  const { i, roleNames } = rolesProps as ITableRoles;
+
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const tableRoleIndices = useSelector(
-    (state) => state.importReducer.tableRoleIndices
+    (state: RootState) => state.importReducer.tableRoleIndices
   );
 
-  const roleNumber = tableRoleIndices[i];
+  const roleNumber: RoleNumberType = tableRoleIndices[i];
   const circularTableRoleNumbers = React.useRef(
     new CircularArray([0, 1, 2], roleNumber)
   );
 
-  const tableData = useSelector((state) => state.importReducer.tableData);
-  const classes = useStyles({ roleNumber, roleColors });
+  const tableData = useSelector(
+    (state: RootState) => state.importReducer.tableData
+  );
+  const classes = useStyles({ roleNumber, rolesProps });
 
   return (
     <Button
@@ -47,22 +62,26 @@ const TableRole = ({ i, roleNames, roleColors }) => {
         const rowIndex = parseInt(i);
         const nextRoleNumber = circularTableRoleNumbers.current.next();
         if (nextRoleNumber === 2) {
-          const newtableRoleIndices = tableRoleIndices.map((roleNumber, j) => {
-            if (j === rowIndex) return nextRoleNumber;
-            else return roleNumber;
-          });
+          const newtableRoleIndices = tableRoleIndices.map(
+            (roleNumber: number, j: number) => {
+              if (j === rowIndex) return nextRoleNumber;
+              else return roleNumber;
+            }
+          );
 
           dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
         }
         //Units
         else if (nextRoleNumber === 1) {
-          const newtableRoleIndices = tableRoleIndices.map((roleNumber, j) => {
-            if (j === rowIndex) return nextRoleNumber;
-            else {
-              if (roleNumber === 1) return 2;
-              else return roleNumber;
+          const newtableRoleIndices = tableRoleIndices.map(
+            (roleNumber: number, j: number) => {
+              if (j === rowIndex) return nextRoleNumber;
+              else {
+                if (roleNumber === 1) return 2;
+                else return roleNumber;
+              }
             }
-          });
+          );
 
           dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
 
@@ -73,13 +92,15 @@ const TableRole = ({ i, roleNames, roleColors }) => {
           dispatch(persistFileUnitsAction(newFileUnits, fileUnitsUnique));
         } else if (nextRoleNumber === 0) {
           //Headers
-          const newtableRoleIndices = tableRoleIndices.map((roleNumber, k) => {
-            if (k === rowIndex) return nextRoleNumber;
-            else {
-              if (roleNumber === 0) return 2;
-              else return roleNumber;
+          const newtableRoleIndices = tableRoleIndices.map(
+            (roleNumber: number, k: number) => {
+              if (k === rowIndex) return nextRoleNumber;
+              else {
+                if (roleNumber === 0) return 2;
+                else return roleNumber;
+              }
             }
-          });
+          );
 
           const newFileHeaders = Object.values(tableData[rowIndex]);
           const newFileHeadersTrueFalse = newFileHeaders.map((header) => {

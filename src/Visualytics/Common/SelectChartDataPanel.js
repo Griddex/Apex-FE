@@ -101,6 +101,7 @@ const SelectChartDataPanel = () => {
       <AnalyticsComp
         title="Select Chart"
         content={<SelectItem classes={classes} />}
+        direction="Vertical"
       />
       <div className={classes.chartPanel}>
         {renderChartDataPanel(chartName)}

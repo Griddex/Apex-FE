@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import { IPopover } from "./PopoverTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -55,9 +56,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditDeleteActionsPopover = React.forwardRef(
-  ({ icon, closeIcon, title, description, handleCancel, handleYes }, ref) => {
+const EditDeleteActionsPopover = React.forwardRef<HTMLDivElement, IPopover>(
+  (props, ref) => {
     const classes = useStyles();
+    const {
+      icon,
+      closeIcon,
+      title,
+      description,
+      handleCancel,
+      handleYes,
+    } = props;
 
     return (
       <div className={classes.container} ref={ref}>

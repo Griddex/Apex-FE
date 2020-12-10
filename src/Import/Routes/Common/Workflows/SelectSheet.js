@@ -163,15 +163,21 @@ const SelectSheet = () => {
                 alt="Analytics diagram"
               />
             }
+            direction="Vertical"
           />
         </Grid>
         <Grid item xs>
-          <AnalyticsComp title="File Name" content={fileName} />
+          <AnalyticsComp
+            title="File Name"
+            content={fileName}
+            direction="Vertical"
+          />
         </Grid>
         <Grid item xs>
           <AnalyticsComp
             title="Select Worksheet"
             content={<SelectWorksheet />}
+            direction="Vertical"
           />
         </Grid>
       </Grid>
@@ -182,6 +188,7 @@ const SelectSheet = () => {
             <AnalyticsComp
               title="File Size"
               content={<FileSizeProgressCircle />}
+              direction="Vertical"
             />
           </Grid>
           <Grid item container direction="column" alignItems="flex-start" xs>
@@ -197,19 +204,25 @@ const SelectSheet = () => {
         </Grid>
         <Grid item container direction="column" xs={12} sm={9}>
           <Grid item xs>
-            <AnalyticsComp title="File Author" content={fileAuthor} />
+            <AnalyticsComp
+              title="File Author"
+              content={fileAuthor}
+              direction="Vertical"
+            />
           </Grid>
           <Grid item container xs spacing={1}>
             <Grid item xs>
               <AnalyticsComp
                 title="File Created"
                 content={formatDate(fileCreated).toString()}
+                direction="Vertical"
               />
             </Grid>
             <Grid item xs>
               <AnalyticsComp
                 title="File Last Modified"
                 content={formatDate(fileLastModified).toString()}
+                direction="Vertical"
               />
             </Grid>
           </Grid>

@@ -137,6 +137,7 @@ const ConnectDatabase = () => {
             <AnalyticsComp
               title="Database Source"
               content={<SelectItem itemData={dbSourcesItemData} />}
+              direction="Vertical"
             />
           </Grid>
           <Grid item xs={3} container alignItems="flex-end">
@@ -161,6 +162,7 @@ const ConnectDatabase = () => {
             <AnalyticsComp
               title="Server Name"
               content={<SelectItem itemData={serverNameItemData} />}
+              direction="Vertical"
             />
           </Grid>
           <Grid item xs={3} container alignItems="flex-end">

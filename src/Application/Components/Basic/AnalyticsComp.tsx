@@ -5,10 +5,6 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   analyticsComp: {
     display: "flex",
-    flexDirection: "column",
-    flexBasis: "auto",
-    // flexBasis:"content",
-    justifyContent: "space-between",
   },
   analyticsTitle: {
     borderStyle: "solid",
@@ -27,15 +23,36 @@ const useStyles = makeStyles((theme) => ({
 interface IAnalyticsCompProps {
   title: string;
   content: JSX.Element | string;
+  direction: "Vertical" | "Horizontal";
+  titleStyle?: React.CSSProperties;
+  contentStyle?: React.CSSProperties;
 }
 
-const AnalyticsComp: React.FC<IAnalyticsCompProps> = ({ title, content }) => {
+const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
   const classes = useStyles();
+  const { title, content, titleStyle, contentStyle } = props;
+
+  const flexStyle = (): React.CSSProperties => {
+    if (props.direction === "Horizontal")
+      return {
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+      };
+    else
+      return {
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+      };
+  };
 
   return (
-    <div className={classes.analyticsComp}>
-      <Typography className={classes.analyticsTitle}>{title}</Typography>
-      <div>{content}</div>
+    <div className={classes.analyticsComp} style={flexStyle()}>
+      <Typography className={classes.analyticsTitle} style={titleStyle}>
+        {title}
+      </Typography>
+      <div style={contentStyle}>{content}</div>
     </div>
   );
 };
