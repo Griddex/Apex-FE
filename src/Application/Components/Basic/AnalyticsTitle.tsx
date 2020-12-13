@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "100%",
     marginBottom: theme.spacing(1),
     color: theme.palette.primary.main,
+    width: "100%",
   },
 }));
 

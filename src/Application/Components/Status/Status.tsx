@@ -4,8 +4,11 @@ import { StatusTextType } from "../../../Economics/Components/ForecastRunDetail"
 
 const useStyles = makeStyles(() => ({
   status: {
-    height: "100%",
-    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexGrow: 1,
+    height: 60,
     fontSize: 14,
   },
 }));

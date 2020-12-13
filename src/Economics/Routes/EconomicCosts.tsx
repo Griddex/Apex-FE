@@ -1,27 +1,19 @@
 import { makeStyles } from "@material-ui/core";
-import uniq from "lodash/uniq";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ApexTable from "../../Application/Components/Table/ApexTable";
 import TableAction from "../../Application/Components/Table/TableAction";
-import TableRole from "../../Application/Components/Table/TableRole";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import AddSerialNumberToTable from "../../Application/Utils/AddSerialNumberToTable";
 import cleanTableData from "../../Application/Utils/CleanTableData";
-import generateInterimTable from "../../Application/Utils/GenerateInterimTable";
-import generateOptionIndices from "../../Application/Utils/GenerateOptionIndices";
-import generateTableColumnWidths from "../../Application/Utils/GenerateTableColumnWidths";
-import generatelTableRolesIndices from "../../Application/Utils/GenerateTableRolesIndices";
+import generateActualTable from "../../Application/Utils/GenerateActualTable";
 import generateTableWidth from "../../Application/Utils/GenerateTableWidth";
 import getTableHeaders from "../../Application/Utils/GetTableHeaders";
 import {
-  persistFileHeadersAction,
-  persistFileUnitsAction,
-  persistTableRolesIndicesAction,
-  persistTableDataAction,
-  persistOptionIndicesAction,
   persistCurrentTableHeadersAction,
+  persistTableDataAction,
 } from "../../Import/Redux/Actions/ImportActions";
+import ReactDataGrid from "react-data-grid";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -48,20 +40,60 @@ export default function EconomicCosts() {
     event.persist();
   };
 
-  const rawTableData = useSelector(
-    (state: RootState) => state.importReducer.selectedWorksheetData
-  );
+  // const rawTableData = useSelector(
+  //   (state: RootState) => state.importReducer.selectedWorksheetData
+  // );
+
+  const rawTableData = [
+    {
+      year: 2020,
+      oilRate: 2000,
+      gasRate: 26,
+      seismicCost: 10,
+      explApprCost: 5,
+      facilitiesCost: 50,
+      tangWellCost: 20,
+      intangWellCost: 15,
+      abandCost: 0,
+      directCost: 0,
+      cha: 0,
+      terminalCost: 0,
+    },
+    {
+      year: 2021,
+      oilRate: 1300,
+      gasRate: 76,
+      seismicCost: 0,
+      explApprCost: 0,
+      facilitiesCost: 0,
+      tangWellCost: 0,
+      intangWellCost: 0,
+      abandCost: 0,
+      directCost: 0,
+      cha: 0,
+      terminalCost: 0,
+    },
+    {
+      year: 2022,
+      oilRate: 1000,
+      gasRate: 76,
+      seismicCost: 0,
+      explApprCost: 0,
+      facilitiesCost: 0,
+      tangWellCost: 0,
+      intangWellCost: 0,
+      abandCost: 0,
+      directCost: 0,
+      cha: 0,
+      terminalCost: 0,
+    },
+  ];
 
   //Generate actual ColumnHeaders
   const rawTableHeaders = getTableHeaders(rawTableData);
 
   //Fill in blank spaces in table data
   const cleanedTableData = cleanTableData(rawTableData, rawTableHeaders);
-
-  const noOfRows = cleanedTableData.length;
-
-  //Initial table roles
-  const tableRoleIndices = generatelTableRolesIndices(noOfRows);
 
   //Generate table actions
   const tableActions = {
@@ -84,59 +116,52 @@ export default function EconomicCosts() {
     TableActions.push({ [tableActions.actionName]: action });
   }
 
-  //Generate table roles
-  const tableRoles = {
-    roleName: "ROLES",
-    width: 120,
-    roleComponent: () => <TableRole />,
-    roleNames: ["Headers", "Units", "Data", "-"],
-    roleColors: ["#22BE34", "#DA1B57", "#31BFCC", "#969498"],
-  };
-  const TableRoles = [];
-  const { roleComponent, roleNames, roleColors } = tableRoles;
-  for (let i = 0; i <= cleanedTableData.length; i++) {
-    const role = React.cloneElement(roleComponent(), {
-      i,
-      roleNames,
-      roleColors,
-    });
-    TableRoles.push({ [tableRoles.roleName]: role });
-  }
+  const cleanedTableDataWithSN = AddSerialNumberToTable(cleanedTableData);
 
-  const [
-    interimTableHeaders,
+  const {
     tableHeaders,
     noAddedColumnTableData,
     tableData,
-  ] = generateInterimTable(
-    rawTableHeaders,
-    [tableActions.actionName, tableRoles.roleName],
+  } = generateActualTable(
+    [tableActions.actionName],
     TableActions,
-    TableRoles,
-    cleanedTableData
+    null,
+    rawTableHeaders,
+    cleanedTableDataWithSN
+  );
+  console.log(
+    "Logged output --> ~ file: EconomicCosts.tsx ~ line 122 ~ EconomicCosts ~ tableHeaders",
+    tableHeaders
+  );
+  console.log(
+    "Logged output --> ~ file: EconomicCosts.tsx ~ line 122 ~ EconomicCosts ~ tableData",
+    tableData
   );
 
-  const tableColumnWidths = generateTableColumnWidths(
-    tableData,
-    tableActions.width,
-    tableRoles.width
-  );
+  const tableColumnWidths = [
+    40,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+  ];
   const tableWidth = generateTableWidth(tableColumnWidths);
-
-  const optionIndices = generateOptionIndices(noOfRows);
+  console.log(
+    "Logged output --> ~ file: EconomicCosts.tsx ~ line 149 ~ EconomicCosts ~ tableWidth",
+    tableWidth
+  );
 
   React.useEffect(() => {
-    const initialHeaders = Object.values(noAddedColumnTableData[0]);
-    const fileUnits = Object.values(noAddedColumnTableData[1]);
-    const fileUnitsUnique = uniq(fileUnits).filter((unit) => unit !== "");
-
-    dispatch(persistFileHeadersAction(initialHeaders));
-    dispatch(persistFileUnitsAction(fileUnits, fileUnitsUnique));
-    dispatch(persistTableRolesIndicesAction(tableRoleIndices));
     dispatch(persistTableDataAction(noAddedColumnTableData));
-    dispatch(persistOptionIndicesAction(optionIndices));
-
-    dispatch(persistCurrentTableHeadersAction(interimTableHeaders));
+    dispatch(persistCurrentTableHeadersAction(rawTableHeaders));
 
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
@@ -144,6 +169,15 @@ export default function EconomicCosts() {
   }, [dispatch]);
 
   return (
+    // <div className={classes.rootParseTable}>
+    //   <ReactDataGrid
+    //     columns={columns}
+    //     rowGetter={i => this.state.rows[i]}
+    //     rowsCount={3}
+    //     onGridRowsUpdated={this.onGridRowsUpdated}
+    //     enableCellSelect={true}
+    //   />
+    // </div>
     <div className={classes.rootParseTable}>
       <ApexTable
         tableData={tableData}

@@ -6,7 +6,7 @@ import ForecastRunDetail from "../Components/ForecastRunDetail";
 import ForecastTreeView from "../Components/ForecastTreeView";
 import { contextDrawerShowAction } from "./../../Application/Redux/Actions/LayoutActions";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignSelf: "flex-start",
     height: "100%",
-    width: 300,
+    width: 250,
     // border: "1px solid #A8A8A8",
     backgroundColor: "#FFF",
     padding: 5,
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
   forecastContent: {
     marginLeft: 5,
     height: "100%",
-    width: "85%",
+    minWidth: theme.breakpoints.values["sm"],
     backgroundColor: "#FFF",
   },
 }));

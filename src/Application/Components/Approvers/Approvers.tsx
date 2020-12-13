@@ -5,15 +5,16 @@ import AvatarStack from "react-avatar-stack";
 import { IPersonDetail } from "../Author/Author";
 
 const useStyles = makeStyles(() => ({
-  image: { height: 30, width: 30 },
+  image: { height: 60, width: 60 },
   approvers: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
+    flexGrow: 1,
+    height: 80,
   },
+  noOfApprovers: { marginLeft: 15 },
 }));
 
 export interface IApprovers {
@@ -45,7 +46,9 @@ const Approvers = ({ approvers }: IApprovers) => {
               );
             })}
       </AvatarStack>
-      <Typography>{`${approvers.length} Approvers`}</Typography>
+      <Typography
+        className={classes.noOfApprovers}
+      >{`${approvers.length} Approvers`}</Typography>
     </div>
   );
 };

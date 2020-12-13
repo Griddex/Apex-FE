@@ -111,7 +111,7 @@ const steps = [
   "View Results",
 ];
 
-const EconomicsWorkflow = () => {
+const NetCashFlowWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -248,4 +248,4 @@ const EconomicsWorkflow = () => {
   );
 };
 
-export default EconomicsWorkflow;
+export default NetCashFlowWorkflow;

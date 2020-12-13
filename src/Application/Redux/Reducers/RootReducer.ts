@@ -9,6 +9,7 @@ import loginReducer from "./LoginReducer";
 import registerReducer from "./RegisterReducer";
 import uiSpinnerReducer from "./UISpinnerReducer";
 import workflowReducer from "./WorkflowReducer";
+import economicsReducer from "./../../../Economics/Redux/Reducers/EconomicsReducers";
 
 const rootReducer = combineReducers({
   loginReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   importReducer,
   chartReducer,
   networkReducer,
+  economicsReducer,
 });
 export default rootReducer;
 

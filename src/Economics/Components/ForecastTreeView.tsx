@@ -10,6 +10,7 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
+import { selectForecastRunAction } from "../Redux/Actions/EconomicsActions";
 
 function MinusSquare() {
   return (
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    minHeight: 500,
+    height: "100%",
     alignItems: "flex-start",
     justifyContent: "flex-start",
     border: "1px solid #C4C4C4",
@@ -109,17 +110,10 @@ export default function ForecastTreeView() {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const forecastRuns = [
-    "ForecastRun_1",
-    "ForecastRun_2",
-    "ForecastRun_3",
-    "ForecastRun_4",
-    "ForecastRun_5",
-    "ForecastRun_6",
-  ];
+  const forecastRuns = ["ForecastRun_1", "ForecastRun_2", "ForecastRun_3"];
 
   return (
-    <Container className={classes.container} maxWidth="md" disableGutters>
+    <div className={classes.container}>
       <TreeView
         className={classes.rootTreeView}
         defaultExpanded={["1"]}
@@ -144,11 +138,12 @@ export default function ForecastTreeView() {
                   key={i}
                   nodeId={Id}
                   label={forecastRun}
+                  onClick={() => dispatch(selectForecastRunAction(forecastRun))}
                 />
               );
             })}
         </TreeItem>
       </TreeView>
-    </Container>
+    </div>
   );
 }

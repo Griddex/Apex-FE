@@ -1,7 +1,7 @@
-import { Container, makeStyles } from "@material-ui/core";
+import { Container, makeStyles, Typography } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import ShowChartIcon from "@material-ui/icons/ShowChart";
+import LandscapeTwoToneIcon from "@material-ui/icons/LandscapeTwoTone";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import Approvers from "../../Application/Components/Approvers/Approvers";
@@ -19,6 +19,9 @@ import {
   kerryImg,
   shirleyImg,
 } from "./../../Import/Utils/iconImages";
+import MainTitle from "../../Application/Components/Basic/MainTitle";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Application/Redux/Reducers/RootReducer";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,24 +37,31 @@ const useStyles = makeStyles((theme) => ({
   },
   topSection: {
     display: "flex",
-    // justifyContent: "",
-    height: 80,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    height: 60,
     width: "100%",
-    borderBottom: "1px solid #C4C4C4",
+    "& p:nth-child(2)": { marginLeft: 10 },
   },
   midSection: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
-    height: 580,
+    justifyContent: "flex-start",
+    height: "auto",
     width: "100%",
     borderTop: "1px solid #C4C4C4",
+    marginTop: 20,
+    "& > *": { marginTop: 20 },
   },
   bottomSection: {
     display: "flex",
-    flexDirection: "row-reverse",
-    height: 50,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    height: "auto",
     width: "100%",
+    marginTop: 30,
   },
   connect: {
     display: "flex",
@@ -71,7 +81,16 @@ const useStyles = makeStyles((theme) => ({
     width: 184,
   },
   checkBox: { margin: 0 },
-  selectItem: {},
+  forecastRunInfo: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    "& p:nth-child(1)": { width: 120 },
+  },
+  forecastRunInfoContent: {
+    flexGrow: 1,
+  },
 }));
 
 export type StatusTextType = "Approved" | "Pending" | "Returned" | string;
@@ -84,8 +103,51 @@ export interface IForecastDetail {
   modifiedOn: Date;
 }
 
-const RunDetail = (props: IForecastDetail) => {
+interface IForecastRunInfo {
+  Title: () => JSX.Element;
+  Content: () => JSX.Element;
+}
+
+const ForecastRunDetail = () => {
   const classes = useStyles();
+  const { forecastRun } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
+
+  const forecastDetails: Record<string, IForecastDetail> = {
+    ForecastRun_1: {
+      titleName: "ForecastRun_1",
+      statusText: "Approved",
+      author: { imgUrl: shirleyImg, name: "Shirley Fraser" },
+      approvers: [
+        { imgUrl: anitaImg, name: "Anita Stragan" },
+        { imgUrl: glenImg, name: "Glen Moore John III" },
+        { imgUrl: kerryImg, name: "Kerry Schwarzenegger" },
+      ],
+      createdOn: formatDate(new Date(2020, 12, 19)),
+      modifiedOn: formatDate(new Date(2020, 12, 23)),
+    },
+    ForecastRun_2: {
+      titleName: "ForecastRun_2",
+      statusText: "Pending",
+      author: { imgUrl: glenImg, name: "Glen Moore John III" },
+      approvers: [{ imgUrl: anitaImg, name: "Anita Stragan" }],
+      createdOn: formatDate(new Date(2018, 2, 20)),
+      modifiedOn: formatDate(new Date(2019, 12, 23)),
+    },
+    ForecastRun_3: {
+      titleName: "ForecastRun_1",
+      statusText: "Approved",
+      author: { imgUrl: kerryImg, name: "Kerry Schwarzenegger" },
+      approvers: [
+        { imgUrl: anitaImg, name: "Anita Stragan" },
+        { imgUrl: glenImg, name: "Glen Moore John III" },
+      ],
+      createdOn: formatDate(new Date(2020, 6, 30)),
+      modifiedOn: formatDate(new Date(2020, 8, 15)),
+    },
+  };
+
   const {
     titleName,
     statusText,
@@ -93,7 +155,8 @@ const RunDetail = (props: IForecastDetail) => {
     approvers,
     createdOn,
     modifiedOn,
-  } = props;
+  } = forecastDetails[forecastRun ? forecastRun : "ForecastRun_1"];
+
   const [checked, setChecked] = React.useState(true);
 
   const handleChange = (event: {
@@ -102,78 +165,81 @@ const RunDetail = (props: IForecastDetail) => {
     setChecked(event.target.checked);
   };
 
-  return (
-    <div className={classes.container}>
+  const Name = () => (
+    <div className={classes.forecastRunInfoContent}>
       <div className={classes.topSection}>
-        <ShowChartIcon />
-        <div>{titleName}</div>
-      </div>
-      <div className={classes.midSection}>
-        <AnalyticsComp
-          title="Status"
-          content={<Status statusText={statusText} />}
-          direction="Horizontal"
-        />
-        <AnalyticsComp
-          title="Author"
-          content={<Author author={author} />}
-          direction="Horizontal"
-        />
-
-        {approvers ? (
-          <AnalyticsComp
-            title="Approvers"
-            content={<Approvers approvers={approvers} />}
-            direction="Horizontal"
-            titleStyle={{ height: "50px" }}
-          />
-        ) : (
-          "None"
-        )}
-        <AnalyticsText
-          title="Created On"
-          text={createdOn.toString()}
-          direction="Horizontal"
-        />
-        <AnalyticsText
-          title="Modified On"
-          text={modifiedOn.toString()}
-          direction="Horizontal"
-        />
-      </div>
-      <div className={classes.bottomSection}>
-        <Checkbox
-          checked={checked}
-          onChange={handleChange}
-          inputProps={{ "aria-label": "primary checkbox" }}
-        />
-        <VisibilityOutlinedIcon />
-        <DeleteOutlineOutlinedIcon />
+        <LandscapeTwoToneIcon fontSize="large" />
+        <Typography variant="subtitle1">{titleName}</Typography>
       </div>
     </div>
   );
-};
 
-const ForecastRunDetail = () => {
-  const classes = useStyles();
-  const forecastDetail = {
-    titleName: "ARPR_FORECAST_DECK_2020",
-    statusText: "Approved",
-    author: { imgUrl: shirleyImg, name: "Shirley Fraser" },
-    approvers: [
-      { imgUrl: anitaImg, name: "Anita Stragan" },
-      { imgUrl: glenImg, name: "Glen Moore John III" },
-      { imgUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2020, 12, 19)),
-    modifiedOn: formatDate(new Date(2020, 12, 23)),
+  const ForecastRunInfo = (props: IForecastRunInfo) => {
+    const { Title, Content } = props;
+
+    return (
+      <div className={classes.forecastRunInfo}>
+        <Title />
+        <Content />
+      </div>
+    );
   };
 
+  const items = [
+    {
+      Title: () => <AnalyticsTitle title="Name" />,
+      Content: () => <Name />,
+    },
+    {
+      Title: () => <AnalyticsTitle title="Status" />,
+      Content: () => <Status statusText={statusText} />,
+    },
+    {
+      Title: () => <AnalyticsTitle title="Author" />,
+      Content: () => <Author author={author} />,
+    },
+    {
+      Title: () => <AnalyticsTitle title="Approvers" />,
+      Content: () => <Approvers approvers={approvers ? approvers : "None"} />,
+    },
+    {
+      Title: () => <AnalyticsTitle title="Created On" />,
+      Content: () => <Typography>{createdOn.toString()}</Typography>,
+    },
+    {
+      Title: () => <AnalyticsTitle title="Modified On" />,
+      Content: () => <Typography>{modifiedOn.toString()}</Typography>,
+    },
+  ];
+
   return (
-    <Container className={classes.container} maxWidth="sm" fixed disableGutters>
-      <AnalyticsTitle title="Forecast Details" />
-      <RunDetail {...forecastDetail} />
-    </Container>
+    <div className={classes.container}>
+      {forecastRun ? (
+        <>
+          <MainTitle title="Forecast Details" />
+          <div className={classes.midSection}>
+            {items.map((item, i) => (
+              <ForecastRunInfo
+                key={i}
+                Title={item.Title}
+                Content={item.Content}
+              />
+            ))}
+          </div>
+          <div className={classes.bottomSection}>
+            <Checkbox
+              checked={checked}
+              onChange={handleChange}
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
+            <VisibilityOutlinedIcon />
+            <DeleteOutlineOutlinedIcon />
+          </div>
+        </>
+      ) : (
+        <Typography>{"Select Forecast"}</Typography>
+      )}
+    </div>
   );
 };
 

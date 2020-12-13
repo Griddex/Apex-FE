@@ -4,18 +4,17 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import Select from "@material-ui/core/Select";
 import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
 import React, { ChangeEvent } from "react";
 import { IPersonDetail } from "../../Application/Components/Author/Author";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
+import MainTitle from "./../../Application/Components/Basic/MainTitle";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,11 +22,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     height: "100%",
     width: "100%",
-    alignItems: "center",
+    alignItems: "flex-start",
     // justifyContent: "",
     border: "1px solid #C4C4C4",
     backgroundColor: "#FFF",
     padding: 20,
+    "& > *": { marginBottom: 40 },
   },
 
   formControl: {
@@ -36,24 +36,22 @@ const useStyles = makeStyles((theme) => ({
   },
   economicParameter: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    alignItems: "center",
     height: 40,
+    marginBottom: 5,
     width: "100%",
-    "& p:first-child": {
-      minWidth: "30%",
-    },
-    "& p:nth-child(2)": {
-      minWidth: 30,
-    },
-    "& p:nth-child(3)": {
-      minWidth: "15%",
-    },
-    "& p:nth-child(4)": {
-      minWidth: "15%",
-    },
-    "& p:nth-child(5)": {
-      width: "auto",
-    },
+  },
+  parameterName: { width: "20%" },
+  parameterIcon: { width: "5%" },
+  parameterValue: { width: "15%" },
+  parameterUnit: { width: "15%", marginLeft: 5 },
+  parameterRemark: { width: "45%", marginLeft: 5 },
+  parameterTable: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    width: "100%",
   },
 }));
 
@@ -115,16 +113,20 @@ const EconomicParameter = (props: IEconomicParameter) => {
 
   return (
     <div className={classes.economicParameter}>
-      <Typography>{parameterName}</Typography>
-      <LaunchOutlinedIcon onClick={() => parameterRuleAction()} />
+      <Typography className={classes.parameterName}>{parameterName}</Typography>
+      <LaunchOutlinedIcon
+        className={classes.parameterIcon}
+        onClick={() => parameterRuleAction()}
+      />
       <TextField
+        className={classes.parameterValue}
         label="Outlined"
         variant="outlined"
         value={parValue}
         onChange={handleParameterValueChange}
       />
       <Select
-        className={classes.formControl}
+        className={classes.parameterUnit}
         value={parUnitSelected}
         onChange={handleParameterUnitSelectedChange}
         label="Age"
@@ -139,6 +141,7 @@ const EconomicParameter = (props: IEconomicParameter) => {
         ))}
       </Select>
       <TextField
+        className={classes.parameterRemark}
         label="Outlined"
         variant="outlined"
         value={parRemark}
@@ -165,11 +168,25 @@ const parameters: IEconomicParameter[] = [
     parameterUnitSelected: 1,
     parameterRemark: "",
   },
+  {
+    parameterName: "First Gas Date",
+    parameterRuleAction: () => "hello2",
+    parameterValue: 2023,
+    parameterUnits: [{ 0: "mm-dd-YYYY" }, { 1: "dd-mm-YYYY" }],
+    parameterUnitSelected: 1,
+    parameterRemark: "",
+  },
 ];
 
-const EconomicParameterTable = (parameters: IEconomicParameter[]) => {
+const EconomicParameterTable = ({
+  parameters,
+}: {
+  parameters: IEconomicParameter[];
+}) => {
+  const classes = useStyles();
+
   return (
-    <div>
+    <div className={classes.parameterTable}>
       {parameters.map((row, i) => {
         return <EconomicParameter key={i} {...row} />;
       })}
@@ -227,19 +244,27 @@ const EconomicsData = () => {
     </RadioGroup>
   );
 };
+
 const EconomicsParameters = () => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.container} maxWidth="sm" fixed disableGutters>
-      <AnalyticsTitle title="Economics Parameters" />
+    <Container className={classes.container} maxWidth="md" fixed disableGutters>
+      <MainTitle title="Economics Parameters" />
       <AnalyticsComp
         title="Development Scenario"
         content={<SelectDevelopmentScenario />}
         direction="Horizontal"
       />
-      <EconomicsData />
-      <EconomicParameterTable {...parameters} />
+      <AnalyticsComp
+        title="Economics Data Source"
+        content={<EconomicsData />}
+        direction="Vertical"
+      />
+      <div style={{ width: "100%" }}>
+        <AnalyticsTitle title="Parameters" />
+        <EconomicParameterTable parameters={parameters} />
+      </div>
     </Container>
   );
 };
