@@ -9,8 +9,9 @@ import AccountBalanceTwoToneIcon from "@material-ui/icons/AccountBalanceTwoTone"
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React, { useState } from "react";
-import ReactDataGrid from "react-data-grid";
+import ReactDataGrid, { Column } from "react-data-griddex";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import "react-data-griddex/dist/react-data-grid.css";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import ParameterGrid from "../../Components/ParameterGrid";
 
@@ -153,10 +154,7 @@ const NCF = () => {
     );
   };
 
-  const data: Record<string, React.Key>[] = [];
-  const columns:
-    | ReactDataGrid.Column<Record<string, React.ReactText>>[]
-    | undefined = [
+  const columns: Column<Record<string, React.ReactText>>[] | undefined = [
     { key: "par1", name: "ID" },
     { key: "par2", name: "Title" },
     { key: "par3", name: "Title1" },
@@ -179,13 +177,8 @@ const NCF = () => {
         content={<ParameterSensitivity />}
         direction="Vertical"
       />
-      <ReactDataGrid
-        columns={columns}
-        rowGetter={(i) => rows && rows[i]}
-        rowsCount={rows.length}
-        // rows={rows}
-      />
-      {/* <div className={classes.parameterSensitivityContainer}>
+      {/* <ReactDataGrid columns={columns} rows={rows} /> */}
+      <div className={classes.parameterSensitivityContainer}>
         {parameterSensitivityList.map((parameter, i) => {
           return (
             <div key={i} className={classes.parameterSensitivityList}>
@@ -194,7 +187,7 @@ const NCF = () => {
             </div>
           );
         })}
-      </div> */}
+      </div>
       <Button
         className={classes.secondaryButton}
         startIcon={<ViewDayTwoToneIcon />}

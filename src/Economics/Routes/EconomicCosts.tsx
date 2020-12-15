@@ -1,7 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
+import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
-import ApexTable from "../../Application/Components/Table/ApexTable";
+import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import TableAction from "../../Application/Components/Table/TableAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import AddSerialNumberToTable from "../../Application/Utils/AddSerialNumberToTable";
@@ -13,7 +14,8 @@ import {
   persistCurrentTableHeadersAction,
   persistTableDataAction,
 } from "../../Import/Redux/Actions/ImportActions";
-import ReactDataGrid from "react-data-grid";
+import faker from "faker";
+import ApexTable from "../../Application/Components/Table/ApexTable";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -40,56 +42,37 @@ export default function EconomicCosts() {
     event.persist();
   };
 
-  // const rawTableData = useSelector(
+  // const createRawTableData() = useSelector(
   //   (state: RootState) => state.importReducer.selectedWorksheetData
   // );
+  type IRawRow = Record<string, React.Key>;
+  type IRawTable = IRawRow[];
 
-  const rawTableData = [
-    {
-      year: 2020,
-      oilRate: 2000,
-      gasRate: 26,
-      seismicCost: 10,
-      explApprCost: 5,
-      facilitiesCost: 50,
-      tangWellCost: 20,
-      intangWellCost: 15,
-      abandCost: 0,
-      directCost: 0,
-      cha: 0,
-      terminalCost: 0,
-    },
-    {
-      year: 2021,
-      oilRate: 1300,
-      gasRate: 76,
-      seismicCost: 0,
-      explApprCost: 0,
-      facilitiesCost: 0,
-      tangWellCost: 0,
-      intangWellCost: 0,
-      abandCost: 0,
-      directCost: 0,
-      cha: 0,
-      terminalCost: 0,
-    },
-    {
-      year: 2022,
-      oilRate: 1000,
-      gasRate: 76,
-      seismicCost: 0,
-      explApprCost: 0,
-      facilitiesCost: 0,
-      tangWellCost: 0,
-      intangWellCost: 0,
-      abandCost: 0,
-      directCost: 0,
-      cha: 0,
-      terminalCost: 0,
-    },
-  ];
+  const createRawTableData = (numberOfRows: number): IRawTable => {
+    const fakeRows = [];
+    for (let i = 0; i < numberOfRows; i++) {
+      const fakeRow = {
+        year: faker.random.number({ min: 2000, max: 2020 }),
+        oilRate: faker.random.number({ min: 600, max: 10000 }),
+        gasRate: faker.random.number({ min: 30, max: 160 }),
+        seismicCost: faker.random.number({ min: 10, max: 15 }),
+        explApprCost: faker.random.number({ min: 5, max: 10 }),
+        facilitiesCost: faker.random.number({ min: 50, max: 250 }),
+        tangWellCost: faker.random.number({ min: 20, max: 80 }),
+        intangWellCost: faker.random.number({ min: 10, max: 50 }),
+        abandCost: faker.random.number({ min: 10, max: 50 }),
+        directCost: faker.random.number({ min: 5, max: 20 }),
+        cha: faker.random.number({ min: 5, max: 50 }),
+        terminalCost: faker.random.number({ min: 10, max: 20 }),
+      };
 
-  //Generate actual ColumnHeaders
+      fakeRows.push(fakeRow);
+    }
+    return fakeRows;
+  }; //Generate actual ColumnHeaders
+
+  const rawTableData = createRawTableData(100);
+  // const rawTableData = React.useRef<IRawTable>(createRawTableData(100));
   const rawTableHeaders = getTableHeaders(rawTableData);
 
   //Fill in blank spaces in table data
@@ -168,23 +151,83 @@ export default function EconomicCosts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  type DataType = Record<string, React.Key | boolean>;
+  type PayloadType = {
+    fromRow: number;
+    toRow: number;
+    updated: Record<string, React.Key | boolean>;
+  };
+  interface IAction {
+    type: string;
+    payload: PayloadType;
+  }
+
+  const columns: Column<IRawRow>[] = [
+    { key: "sn", name: "SN", editable: false },
+    { key: "year", name: "year", editable: true },
+    { key: "oilRate", name: "Oil Rate", editable: true },
+    { key: "gasRate", name: "Gas Rate", editable: true },
+    { key: "seismicCost", name: "Seismic Cost", editable: true },
+    { key: "explApprCost", name: "Exploration/Appraisal Cost", editable: true },
+    { key: "facilitiesCost", name: "Facilities Cost", editable: true },
+    { key: "tangWellCost", name: "Tangible WellCost", editable: true },
+    { key: "intangWellCost", name: "Intangible WellCost", editable: true },
+    { key: "abandCost", name: "Abandonment Cost", editable: true },
+    { key: "directCost", name: "Direct Cost", editable: true },
+    { key: "cha", name: "CHA", editable: true },
+    { key: "terminalCost", name: "Terminal Cost", editable: true },
+  ];
+
+  // const rowsReducer = (rows: DataType[], action: IAction): DataType[] => {
+  //   switch (action.type) {
+  //     case "GRIDROWS_UPDATED": {
+  //       const { fromRow, toRow, updated } = action.payload;
+
+  //       const rowsData = rows.slice();
+  //       for (let i: number = fromRow; i <= toRow; i++) {
+  //         rowsData[i] = { ...rowsData[i], ...updated };
+  //       }
+  //       return rowsData;
+  //     }
+
+  //     default:
+  //       return rowsData;
+  //   }
+  // };
+  // const [rowsData, localDispatch] = React.useReducer(rowsReducer, rows);
+
+  // const onGridRowsUpdated = ({
+  //   fromRow,
+  //   toRow,
+  //   updated,
+  // }: {
+  //   fromRow: number;
+  //   toRow: number;
+  //   updated: Record<string, React.Key>;
+  // }) => {
+  //   localDispatch({
+  //     type: "GRIDROWS_UPDATED",
+  //     payload: { fromRow, toRow, updated },
+  //   });
+  // };
+
   return (
-    // <div className={classes.rootParseTable}>
-    //   <ReactDataGrid
-    //     columns={columns}
-    //     rowGetter={i => this.state.rows[i]}
-    //     rowsCount={3}
-    //     onGridRowsUpdated={this.onGridRowsUpdated}
-    //     enableCellSelect={true}
-    //   />
-    // </div>
     <div className={classes.rootParseTable}>
-      <ApexTable
-        tableData={tableData}
-        tableHeaders={tableHeaders}
-        tableColumnWidths={tableColumnWidths}
-        tableWidth={tableWidth}
+      <ApexGrid<IRawRow>
+        columns={columns}
+        rows={rawTableData}
+        sortColumn="year"
+        // sortColumnType="year" set based on current column selected to be sorted
+        sortDirection="NONE"
       />
     </div>
+    // <div className={classes.rootParseTable}>
+    //   <ApexTable
+    //     tableData={tableData}
+    //     tableHeaders={tableHeaders}
+    //     tableColumnWidths={tableColumnWidths}
+    //     tableWidth={tableWidth}
+    //   />
+    // </div>
   );
 }

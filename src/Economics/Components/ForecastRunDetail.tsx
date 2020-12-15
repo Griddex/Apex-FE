@@ -1,17 +1,18 @@
-import { Container, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import LandscapeTwoToneIcon from "@material-ui/icons/LandscapeTwoTone";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
+import { useSelector } from "react-redux";
 import Approvers from "../../Application/Components/Approvers/Approvers";
 import Author, {
   IPersonDetail,
 } from "../../Application/Components/Author/Author";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import AnalyticsText from "../../Application/Components/Basic/AnalyticsText";
-import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import MainTitle from "../../Application/Components/Basic/MainTitle";
 import Status from "../../Application/Components/Status/Status";
+import { RootState } from "../../Application/Redux/Reducers/RootReducer";
 import formatDate from "../../Application/Utils/FormatDate";
 import {
   anitaImg,
@@ -19,9 +20,6 @@ import {
   kerryImg,
   shirleyImg,
 } from "./../../Import/Utils/iconImages";
-import MainTitle from "../../Application/Components/Basic/MainTitle";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
 
 const useStyles = makeStyles((theme) => ({
   container: {

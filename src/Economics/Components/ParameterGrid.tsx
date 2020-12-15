@@ -1,7 +1,7 @@
 import { Button, makeStyles, TextField, useTheme } from "@material-ui/core";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import React from "react";
-import ReactDataGrid from "react-data-grid";
+import ReactDataGrid, { Column } from "react-data-griddex";
 import { Grid, GridCellProps } from "react-virtualized";
 import PlusOneTwoToneIcon from "@material-ui/icons/PlusOneTwoTone";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
@@ -74,9 +74,7 @@ const ParameterGrid = () => {
   }
 
   const data: Record<string, React.Key>[] = [];
-  const columns:
-    | ReactDataGrid.Column<Record<string, React.ReactText>>[]
-    | undefined = [
+  const columns: Column<Record<string, React.ReactText>>[] | undefined = [
     { key: "par1", name: "ID" },
     { key: "par2", name: "Title" },
     { key: "par3", name: "Title" },
