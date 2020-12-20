@@ -4,9 +4,12 @@ import List from "@material-ui/core/List";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import React, { RefObject } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/Reducers/RootReducer";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
+import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,9 +40,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "auto",
     width: "100%",
-    overflow: "auto",
+    overflow: "overlay",
   },
-  list: { overflow: "auto" },
   listItem: { padding: 0, cursor: "pointer" },
   listItemAvatar: {
     textAlign: "center",
@@ -64,23 +66,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SortPopover = React.forwardRef(
-  ({ icon, closeIcon, title, handleCancel, localDispatch }, ref) => {
+export interface IPopoverProps {
+  title: string;
+  action: () => void;
+  handleCancel: () => void;
+  localDispatch: React.Dispatch<{ type: string; payload: any }>;
+}
+
+const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
+  ({ title, action, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
     const headers = useSelector(
-      (state) => state.importReducer.currentTableHeaders
+      (state: RootState) => state.importReducer.currentTableHeaders
     );
 
     return (
       <div className={classes.container} ref={ref}>
         <div className={classes.header}>
-          <div className={classes.icon}>{icon}</div>
+          <div className={classes.icon}>
+            <FilterListOutlinedIcon />
+          </div>
           <div className={classes.title}>{title}</div>
-          <div className={classes.closeIcon}>{closeIcon}</div>
+          <div className={classes.closeIcon}>
+            <CloseOutlinedIcon onClick={() => action()} />
+          </div>
         </div>
         <div className={classes.body}>
-          <List dense className={classes.list}>
-            {headers.map((header, listIndex) => {
+          <List dense>
+            {headers.map((header: string, listIndex: number) => {
               const avatar = getFirstCharFromEveryWord(header);
               //TODO: Clear all
 
@@ -89,7 +102,6 @@ const SortPopover = React.forwardRef(
                   button
                   className={classes.listItem}
                   key={listIndex}
-                  name={listIndex}
                   onClick={() =>
                     localDispatch({
                       type: "ACTIVECOLUMN_TABLE",
@@ -116,4 +128,4 @@ const SortPopover = React.forwardRef(
   }
 );
 
-export default SortPopover;
+export default FilterPopover;

@@ -1,48 +1,205 @@
+import {
+  fade,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  makeStyles,
+  OutlinedInput,
+} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import SearchIcon from "@material-ui/icons/Search";
+import Pagination from "@material-ui/lab/Pagination";
+import filter from "lodash/filter";
+import sortBy from "lodash/sortBy";
+import uniqBy from "lodash/uniqBy";
 import React, { useCallback, useMemo, useState } from "react";
-import ReactDataGrid, { Column, HeaderRendererProps } from "react-data-griddex";
+import ReactDataGrid, {
+  Column,
+  DataGridHandle,
+  HeaderRendererProps,
+  SortDirection,
+} from "react-data-griddex";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { ITableIconsOptions } from "../../../../Economics/Components/EconomicsAssumptions";
+import TableIcons from "../TableIcons";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
-import sortBy from "lodash/sortBy";
+import { SelectEditor } from "./SelectEditor";
 
-export type SortDirection = "ASC" | "DESC" | "NONE";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    width: "98%",
+    height: "95%",
+    border: "1px solid #A8A8A8",
+    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    backgroundColor: "#FFF",
+  },
+  tableHeadBanner: {
+    width: "100%",
+    height: 40,
+  },
+  tableRoot: {
+    display: "flex",
+    alignItems: "flex-start",
+    overflow: "overlay",
+    width: "100%",
+    height: "86%",
+  },
+  tableIcons: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    "& > *": {
+      marginLeft: 10,
+    },
+  },
+  tableFilter: {
+    "& > *": { width: 190 },
+  },
+  tableHeader: { flexWrap: "nowrap" },
+  tableColumnTitle: { "& > *": { textTransform: "capitalize" } },
+  tablePagination: {
+    display: "flex",
+    width: "100%",
+    height: 40,
+    margin: 0,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+  formControl: {
+    height: 30,
+    margin: theme.spacing(1),
+    minWidth: 70,
+  },
+  filterIcon: { width: 20, height: 20, borderLeftColor: "#E7E7E7" },
+  tableHeaders: {
+    margin: 0,
+  },
+  headerRow: {
+    fontSize: "14px",
+    backgroundColor: "#EFEFEF",
+    "& > *": {
+      textTransform: "none",
+    },
+    borderBottom: "1px solid #F1F1F1",
+  },
+  bodyRow: {
+    fontSize: "14px",
+    borderBottom: "1px solid #F1F1F1",
+    height: "100%",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.light,
+      // border: `1px solid ${theme.palette.primary.light}`,
+    },
+  },
+  selectedRow: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.primary.light,
+    "& > *": {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.primary.light,
+    },
+  },
+}));
 
-const fakeRow = {
-  year: 0,
-  oilRate: 0,
-  gasRate: 0,
-  seismicCost: 0,
-  explApprCost: 0,
-  facilitiesCost: 0,
-  tangWellCost: 0,
-  intangWellCost: 0,
-  abandCost: 0,
-  directCost: 0,
-  cha: 0,
-  terminalCost: 0,
-};
-
-type sortColumnType = keyof typeof fakeRow;
-export interface IApexGrid<R> {
+export interface IApexGrid<R, O> {
   columns: readonly Column<R, unknown>[];
   rows: R[];
-  sortColumn: sortColumnType;
-  sortDirection: "ASC" | "DESC" | "NONE";
+  options: ITableIconsOptions;
 }
 
-export function ApexGrid<R>(props: IApexGrid<R>) {
-  const {
-    columns: rawColumns,
-    rows: rawRows,
-    sortColumn: rawSortColumn,
-    sortDirection: rawSortDirection,
-  } = props;
+export interface ITableMetaData<R> {
+  scrollToIndex?: number;
+  pageSelect?: string;
+  tableFilter?: string;
+  pageSelectTableRows?: R[];
+  filteredTableRows?: R[];
+}
 
-  const [rows] = useState(rawRows);
+export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
+  const classes = useStyles();
+
+  const { columns: rawColumns, rows: rawRows, options } = props;
+
+  const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
+  const [filteredTableRows, setFilteredTableRows] = useState(rawRows);
+  const [selectedRows, setSelectedRows] = React.useState(
+    () => new Set<React.Key>()
+  );
+  const tableRef = React.useRef<HTMLDivElement>(null);
+  const gridRef = React.useRef<DataGridHandle>(null);
+  const tableHeaderHeight = 40;
+  const tableRowHeight = 35;
+  const noOfTableRows = rawTableRows.current.length;
+
   const [columns, setColumns] = useState(rawColumns);
   const [[sortColumn, sortDirection], setSort] = useState<
     [string, SortDirection]
-  >([rawSortColumn, rawSortDirection]);
+  >(["", "NONE"]);
+
+  const [tablePagination, setTablePagination] = React.useState(0);
+  const [tableHeight, setTableHeight] = React.useState(500);
+
+  const pageOptions = ["all", 25, 50, 100, 500].map((v) => ({
+    value: v,
+    label: v,
+  }));
+  const uniquePageOptions = uniqBy(pageOptions, (v) => v.label);
+
+  const initializeTableMetaData = (): ITableMetaData<R> => {
+    const scrollToIndex = 1;
+    const pageSelect = "all";
+    const tableFilter = "";
+    const pageSelectTableRows: R[] = [];
+
+    return {
+      scrollToIndex,
+      pageSelect,
+      tableFilter,
+      pageSelectTableRows,
+    };
+  };
+
+  const tableMetaDataReducer = (
+    state: ITableMetaData<R>,
+    action: {
+      type: string;
+      payload: ITableMetaData<R>;
+    }
+  ) => {
+    switch (action.type) {
+      case "SCROLLTOROW":
+        return {
+          ...state,
+          scrollToIndex: action.payload.scrollToIndex,
+        };
+      case "FILTERROWS":
+        return {
+          ...state,
+          filteredTableRows: action.payload.filteredTableRows,
+        };
+      case "FILTERVALUE":
+        return {
+          ...state,
+          tableFilter: action.payload.tableFilter,
+        };
+      case "PAGESELECT":
+        return {
+          ...state,
+          pageSelect: action.payload.pageSelect,
+          pageSelectTableRows: action.payload.pageSelectTableRows,
+        };
+      default:
+        return state;
+    }
+  };
+  const [tableMetaData, localDispatch] = React.useReducer(
+    tableMetaDataReducer,
+    initializeTableMetaData()
+  );
 
   const handleSort = useCallback(
     (columnKey: string, direction: SortDirection) => {
@@ -82,24 +239,193 @@ export function ApexGrid<R>(props: IApexGrid<R>) {
   }, [columns]);
 
   const sortedRows = useMemo((): R[] => {
-    if (sortDirection === "NONE") return rows;
+    if (sortDirection === "NONE") return filteredTableRows;
 
-    let sortedRows: R[] = [...rows];
+    let sortedRows: R[] = [...filteredTableRows];
 
     sortedRows = sortBy(sortedRows, (row: R) => (row as any)[sortColumn]);
 
     return sortDirection === "DESC" ? sortedRows.reverse() : sortedRows;
-  }, [rows, sortDirection, sortColumn]);
+  }, [filteredTableRows, sortDirection, sortColumn]);
+
+  const handleFilterChange = (e: { target: { value: any } }) => {
+    const filterValue = e.target.value;
+    console.log(
+      "Logged output --> ~ file: ApexGrid.tsx ~ line 282 ~ handleFilterChange ~ filterValue",
+      filterValue
+    );
+    const tableRows = rawTableRows.current;
+
+    localDispatch({
+      type: "FILTERVALUE",
+      payload: { tableFilter: filterValue },
+    });
+
+    if (filterValue === "") setFilteredTableRows(tableRows);
+    // localDispatch({
+    //   type: "FILTERROWS",
+    //   payload: { filteredTableRows: tableRows },
+    // });
+
+    if (filterValue.length > 1) {
+      const promise = new Promise<R[]>((resolve, reject) => {
+        const filteredTableRows = filter(tableRows, (row) => {
+          const valuesString = Object.values(row).join();
+          return valuesString.includes(filterValue);
+        });
+
+        resolve(filteredTableRows);
+        if (filteredTableRows === []) reject(new Error("No matches"));
+      });
+
+      promise
+        .then((filteredTableRows: R[]) => {
+          // localDispatch({
+          //   type: "FILTERROWS",
+          //   payload: { filteredTableRows },
+          // });
+          setFilteredTableRows(filteredTableRows);
+        })
+        .catch(() =>
+          localDispatch({
+            type: "FILTERROWS",
+            payload: { filteredTableRows: [] },
+          })
+        );
+    }
+  };
+
+  const handlePageSelectChange = (value: string) => {
+    const pageSelectValue: string = value;
+
+    if (pageSelectValue === "all") {
+      localDispatch({
+        type: "PAGESELECT",
+        payload: {
+          pageSelect: pageSelectValue,
+          pageSelectTableRows: rawTableRows.current,
+        },
+      });
+    } else {
+      const pageSelect = parseInt(pageSelectValue);
+      const activeSelectedTableRows: R[] = rawTableRows.current.slice(
+        0,
+        pageSelect
+      );
+
+      localDispatch({
+        type: "PAGESELECT",
+        payload: {
+          pageSelect: pageSelect.toString(),
+          pageSelectTableRows: activeSelectedTableRows,
+        },
+      });
+    }
+  };
+
+  const handlePaginationChange = (
+    e: { persist: () => void },
+    pageNumber: number
+  ) => {
+    e.persist();
+    const rowsPerPage = Math.round(tableHeight / tableRowHeight);
+
+    let scrollToIndex = 0;
+    if (pageNumber === 1) {
+      scrollToIndex = 0;
+    } else {
+      scrollToIndex = (pageNumber - 1) * rowsPerPage - (pageNumber - 1);
+    }
+    gridRef.current!.scrollToRow(scrollToIndex);
+  };
+
+  function rowKeyGetter(row: R) {
+    return (row as any)["sn"];
+  }
+
+  React.useEffect(() => {
+    const tableHeight = tableRef?.current?.clientHeight || 600;
+    const pagination = Math.round(
+      noOfTableRows / (tableHeight / tableRowHeight)
+    );
+    setTablePagination(pagination);
+    setTableHeight(tableHeight);
+  }, [noOfTableRows]);
+
+  const { pageSelect, tableFilter } = tableMetaData;
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <ReactDataGrid
-        columns={draggableColumns}
-        rows={sortedRows}
-        sortColumn={sortColumn}
-        sortDirection={sortDirection}
-        onSort={handleSort}
-      />
-    </DndProvider>
+    <>
+      <Grid
+        className={classes.tableHeadBanner}
+        container
+        justify="space-between"
+        alignItems="center"
+        wrap="nowrap"
+      >
+        <Grid className={classes.tableFilter} item xs>
+          <FormControl variant="outlined">
+            <OutlinedInput
+              id="outlined-adornment-filter"
+              value={tableFilter}
+              onChange={handleFilterChange}
+              endAdornment={
+                <InputAdornment position="start">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    edge="end"
+                  >
+                    <SearchIcon className={classes.filterIcon} />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </Grid>
+        <Grid item container className={classes.tableIcons}>
+          <TableIcons localDispatch={localDispatch} options={options} />
+        </Grid>
+      </Grid>
+      <DndProvider backend={HTML5Backend}>
+        <div ref={tableRef} style={{ width: "100%", height: "100%" }}>
+          <ReactDataGrid
+            ref={gridRef}
+            style={{ width: "100%", height: "100%" }}
+            rows={sortedRows}
+            rowKeyGetter={rowKeyGetter}
+            selectedRows={selectedRows}
+            onSelectedRowsChange={setSelectedRows}
+            columns={draggableColumns}
+            sortColumn={sortColumn}
+            sortDirection={sortDirection}
+            onSort={handleSort}
+            headerRowHeight={tableHeaderHeight}
+          />
+        </div>
+      </DndProvider>
+      <div className={classes.tablePagination}>
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel
+            className={classes.formControl}
+            id="demo-simple-select-outlined-label"
+          >
+            Pages
+          </InputLabel>
+          <SelectEditor
+            className={classes.formControl}
+            value={pageSelect || "all"}
+            onChange={(value) => handlePageSelectChange(value)}
+            options={uniquePageOptions}
+            rowHeight={tableRowHeight}
+          />
+        </FormControl>
+        <Pagination
+          count={tablePagination + 1}
+          variant="outlined"
+          shape="rounded"
+          onChange={handlePaginationChange}
+        />
+      </div>
+    </>
   );
 }

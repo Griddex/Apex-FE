@@ -3,12 +3,15 @@ import ListDialog from "./ListDialog";
 import TextDialog from "./TextDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import FinalizeInputDialog from "./FinalizeInputDialog";
+import { Column } from "react-data-griddex";
+import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
   textDialog: typeof TextDialog;
   selectWorksheetDialog: typeof SelectWorksheetDialog;
   finalizeInputDialog: typeof FinalizeInputDialog;
+  economicsParametersDialog: typeof EconomicsParametersDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -23,10 +26,15 @@ export interface IDialogsServiceProps {
   steps: string[];
 }
 
+export type ITableRow = Record<string, React.Key>;
+export interface IDialogData {
+  columns: readonly Column<ITableRow, unknown>[];
+  rows: ITableRow[];
+}
 export interface DialogStuff {
   name?: string;
   title?: string;
-  type?: "listDialog" | "textDialog";
+  type?: "listDialog" | "textDialog" | "economicsParametersDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -34,9 +42,10 @@ export interface DialogStuff {
   iconType?: "error" | "success" | "select";
   contentText?: string;
   contentList?: Record<string, any>;
-  actionsList?: () => void;
+  actionsList?: () => JSX.Element;
   onClose?: () => unknown;
   classes?: Record<string, string>;
+  dialogData?: IDialogData;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

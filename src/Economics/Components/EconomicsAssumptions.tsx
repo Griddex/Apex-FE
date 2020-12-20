@@ -7,9 +7,9 @@ import uniqBy from "lodash/uniqBy";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
+import MainTitle from "../../Application/Components/Basic/MainTitle";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
-import { ITableIconsOptions } from "../Components/EconomicsAssumptions";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -22,22 +22,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const tableOptions: ITableIconsOptions = {
-  sort: {
-    show: true,
-  },
-  filter: {
-    show: true,
-  },
-  save: {
-    show: true,
-    action: () => {
-      alert("Save table icon");
-    },
-  },
-};
+export interface ITableIconsOptions {
+  [x: string]: { show: boolean; action?: () => void };
+}
 
-export default function EconomicCosts() {
+export default function EconomicsAssumptions() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -67,15 +56,37 @@ export default function EconomicCosts() {
     }
     return fakeRows;
   };
-
   const rawTableData = createRawTableData(100);
 
-  const options = rawTableData.map((row: IRawRow, i: number) => ({
+  React.useEffect(() => {
+    // dispatch(persistTableDataAction(noAddedColumnTableData));
+    // dispatch(persistCurrentTableHeadersAction(rawTableHeaders));
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    // dispatch(hideSpinnerAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+
+  const tableOptions: ITableIconsOptions = {
+    sort: {
+      show: true,
+    },
+    filter: {
+      show: true,
+    },
+    save: {
+      show: true,
+      action: () => {
+        alert("Save table icon");
+      },
+    },
+  };
+
+  const options = createRawTableData(100).map((row: IRawRow) => ({
     value: row.year,
     label: row.year,
   }));
-  const uniqueOptions = uniqBy(options, (v) => v.label);
 
+  const uniqueOptions = uniqBy(options, (v) => v.label);
   const columns: Column<IRawRow>[] = [
     { key: "sn", name: "SN", editable: false, resizable: true },
     {
@@ -107,6 +118,32 @@ export default function EconomicCosts() {
           menuPortalTarget={p.editorPortalTarget}
         />
       ),
+      // editor: (p) => (
+      //   <Select
+      //     className="basic-single"
+      //     classNamePrefix="select"
+      //     options={options}
+      //     defaultValue={{ value: "value_12345", label: p.row.year }}
+      //     isDisabled={false}
+      //     isLoading={false}
+      //     isClearable={true}
+      //     isRtl={false}
+      //     isSearchable={true}
+      //     name="year"
+      //     isMulti
+      //   ></Select>
+      // ),
+      // editor: (p) => (
+      //   <SelectEditor
+      //     value={p.row.country}
+      //     onChange={(value) =>
+      //       p.onRowChange({ ...p.row, country: value }, true)
+      //     }
+      //     options={countries.map((c) => ({ value: c, label: c }))}
+      //     rowHeight={p.rowHeight}
+      //     menuPortalTarget={p.editorPortalTarget}
+      //   />
+      // ),
     },
     { key: "oilRate", name: "Oil Rate", editable: true, resizable: true },
     { key: "gasRate", name: "Gas Rate", editable: true, resizable: true },
@@ -156,16 +193,9 @@ export default function EconomicCosts() {
     },
   ];
 
-  React.useEffect(() => {
-    // dispatch(persistTableDataAction(noAddedColumnTableData));
-    // dispatch(persistCurrentTableHeadersAction(rawTableHeaders));
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
-    // dispatch(hideSpinnerAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
   return (
     <div className={classes.rootParseTable}>
+      <MainTitle title="Economics Assumptions" />
       <ApexGrid<IRawRow, ITableIconsOptions>
         columns={columns}
         rows={rawTableData}

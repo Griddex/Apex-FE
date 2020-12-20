@@ -9,11 +9,20 @@ import AccountBalanceTwoToneIcon from "@material-ui/icons/AccountBalanceTwoTone"
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React, { useState } from "react";
-import ReactDataGrid, { Column } from "react-data-griddex";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import "react-data-griddex/dist/react-data-grid.css";
-import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
+import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ParameterGrid from "../../Components/ParameterGrid";
+import {
+  ButtonProps,
+  DialogStuff,
+} from "../../../Application/Components/Dialogs/DialogTypes";
+import {
+  hideDialogAction,
+  showDialogAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
+import { useDispatch } from "react-redux";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,24 +64,34 @@ const useStyles = makeStyles((theme) => ({
     "& div:nth-child(2)": {
       height: "auto",
     },
-    //   justifyContent: "flex-start",
-    //   alignItems: "center",
+    marginTop: 20,
   },
   parameterSensitivityContainer: {
     display: "flex",
     flexDirection: "column",
-    "& > *": { margin: 10 },
-    width: "70%",
+    width: 600,
     height: "60%",
     alignItems: "center",
     overflow: "overlay",
-    // height: 500,
+    marginTop: 20,
+    border: "1px solid #F7F7F7",
+    backgroundColor: "#F7F7F7",
+    padding: 20,
   },
-
+  primaryButton: {
+    color: theme.palette.primary.main,
+    border: `2px solid ${theme.palette.primary.main}`,
+    fontWeight: "bold",
+    width: 150,
+    marginTop: 20,
+  },
   secondaryButton: {
     color: theme.palette.secondary.main,
     border: `2px solid ${theme.palette.secondary.main}`,
     fontWeight: "bold",
+    width: 150,
+    marginTop: 20,
+    marginLeft: 20,
   },
 }));
 
@@ -82,6 +101,7 @@ export interface IParameterGrid {
 
 const NCF = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [itemName, setItemName] = useState("");
   const [parameterSensitivityList, setParameterSensitivityList] = useState<
     string[]
@@ -97,11 +117,11 @@ const NCF = () => {
       <TextField
         className={classes.selectItem}
         id="outlined-select-worksheet"
-        select
         label=""
         value={itemName}
         onChange={handleSelectChange}
         variant="outlined"
+        select
         fullWidth
       >
         {itemData.map((itemName, i: number) => (
@@ -138,6 +158,7 @@ const NCF = () => {
       "Production Terrain",
       "Gas Development Concept",
     ];
+
     return (
       <div className={classes.parameterSensitivity}>
         <SelectItem itemData={itemData} />
@@ -154,48 +175,114 @@ const NCF = () => {
     );
   };
 
-  const columns: Column<Record<string, React.ReactText>>[] | undefined = [
-    { key: "par1", name: "ID" },
-    { key: "par2", name: "Title" },
-    { key: "par3", name: "Title1" },
-    { key: "par4", name: "Title2" },
-    { key: "par5", name: "Title3" },
-  ];
-  const rows: Record<string, number>[] | undefined = [
-    { par1: 0, par2: 1, par3: 2, par4: 3, par5: 4 },
-  ];
+  const calculateNCFDialogActions = () => {
+    const buttonsData: ButtonProps[] = [
+      {
+        title: "Cancel",
+        variant: "contained",
+        color: "secondary",
+        startIcon: <CloseOutlinedIcon />,
+        handleAction: () => dispatch(hideDialogAction()),
+      },
+      {
+        title: "View Results",
+        variant: "contained",
+        color: "primary",
+        startIcon: <DoneOutlinedIcon />,
+        handleAction: () => {
+          console.log("View Results");
+        },
+      },
+    ];
+
+    return (
+      <>
+        {buttonsData.map((button, i) => (
+          <Button
+            key={i}
+            variant={button.variant}
+            color={button.color}
+            onClick={button.handleAction}
+            startIcon={button.startIcon}
+          >
+            {button.title}
+          </Button>
+        ))}
+      </>
+    );
+  };
+  const calculateNCF = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Net_Cashflow_Results_Dialog",
+      title: "Net Cashflow Results",
+      type: "textDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "success",
+      dialogText: "Net cash flow successfully calculated. View Results?",
+      actionsList: () => calculateNCFDialogActions(),
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+      }}
+    >
       <div className={classes.npvImage}>
         <AccountBalanceTwoToneIcon fontSize="large" />
         <Typography>NCF</Typography>
         <Typography>Net Cashflow</Typography>
       </div>
-      <AnalyticsComp
-        title="Parameters Sensivity"
-        content={<ParameterSensitivity />}
-        direction="Vertical"
-      />
-      {/* <ReactDataGrid columns={columns} rows={rows} /> */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          width: "400px",
+          marginTop: "20px",
+        }}
+      >
+        <AnalyticsComp
+          title="Parameters Sensivity"
+          content={<ParameterSensitivity />}
+          direction="Vertical"
+        />
+      </div>
       <div className={classes.parameterSensitivityContainer}>
         {parameterSensitivityList.map((parameter, i) => {
-          return (
-            <div key={i} className={classes.parameterSensitivityList}>
-              <AnalyticsTitle title={parameter} />
-              <ParameterGrid />
-            </div>
-          );
+          if (i === 0) {
+            return (
+              <div key={i}>
+                <ParameterGrid parameter={parameter} />
+              </div>
+            );
+          } else {
+            return (
+              <div key={i} className={classes.parameterSensitivityList}>
+                <ParameterGrid parameter={parameter} />
+              </div>
+            );
+          }
         })}
       </div>
-      <Button
-        className={classes.secondaryButton}
-        startIcon={<ViewDayTwoToneIcon />}
-        onClick={() => console.log("Calculate")}
-      >
-        Calculate
-      </Button>
-    </>
+      <div>
+        <Button
+          className={classes.primaryButton}
+          startIcon={<ViewDayTwoToneIcon />}
+          onClick={() => calculateNCF()}
+        >
+          Calculate
+        </Button>
+      </div>
+    </div>
   );
 };
 

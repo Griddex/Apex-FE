@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     height: "60%",
     alignItems: "center",
     overflow: "overlay",
-    // height: 500,
+    border: "1px solid #F7F7F7",
   },
 
   secondaryButton: {
@@ -168,8 +168,7 @@ const IRR = () => {
         {parameterSensitivityList.map((parameter, i) => {
           return (
             <div key={i} className={classes.parameterSensitivityList}>
-              <AnalyticsTitle title={parameter} />
-              <ParameterGrid />
+              <ParameterGrid parameter={parameter} />
             </div>
           );
         })}

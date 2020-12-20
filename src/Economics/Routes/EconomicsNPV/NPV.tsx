@@ -168,8 +168,7 @@ const NPV = () => {
         {parameterSensitivityList.map((parameter, i) => {
           return (
             <div key={i} className={classes.parameterSensitivityList}>
-              <AnalyticsTitle title={parameter} />
-              <ParameterGrid />
+              <ParameterGrid parameter={parameter} />
             </div>
           );
         })}

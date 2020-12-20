@@ -177,11 +177,6 @@ const EconomicsWorkflow = () => {
         </Box>
       </Container>
       <div className={classes.workflowBody}>
-        {activeStep === 2 && (
-          <div className={classes.workflowDatabasePanel}>
-            <SelectDatabase />
-          </div>
-        )}
         <div className={classes.workflowContent}>
           {renderImportStep(activeStep)}
         </div>

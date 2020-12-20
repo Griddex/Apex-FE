@@ -6,7 +6,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/Reducers/RootReducer";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
+import { IPopoverProps } from "./FilterPopover";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import SortIcon from "@material-ui/icons/Sort";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "auto",
     width: "100%",
-    overflow: "overlay",
+    overflow: "auto",
   },
+  list: { overflow: "auto" },
   listItem: { padding: 0, cursor: "pointer" },
   listItemAvatar: {
     textAlign: "center",
@@ -63,23 +68,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FilterPopover = React.forwardRef(
-  ({ icon, closeIcon, title, handleCancel, localDispatch }, ref) => {
+const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
+  ({ title, action, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
     const headers = useSelector(
-      (state) => state.importReducer.currentTableHeaders
+      (state: RootState) => state.importReducer.currentTableHeaders
     );
 
     return (
       <div className={classes.container} ref={ref}>
         <div className={classes.header}>
-          <div className={classes.icon}>{icon}</div>
+          <div className={classes.icon}>
+            <SortIcon />
+          </div>
           <div className={classes.title}>{title}</div>
-          <div className={classes.closeIcon}>{closeIcon}</div>
+          <div className={classes.closeIcon}>
+            <CloseOutlinedIcon onClick={() => action()} />
+          </div>
         </div>
         <div className={classes.body}>
-          <List dense>
-            {headers.map((header, listIndex) => {
+          <List dense className={classes.list}>
+            {headers.map((header: string, listIndex: number) => {
               const avatar = getFirstCharFromEveryWord(header);
               //TODO: Clear all
 
@@ -88,7 +97,6 @@ const FilterPopover = React.forwardRef(
                   button
                   className={classes.listItem}
                   key={listIndex}
-                  name={listIndex}
                   onClick={() =>
                     localDispatch({
                       type: "ACTIVECOLUMN_TABLE",
@@ -115,4 +123,4 @@ const FilterPopover = React.forwardRef(
   }
 );
 
-export default FilterPopover;
+export default SortPopover;

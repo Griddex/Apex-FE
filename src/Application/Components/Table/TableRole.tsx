@@ -35,6 +35,10 @@ const useStyles = makeStyles(() => ({
 
 const TableRole = (props: ITableRolesProps) => {
   const { rolesProps } = props;
+  console.log(
+    "Logged output --> ~ file: TableRole.tsx ~ line 38 ~ TableRole ~ props",
+    props
+  );
   const { i, roleNames } = rolesProps as ITableRoles;
 
   const { enqueueSnackbar } = useSnackbar();

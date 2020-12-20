@@ -6,12 +6,14 @@ import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import FinalizeInputDialog from "./FinalizeInputDialog";
 import { RootState } from "../../Redux/Reducers/RootReducer";
 import { IApplicationDialogs, DialogStuff } from "./DialogTypes";
+import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
   selectWorksheetDialog: SelectWorksheetDialog,
   finalizeInputDialog: FinalizeInputDialog,
+  economicsParametersDialog: EconomicsParametersDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {
@@ -26,7 +28,6 @@ const Dialogs: React.FC<DialogStuff> = () => {
 
         if (dialog !== undefined && dialog.show === true && type) {
           const SpecificDialog = applicationDialogs[type];
-
           return <SpecificDialog key={i} {...dialog} />;
         }
       })}
