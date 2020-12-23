@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
     border: "1px solid #A8A8A8",
   },
-  selectItem: { minWidth: 200, marginRight: 20 },
+  selectItem: { minWidth: 250, marginRight: 20 },
   button: {
     color: theme.palette.primary.main,
     border: `2px solid ${theme.palette.primary.main}`,
@@ -211,6 +211,7 @@ const NCF = () => {
       </>
     );
   };
+
   const calculateNCF = () => {
     const dialogParameters: DialogStuff = {
       name: "Net_Cashflow_Results_Dialog",

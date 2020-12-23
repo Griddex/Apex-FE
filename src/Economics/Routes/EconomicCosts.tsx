@@ -8,8 +8,12 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import {
+  IRawRow,
+  IRawTable,
+  ITableIconsOptions,
+} from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
-import { ITableIconsOptions } from "../Components/EconomicsAssumptions";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -40,9 +44,6 @@ const tableOptions: ITableIconsOptions = {
 export default function EconomicCosts() {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  type IRawRow = Record<string, React.Key>;
-  type IRawTable = IRawRow[];
 
   const createRawTableData = (numberOfRows: number): IRawTable => {
     const fakeRows = [];

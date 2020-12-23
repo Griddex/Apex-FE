@@ -8,11 +8,11 @@ import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import SortIcon from "@material-ui/icons/Sort";
 import React from "react";
 import Popover, { ArrowContainer } from "react-tiny-popover";
-import { ITableIconsOptions } from "../../../Economics/Components/EconomicsAssumptions";
 import ToTitleCase from "../../Utils/ToTitleCase";
 import FilterPopover from "../Popovers/FilterPopover";
 import MoreIconsPopover from "../Popovers/MoreIconsPopover";
 import SortPopover from "../Popovers/SortPopover";
+import { ITableIconsOptions } from "./ReactDataGrid/ApexGridTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -178,7 +178,7 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
         }
       })}
 
-      {/* <Popover
+      <Popover
         isOpen={isMoreIconsPopoverOpen}
         position={["bottom", "right", "top", "left"]}
         padding={5}
@@ -210,7 +210,7 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
         <MoreHorizOutlinedIcon
           onClick={() => setIsMoreIconsPopoverOpen(!isMoreIconsPopoverOpen)}
         />
-      </Popover> */}
+      </Popover>
     </>
   );
 };

@@ -15,8 +15,9 @@ import sizeConversions from "../../../../Application/Utils/SizeConversions";
 import { persistWorksheetAction } from "../../../Redux/Actions/ImportActions";
 import FileIconService from "../../../Services/FileIconService";
 import { useSnackbar } from "notistack";
-import AnalyticsComp from "./../../../../Application/Components/Basic/AnalyticsComp";
-import formatDate from "./../../../../Application/Utils/FormatDate";
+import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import formatDate from "../../../../Application/Utils/FormatDate";
+import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -70,7 +71,7 @@ const SelectSheet = () => {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  const importData = useSelector((state) => state.importReducer);
+  const importData = useSelector((state: RootState) => state.importReducer);
 
   React.useEffect(() => {
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
@@ -87,13 +88,13 @@ const SelectSheet = () => {
   } = importData;
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
-    (state) => state.importReducer
+    (state: RootState) => state.importReducer
   );
 
   const [worksheetName, setWorksheetName] = React.useState(
     selectedWorksheetName
   );
-  const handleSelectChange = (event) => {
+  const handleSelectChange = (event: { target: { value: any } }) => {
     const selectedWorksheetName = event.target.value;
 
     setWorksheetName(selectedWorksheetName);
@@ -125,7 +126,7 @@ const SelectSheet = () => {
         onChange={handleSelectChange}
         variant="outlined"
       >
-        {workSheetNames.map((worksheetName) => (
+        {workSheetNames.map((worksheetName: string) => (
           <MenuItem key={worksheetName} value={worksheetName}>
             {worksheetName}
           </MenuItem>

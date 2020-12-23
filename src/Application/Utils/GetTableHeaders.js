@@ -6,6 +6,7 @@ const getTableHeaders = (tableData) => {
 
     return rowKeysLength > maxNumber ? i : i;
   });
+
   return Object.keys(tableData[headerRowIndex]);
 };
 

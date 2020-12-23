@@ -6,8 +6,8 @@ export const serverLoginRequestAction = (
   authenticationType,
   userName,
   password,
-  successDialogPayload,
-  failureDialogPayload
+  successDialogParameters,
+  failureDialogParameters
 ) => {
   return {
     type: SERVERLOGIN_REQUEST,
@@ -15,8 +15,8 @@ export const serverLoginRequestAction = (
       authenticationType,
       userName,
       password,
-      successDialogPayload,
-      failureDialogPayload,
+      successDialogParameters,
+      failureDialogParameters,
     },
     meta: { showSpinner: true, message: "Connecting to database..." },
   };

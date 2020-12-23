@@ -5,6 +5,7 @@ import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import FinalizeInputDialog from "./FinalizeInputDialog";
 import { Column } from "react-data-griddex";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
+import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -12,6 +13,7 @@ export interface IApplicationDialogs {
   selectWorksheetDialog: typeof SelectWorksheetDialog;
   finalizeInputDialog: typeof FinalizeInputDialog;
   economicsParametersDialog: typeof EconomicsParametersDialog;
+  economicsParameterImportWorkflowDialog: typeof EconomicsParameterImportWorkflowDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -34,7 +36,13 @@ export interface IDialogData {
 export interface DialogStuff {
   name?: string;
   title?: string;
-  type?: "listDialog" | "textDialog" | "economicsParametersDialog";
+  type?:
+    | "listDialog"
+    | "textDialog"
+    | "selectWorksheetDialog"
+    | "finalizeInputDialog"
+    | "economicsParametersDialog"
+    | "economicsParameterImportWorkflowDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

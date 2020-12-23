@@ -22,8 +22,8 @@ import ReactDataGrid, {
 } from "react-data-griddex";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { ITableIconsOptions } from "../../../../Economics/Components/EconomicsAssumptions";
 import TableIcons from "../TableIcons";
+import { ITableIconsOptions } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 import { SelectEditor } from "./SelectEditor";
 

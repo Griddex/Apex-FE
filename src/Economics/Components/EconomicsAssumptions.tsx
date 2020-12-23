@@ -9,6 +9,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import MainTitle from "../../Application/Components/Basic/MainTitle";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
 
 const useStyles = makeStyles(() => ({
@@ -21,10 +22,6 @@ const useStyles = makeStyles(() => ({
     padding: 20,
   },
 }));
-
-export interface ITableIconsOptions {
-  [x: string]: { show: boolean; action?: () => void };
-}
 
 export default function EconomicsAssumptions() {
   const classes = useStyles();

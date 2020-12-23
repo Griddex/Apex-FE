@@ -8,12 +8,10 @@ import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import RefreshOutlinedIcon from "@material-ui/icons/RefreshOutlined";
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
-import ServerLoginForm from "./../../../../Application/Components/Forms/ServerLoginForm";
-import { useSelector, useDispatch } from "react-redux";
-import { hideDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import Dialogs from "./../../../../Application/Components/Dialogs/Dialogs";
+import ServerLoginForm from "../../../../Application/Components/Forms/ServerLoginForm";
+import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,17 +58,17 @@ const ConnectDatabase = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const dbSourcesItemData = ["MSSQL Server", "Oracle Server"];
-  const serverNameItemData = ["SQLDBSQLExpress", "OracleExpress"];
+  const dbSourcesItemData: string[] = ["MSSQL Server", "Oracle Server"];
+  const serverNameItemData: string[] = ["SQLDBSQLExpress", "OracleExpress"];
 
   const [itemName, setItemName] = useState("");
 
-  const handleSelectChange = (event) => {
+  const handleSelectChange = (event: { target: { value: any } }) => {
     const item = event.target.value;
     setItemName(item);
   };
 
-  const SelectItem = ({ itemData }) => {
+  const SelectItem = ({ itemData }: { itemData: string[] }) => {
     return (
       <TextField
         className={classes.selectItem}
@@ -91,40 +89,12 @@ const ConnectDatabase = () => {
     );
   };
 
-  const connectDatabaseSuccessDialogActions = () => {
-    const buttonsData = [
-      {
-        title: "Okay",
-        variant: "outlined",
-        color: "primary",
-        startIcon: <DoneOutlinedIcon />,
-        handleAction: () => dispatch(hideDialogAction()),
-      },
-    ];
-
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        onClick={button.handleAction}
-        startIcon={button.startIcon}
-      >
-        {button.title}
-      </Button>
-    ));
-  };
-
-  const { dialogs } = useSelector((state) => state.dialogsReducer);
+  const { dialogs } = useSelector((state: RootState) => state.dialogsReducer);
   const currentDialog = dialogs[dialogs.length - 1];
-  const dialogsText = currentDialog && currentDialog.dialogsText;
+  const dialogText = currentDialog && (currentDialog.dialogText as string);
 
   return (
     <Container className={classes.container} maxWidth="sm" fixed disableGutters>
-      <Dialogs
-        content={dialogsText}
-        actions={() => connectDatabaseSuccessDialogActions()}
-      />
       <Grid
         className={classes.topSection}
         container

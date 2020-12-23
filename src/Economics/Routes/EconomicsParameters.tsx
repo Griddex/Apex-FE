@@ -1,46 +1,36 @@
-import {
-  Button,
-  Container,
-  makeStyles,
-  TextField,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { Container, makeStyles, useTheme } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Select from "@material-ui/core/Select";
-import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
-import React, { ChangeEvent } from "react";
-import { IPersonDetail } from "../../Application/Components/Author/Author";
-import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import ToTitleCase from "../../Application/Utils/ToTitleCase";
-import MainTitle from "./../../Application/Components/Basic/MainTitle";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import ReactDataGrid, { Column, SelectColumn } from "react-data-griddex";
-import faker from "faker";
-import Dropzone from "react-dropzone";
-import xlsx from "xlsx";
-import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
-import { useDispatch, useSelector } from "react-redux";
-import { workflowNextAction } from "../../Application/Redux/Actions/WorkflowActions";
-import {
-  persistFileAction,
-  persistWorksheetNamesAction,
-  persistWorksheetAction,
-} from "../../Import/Redux/Actions/ImportActions";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import faker from "faker";
 import uniqBy from "lodash/uniqBy";
+import React, { ChangeEvent } from "react";
+import ReactDataGrid, { Column, SelectColumn } from "react-data-griddex";
+import Dropzone from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
+import xlsx from "xlsx";
+import { IPersonDetail } from "../../Application/Components/Author/Author";
+import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import { ITableIconsOptions } from "../Components/EconomicsAssumptions";
+import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import ToTitleCase from "../../Application/Utils/ToTitleCase";
+import {
+  persistFileAction,
+  persistWorksheetAction,
+  persistWorksheetNamesAction,
+} from "../../Import/Redux/Actions/ImportActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -220,120 +210,118 @@ const EconomicsParameters = () => {
     );
   };
 
+  const moreEconomicParametersDetails = () => {
+    //Supposed to be object from server
+    //use row uuid to fetch specific economic parameters obj
+    const ecoparameters = [
+      "Reference Year for Discounting",
+      "First Oil Date",
+      "Oil price",
+      "Gas price",
+      "LPG Price",
+      "Lean Gas/WH Gas Ratio",
+      "LPG Prod/WH Gas Prod Ratio",
+      "Farm-in Signature Bonus",
+      "G&A Cost (Pre-Prod) ",
+      "G&A Cost (Post-Prod) ",
+      "Var Oil Opex (CHA)",
+      "Var Oil Opex (Terminaling Fee)",
+      "Gas Var Opex",
+      "Operation Days/annum",
+      "Self Utilized Gas Volume",
+      "Inflation Rate",
+      "Recoverable Reserves",
+      "Abandonment Cost",
+      "Abandonment Cost per bbl",
+      "Production Terrain",
+      "Gas Development Concept",
+    ];
+
+    const createRawTableData = (
+      numberOfRows: number = ecoparameters.length
+    ): IRawTable => {
+      const fakeRows = [];
+      for (let i = 0; i < numberOfRows; i++) {
+        const fakeRow = {
+          sn: i + 1,
+          parameter: ecoparameters[i],
+          value: faker.random.number(100000),
+          unit: faker.random.word(),
+          remark: faker.random.words(),
+        };
+
+        fakeRows.push(fakeRow);
+      }
+      return fakeRows;
+    };
+
+    const rows = createRawTableData(ecoparameters.length);
+    const options = rows.map((row: IRawRow, i: number) => ({
+      value: row.unit,
+      label: row.unit,
+    }));
+
+    const uniqueOptions = uniqBy(options, (v) => v.label);
+
+    const columns: Column<IRawRow>[] = [
+      { key: "sn", name: "SN", editable: false, resizable: true },
+      {
+        key: "parameter",
+        name: "Parameter",
+        editable: false,
+        resizable: true,
+      },
+      {
+        key: "actions",
+        name: "Actions",
+        editable: false,
+        formatter: ({ row }) => (
+          <div>
+            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
+            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
+            <LaunchOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
+          </div>
+        ),
+      },
+      { key: "value", name: "Value", editable: false, resizable: true },
+      {
+        key: "unit",
+        name: "Unit",
+        editable: true,
+        resizable: true,
+        editor: (p) => (
+          <SelectEditor
+            value={p.row.year as string}
+            onChange={(value) =>
+              p.onRowChange({ ...p.row, country: value }, true)
+            }
+            options={uniqueOptions}
+            rowHeight={p.rowHeight}
+            menuPortalTarget={p.editorPortalTarget}
+          />
+        ),
+      },
+      { key: "remark", name: "Remark", editable: true, resizable: true },
+    ];
+
+    const dialogParameters: DialogStuff = {
+      name: "Economic_Parameter_Details_Dialog",
+      title: "Economic Parameter Details",
+      type: "economicsParametersDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "select",
+      dialogText: "",
+      dialogData: { columns, rows },
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
+
   const EconomicsDataTemplate = () => {
     function rowKeyGetter(row: IRawRow) {
       return row.sn;
     }
-
-    const moreEconomicParametersDetails = () => {
-      //Supposed to be object from server
-      //use row uuid to fetch specific economic parameters obj
-      const ecoparameters = [
-        "Reference Year for Discounting",
-        "First Oil Date",
-        "Oil price",
-        "Gas price",
-        "LPG Price",
-        "Lean Gas/WH Gas Ratio",
-        "LPG Prod/WH Gas Prod Ratio",
-        "Farm-in Signature Bonus",
-        "G&A Cost (Pre-Prod) ",
-        "G&A Cost (Post-Prod) ",
-        "Var Oil Opex (CHA)",
-        "Var Oil Opex (Terminaling Fee)",
-        "Gas Var Opex",
-        "Operation Days/annum",
-        "Self Utilized Gas Volume",
-        "Inflation Rate",
-        "Recoverable Reserves",
-        "Abandonment Cost",
-        "Abandonment Cost per bbl",
-        "Production Terrain",
-        "Gas Development Concept",
-      ];
-
-      const createRawTableData = (
-        numberOfRows: number = ecoparameters.length
-      ): IRawTable => {
-        const fakeRows = [];
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            parameter: ecoparameters[i],
-            value: faker.random.number(100000),
-            unit: faker.random.word(),
-            remark: faker.random.words(),
-          };
-
-          fakeRows.push(fakeRow);
-        }
-        return fakeRows;
-      };
-
-      const rows = createRawTableData(ecoparameters.length);
-      const options = rows.map((row: IRawRow, i: number) => ({
-        value: row.unit,
-        label: row.unit,
-      }));
-
-      const uniqueOptions = uniqBy(options, (v) => v.label);
-
-      const columns: Column<IRawRow>[] = [
-        { key: "sn", name: "SN", editable: false, resizable: true },
-        {
-          key: "parameter",
-          name: "Parameter",
-          editable: false,
-          resizable: true,
-        },
-        {
-          key: "actions",
-          name: "Actions",
-          editable: false,
-          formatter: ({ row }) => (
-            <div>
-              <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-              <DeleteOutlinedIcon
-                onClick={() => alert(`Delete Row is:${row}`)}
-              />
-              <LaunchOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-            </div>
-          ),
-        },
-        { key: "value", name: "Value", editable: false, resizable: true },
-        {
-          key: "unit",
-          name: "Unit",
-          editable: true,
-          resizable: true,
-          editor: (p) => (
-            <SelectEditor
-              value={p.row.year as string}
-              onChange={(value) =>
-                p.onRowChange({ ...p.row, country: value }, true)
-              }
-              options={uniqueOptions}
-              rowHeight={p.rowHeight}
-              menuPortalTarget={p.editorPortalTarget}
-            />
-          ),
-        },
-        { key: "remark", name: "Remark", editable: true, resizable: true },
-      ];
-
-      const dialogParameters: DialogStuff = {
-        name: "Economic_Parameter_Details_Dialog",
-        title: "Economic Parameter Details",
-        type: "economicsParametersDialog",
-        show: true,
-        exclusive: true,
-        maxWidth: "sm",
-        iconType: "select",
-        dialogText: "",
-        dialogData: { columns, rows },
-      };
-      dispatch(showDialogAction(dialogParameters));
-    };
 
     const createRawTableData = (numberOfRows: number): IRawTable => {
       const fakeRows = [];
@@ -445,12 +433,12 @@ const EconomicsParameters = () => {
                 const dialogParameters = {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",
-                  type: "selectWorksheetDialog",
+                  type: "economicsParameterImportWorkflowDialog",
                   show: true,
                   exclusive: true,
-                  maxwidth: "sm",
+                  maxwidth: "md",
                   iconType: "select",
-                  dialogText: "",
+                  dialogText: "singleSheetFile",
                   iconColor: theme.palette.primary.main,
                   contentList: workSheetNames,
                 };
@@ -470,6 +458,20 @@ const EconomicsParameters = () => {
                     selectedWorksheetData
                   )
                 );
+
+                const dialogParameters = {
+                  name: "Excel_Worksheet_Selection_Dialog",
+                  title: "Excel Worksheet Selection",
+                  type: "economicsParameterImportWorkflowDialog",
+                  show: true,
+                  exclusive: true,
+                  maxwidth: "md",
+                  iconType: "select",
+                  dialogText: "multiSheetFile",
+                  iconColor: theme.palette.primary.main,
+                  contentList: workSheetNames,
+                };
+                dispatch(showDialogAction(dialogParameters));
               }
             };
             reader.onprogress = () => {

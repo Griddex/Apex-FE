@@ -4,11 +4,12 @@ import Container from "@material-ui/core/Container";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React from "react";
-import Dropzone from "react-dropzone";
+import Dropzone, { DropEvent, FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
+import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
 import {
   importFileInitAction,
   persistFileAction,
@@ -68,41 +69,45 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const dnDDisabled = useSelector((state) => state.importReducer.dnDDisabled);
+  const dnDDisabled = useSelector(
+    (state: RootState) => state.importReducer.dnDDisabled
+  );
   const theme = useTheme();
 
-  const workflowData = useSelector((state) => state.workflowReducer);
-  const { skipped, isStepSkipped, activeStep, steps } = workflowData;
-  // const [inputDeckWorkbook, setInputDeckWorkbook] = useState([]);
+  const { skipped, isStepSkipped, activeStep, steps } = useSelector(
+    (state: RootState) => state.workflowReducer
+  );
 
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
       <Dropzone
         accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        onDropAccepted={(acceptedFile) => {
-          const file = acceptedFile[0];
+        onDropAccepted={(acceptedFiles: FileWithPath[]) => {
+          const file: FileWithPath = acceptedFiles[0];
           const {
-            lastModifiedDate: fileLastModified,
+            lastModified: fileLastModified,
             name: fileName,
             path: filePath,
             type: fileType,
             size: fileSize,
           } = file;
 
-          const reader = new FileReader();
+          const reader: FileReader = new FileReader();
           reader.readAsArrayBuffer(file);
 
           reader.onabort = () => console.log("file reading was aborted");
           reader.onerror = () => console.log("file reading has failed");
           reader.onload = () => {
-            const fileData = new Uint8Array(reader.result);
-            const inputWorkbook = xlsx.read(fileData, { type: "array" });
+            const fileData = new Uint8Array(reader.result as ArrayBuffer);
+            const inputWorkbook: xlsx.WorkBook = xlsx.read(fileData, {
+              type: "array",
+            });
             dispatch(persistFileAction(inputWorkbook));
 
             const {
               Author: fileAuthor,
               CreatedDate: fileCreated,
-            } = inputWorkbook.Props;
+            } = inputWorkbook.Props as xlsx.FullProperties;
 
             dispatch(
               importFileInitAction(
@@ -166,6 +171,7 @@ const UploadFile = () => {
       >
         {({ getRootProps, getInputProps }) => {
           //TODO: if file is not accepted etc, dispatch dialog
+          const ref = getRootProps();
           return (
             <section className={classes.dndSection}>
               <div {...getRootProps()} className={classes.dndInput}>
@@ -176,10 +182,10 @@ const UploadFile = () => {
                 </div>
               </div>
               <Button
+                // refKey={ref}
                 className={classes.selectFile}
-                color="primary"
                 variant="contained"
-                {...getRootProps()}
+                // {...getRootProps()}
               >
                 Select File
               </Button>

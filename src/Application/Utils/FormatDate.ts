@@ -1,13 +1,13 @@
-const formatDate = (date) => {
+const formatDate = (date: Date) => {
   // Saturday, September 17, 2016
-  const options1 = {
+  const options: Record<string, string> = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
 
-  return date.toLocaleDateString("en-US", options1);
+  return date.toLocaleDateString("en-US", options);
 };
 
 export default formatDate;

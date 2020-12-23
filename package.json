@@ -107,6 +107,7 @@
     "@rescripts/rescript-env": "0.0.12",
     "@types/faker": "^5.1.5",
     "@types/react-select": "^3.0.28",
+    "@types/yup": "^0.29.11",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "babel-eslint": "^10.1.0",

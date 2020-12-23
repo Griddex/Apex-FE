@@ -3,11 +3,14 @@
 const cleanTableData = (tableData, tableHeaders) => {
   const tempCleanTableData = tableData.map((row) => {
     const dataObj = {};
+
     for (const header of tableHeaders) {
       dataObj[header] = row[header] ? row[header] : "";
     }
+
     return dataObj;
   });
+
   return tempCleanTableData;
 };
 

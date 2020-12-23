@@ -12,15 +12,19 @@ import PersonIcon from "@material-ui/icons/Person";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { Formik } from "formik";
-import React from "react";
+import { Formik, FormikProps } from "formik";
+import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { serverLoginRequestAction } from "./../../../Import/Redux/Actions/DatabaseServerActions";
-import databaseServerState from "./../../../Import/Redux/State/DatabaseServerState";
-import WarningIcon from "@material-ui/icons/Warning";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { serverLoginRequestAction } from "../../../Import/Redux/Actions/DatabaseServerActions";
+import databaseServerState from "../../../Import/Redux/State/DatabaseServerState";
+import {
+  hideDialogAction,
+  showDialogAction,
+} from "../../Redux/Actions/DialogsAction";
+import AnalyticsComp from "../Basic/AnalyticsComp";
+import { ButtonProps } from "../Dialogs/DialogTypes";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,7 +69,17 @@ const useStyles = makeStyles((theme) => ({
   selectItem: {},
 }));
 
-const SelectItem = ({ handleChange, authenticationType, itemData }) => {
+interface IDatabaseProps {
+  handleChange: (e: string | ChangeEvent<any>) => void;
+  authenticationType: string;
+  itemData: string[];
+}
+
+const SelectItem = ({
+  handleChange,
+  authenticationType,
+  itemData,
+}: IDatabaseProps) => {
   return (
     <TextField
       // className={classes.selectWorksheet}
@@ -85,6 +99,12 @@ const SelectItem = ({ handleChange, authenticationType, itemData }) => {
   );
 };
 
+interface IFormValues {
+  authenticationType: string;
+  userName: string;
+  password: string;
+}
+
 const ServerLoginForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -94,54 +114,69 @@ const ServerLoginForm = () => {
     "Server Authentication",
     "Windows Authentication",
   ];
-  // const [authenticationType, setAuthenticationType] = useState(
-  //   authenticationTypeList[0]
-  // );
-  // const handleSelectChange = (event) => {
-  //   const authType = event.target.value;
-  //   setAuthenticationType(authType);
-  // };
 
   const [showPassword, setShowPassword] = React.useState(false);
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = (event: { preventDefault: () => void }) => {
     event.preventDefault();
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = (event: { persist: () => void }) => {
     event.persist();
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const successDialogPayload = {
-    dialogType: "textDialog",
-    dialogProps: {
-      name: "Connect_Database_Success_Dialog",
-      title: "Save Operation Success",
-      show: true,
-      exclusive: true,
-      maxwidth: "xs",
-      icon: () => <CheckCircleIcon />,
-      iconType: "success",
-      iconColor: theme.palette.primary.main,
-      dialogText: "Database connection successful",
-    },
+  const connectDatabaseDialogActions = () => {
+    const buttonsData: ButtonProps[] = [
+      {
+        title: "Okay",
+        variant: "outlined",
+        color: "secondary",
+        startIcon: <DoneOutlinedIcon />,
+        handleAction: () => dispatch(hideDialogAction()),
+      },
+    ];
+
+    return buttonsData.map((button, i) => (
+      <Button
+        key={i}
+        variant={button.variant}
+        color={button.color}
+        onClick={button.handleAction}
+        startIcon={button.startIcon}
+      >
+        {button.title}
+      </Button>
+    ));
   };
 
-  const failureDialogPayload = {
-    dialogType: "textDialog",
-    dialogProps: {
-      name: "Connect_Database_Failure_Dialog",
-      title: "Save Operation Failure",
-      show: true,
-      exclusive: true,
-      maxwidth: "xs",
-      icon: () => <WarningIcon />,
-      iconType: "error",
-      iconColor: theme.palette.secondary.main,
-      dialogText: "Database connection failure",
-    },
+  const successDialogParameters = {
+    name: "Connect_Database_Success_Dialog",
+    title: "Save Operation Success",
+    type: "textDialog",
+    show: true,
+    exclusive: true,
+    maxwidth: "sm",
+    iconType: "error",
+    dialogText: "Database connection successful",
+    iconColor: theme.palette.primary.main,
+    actionsList: connectDatabaseDialogActions,
   };
+  dispatch(showDialogAction(successDialogParameters));
+
+  const failureDialogParameters = {
+    name: "Connect_Database_Failure_Dialog",
+    title: "Save Operation Failure",
+    type: "textDialog",
+    show: true,
+    exclusive: true,
+    maxwidth: "sm",
+    iconType: "error",
+    dialogText: "Database connection failure",
+    iconColor: theme.palette.primary.main,
+    actionsList: connectDatabaseDialogActions,
+  };
+  dispatch(showDialogAction(failureDialogParameters));
 
   return (
     <Formik
@@ -160,13 +195,13 @@ const ServerLoginForm = () => {
             authenticationType,
             userName,
             password,
-            successDialogPayload,
-            failureDialogPayload
+            successDialogParameters,
+            failureDialogParameters
           )
         );
       }}
     >
-      {(props) => {
+      {(props: FormikProps<IFormValues>) => {
         const {
           values: { authenticationType, userName, password },
           errors,
@@ -201,8 +236,8 @@ const ServerLoginForm = () => {
               <Grid item xs={8} container alignItems="center">
                 <TextField
                   name="userName"
-                  helperText={touched[userName] ? errors[userName] : ""}
-                  error={Boolean(errors[userName] && touched[userName])}
+                  helperText={touched.userName ? errors.userName : ""}
+                  error={Boolean(errors.userName && touched.userName)}
                   label="Username"
                   value={userName}
                   onChange={handleChange}
@@ -221,8 +256,8 @@ const ServerLoginForm = () => {
               <Grid item xs={8} container alignItems="center">
                 <TextField
                   name="password"
-                  helperText={touched[password] ? errors[password] : ""}
-                  error={Boolean(errors[password] && touched[password])}
+                  helperText={touched.password ? errors.password : ""}
+                  error={Boolean(errors.password && touched.password)}
                   label="Password"
                   autoComplete="current-password"
                   InputProps={{
@@ -235,7 +270,7 @@ const ServerLoginForm = () => {
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
-                          onClick={setShowPassword}
+                          onClick={() => setShowPassword(true)}
                           onMouseDown={handleMouseDownPassword}
                         >
                           {showPassword ? <Visibility /> : <VisibilityOff />}

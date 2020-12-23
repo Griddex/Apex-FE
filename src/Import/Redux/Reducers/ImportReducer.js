@@ -23,6 +23,7 @@ import {
   IMPORT_EXCEL_MATCHING,
   IMPORT_EXCELWORKSHEETNAME_SET,
   IMPORT_EXCELWORKSHEETPARSE_NAVIGATE,
+  SELECTED_ROW,
 } from "../Actions/ImportActions";
 
 import importState from "./../State/ImportState";
@@ -126,6 +127,11 @@ const importReducer = (state = importState, action) => {
       return {
         ...state,
         extrudeParseTable: action.payload.extrudeParseTable,
+      };
+    case SELECTED_ROW:
+      return {
+        ...state,
+        selectedRow: action.payload.selectedRow,
       };
     default:
       return state;

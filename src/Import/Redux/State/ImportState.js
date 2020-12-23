@@ -39,6 +39,7 @@ const importState = {
   tableData: [],
   finalTableData: [],
   currentTableHeaders: [],
+  selectedRow: null,
 };
 
 export default importState;

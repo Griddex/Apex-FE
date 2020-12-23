@@ -25,6 +25,7 @@ export const IMPORT_EXCEL_MATCHING = "IMPORT_EXCEL_MATCHING";
 export const IMPORT_EXCELWORKSHEETNAME_SET = "IMPORT_EXCELWORKSHEETNAME_SET";
 export const IMPORT_EXCELWORKSHEETPARSE_NAVIGATE =
   "IMPORT_EXCELWORKSHEETPARSE_NAVIGATE";
+export const SELECTED_ROW = "SELECTED_ROW";
 
 export const importFileInitAction = (
   fileLastModified,
@@ -185,9 +186,17 @@ export const persistCurrentTableHeadersAction = (currentTableHeaders) => {
     payload: { currentTableHeaders },
   };
 };
+
 export const persistOptionIndicesAction = (optionIndices) => {
   return {
     type: PERSIST_OPTIONINDICES,
     payload: { optionIndices },
+  };
+};
+
+export const selectedRowAction = (selectedRow) => {
+  return {
+    type: SELECTED_ROW,
+    payload: selectedRow,
   };
 };

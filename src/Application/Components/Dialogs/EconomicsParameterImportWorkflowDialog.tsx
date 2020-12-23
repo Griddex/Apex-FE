@@ -9,24 +9,14 @@ import Typography from "@material-ui/core/Typography";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DoneTwoToneIcon from "@material-ui/icons/DoneTwoTone";
 import InfoIcon from "@material-ui/icons/Info";
 import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import WarningIcon from "@material-ui/icons/Warning";
-import { useSnackbar } from "notistack";
 import React from "react";
-import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
-import MainTitle from "../../Application/Components/Basic/MainTitle";
-import {
-  ButtonProps,
-  DialogStuff,
-  IDialogData,
-} from "../../Application/Components/Dialogs/DialogTypes";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { hideDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import EconomicsParameterImportWorkflow from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -45,6 +35,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
+    // backgroundColor: (props) => props.iconColor,
+    // color: (props: DialogStuff) => {
+    //   return props.iconColor;
+    // },
   },
   dialogTitle: {
     display: "flex",
@@ -54,29 +48,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
   },
   closeButton: {
+    // position: "absolute",
+    // right: theme.spacing(1),
+    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
     padding: 0,
   },
-  economicParameterDialogContent: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-  },
+  listDialogContent: { display: "flex", flexDirection: "column" },
   listBorder: {
     height: 200,
     overflow: "overlay",
     border: "1px solid #F7F7F7",
   },
   avatar: {
+    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
-  },
-  secondaryButton: {
-    color: theme.palette.secondary.main,
-    border: `2px solid ${theme.palette.secondary.main}`,
-    fontWeight: "bold",
-    height: 30,
   },
 }));
 
@@ -131,68 +119,11 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const EconomicsParametersDialog: React.FC<DialogStuff> = (
-  props: DialogStuff
-) => {
-  const classes = useStyles();
+const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { enqueueSnackbar } = useSnackbar();
+  const { title, show, maxWidth, iconType } = props;
 
-  const { title, show, maxWidth, iconType, dialogData } = props;
-  const { columns, rows } = dialogData as IDialogData;
-
-  type IRow = Record<string, React.Key>;
-
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
-  };
-
-  const economicsParametersDialogContent = (
-    columns: readonly Column<IRow, unknown>[],
-    rows: IRow[]
-  ) => {
-    return (
-      <div className={classes.economicParameterDialogContent}>
-        <MainTitle title="Economics Parameters 1" />
-        <div style={{ width: "100%", height: "500px" }}>
-          <ApexGrid<IRow, ITableIconsOptions>
-            columns={columns}
-            rows={rows}
-            options={tableOptions}
-          />
-        </div>
-        {/* <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button
-            className={classes.secondaryButton}
-            startIcon={<SaveTwoToneIcon />}
-            onClick={() => console.log("Cancel...")}
-          >
-            Cancel
-          </Button>
-          <Button
-            className={classes.secondaryButton}
-            startIcon={<DoneTwoToneIcon />}
-            onClick={() => console.log("Okay...")}
-          >
-            Okay
-          </Button>
-        </div> */}
-      </div>
-    );
-  };
-
-  const economicsParametersDialogActions = () => {
+  const economicsParameterImportDialogActions = () => {
     const buttonsData: ButtonProps[] = [
       {
         title: "Cancel",
@@ -230,11 +161,12 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
         {title}
       </DialogTitle>
       <DialogContent dividers>
-        {economicsParametersDialogContent(columns, rows)}
+        <EconomicsParameterImportWorkflow />
         <Divider />
       </DialogContent>
-      <DialogActions>{economicsParametersDialogActions()}</DialogActions>
+      <DialogActions>{economicsParameterImportDialogActions()}</DialogActions>
     </Dialog>
   );
 };
-export default EconomicsParametersDialog;
+
+export default SelectWorksheetDialog;
