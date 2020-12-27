@@ -97,8 +97,8 @@ export interface IForecastDetail {
   statusText: StatusTextType;
   author: IPersonDetail;
   approvers?: IPersonDetail[] | string;
-  createdOn: Date;
-  modifiedOn: Date;
+  createdOn: string;
+  modifiedOn: string;
 }
 
 interface IForecastRunInfo {

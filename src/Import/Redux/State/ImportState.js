@@ -22,6 +22,7 @@ const importState = {
   message: "",
   errors: [],
 
+  tableHeaders: [],
   fileHeaders: [],
   fileHeadersMatch: [],
   selectedHeaderRowIndex: 0,
@@ -38,7 +39,6 @@ const importState = {
   optionIndices: [],
   tableData: [],
   finalTableData: [],
-  currentTableHeaders: [],
   selectedRow: null,
 };
 

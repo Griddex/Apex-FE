@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     border: `2px solid ${theme.palette.primary.main}`,
+    marginLeft: 4,
   },
   secondaryButton: {
     color: theme.palette.secondary.main,
@@ -46,6 +47,7 @@ export interface IPopoverWidgets {
   filter: typeof FilterPopover;
   save: typeof FilterPopover; //TODO correct it
 }
+
 export interface ITableIconsData {
   name: "sort" | "filter" | "save";
   display: boolean;
@@ -71,6 +73,11 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
     sort: SortPopover,
     filter: FilterPopover,
     save: FilterPopover,
+  };
+
+  const PopoverTitle: Record<string, string> = {
+    sort: "Sort By",
+    filter: "Filter By",
   };
 
   const iconsData: ITableIconsData[] = [
@@ -113,8 +120,8 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
   ];
 
   return (
-    <>
-      {iconsData.map((data: ITableIconsData) => {
+    <div>
+      {iconsData.map((data: ITableIconsData, i: number) => {
         const {
           name,
           display,
@@ -130,6 +137,7 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
 
             return (
               <Popover
+                key={i}
                 isOpen={isOpen}
                 position={["bottom", "right", "top", "left"]}
                 padding={5}
@@ -147,7 +155,7 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
                     }}
                   >
                     <PopoverComp
-                      title="Sort By"
+                      title={PopoverTitle[name]}
                       action={cancelAction}
                       handleCancel={cancelAction}
                       localDispatch={localDispatch}
@@ -211,7 +219,7 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
           onClick={() => setIsMoreIconsPopoverOpen(!isMoreIconsPopoverOpen)}
         />
       </Popover>
-    </>
+    </div>
   );
 };
 

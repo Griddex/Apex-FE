@@ -109,6 +109,7 @@ export interface IApexGrid<R, O> {
   columns: readonly Column<R, unknown>[];
   rows: R[];
   options: ITableIconsOptions;
+  setRowsChange?: React.SetStateAction<any>;
 }
 
 export interface ITableMetaData<R> {
@@ -122,10 +123,10 @@ export interface ITableMetaData<R> {
 export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const classes = useStyles();
 
-  const { columns: rawColumns, rows: rawRows, options } = props;
+  const { columns: rawColumns, rows: rawRows, options, setRowsChange } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
-  const [filteredTableRows, setFilteredTableRows] = useState(rawRows);
+  const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
   const [selectedRows, setSelectedRows] = React.useState(
     () => new Set<React.Key>()
   );
@@ -143,7 +144,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const [tablePagination, setTablePagination] = React.useState(0);
   const [tableHeight, setTableHeight] = React.useState(500);
 
-  const pageOptions = ["all", 25, 50, 100, 500].map((v) => ({
+  const pageOptions = ["All", 25, 50, 100, 500].map((v) => ({
     value: v,
     label: v,
   }));
@@ -151,7 +152,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   const initializeTableMetaData = (): ITableMetaData<R> => {
     const scrollToIndex = 1;
-    const pageSelect = "all";
+    const pageSelect = "All";
     const tableFilter = "";
     const pageSelectTableRows: R[] = [];
 
@@ -242,7 +243,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     if (sortDirection === "NONE") return filteredTableRows;
 
     let sortedRows: R[] = [...filteredTableRows];
-
     sortedRows = sortBy(sortedRows, (row: R) => (row as any)[sortColumn]);
 
     return sortDirection === "DESC" ? sortedRows.reverse() : sortedRows;
@@ -250,10 +250,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   const handleFilterChange = (e: { target: { value: any } }) => {
     const filterValue = e.target.value;
-    console.log(
-      "Logged output --> ~ file: ApexGrid.tsx ~ line 282 ~ handleFilterChange ~ filterValue",
-      filterValue
-    );
+
     const tableRows = rawTableRows.current;
 
     localDispatch({
@@ -298,7 +295,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const handlePageSelectChange = (value: string) => {
     const pageSelectValue: string = value;
 
-    if (pageSelectValue === "all") {
+    if (pageSelectValue === "All") {
       localDispatch({
         type: "PAGESELECT",
         payload: {
@@ -350,7 +347,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     );
     setTablePagination(pagination);
     setTableHeight(tableHeight);
-  }, [noOfTableRows]);
+    setFilteredTableRows(rawRows);
+  }, [noOfTableRows, rawRows]);
 
   const { pageSelect, tableFilter } = tableMetaData;
 
@@ -395,6 +393,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
+            onRowsChange={setFilteredTableRows}
+            // onRowsChange={setRowsChange}
             columns={draggableColumns}
             sortColumn={sortColumn}
             sortDirection={sortDirection}
@@ -413,7 +413,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           </InputLabel>
           <SelectEditor
             className={classes.formControl}
-            value={pageSelect || "all"}
+            value={pageSelect || "All"}
             onChange={(value) => handlePageSelectChange(value)}
             options={uniquePageOptions}
             rowHeight={tableRowHeight}

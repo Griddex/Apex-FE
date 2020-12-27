@@ -15,11 +15,14 @@ import {
 import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import AddSerialNumberToTable from "../../../../Application/Utils/AddSerialNumberToTable";
 import cleanTableData from "../../../../Application/Utils/CleanTableData";
 import generateColumnNameInfo from "../../../../Application/Utils/GenerateColumnNameInfo";
 import getTableHeaders from "../../../../Application/Utils/GetTableHeaders";
+import ToTitleCase from "../../../../Application/Utils/ToTitleCase";
 import {
   persistFileHeadersAction,
+  persistTableHeadersAction,
   selectedRowAction,
 } from "../../../Redux/Actions/ImportActions";
 
@@ -44,16 +47,43 @@ export default function SelectHeaderUnitData() {
 
   //Generate actual ColumnHeaders
   const rawTableHeaders = getTableHeaders(selectedWorksheetData);
+
   //Fill in blank spaces in table data
   const cleanedTableData = cleanTableData(
     selectedWorksheetData,
     rawTableHeaders
   );
+
   //Generate Column name table
   const [columnNameTableHeaders, columnNameTableData] = generateColumnNameInfo(
     rawTableHeaders,
     cleanedTableData
   );
+
+  //ROWS
+  const initializeRoleNames = () => {
+    const roleNames = [];
+
+    for (let i = 0; i < columnNameTableData.length; i++) {
+      if (i === 0) roleNames.push("Headers");
+      else if (i === 1) roleNames.push("Units");
+      else roleNames.push("Data");
+    }
+
+    return roleNames;
+  };
+  //Need to memoize initial table roles for reset???
+  const [tableRoleNames, setTableRoleNames] = React.useState(
+    initializeRoleNames()
+  );
+
+  const roleColumnNameTableData = columnNameTableData.map(
+    (row: any, i: number) => ({
+      role: tableRoleNames[i],
+      ...row,
+    })
+  );
+  const completeTableRows = AddSerialNumberToTable(roleColumnNameTableData);
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -70,32 +100,78 @@ export default function SelectHeaderUnitData() {
     },
   };
 
-  const generateColumns = () => {
-    const indexRow = columnNameTableData[0];
+  type RoleOptionsType = {
+    value: string;
+    label: string;
+  }[];
+  const indexRow = columnNameTableData[0];
 
-    type RoleOptionsType = {
-      value: string;
-      label: string;
-    }[];
+  const { roleNames } = ApexGridRolesState;
+  const roleOptions: RoleOptionsType = roleNames.map((name) => ({
+    value: name,
+    label: name,
+  }));
 
-    const { roleNames } = ApexGridRolesState;
-    const roleOptions: RoleOptionsType = roleNames.map((name) => ({
-      value: name,
-      label: name,
-    }));
-    const uniqueRoleOptions = uniqBy(roleOptions, (v) => v.label);
+  const [fileHeaders, setFileHeaders] = React.useState(rawTableHeaders);
 
+  //COLUMNS
+  const guardRolesIntegrity = (
+    value: string,
+    tableRoleNames: string[],
+    sn: number
+  ) => {
+    console.log(
+      "Logged output --> ~ file: SelectHeaderUnitData.tsx ~ line 123 ~ SelectHeaderUnitData ~ tableRoleNames",
+      tableRoleNames
+    );
+    const finalRoles = [];
+
+    for (let i = 0; i < tableRoleNames.length; i++) {
+      if (i === sn - 1) finalRoles.push(value);
+      else {
+        if (value === "Data") {
+          finalRoles.push(tableRoleNames[i]);
+        } else if (value === "Headers") {
+          if (tableRoleNames[i] === "Headers") finalRoles.push("Data");
+          else finalRoles.push(tableRoleNames[i]);
+        } else if (value === "Units") {
+          // console.log(`${value} --> ${tableRoleNames[i]} --> ${i}`);
+          if (tableRoleNames[i] === "Units") finalRoles.push("Data");
+          else finalRoles.push(tableRoleNames[i]);
+        } else {
+          finalRoles.push(tableRoleNames[i]);
+        }
+      }
+    }
+
+    return finalRoles;
+  };
+
+  const generateColumns = (
+    roleOptions: RoleOptionsType,
+    tableRoleNames: string[]
+  ) => {
+    console.log(
+      "Logged output --> ~ file: SelectHeaderUnitData.tsx ~ line 157 ~ SelectHeaderUnitData ~ tableRoleNames",
+      tableRoleNames
+    );
+    const roles = tableRoleNames;
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true },
       {
         key: "actions",
         name: "Actions",
         editable: false,
+        width: 100,
         formatter: ({ row }) => (
           <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
+            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row.sn}`)} />
+            <DeleteOutlinedIcon
+              onClick={() => alert(`Delete Row is:${row.sn}`)}
+            />
+            <MenuOpenOutlinedIcon
+              onClick={() => alert(`Menu Row is:${row.sn}`)}
+            />
           </div>
         ),
       },
@@ -104,26 +180,39 @@ export default function SelectHeaderUnitData() {
         name: "Role",
         editable: true,
         resizable: true,
+        width: 150,
         editor: (p) => (
           <SelectEditor
             value={p.row.role as string}
             onChange={(value) => {
+              // dispatch(selectedRowAction(p.row)); //why???
               p.onRowChange({ ...p.row, role: value }, true);
-              dispatch(selectedRowAction(p.row));
+              dispatch(persistFileHeadersAction(fileHeaders));
+
+              const sn = p.row.sn as number;
+              const modifiedRoles = guardRolesIntegrity(value, roles, sn);
+              console.log(
+                "Logged output --> ~ file: SelectHeaderUnitData.tsx ~ line 183 ~ generateColumns ~ modifiedRoles",
+                modifiedRoles
+              );
+
+              setTableRoleNames(modifiedRoles);
             }}
-            options={uniqueRoleOptions}
+            options={roleOptions}
             rowHeight={p.rowHeight}
             menuPortalTarget={p.editorPortalTarget}
           />
         ),
+        // editorOptions: { editOnClick: true },
       },
     ];
 
     const otherColumns = Object.keys(indexRow).map((columnName: string) => ({
-      key: columnName.toLocaleLowerCase(),
+      key: ToTitleCase(columnName),
       name: columnName,
       editable: true,
       resizable: true,
+      width: 200,
     }));
 
     const allColumns = [...snActionRoleColumns, ...otherColumns];
@@ -131,12 +220,14 @@ export default function SelectHeaderUnitData() {
     return allColumns;
   };
 
-  const columns = generateColumns();
+  const columns = React.useMemo(
+    () => generateColumns(roleOptions, tableRoleNames),
+    [roleOptions, tableRoleNames]
+  );
 
   React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
-
-    dispatch(persistFileHeadersAction(columnNameTableHeaders));
+    dispatch(persistTableHeadersAction(columnNameTableHeaders));
+    dispatch(persistFileHeadersAction(fileHeaders));
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
@@ -145,8 +236,9 @@ export default function SelectHeaderUnitData() {
     <div className={classes.rootParseTable}>
       <ApexGrid<IRawRow, ITableIconsOptions>
         columns={columns}
-        rows={cleanedTableData}
+        rows={completeTableRows}
         options={tableOptions}
+        setRowsChange={setTableRoleNames}
       />
     </div>
   );

@@ -102,6 +102,7 @@ const UploadFile = () => {
             const inputWorkbook: xlsx.WorkBook = xlsx.read(fileData, {
               type: "array",
             });
+
             dispatch(persistFileAction(inputWorkbook));
 
             const {

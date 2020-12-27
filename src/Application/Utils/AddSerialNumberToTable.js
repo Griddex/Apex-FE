@@ -1,5 +1,6 @@
 const AddSerialNumberToTable = (table) => {
-  const newTable = table.map((row, i) => ({ SN: i + 1, ...row }));
+  const newTable = table.map((row, i) => ({ sn: i + 1, ...row }));
+
   return newTable;
 };
 

@@ -4,6 +4,7 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
+import { Dictionary } from "lodash";
 import uniqBy from "lodash/uniqBy";
 import zipObject from "lodash/zipObject";
 import React from "react";
@@ -231,7 +232,14 @@ export default function MatchHeaders() {
 
   const keyedUniqueScoreOptions = zipObject(fileHeaders, uniqueScoreOptions);
 
-  const generateColumns = () => {
+  const generateColumns = (
+    keyedUniqueApplicationHeaderOptions: Dictionary<
+      {
+        value: string;
+        label: string;
+      }[]
+    >
+  ) => {
     const [checkboxSelected, setCheckboxSelected] = React.useState(false);
     const handleCheckboxChange = (event: { persist: () => void }) => {
       event.persist();
@@ -299,7 +307,10 @@ export default function MatchHeaders() {
     return columns;
   };
 
-  const columns = generateColumns();
+  const columns = React.useMemo(
+    () => generateColumns(keyedUniqueApplicationHeaderOptions),
+    [keyedUniqueApplicationHeaderOptions]
+  );
 
   const createTableRows = (fileHeaders: string[]): IRawTable => {
     const rows = fileHeaders.map((fileHeader, i: number) => {

@@ -71,13 +71,6 @@ const SelectSheet = () => {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  const importData = useSelector((state: RootState) => state.importReducer);
-
-  React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
-
   const {
     fileLastModified,
     fileName,
@@ -85,7 +78,7 @@ const SelectSheet = () => {
     fileType,
     fileAuthor,
     fileCreated,
-  } = importData;
+  } = useSelector((state: RootState) => state.importReducer);
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) => state.importReducer
@@ -94,6 +87,7 @@ const SelectSheet = () => {
   const [worksheetName, setWorksheetName] = React.useState(
     selectedWorksheetName
   );
+
   const handleSelectChange = (event: { target: { value: any } }) => {
     const selectedWorksheetName = event.target.value;
 
@@ -150,6 +144,11 @@ const SelectSheet = () => {
       />
     );
   };
+
+  React.useEffect(() => {
+    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    dispatch(hideSpinnerAction());
+  }, [dispatch]);
 
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>

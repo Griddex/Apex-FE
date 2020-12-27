@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     height: 500,
     backgroundColor: "#F7F7F7",
     border: "1px solid #707070",
-    padding: 5,
+    padding: 0,
     width: 150,
   },
   header: {
@@ -71,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
 const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
   ({ title, action, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
-    const headers = useSelector(
-      (state: RootState) => state.importReducer.currentTableHeaders
+    const { fileHeaders } = useSelector(
+      (state: RootState) => state.importReducer
     );
 
     return (
@@ -88,7 +88,7 @@ const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
         </div>
         <div className={classes.body}>
           <List dense className={classes.list}>
-            {headers.map((header: string, listIndex: number) => {
+            {fileHeaders.map((header: string, listIndex: number) => {
               const avatar = getFirstCharFromEveryWord(header);
               //TODO: Clear all
 

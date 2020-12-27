@@ -76,8 +76,8 @@ export interface IPopoverProps {
 const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
   ({ title, action, handleCancel, localDispatch }, ref) => {
     const classes = useStyles();
-    const headers = useSelector(
-      (state: RootState) => state.importReducer.currentTableHeaders
+    const { fileHeaders } = useSelector(
+      (state: RootState) => state.importReducer
     );
 
     return (
@@ -93,7 +93,7 @@ const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
         </div>
         <div className={classes.body}>
           <List dense>
-            {headers.map((header: string, listIndex: number) => {
+            {fileHeaders.map((header: string, listIndex: number) => {
               const avatar = getFirstCharFromEveryWord(header);
               //TODO: Clear all
 

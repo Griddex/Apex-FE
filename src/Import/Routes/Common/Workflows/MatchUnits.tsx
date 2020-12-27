@@ -4,6 +4,7 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
+import { Dictionary } from "lodash";
 import uniqBy from "lodash/uniqBy";
 import zipObject from "lodash/zipObject";
 import React from "react";
@@ -215,7 +216,15 @@ export default function MatchUnits() {
     uniqueScoreOptions
   );
 
-  const generateColumns = () => {
+  const generateColumns = (
+    keyedUniqueApplicationUnitOptions: Dictionary<
+      {
+        value: string;
+        label: string;
+      }[]
+    >,
+    unitClassificationOptions: UnitClassificationOptionsType
+  ) => {
     const [checkboxSelected, setCheckboxSelected] = React.useState(false);
     const handleCheckboxChange = (event: { persist: () => void }) => {
       event.persist();
@@ -301,7 +310,14 @@ export default function MatchUnits() {
     return columns;
   };
 
-  const columns = generateColumns();
+  const columns = React.useMemo(
+    () =>
+      generateColumns(
+        keyedUniqueApplicationUnitOptions,
+        unitClassificationOptions
+      ),
+    [keyedUniqueApplicationUnitOptions, unitClassificationOptions]
+  );
 
   const createTableRows = (fileUnits: string[]): IRawTable => {
     const rows = fileUnits.map((fileUnit, i: number) => {

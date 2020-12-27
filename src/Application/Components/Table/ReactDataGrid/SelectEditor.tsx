@@ -22,7 +22,6 @@ export function SelectEditor({
   return (
     <Select
       autoFocus
-      // defaultMenuIsOpen
       value={options.find((o) => o.value === value)}
       onChange={(o) => onChange(o.value)}
       options={options}

@@ -7,7 +7,8 @@ const formatDate = (date: Date) => {
     day: "numeric",
   };
 
-  return date.toLocaleDateString("en-US", options);
+  // return date.toLocaleDateString("en-US", options);
+  return date.toLocaleString("en-US", options);
 };
 
 export default formatDate;

@@ -180,10 +180,10 @@ export const persistFinalTableDataAction = (finalTableData) => {
   };
 };
 
-export const persistCurrentTableHeadersAction = (currentTableHeaders) => {
+export const persistTableHeadersAction = (tableHeaders) => {
   return {
     type: PERSIST_TABLEHEADERS,
-    payload: { currentTableHeaders },
+    payload: { tableHeaders },
   };
 };
 

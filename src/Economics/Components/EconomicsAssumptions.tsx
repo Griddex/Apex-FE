@@ -30,7 +30,7 @@ export default function EconomicsAssumptions() {
   type IRawRow = Record<string, React.Key>;
   type IRawTable = IRawRow[];
 
-  const createRawTableData = (numberOfRows: number): IRawTable => {
+  const createTableRows = (numberOfRows: number): IRawTable => {
     const fakeRows = [];
     for (let i = 0; i < numberOfRows; i++) {
       const fakeRow = {
@@ -53,11 +53,11 @@ export default function EconomicsAssumptions() {
     }
     return fakeRows;
   };
-  const rawTableData = createRawTableData(100);
+  const tableRows = createTableRows(100);
 
   React.useEffect(() => {
     // dispatch(persistTableDataAction(noAddedColumnTableData));
-    // dispatch(persistCurrentTableHeadersAction(rawTableHeaders));
+    // dispatch(persistTableHeadersAction(rawTableHeaders));
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     // dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,7 +78,7 @@ export default function EconomicsAssumptions() {
     },
   };
 
-  const options = createRawTableData(100).map((row: IRawRow) => ({
+  const options = createTableRows(100).map((row: IRawRow) => ({
     value: row.year,
     label: row.year,
   }));
@@ -195,7 +195,7 @@ export default function EconomicsAssumptions() {
       <MainTitle title="Economics Assumptions" />
       <ApexGrid<IRawRow, ITableIconsOptions>
         columns={columns}
-        rows={rawTableData}
+        rows={tableRows}
         options={tableOptions}
       />
     </div>
