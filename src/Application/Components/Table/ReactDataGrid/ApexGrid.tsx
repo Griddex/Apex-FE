@@ -126,6 +126,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const { columns: rawColumns, rows: rawRows, options, setRowsChange } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
+  const [, setRenderRows] = React.useState(rawRows);
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
   const [selectedRows, setSelectedRows] = React.useState(
     () => new Set<React.Key>()
@@ -348,6 +349,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     setTablePagination(pagination);
     setTableHeight(tableHeight);
     setFilteredTableRows(rawRows);
+    setRenderRows(rawRows);
   }, [noOfTableRows, rawRows]);
 
   const { pageSelect, tableFilter } = tableMetaData;
@@ -393,8 +395,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
-            onRowsChange={setFilteredTableRows}
-            // onRowsChange={setRowsChange}
+            onRowsChange={setRenderRows}
             columns={draggableColumns}
             sortColumn={sortColumn}
             sortDirection={sortDirection}

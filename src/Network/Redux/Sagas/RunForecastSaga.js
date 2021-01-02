@@ -15,10 +15,10 @@ export default function* watchRunForecastSaga() {
 function* runForecastSaga(action) {
   const { payload } = action;
 
-  const finalTableData = yield select(
-    (state) => state.importReducer.finalTableData
+  const definedTableData = yield select(
+    (state) => state.importReducer.definedTableData
   );
-  const data = finalTableData;
+  const data = definedTableData;
   const config = { headers: null };
   const runForecastAPI = (url) => authService.post(url, data, config);
   const statusCode = ""; //Get from success response

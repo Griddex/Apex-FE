@@ -9,15 +9,21 @@ export const PERSIST_SELECTEDHEADERROWINDEX = "PERSIST_SELECTEDHEADERROWINDEX";
 export const PERSIST_SELECTEDHEADERROWOPTIONINDEX =
   "PERSIST_SELECTEDHEADERROWOPTIONINDEX";
 export const PERSIST_FILEHEADERSMATCH = "PERSIST_FILEHEADERSMATCH";
-export const PERSIST_FILEUNITS = "PERSIST_FILEUNITS";
+export const PERSIST_CHOSENAPPLICATIONHEADERSINDICES =
+  "PERSIST_CHOSENAPPLICATIONHEADERSINDICES";
+export const PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES =
+  "PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES";
+export const PERSIST_FILEUNITSANDUNIQUEUNITS =
+  "PERSIST_FILEUNITSANDUNIQUEUNITS";
 export const PERSIST_SELECTEDUNITROWINDEX = "PERSIST_SELECTEDUNITROWINDEX";
 export const PERSIST_SELECTEDUNITROWOPTIONINDEX =
   "PERSIST_SELECTEDUNITROWOPTIONINDEX";
 export const PERSIST_ROWOPTIONSINDICESMAP = "PERSIST_ROWOPTIONSINDICESMAP";
 export const PERSIST_FILEUNITSMATCH = "PERSIST_FILEUNITSMATCH";
-export const PERSIST_TABLEROLESINDICES = "PERSIST_TABLEROLESINDICES";
+export const PERSIST_TABLEROLENAMES = "PERSIST_TABLEROLENAMES";
 export const PERSIST_TABLEDATA = "PERSIST_TABLEDATA";
-export const PERSIST_FINALTABLEDATA = "PERSIST_FINALTABLEDATA";
+export const PERSIST_DEFINEDTABLEDATA = "PERSIST_DEFINEDTABLEDATA";
+export const PERSIST_COLUMNNAMETABLEDATA = "PERSIST_COLUMNNAMETABLEDATA";
 export const PERSIST_TABLEHEADERS = "PERSIST_TABLEHEADERS";
 export const PERSIST_OPTIONINDICES = "PERSIST_OPTIONINDICES";
 export const IMPORT_EXCEL_LOADING = "IMPORT_EXCEL_LOADING";
@@ -26,6 +32,9 @@ export const IMPORT_EXCELWORKSHEETNAME_SET = "IMPORT_EXCELWORKSHEETNAME_SET";
 export const IMPORT_EXCELWORKSHEETPARSE_NAVIGATE =
   "IMPORT_EXCELWORKSHEETPARSE_NAVIGATE";
 export const SELECTED_ROW = "SELECTED_ROW";
+export const PERSIST_CHOSENAPPLICATIONHEADERS =
+  "PERSIST_CHOSENAPPLICATIONHEADERS";
+export const PERSIST_CHOSENAPPLICATIONUNITS = "PERSIST_CHOSENAPPLICATIONUNITS";
 
 export const importFileInitAction = (
   fileLastModified,
@@ -97,10 +106,13 @@ export const persistWorksheetForTableAction = (
   };
 };
 
-export const persistFileHeadersAction = (fileHeaders) => {
+export const persistFileHeadersAction = (
+  selectedHeaderRowIndex,
+  fileHeaders
+) => {
   return {
     type: PERSIST_FILEHEADERS,
-    payload: { fileHeaders },
+    payload: { selectedHeaderRowIndex, fileHeaders },
   };
 };
 
@@ -108,6 +120,22 @@ export const persistFileHeadersMatchAction = (fileHeadersMatch) => {
   return {
     type: PERSIST_FILEHEADERSMATCH,
     payload: { fileHeadersMatch },
+  };
+};
+export const persistChosenApplicationHeadersIndicesAction = (
+  chosenApplicationHeadersIndices
+) => {
+  return {
+    type: PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
+    payload: { chosenApplicationHeadersIndices },
+  };
+};
+export const persistChosenApplicationUniqueUnitIndicesAction = (
+  chosenApplicationUniqueUnitIndices
+) => {
+  return {
+    type: PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
+    payload: { chosenApplicationUniqueUnitIndices },
   };
 };
 
@@ -121,10 +149,14 @@ export const persistSelectedHeaderRowOptionIndicesAction = (
   };
 };
 
-export const persistFileUnitsAction = (fileUnits, fileUnitsUnique) => {
+export const persistFileUnitsAndUniqueUnitsAction = (
+  selectedUnitRowIndex,
+  fileUnits,
+  fileUniqueUnits
+) => {
   return {
-    type: PERSIST_FILEUNITS,
-    payload: { fileUnits, fileUnitsUnique },
+    type: PERSIST_FILEUNITSANDUNIQUEUNITS,
+    payload: { selectedUnitRowIndex, fileUnits, fileUniqueUnits },
   };
 };
 
@@ -159,10 +191,25 @@ export const persistRowsOptionsIndicesMapAction = (headerRowOptionsIndices) => {
   };
 };
 
-export const persistTableRolesIndicesAction = (tableRoleIndices) => {
+export const persistChosenApplicationHeadersAction = (
+  chosenApplicationHeaders
+) => {
   return {
-    type: PERSIST_TABLEROLESINDICES,
-    payload: { tableRoleIndices },
+    type: PERSIST_CHOSENAPPLICATIONHEADERS,
+    payload: { chosenApplicationHeaders },
+  };
+};
+export const persistChosenApplicationUnitsAction = (chosenApplicationUnits) => {
+  return {
+    type: PERSIST_CHOSENAPPLICATIONUNITS,
+    payload: { chosenApplicationUnits },
+  };
+};
+
+export const persistTableRoleNamesAction = (tableRoleNames) => {
+  return {
+    type: PERSIST_TABLEROLENAMES,
+    payload: { tableRoleNames },
   };
 };
 
@@ -173,10 +220,16 @@ export const persistTableDataAction = (tableData) => {
   };
 };
 
-export const persistFinalTableDataAction = (finalTableData) => {
+export const persistColumnNameTableDataAction = (columnNameTableData) => {
   return {
-    type: PERSIST_FINALTABLEDATA,
-    payload: { finalTableData },
+    type: PERSIST_COLUMNNAMETABLEDATA,
+    payload: { columnNameTableData },
+  };
+};
+export const persistDefinedTableDataAction = (definedTableData) => {
+  return {
+    type: PERSIST_DEFINEDTABLEDATA,
+    payload: { definedTableData },
   };
 };
 

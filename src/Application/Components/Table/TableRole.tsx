@@ -7,8 +7,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   persistFileHeadersAction,
-  persistFileUnitsAction,
-  persistTableRolesIndicesAction,
+  persistFileUnitsAndUniqueUnitsAction,
+  // persistTableRolesIndicesAction,
 } from "../../../Import/Redux/Actions/ImportActions";
 import { RootState } from "../../Redux/Reducers/RootReducer";
 import CircularArray from "../../Utils/CircularArray";
@@ -73,7 +73,7 @@ const TableRole = (props: ITableRolesProps) => {
             }
           );
 
-          dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
+          // dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
         }
         //Units
         else if (nextRoleNumber === 1) {
@@ -87,13 +87,15 @@ const TableRole = (props: ITableRolesProps) => {
             }
           );
 
-          dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
+          // dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
 
           const newFileUnits = Object.values(tableData[rowIndex]);
-          const fileUnitsUnique = uniq(newFileUnits).filter(
+          const fileUniqueUnits = uniq(newFileUnits).filter(
             (unit) => unit !== ""
           );
-          dispatch(persistFileUnitsAction(newFileUnits, fileUnitsUnique));
+          dispatch(
+            persistFileUnitsAndUniqueUnitsAction(newFileUnits, fileUniqueUnits)
+          );
         } else if (nextRoleNumber === 0) {
           //Headers
           const newtableRoleIndices = tableRoleIndices.map(
@@ -125,7 +127,7 @@ const TableRole = (props: ITableRolesProps) => {
             });
           }
 
-          dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
+          // dispatch(persistTableRolesIndicesAction(newtableRoleIndices));
           dispatch(persistFileHeadersAction(newFileHeaders));
         }
       }}

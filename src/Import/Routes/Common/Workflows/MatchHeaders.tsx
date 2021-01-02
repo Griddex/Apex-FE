@@ -4,10 +4,9 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
-import { Dictionary } from "lodash";
-import uniqBy from "lodash/uniqBy";
+import { Dictionary, findIndex, omit } from "lodash";
 import zipObject from "lodash/zipObject";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -16,12 +15,19 @@ import {
   IRawTable,
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
-import { persistFileHeadersMatchAction } from "../../../Redux/Actions/ImportActions";
+import {
+  persistChosenApplicationHeadersAction,
+  persistChosenApplicationHeadersIndicesAction,
+  persistDefinedTableDataAction,
+  persistFileHeadersMatchAction,
+  persistTableHeadersAction,
+} from "../../../Redux/Actions/ImportActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
+import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
+import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -54,7 +60,7 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-//TODO: API saga to get app headers from server
+//TODO: API saga to get app headers from server, use zero-deps useEffect
 const getApplicationHeaders = () => {
   return [
     "Version",
@@ -142,13 +148,14 @@ export default function MatchHeaders() {
 
       if (matchedHeaders.length > 0) {
         const cleanedMatchedScores = matchedScores.map(
-          (score: number | undefined) => (score ? 0 : score)
+          (score: number | undefined) =>
+            score !== undefined ? Math.round((1 - score) * 100) : 0
         );
 
         return zipObject(matchedHeaders, cleanedMatchedScores);
       } else {
         const zeroScores: number[] = new Array(applicationHeaders.length).fill(
-          1
+          0
         );
 
         return zipObject(applicationHeaders, zeroScores);
@@ -175,13 +182,6 @@ export default function MatchHeaders() {
     },
   };
 
-  const tableHeaders = [
-    "FILE HEADER",
-    "APPLICATION HEADER",
-    "MATCH",
-    "ANCHOR MATCH",
-  ];
-
   type ApplicationHeaderOptionsType = {
     value: string;
     label: string;
@@ -205,9 +205,6 @@ export default function MatchHeaders() {
       return result;
     }
   );
-  const uniqueApplicationHeaderOptions = applicationHeaderOptions.map(
-    (options) => uniqBy(options, (v) => v.label)
-  );
 
   const scoreOptions: ScoreOptionsType[] = fileHeaders.map(
     (fileHeader: string) => {
@@ -221,37 +218,49 @@ export default function MatchHeaders() {
       return result;
     }
   );
-  const uniqueScoreOptions = scoreOptions.map((options) =>
-    uniqBy(options, (v) => v.label)
-  );
 
-  const keyedUniqueApplicationHeaderOptions = zipObject(
+  const keyedApplicationHeaderOptions = zipObject(
     fileHeaders,
-    uniqueApplicationHeaderOptions
+    applicationHeaderOptions
   );
 
-  const keyedUniqueScoreOptions = zipObject(fileHeaders, uniqueScoreOptions);
+  const keyedScoreOptions = zipObject(fileHeaders, scoreOptions);
 
+  const snChosenApplicationHeaderIndices = fileHeaderMatches.reduce(
+    (acc: Record<string, number>, _, i: number) => {
+      return { ...acc, [`${i + 1}`]: 0 };
+    },
+    {}
+  );
+
+  const [
+    chosenApplicationHeaderIndices,
+    setChosenApplicationHeaderIndices,
+  ] = React.useState(snChosenApplicationHeaderIndices);
+
+  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const generateColumns = (
-    keyedUniqueApplicationHeaderOptions: Dictionary<
+    keyedApplicationHeaderOptions: Dictionary<
       {
         value: string;
         label: string;
       }[]
     >
   ) => {
-    const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-    const handleCheckboxChange = (event: { persist: () => void }) => {
+    const handleCheckboxChange = (
+      row: IRawRow,
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
       event.persist();
-
+      alert(row);
       setCheckboxSelected(!checkboxSelected);
     };
 
     const columns: Column<IRawRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true },
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 20 },
       {
         key: "actions",
-        name: "Actions",
+        name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
           <div>
@@ -260,47 +269,82 @@ export default function MatchHeaders() {
             <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
           </div>
         ),
+        width: 100,
       },
       {
         key: "fileHeader",
         name: "FILE HEADER",
         editable: false,
         resizable: true,
+        width: 250,
       },
       {
         key: "applicationHeader",
         name: "APPLICATION HEADER",
         editable: true,
         resizable: true,
-        editor: (p) => (
-          <SelectEditor
-            value={p.row.applicationHeader as string}
-            onChange={(value) => {
-              p.onRowChange({ ...p.row, applicationHeader: value }, true);
-              // dispatch(selectedRowAction(p.row));
-            }}
-            options={
-              keyedUniqueApplicationHeaderOptions[p.row.fileHeader as string]
-            }
-            rowHeight={p.rowHeight}
-            menuPortalTarget={p.editorPortalTarget}
-          />
-        ),
+        formatter: ({ row, onRowChange }) => {
+          const rowSN = row.sn;
+          const fileHeader = row.fileHeader as string;
+          const options = keyedApplicationHeaderOptions[fileHeader];
+          const value = row.applicationHeader as string;
+
+          return (
+            <select
+              style={{ width: "100%", height: "95%" }}
+              value={value as string}
+              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                event.stopPropagation();
+                const selectedValue = event.target.value;
+
+                onRowChange({
+                  ...row,
+                  applicationHeader: selectedValue as string,
+                });
+
+                const selectedHeaderOptionIndex = findIndex(
+                  options,
+                  (option) => option.value === selectedValue
+                );
+
+                setChosenApplicationHeaderIndices((prev) => ({
+                  ...prev,
+                  [`${rowSN}`]: selectedHeaderOptionIndex,
+                }));
+
+                modifyTableRows(fileHeader, selectedHeaderOptionIndex);
+                setRerender((rerender) => !rerender);
+              }}
+            >
+              {options.map((option, i: number) => (
+                <option key={i} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          );
+        },
+        width: 250,
       },
       {
         key: "match",
         name: "MATCH",
         editable: false,
         resizable: true,
+        width: 100,
       },
       {
         key: "acceptMatch",
         name: "ACCEPT MATCH",
         editable: true,
         resizable: true,
-        editor: (p) => (
-          <Checkbox onClick={handleCheckboxChange} checked={checkboxSelected} />
+        formatter: ({ row }) => (
+          <Checkbox
+            onClick={(event) => handleCheckboxChange(row, event)}
+            checked={checkboxSelected}
+          />
         ),
+        width: 300,
       },
     ];
 
@@ -308,32 +352,79 @@ export default function MatchHeaders() {
   };
 
   const columns = React.useMemo(
-    () => generateColumns(keyedUniqueApplicationHeaderOptions),
-    [keyedUniqueApplicationHeaderOptions]
+    () => generateColumns(keyedApplicationHeaderOptions),
+    [keyedApplicationHeaderOptions]
   );
 
-  const createTableRows = (fileHeaders: string[]): IRawTable => {
-    const rows = fileHeaders.map((fileHeader, i: number) => {
-      return {
-        sn: i + 1,
-        fileHeader: fileHeader,
-        applicationHeader: keyedUniqueApplicationHeaderOptions[fileHeader],
-        match: keyedUniqueScoreOptions[fileHeader],
-      };
+  const initialTableRows = fileHeaders.map((fileHeader: string, i: number) => {
+    const headerOptions = keyedApplicationHeaderOptions[fileHeader];
+    const selectedApplicationHeader = headerOptions[0];
+    const scoreOpts = keyedScoreOptions[fileHeader];
+    const score = scoreOpts[0];
+
+    return {
+      sn: i + 1,
+      fileHeader: fileHeader,
+      applicationHeader: selectedApplicationHeader.value,
+      match: score.value,
+    };
+  });
+
+  const tableRows = React.useRef<IRawTable>(initialTableRows);
+  const [, setRerender] = React.useState(false);
+  const modifyTableRows = (
+    selectedFileHeader: string,
+    selectedHeaderOptionIndex: number
+  ) => {
+    const modifiedRows = tableRows.current.map((row, i: number) => {
+      if (row.fileHeader === selectedFileHeader) {
+        const headerOptions = keyedApplicationHeaderOptions[selectedFileHeader];
+        const selectedApplicationHeader =
+          headerOptions[selectedHeaderOptionIndex];
+        const scoreOpts = keyedScoreOptions[selectedFileHeader];
+        const score = scoreOpts[selectedHeaderOptionIndex];
+
+        return {
+          sn: i + 1,
+          fileHeader: selectedFileHeader,
+          applicationHeader: selectedApplicationHeader.value,
+          match: score.value,
+        };
+      } else return row;
     });
 
-    return rows;
+    tableRows.current = modifiedRows;
   };
 
-  const tableRows = createTableRows(fileHeaders);
+  const rows = tableRows.current;
+
+  //Run once after 1st render
+  React.useEffect(() => {
+    const columnNames = columns.map((column) => column.name);
+    const tableHeaders = omit(columnNames, ["SN", "NAMES"]);
+    dispatch(persistTableHeadersAction(tableHeaders));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
+    //Any need?
     dispatch(persistFileHeadersMatchAction(fileHeaderMatches));
+    dispatch(
+      persistChosenApplicationHeadersIndicesAction(
+        chosenApplicationHeaderIndices
+      )
+    );
 
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
+    const chosenApplicationHeaders = getChosenApplicationHeaders(
+      fileHeaderMatches,
+      chosenApplicationHeaderIndices
+    );
+
+    dispatch(persistChosenApplicationHeadersAction(chosenApplicationHeaders));
+
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch, rows]);
 
   return (
     <div className={classes.rootMatchHeaders}>
@@ -343,7 +434,7 @@ export default function MatchHeaders() {
       <div className={classes.table}>
         <ApexGrid<IRawRow, ITableIconsOptions>
           columns={columns}
-          rows={tableRows}
+          rows={rows}
           options={tableOptions}
         />
       </div>

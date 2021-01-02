@@ -163,7 +163,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
-  const { finalTableData } = useSelector(
+  const { definedTableData } = useSelector(
     (state: RootState) => state.importReducer
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
@@ -195,7 +195,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
 
           //Group forecast data by station
           const flowStationsGasFacilitiesData = groupBy(
-            finalTableData,
+            definedTableData,
             (row) => row["Flow station"]
           );
           const {
@@ -205,7 +205,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
 
           //Group forecast data by station
           const wellheadDatabyManifold = groupBy(
-            finalTableData,
+            definedTableData,
             (row) => row["Drainage Point"]
           );
 

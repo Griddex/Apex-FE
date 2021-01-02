@@ -2,7 +2,8 @@ import { makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import uniqBy from "lodash/uniqBy";
+import { omit } from "lodash";
+import zipObject from "lodash/zipObject";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,10 +13,10 @@ import {
   IRawRow,
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
-import { persistFinalTableDataAction } from "../../../Redux/Actions/ImportActions";
+import { persistTableDataAction } from "../../../Redux/Actions/ImportActions";
+import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -51,9 +52,47 @@ export default function PreviewSave() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  //File Headers
-  const { finalTableData } = useSelector(
-    (state: RootState) => state.importReducer
+  //Chosen Application Headers
+
+  const {
+    tableRoleNames,
+    chosenApplicationHeaders,
+    chosenApplicationUnits,
+    columnNameTableData,
+    selectedHeaderRowIndex,
+    selectedUnitRowIndex,
+  } = useSelector((state: RootState) => state.importReducer);
+
+  const unitsRow = zipObject(
+    chosenApplicationHeaders,
+    chosenApplicationUnits
+  ) as IRawRow;
+  const newUnitRow = { sn: 1, ...unitsRow };
+
+  const applicationHeadertableData = swapToChosenTableHeaders(
+    columnNameTableData,
+    chosenApplicationHeaders
+  );
+
+  const dataRows = applicationHeadertableData.filter(
+    (row: IRawRow, i: number) => {
+      const condition = [selectedHeaderRowIndex, selectedUnitRowIndex].includes(
+        i
+      );
+
+      if (!condition) return row;
+    }
+  );
+
+  const orderedDataRows = dataRows.map((row: IRawRow, i: number) => ({
+    sn: i + 2,
+    ...row,
+  }));
+
+  const tableData = [newUnitRow, ...orderedDataRows];
+  console.log(
+    "Logged output --> ~ file: PreviewSave.tsx ~ line 77 ~ PreviewSave ~ tableData",
+    tableData
   );
 
   const tableOptions: ITableIconsOptions = {
@@ -72,7 +111,7 @@ export default function PreviewSave() {
   };
 
   const generateColumns = () => {
-    const indexRow = finalTableData[0];
+    const indexRow = tableData[0];
 
     type RoleOptionsType = {
       value: string;
@@ -84,13 +123,12 @@ export default function PreviewSave() {
       value: name,
       label: name,
     }));
-    const uniqueRoleOptions = uniqBy(roleOptions, (v) => v.label);
 
     const snActionRoleColumns: Column<IRawRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true },
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "actions",
-        name: "Actions",
+        name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
           <div>
@@ -99,30 +137,35 @@ export default function PreviewSave() {
             <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
           </div>
         ),
+        width: 100,
       },
       {
         key: "role",
         name: "Role",
         editable: true,
         resizable: true,
-        editor: (p) => (
-          <SelectEditor
-            value={p.row.role as string}
-            onChange={(value) => {
-              p.onRowChange({ ...p.row, role: value }, true);
-              // dispatch(selectedRowAction(p.row));
-            }}
-            options={uniqueRoleOptions}
-            rowHeight={p.rowHeight}
-            menuPortalTarget={p.editorPortalTarget}
-          />
-        ),
+        formatter: ({ row }) => {
+          const rowSN = row.sn as number;
+          const slicedTableRoleNames = tableRoleNames.slice(
+            1,
+            tableRoleNames.length
+          );
+
+          return (
+            <div style={{ width: "100%", height: "95%" }}>
+              {slicedTableRoleNames[rowSN - 1]}
+            </div>
+          );
+        },
+        width: 150,
       },
     ];
 
-    const otherColumns = Object.keys(indexRow).map((columnName: string) => ({
-      key: columnName.toLocaleLowerCase(),
-      name: columnName,
+    //TODO: Check for uniqueness of file headers
+    //otherwise error is thrown
+    const otherColumns = chosenApplicationHeaders.map((columnName: string) => ({
+      key: columnName,
+      name: columnName.toLocaleUpperCase(),
       editable: true,
       resizable: true,
     }));
@@ -135,15 +178,16 @@ export default function PreviewSave() {
   const columns = generateColumns();
 
   React.useEffect(() => {
+    dispatch(persistTableDataAction(tableData));
     dispatch(hideSpinnerAction());
-    dispatch(persistFinalTableDataAction(finalTableData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
     <div className={classes.rootPreviewSave}>
       <ApexGrid<IRawRow, ITableIconsOptions>
         columns={columns}
-        rows={finalTableData}
+        rows={tableData}
         options={tableOptions}
       />
     </div>

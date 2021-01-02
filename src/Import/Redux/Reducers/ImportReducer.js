@@ -9,14 +9,17 @@ import {
   PERSIST_SELECTEDHEADERROWINDEX,
   PERSIST_SELECTEDHEADERROWOPTIONINDEX,
   PERSIST_FILEHEADERSMATCH,
-  PERSIST_FILEUNITS,
+  PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
+  PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
+  PERSIST_FILEUNITSANDUNIQUEUNITS,
   PERSIST_SELECTEDUNITROWINDEX,
   PERSIST_SELECTEDUNITROWOPTIONINDEX,
   PERSIST_ROWOPTIONSINDICESMAP,
   PERSIST_FILEUNITSMATCH,
-  PERSIST_TABLEROLESINDICES,
+  PERSIST_TABLEROLENAMES,
   PERSIST_TABLEDATA,
-  PERSIST_FINALTABLEDATA,
+  PERSIST_DEFINEDTABLEDATA,
+  PERSIST_COLUMNNAMETABLEDATA,
   PERSIST_TABLEHEADERS,
   PERSIST_OPTIONINDICES,
   IMPORT_EXCEL_LOADING,
@@ -24,6 +27,8 @@ import {
   IMPORT_EXCELWORKSHEETNAME_SET,
   IMPORT_EXCELWORKSHEETPARSE_NAVIGATE,
   SELECTED_ROW,
+  PERSIST_CHOSENAPPLICATIONHEADERS,
+  PERSIST_CHOSENAPPLICATIONUNITS,
 } from "../Actions/ImportActions";
 
 import importState from "./../State/ImportState";
@@ -46,6 +51,17 @@ const importReducer = (state = importState, action) => {
       return { ...state, ...action.payload };
 
     case PERSIST_FILEHEADERS:
+      return { ...state, ...action.payload };
+
+    case PERSIST_CHOSENAPPLICATIONHEADERSINDICES:
+      return { ...state, ...action.payload };
+    case PERSIST_CHOSENAPPLICATIONUNITS:
+      return { ...state, ...action.payload };
+
+    case PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES:
+      return { ...state, ...action.payload };
+
+    case PERSIST_CHOSENAPPLICATIONHEADERS:
       return { ...state, ...action.payload };
 
     case PERSIST_SELECTEDHEADERROWINDEX:
@@ -74,7 +90,7 @@ const importReducer = (state = importState, action) => {
     case PERSIST_FILEHEADERSMATCH:
       return { ...state, ...action.payload };
 
-    case PERSIST_FILEUNITS:
+    case PERSIST_FILEUNITSANDUNIQUEUNITS:
       return { ...state, ...action.payload };
 
     case PERSIST_SELECTEDUNITROWINDEX:
@@ -94,13 +110,16 @@ const importReducer = (state = importState, action) => {
     case PERSIST_FILEUNITSMATCH:
       return { ...state, ...action.payload };
 
-    case PERSIST_TABLEROLESINDICES:
+    case PERSIST_TABLEROLENAMES:
       return { ...state, ...action.payload };
 
     case PERSIST_TABLEDATA:
       return { ...state, ...action.payload };
 
-    case PERSIST_FINALTABLEDATA:
+    case PERSIST_COLUMNNAMETABLEDATA:
+      return { ...state, ...action.payload };
+
+    case PERSIST_DEFINEDTABLEDATA:
       return { ...state, ...action.payload };
 
     case PERSIST_TABLEHEADERS:

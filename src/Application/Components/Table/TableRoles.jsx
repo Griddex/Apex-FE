@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   persistTableRolesIndicesAction,
   persistFileHeadersAction,
-  persistFileUnitsAction,
+  persistFileUnitsAndUniqueUnitsAction,
 } from "../../Import/Redux/Actions/ImportActions";
 
 const useStyles = makeStyles(() => ({
@@ -62,7 +62,7 @@ const TableRoles = (props) => {
           const fileUnits = Object.values(tableData[rowIndex]);
 
           guardHeadersUnitsRow(index, rowIndex, 1);
-          dispatch(persistFileUnitsAction(fileUnits));
+          dispatch(persistFileUnitsAndUniqueUnitsAction(fileUnits));
         }
       }}
       variant="outlined"

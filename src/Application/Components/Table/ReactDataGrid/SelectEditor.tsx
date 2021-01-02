@@ -21,7 +21,6 @@ export function SelectEditor({
 }: SelectEditorProps) {
   return (
     <Select
-      autoFocus
       value={options.find((o) => o.value === value)}
       onChange={(o) => onChange(o.value)}
       options={options}
