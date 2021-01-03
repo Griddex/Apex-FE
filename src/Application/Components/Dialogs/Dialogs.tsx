@@ -8,6 +8,7 @@ import { RootState } from "../../Redux/Reducers/RootReducer";
 import { IApplicationDialogs, DialogStuff } from "./DialogTypes";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import NewProjectDialog from "./NewProjectDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -16,6 +17,7 @@ const applicationDialogs: IApplicationDialogs = {
   finalizeInputDialog: FinalizeInputDialog,
   economicsParametersDialog: EconomicsParametersDialog,
   economicsParameterImportWorkflowDialog: EconomicsParameterImportWorkflowDialog,
+  newProjectDialog: NewProjectDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

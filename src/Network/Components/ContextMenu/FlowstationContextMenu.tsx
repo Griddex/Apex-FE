@@ -1,12 +1,19 @@
 import Menu from "@material-ui/core/Menu";
 import React from "react";
 import NetworkContextMenu from "./NetworkContextMenu";
+import { IContextMenuProps } from "./ContextMenuTypes";
+import { XYPosition } from "react-flow-renderer";
 
-const GasfacilityContextMenu = ({ children, position }) => {
+const FlowstationContextMenu = ({ children, position }: IContextMenuProps) => {
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
 
-  const handleOpenContextMenu = (event) => {
+  const handleOpenContextMenu = (event: {
+    preventDefault: () => void;
+    persist: () => void;
+    clientX: any;
+    clientY: any;
+  }) => {
     event.preventDefault();
     event.persist();
 
@@ -22,9 +29,14 @@ const GasfacilityContextMenu = ({ children, position }) => {
     setOpen(false);
   };
 
+  const pos = nodePosition as XYPosition;
+  const anchorPosition =
+    pos.y !== null && pos.x !== null ? { top: pos.y, left: pos.x } : undefined;
+
   return (
     <div
       onContextMenu={handleOpenContextMenu}
+      onMouseLeave={handleClose}
       style={{ cursor: "context-menu" }}
     >
       {children}
@@ -33,16 +45,12 @@ const GasfacilityContextMenu = ({ children, position }) => {
         open={open}
         onClose={handleClose}
         anchorReference="anchorPosition"
-        anchorPosition={
-          nodePosition.y !== null && nodePosition.x !== null
-            ? { top: nodePosition.y, left: nodePosition.x }
-            : undefined
-        }
+        anchorPosition={anchorPosition}
       >
-        <NetworkContextMenu elementName={"gasFacility"} />
+        <NetworkContextMenu elementName={"flowstation"} />
       </Menu>
     </div>
   );
 };
 
-export default GasfacilityContextMenu;
+export default FlowstationContextMenu;

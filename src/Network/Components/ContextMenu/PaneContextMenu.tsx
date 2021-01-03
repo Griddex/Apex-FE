@@ -115,7 +115,14 @@ export const RunForecastMenu = () => {
   );
 };
 
-export const PaneContextMenu = React.forwardRef(({ elementName }, ref) => {
+interface IPaneContextMenuProps {
+  elementName: string;
+}
+
+export const PaneContextMenu = React.forwardRef<
+  HTMLDivElement,
+  IPaneContextMenuProps
+>(({ elementName }, ref) => {
   return (
     <div ref={ref}>
       <ZoomInMenu />

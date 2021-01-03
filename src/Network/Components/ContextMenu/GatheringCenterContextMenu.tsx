@@ -1,12 +1,22 @@
 import Menu from "@material-ui/core/Menu";
 import React from "react";
+import { XYPosition } from "react-flow-renderer";
+import { IContextMenuProps } from "./ContextMenuTypes";
 import NetworkContextMenu from "./NetworkContextMenu";
 
-const TerminalContextMenu = ({ children, position }) => {
+const GatheringCenterContextMenu = ({
+  children,
+  position,
+}: IContextMenuProps) => {
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
 
-  const handleOpenContextMenu = (event) => {
+  const handleOpenContextMenu = (event: {
+    preventDefault: () => void;
+    persist: () => void;
+    clientX: any;
+    clientY: any;
+  }) => {
     event.preventDefault();
     event.persist();
 
@@ -22,6 +32,10 @@ const TerminalContextMenu = ({ children, position }) => {
     setOpen(false);
   };
 
+  const pos = nodePosition as XYPosition;
+  const anchorPosition =
+    pos.y !== null && pos.x !== null ? { top: pos.y, left: pos.x } : undefined;
+
   return (
     <div
       onContextMenu={handleOpenContextMenu}
@@ -33,16 +47,12 @@ const TerminalContextMenu = ({ children, position }) => {
         open={open}
         onClose={handleClose}
         anchorReference="anchorPosition"
-        anchorPosition={
-          nodePosition.y !== null && nodePosition.x !== null
-            ? { top: nodePosition.y, left: nodePosition.x }
-            : undefined
-        }
+        anchorPosition={anchorPosition}
       >
-        <NetworkContextMenu elementName={"terminal"} />
+        <NetworkContextMenu elementName={"flowstation"} />
       </Menu>
     </div>
   );
 };
 
-export default TerminalContextMenu;
+export default GatheringCenterContextMenu;

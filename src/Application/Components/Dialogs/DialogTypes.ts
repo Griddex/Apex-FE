@@ -6,6 +6,7 @@ import FinalizeInputDialog from "./FinalizeInputDialog";
 import { Column } from "react-data-griddex";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import NewProjectDialog from "./NewProjectDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -14,6 +15,7 @@ export interface IApplicationDialogs {
   finalizeInputDialog: typeof FinalizeInputDialog;
   economicsParametersDialog: typeof EconomicsParametersDialog;
   economicsParameterImportWorkflowDialog: typeof EconomicsParameterImportWorkflowDialog;
+  newProjectDialog: typeof NewProjectDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -42,7 +44,8 @@ export interface DialogStuff {
     | "selectWorksheetDialog"
     | "finalizeInputDialog"
     | "economicsParametersDialog"
-    | "economicsParameterImportWorkflowDialog";
+    | "economicsParameterImportWorkflowDialog"
+    | "newProjectDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -50,7 +53,7 @@ export interface DialogStuff {
   iconType?: "error" | "success" | "select";
   contentText?: string;
   contentList?: Record<string, any>;
-  actionsList?: () => JSX.Element;
+  actionsList?: (() => JSX.Element) | (() => JSX.Element[]);
   onClose?: () => unknown;
   classes?: Record<string, string>;
   dialogData?: IDialogData;
@@ -61,8 +64,9 @@ export interface IDialogState<T> {
 
 export interface ButtonProps {
   title?: string;
+  type?: "button" | "submit" | "reset" | undefined;
   variant?: "text" | "outlined" | "contained";
   color?: "inherit" | "primary" | "secondary" | "default";
   startIcon: ReactNode;
-  handleAction: () => { type: string } | void;
+  handleAction?: () => { type: string } | void;
 }

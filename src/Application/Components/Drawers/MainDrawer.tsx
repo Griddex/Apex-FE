@@ -24,6 +24,9 @@ import TimelineIcon from "@material-ui/icons/Timeline";
 import BusinessOutlinedIcon from "@material-ui/icons/BusinessOutlined";
 import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
 import LocalAtmOutlinedIcon from "@material-ui/icons/LocalAtmOutlined";
+import AccountBalanceWalletOutlinedIcon from "@material-ui/icons/AccountBalanceWalletOutlined";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+import ProjectContextMenu from "../ContextMenus/ProjectContextMenu";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => {
@@ -81,21 +84,47 @@ const useStyles = makeStyles((theme) => {
 
 const MainDrawer = () => {
   const dispatch = useDispatch();
-  const layoutProps = useSelector((state) => state.layoutReducer);
+  const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const classes = useStyles(layoutProps);
   const { expandMainDrawer } = layoutProps;
 
   const [selected, setMainMenuSelected] = useState("");
   const { url } = useRouteMatch();
 
-  const handleClick = (route, e) => {
+  const handleClick = (route: string, e: any) => {
     setMainMenuSelected(route);
     console.log(e);
   };
 
+  const [openTooltip, setOpenTooltip] = useState(false);
+  const handleTooltipClose = () => {
+    console.log("close");
+    setOpenTooltip(false);
+  };
+
+  const handleTooltipOpen = () => {
+    console.log("open");
+    setOpenTooltip(true);
+  };
+
   //Can replace with dynamically loaded json config file
   //generated from license token
-  const mainDrawerData = [
+  interface IMainDrawerData {
+    name: string;
+    route: string;
+    icon: JSX.Element;
+  }
+
+  const mainDrawerData: IMainDrawerData[] = [
+    {
+      name: "Project",
+      route: `${url}/project`,
+      icon: (
+        <AccountBalanceWalletOutlinedIcon
+          fontSize={expandMainDrawer ? "large" : "default"}
+        />
+      ),
+    },
     {
       name: "Import",
       route: `${url}/import`,
@@ -187,6 +216,9 @@ const MainDrawer = () => {
                 title={name}
                 placement="right"
                 // interactive
+                // open={openTooltip}
+                // onClose={handleTooltipClose}
+                // onOpen={handleTooltipOpen}
                 arrow
               >
                 <MenuItem
@@ -198,18 +230,28 @@ const MainDrawer = () => {
                   component={Link}
                   to={route}
                   selected={name === selected}
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     handleClick(name, e);
                     dispatch(mainDrawerSetMenuAction(name));
                     history.push(route);
                   }}
                   disableGutters
                 >
-                  <div className={classes.menuItemDiv}>
-                    <div>{icon}</div>
-                    {expandMainDrawer && <Typography>{name}</Typography>}
-                    <Divider />
-                  </div>
+                  {name === "Project" ? (
+                    <ProjectContextMenu setOpenTooltip={setOpenTooltip}>
+                      <div className={classes.menuItemDiv}>
+                        <div>{icon}</div>
+                        {expandMainDrawer && <Typography>{name}</Typography>}
+                        <Divider />
+                      </div>
+                    </ProjectContextMenu>
+                  ) : (
+                    <div className={classes.menuItemDiv}>
+                      <div>{icon}</div>
+                      {expandMainDrawer && <Typography>{name}</Typography>}
+                      <Divider />
+                    </div>
+                  )}
                 </MenuItem>
               </Tooltip>
             );

@@ -66,7 +66,7 @@ export const persistNetworkElementsAction = (
   };
 };
 
-export const addNetworkElementAction = (element: FlowElement[]) => {
+export const addNetworkElementAction = (element: FlowElement) => {
   return {
     type: ADD_NETWORKELEMENT,
     payload: element,

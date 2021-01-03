@@ -24,13 +24,14 @@ interface IAnalyticsCompProps {
   title: string;
   content: JSX.Element | string;
   direction: "Vertical" | "Horizontal";
+  containerStyle?: React.CSSProperties;
   titleStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
 }
 
 const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
   const classes = useStyles();
-  const { title, content, titleStyle, contentStyle } = props;
+  const { title, content, titleStyle, contentStyle, containerStyle } = props;
 
   const flexStyle = (): React.CSSProperties => {
     if (props.direction === "Horizontal")
@@ -48,11 +49,14 @@ const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
   };
 
   return (
-    <div className={classes.analyticsComp} style={flexStyle()}>
+    <div
+      className={classes.analyticsComp}
+      style={{ ...flexStyle(), ...containerStyle }}
+    >
       <Typography className={classes.analyticsTitle} style={titleStyle}>
         {title}
       </Typography>
-      <div style={contentStyle}>{content}</div>
+      <div style={{ width: "100%", ...contentStyle }}>{content}</div>
     </div>
   );
 };

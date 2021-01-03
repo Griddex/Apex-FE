@@ -1,20 +1,33 @@
 import Menu from "@material-ui/core/Menu";
 import React from "react";
+import { XYPosition } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { IContextMenuProps } from "./ContextMenuTypes";
 import NetworkContextMenu from "./NetworkContextMenu";
 
-const WellheadContextMenu = ({ children, position }) => {
+const WellheadSummaryContextMenu = ({
+  children,
+  position,
+}: IContextMenuProps) => {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
   const { showContextDrawer, expandContextDrawer } = useSelector(
-    (state) => state.layoutReducer
+    (state: RootState) => state.layoutReducer
   );
-  const { showWellheadDetails } = useSelector((state) => state.networkReducer);
+  const { showWellheadDetails } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
 
   // dispatch(showNetworkElementDetailsAction());
 
-  const handleOpenContextMenu = (event) => {
+  const handleOpenContextMenu = (event: {
+    preventDefault: () => void;
+    persist: () => void;
+    clientX: any;
+    clientY: any;
+  }) => {
     event.preventDefault();
     event.persist();
 
@@ -30,6 +43,10 @@ const WellheadContextMenu = ({ children, position }) => {
     setOpen(false);
   };
 
+  const pos = nodePosition as XYPosition;
+  const anchorPosition =
+    pos.y !== null && pos.x !== null ? { top: pos.y, left: pos.x } : undefined;
+
   return (
     <div
       onContextMenu={handleOpenContextMenu}
@@ -40,17 +57,14 @@ const WellheadContextMenu = ({ children, position }) => {
         keepMounted
         open={open}
         onClose={handleClose}
+        onMouseLeave={handleClose}
         anchorReference="anchorPosition"
-        anchorPosition={
-          nodePosition.y !== null && nodePosition.x !== null
-            ? { top: nodePosition.y, left: nodePosition.x }
-            : undefined
-        }
+        anchorPosition={anchorPosition}
       >
-        <NetworkContextMenu elementName={"wellhead"} />
+        <NetworkContextMenu elementName={"wellheadSummary"} />
       </Menu>
     </div>
   );
 };
 
-export default WellheadContextMenu;
+export default WellheadSummaryContextMenu;

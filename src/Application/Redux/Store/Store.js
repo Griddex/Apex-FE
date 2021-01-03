@@ -3,6 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./../Reducers/RootReducer";
 import createSagaMiddleware from "redux-saga";
 import watchLoginSaga from "../Sagas/LoginSaga";
+import watchNewProjectSaga from "../Sagas/NewProjectSaga";
 import watchRegisterSaga from "../Sagas/RegisterSaga";
 import watchConnectDatabaseSaga from "../../../Import/Redux/Sagas/connectDatabaseSaga";
 import { spawn } from "redux-saga/effects";
@@ -15,6 +16,7 @@ function* rootSaga() {
   yield spawn(watchRegisterSaga);
   yield spawn(watchConnectDatabaseSaga);
   yield spawn(watchRunForecastSaga);
+  yield spawn(watchNewProjectSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

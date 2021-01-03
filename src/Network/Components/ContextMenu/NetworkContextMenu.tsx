@@ -23,12 +23,17 @@ import Wellhead from "../../Images/Wellhead.svg";
 import {
   contextDrawerExpandAction,
   contextDrawerShowAction,
-} from "./../../../Application/Redux/Actions/LayoutActions";
-import { addNetworkElementAction } from "./../../Redux/Actions/NetworkActions";
-import GenerateNodeByPositionService from "./../../Services/GenerateNodeByPositionService";
+} from "../../../Application/Redux/Actions/LayoutActions";
+import { addNetworkElementAction } from "../../Redux/Actions/NetworkActions";
+import GenerateNodeByPositionService from "../../Services/GenerateNodeByPositionService";
+import { XYPosition } from "react-flow-renderer";
 
-export const AddNetworkElementMenu = ({ elementName }) => {
-  const NetworkIcons = {
+export const AddNetworkElementMenu = ({
+  elementName,
+}: {
+  elementName: string;
+}) => {
+  const NetworkIcons: Record<string, string> = {
     wellhead: Wellhead,
     wellheadSummary: Wellhead,
     manifold: Manifold,
@@ -59,14 +64,20 @@ export const AddNetworkElementMenu = ({ elementName }) => {
   );
 };
 
-export const NetworkElementsMenu = ({ children }) => {
+export const NetworkElementsMenu = ({
+  children,
+}: {
+  children: JSX.Element;
+}) => {
   const dispatch = useDispatch();
-  const initialPosition = {
-    x: null,
-    y: null,
+  const initialPosition: XYPosition = {
+    x: -1,
+    y: -1,
   };
   const [open, setOpen] = React.useState(false);
-  const [nodePosition, setNodePosition] = React.useState(initialPosition);
+  const [nodePosition, setNodePosition] = React.useState<XYPosition>(
+    initialPosition
+  );
 
   const elements = [
     {
@@ -92,7 +103,9 @@ export const NetworkElementsMenu = ({ children }) => {
     { Terminal: Terminal },
   ];
 
-  const handleOpenMouseEnter = (event) => {
+  const handleOpenMouseEnter = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     event.preventDefault();
     event.persist();
 
@@ -107,6 +120,10 @@ export const NetworkElementsMenu = ({ children }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const pos = nodePosition as XYPosition;
+  const anchorPosition =
+    pos.y !== null && pos.x !== null ? { top: pos.y, left: pos.x } : undefined;
 
   return (
     <div
@@ -123,15 +140,11 @@ export const NetworkElementsMenu = ({ children }) => {
         open={open}
         onClose={handleClose}
         anchorReference="anchorPosition"
-        anchorPosition={
-          nodePosition.y !== null && nodePosition.x !== null
-            ? { top: nodePosition.y, left: nodePosition.x }
-            : undefined
-        }
+        anchorPosition={anchorPosition}
       >
         {elements.map((element, i) => {
           const nodeKey = Object.keys(element)[0];
-          const nodeIcon = Object.values(element)[0];
+          const nodeIcon = Object.values(element)[0] as string;
 
           return (
             <MenuItem
@@ -319,7 +332,14 @@ export const RunForecastMenu = () => {
   );
 };
 
-export const NetworkContextMenu = React.forwardRef(({ elementName }, ref) => {
+interface INetworkContextMenuProps {
+  elementName: string;
+}
+
+export const NetworkContextMenu = React.forwardRef<
+  HTMLDivElement,
+  INetworkContextMenuProps
+>(({ elementName }, ref) => {
   return (
     <div ref={ref}>
       <AddNetworkElementMenu elementName={elementName} />
