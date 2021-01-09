@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
-import ListDialog from "./ListDialog";
-import TextDialog from "./TextDialog";
-import SelectWorksheetDialog from "./SelectWorksheetDialog";
-import FinalizeInputDialog from "./FinalizeInputDialog";
 import { Column } from "react-data-griddex";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
-import NewProjectDialog from "./NewProjectDialog";
+import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
+import FinalizeInputDialog from "./FinalizeInputDialog";
+import ListDialog from "./ListDialog";
+import SelectWorksheetDialog from "./SelectWorksheetDialog";
+import TextDialog from "./TextDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -15,7 +15,7 @@ export interface IApplicationDialogs {
   finalizeInputDialog: typeof FinalizeInputDialog;
   economicsParametersDialog: typeof EconomicsParametersDialog;
   economicsParameterImportWorkflowDialog: typeof EconomicsParameterImportWorkflowDialog;
-  newProjectDialog: typeof NewProjectDialog;
+  newProjectDialogWorkflow: typeof NewProjectDialogWorkflow;
 }
 
 export interface IDialogsServiceProps {
@@ -45,7 +45,7 @@ export interface DialogStuff {
     | "finalizeInputDialog"
     | "economicsParametersDialog"
     | "economicsParameterImportWorkflowDialog"
-    | "newProjectDialog";
+    | "newProjectDialogWorkflow";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -57,6 +57,7 @@ export interface DialogStuff {
   onClose?: () => unknown;
   classes?: Record<string, string>;
   dialogData?: IDialogData;
+  children?: JSX.Element | JSX.Element[];
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import { omit } from "lodash";
 import zipObject from "lodash/zipObject";
 import React from "react";
 import { Column } from "react-data-griddex";

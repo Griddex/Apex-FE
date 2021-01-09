@@ -158,7 +158,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        {title}
+        <div>{title}</div>
       </DialogTitle>
       <DialogContent dividers>
         <EconomicsParameterImportWorkflow />

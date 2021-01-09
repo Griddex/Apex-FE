@@ -1,15 +1,16 @@
+import {
+  ClickAwayListener,
+  ListItemIcon,
+  MenuItem,
+  Typography,
+} from "@material-ui/core";
 import CheckBoxOutlineBlankOutlinedIcon from "@material-ui/icons/CheckBoxOutlineBlankOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import ImageAspectRatioOutlinedIcon from "@material-ui/icons/ImageAspectRatioOutlined";
-import {
-  hideDialogAction,
-  showDialogAction,
-} from "../../Redux/Actions/DialogsAction";
-import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
+import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import { MenuItem, ListItemIcon, Typography, Button } from "@material-ui/core";
-import React from "react";
+import { showDialogAction } from "../../Redux/Actions/DialogsAction";
+import { DialogStuff } from "../Dialogs/DialogTypes";
 
 interface IApexMenuItemProps {
   name: string;
@@ -55,52 +56,16 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement, IProjectMenuProps>(
     };
 
     const createNewProject = () => {
-      const createNewProjectDialogActions = () => {
-        const buttonsData: ButtonProps[] = [
-          {
-            title: "Cancel",
-            variant: "contained",
-            color: "secondary",
-            startIcon: <CloseOutlinedIcon />,
-            handleAction: () => dispatch(hideDialogAction()),
-          },
-          {
-            title: "Create Project",
-            type: "submit",
-            variant: "contained",
-            color: "primary",
-            startIcon: <DoneOutlinedIcon />,
-          },
-        ];
-
-        return (
-          <>
-            {buttonsData.map((button, i) => (
-              <Button
-                key={i}
-                variant={button.variant}
-                type={button.type}
-                color={button.color}
-                onClick={button.handleAction}
-                startIcon={button.startIcon}
-              >
-                {button.title}
-              </Button>
-            ))}
-          </>
-        );
-      };
-
       const dialogParameters: DialogStuff = {
         name: "New_Project_Dialog",
         title: "New Project",
-        type: "newProjectDialog",
+        type: "newProjectDialogWorkflow",
         show: true,
         exclusive: true,
-        maxWidth: "sm",
+        maxWidth: "md",
         iconType: "select",
-        actionsList: () => createNewProjectDialogActions(),
       };
+
       dispatch(showDialogAction(dialogParameters));
     };
 
@@ -132,65 +97,69 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement, IProjectMenuProps>(
       },
     ];
 
+    const handleClickAway = (event: ChangeEvent<any>) => {};
+
     return (
-      <div
-        style={{
-          width: 400,
-          height: "auto",
-          paddingLeft: 10,
-          paddingRight: 10,
-        }}
-      >
-        <div style={{ borderBottom: "1px solid #999", padding: 3 }}>
-          <ApexMenuItem
-            name="New Project"
-            icon={
-              <CheckBoxOutlineBlankOutlinedIcon
-                fontSize="small"
-                style={{ minWidth: 30 }}
-              />
-            }
-            handleClick={() => createNewProject()} //Will dispatch new project workflow
-          />
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <div
+          style={{
+            width: 400,
+            height: "auto",
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}
+        >
+          <div style={{ borderBottom: "1px solid #999", padding: 3 }}>
+            <ApexMenuItem
+              name="New Project"
+              icon={
+                <CheckBoxOutlineBlankOutlinedIcon
+                  fontSize="small"
+                  style={{ minWidth: 30 }}
+                />
+              }
+              handleClick={() => createNewProject()} //Will dispatch new project workflow
+            />
+          </div>
+          <div style={{ borderBottom: "1px solid #999" }}>
+            <ApexMenuItem
+              name="Recent Projects"
+              icon={
+                <ImageAspectRatioOutlinedIcon
+                  fontSize="small"
+                  style={{ minWidth: 30 }}
+                />
+              }
+              handleClick={() => console.log("recent projects")} //Will dispatch new project workflow
+            />
+            {recentProjects.map((project, i: number) => {
+              const { name, handleClick } = project;
+              return (
+                <ApexMenuItem
+                  key={i}
+                  name={name}
+                  handleClick={handleClick}
+                  sn={i + 1}
+                  toggleSN={true}
+                />
+              );
+            })}
+          </div>
+          <div style={{ padding: 3 }}>
+            <ApexMenuItem
+              name="Close Project"
+              icon={
+                <CloseOutlinedIcon
+                  color="secondary"
+                  fontSize="small"
+                  style={{ minWidth: 30 }}
+                />
+              }
+              handleClick={() => console.log("close project")} //Will dispatch new project workflow
+            />
+          </div>
         </div>
-        <div style={{ borderBottom: "1px solid #999" }}>
-          <ApexMenuItem
-            name="Recent Projects"
-            icon={
-              <ImageAspectRatioOutlinedIcon
-                fontSize="small"
-                style={{ minWidth: 30 }}
-              />
-            }
-            handleClick={() => console.log("recent projects")} //Will dispatch new project workflow
-          />
-          {recentProjects.map((project, i: number) => {
-            const { name, handleClick } = project;
-            return (
-              <ApexMenuItem
-                key={i}
-                name={name}
-                handleClick={handleClick}
-                sn={i + 1}
-                toggleSN={true}
-              />
-            );
-          })}
-        </div>
-        <div style={{ padding: 3 }}>
-          <ApexMenuItem
-            name="Close Project"
-            icon={
-              <CloseOutlinedIcon
-                color="secondary"
-                fontSize="small"
-                style={{ minWidth: 30 }}
-              />
-            }
-            handleClick={() => console.log("close project")} //Will dispatch new project workflow
-          />
-        </div>
-      </div>
+      </ClickAwayListener>
     );
   }
 );

@@ -132,7 +132,7 @@ const TextDialog: React.FC<DialogStuff> = ({
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        {title}
+        <div>{title}</div>
       </TextDialogTitle>
       <DialogContent dividers>
         <Typography className={classes.dialogContent} variant="body1">

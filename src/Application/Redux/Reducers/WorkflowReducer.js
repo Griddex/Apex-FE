@@ -5,6 +5,7 @@ import {
   BACK_WORKFLOW,
   SKIP_WORKFLOW,
   SAVE_WORKFLOW,
+  FINALIZE_WORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
 
@@ -66,11 +67,15 @@ const workflowReducer = (state = workflowState, action) => {
         skipped: newSkippedSet,
       };
     }
+
     case SAVE_WORKFLOW: //Not yet complete
-      return { ...state };
+      return state;
+
+    case FINALIZE_WORKFLOW: //Not yet complete
+      return state;
 
     default:
-      return { ...state };
+      return state;
   }
 };
 

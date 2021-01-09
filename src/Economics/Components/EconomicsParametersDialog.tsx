@@ -227,7 +227,7 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        {title}
+        <div>{title}</div>
       </DialogTitle>
       <DialogContent dividers>
         {economicsParametersDialogContent(columns, rows)}

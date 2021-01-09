@@ -20,12 +20,10 @@ import {
   workflowSkipAction,
 } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
-import SelectDatabase from "../../../Import/Components/SelectDatabase";
-import Visualytics from "../../../Visualytics/Common/Visualytics";
 import EconomicCosts from "../EconomicCosts";
+import EconomicsCalculations from "../EconomicsCalculations";
 import EconomicsParameters from "../EconomicsParameters";
 import SelectForecast from "../SelectForecast";
-import EconomicsCalculations from "../EconomicsCalculations";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -221,7 +219,7 @@ const EconomicsWorkflow = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            activeStep === steps
+            activeStep === steps.length - 1
               ? dispatch(workflowSaveAction())
               : dispatch(
                   workflowNextAction(skipped, isStepSkipped, activeStep, steps)

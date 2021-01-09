@@ -10,7 +10,7 @@ import registerReducer from "./RegisterReducer";
 import uiSpinnerReducer from "./UISpinnerReducer";
 import workflowReducer from "./WorkflowReducer";
 import economicsReducer from "./../../../Economics/Redux/Reducers/EconomicsReducers";
-import projectReducer from "./ProjectReducer";
+import projectReducer from "../../../Project/Redux/Reducers/ProjectReducer";
 
 const rootReducer = combineReducers({
   loginReducer,

@@ -1,11 +1,13 @@
 export const CREATE_NEWPROJECT = "CREATE_NEWPROJECT";
 export const NEWPROJECT_SUCCESS = "NEWPROJECT_SUCCESS";
 export const NEWPROJECT_FAILURE = "NEWPROJECT_FAILURE";
-import { DialogStuff } from "./../../Components/Dialogs/DialogTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
 export const createNewProjectAction = (
   projectName: string,
   projectDescription: string,
+  dateFormat: string,
+  pressureAddend: number,
   successDialogParameters: DialogStuff,
   failureDialogParameters: DialogStuff
 ) => {
@@ -14,6 +16,8 @@ export const createNewProjectAction = (
     payload: {
       projectName,
       projectDescription,
+      dateFormat,
+      pressureAddend,
       successDialogParameters,
       failureDialogParameters,
     },

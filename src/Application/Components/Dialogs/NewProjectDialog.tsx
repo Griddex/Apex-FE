@@ -1,7 +1,8 @@
 import Dialog from "@material-ui/core/Dialog";
+import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
@@ -11,7 +12,6 @@ import WarningIcon from "@material-ui/icons/Warning";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import NewProjectForm from "../Forms/NewProjectForm";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -98,9 +98,19 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   );
 };
 
-const NewProjectDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
+const DialogContent = withStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    padding: theme.spacing(1.5),
+    width: "100%",
+  },
+}))(MuiDialogContent);
+
+const NewProjectDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList } = props;
+  const { title, show, maxWidth, iconType, children } = props;
 
   return (
     <Dialog
@@ -113,9 +123,14 @@ const NewProjectDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        {title}
+        <div>{title}</div>
       </DialogTitle>
-      <NewProjectForm actionsList={actionsList} />
+      <DialogContent
+        dividers
+        style={{ display: "flex", flexDirection: "column", height: 650 }}
+      >
+        {children && children}
+      </DialogContent>
     </Dialog>
   );
 };

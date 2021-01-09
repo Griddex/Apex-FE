@@ -1,13 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import * as authService from "../../Services/AuthService";
-import history from "../../Services/HistoryService";
+import * as authService from "../../../Application/Services/AuthService";
+import history from "../../../Application/Services/HistoryService";
 import {
   newProjectFailureAction,
   newProjectSuccessAction,
   CREATE_NEWPROJECT,
 } from "../Actions/ProjectActions";
-import { hideSpinnerAction } from "../Actions/UISpinnerActions";
-import { showDialogAction } from "./../Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 export default function* watchNewProjectSaga() {
   yield takeLatest(CREATE_NEWPROJECT, newProjectSaga);
@@ -18,6 +18,8 @@ function* newProjectSaga(action) {
   const {
     projectName,
     projectDescription,
+    dateFormat,
+    pressureAddend,
     successDialogParameters,
     failureDialogParameters,
   } = payload;

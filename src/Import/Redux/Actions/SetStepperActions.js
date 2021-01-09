@@ -4,6 +4,7 @@ export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
 export const BACK_WORKFLOW = "BACK_WORKFLOW";
 export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
+export const FINALIZE_WORKFLOW = "FINALIZE_WORKFLOW";
 
 export const workflowInitAction = (name, moduleName, steps) => {
   return {
@@ -59,6 +60,12 @@ export const workflowSkipAction = (name, moduleName, activeStep) => {
 export const workflowSaveAction = (name) => {
   return {
     type: SAVE_WORKFLOW,
+    payload: { workflowName: name },
+  };
+};
+export const workflowFinalizeAction = (name) => {
+  return {
+    type: FINALIZE_WORKFLOW,
     payload: { workflowName: name },
   };
 };

@@ -3,10 +3,10 @@ import {
   NEWPROJECT_SUCCESS,
   NEWPROJECT_FAILURE,
 } from "../Actions/ProjectActions";
-import projectState from "../State/ProjectState";
+import newProjectState from "../State/ProjectState";
 
 const projectReducer = (
-  state = projectState,
+  state = newProjectState,
   action: {
     type: string;
     name: string;
@@ -17,12 +17,19 @@ const projectReducer = (
 ) => {
   switch (action.type) {
     case CREATE_NEWPROJECT: {
-      const { projectName, projectDescription } = action.payload;
+      const {
+        projectName,
+        projectDescription,
+        dateFormat,
+        pressureAddend,
+      } = action.payload;
 
       return {
         ...state,
-        projectName: projectName,
-        projectDescription: projectDescription,
+        projectName,
+        projectDescription,
+        dateFormat,
+        pressureAddend,
       };
     }
 

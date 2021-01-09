@@ -55,6 +55,4 @@ const WorkflowStepper = (props) => {
   );
 };
 
-WorkflowStepper.propTypes = {};
-
 export default WorkflowStepper;

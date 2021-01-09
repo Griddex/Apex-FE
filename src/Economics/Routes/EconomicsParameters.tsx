@@ -315,6 +315,7 @@ const EconomicsParameters = () => {
       dialogText: "",
       dialogData: { columns, rows },
     };
+
     dispatch(showDialogAction(dialogParameters));
   };
 

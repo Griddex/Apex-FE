@@ -405,13 +405,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         </div>
       </DndProvider>
       <div className={classes.tablePagination}>
+        <div>Pages</div>
         <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel
-            className={classes.formControl}
-            id="demo-simple-select-outlined-label"
-          >
-            Pages
-          </InputLabel>
           <SelectEditor
             className={classes.formControl}
             value={pageSelect || "All"}

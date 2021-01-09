@@ -151,10 +151,10 @@ const Network = () => {
       border: "1px solid grey",
     };
   }
-
   const { nodeElements, edgeElements } = useSelector(
     (state: RootState) => state.networkReducer
   );
+
   const nodeElementsWithWidgets = AddWidgetsToNodes(nodeElements);
   const allNetworkElements = [...nodeElementsWithWidgets, ...edgeElements];
 

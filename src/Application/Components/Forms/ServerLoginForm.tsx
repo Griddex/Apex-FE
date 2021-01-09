@@ -99,7 +99,7 @@ const SelectItem = ({
   );
 };
 
-interface IFormValues {
+interface IServerLoginFormValues {
   authenticationType: string;
   userName: string;
   password: string;
@@ -201,7 +201,7 @@ const ServerLoginForm = () => {
         );
       }}
     >
-      {(props: FormikProps<IFormValues>) => {
+      {(props: FormikProps<IServerLoginFormValues>) => {
         const {
           values: { authenticationType, userName, password },
           errors,

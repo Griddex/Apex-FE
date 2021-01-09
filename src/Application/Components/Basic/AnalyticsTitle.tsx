@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 
 const useStyles = makeStyles((theme) => ({
   analyticsTitle: {
@@ -20,12 +21,20 @@ const useStyles = makeStyles((theme) => ({
 
 interface IAnalyticsTitleProps {
   title: string;
+  titleStyle?: CSSProperties;
 }
 
-const AnalyticsTitle: React.FC<IAnalyticsTitleProps> = ({ title }) => {
+const AnalyticsTitle: React.FC<IAnalyticsTitleProps> = ({
+  title,
+  titleStyle,
+}) => {
   const classes = useStyles();
 
-  return <Typography className={classes.analyticsTitle}>{title}</Typography>;
+  return (
+    <Typography className={classes.analyticsTitle} style={titleStyle}>
+      {title}
+    </Typography>
+  );
 };
 
 export default AnalyticsTitle;

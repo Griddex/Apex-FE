@@ -158,11 +158,11 @@ export default function MatchUnits() {
     },
   };
 
-  type ApplicationUnitOptionsType = {
+  type AppUnitOptionsType = {
     value: string;
     label: string;
   }[];
-  type UnitClassificationOptionsType = {
+  type UnitGroupOptionsType = {
     value: string;
     label: string;
   }[];
@@ -172,7 +172,7 @@ export default function MatchUnits() {
   }[];
 
   //Application Unit
-  const applicationUnitOptions: ApplicationUnitOptionsType[] = fileUniqueUnits.map(
+  const appUnitOptions: AppUnitOptionsType[] = fileUniqueUnits.map(
     (fileUnit: string) => {
       const unitMatch = keyedFileUnitMatches[fileUnit];
 
@@ -186,11 +186,11 @@ export default function MatchUnits() {
   );
   const keyedApplicationUnitOptions = zipObject(
     fileUniqueUnits,
-    applicationUnitOptions
+    appUnitOptions
   );
 
   //Unit Classification
-  const unitClassificationOptions: UnitClassificationOptionsType = unitClassificationData.map(
+  const unitGroupOptions: UnitGroupOptionsType = unitClassificationData.map(
     (unitClass: string) => ({ value: unitClass, label: unitClass })
   );
 
@@ -230,7 +230,7 @@ export default function MatchUnits() {
         label: string;
       }[]
     >,
-    unitClassificationOptions: UnitClassificationOptionsType
+    unitGroupOptions: UnitGroupOptionsType
   ) => {
     const handleCheckboxChange = (
       row: IRawRow,
@@ -322,7 +322,7 @@ export default function MatchUnits() {
               p.onRowChange({ ...p.row, unitClassification: value }, true);
               // dispatch(selectedRowAction(p.row));
             }}
-            options={unitClassificationOptions}
+            options={unitGroupOptions}
             rowHeight={p.rowHeight}
             menuPortalTarget={p.editorPortalTarget}
           />
@@ -354,9 +354,8 @@ export default function MatchUnits() {
   };
 
   const columns = React.useMemo(
-    () =>
-      generateColumns(keyedApplicationUnitOptions, unitClassificationOptions),
-    [keyedApplicationUnitOptions, unitClassificationOptions]
+    () => generateColumns(keyedApplicationUnitOptions, unitGroupOptions),
+    [keyedApplicationUnitOptions, unitGroupOptions]
   );
 
   //TODO: Saga Api to select unit family the current selected
@@ -365,7 +364,7 @@ export default function MatchUnits() {
     (fileUnit: string, i: number) => {
       const unitOptions = keyedApplicationUnitOptions[fileUnit];
       const selectedApplicationUnit = unitOptions[0];
-      const selectedUnitClassification = unitClassificationOptions[0];
+      const selectedUnitClassification = unitGroupOptions[0];
       const scoreOpts = keyedScoreOptions[fileUnit];
       const score = scoreOpts[0];
 
@@ -392,7 +391,7 @@ export default function MatchUnits() {
         //TODO: When you select an app unit, it'll check the classification
         //object from the api and with the value set the select control
         //just have to make sure the value is exactly the same
-        const selectedUnitClassification = unitClassificationOptions[0];
+        const selectedUnitClassification = unitGroupOptions[0];
         const scoreOpts = keyedScoreOptions[selectedFileUnit];
         const score = scoreOpts[selectedUnitOptionIndex];
 

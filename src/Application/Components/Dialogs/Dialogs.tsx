@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import ListDialog from "./ListDialog";
-import TextDialog from "./TextDialog";
-import SelectWorksheetDialog from "./SelectWorksheetDialog";
-import FinalizeInputDialog from "./FinalizeInputDialog";
-import { RootState } from "../../Redux/Reducers/RootReducer";
-import { IApplicationDialogs, DialogStuff } from "./DialogTypes";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
-import NewProjectDialog from "./NewProjectDialog";
+import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
+import FinalizeInputDialog from "./FinalizeInputDialog";
+import ListDialog from "./ListDialog";
+import SelectWorksheetDialog from "./SelectWorksheetDialog";
+import TextDialog from "./TextDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -17,7 +17,7 @@ const applicationDialogs: IApplicationDialogs = {
   finalizeInputDialog: FinalizeInputDialog,
   economicsParametersDialog: EconomicsParametersDialog,
   economicsParameterImportWorkflowDialog: EconomicsParameterImportWorkflowDialog,
-  newProjectDialog: NewProjectDialog,
+  newProjectDialogWorkflow: NewProjectDialogWorkflow,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {
