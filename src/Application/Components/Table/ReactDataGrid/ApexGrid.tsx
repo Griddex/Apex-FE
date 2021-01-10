@@ -110,6 +110,7 @@ export interface IApexGrid<R, O> {
   rows: R[];
   options: ITableIconsOptions;
   setRowsChange?: React.SetStateAction<any>;
+  newTableRowHeight?: number;
 }
 
 export interface ITableMetaData<R> {
@@ -123,7 +124,12 @@ export interface ITableMetaData<R> {
 export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const classes = useStyles();
 
-  const { columns: rawColumns, rows: rawRows, options, setRowsChange } = props;
+  const {
+    columns: rawColumns,
+    rows: rawRows,
+    options,
+    newTableRowHeight,
+  } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
   const [, setRenderRows] = React.useState(rawRows);
@@ -134,7 +140,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const tableRef = React.useRef<HTMLDivElement>(null);
   const gridRef = React.useRef<DataGridHandle>(null);
   const tableHeaderHeight = 40;
-  const tableRowHeight = 35;
+  const tableRowHeight = newTableRowHeight ? newTableRowHeight : 35;
+  const pagesHeight = 35;
   const noOfTableRows = rawTableRows.current.length;
 
   const [columns, setColumns] = useState(rawColumns);
@@ -401,6 +408,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             sortDirection={sortDirection}
             onSort={handleSort}
             headerRowHeight={tableHeaderHeight}
+            rowHeight={tableRowHeight}
           />
         </div>
       </DndProvider>
@@ -412,7 +420,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             value={pageSelect || "All"}
             onChange={(value) => handlePageSelectChange(value)}
             options={uniquePageOptions}
-            rowHeight={tableRowHeight}
+            rowHeight={pagesHeight}
           />
         </FormControl>
         <Pagination

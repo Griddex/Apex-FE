@@ -16,7 +16,7 @@ import NavigationButtons, {
 } from "../Components/Buttons/NavigationButtons";
 import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
 import NewProjectForm from "../../Application/Components/Forms/NewProjectForm";
-import NewProjectName from "../NewProjectName";
+import NewProjectNameDescription from "../NewProjectNameDescription";
 import { createNewProjectAction } from "../Redux/Actions/ProjectActions";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 
@@ -128,7 +128,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   const renderImportStep = (props: INewProjectWorkflowProps) => {
     switch (activeStep) {
       case 0:
-        return <NewProjectName {...props} />;
+        return <NewProjectNameDescription {...props} />;
       case 1:
         return <UnitSettings {...props} />;
       default:

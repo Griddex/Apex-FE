@@ -6,3 +6,7 @@ export interface IPopover {
   handleCancel?: () => void;
   handleYes?: () => void;
 }
+
+export interface IUserProfilePopover {
+  children: JSX.Element | JSX.Element[];
+}

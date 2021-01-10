@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import history from "../../Services/HistoryService";
 import { navigateResetWorkflowAction } from "../../Redux/Actions/LayoutActions";
 import { subNavbarSetMenuAction } from "../../Redux/Actions/ApplicationActions";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 
 const mainDrawerExpanded = 96;
 const mainDrawerWidthCollapsed = 40;
@@ -19,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "42.77px",
     height: subNavBarHeight,
     zIndex: theme.zIndex.appBar - 1,
+    marginLeft: `${mainDrawerExpanded}px`,
   },
   appBarShiftCollapsed: {
     marginLeft: `${mainDrawerWidthCollapsed}px`,
@@ -28,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  marginLeft: `${mainDrawerExpanded}px`,
   appBarShiftExpanded: {
     width: `calc(100% - ${mainDrawerExpanded}px)`,
     transition: theme.transitions.create(["width", "margin"], {
@@ -49,11 +51,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubNavbar = ({ subNavbarData }) => {
+const SubNavbar = ({ subNavbarData }: { subNavbarData: ISubNavbarData }) => {
+  console.log(
+    "Logged output --> ~ file: SubNavbar.tsx ~ line 55 ~ SubNavbar ~ subNavbarData",
+    subNavbarData
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { expandMainDrawer } = useSelector((state) => state.layoutReducer);
+  const { expandMainDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
 
   return (
     <AppBar

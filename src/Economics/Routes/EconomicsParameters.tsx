@@ -16,7 +16,8 @@ import ReactDataGrid, { Column, SelectColumn } from "react-data-griddex";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import xlsx from "xlsx";
-import { IPersonDetail } from "../../Application/Components/Author/Author";
+import { IApprovers } from "../../Application/Components/Approvers/ApproversTypes";
+import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
@@ -116,8 +117,8 @@ export type StatusTextType = "Approved" | "Pending" | "Returned" | string;
 export interface IForecastDetail {
   titleName: string;
   statusText: StatusTextType;
-  author: IPersonDetail;
-  approvers?: IPersonDetail[] | string;
+  author: IAuthor;
+  approvers?: IApprovers;
   createdOn: Date;
   modifiedOn: Date;
 }

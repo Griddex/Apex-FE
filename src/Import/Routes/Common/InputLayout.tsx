@@ -13,6 +13,8 @@ import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
 import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
 import InputBackground from "./InputBackground";
 import InputLanding from "./InputLanding";
+import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { ISubNavbarData } from "./Workflows/InputWorkflowsTypes";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -34,10 +36,10 @@ const useStyles = makeStyles(() => {
 const InputLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
-  const layoutProps = useSelector((state) => state.layoutReducer);
+  const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const { showSubNavbar } = layoutProps;
 
-  const subNavbarData = [
+  const subNavbarData: ISubNavbarData = [
     {
       name: "Facilities Deck",
       route: `${url}/facilitiesdeck`,
@@ -83,7 +85,7 @@ const InputLayout = () => {
                   },
                 } = props;
 
-                const Layouts = {
+                const Layouts: Record<string, JSX.Element> = {
                   background: <InputBackground />,
                   facilitiesdeck: (
                     <InputLanding subModule={subModule.facilitiesdeck} />

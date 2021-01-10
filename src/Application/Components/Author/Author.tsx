@@ -1,6 +1,7 @@
 import { makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import Image from "../../../Application/Components/Visuals/Image";
+import { IAuthor } from "./AuthorTypes";
 
 const useStyles = makeStyles(() => ({
   image: { height: 60, width: 60 },
@@ -15,16 +16,7 @@ const useStyles = makeStyles(() => ({
   name: { marginLeft: 15 },
 }));
 
-export interface IPersonDetail {
-  imgUrl: string;
-  name: string;
-}
-
-export interface IAuthor {
-  author: IPersonDetail;
-}
-
-const Author = ({ author }: IAuthor) => {
+const Author = (author: IAuthor) => {
   const classes = useStyles();
 
   return (

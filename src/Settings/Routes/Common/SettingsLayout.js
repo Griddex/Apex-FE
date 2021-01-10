@@ -33,7 +33,7 @@ const SettingsLayout = () => {
       <div className={clsx(classes.settingsLayoutContainer)}>
         <Suspense fallback={<Loading />}>
           <Switch>
-            <Route exact path={path} render={() => <SettingsBackground />} />
+            <Route exact path={path} render={() => <Settings />} />
             <Route
               path={`${url}/:settingsId`}
               render={(props) => {

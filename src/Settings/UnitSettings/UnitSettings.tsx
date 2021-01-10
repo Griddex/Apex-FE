@@ -12,6 +12,8 @@ import { persistChosenApplicationUniqueUnitIndicesAction } from "../../Import/Re
 import { IUnitsData, IUnitsRow } from "../Redux/State/UnitSettingsState";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
+import DateFormatter from "../Components/Dates/DateFormatter";
+import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -50,6 +52,22 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
+type UnitOptionsType = {
+  value: string;
+  label: string;
+  group: "field" | "metric";
+}[];
+interface AppUnitOptionsType {
+  [key: string]: [UnitOptionsType, UnitOptionsType];
+}
+interface ISelectItem {
+  currentItem: string;
+  itemData: string[];
+  handleChange: (event: React.ChangeEvent<any>) => void;
+  label?: string;
+  selectItemStyle?: CSSProperties;
+}
+
 //TODO: API saga to get entire units object from server
 const unitsData: IUnitsData = {
   globalUnitGroup: "Field",
@@ -64,7 +82,7 @@ const unitsData: IUnitsData = {
         { Unit2: "metric" },
         { Unit3: "metric" },
       ],
-      selectedAppUnitIndex: 0,
+      selectedAppUnitIndex: 2,
     },
     {
       key: "gasRate",
@@ -89,14 +107,6 @@ const unitsData: IUnitsData = {
   ],
 };
 
-interface ISelectItem {
-  currentItem: string;
-  itemData: string[];
-  handleChange: (event: React.ChangeEvent<any>) => void;
-  label?: string;
-  selectItemStyle?: CSSProperties;
-}
-
 export default function UnitSettings({
   dateFormat,
   pressureAddend,
@@ -120,7 +130,7 @@ export default function UnitSettings({
   const [day, setDay] = React.useState(dayDateFormats[0]);
   const [month, setMonth] = React.useState(monthDateFormats[0]);
   const [year, setYear] = React.useState(yearDateFormats[0]);
-  const [date, setDate] = React.useState(dateFormat); //Not correct, initialize with what?
+
   const handleGlobalUnitGroupChange = (event: ChangeEvent<any>) => {
     const item = event.target.value;
     setGlobalUnitGroup(item);
@@ -134,10 +144,6 @@ export default function UnitSettings({
     setMonth(item);
   };
   const handleYearChange = (event: ChangeEvent<any>) => {
-    const item = event.target.value;
-    setYear(item);
-  };
-  const handleDateChange = (event: ChangeEvent<any>) => {
     const item = event.target.value;
     setYear(item);
   };
@@ -184,23 +190,20 @@ export default function UnitSettings({
     },
   };
 
-  type UnitOptionsType = {
-    value: string;
-    label: string;
-    group: "field" | "metric";
-  }[];
-  interface AppUnitOptionsType {
-    [key: string]: [UnitOptionsType, UnitOptionsType];
-  }
+  const snAllUnits = unitsData.allUnits.map((row, i: number) => ({
+    sn: i + 1,
+    ...row,
+  }));
 
   //Application Units
-  const appUnitOptions: AppUnitOptionsType = unitsData.allUnits.reduce(
+  const appUnitOptions: AppUnitOptionsType = snAllUnits.reduce(
     (acc, row: IUnitsRow) => {
       const fieldOptions = row.appUnitOptions.filter(
-        (v) => v.field === "field"
+        (v) => Object.values(v)[0] === "field"
       );
+
       const metricOptions = row.appUnitOptions.filter(
-        (v) => v.metric === "metric"
+        (v) => Object.values(v)[0] === "metric"
       );
 
       const appFieldUnits = fieldOptions.map((unitObj) => {
@@ -228,15 +231,30 @@ export default function UnitSettings({
     {}
   );
 
-  const snChosenAppUnitIndices = unitsData.allUnits.reduce(
-    (acc: Record<string, number>, row: IUnitsRow) => {
-      return { ...acc, [row.key]: row.selectedAppUnitIndex };
-    },
-    {}
-  );
+  const initParameterUnitIndicesObj = () =>
+    snAllUnits.reduce(
+      (acc: Record<string, number>, row: IUnitsRow) => ({
+        ...acc,
+        [row.parameter]: row.selectedAppUnitIndex,
+      }),
+      {}
+    );
   const [chosenAppUnitIndices, setChosenAppUnitIndices] = React.useState<
     Record<string, number>
-  >(snChosenAppUnitIndices);
+  >(initParameterUnitIndicesObj());
+  const chosenUnitIndices = React.useRef<Record<string, number>>(
+    chosenAppUnitIndices
+  );
+
+  const initUnitsGroupObj = () =>
+    snAllUnits.reduce((acc: Record<string, string>, row: IUnitsRow) => {
+      const { parameter, appUnitOptions, selectedAppUnitIndex } = row;
+      const selectedUnitObj = appUnitOptions[selectedAppUnitIndex];
+      const selectedUnitGroup = Object.values(selectedUnitObj)[0];
+
+      return { ...acc, [parameter]: selectedUnitGroup };
+    }, {});
+  const [, setUnitsGroup] = React.useState(initUnitsGroupObj);
 
   //React.ComponentType<FormatterProps<TRow, TSummaryRow>>
   const generateColumns = () => {
@@ -255,33 +273,18 @@ export default function UnitSettings({
         editable: true,
         resizable: true,
         formatter: ({ row, onRowChange }) => {
-          console.log(
-            "Logged output --> ~ file: UnitSettings.tsx ~ line 253 ~ generateColumns ~ row",
-            row
-          );
-          //   const rowSN = row.sn;
           const parameter = row.parameter as string;
           const index = row.selectedAppUnitIndex as number;
           const appUnit = row.appUnitOptions[index];
-          console.log(
-            "Logged output --> ~ file: UnitSettings.tsx ~ line 261 ~ generateColumns ~ appUnit",
-            appUnit
-          );
           const value = Object.keys(appUnit)[0];
-          console.log(
-            "Logged output --> ~ file: UnitSettings.tsx ~ line 263 ~ generateColumns ~ value",
-            value
-          );
+          const valueLowCase = value.toLowerCase();
+
           const [fieldOptions, metricOptions] = appUnitOptions[parameter];
-          console.log(
-            "Logged output --> ~ file: UnitSettings.tsx ~ line 265 ~ generateColumns ~ appUnitOptions",
-            appUnitOptions
-          );
 
           return (
             <select
               style={{ width: "100%", height: "95%" }}
-              value={value as string}
+              value={valueLowCase}
               onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                 event.stopPropagation();
 
@@ -296,31 +299,50 @@ export default function UnitSettings({
                   selectedAppUnitIndex: selectedUnitOptionIndex as number,
                 });
 
-                setChosenAppUnitIndices((prev) => ({
-                  ...prev,
-                  [parameter]: selectedUnitOptionIndex,
-                }));
+                setChosenAppUnitIndices((prev) => {
+                  const updatedIndices = {
+                    ...prev,
+                    [parameter]: selectedUnitOptionIndex,
+                  };
+                  chosenUnitIndices.current = updatedIndices;
+
+                  return updatedIndices;
+                });
+
+                setUnitsGroup((prev) => {
+                  const allAppUnits = [...fieldOptions, ...metricOptions];
+                  const selectedAppUnit = allAppUnits[selectedUnitOptionIndex];
+
+                  const newAllAppUnits = {
+                    ...prev,
+                    [parameter]: selectedAppUnit.group,
+                  };
+
+                  const newUnitGroup = getGlobalUnitGroup(
+                    Object.values(newAllAppUnits)
+                  );
+                  setGlobalUnitGroup(newUnitGroup);
+
+                  return newAllAppUnits;
+                });
 
                 modifyTableRows(parameter, selectedUnitOptionIndex);
                 setRerender((rerender) => !rerender);
               }}
             >
               <optgroup label="Field Units">
-                {[
-                  { value: "unit1", label: "Unit1" },
-                  { value: "unit2", label: "Unit2" },
-                ].map((option, i: number) => (
+                {fieldOptions.map((option, i: number) => (
                   <option key={i} value={option.value}>
                     {option.label}
                   </option>
                 ))}
               </optgroup>
               <optgroup label="Metric Units">
-                {[
-                  { value: "unit3", label: "Unit3" },
-                  { value: "unit4", label: "Unit4" },
-                ].map((option, i: number) => (
-                  <option key={i} value={option.value}>
+                {metricOptions.map((option, i: number) => (
+                  <option
+                    key={i + fieldOptions.length + 1}
+                    value={option.value}
+                  >
                     {option.label}
                   </option>
                 ))}
@@ -336,22 +358,23 @@ export default function UnitSettings({
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
-          return (
-            // <div style={{ width: "100%", height: "95%" }}>{row.parameter}</div>
-            <div>{row.parameter}</div>
-          );
+          const parameter = row.parameter as string;
+          const selectedUnitIndex = chosenUnitIndices.current[parameter];
+          const appUnit = row.appUnitOptions[selectedUnitIndex];
+          const unitGroup = Object.values(appUnit)[0];
+
+          return <div>{unitGroup}</div>;
         },
       },
     ];
 
     return columns;
   };
-
   const columns = React.useMemo(() => generateColumns(), []);
 
   //TODO: Saga Api to select unit family the current selected
   //unit belongs to. lookup data should be a dictionary
-  const tableRows = React.useRef<IUnitsRow[]>(unitsData.allUnits);
+  const tableRows = React.useRef<IUnitsRow[]>(snAllUnits);
 
   const [, setRerender] = React.useState(false);
   const modifyTableRows = (
@@ -359,19 +382,8 @@ export default function UnitSettings({
     selectedUnitOptionIndex: number
   ) => {
     const modifiedRows = tableRows.current.map((row, i: number) => {
-      if (row.key === selectedParameter) {
-        const appUnitOptions = row.appUnitOptions;
-        const selectedAppUnitObj = appUnitOptions[selectedUnitOptionIndex];
-        const selectedAppUnit = Object.keys(selectedAppUnitObj)[0];
-        const selectedAppUnitGroup = Object.values(selectedAppUnitObj)[0];
-
-        return {
-          sn: i + 1,
-          key: row.key,
-          parameter: selectedParameter,
-          applicationUnit: selectedAppUnit,
-          unitGroups: selectedAppUnitGroup,
-        };
+      if (row.parameter === selectedParameter) {
+        return { ...row, selectedAppUnitIndex: selectedUnitOptionIndex };
       } else return row;
     });
 
@@ -420,7 +432,7 @@ export default function UnitSettings({
             width: "100%",
           }}
         >
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", minWidth: 600 }}>
             <AnalyticsTitle
               title="Date Format"
               titleStyle={{ minWidth: 120 }}
@@ -429,19 +441,25 @@ export default function UnitSettings({
               currentItem={day}
               itemData={dayDateFormats}
               handleChange={handleDayChange}
-              selectItemStyle={{ minWidth: 100 }}
+              selectItemStyle={{ minWidth: 60 }}
             />
             <SelectItem
               currentItem={month}
               itemData={monthDateFormats}
               handleChange={handleMonthChange}
-              selectItemStyle={{ minWidth: 100 }}
+              selectItemStyle={{ minWidth: 60 }}
             />
             <SelectItem
               currentItem={year}
               itemData={yearDateFormats}
               handleChange={handleYearChange}
-              selectItemStyle={{ minWidth: 100 }}
+              selectItemStyle={{ minWidth: 60 }}
+            />
+            <DateFormatter
+              dayFormat={day}
+              monthFormat={month}
+              yearFormat={year}
+              dateFormatterStyle={{ display: "flex", minWidth: 200 }}
             />
           </div>
           <AnalyticsComp

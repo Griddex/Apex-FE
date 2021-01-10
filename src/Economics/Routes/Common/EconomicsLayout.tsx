@@ -12,6 +12,7 @@ import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import AssessmentOutlinedIcon from "@material-ui/icons/AssessmentOutlined";
 import EconomicsWorkflow from "../EconomicsWorkflows/EconomicsWorkflow";
+import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -37,7 +38,7 @@ const EconomicsLayout = () => {
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const { showSubNavbar } = layoutProps;
 
-  const subNavbarData = [
+  const subNavbarData: ISubNavbarData = [
     {
       name: "Economic Analysis",
       route: `${url}/economicanalysis`,

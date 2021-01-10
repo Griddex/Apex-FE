@@ -2,7 +2,7 @@ import { useTheme, Typography, makeStyles } from "@material-ui/core";
 import React from "react";
 import Image from "../../../Application/Components/Visuals/Image";
 import AvatarStack from "react-avatar-stack";
-import { IPersonDetail } from "../Author/Author";
+import { IApprovers } from "./ApproversTypes";
 
 const useStyles = makeStyles(() => ({
   image: { height: 60, width: 60 },
@@ -17,11 +17,7 @@ const useStyles = makeStyles(() => ({
   noOfApprovers: { marginLeft: 15 },
 }));
 
-export interface IApprovers {
-  approvers: IPersonDetail[] | string;
-}
-
-const Approvers = ({ approvers }: IApprovers) => {
+const Approvers = (approvers: IApprovers) => {
   const theme = useTheme();
   const classes = useStyles();
 

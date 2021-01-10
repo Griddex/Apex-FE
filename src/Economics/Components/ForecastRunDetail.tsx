@@ -6,9 +6,9 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { useSelector } from "react-redux";
 import Approvers from "../../Application/Components/Approvers/Approvers";
-import Author, {
-  IPersonDetail,
-} from "../../Application/Components/Author/Author";
+import { IApprovers } from "../../Application/Components/Approvers/ApproversTypes";
+import Author from "../../Application/Components/Author/Author";
+import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import MainTitle from "../../Application/Components/Basic/MainTitle";
 import Status from "../../Application/Components/Status/Status";
@@ -95,8 +95,8 @@ export type StatusTextType = "Approved" | "Pending" | "Returned" | string;
 export interface IForecastDetail {
   titleName: string;
   statusText: StatusTextType;
-  author: IPersonDetail;
-  approvers?: IPersonDetail[] | string;
+  author: IAuthor;
+  approvers?: IApprovers | string;
   createdOn: string;
   modifiedOn: string;
 }
@@ -194,11 +194,11 @@ const ForecastRunDetail = () => {
     },
     {
       Title: () => <AnalyticsTitle title="Author" />,
-      Content: () => <Author author={author} />,
+      Content: () => <Author {...author} />,
     },
     {
       Title: () => <AnalyticsTitle title="Approvers" />,
-      Content: () => <Approvers approvers={approvers ? approvers : "None"} />,
+      Content: () => <Approvers {...(approvers ? approvers : "None")} />,
     },
     {
       Title: () => <AnalyticsTitle title="Created On" />,

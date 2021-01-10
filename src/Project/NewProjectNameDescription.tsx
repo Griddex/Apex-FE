@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   selectItem: {},
 }));
 
-const NewProjectName = ({
+const NewProjectNameDescription = ({
   projectName,
   projectDescription,
   errors,
@@ -98,4 +98,4 @@ const NewProjectName = ({
   );
 };
 
-export default NewProjectName;
+export default NewProjectNameDescription;

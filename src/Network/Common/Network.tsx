@@ -216,6 +216,15 @@ const Network = () => {
                 style={{ height: "28px" }}
                 onClick={() => dispatch(runForecastRequestAction())}
               >
+                Load Network
+              </Button>
+              <Button
+                startIcon={<SubscriptionsOutlinedIcon />}
+                variant="outlined"
+                color="secondary"
+                style={{ height: "28px" }}
+                onClick={() => dispatch(runForecastRequestAction())}
+              >
                 Run Forecast
               </Button>
               <Button

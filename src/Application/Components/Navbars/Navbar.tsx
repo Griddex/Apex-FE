@@ -3,7 +3,6 @@ import {
   Avatar,
   Badge,
   Box,
-  Button,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -18,19 +17,21 @@ import faker from "faker";
 import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import history from "../../Services/HistoryService";
-import GetInitials from "../../Utils/GetInitials";
 import {
   mainDrawerCollapseAction,
   mainDrawerExpandAction,
 } from "../../Redux/Actions/LayoutActions";
+import layoutReducer from "../../Redux/Reducers/LayoutReducer";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+import GetInitials from "../../Utils/GetInitials";
+import UserProfilePopover from "../Popovers/UserProfilePopover";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => {
   return {
     appBar: {
       backgroundColor: "#FFF",
-      width: (props) => {
+      width: (props: ReturnType<typeof layoutReducer>) => {
         return `calc(100% - ${props.expandMainDrawer ? 100 : 40}px)`;
       },
       height: navbarHeight,
@@ -41,8 +42,10 @@ const useStyles = makeStyles((theme) => {
       }),
     },
     appBarShift: {
-      marginLeft: (props) => (props.expandMainDrawer ? 100 : 40),
-      width: (props) => `calc(100% - ${props.expandMainDrawer ? 100 : 40}px)`,
+      marginLeft: (props: ReturnType<typeof layoutReducer>) =>
+        props.expandMainDrawer ? 100 : 40,
+      width: (props: ReturnType<typeof layoutReducer>) =>
+        `calc(100% - ${props.expandMainDrawer ? 100 : 40}px)`,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -64,6 +67,7 @@ const useStyles = makeStyles((theme) => {
       marginLeft: "auto",
       marginRight: 0,
       minHeight: "inherit",
+      cursor: "pointer",
     },
     smallAvatar: {
       width: theme.spacing(3),
@@ -73,18 +77,13 @@ const useStyles = makeStyles((theme) => {
     userExpandMoreIcon: { marginRight: theme.spacing(2) },
     userBadge: { marginRight: theme.spacing(4), marginTop: theme.spacing(1) },
     userTypography: { marginRight: theme.spacing(1) },
-    userLogout: {
-      marginRight: theme.spacing(0),
-      border: `2px solid ${theme.palette.secondary.main}`,
-      color: `${theme.palette.secondary.main}`,
-      fontWeight: "bold",
-    },
+    menuButton: {},
   };
 });
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const layoutProps = useSelector((state) => state.layoutReducer);
+  const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const classes = useStyles(layoutProps);
 
   const { expandMainDrawer, showNavbar } = layoutProps;
@@ -126,40 +125,34 @@ const Navbar = () => {
             </IconButton>
           )}
           <Box className={classes.userToolBar}>
-            <Badge
-              className={classes.userBadge}
-              badgeContent={400}
-              color="secondary"
-            >
-              <NotificationsIcon />
-            </Badge>
-            <Avatar
-              className={classes.smallAvatar}
-              alt={username}
-              // src={faker.internet.avatar()}
-              src={"GS"}
-              variant="rounded"
-            >
-              {userinitials}
-            </Avatar>
-            <Typography
-              className={classes.userTypography}
-              variant="subtitle1"
-              color="inherit"
-            >
-              {username}
-            </Typography>
-            <ExpandMoreIcon className={classes.userExpandMoreIcon} />
-            <Button
-              className={classes.userLogout}
-              size="small"
-              onClick={() => {
-                sessionStorage.clear();
-                history.replace("/login");
-              }}
-            >
-              Logout
-            </Button>
+            <UserProfilePopover>
+              <div className={classes.userToolBar}>
+                <Badge
+                  className={classes.userBadge}
+                  badgeContent={400}
+                  color="secondary"
+                >
+                  <NotificationsIcon />
+                </Badge>
+                <Avatar
+                  className={classes.smallAvatar}
+                  alt={username}
+                  // src={faker.internet.avatar()}
+                  src={"GS"}
+                  variant="rounded"
+                >
+                  {userinitials}
+                </Avatar>
+                <Typography
+                  className={classes.userTypography}
+                  variant="subtitle1"
+                  color="inherit"
+                >
+                  {username}
+                </Typography>
+                <ExpandMoreIcon className={classes.userExpandMoreIcon} />
+              </div>
+            </UserProfilePopover>
           </Box>
         </Toolbar>
       )}
