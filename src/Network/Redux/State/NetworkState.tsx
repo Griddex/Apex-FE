@@ -1,30 +1,13 @@
-import { FlowElement } from "react-flow-renderer";
-interface INetworkState {
-  currentElement: number | string | Record<string, unknown>;
-  currentPopoverId: string;
-  currentPopoverData: number | string | Record<string, unknown>[];
-  showPopover: boolean;
-  showNetworkElementDetails:
-    | null
-    | "showWellheadDetails"
-    | "showManifoldDetails"
-    | "showFlowstationDetails"
-    | "showGasfacilityDetails"
-    | "showTerminalDetails";
-  nodeElements: FlowElement[];
-  edgeElements: FlowElement[];
-  showWellheadSummaryNodes: boolean;
-  showWellheadSummaryEdges: boolean;
-  statusCode: string;
-  result: string;
-  errors: string[];
-}
+import { INetworkState } from "./NetworkStateTypes";
+
 const networkState: INetworkState = {
   currentElement: {},
   currentPopoverId: "",
   currentPopoverData: [],
   showPopover: false,
   showNetworkElementDetails: null,
+  networkName: "",
+  networkDescription: "",
   nodeElements: [],
   edgeElements: [],
   showWellheadSummaryNodes: true,

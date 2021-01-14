@@ -80,7 +80,7 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
     filter: "Filter By",
   };
 
-  const iconsData: ITableIconsData[] = [
+  const standardIconsData: ITableIconsData[] = [
     {
       name: "sort",
       display: options["sort"].show,
@@ -121,7 +121,7 @@ const TableIcons: React.FC<ITableIconsProps> = ({ localDispatch, options }) => {
 
   return (
     <div>
-      {iconsData.map((data: ITableIconsData, i: number) => {
+      {standardIconsData.map((data: ITableIconsData, i: number) => {
         const {
           name,
           display,

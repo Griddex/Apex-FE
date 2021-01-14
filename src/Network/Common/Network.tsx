@@ -1,3 +1,10 @@
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
+import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
+import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
+import React from "react";
+import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
   addEdge,
   Background,
@@ -16,39 +23,34 @@ import ReactFlow, {
   removeElements,
   XYPosition,
 } from "react-flow-renderer";
-import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
+import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
+import {
+  default as ManifoldContextDrawer,
+  default as WellheadContextDrawer,
+} from "../Components/ContextDrawer/ManifoldContextDrawer";
+import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
+import existingNetworksExtrude from "../Components/DialogExtrusion/ExistingNetworksExtrude";
 import FlowstationNode from "../Components/Widgets/FlowstationWidget";
 import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
 import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
 import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
 import WellheadNode from "../Components/Widgets/WellheadWidget";
-import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
-import WellheadContextDrawer from "../Components/ContextDrawer/ManifoldContextDrawer";
-import ManifoldContextDrawer from "../Components/ContextDrawer/ManifoldContextDrawer";
+import saveNetworkExtrude from "./../Components/DialogExtrusion/SaveNetworkExtrude";
+import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
 import {
   setCurrentElementAction,
   setCurrentPopoverDataAction,
   setCurrentPopoverIdAction,
-  showPopoverAction,
 } from "./../Redux/Actions/NetworkActions";
 import GenerateNodeService from "./../Services/GenerateNodeService";
 import NetworkPanel from "./NetworkPanel";
-import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
-import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
-import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
-import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
-import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
-import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
-import Button from "@material-ui/core/Button";
-import { runForecastRequestAction } from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -155,8 +157,11 @@ const Network = () => {
     (state: RootState) => state.networkReducer
   );
 
-  const nodeElementsWithWidgets = AddWidgetsToNodes(nodeElements);
-  const allNetworkElements = [...nodeElementsWithWidgets, ...edgeElements];
+  const nodeElementsWithWidgets = AddWidgetsToNodes(nodeElements as Node[]);
+  const allNetworkElements = [
+    ...nodeElementsWithWidgets,
+    ...(edgeElements as Edge[]),
+  ];
 
   const [elements, setElements] = React.useState(
     allNetworkElements as Elements
@@ -214,16 +219,25 @@ const Network = () => {
                 variant="outlined"
                 color="secondary"
                 style={{ height: "28px" }}
-                onClick={() => dispatch(runForecastRequestAction())}
+                onClick={saveNetworkExtrude}
               >
-                Load Network
+                Save Network
               </Button>
               <Button
                 startIcon={<SubscriptionsOutlinedIcon />}
                 variant="outlined"
                 color="secondary"
                 style={{ height: "28px" }}
-                onClick={() => dispatch(runForecastRequestAction())}
+                onClick={existingNetworksExtrude}
+              >
+                Existing Networks
+              </Button>
+              <Button
+                startIcon={<SubscriptionsOutlinedIcon />}
+                variant="outlined"
+                color="secondary"
+                style={{ height: "28px" }}
+                onClick={existingNetworksExtrude}
               >
                 Run Forecast
               </Button>

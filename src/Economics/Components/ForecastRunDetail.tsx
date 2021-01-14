@@ -194,11 +194,11 @@ const ForecastRunDetail = () => {
     },
     {
       Title: () => <AnalyticsTitle title="Author" />,
-      Content: () => <Author {...author} />,
+      Content: () => <Author author={author} />,
     },
     {
       Title: () => <AnalyticsTitle title="Approvers" />,
-      Content: () => <Approvers {...(approvers ? approvers : "None")} />,
+      Content: () => <Approvers approvers={approvers ? approvers : "None"} />,
     },
     {
       Title: () => <AnalyticsTitle title="Created On" />,

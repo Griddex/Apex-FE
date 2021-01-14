@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHeadBanner: {
     width: "100%",
-    height: 40,
+    height: 30,
+    marginBottom: 5,
   },
   tableRoot: {
     display: "flex",

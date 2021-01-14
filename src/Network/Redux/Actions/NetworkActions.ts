@@ -10,9 +10,6 @@ export const SHOW_NETWORKELEMENTDETAILS = "SHOW_NETWORKELEMENTDETAILS";
 export const HIDE_NETWORKELEMENTDETAILS = "HIDE_NETWORKELEMENTDETAILS";
 export const HIDE_WELHEADSUMMARYNODES = "HIDE_WELHEADSUMMARYNODES";
 export const HIDE_WELHEADSUMMARYEDGES = "HIDE_WELHEADSUMMARYEDGES";
-export const RUN_FORECAST_REQUEST = "RUN_FORECAST_REQUEST";
-export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
-export const RUN_FORECAST_FAILURE = "RUN_FORECAST_FAILURE";
 
 export const setCurrentElementAction = (currentElement: FlowElement) => {
   return {
@@ -106,33 +103,6 @@ export const hideWellheadSummaryEdgesAction = () => {
     type: HIDE_WELHEADSUMMARYEDGES,
     payload: {
       showWellheadSummaryEdges: false,
-    },
-  };
-};
-
-export const runForecastRequestAction = () => {
-  return {
-    type: RUN_FORECAST_REQUEST,
-    meta: { showSpinner: true, message: "Running forecast..." },
-  };
-};
-
-export const runForecastSuccessAction = () => {
-  return {
-    type: RUN_FORECAST_SUCCESS,
-    payload: {
-      statusCode: "",
-      result: "",
-    },
-  };
-};
-
-export const runForecastFailureAction = () => {
-  return {
-    type: RUN_FORECAST_FAILURE,
-    payload: {
-      statusCode: "",
-      errors: [],
     },
   };
 };

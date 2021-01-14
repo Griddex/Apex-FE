@@ -40,8 +40,8 @@ import { createMuiTheme } from "@material-ui/core/styles";
 // function createApexTheme(options: ThemeOptions) {
 //   return createMuiTheme({
 //     palette: {
-// primary: { light: "#EEFAFB", main: "#31BFCC", dark: "#165E64" },
-// secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
+// primary: { light: "#EEFAFB", main: "#14A9C1", dark: "#165E64" },
+// secondary: { light: "#FDEDF2", main: "#FF0013", dark: "#6E0C2B" },
 //       tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
 //       quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },
 //     },
@@ -54,8 +54,8 @@ import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
-    primary: { light: "#EEFAFB", main: "#31BFCC", dark: "#165E64" },
-    secondary: { light: "#FDEDF2", main: "#DA1B57", dark: "#6E0C2B" },
+    primary: { light: "#EEFAFB", main: "#14A9C1", dark: "#165E64" },
+    secondary: { light: "#FDEDF2", main: "#FF0013", dark: "#6E0C2B" },
     // tertiary: { light: "#EBFFFB", main: "#00C49F", dark: "#008F72" },
     // quaternary: { light: "#FFFAEB", main: "#F5B400", dark: "#CC9900" },
   },

@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   name: { marginLeft: 15 },
 }));
 
-const Author = (author: IAuthor) => {
+const Author = ({ author }: { author: IAuthor }) => {
   const classes = useStyles();
 
   return (

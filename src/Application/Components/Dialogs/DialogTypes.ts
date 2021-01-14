@@ -45,7 +45,10 @@ export interface DialogStuff {
     | "finalizeInputDialog"
     | "economicsParametersDialog"
     | "economicsParameterImportWorkflowDialog"
-    | "newProjectDialogWorkflow";
+    | "newProjectDialogWorkflow"
+    | "saveNetworkDialog"
+    | "existingNetworksDialog"
+    | "existingForecastingParametersDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

@@ -1,6 +1,5 @@
 import Popover from "react-awesome-popover";
 import React from "react";
-// import "react-awesome-popover/dest/react-awesome-popover.css";
 import { IUserProfilePopover } from "./PopoverTypes";
 import { Motion, spring } from "react-motion";
 import UserProfile from "../User/UserProfile";

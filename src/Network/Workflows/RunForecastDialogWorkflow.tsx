@@ -10,15 +10,15 @@ import {
   workflowSkipAction,
 } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import { INewProjectWorkflowProps } from "../Redux/State/ProjectState";
 import NavigationButtons, {
   INavigationButtonsProp,
 } from "../Components/Buttons/NavigationButtons";
 import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
-import NewProjectForm from "../Components/Forms/NewProjectForm";
+import NewProjectForm from "../../Project/Components/Forms/NewProjectForm";
 import NewProjectNameDescription from "../NewProjectNameDescription";
 import { createNewProjectAction } from "../Redux/Actions/ProjectActions";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import { INewProjectWorkflowProps } from "../Redux/State/ProjectStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["New Project Details", "Choose Unit Settings"];
 
-const NewProjectDialogWorkflow = (props: DialogStuff) => {
+const RunForecastDialogWorkflow = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -184,4 +184,4 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   );
 };
 
-export default NewProjectDialogWorkflow;
+export default RunForecastDialogWorkflow;

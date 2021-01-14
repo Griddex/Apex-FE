@@ -1,30 +1,30 @@
 import { TextareaAutosize, TextField } from "@material-ui/core";
 import React from "react";
-import { INewProjectWorkflowProps } from "../../../Project/Redux/State/ProjectStateTypes";
-import AnalyticsComp from "../Basic/AnalyticsComp";
+import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import { ISaveNetworkFormProps } from "../Redux/State/NetworkStateTypes";
 
-const NameAndDescription = ({
-  projectName,
-  projectDescription,
+const SaveNetworkNameAndDescription = ({
+  networkName,
+  networkDescription,
   errors,
   touched,
   handleChange,
-}: INewProjectWorkflowProps) => {
+}: ISaveNetworkFormProps) => {
   const helperText =
-    touched && touched.projectName ? errors && errors.projectName : "";
+    touched && touched.networkName ? errors && errors.networkName : "";
   return (
     <div>
       <AnalyticsComp
-        title="Project Name"
+        title="Network Name"
         direction="Vertical"
         content={
           <TextField
-            name="projectName"
+            name="networkName"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={projectName}
+            value={networkName}
             onChange={handleChange}
             required
             autoFocus
@@ -33,15 +33,15 @@ const NameAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Project Description"
+        title="Network Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={
           <TextareaAutosize
-            name="projectDescription"
+            name="networkDescription"
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
-            value={projectDescription}
+            value={networkDescription}
             onChange={handleChange}
           />
         }
@@ -50,4 +50,4 @@ const NameAndDescription = ({
   );
 };
 
-export default NameAndDescription;
+export default SaveNetworkNameAndDescription;

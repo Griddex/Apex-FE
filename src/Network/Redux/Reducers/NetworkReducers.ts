@@ -1,4 +1,9 @@
 import {
+  RUN_FORECAST_REQUEST,
+  RUN_FORECAST_SUCCESS,
+  RUN_FORECAST_FAILURE,
+} from "../Actions/ForecastingActions";
+import {
   SET_CURRENTELEMENT,
   PERSIST_NETWORKELEMENTS,
   ADD_NETWORKELEMENT,
@@ -9,9 +14,6 @@ import {
   HIDE_NETWORKELEMENTDETAILS,
   HIDE_WELHEADSUMMARYNODES,
   HIDE_WELHEADSUMMARYEDGES,
-  RUN_FORECAST_REQUEST,
-  RUN_FORECAST_SUCCESS,
-  RUN_FORECAST_FAILURE,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 // import { Node, Edge } from "react-flow-renderer";
@@ -35,11 +37,8 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     case ADD_NETWORKELEMENT: {
       let updatedElements = [];
       const newElement = action.payload;
-      // if (typeof newElement === Node) {
-      updatedElements = [...state.nodeElements, newElement];
-      // } else if (newElement is Edge) {
-      //   updatedElements = [...state.edgeElements, newElement];
-      // }
+      const nodeElements = state.nodeElements ? state.nodeElements : [];
+      updatedElements = [...nodeElements, newElement];
 
       return {
         ...state,

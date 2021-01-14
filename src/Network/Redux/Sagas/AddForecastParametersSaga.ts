@@ -1,18 +1,23 @@
+import { ActionType } from "@redux-saga/types";
 import { call, put, select, takeLatest } from "redux-saga/effects";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import history from "../../../Application/Services/HistoryService";
 import {
-  runForecastFailureAction,
-  runForecastSuccessAction,
-  RUN_FORECAST_REQUEST,
-} from "./../Actions/NetworkActions";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+  addForecastParametersFailureAction,
+  addForecastParametersSuccessAction,
+  ADD_FORECASTPARAMETERS_REQUEST,
+} from "../Actions/ForecastingActions";
 
-export default function* watchRunForecastSaga() {
-  yield takeLatest(RUN_FORECAST_REQUEST, runForecastSaga);
+export default function* watchAddForecastParametersSaga() {
+  yield takeLatest<ActionType>(
+    ADD_FORECASTPARAMETERS_REQUEST,
+    addForecastParametersSaga
+  );
 }
 
-function* runForecastSaga(action) {
+function* addForecastParametersSaga(action: IAction) {
   const { payload } = action;
 
   const definedTableData = yield select(
@@ -20,16 +25,17 @@ function* runForecastSaga(action) {
   );
   const data = definedTableData;
   const config = { headers: null };
-  const runForecastAPI = (url) => authService.post(url, data, config);
+  const addForecastParametersAPI = (url: string) =>
+    authService.post(url, data, config);
   const statusCode = ""; //Get from success response
 
   try {
     const result = yield call(
-      runForecastAPI,
+      addForecastParametersAPI,
       "https://jsonplaceholder.typicode.com/posts" //This is the URL endpoint you should change
     );
 
-    const successAction = runForecastSuccessAction();
+    const successAction = addForecastParametersSuccessAction();
     yield put({
       ...successAction,
       payload: { ...payload, statusCode, result },
@@ -37,7 +43,7 @@ function* runForecastSaga(action) {
 
     // yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
   } catch (errors) {
-    const failureAction = runForecastFailureAction();
+    const failureAction = addForecastParametersFailureAction();
 
     yield put({
       ...failureAction,
@@ -48,6 +54,6 @@ function* runForecastSaga(action) {
   yield put(hideSpinnerAction());
 }
 
-function forwardTo(routeUrl) {
+function forwardTo(routeUrl: string) {
   history.push(routeUrl);
 }

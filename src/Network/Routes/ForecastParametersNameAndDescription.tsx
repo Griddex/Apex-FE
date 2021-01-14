@@ -1,30 +1,33 @@
 import { TextareaAutosize, TextField } from "@material-ui/core";
 import React from "react";
-import { INewProjectWorkflowProps } from "../../../Project/Redux/State/ProjectStateTypes";
-import AnalyticsComp from "../Basic/AnalyticsComp";
+import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 
-const NameAndDescription = ({
-  projectName,
-  projectDescription,
+const ForecastParametersNameAndDescription = ({
+  forecastParametersName,
+  forecastParametersDescription,
   errors,
   touched,
   handleChange,
-}: INewProjectWorkflowProps) => {
+}: ISaveForecastParametersFormProps) => {
   const helperText =
-    touched && touched.projectName ? errors && errors.projectName : "";
+    touched && touched.forecastParametersName
+      ? errors && errors.forecastParametersName
+      : "";
+
   return (
     <div>
       <AnalyticsComp
-        title="Project Name"
+        title="Forecast Parameters Name"
         direction="Vertical"
         content={
           <TextField
-            name="projectName"
+            name="forecastParametersName"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={projectName}
+            value={forecastParametersName}
             onChange={handleChange}
             required
             autoFocus
@@ -33,15 +36,15 @@ const NameAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Project Description"
+        title="Forecast Parameters Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={
           <TextareaAutosize
-            name="projectDescription"
+            name="forecastParametersDescription"
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
-            value={projectDescription}
+            value={forecastParametersDescription}
             onChange={handleChange}
           />
         }
@@ -50,4 +53,4 @@ const NameAndDescription = ({
   );
 };
 
-export default NameAndDescription;
+export default ForecastParametersNameAndDescription;

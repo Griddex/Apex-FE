@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   noOfApprovers: { marginLeft: 15 },
 }));
 
-const Approvers = (approvers: IApprovers) => {
+const Approvers = ({ approvers }: { approvers: IApprovers }) => {
   const theme = useTheme();
   const classes = useStyles();
 

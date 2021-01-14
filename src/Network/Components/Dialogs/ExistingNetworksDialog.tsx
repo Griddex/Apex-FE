@@ -1,23 +1,23 @@
-import { makeStyles } from "@material-ui/core";
+import { Checkbox, makeStyles } from "@material-ui/core";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
-import Approvers from "../../../../Application/Components/Approvers/Approvers";
-import Author from "../../../../Application/Components/Author/Author";
-import Status from "../../../../Application/Components/Status/Status";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IUserDetails } from "../../../../Application/Components/User/UserTypes";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import formatDate from "../../../../Application/Utils/FormatDate";
-import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
+import Approvers from "../../../Application/Components/Approvers/Approvers";
+import Author from "../../../Application/Components/Author/Author";
+import Status from "../../../Application/Components/Status/Status";
+import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import formatDate from "../../../Application/Utils/FormatDate";
 import {
+  shirleyImg,
   anitaImg,
   glenImg,
-  johnImg,
   kerryImg,
-  shirleyImg,
-} from "../../../Utils/iconImages";
+  johnImg,
+} from "../../../Import/Utils/iconImages";
+import DoughnutChart from "../../../Visualytics/Components/DoughnutChart";
+import { INetworkDetail } from "./ExistingNetworksDialogTypes";
 
 const useStyles = makeStyles(() => ({
   rootExistingData: {
@@ -65,20 +65,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface IForecastDeckRow {
-  status: string;
-  forecastDeck: string;
-  author: IUserDetails;
-  approvers: IUserDetails[];
-  createdOn: string;
-  modifiedOn: string;
-}
-
 //TODO: API saga to get entire units object from server
-const forecastDeckList: IForecastDeckRow[] = [
+const networkDiagramsList: INetworkDetail[] = [
   {
     status: "Approved",
-    forecastDeck: "ARPR_FORECAST_DECK 2020",
+    networkName: "ARPR_NETWORK DIAGRAM 2020",
+    networkDescription: "ARPR_NETWORK DIAGRAM 2020",
     author: { imgUrl: shirleyImg, name: "Shirley Fraser" },
     approvers: [
       { imgUrl: anitaImg, name: "Anita Stragan" },
@@ -90,7 +82,8 @@ const forecastDeckList: IForecastDeckRow[] = [
   },
   {
     status: "Pending",
-    forecastDeck: "ARPR_FORECAST_DECK 2019",
+    networkName: "ARPR_NETWORK DIAGRAM 2019",
+    networkDescription: "ARPR_NETWORK DIAGRAM 2019",
     author: { imgUrl: shirleyImg, name: "Shirley Fraser" },
     approvers: [
       { imgUrl: anitaImg, name: "Anita Stragan" },
@@ -102,7 +95,8 @@ const forecastDeckList: IForecastDeckRow[] = [
   },
   {
     status: "Returned",
-    forecastDeck: "ARPR_FORECAST_DECK 2018",
+    networkName: "ARPR_NETWORK DIAGRAM 2018",
+    networkDescription: "ARPR_NETWORK DIAGRAM 2018",
     author: { imgUrl: johnImg, name: "John Bravo" },
     approvers: [
       { imgUrl: anitaImg, name: "Anita Stragan" },
@@ -114,7 +108,14 @@ const forecastDeckList: IForecastDeckRow[] = [
   },
 ];
 
-export default function ExistingDataWorkflow() {
+//TODO: Calculate classification data from collection
+const existingData = [
+  { name: "Group A", value: 2400 },
+  { name: "Group B", value: 4567 },
+  { name: "Group C", value: 1398 },
+];
+
+export default function ExistingNetworksDialog() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -133,19 +134,32 @@ export default function ExistingDataWorkflow() {
     },
   };
 
-  //TODO: Calculate classification data from collection
-  const existingData = [
-    { name: "Group A", value: 2400 },
-    { name: "Group B", value: 4567 },
-    { name: "Group C", value: 1398 },
-    { name: "Group D", value: 9800 },
-    { name: "Group E", value: 3908 },
-    { name: "Group F", value: 4800 },
-  ];
-
+  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
+  const handleCheckboxChange = (
+    row: INetworkDetail,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.persist();
+    alert(row);
+    setCheckboxSelected(!checkboxSelected);
+  };
   const generateColumns = () => {
-    const columns: Column<IForecastDeckRow>[] = [
+    const columns: Column<INetworkDetail>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+      {
+        key: "selectNetwork",
+        name: "",
+        editable: true,
+        resizable: true,
+        formatter: ({ row }) => (
+          <Checkbox
+            onClick={(event) => handleCheckboxChange(row, event)}
+            checked={checkboxSelected}
+          />
+        ),
+        width: 300,
+      },
+
       {
         key: "status",
         name: "STATUS",
@@ -157,8 +171,15 @@ export default function ExistingDataWorkflow() {
         width: 100,
       },
       {
-        key: "forecastDeck",
-        name: "FORECAST DECK",
+        key: "networkName",
+        name: "NETWORK NAME",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "networkDescription",
+        name: "NETWORK DESCRIPTION",
         editable: false,
         resizable: true,
         width: 300,
@@ -209,11 +230,11 @@ export default function ExistingDataWorkflow() {
   };
   const columns = React.useMemo(() => generateColumns(), []);
 
-  const snForecastDeckList = forecastDeckList.map((row, i: number) => ({
+  const snNetworkDiagramList = networkDiagramsList.map((row, i: number) => ({
     sn: i + 1,
     ...row,
   }));
-  const tableRows = React.useRef<IForecastDeckRow[]>(snForecastDeckList);
+  const tableRows = React.useRef<INetworkDetail[]>(snNetworkDiagramList);
   const rows = tableRows.current;
 
   React.useEffect(() => {
@@ -227,7 +248,7 @@ export default function ExistingDataWorkflow() {
         <DoughnutChart data={existingData} />
       </div>
       <div className={classes.table}>
-        <ApexGrid<IForecastDeckRow, ITableIconsOptions>
+        <ApexGrid<INetworkDetail, ITableIconsOptions>
           columns={columns}
           rows={rows}
           options={tableOptions}

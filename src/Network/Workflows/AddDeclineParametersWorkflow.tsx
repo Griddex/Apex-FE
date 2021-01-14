@@ -1,24 +1,22 @@
 import { fade, makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import UnitSettings from "../../Settings/UnitSettings/UnitSettings";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
 import {
   workflowBackAction,
   workflowInitAction,
   workflowNextAction,
   workflowResetAction,
-  workflowSkipAction,
+  workflowSkipAction
 } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import NewProjectForm from "../../Project/Components/Forms/NewProjectForm";
 import NavigationButtons, {
-  INavigationButtonsProp,
+  INavigationButtonsProp
 } from "../Components/Buttons/NavigationButtons";
-import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
-import NewProjectForm from "../Components/Forms/NewProjectForm";
-import NewProjectNameDescription from "../NewProjectNameDescription";
 import { createNewProjectAction } from "../Redux/Actions/ProjectActions";
-import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import { INewProjectWorkflowProps } from "../Redux/State/ProjectStateTypes";
+import { INewProjectWorkflowProps } from "../Redux/State/ProjectState";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["New Project Details", "Choose Unit Settings"];
 
-const NewProjectDialogWorkflow = (props: DialogStuff) => {
+const AddDeclineParametersWorkflow = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -128,9 +126,11 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   const renderImportStep = (props: INewProjectWorkflowProps) => {
     switch (activeStep) {
       case 0:
-        return <NewProjectNameDescription {...props} />;
+        return <DeclineCurveParameters {...props} />;
       case 1:
-        return <UnitSettings {...props} />;
+        return <OtherForecastingParameters {...props} />;
+      case 2:
+        return <ForecastParametersNameAndDescription {...props} />;
       default:
         return <h1>No view</h1>;
     }
@@ -184,4 +184,4 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   );
 };
 
-export default NewProjectDialogWorkflow;
+export default AddDeclineParametersWorkflow;
