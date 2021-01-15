@@ -111,7 +111,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const ExistingNetworksDialog = (props: DialogStuff) => {
+const RunForecastDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList, children } = props;
 
@@ -139,4 +139,4 @@ const ExistingNetworksDialog = (props: DialogStuff) => {
   );
 };
 
-export default ExistingNetworksDialog;
+export default RunForecastDialog;

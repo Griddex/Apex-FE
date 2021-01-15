@@ -132,7 +132,7 @@ const ExistingForecastingParametersDialog = (props: DialogStuff) => {
       >
         {children && children}
       </DialogContent>
-      <DialogActions>{actionsList && actionsList}</DialogActions>
+      {/* <DialogActions>{actionsList && actionsList}</DialogActions> */}
     </Dialog>
   );
 };

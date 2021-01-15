@@ -2,6 +2,7 @@ import {
   RUN_FORECAST_REQUEST,
   RUN_FORECAST_SUCCESS,
   RUN_FORECAST_FAILURE,
+  PERSIST_FORECASTPARAMETERS,
 } from "../Actions/ForecastingActions";
 import {
   SET_CURRENTELEMENT,
@@ -94,8 +95,13 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         ...action.payload,
       };
+    case PERSIST_FORECASTPARAMETERS:
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
-      return { ...state };
+      return state;
   }
 };
 

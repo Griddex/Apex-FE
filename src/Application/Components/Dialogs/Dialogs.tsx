@@ -2,6 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
+import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
+import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
+import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
 import { RootState } from "../../Redux/Reducers/RootReducer";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
@@ -18,6 +22,10 @@ const applicationDialogs: IApplicationDialogs = {
   economicsParametersDialog: EconomicsParametersDialog,
   economicsParameterImportWorkflowDialog: EconomicsParameterImportWorkflowDialog,
   newProjectDialogWorkflow: NewProjectDialogWorkflow,
+  saveNetworkDialog: SaveNetworkDialog,
+  existingNetworksDialog: ExistingNetworksDialog,
+  existingForecastingParametersDialog: ExistingForecastingParametersDialog,
+  saveForecastingParametersDialog: SaveForecastingParametersDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

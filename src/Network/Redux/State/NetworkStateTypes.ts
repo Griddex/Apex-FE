@@ -28,20 +28,20 @@ export interface ISaveNetworkProps {
 export interface ISaveForecastParametersFormValues {
   forecastParametersName: string;
   forecastParametersDescription: string;
+  hSPName: string;
+  timeFrequency: string;
+  realtimeResults: string;
+  endForecastDate: Date;
 }
 
 export interface ISaveForecastParametersFormProps
   extends ISaveForecastParametersFormValues {
-  nodeElements?: Node[];
-  edgeElements?: Edge[];
-  activeStep?: number;
   errors?: FormikErrors<ISaveForecastParametersFormValues>;
   touched?: FormikTouched<ISaveForecastParametersFormValues>;
   isValid?: boolean;
   statusCode?: string;
   result?: string;
   handleChange?: (event: React.ChangeEvent<any>) => void;
-  children?: (props: ISaveForecastParametersFormValues) => JSX.Element;
 }
 
 export interface ISaveForecastParametersProps {
@@ -65,4 +65,5 @@ export interface INetworkState extends ISaveNetworkFormProps {
   // statusCode: string;
   // result: string;
   // errors: string[];
+  saveForecastParameters: ISaveForecastParametersFormValues;
 }

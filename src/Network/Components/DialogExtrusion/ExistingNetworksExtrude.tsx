@@ -1,17 +1,16 @@
 import { Button } from "@material-ui/core";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import React from "react";
+import { Dispatch } from "redux";
 import {
   ButtonProps,
   DialogStuff,
 } from "../../../Application/Components/Dialogs/DialogTypes";
-import { useDispatch } from "react-redux";
 import {
   hideDialogAction,
   showDialogAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import { Dispatch } from "redux";
 
 const existingNetworksActions = (dispatch: Dispatch<any>) => {
   const buttonsData: ButtonProps[] = [
@@ -50,9 +49,7 @@ const existingNetworksActions = (dispatch: Dispatch<any>) => {
   );
 };
 
-const existingNetworksExtrude = () => {
-  const dispatch = useDispatch();
-
+const existingNetworksExtrude = (dispatch: Dispatch<any>) => {
   const dialogParameters: DialogStuff = {
     name: "Existing_Network_Dialog",
     title: "Existing Network",

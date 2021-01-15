@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../Application/Components/Basic/AnalyticsComp";
-import { INewProjectWorkflowProps } from "./Redux/State/ProjectState";
+import { INewProjectWorkflowProps } from "./Redux/State/ProjectStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {

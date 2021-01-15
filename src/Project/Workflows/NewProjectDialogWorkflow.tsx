@@ -145,7 +145,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     workflowBackAction: workflowBackAction,
     workflowSkipAction: workflowSkipAction,
     workflowNextAction: workflowNextAction,
-    createNewProjectAction: createNewProjectAction,
+    finalAction: createNewProjectAction,
     activeStep: activeStep,
     steps: steps,
     isStepOptional: isStepOptional,

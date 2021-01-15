@@ -228,7 +228,7 @@ const Network = () => {
                 variant="outlined"
                 color="secondary"
                 style={{ height: "28px" }}
-                onClick={existingNetworksExtrude}
+                onClick={() => existingNetworksExtrude(dispatch)}
               >
                 Existing Networks
               </Button>
@@ -237,7 +237,7 @@ const Network = () => {
                 variant="outlined"
                 color="secondary"
                 style={{ height: "28px" }}
-                onClick={existingNetworksExtrude}
+                onClick={() => existingNetworksExtrude(dispatch)}
               >
                 Run Forecast
               </Button>

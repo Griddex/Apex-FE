@@ -108,7 +108,7 @@ const UserProfile = () => {
 
     const dialogParameters: DialogStuff = {
       name: "Logout_Dialog",
-      title: "Logout",
+      title: "Logout Confirmation",
       type: "textDialog",
       show: true,
       exclusive: true,
@@ -116,6 +116,7 @@ const UserProfile = () => {
       iconType: "select",
       dialogText: "Do you want to logout?",
       actionsList: () => logoutDialogActions(),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
 
     dispatch(showDialogAction(dialogParameters));

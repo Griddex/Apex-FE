@@ -223,6 +223,7 @@ const NCF = () => {
       iconType: "success",
       dialogText: "Net cash flow successfully calculated. View Results?",
       actionsList: () => calculateNCFDialogActions(),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
     dispatch(showDialogAction(dialogParameters));
   };

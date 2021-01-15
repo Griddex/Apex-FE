@@ -7,13 +7,12 @@ import { findIndex } from "lodash";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import Author from "../../Application/Components/Author/Author";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
-import { IDeclineCurveParametersDetail } from "../Components/Dialogs/ExistingNetworksDialog";
+import { IDeclineCurveParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
 
 const useStyles = makeStyles(() => ({
@@ -80,7 +79,12 @@ export default function DeclineCurveParameters() {
 
   const declineCurveList: Omit<
     IDeclineCurveParametersDetail,
-    "module" | "drainagePoint" | "initialRate"
+    | "module"
+    | "drainagePoint"
+    | "field"
+    | "initialRate"
+    | "reservoir"
+    | "initialRate"
   >[] = [
     {
       declineType: "Exponential",
@@ -107,6 +111,12 @@ export default function DeclineCurveParameters() {
   const initialRates: number[] = definedTableData.map(
     (row: Record<string, React.Key>) => row["Init. Oil/Gas Rate 2P/2C"]
   );
+  const fields: string[] = definedTableData.map(
+    (row: Record<string, React.Key>) => row["Field"]
+  );
+  const reservoirs: string[] = definedTableData.map(
+    (row: Record<string, React.Key>) => row["Reservoir"]
+  );
 
   const getRndInteger = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -122,6 +132,8 @@ export default function DeclineCurveParameters() {
       return {
         module: module,
         drainagePoint: drainagePoints[i],
+        field: fields[i],
+        reservoir: reservoirs[i],
         initialRate: initialRates[i],
         declineType: declineType,
         declineRate: declineRate,
@@ -310,6 +322,8 @@ export default function DeclineCurveParameters() {
           sn: i + 1,
           module: row.module,
           drainagePoint: row.drainagePoint,
+          field: row.field,
+          reservoir: row.reservoir,
           initialRate: row.initialRate,
           declineType: "Exponential",
           declineRate: 2500,

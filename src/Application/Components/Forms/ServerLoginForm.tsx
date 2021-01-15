@@ -25,6 +25,7 @@ import {
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import { DialogStuff } from "./../Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -150,31 +151,31 @@ const ServerLoginForm = () => {
     ));
   };
 
-  const successDialogParameters = {
+  const successDialogParameters: DialogStuff = {
     name: "Connect_Database_Success_Dialog",
     title: "Save Operation Success",
     type: "textDialog",
     show: true,
     exclusive: true,
-    maxwidth: "sm",
-    iconType: "error",
+    maxWidth: "xs",
+    iconType: "success",
     dialogText: "Database connection successful",
-    iconColor: theme.palette.primary.main,
     actionsList: connectDatabaseDialogActions,
+    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
   dispatch(showDialogAction(successDialogParameters));
 
-  const failureDialogParameters = {
+  const failureDialogParameters: DialogStuff = {
     name: "Connect_Database_Failure_Dialog",
     title: "Save Operation Failure",
     type: "textDialog",
     show: true,
     exclusive: true,
-    maxwidth: "sm",
+    maxWidth: "sm",
     iconType: "error",
     dialogText: "Database connection failure",
-    iconColor: theme.palette.primary.main,
     actionsList: connectDatabaseDialogActions,
+    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
   dispatch(showDialogAction(failureDialogParameters));
 

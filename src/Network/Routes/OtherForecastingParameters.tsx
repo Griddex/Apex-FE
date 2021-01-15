@@ -3,8 +3,13 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ApexSelect from "../../Application/Components/Selects/ApexSelect";
 import "carbon-components/css/carbon-components.min.css";
 import { DatePicker, DatePickerInput } from "carbon-components-react";
+import { useDispatch } from "react-redux";
+import { persistForecastParametersAction } from "../Redux/Actions/ForecastingActions";
+import { ISaveForecastParametersFormValues } from "../Redux/State/NetworkStateTypes";
 
 const OtherForecastingParameters = () => {
+  const dispatch = useDispatch();
+
   const hSPList = ["Oil", "Gas", "Liquid"];
   const [hSPName, setHSPName] = React.useState("");
   const handleHSPNameChange = (event: ChangeEvent<any>) => {
@@ -22,6 +27,25 @@ const OtherForecastingParameters = () => {
   const handleRealtimeResultsChange = (event: ChangeEvent<any>) => {
     setRealtimeResults(event.target.value);
   };
+
+  const [endForecastDate, setEndForecastDate] = React.useState(new Date());
+  const handleEndForecastDateChange = (
+    _: Date[],
+    currentDateString: string
+  ) => {
+    setEndForecastDate(new Date(currentDateString));
+  };
+
+  React.useEffect(() => {
+    dispatch(
+      persistForecastParametersAction({
+        hSPName,
+        timeFrequency,
+        realtimeResults,
+        endForecastDate,
+      })
+    );
+  }, [hSPName, timeFrequency, realtimeResults, endForecastDate]);
 
   return (
     <div>
@@ -65,7 +89,10 @@ const OtherForecastingParameters = () => {
         title="End Forecast Date"
         direction="Horizontal"
         content={
-          <DatePicker datePickerType="single">
+          <DatePicker
+            datePickerType="single"
+            onChange={handleEndForecastDateChange}
+          >
             <DatePickerInput
               id="date-picker-input-id-start"
               placeholder="mm/dd/yyyy"

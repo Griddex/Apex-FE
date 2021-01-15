@@ -14,7 +14,15 @@ const networkState: INetworkState = {
   showWellheadSummaryEdges: true,
   statusCode: "",
   result: "",
-  errors: [],
+
+  saveForecastParameters: {
+    forecastParametersName: "",
+    forecastParametersDescription: "",
+    hSPName: "Oil",
+    timeFrequency: "Yearly",
+    realtimeResults: "No",
+    endForecastDate: new Date(),
+  },
 };
 
 export default networkState;

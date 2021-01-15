@@ -14,8 +14,6 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
-import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,7 +109,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const ExistingNetworksDialog = (props: DialogStuff) => {
+const SaveForecastingParametersDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList, children } = props;
 
@@ -134,9 +132,9 @@ const ExistingNetworksDialog = (props: DialogStuff) => {
       >
         {children && children}
       </DialogContent>
-      <DialogActions>{actionsList && actionsList}</DialogActions>
+      {/* <DialogActions>{actionsList && actionsList}</DialogActions> */}
     </Dialog>
   );
 };
 
-export default ExistingNetworksDialog;
+export default SaveForecastingParametersDialog;

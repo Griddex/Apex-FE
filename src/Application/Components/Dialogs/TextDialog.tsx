@@ -113,11 +113,8 @@ const TextDialog: React.FC<DialogStuff> = ({
   iconType,
   dialogText,
   actionsList,
+  dialogContentStyle,
 }) => {
-  console.log(
-    "Logged output --> ~ file: TextDialog.tsx ~ line 117 ~ actionsList",
-    actionsList
-  );
   const classes = useDialogContentStyles();
   const dispatch = useDispatch();
 
@@ -134,7 +131,7 @@ const TextDialog: React.FC<DialogStuff> = ({
       >
         <div>{title}</div>
       </TextDialogTitle>
-      <DialogContent dividers>
+      <DialogContent dividers style={dialogContentStyle}>
         <Typography className={classes.dialogContent} variant="body1">
           {dialogText}
         </Typography>

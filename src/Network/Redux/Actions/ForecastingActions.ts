@@ -7,9 +7,7 @@ export const SAVE_FORECASTPARAMETERS_SUCCESS =
   "SAVE_FORECASTPARAMETERS_SUCCESS";
 export const SAVE_FORECASTPARAMETERS_FAILURE =
   "SAVE_FORECASTPARAMETERS_FAILURE";
-export const ADD_FORECASTPARAMETERS_REQUEST = "ADD_FORECASTPARAMETERS_REQUEST";
-export const ADD_FORECASTPARAMETERS_SUCCESS = "ADD_FORECASTPARAMETERS_SUCCESS";
-export const ADD_FORECASTPARAMETERS_FAILURE = "ADD_FORECASTPARAMETERS_FAILURE";
+export const PERSIST_FORECASTPARAMETERS = "PERSIST_FORECASTPARAMETERS";
 
 export const runForecastRequestAction = () => {
   return {
@@ -65,29 +63,12 @@ export const saveForecastParametersFailureAction = () => {
   };
 };
 
-export const addForecastParametersRequestAction = () => {
+export const persistForecastParametersAction = (
+  payload: Record<string, React.Key | Date>
+) => {
   return {
-    type: ADD_FORECASTPARAMETERS_REQUEST,
-    meta: { showSpinner: true, message: "Saving forecast..." },
-  };
-};
-
-export const addForecastParametersSuccessAction = () => {
-  return {
-    type: ADD_FORECASTPARAMETERS_SUCCESS,
-    payload: {
-      statusCode: "",
-      result: "",
-    },
-  };
-};
-
-export const addForecastParametersFailureAction = () => {
-  return {
-    type: ADD_FORECASTPARAMETERS_FAILURE,
-    payload: {
-      statusCode: "",
-      errors: [],
-    },
+    type: PERSIST_FORECASTPARAMETERS,
+    payload: { ...payload },
+    meta: { showSpinner: true, message: "" },
   };
 };

@@ -1,7 +1,7 @@
 import { fade, makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import UnitSettings from "../../Settings/UnitSettings/UnitSettings";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -10,15 +10,16 @@ import {
   workflowSkipAction,
 } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
-import { INewProjectWorkflowProps } from "../Redux/State/ProjectState";
 import NavigationButtons, {
   INavigationButtonsProp,
-} from "../Components/Buttons/NavigationButtons";
-import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
-import NewProjectForm from "../../Project/Components/Forms/NewProjectForm";
-import NewProjectNameDescription from "../NewProjectNameDescription";
-import { createNewProjectAction } from "../Redux/Actions/ProjectActions";
-import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+} from "../../Project/Components/Buttons/NavigationButtons";
+import SaveForecastingParametersDialog from "../Components/Dialogs/SaveForecastingParametersDialog";
+import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
+import { saveForecastParametersRequestAction } from "../Redux/Actions/ForecastingActions";
+import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
+import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
+import ForecastParametersNameAndDescription from "../Routes/ForecastParametersNameAndDescription";
+import OtherForecastingParameters from "../Routes/OtherForecastingParameters";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["New Project Details", "Choose Unit Settings"];
 
-const RunForecastDialogWorkflow = (props: DialogStuff) => {
+const SaveForecastParametersWorkflow = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -125,12 +126,14 @@ const RunForecastDialogWorkflow = (props: DialogStuff) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  const renderImportStep = (props: INewProjectWorkflowProps) => {
+  const renderImportStep = (props: ISaveForecastParametersFormProps) => {
     switch (activeStep) {
       case 0:
-        return <NewProjectNameDescription {...props} />;
+        return <DeclineCurveParameters />;
       case 1:
-        return <UnitSettings {...props} />;
+        return <OtherForecastingParameters />;
+      case 2:
+        return <ForecastParametersNameAndDescription {...props} />;
       default:
         return <h1>No view</h1>;
     }
@@ -145,7 +148,7 @@ const RunForecastDialogWorkflow = (props: DialogStuff) => {
     workflowBackAction: workflowBackAction,
     workflowSkipAction: workflowSkipAction,
     workflowNextAction: workflowNextAction,
-    createNewProjectAction: createNewProjectAction,
+    finalAction: saveForecastParametersRequestAction,
     activeStep: activeStep,
     steps: steps,
     isStepOptional: isStepOptional,
@@ -154,34 +157,37 @@ const RunForecastDialogWorkflow = (props: DialogStuff) => {
   };
 
   return (
-    <NewProjectDialog {...props}>
-      <NewProjectForm>
+    <SaveForecastingParametersDialog {...props}>
+      <SaveForecastParametersForm>
         {({
-          projectName,
-          projectDescription,
-          dateFormat,
-          pressureAddend,
+          forecastParametersName,
+          forecastParametersDescription,
+          hSPName,
+          timeFrequency,
+          realtimeResults,
+          endForecastDate,
           errors,
           touched,
           handleChange,
           isValid,
         }) =>
           renderImportStep({
-            activeStep,
-            projectName,
-            projectDescription,
-            dateFormat,
-            pressureAddend,
+            forecastParametersName,
+            forecastParametersDescription,
+            hSPName,
+            timeFrequency,
+            realtimeResults,
+            endForecastDate,
             errors,
             touched,
             handleChange,
             isValid,
           })
         }
-      </NewProjectForm>
+      </SaveForecastParametersForm>
       <NavigationButtons {...navigationButtonProps} />
-    </NewProjectDialog>
+    </SaveForecastingParametersDialog>
   );
 };
 
-export default RunForecastDialogWorkflow;
+export default SaveForecastParametersWorkflow;

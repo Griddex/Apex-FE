@@ -135,6 +135,7 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     contentText,
     contentList,
     actionsList,
+    dialogContentStyle,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -153,8 +154,7 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       >
         <div>{title}</div>
       </DialogTitle>
-      <DialogContent dividers>
-        {/* {content && content} */}
+      <DialogContent dividers style={dialogContentStyle}>
         <Typography variant="h6">{contentText && contentText}</Typography>
         <List className={classes.listBorder}>
           {contentList &&

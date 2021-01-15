@@ -21,6 +21,7 @@ import {
   workflowSkipAction,
   workflowNextAction,
 } from "../../../Application/Redux/Actions/WorkflowActions";
+import { runForecastRequestAction } from "../../../Network/Redux/Actions/ForecastingActions";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -46,7 +47,7 @@ export interface INavigationButtonsProp {
   workflowBackAction?: typeof workflowBackAction;
   workflowSkipAction?: typeof workflowSkipAction;
   workflowNextAction?: typeof workflowNextAction;
-  createNewProjectAction?: typeof createNewProjectAction;
+  finalAction?: typeof createNewProjectAction | typeof runForecastRequestAction;
   activeStep: number;
   steps: string[];
   isStepOptional: (activeStep: number) => boolean;
@@ -114,6 +115,7 @@ const NavigationButtons = ({
     dialogText: "New Project Creation Successful",
     iconType: "success",
     actionsList: () => newProjectDialogActions(),
+    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
 
   const failureDialogParameters: DialogStuff = {
@@ -126,6 +128,7 @@ const NavigationButtons = ({
     dialogText: "New Project Creation failure",
     iconType: "error",
     actionsList: () => newProjectDialogActions(),
+    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
 
   return (

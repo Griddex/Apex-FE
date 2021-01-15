@@ -7,13 +7,13 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectState";
 import { persistChosenApplicationUniqueUnitIndicesAction } from "../../Import/Redux/Actions/ImportActions";
 import { IUnitsData, IUnitsRow } from "../Redux/State/UnitSettingsState";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
+import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {

@@ -13,7 +13,7 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import { Dispatch } from "redux";
 
-const existingForecastingParametersActions = (dispatch: Dispatch<any>) => {
+const saveForecastingParametersActions = (dispatch: Dispatch<any>) => {
   const buttonsData: ButtonProps[] = [
     {
       title: "Cancel",
@@ -23,12 +23,12 @@ const existingForecastingParametersActions = (dispatch: Dispatch<any>) => {
       handleAction: () => dispatch(hideDialogAction()),
     },
     {
-      title: "Run Forecast",
+      title: "Save",
       variant: "contained",
       color: "primary",
       startIcon: <DoneOutlinedIcon />,
       handleAction: () => {
-        console.log("Run Forecast");
+        console.log("Save");
       },
     },
   ];
@@ -50,21 +50,21 @@ const existingForecastingParametersActions = (dispatch: Dispatch<any>) => {
   );
 };
 
-const existingForecastingParametersExtrude = () => {
+const SaveForecastParametersExtrude = () => {
   const dispatch = useDispatch();
 
   const dialogParameters: DialogStuff = {
-    name: "Existing_Forecast_Dialog",
-    title: "Existing Forecast",
+    name: "Save_Forecast_Parameters_Dialog",
+    title: "Save Forecast Parameters",
     type: "saveForecastingParametersDialog",
     show: true,
     exclusive: true,
     maxWidth: "md",
     iconType: "select",
-    actionsList: () => existingForecastingParametersActions(dispatch),
+    actionsList: () => saveForecastingParametersActions(dispatch),
   };
 
   dispatch(showDialogAction(dialogParameters));
 };
 
-export default existingForecastingParametersExtrude;
+export default SaveForecastParametersExtrude;
