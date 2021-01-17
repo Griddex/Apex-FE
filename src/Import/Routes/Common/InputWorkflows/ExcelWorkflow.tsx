@@ -19,14 +19,17 @@ import {
   workflowResetAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
-import MatchHeaders from "../../Common/Workflows/MatchHeaders";
-import MatchUnits from "../../Common/Workflows/MatchUnits";
-import PreviewSave from "../../Common/Workflows/PreviewSave";
-import SelectHeaderUnitData from "../../Common/Workflows/SelectHeaderUnitData";
-import SelectSheet from "../../Common/Workflows/SelectSheet";
-import UploadFile from "../../Common/Workflows/UploadFile";
-import { showDialogAction } from "./../../../../Application/Redux/Actions/DialogsAction";
+import MatchHeaders from "../Workflows/MatchHeaders";
+import MatchUnits from "../Workflows/MatchUnits";
+import PreviewSave from "../Workflows/PreviewSave";
+import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
+import SelectSheet from "../Workflows/SelectSheet";
+import UploadFile from "../Workflows/UploadFile";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { useTheme } from "@material-ui/core";
+import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { IWorkflowProcessState } from "../../../../Application/Redux/State/WorkflowStateTypes";
+import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,58 +116,86 @@ const steps = [
   "Preview & Save",
 ];
 
-const ExcelWorkflow = () => {
+const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcessState) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const skipped = new Set();
-  const { showContextDrawer } = useSelector((state) => state.layoutReducer);
-  const activeStep = useSelector((state) => state.workflowReducer.activeStep);
-  const applicationData = useSelector((state) => state.applicationReducer);
+  const skipped = new Set<number>();
+  const { showContextDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
+  const { activeStep } = useSelector(
+    (state: RootState) => state.workflowReducer[workflowProcess as string]
+  );
+  const applicationData = useSelector(
+    (state: RootState) => state.applicationReducer
+  );
   const { moduleName, subModuleName, workflowName } = applicationData;
 
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
 
-  const data = { skipped, isStepSkipped, activeStep, steps, errorSteps: [] };
-  // const isStepFailed = useCallback((step) => activeStep === 50, [steps]);
+  const WorkflowBannerProps = {
+    activeStep,
+    steps,
+    moduleName,
+    subModuleName,
+    workflowName,
+  };
 
+  const WorkflowStepperProps = {
+    moduleName,
+    subModuleName,
+    workflowName,
+    skipped,
+    isStepSkipped,
+    activeStep,
+    steps,
+    errorSteps: [],
+  };
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
+    dispatch(
+      workflowInitAction(
+        steps,
+        isStepOptional,
+        isStepSkipped,
+        workflowProcess as string
+      )
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  function renderImportStep(activeStep) {
+  function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <UploadFile />;
+        return <UploadFile workflowProcess={workflowProcess as string} />;
       case 1:
-        return <SelectSheet />;
+        return <SelectSheet workflowProcess={workflowProcess as string} />;
       case 2:
         return (
           <TabsWrapper>
-            <SelectHeaderUnitData />
+            <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
           </TabsWrapper>
         );
       case 3:
         return (
           <TabsWrapper>
-            <MatchHeaders />
+            <MatchHeaders workflowProcess={workflowProcess as string} />
           </TabsWrapper>
         );
       case 4:
         return (
           <TabsWrapper>
-            <MatchUnits />
+            <MatchUnits workflowProcess={workflowProcess as string} />
           </TabsWrapper>
         );
       case 5:
         return (
           <TabsWrapper>
-            <PreviewSave />
+            <PreviewSave workflowProcess={workflowProcess as string} />
           </TabsWrapper>
         );
       default:
@@ -174,32 +205,20 @@ const ExcelWorkflow = () => {
 
   return (
     <div className={classes.root}>
-      <Container className={classes.workflowHeaderRow} fixed disableGutters>
-        <Box className={classes.workflowBanner}>
-          <Typography variant="subtitle1">{`${activeStep + 1}/${
-            steps.length
-          }`}</Typography>
-        </Box>
-        <Box className={classes.workflowBannerHeader}>
-          <Typography variant="subtitle1">{`${moduleName} `}</Typography>
-          <Typography variant="subtitle1">{` | ${subModuleName}`}</Typography>
-          <Typography variant="subtitle1" color="primary">
-            {` | ${workflowName}`}
-          </Typography>
-        </Box>
-      </Container>
-
+      <WorkflowBanner {...WorkflowBannerProps} />
       <div className={classes.workflowBody}>{renderImportStep(activeStep)}</div>
       {showContextDrawer && (
-        <ContextDrawer data={data}>
-          {(props) => <WorkflowStepper {...props} />}
+        <ContextDrawer>
+          {() => <WorkflowStepper {...WorkflowStepperProps} />}
         </ContextDrawer>
       )}
       <div className={classes.navigationbuttons}>
         <Button
           variant="outlined"
           color="secondary"
-          onClick={() => dispatch(workflowResetAction(0))}
+          onClick={() =>
+            dispatch(workflowResetAction(0, workflowProcess as string))
+          }
           className={classes.button}
         >
           <div className={classes.buttonContent}>
@@ -210,7 +229,9 @@ const ExcelWorkflow = () => {
         <Button
           variant="outlined"
           disabled={activeStep === 0}
-          onClick={() => dispatch(workflowBackAction(activeStep))}
+          onClick={() =>
+            dispatch(workflowBackAction(activeStep, workflowProcess as string))
+          }
           className={classes.button}
         >
           <div className={classes.buttonContent}>
@@ -218,12 +239,18 @@ const ExcelWorkflow = () => {
             <Typography>{"Back"}</Typography>
           </div>
         </Button>
-        {isStepOptional(activeStep) && (
+        {isStepOptional() && (
           <Button
             variant="contained"
             color="primary"
             onClick={() =>
-              dispatch(workflowSkipAction(isStepOptional, activeStep))
+              dispatch(
+                workflowSkipAction(
+                  isStepOptional,
+                  activeStep,
+                  workflowProcess as string
+                )
+              )
             }
             className={classes.button}
           >
@@ -253,7 +280,8 @@ const ExcelWorkflow = () => {
                     isStepSkipped,
                     activeStep,
                     steps,
-                    "Loading..."
+                    "Loading...",
+                    workflowProcess as string
                   )
                 );
           }}

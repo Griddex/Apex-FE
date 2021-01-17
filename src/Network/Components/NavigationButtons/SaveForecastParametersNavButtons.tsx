@@ -3,25 +3,17 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewProjectAction } from "../../Redux/Actions/ProjectActions";
-import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-
 import {
   ButtonProps,
   DialogStuff,
 } from "../../../Application/Components/Dialogs/DialogTypes";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
-import {
-  workflowResetAction,
-  workflowBackAction,
-  workflowSkipAction,
-  workflowNextAction,
-} from "../../../Application/Redux/Actions/WorkflowActions";
-import { runForecastRequestAction } from "../../../Network/Redux/Actions/ForecastingActions";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -38,25 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface INavigationButtonsProp {
-  showReset?: boolean;
-  showBack?: boolean;
-  showSkip?: boolean;
-  showNext?: boolean;
-  workflowResetAction?: typeof workflowResetAction;
-  workflowBackAction?: typeof workflowBackAction;
-  workflowSkipAction?: typeof workflowSkipAction;
-  workflowNextAction?: typeof workflowNextAction;
-  finalAction?: typeof createNewProjectAction | typeof runForecastRequestAction;
-  activeStep: number;
-  steps: string[];
-  isStepOptional: (activeStep: number) => boolean;
-  skipped: Set<unknown>;
-  isStepSkipped: (step: number) => boolean;
-  dialogParameters?: DialogStuff;
-}
-
-const NavigationButtons = ({
+const SaveForecastParametersNavButtons = ({
   showReset,
   showBack,
   showSkip,
@@ -65,11 +39,13 @@ const NavigationButtons = ({
   workflowBackAction,
   workflowSkipAction,
   workflowNextAction,
+  finalAction,
   activeStep,
   steps,
   isStepOptional,
   skipped,
   isStepSkipped,
+  workflowProcess,
 }: INavigationButtonsProp) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -120,12 +96,12 @@ const NavigationButtons = ({
 
   const failureDialogParameters: DialogStuff = {
     name: "New_Project_Failure_Dialog",
-    title: "New Project Failure",
+    title: "Save Forecasting Parameters Failure",
     type: "textDialog",
     show: true,
     exclusive: true,
     maxWidth: "sm",
-    dialogText: "New Project Creation failure",
+    dialogText: "Save Forecasting Parameters failure",
     iconType: "error",
     actionsList: () => newProjectDialogActions(),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
@@ -139,7 +115,8 @@ const NavigationButtons = ({
           variant="outlined"
           color="secondary"
           onClick={() =>
-            workflowResetAction && dispatch(workflowResetAction(0))
+            workflowResetAction &&
+            dispatch(workflowResetAction(0, workflowProcess as string))
           }
           startIcon={<RotateLeftIcon />}
         >
@@ -152,7 +129,8 @@ const NavigationButtons = ({
           variant="outlined"
           disabled={activeStep === 0}
           onClick={() =>
-            workflowBackAction && dispatch(workflowBackAction(activeStep))
+            workflowBackAction &&
+            dispatch(workflowBackAction(activeStep, workflowProcess as string))
           }
           startIcon={<ArrowBackIosIcon />}
         >
@@ -166,7 +144,13 @@ const NavigationButtons = ({
           color="primary"
           onClick={() =>
             workflowSkipAction &&
-            dispatch(workflowSkipAction(isStepOptional, activeStep))
+            dispatch(
+              workflowSkipAction(
+                isStepOptional,
+                activeStep,
+                workflowProcess as string
+              )
+            )
           }
         >
           Skip
@@ -179,9 +163,9 @@ const NavigationButtons = ({
           color="primary"
           onClick={() => {
             activeStep === steps.length - 1
-              ? createNewProjectAction &&
+              ? finalAction &&
                 dispatch(
-                  createNewProjectAction(
+                  finalAction(
                     projectName ?? "",
                     projectDescription ?? "",
                     dateFormat ?? "",
@@ -192,7 +176,14 @@ const NavigationButtons = ({
                 )
               : workflowNextAction &&
                 dispatch(
-                  workflowNextAction(skipped, isStepSkipped, activeStep, steps)
+                  workflowNextAction(
+                    skipped,
+                    isStepSkipped,
+                    activeStep,
+                    steps,
+                    "Loading...",
+                    workflowProcess as string
+                  )
                 );
           }}
           endIcon={
@@ -210,4 +201,4 @@ const NavigationButtons = ({
   );
 };
 
-export default NavigationButtons;
+export default SaveForecastParametersNavButtons;

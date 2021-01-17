@@ -41,8 +41,8 @@ const useStyles = makeStyles(() => ({
 const UserAvatar: React.FC<JSX.Element> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const avatarURL = useSelector(
-    (state: RootState) => state.registerReducer.avatarURL
+  const avatarUrl = useSelector(
+    (state: RootState) => state.registerReducer.avatarUrl
   );
 
   return (
@@ -66,7 +66,7 @@ const UserAvatar: React.FC<JSX.Element> = () => {
               <div {...getRootProps()} className={classes.dropZoneDiv}>
                 <input {...getInputProps()} className={classes.dropZoneInput} />
                 <div className={classes.dropZoneImgPDiv}>
-                  <img src={avatarURL} height={150} width={150} />
+                  <img src={avatarUrl} height={150} width={150} />
                   <p className={classes.dropZoneParagraph}>
                     Drop Image or Click to Select
                   </p>

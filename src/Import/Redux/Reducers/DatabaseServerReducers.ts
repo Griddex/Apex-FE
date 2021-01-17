@@ -1,3 +1,4 @@
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   SERVERLOGIN_REQUEST,
   SERVERLOGIN_SUCCESS,
@@ -5,7 +6,7 @@ import {
 } from "../Actions/DatabaseServerActions";
 import databaseServerState from "../State/DatabaseServerState";
 
-const loginReducer = (state = databaseServerState, action) => {
+const loginReducer = (state = databaseServerState, action: IAction) => {
   switch (action.type) {
     case SERVERLOGIN_REQUEST:
       return {

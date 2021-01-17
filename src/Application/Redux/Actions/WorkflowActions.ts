@@ -1,3 +1,5 @@
+import { IWorkflowProcessState } from "../State/WorkflowStateTypes";
+
 export const WORKFLOW_TO_STORE = "WORKFLOW_TO_STORE";
 export const INITIALIZE_WORKFLOW = "INITIALIZE_WORKFLOW";
 export const RESET_WORKFLOW = "RESET_WORKFLOW";
@@ -7,32 +9,43 @@ export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 export const FINALIZE_WORKFLOW = "FINALIZE_WORKFLOW";
 
-export const workflowInitAction = (steps, isStepOptional, isStepSkipped) => {
+export const workflowInitAction = (
+  steps: string[],
+  isStepOptional: (activeStep: number) => boolean,
+  isStepSkipped: (step: number) => boolean,
+  workflowProcess: string
+) => {
   return {
     type: INITIALIZE_WORKFLOW,
     payload: {
       steps,
       isStepOptional,
       isStepSkipped,
+      workflowProcess,
     },
   };
 };
 
-export const workflowResetAction = (activeStep) => {
+export const workflowResetAction = (
+  activeStep: number,
+  workflowProcess: string
+) => {
   return {
     type: RESET_WORKFLOW,
     payload: {
       activeStep,
+      workflowProcess,
     },
   };
 };
 
 export const workflowNextAction = (
-  skipped,
-  isStepSkipped,
-  activeStep,
-  steps,
-  message
+  skipped: Set<number>,
+  isStepSkipped: (step: number) => boolean,
+  activeStep: number,
+  steps: string[],
+  message: string,
+  workflowProcess: string
 ) => {
   return {
     type: NEXT_WORKFLOW,
@@ -41,39 +54,53 @@ export const workflowNextAction = (
       isStepSkipped,
       activeStep,
       steps,
+      workflowProcess,
     },
     meta: { showSpinner: false, message },
   };
 };
 
-export const workflowBackAction = (activeStep) => {
+export const workflowBackAction = (
+  activeStep: number,
+  workflowProcess: string
+) => {
   return {
     type: BACK_WORKFLOW,
     payload: {
       activeStep,
+      workflowProcess,
     },
   };
 };
 
-export const workflowSkipAction = (isStepOptional, activeStep) => {
+export const workflowSkipAction = (
+  isStepOptional: (activeStep: number) => boolean,
+  activeStep: number,
+  workflowProcess: string
+) => {
   return {
     type: SKIP_WORKFLOW,
     payload: {
       isStepOptional,
       activeStep,
+      workflowProcess,
     },
   };
 };
 
-export const workflowSaveAction = () => {
+export const workflowSaveAction = (workflowProcess: string) => {
   return {
     type: SAVE_WORKFLOW,
+    payload: { workflowProcess },
   };
 };
 
-export const workflowFinalizeAction = (name) => {
+export const workflowFinalizeAction = (
+  name: string,
+  workflowProcess: string
+) => {
   return {
     type: FINALIZE_WORKFLOW,
-    payload: { workflowName: name },
+    payload: { workflowName: name, workflowProcess },
   };
 };

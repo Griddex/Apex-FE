@@ -11,7 +11,7 @@ const registerReducer = (state = UserState, action) => {
     case PERSIST_AVATAR:
       return {
         ...state,
-        avatarURL: action.payload.avatarURL,
+        avatarUrl: action.payload.avatarUrl,
       };
     case REGISTER_REQUEST:
       return {

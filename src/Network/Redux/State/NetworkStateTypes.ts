@@ -18,6 +18,7 @@ export interface ISaveNetworkFormProps extends ISaveNetworkFormValues {
   result?: string;
   handleChange?: (event: React.ChangeEvent<any>) => void;
   children?: (props: ISaveNetworkFormValues) => JSX.Element;
+  isValids?: { saveNetworkExtrudeIsValid: boolean };
 }
 
 export interface ISaveNetworkProps {

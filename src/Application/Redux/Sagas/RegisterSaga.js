@@ -22,7 +22,7 @@ function* registerSaga(action) {
     // email,
     // mobileNumber,
     // role,
-    // avatarURL,
+    // avatarUrl,
   } = payload;
 
   const data = {

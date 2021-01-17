@@ -3,11 +3,11 @@ export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILURE = "REGISTER_FAILURE";
 
-export const persistAvatarToReduxAction = (avatarURL) => {
+export const persistAvatarToReduxAction = (avatarUrl) => {
   return {
     type: PERSIST_AVATAR,
     payload: {
-      avatarURL,
+      avatarUrl,
     },
   };
 };
@@ -20,7 +20,7 @@ export const registerAction = (
   email,
   mobileNumber,
   role,
-  avatarURL
+  avatarUrl
 ) => {
   return {
     type: REGISTER_REQUEST,
@@ -32,7 +32,7 @@ export const registerAction = (
       email,
       mobileNumber,
       role,
-      avatarURL,
+      avatarUrl,
     },
     meta: { addAuth: true, message: `Registering ${userName}` },
   };

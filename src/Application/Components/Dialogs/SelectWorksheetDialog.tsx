@@ -137,8 +137,14 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-
-  const { title, show, maxWidth, iconType, contentList } = props;
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    contentList,
+    workflowProcess,
+  } = props;
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) => state.workflowReducer
@@ -197,7 +203,16 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     dispatch(
       persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
     );
-    dispatch(workflowNextAction(skipped, isStepSkipped, activeStep, steps));
+    dispatch(
+      workflowNextAction(
+        skipped,
+        isStepSkipped,
+        activeStep,
+        steps,
+        "Loading",
+        workflowProcess as string
+      )
+    );
     dispatch(hideDialogAction());
   };
 

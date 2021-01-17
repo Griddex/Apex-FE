@@ -2,6 +2,7 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -10,11 +11,9 @@ import {
   workflowSkipAction,
 } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
-import NavigationButtons, {
-  INavigationButtonsProp,
-} from "../../Project/Components/Buttons/NavigationButtons";
 import SaveForecastingParametersDialog from "../Components/Dialogs/SaveForecastingParametersDialog";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
+import SaveForecastParametersNavButtons from "../Components/NavigationButtons/SaveForecastParametersNavButtons";
 import { saveForecastParametersRequestAction } from "../Redux/Actions/ForecastingActions";
 import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
@@ -102,10 +101,11 @@ const steps = ["New Project Details", "Choose Unit Settings"];
 const SaveForecastParametersWorkflow = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowProcess = "saveForecastParametersWorkflow";
 
-  const skipped = new Set();
-  const activeStep = useSelector(
-    (state: RootState) => state.workflowReducer.activeStep
+  const skipped = new Set<number>();
+  const { activeStep } = useSelector(
+    (state: RootState) => state.workflowReducer[workflowProcess]
   );
 
   const isStepOptional = useCallback(
@@ -122,7 +122,9 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
+    dispatch(
+      workflowInitAction(steps, isStepOptional, isStepSkipped, workflowProcess)
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
@@ -185,7 +187,7 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
           })
         }
       </SaveForecastParametersForm>
-      <NavigationButtons {...navigationButtonProps} />
+      <SaveForecastParametersNavButtons {...navigationButtonProps} />
     </SaveForecastingParametersDialog>
   );
 };

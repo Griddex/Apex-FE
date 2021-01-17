@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => {
       flexDirection: "row",
       alignItems: "center",
       marginLeft: "auto",
-      marginRight: 0,
+      marginRight: 10,
       minHeight: "inherit",
       cursor: "pointer",
     },

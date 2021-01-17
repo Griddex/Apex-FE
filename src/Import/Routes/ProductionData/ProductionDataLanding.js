@@ -8,7 +8,7 @@ import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import ModuleCard from "./../../../Application/Components/Cards/ModuleCard";
-import DatabaseExcelWorkflow from "./../Common/InputWorkflows/DatabaseExcelWorkflow";
+import DatabaseWorkflow from "./../Common/InputWorkflows/DatabaseWorkflow";
 import ExistingDataWorkflow from "./../Common/InputWorkflows/ExistingDataWorkflow";
 // import AvatarStack from "react-avatar-stack";
 
@@ -97,8 +97,8 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
               } = match;
 
               const inputProductionDataWorkflows = {
-                productiondatabase: <DatabaseExcelWorkflow />,
-                productionexcel: <DatabaseExcelWorkflow />,
+                productiondatabase: <DatabaseWorkflow />,
+                productionexcel: <DatabaseWorkflow />,
                 approvedproductiondata: <ExistingDataWorkflow />,
               };
 

@@ -65,7 +65,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SelectSheet = () => {
+const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();

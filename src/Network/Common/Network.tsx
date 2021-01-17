@@ -1,8 +1,4 @@
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
-import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
-import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
 import React from "react";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
@@ -33,7 +29,7 @@ import {
   default as WellheadContextDrawer,
 } from "../Components/ContextDrawer/ManifoldContextDrawer";
 import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
-import existingNetworksExtrude from "../Components/DialogExtrusion/ExistingNetworksExtrude";
+import NetworkDiagramIcons from "../Components/Icons/NetworkDiagramIcons";
 import FlowstationNode from "../Components/Widgets/FlowstationWidget";
 import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
 import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
@@ -42,7 +38,6 @@ import TerminalNode from "../Components/Widgets/TerminalWidget";
 import WellheadNode from "../Components/Widgets/WellheadWidget";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
-import saveNetworkExtrude from "./../Components/DialogExtrusion/SaveNetworkExtrude";
 import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
 import {
   setCurrentElementAction,
@@ -200,6 +195,12 @@ const Network = () => {
 
   const [showMiniMap, setShowMiniMap] = React.useState(false);
   const [showControls, setShowControls] = React.useState(false);
+  const NetworkDiagramIconsProps = {
+    showMiniMap,
+    setShowMiniMap,
+    showControls,
+    setShowControls,
+  };
 
   return (
     <div className={classes.root}>
@@ -213,53 +214,7 @@ const Network = () => {
             style={dndCanvasStyle}
             className={classes.networkContent}
           >
-            <div className={classes.networkContentIcons}>
-              <Button
-                startIcon={<SubscriptionsOutlinedIcon />}
-                variant="outlined"
-                color="secondary"
-                style={{ height: "28px" }}
-                onClick={saveNetworkExtrude}
-              >
-                Save Network
-              </Button>
-              <Button
-                startIcon={<SubscriptionsOutlinedIcon />}
-                variant="outlined"
-                color="secondary"
-                style={{ height: "28px" }}
-                onClick={() => existingNetworksExtrude(dispatch)}
-              >
-                Existing Networks
-              </Button>
-              <Button
-                startIcon={<SubscriptionsOutlinedIcon />}
-                variant="outlined"
-                color="secondary"
-                style={{ height: "28px" }}
-                onClick={() => existingNetworksExtrude(dispatch)}
-              >
-                Run Forecast
-              </Button>
-              <Button
-                startIcon={<MapOutlinedIcon />}
-                variant="outlined"
-                color="primary"
-                style={{ height: "28px" }}
-                onClick={() => setShowMiniMap(!showMiniMap)}
-              >
-                Toggle Minimap
-              </Button>
-              <Button
-                startIcon={<ViewAgendaOutlinedIcon />}
-                variant="outlined"
-                color="default"
-                style={{ height: "28px" }}
-                onClick={() => setShowControls(!showControls)}
-              >
-                Toggle Controls
-              </Button>
-            </div>
+            <NetworkDiagramIcons {...NetworkDiagramIconsProps} />
             <ReactFlow
               elements={elements}
               onElementsRemove={onElementsRemove}

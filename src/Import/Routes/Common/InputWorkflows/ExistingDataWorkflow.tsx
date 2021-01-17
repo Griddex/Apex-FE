@@ -79,11 +79,11 @@ const forecastDeckList: IForecastDeckRow[] = [
   {
     status: "Approved",
     forecastDeck: "ARPR_FORECAST_DECK 2020",
-    author: { imgUrl: shirleyImg, name: "Shirley Fraser" },
+    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
     approvers: [
-      { imgUrl: anitaImg, name: "Anita Stragan" },
-      { imgUrl: glenImg, name: "Glen Moore John III" },
-      { imgUrl: kerryImg, name: "Kerry Schwarzenegger" },
+      { avatarUrl: anitaImg, name: "Anita Stragan" },
+      { avatarUrl: glenImg, name: "Glen Moore John III" },
+      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
     ],
     createdOn: formatDate(new Date(2019, 9, 23)),
     modifiedOn: formatDate(new Date(2019, 11, 23)),
@@ -91,11 +91,11 @@ const forecastDeckList: IForecastDeckRow[] = [
   {
     status: "Pending",
     forecastDeck: "ARPR_FORECAST_DECK 2019",
-    author: { imgUrl: shirleyImg, name: "Shirley Fraser" },
+    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
     approvers: [
-      { imgUrl: anitaImg, name: "Anita Stragan" },
-      { imgUrl: glenImg, name: "Glen Moore John III" },
-      { imgUrl: kerryImg, name: "Kerry Schwarzenegger" },
+      { avatarUrl: anitaImg, name: "Anita Stragan" },
+      { avatarUrl: glenImg, name: "Glen Moore John III" },
+      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
     ],
     createdOn: formatDate(new Date(2019, 9, 23)),
     modifiedOn: formatDate(new Date(2019, 11, 23)),
@@ -103,11 +103,11 @@ const forecastDeckList: IForecastDeckRow[] = [
   {
     status: "Returned",
     forecastDeck: "ARPR_FORECAST_DECK 2018",
-    author: { imgUrl: johnImg, name: "John Bravo" },
+    author: { avatarUrl: johnImg, name: "John Bravo" },
     approvers: [
-      { imgUrl: anitaImg, name: "Anita Stragan" },
-      { imgUrl: glenImg, name: "Glen Moore John III" },
-      { imgUrl: kerryImg, name: "Kerry Schwarzenegger" },
+      { avatarUrl: anitaImg, name: "Anita Stragan" },
+      { avatarUrl: glenImg, name: "Glen Moore John III" },
+      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
     ],
     createdOn: formatDate(new Date(2019, 9, 23)),
     modifiedOn: formatDate(new Date(2019, 11, 23)),

@@ -8,7 +8,7 @@ import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutAct
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import Input from "../../Images/Input.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import DatabaseExcelWorkflow from "../Common/InputWorkflows/DatabaseExcelWorkflow";
+import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
 
@@ -97,7 +97,7 @@ const EconomicsDataLanding = ({ subModule: { name } }) => {
 
               const inputEconomicsDataWorkflows = {
                 economicsexcel: <ExcelWorkflow />,
-                economicsdatabase: <DatabaseExcelWorkflow />,
+                economicsdatabase: <DatabaseWorkflow />,
                 economicstypein: <ExistingDataWorkflow />,
               };
 

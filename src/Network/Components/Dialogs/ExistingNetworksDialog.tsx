@@ -14,6 +14,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import ExistingNetworks from "../../Routes/ExistingNetworks";
 import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
 import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
@@ -132,7 +133,7 @@ const ExistingNetworksDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        {children && children}
+        <ExistingNetworks />
       </DialogContent>
       <DialogActions>{actionsList && actionsList}</DialogActions>
     </Dialog>

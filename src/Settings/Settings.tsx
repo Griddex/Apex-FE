@@ -1,24 +1,7 @@
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import React, { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../Application/Components/Drawers/ContextDrawer";
-import WorkflowStepper from "../Application/Components/Workflows/WorkflowStepper";
-import {
-  workflowBackAction,
-  workflowInitAction,
-  workflowNextAction,
-  workflowResetAction,
-  workflowSaveAction,
-  workflowSkipAction,
-} from "../Application/Redux/Actions/WorkflowActions";
+import React from "react";
+import { useSelector } from "react-redux";
+import WorkflowBanner from "../Application/Components/Workflows/WorkflowBanner";
 import { RootState } from "../Application/Redux/Reducers/RootReducer";
 import ProjectSettingsPanel from "./Components/Panels/ProjectSettingsPanel";
 import UnitSettings from "./UnitSettings/UnitSettings";
@@ -115,37 +98,22 @@ const steps = ["Unit Settings", "Database Settings", "View Results"];
 
 const Settings = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const workflowProcess = "settings";
 
-  const skipped = new Set();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const activeStep = useSelector(
-    (state: RootState) => state.workflowReducer.activeStep
+  const { activeStep } = useSelector(
+    (state: RootState) => state.workflowReducer[workflowProcess]
   );
   const { moduleName, subModuleName, workflowName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
   const settingsProps = useSelector((state: RootState) => state.projectReducer);
-
-  const isStepOptional = useCallback(
-    (activeStep: number) => activeStep === 50,
-    [activeStep]
-  );
-  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
-    skipped,
-  ]);
-
-  const data = { skipped, isStepSkipped, activeStep, steps, errorSteps: [] };
-  // const isStepFailed = useCallback((step) => activeStep === 50, [steps]);
-
-  useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  const WorkflowBannerProps = {
+    activeStep,
+    steps,
+    moduleName,
+    subModuleName,
+    workflowName,
+  };
 
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
@@ -160,20 +128,7 @@ const Settings = () => {
 
   return (
     <div className={classes.root}>
-      <Container className={classes.workflowHeaderRow} fixed disableGutters>
-        <Box className={classes.workflowBanner}>
-          <Typography variant="subtitle1">{`${activeStep + 1}/${
-            steps.length
-          }`}</Typography>
-        </Box>
-        <Box className={classes.workflowBannerHeader}>
-          <Typography variant="subtitle1">{`${moduleName} `}</Typography>
-          <Typography variant="subtitle1">{` | ${subModuleName}`}</Typography>
-          <Typography variant="subtitle1" color="primary">
-            {` | ${workflowName}`}
-          </Typography>
-        </Box>
-      </Container>
+      <WorkflowBanner {...WorkflowBannerProps} />
       <div className={classes.workflowBody}>
         <div className={classes.workflowPanel}>
           <ProjectSettingsPanel />
@@ -181,64 +136,6 @@ const Settings = () => {
         <div className={classes.workflowContent}>
           {renderImportStep(activeStep)}
         </div>
-      </div>
-      {showContextDrawer && (
-        <ContextDrawer data={data}>
-          {(props: JSX.IntrinsicAttributes) => <WorkflowStepper {...props} />}
-        </ContextDrawer>
-      )}
-      <div className={classes.navigationbuttons}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => dispatch(workflowResetAction(0))}
-          className={classes.button}
-          startIcon={<RotateLeftIcon />}
-        >
-          Reset
-        </Button>
-        <Button
-          variant="outlined"
-          disabled={activeStep === 0}
-          onClick={() => dispatch(workflowBackAction(activeStep))}
-          className={classes.button}
-          startIcon={<ArrowBackIosIcon />}
-        >
-          Back
-        </Button>
-        {isStepOptional(activeStep) && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              dispatch(workflowSkipAction(isStepOptional, activeStep))
-            }
-            className={classes.button}
-          >
-            Skip
-          </Button>
-        )}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            activeStep === steps.length - 1
-              ? dispatch(workflowSaveAction())
-              : dispatch(
-                  workflowNextAction(skipped, isStepSkipped, activeStep, steps)
-                );
-          }}
-          className={classes.button}
-          endIcon={
-            activeStep === steps.length - 1 ? (
-              <DoneAllIcon />
-            ) : (
-              <ArrowForwardIosIcon />
-            )
-          }
-        >
-          {activeStep === steps.length - 1 ? "Finalize" : "Next"}
-        </Button>
       </div>
     </div>
   );

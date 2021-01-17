@@ -6,8 +6,6 @@ export const PERSIST_SELECTEDWORKSHEET = "PERSIST_SELECTEDWORKSHEET";
 export const PERSIST_WORKSHEETFORTABLE = "PERSIST_WORKSHEETFORTABLE";
 export const PERSIST_FILEHEADERS = "PERSIST_FILEHEADERS";
 export const PERSIST_SELECTEDHEADERROWINDEX = "PERSIST_SELECTEDHEADERROWINDEX";
-export const PERSIST_SELECTEDHEADERROWOPTIONINDEX =
-  "PERSIST_SELECTEDHEADERROWOPTIONINDEX";
 export const PERSIST_FILEHEADERSMATCH = "PERSIST_FILEHEADERSMATCH";
 export const PERSIST_CHOSENAPPLICATIONHEADERSINDICES =
   "PERSIST_CHOSENAPPLICATIONHEADERSINDICES";
@@ -136,16 +134,6 @@ export const persistChosenApplicationUniqueUnitIndicesAction = (
   return {
     type: PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
     payload: { chosenApplicationUniqueUnitIndices },
-  };
-};
-
-export const persistSelectedHeaderRowOptionIndicesAction = (
-  selectedHeaderRowIndex,
-  selectedHeaderOptionIndex
-) => {
-  return {
-    type: PERSIST_SELECTEDHEADERROWOPTIONINDEX,
-    payload: { selectedHeaderRowIndex, selectedHeaderOptionIndex },
   };
 };
 

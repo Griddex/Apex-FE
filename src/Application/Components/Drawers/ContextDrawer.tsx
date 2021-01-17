@@ -11,6 +11,7 @@ import {
   contextDrawerCollapseAction,
   contextDrawerExpandAction,
 } from "../../Redux/Actions/LayoutActions";
+import { RootState } from "../../Redux/Reducers/RootReducer";
 
 const navbarHeight = 43;
 
@@ -69,16 +70,21 @@ const useStyles = makeStyles((theme) => {
     contextDrawerContent: {
       marginTop: 20,
     },
+    menuButton: { height: 30, width: 30 },
   };
 });
 
-const ContextDrawer = ({ children, data }) => {
+const ContextDrawer = ({ children }: { children: () => JSX.Element }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const workflowData = useSelector((state) => state.applicationReducer);
+  const workflowData = useSelector(
+    (state: RootState) => state.applicationReducer
+  );
   const { moduleName, subModuleName, workflowName } = workflowData;
-  const { expandContextDrawer } = useSelector((state) => state.layoutReducer);
+  const { expandContextDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
 
   return (
     <Drawer
@@ -125,7 +131,9 @@ const ContextDrawer = ({ children, data }) => {
         <Typography>{subModuleName}</Typography>
         <Typography>{workflowName}</Typography>
       </div>
-      <div className={classes.contextDrawerContent}>{children(data)}</div>
+      <div className={classes.contextDrawerContent}>
+        {children && children()}
+      </div>
     </Drawer>
   );
 };

@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 //TODO: Saga to grab user profile information from server
 //Put data in store and retrieve here using useSelector
 const userProfileData: IUserDetails = {
-  imgUrl: anitaImg,
+  avatarUrl: anitaImg,
   name: "Anita Stragan",
   callName: "Anita",
   email: "anita.stragan@syncware.com",
@@ -132,7 +132,7 @@ const UserProfile = () => {
       }}
     >
       <div className={classes.userProfile}>
-        <Image className={classes.image} src={userProfileData.imgUrl} />
+        <Image className={classes.image} src={userProfileData.avatarUrl} />
         <Typography className={classes.name}>{userProfileData.name}</Typography>
         <Typography className={classes.name}>
           {userProfileData.email}

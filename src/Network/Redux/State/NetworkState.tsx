@@ -23,6 +23,8 @@ const networkState: INetworkState = {
     realtimeResults: "No",
     endForecastDate: new Date(),
   },
+
+  isValids: { saveNetworkExtrudeIsValid: false },
 };
 
 export default networkState;

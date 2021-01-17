@@ -1,3 +1,4 @@
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   IMPORTFILE_INITIALIZATION,
   PERSIST_FILE,
@@ -7,7 +8,6 @@ import {
   PERSIST_WORKSHEETFORTABLE,
   PERSIST_FILEHEADERS,
   PERSIST_SELECTEDHEADERROWINDEX,
-  PERSIST_SELECTEDHEADERROWOPTIONINDEX,
   PERSIST_FILEHEADERSMATCH,
   PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
   PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
@@ -31,9 +31,9 @@ import {
   PERSIST_CHOSENAPPLICATIONUNITS,
 } from "../Actions/ImportActions";
 
-import importState from "./../State/ImportState";
+import importState from "../State/ImportState";
 
-const importReducer = (state = importState, action) => {
+const importReducer = (state = importState, action: IAction) => {
   switch (action.type) {
     case IMPORTFILE_INITIALIZATION:
       return { ...state, ...action.payload };
@@ -67,20 +67,6 @@ const importReducer = (state = importState, action) => {
     case PERSIST_SELECTEDHEADERROWINDEX:
       return { ...state, ...action.payload };
 
-    case PERSIST_SELECTEDHEADERROWOPTIONINDEX: {
-      const {
-        selectedHeaderRowIndex,
-        selectedHeaderOptionIndex,
-      } = action.payload;
-
-      const headerMap = [...state.headerRowOptionsIndices];
-      headerMap[selectedHeaderRowIndex] = selectedHeaderOptionIndex;
-
-      return {
-        ...state,
-        headerRowOptionsIndices: headerMap,
-      };
-    }
     case PERSIST_ROWOPTIONSINDICESMAP:
       return {
         ...state,

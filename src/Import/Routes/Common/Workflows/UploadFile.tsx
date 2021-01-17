@@ -10,6 +10,7 @@ import * as xlsx from "xlsx";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { IWorkflowProcessState } from "../../../../Application/Redux/State/WorkflowStateTypes";
 import {
   importFileInitAction,
   persistFileAction,
@@ -66,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UploadFile = () => {
+const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const dnDDisabled = useSelector(
@@ -157,7 +158,14 @@ const UploadFile = () => {
                 )
               );
               dispatch(
-                workflowNextAction(skipped, isStepSkipped, activeStep, steps)
+                workflowNextAction(
+                  skipped,
+                  isStepSkipped,
+                  activeStep,
+                  steps,
+                  "Loading...",
+                  workflowProcess as string
+                )
               );
             }
           };

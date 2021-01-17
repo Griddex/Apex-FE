@@ -4,6 +4,7 @@ import EconomicsParametersDialog from "../../../Economics/Components/EconomicsPa
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
+import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
@@ -26,6 +27,7 @@ const applicationDialogs: IApplicationDialogs = {
   existingNetworksDialog: ExistingNetworksDialog,
   existingForecastingParametersDialog: ExistingForecastingParametersDialog,
   saveForecastingParametersDialog: SaveForecastingParametersDialog,
+  runForecastDialog: RunForecastDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

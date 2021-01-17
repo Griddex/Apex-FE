@@ -96,7 +96,6 @@ const MoreIconsPopover = React.forwardRef<
   IMoreIconsPopoverProps
 >(({ closeIcon, handleCancel }, ref) => {
   const classes = useStyles();
-  // const headers = useSelector((state) => state.importReducer.fileHeaders);
   const dispatch = useDispatch();
 
   const moreIconsData = [

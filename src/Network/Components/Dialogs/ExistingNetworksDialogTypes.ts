@@ -26,8 +26,8 @@ export interface IDeclineCurveParametersDetail {
   drainagePoint: string;
   field: string;
   reservoir: string;
-  initialRate: number;
+  initialRate: number; //1P,2P and 3P
   declineType: string;
-  declineRate: number;
-  declineExponent: number;
+  declineRate: number; //1P,2P and 3P
+  declineExponent: number; //1P,2P and 3P
 }

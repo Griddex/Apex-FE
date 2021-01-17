@@ -10,6 +10,7 @@ export const SHOW_NETWORKELEMENTDETAILS = "SHOW_NETWORKELEMENTDETAILS";
 export const HIDE_NETWORKELEMENTDETAILS = "HIDE_NETWORKELEMENTDETAILS";
 export const HIDE_WELHEADSUMMARYNODES = "HIDE_WELHEADSUMMARYNODES";
 export const HIDE_WELHEADSUMMARYEDGES = "HIDE_WELHEADSUMMARYEDGES";
+export const SAVENETWORK_ISVALID = "SAVENETWORK_ISVALID";
 
 export const setCurrentElementAction = (currentElement: FlowElement) => {
   return {
@@ -103,6 +104,17 @@ export const hideWellheadSummaryEdgesAction = () => {
     type: HIDE_WELHEADSUMMARYEDGES,
     payload: {
       showWellheadSummaryEdges: false,
+    },
+  };
+};
+
+export const saveNetworkExtrudeIsValidAction = (
+  saveNetworkExtrudeIsValid: boolean
+) => {
+  return {
+    type: SAVENETWORK_ISVALID,
+    payload: {
+      saveNetworkExtrudeIsValid,
     },
   };
 };

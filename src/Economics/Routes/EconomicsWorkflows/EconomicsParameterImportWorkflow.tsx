@@ -27,6 +27,8 @@ import MatchUnits from "../../../Import/Routes/Common/Workflows/MatchUnits";
 import PreviewSave from "../../../Import/Routes/Common/Workflows/PreviewSave";
 import SelectHeaderUnitData from "../../../Import/Routes/Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../../Import/Routes/Common/Workflows/SelectSheet";
+import { IWorkflowProcessState } from "../../../Application/Redux/State/WorkflowStateTypes";
+import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -125,31 +127,56 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+  const workflowProcess = "economicsParameterImportWorkflow";
 
   const { dialogText } = props;
-  const skipped = new Set();
+  const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer
+    (state: RootState) => state.workflowReducer[workflowProcess]
   );
   const { moduleName, subModuleName, workflowName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
 
-  const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
-  const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
+  const isStepOptional: () => boolean = useCallback(() => activeStep === 50, [
+    activeStep,
+  ]);
+  const isStepSkipped: (step: number) => boolean = useCallback(
+    (step) => skipped.has(step as number),
+    [skipped]
+  );
 
-  const steps =
+  const steps: string[] =
     dialogText === "singleSheetFile" ? stepsSingleSheet : stepsMultiSheet;
-  const data = { skipped, isStepSkipped, activeStep, steps, errorSteps: [] };
+
   // const isStepFailed = useCallback((step) => activeStep === 50, [steps]);
+  const WorkflowBannerProps = {
+    activeStep,
+    steps,
+    moduleName,
+    subModuleName,
+    workflowName,
+  };
+  const WorkflowStepperProps = {
+    moduleName,
+    subModuleName,
+    workflowName,
+    skipped,
+    isStepSkipped,
+    activeStep,
+    steps,
+    errorSteps: [],
+  };
 
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped));
+    dispatch(
+      workflowInitAction(steps, isStepOptional, isStepSkipped, workflowProcess)
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
@@ -196,30 +223,21 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
 
   return (
     <div className={classes.root}>
-      <Container className={classes.workflowHeaderRow} fixed disableGutters>
-        <Box className={classes.workflowBanner}>
-          <Typography variant="subtitle1">{`${activeStep + 1}/${
-            steps.length
-          }`}</Typography>
-        </Box>
-        <Box className={classes.workflowBannerHeader}>
-          <Typography variant="subtitle1">{`${moduleName} `}</Typography>
-          <Typography variant="subtitle1">{` | ${subModuleName}`}</Typography>
-          <Typography variant="subtitle1" color="primary">
-            {` | ${workflowName}`}
-          </Typography>
-        </Box>
-      </Container>
+      <WorkflowBanner {...WorkflowBannerProps} />
       <div className={classes.workflowBody}>{renderWorkflow(activeStep)}</div>
       {showContextDrawer && (
-        <ContextDrawer data={data}>
-          {(props: JSX.IntrinsicAttributes) => <WorkflowStepper {...props} />}
+        <ContextDrawer>
+          {() => <WorkflowStepper {...WorkflowStepperProps} />}
         </ContextDrawer>
       )}
       <div className={classes.navigationbuttons}>
-        <RotateLeftIcon onClick={() => dispatch(workflowResetAction(0))} />
+        <RotateLeftIcon
+          onClick={() => dispatch(workflowResetAction(0, workflowProcess))}
+        />
         <ArrowBackIosIcon
-          onClick={() => dispatch(workflowBackAction(activeStep))}
+          onClick={() =>
+            dispatch(workflowBackAction(activeStep, workflowProcess))
+          }
         />
         <Button
           className={classes.button}
@@ -245,7 +263,8 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
                     isStepSkipped,
                     activeStep,
                     steps,
-                    "Loading..."
+                    "Loading...",
+                    workflowProcess
                   )
                 );
           }}

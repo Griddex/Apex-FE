@@ -1,4 +1,6 @@
-const userState = {
+import { IUserState } from "./UserStateTypes";
+
+const userState: IUserState = {
   //login
   userName: "",
   password: "",
@@ -12,7 +14,7 @@ const userState = {
   email: "",
   mobileNumber: "",
   role: "",
-  avatarURL: "",
+  avatarUrl: "",
 
   statusCode: "",
   result: "",

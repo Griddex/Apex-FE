@@ -58,11 +58,6 @@ const AdministrationLayout = () => {
             <Route path="*" render={() => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
-        {/* {showContextDrawer && (
-          <ContextDrawer>
-            <WorkflowStepper {...workflowStepperProps} />
-          </ContextDrawer>
-        )} */}
       </div>
     </main>
   );

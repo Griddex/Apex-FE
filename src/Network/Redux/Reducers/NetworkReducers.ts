@@ -15,6 +15,7 @@ import {
   HIDE_NETWORKELEMENTDETAILS,
   HIDE_WELHEADSUMMARYNODES,
   HIDE_WELHEADSUMMARYEDGES,
+  SAVENETWORK_ISVALID,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 // import { Node, Edge } from "react-flow-renderer";
@@ -99,6 +100,11 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case SAVENETWORK_ISVALID:
+      return {
+        ...state,
+        isValids: { ...action.payload },
       };
     default:
       return state;

@@ -2,6 +2,9 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React from "react";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { ISaveNetworkFormProps } from "../Redux/State/NetworkStateTypes";
+import { useDispatch } from "react-redux";
+import { saveNetworkExtrudeIsValidAction } from "../Redux/Actions/NetworkActions";
+import { IIsSaveNetworkValid } from "./../Components/Dialogs/SaveNetworkDialogTypes";
 
 const SaveNetworkNameAndDescription = ({
   networkName,
@@ -9,9 +12,13 @@ const SaveNetworkNameAndDescription = ({
   errors,
   touched,
   handleChange,
-}: ISaveNetworkFormProps) => {
+  setIsSaveNetworkValid,
+}: ISaveNetworkFormProps & IIsSaveNetworkValid) => {
+  const dispatch = useDispatch();
+
   const helperText =
     touched && touched.networkName ? errors && errors.networkName : "";
+
   return (
     <div>
       <AnalyticsComp
@@ -25,7 +32,10 @@ const SaveNetworkNameAndDescription = ({
             helperText={helperText}
             error={Boolean(helperText)}
             value={networkName}
-            onChange={handleChange}
+            onChange={(e) => {
+              setIsSaveNetworkValid && setIsSaveNetworkValid(true);
+              handleChange && handleChange(e);
+            }}
             required
             autoFocus
             fullWidth

@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 const RegisterForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const avatarURL = useSelector((state) => state.registerReducer.avatarURL);
+  // const avatarUrl = useSelector((state) => state.registerReducer.avatarUrl);
   // const pending = useSelector((state) => state.uiSpinnerReducer.pending);
 
   return (
@@ -83,7 +83,7 @@ const RegisterForm = () => {
         email: Yup.string().required("email is required"),
         mobileNumber: Yup.string().required("mobileNumber is required"),
         role: Yup.string().required("role is required"),
-        avatarURL: Yup.string(),
+        avatarUrl: Yup.string(),
       })}
       onSubmit={({
         userName,
@@ -93,7 +93,7 @@ const RegisterForm = () => {
         email,
         mobileNumber,
         role,
-        avatarURL,
+        avatarUrl,
       }) => {
         dispatch(
           registerAction(
@@ -104,7 +104,7 @@ const RegisterForm = () => {
             email,
             mobileNumber,
             role,
-            avatarURL
+            avatarUrl
           )
         );
       }}

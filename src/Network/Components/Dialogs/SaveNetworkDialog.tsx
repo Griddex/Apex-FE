@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
+import SaveNetworkDialogButtons from "../DialogBottons/SaveNetworkDialogButtons";
 import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -113,7 +114,12 @@ const DialogContent = withStyles((theme) => ({
 
 const SaveNetworkDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList } = props;
+  const { title, show, maxWidth, iconType } = props;
+  const [isSaveNetworkValid, setIsSaveNetworkValid] = React.useState(true);
+  console.log(
+    "Logged output --> ~ file: SaveNetworkDialog.tsx ~ line 120 ~ SaveNetworkDialog ~ isSaveNetworkValid",
+    isSaveNetworkValid
+  );
 
   return (
     <Dialog
@@ -130,13 +136,20 @@ const SaveNetworkDialog = (props: DialogStuff) => {
       </DialogTitle>
       <DialogContent
         dividers
-        style={{ display: "flex", flexDirection: "column", height: 650 }}
+        style={{ display: "flex", flexDirection: "column" }}
       >
         <SaveNetworkForm>
-          {(props) => <SaveNetworkNameAndDescription {...props} />}
+          {(props) => (
+            <SaveNetworkNameAndDescription
+              {...props}
+              setIsSaveNetworkValid={setIsSaveNetworkValid}
+            />
+          )}
         </SaveNetworkForm>
       </DialogContent>
-      <DialogActions>{actionsList && actionsList}</DialogActions>
+      <DialogActions>
+        <SaveNetworkDialogButtons isSaveNetworkValid={isSaveNetworkValid} />
+      </DialogActions>
     </Dialog>
   );
 };

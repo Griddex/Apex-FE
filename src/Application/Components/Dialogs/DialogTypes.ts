@@ -1,9 +1,11 @@
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ReactNode } from "react";
 import { Column } from "react-data-griddex";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
+import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
@@ -11,8 +13,6 @@ import FinalizeInputDialog from "./FinalizeInputDialog";
 import ListDialog from "./ListDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import ExistingNetworksWrapper from "../../../Network/Routes/ExistingNetworksWrapper";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -23,9 +23,10 @@ export interface IApplicationDialogs {
   economicsParameterImportWorkflowDialog: typeof EconomicsParameterImportWorkflowDialog;
   newProjectDialogWorkflow: typeof NewProjectDialogWorkflow;
   saveNetworkDialog: typeof SaveNetworkDialog;
-  existingNetworksDialog: typeof ExistingNetworksWrapper;
+  existingNetworksDialog: typeof ExistingNetworksDialog;
   existingForecastingParametersDialog: typeof ExistingForecastingParametersDialog;
   saveForecastingParametersDialog: typeof SaveForecastingParametersDialog;
+  runForecastDialog: typeof RunForecastDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -72,7 +73,9 @@ export interface DialogStuff {
   classes?: Record<string, string>;
   dialogData?: IDialogData;
   children?: JSX.Element | JSX.Element[];
+  workflowProcess?: string;
   dialogContentStyle?: CSSProperties;
+  dialogActionsStyle?: CSSProperties;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

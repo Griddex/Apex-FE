@@ -1,7 +1,7 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 
 export interface IUserDetails {
-  imgUrl: string;
+  avatarUrl: string;
   name: string;
   callName?: string;
   email?: string;

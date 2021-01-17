@@ -1,9 +1,11 @@
 import { makeStyles } from "@material-ui/core";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
+import Step, { StepProps } from "@material-ui/core/Step";
+import StepLabel, { StepLabelProps } from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import React from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/Reducers/RootReducer";
+import { IWorkflowDataProps } from "./WorkflowTypes";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,11 +19,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const WorkflowStepper = (props) => {
+const WorkflowStepper = (props: IWorkflowDataProps) => {
   const classes = useStyles();
 
   const expandContextDrawer = useSelector(
-    (state) => state.layoutReducer.expandContextDrawer
+    (state: RootState) => state.layoutReducer.expandContextDrawer
   );
 
   const { steps, activeStep, skipped, errorSteps } = props;
@@ -32,14 +34,14 @@ const WorkflowStepper = (props) => {
       activeStep={activeStep}
       orientation="vertical"
     >
-      {steps.map((label, index) => {
-        const stepProps = {};
-        const labelProps = {};
+      {steps.map((label: string, index: number) => {
+        const stepProps: StepProps = {};
+        const labelProps: StepLabelProps = {};
 
-        if (errorSteps.includes(index)) {
-          labelProps.error = true;
+        if (errorSteps && errorSteps.includes(index)) {
+          labelProps["error"] = true;
         }
-        if (skipped.has(index)) {
+        if (skipped && skipped.has(index)) {
           stepProps.completed = false;
         }
 

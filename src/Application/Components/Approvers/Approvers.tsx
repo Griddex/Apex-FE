@@ -36,7 +36,7 @@ const Approvers = ({ approvers }: { approvers: IApprovers }) => {
                 <Image
                   key={i}
                   className={classes.image}
-                  src={approver.imgUrl}
+                  src={approver.avatarUrl}
                   alt={`Approver ${i}`}
                 />
               );

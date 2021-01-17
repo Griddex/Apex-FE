@@ -123,7 +123,7 @@ export interface IForecastDetail {
   modifiedOn: Date;
 }
 interface IEvent<T> {
-  name?: string | undefined;
+  name?: string;
   value: T;
 }
 export interface IEconomicParameter {
@@ -640,7 +640,6 @@ const EconomicsParameters = () => {
 
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
-      {/* <MainTitle title="Economics Parameters" /> */}
       <AnalyticsComp
         title="Development Scenario"
         content={<SelectDevelopmentScenario />}

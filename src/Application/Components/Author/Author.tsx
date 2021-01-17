@@ -21,7 +21,7 @@ const Author = ({ author }: { author: IAuthor }) => {
 
   return (
     <div className={classes.author}>
-      <Image className={classes.image} src={author.imgUrl} />
+      <Image className={classes.image} src={author.avatarUrl} />
       <Typography className={classes.name}>{author.name}</Typography>
     </div>
   );
