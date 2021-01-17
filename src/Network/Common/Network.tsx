@@ -265,18 +265,19 @@ const Network = () => {
         </div>
       </ReactFlowProvider>
       {showContextDrawer && (
-        <ContextDrawer data={currentPopoverData}>
-          {(data: Record<string, unknown>) => {
+        <ContextDrawer>
+          {() => {
             if (showNetworkElementDetails === "showWellheadDetails")
-              return <WellheadContextDrawer data={data} />;
+              return <WellheadContextDrawer data={currentPopoverData} />;
             else if (showNetworkElementDetails === "showManifoldDetails")
-              return <ManifoldContextDrawer data={data} />;
+              return <ManifoldContextDrawer data={currentPopoverData} />;
             else if (showNetworkElementDetails === "showFlowstationDetails")
-              return <FlowstationContextDrawer data={data} />;
+              return <FlowstationContextDrawer data={currentPopoverData} />;
             else if (showNetworkElementDetails === "showGasfacilityDetails")
-              return <GasfacilityContextDrawer data={data} />;
+              return <GasfacilityContextDrawer data={currentPopoverData} />;
             else if (showNetworkElementDetails === "showTerminalDetails")
-              return <TerminalContextDrawer data={data} />;
+              return <TerminalContextDrawer data={currentPopoverData} />;
+            else return <div></div>;
           }}
         </ContextDrawer>
       )}

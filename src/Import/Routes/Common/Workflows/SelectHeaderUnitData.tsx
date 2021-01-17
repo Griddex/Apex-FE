@@ -40,12 +40,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function SelectHeaderUnitData() {
+export default function SelectHeaderUnitData({
+  workflowProcess,
+}: {
+  workflowProcess: string;
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const { selectedWorksheetData } = useSelector(
-    (state: RootState) => state.importReducer
+    (state: RootState) => state.importReducer[workflowProcess]
   );
 
   //Generate actual ColumnHeaders

@@ -1,0 +1,21 @@
+import { IAction } from "../Actions/ActionTypes";
+import { HIDE_SPINNER, SHOW_SPINNER } from "../Actions/UISpinnerActions";
+import uiSpinnerState from "../State/UISpinnerState";
+
+const uiSpinnerReducer = (state = uiSpinnerState, action: IAction) => {
+  switch (action.type) {
+    case SHOW_SPINNER:
+      return {
+        ...state,
+        pending: true,
+        message: action.meta && action.meta.message,
+      };
+
+    case HIDE_SPINNER:
+      return { ...state, pending: false };
+
+    default:
+      return state;
+  }
+};
+export default uiSpinnerReducer;

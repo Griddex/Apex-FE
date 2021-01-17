@@ -163,26 +163,24 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         </Typography>
         <List className={classes.listBorder}>
           {contentList &&
-            contentList.map(
-              (name: ReactNode, i: string | number | null | undefined) => (
-                <ListItem
-                  key={i}
-                  selected={name === selectedListItem}
-                  button
-                  onClick={() => {
-                    setSelectedListItem(name);
-                    dispatch(persistWorksheetAction(name, []));
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                      <DescriptionOutlinedIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText>{name}</ListItemText>
-                </ListItem>
-              )
-            )}
+            contentList.map((name: string, i: number) => (
+              <ListItem
+                key={i}
+                selected={name === selectedListItem}
+                button
+                onClick={() => {
+                  setSelectedListItem(name);
+                  dispatch(persistWorksheetAction(name, []));
+                }}
+              >
+                <ListItemAvatar>
+                  <Avatar className={classes.avatar}>
+                    <DescriptionOutlinedIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText>{name}</ListItemText>
+              </ListItem>
+            ))}
         </List>
       </div>
     );
@@ -192,9 +190,9 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     const selectedWorksheetDataXLSX =
       inputDeckWorkbook.Sheets[selectedWorksheetName];
 
-    const selectedWorksheetData = xlsx.utils.sheet_to_json(
-      selectedWorksheetDataXLSX
-    );
+    const selectedWorksheetData = xlsx.utils.sheet_to_json<
+      Record<string, React.Key>
+    >(selectedWorksheetDataXLSX);
 
     if (selectedWorksheetData.length === 0) {
       enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });

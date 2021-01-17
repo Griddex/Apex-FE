@@ -115,13 +115,17 @@ const getApplicationHeaders = () => {
   ];
 };
 
-export default function MatchHeaders() {
+export default function MatchHeaders({
+  workflowProcess,
+}: {
+  workflowProcess: string;
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   //File Headers
   const { fileHeaders } = useSelector(
-    (state: RootState) => state.importReducer
+    (state: RootState) => state.importReducer[workflowProcess]
   );
 
   //Application headers
@@ -400,8 +404,10 @@ export default function MatchHeaders() {
 
   //Run once after 1st render
   React.useEffect(() => {
-    const columnNames = columns.map((column) => column.name);
-    const tableHeaders = omit(columnNames, ["SN", "NAMES"]);
+    const columnNames: string[] = columns.map(
+      (column) => column.name as string
+    );
+    const tableHeaders = omit(columnNames, ["SN", "NAMES"]) as string[];
     dispatch(persistTableHeadersAction(tableHeaders));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

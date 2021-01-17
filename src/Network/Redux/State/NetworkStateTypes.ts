@@ -49,10 +49,17 @@ export interface ISaveForecastParametersProps {
   children?: (props: ISaveForecastParametersFormProps) => JSX.Element;
 }
 
+export interface ICurrentPopoverData {
+  data:
+    | number
+    | string
+    | Record<string, React.Key>
+    | Record<string, React.Key>[];
+}
 export interface INetworkState extends ISaveNetworkFormProps {
-  currentElement: number | string | Record<string, unknown>;
+  currentElement: number | string | Record<string, React.Key>;
   currentPopoverId: string;
-  currentPopoverData: number | string | Record<string, unknown>[];
+  currentPopoverData: ICurrentPopoverData;
   showPopover: boolean;
   showNetworkElementDetails:
     | null

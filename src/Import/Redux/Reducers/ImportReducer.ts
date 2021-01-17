@@ -4,29 +4,22 @@ import {
   PERSIST_FILE,
   PERSIST_WORKSHEETNAMES,
   PERSIST_WORKSHEET,
-  PERSIST_SELECTEDWORKSHEET,
-  PERSIST_WORKSHEETFORTABLE,
   PERSIST_FILEHEADERS,
   PERSIST_SELECTEDHEADERROWINDEX,
   PERSIST_FILEHEADERSMATCH,
   PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
   PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
   PERSIST_FILEUNITSANDUNIQUEUNITS,
-  PERSIST_SELECTEDUNITROWINDEX,
-  PERSIST_SELECTEDUNITROWOPTIONINDEX,
-  PERSIST_ROWOPTIONSINDICESMAP,
   PERSIST_FILEUNITSMATCH,
   PERSIST_TABLEROLENAMES,
   PERSIST_TABLEDATA,
   PERSIST_DEFINEDTABLEDATA,
   PERSIST_COLUMNNAMETABLEDATA,
   PERSIST_TABLEHEADERS,
-  PERSIST_OPTIONINDICES,
   IMPORT_EXCEL_LOADING,
   IMPORT_EXCEL_MATCHING,
   IMPORT_EXCELWORKSHEETNAME_SET,
   IMPORT_EXCELWORKSHEETPARSE_NAVIGATE,
-  SELECTED_ROW,
   PERSIST_CHOSENAPPLICATIONHEADERS,
   PERSIST_CHOSENAPPLICATIONUNITS,
 } from "../Actions/ImportActions";
@@ -47,9 +40,6 @@ const importReducer = (state = importState, action: IAction) => {
     case PERSIST_WORKSHEET:
       return { ...state, ...action.payload };
 
-    case PERSIST_SELECTEDWORKSHEET:
-      return { ...state, ...action.payload };
-
     case PERSIST_FILEHEADERS:
       return { ...state, ...action.payload };
 
@@ -67,32 +57,12 @@ const importReducer = (state = importState, action: IAction) => {
     case PERSIST_SELECTEDHEADERROWINDEX:
       return { ...state, ...action.payload };
 
-    case PERSIST_ROWOPTIONSINDICESMAP:
-      return {
-        ...state,
-        unitRowOptionsIndices: action.payload.unitRowOptionsIndices,
-      };
-
     case PERSIST_FILEHEADERSMATCH:
       return { ...state, ...action.payload };
 
     case PERSIST_FILEUNITSANDUNIQUEUNITS:
       return { ...state, ...action.payload };
 
-    case PERSIST_SELECTEDUNITROWINDEX:
-      return { ...state, ...action.payload };
-
-    case PERSIST_SELECTEDUNITROWOPTIONINDEX: {
-      const { selectedUnitRowIndex, selectedUnitOptionIndex } = action.payload;
-
-      const unitMap = [...state.unitRowOptionsIndices];
-      unitMap[selectedUnitRowIndex] = selectedUnitOptionIndex;
-
-      return {
-        ...state,
-        unitRowOptionsIndices: unitMap,
-      };
-    }
     case PERSIST_FILEUNITSMATCH:
       return { ...state, ...action.payload };
 
@@ -111,12 +81,6 @@ const importReducer = (state = importState, action: IAction) => {
     case PERSIST_TABLEHEADERS:
       return { ...state, ...action.payload };
 
-    case PERSIST_OPTIONINDICES:
-      return { ...state, ...action.payload };
-
-    case PERSIST_WORKSHEETFORTABLE:
-      return { ...state, ...action.payload };
-
     case IMPORT_EXCEL_LOADING:
       return { ...state, Loading: action.payload.Loading };
 
@@ -133,11 +97,7 @@ const importReducer = (state = importState, action: IAction) => {
         ...state,
         extrudeParseTable: action.payload.extrudeParseTable,
       };
-    case SELECTED_ROW:
-      return {
-        ...state,
-        selectedRow: action.payload.selectedRow,
-      };
+
     default:
       return state;
   }

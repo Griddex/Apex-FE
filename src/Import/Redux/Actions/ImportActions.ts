@@ -35,16 +35,16 @@ export const PERSIST_CHOSENAPPLICATIONHEADERS =
 export const PERSIST_CHOSENAPPLICATIONUNITS = "PERSIST_CHOSENAPPLICATIONUNITS";
 
 export const importFileInitAction = (
-  fileLastModified,
-  filePath,
-  fileType,
-  fileName,
-  fileSize,
-  fileAuthor,
-  fileCreated,
-  fileAccepted,
-  dnDDisabled,
-  message
+  fileLastModified: number,
+  filePath: string,
+  fileType: string,
+  fileName: string,
+  fileSize: number,
+  fileAuthor: string,
+  fileCreated: Date,
+  fileAccepted: boolean,
+  dnDDisabled: boolean,
+  message: string
 ) => {
   return {
     type: IMPORTFILE_INITIALIZATION,
@@ -63,14 +63,14 @@ export const importFileInitAction = (
   };
 };
 
-export const persistFileAction = (file) => {
+export const persistFileAction = (file: any) => {
   return {
     type: PERSIST_FILE,
     payload: { inputFile: file },
   };
 };
 
-export const persistWorksheetNamesAction = (workSheetNames) => {
+export const persistWorksheetNamesAction = (workSheetNames: string[]) => {
   return {
     type: PERSIST_WORKSHEETNAMES,
     payload: { workSheetNames },
@@ -78,8 +78,8 @@ export const persistWorksheetNamesAction = (workSheetNames) => {
 };
 
 export const persistWorksheetAction = (
-  selectedWorksheetName,
-  selectedWorksheetData
+  selectedWorksheetName: string,
+  selectedWorksheetData: Record<string, React.Key>[]
 ) => {
   return {
     type: PERSIST_WORKSHEET,
@@ -87,26 +87,9 @@ export const persistWorksheetAction = (
   };
 };
 
-//remove action and associated reducers and state
-export const persistSelectedWorksheetAction = (selectedWorksheetName) => {
-  return {
-    type: PERSIST_SELECTEDWORKSHEET,
-    payload: { selectedWorksheetName },
-  };
-};
-
-export const persistWorksheetForTableAction = (
-  selectedWorksheetDataForTable
-) => {
-  return {
-    type: PERSIST_WORKSHEETFORTABLE,
-    payload: { selectedWorksheetDataForTable },
-  };
-};
-
 export const persistFileHeadersAction = (
-  selectedHeaderRowIndex,
-  fileHeaders
+  selectedHeaderRowIndex: number,
+  fileHeaders: string[]
 ) => {
   return {
     type: PERSIST_FILEHEADERS,
@@ -114,14 +97,16 @@ export const persistFileHeadersAction = (
   };
 };
 
-export const persistFileHeadersMatchAction = (fileHeadersMatch) => {
+export const persistFileHeadersMatchAction = (
+  fileHeadersMatch: Record<string, number>[]
+) => {
   return {
     type: PERSIST_FILEHEADERSMATCH,
     payload: { fileHeadersMatch },
   };
 };
 export const persistChosenApplicationHeadersIndicesAction = (
-  chosenApplicationHeadersIndices
+  chosenApplicationHeadersIndices: Record<string, number>
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
@@ -129,7 +114,7 @@ export const persistChosenApplicationHeadersIndicesAction = (
   };
 };
 export const persistChosenApplicationUniqueUnitIndicesAction = (
-  chosenApplicationUniqueUnitIndices
+  chosenApplicationUniqueUnitIndices: Record<string, number>
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
@@ -138,9 +123,19 @@ export const persistChosenApplicationUniqueUnitIndicesAction = (
 };
 
 export const persistFileUnitsAndUniqueUnitsAction = (
-  selectedUnitRowIndex,
-  fileUnits,
-  fileUniqueUnits
+  selectedUnitRowIndex: number,
+  fileUnits: (
+    | string
+    | number
+    | Record<string, React.Key>
+    | Record<string, React.Key>[]
+  )[],
+  fileUniqueUnits: (
+    | string
+    | number
+    | Record<string, React.Key>
+    | Record<string, React.Key>[]
+  )[]
 ) => {
   return {
     type: PERSIST_FILEUNITSANDUNIQUEUNITS,
@@ -148,96 +143,68 @@ export const persistFileUnitsAndUniqueUnitsAction = (
   };
 };
 
-export const persistFileUnitsMatchAction = (fileUnitsMatch) => {
+export const persistFileUnitsMatchAction = (
+  fileUnitsMatch: Record<string, number>[]
+) => {
   return {
     type: PERSIST_FILEUNITSMATCH,
     payload: { fileUnitsMatch },
   };
 };
 
-export const persistSelectedUnitRowIndexAction = (selectedUnitRowIndex) => {
-  return {
-    type: PERSIST_SELECTEDUNITROWINDEX,
-    payload: { selectedUnitRowIndex },
-  };
-};
-
-export const persistSelectedUnitRowOptionIndicesAction = (
-  selectedUnitRowIndex,
-  selectedUnitOptionIndex
-) => {
-  return {
-    type: PERSIST_SELECTEDUNITROWOPTIONINDEX,
-    payload: { selectedUnitRowIndex, selectedUnitOptionIndex },
-  };
-};
-
-export const persistRowsOptionsIndicesMapAction = (headerRowOptionsIndices) => {
-  return {
-    type: PERSIST_ROWOPTIONSINDICESMAP,
-    payload: { headerRowOptionsIndices },
-  };
-};
-
 export const persistChosenApplicationHeadersAction = (
-  chosenApplicationHeaders
+  chosenApplicationHeaders: string[]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERS,
     payload: { chosenApplicationHeaders },
   };
 };
-export const persistChosenApplicationUnitsAction = (chosenApplicationUnits) => {
+export const persistChosenApplicationUnitsAction = (
+  chosenApplicationUnits: string[]
+) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITS,
     payload: { chosenApplicationUnits },
   };
 };
 
-export const persistTableRoleNamesAction = (tableRoleNames) => {
+export const persistTableRoleNamesAction = (tableRoleNames: string[]) => {
   return {
     type: PERSIST_TABLEROLENAMES,
     payload: { tableRoleNames },
   };
 };
 
-export const persistTableDataAction = (tableData) => {
+export const persistTableDataAction = (
+  tableData: Record<string, React.Key>[]
+) => {
   return {
     type: PERSIST_TABLEDATA,
     payload: { tableData },
   };
 };
 
-export const persistColumnNameTableDataAction = (columnNameTableData) => {
+export const persistColumnNameTableDataAction = (
+  columnNameTableData: Record<string, React.Key>[]
+) => {
   return {
     type: PERSIST_COLUMNNAMETABLEDATA,
     payload: { columnNameTableData },
   };
 };
-export const persistDefinedTableDataAction = (definedTableData) => {
+export const persistDefinedTableDataAction = (
+  definedTableData: Record<string, React.Key>[]
+) => {
   return {
     type: PERSIST_DEFINEDTABLEDATA,
     payload: { definedTableData },
   };
 };
 
-export const persistTableHeadersAction = (tableHeaders) => {
+export const persistTableHeadersAction = (tableHeaders: string[]) => {
   return {
     type: PERSIST_TABLEHEADERS,
     payload: { tableHeaders },
-  };
-};
-
-export const persistOptionIndicesAction = (optionIndices) => {
-  return {
-    type: PERSIST_OPTIONINDICES,
-    payload: { optionIndices },
-  };
-};
-
-export const selectedRowAction = (selectedRow) => {
-  return {
-    type: SELECTED_ROW,
-    payload: selectedRow,
   };
 };

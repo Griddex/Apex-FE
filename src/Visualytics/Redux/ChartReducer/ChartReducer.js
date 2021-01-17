@@ -67,7 +67,7 @@ const chartReducer = (state = chartState, action) => {
       };
     }
     default:
-      return { ...state };
+      return state;
   }
 };
 

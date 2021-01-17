@@ -11,11 +11,10 @@ import workflowState from "../State/WorkflowState";
 import { IAction } from "./../Actions/ActionTypes";
 
 const workflowReducer = (state = workflowState, action: IAction) => {
-  const { workflowProcess } = action.payload;
-  const workflowProcessDefined = workflowProcess as string;
-
   switch (action.type) {
-    case INITIALIZE_WORKFLOW:
+    case INITIALIZE_WORKFLOW: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
       return {
         ...state,
         [workflowProcessDefined]: {
@@ -24,14 +23,19 @@ const workflowReducer = (state = workflowState, action: IAction) => {
           isStepOptional: action.payload.isStepOptional,
         },
       };
+    }
+    case RESET_WORKFLOW: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
 
-    case RESET_WORKFLOW:
       return {
         ...state,
         [workflowProcessDefined]: { activeStep: action.payload.activeStep },
       };
-
+    }
     case NEXT_WORKFLOW: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
       let newSkipped = state[workflowProcessDefined].skipped;
       const {
         [workflowProcessDefined]: { skipped, isStepSkipped, activeStep, steps },
@@ -54,13 +58,17 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         },
       };
     }
-    case BACK_WORKFLOW:
+    case BACK_WORKFLOW: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
       return {
         ...state,
         [workflowProcessDefined]: { activeStep: action.payload.activeStep - 1 },
       };
-
+    }
     case SKIP_WORKFLOW: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
       const {
         [workflowProcessDefined]: { isStepOptional, activeStep },
       } = action.payload;

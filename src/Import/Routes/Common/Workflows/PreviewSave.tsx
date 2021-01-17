@@ -7,7 +7,6 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ApexGridRolesState } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridState";
 import {
   IRawRow,
   ITableIconsOptions,
@@ -47,11 +46,13 @@ const useStyles = makeStyles((theme) => ({
   score: { fontSize: 14 },
 }));
 
-export default function PreviewSave() {
+export default function PreviewSave({
+  workflowProcess,
+}: {
+  workflowProcess: string;
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  //Chosen Application Headers
 
   const {
     tableRoleNames,
@@ -60,7 +61,7 @@ export default function PreviewSave() {
     columnNameTableData,
     selectedHeaderRowIndex,
     selectedUnitRowIndex,
-  } = useSelector((state: RootState) => state.importReducer);
+  } = useSelector((state: RootState) => state.importReducer[workflowProcess]);
 
   const unitsRow = zipObject(
     chosenApplicationHeaders,
@@ -89,10 +90,6 @@ export default function PreviewSave() {
   }));
 
   const tableData = [newUnitRow, ...orderedDataRows];
-  console.log(
-    "Logged output --> ~ file: PreviewSave.tsx ~ line 77 ~ PreviewSave ~ tableData",
-    tableData
-  );
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -110,19 +107,6 @@ export default function PreviewSave() {
   };
 
   const generateColumns = () => {
-    const indexRow = tableData[0];
-
-    type RoleOptionsType = {
-      value: string;
-      label: string;
-    }[];
-
-    const { roleNames } = ApexGridRolesState;
-    const roleOptions: RoleOptionsType = roleNames.map((name) => ({
-      value: name,
-      label: name,
-    }));
-
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {

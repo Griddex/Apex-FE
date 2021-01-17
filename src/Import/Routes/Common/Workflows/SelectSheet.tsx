@@ -78,10 +78,10 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     fileType,
     fileAuthor,
     fileCreated,
-  } = useSelector((state: RootState) => state.importReducer);
+  } = useSelector((state: RootState) => state.importReducer[workflowProcess]);
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
-    (state: RootState) => state.importReducer
+    (state: RootState) => state.importReducer[workflowProcess]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(
@@ -94,9 +94,9 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     setWorksheetName(selectedWorksheetName);
 
     const selectedWorksheetDataXLSX = inputFile.Sheets[selectedWorksheetName];
-    const selectedWorksheetData = xlsx.utils.sheet_to_json(
-      selectedWorksheetDataXLSX
-    );
+    const selectedWorksheetData = xlsx.utils.sheet_to_json<
+      Record<string, React.Key>
+    >(selectedWorksheetDataXLSX);
 
     if (selectedWorksheetData.length === 0) {
       enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });

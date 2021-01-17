@@ -9,6 +9,7 @@ import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDi
 import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
+import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import FinalizeInputDialog from "./FinalizeInputDialog";
 import ListDialog from "./ListDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
@@ -42,9 +43,9 @@ export interface IDialogsServiceProps {
 }
 
 export type ITableRow = Record<string, React.Key>;
-export interface IDialogData {
-  columns: readonly Column<ITableRow, unknown>[];
-  rows: ITableRow[];
+export interface IDialogData<T> {
+  columns: Column<T>[];
+  rows: T[];
 }
 export interface DialogStuff {
   name?: string;
@@ -65,13 +66,13 @@ export interface DialogStuff {
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
   dialogText?: string;
-  iconType?: "error" | "success" | "select";
+  iconType?: "error" | "success" | "select" | "information";
   contentText?: string;
   contentList?: Record<string, any>;
   actionsList?: (() => JSX.Element) | (() => JSX.Element[]);
   onClose?: () => unknown;
   classes?: Record<string, string>;
-  dialogData?: IDialogData;
+  dialogData?: IDialogData<IRawRow>;
   children?: JSX.Element | JSX.Element[];
   workflowProcess?: string;
   dialogContentStyle?: CSSProperties;

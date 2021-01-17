@@ -16,13 +16,15 @@ import ReactDataGrid, { Column, SelectColumn } from "react-data-griddex";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import xlsx from "xlsx";
-import { IApprovers } from "../../Application/Components/Approvers/ApproversTypes";
-import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  IRawTable,
+  ITableIconsOptions,
+} from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/RootReducer";
@@ -32,6 +34,7 @@ import {
   persistWorksheetAction,
   persistWorksheetNamesAction,
 } from "../../Import/Redux/Actions/ImportActions";
+import { IEvent } from "./EconomicsParametersTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     alignItems: "flex-start",
-    // alignItems: "center",
-    // justifyContent: "",
     border: "1px solid #C4C4C4",
     backgroundColor: "#FFF",
     padding: 20,
@@ -112,30 +113,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
 }));
-
-export type StatusTextType = "Approved" | "Pending" | "Returned" | string;
-export interface IForecastDetail {
-  titleName: string;
-  statusText: StatusTextType;
-  author: IAuthor;
-  approvers?: IApprovers;
-  createdOn: Date;
-  modifiedOn: Date;
-}
-interface IEvent<T> {
-  name?: string;
-  value: T;
-}
-export interface IEconomicParameter {
-  parameterName: string;
-  parameterRuleAction: () => string;
-  parameterValue: string | number;
-  parameterUnits: Record<string, string>[];
-  parameterUnitSelected: number;
-  parameterRemark: string;
-}
-type IRawRow = Record<string, React.Key>;
-type IRawTable = IRawRow[];
 
 const EconomicsParameters = () => {
   const classes = useStyles();
@@ -322,7 +299,7 @@ const EconomicsParameters = () => {
 
   const EconomicsDataTemplate = () => {
     function rowKeyGetter(row: IRawRow) {
-      return row.sn;
+      return row.sn as number;
     }
 
     const createRawTableData = (numberOfRows: number): IRawTable => {
@@ -432,16 +409,15 @@ const EconomicsParameters = () => {
               dispatch(persistWorksheetNamesAction(workSheetNames));
 
               if (workSheetNames.length > 1) {
-                const dialogParameters = {
+                const dialogParameters: DialogStuff = {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",
                   type: "economicsParameterImportWorkflowDialog",
                   show: true,
                   exclusive: true,
-                  maxwidth: "md",
+                  maxWidth: "md",
                   iconType: "select",
                   dialogText: "singleSheetFile",
-                  iconColor: theme.palette.primary.main,
                   contentList: workSheetNames,
                 };
                 dispatch(showDialogAction(dialogParameters));
@@ -450,9 +426,9 @@ const EconomicsParameters = () => {
                   workSheetNames && workSheetNames[0];
                 const selectedWorksheetDataXLSX =
                   inputWorkbook.Sheets[selectedWorksheetName];
-                const selectedWorksheetData = xlsx.utils.sheet_to_json(
-                  selectedWorksheetDataXLSX
-                );
+                const selectedWorksheetData = xlsx.utils.sheet_to_json<
+                  Record<string, React.Key>
+                >(selectedWorksheetDataXLSX);
 
                 dispatch(
                   persistWorksheetAction(
@@ -461,16 +437,15 @@ const EconomicsParameters = () => {
                   )
                 );
 
-                const dialogParameters = {
+                const dialogParameters: DialogStuff = {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",
                   type: "economicsParameterImportWorkflowDialog",
                   show: true,
                   exclusive: true,
-                  maxwidth: "md",
+                  maxWidth: "md",
                   iconType: "select",
                   dialogText: "multiSheetFile",
-                  iconColor: theme.palette.primary.main,
                   contentList: workSheetNames,
                 };
                 dispatch(showDialogAction(dialogParameters));

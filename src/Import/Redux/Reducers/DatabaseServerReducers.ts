@@ -26,7 +26,7 @@ const loginReducer = (state = databaseServerState, action: IAction) => {
       };
 
     default:
-      return { ...state };
+      return state;
   }
 };
 

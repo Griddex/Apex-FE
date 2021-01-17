@@ -4,6 +4,7 @@ import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
+import ProtectedRoute from "../Routes/ProtectedRoute";
 import PerpetualSpinner from "./../Components/Visuals/PerpetualSpinner";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
@@ -50,11 +51,11 @@ const App: React.FC<JSX.Element> = () => {
             <Route path="/login" component={LoginRoute} />
             <Route path="/apex" component={Layout} />
             {/* Not authorized will be inside protected route */}
-            {/* <ProtectedRoute
-        path={"/#"}
-        roles={["Officer", "Admin"]}
-        component={Layout}
-      /> */}
+            <ProtectedRoute
+              path={"/apex"}
+              roles={["Officer", "Admin"]}
+              component={Layout}
+            />
             <Route render={() => <h1>Not Found</h1>} />
           </Switch>
         </Suspense>

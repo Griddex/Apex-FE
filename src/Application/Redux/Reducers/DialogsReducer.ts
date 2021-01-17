@@ -52,7 +52,7 @@ const dialogsReducer = (
       };
     }
     default:
-      return { ...state };
+      return state;
   }
 };
 

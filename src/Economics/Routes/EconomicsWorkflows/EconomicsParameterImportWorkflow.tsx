@@ -183,15 +183,17 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
   function renderSingleSheetWorkflow(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <SelectSheet />;
+        return <SelectSheet workflowProcess={workflowProcess as string} />;
       case 1:
-        return <SelectHeaderUnitData />;
+        return (
+          <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
+        );
       case 2:
-        return <MatchHeaders />;
+        return <MatchHeaders workflowProcess={workflowProcess as string} />;
       case 3:
-        return <MatchUnits />;
+        return <MatchUnits workflowProcess={workflowProcess as string} />;
       case 4:
-        return <PreviewSave />;
+        return <PreviewSave workflowProcess={workflowProcess as string} />;
       default:
         return <h1>End</h1>;
     }
@@ -200,17 +202,21 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
   function renderMultiSheetWorkflow(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <SelectWorksheetDialog />;
+        return (
+          <SelectWorksheetDialog workflowProcess={workflowProcess as string} />
+        );
       case 1:
-        return <SelectSheet />;
+        return <SelectSheet workflowProcess={workflowProcess as string} />;
       case 2:
-        return <SelectHeaderUnitData />;
+        return (
+          <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
+        );
       case 3:
-        return <MatchHeaders />;
+        return <MatchHeaders workflowProcess={workflowProcess as string} />;
       case 4:
-        return <MatchUnits />;
+        return <MatchUnits workflowProcess={workflowProcess as string} />;
       case 5:
-        return <PreviewSave />;
+        return <PreviewSave workflowProcess={workflowProcess as string} />;
       default:
         return <h1>End</h1>;
     }
@@ -244,7 +250,7 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
           variant="outlined"
           color="primary"
           onClick={() => {
-            const dialogParameters = {
+            const dialogParameters: DialogStuff = {
               name: "Manage_Deck_Dialog",
               title: `Manage ${subModuleName}`,
               type: "finalizeInputDialog",
@@ -252,7 +258,6 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
               exclusive: true,
               maxWidth: "sm",
               iconType: "information",
-              iconColor: theme.palette.primary.main,
             };
 
             activeStep === steps.length - 1

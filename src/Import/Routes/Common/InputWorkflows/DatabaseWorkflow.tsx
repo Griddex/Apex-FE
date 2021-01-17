@@ -175,17 +175,19 @@ const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcessState) => {
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <ConnectDatabase />;
+        return <ConnectDatabase workflowProcess={workflowProcess as string} />;
       case 1:
-        return <UploadFile />;
+        return <UploadFile workflowProcess={workflowProcess as string} />;
       case 2:
-        return <SelectHeaderUnitData />;
+        return (
+          <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
+        );
       case 3:
-        return <MatchHeaders />;
+        return <MatchHeaders workflowProcess={workflowProcess as string} />;
       case 4:
-        return <MatchUnits />;
+        return <MatchUnits workflowProcess={workflowProcess as string} />;
       case 5:
-        return <PreviewSave />;
+        return <PreviewSave workflowProcess={workflowProcess as string} />;
       default:
         return <h1>No view</h1>;
     }

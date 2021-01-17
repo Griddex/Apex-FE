@@ -3,7 +3,7 @@ import { INetworkState } from "./NetworkStateTypes";
 const networkState: INetworkState = {
   currentElement: {},
   currentPopoverId: "",
-  currentPopoverData: [],
+  currentPopoverData: { data: "" },
   showPopover: false,
   showNetworkElementDetails: null,
   networkName: "",

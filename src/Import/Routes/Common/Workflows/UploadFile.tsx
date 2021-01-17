@@ -4,19 +4,19 @@ import Container from "@material-ui/core/Container";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React from "react";
-import Dropzone, { DropEvent, FileWithPath } from "react-dropzone";
+import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
-import { IWorkflowProcessState } from "../../../../Application/Redux/State/WorkflowStateTypes";
 import {
   importFileInitAction,
   persistFileAction,
   persistWorksheetAction,
   persistWorksheetNamesAction,
 } from "../../../Redux/Actions/ImportActions";
+import { DialogStuff } from "./../../../../Application/Components/Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,13 +70,13 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const dnDDisabled = useSelector(
-    (state: RootState) => state.importReducer.dnDDisabled
-  );
   const theme = useTheme();
+  const { dnDDisabled } = useSelector(
+    (state: RootState) => state.importReducer[workflowProcess]
+  );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) => state.workflowReducer
+    (state: RootState) => state.workflowReducer[workflowProcess]
   );
 
   return (
@@ -114,12 +114,12 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
             dispatch(
               importFileInitAction(
                 fileLastModified,
-                filePath,
+                filePath as string,
                 fileType,
                 fileName,
                 fileSize,
-                fileAuthor,
-                fileCreated,
+                fileAuthor as string,
+                fileCreated as Date,
                 true,
                 true,
                 "Uploading file..."
@@ -130,16 +130,15 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
             dispatch(persistWorksheetNamesAction(workSheetNames));
 
             if (workSheetNames.length > 1) {
-              const dialogParameters = {
+              const dialogParameters: DialogStuff = {
                 name: "Excel_Worksheet_Selection_Dialog",
                 title: "Excel Worksheet Selection",
                 type: "selectWorksheetDialog",
                 show: true,
                 exclusive: true,
-                maxwidth: "sm",
+                maxWidth: "sm",
                 iconType: "select",
                 dialogText: "",
-                iconColor: theme.palette.primary.main,
                 contentList: workSheetNames,
               };
               dispatch(showDialogAction(dialogParameters));
@@ -147,9 +146,9 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
               const selectedWorksheetName = workSheetNames && workSheetNames[0];
               const selectedWorksheetDataXLSX =
                 inputWorkbook.Sheets[selectedWorksheetName];
-              const selectedWorksheetData = xlsx.utils.sheet_to_json(
-                selectedWorksheetDataXLSX
-              );
+              const selectedWorksheetData = xlsx.utils.sheet_to_json<
+                Record<string, React.Key>
+              >(selectedWorksheetDataXLSX);
 
               dispatch(
                 persistWorksheetAction(

@@ -86,12 +86,16 @@ const getApplicationUnits = () => {
   ];
 };
 
-export default function MatchUnits() {
+export default function MatchUnits({
+  workflowProcess,
+}: {
+  workflowProcess: string;
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const { fileUnits, fileUniqueUnits } = useSelector(
-    (state: RootState) => state.importReducer
+    (state: RootState) => state.importReducer[workflowProcess]
   );
 
   //Application headers

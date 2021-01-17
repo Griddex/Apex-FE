@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   selectItem: {},
 }));
 
-const ConnectDatabase = () => {
+const ConnectDatabase = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 

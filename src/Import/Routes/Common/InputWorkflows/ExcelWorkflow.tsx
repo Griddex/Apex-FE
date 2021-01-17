@@ -30,6 +30,7 @@ import { useTheme } from "@material-ui/core";
 import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
 import { IWorkflowProcessState } from "../../../../Application/Redux/State/WorkflowStateTypes";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
+import { DialogStuff } from "./../../../../Application/Components/Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -261,7 +262,7 @@ const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcessState) => {
           variant="outlined"
           color="primary"
           onClick={() => {
-            const dialogParameters = {
+            const dialogParameters: DialogStuff = {
               name: "Manage_Deck_Dialog",
               title: `Manage ${subModuleName}`,
               type: "finalizeInputDialog",
@@ -269,7 +270,6 @@ const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcessState) => {
               exclusive: true,
               maxWidth: "sm",
               iconType: "information",
-              iconColor: theme.palette.primary.main,
             };
 
             activeStep === steps.length - 1

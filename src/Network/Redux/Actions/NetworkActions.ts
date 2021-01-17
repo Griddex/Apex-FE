@@ -1,4 +1,5 @@
 import { FlowElement } from "react-flow-renderer";
+import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
 export const SET_CURRENTELEMENT = "SET_CURRENTELEMENT";
 export const PERSIST_NETWORKELEMENTS = "PERSIST_NETWORKELEMENTS";
@@ -31,7 +32,7 @@ export const setCurrentPopoverIdAction = (currentPopoverId: string) => {
 };
 
 export const setCurrentPopoverDataAction = (
-  currentPopoverData: Record<string, unknown>
+  currentPopoverData: ICurrentPopoverData
 ) => {
   return {
     type: PERSIST_POPOVER,

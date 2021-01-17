@@ -25,7 +25,10 @@ import {
   IDialogData,
 } from "../../Application/Components/Dialogs/DialogTypes";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ITableIconsOptions,
+} from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -139,9 +142,7 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
   const { enqueueSnackbar } = useSnackbar();
 
   const { title, show, maxWidth, iconType, dialogData } = props;
-  const { columns, rows } = dialogData as IDialogData;
-
-  type IRow = Record<string, React.Key>;
+  const { columns, rows } = dialogData as IDialogData<IRawRow>;
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -159,35 +160,19 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
   };
 
   const economicsParametersDialogContent = (
-    columns: readonly Column<IRow, unknown>[],
-    rows: IRow[]
+    columns: Column<IRawRow>[],
+    rows: IRawRow[]
   ) => {
     return (
       <div className={classes.economicParameterDialogContent}>
         <MainTitle title="Economics Parameters 1" />
         <div style={{ width: "100%", height: "500px" }}>
-          <ApexGrid<IRow, ITableIconsOptions>
+          <ApexGrid<IRawRow, ITableIconsOptions>
             columns={columns}
             rows={rows}
             options={tableOptions}
           />
         </div>
-        {/* <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button
-            className={classes.secondaryButton}
-            startIcon={<SaveTwoToneIcon />}
-            onClick={() => console.log("Cancel...")}
-          >
-            Cancel
-          </Button>
-          <Button
-            className={classes.secondaryButton}
-            startIcon={<DoneTwoToneIcon />}
-            onClick={() => console.log("Okay...")}
-          >
-            Okay
-          </Button>
-        </div> */}
       </div>
     );
   };

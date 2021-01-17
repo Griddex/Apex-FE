@@ -1,13 +1,15 @@
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+
 export const SERVERLOGIN_REQUEST = "SERVERLOGIN_REQUEST";
 export const SERVERLOGIN_SUCCESS = "SERVERLOGIN_SUCCESS";
 export const SERVERLOGIN_FAILURE = "SERVERLOGIN_FAILURE";
 
 export const serverLoginRequestAction = (
-  authenticationType,
-  userName,
-  password,
-  successDialogParameters,
-  failureDialogParameters
+  authenticationType: string,
+  userName: string,
+  password: string,
+  successDialogParameters: DialogStuff,
+  failureDialogParameters: DialogStuff
 ) => {
   return {
     type: SERVERLOGIN_REQUEST,

@@ -158,26 +158,24 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         <Typography variant="h6">{contentText && contentText}</Typography>
         <List className={classes.listBorder}>
           {contentList &&
-            contentList.map(
-              (name: ReactNode, i: string | number | null | undefined) => (
-                <ListItem
-                  key={i}
-                  selected={name === selectedListItem}
-                  button
-                  onClick={() => {
-                    setSelectedListItem(name);
-                    dispatch(persistWorksheetAction(name, []));
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                      <DescriptionOutlinedIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText>{name}</ListItemText>
-                </ListItem>
-              )
-            )}
+            contentList.map((name: string, i: number) => (
+              <ListItem
+                key={i}
+                selected={name === selectedListItem}
+                button
+                onClick={() => {
+                  setSelectedListItem(name);
+                  dispatch(persistWorksheetAction(name, []));
+                }}
+              >
+                <ListItemAvatar>
+                  <Avatar className={classes.avatar}>
+                    <DescriptionOutlinedIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText>{name}</ListItemText>
+              </ListItem>
+            ))}
         </List>
         <Divider />
       </DialogContent>

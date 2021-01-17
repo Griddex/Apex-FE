@@ -6,7 +6,11 @@ export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 export const FINALIZE_WORKFLOW = "FINALIZE_WORKFLOW";
 
-export const workflowInitAction = (name, moduleName, steps) => {
+export const workflowInitAction = (
+  name: string,
+  moduleName: string,
+  steps: string[]
+) => {
   return {
     type: INITIALIZE_WORKFLOW,
     payload: {
@@ -17,7 +21,7 @@ export const workflowInitAction = (name, moduleName, steps) => {
     },
   };
 };
-export const workflowResetAction = (name, moduleName) => {
+export const workflowResetAction = (name: string, moduleName: string) => {
   return {
     type: RESET_WORKFLOW,
     payload: {
@@ -27,7 +31,11 @@ export const workflowResetAction = (name, moduleName) => {
     },
   };
 };
-export const workflowNextAction = (name, moduleName, activeStep) => {
+export const workflowNextAction = (
+  name: string,
+  moduleName: string,
+  activeStep: number
+) => {
   return {
     type: NEXT_WORKFLOW,
     payload: {
@@ -37,7 +45,11 @@ export const workflowNextAction = (name, moduleName, activeStep) => {
     },
   };
 };
-export const workflowBackAction = (name, moduleName, activeStep) => {
+export const workflowBackAction = (
+  name: string,
+  moduleName: string,
+  activeStep: number
+) => {
   return {
     type: BACK_WORKFLOW,
     payload: {
@@ -47,7 +59,11 @@ export const workflowBackAction = (name, moduleName, activeStep) => {
     },
   };
 };
-export const workflowSkipAction = (name, moduleName, activeStep) => {
+export const workflowSkipAction = (
+  name: string,
+  moduleName: string,
+  activeStep: number
+) => {
   return {
     type: SKIP_WORKFLOW,
     payload: {
@@ -57,13 +73,13 @@ export const workflowSkipAction = (name, moduleName, activeStep) => {
     },
   };
 };
-export const workflowSaveAction = (name) => {
+export const workflowSaveAction = (name: string) => {
   return {
     type: SAVE_WORKFLOW,
     payload: { workflowName: name },
   };
 };
-export const workflowFinalizeAction = (name) => {
+export const workflowFinalizeAction = (name: string) => {
   return {
     type: FINALIZE_WORKFLOW,
     payload: { workflowName: name },

@@ -1,3 +1,4 @@
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   RUN_FORECAST_REQUEST,
   RUN_FORECAST_SUCCESS,
@@ -18,12 +19,7 @@ import {
   SAVENETWORK_ISVALID,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
-// import { Node, Edge } from "react-flow-renderer";
-interface IAction {
-  type: string;
-  payload: { currentElement: Record<string, unknown> };
-}
-//currentPopoverData
+
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
     case SET_CURRENTELEMENT:
