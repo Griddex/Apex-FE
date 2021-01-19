@@ -37,7 +37,7 @@ function* connectDatabaseSaga(action) {
     const successAction = serverLoginSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode: statusCode, databases: databases },
+      payload: { ...payload, statusCode, databases: databases },
     });
 
     //dispatch spinner
@@ -49,7 +49,7 @@ function* connectDatabaseSaga(action) {
 
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode: statusCode, errors: errors },
+      payload: { ...payload, statusCode, errors },
     });
 
     yield put(showDialogAction(failureDialogParameters));

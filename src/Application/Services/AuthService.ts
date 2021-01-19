@@ -1,8 +1,6 @@
 import axios from "axios";
 
-export const post = (...args) => {
-  const [url, data, config] = args;
-
+export const post = (url: string, data: any, config: any) => {
   return axios.post(url, data, config);
 };
 

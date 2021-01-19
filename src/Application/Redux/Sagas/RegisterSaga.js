@@ -34,7 +34,7 @@ function* registerSaga(action) {
   const statusCode = ""; //Get from success response
 
   try {
-    const result = yield call(
+    const data = yield call(
       registerAPI,
       "https://jsonplaceholder.typicode.com/posts"
     );
@@ -42,7 +42,7 @@ function* registerSaga(action) {
     const successAction = registerSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode: statusCode, result },
+      payload: { ...payload, statusCode, data },
     });
 
     yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
@@ -50,7 +50,7 @@ function* registerSaga(action) {
     const failureAction = registerFailureAction();
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode: statusCode, errors: errors },
+      payload: { ...payload, statusCode, errors },
     });
   }
 

@@ -15,7 +15,6 @@ import { INavigationButtonsProp } from "../../../Application/Components/Navigati
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
 import { createNewProjectAction } from "../../Redux/Actions/ProjectActions";
-import SkipNextOutlinedIcon from "@material-ui/icons/SkipNextOutlined";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProjectNavigationButtons = ({
+const ProjectNavigationButtons1 = ({
   showReset,
   showBack,
   showSkip,
@@ -119,8 +118,9 @@ const ProjectNavigationButtons = ({
             workflowResetAction &&
             dispatch(workflowResetAction(0, workflowProcess as string))
           }
+          startIcon={<RotateLeftIcon />}
         >
-          <RotateLeftIcon />
+          Reset
         </Button>
       )}
       {showBack && (
@@ -132,8 +132,9 @@ const ProjectNavigationButtons = ({
             workflowBackAction &&
             dispatch(workflowBackAction(activeStep, workflowProcess as string))
           }
+          startIcon={<ArrowBackIosIcon />}
         >
-          <ArrowBackIosIcon />
+          Back
         </Button>
       )}
       {showSkip && isStepOptional(activeStep) && (
@@ -152,7 +153,7 @@ const ProjectNavigationButtons = ({
             )
           }
         >
-          <SkipNextOutlinedIcon />
+          Skip
         </Button>
       )}
       {showNext && (
@@ -185,16 +186,19 @@ const ProjectNavigationButtons = ({
                   )
                 );
           }}
+          endIcon={
+            activeStep === steps.length - 1 ? (
+              <DoneAllIcon />
+            ) : (
+              <ArrowForwardIosIcon />
+            )
+          }
         >
-          {activeStep === steps.length - 1 ? (
-            <DoneAllIcon />
-          ) : (
-            <ArrowForwardIosIcon />
-          )}
+          {activeStep === steps.length - 1 ? "Create" : "Next"}
         </Button>
       )}
     </div>
   );
 };
 
-export default ProjectNavigationButtons;
+export default ProjectNavigationButtons1;

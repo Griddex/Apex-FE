@@ -2,6 +2,7 @@ export interface ILayoutState {
   showMainDrawer: boolean;
   expandMainDrawer: boolean;
   mainDrawertext: string;
+  menusDisabled: boolean;
 
   showNavbar: boolean;
   expandNavbar: boolean;
@@ -12,7 +13,7 @@ export interface ILayoutState {
   showSubNavbar: boolean;
   expandSubNavbar: boolean;
 
-  logoutModalOpen: boolean;
+  isLoggedOut: boolean;
 
   loadWorkflow: boolean;
 

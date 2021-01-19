@@ -43,7 +43,7 @@ export const registerSuccessAction = () => {
     type: REGISTER_SUCCESS,
     payload: {
       statusCode: "",
-      result: "",
+      data: "",
     },
   };
 };

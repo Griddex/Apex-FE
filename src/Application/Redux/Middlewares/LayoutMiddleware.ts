@@ -1,6 +1,11 @@
 // import history from "../../Services/HistoryService";
 
-export const LayoutMiddleware = () => (next) => (action) => {
+import { Dispatch } from "redux";
+import { IAction } from "../Actions/ActionTypes";
+
+export const LayoutMiddleware = () => (next: Dispatch<IAction>) => (
+  action: IAction
+) => {
   //handle logout success and failure?
   //Clean up localstorage
   if (action.type === "") {

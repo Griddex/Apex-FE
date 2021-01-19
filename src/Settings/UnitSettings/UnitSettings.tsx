@@ -4,16 +4,29 @@ import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
+import { ISelectItem } from "../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import { persistChosenApplicationUniqueUnitIndicesAction } from "../../Import/Redux/Actions/ImportActions";
-import { IUnitsData, IUnitsRow } from "../Redux/State/UnitSettingsState";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import DateFormatter from "../Components/Dates/DateFormatter";
-import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
 import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
+import DateFormatter from "../Components/Dates/DateFormatter";
+import {
+  successDialogParameters,
+  failureDialogParameters,
+} from "../Components/DialogActions/SuccessFailureDialogs";
+import {
+  fetchUnitSettingsAction,
+  persistChosenAppUniqueUnitSettingsIndicesAction,
+  updateAllUnitsAction,
+  updateFirstLevelUnitSettingsAction,
+} from "../Redux/Actions/UnitSettingsActions";
+import {
+  IUnitSettingsData,
+  IUnitsRow,
+} from "../Redux/State/UnitSettingsStateTypes";
+import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
+import { AppUnitOptionsType } from "./UnitSettingsTypes";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -52,24 +65,12 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-type UnitOptionsType = {
-  value: string;
-  label: string;
-  group: "field" | "metric";
-}[];
-interface AppUnitOptionsType {
-  [key: string]: [UnitOptionsType, UnitOptionsType];
-}
-interface ISelectItem {
-  currentItem: string;
-  itemData: string[];
-  handleChange: (event: React.ChangeEvent<any>) => void;
-  label?: string;
-  selectItemStyle?: CSSProperties;
-}
-
 //TODO: API saga to get entire units object from server
-const unitsData: IUnitsData = {
+const unitsData: IUnitSettingsData = {
+  pressureAddend: 14.7,
+  dayFormat: "dd",
+  monthFormat: "mm",
+  yearFormat: "yyyy",
   globalUnitGroup: "Field",
   allUnits: [
     {
@@ -108,7 +109,6 @@ const unitsData: IUnitsData = {
 };
 
 export default function UnitSettings({
-  dateFormat,
   pressureAddend,
   errors,
   touched,
@@ -130,25 +130,16 @@ export default function UnitSettings({
   const [day, setDay] = React.useState(dayDateFormats[0]);
   const [month, setMonth] = React.useState(monthDateFormats[0]);
   const [year, setYear] = React.useState(yearDateFormats[0]);
+  const [pressAddend, setPressAddend] = React.useState(pressureAddend);
 
-  const handleGlobalUnitGroupChange = (event: ChangeEvent<any>) => {
-    const item = event.target.value;
-    setGlobalUnitGroup(item);
-  };
-  const handleDayChange = (event: ChangeEvent<any>) => {
-    const item = event.target.value;
-    setDay(item);
-  };
-  const handleMonthChange = (event: ChangeEvent<any>) => {
-    const item = event.target.value;
-    setMonth(item);
-  };
-  const handleYearChange = (event: ChangeEvent<any>) => {
-    const item = event.target.value;
-    setYear(item);
+  const handleFirstLevelSettingsChange = (event: ChangeEvent<any>) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    dispatch(updateFirstLevelUnitSettingsAction(name, value));
   };
 
   const SelectItem = ({
+    name,
     currentItem,
     itemData,
     handleChange,
@@ -157,6 +148,7 @@ export default function UnitSettings({
   }: ISelectItem) => {
     return (
       <TextField
+        name={name}
         style={selectItemStyle}
         id="outlined-select-worksheet"
         select
@@ -392,14 +384,23 @@ export default function UnitSettings({
 
   const rows = tableRows.current;
 
-  React.useEffect(() => {
-    // dispatch(persistFileUnitsMatchAction(fileUniqueUnitMatches));
-    dispatch(
-      persistChosenApplicationUniqueUnitIndicesAction(chosenAppUnitIndices)
-    );
+  //Pre-Fetch unit settings collection
 
+  React.useEffect(() => {
+    dispatch(
+      fetchUnitSettingsAction(successDialogParameters, failureDialogParameters)
+    );
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(
+      persistChosenAppUniqueUnitSettingsIndicesAction(chosenAppUnitIndices)
+    );
+    dispatch(updateAllUnitsAction(rows));
+
+    dispatch(hideSpinnerAction());
   }, [dispatch, rows]);
 
   const helperText =
@@ -417,9 +418,10 @@ export default function UnitSettings({
         <div>
           <AnalyticsTitle title="Global Units Group" />
           <SelectItem
+            name="globalUnitGroup"
             currentItem={globalUnitGroup}
             itemData={unitGroups}
-            handleChange={handleGlobalUnitGroupChange}
+            handleChange={handleFirstLevelSettingsChange}
           />
         </div>
         <div
@@ -438,21 +440,24 @@ export default function UnitSettings({
               titleStyle={{ minWidth: 120 }}
             />
             <SelectItem
+              name="dayFormat"
               currentItem={day}
               itemData={dayDateFormats}
-              handleChange={handleDayChange}
+              handleChange={handleFirstLevelSettingsChange}
               selectItemStyle={{ minWidth: 60 }}
             />
             <SelectItem
+              name="monthFormat"
               currentItem={month}
               itemData={monthDateFormats}
-              handleChange={handleMonthChange}
+              handleChange={handleFirstLevelSettingsChange}
               selectItemStyle={{ minWidth: 60 }}
             />
             <SelectItem
+              name="yearFormat"
               currentItem={year}
               itemData={yearDateFormats}
-              handleChange={handleYearChange}
+              handleChange={handleFirstLevelSettingsChange}
               selectItemStyle={{ minWidth: 60 }}
             />
             <DateFormatter
@@ -472,8 +477,8 @@ export default function UnitSettings({
                 style={{ width: "100%" }}
                 helperText={helperText}
                 error={Boolean(helperText)}
-                value={pressureAddend}
-                onChange={handleChange}
+                value={pressAddend}
+                onChange={handleFirstLevelSettingsChange}
                 required
                 autoFocus
                 fullWidth

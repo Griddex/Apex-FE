@@ -4,6 +4,7 @@ const layoutState: ILayoutState = {
   showMainDrawer: true,
   expandMainDrawer: false,
   mainDrawertext: "",
+  menusDisabled: true,
 
   showNavbar: true,
   expandNavbar: false,
@@ -14,7 +15,7 @@ const layoutState: ILayoutState = {
   showSubNavbar: true,
   expandSubNavbar: false,
 
-  logoutModalOpen: false,
+  isLoggedOut: false,
 
   loadWorkflow: false,
 

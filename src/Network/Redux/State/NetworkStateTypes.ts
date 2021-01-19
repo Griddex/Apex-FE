@@ -15,7 +15,7 @@ export interface ISaveNetworkFormProps extends ISaveNetworkFormValues {
   touched?: FormikTouched<ISaveNetworkFormValues>;
   isValid?: boolean;
   statusCode?: string;
-  result?: string;
+  data?: string;
   handleChange?: (event: React.ChangeEvent<any>) => void;
   children?: (props: ISaveNetworkFormValues) => JSX.Element;
   isValids?: { saveNetworkExtrudeIsValid: boolean };
@@ -41,7 +41,7 @@ export interface ISaveForecastParametersFormProps
   touched?: FormikTouched<ISaveForecastParametersFormValues>;
   isValid?: boolean;
   statusCode?: string;
-  result?: string;
+  data?: string;
   handleChange?: (event: React.ChangeEvent<any>) => void;
 }
 
@@ -71,7 +71,7 @@ export interface INetworkState extends ISaveNetworkFormProps {
   showWellheadSummaryNodes: boolean;
   showWellheadSummaryEdges: boolean;
   // statusCode: string;
-  // result: string;
+  // data: string;
   // errors: string[];
   saveForecastParameters: ISaveForecastParametersFormValues;
 }

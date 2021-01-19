@@ -3,7 +3,6 @@ import { FormikErrors, FormikTouched } from "formik";
 export interface INewProjectFormValues {
   projectName: string;
   projectDescription: string;
-  dateFormat: string;
   pressureAddend: number;
 }
 
@@ -13,8 +12,6 @@ export interface INewProjectWorkflowProps
   errors?: FormikErrors<INewProjectFormValues>;
   touched?: FormikTouched<INewProjectFormValues>;
   isValid?: boolean;
-  statusCode?: string;
-  result?: string;
   handleChange?: (event: React.ChangeEvent<any>) => void;
 }
 

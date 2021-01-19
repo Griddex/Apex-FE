@@ -15,6 +15,7 @@ import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
 import { IIconNameComp, IUserDetails } from "./UserTypes";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import { logoutAction } from "../../Redux/Actions/LogoutActions";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: 80, width: 80 },
@@ -85,6 +86,7 @@ const UserProfile = () => {
           handleAction: () => {
             sessionStorage.clear();
             history.replace("/login");
+            dispatch(logoutAction());
           },
         },
       ];

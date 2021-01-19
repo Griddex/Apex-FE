@@ -21,7 +21,7 @@ export interface IUserState {
   avatarUrl?: string;
 
   statusCode: string;
-  result: string;
+  data: string;
   errors: string[];
   isAdmin: boolean;
   isAthenticated: boolean;

@@ -30,7 +30,7 @@ function* saveForecastParametersSaga(action: IAction) {
   const statusCode = ""; //Get from success response
 
   try {
-    const result = yield call(
+    const data = yield call(
       saveForecastParametersAPI,
       "https://jsonplaceholder.typicode.com/posts" //This is the URL endpoint you should change
     );
@@ -38,7 +38,7 @@ function* saveForecastParametersSaga(action: IAction) {
     const successAction = saveForecastParametersSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, result },
+      payload: { ...payload, statusCode, data },
     });
 
     // yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form

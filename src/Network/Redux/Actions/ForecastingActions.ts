@@ -21,7 +21,7 @@ export const runForecastSuccessAction = () => {
     type: RUN_FORECAST_SUCCESS,
     payload: {
       statusCode: "",
-      result: "",
+      data: "",
     },
   };
 };
@@ -48,7 +48,7 @@ export const saveForecastParametersSuccessAction = () => {
     type: SAVE_FORECASTPARAMETERS_SUCCESS,
     payload: {
       statusCode: "",
-      result: "",
+      data: "",
     },
   };
 };

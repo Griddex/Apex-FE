@@ -17,11 +17,7 @@ const UserProfilePopover = ({ children }: IUserProfilePopover) => {
             "Logged output --> ~ file: UserProfilePopover.tsx ~ line 18 ~ UserProfilePopover ~ style",
             style
           );
-          return (
-            // <div style={style}>
-            <UserProfile />
-            // </div>
-          );
+          return <UserProfile />;
         }}
       </Motion>
     </Popover>

@@ -32,7 +32,9 @@ const useStyles = makeStyles((theme) => {
     appBar: {
       backgroundColor: "#FFF",
       width: (props: ReturnType<typeof layoutReducer>) => {
-        return `calc(100% - ${props.expandMainDrawer ? 100 : 40}px)`;
+        return `calc(100% - ${
+          props.expandMainDrawer ? theme.spacing(12) : theme.spacing(5)
+        }px)`;
       },
       height: navbarHeight,
       zIndex: theme.zIndex.drawer,
@@ -43,9 +45,11 @@ const useStyles = makeStyles((theme) => {
     },
     appBarShift: {
       marginLeft: (props: ReturnType<typeof layoutReducer>) =>
-        props.expandMainDrawer ? 100 : 40,
+        props.expandMainDrawer ? theme.spacing(12) : theme.spacing(5),
       width: (props: ReturnType<typeof layoutReducer>) =>
-        `calc(100% - ${props.expandMainDrawer ? 100 : 40}px)`,
+        `calc(100% - ${
+          props.expandMainDrawer ? theme.spacing(12) : theme.spacing(5)
+        }px)`,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,

@@ -18,6 +18,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       return {
         ...state,
         [workflowProcessDefined]: {
+          activeStep: 0,
           steps: action.payload.steps,
           isStepSkipped: action.payload.isStepSkipped,
           isStepOptional: action.payload.isStepOptional,

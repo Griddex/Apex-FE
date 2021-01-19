@@ -17,7 +17,7 @@ const userState: IUserState = {
   avatarUrl: "",
 
   statusCode: "",
-  result: "",
+  data: "",
   errors: [],
   isAdmin: false,
   isAthenticated: false,

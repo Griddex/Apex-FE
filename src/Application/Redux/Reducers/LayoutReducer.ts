@@ -17,18 +17,19 @@ import {
   HIDE_NAVBAR,
   EXPAND_NAVBAR,
   COLLAPSE_NAVBAR,
-  LAYOUT_DEFAULT,
-  IMPORTLAYOUT_DEFAULT,
-  LAYOUT_LOAD_WORKFLOW,
-  LAYOUT_WORKFLOWS_LANDING,
-  LAYOUT_SIMPLEDIALOG_TOGGLE,
+  DEFAULT,
+  IMPORTDEFAULT,
+  LOAD_WORKFLOW,
+  WORKFLOWS_LANDING,
+  SIMPLEDIALOG_TOGGLE,
+  ACTIVATE_DISABLEDMENUS,
 } from "../Actions/LayoutActions";
 import UILayoutState from "../State/LayoutState";
 
 const layoutReducer = (state = UILayoutState, action: IAction) => {
   switch (action.type) {
     //UI LAYOUT DEFAULT
-    case LAYOUT_DEFAULT:
+    case DEFAULT:
       return {
         ...state,
         showMainDrawer: action.payload.showMainDrawer,
@@ -38,7 +39,7 @@ const layoutReducer = (state = UILayoutState, action: IAction) => {
       };
 
     //IMPORT LAYOUT DEFAULT
-    case IMPORTLAYOUT_DEFAULT:
+    case IMPORTDEFAULT:
       return {
         ...state,
         showSubNavbar: action.payload.showSubNavbar,
@@ -140,20 +141,25 @@ const layoutReducer = (state = UILayoutState, action: IAction) => {
         expandNavbar: action.payload.expandNavbar,
       };
 
-    case LAYOUT_LOAD_WORKFLOW:
+    case LOAD_WORKFLOW:
       return {
         ...state,
         loadWorkflow: action.payload.loadWorkflow,
       };
-    case LAYOUT_WORKFLOWS_LANDING:
+    case WORKFLOWS_LANDING:
       return {
         ...state,
         loadWorkflow: action.payload.loadWorkflow,
       };
-    case LAYOUT_SIMPLEDIALOG_TOGGLE:
+    case SIMPLEDIALOG_TOGGLE:
       return {
         ...state,
         simpleDialogOpen: action.payload.simpleDialogOpen,
+      };
+    case ACTIVATE_DISABLEDMENUS:
+      return {
+        ...state,
+        menusDisabled: action.payload.menusDisabled,
       };
     default:
       return {

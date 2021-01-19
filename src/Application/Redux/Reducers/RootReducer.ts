@@ -11,6 +11,7 @@ import uiSpinnerReducer from "./UISpinnerReducer";
 import workflowReducer from "./WorkflowReducer";
 import economicsReducer from "./../../../Economics/Redux/Reducers/EconomicsReducers";
 import projectReducer from "../../../Project/Redux/Reducers/ProjectReducer";
+import unitSettingsReducer from "../../../Settings/Redux/Reducers/UnitSettingsReducer";
 
 const rootReducer = combineReducers({
   loginReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   networkReducer,
   economicsReducer,
   projectReducer,
+  unitSettingsReducer,
 });
 export default rootReducer;
 

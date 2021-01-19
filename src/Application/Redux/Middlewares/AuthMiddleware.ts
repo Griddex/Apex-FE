@@ -1,8 +1,14 @@
-const authMiddleware = ({ getState }) => (next) => (action) => {
+import { Dispatch, MiddlewareAPI } from "redux";
+import { IAction } from "../Actions/ActionTypes";
+
+//flag to define data binding modus operandi
+const authMiddleware = ({ getState }: MiddlewareAPI) => (
+  next: Dispatch<IAction>
+) => (action: IAction) => {
   const falsies = [null, undefined, false, ""];
   if (falsies.some((value) => value === action.meta)) return next(action);
 
-  if (action.meta.addAuth) {
+  if (action.meta && action.meta.addAuth) {
     const authToken = getState().loginReducer.token;
 
     const actionAuth = {

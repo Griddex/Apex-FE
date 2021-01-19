@@ -13,7 +13,7 @@ const networkState: INetworkState = {
   showWellheadSummaryNodes: true,
   showWellheadSummaryEdges: true,
   statusCode: "",
-  result: "",
+  data: "",
 
   saveForecastParameters: {
     forecastParametersName: "",

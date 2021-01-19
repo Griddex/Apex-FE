@@ -10,7 +10,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Formik } from "formik";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { loginAction } from "../../Redux/Actions/LoginActions";
@@ -49,10 +49,6 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = React.useState(false);
-  // const handleMouseDownPassword = (event: ChangeEvent<any>) => {
-  //   event.preventDefault();
-  // };
-
   //Need a local json file for remember me?
 
   return (

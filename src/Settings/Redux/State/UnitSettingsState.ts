@@ -1,21 +1,19 @@
-export interface IUnitsRow {
-  sn?: number;
-  key: string;
-  parameter: string;
-  appUnitOptions: Record<string, "field" | "metric">[];
-  selectedAppUnitIndex: number;
-}
+import { number } from "prop-types";
+import { IHTTPResponse, IUnitSettingsData } from "./UnitSettingsStateTypes";
 
-export interface IUnitsData {
-  globalUnitGroup: "Field" | "Metric" | "Mixed";
-  allUnits: IUnitsRow[];
-  chosenAppUnitIndices?: number[];
-}
-
-const unitSettingsState: IUnitsData = {
-  globalUnitGroup: "Field",
-  allUnits: [],
-  chosenAppUnitIndices: [],
+const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
+  IHTTPResponse = {
+  unitSettingsData: {
+    pressureAddend: 14.7,
+    dayFormat: "dd",
+    monthFormat: "mm",
+    yearFormat: "yyyy",
+    globalUnitGroup: "Field",
+    allUnits: [],
+    chosenAppUnitIndices: [],
+  },
+  statusCode: 200,
+  error: [],
 };
 
 export default unitSettingsState;

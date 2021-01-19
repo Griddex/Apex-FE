@@ -15,11 +15,12 @@ export const SHOW_NAVBAR = "SHOW_NAVBAR";
 export const HIDE_NAVBAR = "HIDE_NAVBAR";
 export const EXPAND_NAVBAR = "EXPAND_NAVBAR";
 export const COLLAPSE_NAVBAR = "COLLAPSE_NAVBAR";
-export const LAYOUT_DEFAULT = "LAYOUT_DEFAULT";
-export const IMPORTLAYOUT_DEFAULT = "IMPORTLAYOUT_DEFAULT";
-export const LAYOUT_LOAD_WORKFLOW = "LAYOUT_LOAD_WORKFLOW";
-export const LAYOUT_WORKFLOWS_LANDING = "LAYOUT_WORKFLOWS_LANDING";
-export const LAYOUT_SIMPLEDIALOG_TOGGLE = "LAYOUT_SIMPLEDIALOG_TOGGLE";
+export const DEFAULT = "DEFAULT";
+export const IMPORTDEFAULT = "IMPORTDEFAULT";
+export const LOAD_WORKFLOW = "LOAD_WORKFLOW";
+export const WORKFLOWS_LANDING = "WORKFLOWS_LANDING";
+export const SIMPLEDIALOG_TOGGLE = "SIMPLEDIALOG_TOGGLE";
+export const ACTIVATE_DISABLEDMENUS = "ACTIVATE_DISABLEDMENUS";
 
 //MAIN DRAWER
 export const mainDrawerShowAction = () => {
@@ -133,7 +134,7 @@ export const navbarCollapseAction = () => {
 
 export const UILayoutDefaultAction = () => {
   return {
-    type: LAYOUT_DEFAULT,
+    type: DEFAULT,
     payload: {
       showMainDrawer: true,
       expandMainDrawer: false,
@@ -144,7 +145,7 @@ export const UILayoutDefaultAction = () => {
 };
 export const ImportLayoutDefaultAction = () => {
   return {
-    type: IMPORTLAYOUT_DEFAULT,
+    type: IMPORTDEFAULT,
     payload: {
       showSubNavbar: true,
       expandSubNavbar: false,
@@ -156,20 +157,27 @@ export const ImportLayoutDefaultAction = () => {
 
 export const loadWorkflowAction = () => {
   return {
-    type: LAYOUT_LOAD_WORKFLOW,
+    type: LOAD_WORKFLOW,
     payload: { loadWorkflow: true },
   };
 };
 export const navigateResetWorkflowAction = () => {
   return {
-    type: LAYOUT_WORKFLOWS_LANDING,
+    type: WORKFLOWS_LANDING,
     payload: { loadWorkflow: false },
   };
 };
 
 export const simpleDialogOpenAction = (isOpen: boolean) => {
   return {
-    type: LAYOUT_SIMPLEDIALOG_TOGGLE,
+    type: SIMPLEDIALOG_TOGGLE,
     payload: { simpleDialogOpen: isOpen },
+  };
+};
+
+export const activateDisabledMenusAction = () => {
+  return {
+    type: ACTIVATE_DISABLEDMENUS,
+    payload: { menusDisabled: true },
   };
 };

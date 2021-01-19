@@ -1,28 +1,27 @@
 import { IAction } from "../Actions/ActionTypes";
 import {
-  LAYOUT_LOGOUTMODAL_OPEN,
-  LAYOUT_LOGOUTMODAL_CLOSE,
-  LAYOUT_LOGOUT_USER,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
 } from "../Actions/LogoutActions";
 import userState from "../State/UserState";
 
 export const logoutReducer = (state = userState, action: IAction) => {
   switch (action.type) {
-    //LOGOUT
-    case LAYOUT_LOGOUTMODAL_OPEN:
+    case LOGOUT_REQUEST:
       return {
         ...state,
-        logoutModalOpen: action.payload.logoutModalOpen,
+        isLoggedOut: action.payload.isLoggedOut,
       };
-    case LAYOUT_LOGOUTMODAL_CLOSE:
+    case LOGOUT_SUCCESS:
       return {
         ...state,
-        logoutModalOpen: action.payload.logoutModalOpen,
+        isLoggedOut: action.payload.isLoggedOut,
       };
-    case LAYOUT_LOGOUT_USER:
+    case LOGOUT_FAILURE:
       return {
         ...state,
-        logoutModalOpen: action.payload.logoutModalOpen,
+        isLoggedOut: action.payload.isLoggedOut,
       };
 
     default:

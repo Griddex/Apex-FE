@@ -3,10 +3,10 @@ import {
   NEWPROJECT_SUCCESS,
   NEWPROJECT_FAILURE,
 } from "../Actions/ProjectActions";
-import newProjectState from "../State/ProjectState";
+import projectState from "../State/ProjectState";
 
 const projectReducer = (
-  state = newProjectState,
+  state = projectState,
   action: {
     type: string;
     name: string;
@@ -34,12 +34,12 @@ const projectReducer = (
     }
 
     case NEWPROJECT_SUCCESS: {
-      const { statusCode, result } = action.payload;
+      const { statusCode, data } = action.payload;
 
       return {
         ...state,
         statusCode,
-        result,
+        data,
       };
     }
 

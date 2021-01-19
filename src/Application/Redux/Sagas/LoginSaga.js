@@ -33,7 +33,7 @@ function* loginSaga(action) {
     const successAction = loginSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode: statusCode, token: userToken },
+      payload: { ...payload, statusCode, token: userToken },
     });
 
     yield call(forwardTo, "/apex");
@@ -41,7 +41,7 @@ function* loginSaga(action) {
     const failureAction = loginFailureAction();
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode: statusCode, errors: errors },
+      payload: { ...payload, statusCode, errors },
     });
   }
 

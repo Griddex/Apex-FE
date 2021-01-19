@@ -1,14 +1,14 @@
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import rootReducer from "./../Reducers/RootReducer";
+import rootReducer from "../Reducers/RootReducer";
 import createSagaMiddleware from "redux-saga";
 import watchLoginSaga from "../Sagas/LoginSaga";
-import watchNewProjectSaga from "../../../Project/Redux/Sagas/NewProjectSaga";
+import watchCreateNewProjectSaga from "../../../Project/Redux/Sagas/CreateNewProjectSaga";
 import watchRegisterSaga from "../Sagas/RegisterSaga";
 import watchConnectDatabaseSaga from "../../../Import/Redux/Sagas/connectDatabaseSaga";
 import { spawn } from "redux-saga/effects";
-import authMiddleware from "./../Middlewares/AuthMiddleware";
-import uiSpinnerMiddleware from "./../Middlewares/UISpinnerMiddleware";
+import authMiddleware from "../Middlewares/AuthMiddleware";
+import uiSpinnerMiddleware from "../Middlewares/UISpinnerMiddleware";
 import watchRunForecastSaga from "../../../Network/Redux/Sagas/RunForecastSaga";
 
 function* rootSaga() {
@@ -16,7 +16,7 @@ function* rootSaga() {
   yield spawn(watchRegisterSaga);
   yield spawn(watchConnectDatabaseSaga);
   yield spawn(watchRunForecastSaga);
-  yield spawn(watchNewProjectSaga);
+  yield spawn(watchCreateNewProjectSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

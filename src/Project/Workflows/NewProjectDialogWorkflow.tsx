@@ -26,8 +26,12 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   const workflowProcess = "newProjectDialogWorkflow";
 
   const skipped = new Set<number>();
-  const activeStep = useSelector(
+  const { activeStep } = useSelector(
     (state: RootState) => state.workflowReducer[workflowProcess]
+  );
+  console.log(
+    "Logged output --> ~ file: NewProjectDialogWorkflow.tsx ~ line 32 ~ NewProjectDialogWorkflow ~ activeStep",
+    activeStep
   );
 
   const isStepOptional = useCallback(
@@ -47,7 +51,10 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  const renderImportStep = (props: INewProjectWorkflowProps) => {
+  const renderImportStep = (
+    activeStep: number,
+    props: INewProjectWorkflowProps
+  ) => {
     switch (activeStep) {
       case 0:
         return <NewProjectNameDescription {...props} />;
@@ -82,18 +89,15 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
         {({
           projectName,
           projectDescription,
-          dateFormat,
           pressureAddend,
           errors,
           touched,
           handleChange,
           isValid,
         }) =>
-          renderImportStep({
-            activeStep,
+          renderImportStep(activeStep, {
             projectName,
             projectDescription,
-            dateFormat,
             pressureAddend,
             errors,
             touched,

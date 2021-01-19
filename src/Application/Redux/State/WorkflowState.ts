@@ -4,6 +4,7 @@ const workflowNames = [
   "forecastInputDeckImport",
   "economicsWorkflow",
   "economicsParameterImportWorkflow",
+  "newProjectDialogWorkflow",
 ];
 
 const generateWorkflowState = (): WorkflowStateType => {

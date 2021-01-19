@@ -1,15 +1,24 @@
 import Menu from "@material-ui/core/Menu";
 import React from "react";
 import { XYPosition } from "react-flow-renderer";
+import { useSelector } from "react-redux";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
-import NewProjectPopover from "../Popovers/NewProjectPopover";
+import NewProjectPopover from "../../../Project/Components/Popovers/NewProjectPopover";
+import { RootState } from "../../Redux/Reducers/RootReducer";
 
 const ProjectContextMenu = ({
   children,
   setOpenTooltip,
 }: IContextMenuProps) => {
+  const { expandMainDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
+
   const [open, setOpen] = React.useState(false);
-  const [nodePosition] = React.useState({ x: 40, y: 51 });
+  const nodePosition = {
+    x: expandMainDrawer ? 95 : 40,
+    y: 51,
+  };
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -43,7 +52,7 @@ const ProjectContextMenu = ({
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}
       >
-        <NewProjectPopover name="Name" />
+        <NewProjectPopover />
       </Menu>
     </div>
   );
