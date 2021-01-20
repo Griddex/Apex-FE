@@ -2,7 +2,7 @@ import { call, put, select, takeLatest } from "redux-saga/effects";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../../Application/Services/AuthService";
 import {
   fetchUnitSettingsFailureAction,

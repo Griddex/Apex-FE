@@ -29,15 +29,15 @@ const useStyles = makeStyles((theme) => ({
     height: 180,
     padding: 5,
   },
-  name: { marginLeft: 15 },
+  userName: { fontWeight: "bold" },
   userLogout: {
-    marginRight: theme.spacing(0),
     border: `2px solid ${theme.palette.secondary.main}`,
     color: `${theme.palette.secondary.main}`,
     fontWeight: "bold",
     width: 70,
     alignSelf: "center",
     marginTop: 20,
+    marginBottom: 10,
   },
   badge: { marginRight: 15 },
 }));
@@ -135,10 +135,10 @@ const UserProfile = () => {
     >
       <div className={classes.userProfile}>
         <Image className={classes.image} src={userProfileData.avatarUrl} />
-        <Typography className={classes.name}>{userProfileData.name}</Typography>
-        <Typography className={classes.name}>
-          {userProfileData.email}
+        <Typography className={classes.userName}>
+          {userProfileData.name}
         </Typography>
+        <Typography>{userProfileData.email}</Typography>
       </div>
       <div
         style={{

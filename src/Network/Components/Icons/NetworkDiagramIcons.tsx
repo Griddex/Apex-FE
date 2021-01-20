@@ -10,7 +10,7 @@ import saveNetworkExtrude from "../DialogExtrusion/SaveNetworkExtrude";
 import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
 import { INetworkDiagramIcons } from "./NetworkDiagramIconsTypes";
 import networkReducer from "./../../Redux/Reducers/NetworkReducers";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles(() => ({
   networkContentIcons: {

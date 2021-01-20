@@ -1,10 +1,7 @@
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import { SELECT_FORECASTRUN } from "../Actions/EconomicsActions";
-import EconomicsState, { IEconomicsState } from "../State/EconomicsState";
-
-interface IAction {
-  type: string;
-  payload: IEconomicsState;
-}
+import EconomicsState from "../State/EconomicsState";
 
 const economicsReducer = (state = EconomicsState, action: IAction) => {
   switch (action.type) {

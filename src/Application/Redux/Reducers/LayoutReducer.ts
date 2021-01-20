@@ -24,6 +24,7 @@ import {
   SIMPLEDIALOG_TOGGLE,
   ACTIVATE_DISABLEDMENUS,
 } from "../Actions/LayoutActions";
+import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import UILayoutState from "../State/LayoutState";
 
 const layoutReducer = (state = UILayoutState, action: IAction) => {
@@ -161,6 +162,10 @@ const layoutReducer = (state = UILayoutState, action: IAction) => {
         ...state,
         menusDisabled: action.payload.menusDisabled,
       };
+
+    case LOGOUT_REQUEST:
+      return { ...state, undefined };
+
     default:
       return {
         ...state,

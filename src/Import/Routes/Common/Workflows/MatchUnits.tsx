@@ -17,7 +17,7 @@ import {
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationUniqueUnitIndicesAction,

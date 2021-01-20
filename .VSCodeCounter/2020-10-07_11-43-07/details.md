@@ -64,7 +64,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Application/Redux/Reducers/LoginReducer.js](/src/Application/Redux/Reducers/LoginReducer.js) | JavaScript | 35 | 0 | 4 | 39 |
 | [src/Application/Redux/Reducers/LogoutReducer.js](/src/Application/Redux/Reducers/LogoutReducer.js) | JavaScript | 27 | 1 | 3 | 31 |
 | [src/Application/Redux/Reducers/RegisterReducer.js](/src/Application/Redux/Reducers/RegisterReducer.js) | JavaScript | 34 | 0 | 2 | 36 |
-| [src/Application/Redux/Reducers/RootReducer.js](/src/Application/Redux/Reducers/RootReducer.js) | JavaScript | 20 | 0 | 2 | 22 |
+| [src/Application/Redux/Reducers/AllReducers.js](/src/Application/Redux/Reducers/AllReducers.js) | JavaScript | 20 | 0 | 2 | 22 |
 | [src/Application/Redux/Reducers/UISpinnerReducer.js](/src/Application/Redux/Reducers/UISpinnerReducer.js) | JavaScript | 13 | 0 | 5 | 18 |
 | [src/Application/Redux/Reducers/WorkflowReducer.js](/src/Application/Redux/Reducers/WorkflowReducer.js) | JavaScript | 62 | 2 | 14 | 78 |
 | [src/Application/Redux/Sagas/LoginSaga.js](/src/Application/Redux/Sagas/LoginSaga.js) | JavaScript | 45 | 0 | 9 | 54 |

@@ -1,4 +1,5 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
   RUN_FORECAST_REQUEST,
   RUN_FORECAST_SUCCESS,
@@ -102,6 +103,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         isValids: { ...action.payload },
       };
+
     default:
       return state;
   }

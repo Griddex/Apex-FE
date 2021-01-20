@@ -2,7 +2,7 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
 import WorkflowBanner from "../Application/Components/Workflows/WorkflowBanner";
-import { RootState } from "../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../Application/Redux/Reducers/AllReducers";
 import ProjectSettingsPanel from "./Components/Panels/ProjectSettingsPanel";
 import UnitSettings from "./UnitSettings/UnitSettings";
 

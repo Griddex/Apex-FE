@@ -1,9 +1,10 @@
 import { TextareaAutosize, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../Application/Components/Basic/AnalyticsComp";
 import { hideSpinnerAction } from "../Application/Redux/Actions/UISpinnerActions";
+import { updateProjectAction } from "./Redux/Actions/ProjectActions";
 import { INewProjectWorkflowProps } from "./Redux/State/ProjectStateTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   selectItem: {},
 }));
 
-const NewProjectNameDescription = ({
+const NewProjectNameAndDescription = ({
   projectName,
   projectDescription,
   errors,
@@ -59,8 +60,14 @@ const NewProjectNameDescription = ({
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const handleBlur = (event: ChangeEvent<any>) => {
+    const { name, value } = event.target;
+    dispatch(updateProjectAction(name, value));
+  };
+
   const helperText =
     touched && touched.projectName ? errors && errors.projectName : "";
+
   return (
     <div>
       <AnalyticsComp
@@ -75,6 +82,7 @@ const NewProjectNameDescription = ({
             error={Boolean(helperText)}
             value={projectName}
             onChange={handleChange}
+            onBlur={handleBlur}
             required
             autoFocus
             fullWidth
@@ -92,6 +100,7 @@ const NewProjectNameDescription = ({
             rowsMin={20}
             value={projectDescription}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         }
       />
@@ -99,4 +108,4 @@ const NewProjectNameDescription = ({
   );
 };
 
-export default NewProjectNameDescription;
+export default NewProjectNameAndDescription;

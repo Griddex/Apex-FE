@@ -14,7 +14,7 @@ import {
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import AddSerialNumberToTable from "../../../../Application/Utils/AddSerialNumberToTable";
 import cleanTableData from "../../../../Application/Utils/CleanTableData";
 import generateColumnNameInfo from "../../../../Application/Utils/GenerateColumnNameInfo";

@@ -6,7 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { RefObject } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";

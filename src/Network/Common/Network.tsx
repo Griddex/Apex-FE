@@ -21,7 +21,7 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
 import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
 import {

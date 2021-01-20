@@ -8,7 +8,7 @@ import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDi
 import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
 import FinalizeInputDialog from "./FinalizeInputDialog";
 import ListDialog from "./ListDialog";
@@ -32,7 +32,7 @@ const applicationDialogs: IApplicationDialogs = {
 
 const Dialogs: React.FC<DialogStuff> = () => {
   const dialogs = useSelector(
-    (state: RootState) => state.dialogsReducer.dialogs
+    (state: RootState) => state.dialogsReducer && state.dialogsReducer.dialogs
   );
 
   return (

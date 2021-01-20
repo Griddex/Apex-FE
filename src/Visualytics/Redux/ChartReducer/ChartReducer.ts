@@ -1,3 +1,5 @@
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
   PERSIST_CHARTINDEX,
   PERSIST_CHARTELEMENTID,
@@ -8,7 +10,7 @@ import {
 } from "../ChartActions/ChartActions";
 import chartState from "../ChartState/ChartState";
 
-const chartReducer = (state = chartState, action) => {
+const chartReducer = (state = chartState, action: IAction) => {
   switch (action.type) {
     case PERSIST_CHARTINDEX:
       return {
@@ -66,6 +68,7 @@ const chartReducer = (state = chartState, action) => {
         chartObjects: [...otherObjects, updatedSelectedChartElement],
       };
     }
+
     default:
       return state;
   }

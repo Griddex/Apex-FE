@@ -12,7 +12,7 @@ import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import MainTitle from "../../Application/Components/Basic/MainTitle";
 import Status from "../../Application/Components/Status/Status";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import formatDate from "../../Application/Utils/FormatDate";
 import {
   anitaImg,

@@ -5,7 +5,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Visualytics from "../../../Visualytics/Common/Visualytics";
 import { setCurrentMainTabValueAction } from "../../Redux/Actions/ApplicationActions";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ITabData, ITabPanel } from "./TabsWrapperTypes";
 
 const useStyles = makeStyles((theme) => ({

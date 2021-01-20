@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   importFileInitAction,
   persistFileAction,

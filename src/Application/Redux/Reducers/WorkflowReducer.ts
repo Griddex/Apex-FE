@@ -1,3 +1,4 @@
+import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import {
   INITIALIZE_WORKFLOW,
   RESET_WORKFLOW,
@@ -37,15 +38,19 @@ const workflowReducer = (state = workflowState, action: IAction) => {
     case NEXT_WORKFLOW: {
       const { workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
-      let newSkipped = state[workflowProcessDefined].skipped;
-      const {
-        [workflowProcessDefined]: { skipped, isStepSkipped, activeStep, steps },
-      } = action.payload;
+      const { activeStep, steps } = action.payload;
 
-      if (isStepSkipped && isStepSkipped(activeStep)) {
-        newSkipped = new Set(skipped.values());
-        newSkipped.delete(activeStep);
-      }
+      // let newSkipped = new Set<number>();
+      // try {
+      //   newSkipped = state[workflowProcessDefined]["skipped"] as Set<number>;
+      // } catch (error) {
+      //   state[workflowProcessDefined]["skipped"] = new Set<number>();
+      // }
+
+      // if (isStepSkipped && isStepSkipped(activeStep)) {
+      //   newSkipped = new Set(skipped.values());
+      //   newSkipped.delete(activeStep);
+      // }
 
       if (activeStep === steps.length - 1) {
         return { ...state[workflowProcessDefined] };
@@ -55,7 +60,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         ...state,
         [workflowProcessDefined]: {
           activeStep: action.payload.activeStep + 1,
-          skipped: newSkipped,
+          // skipped: newSkipped,
         },
       };
     }

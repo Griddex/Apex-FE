@@ -5,6 +5,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
 } from "../Actions/LoginActions";
+import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import userState from "../State/UserState";
 
 const loginReducer = (state = userState, action: IAction) => {
@@ -30,6 +31,8 @@ const loginReducer = (state = userState, action: IAction) => {
         statusCode: action.payload.statusCode,
         errors: new Array(action.payload.errors),
       };
+    case LOGOUT_REQUEST:
+      return { ...state, undefined };
 
     default:
       return state;

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { IDeclineCurveParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";

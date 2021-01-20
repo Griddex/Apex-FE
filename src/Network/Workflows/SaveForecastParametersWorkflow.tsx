@@ -10,7 +10,7 @@ import {
   workflowResetAction,
   workflowSkipAction,
 } from "../../Application/Redux/Actions/WorkflowActions";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import SaveForecastingParametersDialog from "../Components/Dialogs/SaveForecastingParametersDialog";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
 import SaveForecastParametersNavButtons from "../Components/NavigationButtons/SaveForecastParametersNavButtons";

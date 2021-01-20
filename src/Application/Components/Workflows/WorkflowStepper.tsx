@@ -4,7 +4,7 @@ import StepLabel, { StepLabelProps } from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowDataProps } from "./WorkflowTypes";
 
 const useStyles = makeStyles(() => ({

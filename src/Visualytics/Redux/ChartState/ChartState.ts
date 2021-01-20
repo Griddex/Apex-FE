@@ -1,6 +1,7 @@
-const chartState = {
-  currentChartIndex: 0,
+import { IChartState } from "./ChartStateTypes";
 
+const chartState: IChartState = {
+  currentChartIndex: 0,
   selectedChartElementId: {},
   chartLayoutColor: "white",
   chartSeriesSolidColors: [

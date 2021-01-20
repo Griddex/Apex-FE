@@ -1,4 +1,5 @@
 import { IAction } from "../Actions/ActionTypes";
+import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import { HIDE_SPINNER, SHOW_SPINNER } from "../Actions/UISpinnerActions";
 import uiSpinnerState from "../State/UISpinnerState";
 

@@ -3,7 +3,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
 import {
   createNewProjectFailureAction,

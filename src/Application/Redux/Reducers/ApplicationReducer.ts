@@ -7,6 +7,7 @@ import {
   ADD_TAB,
   SET_CURRENTMAINTABVALUE,
 } from "../Actions/ApplicationActions";
+import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import applicationState from "../State/ApplicationState";
 
 const applicationReducer = (state = applicationState, action: IAction) => {

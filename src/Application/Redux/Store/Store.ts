@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import rootReducer from "../Reducers/RootReducer";
+import allReducers from "../Reducers/AllReducers";
 import createSagaMiddleware from "redux-saga";
 import watchLoginSaga from "../Sagas/LoginSaga";
 import watchCreateNewProjectSaga from "../../../Project/Redux/Sagas/CreateNewProjectSaga";
@@ -10,6 +10,7 @@ import { spawn } from "redux-saga/effects";
 import authMiddleware from "../Middlewares/AuthMiddleware";
 import uiSpinnerMiddleware from "../Middlewares/UISpinnerMiddleware";
 import watchRunForecastSaga from "../../../Network/Redux/Sagas/RunForecastSaga";
+import rootReducer from "../Reducers/RootReducer";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);

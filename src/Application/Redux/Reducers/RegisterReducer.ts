@@ -6,6 +6,7 @@ import {
   REGISTER_FAILURE,
 } from "../Actions/RegisterActions";
 import { IAction } from "../Actions/ActionTypes";
+import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 
 const registerReducer = (state = UserState, action: IAction) => {
   switch (action.type) {
@@ -30,6 +31,8 @@ const registerReducer = (state = UserState, action: IAction) => {
         statusCode: action.payload.statusCode,
         errors: new Array(action.payload.errors),
       };
+    case LOGOUT_REQUEST:
+      return null;
     default:
       return state;
   }

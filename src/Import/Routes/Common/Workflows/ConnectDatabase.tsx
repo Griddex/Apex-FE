@@ -8,10 +8,9 @@ import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import RefreshOutlinedIcon from "@material-ui/icons/RefreshOutlined";
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ServerLoginForm from "../../../../Application/Components/Forms/ServerLoginForm";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,10 +87,6 @@ const ConnectDatabase = ({ workflowProcess }: { workflowProcess: string }) => {
       </TextField>
     );
   };
-
-  const { dialogs } = useSelector((state: RootState) => state.dialogsReducer);
-  const currentDialog = dialogs[dialogs.length - 1];
-  const dialogText = currentDialog && (currentDialog.dialogText as string);
 
   return (
     <Container className={classes.container} maxWidth="sm" fixed disableGutters>

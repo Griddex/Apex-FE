@@ -2,7 +2,7 @@ import Menu from "@material-ui/core/Menu";
 import React from "react";
 import { XYPosition } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IContextMenuProps } from "./ContextMenuTypes";
 import NetworkContextMenu from "./NetworkContextMenu";
 

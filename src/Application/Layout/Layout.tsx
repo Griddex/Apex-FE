@@ -17,7 +17,7 @@ import MainDrawer from "../Components/Drawers/MainDrawer";
 import ProductBackground from "../Routes/ProductBackground";
 import Dialogs from "../Components/Dialogs/Dialogs";
 import { ILayouts, LayoutNames } from "./LayoutTypes";
-import { RootState } from "../Redux/Reducers/RootReducer";
+import { RootState } from "../Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles(() => ({
   root: {

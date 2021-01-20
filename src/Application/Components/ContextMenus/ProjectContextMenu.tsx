@@ -4,7 +4,7 @@ import { XYPosition } from "react-flow-renderer";
 import { useSelector } from "react-redux";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
 import NewProjectPopover from "../../../Project/Components/Popovers/NewProjectPopover";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 
 const ProjectContextMenu = ({
   children,

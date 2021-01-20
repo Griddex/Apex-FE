@@ -1,7 +1,9 @@
+import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
   CREATE_NEWPROJECT,
   NEWPROJECT_SUCCESS,
   NEWPROJECT_FAILURE,
+  UPDATE_NEWPROJECT,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
@@ -16,6 +18,15 @@ const projectReducer = (
   }
 ) => {
   switch (action.type) {
+    case UPDATE_NEWPROJECT: {
+      const { name, value } = action.payload;
+
+      return {
+        ...state,
+        [name]: value,
+      };
+    }
+
     case CREATE_NEWPROJECT: {
       const {
         projectName,
@@ -52,6 +63,9 @@ const projectReducer = (
         error,
       };
     }
+
+    case LOGOUT_REQUEST:
+      return { ...state, undefined };
 
     default:
       return state;

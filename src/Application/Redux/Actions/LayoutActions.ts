@@ -178,6 +178,6 @@ export const simpleDialogOpenAction = (isOpen: boolean) => {
 export const activateDisabledMenusAction = () => {
   return {
     type: ACTIVATE_DISABLEDMENUS,
-    payload: { menusDisabled: true },
+    payload: { menusDisabled: false },
   };
 };

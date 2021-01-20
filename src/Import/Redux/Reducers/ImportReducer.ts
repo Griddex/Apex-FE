@@ -1,4 +1,5 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
   IMPORTFILE_INITIALIZATION,
   PERSIST_FILE,
@@ -97,6 +98,8 @@ const importReducer = (state = importState, action: IAction) => {
         ...state,
         extrudeParseTable: action.payload.extrudeParseTable,
       };
+    case LOGOUT_REQUEST:
+      return { ...state, undefined };
 
     default:
       return state;

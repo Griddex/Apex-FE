@@ -20,7 +20,7 @@ import {
   workflowSaveAction,
   workflowSkipAction,
 } from "../../../Application/Redux/Actions/WorkflowActions";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Import/Components/SelectDatabase";
 import EconomicCosts from "../EconomicCosts";
 import EconomicsCalculations from "../EconomicsCalculations";

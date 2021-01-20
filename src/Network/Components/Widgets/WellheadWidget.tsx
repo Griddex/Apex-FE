@@ -1,7 +1,7 @@
 import { Handle, Node, Position } from "react-flow-renderer";
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Wellhead from "../../Images/Wellhead.svg";
 import WellheadPopover from "./../Popovers/WellheadPopover";
 import WellheadContextMenu from "./../ContextMenu/WellheadContextMenu";

@@ -9,11 +9,11 @@ import {
   workflowResetAction,
   workflowSkipAction,
 } from "../../Application/Redux/Actions/WorkflowActions";
-import { RootState } from "../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ProjectNavigationButtons from "../Components/Buttons/ProjectNavigationButtons";
 import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
 import NewProjectForm from "../Components/Forms/NewProjectForm";
-import NewProjectNameDescription from "../NewProjectNameDescription";
+import NewProjectNameAndDescription from "../NewProjectNameAndDescription";
 import { createNewProjectAction } from "../Redux/Actions/ProjectActions";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import { INewProjectWorkflowProps } from "../Redux/State/ProjectStateTypes";
@@ -28,10 +28,6 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
     (state: RootState) => state.workflowReducer[workflowProcess]
-  );
-  console.log(
-    "Logged output --> ~ file: NewProjectDialogWorkflow.tsx ~ line 32 ~ NewProjectDialogWorkflow ~ activeStep",
-    activeStep
   );
 
   const isStepOptional = useCallback(
@@ -57,7 +53,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   ) => {
     switch (activeStep) {
       case 0:
-        return <NewProjectNameDescription {...props} />;
+        return <NewProjectNameAndDescription {...props} />;
       case 1:
         return <UnitSettings {...props} />;
       default:

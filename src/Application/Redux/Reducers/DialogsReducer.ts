@@ -3,6 +3,7 @@ import {
   IDialogState,
 } from "../../Components/Dialogs/DialogTypes";
 import { HIDE_DIALOG, SHOW_DIALOG } from "../Actions/DialogsAction";
+import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import dialogsState from "../State/DialogsState";
 
 const dialogsReducer = (
@@ -14,7 +15,7 @@ const dialogsReducer = (
     meta: { exclusive: boolean };
     payload: DialogStuff;
   }
-): IDialogState<DialogStuff> => {
+): IDialogState<DialogStuff> | undefined => {
   switch (action.type) {
     // case PERSIST_STORE: //Rewrite
     //   return {
@@ -51,6 +52,7 @@ const dialogsReducer = (
         dialogs: keptDialogs,
       };
     }
+
     default:
       return state;
   }

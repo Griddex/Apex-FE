@@ -12,7 +12,7 @@ import {
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { persistTableDataAction } from "../../../Redux/Actions/ImportActions";
 import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 

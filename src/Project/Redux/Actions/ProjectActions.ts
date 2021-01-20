@@ -1,3 +1,4 @@
+export const UPDATE_NEWPROJECT = "UPDATE_NEWPROJECT";
 export const CREATE_NEWPROJECT = "CREATE_NEWPROJECT";
 export const NEWPROJECT_SUCCESS = "NEWPROJECT_SUCCESS";
 export const NEWPROJECT_FAILURE = "NEWPROJECT_FAILURE";
@@ -7,6 +8,16 @@ export const LOAD_RECENTPROJECT_SUCCESS = "LOAD_RECENTPROJECT_SUCCESS";
 export const LOAD_RECENTPROJECT_FAILURE = "LOAD_RECENTPROJECT_FAILURE";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
+export const updateProjectAction = (name: string, value: string) => {
+  return {
+    type: UPDATE_NEWPROJECT,
+    payload: {
+      name,
+      value,
+    },
+  };
+};
+
 export const loadRecentProjectAction = (projectId: string) => {
   return {
     type: LOAD_RECENTPROJECT_REQUEST,
@@ -15,6 +26,7 @@ export const loadRecentProjectAction = (projectId: string) => {
     },
   };
 };
+
 export const loadRecentProjectSuccessAction = () => {
   return {
     type: LOAD_RECENTPROJECT_SUCCESS,

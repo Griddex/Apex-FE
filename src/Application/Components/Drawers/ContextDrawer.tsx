@@ -11,7 +11,7 @@ import {
   contextDrawerCollapseAction,
   contextDrawerExpandAction,
 } from "../../Redux/Actions/LayoutActions";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 
 const navbarHeight = 43;
 

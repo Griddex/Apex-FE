@@ -32,7 +32,7 @@ import GenerateTerminalNodes from "../../../Network/Utils/GenerateTerminalNodes"
 import GenerateWellheadNodes from "../../../Network/Utils/GenerateWellheadNodes";
 import SplitFlowstationsGasFacilities from "../../../Network/Utils/SplitFlowstationsGasFacilities";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 import { persistNetworkElementsAction } from "./../../../Network/Redux/Actions/NetworkActions";
 import { GenerateWellheadSummaryNodes } from "./../../../Network/Utils/GenerateWellheadSummaryNodes";

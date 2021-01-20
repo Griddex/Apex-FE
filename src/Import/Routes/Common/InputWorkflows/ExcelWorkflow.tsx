@@ -27,7 +27,7 @@ import SelectSheet from "../Workflows/SelectSheet";
 import UploadFile from "../Workflows/UploadFile";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { useTheme } from "@material-ui/core";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { IWorkflowProcessState } from "../../../../Application/Redux/State/WorkflowStateTypes";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import { DialogStuff } from "./../../../../Application/Components/Dialogs/DialogTypes";

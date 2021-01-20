@@ -13,7 +13,7 @@ import {
 } from "../../../Application/Components/Dialogs/DialogTypes";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { createNewProjectAction } from "../../Redux/Actions/ProjectActions";
 import SkipNextOutlinedIcon from "@material-ui/icons/SkipNextOutlined";
 
@@ -88,7 +88,7 @@ const ProjectNavigationButtons = ({
     type: "textDialog",
     show: true,
     exclusive: true,
-    maxWidth: "sm",
+    maxWidth: "xs",
     dialogText: "New Project Creation Successful",
     iconType: "success",
     actionsList: () => newProjectDialogActions(),
@@ -101,7 +101,7 @@ const ProjectNavigationButtons = ({
     type: "textDialog",
     show: true,
     exclusive: true,
-    maxWidth: "sm",
+    maxWidth: "xs",
     dialogText: "New Project Creation failure",
     iconType: "error",
     actionsList: () => newProjectDialogActions(),

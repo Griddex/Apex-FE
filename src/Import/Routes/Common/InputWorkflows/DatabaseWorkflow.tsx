@@ -17,7 +17,7 @@ import {
   workflowSaveAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Components/SelectDatabase";
 import ConnectDatabase from "../Workflows/ConnectDatabase";
 import MatchHeaders from "../Workflows/MatchHeaders";

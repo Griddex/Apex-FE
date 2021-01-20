@@ -1,20 +1,23 @@
 import { WorkflowStateType } from "./WorkflowStateTypes";
 
 const workflowNames = [
+  "newProjectDialogWorkflow",
   "forecastInputDeckImport",
   "economicsWorkflow",
   "economicsParameterImportWorkflow",
-  "newProjectDialogWorkflow",
 ];
 
 const generateWorkflowState = (): WorkflowStateType => {
   return workflowNames.reduce((acc, workflowName: string) => {
+    const initialSkipped = new Set<number>();
+    initialSkipped.add(50);
+
     return {
       ...acc,
       [workflowName]: {
         steps: [],
         activeStep: 0,
-        skipped: new Set<number>(),
+        skipped: initialSkipped,
         errorSteps: [],
         optionalSteps: [],
         workflowProcess: "",
@@ -27,4 +30,6 @@ const generateWorkflowState = (): WorkflowStateType => {
   }, {});
 };
 
-export default generateWorkflowState();
+const workflowState = generateWorkflowState();
+
+export default workflowState;

@@ -6,7 +6,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { fetchRecentProjectsAction } from "../../Redux/Actions/ProjectActions";
 
 interface IRecentProject {

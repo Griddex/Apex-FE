@@ -17,7 +17,7 @@ import FileIconService from "../../../Services/FileIconService";
 import { useSnackbar } from "notistack";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import formatDate from "../../../../Application/Utils/FormatDate";
-import { RootState } from "../../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles(() => ({
   container: {

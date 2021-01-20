@@ -13,7 +13,7 @@ import {
 } from "../../../Application/Components/Dialogs/DialogTypes";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -87,7 +87,7 @@ const SaveForecastParametersNavButtons = ({
     type: "textDialog",
     show: true,
     exclusive: true,
-    maxWidth: "sm",
+    maxWidth: "xs",
     dialogText: "New Project Creation Successful",
     iconType: "success",
     actionsList: () => newProjectDialogActions(),
@@ -100,7 +100,7 @@ const SaveForecastParametersNavButtons = ({
     type: "textDialog",
     show: true,
     exclusive: true,
-    maxWidth: "sm",
+    maxWidth: "xs",
     dialogText: "Save Forecasting Parameters failure",
     iconType: "error",
     actionsList: () => newProjectDialogActions(),

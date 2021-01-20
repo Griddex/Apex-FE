@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import Loading from "../../../Application/Components/Visuals/Loading";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Economics from "../../Economics";
 import EconomicsBackground from "./EconomicsBackground";
 import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";

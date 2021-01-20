@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import history from "../../Services/HistoryService";
 import { navigateResetWorkflowAction } from "../../Redux/Actions/LayoutActions";
 import { subNavbarSetMenuAction } from "../../Redux/Actions/ApplicationActions";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 
 const mainDrawerExpanded = 96;

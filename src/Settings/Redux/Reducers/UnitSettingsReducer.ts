@@ -1,4 +1,5 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
   FETCH_UNITSETTINGS_FAILURE,
   FETCH_UNITSETTINGS_SUCCESS,

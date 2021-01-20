@@ -13,10 +13,6 @@ const UserProfilePopover = ({ children }: IUserProfilePopover) => {
       {children}
       <Motion defaultStyle={{ rotateY: 90 }} style={{ rotateY: spring(0) }}>
         {(style) => {
-          console.log(
-            "Logged output --> ~ file: UserProfilePopover.tsx ~ line 18 ~ UserProfilePopover ~ style",
-            style
-          );
           return <UserProfile />;
         }}
       </Motion>

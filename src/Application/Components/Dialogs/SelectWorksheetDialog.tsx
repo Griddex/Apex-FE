@@ -29,7 +29,7 @@ import * as xlsx from "xlsx";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({

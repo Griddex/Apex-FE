@@ -13,7 +13,7 @@ import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
 import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
 import InputBackground from "./InputBackground";
 import InputLanding from "./InputLanding";
-import { RootState } from "../../../Application/Redux/Reducers/RootReducer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ISubNavbarData } from "./Workflows/InputWorkflowsTypes";
 
 const navbarHeight = 43;

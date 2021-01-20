@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import history from "../../Services/HistoryService";
 import ProjectContextMenu from "../ContextMenus/ProjectContextMenu";
 import { IMainDrawerData } from "./MainDrawerTypes";

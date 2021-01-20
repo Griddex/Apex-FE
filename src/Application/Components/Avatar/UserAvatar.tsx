@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { persistAvatarToReduxAction } from "../../Redux/Actions/RegisterActions";
-import { RootState } from "../../Redux/Reducers/RootReducer";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 const useStyles = makeStyles(() => ({
   dropZone: {
     borderStyle: "dotted",
