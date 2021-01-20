@@ -6,15 +6,22 @@ import LandscapeIcon from "@material-ui/icons/Landscape";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useRouteMatch,
+} from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
 import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
 import InputBackground from "./InputBackground";
-import InputLanding from "./InputLanding";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ISubNavbarData } from "./Workflows/InputWorkflowsTypes";
+import { IdType, ISubModuleData } from "./InputLayoutTypes";
+import FacilitiesInputDeckLanding from "./../FacilitiesInputDeck/FacilitiesInputDeckLanding";
+import ForecastInputDeckLanding from "../ForecastInputDeck/ForecastInputDeckLanding";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -62,11 +69,11 @@ const InputLayout = () => {
     },
   ];
 
-  const subModule = {
-    facilitiesdeck: { name: "Facilities Deck", data: {} },
-    forecastdeck: { name: "Forecast Deck", data: {} },
-    productiondata: { name: "Production Data", data: {} },
-    economicsdata: { name: "Economics Data", data: {} },
+  const subModuleData: ISubModuleData = {
+    facilitiesInputDeck: "Facilities Deck",
+    forecastInputDeck: "Forecast Deck",
+    productionData: "Production Data",
+    economicsData: "Economics Data",
   };
 
   return (
@@ -74,32 +81,47 @@ const InputLayout = () => {
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.importLayoutContainer)}>
         <Suspense fallback={<Loading />}>
+          import ForecastInputDeckLanding from
+          './../ForecastInputDeck/ForecastInputDeckLanding';
           <Switch>
             <Route exact path={path} component={InputBackground} />
             <Route
               path={`${url}/:subNavbarId`}
-              render={(props) => {
+              render={(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { subNavbarId },
                   },
                 } = props;
 
+                const subModuleName = subNavbarId;
+                const subModuleLabel = subModuleData[subNavbarId];
+
                 const Layouts: Record<string, JSX.Element> = {
                   background: <InputBackground />,
                   facilitiesdeck: (
-                    <InputLanding subModule={subModule.facilitiesdeck} />
+                    <FacilitiesInputDeckLanding
+                      subModuleName={subModuleName}
+                      subModuleLabel={subModuleLabel}
+                    />
                   ),
                   forecastdeck: (
-                    <InputLanding subModule={subModule.forecastdeck} />
+                    <ForecastInputDeckLanding
+                      subModuleName={subModuleName}
+                      subModuleLabel={subModuleLabel}
+                    />
                   ),
                   productiondata: (
                     <ProductionDataLanding
-                      subModule={subModule.productiondata}
+                      subModuleName={subModuleName}
+                      subModuleLabel={subModuleLabel}
                     />
                   ),
                   economicsdata: (
-                    <EconomicsLanding subModule={subModule.economicsdata} />
+                    <EconomicsLanding
+                      subModuleName={subModuleName}
+                      subModuleLabel={subModuleLabel}
+                    />
                   ),
                 };
 

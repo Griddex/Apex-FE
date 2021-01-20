@@ -1,6 +1,6 @@
 import React from "react";
 
-const Image = (props) => {
+const Image = (props: any) => {
   return <img {...props} alt="Stuff" />;
 };
 

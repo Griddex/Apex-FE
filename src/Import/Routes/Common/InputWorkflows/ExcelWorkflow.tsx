@@ -1,6 +1,5 @@
-import Box from "@material-ui/core/Box";
+import { useTheme } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -11,7 +10,10 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
+import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
+import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -19,17 +21,13 @@ import {
   workflowResetAction,
   workflowSkipAction,
 } from "../../../../Application/Redux/Actions/WorkflowActions";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import MatchHeaders from "../Workflows/MatchHeaders";
 import MatchUnits from "../Workflows/MatchUnits";
 import PreviewSave from "../Workflows/PreviewSave";
 import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
 import SelectSheet from "../Workflows/SelectSheet";
 import UploadFile from "../Workflows/UploadFile";
-import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
-import { useTheme } from "@material-ui/core";
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IWorkflowProcessState } from "../../../../Application/Redux/State/WorkflowStateTypes";
-import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import { DialogStuff } from "./../../../../Application/Components/Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -117,7 +115,7 @@ const steps = [
   "Preview & Save",
 ];
 
-const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcessState) => {
+const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();

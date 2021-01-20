@@ -14,3 +14,20 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
   workflowName: string;
   workflowData?: any;
 }
+
+export interface IWorkflowProcess {
+  workflowProcess:
+    | "facilitiesInputDeckExcel"
+    | "facilitiesInputDeckDatabase"
+    | "facilitiesInputDeckApproveddeck"
+    | "forecastInputDeckExcel"
+    | "forecastInputDeckDatabase"
+    | "forecastInputDeckApproveddeck"
+    | "productionDataExcel"
+    | "productionDataDatabase"
+    | "productionDataApproved"
+    | "economicsDataExcel"
+    | "economicsDataDatabase"
+    | "economicsDataManual"
+    | "economicsDataApproved";
+}

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { workflowSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { contextDrawerShowAction } from "../../Redux/Actions/LayoutActions";
+import { setWorkflowProcessAction } from "../../Redux/Actions/WorkflowActions";
 
 const cardWidth = 250;
 const useStyles = makeStyles((theme) => ({
@@ -58,10 +59,18 @@ interface IModuleCardProps {
   name: string;
   description: string;
   route: string;
+  workflowProcess: string;
 }
 
 const ModuleCard: React.FC<IModuleCardProps> = (props) => {
-  const { moduleAction, Icon, name, description, route } = props;
+  const {
+    moduleAction,
+    Icon,
+    name,
+    description,
+    route,
+    workflowProcess,
+  } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -74,6 +83,7 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
           dispatch(workflowSetMenuAction(name));
           dispatch(moduleAction());
           dispatch(contextDrawerShowAction());
+          dispatch(setWorkflowProcessAction(workflowProcess));
           history.push(route);
         }}
       >

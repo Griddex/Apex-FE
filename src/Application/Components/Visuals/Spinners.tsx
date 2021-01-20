@@ -5,6 +5,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,8 +43,9 @@ const override = css`
 const Spinners = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const pending = useSelector((state) => state.uiSpinnerReducer.pending);
-  const message = useSelector((state) => state.uiSpinnerReducer.message);
+  const { pending, message } = useSelector(
+    (state: RootState) => state.uiSpinnerReducer
+  );
 
   const handleClose = () => {
     dispatch(hideSpinnerAction());
@@ -51,16 +53,8 @@ const Spinners = () => {
 
   return (
     <Backdrop className={classes.backdrop} open={pending} onClick={handleClose}>
-      <div>
-        <HashLoader
-          css={override}
-          height={200}
-          width={200}
-          color={"white"}
-          loading={pending}
-        />
-        <p>{message}</p>
-      </div>
+      <HashLoader css={override} color={"white"} loading={pending} />
+      <p>{message}</p>
     </Backdrop>
   );
 };

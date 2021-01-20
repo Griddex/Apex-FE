@@ -1,10 +1,17 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useRouteMatch,
+} from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
+import { IdType } from "../../../Corporate/Routes/Common/CorporateLayoutTypes";
 import DeclineCurveAnalysis from "../../DeclineCurveAnalysis";
 import DeclineCurveAnalysisBackground from "./DeclineCurveAnalysisBackground";
+import { IDeclineCurveAnalysisLayouts } from "./DeclineCurveAnalysisLayoutTypes";
 
 const navbarHeight = 43;
 // const subNavBarHeight = 25;
@@ -40,14 +47,14 @@ const DeclineCurveAnalysisLayout = () => {
             />
             <Route
               path={`${url}/:declineCurveAnalysisId`}
-              render={(props) => {
+              render={(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { declineCurveAnalysisId },
                   },
                 } = props;
 
-                const Layouts = {
+                const Layouts: IDeclineCurveAnalysisLayouts = {
                   background: <DeclineCurveAnalysisBackground />,
                   declineCurveAnalysis: <DeclineCurveAnalysis />,
                 };

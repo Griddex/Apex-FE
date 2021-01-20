@@ -1,6 +1,5 @@
-import Box from "@material-ui/core/Box";
+import { useTheme } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -9,26 +8,24 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTheme } from "@material-ui/core";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import SelectWorksheetDialog from "../../../Application/Components/Dialogs/SelectWorksheetDialog";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import SelectWorksheetDialog from "../../../Application/Components/Dialogs/SelectWorksheetDialog";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
+import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../Application/Components/Workflows/WorkflowStepper";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
-  workflowInitAction,
-  workflowResetAction,
   workflowBackAction,
+  workflowInitAction,
   workflowNextAction,
+  workflowResetAction,
 } from "../../../Application/Redux/Actions/WorkflowActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import MatchHeaders from "../../../Import/Routes/Common/Workflows/MatchHeaders";
 import MatchUnits from "../../../Import/Routes/Common/Workflows/MatchUnits";
 import PreviewSave from "../../../Import/Routes/Common/Workflows/PreviewSave";
 import SelectHeaderUnitData from "../../../Import/Routes/Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../../Import/Routes/Common/Workflows/SelectSheet";
-import { IWorkflowProcessState } from "../../../Application/Redux/State/WorkflowStateTypes";
-import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,4 +1,4 @@
-import { WorkflowStateType } from "./WorkflowStateTypes";
+import { IWorkflowState } from "./WorkflowStateTypes";
 
 const workflowNames = [
   "newProjectDialogWorkflow",
@@ -7,7 +7,7 @@ const workflowNames = [
   "economicsParameterImportWorkflow",
 ];
 
-const generateWorkflowState = (): WorkflowStateType => {
+const generateWorkflowState = () => {
   return workflowNames.reduce((acc, workflowName: string) => {
     const initialSkipped = new Set<number>();
     initialSkipped.add(50);
@@ -30,6 +30,10 @@ const generateWorkflowState = (): WorkflowStateType => {
   }, {});
 };
 
-const workflowState = generateWorkflowState();
+const state = generateWorkflowState();
+const workflowState: IWorkflowState = {
+  currentWorkflowProcess: "",
+  allWorkflows: { ...state },
+};
 
 export default workflowState;

@@ -1,16 +1,22 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, useRouteMatch } from "react-router-dom";
+import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import Input from "../../Images/Input.svg";
 import MSExcel from "../../Images/MSExcel.svg";
+import { IInputLanding } from "../Common/InputLayoutTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import {
+  IdType,
+  IEconomicsDataLandingWorkflows,
+} from "./EconomicsDataLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   EconomicsDataLanding: {
@@ -35,17 +41,24 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const EconomicsDataLanding = ({ subModule: { name } }) => {
+const EconomicsDataLanding = ({
+  subModuleName,
+  subModuleLabel,
+}: IInputLanding) => {
   const classes = useStyles();
 
   const { url, path } = useRouteMatch();
-  const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
-  const nameLowCase = name.toLowerCase();
+  const { loadWorkflow } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
+  const { currentWorkflowProcess } = useSelector(
+    (state: RootState) => state.workflowReducer
+  );
 
   const economicsLandingData = [
     {
       name: "Excel",
-      description: `Utilize ${nameLowCase} by connecting to Microsoft Excel`,
+      description: `Utilize ${subModuleLabel} by connecting to Microsoft Excel`,
       icon: (
         <Image
           className={classes.image}
@@ -53,11 +66,12 @@ const EconomicsDataLanding = ({ subModule: { name } }) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/economicsexcel`,
+      route: `${url}/excel`,
+      workflowProcess: "economicsDataExcel",
     },
     {
       name: "Database",
-      description: `Utilize ${nameLowCase} by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Utilize ${subModuleLabel} by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -65,12 +79,13 @@ const EconomicsDataLanding = ({ subModule: { name } }) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/economicsdatabase`,
+      route: `${url}/database`,
+      workflowProcess: "economicsDataDatabase",
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Input ${name}`,
-      description: `Type in ${nameLowCase} parameters and generate future cashflow`,
+      name: `Input ${subModuleLabel}`,
+      description: `Type in ${subModuleLabel} parameters and generate future cashflow`,
       icon: (
         <Image
           className={classes.image}
@@ -78,7 +93,22 @@ const EconomicsDataLanding = ({ subModule: { name } }) => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/economicstypein`,
+      route: `${url}/manual`,
+      workflowProcess: "economicsDataManual",
+    },
+    {
+      //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
+      name: `Input ${subModuleLabel}`,
+      description: `Type in ${subModuleLabel} parameters and generate future cashflow`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={Input}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+      ),
+      route: `${url}/approvedData`,
+      workflowProcess: "economicsDataApproved",
     },
   ];
 
@@ -89,26 +119,39 @@ const EconomicsDataLanding = ({ subModule: { name } }) => {
           <Route
             exact
             path={`${path}/:dataType`}
-            render={(props) => {
+            render={(props: RouteComponentProps<IdType>) => {
               const { match } = props;
               const {
-                params: { dataType },
+                params: { dataInputId },
               } = match;
 
-              const inputEconomicsDataWorkflows = {
-                economicsexcel: <ExcelWorkflow />,
-                economicsdatabase: <DatabaseWorkflow />,
-                economicstypein: <ExistingDataWorkflow />,
+              const inputEconomicsDataWorkflows: IEconomicsDataLandingWorkflows = {
+                excel: (
+                  <ExcelWorkflow workflowProcess={currentWorkflowProcess} />
+                ),
+                database: (
+                  <DatabaseWorkflow workflowProcess={currentWorkflowProcess} />
+                ),
+                manual: (
+                  <ExistingDataWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                  />
+                ),
+                approvedData: (
+                  <ExistingDataWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                  />
+                ),
               };
 
-              return inputEconomicsDataWorkflows[dataType];
+              return inputEconomicsDataWorkflows[dataInputId];
             }}
           />
         </div>
       ) : (
         <div className={classes.EconomicsDataLanding}>
           {economicsLandingData.map((module) => {
-            const { icon, name, description, route } = module;
+            const { icon, name, description, route, workflowProcess } = module;
             return (
               <ModuleCard
                 key={name}
@@ -117,6 +160,7 @@ const EconomicsDataLanding = ({ subModule: { name } }) => {
                 description={description}
                 Icon={icon}
                 route={route}
+                workflowProcess={workflowProcess}
               />
             );
           })}

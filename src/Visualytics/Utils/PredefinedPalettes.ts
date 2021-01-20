@@ -1,4 +1,4 @@
-const palette1 = [
+const palette1: string[] = [
   "#3feadc",
   "#90d824",
   "#d67328",
@@ -300,7 +300,7 @@ const palette1 = [
   "#5be5b9",
   "#a9fc97",
 ];
-const palette2 = [
+const palette2: string[] = [
   "#60aee5",
   "#3ee0d5",
   "#edce80",
@@ -602,7 +602,7 @@ const palette2 = [
   "#a5d6ef",
   "#e0a784",
 ];
-const palette3 = [
+const palette3: string[] = [
   "#f99100",
   "#aee7fc",
   "#f7afda",
@@ -904,7 +904,7 @@ const palette3 = [
   "#68c9d8",
   "#f26fde",
 ];
-const palette4 = [
+const palette4: string[] = [
   "#9064c1",
   "#6216dd",
   "#3ae056",

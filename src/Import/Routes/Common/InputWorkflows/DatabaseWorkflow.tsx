@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
+import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -25,7 +26,6 @@ import MatchUnits from "../Workflows/MatchUnits";
 import PreviewSave from "../Workflows/PreviewSave";
 import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
 import UploadFile from "../Workflows/UploadFile";
-import { IWorkflowProcessState } from "./../../../../Application/Redux/State/WorkflowStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,7 +112,7 @@ const steps = [
   "Preview & Save",
 ];
 
-const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcessState) => {
+const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 

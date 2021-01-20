@@ -1,18 +1,19 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
-import history from "./../../Services/HistoryService";
+import history from "../../Services/HistoryService";
+import { IAction } from "../Actions/ActionTypes";
 import {
   loginFailureAction,
   loginSuccessAction,
   LOGIN_REQUEST,
-} from "./../Actions/LoginActions";
-import { hideSpinnerAction } from "./../Actions/UISpinnerActions";
+} from "../Actions/LoginActions";
+import { hideSpinnerAction } from "../Actions/UISpinnerActions";
 
 export default function* watchLoginSaga() {
   yield takeLatest(LOGIN_REQUEST, loginSaga);
 }
 
-function* loginSaga(action) {
+function* loginSaga(action: IAction) {
   const { payload } = action;
   const { userName, password } = payload;
 
@@ -21,7 +22,7 @@ function* loginSaga(action) {
     body: password,
   };
   const config = { headers: null };
-  const loginAPI = (url) => authService.post(url, data, config);
+  const loginAPI = (url: string) => authService.post(url, data, config);
   const statusCode = "";
 
   try {
@@ -48,6 +49,6 @@ function* loginSaga(action) {
   yield put(hideSpinnerAction());
 }
 
-function forwardTo(routeUrl) {
+function forwardTo(routeUrl: string) {
   history.push(routeUrl);
 }

@@ -39,7 +39,7 @@ const override = css`
   left: 0;
 `;
 
-const PerpetualSpinner = ({ message }) => {
+const PerpetualSpinner = ({ message }: { message: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -50,13 +50,7 @@ const PerpetualSpinner = ({ message }) => {
   return (
     <Backdrop className={classes.backdrop} open={true} onClick={handleClose}>
       <div>
-        <HashLoader
-          css={override}
-          height={200}
-          width={200}
-          color={"white"}
-          loading={true}
-        />
+        <HashLoader css={override} color={"white"} loading={true} />
         <p>{message}</p>
       </div>
     </Backdrop>

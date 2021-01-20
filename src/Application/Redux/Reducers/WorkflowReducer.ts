@@ -1,18 +1,22 @@
-import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import {
-  INITIALIZE_WORKFLOW,
-  RESET_WORKFLOW,
-  NEXT_WORKFLOW,
   BACK_WORKFLOW,
-  SKIP_WORKFLOW,
-  SAVE_WORKFLOW,
   FINALIZE_WORKFLOW,
+  INITIALIZE_WORKFLOW,
+  NEXT_WORKFLOW,
+  RESET_WORKFLOW,
+  SAVE_WORKFLOW,
+  SKIP_WORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
 import { IAction } from "./../Actions/ActionTypes";
 
 const workflowReducer = (state = workflowState, action: IAction) => {
   switch (action.type) {
+    case FINALIZE_WORKFLOW:
+      return {
+        ...state,
+        currentWorkflowProcess: action.payload.workflowProcess,
+      };
     case INITIALIZE_WORKFLOW: {
       const { workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
@@ -42,9 +46,9 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       // let newSkipped = new Set<number>();
       // try {
-      //   newSkipped = state[workflowProcessDefined]["skipped"] as Set<number>;
+      //   newSkipped = state["allWorkflows"][workflowProcessDefined]["skipped"] as Set<number>;
       // } catch (error) {
-      //   state[workflowProcessDefined]["skipped"] = new Set<number>();
+      //   state["allWorkflows"][workflowProcessDefined]["skipped"] = new Set<number>();
       // }
 
       // if (isStepSkipped && isStepSkipped(activeStep)) {
@@ -53,7 +57,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       // }
 
       if (activeStep === steps.length - 1) {
-        return { ...state[workflowProcessDefined] };
+        return { ...state["allWorkflows"][workflowProcessDefined] };
       }
 
       return {
@@ -84,7 +88,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         // it should never occur unless someone's actively trying to break something.
         throw new Error("You can't skip a step that isn't optional.");
       }
-      const workflowState = state[workflowProcessDefined];
+      const workflowState = state["allWorkflows"][workflowProcessDefined];
       const newSkippedSet = new Set(
         workflowState.skipped && workflowState.skipped.values()
       );

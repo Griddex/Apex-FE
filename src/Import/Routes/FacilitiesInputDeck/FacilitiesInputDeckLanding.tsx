@@ -1,19 +1,22 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, useRouteMatch } from "react-router-dom";
-import Image from "../../../Application/Components/Visuals/Image";
+import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import Image from "../../../Application/Components/Visuals/Image";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
+import { IInputLanding } from "../Common/InputLayoutTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
+import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import { IdType } from "./FacilitiesInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
-  InputLanding: {
+  FacilitiesInputDeckLanding: {
     display: "flex",
     flexGrow: 1,
     flexWrap: "wrap",
@@ -35,17 +38,24 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const InputLanding = ({ subModule: { name } }) => {
+const FacilitiesInputDeckLanding = ({
+  subModuleName,
+  subModuleLabel,
+}: IInputLanding) => {
   const classes = useStyles();
 
   const { url, path } = useRouteMatch();
-  const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
-  const nameLowCase = name.toLowerCase();
+  const { loadWorkflow } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
+  const { currentWorkflowProcess } = useSelector(
+    (state: RootState) => state.workflowReducer
+  );
 
-  const inputLandingData = [
+  const facilitiesInputLandingData = [
     {
       name: "Excel + Plain Text",
-      description: `Import ${nameLowCase} from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
+      description: `Import ${subModuleLabel} from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
       icon: (
         <Image
           className={classes.image}
@@ -54,10 +64,11 @@ const InputLanding = ({ subModule: { name } }) => {
         />
       ),
       route: `${url}/excel`,
+      workflowProcess: "facilitiesInputDeckExcel",
     },
     {
       name: "Database",
-      description: `Import ${nameLowCase} from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Import ${subModuleLabel} from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -66,11 +77,12 @@ const InputLanding = ({ subModule: { name } }) => {
         />
       ),
       route: `${url}/database`,
+      workflowProcess: "facilitiesInputDeckDatabase",
     },
     {
       // name: `Approved Name`,
-      name: `Approved ${name}`,
-      description: `Select a pre-exisiting and approved ${nameLowCase} stored in the Apex\u2122 database`,
+      name: `Approved ${subModuleLabel}`,
+      description: `Select a pre-exisiting and approved ${subModuleLabel} stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
@@ -79,6 +91,7 @@ const InputLanding = ({ subModule: { name } }) => {
         />
       ),
       route: `${url}/approveddeck`,
+      workflowProcess: "facilitiesInputDeckApproveddeck",
     },
   ];
 
@@ -89,29 +102,35 @@ const InputLanding = ({ subModule: { name } }) => {
     <>
       {loadWorkflow ? (
         <div className={classes.ImportWorkflow}>
-          <Route
-            exact
-            path={`${path}/:dataType`}
-            render={(props) => {
+          <Route exact path={`${path}/:dataInputId`}>
+            {(props: RouteComponentProps<IdType>) => {
               const { match } = props;
               const {
-                params: { dataType },
+                params: { dataInputId },
               } = match;
 
-              const ImportFacilitiesWorkflows = {
-                excel: <ExcelWorkflow />,
-                database: <DatabaseWorkflow />,
-                approveddeck: <ExistingDataWorkflow />,
+              const facilitiesInputDeckWorkflows = {
+                excel: (
+                  <ExcelWorkflow workflowProcess={currentWorkflowProcess} />
+                ),
+                database: (
+                  <DatabaseWorkflow workflowProcess={currentWorkflowProcess} />
+                ),
+                approveddeck: (
+                  <ExistingDataWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                  />
+                ),
               };
 
-              return ImportFacilitiesWorkflows[dataType];
+              return facilitiesInputDeckWorkflows[dataInputId];
             }}
-          />
+          </Route>
         </div>
       ) : (
-        <div className={classes.InputLanding}>
-          {inputLandingData.map((module) => {
-            const { icon, name, description, route } = module;
+        <div className={classes.FacilitiesInputDeckLanding}>
+          {facilitiesInputLandingData.map((module) => {
+            const { icon, name, description, route, workflowProcess } = module;
             return (
               <ModuleCard
                 key={name}
@@ -120,6 +139,7 @@ const InputLanding = ({ subModule: { name } }) => {
                 description={description}
                 Icon={icon}
                 route={route}
+                workflowProcess={workflowProcess}
               />
             );
           })}
@@ -129,6 +149,4 @@ const InputLanding = ({ subModule: { name } }) => {
   );
 };
 
-InputLanding.propTypes = {};
-
-export default InputLanding;
+export default FacilitiesInputDeckLanding;

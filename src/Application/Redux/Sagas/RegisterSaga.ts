@@ -1,18 +1,19 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
-import history from "./../../Services/HistoryService";
+import history from "../../Services/HistoryService";
+import { IAction } from "../Actions/ActionTypes";
 import {
   registerFailureAction,
   registerSuccessAction,
   REGISTER_REQUEST,
-} from "./../Actions/RegisterActions";
-import { hideSpinnerAction } from "./../Actions/UISpinnerActions";
+} from "../Actions/RegisterActions";
+import { hideSpinnerAction } from "../Actions/UISpinnerActions";
 
 export default function* watchRegisterSaga() {
   yield takeLatest(REGISTER_REQUEST, registerSaga);
 }
 
-function* registerSaga(action) {
+function* registerSaga(action: IAction) {
   const { payload } = action;
   const {
     userName,
@@ -30,7 +31,7 @@ function* registerSaga(action) {
     body: firstName,
   };
   const config = { headers: null };
-  const registerAPI = (url) => authService.post(url, data, config);
+  const registerAPI = (url: string) => authService.post(url, data, config);
   const statusCode = ""; //Get from success response
 
   try {
@@ -57,6 +58,6 @@ function* registerSaga(action) {
   yield put(hideSpinnerAction());
 }
 
-function forwardTo(routeUrl) {
+function forwardTo(routeUrl: string) {
   history.push(routeUrl);
 }

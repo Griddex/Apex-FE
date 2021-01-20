@@ -24,7 +24,7 @@ import CompanyLogo from "../../Images/CompanyLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import history from "../../Services/HistoryService";
-import ProjectContextMenu from "../ContextMenus/ProjectContextMenu";
+import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
 import { IMainDrawerData } from "./MainDrawerTypes";
 
 const navbarHeight = 43;

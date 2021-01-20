@@ -1,15 +1,22 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, useRouteMatch } from "react-router-dom";
+import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import Image from "../../../Application/Components/Visuals/Image";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import ModuleCard from "./../../../Application/Components/Cards/ModuleCard";
-import DatabaseWorkflow from "./../Common/InputWorkflows/DatabaseWorkflow";
-import ExistingDataWorkflow from "./../Common/InputWorkflows/ExistingDataWorkflow";
+import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
+import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
+import {
+  IdType,
+  IProductionDataLandingWorkflows,
+} from "./ProductionDataLandingTypes";
+import { IInputLanding } from "../Common/InputLayoutTypes";
 // import AvatarStack from "react-avatar-stack";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,18 +42,25 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const ProductionDataLanding = ({ subModule: { name } }) => {
+const ProductionDataLanding = ({
+  subModuleName,
+  subModuleLabel,
+}: IInputLanding) => {
   const classes = useStyles();
   // const theme = useTheme();
 
   const { url, path } = useRouteMatch();
-  const loadWorkflow = useSelector((state) => state.layoutReducer.loadWorkflow);
-  const nameLowCase = name.toLowerCase();
+  const { loadWorkflow } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
+  const { currentWorkflowProcess } = useSelector(
+    (state: RootState) => state.workflowReducer
+  );
 
   const productionLandingData = [
     {
       name: "Excel",
-      description: `Utilize ${nameLowCase} by connecting to Microsoft Excel`,
+      description: `Utilize ${subModuleLabel} by connecting to Microsoft Excel`,
       icon: (
         <Image
           className={classes.image}
@@ -55,10 +69,11 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
         />
       ),
       route: `${url}/productionexcel`,
+      workflowProcess: "productionDataExcel",
     },
     {
       name: "Database",
-      description: `Utilize ${nameLowCase} by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Utilize ${subModuleLabel} by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -67,11 +82,12 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
         />
       ),
       route: `${url}/productiondatabase`,
+      workflowProcess: "productionDataDatabase",
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Approved ${name}`,
-      description: `Select pre-exisiting and approved ${nameLowCase} from your database`,
+      name: `Approved ${subModuleLabel}`,
+      description: `Select pre-exisiting and approved ${subModuleLabel} from your database`,
       icon: (
         <Image
           className={classes.image}
@@ -80,6 +96,7 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
         />
       ),
       route: `${url}/approvedproductiondata`,
+      workflowProcess: "productionDataApproved",
     },
   ];
 
@@ -90,26 +107,34 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
           <Route
             exact
             path={`${path}/:dataType`}
-            render={(props) => {
+            render={(props: RouteComponentProps<IdType>) => {
               const { match } = props;
               const {
-                params: { dataType },
+                params: { dataInputId },
               } = match;
 
-              const inputProductionDataWorkflows = {
-                productiondatabase: <DatabaseWorkflow />,
-                productionexcel: <DatabaseWorkflow />,
-                approvedproductiondata: <ExistingDataWorkflow />,
+              const inputProductionDataWorkflows: IProductionDataLandingWorkflows = {
+                excel: (
+                  <ExcelWorkflow workflowProcess={currentWorkflowProcess} />
+                ),
+                database: (
+                  <DatabaseWorkflow workflowProcess={currentWorkflowProcess} />
+                ),
+                approvedData: (
+                  <ExistingDataWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                  />
+                ),
               };
 
-              return inputProductionDataWorkflows[dataType];
+              return inputProductionDataWorkflows[dataInputId];
             }}
           />
         </div>
       ) : (
         <div className={classes.ProductionDataLanding}>
           {productionLandingData.map((module) => {
-            const { icon, name, description, route } = module;
+            const { icon, name, description, route, workflowProcess } = module;
             return (
               <ModuleCard
                 key={name}
@@ -118,6 +143,7 @@ const ProductionDataLanding = ({ subModule: { name } }) => {
                 description={description}
                 Icon={icon}
                 route={route}
+                workflowProcess={workflowProcess}
               />
             );
           })}

@@ -10,4 +10,8 @@ export interface IWorkflowProcessState {
   isStepFailed?: () => boolean;
   isStepSkipped?: (step: number) => boolean;
 }
-export type WorkflowStateType = Record<string, IWorkflowProcessState>;
+
+export interface IWorkflowState {
+  currentWorkflowProcess: string;
+  allWorkflows: Record<string, IWorkflowProcessState>;
+}

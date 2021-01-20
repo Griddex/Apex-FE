@@ -1,6 +1,4 @@
-import { IWorkflowProcessState } from "../State/WorkflowStateTypes";
-
-export const WORKFLOW_TO_STORE = "WORKFLOW_TO_STORE";
+export const SET_WORKFLOWPROCESS = "SET_WORKFLOWPROCESS";
 export const INITIALIZE_WORKFLOW = "INITIALIZE_WORKFLOW";
 export const RESET_WORKFLOW = "RESET_WORKFLOW";
 export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
@@ -9,6 +7,14 @@ export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 export const FINALIZE_WORKFLOW = "FINALIZE_WORKFLOW";
 
+export const setWorkflowProcessAction = (workflowProcess: string) => {
+  return {
+    type: SET_WORKFLOWPROCESS,
+    payload: {
+      workflowProcess,
+    },
+  };
+};
 export const workflowInitAction = (
   steps: string[],
   isStepOptional: (activeStep: number) => boolean,
