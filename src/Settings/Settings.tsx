@@ -101,7 +101,7 @@ const Settings = () => {
   const workflowProcess = "settings";
 
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[workflowProcess]
+    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
   );
   const { moduleName, subModuleName, workflowName } = useSelector(
     (state: RootState) => state.applicationReducer

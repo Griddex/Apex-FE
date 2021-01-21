@@ -78,10 +78,14 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     fileType,
     fileAuthor,
     fileCreated,
-  } = useSelector((state: RootState) => state.importReducer[workflowProcess]);
+  } = useSelector(
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
+  );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
-    (state: RootState) => state.importReducer[workflowProcess]
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(
@@ -105,7 +109,11 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     }
 
     dispatch(
-      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
+      persistWorksheetAction(
+        selectedWorksheetName,
+        selectedWorksheetData,
+        workflowProcess as string
+      )
     );
   };
 

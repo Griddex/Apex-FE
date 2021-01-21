@@ -21,13 +21,11 @@ import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationHeadersAction,
   persistChosenApplicationHeadersIndicesAction,
-  persistDefinedTableDataAction,
   persistFileHeadersMatchAction,
   persistTableHeadersAction,
 } from "../../../Redux/Actions/ImportActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
-import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -125,7 +123,8 @@ export default function MatchHeaders({
 
   //File Headers
   const { fileHeaders } = useSelector(
-    (state: RootState) => state.importReducer[workflowProcess]
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
 
   //Application headers
@@ -408,16 +407,17 @@ export default function MatchHeaders({
       (column) => column.name as string
     );
     const tableHeaders = omit(columnNames, ["SN", "NAMES"]) as string[];
-    dispatch(persistTableHeadersAction(tableHeaders));
+    dispatch(persistTableHeadersAction(tableHeaders, workflowProcess));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
     //Any need?
-    dispatch(persistFileHeadersMatchAction(fileHeaderMatches));
+    dispatch(persistFileHeadersMatchAction(fileHeaderMatches, workflowProcess));
     dispatch(
       persistChosenApplicationHeadersIndicesAction(
-        chosenApplicationHeaderIndices
+        chosenApplicationHeaderIndices,
+        workflowProcess
       )
     );
 
@@ -426,7 +426,12 @@ export default function MatchHeaders({
       chosenApplicationHeaderIndices
     );
 
-    dispatch(persistChosenApplicationHeadersAction(chosenApplicationHeaders));
+    dispatch(
+      persistChosenApplicationHeadersAction(
+        chosenApplicationHeaders,
+        workflowProcess
+      )
+    );
 
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -53,8 +53,10 @@ const Spinners = () => {
 
   return (
     <Backdrop className={classes.backdrop} open={pending} onClick={handleClose}>
-      <HashLoader css={override} color={"white"} loading={pending} />
-      <p>{message}</p>
+      <div>
+        <HashLoader css={override} color={"white"} loading={pending} />
+        <p>{message}</p>
+      </div>
     </Backdrop>
   );
 };

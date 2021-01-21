@@ -27,7 +27,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
 
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[workflowProcess]
+    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
   );
 
   const isStepOptional = useCallback(

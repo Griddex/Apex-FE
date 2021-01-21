@@ -105,7 +105,7 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
 
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[workflowProcess]
+    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
   );
 
   const isStepOptional = useCallback(
@@ -131,7 +131,9 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
   const renderImportStep = (props: ISaveForecastParametersFormProps) => {
     switch (activeStep) {
       case 0:
-        return <DeclineCurveParameters />;
+        return (
+          <DeclineCurveParameters workflowProcess="saveForecastParametersWorkflow" />
+        );
       case 1:
         return <OtherForecastingParameters />;
       case 2:

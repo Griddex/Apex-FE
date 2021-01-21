@@ -68,13 +68,18 @@ const existingData = [
   { name: "Group C", value: 1398 },
 ];
 
-export default function DeclineCurveParameters() {
+export default function DeclineCurveParameters({
+  workflowProcess,
+}: {
+  workflowProcess: string;
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   //TODO: API saga to get entire units object from server
   const { definedTableData } = useSelector(
-    (state: RootState) => state.importReducer
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
 
   const declineCurveList: Omit<

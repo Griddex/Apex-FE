@@ -61,7 +61,10 @@ export default function PreviewSave({
     columnNameTableData,
     selectedHeaderRowIndex,
     selectedUnitRowIndex,
-  } = useSelector((state: RootState) => state.importReducer[workflowProcess]);
+  } = useSelector(
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
+  );
 
   const unitsRow = zipObject(
     chosenApplicationHeaders,
@@ -161,7 +164,7 @@ export default function PreviewSave({
   const columns = generateColumns();
 
   React.useEffect(() => {
-    dispatch(persistTableDataAction(tableData));
+    dispatch(persistTableDataAction(tableData, workflowProcess));
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);

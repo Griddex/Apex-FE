@@ -158,8 +158,8 @@ export default function EconomicCosts() {
   ];
 
   React.useEffect(() => {
-    // dispatch(persistTableDataAction(noAddedColumnTableData));
-    // dispatch(persistTableHeadersAction(rawTableHeaders));
+    // dispatch(persistTableDataAction(noAddedColumnTableData,workflowProcess));
+    // dispatch(persistTableHeadersAction(rawTableHeaders,workflowProcess));
     // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     // dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps

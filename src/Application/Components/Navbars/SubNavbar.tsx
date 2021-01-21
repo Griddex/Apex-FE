@@ -52,10 +52,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SubNavbar = ({ subNavbarData }: { subNavbarData: ISubNavbarData }) => {
-  console.log(
-    "Logged output --> ~ file: SubNavbar.tsx ~ line 55 ~ SubNavbar ~ subNavbarData",
-    subNavbarData
-  );
   const classes = useStyles();
   const dispatch = useDispatch();
 

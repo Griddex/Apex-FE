@@ -7,7 +7,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { workflowSetMenuAction } from "../../Redux/Actions/ApplicationActions";
-import { contextDrawerShowAction } from "../../Redux/Actions/LayoutActions";
+import { showContextDrawerAction } from "../../Redux/Actions/LayoutActions";
 import { setWorkflowProcessAction } from "../../Redux/Actions/WorkflowActions";
 
 const cardWidth = 250;
@@ -82,7 +82,7 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         onClick={() => {
           dispatch(workflowSetMenuAction(name));
           dispatch(moduleAction());
-          dispatch(contextDrawerShowAction());
+          dispatch(showContextDrawerAction());
           dispatch(setWorkflowProcessAction(workflowProcess));
           history.push(route);
         }}

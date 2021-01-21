@@ -81,8 +81,6 @@ const InputLayout = () => {
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.importLayoutContainer)}>
         <Suspense fallback={<Loading />}>
-          import ForecastInputDeckLanding from
-          './../ForecastInputDeck/ForecastInputDeckLanding';
           <Switch>
             <Route exact path={path} component={InputBackground} />
             <Route

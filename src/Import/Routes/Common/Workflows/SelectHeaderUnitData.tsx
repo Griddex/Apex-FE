@@ -49,7 +49,8 @@ export default function SelectHeaderUnitData({
   const dispatch = useDispatch();
 
   const { selectedWorksheetData } = useSelector(
-    (state: RootState) => state.importReducer[workflowProcess]
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
 
   //Generate actual ColumnHeaders
@@ -264,22 +265,35 @@ export default function SelectHeaderUnitData({
 
   //Run once after 1st render
   React.useEffect(() => {
-    dispatch(persistTableHeadersAction(columnNameTableHeaders));
+    dispatch(
+      persistTableHeadersAction(columnNameTableHeaders, workflowProcess)
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Run everytime rows or columns change
   React.useEffect(() => {
-    dispatch(persistFileHeadersAction(selectedHeaderRowIndex, fileHeaders));
+    dispatch(
+      persistFileHeadersAction(
+        selectedHeaderRowIndex,
+        fileHeaders,
+        workflowProcess
+      )
+    );
     dispatch(
       persistFileUnitsAndUniqueUnitsAction(
         selectedUnitRowIndex,
         fileUnits,
-        fileUniqueUnits
+        fileUniqueUnits,
+        workflowProcess
       )
     );
-    dispatch(persistColumnNameTableDataAction(columnNameTableData));
-    dispatch(persistTableRoleNamesAction(chosenTableRoleNames));
+    dispatch(
+      persistColumnNameTableDataAction(columnNameTableData, workflowProcess)
+    );
+    dispatch(
+      persistTableRoleNamesAction(chosenTableRoleNames, workflowProcess)
+    );
 
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -6,22 +6,12 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import WarningIcon from "@material-ui/icons/Warning";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import dialogIcons from "../Icons/DialogIcons";
 import { DialogStuff } from "./DialogTypes";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-
-const icons = {
-  error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-  information: <InfoOutlinedIcon style={{ color: "#31BFCC" }} />,
-};
 
 const useDialogTitleStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -67,7 +57,7 @@ const TextDialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {icons[iconType ? iconType : "select"]}
+          {dialogIcons[iconType ? iconType : "select"]}
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>

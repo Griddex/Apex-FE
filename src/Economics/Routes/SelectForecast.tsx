@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ForecastRunDetail from "../Components/ForecastRunDetail";
 import ForecastTreeView from "../Components/ForecastTreeView";
-import { contextDrawerShowAction } from "./../../Application/Redux/Actions/LayoutActions";
+import { showContextDrawerAction } from "./../../Application/Redux/Actions/LayoutActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +51,7 @@ const SelectForecast = () => {
   const data: Record<string, unknown>[] = [];
 
   useEffect(() => {
-    dispatch(contextDrawerShowAction());
+    dispatch(showContextDrawerAction());
   }, [dispatch]);
 
   return (

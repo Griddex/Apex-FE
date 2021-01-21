@@ -13,24 +13,14 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import WarningIcon from "@material-ui/icons/Warning";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import React, { ReactNode } from "react";
 import { useDispatch } from "react-redux";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { DialogStuff } from "./DialogTypes";
-import InfoIcon from "@material-ui/icons/Info";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-
-const icons = {
-  error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-  information: <InfoIcon style={{ color: "#31BFCC" }} />,
-};
+import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import dialogIcons from "../Icons/DialogIcons";
+import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -90,7 +80,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {icons[iconType ? iconType : "select"]}
+          {dialogIcons[iconType ? iconType : "select"]}
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
@@ -136,6 +126,7 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     contentList,
     actionsList,
     dialogContentStyle,
+    workflowProcess,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -165,7 +156,9 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                 button
                 onClick={() => {
                   setSelectedListItem(name);
-                  dispatch(persistWorksheetAction(name, []));
+                  dispatch(
+                    persistWorksheetAction(name, [], workflowProcess as string)
+                  );
                 }}
               >
                 <ListItemAvatar>

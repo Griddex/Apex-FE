@@ -8,6 +8,7 @@ import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
@@ -70,14 +71,17 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
   const { dnDDisabled } = useSelector(
-    (state: RootState) => state.importReducer[workflowProcess]
+    (state: RootState) => state.importReducer["allWorkflows"][workflowProcess]
   );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) => state.workflowReducer[workflowProcess]
+    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
   );
+
+  React.useEffect(() => {
+    dispatch(hideSpinnerAction());
+  }, []);
 
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
@@ -104,7 +108,7 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
               type: "array",
             });
 
-            dispatch(persistFileAction(inputWorkbook));
+            dispatch(persistFileAction(inputWorkbook, workflowProcess));
 
             const {
               Author: fileAuthor,
@@ -122,12 +126,15 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
                 fileCreated as Date,
                 true,
                 true,
-                "Uploading file..."
+                "Uploading file...",
+                workflowProcess
               )
             );
 
             const workSheetNames = inputWorkbook.SheetNames;
-            dispatch(persistWorksheetNamesAction(workSheetNames));
+            dispatch(
+              persistWorksheetNamesAction(workSheetNames, workflowProcess)
+            );
 
             if (workSheetNames.length > 1) {
               const dialogParameters: DialogStuff = {
@@ -138,8 +145,8 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
                 exclusive: true,
                 maxWidth: "sm",
                 iconType: "select",
-                dialogText: "",
                 contentList: workSheetNames,
+                workflowProcess: workflowProcess,
               };
               dispatch(showDialogAction(dialogParameters));
             } else {
@@ -153,7 +160,8 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
               dispatch(
                 persistWorksheetAction(
                   selectedWorksheetName,
-                  selectedWorksheetData
+                  selectedWorksheetData,
+                  workflowProcess
                 )
               );
               dispatch(

@@ -1,6 +1,23 @@
 import { IWorkflowState } from "./WorkflowStateTypes";
 
 const workflowNames = [
+  "facilitiesInputDeckExcel",
+  "facilitiesInputDeckDatabase",
+  "facilitiesInputDeckApproveddeck",
+
+  "forecastInputDeckExcel",
+  "forecastInputDeckDatabase",
+  "forecastInputDeckApproveddeck",
+
+  "productionDataExcel",
+  "productionDataDatabase",
+  "productionDataApproved",
+
+  "economicsDataExcel",
+  "economicsDataDatabase",
+  "economicsDataManual",
+  "economicsDataApproved",
+
   "newProjectDialogWorkflow",
   "forecastInputDeckImport",
   "economicsWorkflow",

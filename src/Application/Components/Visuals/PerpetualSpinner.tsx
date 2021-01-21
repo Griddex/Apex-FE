@@ -2,9 +2,10 @@ import { css } from "@emotion/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,18 +40,21 @@ const override = css`
   left: 0;
 `;
 
-const PerpetualSpinner = ({ message }: { message: string }) => {
+const PerpetualSpinner = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { pending, message } = useSelector(
+    (state: RootState) => state.uiSpinnerReducer
+  );
 
   const handleClose = () => {
     dispatch(hideSpinnerAction());
   };
 
   return (
-    <Backdrop className={classes.backdrop} open={true} onClick={handleClose}>
+    <Backdrop className={classes.backdrop} open={pending} onClick={handleClose}>
       <div>
-        <HashLoader css={override} color={"white"} loading={true} />
+        <HashLoader css={override} color={"white"} loading={pending} />
         <p>{message}</p>
       </div>
     </Backdrop>

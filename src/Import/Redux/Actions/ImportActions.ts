@@ -24,11 +24,6 @@ export const PERSIST_DEFINEDTABLEDATA = "PERSIST_DEFINEDTABLEDATA";
 export const PERSIST_COLUMNNAMETABLEDATA = "PERSIST_COLUMNNAMETABLEDATA";
 export const PERSIST_TABLEHEADERS = "PERSIST_TABLEHEADERS";
 export const PERSIST_OPTIONINDICES = "PERSIST_OPTIONINDICES";
-export const IMPORT_EXCEL_LOADING = "IMPORT_EXCEL_LOADING";
-export const IMPORT_EXCEL_MATCHING = "IMPORT_EXCEL_MATCHING";
-export const IMPORT_EXCELWORKSHEETNAME_SET = "IMPORT_EXCELWORKSHEETNAME_SET";
-export const IMPORT_EXCELWORKSHEETPARSE_NAVIGATE =
-  "IMPORT_EXCELWORKSHEETPARSE_NAVIGATE";
 export const SELECTED_ROW = "SELECTED_ROW";
 export const PERSIST_CHOSENAPPLICATIONHEADERS =
   "PERSIST_CHOSENAPPLICATIONHEADERS";
@@ -44,7 +39,8 @@ export const importFileInitAction = (
   fileCreated: Date,
   fileAccepted: boolean,
   dnDDisabled: boolean,
-  message: string
+  message: string,
+  workflowProcess: string
 ) => {
   return {
     type: IMPORTFILE_INITIALIZATION,
@@ -58,67 +54,76 @@ export const importFileInitAction = (
       fileCreated,
       fileAccepted,
       dnDDisabled,
+      workflowProcess,
     },
     meta: { showSpinner: true, message },
   };
 };
 
-export const persistFileAction = (file: any) => {
+export const persistFileAction = (file: any, workflowProcess: string) => {
   return {
     type: PERSIST_FILE,
-    payload: { inputFile: file },
+    payload: { inputFile: file, workflowProcess },
   };
 };
 
-export const persistWorksheetNamesAction = (workSheetNames: string[]) => {
+export const persistWorksheetNamesAction = (
+  workSheetNames: string[],
+  workflowProcess: string
+) => {
   return {
     type: PERSIST_WORKSHEETNAMES,
-    payload: { workSheetNames },
+    payload: { workSheetNames, workflowProcess },
   };
 };
 
 export const persistWorksheetAction = (
   selectedWorksheetName: string,
-  selectedWorksheetData: Record<string, React.Key>[]
+  selectedWorksheetData: Record<string, React.Key>[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_WORKSHEET,
-    payload: { selectedWorksheetName, selectedWorksheetData },
+    payload: { selectedWorksheetName, selectedWorksheetData, workflowProcess },
   };
 };
-
+///////////////////////////////
 export const persistFileHeadersAction = (
   selectedHeaderRowIndex: number,
-  fileHeaders: string[]
+  fileHeaders: string[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_FILEHEADERS,
-    payload: { selectedHeaderRowIndex, fileHeaders },
+    payload: { selectedHeaderRowIndex, fileHeaders, workflowProcess },
   };
 };
 
 export const persistFileHeadersMatchAction = (
-  fileHeadersMatch: Record<string, number>[]
+  fileHeadersMatch: Record<string, number>[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_FILEHEADERSMATCH,
-    payload: { fileHeadersMatch },
+    payload: { fileHeadersMatch, workflowProcess },
   };
 };
 export const persistChosenApplicationHeadersIndicesAction = (
-  chosenApplicationHeadersIndices: Record<string, number>
+  chosenApplicationHeadersIndices: Record<string, number>,
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
-    payload: { chosenApplicationHeadersIndices },
+    payload: { chosenApplicationHeadersIndices, workflowProcess },
   };
 };
 export const persistChosenApplicationUniqueUnitIndicesAction = (
-  chosenApplicationUniqueUnitIndices: Record<string, number>
+  chosenApplicationUniqueUnitIndices: Record<string, number>,
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
-    payload: { chosenApplicationUniqueUnitIndices },
+    payload: { chosenApplicationUniqueUnitIndices, workflowProcess },
   };
 };
 
@@ -135,76 +140,94 @@ export const persistFileUnitsAndUniqueUnitsAction = (
     | number
     | Record<string, React.Key>
     | Record<string, React.Key>[]
-  )[]
+  )[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_FILEUNITSANDUNIQUEUNITS,
-    payload: { selectedUnitRowIndex, fileUnits, fileUniqueUnits },
+    payload: {
+      selectedUnitRowIndex,
+      fileUnits,
+      fileUniqueUnits,
+      workflowProcess,
+    },
   };
 };
 
 export const persistFileUnitsMatchAction = (
-  fileUnitsMatch: Record<string, number>[]
+  fileUnitsMatch: Record<string, number>[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_FILEUNITSMATCH,
-    payload: { fileUnitsMatch },
+    payload: { fileUnitsMatch, workflowProcess },
   };
 };
 
 export const persistChosenApplicationHeadersAction = (
-  chosenApplicationHeaders: string[]
+  chosenApplicationHeaders: string[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERS,
-    payload: { chosenApplicationHeaders },
+    payload: { chosenApplicationHeaders, workflowProcess },
   };
 };
 export const persistChosenApplicationUnitsAction = (
-  chosenApplicationUnits: string[]
+  chosenApplicationUnits: string[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITS,
-    payload: { chosenApplicationUnits },
+    payload: { chosenApplicationUnits, workflowProcess },
   };
 };
 
-export const persistTableRoleNamesAction = (tableRoleNames: string[]) => {
+export const persistTableRoleNamesAction = (
+  tableRoleNames: string[],
+  workflowProcess: string
+) => {
   return {
     type: PERSIST_TABLEROLENAMES,
-    payload: { tableRoleNames },
+    payload: { tableRoleNames, workflowProcess },
   };
 };
 
 export const persistTableDataAction = (
-  tableData: Record<string, React.Key>[]
+  tableData: Record<string, React.Key>[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_TABLEDATA,
-    payload: { tableData },
+    payload: { tableData, workflowProcess },
   };
 };
 
 export const persistColumnNameTableDataAction = (
-  columnNameTableData: Record<string, React.Key>[]
+  columnNameTableData: Record<string, React.Key>[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_COLUMNNAMETABLEDATA,
-    payload: { columnNameTableData },
+    payload: { columnNameTableData, workflowProcess },
   };
 };
 export const persistDefinedTableDataAction = (
-  definedTableData: Record<string, React.Key>[]
+  definedTableData: Record<string, React.Key>[],
+  workflowProcess: string
 ) => {
   return {
     type: PERSIST_DEFINEDTABLEDATA,
-    payload: { definedTableData },
+    payload: { definedTableData, workflowProcess },
   };
 };
 
-export const persistTableHeadersAction = (tableHeaders: string[]) => {
+export const persistTableHeadersAction = (
+  tableHeaders: string[],
+  workflowProcess: string
+) => {
   return {
     type: PERSIST_TABLEHEADERS,
-    payload: { tableHeaders },
+    payload: { tableHeaders, workflowProcess },
   };
 };

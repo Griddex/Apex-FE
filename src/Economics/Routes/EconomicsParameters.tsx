@@ -114,12 +114,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EconomicsParameters = () => {
+const EconomicsParameters = ({
+  workflowProcess,
+}: {
+  workflowProcess: string;
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const dnDDisabled = useSelector(
-    (state: RootState) => state.importReducer.dnDDisabled
+  const { dnDDisabled } = useSelector(
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
   const [economicsDataSource, setEconomicsDataSource] = React.useState(
     "template"
@@ -403,10 +408,12 @@ const EconomicsParameters = () => {
               const fileData = new Uint8Array(reader.result as ArrayBuffer);
               const inputWorkbook = xlsx.read(fileData, { type: "array" });
 
-              dispatch(persistFileAction(inputWorkbook));
+              dispatch(persistFileAction(inputWorkbook, workflowProcess));
 
               const workSheetNames = inputWorkbook.SheetNames;
-              dispatch(persistWorksheetNamesAction(workSheetNames));
+              dispatch(
+                persistWorksheetNamesAction(workSheetNames, workflowProcess)
+              );
 
               if (workSheetNames.length > 1) {
                 const dialogParameters: DialogStuff = {
@@ -419,6 +426,7 @@ const EconomicsParameters = () => {
                   iconType: "select",
                   dialogText: "singleSheetFile",
                   contentList: workSheetNames,
+                  workflowProcess: workflowProcess,
                 };
                 dispatch(showDialogAction(dialogParameters));
               } else {
@@ -433,7 +441,8 @@ const EconomicsParameters = () => {
                 dispatch(
                   persistWorksheetAction(
                     selectedWorksheetName,
-                    selectedWorksheetData
+                    selectedWorksheetData,
+                    workflowProcess
                   )
                 );
 
@@ -447,6 +456,7 @@ const EconomicsParameters = () => {
                   iconType: "select",
                   dialogText: "multiSheetFile",
                   contentList: workSheetNames,
+                  workflowProcess: workflowProcess,
                 };
                 dispatch(showDialogAction(dialogParameters));
               }

@@ -120,7 +120,7 @@ const EconomicsWorkflow = () => {
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[workflowProcess]
+    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -171,7 +171,9 @@ const EconomicsWorkflow = () => {
       case 1:
         return <EconomicCosts />;
       case 2:
-        return <EconomicsParameters />;
+        return (
+          <EconomicsParameters workflowProcess="economicsParameterImportWorkflow" />
+        );
       case 3:
         return <EconomicsCalculations />;
       default:

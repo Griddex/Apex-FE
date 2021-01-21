@@ -1,11 +1,17 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useRouteMatch,
+} from "react-router-dom";
 import Loading from "../../Application/Components/Visuals/Loading";
 import Network from "./Network";
 import NetworkBackground from "./NetworkBackground";
 import { ReactFlowProvider } from "react-flow-renderer";
+import { IdType, INetworkLayouts } from "./NetworkLayoutTypes";
 
 const navbarHeight = 43;
 // const subNavBarHeight = 25;
@@ -45,14 +51,14 @@ const NetworkLayout = () => {
             />
             <Route
               path={`${url}/:networkId`}
-              render={(props) => {
+              render={(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { networkId },
                   },
                 } = props;
 
-                const Layouts = {
+                const Layouts: INetworkLayouts = {
                   background: <NetworkBackground />,
                   network: <Network />,
                 };

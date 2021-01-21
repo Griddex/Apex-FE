@@ -22,7 +22,7 @@ import Terminal from "../../Images/Terminal.svg";
 import Wellhead from "../../Images/Wellhead.svg";
 import {
   contextDrawerExpandAction,
-  contextDrawerShowAction,
+  showContextDrawerAction,
 } from "../../../Application/Redux/Actions/LayoutActions";
 import { addNetworkElementAction } from "../../Redux/Actions/NetworkActions";
 import GenerateNodeByPositionService from "../../Services/GenerateNodeByPositionService";
@@ -215,7 +215,7 @@ export const ShowDetailsMenu = () => {
   return (
     <MenuItem
       onClick={() => {
-        dispatch(contextDrawerShowAction());
+        dispatch(showContextDrawerAction());
         dispatch(contextDrawerExpandAction());
       }}
     >

@@ -49,7 +49,7 @@ export const mainDrawerCollapseAction = () => {
 };
 
 //CONTEXT DRAWER
-export const contextDrawerShowAction = () => {
+export const showContextDrawerAction = () => {
   return {
     type: SHOW_CONTEXTDRAWER,
     payload: { showContextDrawer: true },

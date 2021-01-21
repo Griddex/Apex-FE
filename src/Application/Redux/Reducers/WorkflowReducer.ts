@@ -1,44 +1,53 @@
 import {
-  BACK_WORKFLOW,
-  FINALIZE_WORKFLOW,
+  SET_WORKFLOWPROCESS,
   INITIALIZE_WORKFLOW,
-  NEXT_WORKFLOW,
   RESET_WORKFLOW,
-  SAVE_WORKFLOW,
+  NEXT_WORKFLOW,
+  BACK_WORKFLOW,
   SKIP_WORKFLOW,
+  SAVE_WORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
 import { IAction } from "./../Actions/ActionTypes";
 
 const workflowReducer = (state = workflowState, action: IAction) => {
   switch (action.type) {
-    case FINALIZE_WORKFLOW:
+    case SET_WORKFLOWPROCESS:
       return {
         ...state,
         currentWorkflowProcess: action.payload.workflowProcess,
       };
+
     case INITIALIZE_WORKFLOW: {
       const { workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
       return {
         ...state,
-        [workflowProcessDefined]: {
-          activeStep: 0,
-          steps: action.payload.steps,
-          isStepSkipped: action.payload.isStepSkipped,
-          isStepOptional: action.payload.isStepOptional,
+        allWorkflows: {
+          ...state.allWorkflows,
+          [workflowProcessDefined]: {
+            activeStep: 0,
+            steps: action.payload.steps,
+            isStepSkipped: action.payload.isStepSkipped,
+            isStepOptional: action.payload.isStepOptional,
+          },
         },
       };
     }
+
     case RESET_WORKFLOW: {
       const { workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
 
       return {
         ...state,
-        [workflowProcessDefined]: { activeStep: action.payload.activeStep },
+        allWorkflows: {
+          ...state.allWorkflows,
+          [workflowProcessDefined]: { activeStep: action.payload.activeStep },
+        },
       };
     }
+
     case NEXT_WORKFLOW: {
       const { workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
@@ -56,32 +65,44 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       //   newSkipped.delete(activeStep);
       // }
 
-      if (activeStep === steps.length - 1) {
-        return { ...state["allWorkflows"][workflowProcessDefined] };
-      }
+      // if (activeStep === steps.length - 1) {
+      //   return { ...state["allWorkflows"][workflowProcessDefined] };
+      // }
+      console.log(
+        "Logged output --> ~ file: WorkflowReducer.ts ~ line 62 ~ workflowReducer ~ state",
+        state
+      );
 
       return {
         ...state,
-        [workflowProcessDefined]: {
-          activeStep: action.payload.activeStep + 1,
-          // skipped: newSkipped,
+        allWorkflows: {
+          ...state.allWorkflows,
+          [workflowProcessDefined]: {
+            activeStep: action.payload.activeStep + 1,
+            // skipped: newSkipped,
+          },
         },
       };
     }
+
     case BACK_WORKFLOW: {
       const { workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
       return {
         ...state,
-        [workflowProcessDefined]: { activeStep: action.payload.activeStep - 1 },
+        allWorkflows: {
+          ...state.allWorkflows,
+          [workflowProcessDefined]: {
+            activeStep: action.payload.activeStep - 1,
+          },
+        },
       };
     }
+
     case SKIP_WORKFLOW: {
       const { workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
-      const {
-        [workflowProcessDefined]: { isStepOptional, activeStep },
-      } = action.payload;
+      const { isStepOptional, activeStep } = action.payload;
 
       if (!isStepOptional()) {
         // You probably want to guard against something like this,
@@ -96,17 +117,19 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       return {
         ...state,
-        [workflowProcessDefined]: {
-          activeStep: action.payload.activeStep + 1,
-          skipped: newSkippedSet,
+        allWorkflows: {
+          ...state.allWorkflows,
+          [workflowProcessDefined]: {
+            activeStep: action.payload.activeStep + 1,
+            skipped: newSkippedSet,
+          },
         },
       };
     }
 
-    case SAVE_WORKFLOW: //Not yet complete
-      return state;
-
-    case FINALIZE_WORKFLOW: //Not yet complete
+    //TODO - different scenarios for different workflows
+    //Should it be handled here or in other actions?
+    case SAVE_WORKFLOW:
       return state;
 
     default:

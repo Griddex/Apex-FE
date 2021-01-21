@@ -95,7 +95,8 @@ export default function MatchUnits({
   const dispatch = useDispatch();
 
   const { fileUnits, fileUniqueUnits } = useSelector(
-    (state: RootState) => state.importReducer[workflowProcess]
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
 
   //Application headers
@@ -415,10 +416,13 @@ export default function MatchUnits({
   const rows = tableRows.current;
 
   React.useEffect(() => {
-    dispatch(persistFileUnitsMatchAction(fileUniqueUnitMatches));
+    dispatch(
+      persistFileUnitsMatchAction(fileUniqueUnitMatches, workflowProcess)
+    );
     dispatch(
       persistChosenApplicationUniqueUnitIndicesAction(
-        chosenApplicationUniqueUnitIndices
+        chosenApplicationUniqueUnitIndices,
+        workflowProcess
       )
     );
 
@@ -428,7 +432,12 @@ export default function MatchUnits({
       chosenApplicationUniqueUnitIndices
     );
 
-    dispatch(persistChosenApplicationUnitsAction(chosenApplicationUnits));
+    dispatch(
+      persistChosenApplicationUnitsAction(
+        chosenApplicationUnits,
+        workflowProcess
+      )
+    );
 
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps

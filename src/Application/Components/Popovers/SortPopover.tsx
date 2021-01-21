@@ -69,10 +69,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
-  ({ title, action, handleCancel, localDispatch }, ref) => {
+  ({ title, action, handleCancel, localDispatch, workflowProcess }, ref) => {
     const classes = useStyles();
     const { fileHeaders } = useSelector(
-      (state: RootState) => state.importReducer
+      (state: RootState) =>
+        state.importReducer["allWorkflows"][workflowProcess as string]
     );
 
     return (

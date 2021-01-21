@@ -5,7 +5,7 @@ import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import SelectChart from "./SelectChart";
 import SelectChartDataPanel from "./SelectChartDataPanel";
 import FormatAggregator from "../Components/FormatAggregator";
-import { contextDrawerShowAction } from "./../../Application/Redux/Actions/LayoutActions";
+import { showContextDrawerAction } from "./../../Application/Redux/Actions/LayoutActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -50,7 +50,7 @@ const Visualytics = () => {
   const data = [];
 
   useEffect(() => {
-    dispatch(contextDrawerShowAction());
+    dispatch(showContextDrawerAction());
   }, [dispatch]);
 
   return (

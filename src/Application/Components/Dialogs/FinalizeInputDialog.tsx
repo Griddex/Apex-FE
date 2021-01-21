@@ -36,6 +36,7 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 import { persistNetworkElementsAction } from "./../../../Network/Redux/Actions/NetworkActions";
 import { GenerateWellheadSummaryNodes } from "./../../../Network/Utils/GenerateWellheadSummaryNodes";
+import dialogIcons from "../Icons/DialogIcons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -101,13 +102,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const icons = {
-  error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-  information: <InfoIcon style={{ color: "#31BFCC" }} />,
-};
-
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
@@ -116,7 +110,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {icons[iconType ? iconType : "select"]}
+          {dialogIcons[iconType ? iconType : "select"]}
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
@@ -158,13 +152,14 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { title, show, maxWidth, iconType } = props;
+  const { title, show, maxWidth, iconType, workflowProcess } = props;
 
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
   const { definedTableData } = useSelector(
-    (state: RootState) => state.importReducer
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
     (state: RootState) => state.networkReducer

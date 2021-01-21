@@ -16,9 +16,10 @@ export default function* watchRunForecastSaga() {
 
 function* runForecastSaga(action: IAction) {
   const { payload } = action;
+  const { workflowProcess } = payload;
 
-  const definedTableData = yield select(
-    (state) => state.importReducer.definedTableData
+  const { definedTableData } = yield select(
+    (state) => state.importReducer["allWorkflows"][workflowProcess as string]
   );
   const data = definedTableData;
   const config = { headers: null };

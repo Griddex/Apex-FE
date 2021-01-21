@@ -163,7 +163,6 @@ const ServerLoginForm = () => {
     actionsList: connectDatabaseDialogActions,
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
-  dispatch(showDialogAction(successDialogParameters));
 
   const failureDialogParameters: DialogStuff = {
     name: "Connect_Database_Failure_Dialog",
@@ -177,7 +176,6 @@ const ServerLoginForm = () => {
     actionsList: connectDatabaseDialogActions,
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
-  dispatch(showDialogAction(failureDialogParameters));
 
   return (
     <Formik

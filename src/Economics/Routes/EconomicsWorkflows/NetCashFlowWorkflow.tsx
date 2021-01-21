@@ -121,7 +121,7 @@ const NetCashFlowWorkflow = () => {
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[workflowProcess]
+    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -172,7 +172,9 @@ const NetCashFlowWorkflow = () => {
       case 1:
         return <EconomicCosts />;
       case 2:
-        return <EconomicsParameters />;
+        return (
+          <EconomicsParameters workflowProcess="netCashAnalysisWorkflow" />
+        );
       case 3:
         return <EconomicsCalculations />;
       default:

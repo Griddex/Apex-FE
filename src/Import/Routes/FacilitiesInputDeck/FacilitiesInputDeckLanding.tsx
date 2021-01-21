@@ -80,7 +80,6 @@ const FacilitiesInputDeckLanding = ({
       workflowProcess: "facilitiesInputDeckDatabase",
     },
     {
-      // name: `Approved Name`,
       name: `Approved ${subModuleLabel}`,
       description: `Select a pre-exisiting and approved ${subModuleLabel} stored in the Apex\u2122 database`,
       icon: (

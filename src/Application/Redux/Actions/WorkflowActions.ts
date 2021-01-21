@@ -5,7 +5,6 @@ export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
 export const BACK_WORKFLOW = "BACK_WORKFLOW";
 export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
-export const FINALIZE_WORKFLOW = "FINALIZE_WORKFLOW";
 
 export const setWorkflowProcessAction = (workflowProcess: string) => {
   return {
@@ -15,6 +14,7 @@ export const setWorkflowProcessAction = (workflowProcess: string) => {
     },
   };
 };
+
 export const workflowInitAction = (
   steps: string[],
   isStepOptional: (activeStep: number) => boolean,
@@ -97,16 +97,8 @@ export const workflowSkipAction = (
 export const workflowSaveAction = (workflowProcess: string) => {
   return {
     type: SAVE_WORKFLOW,
-    payload: { workflowProcess },
-  };
-};
-
-export const workflowFinalizeAction = (
-  name: string,
-  workflowProcess: string
-) => {
-  return {
-    type: FINALIZE_WORKFLOW,
-    payload: { workflowName: name, workflowProcess },
+    payload: {
+      workflowProcess,
+    },
   };
 };

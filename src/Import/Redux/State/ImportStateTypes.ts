@@ -48,4 +48,7 @@ export interface IImportState {
   chosenApplicationUnits: string[];
 }
 
-export type ImportStateType = Record<string, IImportState>;
+export interface ImportStateType {
+  currentImportProcess: string;
+  allWorkflows: Record<string, IImportState>;
+}

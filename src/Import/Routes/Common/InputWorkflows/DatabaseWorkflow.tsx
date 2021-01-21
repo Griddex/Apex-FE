@@ -121,7 +121,7 @@ const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[workflowProcess as string]
+    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer

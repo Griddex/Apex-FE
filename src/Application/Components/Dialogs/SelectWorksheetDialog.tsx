@@ -30,6 +30,7 @@ import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActi
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import dialogIcons from "../Icons/DialogIcons";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -82,13 +83,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const icons = {
-  error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-  information: <InfoIcon style={{ color: "#31BFCC" }} />,
-};
-
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
@@ -97,7 +91,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {icons[iconType ? iconType : "select"]}
+          {dialogIcons[iconType ? iconType : "select"]}
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
@@ -145,12 +139,18 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     contentList,
     workflowProcess,
   } = props;
+  console.log(
+    "Logged output --> ~ file: SelectWorksheetDialog.tsx ~ line 148 ~ props",
+    props
+  );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) => state.workflowReducer
+    (state: RootState) =>
+      state.workflowReducer["allWorkflows"][workflowProcess as string]
   );
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
-    (state: RootState) => state.importReducer
+    (state: RootState) =>
+      state.importReducer["allWorkflows"][workflowProcess as string]
   );
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
@@ -170,7 +170,9 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                 button
                 onClick={() => {
                   setSelectedListItem(name);
-                  dispatch(persistWorksheetAction(name, []));
+                  dispatch(
+                    persistWorksheetAction(name, [], workflowProcess as string)
+                  );
                 }}
               >
                 <ListItemAvatar>
@@ -199,7 +201,11 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     }
 
     dispatch(
-      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData)
+      persistWorksheetAction(
+        selectedWorksheetName,
+        selectedWorksheetData,
+        workflowProcess as string
+      )
     );
     dispatch(
       workflowNextAction(
