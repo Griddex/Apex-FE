@@ -4,8 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { persistAvatarToReduxAction } from "../../Redux/Actions/RegisterActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import { persistAvatarToReduxAction } from "../../../Administration/Redux/Actions/AdminActions";
 const useStyles = makeStyles(() => ({
   dropZone: {
     borderStyle: "dotted",
@@ -41,9 +41,7 @@ const useStyles = makeStyles(() => ({
 const UserAvatar: React.FC<JSX.Element> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const avatarUrl = useSelector(
-    (state: RootState) => state.registerReducer.avatarUrl
-  );
+  const { avatarUrl } = useSelector((state: RootState) => state.adminReducer);
 
   return (
     <Dropzone

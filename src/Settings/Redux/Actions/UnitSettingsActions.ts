@@ -35,8 +35,8 @@ export const fetchUnitSettingsSuccessAction = () => {
   return {
     type: FETCH_UNITSETTINGS_SUCCESS,
     payload: {
-      statusCode: "",
-      data: "",
+      statusCode: 0,
+      data: [],
     },
   };
 };
@@ -45,7 +45,7 @@ export const fetchUnitSettingsFailureAction = () => {
   return {
     type: FETCH_UNITSETTINGS_FAILURE,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       errors: [],
     },
   };

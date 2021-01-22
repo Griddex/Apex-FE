@@ -1,21 +1,22 @@
+import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import SkipNextOutlinedIcon from "@material-ui/icons/SkipNextOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  ButtonProps,
-  DialogStuff,
-} from "../../../Application/Components/Dialogs/DialogTypes";
-import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
-import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import SkipNextOutlinedIcon from "@material-ui/icons/SkipNextOutlined";
-import { Typography } from "@material-ui/core";
+  workflowBackAction,
+  workflowNextAction,
+  workflowResetAction,
+  workflowSkipAction,
+} from "../../Redux/Actions/WorkflowActions";
+import { RootState } from "../../Redux/Reducers/AllReducers";
+import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
+import { INavigationButtonsProp } from "./NavigationButtonTypes";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -39,83 +40,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainNavigationButtons = ({
-  showReset, //In
-  showBack, //In
-  showSkip, //In
-  showNext, //In
-  workflowResetAction, //from import
-  workflowBackAction, //from import
-  workflowSkipAction, //from import
-  workflowNextAction, //from import
-  activeStep, //Use workflow process to access from store
-  steps, //Use workflow process to access from store
-  isStepOptional, //Use workflow process to access from store
-  skipped, //Use workflow process to access from store
-  isStepSkipped, //Use workflow process to access from store
-  workflowProcess, //In
+type isStepSkippedType = (step: number) => boolean;
+//Too many renders?
+//Try react.memo
+//Usecallback for finalaction?
+const NavigationButtons = ({
+  mainNav,
+  showReset,
+  showBack,
+  showSkip,
+  showNext,
+  finalAction,
+  workflowProcess,
 }: INavigationButtonsProp) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  //1.
-
   const {
-    projectName,
-    projectDescription,
-    dateFormat,
-    pressureAddend,
-  } = useSelector((state: RootState) => state.projectReducer);
-
-  const newProjectDialogActions = () => {
-    const buttonsData: ButtonProps[] = [
-      {
-        title: "Okay",
-        variant: "outlined",
-        color: "primary",
-        startIcon: <DoneOutlinedIcon />,
-        handleAction: () => dispatch(hideDialogAction()),
-      },
-    ];
-
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        onClick={button.handleAction}
-        startIcon={button.startIcon}
-      >
-        {button.title}
-      </Button>
-    ));
-  };
-
-  const successDialogParameters: DialogStuff = {
-    name: "New_Project_Success_Dialog",
-    title: "New Project Success",
-    type: "textDialog",
-    show: true,
-    exclusive: true,
-    maxWidth: "xs",
-    dialogText: "New Project Creation Successful",
-    iconType: "success",
-    actionsList: () => newProjectDialogActions(),
-    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-  };
-
-  const failureDialogParameters: DialogStuff = {
-    name: "New_Project_Failure_Dialog",
-    title: "New Project Failure",
-    type: "textDialog",
-    show: true,
-    exclusive: true,
-    maxWidth: "xs",
-    dialogText: "New Project Creation failure",
-    iconType: "error",
-    actionsList: () => newProjectDialogActions(),
-    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-  };
+    activeStep,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  } = useSelector(
+    (state: RootState) =>
+      state.workflowReducer["allWorkflows"][workflowProcess as string]
+  ) as IWorkflowProcessState;
+  console.log(
+    "Logged output --> ~ file: NavigationButtons.tsx ~ line 64 ~ steps",
+    steps
+  );
 
   return (
     <div className={classes.navigationbuttons}>
@@ -131,7 +85,7 @@ const MainNavigationButtons = ({
         >
           <div className={classes.buttonContent}>
             <RotateLeftIcon />
-            <Typography>{"Reset"}</Typography>
+            {mainNav && <Typography>{"Reset"}</Typography>}
           </div>
         </Button>
       )}
@@ -147,11 +101,11 @@ const MainNavigationButtons = ({
         >
           <div className={classes.buttonContent}>
             <ArrowBackIosIcon />
-            <Typography>{"Back"}</Typography>
+            {mainNav && <Typography>{"Back"}</Typography>}
           </div>
         </Button>
       )}
-      {showSkip && isStepOptional(activeStep) && (
+      {showSkip && isStepOptional && isStepOptional(activeStep) && (
         <Button
           className={classes.button}
           variant="outlined"
@@ -169,7 +123,7 @@ const MainNavigationButtons = ({
         >
           <div className={classes.buttonContent}>
             <SkipNextOutlinedIcon />
-            <Typography>{"Skip"}</Typography>
+            {mainNav && <Typography>{"Skip"}</Typography>}
           </div>
         </Button>
       )}
@@ -179,13 +133,17 @@ const MainNavigationButtons = ({
           variant="outlined"
           color="primary"
           onClick={() => {
+            console.log(
+              "Logged output --> ~ file: NavigationButtons.tsx ~ line 135 ~ steps",
+              steps
+            );
             activeStep === steps.length - 1
-              ? finalAction && dispatch(finalAction(...finalActionArgs))
+              ? finalAction && finalAction()
               : workflowNextAction &&
                 dispatch(
                   workflowNextAction(
-                    skipped,
-                    isStepSkipped,
+                    skipped as Set<number>,
+                    isStepSkipped as isStepSkippedType,
                     activeStep,
                     steps,
                     "Loading...",
@@ -197,12 +155,12 @@ const MainNavigationButtons = ({
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
               <DoneAllIcon />
-              <Typography>{"Finalize"}</Typography>
+              {mainNav && <Typography>{"Finalize"}</Typography>}
             </div>
           ) : (
             <div className={classes.buttonContent}>
               <ArrowForwardIosIcon />
-              <Typography>{"Next"}</Typography>
+              {mainNav && <Typography>{"Next"}</Typography>}
             </div>
           )}
         </Button>
@@ -211,4 +169,4 @@ const MainNavigationButtons = ({
   );
 };
 
-export default MainNavigationButtons;
+export default NavigationButtons;

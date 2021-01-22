@@ -16,10 +16,11 @@ const userState: IUserState = {
   role: "",
   avatarUrl: "",
 
-  statusCode: "",
-  data: "",
+  statusCode: 0,
+  data: [],
   errors: [],
   isAdmin: false,
   isAthenticated: false,
 };
+
 export default userState;

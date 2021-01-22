@@ -7,23 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { fetchRecentProjectsAction } from "../../Redux/Actions/ProjectActions";
-
-interface IRecentProject {
-  sn?: number;
-  projectId?: string;
-  projectName: string;
-  icon?: JSX.Element;
-  handleClick: () => void;
-  toggleSN?: boolean;
-}
+import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
 
 const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
 
   const ApexMenuItem = ({
-    projectId,
-    projectName,
+    id,
+    title,
     handleClick,
     icon,
     sn,
@@ -32,7 +23,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     return (
       <MenuItem
         onClick={() => {
-          handleClick();
+          handleClick && handleClick();
         }}
         style={{
           display: "flex",
@@ -56,11 +47,11 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           >
             {`${sn}.`}
             <span>&nbsp;</span>
-            <Typography variant="body2">{projectName}</Typography>
+            <Typography variant="body2">{title}</Typography>
           </div>
         ) : (
           <div style={{ width: "100%" }}>
-            <Typography variant="body2">{projectName}</Typography>
+            <Typography variant="body2">{title}</Typography>
           </div>
         )}
       </MenuItem>
@@ -82,45 +73,13 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   };
 
   //TODO: Saga Api to fetch recently opened projects from server
-  const recentProjectsA = useSelector(
-    (state: RootState) => state.projectReducer
+  const recentProjects = useSelector(
+    (state: RootState) => state.projectReducer["recentProjects"]
+  ) as IRecentProject[];
+  console.log(
+    "Logged output --> ~ file: NewProjectPopover.tsx ~ line 80 ~ recentProjects",
+    recentProjects
   );
-  const recentProjects: IRecentProject[] = [
-    {
-      projectId: "Apex1",
-      projectName: "Forecast Project_May 2020",
-      handleClick: () => console.log("hello"),
-    },
-    {
-      projectId: "Apex2",
-      projectName: "Forecast Project_June 2019",
-      handleClick: () => console.log("hello"),
-    },
-    {
-      projectId: "Apex3",
-      projectName: "Forecast Project_September 2018",
-      handleClick: () => console.log("hello"),
-    },
-    {
-      projectId: "Apex4",
-      projectName: "Forecast Project_May 2017",
-      handleClick: () => console.log("hello"),
-    },
-    {
-      projectId: "Apex5",
-      projectName: "Forecast Project_January 2016",
-      handleClick: () => console.log("hello"),
-    },
-    {
-      projectId: "Apex6",
-      projectName: "Forecast Project_April 2015",
-      handleClick: () => console.log("hello"),
-    },
-  ];
-
-  React.useEffect(() => {
-    dispatch(fetchRecentProjectsAction());
-  }, []);
 
   return (
     <div
@@ -133,7 +92,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     >
       <div style={{ borderBottom: "1px solid #999", padding: 3 }}>
         <ApexMenuItem
-          projectName="New Project"
+          title="New Project"
           icon={
             <CheckBoxOutlineBlankOutlinedIcon
               fontSize="small"
@@ -145,31 +104,31 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
       </div>
       <div style={{ borderBottom: "1px solid #999" }}>
         <ApexMenuItem
-          projectName="Recent Projects"
+          title="Recent Projects"
           icon={
             <ImageAspectRatioOutlinedIcon
               fontSize="small"
               style={{ minWidth: 32, minHeight: 32 }}
             />
           }
-          handleClick={() => console.log("recent projects")} //Will dispatch new project workflow
         />
-        {recentProjects.map((project, i: number) => {
-          const { projectName, handleClick } = project;
-          return (
-            <ApexMenuItem
-              key={i}
-              projectName={projectName}
-              handleClick={handleClick}
-              sn={i + 1}
-              toggleSN={true}
-            />
-          );
-        })}
+        {recentProjects &&
+          recentProjects.map((project: IRecentProject, i: number) => {
+            const { title, handleClick } = project;
+            return (
+              <ApexMenuItem
+                key={i}
+                title={title}
+                handleClick={handleClick}
+                sn={i + 1}
+                toggleSN={true}
+              />
+            );
+          })}
       </div>
-      <div style={{ padding: 3 }}>
+      <div>
         <ApexMenuItem
-          projectName="Close Project"
+          title="Close Project"
           icon={
             <CloseOutlinedIcon
               color="secondary"

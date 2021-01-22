@@ -1,15 +1,23 @@
-import UserState from "../State/UserState";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   PERSIST_AVATAR,
+  REGISTER_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
-  REGISTER_FAILURE,
-} from "../Actions/RegisterActions";
-import { IAction } from "../Actions/ActionTypes";
-import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
+  UPDATE_REGISTRATION,
+} from "../Actions/AdminActions";
+import userState from "../../../Application/Redux/State/UserState";
 
-const registerReducer = (state = UserState, action: IAction) => {
+const adminReducer = (state = userState, action: IAction) => {
   switch (action.type) {
+    case UPDATE_REGISTRATION: {
+      const { name, value } = action.payload;
+
+      return {
+        ...state,
+        [name]: value,
+      };
+    }
     case PERSIST_AVATAR:
       return {
         ...state,
@@ -31,11 +39,9 @@ const registerReducer = (state = UserState, action: IAction) => {
         statusCode: action.payload.statusCode,
         errors: new Array(action.payload.errors),
       };
-    case LOGOUT_REQUEST:
-      return null;
     default:
       return state;
   }
 };
 
-export default registerReducer;
+export default adminReducer;

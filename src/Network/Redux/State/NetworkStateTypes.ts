@@ -14,8 +14,8 @@ export interface ISaveNetworkFormProps extends ISaveNetworkFormValues {
   errors?: FormikErrors<ISaveNetworkFormValues>;
   touched?: FormikTouched<ISaveNetworkFormValues>;
   isValid?: boolean;
-  statusCode?: string;
-  data?: string;
+  statusCode?: number;
+  data?: any[];
   handleChange?: (event: React.ChangeEvent<any>) => void;
   children?: (props: ISaveNetworkFormValues) => JSX.Element;
   isValids?: { saveNetworkExtrudeIsValid: boolean };

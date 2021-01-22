@@ -1,9 +1,10 @@
-import { INewProjectFormValues } from "./ProjectStateTypes";
+import { IProjectState } from "./ProjectStateTypes";
 
-const projectState: INewProjectFormValues = {
+const projectState: IProjectState = {
   projectName: "",
   projectDescription: "",
   pressureAddend: 14.7,
+  recentProjects: [],
 };
 
 export default projectState;

@@ -4,6 +4,8 @@ import {
   NEWPROJECT_SUCCESS,
   NEWPROJECT_FAILURE,
   UPDATE_NEWPROJECT,
+  FETCHRECENTPROJECTS_SUCCESS,
+  FETCHRECENTPROJECTS_FAILURE,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
@@ -24,6 +26,26 @@ const projectReducer = (
       return {
         ...state,
         [name]: value,
+      };
+    }
+
+    case FETCHRECENTPROJECTS_SUCCESS: {
+      const { statusCode, recentProjects } = action.payload;
+
+      return {
+        ...state,
+        statusCode,
+        recentProjects,
+      };
+    }
+
+    case FETCHRECENTPROJECTS_FAILURE: {
+      const { statusCode, errors } = action.payload;
+
+      return {
+        ...state,
+        statusCode,
+        errors,
       };
     }
 

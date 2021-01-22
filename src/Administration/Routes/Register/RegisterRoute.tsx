@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import RegisterForm from "../../Components/Forms/RegisterForm";
+import SingleRegisterForm from "../../Components/Forms/SingleRegisterForm";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -22,7 +22,7 @@ const RegisterRoute = () => {
       alignItems="center"
       wrap="nowrap"
     >
-      <RegisterForm />
+      <SingleRegisterForm />
     </Grid>
   );
 };

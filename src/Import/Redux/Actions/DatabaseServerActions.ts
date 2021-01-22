@@ -28,7 +28,7 @@ export const serverLoginSuccessAction = () => {
   return {
     type: SERVERLOGIN_SUCCESS,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       databases: [],
     },
   };
@@ -38,7 +38,7 @@ export const serverLoginFailureAction = () => {
   return {
     type: SERVERLOGIN_FAILURE,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       errors: [],
     },
   };

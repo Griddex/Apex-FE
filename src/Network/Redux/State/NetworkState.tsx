@@ -3,7 +3,7 @@ import { INetworkState } from "./NetworkStateTypes";
 const networkState: INetworkState = {
   currentElement: {},
   currentPopoverId: "",
-  currentPopoverData: { data: "" },
+  currentPopoverData: { data: [] },
   showPopover: false,
   showNetworkElementDetails: null,
   networkName: "",
@@ -12,8 +12,8 @@ const networkState: INetworkState = {
   edgeElements: [],
   showWellheadSummaryNodes: true,
   showWellheadSummaryEdges: true,
-  statusCode: "",
-  data: "",
+  statusCode: 0,
+  data: [],
 
   saveForecastParameters: {
     forecastParametersName: "",

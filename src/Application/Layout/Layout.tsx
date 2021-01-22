@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React, { Suspense } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Navbar from "../Components/Navbars/Navbar";
 import Spinners from "../Components/Visuals/Spinners";
@@ -18,6 +18,8 @@ import ProductBackground from "../Routes/ProductBackground";
 import Dialogs from "../Components/Dialogs/Dialogs";
 import { ILayouts, LayoutNames } from "./LayoutTypes";
 import { RootState } from "../Redux/Reducers/AllReducers";
+import { fetchRecentProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
+import { failureDialogParameters } from "../../Project/Components/DialogParameters/RecentProjectsFailureDialogParameters";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -33,11 +35,18 @@ const useStyles = makeStyles(() => ({
 
 const Layout = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const { url } = useRouteMatch();
   const { showMainDrawer, showNavbar } = useSelector(
     (state: RootState) => state.layoutReducer
   );
+
+  React.useEffect(() => {
+    //Boostrap recent projects
+    dispatch(fetchRecentProjectsAction(failureDialogParameters));
+    //Boostrap User details
+  }, []);
 
   return (
     <div className={classes.root}>

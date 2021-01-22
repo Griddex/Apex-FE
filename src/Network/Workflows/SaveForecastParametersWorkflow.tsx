@@ -2,19 +2,12 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
-import {
-  workflowBackAction,
-  workflowInitAction,
-  workflowNextAction,
-  workflowResetAction,
-  workflowSkipAction,
-} from "../../Application/Redux/Actions/WorkflowActions";
+import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import SaveForecastingParametersDialog from "../Components/Dialogs/SaveForecastingParametersDialog";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
-import SaveForecastParametersNavButtons from "../Components/NavigationButtons/SaveForecastParametersNavButtons";
-import { saveForecastParametersRequestAction } from "../Redux/Actions/ForecastingActions";
 import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
 import ForecastParametersNameAndDescription from "../Routes/ForecastParametersNameAndDescription";
@@ -143,21 +136,18 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
     }
   };
 
+  const finalAction = () => {
+    dispatch({ type: "HELLO" });
+  };
+
   const navigationButtonProps: INavigationButtonsProp = {
+    mainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
     showNext: true,
-    workflowResetAction: workflowResetAction,
-    workflowBackAction: workflowBackAction,
-    workflowSkipAction: workflowSkipAction,
-    workflowNextAction: workflowNextAction,
-    finalAction: saveForecastParametersRequestAction,
-    activeStep: activeStep,
-    steps: steps,
-    isStepOptional: isStepOptional,
-    skipped: skipped,
-    isStepSkipped: isStepSkipped,
+    finalAction: finalAction,
+    workflowProcess,
   };
 
   return (
@@ -189,7 +179,7 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
           })
         }
       </SaveForecastParametersForm>
-      <SaveForecastParametersNavButtons {...navigationButtonProps} />
+      <NavigationButtons {...navigationButtonProps} />
     </SaveForecastingParametersDialog>
   );
 };

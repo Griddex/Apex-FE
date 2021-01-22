@@ -65,6 +65,7 @@
     "react-dropzone": "^11.2.3",
     "react-filterable-table": "^0.3.434",
     "react-flow-renderer": "^8.0.0",
+    "react-images-upload": "^1.2.8",
     "react-laag": "^1.8.0",
     "react-motion": "^0.5.2",
     "react-redux": "^7.2.1",

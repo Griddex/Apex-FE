@@ -6,17 +6,17 @@ import applicationReducer from "./ApplicationReducer";
 import dialogsReducer from "./DialogsReducer";
 import layoutReducer from "./LayoutReducer";
 import loginReducer from "./LoginReducer";
-import registerReducer from "./RegisterReducer";
 import uiSpinnerReducer from "./UISpinnerReducer";
 import workflowReducer from "./WorkflowReducer";
 import economicsReducer from "../../../Economics/Redux/Reducers/EconomicsReducers";
 import projectReducer from "../../../Project/Redux/Reducers/ProjectReducer";
 import unitSettingsReducer from "../../../Settings/Redux/Reducers/UnitSettingsReducer";
+import adminReducer from "../../../Administration/Redux/Reducers/AdminReducer";
 
 const allReducers = combineReducers({
   loginReducer,
   layoutReducer,
-  registerReducer,
+  adminReducer,
   uiSpinnerReducer,
   dialogsReducer,
   workflowReducer,

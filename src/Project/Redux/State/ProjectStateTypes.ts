@@ -1,5 +1,18 @@
 import { FormikErrors, FormikTouched } from "formik";
 
+export interface IRecentProject {
+  sn?: number;
+  id?: string;
+  title?: string;
+  icon?: JSX.Element;
+  handleClick?: () => void;
+  toggleSN?: boolean;
+}
+
+export interface IProjectState extends INewProjectFormValues {
+  recentProjects: IRecentProject[];
+}
+
 export interface INewProjectFormValues {
   projectName: string;
   projectDescription: string;

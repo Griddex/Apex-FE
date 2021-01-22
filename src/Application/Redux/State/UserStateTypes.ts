@@ -19,9 +19,10 @@ export interface IUserState {
     | "Asset Forecaster"
     | "Economist";
   avatarUrl?: string;
+  registrationScenario?: "single" | "multiple";
 
-  statusCode: string;
-  data: string;
+  statusCode: number;
+  data: any[];
   errors: string[];
   isAdmin: boolean;
   isAthenticated: boolean;

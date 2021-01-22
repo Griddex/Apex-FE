@@ -7,7 +7,6 @@ export interface IUnitsRow {
 }
 
 export interface IUnitSettingsData {
-  pressureAddend: number;
   dayFormat: string;
   monthFormat: string;
   yearFormat: string;

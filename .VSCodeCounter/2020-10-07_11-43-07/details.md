@@ -23,7 +23,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Application/Components/Drawers/ContextDrawer.jsx](/src/Application/Components/Drawers/ContextDrawer.jsx) | JavaScript React | 104 | 0 | 8 | 112 |
 | [src/Application/Components/Drawers/MainDrawer.jsx](/src/Application/Components/Drawers/MainDrawer.jsx) | JavaScript React | 206 | 3 | 10 | 219 |
 | [src/Application/Components/Forms/LoginForm.jsx](/src/Application/Components/Forms/LoginForm.jsx) | JavaScript React | 143 | 1 | 7 | 151 |
-| [src/Application/Components/Forms/RegisterForm.jsx](/src/Application/Components/Forms/RegisterForm.jsx) | JavaScript React | 214 | 8 | 6 | 228 |
+| [src/Application/Components/Forms/SingleRegisterForm.jsx](/src/Application/Components/Forms/SingleRegisterForm.jsx) | JavaScript React | 214 | 8 | 6 | 228 |
 | [src/Application/Components/Forms/ServerLoginForm.jsx](/src/Application/Components/Forms/ServerLoginForm.jsx) | JavaScript React | 261 | 9 | 12 | 282 |
 | [src/Application/Components/Navbars/Navbar.jsx](/src/Application/Components/Navbars/Navbar.jsx) | JavaScript React | 167 | 1 | 7 | 175 |
 | [src/Application/Components/Navbars/SubNavbar.jsx](/src/Application/Components/Navbars/SubNavbar.jsx) | JavaScript React | 84 | 0 | 8 | 92 |
@@ -63,7 +63,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Application/Redux/Reducers/LayoutReducer.js](/src/Application/Redux/Reducers/LayoutReducer.js) | JavaScript | 150 | 6 | 9 | 165 |
 | [src/Application/Redux/Reducers/LoginReducer.js](/src/Application/Redux/Reducers/LoginReducer.js) | JavaScript | 35 | 0 | 4 | 39 |
 | [src/Application/Redux/Reducers/LogoutReducer.js](/src/Application/Redux/Reducers/LogoutReducer.js) | JavaScript | 27 | 1 | 3 | 31 |
-| [src/Application/Redux/Reducers/RegisterReducer.js](/src/Application/Redux/Reducers/RegisterReducer.js) | JavaScript | 34 | 0 | 2 | 36 |
+| [src/Application/Redux/Reducers/AdminReducer.js](/src/Application/Redux/Reducers/AdminReducer.js) | JavaScript | 34 | 0 | 2 | 36 |
 | [src/Application/Redux/Reducers/AllReducers.js](/src/Application/Redux/Reducers/AllReducers.js) | JavaScript | 20 | 0 | 2 | 22 |
 | [src/Application/Redux/Reducers/UISpinnerReducer.js](/src/Application/Redux/Reducers/UISpinnerReducer.js) | JavaScript | 13 | 0 | 5 | 18 |
 | [src/Application/Redux/Reducers/WorkflowReducer.js](/src/Application/Redux/Reducers/WorkflowReducer.js) | JavaScript | 62 | 2 | 14 | 78 |

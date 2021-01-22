@@ -9,7 +9,10 @@ import { ISelectItem } from "../../Application/Components/Selects/SelectItemsTyp
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
+import {
+  INewProjectFormValues,
+  INewProjectWorkflowProps,
+} from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
   successDialogParameters,
@@ -66,7 +69,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 //TODO: API saga to get entire units object from server
-const unitsData: IUnitSettingsData = {
+const unitsData: IUnitSettingsData &
+  Pick<INewProjectFormValues, "pressureAddend"> = {
   pressureAddend: 14.7,
   dayFormat: "dd",
   monthFormat: "mm",

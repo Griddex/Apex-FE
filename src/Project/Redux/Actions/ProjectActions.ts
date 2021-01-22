@@ -2,10 +2,12 @@ export const UPDATE_NEWPROJECT = "UPDATE_NEWPROJECT";
 export const CREATE_NEWPROJECT = "CREATE_NEWPROJECT";
 export const NEWPROJECT_SUCCESS = "NEWPROJECT_SUCCESS";
 export const NEWPROJECT_FAILURE = "NEWPROJECT_FAILURE";
-export const RECENTPROJECTS_REQUEST = "RECENTPROJECTS_REQUEST";
-export const LOAD_RECENTPROJECT_REQUEST = "LOAD_RECENTPROJECT_REQUEST";
-export const LOAD_RECENTPROJECT_SUCCESS = "LOAD_RECENTPROJECT_SUCCESS";
-export const LOAD_RECENTPROJECT_FAILURE = "LOAD_RECENTPROJECT_FAILURE";
+export const FETCHRECENTPROJECTS_REQUEST = "FETCHRECENTPROJECTS_REQUEST";
+export const FETCHRECENTPROJECTS_SUCCESS = "FETCHRECENTPROJECTS_SUCCESS";
+export const FETCHRECENTPROJECTS_FAILURE = "FETCHRECENTPROJECTS_FAILURE";
+export const OPENRECENTPROJECT_REQUEST = "OPENRECENTPROJECT_REQUEST";
+export const OPENRECENTPROJECT_SUCCESS = "OPENRECENTPROJECT_SUCCESS";
+export const OPENRECENTPROJECT_FAILURE = "OPENRECENTPROJECT_FAILURE";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
 export const updateProjectAction = (name: string, value: string) => {
@@ -18,40 +20,60 @@ export const updateProjectAction = (name: string, value: string) => {
   };
 };
 
-export const loadRecentProjectAction = (projectId: string) => {
+export const fetchRecentProjectsAction = (
+  failureDialogParameters: DialogStuff
+) => {
   return {
-    type: LOAD_RECENTPROJECT_REQUEST,
+    type: FETCHRECENTPROJECTS_REQUEST,
+    payload: { failureDialogParameters },
+  };
+};
+
+export const fetchRecentProjectsSuccessAction = () => {
+  return {
+    type: FETCHRECENTPROJECTS_SUCCESS,
+    payload: {
+      statusCode: 0,
+      data: [],
+    },
+  };
+};
+
+export const fetchRecentProjectsFailureAction = () => {
+  return {
+    type: FETCHRECENTPROJECTS_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: [],
+    },
+  };
+};
+
+export const openRecentProjectAction = (projectId: string) => {
+  return {
+    type: OPENRECENTPROJECT_REQUEST,
     payload: {
       projectId,
     },
   };
 };
 
-export const loadRecentProjectSuccessAction = () => {
+export const openRecentProjectSuccessAction = () => {
   return {
-    type: LOAD_RECENTPROJECT_SUCCESS,
+    type: OPENRECENTPROJECT_SUCCESS,
     payload: {
-      statusCode: "",
-      data: "",
+      statusCode: 0,
+      data: [],
     },
   };
 };
 
-export const loadRecentProjectFailureAction = () => {
+export const openRecentProjectFailureAction = () => {
   return {
-    type: LOAD_RECENTPROJECT_FAILURE,
+    type: OPENRECENTPROJECT_FAILURE,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       errors: [],
-    },
-  };
-};
-export const fetchRecentProjectsAction = () => {
-  return {
-    type: RECENTPROJECTS_REQUEST,
-    payload: {
-      statusCode: "",
-      data: "",
     },
   };
 };
@@ -59,7 +81,9 @@ export const fetchRecentProjectsAction = () => {
 export const createNewProjectAction = (
   projectName: string,
   projectDescription: string,
-  dateFormat: string,
+  dayFormat: string,
+  monthFormat: string,
+  yearFormat: string,
   pressureAddend: number,
   successDialogParameters: DialogStuff,
   failureDialogParameters: DialogStuff
@@ -69,7 +93,9 @@ export const createNewProjectAction = (
     payload: {
       projectName,
       projectDescription,
-      dateFormat,
+      dayFormat,
+      monthFormat,
+      yearFormat,
       pressureAddend,
       successDialogParameters,
       failureDialogParameters,
@@ -81,8 +107,8 @@ export const createNewProjectSuccessAction = () => {
   return {
     type: NEWPROJECT_SUCCESS,
     payload: {
-      statusCode: "",
-      data: "",
+      statusCode: 0,
+      data: [],
     },
   };
 };
@@ -91,7 +117,7 @@ export const createNewProjectFailureAction = () => {
   return {
     type: NEWPROJECT_FAILURE,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       errors: [],
     },
   };

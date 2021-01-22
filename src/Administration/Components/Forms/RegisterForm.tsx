@@ -1,17 +1,16 @@
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 // import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 // import PersonIcon from "@material-ui/icons/Person";
-import { Formik } from "formik";
+import { Formik, FormikProps } from "formik";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { registerAction } from "../../../Application/Redux/Actions/RegisterActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import userState from "../../../Application/Redux/State/UserState";
-import UserAvatar from "../../../Application/Components/Avatar/UserAvatar";
+import { IRegistrationFormValues } from "../../Redux/State/RegistrationStateTypes";
+import RegistrationScenarios from "../RadioGroups/RegistrationScenarios";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -21,95 +20,45 @@ const useStyles = makeStyles((theme) => ({
     height: "80%",
     // maxWidth: theme.breakpoints.width("sm"),
   },
-  //   formTextFields: {
-  //     "& > *": { marginTop: 40, "& .MuiInputBase-root": { height: 44 } },
-  //   },
-  divider: {
-    margin: "20px",
-  },
-  textfield: {
-    margin: theme.spacing(1),
-  },
-  button: {
-    height: 36,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  dropZone: {
-    borderStyle: "dotted",
-    borderWidth: 0,
-    height: "99%",
-    width: "99%",
-  },
-  dropZoneDiv: {
-    height: "100%",
+  regScenario: {
     width: "100%",
-    textAlign: "center",
+    height: 50,
   },
-  dropZoneInput: {
+  regFormContainer: { display: "flex", width: "100%", height: "100%" },
+  textFieldsContainer: {
     display: "flex",
-    alignItems: "center",
+    minWidth: "70%",
     height: "100%",
-    width: "100%",
-    textAlign: "center",
   },
-  dropZoneParagraph: {
-    height: "100%",
-    width: "60%",
-    textAlign: "center",
-  },
-  dropZoneImgPDiv: {
+  avatarContainer: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    height: "100%",
   },
 }));
 
 const RegisterForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const avatarUrl = useSelector((state) => state.registerReducer.avatarUrl);
-  // const pending = useSelector((state) => state.uiSpinnerReducer.pending);
+  const { registrationScenario } = useSelector(
+    (state: RootState) => state.adminReducer
+  );
 
   return (
     <Formik
       initialValues={userState}
       validationSchema={Yup.object().shape({
-        userName: Yup.string().required("Username is required"),
         firstName: Yup.string().required("firstName is required"),
         middleName: Yup.string(),
         lastName: Yup.string().required("lastName is required"),
         email: Yup.string().required("email is required"),
-        mobileNumber: Yup.string().required("mobileNumber is required"),
+        mobileNumber: Yup.string(),
+        jobTitle: Yup.string(),
         role: Yup.string().required("role is required"),
         avatarUrl: Yup.string(),
       })}
-      onSubmit={({
-        userName,
-        firstName,
-        middleName,
-        lastName,
-        email,
-        mobileNumber,
-        role,
-        avatarUrl,
-      }) => {
-        dispatch(
-          registerAction(
-            userName,
-            firstName,
-            middleName as string,
-            lastName,
-            email,
-            mobileNumber as string,
-            role,
-            avatarUrl as string
-          )
-        );
-      }}
+      onSubmit={() => {}}
     >
-      {(props) => {
+      {(props: FormikProps<IRegistrationFormValues>) => {
         const {
           values,
           errors,
@@ -120,97 +69,10 @@ const RegisterForm = () => {
           // status,
         } = props;
 
-        const registerData = [
-          {
-            name: "userName",
-            label: "Username",
-            required: true,
-            autoFocus: true,
-            fullWidth: true,
-            halfWidth: false,
-          },
-          {
-            name: "firstName",
-            label: "firstName",
-            required: true,
-            autoFocus: false,
-            fullWidth: true,
-            halfWidth: true,
-          },
-          {
-            name: "middleName",
-            label: "middleName",
-            required: false,
-            autoFocus: false,
-            fullWidth: true,
-            halfWidth: true,
-          },
-          {
-            name: "lastName",
-            label: "lastName",
-            required: true,
-            autoFocus: false,
-            fullWidth: true,
-            halfWidth: false,
-          },
-          {
-            name: "email",
-            label: "email",
-            required: true,
-            autoFocus: false,
-            fullWidth: true,
-            halfWidth: false,
-          },
-          {
-            name: "phoneNumber",
-            label: "phoneNumber",
-            required: true,
-            autoFocus: false,
-            fullWidth: true,
-            halfWidth: false,
-          },
-          {
-            name: "role",
-            label: "role",
-            required: true,
-            autoFocus: false,
-            fullWidth: true,
-            halfWidth: false,
-          },
-        ];
-
         return (
           <form className={classes.form} onSubmit={handleSubmit}>
-            {/* <UserAvatar />
-            {registerData.map((textfield, i) => {
-              return (
-                <Grid
-                  key={i}
-                  item
-                  container
-                  className={classes.item}
-                  xs={12}
-                  sm={textfield.halfWidth ? 3 : 6}
-                  lg={textfield.halfWidth ? 2 : 4}
-                >
-                  <TextField
-                    name={textfield.name}
-                    label={textfield.name}
-                    value={values[textfield.name]}
-                    onChange={handleChange}
-                    required={textfield.required}
-                    autoFocus={textfield.autoFocus}
-                    fullWidth={textfield.fullWidth}
-                    helperText={
-                      touched[textfield.name] ? errors[textfield.name] : ""
-                    }
-                    error={Boolean(
-                      errors[textfield.name] && touched[textfield.name]
-                    )}
-                  />
-                </Grid>
-              );
-            })} */}
+            <RegistrationScenarios />
+            <div></div>
             <Button type="submit" variant="outlined" color="primary">
               Select
             </Button>

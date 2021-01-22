@@ -28,7 +28,7 @@ export const loginSuccessAction = () => {
   return {
     type: LOGIN_SUCCESS,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       token: "",
     },
   };
@@ -38,7 +38,7 @@ export const loginFailureAction = () => {
   return {
     type: LOGIN_FAILURE,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       errors: [],
     },
   };

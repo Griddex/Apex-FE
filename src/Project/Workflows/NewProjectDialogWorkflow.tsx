@@ -1,23 +1,20 @@
-import { fade, makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
+import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import UnitSettings from "../../Settings/UnitSettings/UnitSettings";
 import {
-  workflowBackAction,
-  workflowInitAction,
-  workflowNextAction,
-  workflowResetAction,
-  workflowSkipAction,
-} from "../../Application/Redux/Actions/WorkflowActions";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ProjectNavigationButtons from "../Components/Buttons/ProjectNavigationButtons";
-import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
+  failureDialogParameters,
+  successDialogParameters,
+} from "../Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
 import NewProjectForm from "../Components/Forms/NewProjectForm";
 import NewProjectNameAndDescription from "../NewProjectNameAndDescription";
 import { createNewProjectAction } from "../Redux/Actions/ProjectActions";
-import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import { INewProjectWorkflowProps } from "../Redux/State/ProjectStateTypes";
-import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
 
 const steps = ["New Project Details", "Choose Unit Settings"];
 
@@ -61,21 +58,34 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     }
   };
 
+  const { projectName, projectDescription, pressureAddend } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
+  );
+  const finalAction = () => {
+    dispatch(
+      createNewProjectAction(
+        projectName,
+        projectDescription,
+        dayFormat,
+        monthFormat,
+        yearFormat,
+        pressureAddend,
+        successDialogParameters,
+        failureDialogParameters
+      )
+    );
+  };
+
   const navigationButtonProps: INavigationButtonsProp = {
+    mainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
     showNext: true,
-    workflowResetAction: workflowResetAction,
-    workflowBackAction: workflowBackAction,
-    workflowSkipAction: workflowSkipAction,
-    workflowNextAction: workflowNextAction,
-    finalAction: createNewProjectAction,
-    activeStep: activeStep,
-    steps: steps,
-    isStepOptional: isStepOptional,
-    skipped: skipped,
-    isStepSkipped: isStepSkipped,
+    finalAction: finalAction,
     workflowProcess,
   };
 
@@ -102,7 +112,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
           })
         }
       </NewProjectForm>
-      <ProjectNavigationButtons {...navigationButtonProps} />
+      <NavigationButtons {...navigationButtonProps} />
     </NewProjectDialog>
   );
 };

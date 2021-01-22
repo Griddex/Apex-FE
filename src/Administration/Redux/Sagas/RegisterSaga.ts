@@ -1,13 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import * as authService from "../../Services/AuthService";
-import history from "../../Services/HistoryService";
-import { IAction } from "../Actions/ActionTypes";
+import * as authService from "../../../Application/Services/AuthService";
+import history from "../../../Application/Services/HistoryService";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import {
-  registerFailureAction,
-  registerSuccessAction,
   REGISTER_REQUEST,
-} from "../Actions/RegisterActions";
-import { hideSpinnerAction } from "../Actions/UISpinnerActions";
+  registerSuccessAction,
+  registerFailureAction,
+} from "../Actions/AdminActions";
 
 export default function* watchRegisterSaga() {
   yield takeLatest(REGISTER_REQUEST, registerSaga);
@@ -18,12 +18,12 @@ function* registerSaga(action: IAction) {
   const {
     userName,
     firstName,
-    // middleName,
-    // lastName,
-    // email,
-    // mobileNumber,
-    // role,
-    // avatarUrl,
+    middleName,
+    lastName,
+    email,
+    mobileNumber,
+    role,
+    avatarUrl,
   } = payload;
 
   const data = {

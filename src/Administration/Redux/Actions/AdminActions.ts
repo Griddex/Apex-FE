@@ -1,7 +1,21 @@
+export const UPDATE_REGISTRATION = "UPDATE_REGISTRATION";
 export const PERSIST_AVATAR = "PERSIST_AVATAR";
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILURE = "REGISTER_FAILURE";
+
+export const updateRegistrationFormAction = (
+  name: string,
+  value: React.Key
+) => {
+  return {
+    type: UPDATE_REGISTRATION,
+    payload: {
+      name,
+      value,
+    },
+  };
+};
 
 export const persistAvatarToReduxAction = (avatarUrl: string) => {
   return {
@@ -42,8 +56,8 @@ export const registerSuccessAction = () => {
   return {
     type: REGISTER_SUCCESS,
     payload: {
-      statusCode: "",
-      data: "",
+      statusCode: 0,
+      data: [],
     },
   };
 };
@@ -52,7 +66,7 @@ export const registerFailureAction = () => {
   return {
     type: REGISTER_FAILURE,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       errors: [],
     },
   };

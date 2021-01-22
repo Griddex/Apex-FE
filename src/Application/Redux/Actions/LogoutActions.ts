@@ -14,7 +14,7 @@ export const logoutSuccessAction = () => {
   return {
     type: LOGOUT_SUCCESS,
     payload: {
-      statusCode: "",
+      statusCode: 0,
     },
   };
 };
@@ -23,7 +23,7 @@ export const logoutFailureAction = () => {
   return {
     type: LOGOUT_FAILURE,
     payload: {
-      statusCode: "",
+      statusCode: 0,
       errors: [],
     },
   };
