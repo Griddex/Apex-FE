@@ -5,6 +5,7 @@ const userState: IUserState = {
   userName: "",
   password: "",
   rememberMe: false,
+  userId: "",
   token: "",
 
   //registration

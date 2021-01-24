@@ -1,3 +1,5 @@
+import { IExistingData } from "../../Routes/Common/InputLayoutTypes";
+
 export interface IImportState {
   fileLastModified: string;
   filePath: string;
@@ -50,5 +52,6 @@ export interface IImportState {
 
 export interface ImportStateType {
   currentImportProcess: string;
-  allWorkflows: Record<string, IImportState>;
+  allExistingWorkflows: Record<string, IImportState>;
+  existingDataWorkflows: Record<string, IExistingData>;
 }

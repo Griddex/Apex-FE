@@ -1,10 +1,10 @@
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
-export const SERVERLOGIN_REQUEST = "SERVERLOGIN_REQUEST";
-export const SERVERLOGIN_SUCCESS = "SERVERLOGIN_SUCCESS";
-export const SERVERLOGIN_FAILURE = "SERVERLOGIN_FAILURE";
+export const CONNECTDATABASE_REQUEST = "CONNECTDATABASE_REQUEST";
+export const CONNECTDATABASE_SUCCESS = "CONNECTDATABASE_SUCCESS";
+export const CONNECTDATABASE_FAILURE = "CONNECTDATABASE_FAILURE";
 
-export const serverLoginRequestAction = (
+export const connectDatabaseRequestAction = (
   authenticationType: string,
   userName: string,
   password: string,
@@ -12,7 +12,7 @@ export const serverLoginRequestAction = (
   failureDialogParameters: DialogStuff
 ) => {
   return {
-    type: SERVERLOGIN_REQUEST,
+    type: CONNECTDATABASE_REQUEST,
     payload: {
       authenticationType,
       userName,
@@ -24,9 +24,9 @@ export const serverLoginRequestAction = (
   };
 };
 
-export const serverLoginSuccessAction = () => {
+export const connectDatabaseSuccessAction = () => {
   return {
-    type: SERVERLOGIN_SUCCESS,
+    type: CONNECTDATABASE_SUCCESS,
     payload: {
       statusCode: 0,
       databases: [],
@@ -34,9 +34,9 @@ export const serverLoginSuccessAction = () => {
   };
 };
 
-export const serverLoginFailureAction = () => {
+export const connectDatabaseFailureAction = () => {
   return {
-    type: SERVERLOGIN_FAILURE,
+    type: CONNECTDATABASE_FAILURE,
     payload: {
       statusCode: 0,
       errors: [],

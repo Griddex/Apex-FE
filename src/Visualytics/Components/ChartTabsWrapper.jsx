@@ -7,19 +7,12 @@ const useStyles = makeStyles((theme) => ({
   rootSubContextTabs: {
     width: "100%",
     height: "auto",
-    // backgroundColor: theme.palette.background.paper,
     border: "1px solid #C4C4C4",
-    // boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
   },
   tabs: {
-    // minHeight: 50,
-
     backgroundColor: "#F7F7F7",
   },
   tab: {
-    // minHeight: 50,
-    // fontSize: 12,
-    // fontWeight: "bold",
     minWidth: 40,
     padding: 5,
     "&:hover": theme.palette.primary.main,
@@ -27,8 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
   tabPanel: {
     height: "auto",
-    // display: "flex",
-    // flexGrow: 1,
   },
 }));
 

@@ -3,11 +3,11 @@ import { ImportStateType } from "./ImportStateTypes";
 const workflowNames = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
-  "facilitiesInputDeckApproveddeck",
+  // "facilitiesInputDeckApproveddeck",
 
   "forecastInputDeckExcel",
   "forecastInputDeckDatabase",
-  "forecastInputDeckApproveddeck",
+  // "forecastInputDeckApproveddeck",
 
   "productionDataExcel",
   "productionDataDatabase",
@@ -16,7 +16,7 @@ const workflowNames = [
   "economicsDataExcel",
   "economicsDataDatabase",
   "economicsDataManual",
-  "economicsDataApproved",
+  // "economicsDataApproved",
 
   "economicsWorkflow",
   "economicsParameterImportWorkflow",
@@ -81,10 +81,39 @@ const generateImportState = () => {
   }, {});
 };
 
-const state = generateImportState();
+//This like existing network, DCA parameters, etc will be
+//created
+const existingDataWorkflowNames = [
+  "facilitiesInputDeckApproveddeck",
+  "forecastInputDeckApproveddeck",
+  "economicsDataApproved",
+];
+const generateExistingDataState = () => {
+  return existingDataWorkflowNames.reduce((acc, workflowName: string) => {
+    return {
+      ...acc,
+      [workflowName]: {
+        status: "Pending",
+        title: "",
+        author: null,
+        approvers: null,
+        createdOn: "",
+        modifiedOn: "",
+
+        statusCode: 0,
+        message: "",
+        errors: [],
+      },
+    };
+  }, {});
+};
+
+const importDataState = generateImportState();
+const existingDataState = generateExistingDataState();
 const importState: ImportStateType = {
   currentImportProcess: "",
-  allWorkflows: { ...state },
+  allExistingWorkflows: importDataState,
+  existingDataWorkflows: existingDataState,
 };
 
 export default importState;

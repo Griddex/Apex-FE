@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& > *": {
       height: 50,
       width: "95%",
-      boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+      boxShadow: theme.shadows[10],
       border: `1px solid ${theme.palette.primary.main}`,
     },
   },
@@ -159,7 +159,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   );
   const { definedTableData } = useSelector(
     (state: RootState) =>
-      state.importReducer["allWorkflows"][workflowProcess as string]
+      state.importReducer["allExistingWorkflows"][workflowProcess as string]
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
     (state: RootState) => state.networkReducer

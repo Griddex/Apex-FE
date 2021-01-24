@@ -1,4 +1,4 @@
-import { IApprovers } from "../../Application/Components/Approvers/ApproversTypes";
+import { IApprover } from "../../Application/Components/Approvers/ApproversTypes";
 import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 
 export type StatusTextType = "Approved" | "Pending" | "Returned" | string;
@@ -7,7 +7,7 @@ export interface IForecastDetail {
   titleName: string;
   statusText: StatusTextType;
   author: IAuthor;
-  approvers?: IApprovers;
+  approvers?: IApprover;
   createdOn: Date;
   modifiedOn: Date;
 }

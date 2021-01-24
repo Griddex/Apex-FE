@@ -206,7 +206,7 @@ export default function ExistingNetworks() {
       },
       {
         key: "createdOn",
-        name: "CREATED ON",
+        name: "CREATED",
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
@@ -216,7 +216,7 @@ export default function ExistingNetworks() {
       },
       {
         key: "modifiedOn",
-        name: "MODIFIED ON",
+        name: "MODIFIED",
         editable: true,
         resizable: true,
         formatter: ({ row }) => {

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     border: "1px solid #707070",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    boxShadow: theme.shadows[2],
     backgroundColor: "#FFF",
   },
   selectFile: { width: 200, height: 50, fontWeight: "bold" },
@@ -72,11 +72,13 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { dnDDisabled } = useSelector(
-    (state: RootState) => state.importReducer["allWorkflows"][workflowProcess]
+    (state: RootState) =>
+      state.importReducer["allExistingWorkflows"][workflowProcess]
   );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
+    (state: RootState) =>
+      state.workflowReducer["allExistingWorkflows"][workflowProcess]
   );
 
   React.useEffect(() => {

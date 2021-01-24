@@ -1,13 +1,13 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import {
   fetchRecentProjectsFailureAction,
   fetchRecentProjectsSuccessAction,
   FETCHRECENTPROJECTS_REQUEST,
+  openRecentProjectAction,
 } from "../Actions/ProjectActions";
 
 export default function* watchFetchRecentProjectsSaga() {
@@ -16,11 +16,8 @@ export default function* watchFetchRecentProjectsSaga() {
 
 function* fetchRecentProjectsSaga(action: IAction) {
   const { payload } = action;
-  console.log(
-    "Logged output --> ~ file: FetchRecentProjectsSaga.ts ~ line 19 ~ function*fetchRecentProjectsSaga ~ action",
-    action
-  );
   const { failureDialogParameters } = payload;
+  const { userId } = yield select((state) => state.loginReducer);
 
   const config = { headers: null };
   const fetchRecentProjectsAPI = (url: string) => authService.get(url, config);
@@ -114,12 +111,8 @@ function* fetchRecentProjectsSaga(action: IAction) {
       title: row.title,
       id: row.id,
       toggleSN: true,
-      handleClick: () => console.log(row.id),
+      handleClick: () => handleClick(userId, row.id),
     }));
-    console.log(
-      "Logged output --> ~ file: FetchRecentProjectsSaga.ts ~ line 116 ~ recentProjects ~ recentProjects",
-      recentProjects
-    );
 
     const successAction = fetchRecentProjectsSuccessAction();
     yield put({
@@ -138,4 +131,10 @@ function* fetchRecentProjectsSaga(action: IAction) {
   }
 
   yield put(hideSpinnerAction());
+}
+
+function* handleClick(userId: string, projectId: string) {
+  // const action = openRecentProjectAction(userId,projectId);
+  // yield put({ ...action, userId, projectId });
+  yield put(openRecentProjectAction(userId, projectId));
 }

@@ -3,7 +3,6 @@ import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions
 import {
   FETCH_UNITSETTINGS_FAILURE,
   FETCH_UNITSETTINGS_SUCCESS,
-  UPDATE_CHOSENAPPUNIQUEUNITSETTINGSINDICES,
   UPDATE_FIRSTLEVELUNITSETTINGS,
   UPDATE_ALLUNITS,
 } from "../Actions/UnitSettingsActions";
@@ -28,15 +27,6 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
         ...state,
         statusCode,
         error,
-      };
-    }
-
-    case UPDATE_CHOSENAPPUNIQUEUNITSETTINGSINDICES: {
-      const { chosenAppUnitIndices } = action.payload;
-
-      return {
-        ...state,
-        unitSettingsData: { chosenAppUnitIndices },
       };
     }
 

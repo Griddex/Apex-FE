@@ -1,9 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
@@ -38,11 +40,9 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const FacilitiesInputDeckLanding = ({
-  subModuleName,
-  subModuleLabel,
-}: IInputLanding) => {
+const FacilitiesInputDeckLanding = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const { url, path } = useRouteMatch();
   const { loadWorkflow } = useSelector(
@@ -55,7 +55,7 @@ const FacilitiesInputDeckLanding = ({
   const facilitiesInputLandingData = [
     {
       name: "Excel + Plain Text",
-      description: `Import ${subModuleLabel} from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
+      description: `Import facilities data from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
       icon: (
         <Image
           className={classes.image}
@@ -68,7 +68,7 @@ const FacilitiesInputDeckLanding = ({
     },
     {
       name: "Database",
-      description: `Import ${subModuleLabel} from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Import facilities data from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -80,8 +80,8 @@ const FacilitiesInputDeckLanding = ({
       workflowProcess: "facilitiesInputDeckDatabase",
     },
     {
-      name: `Approved ${subModuleLabel}`,
-      description: `Select a pre-exisiting and approved ${subModuleLabel} stored in the Apex\u2122 database`,
+      name: `Approved Facilities Data`,
+      description: `Select a pre-exisiting and approved facilities data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
@@ -97,6 +97,33 @@ const FacilitiesInputDeckLanding = ({
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
 
+  //Paying it back
+  const excelWorkflowFinalAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Manage_Deck_Dialog",
+      title: `Manage Facilities Deck`,
+      type: "finalizeInputDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const existingDataFinalAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Manage_Deck_Dialog",
+      title: `Manage Facilities Deck`,
+      type: "finalizeInputDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
+
   return (
     <>
       {loadWorkflow ? (
@@ -110,14 +137,21 @@ const FacilitiesInputDeckLanding = ({
 
               const facilitiesInputDeckWorkflows = {
                 excel: (
-                  <ExcelWorkflow workflowProcess={currentWorkflowProcess} />
+                  <ExcelWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
+                  />
                 ),
                 database: (
-                  <DatabaseWorkflow workflowProcess={currentWorkflowProcess} />
+                  <DatabaseWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
+                  />
                 ),
                 approveddeck: (
                   <ExistingDataWorkflow
                     workflowProcess={currentWorkflowProcess}
+                    finalAction={existingDataFinalAction}
                   />
                 ),
               };

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     backgroundColor: theme.palette.background.paper,
     border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    boxShadow: theme.shadows[2],
   },
   tabs: {
     minHeight: 0,

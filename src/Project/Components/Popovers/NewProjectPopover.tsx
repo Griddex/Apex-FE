@@ -13,7 +13,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
 
   const ApexMenuItem = ({
-    id,
+    projectId,
     title,
     handleClick,
     icon,
@@ -76,10 +76,6 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const recentProjects = useSelector(
     (state: RootState) => state.projectReducer["recentProjects"]
   ) as IRecentProject[];
-  console.log(
-    "Logged output --> ~ file: NewProjectPopover.tsx ~ line 80 ~ recentProjects",
-    recentProjects
-  );
 
   return (
     <div

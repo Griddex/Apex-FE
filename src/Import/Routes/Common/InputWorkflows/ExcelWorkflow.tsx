@@ -1,26 +1,15 @@
 import { useTheme } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
 import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
-import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
-import {
-  workflowBackAction,
-  workflowInitAction,
-  workflowNextAction,
-  workflowResetAction,
-  workflowSkipAction,
-} from "../../../../Application/Redux/Actions/WorkflowActions";
+import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import MatchHeaders from "../Workflows/MatchHeaders";
 import MatchUnits from "../Workflows/MatchUnits";
@@ -28,7 +17,6 @@ import PreviewSave from "../Workflows/PreviewSave";
 import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
 import SelectSheet from "../Workflows/SelectSheet";
 import UploadFile from "../Workflows/UploadFile";
-import { DialogStuff } from "./../../../../Application/Components/Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,43 +26,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     padding: 0,
   },
-  button: {
-    // width: 55,
-    // height: 45,
-    marginRight: theme.spacing(1),
-  },
-  buttonContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    "& svg:first-child": { width: 15, height: 15 },
-    "& p:last-child": { fontSize: 12, fontWeight: "bold" },
-  },
-  workflowHeaderRow: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: "5%",
-    margin: 0,
-    "& > *": { height: "60%" },
-  },
-  workflowBanner: {
-    display: "flex",
-    justifyContent: "center",
-    width: 54,
-    margin: 0,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-    // borderRadius: theme.spacing(0),
-    // boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
-    "& > *": { fontWeight: "bold" },
-  },
-  workflowBannerHeader: {
-    display: "flex",
-    flexGrow: 1,
-    marginLeft: 6,
-    "& > *": { fontWeight: "bold" },
-  },
   workflowBody: {
     display: "flex",
     flexDirection: "column",
@@ -82,26 +33,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
     justifyContent: "center", //around, between
-    // justifyContent: "space-evenly", //around, between
-  },
-  navigationbuttons: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    "& > *": {
-      padding: theme.spacing(0.5),
-      height: 40,
-      width: 50,
-      // border: "1.5px solid",
-    },
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
   },
 }));
 
@@ -115,7 +46,7 @@ const steps = [
   "Preview & Save",
 ];
 
-const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
+const ExcelWorkflow = ({ workflowProcess, finalAction }: IWorkflowProcess) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -125,7 +56,8 @@ const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
+    (state: RootState) =>
+      state.workflowReducer["allExistingWorkflows"][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -144,14 +76,22 @@ const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
   };
 
   const WorkflowStepperProps = {
+    activeStep,
+    steps,
+    skipped,
+    isStepSkipped,
     moduleName,
     subModuleName,
     workflowName,
-    skipped,
-    isStepSkipped,
+    errorSteps: [],
+  };
+
+  const workflowProps = {
     activeStep,
     steps,
-    errorSteps: [],
+    isStepOptional,
+    skipped,
+    isStepSkipped,
   };
   useEffect(() => {
     //Set optional steps here
@@ -202,6 +142,17 @@ const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
     }
   }
 
+  const navigationButtonProps: INavigationButtonsProp = {
+    mainNav: true,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
+    finalAction,
+    workflowProps,
+    workflowProcess,
+  };
+
   return (
     <div className={classes.root}>
       <WorkflowBanner {...WorkflowBannerProps} />
@@ -211,93 +162,7 @@ const ExcelWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
           {() => <WorkflowStepper {...WorkflowStepperProps} />}
         </ContextDrawer>
       )}
-      <div className={classes.navigationbuttons}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() =>
-            dispatch(workflowResetAction(0, workflowProcess as string))
-          }
-          className={classes.button}
-        >
-          <div className={classes.buttonContent}>
-            <RotateLeftIcon />
-            <Typography>{"Reset"}</Typography>
-          </div>
-        </Button>
-        <Button
-          variant="outlined"
-          disabled={activeStep === 0}
-          onClick={() =>
-            dispatch(workflowBackAction(activeStep, workflowProcess as string))
-          }
-          className={classes.button}
-        >
-          <div className={classes.buttonContent}>
-            <ArrowBackIosIcon />
-            <Typography>{"Back"}</Typography>
-          </div>
-        </Button>
-        {isStepOptional() && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              dispatch(
-                workflowSkipAction(
-                  isStepOptional,
-                  activeStep,
-                  workflowProcess as string
-                )
-              )
-            }
-            className={classes.button}
-          >
-            {/* Skip */}
-          </Button>
-        )}
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            const dialogParameters: DialogStuff = {
-              name: "Manage_Deck_Dialog",
-              title: `Manage ${subModuleName}`,
-              type: "finalizeInputDialog",
-              show: true,
-              exclusive: true,
-              maxWidth: "sm",
-              iconType: "information",
-            };
-
-            activeStep === steps.length - 1
-              ? dispatch(showDialogAction(dialogParameters))
-              : dispatch(
-                  workflowNextAction(
-                    skipped,
-                    isStepSkipped,
-                    activeStep,
-                    steps,
-                    "Loading...",
-                    workflowProcess as string
-                  )
-                );
-          }}
-          className={classes.button}
-        >
-          {activeStep === steps.length - 1 ? (
-            <div className={classes.buttonContent}>
-              <DoneAllIcon />
-              <Typography>{"Finalize"}</Typography>
-            </div>
-          ) : (
-            <div className={classes.buttonContent}>
-              <ArrowForwardIosIcon />
-              <Typography>{"Next"}</Typography>
-            </div>
-          )}
-        </Button>
-      </div>
+      <NavigationButtons {...navigationButtonProps} />
     </div>
   );
 };

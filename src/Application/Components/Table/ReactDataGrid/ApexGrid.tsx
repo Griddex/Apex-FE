@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     width: "98%",
     height: "95%",
     border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    boxShadow: theme.shadows[2],
     backgroundColor: "#FFF",
   },
   tableHeadBanner: {

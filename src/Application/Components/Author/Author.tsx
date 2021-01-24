@@ -4,14 +4,14 @@ import Image from "../../../Application/Components/Visuals/Image";
 import { IAuthor } from "./AuthorTypes";
 
 const useStyles = makeStyles(() => ({
-  image: { height: 60, width: 60 },
+  image: { height: 30, width: 30 },
   author: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
-    height: 80,
+    height: 35,
   },
   name: { marginLeft: 15 },
 }));

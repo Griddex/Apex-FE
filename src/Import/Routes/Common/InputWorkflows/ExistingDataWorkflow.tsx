@@ -1,24 +1,20 @@
-import { makeStyles } from "@material-ui/core";
+import { Checkbox, makeStyles } from "@material-ui/core";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
 import Status from "../../../../Application/Components/Status/Status";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IUserDetails } from "../../../../Application/Components/User/UserTypes";
 import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import formatDate from "../../../../Application/Utils/FormatDate";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
-import {
-  anitaImg,
-  glenImg,
-  johnImg,
-  kerryImg,
-  shirleyImg,
-} from "../../../Utils/iconImages";
+import { IExistingData } from "../InputLayoutTypes";
 
 const useStyles = makeStyles(() => ({
   rootExistingData: {
@@ -29,6 +25,14 @@ const useStyles = makeStyles(() => ({
     height: "100%",
     backgroundColor: "#FFF",
   },
+  workflowBody: {
+    display: "flex",
+    flexDirection: "column",
+    height: "80%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center", //around, between
+  },
   chart: {
     display: "flex",
     flexDirection: "column",
@@ -37,89 +41,17 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     height: "20%",
   },
-  table: {
-    width: "100%",
-    height: "80%",
-    padding: 20,
-  },
-  status: {
-    height: "100%",
-    width: "100%",
-    fontSize: 14,
-  },
-  image: { height: 30, width: 30 },
-  author: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  approvers: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
 }));
 
-interface IForecastDeckRow {
-  status: string;
-  forecastDeck: string;
-  author: IUserDetails;
-  approvers: IUserDetails[];
-  createdOn: string;
-  modifiedOn: string;
-}
-
-//TODO: API saga to get entire units object from server
-const forecastDeckList: IForecastDeckRow[] = [
-  {
-    status: "Approved",
-    forecastDeck: "ARPR_FORECAST_DECK 2020",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    status: "Pending",
-    forecastDeck: "ARPR_FORECAST_DECK 2019",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    status: "Returned",
-    forecastDeck: "ARPR_FORECAST_DECK 2018",
-    author: { avatarUrl: johnImg, name: "John Bravo" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-];
-
-export default function ExistingDataWorkflow({
-  workflowProcess,
-}: IWorkflowProcess) {
+export default function ExistingDataWorkflow<
+  T extends IExistingData = IExistingData
+>({ workflowProcess }: IWorkflowProcess) {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const { existingData } = useSelector(
+    (state: RootState) => state.importReducer["existingDataWorkflows"]
+  ) as IExistingData;
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -137,18 +69,53 @@ export default function ExistingDataWorkflow({
   };
 
   //TODO: Calculate classification data from collection
-  const existingData = [
+  const chartData = [
     { name: "Group A", value: 2400 },
     { name: "Group B", value: 4567 },
     { name: "Group C", value: 1398 },
-    { name: "Group D", value: 9800 },
-    { name: "Group E", value: 3908 },
-    { name: "Group F", value: 4800 },
   ];
 
+  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
+  const handleCheckboxChange = (
+    row: T,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.persist();
+    alert(row);
+    setCheckboxSelected(!checkboxSelected);
+  };
+
   const generateColumns = () => {
-    const columns: Column<IForecastDeckRow>[] = [
+    const columns: Column<T>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+      {
+        key: "select",
+        name: "",
+        editable: true,
+        resizable: true,
+        formatter: ({ row }) => (
+          <Checkbox
+            onClick={(event) => handleCheckboxChange(row, event)}
+            checked={checkboxSelected}
+          />
+        ),
+        width: 50,
+      },
+      {
+        key: "actions",
+        name: "ACTIONS",
+        editable: false,
+        formatter: ({ row }) => (
+          <div>
+            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
+            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
+            <VisibilityOutlinedIcon
+              onClick={() => alert(`View Row is:${row}`)}
+            />
+          </div>
+        ),
+        width: 100,
+      },
       {
         key: "status",
         name: "STATUS",
@@ -188,7 +155,7 @@ export default function ExistingDataWorkflow({
       },
       {
         key: "createdOn",
-        name: "CREATED ON",
+        name: "CREATED",
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
@@ -198,7 +165,7 @@ export default function ExistingDataWorkflow({
       },
       {
         key: "modifiedOn",
-        name: "MODIFIED ON",
+        name: "MODIFIED",
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
@@ -211,12 +178,11 @@ export default function ExistingDataWorkflow({
     return columns;
   };
   const columns = React.useMemo(() => generateColumns(), []);
-
-  const snForecastDeckList = forecastDeckList.map((row, i: number) => ({
+  const snExistingData = existingData.map((row, i: number) => ({
     sn: i + 1,
     ...row,
   }));
-  const tableRows = React.useRef<IForecastDeckRow[]>(snForecastDeckList);
+  const tableRows = React.useRef<T[]>(snExistingData);
   const rows = tableRows.current;
 
   React.useEffect(() => {
@@ -227,14 +193,14 @@ export default function ExistingDataWorkflow({
   return (
     <div className={classes.rootExistingData}>
       <div className={classes.chart}>
-        <DoughnutChart data={existingData} />
+        <DoughnutChart data={chartData} />
       </div>
-      <div className={classes.table}>
-        <ApexGrid<IForecastDeckRow, ITableIconsOptions>
+      <div className={classes.workflowBody}>
+        <ApexGrid<T, ITableIconsOptions>
           columns={columns}
           rows={rows}
           options={tableOptions}
-          newTableRowHeight={80}
+          newTableRowHeight={35}
         />
       </div>
     </div>

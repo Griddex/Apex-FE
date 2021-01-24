@@ -6,7 +6,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { useSelector } from "react-redux";
 import Approvers from "../../Application/Components/Approvers/Approvers";
-import { IApprovers } from "../../Application/Components/Approvers/ApproversTypes";
+import { IApprover } from "../../Application/Components/Approvers/ApproversTypes";
 import Author from "../../Application/Components/Author/Author";
 import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
@@ -96,7 +96,7 @@ export interface IForecastDetail {
   titleName: string;
   statusText: StatusTextType;
   author: IAuthor;
-  approvers?: IApprovers | string;
+  approvers?: IApprover[] | string;
   createdOn: string;
   modifiedOn: string;
 }
@@ -201,11 +201,11 @@ const ForecastRunDetail = () => {
       Content: () => <Approvers approvers={approvers ? approvers : "None"} />,
     },
     {
-      Title: () => <AnalyticsTitle title="Created On" />,
+      Title: () => <AnalyticsTitle title="Created" />,
       Content: () => <Typography>{createdOn.toString()}</Typography>,
     },
     {
-      Title: () => <AnalyticsTitle title="Modified On" />,
+      Title: () => <AnalyticsTitle title="Modified" />,
       Content: () => <Typography>{modifiedOn.toString()}</Typography>,
     },
   ];

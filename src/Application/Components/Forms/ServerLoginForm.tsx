@@ -16,7 +16,7 @@ import { Formik, FormikProps } from "formik";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { serverLoginRequestAction } from "../../../Import/Redux/Actions/DatabaseServerActions";
+import { connectDatabaseRequestAction } from "../../../Import/Redux/Actions/DatabaseServerActions";
 import databaseServerState from "../../../Import/Redux/State/DatabaseServerState";
 import {
   hideDialogAction,
@@ -190,7 +190,7 @@ const ServerLoginForm = () => {
       onSubmit={({ authenticationType, userName, password }) => {
         //write saga for async
         dispatch(
-          serverLoginRequestAction(
+          connectDatabaseRequestAction(
             authenticationType,
             userName,
             password,

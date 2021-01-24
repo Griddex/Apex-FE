@@ -2,24 +2,28 @@ import { useTheme, Typography, makeStyles } from "@material-ui/core";
 import React from "react";
 import Image from "../../../Application/Components/Visuals/Image";
 import AvatarStack from "react-avatar-stack";
-import { IApprovers } from "./ApproversTypes";
+import { IApprover } from "./ApproversTypes";
+import { numberToWords } from "./../../Utils/NumberToWords";
+import ToTitleCase from "../../Utils/ToTitleCase";
 
 const useStyles = makeStyles(() => ({
-  image: { height: 60, width: 60 },
+  image: { height: 30, width: 30 },
   approvers: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
-    height: 80,
+    height: 35,
   },
   noOfApprovers: { marginLeft: 15 },
 }));
 
-const Approvers = ({ approvers }: { approvers: IApprovers }) => {
+const Approvers = ({ approvers }: { approvers: IApprover[] | string }) => {
   const theme = useTheme();
   const classes = useStyles();
+  const noOfApprovers = approvers.length;
+  const noOfApproversInWords = ToTitleCase(numberToWords(noOfApprovers));
 
   return (
     <div className={classes.approvers}>
@@ -44,7 +48,7 @@ const Approvers = ({ approvers }: { approvers: IApprovers }) => {
       </AvatarStack>
       <Typography
         className={classes.noOfApprovers}
-      >{`${approvers.length} Approvers`}</Typography>
+      >{`${noOfApproversInWords} (${noOfApprovers}) Approvers`}</Typography>
     </div>
   );
 };

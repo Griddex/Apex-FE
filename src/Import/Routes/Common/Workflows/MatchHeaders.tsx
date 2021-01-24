@@ -124,7 +124,7 @@ export default function MatchHeaders({
   //File Headers
   const { fileHeaders } = useSelector(
     (state: RootState) =>
-      state.importReducer["allWorkflows"][workflowProcess as string]
+      state.importReducer["allExistingWorkflows"][workflowProcess as string]
   );
 
   //Application headers

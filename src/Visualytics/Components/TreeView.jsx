@@ -134,8 +134,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     border: "1px solid #C4C4C4",
-    // boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
-    // backgroundColor: "#FFF",
     overflow: "auto",
   },
   itemIcon: {

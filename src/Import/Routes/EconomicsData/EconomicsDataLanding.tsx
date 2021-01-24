@@ -1,15 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import Input from "../../Images/Input.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import { IInputLanding } from "../Common/InputLayoutTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
@@ -17,6 +18,7 @@ import {
   IdType,
   IEconomicsDataLandingWorkflows,
 } from "./EconomicsDataLandingTypes";
+import ExistingDeck from "../../Images/ExistingDeck.svg";
 
 const useStyles = makeStyles((theme) => ({
   EconomicsDataLanding: {
@@ -41,11 +43,9 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const EconomicsDataLanding = ({
-  subModuleName,
-  subModuleLabel,
-}: IInputLanding) => {
+const EconomicsDataLanding = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const { url, path } = useRouteMatch();
   const { loadWorkflow } = useSelector(
@@ -58,7 +58,7 @@ const EconomicsDataLanding = ({
   const economicsLandingData = [
     {
       name: "Excel",
-      description: `Utilize ${subModuleLabel} by connecting to Microsoft Excel`,
+      description: `Utilize economics data by connecting to Microsoft Excel`,
       icon: (
         <Image
           className={classes.image}
@@ -71,7 +71,7 @@ const EconomicsDataLanding = ({
     },
     {
       name: "Database",
-      description: `Utilize ${subModuleLabel} by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Utilize economics data by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -84,8 +84,8 @@ const EconomicsDataLanding = ({
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Input ${subModuleLabel}`,
-      description: `Type in ${subModuleLabel} parameters and generate future cashflow`,
+      name: `Input Economics Data`,
+      description: `Type in economics data parameters and generate future cashflow`,
       icon: (
         <Image
           className={classes.image}
@@ -98,12 +98,12 @@ const EconomicsDataLanding = ({
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Input ${subModuleLabel}`,
-      description: `Type in ${subModuleLabel} parameters and generate future cashflow`,
+      name: `Approved Economics Data`,
+      description: `Select a pre-exisiting and approved economics data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={Input}
+          src={ExistingDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
@@ -111,6 +111,19 @@ const EconomicsDataLanding = ({
       workflowProcess: "economicsDataApproved",
     },
   ];
+
+  const excelWorkflowFinalAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Manage_Deck_Dialog",
+      title: `Manage Economics Deck`,
+      type: "finalizeInputDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   return (
     <>
@@ -127,19 +140,27 @@ const EconomicsDataLanding = ({
 
               const inputEconomicsDataWorkflows: IEconomicsDataLandingWorkflows = {
                 excel: (
-                  <ExcelWorkflow workflowProcess={currentWorkflowProcess} />
+                  <ExcelWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
+                  />
                 ),
                 database: (
-                  <DatabaseWorkflow workflowProcess={currentWorkflowProcess} />
+                  <DatabaseWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
+                  />
                 ),
                 manual: (
                   <ExistingDataWorkflow
                     workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
                   />
                 ),
                 approvedData: (
                   <ExistingDataWorkflow
                     workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
                   />
                 ),
               };

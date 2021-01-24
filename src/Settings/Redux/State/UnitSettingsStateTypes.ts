@@ -1,21 +1,31 @@
+export interface IUnit {
+  title: string;
+  group: string;
+  unitId: string;
+}
 export interface IUnitsRow {
   sn?: number;
-  key: string;
-  parameter: string;
-  appUnitOptions: Record<string, "field" | "metric">[];
-  selectedAppUnitIndex: number;
+  variableName: string;
+  variableTitle: string;
+  variableId: string;
+  displayUnitId: string;
+  units: IUnit[];
 }
 
 export interface IUnitSettingsData {
   dayFormat: string;
   monthFormat: string;
   yearFormat: string;
-  globalUnitGroup: "Field" | "Metric" | "Mixed";
-  allUnits: IUnitsRow[];
-  chosenAppUnitIndices?: number[];
+  unitGroup: "Field" | "Metric" | "Mixed";
+  units: IUnitsRow[];
 }
 
 export interface IHTTPResponse {
   statusCode: number;
   error: string[];
 }
+
+[
+  { Module: "hjgsdvlchsdvshd", "hydrocarbon Stream": "oil" },
+  { Module: "hg;f'gug", "hydrocarbon Stream": "gas" },
+];

@@ -1,9 +1,3 @@
-export interface IForecastInputDeckLanding {
-  excel: JSX.Element;
-  database: JSX.Element;
-  approveddeck: JSX.Element;
-}
+import { IExistingData } from "../Common/InputLayoutTypes";
 
-export type IdType = {
-  dataInputId: keyof IForecastInputDeckLanding;
-};
+export interface IForecastDeckRow extends IExistingData {}

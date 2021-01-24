@@ -19,7 +19,7 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import formatDate from "../../../../Application/Utils/FormatDate";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "space-evenly",
     border: "1px solid #707070",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    boxShadow: theme.shadows[2],
     backgroundColor: "#FFF",
   },
   fileHeader: {
@@ -80,12 +80,12 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     fileCreated,
   } = useSelector(
     (state: RootState) =>
-      state.importReducer["allWorkflows"][workflowProcess as string]
+      state.importReducer["allExistingWorkflows"][workflowProcess as string]
   );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) =>
-      state.importReducer["allWorkflows"][workflowProcess as string]
+      state.importReducer["allExistingWorkflows"][workflowProcess as string]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(

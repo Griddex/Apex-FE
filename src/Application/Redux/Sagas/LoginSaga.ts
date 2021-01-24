@@ -23,18 +23,18 @@ function* loginSaga(action: IAction) {
   };
   const config = { headers: null };
   const loginAPI = (url: string) => authService.post(url, data, config);
-  const statusCode = "";
 
   try {
-    const userToken = yield call(
+    const response = yield call(
       loginAPI,
       "https://jsonplaceholder.typicode.com/posts"
     );
 
+    const { statusCode, userId, token } = response;
     const successAction = loginSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, token: userToken },
+      payload: { ...payload, statusCode, userId, token },
     });
 
     yield call(forwardTo, "/apex");
@@ -42,7 +42,7 @@ function* loginSaga(action: IAction) {
     const failureAction = loginFailureAction();
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode, errors },
+      payload: { ...payload, errors },
     });
   }
 

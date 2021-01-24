@@ -2,7 +2,7 @@ import { FormikErrors, FormikTouched } from "formik";
 
 export interface IRecentProject {
   sn?: number;
-  id?: string;
+  projectId?: string;
   title?: string;
   icon?: JSX.Element;
   handleClick?: () => void;

@@ -29,6 +29,7 @@ export const loginSuccessAction = () => {
     type: LOGIN_SUCCESS,
     payload: {
       statusCode: 0,
+      userId: "", //In token or by itself?
       token: "",
     },
   };

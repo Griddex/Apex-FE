@@ -24,9 +24,9 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
 
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
+    (state: RootState) =>
+      state.workflowReducer["allExistingWorkflows"][workflowProcess]
   );
-
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
     [activeStep]
@@ -35,14 +35,13 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     skipped,
   ]);
 
-  useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
-    dispatch(
-      workflowInitAction(steps, isStepOptional, isStepSkipped, workflowProcess)
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  const workflowProps = {
+    activeStep,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  };
 
   const renderImportStep = (
     activeStep: number,
@@ -86,8 +85,18 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     showSkip: true,
     showNext: true,
     finalAction: finalAction,
+    workflowProps,
     workflowProcess,
   };
+
+  useEffect(() => {
+    //Set optional steps here
+    //Error steps can be set from any view in a workflow
+    dispatch(
+      workflowInitAction(steps, isStepOptional, isStepSkipped, workflowProcess)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   return (
     <NewProjectDialog {...props}>

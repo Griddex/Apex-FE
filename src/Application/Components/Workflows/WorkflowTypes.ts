@@ -30,4 +30,5 @@ export interface IWorkflowProcess {
     | "economicsDataDatabase"
     | "economicsDataManual"
     | "economicsDataApproved";
+  finalAction: () => void;
 }

@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import Image from "../../../Application/Components/Visuals/Image";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
@@ -17,6 +17,8 @@ import {
   IProductionDataLandingWorkflows,
 } from "./ProductionDataLandingTypes";
 import { IInputLanding } from "../Common/InputLayoutTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 // import AvatarStack from "react-avatar-stack";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,12 +44,9 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
-const ProductionDataLanding = ({
-  subModuleName,
-  subModuleLabel,
-}: IInputLanding) => {
+const ProductionDataLanding = () => {
   const classes = useStyles();
-  // const theme = useTheme();
+  const dispatch = useDispatch();
 
   const { url, path } = useRouteMatch();
   const { loadWorkflow } = useSelector(
@@ -60,7 +59,7 @@ const ProductionDataLanding = ({
   const productionLandingData = [
     {
       name: "Excel",
-      description: `Utilize ${subModuleLabel} by connecting to Microsoft Excel`,
+      description: `Utilize production data by connecting to Microsoft Excel`,
       icon: (
         <Image
           className={classes.image}
@@ -73,7 +72,7 @@ const ProductionDataLanding = ({
     },
     {
       name: "Database",
-      description: `Utilize ${subModuleLabel} by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Utilize production data by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -86,8 +85,8 @@ const ProductionDataLanding = ({
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Approved ${subModuleLabel}`,
-      description: `Select pre-exisiting and approved ${subModuleLabel} from your database`,
+      name: `Approved Production Data`,
+      description: `Select pre-exisiting and approved production data from your database`,
       icon: (
         <Image
           className={classes.image}
@@ -99,6 +98,19 @@ const ProductionDataLanding = ({
       workflowProcess: "productionDataApproved",
     },
   ];
+
+  const excelWorkflowFinalAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Manage_Deck_Dialog",
+      title: `Manage Facilities Deck`,
+      type: "finalizeInputDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   return (
     <>
@@ -115,14 +127,21 @@ const ProductionDataLanding = ({
 
               const inputProductionDataWorkflows: IProductionDataLandingWorkflows = {
                 excel: (
-                  <ExcelWorkflow workflowProcess={currentWorkflowProcess} />
+                  <ExcelWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
+                  />
                 ),
                 database: (
-                  <DatabaseWorkflow workflowProcess={currentWorkflowProcess} />
+                  <DatabaseWorkflow
+                    workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
+                  />
                 ),
                 approvedData: (
                   <ExistingDataWorkflow
                     workflowProcess={currentWorkflowProcess}
+                    finalAction={excelWorkflowFinalAction}
                   />
                 ),
               };

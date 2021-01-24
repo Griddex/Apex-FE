@@ -1,5 +1,9 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
+  EXISTINGDATA_FAILURE,
+  EXISTINGDATA_SUCCESS,
+} from "../Actions/ExistingDataActions";
+import {
   IMPORTFILE_INITIALIZATION,
   PERSIST_CHOSENAPPLICATIONHEADERS,
   PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
@@ -46,11 +50,41 @@ const importReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        allWorkflows: {
-          ...state.allWorkflows,
+        allExistingWorkflows: {
+          ...state.allExistingWorkflows,
           [workflowProcessDefined]: {
-            ...state.allWorkflows[workflowProcessDefined],
+            ...state.allExistingWorkflows[workflowProcessDefined],
             ...action.payload,
+          },
+        },
+      };
+    }
+    case EXISTINGDATA_SUCCESS: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
+
+      return {
+        ...state,
+        existingDataWorkflows: {
+          ...state.existingDataWorkflows,
+          [workflowProcessDefined]: {
+            ...state.existingDataWorkflows[workflowProcessDefined],
+            ...action.payload,
+          },
+        },
+      };
+    }
+    case EXISTINGDATA_FAILURE: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
+
+      return {
+        ...state,
+        existingDataWorkflows: {
+          ...state.existingDataWorkflows,
+          [workflowProcessDefined]: {
+            ...state.existingDataWorkflows[workflowProcessDefined],
+            ...action.payload.existingData,
           },
         },
       };

@@ -50,7 +50,7 @@ export default function SelectHeaderUnitData({
 
   const { selectedWorksheetData } = useSelector(
     (state: RootState) =>
-      state.importReducer["allWorkflows"][workflowProcess as string]
+      state.importReducer["allExistingWorkflows"][workflowProcess as string]
   );
 
   //Generate actual ColumnHeaders

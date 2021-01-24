@@ -1,3 +1,6 @@
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { IUserDetails } from "../User/UserTypes";
 
-export type IApprovers = IUserDetails[] | string;
+export interface IApprover extends IUserDetails {
+  approversStyles?: CSSProperties;
+}

@@ -6,8 +6,6 @@ export const SAVE_UNITS = "SAVE_UNITS";
 export const FETCH_UNITSETTINGS = "FETCH_UNITSETTINGS";
 export const FETCH_UNITSETTINGS_SUCCESS = "FETCH_UNITSETTINGS_SUCCESS";
 export const FETCH_UNITSETTINGS_FAILURE = "FETCH_UNITSETTINGS_FAILURE";
-export const UPDATE_CHOSENAPPUNIQUEUNITSETTINGSINDICES =
-  "UPDATE_CHOSENAPPUNIQUEUNITSETTINGSINDICES";
 export const UPDATE_FIRSTLEVELUNITSETTINGS = "UPDATE_FIRSTLEVELUNITSETTINGS";
 export const UPDATE_ALLUNITS = "UPDATE_ALLUNITS";
 
@@ -48,15 +46,6 @@ export const fetchUnitSettingsFailureAction = () => {
       statusCode: 0,
       errors: [],
     },
-  };
-};
-
-export const persistChosenAppUniqueUnitSettingsIndicesAction = (
-  chosenAppUnitIndices: Record<string, number>
-) => {
-  return {
-    type: UPDATE_CHOSENAPPUNIQUEUNITSETTINGSINDICES,
-    payload: { chosenAppUnitIndices },
   };
 };
 

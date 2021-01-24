@@ -1,4 +1,3 @@
-import { number } from "prop-types";
 import { IHTTPResponse, IUnitSettingsData } from "./UnitSettingsStateTypes";
 
 const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
@@ -7,9 +6,8 @@ const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
     dayFormat: "dd",
     monthFormat: "mm",
     yearFormat: "yyyy",
-    globalUnitGroup: "Field",
-    allUnits: [],
-    chosenAppUnitIndices: [],
+    unitGroup: "Field",
+    units: [],
   },
   statusCode: 200,
   error: [],

@@ -29,31 +29,32 @@ const useStyles = makeStyles((theme) => ({
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
   },
-  navigationbuttons: {
+  navigationbuttons: (props: INavigationButtonsProp) => ({
     display: "flex",
     justifyContent: "center",
     width: "100%",
     "& > *": {
-      border: `2px solid`,
-      boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+      padding: theme.spacing(0.25),
+      height: props.mainNav ? 40 : 30,
+      width: props.mainNav ? 50 : 35,
     },
-  },
+  }),
 }));
 
 type isStepSkippedType = (step: number) => boolean;
-//Too many renders?
-//Try react.memo
-//Usecallback for finalaction?
-const NavigationButtons = ({
-  mainNav,
-  showReset,
-  showBack,
-  showSkip,
-  showNext,
-  finalAction,
-  workflowProcess,
-}: INavigationButtonsProp) => {
-  const classes = useStyles();
+
+const NavigationButtons = (props: INavigationButtonsProp) => {
+  const {
+    mainNav,
+    showReset,
+    showBack,
+    showSkip,
+    showNext,
+    finalAction,
+    workflowProps,
+    workflowProcess,
+  } = props;
+  const classes = useStyles(props);
   const dispatch = useDispatch();
 
   const {
@@ -62,14 +63,7 @@ const NavigationButtons = ({
     isStepOptional,
     skipped,
     isStepSkipped,
-  } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer["allWorkflows"][workflowProcess as string]
-  ) as IWorkflowProcessState;
-  console.log(
-    "Logged output --> ~ file: NavigationButtons.tsx ~ line 64 ~ steps",
-    steps
-  );
+  } = workflowProps as IWorkflowProcessState;
 
   return (
     <div className={classes.navigationbuttons}>

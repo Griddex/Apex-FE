@@ -7,10 +7,11 @@ import { Router } from "react-router-dom";
 import App from "./Application/App";
 import history from "./Application/Services/HistoryService";
 import theme from "./Application/Theme/Theme";
-import store from "./Application/Redux/Store/Store";
+import { store, persistor } from "./Application/Redux/Store/Store";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import { PersistGate } from "redux-persist/integration/react";
 
 Sentry.init({
   dsn:
@@ -24,7 +25,9 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <Router history={history}>
         <CssBaseline />
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Router>
     </ThemeProvider>
   </Provider>,

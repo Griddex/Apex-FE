@@ -3,6 +3,7 @@ export interface IUserState {
   userName: string;
   password: string;
   rememberMe?: boolean;
+  userId?: string;
   token?: string;
 
   //registration

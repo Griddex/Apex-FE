@@ -12,16 +12,16 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import Loading from "../../../Application/Components/Visuals/Loading";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
-import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
-import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
-import InputBackground from "./InputBackground";
+import Loading from "../../../Application/Components/Visuals/Loading";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { ISubNavbarData } from "./Workflows/InputWorkflowsTypes";
-import { IdType, ISubModuleData } from "./InputLayoutTypes";
-import FacilitiesInputDeckLanding from "./../FacilitiesInputDeck/FacilitiesInputDeckLanding";
+import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
 import ForecastInputDeckLanding from "../ForecastInputDeck/ForecastInputDeckLanding";
+import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
+import FacilitiesInputDeckLanding from "./../FacilitiesInputDeck/FacilitiesInputDeckLanding";
+import InputBackground from "./InputBackground";
+import { IdType, ISubModuleData } from "./InputLayoutTypes";
+import { ISubNavbarData } from "./Workflows/InputWorkflowsTypes";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -97,30 +97,10 @@ const InputLayout = () => {
 
                 const Layouts: Record<string, JSX.Element> = {
                   background: <InputBackground />,
-                  facilitiesdeck: (
-                    <FacilitiesInputDeckLanding
-                      subModuleName={subModuleName}
-                      subModuleLabel={subModuleLabel}
-                    />
-                  ),
-                  forecastdeck: (
-                    <ForecastInputDeckLanding
-                      subModuleName={subModuleName}
-                      subModuleLabel={subModuleLabel}
-                    />
-                  ),
-                  productiondata: (
-                    <ProductionDataLanding
-                      subModuleName={subModuleName}
-                      subModuleLabel={subModuleLabel}
-                    />
-                  ),
-                  economicsdata: (
-                    <EconomicsLanding
-                      subModuleName={subModuleName}
-                      subModuleLabel={subModuleLabel}
-                    />
-                  ),
+                  facilitiesdeck: <FacilitiesInputDeckLanding />,
+                  forecastdeck: <ForecastInputDeckLanding />,
+                  productiondata: <ProductionDataLanding />,
+                  economicsdata: <EconomicsLanding />,
                 };
 
                 return Layouts[subNavbarId];

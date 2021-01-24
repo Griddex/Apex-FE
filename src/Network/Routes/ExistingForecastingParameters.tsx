@@ -184,7 +184,7 @@ export default function ExistingForecastingParameters() {
       },
       {
         key: "createdOn",
-        name: "CREATED ON",
+        name: "CREATED",
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
@@ -194,7 +194,7 @@ export default function ExistingForecastingParameters() {
       },
       {
         key: "modifiedOn",
-        name: "MODIFIED ON",
+        name: "MODIFIED",
         editable: true,
         resizable: true,
         formatter: ({ row }) => {

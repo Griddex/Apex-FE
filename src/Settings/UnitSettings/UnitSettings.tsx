@@ -15,16 +15,17 @@ import {
 } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
-  successDialogParameters,
   failureDialogParameters,
+  successDialogParameters,
 } from "../Components/DialogActions/SuccessFailureDialogs";
+import { tableOptions } from "../Configurations/SettingsTableOptions";
 import {
   fetchUnitSettingsAction,
-  persistChosenAppUniqueUnitSettingsIndicesAction,
   updateAllUnitsAction,
   updateFirstLevelUnitSettingsAction,
 } from "../Redux/Actions/UnitSettingsActions";
 import {
+  IUnit,
   IUnitSettingsData,
   IUnitsRow,
 } from "../Redux/State/UnitSettingsStateTypes";
@@ -69,45 +70,54 @@ const useStyles = makeStyles(() => ({
 }));
 
 //TODO: API saga to get entire units object from server
+//unitGroup
+//units
 const unitsData: IUnitSettingsData &
   Pick<INewProjectFormValues, "pressureAddend"> = {
-  pressureAddend: 14.7,
+  pressureAddend: 14.7, //convert to g to a and vice versa
   dayFormat: "dd",
   monthFormat: "mm",
   yearFormat: "yyyy",
-  globalUnitGroup: "Field",
-  allUnits: [
+  unitGroup: "Field",
+  units: [
     {
-      key: "oilRate",
-      parameter: "Oil Rate",
-      appUnitOptions: [
-        { Unit4: "field" },
-        { Unit5: "field" },
-        { Unit1: "metric" },
-        { Unit2: "metric" },
-        { Unit3: "metric" },
+      variableName: "oilRate", //send
+      variableTitle: "Oil Rate",
+      variableId: "hsajflbshjdbls", //send
+      displayUnitId: "shvdhsdvshds", //Send
+      units: [
+        { title: "bbl Oil/day", group: "field", unitId: "shvdhsdvshds" },
+        { title: "stb/day", group: "field", unitId: "shvdhshgmkdvshds" },
+        { title: "m3/day", group: "metric", unitId: "aasf" },
+        { title: "cm3/day", group: "metric", unitId: "jhkk" },
+        { title: "Unit3", group: "metric", unitId: "hfhdd" },
       ],
-      selectedAppUnitIndex: 2,
     },
     {
-      key: "gasRate",
-      parameter: "Gas Rate",
-      appUnitOptions: [
-        { Unit4: "field" },
-        { Unit1: "metric" },
-        { Unit3: "metric" },
+      variableName: "liquidRate", //send
+      variableTitle: "Liquid Rate",
+      variableId: "vhcsyefgdvcjhssd", //send
+      displayUnitId: "rjbvvbvhdvjl", //Send
+      units: [
+        { title: "bbl Oil/day", group: "field", unitId: "rjbvvbvhdvjl" },
+        { title: "stb/day", group: "field", unitId: "dsgfhgdgv" },
+        { title: "m3/day", group: "metric", unitId: "ertghg" },
+        { title: "cm3/day", group: "metric", unitId: "aevc" },
+        { title: "dm3/day", group: "metric", unitId: "kjhgvc" },
       ],
-      selectedAppUnitIndex: 0,
     },
     {
-      key: "pressure",
-      parameter: "Pressure",
-      appUnitOptions: [
-        { Unit4: "field" },
-        { Unit5: "field" },
-        { Unit1: "metric" },
+      variableName: "gasRate", //send
+      variableTitle: "Gas Rate",
+      variableId: "yfdsyhfsydshlshdl", //send
+      displayUnitId: "trowuythfewh", //Send
+      units: [
+        { title: "MScf/day", group: "field", unitId: "trowuythfewh" },
+        { title: "MMScf/day", group: "field", unitId: "isvtu" },
+        { title: "m3/day", group: "metric", unitId: "qhgfqq" },
+        { title: "cm3/day", group: "metric", unitId: "zzzcfhjk" },
+        { title: "Unit3", group: "metric", unitId: "kolohggf" },
       ],
-      selectedAppUnitIndex: 0,
     },
   ],
 };
@@ -122,15 +132,12 @@ export default function UnitSettings({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  //Unit Classification
   const unitGroups = ["Field", "Metric", "Mixed"];
   const dayDateFormats = ["d", "dd", "ddd", "dddd"];
   const monthDateFormats = ["m", "mm", "mmm", "mmmm"];
   const yearDateFormats = ["yy", "yyyy"];
 
-  const [globalUnitGroup, setGlobalUnitGroup] = React.useState(
-    unitsData.globalUnitGroup
-  );
+  const [unitGroup, setGlobalUnitGroup] = React.useState(unitsData.unitGroup);
   const [day, setDay] = React.useState(dayDateFormats[0]);
   const [month, setMonth] = React.useState(monthDateFormats[0]);
   const [year, setYear] = React.useState(yearDateFormats[0]);
@@ -171,93 +178,62 @@ export default function UnitSettings({
     );
   };
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
-  };
-
-  const snAllUnits = unitsData.allUnits.map((row, i: number) => ({
+  const snUnits = unitsData.units.map((row, i: number) => ({
     sn: i + 1,
     ...row,
   }));
 
   //Application Units
-  const appUnitOptions: AppUnitOptionsType = snAllUnits.reduce(
+  const unitOptions: AppUnitOptionsType = snUnits.reduce(
     (acc, row: IUnitsRow) => {
-      const fieldOptions = row.appUnitOptions.filter(
-        (v) => Object.values(v)[0] === "field"
-      );
+      const fieldOptions = row.units.filter((v) => v.group === "field");
+      const metricOptions = row.units.filter((v) => v.group === "metric");
 
-      const metricOptions = row.appUnitOptions.filter(
-        (v) => Object.values(v)[0] === "metric"
-      );
-
-      const appFieldUnits = fieldOptions.map((unitObj) => {
-        const unit = Object.keys(unitObj)[0];
-        const unitGroup = Object.values(unitObj)[0];
+      const appFieldUnits = fieldOptions.map((unit) => {
         return {
-          value: unit.toLowerCase(),
-          label: unit,
-          group: unitGroup,
+          value: unit.unitId,
+          label: unit.title,
+          group: unit.group,
         };
       });
 
-      const appMetricUnits = metricOptions.map((unitObj) => {
-        const unit = Object.keys(unitObj)[0];
-        const unitGroup = Object.values(unitObj)[0];
+      const appMetricUnits = metricOptions.map((unit) => {
         return {
-          value: unit.toLowerCase(),
-          label: unit,
-          group: unitGroup,
+          value: unit.unitId,
+          label: unit.title,
+          group: unit.group,
         };
       });
 
-      return { ...acc, [row.parameter]: [appFieldUnits, appMetricUnits] };
+      return { ...acc, [row.variableName]: [appFieldUnits, appMetricUnits] };
     },
     {}
+  ); //{oilRate:[fieldOptions,metricOptions], gasRate:[fieldOptions,metricOptions]}
+
+  const initVariableUnitsGroupObj = () =>
+    snUnits.reduce((acc: Record<string, string>, row: IUnitsRow) => {
+      const { variableName, units, displayUnitId } = row;
+      const selectedUnitObj = units.filter((u) => u.unitId === displayUnitId);
+      const selectedUnitGroup = selectedUnitObj[0].group;
+
+      return { ...acc, [variableName]: selectedUnitGroup };
+    }, {}); //[{oilRate: "Field"},{gasRate: "Metric"}]
+  const [variableUnitsGroup, setVariableUnitsGroup] = React.useState(
+    initVariableUnitsGroupObj
   );
 
-  const initParameterUnitIndicesObj = () =>
-    snAllUnits.reduce(
-      (acc: Record<string, number>, row: IUnitsRow) => ({
-        ...acc,
-        [row.parameter]: row.selectedAppUnitIndex,
-      }),
-      {}
-    );
-  const [chosenAppUnitIndices, setChosenAppUnitIndices] = React.useState<
-    Record<string, number>
-  >(initParameterUnitIndicesObj());
-  const chosenUnitIndices = React.useRef<Record<string, number>>(
-    chosenAppUnitIndices
-  );
+  const initUnitDisplayIds = () =>
+    snUnits.reduce((acc: Record<string, string>, row: IUnitsRow) => {
+      const { variableName, units, displayUnitId } = row;
+      return { ...acc, [variableName]: displayUnitId };
+    }, {}); //[{oilRate: "stb/day"},{gasRate: "m3/day"}]
+  const [, setUnitDisplayIds] = React.useState(initUnitDisplayIds);
 
-  const initUnitsGroupObj = () =>
-    snAllUnits.reduce((acc: Record<string, string>, row: IUnitsRow) => {
-      const { parameter, appUnitOptions, selectedAppUnitIndex } = row;
-      const selectedUnitObj = appUnitOptions[selectedAppUnitIndex];
-      const selectedUnitGroup = Object.values(selectedUnitObj)[0];
-
-      return { ...acc, [parameter]: selectedUnitGroup };
-    }, {});
-  const [, setUnitsGroup] = React.useState(initUnitsGroupObj);
-
-  //React.ComponentType<FormatterProps<TRow, TSummaryRow>>
   const generateColumns = () => {
     const columns: Column<IUnitsRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
-        key: "parameter",
+        key: "name",
         name: "PARAMETER",
         editable: false,
         resizable: true,
@@ -269,49 +245,35 @@ export default function UnitSettings({
         editable: true,
         resizable: true,
         formatter: ({ row, onRowChange }) => {
-          const parameter = row.parameter as string;
-          const index = row.selectedAppUnitIndex as number;
-          const appUnit = row.appUnitOptions[index];
-          const value = Object.keys(appUnit)[0];
-          const valueLowCase = value.toLowerCase();
-
-          const [fieldOptions, metricOptions] = appUnitOptions[parameter];
+          const variableName = row.variableName as string;
+          const [fieldOptions, metricOptions] = unitOptions[variableName];
+          const displayUnitIdValue = row.displayUnitId;
 
           return (
             <select
               style={{ width: "100%", height: "95%" }}
-              value={valueLowCase}
+              value={displayUnitIdValue}
               onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                 event.stopPropagation();
 
-                const selectedValue = event.target.value;
+                const selecteddisplayUnitId = event.target.value;
                 const selectedUnitOptionIndex = findIndex(
                   [...fieldOptions, ...metricOptions],
-                  (option) => option.value === selectedValue
+                  (option) => option.value === selecteddisplayUnitId
                 );
 
                 onRowChange({
                   ...row,
-                  selectedAppUnitIndex: selectedUnitOptionIndex as number,
+                  displayUnitId: selecteddisplayUnitId,
                 });
 
-                setChosenAppUnitIndices((prev) => {
-                  const updatedIndices = {
-                    ...prev,
-                    [parameter]: selectedUnitOptionIndex,
-                  };
-                  chosenUnitIndices.current = updatedIndices;
-
-                  return updatedIndices;
-                });
-
-                setUnitsGroup((prev) => {
+                setVariableUnitsGroup((prev) => {
                   const allAppUnits = [...fieldOptions, ...metricOptions];
                   const selectedAppUnit = allAppUnits[selectedUnitOptionIndex];
 
                   const newAllAppUnits = {
                     ...prev,
-                    [parameter]: selectedAppUnit.group,
+                    [variableName]: selectedAppUnit.group,
                   };
 
                   const newUnitGroup = getGlobalUnitGroup(
@@ -321,8 +283,14 @@ export default function UnitSettings({
 
                   return newAllAppUnits;
                 });
+                setUnitDisplayIds((prev) => {
+                  return {
+                    ...prev,
+                    [variableName]: selecteddisplayUnitId,
+                  };
+                });
 
-                modifyTableRows(parameter, selectedUnitOptionIndex);
+                modifyTableRows(variableName, selectedUnitOptionIndex);
                 setRerender((rerender) => !rerender);
               }}
             >
@@ -354,12 +322,15 @@ export default function UnitSettings({
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
-          const parameter = row.parameter as string;
-          const selectedUnitIndex = chosenUnitIndices.current[parameter];
-          const appUnit = row.appUnitOptions[selectedUnitIndex];
-          const unitGroup = Object.values(appUnit)[0];
-
-          return <div>{unitGroup}</div>;
+          const variableName = row.variableName as string;
+          const unitsArray = unitsData.units.find(
+            (u) => u.variableName === variableName
+          );
+          const displayUnitId = variableUnitsGroup[variableName];
+          const selectedUnit =
+            unitsArray &&
+            (unitsArray.units.find((u) => u.unitId === displayUnitId) as IUnit);
+          return <div>{selectedUnit?.group}</div>;
         },
       },
     ];
@@ -370,15 +341,15 @@ export default function UnitSettings({
 
   //TODO: Saga Api to select unit family the current selected
   //unit belongs to. lookup data should be a dictionary
-  const tableRows = React.useRef<IUnitsRow[]>(snAllUnits);
+  const tableRows = React.useRef<IUnitsRow[]>(snUnits);
 
   const [, setRerender] = React.useState(false);
   const modifyTableRows = (
-    selectedParameter: string,
+    selectedVariableName: string,
     selectedUnitOptionIndex: number
   ) => {
     const modifiedRows = tableRows.current.map((row, i: number) => {
-      if (row.parameter === selectedParameter) {
+      if (row.variableName === selectedVariableName) {
         return { ...row, selectedAppUnitIndex: selectedUnitOptionIndex };
       } else return row;
     });
@@ -399,9 +370,6 @@ export default function UnitSettings({
   }, []);
 
   React.useEffect(() => {
-    dispatch(
-      persistChosenAppUniqueUnitSettingsIndicesAction(chosenAppUnitIndices)
-    );
     dispatch(updateAllUnitsAction(rows));
 
     dispatch(hideSpinnerAction());
@@ -422,8 +390,8 @@ export default function UnitSettings({
         <div>
           <AnalyticsTitle title="Global Units Group" />
           <SelectItem
-            name="globalUnitGroup"
-            currentItem={globalUnitGroup}
+            name="unitGroup"
+            currentItem={unitGroup}
             itemData={unitGroups}
             handleChange={handleFirstLevelSettingsChange}
           />

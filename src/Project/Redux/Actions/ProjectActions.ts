@@ -49,10 +49,11 @@ export const fetchRecentProjectsFailureAction = () => {
   };
 };
 
-export const openRecentProjectAction = (projectId: string) => {
+export const openRecentProjectAction = (userId: string, projectId: string) => {
   return {
     type: OPENRECENTPROJECT_REQUEST,
     payload: {
+      userId,
       projectId,
     },
   };

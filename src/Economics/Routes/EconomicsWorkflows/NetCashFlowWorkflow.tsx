@@ -53,8 +53,6 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     backgroundColor: theme.palette.primary.main,
     borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-    // borderRadius: theme.spacing(0),
-    // boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
     "& > *": { fontWeight: "bold" },
   },
   workflowBannerHeader: {
@@ -79,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     height: "95%",
     width: "20%",
     border: "1px solid #A8A8A8",
-    boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+    boxShadow: theme.shadows[2],
     backgroundColor: "#FFF",
     padding: 20,
   },
@@ -90,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     "& > *": {
       border: `2px solid`,
-      boxShadow: `${fade("#A8A8A8", 0.25)} 0 0 0 2px`,
+      boxShadow: theme.shadows[2],
     },
   },
   instructions: {
@@ -121,7 +119,8 @@ const NetCashFlowWorkflow = () => {
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer["allWorkflows"][workflowProcess]
+    (state: RootState) =>
+      state.workflowReducer["allExistingWorkflows"][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer

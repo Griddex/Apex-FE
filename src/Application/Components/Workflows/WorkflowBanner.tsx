@@ -1,6 +1,7 @@
 import { Box, Container, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
+import CompanyLogo from "../../Images/CompanyLogo.svg";
 
 const useStyles = makeStyles((theme) => ({
   workflowHeaderRow: {
@@ -15,11 +16,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     width: 54,
-    margin: 0,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-    // borderRadius: theme.spacing(0),
-    // boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    height: 24,
+    margin: 5,
+    borderRadius: theme.spacing(0.5),
+    border: `1px solid ${theme.palette.primary.main}`,
     "& > *": { fontWeight: "bold" },
   },
   workflowBannerHeader: {
@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginLeft: 6,
     "& > *": { fontWeight: "bold" },
+  },
+  companyLogoToolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 12,
   },
 }));
 
@@ -41,17 +47,21 @@ const WorkflowBanner = ({
 
   return (
     <Container className={classes.workflowHeaderRow} fixed disableGutters>
-      <Box className={classes.workflowBanner}>
-        <Typography variant="subtitle1">{`${activeStep + 1}/${
-          steps.length
-        }`}</Typography>
-      </Box>
+      <div className={classes.companyLogoToolbar}>
+        <img src={CompanyLogo} alt="Company logo" height={24} width={24} />
+      </div>
       <Box className={classes.workflowBannerHeader}>
+        <Typography variant="subtitle1">{`${subModuleName}`}</Typography>
+        <span>&nbsp;</span>
         <Typography variant="subtitle1">{`${moduleName} `}</Typography>
-        <Typography variant="subtitle1">{` | ${subModuleName}`}</Typography>
-        <Typography variant="subtitle1" color="primary">
+        {/* <Typography variant="subtitle1" color="primary">
           {` | ${workflowName}`}
-        </Typography>
+        </Typography> */}
+        <Box className={classes.workflowBanner}>
+          <Typography variant="subtitle1">{`${activeStep + 1}/${
+            steps.length
+          }`}</Typography>
+        </Box>
       </Box>
     </Container>
   );

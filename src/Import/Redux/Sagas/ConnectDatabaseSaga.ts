@@ -1,21 +1,23 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import { showDialogAction } from "./../../../Application/Redux/Actions/DialogsAction";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
-  serverLoginFailureAction,
-  serverLoginSuccessAction,
-  SERVERLOGIN_REQUEST,
-} from "./../Actions/DatabaseServerActions";
+  connectDatabaseFailureAction,
+  connectDatabaseSuccessAction,
+  CONNECTDATABASE_REQUEST,
+} from "../Actions/DatabaseServerActions";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 
 export default function* watchConnectDatabaseSaga() {
-  yield takeLatest(SERVERLOGIN_REQUEST, connectDatabaseSaga);
+  yield takeLatest(CONNECTDATABASE_REQUEST, connectDatabaseSaga);
 }
 
-function* connectDatabaseSaga(action) {
+function* connectDatabaseSaga(action: IAction) {
   const { payload } = action;
   const { successDialogParameters, failureDialogParameters } = payload;
   //add authenticationType
+  //connectionString, userName, password as payload
   const { userName, password } = payload;
 
   const data = {
@@ -23,18 +25,18 @@ function* connectDatabaseSaga(action) {
     body: password,
   };
   const config = { headers: null };
-  const serverLoginAPI = (url) => authService.post(url, data, config);
+  const connectDatabaI = (url: string) => authService.post(url, data, config);
   const statusCode = "";
 
   //Replace with actual API call
   try {
     let databases = yield call(
-      serverLoginAPI,
+      connectDatabaI,
       "https://jsonplaceholder.typicode.com/posts"
     );
 
     databases = ["ForecastingDb", "MainDb"];
-    const successAction = serverLoginSuccessAction();
+    const successAction = connectDatabaseSuccessAction();
     yield put({
       ...successAction,
       payload: { ...payload, statusCode, databases: databases },
@@ -45,7 +47,7 @@ function* connectDatabaseSaga(action) {
 
     yield put(showDialogAction(successDialogParameters));
   } catch (errors) {
-    const failureAction = serverLoginFailureAction();
+    const failureAction = connectDatabaseFailureAction();
 
     yield put({
       ...failureAction,

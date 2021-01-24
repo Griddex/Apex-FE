@@ -45,6 +45,28 @@ const data = [
   { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
 ];
 
+// const data = [
+//   { date: "1/1/2020", AGBA-AS1: 4000, AGBA-AS2: 2400, AGBA-AS3: 2400 },
+//   { date: "1/2/2020", AGBA-AS1: 2000, AGBA-AS2: 3000, AGBA-AS3: 5000 },
+//   { date: "1/3/2020", AGBA-AS1: 250, AGBA-AS2: 270, AGBA-AS3: 300 },
+// ];
+
+// const data = [
+//   { date: "1/1/2020", AGBA-AS1: {oilRate:4000,gasRate:34}, AGBA-AS2: {oilRate:2400,gasRate:53}, AGBA-AS3:{oilRate:2400,gasRate:34} },
+//   { date: "1/2/2020", AGBA-AS1: {oilRate:2000,gasRate:53}, AGBA-AS2: {oilRate:2000,gasRate:100}, AGBA-AS3:{oilRate:2400,gasRate:34} },
+//  ];
+
+// const data = [
+//   { date: "1/1/2020", AGBA-FS: 2400 },
+//   { date: "1/2/2020", AGBA-AS1: 2000, AGBA-AS2: 3000, AGBA-AS3: 5000 },
+//   { date: "1/3/2020", AGBA-AS1: 250, AGBA-AS2: 270, AGBA-AS3: 300 },
+// ];
+
+// const data = {
+//   "1P_1C": {"GBARAN3_GP": [{ date: "1/1/2020", AGBA-AS1: {oilRate:4000,gasRate:34}, AGBA-AS2: {oilRate:2400,gasRate:53}, AGBA-AS3:{oilRate:2400,gasRate:34} },
+//   { date: "1/2/2020", AGBA-AS1: {oilRate:2000,gasRate:53}, AGBA-AS2: {oilRate:2000,gasRate:100}, AGBA-AS3:{oilRate:2400,gasRate:34} },]}
+// }
+
 const StackedAreaChart = (props) => {
   const dispatch = useDispatch();
 

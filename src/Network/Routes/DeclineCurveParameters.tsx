@@ -79,7 +79,7 @@ export default function DeclineCurveParameters({
   //TODO: API saga to get entire units object from server
   const { definedTableData } = useSelector(
     (state: RootState) =>
-      state.importReducer["allWorkflows"][workflowProcess as string]
+      state.importReducer["allExistingWorkflows"][workflowProcess as string]
   );
 
   const declineCurveList: Omit<

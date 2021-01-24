@@ -50,7 +50,7 @@ const generateWorkflowState = () => {
 const state = generateWorkflowState();
 const workflowState: IWorkflowState = {
   currentWorkflowProcess: "",
-  allWorkflows: { ...state },
+  allExistingWorkflows: { ...state },
 };
 
 export default workflowState;
