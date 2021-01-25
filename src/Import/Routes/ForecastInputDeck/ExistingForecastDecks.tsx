@@ -1,27 +1,26 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
-import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import formatDate from "../../Application/Utils/FormatDate";
-import { IExistingDataRow } from "../../Import/Routes/Common/InputLayoutTypes";
-import ExistingDataWorkflow from "../../Import/Routes/Common/InputWorkflows/ExistingDataWorkflow";
+import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import formatDate from "../../../Application/Utils/FormatDate";
 import {
+  shirleyImg,
   anitaImg,
   glenImg,
-  johnImg,
   kerryImg,
-  shirleyImg,
-} from "../../Import/Utils/iconImages";
-import { INetworkDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
+  johnImg,
+} from "../../Utils/iconImages";
+import { IExistingDataRow } from "../Common/InputLayoutTypes";
+import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
 
 //TODO: API saga to get entire units object from server
-const networkDiagramsList: INetworkDetail[] = [
+const forecastList: IExistingDataRow[] = [
   {
     status: "Approved",
-    networkTitle: "ARPR_NETWORK DIAGRAM 2020",
-    networkDescription: "ARPR_NETWORK DIAGRAM 2020",
+    title: "ARPR_NETWORK DIAGRAM 2020",
+    description: "ARPR_NETWORK DIAGRAM 2020",
     author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
     approvers: [
       { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -33,8 +32,8 @@ const networkDiagramsList: INetworkDetail[] = [
   },
   {
     status: "Pending",
-    networkTitle: "ARPR_NETWORK DIAGRAM 2019",
-    networkDescription: "ARPR_NETWORK DIAGRAM 2019",
+    title: "ARPR_NETWORK DIAGRAM 2019",
+    description: "ARPR_NETWORK DIAGRAM 2019",
     author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
     approvers: [
       { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -46,8 +45,8 @@ const networkDiagramsList: INetworkDetail[] = [
   },
   {
     status: "Returned",
-    networkTitle: "ARPR_NETWORK DIAGRAM 2018",
-    networkDescription: "ARPR_NETWORK DIAGRAM 2018",
+    title: "ARPR_NETWORK DIAGRAM 2018",
+    description: "ARPR_NETWORK DIAGRAM 2018",
     author: { avatarUrl: johnImg, name: "John Bravo" },
     approvers: [
       { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -66,7 +65,7 @@ const chartData = [
   { name: "Group C", value: 1398 },
 ];
 
-export default function ExistingNetworks({
+export default function ExistingForecastDecks({
   workflowProcess,
 }: {
   workflowProcess: IWorkflowProcess["workflowProcess"];
@@ -101,8 +100,8 @@ export default function ExistingNetworks({
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  const dataKey = "networkKey";
-  const dataTitle = "NETWORK TITLE";
+  const dataKey = "forecastKey";
+  const dataTitle = "FORECAST DECK TITLE";
 
   const props = {
     workflowProcess,

@@ -1,3 +1,3 @@
-import { IExistingData } from "../Common/InputLayoutTypes";
+import { IExistingDataRow } from "../Common/InputLayoutTypes";
 
-export interface IForecastDeckRow extends IExistingData {}
+export interface IForecastDeckRow extends IExistingDataRow {}

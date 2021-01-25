@@ -18,6 +18,7 @@ import {
   HIDE_WELHEADSUMMARYNODES,
   HIDE_WELHEADSUMMARYEDGES,
   SAVENETWORK_ISVALID,
+  AUTOGENERATENETWORK_SUCCESS,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -103,7 +104,14 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         isValids: { ...action.payload },
       };
-
+    case AUTOGENERATENETWORK_SUCCESS: {
+      const { nodeElements, edeElements } = action.payload.data;
+      return {
+        ...state,
+        nodeElements,
+        edeElements,
+      };
+    }
     default:
       return state;
   }

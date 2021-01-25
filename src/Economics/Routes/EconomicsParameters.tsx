@@ -124,7 +124,7 @@ const EconomicsParameters = ({
   const theme = useTheme();
   const { dnDDisabled } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][workflowProcess as string]
   );
   const [economicsDataSource, setEconomicsDataSource] = React.useState(
     "template"

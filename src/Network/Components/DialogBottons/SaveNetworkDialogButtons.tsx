@@ -26,7 +26,7 @@ const SaveNetworkDialogButtons = ({
       color: "primary",
       startIcon: <DoneOutlinedIcon />,
       handleAction: () => {
-        console.log("View Results");
+        //dispatch confirmation dialog parameters
       },
     },
   ];

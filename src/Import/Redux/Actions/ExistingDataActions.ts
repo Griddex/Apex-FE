@@ -31,7 +31,7 @@ export const fetchExistingDataFailureAction = () => {
     type: EXISTINGDATA_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

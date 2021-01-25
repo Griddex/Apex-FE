@@ -31,7 +31,7 @@ export const runForecastFailureAction = () => {
     type: RUN_FORECAST_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };
@@ -58,7 +58,7 @@ export const saveForecastParametersFailureAction = () => {
     type: SAVE_FORECASTPARAMETERS_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

@@ -18,11 +18,11 @@ function* runForecastSaga(action: IAction) {
   const { payload } = action;
   const { workflowProcess } = payload;
 
-  const { definedTableData } = yield select(
+  const { inputDeckData } = yield select(
     (state) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][workflowProcess as string]
   );
-  const data = definedTableData;
+  const data = inputDeckData;
   const config = { headers: null };
   const runForecastAPI = (url: string) => authService.post(url, data, config);
   const statusCode = ""; //Get from success response

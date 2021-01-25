@@ -28,6 +28,9 @@ export const SELECTED_ROW = "SELECTED_ROW";
 export const PERSIST_CHOSENAPPLICATIONHEADERS =
   "PERSIST_CHOSENAPPLICATIONHEADERS";
 export const PERSIST_CHOSENAPPLICATIONUNITS = "PERSIST_CHOSENAPPLICATIONUNITS";
+export const SAVEINPUTDECK_REQUEST = "SAVEINPUTDECK_REQUEST";
+export const SAVEINPUTDECK_SUCCESS = "SAVEINPUTDECK_SUCCESS";
+export const SAVEINPUTDECK_FAILURE = "SAVEINPUTDECK_FAILURE";
 
 export const importFileInitAction = (
   fileLastModified: number,
@@ -213,12 +216,12 @@ export const persistColumnNameTableDataAction = (
   };
 };
 export const persistDefinedTableDataAction = (
-  definedTableData: Record<string, React.Key>[],
+  inputDeckData: Record<string, React.Key>[],
   workflowProcess: string
 ) => {
   return {
     type: PERSIST_DEFINEDTABLEDATA,
-    payload: { definedTableData, workflowProcess },
+    payload: { inputDeckData, workflowProcess },
   };
 };
 
@@ -229,5 +232,31 @@ export const persistTableHeadersAction = (
   return {
     type: PERSIST_TABLEHEADERS,
     payload: { tableHeaders, workflowProcess },
+  };
+};
+
+export const saveInputDeckRequestAction = (inputDeckType: string) => {
+  return {
+    type: SAVEINPUTDECK_REQUEST,
+    payload: { inputDeckType },
+  };
+};
+
+export const saveInputDeckSuccessAction = () => {
+  return {
+    type: SAVEINPUTDECK_SUCCESS,
+    payload: {
+      statusCode: 0,
+    },
+  };
+};
+
+export const saveInputDeckFailureAction = () => {
+  return {
+    type: SAVEINPUTDECK_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
   };
 };

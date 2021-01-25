@@ -19,7 +19,7 @@ const userState: IUserState = {
 
   statusCode: 0,
   data: [],
-  errors: [],
+  errors: { message: "" },
   isAdmin: false,
   isAthenticated: false,
 };

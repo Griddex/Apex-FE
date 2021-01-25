@@ -1,4 +1,5 @@
-import { IHTTPResponse, IUnitSettingsData } from "./UnitSettingsStateTypes";
+import { IHTTPResponse } from "../../../Application/Layout/LayoutTypes";
+import { IUnitSettingsData } from "./UnitSettingsStateTypes";
 
 const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
   IHTTPResponse = {
@@ -10,7 +11,7 @@ const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
     units: [],
   },
   statusCode: 200,
-  error: [],
+  errors: { message: "" },
 };
 
 export default unitSettingsState;

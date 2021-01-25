@@ -19,7 +19,7 @@ const SaveNetworkForm = ({ children }: ISaveNetworkProps) => {
     <Formik
       initialValues={networkState}
       validationSchema={Yup.object().shape({
-        networkName: Yup.string().required("networkName is required"),
+        networkTitle: Yup.string().required("networkTitle is required"),
         networkDescription: Yup.string().required(
           "networkDescription is required"
         ),
@@ -28,7 +28,7 @@ const SaveNetworkForm = ({ children }: ISaveNetworkProps) => {
     >
       {(props: FormikProps<ISaveNetworkFormValues>) => {
         const {
-          values: { networkName, networkDescription },
+          values: { networkTitle, networkDescription },
           errors,
           touched,
           handleChange,
@@ -44,7 +44,7 @@ const SaveNetworkForm = ({ children }: ISaveNetworkProps) => {
           >
             {children &&
               children({
-                networkName,
+                networkTitle,
                 networkDescription,
                 errors,
                 touched,

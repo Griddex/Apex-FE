@@ -37,6 +37,9 @@ import { ButtonProps, DialogStuff } from "./DialogTypes";
 import { persistNetworkElementsAction } from "./../../../Network/Redux/Actions/NetworkActions";
 import { GenerateWellheadSummaryNodes } from "./../../../Network/Utils/GenerateWellheadSummaryNodes";
 import dialogIcons from "../Icons/DialogIcons";
+import { saveInputDeckRequestAction } from "../../../Import/Redux/Actions/ImportActions";
+import { getWorkflowlabel } from "../../../Import/Utils/GetWorkflowLabel";
+import { IWorkflowProcess } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -157,13 +160,27 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
-  const { definedTableData } = useSelector(
+  const { existingData: inputDeckData, success } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][
+        workflowProcess as IWorkflowProcess["workflowProcess"]
+      ]
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
     (state: RootState) => state.networkReducer
   );
+
+  if (success) {
+    enqueueSnackbar(
+      `${
+        getWorkflowlabel[workflowProcess as IWorkflowProcess["workflowProcess"]]
+      } saved`,
+      {
+        persist: false,
+        variant: "success",
+      }
+    );
+  }
 
   const ManageDeckDialogContent = () => {
     const buttonsData: ButtonProps[] = [
@@ -172,10 +189,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         color: "primary",
         startIcon: <SaveOutlinedIcon />,
         handleAction: () => {
-          enqueueSnackbar(`${subModuleName} saved`, {
-            persist: false,
-            variant: "success",
-          });
+          dispatch(saveInputDeckRequestAction("Forecast InputDeck"));
         },
       },
       {
@@ -190,7 +204,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
 
           //Group forecast data by station
           const flowStationsGasFacilitiesData = groupBy(
-            definedTableData,
+            inputDeckData,
             (row) => row["Flow station"]
           );
           const {
@@ -200,7 +214,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
 
           //Group forecast data by station
           const wellheadDatabyManifold = groupBy(
-            definedTableData,
+            inputDeckData,
             (row) => row["Drainage Point"]
           );
 

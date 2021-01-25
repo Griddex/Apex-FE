@@ -120,7 +120,7 @@ const NetCashFlowWorkflow = () => {
   );
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["allExistingWorkflows"][workflowProcess]
+      state.workflowReducer["importDataWorkflows"][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer

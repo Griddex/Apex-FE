@@ -20,11 +20,6 @@ export interface IUnitSettingsData {
   units: IUnitsRow[];
 }
 
-export interface IHTTPResponse {
-  statusCode: number;
-  error: string[];
-}
-
 [
   { Module: "hjgsdvlchsdvshd", "hydrocarbon Stream": "oil" },
   { Module: "hg;f'gug", "hydrocarbon Stream": "gas" },

@@ -77,9 +77,9 @@ export default function DeclineCurveParameters({
   const dispatch = useDispatch();
 
   //TODO: API saga to get entire units object from server
-  const { definedTableData } = useSelector(
+  const { inputDeckData } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][workflowProcess as string]
   );
 
   const declineCurveList: Omit<
@@ -107,19 +107,19 @@ export default function DeclineCurveParameters({
       declineExponent: 1.3,
     },
   ];
-  const modules: string[] = definedTableData.map(
+  const modules: string[] = inputDeckData.map(
     (row: Record<string, React.Key>) => row["Modules"]
   );
-  const drainagePoints: string[] = definedTableData.map(
+  const drainagePoints: string[] = inputDeckData.map(
     (row: Record<string, React.Key>) => row["Drainage Point"]
   );
-  const initialRates: number[] = definedTableData.map(
+  const initialRates: number[] = inputDeckData.map(
     (row: Record<string, React.Key>) => row["Init. Oil/Gas Rate 2P/2C"]
   );
-  const fields: string[] = definedTableData.map(
+  const fields: string[] = inputDeckData.map(
     (row: Record<string, React.Key>) => row["Field"]
   );
-  const reservoirs: string[] = definedTableData.map(
+  const reservoirs: string[] = inputDeckData.map(
     (row: Record<string, React.Key>) => row["Reservoir"]
   );
 

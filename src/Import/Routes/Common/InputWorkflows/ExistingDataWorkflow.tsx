@@ -4,17 +4,17 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
 import Status from "../../../../Application/Components/Status/Status";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IWorkflowProcessExtra } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
-import { IExistingData } from "../InputLayoutTypes";
+import { getWorkflowlabel } from "../../../Utils/GetWorkflowLabel";
+import { IExistingDataRow } from "../InputLayoutTypes";
 
 const useStyles = makeStyles(() => ({
   rootExistingData: {
@@ -44,40 +44,21 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function ExistingDataWorkflow<
-  T extends IExistingData = IExistingData
->({ workflowProcess }: IWorkflowProcess) {
+  TRow extends IExistingDataRow = IExistingDataRow
+>({
+  workflowProcess,
+  snExistingData,
+  dataKey,
+  dataTitle,
+  chartData,
+  tableOptions,
+}: IWorkflowProcessExtra) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { existingData } = useSelector(
-    (state: RootState) => state.importReducer["existingDataWorkflows"]
-  ) as IExistingData;
-
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
-  };
-
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    { name: "Group A", value: 2400 },
-    { name: "Group B", value: 4567 },
-    { name: "Group C", value: 1398 },
-  ];
-
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (
-    row: T,
+    row: TRow,
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.persist();
@@ -86,7 +67,7 @@ export default function ExistingDataWorkflow<
   };
 
   const generateColumns = () => {
-    const columns: Column<T>[] = [
+    const columns: Column<TRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "select",
@@ -127,8 +108,8 @@ export default function ExistingDataWorkflow<
         width: 100,
       },
       {
-        key: "forecastDeck",
-        name: "FORECAST DECK",
+        key: `${dataKey}`,
+        name: `${dataTitle}`,
         editable: false,
         resizable: true,
         width: 300,
@@ -178,17 +159,14 @@ export default function ExistingDataWorkflow<
     return columns;
   };
   const columns = React.useMemo(() => generateColumns(), []);
-  const snExistingData = existingData.map((row, i: number) => ({
-    sn: i + 1,
-    ...row,
-  }));
-  const tableRows = React.useRef<T[]>(snExistingData);
+  const tableRows = React.useRef<any>(snExistingData);
   const rows = tableRows.current;
 
   React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
   }, [dispatch]);
+
+  const workflowLabel = getWorkflowlabel[workflowProcess];
 
   return (
     <div className={classes.rootExistingData}>
@@ -196,10 +174,10 @@ export default function ExistingDataWorkflow<
         <DoughnutChart data={chartData} />
       </div>
       <div className={classes.workflowBody}>
-        <ApexGrid<T, ITableIconsOptions>
+        <ApexGrid<TRow, ITableIconsOptions>
           columns={columns}
           rows={rows}
-          options={tableOptions}
+          options={tableOptions as ITableIconsOptions}
           newTableRowHeight={35}
         />
       </div>

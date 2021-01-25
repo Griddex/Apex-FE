@@ -6,19 +6,17 @@ export interface ISubModuleData {
   productionData: string;
   economicsData: string;
 }
-export interface IExistingData {
+export interface IExistingDataRow {
   status: string;
   title: string;
+  description: string;
   author: IUserDetails;
   approvers: IUserDetails[];
   createdOn: string;
   modifiedOn: string;
-
-  statusCode?: number;
-  message?: string;
-  errors?: [];
 }
 
+export type existingDataId = string;
 export interface IInputLayoutData {
   facilitiesInputDeck: string;
   forecastInputDeck: string;

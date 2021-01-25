@@ -131,7 +131,7 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
   );
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["allExistingWorkflows"][workflowProcess]
+      state.workflowReducer["importDataWorkflows"][workflowProcess]
   );
   const { moduleName, subModuleName, workflowName } = useSelector(
     (state: RootState) => state.applicationReducer

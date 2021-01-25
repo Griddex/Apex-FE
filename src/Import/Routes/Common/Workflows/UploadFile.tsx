@@ -73,12 +73,12 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
   const dispatch = useDispatch();
   const { dnDDisabled } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess]
+      state.importReducer["importDataWorkflows"][workflowProcess]
   );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["allExistingWorkflows"][workflowProcess]
+      state.workflowReducer["importDataWorkflows"][workflowProcess]
   );
 
   React.useEffect(() => {

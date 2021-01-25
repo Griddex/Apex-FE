@@ -17,17 +17,21 @@ const DialogOkayButton = () => {
     },
   ];
 
-  return buttonsData.map((button, i) => (
-    <Button
-      key={i}
-      variant={button.variant}
-      color={button.color}
-      onClick={button.handleAction}
-      startIcon={button.startIcon}
-    >
-      {button.title}
-    </Button>
-  ));
+  return (
+    <>
+      {buttonsData.map((button, i) => (
+        <Button
+          key={i}
+          variant={button.variant}
+          color={button.color}
+          onClick={button.handleAction}
+          startIcon={button.startIcon}
+        >
+          {button.title}
+        </Button>
+      ))}
+    </>
+  );
 };
 
 export default DialogOkayButton;

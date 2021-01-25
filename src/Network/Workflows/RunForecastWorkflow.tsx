@@ -5,16 +5,16 @@ import NavigationButtons from "../../Application/Components/NavigationButtons/Na
 import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import SaveForecastingParametersDialog from "../Components/Dialogs/SaveForecastingParametersDialog";
-import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
-import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
+import RunForecastDialog from "../Components/Dialogs/RunForecastDialog";
+import RunForecastForm from "../Components/Forms/RunForecastForm";
+import { IRunForecastFormProps } from "../Redux/State/NetworkStateTypes";
 import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
 import ForecastParametersNameAndDescription from "../Routes/ForecastParametersNameAndDescription";
 import OtherForecastingParameters from "../Routes/OtherForecastingParameters";
 
 const steps = ["New Project Details", "Choose Unit Settings"];
 
-const SaveForecastParametersWorkflow = (props: DialogStuff) => {
+const RunForecastWorkflow = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const workflowProcess = "saveForecastParametersWorkflow";
 
@@ -43,7 +43,7 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
     );
   }, [dispatch]);
 
-  const renderImportStep = (props: ISaveForecastParametersFormProps) => {
+  const renderImportStep = (props: IRunForecastFormProps) => {
     switch (activeStep) {
       case 0:
         return (
@@ -73,8 +73,8 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
   };
 
   return (
-    <SaveForecastingParametersDialog {...props}>
-      <SaveForecastParametersForm>
+    <RunForecastDialog {...props}>
+      <RunForecastForm>
         {({
           forecastParametersName,
           forecastParametersDescription,
@@ -100,10 +100,10 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
             isValid,
           })
         }
-      </SaveForecastParametersForm>
+      </RunForecastForm>
       <NavigationButtons {...navigationButtonProps} />
-    </SaveForecastingParametersDialog>
+    </RunForecastDialog>
   );
 };
 
-export default SaveForecastParametersWorkflow;
+export default RunForecastWorkflow;

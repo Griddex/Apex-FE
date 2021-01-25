@@ -50,9 +50,6 @@ const generateImportState = () => {
         tableBodyData: [],
         extrudeParseTable: false,
 
-        message: "",
-        errors: [],
-
         tableHeaders: [],
         fileHeaders: [],
         fileHeadersMatch: [],
@@ -71,11 +68,17 @@ const generateImportState = () => {
         optionIndices: [],
         tableData: [],
         columnNameTableData: [],
-        definedTableData: [],
+        inputDeckData: [],
         selectedRow: null,
 
         chosenApplicationHeaders: [],
         chosenApplicationUnits: [],
+
+        inputDeckId: "",
+        statusCode: 0,
+        message: "",
+        errors: { message: "" },
+        success: false,
       },
     };
   }, {});
@@ -87,22 +90,20 @@ const existingDataWorkflowNames = [
   "facilitiesInputDeckApproveddeck",
   "forecastInputDeckApproveddeck",
   "economicsDataApproved",
+  "networkApproved",
 ];
 const generateExistingDataState = () => {
   return existingDataWorkflowNames.reduce((acc, workflowName: string) => {
     return {
       ...acc,
       [workflowName]: {
-        status: "Pending",
-        title: "",
-        author: null,
-        approvers: null,
-        createdOn: "",
-        modifiedOn: "",
+        existingData: [],
 
+        existingDataId: "",
         statusCode: 0,
         message: "",
-        errors: [],
+        errors: { message: "" },
+        success: false,
       },
     };
   }, {});
@@ -111,8 +112,8 @@ const generateExistingDataState = () => {
 const importDataState = generateImportState();
 const existingDataState = generateExistingDataState();
 const importState: ImportStateType = {
-  currentImportProcess: "",
-  allExistingWorkflows: importDataState,
+  currentInputProcess: "",
+  importDataWorkflows: importDataState,
   existingDataWorkflows: existingDataState,
 };
 

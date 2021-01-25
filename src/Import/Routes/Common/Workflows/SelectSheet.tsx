@@ -80,12 +80,12 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     fileCreated,
   } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][workflowProcess as string]
   );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][workflowProcess as string]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(

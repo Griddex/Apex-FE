@@ -44,7 +44,7 @@ export const fetchRecentProjectsFailureAction = () => {
     type: FETCHRECENTPROJECTS_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };
@@ -74,7 +74,7 @@ export const openRecentProjectFailureAction = () => {
     type: OPENRECENTPROJECT_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };
@@ -119,7 +119,7 @@ export const createNewProjectFailureAction = () => {
     type: NEWPROJECT_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

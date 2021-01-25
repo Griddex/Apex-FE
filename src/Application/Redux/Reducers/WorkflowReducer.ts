@@ -23,8 +23,8 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       const workflowProcessDefined = workflowProcess as string;
       return {
         ...state,
-        allExistingWorkflows: {
-          ...state.allExistingWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
             activeStep: 0,
             steps: action.payload.steps,
@@ -41,8 +41,8 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       return {
         ...state,
-        allExistingWorkflows: {
-          ...state.allExistingWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: { activeStep: action.payload.activeStep },
         },
       };
@@ -55,9 +55,9 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       // let newSkipped = new Set<number>();
       // try {
-      //   newSkipped = state["allExistingWorkflows"][workflowProcessDefined]["skipped"] as Set<number>;
+      //   newSkipped = state["importDataWorkflows"][workflowProcessDefined]["skipped"] as Set<number>;
       // } catch (error) {
-      //   state["allExistingWorkflows"][workflowProcessDefined]["skipped"] = new Set<number>();
+      //   state["importDataWorkflows"][workflowProcessDefined]["skipped"] = new Set<number>();
       // }
 
       // if (isStepSkipped && isStepSkipped(activeStep)) {
@@ -66,7 +66,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       // }
 
       // if (activeStep === steps.length - 1) {
-      //   return { ...state["allExistingWorkflows"][workflowProcessDefined] };
+      //   return { ...state["importDataWorkflows"][workflowProcessDefined] };
       // }
       console.log(
         "Logged output --> ~ file: WorkflowReducer.ts ~ line 62 ~ workflowReducer ~ state",
@@ -75,8 +75,8 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       return {
         ...state,
-        allExistingWorkflows: {
-          ...state.allExistingWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
             activeStep: action.payload.activeStep + 1,
             // skipped: newSkipped,
@@ -90,8 +90,8 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       const workflowProcessDefined = workflowProcess as string;
       return {
         ...state,
-        allExistingWorkflows: {
-          ...state.allExistingWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
             activeStep: action.payload.activeStep - 1,
           },
@@ -110,7 +110,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         throw new Error("You can't skip a step that isn't optional.");
       }
       const workflowState =
-        state["allExistingWorkflows"][workflowProcessDefined];
+        state["importDataWorkflows"][workflowProcessDefined];
       const newSkippedSet = new Set(
         workflowState.skipped && workflowState.skipped.values()
       );
@@ -118,8 +118,8 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       return {
         ...state,
-        allExistingWorkflows: {
-          ...state.allExistingWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
             activeStep: action.payload.activeStep + 1,
             skipped: newSkippedSet,

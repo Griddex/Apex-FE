@@ -40,7 +40,7 @@ export const loginFailureAction = () => {
     type: LOGIN_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

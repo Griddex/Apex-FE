@@ -39,7 +39,7 @@ export const connectDatabaseFailureAction = () => {
     type: CONNECTDATABASE_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

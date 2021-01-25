@@ -22,6 +22,8 @@ import {
   PERSIST_TABLEROLENAMES,
   PERSIST_WORKSHEET,
   PERSIST_WORKSHEETNAMES,
+  SAVEINPUTDECK_SUCCESS,
+  SAVEINPUTDECK_FAILURE,
 } from "../Actions/ImportActions";
 import importState from "../State/ImportState";
 
@@ -50,10 +52,10 @@ const importReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        allExistingWorkflows: {
-          ...state.allExistingWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.allExistingWorkflows[workflowProcessDefined],
+            ...state.importDataWorkflows[workflowProcessDefined],
             ...action.payload,
           },
         },
@@ -89,7 +91,38 @@ const importReducer = (state = importState, action: IAction) => {
         },
       };
     }
+    case SAVEINPUTDECK_SUCCESS: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
 
+      return {
+        ...state,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
+          [workflowProcessDefined]: {
+            ...state.importDataWorkflows[workflowProcessDefined],
+            existingDataId: action.payload.data["id"], //please Gift use id
+            statusCode: action.payload.statusCode, //please Gift use id
+            success: action.payload.success, //please Gift use id
+          },
+        },
+      };
+    }
+    case SAVEINPUTDECK_FAILURE: {
+      const { workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as string;
+
+      return {
+        ...state,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
+          [workflowProcessDefined]: {
+            ...state.importDataWorkflows[workflowProcessDefined],
+            ...action.payload,
+          },
+        },
+      };
+    }
     default:
       return state;
   }

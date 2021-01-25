@@ -7,7 +7,7 @@ import { saveNetworkExtrudeIsValidAction } from "../Redux/Actions/NetworkActions
 import { IIsSaveNetworkValid } from "./../Components/Dialogs/SaveNetworkDialogTypes";
 
 const SaveNetworkNameAndDescription = ({
-  networkName,
+  networkTitle,
   networkDescription,
   errors,
   touched,
@@ -17,7 +17,7 @@ const SaveNetworkNameAndDescription = ({
   const dispatch = useDispatch();
 
   const helperText =
-    touched && touched.networkName ? errors && errors.networkName : "";
+    touched && touched.networkTitle ? errors && errors.networkTitle : "";
 
   return (
     <div>
@@ -26,12 +26,12 @@ const SaveNetworkNameAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="networkName"
+            name="networkTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={networkName}
+            value={networkTitle}
             onChange={(e) => {
               setIsSaveNetworkValid && setIsSaveNetworkValid(true);
               handleChange && handleChange(e);

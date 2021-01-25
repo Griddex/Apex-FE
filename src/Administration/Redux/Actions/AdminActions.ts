@@ -67,7 +67,7 @@ export const registerFailureAction = () => {
     type: REGISTER_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

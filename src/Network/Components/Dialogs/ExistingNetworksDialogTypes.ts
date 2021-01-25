@@ -3,7 +3,7 @@ import { IUserDetails } from "../../../Application/Components/User/UserTypes";
 export interface INetworkDetail {
   sn?: number;
   status: string;
-  networkName: string;
+  networkTitle: string;
   networkDescription: string;
   author: IUserDetails;
   approvers: IUserDetails[];

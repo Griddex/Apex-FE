@@ -24,7 +24,7 @@ export interface IUserState {
 
   statusCode: number;
   data: any[];
-  errors: string[];
+  errors: { message: string };
   isAdmin: boolean;
   isAthenticated: boolean;
 }

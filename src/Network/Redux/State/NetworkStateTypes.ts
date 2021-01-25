@@ -3,7 +3,7 @@ import { FormikErrors, FormikTouched } from "formik";
 
 //NetworkModel
 export interface ISaveNetworkFormValues {
-  networkName: string;
+  networkTitle: string;
   networkDescription: string;
 }
 
@@ -40,8 +40,6 @@ export interface ISaveForecastParametersFormProps
   errors?: FormikErrors<ISaveForecastParametersFormValues>;
   touched?: FormikTouched<ISaveForecastParametersFormValues>;
   isValid?: boolean;
-  statusCode?: string;
-  data?: string;
   handleChange?: (event: React.ChangeEvent<any>) => void;
 }
 
@@ -70,8 +68,11 @@ export interface INetworkState extends ISaveNetworkFormProps {
     | "showTerminalDetails";
   showWellheadSummaryNodes: boolean;
   showWellheadSummaryEdges: boolean;
-  // statusCode: string;
-  // data: string;
-  // errors: string[];
   saveForecastParameters: ISaveForecastParametersFormValues;
+
+  isNetworkSaved: boolean;
+  statusCode: number;
+  message: string;
+  error: { message: string };
+  success: false;
 }

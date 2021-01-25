@@ -3,6 +3,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import DialogOkayButton from "../../../Application/Components/DialogButtons/DialogOkayButton";
+import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -11,6 +13,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
+import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
 import { IInputLanding } from "../Common/InputLayoutTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
@@ -98,7 +101,7 @@ const FacilitiesInputDeckLanding = () => {
   //CSS using overlap and z-index
 
   //Paying it back
-  const excelWorkflowFinalAction = () => {
+  const excelandDbWorkflowFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Facilities Deck`,
@@ -107,6 +110,11 @@ const FacilitiesInputDeckLanding = () => {
       exclusive: true,
       maxWidth: "sm",
       iconType: "information",
+      actionsList: () => (
+        <DialogSaveCancelButtons
+          action={() => saveInputDeckRequestAction("Facilities Deck")}
+        />
+      ),
     };
     dispatch(showDialogAction(dialogParameters));
   };
@@ -115,7 +123,7 @@ const FacilitiesInputDeckLanding = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Facilities Deck`,
-      type: "finalizeInputDialog",
+      type: "textDialog",
       show: true,
       exclusive: true,
       maxWidth: "sm",
@@ -139,13 +147,13 @@ const FacilitiesInputDeckLanding = () => {
                 excel: (
                   <ExcelWorkflow
                     workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
+                    finalAction={excelandDbWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
                     workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
+                    finalAction={excelandDbWorkflowFinalAction}
                   />
                 ),
                 approveddeck: (

@@ -24,7 +24,7 @@ export const logoutFailureAction = () => {
     type: LOGOUT_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

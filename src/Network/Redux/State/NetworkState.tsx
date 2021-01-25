@@ -6,14 +6,11 @@ const networkState: INetworkState = {
   currentPopoverData: { data: [] },
   showPopover: false,
   showNetworkElementDetails: null,
-  networkName: "",
-  networkDescription: "",
+
   nodeElements: [],
   edgeElements: [],
   showWellheadSummaryNodes: true,
   showWellheadSummaryEdges: true,
-  statusCode: 0,
-  data: [],
 
   saveForecastParameters: {
     forecastParametersName: "",
@@ -25,6 +22,15 @@ const networkState: INetworkState = {
   },
 
   isValids: { saveNetworkExtrudeIsValid: false },
+
+  isNetworkSaved: false,
+  networkTitle: "",
+  networkDescription: "",
+  statusCode: 0,
+  message: "",
+  error: { message: "" },
+  success: false,
+  data: [],
 };
 
 export default networkState;

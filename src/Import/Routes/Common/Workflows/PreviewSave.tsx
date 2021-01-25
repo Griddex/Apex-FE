@@ -63,7 +63,7 @@ export default function PreviewSave({
     selectedUnitRowIndex,
   } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][workflowProcess as string]
   );
 
   const unitsRow = zipObject(

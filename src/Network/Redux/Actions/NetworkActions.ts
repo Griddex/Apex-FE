@@ -12,6 +12,12 @@ export const HIDE_NETWORKELEMENTDETAILS = "HIDE_NETWORKELEMENTDETAILS";
 export const HIDE_WELHEADSUMMARYNODES = "HIDE_WELHEADSUMMARYNODES";
 export const HIDE_WELHEADSUMMARYEDGES = "HIDE_WELHEADSUMMARYEDGES";
 export const SAVENETWORK_ISVALID = "SAVENETWORK_ISVALID";
+export const AUTOGENERATENETWORK_REQUEST = "AUTOGENERATENETWORK_REQUEST";
+export const AUTOGENERATENETWORK_SUCCESS = "AUTOGENERATENETWORK_SUCCESS";
+export const AUTOGENERATENETWORK_FAILURE = "AUTOGENERATENETWORK_FAILURE";
+export const SAVENETWORK_REQUEST = "SAVENETWORK_REQUEST";
+export const SAVENETWORK_SUCCESS = "SAVENETWORK_SUCCESS";
+export const SAVENETWORK_FAILURE = "SAVENETWORK_FAILURE";
 
 export const setCurrentElementAction = (currentElement: FlowElement) => {
   return {
@@ -116,6 +122,56 @@ export const saveNetworkExtrudeIsValidAction = (
     type: SAVENETWORK_ISVALID,
     payload: {
       saveNetworkExtrudeIsValid,
+    },
+  };
+};
+
+export const autoGenerateNetworkRequestAction = () => {
+  return {
+    type: AUTOGENERATENETWORK_REQUEST,
+  };
+};
+
+export const autoGenerateNetworkSuccessAction = () => {
+  return {
+    type: AUTOGENERATENETWORK_SUCCESS,
+    payload: {
+      statusCode: 0,
+    },
+  };
+};
+
+export const autoGenerateNetworkFailureAction = () => {
+  return {
+    type: AUTOGENERATENETWORK_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
+  };
+};
+export const saveNetworkRequestAction = () => {
+  return {
+    type: SAVENETWORK_REQUEST,
+    payload: { inputDeckType },
+  };
+};
+
+export const saveNetworkSuccessAction = () => {
+  return {
+    type: SAVENETWORK_SUCCESS,
+    payload: {
+      statusCode: 0,
+    },
+  };
+};
+
+export const saveNetworkFailureAction = () => {
+  return {
+    type: SAVENETWORK_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
     },
   };
 };

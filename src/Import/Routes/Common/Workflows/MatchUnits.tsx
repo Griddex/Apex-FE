@@ -96,7 +96,7 @@ export default function MatchUnits({
 
   const { fileUnits, fileUniqueUnits } = useSelector(
     (state: RootState) =>
-      state.importReducer["allExistingWorkflows"][workflowProcess as string]
+      state.importReducer["importDataWorkflows"][workflowProcess as string]
   );
 
   //Application headers

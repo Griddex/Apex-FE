@@ -1,4 +1,4 @@
-import { IExistingData } from "../../Routes/Common/InputLayoutTypes";
+import { IExistingDataRow } from "../../Routes/Common/InputLayoutTypes";
 
 export interface IImportState {
   fileLastModified: string;
@@ -21,9 +21,6 @@ export interface IImportState {
   tableBodyData: Record<string, React.Key>[];
   extrudeParseTable: false;
 
-  message: string;
-  errors: string[];
-
   tableHeaders: string[];
   fileHeaders: string[];
   fileHeadersMatch: [];
@@ -43,15 +40,23 @@ export interface IImportState {
   optionIndices: number[];
   tableData: Record<string, React.Key>[];
   columnNameTableData: Record<string, React.Key>[];
-  definedTableData: Record<string, React.Key>[];
+  inputDeckData: Record<string, React.Key>[];
   selectedRow: Record<string, React.Key>;
 
   chosenApplicationHeaders: string[];
   chosenApplicationUnits: string[];
+
+  title: string;
+  description: string;
+  inputDeckId: string;
+  statusCode: number;
+  message: string;
+  errors: { message: string };
+  success: false;
 }
 
 export interface ImportStateType {
-  currentImportProcess: string;
-  allExistingWorkflows: Record<string, IImportState>;
-  existingDataWorkflows: Record<string, IExistingData>;
+  currentInputProcess: string;
+  importDataWorkflows: Record<string, IImportState>;
+  existingDataWorkflows: Record<string, IExistingDataRow[]>;
 }

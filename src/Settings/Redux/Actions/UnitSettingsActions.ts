@@ -44,7 +44,7 @@ export const fetchUnitSettingsFailureAction = () => {
     type: FETCH_UNITSETTINGS_FAILURE,
     payload: {
       statusCode: 0,
-      errors: [],
+      errors: { message: "" },
     },
   };
 };

@@ -5,7 +5,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import formatDate from "../../../Application/Utils/FormatDate";
 import { openRecentProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
-import { IExistingData } from "../../Routes/Common/InputLayoutTypes";
+import { IExistingDataRow } from "../../Routes/Common/InputLayoutTypes";
 import {
   shirleyImg,
   anitaImg,
@@ -40,8 +40,9 @@ function* fetchExistingDataSaga(action: IAction) {
 
     const { statusCode, data } = response;
     //TODO: API saga to get entire units object from server
-    const existingData: IExistingData[] = [
+    const existingData: IExistingDataRow[] = [
       {
+        existingDataId: "",
         status: "Approved",
         title: "ARPR_FORECAST_DECK 2020",
         author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
@@ -54,6 +55,7 @@ function* fetchExistingDataSaga(action: IAction) {
         modifiedOn: formatDate(new Date(2019, 11, 23)),
       },
       {
+        existingDataId: "",
         status: "Pending",
         title: "ARPR_FORECAST_DECK 2019",
         author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
@@ -66,6 +68,7 @@ function* fetchExistingDataSaga(action: IAction) {
         modifiedOn: formatDate(new Date(2019, 11, 23)),
       },
       {
+        existingDataId: "",
         status: "Returned",
         title: "ARPR_FORECAST_DECK 2018",
         author: { avatarUrl: johnImg, name: "John Bravo" },
