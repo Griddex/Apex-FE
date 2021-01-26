@@ -1,2 +1,4 @@
-export type IconName = "error" | "success" | "select" | "information";
+import { DialogStuff } from "../Dialogs/DialogTypes";
+
+export type IconName = NonNullable<DialogStuff["iconType"]>;
 export type DialogIconsType = Record<IconName, JSX.Element>;

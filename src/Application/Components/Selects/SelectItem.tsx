@@ -3,6 +3,7 @@ import React from "react";
 import { ISelectItem } from "./SelectItemsType";
 
 const SelectItem = ({
+  name,
   currentItem,
   itemData,
   handleChange,
@@ -11,6 +12,7 @@ const SelectItem = ({
 }: ISelectItem) => {
   return (
     <TextField
+      name={name}
       style={selectItemStyle}
       id="outlined-select-worksheet"
       select

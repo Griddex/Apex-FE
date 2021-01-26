@@ -38,13 +38,14 @@ export interface IWorkflowProcess {
     | "economicsParameterImportWorkflow"
     | "economicsParameters"
     | "netCashAnalysisWorkflow"
-    | "saveForecastParametersWorkflow";
+    | "saveForecastParametersWorkflow"
+    | "";
   finalAction?: () => void;
 }
 export interface IWorkflowProcessExtra extends IWorkflowProcess {
   // finalAction: () => void;
   // finalActionButtonText: string;
-  snExistingData: IExistingDataRow[];
+  snExistingData?: IExistingDataRow[];
   dataKey?: string;
   dataTitle?: string;
   chartData?: Record<string, React.Key>[];

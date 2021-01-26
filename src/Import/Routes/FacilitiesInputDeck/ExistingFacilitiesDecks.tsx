@@ -1,62 +1,10 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import formatDate from "../../../Application/Utils/FormatDate";
-import {
-  shirleyImg,
-  anitaImg,
-  glenImg,
-  kerryImg,
-  johnImg,
-} from "../../Utils/iconImages";
 import { IExistingDataRow } from "../Common/InputLayoutTypes";
 import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
-
-//TODO: API saga to get entire units object from server
-const facilitiesList: IExistingDataRow[] = [
-  {
-    status: "Approved",
-    title: "ARPR_NETWORK DIAGRAM 2020",
-    description: "ARPR_NETWORK DIAGRAM 2020",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    status: "Pending",
-    title: "ARPR_NETWORK DIAGRAM 2019",
-    description: "ARPR_NETWORK DIAGRAM 2019",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    status: "Returned",
-    title: "ARPR_NETWORK DIAGRAM 2018",
-    description: "ARPR_NETWORK DIAGRAM 2018",
-    author: { avatarUrl: johnImg, name: "John Bravo" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-];
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -67,14 +15,15 @@ const chartData = [
 
 export default function ExistingFacilitiesDecks({
   workflowProcess,
+  finalAction,
 }: {
   workflowProcess: IWorkflowProcess["workflowProcess"];
+  finalAction: () => void;
 }) {
-  const dispatch = useDispatch();
-  const existingData = useSelector(
+  const { existingData } = useSelector(
     (state: RootState) =>
       state.importReducer["existingDataWorkflows"][workflowProcess]
-  ) as IExistingDataRow[];
+  );
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -91,16 +40,14 @@ export default function ExistingFacilitiesDecks({
     },
   };
 
-  const snExistingData = existingData.map((row, i: number) => ({
-    sn: i + 1,
-    ...row,
-  }));
+  const snExistingData = existingData.map(
+    (row: IExistingDataRow, i: number) => ({
+      sn: i + 1,
+      ...row,
+    })
+  );
 
-  React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
-
-  const dataKey = "facilitiesKey";
+  const dataKey = "title";
   const dataTitle = "FACILITIES DECK TITLE";
 
   const props = {

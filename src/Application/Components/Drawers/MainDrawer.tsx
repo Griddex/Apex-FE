@@ -100,17 +100,6 @@ const MainDrawer = () => {
     console.log(e);
   };
 
-  const [openTooltip, setOpenTooltip] = useState(false);
-  const handleTooltipClose = () => {
-    console.log("close");
-    setOpenTooltip(false);
-  };
-
-  const handleTooltipOpen = () => {
-    console.log("open");
-    setOpenTooltip(true);
-  };
-
   //Can replace with dynamically loaded json config file
   //generated from license token
 
@@ -236,7 +225,7 @@ const MainDrawer = () => {
                 disableGutters
               >
                 {name === "Project" ? (
-                  <ProjectContextMenu setOpenTooltip={setOpenTooltip}>
+                  <ProjectContextMenu>
                     <div className={classes.menuItemDiv}>
                       <div>{icon}</div>
                       {expandMainDrawer && (

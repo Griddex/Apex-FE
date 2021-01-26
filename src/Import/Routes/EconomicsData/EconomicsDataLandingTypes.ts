@@ -1,8 +1,7 @@
 export interface IEconomicsDataLandingWorkflows {
   excel: JSX.Element;
   database: JSX.Element;
-  manual: JSX.Element;
-  approvedData: JSX.Element;
+  approveddata: JSX.Element;
 }
 
 export type IdType = {

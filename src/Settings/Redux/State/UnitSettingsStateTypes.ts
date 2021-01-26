@@ -18,9 +18,5 @@ export interface IUnitSettingsData {
   yearFormat: string;
   unitGroup: "Field" | "Metric" | "Mixed";
   units: IUnitsRow[];
+  pressureAddend?: number;
 }
-
-[
-  { Module: "hjgsdvlchsdvshd", "hydrocarbon Stream": "oil" },
-  { Module: "hg;f'gug", "hydrocarbon Stream": "gas" },
-];

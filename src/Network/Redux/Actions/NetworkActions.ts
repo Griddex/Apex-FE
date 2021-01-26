@@ -150,10 +150,10 @@ export const autoGenerateNetworkFailureAction = () => {
     },
   };
 };
+
 export const saveNetworkRequestAction = () => {
   return {
     type: SAVENETWORK_REQUEST,
-    payload: { inputDeckType },
   };
 };
 

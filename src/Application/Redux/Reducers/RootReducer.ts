@@ -3,9 +3,10 @@ import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import allReducers from "./AllReducers";
 
 const rootReducer = (state: any, action: IAction) => {
-  if (action.type === LOGOUT_REQUEST) {
-    state = undefined;
-  }
+  // if (action.type === LOGOUT_REQUEST) {
+  //   state = undefined;
+  //   localStorage.clear();
+  // }
 
   return allReducers(state, action);
 };

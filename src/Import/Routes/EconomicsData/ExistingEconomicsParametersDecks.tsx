@@ -13,25 +13,16 @@ const chartData = [
   { name: "Group C", value: 1398 },
 ];
 
-export default function ExistingForecastDecks({
+export default function ExistingEconomicsParametersDecks({
   workflowProcess,
   finalAction,
 }: {
   workflowProcess: IWorkflowProcess["workflowProcess"];
   finalAction: () => void;
 }) {
-  console.log(
-    "Logged output --> ~ file: ExistingForecastDecks.tsx ~ line 16 ~ workflowProcess",
-    workflowProcess
-  );
-
   const { existingData } = useSelector(
     (state: RootState) =>
       state.importReducer["existingDataWorkflows"][workflowProcess]
-  );
-  console.log(
-    "Logged output --> ~ file: ExistingForecastDecks.tsx ~ line 25 ~ existingData",
-    existingData
   );
 
   const tableOptions: ITableIconsOptions = {
@@ -57,7 +48,7 @@ export default function ExistingForecastDecks({
   );
 
   const dataKey = "title";
-  const dataTitle = "FORECAST DECK TITLE";
+  const dataTitle = "ECONOMIC PARAMETERS TITLE";
 
   const props = {
     workflowProcess,

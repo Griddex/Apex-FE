@@ -20,6 +20,7 @@ import { ILayouts, LayoutNames } from "./LayoutTypes";
 import { RootState } from "../Redux/Reducers/AllReducers";
 import { fetchRecentProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
 import { failureDialogParameters } from "../../Project/Components/DialogParameters/RecentProjectsFailureDialogParameters";
+import { fetchUnitSettingsAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -45,6 +46,7 @@ const Layout = () => {
   React.useEffect(() => {
     //Boostrap recent projects
     dispatch(fetchRecentProjectsAction(failureDialogParameters));
+    dispatch(fetchUnitSettingsAction());
     //Boostrap User details
   }, []);
 

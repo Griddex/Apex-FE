@@ -49,9 +49,9 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   ) => {
     switch (activeStep) {
       case 0:
-        return <NewProjectNameAndDescription {...props} />;
-      case 1:
         return <UnitSettings {...props} />;
+      case 1:
+        return <NewProjectNameAndDescription {...props} />;
       default:
         return <h1>No view</h1>;
     }

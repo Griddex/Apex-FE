@@ -42,11 +42,17 @@ const GenerateNetworkWorkflow = (props: DialogStuff) => {
     switch (activeStep) {
       case 0:
         return (
-          <ExistingFacilitiesDecks workflowProcess="facilitiesInputDeckApproveddeck" />
+          <ExistingFacilitiesDecks
+            workflowProcess="facilitiesInputDeckApproveddeck"
+            finalAction={() => {}}
+          />
         );
       case 1:
         return (
-          <ExistingForecastDecks workflowProcess="forecastInputDeckApproveddeck" />
+          <ExistingForecastDecks
+            workflowProcess="forecastInputDeckApproveddeck"
+            finalAction={() => {}}
+          />
         );
       default:
         return <h1>No view</h1>;
@@ -65,7 +71,7 @@ const GenerateNetworkWorkflow = (props: DialogStuff) => {
 
   return (
     <GenerateNetworkDialog {...props}>
-      {() => renderImportStep()}
+      {renderImportStep()}
       <NavigationButtons {...navigationButtonProps} />
     </GenerateNetworkDialog>
   );

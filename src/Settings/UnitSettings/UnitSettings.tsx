@@ -1,28 +1,23 @@
-import { makeStyles, MenuItem, TextField } from "@material-ui/core";
+import { makeStyles, TextField } from "@material-ui/core";
 import { findIndex } from "lodash";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import { ISelectItem } from "../../Application/Components/Selects/SelectItemsType";
+import SelectItem from "../../Application/Components/Selects/SelectItem";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { GenericObjectSType } from "../../Application/Layout/LayoutTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import {
-  INewProjectFormValues,
-  INewProjectWorkflowProps,
-} from "../../Project/Redux/State/ProjectStateTypes";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
-import {
-  failureDialogParameters,
-  successDialogParameters,
-} from "../Components/DialogActions/SuccessFailureDialogs";
 import { tableOptions } from "../Configurations/SettingsTableOptions";
 import {
-  fetchUnitSettingsAction,
   updateAllUnitsAction,
   updateFirstLevelUnitSettingsAction,
+  updateUnitGroupAction,
 } from "../Redux/Actions/UnitSettingsActions";
 import {
   IUnit,
@@ -69,61 +64,7 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-//TODO: API saga to get entire units object from server
-//unitGroup
-//units
-const unitsData: IUnitSettingsData &
-  Pick<INewProjectFormValues, "pressureAddend"> = {
-  pressureAddend: 14.7, //convert to g to a and vice versa
-  dayFormat: "dd",
-  monthFormat: "mm",
-  yearFormat: "yyyy",
-  unitGroup: "Field",
-  units: [
-    {
-      variableName: "oilRate", //send
-      variableTitle: "Oil Rate",
-      variableId: "hsajflbshjdbls", //send
-      displayUnitId: "shvdhsdvshds", //Send
-      units: [
-        { title: "bbl Oil/day", group: "field", unitId: "shvdhsdvshds" },
-        { title: "stb/day", group: "field", unitId: "shvdhshgmkdvshds" },
-        { title: "m3/day", group: "metric", unitId: "aasf" },
-        { title: "cm3/day", group: "metric", unitId: "jhkk" },
-        { title: "Unit3", group: "metric", unitId: "hfhdd" },
-      ],
-    },
-    {
-      variableName: "liquidRate", //send
-      variableTitle: "Liquid Rate",
-      variableId: "vhcsyefgdvcjhssd", //send
-      displayUnitId: "rjbvvbvhdvjl", //Send
-      units: [
-        { title: "bbl Oil/day", group: "field", unitId: "rjbvvbvhdvjl" },
-        { title: "stb/day", group: "field", unitId: "dsgfhgdgv" },
-        { title: "m3/day", group: "metric", unitId: "ertghg" },
-        { title: "cm3/day", group: "metric", unitId: "aevc" },
-        { title: "dm3/day", group: "metric", unitId: "kjhgvc" },
-      ],
-    },
-    {
-      variableName: "gasRate", //send
-      variableTitle: "Gas Rate",
-      variableId: "yfdsyhfsydshlshdl", //send
-      displayUnitId: "trowuythfewh", //Send
-      units: [
-        { title: "MScf/day", group: "field", unitId: "trowuythfewh" },
-        { title: "MMScf/day", group: "field", unitId: "isvtu" },
-        { title: "m3/day", group: "metric", unitId: "qhgfqq" },
-        { title: "cm3/day", group: "metric", unitId: "zzzcfhjk" },
-        { title: "Unit3", group: "metric", unitId: "kolohggf" },
-      ],
-    },
-  ],
-};
-
 export default function UnitSettings({
-  pressureAddend,
   errors,
   touched,
   handleChange,
@@ -132,53 +73,51 @@ export default function UnitSettings({
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const {
+    pressureAddend,
+    dayFormat,
+    monthFormat,
+    yearFormat,
+    unitGroup,
+    units: unitsData,
+  } = useSelector(
+    (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
+  ) as IUnitSettingsData;
+
   const unitGroups = ["Field", "Metric", "Mixed"];
   const dayDateFormats = ["d", "dd", "ddd", "dddd"];
   const monthDateFormats = ["m", "mm", "mmm", "mmmm"];
   const yearDateFormats = ["yy", "yyyy"];
 
-  const [unitGroup, setGlobalUnitGroup] = React.useState(unitsData.unitGroup);
-  const [day, setDay] = React.useState(dayDateFormats[0]);
-  const [month, setMonth] = React.useState(monthDateFormats[0]);
-  const [year, setYear] = React.useState(yearDateFormats[0]);
+  const [unitGroupName, setGlobalUnitGroupName] = React.useState(unitGroup);
+  const [day, setDay] = React.useState(dayFormat);
+  const [month, setMonth] = React.useState(monthFormat);
+  const [year, setYear] = React.useState(yearFormat);
   const [pressAddend, setPressAddend] = React.useState(pressureAddend);
 
   const handleFirstLevelSettingsChange = (event: ChangeEvent<any>) => {
     const name = event.target.name;
     const value = event.target.value;
+    // if (name === "unitGroupName") {
+    //   switch (value) {
+    //     case "Field":
+    //       dispatch(updateUnitGroupAction("Metric"));
+    //       break;
+    //     case "Metric":
+    //       dispatch(updateUnitGroupAction("Field"));
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // } else {
+    //   handleChange && handleChange(event);
+    //   dispatch(updateFirstLevelUnitSettingsAction(name, value));
+    // }
+    handleChange && handleChange(event);
     dispatch(updateFirstLevelUnitSettingsAction(name, value));
   };
 
-  const SelectItem = ({
-    name,
-    currentItem,
-    itemData,
-    handleChange,
-    label,
-    selectItemStyle,
-  }: ISelectItem) => {
-    return (
-      <TextField
-        name={name}
-        style={selectItemStyle}
-        id="outlined-select-worksheet"
-        select
-        label={label}
-        value={currentItem}
-        onChange={handleChange}
-        variant="outlined"
-        fullWidth
-      >
-        {itemData.map((item) => (
-          <MenuItem key={item} value={item}>
-            {item}
-          </MenuItem>
-        ))}
-      </TextField>
-    );
-  };
-
-  const snUnits = unitsData.units.map((row, i: number) => ({
+  const snUnits = unitsData.map((row, i: number) => ({
     sn: i + 1,
     ...row,
   }));
@@ -186,8 +125,12 @@ export default function UnitSettings({
   //Application Units
   const unitOptions: AppUnitOptionsType = snUnits.reduce(
     (acc, row: IUnitsRow) => {
-      const fieldOptions = row.units.filter((v) => v.group === "field");
-      const metricOptions = row.units.filter((v) => v.group === "metric");
+      const fieldOptions = row.units.filter(
+        (v) => v.group.toLowerCase() === "field"
+      );
+      const metricOptions = row.units.filter(
+        (v) => v.group.toLowerCase() === "metric"
+      );
 
       const appFieldUnits = fieldOptions.map((unit) => {
         return {
@@ -217,12 +160,12 @@ export default function UnitSettings({
       const selectedUnitGroup = selectedUnitObj[0].group;
 
       return { ...acc, [variableName]: selectedUnitGroup };
-    }, {}); //[{oilRate: "Field"},{gasRate: "Metric"}]
+    }, {}); //{oilRate: "Field",gasRate: "Metric"}
   const [variableUnitsGroup, setVariableUnitsGroup] = React.useState(
     initVariableUnitsGroupObj
   );
 
-  const initUnitDisplayIds = () =>
+  const initUnitDisplayIds = (): GenericObjectSType =>
     snUnits.reduce((acc: Record<string, string>, row: IUnitsRow) => {
       const { variableName, units, displayUnitId } = row;
       return { ...acc, [variableName]: displayUnitId };
@@ -233,8 +176,8 @@ export default function UnitSettings({
     const columns: Column<IUnitsRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
-        key: "name",
-        name: "PARAMETER",
+        key: "variableTitle",
+        name: "VARIABLE",
         editable: false,
         resizable: true,
         width: 300,
@@ -279,10 +222,11 @@ export default function UnitSettings({
                   const newUnitGroup = getGlobalUnitGroup(
                     Object.values(newAllAppUnits)
                   );
-                  setGlobalUnitGroup(newUnitGroup);
+                  setGlobalUnitGroupName(newUnitGroup);
 
                   return newAllAppUnits;
                 });
+
                 setUnitDisplayIds((prev) => {
                   return {
                     ...prev,
@@ -290,7 +234,7 @@ export default function UnitSettings({
                   };
                 });
 
-                modifyTableRows(variableName, selectedUnitOptionIndex);
+                modifyTableRows(variableName, selecteddisplayUnitId);
                 setRerender((rerender) => !rerender);
               }}
             >
@@ -323,13 +267,17 @@ export default function UnitSettings({
         resizable: true,
         formatter: ({ row }) => {
           const variableName = row.variableName as string;
-          const unitsArray = unitsData.units.find(
+          const unitsObj = unitsData.find(
             (u) => u.variableName === variableName
           );
-          const displayUnitId = variableUnitsGroup[variableName];
+
           const selectedUnit =
-            unitsArray &&
-            (unitsArray.units.find((u) => u.unitId === displayUnitId) as IUnit);
+            unitsObj &&
+            unitsObj.units &&
+            (unitsObj.units.find(
+              (u) => u.unitId === row.displayUnitId
+            ) as IUnit);
+
           return <div>{selectedUnit?.group}</div>;
         },
       },
@@ -338,19 +286,16 @@ export default function UnitSettings({
     return columns;
   };
   const columns = React.useMemo(() => generateColumns(), []);
-
-  //TODO: Saga Api to select unit family the current selected
-  //unit belongs to. lookup data should be a dictionary
   const tableRows = React.useRef<IUnitsRow[]>(snUnits);
 
   const [, setRerender] = React.useState(false);
   const modifyTableRows = (
     selectedVariableName: string,
-    selectedUnitOptionIndex: number
+    selecteddisplayUnitId: string
   ) => {
     const modifiedRows = tableRows.current.map((row, i: number) => {
       if (row.variableName === selectedVariableName) {
-        return { ...row, selectedAppUnitIndex: selectedUnitOptionIndex };
+        return { ...row, displayUnitId: selecteddisplayUnitId };
       } else return row;
     });
 
@@ -358,22 +303,6 @@ export default function UnitSettings({
   };
 
   const rows = tableRows.current;
-
-  //Pre-Fetch unit settings collection
-
-  React.useEffect(() => {
-    dispatch(
-      fetchUnitSettingsAction(successDialogParameters, failureDialogParameters)
-    );
-    dispatch(hideSpinnerAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  React.useEffect(() => {
-    dispatch(updateAllUnitsAction(rows));
-
-    dispatch(hideSpinnerAction());
-  }, [dispatch, rows]);
 
   const helperText =
     touched && touched.pressureAddend ? errors && errors.pressureAddend : "";
@@ -390,8 +319,8 @@ export default function UnitSettings({
         <div>
           <AnalyticsTitle title="Global Units Group" />
           <SelectItem
-            name="unitGroup"
-            currentItem={unitGroup}
+            name="unitGroupName"
+            currentItem={unitGroupName}
             itemData={unitGroups}
             handleChange={handleFirstLevelSettingsChange}
           />
@@ -406,39 +335,52 @@ export default function UnitSettings({
             width: "100%",
           }}
         >
-          <div style={{ display: "flex", minWidth: 600 }}>
-            <AnalyticsTitle
-              title="Date Format"
-              titleStyle={{ minWidth: 120 }}
-            />
-            <SelectItem
-              name="dayFormat"
-              currentItem={day}
-              itemData={dayDateFormats}
-              handleChange={handleFirstLevelSettingsChange}
-              selectItemStyle={{ minWidth: 60 }}
-            />
-            <SelectItem
-              name="monthFormat"
-              currentItem={month}
-              itemData={monthDateFormats}
-              handleChange={handleFirstLevelSettingsChange}
-              selectItemStyle={{ minWidth: 60 }}
-            />
-            <SelectItem
-              name="yearFormat"
-              currentItem={year}
-              itemData={yearDateFormats}
-              handleChange={handleFirstLevelSettingsChange}
-              selectItemStyle={{ minWidth: 60 }}
-            />
-            <DateFormatter
-              dayFormat={day}
-              monthFormat={month}
-              yearFormat={year}
-              dateFormatterStyle={{ display: "flex", minWidth: 200 }}
-            />
-          </div>
+          <AnalyticsComp
+            title="Date Format"
+            direction="Vertical"
+            containerStyle={{ marginBottom: 20, marginTop: 20 }}
+            content={
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                }}
+              >
+                <SelectItem
+                  name="dayFormat"
+                  currentItem={day}
+                  itemData={dayDateFormats}
+                  handleChange={handleFirstLevelSettingsChange}
+                  selectItemStyle={{ minWidth: 80 }}
+                />
+                <SelectItem
+                  name="monthFormat"
+                  currentItem={month}
+                  itemData={monthDateFormats}
+                  handleChange={handleFirstLevelSettingsChange}
+                  selectItemStyle={{ minWidth: 80 }}
+                />
+                <SelectItem
+                  name="yearFormat"
+                  currentItem={year}
+                  itemData={yearDateFormats}
+                  handleChange={handleFirstLevelSettingsChange}
+                  selectItemStyle={{ minWidth: 80 }}
+                />
+                <DateFormatter
+                  dayFormat={day}
+                  monthFormat={month}
+                  yearFormat={year}
+                  dateFormatterStyle={{
+                    display: "flex",
+                    alignItems: "center",
+                    minWidth: 200,
+                    marginLeft: 10,
+                  }}
+                />
+              </div>
+            }
+          />
           <AnalyticsComp
             title="Pressure Addend"
             direction="Vertical"

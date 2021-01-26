@@ -2,8 +2,11 @@ import {
   DialogStuff,
   IDialogState,
 } from "../../Components/Dialogs/DialogTypes";
-import { HIDE_DIALOG, SHOW_DIALOG } from "../Actions/DialogsAction";
-import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
+import {
+  HIDE_DIALOG,
+  SHOW_DIALOG,
+  UNLOAD_DIALOGS,
+} from "../Actions/DialogsAction";
 import dialogsState from "../State/DialogsState";
 
 const dialogsReducer = (
@@ -17,12 +20,6 @@ const dialogsReducer = (
   }
 ): IDialogState<DialogStuff> | undefined => {
   switch (action.type) {
-    // case PERSIST_STORE: //Rewrite
-    //   return {
-    //     ...state,
-    //     [action.name]: action.value,
-    //   }; //Run down object tree till you find key, then change its value
-
     case SHOW_DIALOG: {
       let updatedDialogs: DialogStuff[] = [];
 
@@ -51,6 +48,10 @@ const dialogsReducer = (
         ...state,
         dialogs: keptDialogs,
       };
+    }
+
+    case UNLOAD_DIALOGS: {
+      return { ...state, dialogs: [] };
     }
 
     default:

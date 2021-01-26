@@ -3,7 +3,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
-import DialogOkayButton from "../../../Application/Components/DialogButtons/DialogOkayButton";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
@@ -13,11 +12,12 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
+import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
-import { IInputLanding } from "../Common/InputLayoutTypes";
+import { ImportStateType } from "../../Redux/State/ImportStateTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import ExistingFacilitiesDecks from "./ExistingFacilitiesDecks";
 import { IdType } from "./FacilitiesInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,7 @@ const FacilitiesInputDeckLanding = () => {
   );
   const { currentWorkflowProcess } = useSelector(
     (state: RootState) => state.workflowReducer
-  );
+  ) as { currentWorkflowProcess: ImportStateType["currentWorkflowProcess"] };
 
   const facilitiesInputLandingData = [
     {
@@ -132,6 +132,15 @@ const FacilitiesInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  React.useEffect(() => {
+    dispatch(
+      fetchExistingDataRequestAction(
+        "facilitiesInputDeck",
+        currentWorkflowProcess
+      )
+    );
+  }, []);
+
   return (
     <>
       {loadWorkflow ? (
@@ -157,7 +166,7 @@ const FacilitiesInputDeckLanding = () => {
                   />
                 ),
                 approveddeck: (
-                  <ExistingDataWorkflow
+                  <ExistingFacilitiesDecks
                     workflowProcess={currentWorkflowProcess}
                     finalAction={existingDataFinalAction}
                   />

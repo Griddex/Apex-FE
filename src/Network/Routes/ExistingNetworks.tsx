@@ -4,62 +4,9 @@ import { ITableIconsOptions } from "../../Application/Components/Table/ReactData
 import { IWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import formatDate from "../../Application/Utils/FormatDate";
 import { IExistingDataRow } from "../../Import/Routes/Common/InputLayoutTypes";
 import ExistingDataWorkflow from "../../Import/Routes/Common/InputWorkflows/ExistingDataWorkflow";
-import {
-  anitaImg,
-  glenImg,
-  johnImg,
-  kerryImg,
-  shirleyImg,
-} from "../../Import/Utils/iconImages";
-import { INetworkDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 
-//TODO: API saga to get entire units object from server
-const networkDiagramsList: INetworkDetail[] = [
-  {
-    status: "Approved",
-    networkTitle: "ARPR_NETWORK DIAGRAM 2020",
-    networkDescription: "ARPR_NETWORK DIAGRAM 2020",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    status: "Pending",
-    networkTitle: "ARPR_NETWORK DIAGRAM 2019",
-    networkDescription: "ARPR_NETWORK DIAGRAM 2019",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    status: "Returned",
-    networkTitle: "ARPR_NETWORK DIAGRAM 2018",
-    networkDescription: "ARPR_NETWORK DIAGRAM 2018",
-    author: { avatarUrl: johnImg, name: "John Bravo" },
-    approvers: [
-      { avatarUrl: anitaImg, name: "Anita Stragan" },
-      { avatarUrl: glenImg, name: "Glen Moore John III" },
-      { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-    ],
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-];
-
-//TODO: Calculate classification data from collection
 const chartData = [
   { name: "Group A", value: 2400 },
   { name: "Group B", value: 4567 },

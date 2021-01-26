@@ -11,9 +11,11 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
+import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import ExistingForecastDecks from "./ExistingForecastDecks";
 import { IdType, IForecastDeckRow } from "./ForecastInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -109,6 +111,15 @@ const ForecastInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  React.useEffect(() => {
+    dispatch(
+      fetchExistingDataRequestAction(
+        "forecastInputDeck",
+        currentWorkflowProcess
+      )
+    );
+  }, []);
+
   return (
     <>
       {loadWorkflow ? (
@@ -134,7 +145,7 @@ const ForecastInputDeckLanding = () => {
                   />
                 ),
                 approveddeck: (
-                  <ExistingDataWorkflow<IForecastDeckRow>
+                  <ExistingForecastDecks
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />

@@ -92,9 +92,6 @@ const InputLayout = () => {
                   },
                 } = props;
 
-                const subModuleName = subNavbarId;
-                const subModuleLabel = subModuleData[subNavbarId];
-
                 const Layouts: Record<string, JSX.Element> = {
                   background: <InputBackground />,
                   facilitiesdeck: <FacilitiesInputDeckLanding />,

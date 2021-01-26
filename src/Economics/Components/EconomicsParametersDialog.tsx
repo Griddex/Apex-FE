@@ -6,14 +6,8 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DoneTwoToneIcon from "@material-ui/icons/DoneTwoTone";
-import InfoIcon from "@material-ui/icons/Info";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import WarningIcon from "@material-ui/icons/Warning";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -24,6 +18,7 @@ import {
   DialogStuff,
   IDialogData,
 } from "../../Application/Components/Dialogs/DialogTypes";
+import dialogIcons from "../../Application/Components/Icons/DialogIcons";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -83,13 +78,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const icons = {
-  error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-  information: <InfoIcon style={{ color: "#31BFCC" }} />,
-};
-
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
@@ -98,7 +86,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {icons[iconType ? iconType : "select"]}
+          {dialogIcons[iconType ? iconType : "select"]}
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>

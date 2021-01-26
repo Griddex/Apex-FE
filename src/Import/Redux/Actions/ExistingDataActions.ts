@@ -4,14 +4,11 @@ export const EXISTINGDATA_FAILURE = "EXISTINGDATA_FAILURE";
 
 export const fetchExistingDataRequestAction = (
   dataType: string,
-  userId: string
+  workflowProcess: string
 ) => {
   return {
     type: EXISTINGDATA_REQUEST,
-    payload: {
-      dataType,
-      userId,
-    },
+    payload: { dataType, workflowProcess },
     meta: { showSpinner: true, message: "Loading table..." },
   };
 };
@@ -19,10 +16,7 @@ export const fetchExistingDataRequestAction = (
 export const fetchExistingDataSuccessAction = () => {
   return {
     type: EXISTINGDATA_SUCCESS,
-    payload: {
-      statusCode: 0,
-      existingData: [],
-    },
+    payload: {},
   };
 };
 

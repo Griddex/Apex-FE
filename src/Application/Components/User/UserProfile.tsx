@@ -85,7 +85,8 @@ const UserProfile = () => {
           startIcon: <DoneOutlinedIcon />,
           handleAction: () => {
             sessionStorage.clear();
-            history.replace("/login");
+            localStorage.clear();
+            history.replace("/");
             dispatch(logoutAction());
           },
         },

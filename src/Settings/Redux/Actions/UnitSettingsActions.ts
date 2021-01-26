@@ -8,6 +8,7 @@ export const FETCH_UNITSETTINGS_SUCCESS = "FETCH_UNITSETTINGS_SUCCESS";
 export const FETCH_UNITSETTINGS_FAILURE = "FETCH_UNITSETTINGS_FAILURE";
 export const UPDATE_FIRSTLEVELUNITSETTINGS = "UPDATE_FIRSTLEVELUNITSETTINGS";
 export const UPDATE_ALLUNITS = "UPDATE_ALLUNITS";
+export const UPDATE_UNITGROUPS = "UPDATE_UNITGROUPS";
 
 export const saveUnitsAction = (units: IUnitSettingsData) => {
   return {
@@ -18,13 +19,9 @@ export const saveUnitsAction = (units: IUnitSettingsData) => {
   };
 };
 
-export const fetchUnitSettingsAction = (
-  successDialogParameters: DialogStuff,
-  failureDialogParameters: DialogStuff
-) => {
+export const fetchUnitSettingsAction = () => {
   return {
     type: FETCH_UNITSETTINGS,
-    payload: { successDialogParameters, failureDialogParameters },
     meta: { addAuth: true },
   };
 };
@@ -59,9 +56,16 @@ export const updateFirstLevelUnitSettingsAction = (
   };
 };
 
-export const updateAllUnitsAction = (allUnits: IUnitsRow[]) => {
+export const updateAllUnitsAction = (units: IUnitsRow[]) => {
   return {
     type: UPDATE_ALLUNITS,
-    payload: { allUnits },
+    payload: { units },
+  };
+};
+
+export const updateUnitGroupAction = (toUnitGroup: string) => {
+  return {
+    type: UPDATE_UNITGROUPS,
+    payload: { toUnitGroup },
   };
 };

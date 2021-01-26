@@ -19,6 +19,8 @@ import {
   IEconomicsDataLandingWorkflows,
 } from "./EconomicsDataLandingTypes";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
+import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
+import ExistingEconomicsParametersDecks from "./ExistingEconomicsParametersDecks";
 
 const useStyles = makeStyles((theme) => ({
   EconomicsDataLanding: {
@@ -82,20 +84,20 @@ const EconomicsDataLanding = () => {
       route: `${url}/database`,
       workflowProcess: "economicsDataDatabase",
     },
-    {
-      //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Input Economics Data`,
-      description: `Type in economics data parameters and generate future cashflow`,
-      icon: (
-        <Image
-          className={classes.image}
-          src={Input}
-          alt="Hydrocarbon Forecasting Platform Company Logo"
-        />
-      ),
-      route: `${url}/manual`,
-      workflowProcess: "economicsDataManual",
-    },
+    // {
+    //   //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
+    //   name: `Input Economics Data`,
+    //   description: `Type in economics data parameters and generate future cashflow`,
+    //   icon: (
+    //     <Image
+    //       className={classes.image}
+    //       src={Input}
+    //       alt="Hydrocarbon Forecasting Platform Company Logo"
+    //     />
+    //   ),
+    //   route: `${url}/manual`,
+    //   workflowProcess: "economicsDataManual",
+    // },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
       name: `Approved Economics Data`,
@@ -107,7 +109,7 @@ const EconomicsDataLanding = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/approvedData`,
+      route: `${url}/approveddata`,
       workflowProcess: "economicsDataApproved",
     },
   ];
@@ -125,20 +127,29 @@ const EconomicsDataLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  React.useEffect(() => {
+    dispatch(
+      fetchExistingDataRequestAction(
+        "economicsInputDeck",
+        currentWorkflowProcess
+      )
+    );
+  }, []);
+
   return (
     <>
       {loadWorkflow ? (
         <div className={classes.ImportWorkflow}>
           <Route
             exact
-            path={`${path}/:dataType`}
+            path={`${path}/:dataInputId`}
             render={(props: RouteComponentProps<IdType>) => {
               const { match } = props;
               const {
                 params: { dataInputId },
               } = match;
 
-              const inputEconomicsDataWorkflows: IEconomicsDataLandingWorkflows = {
+              const inputEconomicsDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
                     workflowProcess={currentWorkflowProcess}
@@ -151,14 +162,8 @@ const EconomicsDataLanding = () => {
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
-                manual: (
-                  <ExistingDataWorkflow
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
-                  />
-                ),
-                approvedData: (
-                  <ExistingDataWorkflow
+                approveddata: (
+                  <ExistingEconomicsParametersDecks
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />

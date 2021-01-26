@@ -5,18 +5,13 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
-import InfoIcon from "@material-ui/icons/Info";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import WarningIcon from "@material-ui/icons/Warning";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import ExistingForecastingParameters from "../../Routes/ExistingForecastingParameters";
-import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
-import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,10 +30,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
-    // backgroundColor: (props) => props.iconColor,
-    // color: (props: DialogStuff) => {
-    //   return props.iconColor;
-    // },
   },
   dialogTitle: {
     display: "flex",
@@ -68,13 +59,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const icons = {
-  error: <WarningIcon style={{ color: "#DA1B57" }} />,
-  success: <CheckCircleIcon style={{ color: "#31BFCC" }} />,
-  select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-  information: <InfoIcon style={{ color: "#31BFCC" }} />,
-};
-
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
@@ -83,7 +67,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {icons[iconType ? iconType : "select"]}
+          {dialogIcons[iconType ? iconType : "select"]}
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
@@ -133,7 +117,7 @@ const RunForecastDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <ExistingForecastingParameters />
+        <ExistingForecastingParameters /> {/*remove */}
       </DialogContent>
       <DialogActions>{actionsList && actionsList}</DialogActions>
     </Dialog>

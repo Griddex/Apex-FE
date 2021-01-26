@@ -1,11 +1,14 @@
 import { Button } from "@material-ui/core";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { IFinalAction } from "../../Layout/LayoutTypes";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 
-const DialogOkayButton = () => {
+const DialogOkayButton = (
+  executeFinalAction: IFinalAction["executeFinalAction"],
+  finalAction: IFinalAction["finalAction"]
+) => {
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [
     {
@@ -13,7 +16,10 @@ const DialogOkayButton = () => {
       variant: "outlined",
       color: "primary",
       startIcon: <DoneOutlinedIcon />,
-      handleAction: () => dispatch(hideDialogAction()),
+      handleAction: () => {
+        // dispatch(hideDialogAction());
+        executeFinalAction && dispatch(finalAction());
+      },
     },
   ];
 

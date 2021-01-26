@@ -1,32 +1,43 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
   FETCH_UNITSETTINGS_FAILURE,
   FETCH_UNITSETTINGS_SUCCESS,
-  UPDATE_FIRSTLEVELUNITSETTINGS,
   UPDATE_ALLUNITS,
+  UPDATE_FIRSTLEVELUNITSETTINGS,
+  UPDATE_UNITGROUPS,
 } from "../Actions/UnitSettingsActions";
 import unitSettingsState from "../State/UnitSettingsState";
+import { IUnit } from "../State/UnitSettingsStateTypes";
 
 const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
   switch (action.type) {
     case FETCH_UNITSETTINGS_SUCCESS: {
-      const { statusCode, data } = action.payload;
+      const {
+        statusCode,
+        unitsData: { dayFormat, monthFormat, yearFormat, unitGroup, units },
+      } = action.payload;
 
       return {
         ...state,
+        unitSettingsData: {
+          ...state.unitSettingsData,
+          dayFormat,
+          monthFormat,
+          yearFormat,
+          unitGroup,
+          units,
+        },
         statusCode,
-        data,
       };
     }
 
     case FETCH_UNITSETTINGS_FAILURE: {
-      const { statusCode, error } = action.payload;
+      const { statusCode, errors } = action.payload;
 
       return {
         ...state,
         statusCode,
-        error,
+        errors,
       };
     }
 
@@ -40,11 +51,30 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
     }
 
     case UPDATE_ALLUNITS: {
-      const { allUnits } = action.payload;
+      const { units } = action.payload;
 
       return {
         ...state,
-        allUnits,
+        unitSettingsData: {
+          ...state.unitSettingsData,
+          units,
+        },
+      };
+    }
+
+    case UPDATE_UNITGROUPS: {
+      const { toUnitGroup } = action.payload;
+      const updatedUnits = state.unitSettingsData["units"].map((u) => {
+        const units = u.units.map((un) => ({ ...un, group: toUnitGroup }));
+        return units;
+      });
+
+      return {
+        ...state,
+        unitSettingsData: {
+          ...state.unitSettingsData,
+          units: updatedUnits,
+        },
       };
     }
 

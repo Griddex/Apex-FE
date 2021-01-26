@@ -138,7 +138,7 @@ const ProductionDataLanding = () => {
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
-                approvedData: (
+                approveddata: (
                   <ExistingDataWorkflow
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}

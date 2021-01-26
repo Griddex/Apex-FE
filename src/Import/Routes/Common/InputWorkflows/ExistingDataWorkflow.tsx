@@ -12,6 +12,7 @@ import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid
 import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IWorkflowProcessExtra } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { getWorkflowlabel } from "../../../Utils/GetWorkflowLabel";
 import { IExistingDataRow } from "../InputLayoutTypes";
@@ -166,12 +167,10 @@ export default function ExistingDataWorkflow<
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  const workflowLabel = getWorkflowlabel[workflowProcess];
-
   return (
     <div className={classes.rootExistingData}>
       <div className={classes.chart}>
-        <DoughnutChart data={chartData} />
+        <DoughnutChart data={chartData as ChartType} />
       </div>
       <div className={classes.workflowBody}>
         <ApexGrid<TRow, ITableIconsOptions>

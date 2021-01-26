@@ -4,28 +4,28 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 export const successDialogParameters: DialogStuff = {
-  name: "New_Project_Success_Dialog",
-  title: "Create New Project Success",
+  name: "ExistingData_Success_Dialog",
+  title: "Existing Data Retrieval Success",
   type: "textDialog",
   show: true,
-  exclusive: false,
+  exclusive: true,
   maxWidth: "xs",
-  dialogText: "New Project Creation Successful",
+  dialogText: "Existing Data Retrieval Successful",
   iconType: "success",
   actionsList: () => DialogOkayButton(true, unloadDialogsAction),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 };
 
 export const failureDialogParameters: DialogStuff = {
-  name: "New_Project_Failure_Dialog",
-  title: "Create New Project Failure",
+  name: "Existing_Data_Failure_Dialog",
+  title: "Existing Data Retrieval Failure",
   type: "textDialog",
   show: true,
-  exclusive: false,
+  exclusive: true,
   maxWidth: "xs",
-  dialogText: "New Project Creation failure",
+  dialogText: "Existing Data Retrieval failure",
   iconType: "error",
-  actionsList: () => DialogCancelButton(true, unloadDialogsAction),
+  actionsList: () => DialogCancelButton(false, unloadDialogsAction),
   // actionsList: () => DialogCancelButton(),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 };

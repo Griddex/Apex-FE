@@ -6,10 +6,7 @@ import { IContextMenuProps } from "../../../Network/Components/ContextMenu/Conte
 import NewProjectPopover from "../Popovers/NewProjectPopover";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
-const ProjectContextMenu = ({
-  children,
-  setOpenTooltip,
-}: IContextMenuProps) => {
+const ProjectContextMenu = ({ children }: IContextMenuProps) => {
   const { expandMainDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
@@ -22,11 +19,10 @@ const ProjectContextMenu = ({
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    event.preventDefault();
-    event.persist();
+    // event.preventDefault();
+    // event.persist();
 
-    setOpenTooltip(false);
-    setOpen(true);
+    setOpen(!open);
   };
 
   const handleClose = () => {

@@ -15,15 +15,27 @@ import watchFetchRecentProjectsSaga from "../../../Project/Redux/Sagas/FetchRece
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import watchOpenRecentProjectSaga from "../../../Project/Redux/Sagas/OpenRecentProjectSaga";
+import watchFetchExistingDataSaga from "../../../Import/Redux/Sagas/FetchExistingDataSaga";
+import watchSaveInputDeckSaga from "../../../Import/Redux/Sagas/SaveInputDeckSaga";
+import watchAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/AutogenerateNetworkSaga";
+import watchSaveForecastParametersSaga from "../../../Network/Redux/Sagas/SaveForecastParametersSaga";
+import watchSaveNetworkSaga from "../../../Network/Redux/Sagas/SaveNetworkSaga";
+import watchFetchUnitSettingsSaga from "../../../Settings/Redux/Sagas/Sagas/UnitSettingsSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
   yield spawn(watchRegisterSaga);
   yield spawn(watchConnectDatabaseSaga);
-  yield spawn(watchRunForecastSaga);
   yield spawn(watchCreateNewProjectSaga);
   yield spawn(watchFetchRecentProjectsSaga);
+  yield spawn(watchFetchUnitSettingsSaga);
   yield spawn(watchOpenRecentProjectSaga);
+  yield spawn(watchFetchExistingDataSaga);
+  yield spawn(watchSaveInputDeckSaga);
+  yield spawn(watchAutogenerateNetworkSaga);
+  yield spawn(watchRunForecastSaga);
+  yield spawn(watchSaveForecastParametersSaga);
+  yield spawn(watchSaveNetworkSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

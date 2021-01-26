@@ -112,7 +112,7 @@ const generateExistingDataState = () => {
 const importDataState = generateImportState();
 const existingDataState = generateExistingDataState();
 const importState: ImportStateType = {
-  currentInputProcess: "",
+  currentWorkflowProcess: "",
   importDataWorkflows: importDataState,
   existingDataWorkflows: existingDataState,
 };

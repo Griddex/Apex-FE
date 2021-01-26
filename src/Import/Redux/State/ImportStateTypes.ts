@@ -1,3 +1,4 @@
+import { IWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataRow } from "../../Routes/Common/InputLayoutTypes";
 
 export interface IImportState {
@@ -56,7 +57,7 @@ export interface IImportState {
 }
 
 export interface ImportStateType {
-  currentInputProcess: string;
+  currentWorkflowProcess: IWorkflowProcess["workflowProcess"];
   importDataWorkflows: Record<string, IImportState>;
   existingDataWorkflows: Record<string, IExistingDataRow[]>;
 }

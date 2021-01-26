@@ -16,7 +16,7 @@ export default function* watchSaveNetworkSaga() {
 
 function* saveNetworkSaga(action: IAction) {
   const { payload } = action;
-  const { inputDeckType, workflowProcess } = payload;
+  const { workflowProcess } = payload;
   const { userId } = yield select((state) => state.loginReducer);
   const { inputDeckId: facilitiesInputDeckId } = yield select((state) => {
     const facilitiesState = state.importReducer;

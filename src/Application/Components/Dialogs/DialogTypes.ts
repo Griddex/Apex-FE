@@ -66,7 +66,7 @@ export interface DialogStuff {
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
   dialogText?: string;
-  iconType?: "error" | "success" | "select" | "information";
+  iconType?: "error" | "success" | "select" | "information" | "confirmation";
   contentText?: string;
   contentList?: Record<string, any>;
   actionsList?: (() => JSX.Element) | (() => JSX.Element[]);

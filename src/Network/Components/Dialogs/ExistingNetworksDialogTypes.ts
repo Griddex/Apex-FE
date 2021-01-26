@@ -13,8 +13,12 @@ export interface INetworkDetail {
 
 export interface IForecastParametersDetail {
   sn?: number;
-  forecastParametersName: string;
+  forecastParametersTitle: string;
   forecastParametersDescription: string;
+  forecastParametershSPName: string;
+  forecastParametersTimeFreq: string;
+  forecastParametersRealtime: string;
+  forecastParametersEndForecast: string;
   author: IUserDetails;
   createdOn: string;
   modifiedOn: string;

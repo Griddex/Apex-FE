@@ -16,6 +16,8 @@ export const getWorkflowlabel: {
   productionDataDatabase: "Production Data",
   productionDataApproved: "Approved Production Data",
 
+  networkApproved: "Approved Network Data",
+
   economicsDataExcel: "",
   economicsDataDatabase: "",
   economicsDataManual: "",
@@ -26,4 +28,5 @@ export const getWorkflowlabel: {
   economicsParameters: "",
   netCashAnalysisWorkflow: "",
   saveForecastParametersWorkflow: "",
+  "": "",
 };

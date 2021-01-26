@@ -46,6 +46,26 @@ export interface ISaveForecastParametersFormProps
 export interface ISaveForecastParametersProps {
   children?: (props: ISaveForecastParametersFormProps) => JSX.Element;
 }
+export interface IRunForecastParametersFormValues {
+  forecastParametersName: string;
+  forecastParametersDescription: string;
+  hSPName: string;
+  timeFrequency: string;
+  realtimeResults: string;
+  endForecastDate: Date;
+}
+
+export interface IRunForecastParametersFormProps
+  extends IRunForecastParametersFormValues {
+  errors?: FormikErrors<IRunForecastParametersFormValues>;
+  touched?: FormikTouched<IRunForecastParametersFormValues>;
+  isValid?: boolean;
+  handleChange?: (event: React.ChangeEvent<any>) => void;
+}
+
+export interface IRunForecastParametersProps {
+  children?: (props: IRunForecastParametersFormProps) => JSX.Element;
+}
 
 export interface ICurrentPopoverData {
   data:

@@ -1,4 +1,5 @@
 import DialogOkayButton from "../../../Application/Components/DialogButtons/DialogOkayButton";
+import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { DialogStuff } from "./../../../Application/Components/Dialogs/DialogTypes";
 
 export const failureDialogParameters = (
@@ -12,6 +13,6 @@ export const failureDialogParameters = (
   maxWidth: "xs",
   dialogText: `Save ${inputDeckType} failure`,
   iconType: "error",
-  actionsList: () => DialogOkayButton(),
+  actionsList: () => DialogOkayButton(false, unloadDialogsAction),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });

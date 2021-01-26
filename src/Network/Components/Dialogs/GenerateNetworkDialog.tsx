@@ -1,21 +1,21 @@
-import { Button, Divider } from "@material-ui/core";
+import { DialogActions } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
-import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import React from "react";
+import React, { Children } from "react";
 import { useDispatch } from "react-redux";
-import EconomicsParameterImportWorkflow from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import dialogIcons from "../Icons/DialogIcons";
-import { ButtonProps, DialogStuff } from "./DialogTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
+import SaveNetworkDialogButtons from "../DialogBottons/SaveNetworkDialogButtons";
+import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -32,10 +32,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
-    // backgroundColor: (props) => props.iconColor,
-    // color: (props: DialogStuff) => {
-    //   return props.iconColor;
-    // },
   },
   dialogTitle: {
     display: "flex",
@@ -45,9 +41,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
   },
   closeButton: {
-    // position: "absolute",
-    // right: theme.spacing(1),
-    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
@@ -102,40 +95,9 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
-
-const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
+const GenerateNetworkDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType } = props;
-
-  const economicsParameterImportDialogActions = () => {
-    const buttonsData: ButtonProps[] = [
-      {
-        title: "Cancel",
-        variant: "contained",
-        color: "secondary",
-        startIcon: <CloseOutlinedIcon />,
-        handleAction: () => dispatch(hideDialogAction()),
-      },
-    ];
-
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        startIcon={button.startIcon}
-        onClick={button.handleAction}
-      >
-        {button.title}
-      </Button>
-    ));
-  };
+  const { title, show, maxWidth, iconType, children } = props;
 
   return (
     <Dialog
@@ -150,13 +112,14 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       >
         <div>{title}</div>
       </DialogTitle>
-      <DialogContent dividers>
-        <EconomicsParameterImportWorkflow />
-        <Divider />
+      <DialogContent
+        dividers
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        {children && children}
       </DialogContent>
-      <DialogActions>{economicsParameterImportDialogActions()}</DialogActions>
     </Dialog>
   );
 };
 
-export default SelectWorksheetDialog;
+export default GenerateNetworkDialog;
