@@ -58,6 +58,6 @@ export interface IImportState {
 
 export interface ImportStateType {
   currentWorkflowProcess: IWorkflowProcess["workflowProcess"];
-  importDataWorkflows: Record<string, IImportState>;
+  inputDataWorkflows: Record<string, IImportState>;
   existingDataWorkflows: Record<string, IExistingDataRow[]>;
 }

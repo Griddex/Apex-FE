@@ -194,7 +194,7 @@ const Network = () => {
   );
 
   const [showMiniMap, setShowMiniMap] = React.useState(false);
-  const [showControls, setShowControls] = React.useState(false);
+  const [showControls, setShowControls] = React.useState(true);
   const NetworkDiagramIconsProps = {
     showMiniMap,
     setShowMiniMap,

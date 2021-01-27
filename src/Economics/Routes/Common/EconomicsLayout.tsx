@@ -11,7 +11,7 @@ import EconomicsBackground from "./EconomicsBackground";
 import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import AssessmentOutlinedIcon from "@material-ui/icons/AssessmentOutlined";
-import EconomicsWorkflow from "../EconomicsWorkflows/EconomicsWorkflow";
+import EconomicsAnalysisWorkflow from "../EconomicsWorkflows/EconomicsAnalysisWorkflow";
 import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 
 const navbarHeight = 43;
@@ -74,7 +74,7 @@ const EconomicsLayout = () => {
 
                 const Layouts: Record<string, JSX.Element> = {
                   background: <EconomicsBackground />,
-                  economicanalysis: <EconomicsWorkflow />,
+                  economicanalysis: <EconomicsAnalysisWorkflow />,
                   viewtables: <Economics />,
                   charttables: <Economics />,
                 };

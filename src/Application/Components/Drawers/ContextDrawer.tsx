@@ -78,10 +78,9 @@ const ContextDrawer = ({ children }: { children: () => JSX.Element }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const workflowData = useSelector(
+  const { moduleName, subModuleName, workflowName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
-  const { moduleName, subModuleName, workflowName } = workflowData;
   const { expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );

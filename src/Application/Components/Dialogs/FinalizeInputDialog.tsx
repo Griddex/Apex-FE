@@ -154,6 +154,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
+  const workflowCategory = "inputDataWorkflows";
 
   const { title, show, maxWidth, iconType, workflowProcess } = props;
 
@@ -162,7 +163,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   );
   const { existingData: inputDeckData, success } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][
+      state.inputReducer[workflowCategory][
         workflowProcess as IWorkflowProcess["workflowProcess"]
       ]
   );

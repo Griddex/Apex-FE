@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import importReducer from "../../../Import/Redux/Reducers/ImportReducer";
+import inputReducer from "../../../Import/Redux/Reducers/ImportReducer";
 import chartReducer from "../../../Visualytics/Redux/ChartReducer/ChartReducer";
 import networkReducer from "../../../Network/Redux/Reducers/NetworkReducers";
 import applicationReducer from "./ApplicationReducer";
@@ -21,7 +21,7 @@ const allReducers = combineReducers({
   dialogsReducer,
   workflowReducer,
   applicationReducer,
-  importReducer,
+  inputReducer,
   chartReducer,
   networkReducer,
   economicsReducer,

@@ -1,4 +1,9 @@
-import { ListItemIcon, MenuItem, Typography } from "@material-ui/core";
+import {
+  ListItemIcon,
+  makeStyles,
+  MenuItem,
+  Typography,
+} from "@material-ui/core";
 import CheckBoxOutlineBlankOutlinedIcon from "@material-ui/icons/CheckBoxOutlineBlankOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import ImageAspectRatioOutlinedIcon from "@material-ui/icons/ImageAspectRatioOutlined";
@@ -9,8 +14,36 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: 400,
+    height: "auto",
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  newProject: {
+    borderBottom: "1px solid #999",
+    padding: 3,
+  },
+  recentProjects: {
+    borderBottom: "1px solid #999",
+    padding: 3,
+  },
+  primaryIcon: {
+    minWidth: 32,
+    minHeight: 32,
+    color: theme.palette.primary.main,
+  },
+  secondaryIcon: {
+    minWidth: 32,
+    minHeight: 32,
+    color: theme.palette.secondary.main,
+  },
+}));
+
 const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   const ApexMenuItem = ({
     projectId,
@@ -27,7 +60,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
         }}
         style={{
           display: "flex",
-          justifyContent: "center",
+          // justifyContent: "center",
           alignItems: "center",
         }}
       >
@@ -78,21 +111,14 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   ) as IRecentProject[];
 
   return (
-    <div
-      style={{
-        width: 400,
-        height: "auto",
-        paddingLeft: 10,
-        paddingRight: 10,
-      }}
-    >
-      <div style={{ borderBottom: "1px solid #999", padding: 3 }}>
+    <div className={classes.root}>
+      <div className={classes.newProject}>
         <ApexMenuItem
           title="New Project"
           icon={
             <CheckBoxOutlineBlankOutlinedIcon
               fontSize="small"
-              style={{ minWidth: 32, minHeight: 32 }}
+              className={classes.primaryIcon}
             />
           }
           handleClick={() => {
@@ -100,13 +126,13 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           }}
         />
       </div>
-      <div style={{ borderBottom: "1px solid #999" }}>
+      <div className={classes.recentProjects}>
         <ApexMenuItem
           title="Recent Projects"
           icon={
             <ImageAspectRatioOutlinedIcon
               fontSize="small"
-              style={{ minWidth: 32, minHeight: 32 }}
+              className={classes.primaryIcon}
             />
           }
         />
@@ -129,9 +155,8 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           title="Close Project"
           icon={
             <CloseOutlinedIcon
-              color="secondary"
-              fontSize="small"
-              style={{ minWidth: 32 }}
+              fontSize="default"
+              className={classes.secondaryIcon}
             />
           }
           handleClick={() => console.log("close project")} //Will dispatch new project workflow

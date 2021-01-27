@@ -1,4 +1,3 @@
-import { MutableRefObject } from "react";
 import { IExistingDataRow } from "../../../Import/Routes/Common/InputLayoutTypes";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
 import { ITableIconsOptions } from "./../Table/ReactDataGrid/ApexGridTypes";
@@ -26,15 +25,16 @@ export interface IWorkflowProcess {
     | "forecastInputDeckExcel"
     | "forecastInputDeckDatabase"
     | "forecastInputDeckApproveddeck"
-    | "productionDataExcel"
-    | "productionDataDatabase"
-    | "productionDataApproved"
-    | "economicsDataExcel"
-    | "economicsDataDatabase"
-    | "economicsDataManual"
-    | "economicsDataApproved"
+    | "productionInputDataExcel"
+    | "productionInputDataDatabase"
+    | "productionInputDataApproved"
+    | "economicsInputDataExcel"
+    | "economicsInputDataDatabase"
+    | "economicsInputDataManual"
+    | "economicsInputDataApproved"
     | "networkApproved"
-    | "economicsWorkflow"
+    | "networkGeneration"
+    | "economicsAnalyses"
     | "economicsParameterImportWorkflow"
     | "economicsParameters"
     | "netCashAnalysisWorkflow"

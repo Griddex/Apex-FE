@@ -19,7 +19,7 @@ function* autoGenerateNetworkSaga(action: IAction) {
   const { workflowProcess } = payload;
   const { userId } = yield select((state) => state.loginReducer);
   const { inputDeckId: facilitiesInputDeckId } = yield select((state) => {
-    const facilitiesState = state.importReducer;
+    const facilitiesState = state.inputReducer;
     const facilitiesWorkflowNames = Object.keys(facilitiesState).filter((n) =>
       n.includes("facilities")
     );
@@ -31,7 +31,7 @@ function* autoGenerateNetworkSaga(action: IAction) {
     return currentFacilityWorkflow[0];
   });
   const { inputDeckId: forecastInputDeckId } = yield select(
-    (state) => state.importReducer["importDataWorkflows"][workflowProcess]
+    (state) => state.inputReducer["inputDataWorkflows"][workflowProcess]
   );
 
   const data = {

@@ -115,7 +115,7 @@ const ExistingNetworksDialog = (props: DialogStuff) => {
       >
         <ExistingNetworks workflowProcess="networkApproved" />
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
         <Button
           variant="outlined"
           color="primary"

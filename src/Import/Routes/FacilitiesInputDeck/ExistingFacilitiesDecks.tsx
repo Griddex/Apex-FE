@@ -20,9 +20,9 @@ export default function ExistingFacilitiesDecks({
   workflowProcess: IWorkflowProcess["workflowProcess"];
   finalAction: () => void;
 }) {
+  const workflowCategory = "existingDataWorkflows";
   const { existingData } = useSelector(
-    (state: RootState) =>
-      state.importReducer["existingDataWorkflows"][workflowProcess]
+    (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
   );
 
   const tableOptions: ITableIconsOptions = {

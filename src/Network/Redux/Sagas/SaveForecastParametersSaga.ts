@@ -23,7 +23,7 @@ function* saveForecastParametersSaga(action: IAction) {
 
   const { inputDeckData } = yield select(
     (state) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer["inputDataWorkflows"][workflowProcess as string]
   );
   const data = inputDeckData;
   const config = { headers: null };

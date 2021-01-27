@@ -22,8 +22,8 @@ const useStyles = makeStyles(() => ({
 const WorkflowStepper = (props: IWorkflowDataProps) => {
   const classes = useStyles();
 
-  const expandContextDrawer = useSelector(
-    (state: RootState) => state.layoutReducer.expandContextDrawer
+  const { expandContextDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
   );
 
   const { steps, activeStep, skipped, errorSteps } = props;

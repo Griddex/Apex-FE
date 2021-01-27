@@ -1,3 +1,4 @@
+import { DialogActions } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
@@ -9,6 +10,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import dialogIcons from "../Icons/DialogIcons";
+import NavigationButtons from "../NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -19,11 +22,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   dialogHeader: {
     display: "flex",
-    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: "5%",
@@ -33,12 +36,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "90%",
+    width: "100%",
     height: "100%",
   },
   closeButton: {
     color: theme.palette.grey[500],
-    width: "5%",
     height: "100%",
     padding: 0,
   },
@@ -81,9 +83,19 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const NewProjectDialog = (props: DialogStuff) => {
+const NewProjectDialog = (props: DialogStuff & INavigationButtonsProp) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, children } = props;
+  const {
+    mainNav,
+    showReset,
+    showBack,
+    showSkip,
+    showNext,
+    finalAction,
+    workflowProps,
+    workflowProcess,
+  } = props;
 
   return (
     <Dialog
@@ -104,6 +116,9 @@ const NewProjectDialog = (props: DialogStuff) => {
       >
         {children && children}
       </DialogContent>
+      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
+        <NavigationButtons {...props} />
+      </DialogActions>
     </Dialog>
   );
 };

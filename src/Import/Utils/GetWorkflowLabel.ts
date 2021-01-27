@@ -12,18 +12,19 @@ export const getWorkflowlabel: {
   forecastInputDeckDatabase: "Forecast InputDeck",
   forecastInputDeckApproveddeck: "Approved Forecast InputDeck",
 
-  productionDataExcel: "Production Data",
-  productionDataDatabase: "Production Data",
-  productionDataApproved: "Approved Production Data",
+  productionInputDataExcel: "Production Data",
+  productionInputDataDatabase: "Production Data",
+  productionInputDataApproved: "Approved Production Data",
 
   networkApproved: "Approved Network Data",
+  networkGeneration: "",
 
-  economicsDataExcel: "",
-  economicsDataDatabase: "",
-  economicsDataManual: "",
-  economicsDataApproved: "Approved Economics Data",
+  economicsInputDataExcel: "",
+  economicsInputDataDatabase: "",
+  economicsInputDataManual: "",
+  economicsInputDataApproved: "Approved Economics Data",
 
-  economicsWorkflow: "",
+  economicsAnalyses: "",
   economicsParameterImportWorkflow: "",
   economicsParameters: "",
   netCashAnalysisWorkflow: "",

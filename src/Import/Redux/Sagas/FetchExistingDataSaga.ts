@@ -1,23 +1,22 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import formatDate from "../../../Application/Utils/FormatDate";
-import { openRecentProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingDataDialogParameters";
 import { IExistingDataRow } from "../../Routes/Common/InputLayoutTypes";
 import {
-  shirleyImg,
   anitaImg,
   glenImg,
-  kerryImg,
   johnImg,
+  kerryImg,
+  shirleyImg,
 } from "../../Utils/iconImages";
 import {
   EXISTINGDATA_REQUEST,
-  fetchExistingDataSuccessAction,
   fetchExistingDataFailureAction,
+  fetchExistingDataSuccessAction,
 } from "../Actions/ExistingDataActions";
 
 export default function* watchFetchExistingDataSaga() {
@@ -30,8 +29,12 @@ function getInsert(workflowProcess: string) {
       return "FACILITIES";
     case "forecastInputDeckApproveddeck":
       return "FORECAST";
-    case "economicsDataApproved":
+    case "economicsInputDataApproved":
       return "ECONOMICS";
+    case "productionInputDataApproved":
+      return "PRODUCTION";
+    case "networkApproved":
+      return "NETWORK";
     default:
       break;
   }
@@ -40,6 +43,14 @@ function getInsert(workflowProcess: string) {
 function* fetchExistingDataSaga(action: IAction) {
   const { payload } = action;
   const { dataType, workflowProcess } = payload;
+  console.log(
+    "Logged output --> ~ file: FetchExistingDataSaga.ts ~ line 46 ~ function*fetchExistingDataSaga ~ workflowProcess",
+    workflowProcess
+  );
+  console.log(
+    "Logged output --> ~ file: FetchExistingDataSaga.ts ~ line 46 ~ function*fetchExistingDataSaga ~ dataType",
+    dataType
+  );
   //use dataType to tell backend what data you are looking for
   const config = { headers: null };
   const fetchExistingDataAPI = (url: string) => authService.get(url, config);
@@ -96,11 +107,11 @@ function* fetchExistingDataSaga(action: IAction) {
         modifiedOn: formatDate(new Date(2019, 11, 23)),
       },
     ];
+
     console.log(
-      "Logged output --> ~ file: FetchExistingDataSaga.ts ~ line 46 ~ function*fetchExistingDataSaga ~ existingData",
+      "Logged output --> ~ file: FetchExistingDataSaga.ts ~ line 64 ~ function*fetchExistingDataSaga ~ existingData",
       existingData
     );
-
     const successAction = fetchExistingDataSuccessAction();
     yield put({
       ...successAction,
@@ -114,7 +125,7 @@ function* fetchExistingDataSaga(action: IAction) {
     });
   } catch (errors) {
     const failureAction = fetchExistingDataFailureAction();
-
+    console.log("heyyyyyyyyyyyyyyyy mennnnnnnnnnnnnnnn");
     yield put({
       ...failureAction,
       payload: { ...payload, errors },
@@ -123,11 +134,5 @@ function* fetchExistingDataSaga(action: IAction) {
     yield put(showDialogAction(failureDialogParameters));
   }
 
-  yield put(hideSpinnerAction());
-}
-
-function* handleClick(userId: string, projectId: string) {
-  // const action = openRecentProjectAction(userId,projectId);
-  // yield put({ ...action, userId, projectId });
-  yield put(openRecentProjectAction(userId, projectId));
+  // yield put(hideSpinnerAction());
 }

@@ -9,16 +9,16 @@ const workflowNames = [
   "forecastInputDeckDatabase",
   // "forecastInputDeckApproveddeck",
 
-  "productionDataExcel",
-  "productionDataDatabase",
-  "productionDataApproved",
+  "productionInputDataExcel",
+  "productionInputDataDatabase",
+  "productionInputDataApproved",
 
-  "economicsDataExcel",
-  "economicsDataDatabase",
-  "economicsDataManual",
-  // "economicsDataApproved",
+  "economicsInputDataExcel",
+  "economicsInputDataDatabase",
+  "economicsInputDataManual",
+  // "economicsInputDataApproved",
 
-  "economicsWorkflow",
+  "economicsAnalyses",
   "economicsParameterImportWorkflow",
   "economicsParameters",
   "netCashAnalysisWorkflow",
@@ -89,7 +89,8 @@ const generateImportState = () => {
 const existingDataWorkflowNames = [
   "facilitiesInputDeckApproveddeck",
   "forecastInputDeckApproveddeck",
-  "economicsDataApproved",
+  "economicsInputDataApproved",
+  "productionInputDataApproved",
   "networkApproved",
 ];
 const generateExistingDataState = () => {
@@ -113,7 +114,7 @@ const importDataState = generateImportState();
 const existingDataState = generateExistingDataState();
 const importState: ImportStateType = {
   currentWorkflowProcess: "",
-  importDataWorkflows: importDataState,
+  inputDataWorkflows: importDataState,
   existingDataWorkflows: existingDataState,
 };
 

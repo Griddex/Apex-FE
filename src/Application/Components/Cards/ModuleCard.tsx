@@ -60,6 +60,7 @@ interface IModuleCardProps {
   description: string;
   route: string;
   workflowProcess: string;
+  workflowCategory: string;
 }
 
 const ModuleCard: React.FC<IModuleCardProps> = (props) => {
@@ -70,6 +71,7 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
     description,
     route,
     workflowProcess,
+    workflowCategory,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -80,10 +82,12 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
       <CardActionArea
         className={classes.cardActionArea}
         onClick={() => {
+          //use redux saga to send this all at once,
+          //when all return, do history push
+          dispatch(setWorkflowProcessAction(workflowProcess, workflowCategory));
           dispatch(workflowSetMenuAction(name));
           dispatch(moduleAction());
           dispatch(showContextDrawerAction());
-          dispatch(setWorkflowProcessAction(workflowProcess));
           history.push(route);
         }}
       >

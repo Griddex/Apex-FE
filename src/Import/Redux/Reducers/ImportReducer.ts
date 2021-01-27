@@ -27,7 +27,7 @@ import {
 } from "../Actions/ImportActions";
 import importState from "../State/ImportState";
 
-const importReducer = (state = importState, action: IAction) => {
+const inputReducer = (state = importState, action: IAction) => {
   switch (action.type) {
     case IMPORTFILE_INITIALIZATION:
     case PERSIST_FILE:
@@ -52,10 +52,10 @@ const importReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.importDataWorkflows[workflowProcessDefined],
+            ...state.inputDataWorkflows[workflowProcessDefined],
             ...action.payload,
           },
         },
@@ -97,10 +97,10 @@ const importReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.importDataWorkflows[workflowProcessDefined],
+            ...state.inputDataWorkflows[workflowProcessDefined],
             existingDataId: action.payload.data["id"], //please Gift use id
             statusCode: action.payload.statusCode, //please Gift use id
             success: action.payload.success, //please Gift use id
@@ -114,10 +114,10 @@ const importReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.importDataWorkflows[workflowProcessDefined],
+            ...state.inputDataWorkflows[workflowProcessDefined],
             ...action.payload,
           },
         },
@@ -128,4 +128,4 @@ const importReducer = (state = importState, action: IAction) => {
   }
 };
 
-export default importReducer;
+export default inputReducer;

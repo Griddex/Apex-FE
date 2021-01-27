@@ -69,7 +69,8 @@ const EconomicsDataLanding = () => {
         />
       ),
       route: `${url}/excel`,
-      workflowProcess: "economicsDataExcel",
+      workflowProcess: "economicsInputDataExcel",
+      workflowCategory: "economicsDataWorkflows",
     },
     {
       name: "Database",
@@ -82,7 +83,8 @@ const EconomicsDataLanding = () => {
         />
       ),
       route: `${url}/database`,
-      workflowProcess: "economicsDataDatabase",
+      workflowProcess: "economicsInputDataDatabase",
+      workflowCategory: "economicsDataWorkflows",
     },
     // {
     //   //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
@@ -96,7 +98,8 @@ const EconomicsDataLanding = () => {
     //     />
     //   ),
     //   route: `${url}/manual`,
-    //   workflowProcess: "economicsDataManual",
+    //   workflowProcess: "economicsInputDataManual",
+    // workflowCategory:"economicsDataWorkflows"
     // },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
@@ -110,7 +113,8 @@ const EconomicsDataLanding = () => {
         />
       ),
       route: `${url}/approveddata`,
-      workflowProcess: "economicsDataApproved",
+      workflowProcess: "economicsInputDataApproved",
+      workflowCategory: "economicsDataWorkflows",
     },
   ];
 
@@ -177,7 +181,14 @@ const EconomicsDataLanding = () => {
       ) : (
         <div className={classes.EconomicsDataLanding}>
           {economicsLandingData.map((module) => {
-            const { icon, name, description, route, workflowProcess } = module;
+            const {
+              icon,
+              name,
+              description,
+              route,
+              workflowProcess,
+              workflowCategory,
+            } = module;
             return (
               <ModuleCard
                 key={name}
@@ -187,6 +198,7 @@ const EconomicsDataLanding = () => {
                 Icon={icon}
                 route={route}
                 workflowProcess={workflowProcess}
+                workflowCategory={workflowCategory}
               />
             );
           })}

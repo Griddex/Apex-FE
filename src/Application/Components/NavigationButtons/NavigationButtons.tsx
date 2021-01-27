@@ -53,6 +53,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     finalAction,
     workflowProps,
     workflowProcess,
+    workflowCategory,
   } = props;
   const classes = useStyles(props);
   const dispatch = useDispatch();
@@ -74,7 +75,13 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           color="secondary"
           onClick={() =>
             workflowResetAction &&
-            dispatch(workflowResetAction(0, workflowProcess as string))
+            dispatch(
+              workflowResetAction(
+                0,
+                workflowProcess as string,
+                workflowCategory as string
+              )
+            )
           }
         >
           <div className={classes.buttonContent}>
@@ -90,7 +97,13 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           disabled={activeStep === 0}
           onClick={() =>
             workflowBackAction &&
-            dispatch(workflowBackAction(activeStep, workflowProcess as string))
+            dispatch(
+              workflowBackAction(
+                activeStep,
+                workflowProcess as string,
+                workflowCategory as string
+              )
+            )
           }
         >
           <div className={classes.buttonContent}>
@@ -110,7 +123,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
               workflowSkipAction(
                 isStepOptional,
                 activeStep,
-                workflowProcess as string
+                workflowProcess as string,
+                workflowCategory as string
               )
             )
           }
@@ -141,7 +155,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
                     activeStep,
                     steps,
                     "Loading...",
-                    workflowProcess as string
+                    workflowProcess as string,
+                    workflowCategory as string
                   )
                 );
           }}

@@ -8,7 +8,9 @@ import ExistingNetworksDialog from "../../../Network/Components/Dialogs/Existing
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
+import GenerateNetworkDialogWorkflow from "../../../Network/Workflows/GenerateNetworkDialogWorkflow";
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
+import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import FinalizeInputDialog from "./FinalizeInputDialog";
 import ListDialog from "./ListDialog";
@@ -21,10 +23,11 @@ export interface IApplicationDialogs {
   selectWorksheetDialog: typeof SelectWorksheetDialog;
   finalizeInputDialog: typeof FinalizeInputDialog;
   economicsParametersDialog: typeof EconomicsParametersDialog;
-  economicsParameterImportWorkflowDialog: typeof EconomicsParameterImportWorkflowDialog;
+  economicsParameterImportDialogWorkflow: typeof EconomicsParameterImportWorkflowDialog;
   newProjectDialogWorkflow: typeof NewProjectDialogWorkflow;
   saveNetworkDialog: typeof SaveNetworkDialog;
   existingNetworksDialog: typeof ExistingNetworksDialog;
+  networkGenerationDialogWorkflow: typeof GenerateNetworkDialogWorkflow;
   existingForecastingParametersDialog: typeof ExistingForecastingParametersDialog;
   saveForecastingParametersDialog: typeof SaveForecastingParametersDialog;
   runForecastDialog: typeof RunForecastDialog;
@@ -56,17 +59,18 @@ export interface DialogStuff {
     | "selectWorksheetDialog"
     | "finalizeInputDialog"
     | "economicsParametersDialog"
-    | "economicsParameterImportWorkflowDialog"
+    | "economicsParameterImportDialogWorkflow"
     | "newProjectDialogWorkflow"
     | "saveNetworkDialog"
     | "existingNetworksDialog"
+    | "networkGenerationDialogWorkflow"
     | "existingForecastingParametersDialog"
     | "saveForecastingParametersDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
   dialogText?: string;
-  iconType?: "error" | "success" | "select" | "information" | "confirmation";
+  iconType?: IconNameType;
   contentText?: string;
   contentList?: Record<string, any>;
   actionsList?: (() => JSX.Element) | (() => JSX.Element[]);

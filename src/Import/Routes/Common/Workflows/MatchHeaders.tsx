@@ -120,11 +120,12 @@ export default function MatchHeaders({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowCategory = "inputDataWorkflows";
 
   //File Headers
   const { fileHeaders } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
 
   //Application headers

@@ -122,9 +122,11 @@ const EconomicsParameters = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
+  const workflowCategory = "inputDataWorkflows";
   const { dnDDisabled } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
   const [economicsDataSource, setEconomicsDataSource] = React.useState(
     "template"
@@ -419,7 +421,7 @@ const EconomicsParameters = ({
                 const dialogParameters: DialogStuff = {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",
-                  type: "economicsParameterImportWorkflowDialog",
+                  type: "economicsParameterImportDialogWorkflow",
                   show: true,
                   exclusive: true,
                   maxWidth: "md",
@@ -449,7 +451,7 @@ const EconomicsParameters = ({
                 const dialogParameters: DialogStuff = {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",
-                  type: "economicsParameterImportWorkflowDialog",
+                  type: "economicsParameterImportDialogWorkflow",
                   show: true,
                   exclusive: true,
                   maxWidth: "md",

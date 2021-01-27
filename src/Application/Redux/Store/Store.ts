@@ -45,17 +45,18 @@ const persistConfig = {
   key: "root",
   storage, // define which storage to use
 };
-const persistedRootReducer = persistReducer(persistConfig, rootReducer);
+// const persistedRootReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(
-  persistedRootReducer,
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
   )
 );
 
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 
-export { store, persistor };
+// export { store, persistor };
+export { store };

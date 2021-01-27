@@ -49,7 +49,7 @@ const steps = [
 const ExcelWorkflow = ({ workflowProcess, finalAction }: IWorkflowProcess) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
+  const workflowCategory = "inputDataWorkflows";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -57,7 +57,7 @@ const ExcelWorkflow = ({ workflowProcess, finalAction }: IWorkflowProcess) => {
   );
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["importDataWorkflows"][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -93,6 +93,7 @@ const ExcelWorkflow = ({ workflowProcess, finalAction }: IWorkflowProcess) => {
     skipped,
     isStepSkipped,
   };
+
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
@@ -101,7 +102,8 @@ const ExcelWorkflow = ({ workflowProcess, finalAction }: IWorkflowProcess) => {
         steps,
         isStepOptional,
         isStepSkipped,
-        workflowProcess as string
+        workflowProcess as string,
+        workflowCategory
       )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

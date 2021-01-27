@@ -5,12 +5,17 @@ export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
 export const BACK_WORKFLOW = "BACK_WORKFLOW";
 export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
+export const SETUP_WORKFLOW = "SETUP_WORKFLOW";
 
-export const setWorkflowProcessAction = (workflowProcess: string) => {
+export const setWorkflowProcessAction = (
+  workflowProcess: string,
+  workflowCategory: string
+) => {
   return {
     type: SET_WORKFLOWPROCESS,
     payload: {
       workflowProcess,
+      workflowCategory,
     },
   };
 };
@@ -19,7 +24,8 @@ export const workflowInitAction = (
   steps: string[],
   isStepOptional: (activeStep: number) => boolean,
   isStepSkipped: (step: number) => boolean,
-  workflowProcess: string
+  workflowProcess: string,
+  workflowCategory: string
 ) => {
   return {
     type: INITIALIZE_WORKFLOW,
@@ -28,19 +34,22 @@ export const workflowInitAction = (
       isStepOptional,
       isStepSkipped,
       workflowProcess,
+      workflowCategory,
     },
   };
 };
 
 export const workflowResetAction = (
   activeStep: number,
-  workflowProcess: string
+  workflowProcess: string,
+  workflowCategory: string
 ) => {
   return {
     type: RESET_WORKFLOW,
     payload: {
       activeStep,
       workflowProcess,
+      workflowCategory,
     },
   };
 };
@@ -51,7 +60,8 @@ export const workflowNextAction = (
   activeStep: number,
   steps: string[],
   message: string,
-  workflowProcess: string
+  workflowProcess: string,
+  workflowCategory: string
 ) => {
   return {
     type: NEXT_WORKFLOW,
@@ -61,6 +71,7 @@ export const workflowNextAction = (
       activeStep,
       steps,
       workflowProcess,
+      workflowCategory,
     },
     meta: { showSpinner: false, message },
   };
@@ -68,13 +79,15 @@ export const workflowNextAction = (
 
 export const workflowBackAction = (
   activeStep: number,
-  workflowProcess: string
+  workflowProcess: string,
+  workflowCategory: string
 ) => {
   return {
     type: BACK_WORKFLOW,
     payload: {
       activeStep,
       workflowProcess,
+      workflowCategory,
     },
   };
 };
@@ -82,7 +95,8 @@ export const workflowBackAction = (
 export const workflowSkipAction = (
   isStepOptional: (activeStep: number) => boolean,
   activeStep: number,
-  workflowProcess: string
+  workflowProcess: string,
+  workflowCategory: string
 ) => {
   return {
     type: SKIP_WORKFLOW,
@@ -90,15 +104,35 @@ export const workflowSkipAction = (
       isStepOptional,
       activeStep,
       workflowProcess,
+      workflowCategory,
     },
   };
 };
 
-export const workflowSaveAction = (workflowProcess: string) => {
+export const workflowSaveAction = (
+  workflowProcess: string,
+  workflowCategory: string
+) => {
   return {
     type: SAVE_WORKFLOW,
     payload: {
       workflowProcess,
+      workflowCategory,
+    },
+  };
+};
+
+export const setUpWorkflowAction = (
+  workflowProcess: string,
+  workflowCategory: string,
+  name: string
+) => {
+  return {
+    type: SETUP_WORKFLOW,
+    payload: {
+      name,
+      workflowProcess,
+      workflowCategory,
     },
   };
 };

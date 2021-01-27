@@ -93,10 +93,11 @@ export default function MatchUnits({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowCategory = "inputDataWorkflows";
 
   const { fileUnits, fileUniqueUnits } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
 
   //Application headers

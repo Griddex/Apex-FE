@@ -7,6 +7,8 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
 import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -113,6 +115,7 @@ const steps = [
 const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowCategory = "inputDataWorkflows";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -120,7 +123,7 @@ const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
   );
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["importDataWorkflows"][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -157,6 +160,14 @@ const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
     errorSteps: [],
   };
 
+  const workflowProps = {
+    activeStep,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  };
+
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
@@ -165,7 +176,8 @@ const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
         steps,
         isStepOptional,
         isStepSkipped,
-        workflowProcess as string
+        workflowProcess as string,
+        workflowCategory
       )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,6 +204,17 @@ const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
     }
   }
 
+  const navigationButtonProps: INavigationButtonsProp = {
+    mainNav: true,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
+    finalAction: () => console.log("DatabaseWorkflow"),
+    workflowProps,
+    workflowProcess,
+  };
+
   return (
     <div className={classes.root}>
       <WorkflowBanner {...WorkflowBannerProps} />
@@ -210,76 +233,7 @@ const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
           {() => <WorkflowStepper {...WorkflowStepperProps} />}
         </ContextDrawer>
       )}
-      <div className={classes.navigationbuttons}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() =>
-            dispatch(workflowResetAction(0, workflowProcess as string))
-          }
-          className={classes.button}
-          startIcon={<RotateLeftIcon />}
-        >
-          Reset
-        </Button>
-        <Button
-          variant="outlined"
-          disabled={activeStep === 0}
-          onClick={() =>
-            dispatch(workflowBackAction(activeStep, workflowProcess as string))
-          }
-          className={classes.button}
-          startIcon={<ArrowBackIosIcon />}
-        >
-          Back
-        </Button>
-        {isStepOptional(activeStep) && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              dispatch(
-                workflowSkipAction(
-                  isStepOptional,
-                  activeStep,
-                  workflowProcess as string
-                )
-              )
-            }
-            className={classes.button}
-          >
-            Skip
-          </Button>
-        )}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            activeStep === steps
-              ? dispatch(workflowSaveAction(workflowProcess as string))
-              : dispatch(
-                  workflowNextAction(
-                    skipped,
-                    isStepSkipped,
-                    activeStep,
-                    steps,
-                    "Loading",
-                    workflowProcess as string
-                  )
-                );
-          }}
-          className={classes.button}
-          endIcon={
-            activeStep === steps.length - 1 ? (
-              <DoneAllIcon />
-            ) : (
-              <ArrowForwardIosIcon />
-            )
-          }
-        >
-          {activeStep === steps.length - 1 ? "Finalize" : "Next"}
-        </Button>
-      </div>
+      <NavigationButtons {...navigationButtonProps} />
     </div>
   );
 };

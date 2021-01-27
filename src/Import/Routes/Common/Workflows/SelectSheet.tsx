@@ -70,6 +70,7 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
+  const workflowCategory = "inputDataWorkflows";
 
   const {
     fileLastModified,
@@ -80,12 +81,12 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     fileCreated,
   } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(

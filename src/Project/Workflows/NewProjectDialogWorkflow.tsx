@@ -20,12 +20,13 @@ const steps = ["New Project Details", "Choose Unit Settings"];
 
 const NewProjectDialogWorkflow = (props: DialogStuff) => {
   const dispatch = useDispatch();
+  const workflowCategory = "projectDataWorkflows";
   const workflowProcess = "newProjectDialogWorkflow";
 
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["importDataWorkflows"][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]
   );
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
@@ -93,13 +94,19 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(
-      workflowInitAction(steps, isStepOptional, isStepSkipped, workflowProcess)
+      workflowInitAction(
+        steps,
+        isStepOptional,
+        isStepSkipped,
+        workflowProcess,
+        workflowCategory
+      )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
-    <NewProjectDialog {...props}>
+    <NewProjectDialog {...props} {...navigationButtonProps}>
       <NewProjectForm>
         {({
           projectName,
@@ -121,7 +128,6 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
           })
         }
       </NewProjectForm>
-      <NavigationButtons {...navigationButtonProps} />
     </NewProjectDialog>
   );
 };

@@ -2,24 +2,23 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
-import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
+import ExistingProductionData from "./ExistingProductionData";
 import {
   IdType,
   IProductionDataLandingWorkflows,
 } from "./ProductionDataLandingTypes";
-import { IInputLanding } from "../Common/InputLayoutTypes";
-import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-// import AvatarStack from "react-avatar-stack";
 
 const useStyles = makeStyles((theme) => ({
   ProductionDataLanding: {
@@ -68,7 +67,7 @@ const ProductionDataLanding = () => {
         />
       ),
       route: `${url}/productionexcel`,
-      workflowProcess: "productionDataExcel",
+      workflowProcess: "productionInputDataExcel",
     },
     {
       name: "Database",
@@ -81,7 +80,7 @@ const ProductionDataLanding = () => {
         />
       ),
       route: `${url}/productiondatabase`,
-      workflowProcess: "productionDataDatabase",
+      workflowProcess: "productionInputDataDatabase",
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
@@ -94,8 +93,8 @@ const ProductionDataLanding = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/approvedproductiondata`,
-      workflowProcess: "productionDataApproved",
+      route: `${url}/approveddata`,
+      workflowProcess: "productionInputDataApproved",
     },
   ];
 
@@ -112,20 +111,26 @@ const ProductionDataLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  React.useEffect(() => {
+    dispatch(
+      fetchExistingDataRequestAction("productionData", currentWorkflowProcess)
+    );
+  }, []);
+
   return (
     <>
       {loadWorkflow ? (
         <div className={classes.ImportWorkflow}>
           <Route
             exact
-            path={`${path}/:dataType`}
+            path={`${path}/:dataInputId`}
             render={(props: RouteComponentProps<IdType>) => {
               const { match } = props;
               const {
                 params: { dataInputId },
               } = match;
 
-              const inputProductionDataWorkflows: IProductionDataLandingWorkflows = {
+              const inputProductionDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
                     workflowProcess={currentWorkflowProcess}
@@ -139,7 +144,7 @@ const ProductionDataLanding = () => {
                   />
                 ),
                 approveddata: (
-                  <ExistingDataWorkflow
+                  <ExistingProductionData
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />

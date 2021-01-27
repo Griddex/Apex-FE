@@ -9,6 +9,7 @@ import {
   FETCHRECENTPROJECTS_REQUEST,
   openRecentProjectAction,
 } from "../Actions/ProjectActions";
+import { IRecentProject } from "../State/ProjectStateTypes";
 
 export default function* watchFetchRecentProjectsSaga() {
   yield takeLatest(FETCHRECENTPROJECTS_REQUEST, fetchRecentProjectsSaga);
@@ -25,8 +26,12 @@ function* fetchRecentProjectsSaga(action: IAction) {
   try {
     const response = yield call(
       fetchRecentProjectsAPI,
-      "https://jsonplaceholder.typicode.com/posts"
-      // "http://a4b6b400f0c6.ngrok.io/api/project"
+      // "https://jsonplaceholder.typicode.com/posts"
+      "http://2d2e41e0fd3c.ngrok.io/api/project/recents/6"
+    );
+    console.log(
+      "Logged output --> ~ file: FetchRecentProjectsSaga.ts ~ line 32 ~ function*fetchRecentProjectsSaga ~ response",
+      response
     );
 
     const { statusCode, data } = response;
@@ -107,11 +112,11 @@ function* fetchRecentProjectsSaga(action: IAction) {
       },
     ];
 
-    const recentProjects = data1.map((row) => ({
+    const recentProjects = data.map((row: IRecentProject) => ({
       title: row.title,
-      id: row.id,
+      id: row.projectId,
       toggleSN: true,
-      handleClick: () => handleClick(userId, row.id),
+      handleClick: () => handleClick(userId, row.projectId as string),
     }));
 
     const successAction = fetchRecentProjectsSuccessAction();

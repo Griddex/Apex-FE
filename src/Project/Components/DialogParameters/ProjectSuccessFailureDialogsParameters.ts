@@ -10,7 +10,7 @@ export const successDialogParameters: DialogStuff = {
   show: true,
   exclusive: false,
   maxWidth: "xs",
-  dialogText: "New Project Creation Successful",
+  dialogText: "Success! Your project was created successfully.",
   iconType: "success",
   actionsList: () => DialogOkayButton(true, unloadDialogsAction),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
@@ -23,7 +23,8 @@ export const failureDialogParameters: DialogStuff = {
   show: true,
   exclusive: false,
   maxWidth: "xs",
-  dialogText: "New Project Creation failure",
+  dialogText:
+    "Oops! An unexpected error occurred while trying to create your new project. Please try again",
   iconType: "error",
   actionsList: () => DialogCancelButton(true, unloadDialogsAction),
   // actionsList: () => DialogCancelButton(),

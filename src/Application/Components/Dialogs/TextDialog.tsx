@@ -16,35 +16,30 @@ import { DialogStuff } from "./DialogTypes";
 const useDialogTitleStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(1),
     height: 48,
   },
   dialogHeader: {
     display: "flex",
-    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    width: "5%",
+    marginRight: 5,
     height: "100%",
-    // color: (props) => props.iconColor,
   },
   dialogTitle: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "90%",
+    width: "100%",
     height: "100%",
   },
   closeButton: {
-    // position: "absolute",
-    // right: theme.spacing(1),
-    // top: theme.spacing(1),
     color: theme.palette.grey[500],
-    width: "5%",
     height: "100%",
     padding: 0,
   },
@@ -59,9 +54,7 @@ const TextDialogTitle: React.FC<DialogStuff> = (props) => {
         <div className={classes.mainIcon}>
           {dialogIcons[iconType ? iconType : "select"]}
         </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
+        <div className={classes.dialogTitle}>{children}</div>
         {onClose ? (
           <IconButton
             className={classes.closeButton}
@@ -114,12 +107,13 @@ const TextDialog: React.FC<DialogStuff> = ({
       open={show as boolean}
       maxWidth={maxWidth}
       fullWidth
+      style={{ padding: 0 }}
     >
       <TextDialogTitle
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{title}</div>
+        <Typography variant="h6">{title}</Typography>
       </TextDialogTitle>
       <DialogContent dividers style={dialogContentStyle}>
         <Typography className={classes.dialogContent} variant="body1">
@@ -127,7 +121,9 @@ const TextDialog: React.FC<DialogStuff> = ({
         </Typography>
         <Divider />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList()}</DialogActions>
+      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
+        {actionsList && actionsList()}
+      </DialogActions>
     </Dialog>
   );
 };

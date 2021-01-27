@@ -108,10 +108,11 @@ const steps = [
   "View Results",
 ];
 
-const EconomicsWorkflow = () => {
+const EconomicsAnalysisWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowProcess = "economicsWorkflow";
+  const workflowCategory = "economicsDataWorkflows";
+  const workflowProcess = "economicsAnalyses";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -119,7 +120,7 @@ const EconomicsWorkflow = () => {
   );
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["importDataWorkflows"][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -158,7 +159,13 @@ const EconomicsWorkflow = () => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(
-      workflowInitAction(steps, isStepOptional, isStepSkipped, workflowProcess)
+      workflowInitAction(
+        steps,
+        isStepOptional,
+        isStepSkipped,
+        workflowProcess,
+        workflowCategory
+      )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
@@ -197,7 +204,9 @@ const EconomicsWorkflow = () => {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={() => dispatch(workflowResetAction(0, workflowProcess))}
+          onClick={() =>
+            dispatch(workflowResetAction(0, workflowProcess, workflowCategory))
+          }
           className={classes.button}
           startIcon={<RotateLeftIcon />}
         >
@@ -207,7 +216,9 @@ const EconomicsWorkflow = () => {
           variant="outlined"
           disabled={activeStep === 0}
           onClick={() =>
-            dispatch(workflowBackAction(activeStep, workflowProcess))
+            dispatch(
+              workflowBackAction(activeStep, workflowProcess, workflowCategory)
+            )
           }
           className={classes.button}
           startIcon={<ArrowBackIosIcon />}
@@ -220,7 +231,12 @@ const EconomicsWorkflow = () => {
             color="primary"
             onClick={() =>
               dispatch(
-                workflowSkipAction(isStepOptional, activeStep, workflowProcess)
+                workflowSkipAction(
+                  isStepOptional,
+                  activeStep,
+                  workflowProcess,
+                  workflowCategory
+                )
               )
             }
             className={classes.button}
@@ -233,7 +249,7 @@ const EconomicsWorkflow = () => {
           color="primary"
           onClick={() => {
             activeStep === steps.length - 1
-              ? dispatch(workflowSaveAction(workflowProcess))
+              ? dispatch(workflowSaveAction(workflowProcess, workflowCategory))
               : dispatch(
                   workflowNextAction(
                     skipped,
@@ -241,7 +257,8 @@ const EconomicsWorkflow = () => {
                     activeStep,
                     steps,
                     "Loading...",
-                    workflowProcess
+                    workflowProcess,
+                    workflowCategory
                   )
                 );
           }}
@@ -261,4 +278,4 @@ const EconomicsWorkflow = () => {
   );
 };
 
-export default EconomicsWorkflow;
+export default EconomicsAnalysisWorkflow;

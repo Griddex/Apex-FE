@@ -53,6 +53,7 @@ export default function PreviewSave({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowCategory = "inputDataWorkflows";
 
   const {
     tableRoleNames,
@@ -63,7 +64,7 @@ export default function PreviewSave({
     selectedUnitRowIndex,
   } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
 
   const unitsRow = zipObject(

@@ -19,10 +19,12 @@ export default function ExistingNetworks({
   workflowProcess: IWorkflowProcess["workflowProcess"];
 }) {
   const dispatch = useDispatch();
-  const existingData = useSelector(
+  const workflowCategory = "existingDataWorkflows";
+
+  const { existingData } = useSelector(
     (state: RootState) =>
-      state.importReducer["existingDataWorkflows"][workflowProcess]
-  ) as IExistingDataRow[];
+      state.networkReducer[workflowCategory][workflowProcess]
+  );
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -39,10 +41,12 @@ export default function ExistingNetworks({
     },
   };
 
-  const snExistingData = existingData.map((row, i: number) => ({
-    sn: i + 1,
-    ...row,
-  }));
+  const snExistingData = existingData.map(
+    (row: IExistingDataRow, i: number) => ({
+      sn: i + 1,
+      ...row,
+    })
+  );
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());

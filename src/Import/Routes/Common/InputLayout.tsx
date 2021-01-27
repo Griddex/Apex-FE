@@ -20,7 +20,7 @@ import ForecastInputDeckLanding from "../ForecastInputDeck/ForecastInputDeckLand
 import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
 import FacilitiesInputDeckLanding from "./../FacilitiesInputDeck/FacilitiesInputDeckLanding";
 import InputBackground from "./InputBackground";
-import { IdType, ISubModuleData } from "./InputLayoutTypes";
+import { IdType } from "./InputLayoutTypes";
 import { ISubNavbarData } from "./Workflows/InputWorkflowsTypes";
 
 const navbarHeight = 43;
@@ -68,13 +68,6 @@ const InputLayout = () => {
       icon: <AttachMoneyIcon fontSize="default" />,
     },
   ];
-
-  const subModuleData: ISubModuleData = {
-    facilitiesInputDeck: "Facilities Deck",
-    forecastInputDeck: "Forecast Deck",
-    productionData: "Production Data",
-    economicsData: "Economics Data",
-  };
 
   return (
     <main className={classes.importLayoutRoot}>

@@ -9,6 +9,7 @@ import { anitaImg } from "../../../Import/Utils/iconImages";
 import {
   hideDialogAction,
   showDialogAction,
+  unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
 import history from "../../Services/HistoryService";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
@@ -87,6 +88,7 @@ const UserProfile = () => {
             sessionStorage.clear();
             localStorage.clear();
             history.replace("/");
+            dispatch(unloadDialogsAction());
             dispatch(logoutAction());
           },
         },

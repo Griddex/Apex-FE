@@ -20,9 +20,7 @@ const SaveNetworkForm = ({ children }: ISaveNetworkProps) => {
       initialValues={networkState}
       validationSchema={Yup.object().shape({
         networkTitle: Yup.string().required("networkTitle is required"),
-        networkDescription: Yup.string().required(
-          "networkDescription is required"
-        ),
+        networkDescription: Yup.string(),
       })}
       onSubmit={() => {}}
     >

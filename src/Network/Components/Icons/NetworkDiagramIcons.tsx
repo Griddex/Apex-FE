@@ -11,6 +11,8 @@ import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
 import { INetworkDiagramIcons } from "./NetworkDiagramIconsTypes";
 import networkReducer from "./../../Redux/Reducers/NetworkReducers";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 const useStyles = makeStyles(() => ({
   networkContentIcons: {
@@ -28,6 +30,20 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { showMiniMap, setShowMiniMap, showControls, setShowControls } = props;
+
+  const generateNetwork = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Generate_Network_Dialog",
+      title: "Generate Network",
+      type: "networkGenerationDialogWorkflow",
+      show: true,
+      exclusive: true,
+      maxWidth: "md",
+      iconType: "network",
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   return (
     <div className={classes.networkContentIcons}>
@@ -48,6 +64,15 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         onClick={() => existingNetworksExtrude(dispatch)}
       >
         Existing Networks
+      </Button>
+      <Button
+        startIcon={<PlaylistPlayIcon />}
+        variant="outlined"
+        color="primary"
+        style={{ height: "28px" }}
+        onClick={() => generateNetwork()}
+      >
+        Generate Network
       </Button>
       <Button
         startIcon={<PlayArrowIcon />}

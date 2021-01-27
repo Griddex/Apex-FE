@@ -71,14 +71,15 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowCategory = "inputDataWorkflows";
+
   const { dnDDisabled } = useSelector(
-    (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess]
+    (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
   );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["importDataWorkflows"][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]
   );
 
   React.useEffect(() => {

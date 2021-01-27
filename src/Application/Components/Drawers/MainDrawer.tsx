@@ -219,7 +219,7 @@ const MainDrawer = () => {
                 disabled={name === "Project" ? false : menusDisabled}
                 style={
                   name === selected
-                    ? { borderLeft: `2px solid ${theme.palette.primary.main}` }
+                    ? { borderRight: `3px solid ${theme.palette.primary.main}` }
                     : {}
                 }
                 disableGutters

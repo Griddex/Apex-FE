@@ -6,14 +6,13 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React, { Children } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
-import SaveNetworkDialogButtons from "../DialogBottons/SaveNetworkDialogButtons";
-import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,9 +94,19 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const GenerateNetworkDialog = (props: DialogStuff) => {
+const GenerateNetworkDialog = (props: DialogStuff & INavigationButtonsProp) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, children } = props;
+  const {
+    mainNav,
+    showReset,
+    showBack,
+    showSkip,
+    showNext,
+    finalAction,
+    workflowProps,
+    workflowProcess,
+  } = props;
 
   return (
     <Dialog
@@ -118,6 +127,9 @@ const GenerateNetworkDialog = (props: DialogStuff) => {
       >
         {children && children}
       </DialogContent>
+      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
+        <NavigationButtons {...props} />
+      </DialogActions>
     </Dialog>
   );
 };

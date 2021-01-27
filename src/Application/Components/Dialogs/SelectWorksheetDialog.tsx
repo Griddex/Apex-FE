@@ -139,18 +139,16 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     contentList,
     workflowProcess,
   } = props;
-  console.log(
-    "Logged output --> ~ file: SelectWorksheetDialog.tsx ~ line 148 ~ props",
-    props
-  );
+
+  const workflowCategory = "inputDataWorkflows";
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["importDataWorkflows"][workflowProcess as string]
+      state.workflowReducer[workflowCategory][workflowProcess as string]
   );
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
@@ -209,12 +207,13 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     );
     dispatch(
       workflowNextAction(
-        skipped,
-        isStepSkipped,
+        skipped as Set<number>,
+        isStepSkipped as (step: number) => boolean,
         activeStep,
         steps,
         "Loading",
-        workflowProcess as string
+        workflowProcess as string,
+        workflowCategory as string
       )
     );
     dispatch(hideDialogAction());

@@ -47,7 +47,7 @@ function* saveInputDeckSaga(action: IAction) {
     (state) => state.workflowReducer
   );
   const { existingData, existingDataId, title, description } = yield select(
-    (state) => state.importReducer["importDataWorkflows"][workflowProcess]
+    (state) => state.inputReducer["inputDataWorkflows"][workflowProcess]
   );
 
   const data = {

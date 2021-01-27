@@ -123,7 +123,7 @@ export default function ExistingDataWorkflow<
         formatter: ({ row }) => {
           return <Author author={row.author} />;
         },
-        width: 300,
+        width: 200,
       },
       {
         key: "approvers",
@@ -133,7 +133,7 @@ export default function ExistingDataWorkflow<
         formatter: ({ row }) => {
           return <Approvers approvers={row.approvers} />;
         },
-        width: 300,
+        width: 200,
       },
       {
         key: "createdOn",

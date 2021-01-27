@@ -122,6 +122,7 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+  const workflowCategory = "economicsDataWorkflows";
   const workflowProcess = "economicsParameterImportWorkflow";
 
   const { dialogText } = props;
@@ -131,7 +132,7 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
   );
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer["importDataWorkflows"][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]
   );
   const { moduleName, subModuleName, workflowName } = useSelector(
     (state: RootState) => state.applicationReducer
@@ -171,7 +172,13 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
     dispatch(
-      workflowInitAction(steps, isStepOptional, isStepSkipped, workflowProcess)
+      workflowInitAction(
+        steps,
+        isStepOptional,
+        isStepSkipped,
+        workflowProcess,
+        workflowCategory
+      )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
@@ -234,11 +241,15 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
       )}
       <div className={classes.navigationbuttons}>
         <RotateLeftIcon
-          onClick={() => dispatch(workflowResetAction(0, workflowProcess))}
+          onClick={() =>
+            dispatch(workflowResetAction(0, workflowProcess, workflowCategory))
+          }
         />
         <ArrowBackIosIcon
           onClick={() =>
-            dispatch(workflowBackAction(activeStep, workflowProcess))
+            dispatch(
+              workflowBackAction(activeStep, workflowProcess, workflowCategory)
+            )
           }
         />
         <Button
@@ -265,7 +276,8 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
                     activeStep,
                     steps,
                     "Loading...",
-                    workflowProcess
+                    workflowProcess,
+                    workflowCategory
                   )
                 );
           }}

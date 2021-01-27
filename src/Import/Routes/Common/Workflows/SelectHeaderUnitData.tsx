@@ -47,10 +47,11 @@ export default function SelectHeaderUnitData({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowCategory = "inputDataWorkflows";
 
   const { selectedWorksheetData } = useSelector(
     (state: RootState) =>
-      state.importReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer[workflowCategory][workflowProcess as string]
   );
 
   //Generate actual ColumnHeaders

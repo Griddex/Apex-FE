@@ -73,7 +73,7 @@ const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
     const classes = useStyles();
     const { fileHeaders } = useSelector(
       (state: RootState) =>
-        state.importReducer["importDataWorkflows"][workflowProcess as string]
+        state.inputReducer["inputDataWorkflows"][workflowProcess as string]
     );
 
     return (

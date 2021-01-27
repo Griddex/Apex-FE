@@ -7,6 +7,7 @@ import ExistingNetworksDialog from "../../../Network/Components/Dialogs/Existing
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
+import GenerateNetworkDialogWorkflow from "../../../Network/Workflows/GenerateNetworkDialogWorkflow";
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
@@ -21,10 +22,11 @@ const applicationDialogs: IApplicationDialogs = {
   selectWorksheetDialog: SelectWorksheetDialog,
   finalizeInputDialog: FinalizeInputDialog,
   economicsParametersDialog: EconomicsParametersDialog,
-  economicsParameterImportWorkflowDialog: EconomicsParameterImportWorkflowDialog,
+  economicsParameterImportDialogWorkflow: EconomicsParameterImportWorkflowDialog,
   newProjectDialogWorkflow: NewProjectDialogWorkflow,
   saveNetworkDialog: SaveNetworkDialog,
   existingNetworksDialog: ExistingNetworksDialog,
+  networkGenerationDialogWorkflow: GenerateNetworkDialogWorkflow,
   existingForecastingParametersDialog: ExistingForecastingParametersDialog,
   saveForecastingParametersDialog: SaveForecastingParametersDialog,
   runForecastDialog: RunForecastDialog,

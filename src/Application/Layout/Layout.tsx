@@ -21,6 +21,7 @@ import { RootState } from "../Redux/Reducers/AllReducers";
 import { fetchRecentProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
 import { failureDialogParameters } from "../../Project/Components/DialogParameters/RecentProjectsFailureDialogParameters";
 import { fetchUnitSettingsAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
+import { fetchExistingDataRequestAction } from "../../Import/Redux/Actions/ExistingDataActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -45,7 +46,18 @@ const Layout = () => {
 
   React.useEffect(() => {
     //Boostrap recent projects
-    dispatch(fetchRecentProjectsAction(failureDialogParameters));
+    dispatch(
+      fetchExistingDataRequestAction("A", "facilitiesInputDeckApproveddeck")
+    );
+    dispatch(
+      fetchExistingDataRequestAction("A", "forecastInputDeckApproveddeck")
+    );
+    dispatch(fetchExistingDataRequestAction("A", "economicsInputDataApproved"));
+    dispatch(
+      fetchExistingDataRequestAction("A", "productionInputDataApproved")
+    );
+    dispatch(fetchExistingDataRequestAction("A", "networkApproved"));
+    // dispatch(fetchRecentProjectsAction(failureDialogParameters));
     dispatch(fetchUnitSettingsAction());
     //Boostrap User details
   }, []);

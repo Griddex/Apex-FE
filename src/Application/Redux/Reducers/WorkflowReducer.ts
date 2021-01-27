@@ -8,6 +8,10 @@ import {
   SAVE_WORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
+import {
+  IWorkflowProcessState,
+  IWorkflowState,
+} from "../State/WorkflowStateTypes";
 import { IAction } from "./../Actions/ActionTypes";
 
 const workflowReducer = (state = workflowState, action: IAction) => {
@@ -19,12 +23,17 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       };
 
     case INITIALIZE_WORKFLOW: {
-      const { workflowProcess } = action.payload;
+      const { workflowCategory, workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
+      const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
+
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        [moduleWorkflowDefined]: {
+          ...(state[moduleWorkflowDefined] as Record<
+            string,
+            IWorkflowProcessState
+          >),
           [workflowProcessDefined]: {
             activeStep: 0,
             steps: action.payload.steps,
@@ -36,28 +45,34 @@ const workflowReducer = (state = workflowState, action: IAction) => {
     }
 
     case RESET_WORKFLOW: {
-      const { workflowProcess } = action.payload;
+      const { workflowCategory, workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
+      const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        [moduleWorkflowDefined]: {
+          ...(state[moduleWorkflowDefined] as Record<
+            string,
+            IWorkflowProcessState
+          >),
           [workflowProcessDefined]: { activeStep: action.payload.activeStep },
         },
       };
     }
 
     case NEXT_WORKFLOW: {
-      const { workflowProcess } = action.payload;
+      const { workflowCategory, workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
+      const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
+
       const { activeStep, steps } = action.payload;
 
       // let newSkipped = new Set<number>();
       // try {
-      //   newSkipped = state["importDataWorkflows"][workflowProcessDefined]["skipped"] as Set<number>;
+      //   newSkipped = state["inputDataWorkflows"][workflowProcessDefined]["skipped"] as Set<number>;
       // } catch (error) {
-      //   state["importDataWorkflows"][workflowProcessDefined]["skipped"] = new Set<number>();
+      //   state["inputDataWorkflows"][workflowProcessDefined]["skipped"] = new Set<number>();
       // }
 
       // if (isStepSkipped && isStepSkipped(activeStep)) {
@@ -66,7 +81,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       // }
 
       // if (activeStep === steps.length - 1) {
-      //   return { ...state["importDataWorkflows"][workflowProcessDefined] };
+      //   return { ...state["inputDataWorkflows"][workflowProcessDefined] };
       // }
       console.log(
         "Logged output --> ~ file: WorkflowReducer.ts ~ line 62 ~ workflowReducer ~ state",
@@ -75,8 +90,11 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        [moduleWorkflowDefined]: {
+          ...(state[moduleWorkflowDefined] as Record<
+            string,
+            IWorkflowProcessState
+          >),
           [workflowProcessDefined]: {
             activeStep: action.payload.activeStep + 1,
             // skipped: newSkipped,
@@ -86,12 +104,17 @@ const workflowReducer = (state = workflowState, action: IAction) => {
     }
 
     case BACK_WORKFLOW: {
-      const { workflowProcess } = action.payload;
+      const { workflowCategory, workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
+      const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
+
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        [moduleWorkflowDefined]: {
+          ...(state[moduleWorkflowDefined] as Record<
+            string,
+            IWorkflowProcessState
+          >),
           [workflowProcessDefined]: {
             activeStep: action.payload.activeStep - 1,
           },
@@ -100,8 +123,9 @@ const workflowReducer = (state = workflowState, action: IAction) => {
     }
 
     case SKIP_WORKFLOW: {
-      const { workflowProcess } = action.payload;
+      const { workflowCategory, workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as string;
+      const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
       const { isStepOptional, activeStep } = action.payload;
 
       if (!isStepOptional()) {
@@ -109,8 +133,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         // it should never occur unless someone's actively trying to break something.
         throw new Error("You can't skip a step that isn't optional.");
       }
-      const workflowState =
-        state["importDataWorkflows"][workflowProcessDefined];
+      const workflowState = state["inputDataWorkflows"][workflowProcessDefined];
       const newSkippedSet = new Set(
         workflowState.skipped && workflowState.skipped.values()
       );
@@ -118,8 +141,11 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        [moduleWorkflowDefined]: {
+          ...(state[moduleWorkflowDefined] as Record<
+            string,
+            IWorkflowProcessState
+          >),
           [workflowProcessDefined]: {
             activeStep: action.payload.activeStep + 1,
             skipped: newSkippedSet,
