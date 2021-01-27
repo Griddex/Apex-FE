@@ -53,7 +53,7 @@ export default function PreviewSave({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const {
     tableRoleNames,

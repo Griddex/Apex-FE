@@ -17,7 +17,7 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
   workflowData?: any;
 }
 
-export interface IWorkflowProcess {
+export interface IInputWorkflowProcess {
   workflowProcess:
     | "facilitiesInputDeckExcel"
     | "facilitiesInputDeckDatabase"
@@ -32,17 +32,17 @@ export interface IWorkflowProcess {
     | "economicsInputDataDatabase"
     | "economicsInputDataManual"
     | "economicsInputDataApproved"
-    | "networkApproved"
-    | "networkGeneration"
-    | "economicsAnalyses"
-    | "economicsParameterImportWorkflow"
-    | "economicsParameters"
-    | "netCashAnalysisWorkflow"
-    | "saveForecastParametersWorkflow"
+    // | "networkApproved"
+    // | "networkGeneration"
+    // | "economicsAnalyses"
+    // | "economicsParameterImportWorkflow"
+    // | "economicsParameters"
+    // | "netCashAnalysisWorkflow"
+    // | "saveForecastParametersWorkflow"
     | "";
   finalAction?: () => void;
 }
-export interface IWorkflowProcessExtra extends IWorkflowProcess {
+export interface IInputWorkflowProcessExtra extends IInputWorkflowProcess {
   // finalAction: () => void;
   // finalActionButtonText: string;
   snExistingData?: IExistingDataRow[];

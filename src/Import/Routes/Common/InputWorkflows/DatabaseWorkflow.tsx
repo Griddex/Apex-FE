@@ -11,7 +11,7 @@ import NavigationButtons from "../../../../Application/Components/NavigationButt
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
-import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -112,10 +112,10 @@ const steps = [
   "Preview & Save",
 ];
 
-const DatabaseWorkflow = ({ workflowProcess }: IWorkflowProcess) => {
+const DatabaseWorkflow = ({ workflowProcess }: IInputWorkflowProcess) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(

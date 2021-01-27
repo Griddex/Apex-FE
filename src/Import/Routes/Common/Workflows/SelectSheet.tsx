@@ -70,7 +70,7 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const {
     fileLastModified,

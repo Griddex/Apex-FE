@@ -1,6 +1,6 @@
-import { ImportStateType } from "./ImportStateTypes";
+import { InputStateType } from "./ImportStateTypes";
 
-const workflowNames = [
+const importWorkflowProcesses = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
   // "facilitiesInputDeckApproveddeck",
@@ -17,16 +17,10 @@ const workflowNames = [
   "economicsInputDataDatabase",
   "economicsInputDataManual",
   // "economicsInputDataApproved",
-
-  "economicsAnalyses",
-  "economicsParameterImportWorkflow",
-  "economicsParameters",
-  "netCashAnalysisWorkflow",
-  "saveForecastParametersWorkflow",
 ];
 
 const generateImportState = () => {
-  return workflowNames.reduce((acc, workflowName: string) => {
+  return importWorkflowProcesses.reduce((acc, workflowName: string) => {
     return {
       ...acc,
       [workflowName]: {
@@ -112,10 +106,10 @@ const generateExistingDataState = () => {
 
 const importDataState = generateImportState();
 const existingDataState = generateExistingDataState();
-const importState: ImportStateType = {
+const InputState: InputStateType = {
   currentWorkflowProcess: "",
-  inputDataWorkflows: importDataState,
+  importDataWorkflows: importDataState,
   existingDataWorkflows: existingDataState,
 };
 
-export default importState;
+export default InputState;

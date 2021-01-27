@@ -128,7 +128,7 @@ const economicsState = generateEconomicsWorkflowState();
 const workflowState: IWorkflowState = {
   currentWorkflowProcess: "",
   projectDataWorkflows: { ...projectState },
-  inputDataWorkflows: { ...inputState },
+  importDataWorkflows: { ...inputState },
   networkDataWorkflows: { ...networkState },
   economicsDataWorkflows: { ...economicsState },
 };

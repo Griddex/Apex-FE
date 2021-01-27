@@ -93,7 +93,7 @@ export default function MatchUnits({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const { fileUnits, fileUniqueUnits } = useSelector(
     (state: RootState) =>

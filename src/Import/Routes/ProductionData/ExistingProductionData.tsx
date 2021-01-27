@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IExistingDataRow } from "../Common/InputLayoutTypes";
 import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
@@ -17,7 +17,7 @@ export default function ExistingProductionData({
   workflowProcess,
   finalAction,
 }: {
-  workflowProcess: IWorkflowProcess["workflowProcess"];
+  workflowProcess: IInputWorkflowProcess["workflowProcess"];
   finalAction: () => void;
 }) {
   const workflowCategory = "existingDataWorkflows";

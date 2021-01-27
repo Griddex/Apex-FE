@@ -79,7 +79,7 @@ const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
     const classes = useStyles();
     const { fileHeaders } = useSelector(
       (state: RootState) =>
-        state.inputReducer["inputDataWorkflows"][workflowProcess as string]
+        state.inputReducer["importDataWorkflows"][workflowProcess as string]
     );
 
     return (

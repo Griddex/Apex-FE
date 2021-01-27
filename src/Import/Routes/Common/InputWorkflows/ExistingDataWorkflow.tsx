@@ -10,7 +10,7 @@ import Author from "../../../../Application/Components/Author/Author";
 import Status from "../../../../Application/Components/Status/Status";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IWorkflowProcessExtra } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcessExtra } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
@@ -53,7 +53,7 @@ export default function ExistingDataWorkflow<
   dataTitle,
   chartData,
   tableOptions,
-}: IWorkflowProcessExtra) {
+}: IInputWorkflowProcessExtra) {
   const classes = useStyles();
   const dispatch = useDispatch();
 

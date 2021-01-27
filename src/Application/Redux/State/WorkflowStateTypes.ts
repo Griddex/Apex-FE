@@ -14,7 +14,7 @@ export interface IWorkflowProcessState {
 export interface IWorkflowState {
   currentWorkflowProcess: string;
   projectDataWorkflows: Record<string, IWorkflowProcessState>;
-  inputDataWorkflows: Record<string, IWorkflowProcessState>;
+  importDataWorkflows: Record<string, IWorkflowProcessState>;
   networkDataWorkflows: Record<string, IWorkflowProcessState>;
   economicsDataWorkflows: Record<string, IWorkflowProcessState>;
 }

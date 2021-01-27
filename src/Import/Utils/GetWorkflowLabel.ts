@@ -1,8 +1,8 @@
-import { IWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
 
-// export const getWorkflowlabel: Record<IWorkflowProcess["workflowProcess"],string> = {
+// export const getWorkflowlabel: Record<IInputWorkflowProcess["workflowProcess"],string> = {
 export const getWorkflowlabel: {
-  [P in IWorkflowProcess["workflowProcess"]]: string;
+  [P in IInputWorkflowProcess["workflowProcess"]]: string;
 } = {
   facilitiesInputDeckExcel: "Facilities InputDeck",
   facilitiesInputDeckDatabase: "Facilities InputDeck",

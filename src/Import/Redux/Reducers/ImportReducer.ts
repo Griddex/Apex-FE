@@ -25,9 +25,9 @@ import {
   SAVEINPUTDECK_SUCCESS,
   SAVEINPUTDECK_FAILURE,
 } from "../Actions/ImportActions";
-import importState from "../State/ImportState";
+import InputState from "../State/ImportState";
 
-const inputReducer = (state = importState, action: IAction) => {
+const inputReducer = (state = InputState, action: IAction) => {
   switch (action.type) {
     case IMPORTFILE_INITIALIZATION:
     case PERSIST_FILE:
@@ -52,10 +52,10 @@ const inputReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        inputDataWorkflows: {
-          ...state.inputDataWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.inputDataWorkflows[workflowProcessDefined],
+            ...state.importDataWorkflows[workflowProcessDefined],
             ...action.payload,
           },
         },
@@ -97,10 +97,10 @@ const inputReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        inputDataWorkflows: {
-          ...state.inputDataWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.inputDataWorkflows[workflowProcessDefined],
+            ...state.importDataWorkflows[workflowProcessDefined],
             existingDataId: action.payload.data["id"], //please Gift use id
             statusCode: action.payload.statusCode, //please Gift use id
             success: action.payload.success, //please Gift use id
@@ -114,10 +114,10 @@ const inputReducer = (state = importState, action: IAction) => {
 
       return {
         ...state,
-        inputDataWorkflows: {
-          ...state.inputDataWorkflows,
+        importDataWorkflows: {
+          ...state.importDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.inputDataWorkflows[workflowProcessDefined],
+            ...state.importDataWorkflows[workflowProcessDefined],
             ...action.payload,
           },
         },

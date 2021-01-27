@@ -120,7 +120,7 @@ export default function MatchHeaders({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   //File Headers
   const { fileHeaders } = useSelector(

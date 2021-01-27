@@ -14,7 +14,7 @@ import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
-import { ImportStateType } from "../../Redux/State/ImportStateTypes";
+import { InputStateType } from "../../Redux/State/ImportStateTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingFacilitiesDecks from "./ExistingFacilitiesDecks";
@@ -53,7 +53,7 @@ const FacilitiesInputDeckLanding = () => {
   );
   const { currentWorkflowProcess } = useSelector(
     (state: RootState) => state.workflowReducer
-  ) as { currentWorkflowProcess: ImportStateType["currentWorkflowProcess"] };
+  ) as { currentWorkflowProcess: InputStateType["currentWorkflowProcess"] };
 
   const facilitiesInputLandingData = [
     {

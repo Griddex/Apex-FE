@@ -47,7 +47,7 @@ export default function SelectHeaderUnitData({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const { selectedWorksheetData } = useSelector(
     (state: RootState) =>

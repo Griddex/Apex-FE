@@ -8,7 +8,7 @@ import { INavigationButtonsProp } from "../../../../Application/Components/Navig
 import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
-import { IWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import MatchHeaders from "../Workflows/MatchHeaders";
@@ -46,10 +46,13 @@ const steps = [
   "Preview & Save",
 ];
 
-const ExcelWorkflow = ({ workflowProcess, finalAction }: IWorkflowProcess) => {
+const ExcelWorkflow = ({
+  workflowProcess,
+  finalAction,
+}: IInputWorkflowProcess) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(

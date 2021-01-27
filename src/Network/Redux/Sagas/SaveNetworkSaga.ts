@@ -31,7 +31,7 @@ function* saveNetworkSaga(action: IAction) {
     return currentFacilityWorkflow[0];
   });
   const { inputDeckId: forecastInputDeckId } = yield select(
-    (state) => state.inputReducer["inputDataWorkflows"][workflowProcess]
+    (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
   );
 
   const data = {

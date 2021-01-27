@@ -77,7 +77,7 @@ export default function DeclineCurveParameters({
   const dispatch = useDispatch();
 
   //TODO: API saga to get entire units object from server
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
   const { inputDeckData } = useSelector(
     (state: RootState) =>
       state.networkReducer[workflowCategory][workflowProcess as string]

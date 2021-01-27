@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const { dnDDisabled } = useSelector(
     (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]

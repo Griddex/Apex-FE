@@ -70,9 +70,9 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
       // let newSkipped = new Set<number>();
       // try {
-      //   newSkipped = state["inputDataWorkflows"][workflowProcessDefined]["skipped"] as Set<number>;
+      //   newSkipped = state["importDataWorkflows"][workflowProcessDefined]["skipped"] as Set<number>;
       // } catch (error) {
-      //   state["inputDataWorkflows"][workflowProcessDefined]["skipped"] = new Set<number>();
+      //   state["importDataWorkflows"][workflowProcessDefined]["skipped"] = new Set<number>();
       // }
 
       // if (isStepSkipped && isStepSkipped(activeStep)) {
@@ -81,7 +81,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       // }
 
       // if (activeStep === steps.length - 1) {
-      //   return { ...state["inputDataWorkflows"][workflowProcessDefined] };
+      //   return { ...state["importDataWorkflows"][workflowProcessDefined] };
       // }
       console.log(
         "Logged output --> ~ file: WorkflowReducer.ts ~ line 62 ~ workflowReducer ~ state",
@@ -133,7 +133,8 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         // it should never occur unless someone's actively trying to break something.
         throw new Error("You can't skip a step that isn't optional.");
       }
-      const workflowState = state["inputDataWorkflows"][workflowProcessDefined];
+      const workflowState =
+        state["importDataWorkflows"][workflowProcessDefined];
       const newSkippedSet = new Set(
         workflowState.skipped && workflowState.skipped.values()
       );

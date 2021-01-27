@@ -123,7 +123,7 @@ const EconomicsParameters = ({
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
   const { dnDDisabled } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][workflowProcess as string]

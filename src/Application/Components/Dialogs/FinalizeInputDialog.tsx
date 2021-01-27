@@ -39,7 +39,7 @@ import { GenerateWellheadSummaryNodes } from "./../../../Network/Utils/GenerateW
 import dialogIcons from "../Icons/DialogIcons";
 import { saveInputDeckRequestAction } from "../../../Import/Redux/Actions/ImportActions";
 import { getWorkflowlabel } from "../../../Import/Utils/GetWorkflowLabel";
-import { IWorkflowProcess } from "../Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -154,7 +154,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const { title, show, maxWidth, iconType, workflowProcess } = props;
 
@@ -164,7 +164,7 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const { existingData: inputDeckData, success } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IWorkflowProcess["workflowProcess"]
+        workflowProcess as IInputWorkflowProcess["workflowProcess"]
       ]
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
@@ -174,7 +174,9 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   if (success) {
     enqueueSnackbar(
       `${
-        getWorkflowlabel[workflowProcess as IWorkflowProcess["workflowProcess"]]
+        getWorkflowlabel[
+          workflowProcess as IInputWorkflowProcess["workflowProcess"]
+        ]
       } saved`,
       {
         persist: false,

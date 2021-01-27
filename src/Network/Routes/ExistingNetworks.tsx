@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IExistingDataRow } from "../../Import/Routes/Common/InputLayoutTypes";
@@ -16,7 +16,7 @@ const chartData = [
 export default function ExistingNetworks({
   workflowProcess,
 }: {
-  workflowProcess: IWorkflowProcess["workflowProcess"];
+  workflowProcess: IInputWorkflowProcess["workflowProcess"];
 }) {
   const dispatch = useDispatch();
   const workflowCategory = "existingDataWorkflows";

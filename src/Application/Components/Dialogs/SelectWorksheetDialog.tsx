@@ -140,7 +140,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     workflowProcess,
   } = props;
 
-  const workflowCategory = "inputDataWorkflows";
+  const workflowCategory = "importDataWorkflows";
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) =>
