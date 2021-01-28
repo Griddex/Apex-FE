@@ -10,12 +10,13 @@ import Author from "../../../../Application/Components/Author/Author";
 import Status from "../../../../Application/Components/Status/Status";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IInputWorkflowProcessExtra } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  IExistingDataRow,
+  IExistingDataProps,
+} from "../../../../Application/Types/ApplicationTypes";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
-import { getWorkflowlabel } from "../../../Utils/GetWorkflowLabel";
-import { IExistingDataRow } from "../InputLayoutTypes";
 
 const useStyles = makeStyles(() => ({
   rootExistingData: {
@@ -44,16 +45,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function ExistingDataWorkflow<
+export default function ExistingDataRoute<
   TRow extends IExistingDataRow = IExistingDataRow
 >({
-  workflowProcess,
   snExistingData,
   dataKey,
   dataTitle,
   chartData,
   tableOptions,
-}: IInputWorkflowProcessExtra) {
+}: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 

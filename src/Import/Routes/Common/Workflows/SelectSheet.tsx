@@ -18,6 +18,7 @@ import { useSnackbar } from "notistack";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import formatDate from "../../../../Application/Utils/FormatDate";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,7 +66,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
+const SelectSheet = ({
+  workflowProcess,
+}: {
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -81,12 +86,16 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
     fileCreated,
   } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(
@@ -113,7 +122,7 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
       persistWorksheetAction(
         selectedWorksheetName,
         selectedWorksheetData,
-        workflowProcess as string
+        workflowProcess
       )
     );
   };
@@ -139,7 +148,7 @@ const SelectSheet = ({ workflowProcess }: { workflowProcess: string }) => {
   };
 
   const FileSizeProgressCircle = () => {
-    const fileSizePercent = Math.round((fileSize * 100) / 10485760);
+    const fileSizePercent = Math.round(((fileSize as number) * 100) / 10485760);
     return (
       <Progress
         className={classes.fileSizeProgress}

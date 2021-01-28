@@ -26,6 +26,7 @@ import {
   ITableIconsOptions,
 } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ToTitleCase from "../../Application/Utils/ToTitleCase";
@@ -114,11 +115,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EconomicsParameters = ({
-  workflowProcess,
-}: {
-  workflowProcess: string;
-}) => {
+const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -126,7 +123,9 @@ const EconomicsParameters = ({
   const workflowCategory = "importDataWorkflows";
   const { dnDDisabled } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
   const [economicsDataSource, setEconomicsDataSource] = React.useState(
     "template"

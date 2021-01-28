@@ -15,6 +15,7 @@ import {
   IRawTable,
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
@@ -116,7 +117,7 @@ const getApplicationHeaders = () => {
 export default function MatchHeaders({
   workflowProcess,
 }: {
-  workflowProcess: string;
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -125,7 +126,9 @@ export default function MatchHeaders({
   //File Headers
   const { fileHeaders } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
 
   //Application headers
@@ -201,8 +204,8 @@ export default function MatchHeaders({
 
       const result = Object.keys(fileHeaderMatch).map(
         (applicationHeader: string) => ({
-          value: applicationHeader,
-          label: applicationHeader,
+          value: applicationHeader.toString(),
+          label: applicationHeader.toString(),
         })
       );
 
@@ -215,8 +218,8 @@ export default function MatchHeaders({
       const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
 
       const result = Object.values(fileHeaderMatch).map((score: number) => ({
-        value: score,
-        label: score,
+        value: score.toString(),
+        label: score.toString(),
       }));
 
       return result;

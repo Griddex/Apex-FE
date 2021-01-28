@@ -1,11 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IInputWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IExistingDataRow } from "../../Import/Routes/Common/InputLayoutTypes";
-import ExistingDataWorkflow from "../../Import/Routes/Common/InputWorkflows/ExistingDataWorkflow";
+import {
+  IExistingDataProps,
+  IExistingDataRow,
+} from "../../Application/Types/ApplicationTypes";
+import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
 
 const chartData = [
   { name: "Group A", value: 2400 },
@@ -16,10 +18,10 @@ const chartData = [
 export default function ExistingNetworks({
   workflowProcess,
 }: {
-  workflowProcess: IInputWorkflowProcess["workflowProcess"];
+  workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]>;
 }) {
   const dispatch = useDispatch();
-  const workflowCategory = "existingDataWorkflows";
+  const workflowCategory = "existingDataName";
 
   const { existingData } = useSelector(
     (state: RootState) =>
@@ -64,5 +66,5 @@ export default function ExistingNetworks({
     chartData,
   };
 
-  return <ExistingDataWorkflow {...props} />;
+  return <ExistingDataRoute {...props} />;
 }

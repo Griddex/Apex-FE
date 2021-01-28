@@ -43,14 +43,14 @@ const GenerateNetworkDialogWorkflow = (props: DialogStuff) => {
       case 0:
         return (
           <ExistingFacilitiesDecks
-            workflowProcess="facilitiesInputDeckApproveddeck"
+            workflowProcess="facilitiesInputDeckExisting"
             finalAction={() => {}}
           />
         );
       case 1:
         return (
           <ExistingForecastDecks
-            workflowProcess="forecastInputDeckApproveddeck"
+            workflowProcess="forecastInputDeckExisting"
             finalAction={() => {}}
           />
         );
@@ -68,6 +68,7 @@ const GenerateNetworkDialogWorkflow = (props: DialogStuff) => {
     finalAction: () => dispatch(autoGenerateNetworkRequestAction()),
     workflowProps,
     workflowProcess,
+    workflowCategory,
   };
 
   useEffect(() => {

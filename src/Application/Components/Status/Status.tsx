@@ -17,7 +17,7 @@ const statusColor = (statusText: StatusTextType) => {
   const theme = useTheme();
 
   switch (statusText) {
-    case "Approved":
+    case "Existing":
       return {
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.primary.light,

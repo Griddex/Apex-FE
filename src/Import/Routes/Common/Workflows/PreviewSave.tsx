@@ -11,6 +11,7 @@ import {
   IRawRow,
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { persistTableDataAction } from "../../../Redux/Actions/ImportActions";
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PreviewSave({
   workflowProcess,
 }: {
-  workflowProcess: string;
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -64,7 +65,9 @@ export default function PreviewSave({
     selectedUnitRowIndex,
   } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
 
   const unitsRow = zipObject(
@@ -80,9 +83,10 @@ export default function PreviewSave({
 
   const dataRows = applicationHeadertableData.filter(
     (row: IRawRow, i: number) => {
-      const condition = [selectedHeaderRowIndex, selectedUnitRowIndex].includes(
-        i
-      );
+      const condition = [
+        selectedHeaderRowIndex as number,
+        selectedUnitRowIndex as number,
+      ].includes(i);
 
       if (!condition) return row;
     }

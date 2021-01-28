@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type StatusTextType = "Approved" | "Pending" | "Returned" | string;
+export type StatusTextType = "Existing" | "Pending" | "Returned" | string;
 export interface IForecastDetail {
   titleName: string;
   statusText: StatusTextType;
@@ -115,7 +115,7 @@ const ForecastRunDetail = () => {
   const forecastDetails: Record<string, IForecastDetail> = {
     ForecastRun_1: {
       titleName: "ForecastRun_1",
-      statusText: "Approved",
+      statusText: "Existing",
       author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
       approvers: [
         { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -135,7 +135,7 @@ const ForecastRunDetail = () => {
     },
     ForecastRun_3: {
       titleName: "ForecastRun_1",
-      statusText: "Approved",
+      statusText: "Existing",
       author: { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
       approvers: [
         { avatarUrl: anitaImg, name: "Anita Stragan" },

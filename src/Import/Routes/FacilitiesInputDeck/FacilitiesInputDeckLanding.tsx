@@ -14,11 +14,14 @@ import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
-import { InputStateType } from "../../Redux/State/ImportStateTypes";
+import { InputStateType } from "../../Redux/State/InputStateTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingFacilitiesDecks from "./ExistingFacilitiesDecks";
-import { IdType } from "./FacilitiesInputDeckLandingTypes";
+import {
+  IdType,
+  IFacilitiesLandingData,
+} from "./FacilitiesInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   FacilitiesInputDeckLanding: {
@@ -51,13 +54,13 @@ const FacilitiesInputDeckLanding = () => {
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { currentWorkflowProcess } = useSelector(
-    (state: RootState) => state.workflowReducer
-  ) as { currentWorkflowProcess: InputStateType["currentWorkflowProcess"] };
+  // const { currentWorkflowProcess } = useSelector(
+  //   (state: RootState) => state.workflowReducer
+  // ) as { currentWorkflowProcess: InputStateType["currentWorkflowProcess"] };
 
-  const facilitiesInputLandingData = [
+  const facilitiesInputLandingData: IFacilitiesLandingData[] = [
     {
-      name: "Excel + Plain Text",
+      name: "Excel | Text",
       description: `Import facilities data from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
       icon: (
         <Image
@@ -68,6 +71,7 @@ const FacilitiesInputDeckLanding = () => {
       ),
       route: `${url}/excel`,
       workflowProcess: "facilitiesInputDeckExcel",
+      workflowCategory: "importDataWorkflows",
     },
     {
       name: "Database",
@@ -81,9 +85,10 @@ const FacilitiesInputDeckLanding = () => {
       ),
       route: `${url}/database`,
       workflowProcess: "facilitiesInputDeckDatabase",
+      workflowCategory: "importDataWorkflows",
     },
     {
-      name: `Approved Facilities Data`,
+      name: `Existing Facilities Data`,
       description: `Select a pre-exisiting and approved facilities data stored in the Apex\u2122 database`,
       icon: (
         <Image
@@ -93,7 +98,8 @@ const FacilitiesInputDeckLanding = () => {
         />
       ),
       route: `${url}/approveddeck`,
-      workflowProcess: "facilitiesInputDeckApproveddeck",
+      workflowProcess: "facilitiesInputDeckExisting",
+      workflowCategory: "existingDataCategory",
     },
   ];
 
@@ -101,7 +107,7 @@ const FacilitiesInputDeckLanding = () => {
   //CSS using overlap and z-index
 
   //Paying it back
-  const excelandDbWorkflowFinalAction = () => {
+  const facilitiesExcelandDbWorkflowFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Facilities Deck`,
@@ -136,7 +142,7 @@ const FacilitiesInputDeckLanding = () => {
     dispatch(
       fetchExistingDataRequestAction(
         "facilitiesInputDeck",
-        currentWorkflowProcess
+        "facilitiesInputDeckExisting"
       )
     );
   }, []);
@@ -155,19 +161,21 @@ const FacilitiesInputDeckLanding = () => {
               const facilitiesInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelandDbWorkflowFinalAction}
+                    workflowCategory={"importDataWorkflows"}
+                    workflowProcess={"facilitiesInputDeckExcel"}
+                    finalAction={facilitiesExcelandDbWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelandDbWorkflowFinalAction}
+                    workflowCategory={"importDataWorkflows"}
+                    workflowProcess={"facilitiesInputDeckDatabase"}
+                    finalAction={facilitiesExcelandDbWorkflowFinalAction}
                   />
                 ),
                 approveddeck: (
                   <ExistingFacilitiesDecks
-                    workflowProcess={currentWorkflowProcess}
+                    workflowProcess={"facilitiesInputDeckExisting"}
                     finalAction={existingDataFinalAction}
                   />
                 ),
@@ -180,7 +188,14 @@ const FacilitiesInputDeckLanding = () => {
       ) : (
         <div className={classes.FacilitiesInputDeckLanding}>
           {facilitiesInputLandingData.map((module) => {
-            const { icon, name, description, route, workflowProcess } = module;
+            const {
+              icon,
+              name,
+              description,
+              route,
+              workflowProcess,
+              workflowCategory,
+            } = module;
             return (
               <ModuleCard
                 key={name}
@@ -190,6 +205,7 @@ const FacilitiesInputDeckLanding = () => {
                 Icon={icon}
                 route={route}
                 workflowProcess={workflowProcess}
+                workflowCategory={workflowCategory}
               />
             );
           })}

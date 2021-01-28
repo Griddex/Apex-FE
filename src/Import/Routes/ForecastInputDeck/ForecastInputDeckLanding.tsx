@@ -14,9 +14,13 @@ import MSExcel from "../../Images/MSExcel.svg";
 import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 import ExistingForecastDecks from "./ExistingForecastDecks";
-import { IdType, IForecastDeckRow } from "./ForecastInputDeckLandingTypes";
+import {
+  IdType,
+  IForecastDeckRow,
+  IForecastLandingData,
+} from "./ForecastInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   ForecastInputDeckLanding: {
@@ -53,9 +57,9 @@ const ForecastInputDeckLanding = () => {
     (state: RootState) => state.workflowReducer
   );
 
-  const forecastInputLandingData = [
+  const forecastInputLandingData: IForecastLandingData[] = [
     {
-      name: "Excel + Plain Text",
+      name: "Excel | Text",
       description: `Import forecast input deck from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
       icon: (
         <Image
@@ -66,6 +70,7 @@ const ForecastInputDeckLanding = () => {
       ),
       route: `${url}/excel`,
       workflowProcess: "forecastInputDeckExcel",
+      workflowCategory: "importDataWorkflows",
     },
     {
       name: "Database",
@@ -79,10 +84,11 @@ const ForecastInputDeckLanding = () => {
       ),
       route: `${url}/database`,
       workflowProcess: "forecastInputDeckDatabase",
+      workflowCategory: "importDataWorkflows",
     },
     {
-      // name: `Approved Name`,
-      name: `Approved Forecast Input Deck`,
+      // name: `Existing Name`,
+      name: `Existing Forecast Input Deck`,
       description: `Select a pre-exisiting and approved forecast input deck stored in the Apex\u2122 database`,
       icon: (
         <Image
@@ -92,7 +98,8 @@ const ForecastInputDeckLanding = () => {
         />
       ),
       route: `${url}/approveddeck`,
-      workflowProcess: "forecastInputDeckApproveddeck",
+      workflowProcess: "forecastInputDeckExisting",
+      workflowCategory: "existingDataCategory",
     },
   ];
 
@@ -134,19 +141,21 @@ const ForecastInputDeckLanding = () => {
               const forecastInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    workflowCategory={"importDataWorkflows"}
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
+                    workflowCategory={"importDataWorkflows"}
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
                 approveddeck: (
                   <ExistingForecastDecks
-                    workflowProcess={currentWorkflowProcess}
+                    workflowProcess={"forecastInputDeckExisting"}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
@@ -159,7 +168,14 @@ const ForecastInputDeckLanding = () => {
       ) : (
         <div className={classes.ForecastInputDeckLanding}>
           {forecastInputLandingData.map((module) => {
-            const { icon, name, description, route, workflowProcess } = module;
+            const {
+              icon,
+              name,
+              description,
+              route,
+              workflowProcess,
+              workflowCategory,
+            } = module;
             return (
               <ModuleCard
                 key={name}
@@ -169,6 +185,7 @@ const ForecastInputDeckLanding = () => {
                 Icon={icon}
                 route={route}
                 workflowProcess={workflowProcess}
+                workflowCategory={workflowCategory}
               />
             );
           })}

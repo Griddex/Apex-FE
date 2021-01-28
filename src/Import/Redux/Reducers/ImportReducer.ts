@@ -1,3 +1,4 @@
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   EXISTINGDATA_FAILURE,
@@ -25,7 +26,7 @@ import {
   SAVEINPUTDECK_SUCCESS,
   SAVEINPUTDECK_FAILURE,
 } from "../Actions/ImportActions";
-import InputState from "../State/ImportState";
+import InputState from "../State/InputState";
 
 const inputReducer = (state = InputState, action: IAction) => {
   switch (action.type) {
@@ -48,7 +49,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     case PERSIST_DEFINEDTABLEDATA:
     case PERSIST_TABLEHEADERS: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
 
       return {
         ...state,
@@ -63,14 +64,14 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case EXISTINGDATA_SUCCESS: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
 
       return {
         ...state,
-        existingDataWorkflows: {
-          ...state.existingDataWorkflows,
+        existingDataName: {
+          ...state.existingDataName,
           [workflowProcessDefined]: {
-            ...state.existingDataWorkflows[workflowProcessDefined],
+            ...state.existingDataName[workflowProcessDefined],
             ...action.payload,
           },
         },
@@ -78,14 +79,14 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case EXISTINGDATA_FAILURE: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
 
       return {
         ...state,
-        existingDataWorkflows: {
-          ...state.existingDataWorkflows,
+        existingDataName: {
+          ...state.existingDataName,
           [workflowProcessDefined]: {
-            ...state.existingDataWorkflows[workflowProcessDefined],
+            ...state.existingDataName[workflowProcessDefined],
             ...action.payload.existingData,
           },
         },
@@ -93,7 +94,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case SAVEINPUTDECK_SUCCESS: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
 
       return {
         ...state,
@@ -110,7 +111,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case SAVEINPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
 
       return {
         ...state,

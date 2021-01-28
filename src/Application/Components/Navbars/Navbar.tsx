@@ -3,6 +3,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Divider,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -80,6 +81,11 @@ const useStyles = makeStyles((theme) => ({
   userExpandMoreIcon: { marginRight: theme.spacing(2) },
   userBadge: { marginRight: theme.spacing(4), marginTop: theme.spacing(1) },
   userTypography: { marginRight: theme.spacing(1) },
+  roleTypography: {
+    // marginRight: theme.spacing(1),
+    marginLeft: 5,
+    color: theme.palette.grey[500],
+  },
 }));
 
 const Navbar = () => {
@@ -89,6 +95,7 @@ const Navbar = () => {
 
   const { expandMainDrawer, showNavbar } = layoutProps;
   const username = faker.name.findName();
+  const role = "Corporate Forecaster";
   const userinitials = GetInitials(username);
   const { projectName } = useSelector(
     (state: RootState) => state.projectReducer
@@ -155,6 +162,15 @@ const Navbar = () => {
                 >
                   {username}
                 </Typography>
+                <Typography>{"|"}</Typography>
+                <Typography
+                  className={classes.roleTypography}
+                  variant="subtitle1"
+                  color="inherit"
+                >
+                  {role}
+                </Typography>
+
                 <ExpandMoreIcon className={classes.userExpandMoreIcon} />
               </div>
             </UserProfilePopover>

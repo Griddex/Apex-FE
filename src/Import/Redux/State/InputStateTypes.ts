@@ -1,5 +1,5 @@
-import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IExistingDataRow } from "../../Routes/Common/InputLayoutTypes";
+import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
 
 export interface IImportState {
   fileLastModified: string;
@@ -57,7 +57,7 @@ export interface IImportState {
 }
 
 export interface InputStateType {
-  currentWorkflowProcess: IInputWorkflowProcess["workflowProcess"];
+  currentWorkflowProcess: IImportWorkflowProcess["workflowProcess"];
   importDataWorkflows: Record<string, IImportState>;
-  existingDataWorkflows: Record<string, IExistingDataRow[]>;
+  existingDataName: Record<string, IExistingDataRow[]>;
 }

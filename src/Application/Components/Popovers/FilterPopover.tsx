@@ -10,6 +10,7 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -79,7 +80,9 @@ const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
     const classes = useStyles();
     const { fileHeaders } = useSelector(
       (state: RootState) =>
-        state.inputReducer["importDataWorkflows"][workflowProcess as string]
+        state.inputReducer["importDataWorkflows"][
+          workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        ]
     );
 
     return (

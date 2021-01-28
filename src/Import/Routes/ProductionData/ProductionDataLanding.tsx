@@ -18,6 +18,7 @@ import ExistingProductionData from "./ExistingProductionData";
 import {
   IdType,
   IProductionDataLandingWorkflows,
+  IProductionLandingData,
 } from "./ProductionDataLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +56,7 @@ const ProductionDataLanding = () => {
     (state: RootState) => state.workflowReducer
   );
 
-  const productionLandingData = [
+  const productionLandingData: IProductionLandingData[] = [
     {
       name: "Excel",
       description: `Utilize production data by connecting to Microsoft Excel`,
@@ -68,6 +69,7 @@ const ProductionDataLanding = () => {
       ),
       route: `${url}/productionexcel`,
       workflowProcess: "productionInputDataExcel",
+      workflowCategory: "importDataWorkflows",
     },
     {
       name: "Database",
@@ -81,10 +83,11 @@ const ProductionDataLanding = () => {
       ),
       route: `${url}/productiondatabase`,
       workflowProcess: "productionInputDataDatabase",
+      workflowCategory: "importDataWorkflows",
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Approved Production Data`,
+      name: `Existing Production Data`,
       description: `Select pre-exisiting and approved production data from your database`,
       icon: (
         <Image
@@ -94,7 +97,8 @@ const ProductionDataLanding = () => {
         />
       ),
       route: `${url}/approveddata`,
-      workflowProcess: "productionInputDataApproved",
+      workflowProcess: "productionInputDataExisting",
+      workflowCategory: "existingDataCategory",
     },
   ];
 
@@ -133,12 +137,15 @@ const ProductionDataLanding = () => {
               const inputProductionDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    workflowCategory={"importDataWorkflows"}
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
+                //Work on this, not really importing but connecting
                 database: (
                   <DatabaseWorkflow
+                    workflowCategory={"importDataWorkflows"}
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
@@ -158,7 +165,14 @@ const ProductionDataLanding = () => {
       ) : (
         <div className={classes.ProductionDataLanding}>
           {productionLandingData.map((module) => {
-            const { icon, name, description, route, workflowProcess } = module;
+            const {
+              icon,
+              name,
+              description,
+              route,
+              workflowProcess,
+              workflowCategory,
+            } = module;
             return (
               <ModuleCard
                 key={name}
@@ -168,6 +182,7 @@ const ProductionDataLanding = () => {
                 Icon={icon}
                 route={route}
                 workflowProcess={workflowProcess}
+                workflowCategory={workflowCategory}
               />
             );
           })}

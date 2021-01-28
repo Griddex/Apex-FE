@@ -1,21 +1,21 @@
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SkipNextOutlinedIcon from "@material-ui/icons/SkipNextOutlined";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   workflowBackAction,
   workflowNextAction,
   workflowResetAction,
   workflowSkipAction,
 } from "../../Redux/Actions/WorkflowActions";
-import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
+import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { INavigationButtonsProp } from "./NavigationButtonTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +55,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     workflowProcess,
     workflowCategory,
   } = props;
+
   const classes = useStyles(props);
   const dispatch = useDispatch();
 
@@ -78,8 +79,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             dispatch(
               workflowResetAction(
                 0,
-                workflowProcess as string,
-                workflowCategory as string
+                workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+                workflowCategory as IAllWorkflowProcesses["workflowCategory"]
               )
             )
           }
@@ -100,8 +101,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             dispatch(
               workflowBackAction(
                 activeStep,
-                workflowProcess as string,
-                workflowCategory as string
+                workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+                workflowCategory as IAllWorkflowProcesses["workflowCategory"]
               )
             )
           }
@@ -123,8 +124,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
               workflowSkipAction(
                 isStepOptional,
                 activeStep,
-                workflowProcess as string,
-                workflowCategory as string
+                workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+                workflowCategory as IAllWorkflowProcesses["workflowCategory"]
               )
             )
           }
@@ -141,10 +142,6 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           variant="outlined"
           color="primary"
           onClick={() => {
-            console.log(
-              "Logged output --> ~ file: NavigationButtons.tsx ~ line 135 ~ steps",
-              steps
-            );
             activeStep === steps.length - 1
               ? finalAction && finalAction()
               : workflowNextAction &&
@@ -155,8 +152,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
                     activeStep,
                     steps,
                     "Loading...",
-                    workflowProcess as string,
-                    workflowCategory as string
+                    workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+                    workflowCategory as IAllWorkflowProcesses["workflowCategory"]
                   )
                 );
           }}
@@ -178,4 +175,4 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
   );
 };
 
-export default NavigationButtons;
+export default React.memo(NavigationButtons);

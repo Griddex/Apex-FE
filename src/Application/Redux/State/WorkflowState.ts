@@ -1,14 +1,15 @@
+import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
 import { IWorkflowState } from "./WorkflowStateTypes";
 
-const projectWorkflowNames = ["newProjectDialogWorkflow"];
+const projectWorkflowProcesses = ["newProjectDialogWorkflow"];
 const generateProjectWorkflowState = () => {
-  return projectWorkflowNames.reduce((acc, workflowName: string) => {
+  return projectWorkflowProcesses.reduce((acc, workflowProcess) => {
     const initialSkipped = new Set<number>();
     initialSkipped.add(50);
 
     return {
       ...acc,
-      [workflowName]: {
+      [workflowProcess]: {
         steps: [],
         activeStep: 0,
         skipped: initialSkipped,
@@ -24,37 +25,28 @@ const generateProjectWorkflowState = () => {
   }, {});
 };
 
-const inputWorkflowNames = [
+const inputWorkflowProcesses = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
-  "facilitiesInputDeckApproveddeck",
 
   "forecastInputDeckExcel",
   "forecastInputDeckDatabase",
-  "forecastInputDeckApproveddeck",
 
   "productionInputDataExcel",
   "productionInputDataDatabase",
-  "productionInputDataApproved",
 
   "economicsInputDataExcel",
   "economicsInputDataDatabase",
   "economicsInputDataManual", //Manual is from approved table (+New)
-  "economicsInputDataApproved",
-
-  "networkGeneration",
-
-  "economicsAnalyses",
-  "economicsParameterImportWorkflow",
 ];
 const generateInputWorkflowState = () => {
-  return inputWorkflowNames.reduce((acc, workflowName: string) => {
+  return inputWorkflowProcesses.reduce((acc, workflowProcess) => {
     const initialSkipped = new Set<number>();
     initialSkipped.add(50);
 
     return {
       ...acc,
-      [workflowName]: {
+      [workflowProcess]: {
         steps: [],
         activeStep: 0,
         skipped: initialSkipped,
@@ -70,18 +62,18 @@ const generateInputWorkflowState = () => {
   }, {});
 };
 
-const networkWorkflowNames = [
+const networkWorkflowProcesses = [
   "networkGeneration",
   "saveForecastParametersWorkflow",
 ];
 const generateNetworkWorkflowState = () => {
-  return networkWorkflowNames.reduce((acc, workflowName: string) => {
+  return networkWorkflowProcesses.reduce((acc, workflowProcess) => {
     const initialSkipped = new Set<number>();
     initialSkipped.add(50);
 
     return {
       ...acc,
-      [workflowName]: {
+      [workflowProcess]: {
         steps: [],
         activeStep: 0,
         skipped: initialSkipped,
@@ -97,15 +89,19 @@ const generateNetworkWorkflowState = () => {
   }, {});
 };
 
-const economicsWorkflowNames = ["economicsGenerationWorkflow"];
+const economicsWorkflowNames = [
+  "economicsAnalyses",
+  "economicsParameterImportWorkflow",
+  "economicsGenerationWorkflow",
+];
 const generateEconomicsWorkflowState = () => {
-  return economicsWorkflowNames.reduce((acc, workflowName: string) => {
+  return economicsWorkflowNames.reduce((acc, workflowProcess) => {
     const initialSkipped = new Set<number>();
     initialSkipped.add(50);
 
     return {
       ...acc,
-      [workflowName]: {
+      [workflowProcess]: {
         steps: [],
         activeStep: 0,
         skipped: initialSkipped,
@@ -127,10 +123,10 @@ const networkState = generateNetworkWorkflowState();
 const economicsState = generateEconomicsWorkflowState();
 const workflowState: IWorkflowState = {
   currentWorkflowProcess: "",
-  projectDataWorkflows: { ...projectState },
-  importDataWorkflows: { ...inputState },
-  networkDataWorkflows: { ...networkState },
-  economicsDataWorkflows: { ...economicsState },
+  projectDataWorkflows: projectState,
+  importDataWorkflows: inputState,
+  networkDataWorkflows: networkState,
+  economicsDataWorkflows: economicsState,
 };
 
 export default workflowState;

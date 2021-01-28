@@ -6,6 +6,7 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../Application/Components/Workflows/WorkflowStepper";
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Import/Components/SelectDatabase";
@@ -100,7 +101,7 @@ const NetCashFlowWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const workflowCategory = "economicsDataWorkflows";
-  const workflowProcess = "netCashFlowWorkflow";
+  const workflowProcess = "netCashAnalysisWorkflow";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -166,6 +167,14 @@ const NetCashFlowWorkflow = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  const props: {
+    workflowCategory: IAllWorkflowProcesses["workflowCategory"];
+    workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  } = {
+    workflowCategory,
+    workflowProcess,
+  };
+
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
@@ -173,9 +182,7 @@ const NetCashFlowWorkflow = () => {
       case 1:
         return <EconomicCosts />;
       case 2:
-        return (
-          <EconomicsParameters workflowProcess="netCashAnalysisWorkflow" />
-        );
+        return <EconomicsParameters {...props} />;
       case 3:
         return <EconomicsCalculations />;
       default:
@@ -192,6 +199,7 @@ const NetCashFlowWorkflow = () => {
     finalAction: () => console.log("hi"),
     workflowProps,
     workflowProcess,
+    workflowCategory,
   };
 
   return (

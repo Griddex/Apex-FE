@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../Application/Components/Basic/AnalyticsComp";
-import { hideSpinnerAction } from "../Application/Redux/Actions/UISpinnerActions";
 import { updateProjectAction } from "./Redux/Actions/ProjectActions";
 import { INewProjectWorkflowProps } from "./Redux/State/ProjectStateTypes";
 
@@ -57,7 +56,6 @@ const NewProjectNameAndDescription = ({
   touched,
   handleChange,
 }: INewProjectWorkflowProps) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleBlur = (event: ChangeEvent<any>) => {

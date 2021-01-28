@@ -1,3 +1,4 @@
+import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
 import {
   SET_WORKFLOWPROCESS,
   INITIALIZE_WORKFLOW,
@@ -24,7 +25,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case INITIALIZE_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
       const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
 
       return {
@@ -46,7 +47,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case RESET_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
       const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
 
       return {
@@ -63,10 +64,14 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case NEXT_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
-      const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
+      console.log(
+        "Logged output --> ~ file: WorkflowReducer.ts ~ line 66 ~ workflowReducer ~ action.payload",
+        action.payload
+      );
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
+      const moduleWorkflowDefined = workflowCategory as IAllWorkflowProcesses["workflowCategory"];
 
-      const { activeStep, steps } = action.payload;
+      // const { activeStep, steps } = action.payload;
 
       // let newSkipped = new Set<number>();
       // try {
@@ -105,7 +110,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case BACK_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
       const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
 
       return {
@@ -124,7 +129,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case SKIP_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as string;
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
       const moduleWorkflowDefined = workflowCategory as keyof IWorkflowState;
       const { isStepOptional, activeStep } = action.payload;
 

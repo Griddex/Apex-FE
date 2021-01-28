@@ -1,5 +1,6 @@
-import { Node, Edge } from "react-flow-renderer";
 import { FormikErrors, FormikTouched } from "formik";
+import { Edge, Node } from "react-flow-renderer";
+import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
 
 //NetworkModel
 export interface ISaveNetworkFormValues {
@@ -74,6 +75,9 @@ export interface ICurrentPopoverData {
     | Record<string, React.Key>
     | Record<string, React.Key>[];
 }
+
+export type NetworkWorkflowProcessesType = "networkExisting";
+
 export interface INetworkState extends ISaveNetworkFormProps {
   currentElement: number | string | Record<string, React.Key>;
   currentPopoverId: string;
@@ -88,11 +92,13 @@ export interface INetworkState extends ISaveNetworkFormProps {
     | "showTerminalDetails";
   showWellheadSummaryNodes: boolean;
   showWellheadSummaryEdges: boolean;
-  saveForecastParameters: ISaveForecastParametersFormValues;
 
   isNetworkSaved: boolean;
   statusCode: number;
   message: string;
   error: { message: string };
   success: false;
+
+  saveForecastParameters: ISaveForecastParametersFormValues;
+  existingDataWorkflow: Record<NetworkWorkflowProcessesType, IExistingDataRow>;
 }

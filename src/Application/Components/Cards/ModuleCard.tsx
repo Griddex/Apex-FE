@@ -9,6 +9,8 @@ import { useHistory } from "react-router-dom";
 import { workflowSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { showContextDrawerAction } from "../../Redux/Actions/LayoutActions";
 import { setWorkflowProcessAction } from "../../Redux/Actions/WorkflowActions";
+import { IExistingDataProps } from "../../Types/ApplicationTypes";
+import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
 const cardWidth = 250;
 const useStyles = makeStyles((theme) => ({
@@ -59,8 +61,12 @@ interface IModuleCardProps {
   name: string;
   description: string;
   route: string;
-  workflowProcess: string;
-  workflowCategory: string;
+  workflowProcess:
+    | IAllWorkflowProcesses["workflowProcess"]
+    | IExistingDataProps["workflowProcess"];
+  workflowCategory:
+    | IAllWorkflowProcesses["workflowCategory"]
+    | IExistingDataProps["workflowCategory"];
 }
 
 const ModuleCard: React.FC<IModuleCardProps> = (props) => {

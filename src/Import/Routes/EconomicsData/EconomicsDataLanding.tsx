@@ -8,18 +8,13 @@ import Image from "../../../Application/Components/Visuals/Image";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
-import Input from "../../Images/Input.svg";
 import MSExcel from "../../Images/MSExcel.svg";
+import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
-import {
-  IdType,
-  IEconomicsDataLandingWorkflows,
-} from "./EconomicsDataLandingTypes";
-import ExistingDeck from "../../Images/ExistingDeck.svg";
-import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
+import { IdType, IEconomicsLandingData } from "./EconomicsDataLandingTypes";
 import ExistingEconomicsParametersDecks from "./ExistingEconomicsParametersDecks";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +52,7 @@ const EconomicsDataLanding = () => {
     (state: RootState) => state.workflowReducer
   );
 
-  const economicsLandingData = [
+  const economicsLandingData: IEconomicsLandingData[] = [
     {
       name: "Excel",
       description: `Utilize economics data by connecting to Microsoft Excel`,
@@ -103,7 +98,7 @@ const EconomicsDataLanding = () => {
     // },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Approved Economics Data`,
+      name: `Existing Economics Data`,
       description: `Select a pre-exisiting and approved economics data stored in the Apex\u2122 database`,
       icon: (
         <Image
@@ -113,7 +108,7 @@ const EconomicsDataLanding = () => {
         />
       ),
       route: `${url}/approveddata`,
-      workflowProcess: "economicsInputDataApproved",
+      workflowProcess: "economicsInputDataExisting",
       workflowCategory: "economicsDataWorkflows",
     },
   ];
@@ -156,12 +151,14 @@ const EconomicsDataLanding = () => {
               const inputEconomicsDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    workflowCategory={"economicsDataWorkflows"}
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
+                    workflowCategory={"economicsDataWorkflows"}
                     workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />

@@ -9,6 +9,7 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { ActionType } from "@redux-saga/types";
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export default function* watchRunForecastSaga() {
   yield takeLatest<ActionType>(RUN_FORECAST_REQUEST, runForecastSaga);
@@ -20,7 +21,9 @@ function* runForecastSaga(action: IAction) {
 
   const { inputDeckData } = yield select(
     (state) =>
-      state.inputReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer["importDataWorkflows"][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
   const data = inputDeckData;
   const config = { headers: null };

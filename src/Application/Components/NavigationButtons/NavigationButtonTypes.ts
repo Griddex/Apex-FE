@@ -1,4 +1,5 @@
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
+import { IAllWorkflowProcesses } from "./../Workflows/WorkflowTypes";
 
 export interface INavigationButtonsProp {
   mainNav: boolean;
@@ -8,5 +9,6 @@ export interface INavigationButtonsProp {
   showNext?: boolean;
   finalAction?: () => void;
   workflowProps?: IWorkflowProcessState;
-  workflowProcess?: string;
+  workflowProcess?: IAllWorkflowProcesses["workflowProcess"];
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"];
 }

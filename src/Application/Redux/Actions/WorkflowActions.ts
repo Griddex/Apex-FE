@@ -1,3 +1,6 @@
+import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
+import { IExistingDataProps } from "../../Types/ApplicationTypes";
+
 export const SET_WORKFLOWPROCESS = "SET_WORKFLOWPROCESS";
 export const INITIALIZE_WORKFLOW = "INITIALIZE_WORKFLOW";
 export const RESET_WORKFLOW = "RESET_WORKFLOW";
@@ -8,8 +11,12 @@ export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 export const SETUP_WORKFLOW = "SETUP_WORKFLOW";
 
 export const setWorkflowProcessAction = (
-  workflowProcess: string,
-  workflowCategory: string
+  workflowProcess:
+    | IAllWorkflowProcesses["workflowProcess"]
+    | IExistingDataProps["workflowProcess"],
+  workflowCategory:
+    | IAllWorkflowProcesses["workflowCategory"]
+    | IExistingDataProps["workflowCategory"]
 ) => {
   return {
     type: SET_WORKFLOWPROCESS,
@@ -24,8 +31,8 @@ export const workflowInitAction = (
   steps: string[],
   isStepOptional: (activeStep: number) => boolean,
   isStepSkipped: (step: number) => boolean,
-  workflowProcess: string,
-  workflowCategory: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
 ) => {
   return {
     type: INITIALIZE_WORKFLOW,
@@ -41,8 +48,8 @@ export const workflowInitAction = (
 
 export const workflowResetAction = (
   activeStep: number,
-  workflowProcess: string,
-  workflowCategory: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
 ) => {
   return {
     type: RESET_WORKFLOW,
@@ -60,8 +67,8 @@ export const workflowNextAction = (
   activeStep: number,
   steps: string[],
   message: string,
-  workflowProcess: string,
-  workflowCategory: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
 ) => {
   return {
     type: NEXT_WORKFLOW,
@@ -79,8 +86,8 @@ export const workflowNextAction = (
 
 export const workflowBackAction = (
   activeStep: number,
-  workflowProcess: string,
-  workflowCategory: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
 ) => {
   return {
     type: BACK_WORKFLOW,
@@ -95,8 +102,8 @@ export const workflowBackAction = (
 export const workflowSkipAction = (
   isStepOptional: (activeStep: number) => boolean,
   activeStep: number,
-  workflowProcess: string,
-  workflowCategory: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
 ) => {
   return {
     type: SKIP_WORKFLOW,
@@ -110,8 +117,8 @@ export const workflowSkipAction = (
 };
 
 export const workflowSaveAction = (
-  workflowProcess: string,
-  workflowCategory: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
 ) => {
   return {
     type: SAVE_WORKFLOW,
@@ -123,8 +130,8 @@ export const workflowSaveAction = (
 };
 
 export const setUpWorkflowAction = (
-  workflowProcess: string,
-  workflowCategory: string,
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
+  workflowCategory: IAllWorkflowProcesses["workflowCategory"],
   name: string
 ) => {
   return {

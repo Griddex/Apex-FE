@@ -4,23 +4,21 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles, fade } from "@material-ui/core/styles";
+import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
 import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
-import InfoIcon from "@material-ui/icons/Info";
 import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import WarningIcon from "@material-ui/icons/Warning";
 import { groupBy } from "lodash";
 import { useSnackbar } from "notistack";
-import React, { ReactNode } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { saveInputDeckRequestAction } from "../../../Import/Redux/Actions/ImportActions";
+import { getInputWorkflowlabel } from "../../../Import/Utils/GetInputWorkflowLabel";
 import ConnectFlowstationsToTerminal from "../../../Network/Utils/ConnectFlowstationsToTerminal";
 import ConnectManifoldsToStations from "../../../Network/Utils/ConnectManifoldsToStations";
 import ConnectWellheadsToManifolds from "../../../Network/Utils/ConnectWellheadsToManifolds";
@@ -33,13 +31,13 @@ import GenerateWellheadNodes from "../../../Network/Utils/GenerateWellheadNodes"
 import SplitFlowstationsGasFacilities from "../../../Network/Utils/SplitFlowstationsGasFacilities";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import { ButtonProps, DialogStuff } from "./DialogTypes";
+import AnalyticsComp from "../Basic/AnalyticsComp";
+import dialogIcons from "../Icons/DialogIcons";
+import { IImportWorkflowProcess } from "../Workflows/WorkflowTypes";
 import { persistNetworkElementsAction } from "./../../../Network/Redux/Actions/NetworkActions";
 import { GenerateWellheadSummaryNodes } from "./../../../Network/Utils/GenerateWellheadSummaryNodes";
-import dialogIcons from "../Icons/DialogIcons";
-import { saveInputDeckRequestAction } from "../../../Import/Redux/Actions/ImportActions";
-import { getWorkflowlabel } from "../../../Import/Utils/GetWorkflowLabel";
-import { IInputWorkflowProcess } from "../Workflows/WorkflowTypes";
+import { ButtonProps, DialogStuff } from "./DialogTypes";
+import DialogCancelButton from "./../DialogButtons/DialogCancelButton";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -58,10 +56,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
-    // backgroundColor: (props) => props.iconColor,
-    // color: (props: DialogStuff) => {
-    //   return props.iconColor;
-    // },
   },
   dialogTitle: {
     display: "flex",
@@ -71,9 +65,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
   },
   closeButton: {
-    // position: "absolute",
-    // right: theme.spacing(1),
-    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
@@ -86,7 +77,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
-    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
   dialogContent: {
@@ -149,23 +139,30 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
+const FinalizeInputDialog = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const workflowCategory = "importDataWorkflows";
+  // const workflowCategory = "importDataWorkflows";
 
-  const { title, show, maxWidth, iconType, workflowProcess } = props;
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    workflowProcess,
+    workflowCategory,
+  } = props;
 
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
-  const { existingData: inputDeckData, success } = useSelector(
+  const { inputDeckData, success } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IInputWorkflowProcess["workflowProcess"]
-      ]
+      state.inputReducer[
+        workflowCategory as IImportWorkflowProcess["workflowCategory"]
+      ][workflowProcess as IImportWorkflowProcess["workflowProcess"]]
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
     (state: RootState) => state.networkReducer
@@ -174,8 +171,8 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   if (success) {
     enqueueSnackbar(
       `${
-        getWorkflowlabel[
-          workflowProcess as IInputWorkflowProcess["workflowProcess"]
+        getInputWorkflowlabel[
+          workflowProcess as IImportWorkflowProcess["workflowProcess"]
         ]
       } saved`,
       {
@@ -318,47 +315,29 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     ];
 
     return (
-      <div className={classes.dialogContent}>
-        {buttonsData.map((button, i) => (
-          <Button
-            key={i}
-            variant={button.variant}
-            color={button.color}
-            onClick={button.handleAction}
-            startIcon={button.startIcon}
-          >
-            {button.title}
-          </Button>
-          // <div>
-
-          // </div>
-        ))}
+      <div>
+        <div>
+          <AnalyticsComp
+            title="Selected Facilities Deck"
+            direction="Vertical"
+            content={<Typography>{}</Typography>}
+          />
+        </div>
+        <div className={classes.dialogContent}>
+          {buttonsData.map((button, i) => (
+            <Button
+              key={i}
+              variant={button.variant}
+              color={button.color}
+              onClick={button.handleAction}
+              startIcon={button.startIcon}
+            >
+              {button.title}
+            </Button>
+          ))}
+        </div>
       </div>
     );
-  };
-
-  const ManageDeckDialogActions = () => {
-    const buttonsData: ButtonProps[] = [
-      {
-        title: "Cancel",
-        variant: "outlined",
-        color: "secondary",
-        startIcon: <CloseOutlinedIcon />,
-        handleAction: () => dispatch(hideDialogAction()),
-      },
-    ];
-
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        onClick={button.handleAction}
-        startIcon={button.startIcon}
-      >
-        {button.title}
-      </Button>
-    ));
   };
 
   return (
@@ -378,7 +357,9 @@ const FinalizeInputDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         {ManageDeckDialogContent()}
         <Divider />
       </DialogContent>
-      <DialogActions>{ManageDeckDialogActions()}</DialogActions>
+      <DialogActions>
+        {DialogCancelButton(false, () => ({ type: "Hi" }))}
+      </DialogActions>
     </Dialog>
   );
 };

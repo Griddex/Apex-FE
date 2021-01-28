@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import NewProjectDialog from "../../Application/Components/Dialogs/NewProjectDialog";
-import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -64,7 +63,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
   );
-  const finalAction = () => {
+  const finalAction = React.useCallback(() => {
     dispatch(
       createNewProjectAction(
         projectName,
@@ -77,7 +76,16 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
         failureDialogParameters
       )
     );
-  };
+  }, [
+    projectName,
+    projectDescription,
+    dayFormat,
+    monthFormat,
+    yearFormat,
+    pressureAddend,
+    successDialogParameters,
+    failureDialogParameters,
+  ]);
 
   const navigationButtonProps: INavigationButtonsProp = {
     mainNav: false,
@@ -85,14 +93,13 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction: finalAction,
+    finalAction,
     workflowProps,
     workflowProcess,
+    workflowCategory,
   };
 
   useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
     dispatch(
       workflowInitAction(
         steps,
@@ -102,7 +109,6 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
         workflowCategory
       )
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (

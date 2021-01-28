@@ -13,6 +13,7 @@ import {
   IRawTable,
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import AddSerialNumberToTable from "../../../../Application/Utils/AddSerialNumberToTable";
@@ -43,7 +44,7 @@ const useStyles = makeStyles(() => ({
 export default function SelectHeaderUnitData({
   workflowProcess,
 }: {
-  workflowProcess: string;
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -51,7 +52,9 @@ export default function SelectHeaderUnitData({
 
   const { selectedWorksheetData } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
 
   //Generate actual ColumnHeaders

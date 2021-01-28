@@ -1,6 +1,4 @@
-import { IExistingDataRow } from "../../../Import/Routes/Common/InputLayoutTypes";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
-import { ITableIconsOptions } from "./../Table/ReactDataGrid/ApexGridTypes";
 
 export interface IWorkflowBannerProps {
   activeStep: number;
@@ -17,37 +15,53 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
   workflowData?: any;
 }
 
-export interface IInputWorkflowProcess {
+export interface IProjectWorkflowProcess {
+  workflowProcess: "newProjectDialogWorkflow" | "";
+  workflowCategory: "projectDataWorkflows";
+  finalAction?: () => void;
+  finalIcon?: JSX.Element;
+  finalText?: string;
+}
+export interface IImportWorkflowProcess {
   workflowProcess:
     | "facilitiesInputDeckExcel"
     | "facilitiesInputDeckDatabase"
-    | "facilitiesInputDeckApproveddeck"
     | "forecastInputDeckExcel"
     | "forecastInputDeckDatabase"
-    | "forecastInputDeckApproveddeck"
     | "productionInputDataExcel"
     | "productionInputDataDatabase"
-    | "productionInputDataApproved"
     | "economicsInputDataExcel"
     | "economicsInputDataDatabase"
     | "economicsInputDataManual"
-    | "economicsInputDataApproved"
-    // | "networkApproved"
-    // | "networkGeneration"
-    // | "economicsAnalyses"
-    // | "economicsParameterImportWorkflow"
-    // | "economicsParameters"
-    // | "netCashAnalysisWorkflow"
-    // | "saveForecastParametersWorkflow"
     | "";
-  finalAction?: () => void;
+  workflowCategory: "importDataWorkflows";
 }
-export interface IInputWorkflowProcessExtra extends IInputWorkflowProcess {
-  // finalAction: () => void;
-  // finalActionButtonText: string;
-  snExistingData?: IExistingDataRow[];
-  dataKey?: string;
-  dataTitle?: string;
-  chartData?: Record<string, React.Key>[];
-  tableOptions?: ITableIconsOptions;
+export interface INetworkWorkflowProcess {
+  workflowProcess: "networkGeneration" | "saveForecastParametersWorkflow" | "";
+  workflowCategory: "networkDataWorkflows";
+}
+export interface IEconomicsWorkflowProcess {
+  workflowProcess:
+    | "economicsAnalyses"
+    | "economicsParameterImportWorkflow"
+    | "economicsParameters"
+    | "netCashAnalysisWorkflow"
+    | "";
+  workflowCategory: "economicsDataWorkflows";
+}
+
+export interface IAllWorkflowProcesses {
+  workflowProcess:
+    | IProjectWorkflowProcess["workflowProcess"]
+    | IImportWorkflowProcess["workflowProcess"]
+    | INetworkWorkflowProcess["workflowProcess"]
+    | IEconomicsWorkflowProcess["workflowProcess"];
+  workflowCategory:
+    | IProjectWorkflowProcess["workflowCategory"]
+    | IImportWorkflowProcess["workflowCategory"]
+    | INetworkWorkflowProcess["workflowCategory"]
+    | IEconomicsWorkflowProcess["workflowCategory"];
+  finalAction?: () => void;
+  finalIcon?: JSX.Element;
+  finalText?: string;
 }

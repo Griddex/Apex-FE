@@ -1,5 +1,6 @@
 import { ActionType } from "@redux-saga/types";
 import { call, put, select, takeLatest } from "redux-saga/effects";
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -23,7 +24,9 @@ function* saveForecastParametersSaga(action: IAction) {
 
   const { inputDeckData } = yield select(
     (state) =>
-      state.inputReducer["importDataWorkflows"][workflowProcess as string]
+      state.inputReducer["importDataWorkflows"][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
   const data = inputDeckData;
   const config = { headers: null };

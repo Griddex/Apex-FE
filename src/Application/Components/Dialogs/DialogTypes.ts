@@ -12,6 +12,7 @@ import GenerateNetworkDialogWorkflow from "../../../Network/Workflows/GenerateNe
 import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
+import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import FinalizeInputDialog from "./FinalizeInputDialog";
 import ListDialog from "./ListDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
@@ -78,9 +79,10 @@ export interface DialogStuff {
   classes?: Record<string, string>;
   dialogData?: IDialogData<IRawRow>;
   children?: JSX.Element | JSX.Element[];
-  workflowProcess?: string;
   dialogContentStyle?: CSSProperties;
   dialogActionsStyle?: CSSProperties;
+  workflowProcess?: IAllWorkflowProcesses["workflowProcess"];
+  workflowCategory?: IAllWorkflowProcesses["workflowCategory"];
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

@@ -1,10 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IExistingDataRow } from "../Common/InputLayoutTypes";
-import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import {
+  IExistingDataProps,
+  IExistingDataRow,
+} from "../../../Application/Types/ApplicationTypes";
+import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -17,10 +19,10 @@ export default function ExistingForecastDecks({
   workflowProcess,
   finalAction,
 }: {
-  workflowProcess: IInputWorkflowProcess["workflowProcess"];
+  workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]>;
   finalAction: () => void;
 }) {
-  const workflowCategory = "existingDataWorkflows";
+  const workflowCategory = "existingDataName";
 
   const { existingData } = useSelector(
     (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
@@ -64,5 +66,5 @@ export default function ExistingForecastDecks({
     chartData,
   };
 
-  return <ExistingDataWorkflow {...props} />;
+  return <ExistingDataRoute {...props} />;
 }

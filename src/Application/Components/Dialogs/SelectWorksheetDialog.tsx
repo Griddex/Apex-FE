@@ -31,6 +31,7 @@ import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import dialogIcons from "../Icons/DialogIcons";
+import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -138,17 +139,22 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     iconType,
     contentList,
     workflowProcess,
+    workflowCategory,
   } = props;
 
-  const workflowCategory = "importDataWorkflows";
+  const workflowCategoryDefined = workflowCategory as IAllWorkflowProcesses["workflowCategory"];
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess as string]
+      state.workflowReducer[workflowCategoryDefined][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer["importDataWorkflows"][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
@@ -169,7 +175,11 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                 onClick={() => {
                   setSelectedListItem(name);
                   dispatch(
-                    persistWorksheetAction(name, [], workflowProcess as string)
+                    persistWorksheetAction(
+                      name,
+                      [],
+                      workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+                    )
                   );
                 }}
               >
@@ -202,7 +212,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       persistWorksheetAction(
         selectedWorksheetName,
         selectedWorksheetData,
-        workflowProcess as string
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
       )
     );
     dispatch(
@@ -212,8 +222,8 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         activeStep,
         steps,
         "Loading",
-        workflowProcess as string,
-        workflowCategory as string
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+        workflowCategory as IAllWorkflowProcesses["workflowCategory"]
       )
     );
     dispatch(hideDialogAction());

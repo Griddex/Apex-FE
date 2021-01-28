@@ -9,6 +9,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
@@ -71,7 +72,7 @@ const existingData = [
 export default function DeclineCurveParameters({
   workflowProcess,
 }: {
-  workflowProcess: string;
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -80,7 +81,9 @@ export default function DeclineCurveParameters({
   const workflowCategory = "importDataWorkflows";
   const { inputDeckData } = useSelector(
     (state: RootState) =>
-      state.networkReducer[workflowCategory][workflowProcess as string]
+      state.networkReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
 
   const declineCurveList: Omit<

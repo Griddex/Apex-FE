@@ -1,10 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IExistingDataRow } from "../Common/InputLayoutTypes";
-import ExistingDataWorkflow from "../Common/InputWorkflows/ExistingDataWorkflow";
+import {
+  IExistingDataProps,
+  IExistingDataRow,
+} from "../../../Application/Types/ApplicationTypes";
+import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -17,10 +20,10 @@ export default function ExistingEconomicsParametersDecks({
   workflowProcess,
   finalAction,
 }: {
-  workflowProcess: IInputWorkflowProcess["workflowProcess"];
+  workflowProcess: IImportWorkflowProcess["workflowProcess"];
   finalAction: () => void;
 }) {
-  const workflowCategory = "existingDataWorkflows";
+  const workflowCategory = "existingDataName";
   const { existingData } = useSelector(
     (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
   );
@@ -50,14 +53,14 @@ export default function ExistingEconomicsParametersDecks({
   const dataKey = "title";
   const dataTitle = "ECONOMIC PARAMETERS TITLE";
 
-  const props = {
-    workflowProcess,
+  const props: IExistingDataProps = {
     snExistingData,
     dataKey,
     dataTitle,
-    tableOptions,
     chartData,
+    tableOptions,
   };
 
-  return <ExistingDataWorkflow {...props} />;
+  return <ExistingDataRoute {...props} />;
+  // return <div>Hello</div>;
 }

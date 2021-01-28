@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
   },
   userName: { fontWeight: "bold" },
   userLogout: {
-    border: `2px solid ${theme.palette.secondary.main}`,
-    color: `${theme.palette.secondary.main}`,
+    // border: `2px solid ${theme.palette.secondary.main}`,
+    // color: `${theme.palette.secondary.main}`,
     fontWeight: "bold",
     width: 70,
     alignSelf: "center",
@@ -132,8 +132,9 @@ const UserProfile = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        width: "100%",
+        width: 220,
         height: "auto",
+        borderRadius: 10,
       }}
     >
       <div className={classes.userProfile}>
@@ -141,7 +142,7 @@ const UserProfile = () => {
         <Typography className={classes.userName}>
           {userProfileData.name}
         </Typography>
-        <Typography>{userProfileData.email}</Typography>
+        <Typography variant="caption">{userProfileData.email}</Typography>
       </div>
       <div
         style={{
@@ -185,6 +186,8 @@ const UserProfile = () => {
         </div>
         <Button
           className={classes.userLogout}
+          variant="contained"
+          color="secondary"
           size="small"
           onClick={logoutDecision}
         >

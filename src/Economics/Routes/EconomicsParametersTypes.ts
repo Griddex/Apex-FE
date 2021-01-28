@@ -1,7 +1,7 @@
 import { IApprover } from "../../Application/Components/Approvers/ApproversTypes";
 import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 
-export type StatusTextType = "Approved" | "Pending" | "Returned" | string;
+export type StatusTextType = "Existing" | "Pending" | "Returned" | string;
 
 export interface IForecastDetail {
   titleName: string;

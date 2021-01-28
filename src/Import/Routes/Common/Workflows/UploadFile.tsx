@@ -7,6 +7,7 @@ import React from "react";
 import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
+const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const workflowCategory = "importDataWorkflows";
@@ -149,7 +150,8 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
                 maxWidth: "sm",
                 iconType: "select",
                 contentList: workSheetNames,
-                workflowProcess: workflowProcess,
+                workflowProcess,
+                workflowCategory,
               };
               dispatch(showDialogAction(dialogParameters));
             } else {
@@ -169,12 +171,13 @@ const UploadFile = ({ workflowProcess }: { workflowProcess: string }) => {
               );
               dispatch(
                 workflowNextAction(
-                  skipped,
-                  isStepSkipped,
+                  skipped as Set<number>,
+                  isStepSkipped as (step: number) => boolean,
                   activeStep,
                   steps,
                   "Loading...",
-                  workflowProcess as string
+                  workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+                  workflowCategory as IAllWorkflowProcesses["workflowCategory"]
                 )
               );
             }

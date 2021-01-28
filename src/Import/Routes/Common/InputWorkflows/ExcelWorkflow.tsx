@@ -1,4 +1,3 @@
-import { useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +7,10 @@ import { INavigationButtonsProp } from "../../../../Application/Components/Navig
 import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
-import { IInputWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  IImportWorkflowProcess,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import MatchHeaders from "../Workflows/MatchHeaders";
@@ -47,12 +49,13 @@ const steps = [
 ];
 
 const ExcelWorkflow = ({
+  workflowCategory,
   workflowProcess,
   finalAction,
-}: IInputWorkflowProcess) => {
+}: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "importDataWorkflows";
+  // const workflowCategory = "importDataWorkflows";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -105,41 +108,46 @@ const ExcelWorkflow = ({
         steps,
         isStepOptional,
         isStepSkipped,
-        workflowProcess as string,
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"],
         workflowCategory
       )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  const props = {
+    workflowCategory,
+    workflowProcess,
+  };
+
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <UploadFile workflowProcess={workflowProcess as string} />;
+        return <UploadFile {...props} />;
       case 1:
-        return <SelectSheet workflowProcess={workflowProcess as string} />;
+        return <SelectSheet {...props} />;
       case 2:
         return (
           <TabsWrapper>
-            <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
+            <SelectHeaderUnitData {...props} />
           </TabsWrapper>
         );
       case 3:
         return (
           <TabsWrapper>
-            <MatchHeaders workflowProcess={workflowProcess as string} />
+            <MatchHeaders {...props} />
           </TabsWrapper>
         );
       case 4:
         return (
           <TabsWrapper>
-            <MatchUnits workflowProcess={workflowProcess as string} />
+            <MatchUnits {...props} />
           </TabsWrapper>
         );
       case 5:
         return (
           <TabsWrapper>
-            <PreviewSave workflowProcess={workflowProcess as string} />
+            <PreviewSave {...props} />
           </TabsWrapper>
         );
       default:
@@ -156,6 +164,7 @@ const ExcelWorkflow = ({
     finalAction,
     workflowProps,
     workflowProcess,
+    workflowCategory,
   };
 
   return (

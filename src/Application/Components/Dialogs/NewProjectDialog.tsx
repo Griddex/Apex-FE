@@ -95,6 +95,7 @@ const NewProjectDialog = (props: DialogStuff & INavigationButtonsProp) => {
     finalAction,
     workflowProps,
     workflowProcess,
+    workflowCategory,
   } = props;
 
   return (
@@ -117,7 +118,17 @@ const NewProjectDialog = (props: DialogStuff & INavigationButtonsProp) => {
         {children && children}
       </DialogContent>
       <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
-        <NavigationButtons {...props} />
+        <NavigationButtons
+          mainNav={mainNav}
+          showReset={showReset}
+          showBack={showBack}
+          showSkip={showSkip}
+          showNext={showNext}
+          finalAction={finalAction}
+          workflowProps={workflowProps}
+          workflowProcess={workflowProcess}
+          workflowCategory={workflowCategory}
+        />
       </DialogActions>
     </Dialog>
   );

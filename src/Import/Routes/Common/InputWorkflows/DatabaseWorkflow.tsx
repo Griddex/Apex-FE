@@ -1,9 +1,4 @@
-import Button from "@material-ui/core/Button";
-import { fade, makeStyles } from "@material-ui/core/styles";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
@@ -11,15 +6,11 @@ import NavigationButtons from "../../../../Application/Components/NavigationButt
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
-import { IInputWorkflowProcess } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
-  workflowBackAction,
-  workflowInitAction,
-  workflowNextAction,
-  workflowResetAction,
-  workflowSaveAction,
-  workflowSkipAction,
-} from "../../../../Application/Redux/Actions/WorkflowActions";
+  IAllWorkflowProcesses,
+  IImportWorkflowProcess,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Components/SelectDatabase";
 import ConnectDatabase from "../Workflows/ConnectDatabase";
@@ -37,32 +28,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     padding: 0,
   },
-  button: {
-    marginRight: theme.spacing(1),
-  },
-  workflowHeaderRow: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: "5%",
-    margin: 0,
-    "& > *": { height: "60%" },
-  },
-  workflowBanner: {
-    display: "flex",
-    justifyContent: "center",
-    width: 54,
-    margin: 0,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-    "& > *": { fontWeight: "bold" },
-  },
-  workflowBannerHeader: {
-    display: "flex",
-    flexGrow: 1,
-    marginLeft: 6,
-    "& > *": { fontWeight: "bold" },
-  },
   workflowBody: {
     display: "flex",
     flexDirection: "row",
@@ -70,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
     justifyContent: "center", //around, between
-    // justifyContent: "space-evenly", //around, between
   },
   workflowDatabasePanel: {
     display: "flex",
@@ -84,23 +48,6 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
   },
   workflowContent: { height: "100%", width: "90%" },
-  navigationbuttons: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    "& > *": {
-      border: `2px solid`,
-      boxShadow: theme.shadows[2],
-    },
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
 }));
 
 const steps = [
@@ -112,10 +59,14 @@ const steps = [
   "Preview & Save",
 ];
 
-const DatabaseWorkflow = ({ workflowProcess }: IInputWorkflowProcess) => {
+const DatabaseWorkflow = ({
+  workflowCategory,
+  workflowProcess,
+  finalAction,
+}: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "importDataWorkflows";
+  // const workflowCategory = "importDataWorkflows";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -176,29 +127,32 @@ const DatabaseWorkflow = ({ workflowProcess }: IInputWorkflowProcess) => {
         steps,
         isStepOptional,
         isStepSkipped,
-        workflowProcess as string,
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"],
         workflowCategory
       )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  const props = {
+    workflowCategory,
+    workflowProcess,
+  };
+
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <ConnectDatabase workflowProcess={workflowProcess as string} />;
+        return <ConnectDatabase {...props} />;
       case 1:
-        return <UploadFile workflowProcess={workflowProcess as string} />;
+        return <UploadFile {...props} />;
       case 2:
-        return (
-          <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
-        );
+        return <SelectHeaderUnitData {...props} />;
       case 3:
-        return <MatchHeaders workflowProcess={workflowProcess as string} />;
+        return <MatchHeaders {...props} />;
       case 4:
-        return <MatchUnits workflowProcess={workflowProcess as string} />;
+        return <MatchUnits {...props} />;
       case 5:
-        return <PreviewSave workflowProcess={workflowProcess as string} />;
+        return <PreviewSave {...props} />;
       default:
         return <h1>No view</h1>;
     }
@@ -213,6 +167,7 @@ const DatabaseWorkflow = ({ workflowProcess }: IInputWorkflowProcess) => {
     finalAction: () => console.log("DatabaseWorkflow"),
     workflowProps,
     workflowProcess,
+    workflowCategory,
   };
 
   return (

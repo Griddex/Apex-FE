@@ -1,3 +1,5 @@
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+
 export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
 export const PERSIST_FILE = "PERSIST_FILE";
 export const PERSIST_WORKSHEETNAMES = "PERSIST_WORKSHEETNAMES";
@@ -43,7 +45,7 @@ export const importFileInitAction = (
   fileAccepted: boolean,
   dnDDisabled: boolean,
   message: string,
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: IMPORTFILE_INITIALIZATION,
@@ -63,7 +65,10 @@ export const importFileInitAction = (
   };
 };
 
-export const persistFileAction = (file: any, workflowProcess: string) => {
+export const persistFileAction = (
+  file: any,
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+) => {
   return {
     type: PERSIST_FILE,
     payload: { inputFile: file, workflowProcess },
@@ -72,7 +77,7 @@ export const persistFileAction = (file: any, workflowProcess: string) => {
 
 export const persistWorksheetNamesAction = (
   workSheetNames: string[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_WORKSHEETNAMES,
@@ -83,7 +88,7 @@ export const persistWorksheetNamesAction = (
 export const persistWorksheetAction = (
   selectedWorksheetName: string,
   selectedWorksheetData: Record<string, React.Key>[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_WORKSHEET,
@@ -94,7 +99,7 @@ export const persistWorksheetAction = (
 export const persistFileHeadersAction = (
   selectedHeaderRowIndex: number,
   fileHeaders: string[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_FILEHEADERS,
@@ -104,7 +109,7 @@ export const persistFileHeadersAction = (
 
 export const persistFileHeadersMatchAction = (
   fileHeadersMatch: Record<string, number>[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_FILEHEADERSMATCH,
@@ -113,7 +118,7 @@ export const persistFileHeadersMatchAction = (
 };
 export const persistChosenApplicationHeadersIndicesAction = (
   chosenApplicationHeadersIndices: Record<string, number>,
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
@@ -122,7 +127,7 @@ export const persistChosenApplicationHeadersIndicesAction = (
 };
 export const persistChosenApplicationUniqueUnitIndicesAction = (
   chosenApplicationUniqueUnitIndices: Record<string, number>,
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
@@ -144,7 +149,7 @@ export const persistFileUnitsAndUniqueUnitsAction = (
     | Record<string, React.Key>
     | Record<string, React.Key>[]
   )[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_FILEUNITSANDUNIQUEUNITS,
@@ -159,7 +164,7 @@ export const persistFileUnitsAndUniqueUnitsAction = (
 
 export const persistFileUnitsMatchAction = (
   fileUnitsMatch: Record<string, number>[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_FILEUNITSMATCH,
@@ -169,7 +174,7 @@ export const persistFileUnitsMatchAction = (
 
 export const persistChosenApplicationHeadersAction = (
   chosenApplicationHeaders: string[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERS,
@@ -178,7 +183,7 @@ export const persistChosenApplicationHeadersAction = (
 };
 export const persistChosenApplicationUnitsAction = (
   chosenApplicationUnits: string[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITS,
@@ -188,7 +193,7 @@ export const persistChosenApplicationUnitsAction = (
 
 export const persistTableRoleNamesAction = (
   tableRoleNames: string[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_TABLEROLENAMES,
@@ -198,7 +203,7 @@ export const persistTableRoleNamesAction = (
 
 export const persistTableDataAction = (
   tableData: Record<string, React.Key>[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_TABLEDATA,
@@ -208,7 +213,7 @@ export const persistTableDataAction = (
 
 export const persistColumnNameTableDataAction = (
   columnNameTableData: Record<string, React.Key>[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_COLUMNNAMETABLEDATA,
@@ -217,7 +222,7 @@ export const persistColumnNameTableDataAction = (
 };
 export const persistDefinedTableDataAction = (
   inputDeckData: Record<string, React.Key>[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_DEFINEDTABLEDATA,
@@ -227,7 +232,7 @@ export const persistDefinedTableDataAction = (
 
 export const persistTableHeadersAction = (
   tableHeaders: string[],
-  workflowProcess: string
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) => {
   return {
     type: PERSIST_TABLEHEADERS,

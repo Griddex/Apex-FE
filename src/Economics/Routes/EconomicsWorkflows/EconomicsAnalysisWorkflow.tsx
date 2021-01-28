@@ -178,7 +178,10 @@ const EconomicsAnalysisWorkflow = () => {
         return <EconomicCosts />;
       case 2:
         return (
-          <EconomicsParameters workflowProcess="economicsParameterImportWorkflow" />
+          <EconomicsParameters
+            workflowProcess="economicsParameterImportWorkflow"
+            workflowCategory="economicsDataWorkflows"
+          />
         );
       case 3:
         return <EconomicsCalculations />;

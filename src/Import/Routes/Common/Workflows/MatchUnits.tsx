@@ -16,6 +16,7 @@ import {
   ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
@@ -89,7 +90,7 @@ const getApplicationUnits = () => {
 export default function MatchUnits({
   workflowProcess,
 }: {
-  workflowProcess: string;
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -97,7 +98,9 @@ export default function MatchUnits({
 
   const { fileUnits, fileUniqueUnits } = useSelector(
     (state: RootState) =>
-      state.inputReducer[workflowCategory][workflowProcess as string]
+      state.inputReducer[workflowCategory][
+        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+      ]
   );
 
   //Application headers
@@ -183,8 +186,8 @@ export default function MatchUnits({
       const unitMatch = keyedFileUnitMatches[fileUnit];
 
       const result = Object.keys(unitMatch).map((applicationUnit: string) => ({
-        value: applicationUnit,
-        label: applicationUnit,
+        value: applicationUnit.toString(),
+        label: applicationUnit.toString(),
       }));
 
       return result;
@@ -206,8 +209,8 @@ export default function MatchUnits({
       const fileUnitMatch = keyedFileUnitMatches[fileUnit];
 
       const result = Object.values(fileUnitMatch).map((score: number) => ({
-        value: score,
-        label: score,
+        value: score.toString(),
+        label: score.toString(),
       }));
 
       return result;

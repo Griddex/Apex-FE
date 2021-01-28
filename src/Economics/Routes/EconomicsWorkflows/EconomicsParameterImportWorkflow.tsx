@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import SelectWorksheetDialog from "../../../Application/Components/Dialogs/SelectWorksheetDialog";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
+import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../Application/Components/Workflows/WorkflowStepper";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -26,6 +28,7 @@ import MatchUnits from "../../../Import/Routes/Common/Workflows/MatchUnits";
 import PreviewSave from "../../../Import/Routes/Common/Workflows/PreviewSave";
 import SelectHeaderUnitData from "../../../Import/Routes/Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../../Import/Routes/Common/Workflows/SelectSheet";
+import { IAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,14 +121,13 @@ const stepsMultiSheet = [
   "Preview & Save",
 ];
 
-const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
+const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
   const workflowCategory = "economicsDataWorkflows";
   const workflowProcess = "economicsParameterImportWorkflow";
 
-  const { dialogText } = props;
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -168,9 +170,15 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
     errorSteps: [],
   };
 
+  const workflowProps = {
+    activeStep,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  };
+
   useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
     dispatch(
       workflowInitAction(
         steps,
@@ -180,23 +188,28 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
         workflowCategory
       )
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
+
+  const props: {
+    workflowCategory: IAllWorkflowProcesses["workflowCategory"];
+    workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  } = {
+    workflowCategory,
+    workflowProcess,
+  };
 
   function renderSingleSheetWorkflow(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <SelectSheet workflowProcess={workflowProcess as string} />;
+        return <SelectSheet {...props} />;
       case 1:
-        return (
-          <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
-        );
+        return <SelectHeaderUnitData {...props} />;
       case 2:
-        return <MatchHeaders workflowProcess={workflowProcess as string} />;
+        return <MatchHeaders {...props} />;
       case 3:
-        return <MatchUnits workflowProcess={workflowProcess as string} />;
+        return <MatchUnits {...props} />;
       case 4:
-        return <PreviewSave workflowProcess={workflowProcess as string} />;
+        return <PreviewSave {...props} />;
       default:
         return <h1>End</h1>;
     }
@@ -205,25 +218,37 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
   function renderMultiSheetWorkflow(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return (
-          <SelectWorksheetDialog workflowProcess={workflowProcess as string} />
-        );
+        return <SelectWorksheetDialog {...props} />;
       case 1:
-        return <SelectSheet workflowProcess={workflowProcess as string} />;
+        return <SelectSheet {...props} />;
       case 2:
-        return (
-          <SelectHeaderUnitData workflowProcess={workflowProcess as string} />
-        );
+        return <SelectHeaderUnitData {...props} />;
       case 3:
-        return <MatchHeaders workflowProcess={workflowProcess as string} />;
+        return <MatchHeaders {...props} />;
       case 4:
-        return <MatchUnits workflowProcess={workflowProcess as string} />;
+        return <MatchUnits {...props} />;
       case 5:
-        return <PreviewSave workflowProcess={workflowProcess as string} />;
+        return <PreviewSave {...props} />;
       default:
         return <h1>End</h1>;
     }
   }
+
+  const finalAction = () => {
+    console.log("Economics Parameter Import");
+  };
+
+  const navigationButtonProps: INavigationButtonsProp = {
+    mainNav: true,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
+    finalAction,
+    workflowProps,
+    workflowProcess,
+    workflowCategory,
+  };
 
   const renderWorkflow =
     dialogText === "singleSheetFile"
@@ -239,62 +264,7 @@ const EconomicsParameterImportWorkflow = (props: DialogStuff) => {
           {() => <WorkflowStepper {...WorkflowStepperProps} />}
         </ContextDrawer>
       )}
-      <div className={classes.navigationbuttons}>
-        <RotateLeftIcon
-          onClick={() =>
-            dispatch(workflowResetAction(0, workflowProcess, workflowCategory))
-          }
-        />
-        <ArrowBackIosIcon
-          onClick={() =>
-            dispatch(
-              workflowBackAction(activeStep, workflowProcess, workflowCategory)
-            )
-          }
-        />
-        <Button
-          className={classes.button}
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            const dialogParameters: DialogStuff = {
-              name: "Manage_Deck_Dialog",
-              title: `Manage ${subModuleName}`,
-              type: "finalizeInputDialog",
-              show: true,
-              exclusive: true,
-              maxWidth: "sm",
-              iconType: "information",
-            };
-
-            activeStep === steps.length - 1
-              ? dispatch(showDialogAction(dialogParameters))
-              : dispatch(
-                  workflowNextAction(
-                    skipped,
-                    isStepSkipped,
-                    activeStep,
-                    steps,
-                    "Loading...",
-                    workflowProcess,
-                    workflowCategory
-                  )
-                );
-          }}
-        >
-          {activeStep === steps.length - 1 ? (
-            <div className={classes.buttonContent}>
-              <DoneAllIcon />
-              <Typography>{"Finalize"}</Typography>
-            </div>
-          ) : (
-            <div className={classes.buttonContent}>
-              <ArrowForwardIosIcon />
-              <Typography>{"Next"}</Typography>
-            </div>
-          )}
-        </Button>
-      </div>
+      <NavigationButtons {...navigationButtonProps} />
     </div>
   );
 };

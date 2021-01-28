@@ -31,6 +31,18 @@ const networkState: INetworkState = {
   error: { message: "" },
   success: false,
   data: [],
+
+  existingDataWorkflow: {
+    networkExisting: {
+      status: "",
+      title: "",
+      description: "",
+      author: { avatarUrl: "", name: "" },
+      approvers: [],
+      createdOn: "",
+      modifiedOn: "",
+    },
+  },
 };
 
 export default networkState;

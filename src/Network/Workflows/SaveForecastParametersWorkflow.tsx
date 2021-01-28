@@ -77,6 +77,7 @@ const SaveForecastParametersWorkflow = (props: DialogStuff) => {
     showNext: true,
     finalAction: finalAction,
     workflowProcess,
+    workflowCategory,
   };
 
   return (

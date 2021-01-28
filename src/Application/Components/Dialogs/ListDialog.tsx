@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import dialogIcons from "../Icons/DialogIcons";
+import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -157,7 +158,11 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                 onClick={() => {
                   setSelectedListItem(name);
                   dispatch(
-                    persistWorksheetAction(name, [], workflowProcess as string)
+                    persistWorksheetAction(
+                      name,
+                      [],
+                      workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+                    )
                   );
                 }}
               >

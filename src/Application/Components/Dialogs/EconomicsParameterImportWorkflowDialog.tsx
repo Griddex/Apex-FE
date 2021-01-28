@@ -1,4 +1,4 @@
-import { Button, Divider } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -7,13 +7,13 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import EconomicsParameterImportWorkflow from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import dialogIcons from "../Icons/DialogIcons";
-import { ButtonProps, DialogStuff } from "./DialogTypes";
+import DialogCancelButton from "./../DialogButtons/DialogCancelButton";
+import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -32,10 +32,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
-    // backgroundColor: (props) => props.iconColor,
-    // color: (props: DialogStuff) => {
-    //   return props.iconColor;
-    // },
   },
   dialogTitle: {
     display: "flex",
@@ -45,9 +41,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
   },
   closeButton: {
-    // position: "absolute",
-    // right: theme.spacing(1),
-    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
@@ -60,7 +53,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
-    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
@@ -113,30 +105,6 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
 
-  const economicsParameterImportDialogActions = () => {
-    const buttonsData: ButtonProps[] = [
-      {
-        title: "Cancel",
-        variant: "contained",
-        color: "secondary",
-        startIcon: <CloseOutlinedIcon />,
-        handleAction: () => dispatch(hideDialogAction()),
-      },
-    ];
-
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        startIcon={button.startIcon}
-        onClick={button.handleAction}
-      >
-        {button.title}
-      </Button>
-    ));
-  };
-
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
@@ -151,10 +119,12 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         <div>{title}</div>
       </DialogTitle>
       <DialogContent dividers>
-        <EconomicsParameterImportWorkflow />
+        <EconomicsParameterImportWorkflow {...props} />
         <Divider />
       </DialogContent>
-      <DialogActions>{economicsParameterImportDialogActions()}</DialogActions>
+      <DialogActions>
+        {DialogCancelButton(false, () => ({ type: "Final" }))}
+      </DialogActions>
     </Dialog>
   );
 };

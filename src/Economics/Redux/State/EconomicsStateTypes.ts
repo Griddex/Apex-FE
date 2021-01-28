@@ -7,10 +7,11 @@ export type IEconomicsWorkflowProcessesType =
   | "economicsParameterImportWorkflow"
   | "economicsParameters"
   | "netCashAnalysisWorkflow"
-  | "saveForecastParametersWorkflow";
+  | "saveForecastParametersWorkflow"
+  | "";
 
 export interface EconomicsStateType {
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   importDataWorkflows: Record<string, IEconomicsState>;
-  existingDataWorkflows: Record<string, IEconomicsState[]>;
+  existingDataName: Record<string, IEconomicsState[]>;
 }

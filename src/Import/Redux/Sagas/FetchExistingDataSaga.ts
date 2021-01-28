@@ -1,11 +1,15 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import {
+  IExistingDataProps,
+  IExistingDataRow,
+} from "../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../Application/Utils/FormatDate";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingDataDialogParameters";
-import { IExistingDataRow } from "../../Routes/Common/InputLayoutTypes";
 import {
   anitaImg,
   glenImg,
@@ -23,17 +27,17 @@ export default function* watchFetchExistingDataSaga() {
   yield takeLatest(EXISTINGDATA_REQUEST, fetchExistingDataSaga);
 }
 
-function getInsert(workflowProcess: string) {
+function getInsert(workflowProcess: IExistingDataProps["workflowProcess"]) {
   switch (workflowProcess) {
-    case "facilitiesInputDeckApproveddeck":
+    case "facilitiesInputDeckExisting":
       return "FACILITIES";
-    case "forecastInputDeckApproveddeck":
+    case "forecastInputDeckExisting":
       return "FORECAST";
-    case "economicsInputDataApproved":
+    case "economicsInputDataExisting":
       return "ECONOMICS";
-    case "productionInputDataApproved":
+    case "productionInputDataExisting":
       return "PRODUCTION";
-    case "networkApproved":
+    case "networkExisting":
       return "NETWORK";
     default:
       break;
@@ -42,15 +46,8 @@ function getInsert(workflowProcess: string) {
 
 function* fetchExistingDataSaga(action: IAction) {
   const { payload } = action;
-  const { dataType, workflowProcess } = payload;
-  console.log(
-    "Logged output --> ~ file: FetchExistingDataSaga.ts ~ line 46 ~ function*fetchExistingDataSaga ~ workflowProcess",
-    workflowProcess
-  );
-  console.log(
-    "Logged output --> ~ file: FetchExistingDataSaga.ts ~ line 46 ~ function*fetchExistingDataSaga ~ dataType",
-    dataType
-  );
+  const { dataType, workflowCategory, workflowProcess } = payload;
+
   //use dataType to tell backend what data you are looking for
   const config = { headers: null };
   const fetchExistingDataAPI = (url: string) => authService.get(url, config);
@@ -68,7 +65,7 @@ function* fetchExistingDataSaga(action: IAction) {
     const insert = getInsert(workflowProcess);
     const existingData: IExistingDataRow[] = [
       {
-        status: "Approved",
+        status: "Existing",
         title: `ARPR_${insert}_DECK 2020`,
         author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
         description: "Description 1",
@@ -108,10 +105,6 @@ function* fetchExistingDataSaga(action: IAction) {
       },
     ];
 
-    console.log(
-      "Logged output --> ~ file: FetchExistingDataSaga.ts ~ line 64 ~ function*fetchExistingDataSaga ~ existingData",
-      existingData
-    );
     const successAction = fetchExistingDataSuccessAction();
     yield put({
       ...successAction,
@@ -134,5 +127,5 @@ function* fetchExistingDataSaga(action: IAction) {
     yield put(showDialogAction(failureDialogParameters));
   }
 
-  // yield put(hideSpinnerAction());
+  yield put(hideSpinnerAction());
 }

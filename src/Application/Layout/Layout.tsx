@@ -47,16 +47,14 @@ const Layout = () => {
   React.useEffect(() => {
     //Boostrap recent projects
     dispatch(
-      fetchExistingDataRequestAction("A", "facilitiesInputDeckApproveddeck")
+      fetchExistingDataRequestAction("A", "facilitiesInputDeckExisting")
     );
+    dispatch(fetchExistingDataRequestAction("A", "forecastInputDeckExisting"));
+    dispatch(fetchExistingDataRequestAction("A", "economicsInputDataExisting"));
     dispatch(
-      fetchExistingDataRequestAction("A", "forecastInputDeckApproveddeck")
+      fetchExistingDataRequestAction("A", "productionInputDataExisting")
     );
-    dispatch(fetchExistingDataRequestAction("A", "economicsInputDataApproved"));
-    dispatch(
-      fetchExistingDataRequestAction("A", "productionInputDataApproved")
-    );
-    dispatch(fetchExistingDataRequestAction("A", "networkApproved"));
+    dispatch(fetchExistingDataRequestAction("A", "networkExisting"));
     // dispatch(fetchRecentProjectsAction(failureDialogParameters));
     dispatch(fetchUnitSettingsAction());
     //Boostrap User details
