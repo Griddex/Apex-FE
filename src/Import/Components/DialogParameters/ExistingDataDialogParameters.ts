@@ -12,7 +12,7 @@ export const successDialogParameters: DialogStuff = {
   maxWidth: "xs",
   dialogText: "Existing Data Retrieval Successful",
   iconType: "success",
-  actionsList: () => DialogOkayButton(true, unloadDialogsAction),
+  actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 };
 
@@ -25,7 +25,6 @@ export const failureDialogParameters: DialogStuff = {
   maxWidth: "xs",
   dialogText: "Existing Data Retrieval failure",
   iconType: "error",
-  actionsList: () => DialogCancelButton(false, unloadDialogsAction),
-  // actionsList: () => DialogCancelButton(),
+  actionsList: () => DialogCancelButton([true], [true], [unloadDialogsAction]),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 };

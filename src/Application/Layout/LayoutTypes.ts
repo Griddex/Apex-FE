@@ -26,6 +26,7 @@ export type GenericObjectSType = Record<string, string>;
 export type GenericArraySType = GenericObjectSType[];
 
 export interface IFinalAction {
-  executeFinalAction: boolean;
-  finalAction: () => IAction;
+  shouldExecute: boolean[];
+  shouldDispatch: boolean[];
+  finalActions: (() => IAction | void)[];
 }

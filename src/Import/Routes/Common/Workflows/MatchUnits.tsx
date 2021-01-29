@@ -251,7 +251,7 @@ export default function MatchUnits({
     };
 
     const columns: Column<IRawRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true },
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "actions",
         name: "Actions",
@@ -263,13 +263,13 @@ export default function MatchUnits({
             <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
           </div>
         ),
+        width: 100,
       },
       {
         key: "fileUnit",
         name: "FILE UNIT",
         editable: false,
         resizable: true,
-        width: 250,
       },
       {
         key: "applicationUnit",
@@ -317,7 +317,6 @@ export default function MatchUnits({
             </select>
           );
         },
-        width: 250,
       },
       {
         key: "unitClassification",
@@ -336,13 +335,14 @@ export default function MatchUnits({
             menuPortalTarget={p.editorPortalTarget}
           />
         ),
+        width: 200,
       },
       {
         key: "match",
         name: "MATCH",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 150,
       },
       {
         key: "acceptMatch",

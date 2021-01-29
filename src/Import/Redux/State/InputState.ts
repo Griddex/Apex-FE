@@ -103,6 +103,9 @@ const importDataState = generateImportState();
 const existingDataState = generateExistingDataState();
 const InputState: InputStateType = {
   currentWorkflowProcess: "",
+  headerType: "",
+  facilitiesInputHeaders: [],
+  forecastInputHeaders: [],
   importDataWorkflows: importDataState,
   existingDataName: existingDataState,
 };

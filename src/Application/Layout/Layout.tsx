@@ -20,8 +20,9 @@ import { ILayouts, LayoutNames } from "./LayoutTypes";
 import { RootState } from "../Redux/Reducers/AllReducers";
 import { fetchRecentProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
 import { failureDialogParameters } from "../../Project/Components/DialogParameters/RecentProjectsFailureDialogParameters";
-import { fetchUnitSettingsAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
+import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import { fetchExistingDataRequestAction } from "../../Import/Redux/Actions/ExistingDataActions";
+import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/ImportActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -46,6 +47,12 @@ const Layout = () => {
 
   React.useEffect(() => {
     //Boostrap recent projects
+
+    //Application headers
+    dispatch(fetchApplicationHeadersRequestAction("forecastInputDeckExcel"));
+    dispatch(fetchApplicationHeadersRequestAction("facilitiesInputDeckExcel"));
+
+    //Existing Data tables
     dispatch(
       fetchExistingDataRequestAction("A", "facilitiesInputDeckExisting")
     );
@@ -55,8 +62,9 @@ const Layout = () => {
       fetchExistingDataRequestAction("A", "productionInputDataExisting")
     );
     dispatch(fetchExistingDataRequestAction("A", "networkExisting"));
-    // dispatch(fetchRecentProjectsAction(failureDialogParameters));
-    dispatch(fetchUnitSettingsAction());
+    dispatch(fetchRecentProjectsAction(failureDialogParameters));
+    dispatch(fetchUnitSettingsRequestAction());
+
     //Boostrap User details
   }, []);
 

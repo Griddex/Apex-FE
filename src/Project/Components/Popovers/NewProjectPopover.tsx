@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -138,12 +139,16 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
         />
         {recentProjects &&
           recentProjects.map((project: IRecentProject, i: number) => {
-            const { title, handleClick } = project;
+            const { title, projectId } = project;
             return (
               <ApexMenuItem
                 key={i}
                 title={title}
-                handleClick={handleClick}
+                handleClick={() =>
+                  dispatch(
+                    openRecentProjectAction("Gideon", projectId as string)
+                  )
+                }
                 sn={i + 1}
                 toggleSN={true}
               />

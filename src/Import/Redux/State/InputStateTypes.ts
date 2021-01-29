@@ -58,6 +58,9 @@ export interface IImportState {
 
 export interface InputStateType {
   currentWorkflowProcess: IImportWorkflowProcess["workflowProcess"];
+  headerType: string;
+  facilitiesInputHeaders: Record<string, string>[];
+  forecastInputHeaders: Record<string, string>[];
   importDataWorkflows: Record<string, IImportState>;
   existingDataName: Record<string, IExistingDataRow[]>;
 }

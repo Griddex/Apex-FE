@@ -25,6 +25,8 @@ import {
   PERSIST_WORKSHEETNAMES,
   SAVEINPUTDECK_SUCCESS,
   SAVEINPUTDECK_FAILURE,
+  FETCHAPPLICATIONHEADERS_SUCCESS,
+  FETCHAPPLICATIONHEADERS_FAILURE,
 } from "../Actions/ImportActions";
 import InputState from "../State/InputState";
 
@@ -122,6 +124,16 @@ const inputReducer = (state = InputState, action: IAction) => {
             ...action.payload,
           },
         },
+      };
+    }
+    case FETCHAPPLICATIONHEADERS_SUCCESS: {
+      const { statusCode, headerType, data } = action.payload;
+
+      return {
+        ...state,
+        statusCode,
+        headerType,
+        [headerType]: data,
       };
     }
     default:

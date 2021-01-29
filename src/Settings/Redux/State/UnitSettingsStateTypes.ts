@@ -17,6 +17,6 @@ export interface IUnitSettingsData {
   monthFormat: string;
   yearFormat: string;
   unitGroup: "Field" | "Metric" | "Mixed";
-  units: IUnitsRow[];
+  variableUnits: IUnitsRow[];
   pressureAddend?: number;
 }

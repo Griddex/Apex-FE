@@ -60,58 +60,96 @@ const useStyles = makeStyles(() => ({
 }));
 
 //TODO: API saga to get app headers from server, use zero-deps useEffect
-const getApplicationHeaders = () => {
-  return [
-    "Version",
-    "Asset Team",
-    "Field Name",
-    "Reservoir Identification",
-    "Drainage Point Nomenclature",
-    "String",
-    "Module",
-    "PEEP",
-    "Activity",
-    "Flow station",
-    "Hydrocarbon Stream",
-    "Resource Category",
-    "Change Category",
-    "1P Technique",
-    "URo 1P/1C",
-    "URo Low",
-    "URo 2P/2C",
-    "URo 3P/3C",
-    "Np",
-    "URg 1P/1C",
-    "URg Low",
-    "URg 2P/2C",
-    "URg 3P/3C",
-    "Gp",
-    "Init. Oil/Gas Rate 1P/1C",
-    "Init. Oil/Gas Rate Low",
-    "Init. Oil/Gas Rate 2P/2C",
-    "Init. Oil/Gas Rate 3P/3C",
-    "Aband. Oil/Gas Rate 1P/1C",
-    "Aband. Oil/Gas Rate 2P/2C",
-    "Aband. Oil/Gas Rate 3P/3C",
-    "Init. BSW/WGR",
-    "Aband. BSW/WGR 1P/1C",
-    "Aband. BSW/WGR 2P/2C",
-    "Aband. BSW/WGR 3P/3C",
-    "Init. GOR/CGR",
-    "Aband. GOR/CGR 1P/1C",
-    "Aband. GOR/CGR 2P/2C",
-    "Aband. GOR/CGR 3P/3C",
-    "lift Gas Rate",
-    "Plateau [Oil/Gas]",
-    "In-year Booking",
-    "LE/LV",
-    "PRCS",
-    "On-stream Date-1P/1C",
-    "On-stream Date-2P/2C",
-    "On-stream Date-3P/3C",
-    "Remarks",
-    "TRANCHE",
-  ];
+const getApplicationHeaders = (
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+) => {
+  if (
+    workflowProcess === "facilitiesInputDeckExcel" ||
+    workflowProcess === "facilitiesInputDeckDatabase"
+  )
+    return [
+      "Gas Market",
+      "Area",
+      "Facility Name",
+      "F Code",
+      "Year 2p",
+      "Gross Capacity 2p",
+      "Scheduled 2p",
+      "Unscheduled 2p",
+      "Third Party 2p",
+      "2p Total",
+      "Year 1p",
+      "Gross Capacity 1p",
+      "Scheduled 1p",
+      "Unscheduled 1p",
+      "Third Party 1p",
+      "1p Total",
+      "Year 3p",
+      "Gross Capacity 3p",
+      "Scheduled 3p",
+      "Unscheduled 3p",
+      "Third Party 3p",
+      "3p Total",
+      "Year Low",
+      "Gross Capacity Low",
+      "Scheduled Low",
+      "Unscheduled Low",
+      "Third Party Low",
+      "Low Total",
+      "Deferment Section",
+    ];
+  else
+    return [
+      "Version",
+      "Asset Team",
+      "Field Name",
+      "Reservoir Identification",
+      "Drainage Point Nomenclature",
+      "String",
+      "Module",
+      "PEEP",
+      "Activity",
+      "Flow station",
+      "Hydrocarbon Stream",
+      "Resource Category",
+      "Change Category",
+      "1P Technique",
+      "URo 1P/1C",
+      "URo Low",
+      "URo 2P/2C",
+      "URo 3P/3C",
+      "Np",
+      "URg 1P/1C",
+      "URg Low",
+      "URg 2P/2C",
+      "URg 3P/3C",
+      "Gp",
+      "Init. Oil/Gas Rate 1P/1C",
+      "Init. Oil/Gas Rate Low",
+      "Init. Oil/Gas Rate 2P/2C",
+      "Init. Oil/Gas Rate 3P/3C",
+      "Aband. Oil/Gas Rate 1P/1C",
+      "Aband. Oil/Gas Rate 2P/2C",
+      "Aband. Oil/Gas Rate 3P/3C",
+      "Init. BSW/WGR",
+      "Aband. BSW/WGR 1P/1C",
+      "Aband. BSW/WGR 2P/2C",
+      "Aband. BSW/WGR 3P/3C",
+      "Init. GOR/CGR",
+      "Aband. GOR/CGR 1P/1C",
+      "Aband. GOR/CGR 2P/2C",
+      "Aband. GOR/CGR 3P/3C",
+      "lift Gas Rate",
+      "Plateau [Oil/Gas]",
+      "In-year Booking",
+      "LE/LV",
+      "PRCS",
+      "On-stream Date-1P/1C",
+      "On-stream Date-2P/2C",
+      "On-stream Date-3P/3C",
+      "Remarks",
+      "TRANCHE",
+    ];
 };
 
 export default function MatchHeaders({
@@ -132,7 +170,7 @@ export default function MatchHeaders({
   );
 
   //Application headers
-  const applicationHeaders = getApplicationHeaders();
+  const applicationHeaders = getApplicationHeaders(workflowProcess);
   const options = {
     isCaseSensitive: false,
     includeScore: true,
@@ -283,7 +321,6 @@ export default function MatchHeaders({
         name: "FILE HEADER",
         editable: false,
         resizable: true,
-        width: 250,
       },
       {
         key: "applicationHeader",
@@ -331,14 +368,13 @@ export default function MatchHeaders({
             </select>
           );
         },
-        width: 250,
       },
       {
         key: "match",
         name: "MATCH",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 150,
       },
       {
         key: "acceptMatch",
@@ -351,7 +387,7 @@ export default function MatchHeaders({
             checked={checkboxSelected}
           />
         ),
-        width: 300,
+        width: 150,
       },
     ];
 

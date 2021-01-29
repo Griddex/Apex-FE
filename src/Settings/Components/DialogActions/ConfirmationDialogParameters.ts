@@ -16,7 +16,7 @@ export const unitGroupConfirmationDialogParameters = (
     maxWidth: "xs",
     dialogText: `Do you want to change all units to default ${group} units?`,
     iconType: "confirmation",
-    actionsList: () => DialogOkayButton(false, unloadDialogsAction),
+    actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
 };

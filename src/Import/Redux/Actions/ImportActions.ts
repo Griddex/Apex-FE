@@ -33,6 +33,12 @@ export const PERSIST_CHOSENAPPLICATIONUNITS = "PERSIST_CHOSENAPPLICATIONUNITS";
 export const SAVEINPUTDECK_REQUEST = "SAVEINPUTDECK_REQUEST";
 export const SAVEINPUTDECK_SUCCESS = "SAVEINPUTDECK_SUCCESS";
 export const SAVEINPUTDECK_FAILURE = "SAVEINPUTDECK_FAILURE";
+export const FETCHAPPLICATIONHEADERS_REQUEST =
+  "FETCHAPPLICATIONHEADERS_REQUEST";
+export const FETCHAPPLICATIONHEADERS_SUCCESS =
+  "FETCHAPPLICATIONHEADERS_SUCCESS";
+export const FETCHAPPLICATIONHEADERS_FAILURE =
+  "FETCHAPPLICATIONHEADERS_FAILURE";
 
 export const importFileInitAction = (
   fileLastModified: number,
@@ -240,10 +246,12 @@ export const persistTableHeadersAction = (
   };
 };
 
-export const saveInputDeckRequestAction = (inputDeckType: string) => {
+export const saveInputDeckRequestAction = (
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+) => {
   return {
     type: SAVEINPUTDECK_REQUEST,
-    payload: { inputDeckType },
+    payload: { workflowProcess },
   };
 };
 
@@ -262,6 +270,34 @@ export const saveInputDeckFailureAction = () => {
     payload: {
       statusCode: 0,
       errors: { message: "" },
+    },
+  };
+};
+
+export const fetchApplicationHeadersRequestAction = (
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+) => {
+  return {
+    type: FETCHAPPLICATIONHEADERS_REQUEST,
+    payload: {
+      workflowProcess,
+    },
+  };
+};
+export const fetchApplicationHeadersSuccessAction = () => {
+  return {
+    type: FETCHAPPLICATIONHEADERS_SUCCESS,
+    payload: {
+      statusCode: 0,
+      headerType: "",
+    },
+  };
+};
+export const fetchApplicationHeadersFailureAction = () => {
+  return {
+    type: FETCHAPPLICATIONHEADERS_SUCCESS,
+    payload: {
+      statusCode: 0,
     },
   };
 };

@@ -7,8 +7,9 @@ import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { IFinalAction } from "../../Layout/LayoutTypes";
 
 const DialogCancelButton = (
-  executeFinalAction: IFinalAction["executeFinalAction"],
-  finalAction: IFinalAction["finalAction"]
+  shouldExecute: IFinalAction["shouldExecute"],
+  shouldDispatch: IFinalAction["shouldDispatch"],
+  finalActions: IFinalAction["finalActions"]
 ) => {
   const dispatch = useDispatch();
   console.log("Im in dialog cancel");
@@ -19,8 +20,15 @@ const DialogCancelButton = (
       color: "secondary",
       startIcon: <DoneOutlinedIcon />,
       handleAction: () => {
-        dispatch(hideDialogAction());
-        executeFinalAction && dispatch(finalAction());
+        let i = 0;
+        for (const execute of shouldExecute) {
+          if (execute) {
+            const action = finalActions[i];
+            if (shouldDispatch[i]) dispatch(action());
+            else action();
+          }
+          i += 1;
+        }
       },
     },
   ];

@@ -64,7 +64,7 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
 
     case UPDATE_UNITGROUPS: {
       const { toUnitGroup } = action.payload;
-      const updatedUnits = state.unitSettingsData["units"].map((u) => {
+      const updatedUnits = state.unitSettingsData["variableUnits"].map((u) => {
         const units = u.units.map((un) => ({ ...un, group: toUnitGroup }));
         return units;
       });

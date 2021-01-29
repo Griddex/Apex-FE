@@ -7,18 +7,25 @@ import { INavigationButtonsProp } from "../../../../Application/Components/Navig
 import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
-import {
-  IAllWorkflowProcesses,
-  IImportWorkflowProcess,
-} from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import MatchHeaders from "../Workflows/MatchHeaders";
-import MatchUnits from "../Workflows/MatchUnits";
-import PreviewSave from "../Workflows/PreviewSave";
-import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
-import SelectSheet from "../Workflows/SelectSheet";
-import UploadFile from "../Workflows/UploadFile";
+// import MatchHeaders from "../Workflows/MatchHeaders";
+// import MatchUnits from "../Workflows/MatchUnits";
+// import PreviewSave from "../Workflows/PreviewSave";
+// import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
+// import SelectSheet from "../Workflows/SelectSheet";
+// import UploadFile from "../Workflows/UploadFile";
+
+const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
+const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
+const SelectHeaderUnitData = React.lazy(
+  () => import("../Workflows/SelectHeaderUnitData")
+);
+
+const PreviewSave = React.lazy(() => import("../Workflows/PreviewSave"));
+const MatchUnits = React.lazy(() => import("../Workflows/MatchUnits"));
+const MatchHeaders = React.lazy(() => import("../Workflows/MatchHeaders"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,8 +108,6 @@ const ExcelWorkflow = ({
   };
 
   useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
     dispatch(
       workflowInitAction(
         steps,
@@ -112,7 +117,6 @@ const ExcelWorkflow = ({
         workflowCategory
       )
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const props = {

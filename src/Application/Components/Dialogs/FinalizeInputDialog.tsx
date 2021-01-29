@@ -29,7 +29,10 @@ import GenerateManifoldNodes from "../../../Network/Utils/GenerateManifoldNodes"
 import GenerateTerminalNodes from "../../../Network/Utils/GenerateTerminalNodes";
 import GenerateWellheadNodes from "../../../Network/Utils/GenerateWellheadNodes";
 import SplitFlowstationsGasFacilities from "../../../Network/Utils/SplitFlowstationsGasFacilities";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import {
+  hideDialogAction,
+  unloadDialogsAction,
+} from "../../Redux/Actions/DialogsAction";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import dialogIcons from "../Icons/DialogIcons";
@@ -155,31 +158,24 @@ const FinalizeInputDialog = (props: DialogStuff) => {
     workflowCategory,
   } = props;
 
+  const wc = workflowCategory as IImportWorkflowProcess["workflowCategory"];
+  const wp = workflowProcess as IImportWorkflowProcess["workflowProcess"];
+
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
   const { inputDeckData, success } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[
-        workflowCategory as IImportWorkflowProcess["workflowCategory"]
-      ][workflowProcess as IImportWorkflowProcess["workflowProcess"]]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
   if (success) {
-    enqueueSnackbar(
-      `${
-        getInputWorkflowlabel[
-          workflowProcess as IImportWorkflowProcess["workflowProcess"]
-        ]
-      } saved`,
-      {
-        persist: false,
-        variant: "success",
-      }
-    );
+    enqueueSnackbar(`${getInputWorkflowlabel[wp]} saved`, {
+      persist: false,
+      variant: "success",
+    });
   }
 
   const ManageDeckDialogContent = () => {
@@ -189,7 +185,7 @@ const FinalizeInputDialog = (props: DialogStuff) => {
         color: "primary",
         startIcon: <SaveOutlinedIcon />,
         handleAction: () => {
-          dispatch(saveInputDeckRequestAction("Forecast InputDeck"));
+          dispatch(saveInputDeckRequestAction(wp));
         },
       },
       {
@@ -358,7 +354,7 @@ const FinalizeInputDialog = (props: DialogStuff) => {
         <Divider />
       </DialogContent>
       <DialogActions>
-        {DialogCancelButton(false, () => ({ type: "Hi" }))}
+        {DialogCancelButton([true], [true], [unloadDialogsAction])}
       </DialogActions>
     </Dialog>
   );

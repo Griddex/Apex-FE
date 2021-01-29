@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 
-const DialogSaveButton = ({ action }: { action: () => IAction }) => {
+const DialogSaveButton = (action: () => IAction) => {
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [
     {

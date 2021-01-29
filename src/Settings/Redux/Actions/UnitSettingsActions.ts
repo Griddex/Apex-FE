@@ -1,9 +1,8 @@
 import { IUnitSettingsData } from "../State/UnitSettingsStateTypes";
-import { DialogStuff } from "./../../../Application/Components/Dialogs/DialogTypes";
 import { IUnitsRow } from "./../State/UnitSettingsStateTypes";
 
 export const SAVE_UNITS = "SAVE_UNITS";
-export const FETCH_UNITSETTINGS = "FETCH_UNITSETTINGS";
+export const FETCH_UNITSETTINGS_REQUEST = "FETCH_UNITSETTINGS_REQUEST";
 export const FETCH_UNITSETTINGS_SUCCESS = "FETCH_UNITSETTINGS_SUCCESS";
 export const FETCH_UNITSETTINGS_FAILURE = "FETCH_UNITSETTINGS_FAILURE";
 export const UPDATE_FIRSTLEVELUNITSETTINGS = "UPDATE_FIRSTLEVELUNITSETTINGS";
@@ -19,9 +18,9 @@ export const saveUnitsAction = (units: IUnitSettingsData) => {
   };
 };
 
-export const fetchUnitSettingsAction = () => {
+export const fetchUnitSettingsRequestAction = () => {
   return {
-    type: FETCH_UNITSETTINGS,
+    type: FETCH_UNITSETTINGS_REQUEST,
     meta: { addAuth: true },
   };
 };

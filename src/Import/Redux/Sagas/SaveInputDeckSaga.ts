@@ -1,52 +1,49 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import watchAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/AutogenerateNetworkSaga";
 import { openRecentProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
-import { failureDialogParameters } from "../../Components/DialogParameters/SaveInputDeckFailureDialogParameters";
+import {
+  failureDialogParameters,
+  successDialogParameters,
+} from "../../Components/DialogParameters/SaveInputDeckFailureDialogParameters";
 import {
   saveInputDeckFailureAction,
   saveInputDeckSuccessAction,
   SAVEINPUTDECK_REQUEST,
 } from "../Actions/ImportActions";
+import history from "../../../Application/Services/HistoryService";
 
 export default function* watchSaveInputDeckSaga() {
   yield takeLatest(SAVEINPUTDECK_REQUEST, saveInputDeckSaga);
 }
 
-function getInputDeckName(deck: string) {
-  switch (deck) {
-    case "Facilities InputDeck":
-      return "forecastInputDeck";
-    case "Forecast InputDeck":
-      return "facilitiesInputDeck";
-    default:
-      return "";
-  }
+function getInputDeckName(
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+) {
+  if (workflowProcess.includes("facilities")) return "Facilities Input Deck";
+  else if (workflowProcess.includes("forecast")) return "Forecast Input Deck";
+  else return "";
 }
 
-function getInputDeckId(deck: string) {
-  switch (deck) {
-    case "Facilities InputDeck":
-      return "facilitiesInputDeckId";
-    case "Forecast InputDeck":
-      return "forecastInputDeckId";
-    default:
-      return "";
-  }
+function getInputDeckId(
+  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+) {
+  if (workflowProcess.includes("facilities")) return "facilitiesInputDeckId";
+  else if (workflowProcess.includes("forecast")) return "forecastInputDeckId";
+  else return "";
 }
 
 function* saveInputDeckSaga(action: IAction) {
   const { payload } = action;
-  const { inputDeckType } = payload;
+  const { workflowProcess } = payload;
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
-  const { currentWorkflowProcess: workflowProcess } = yield select(
-    (state) => state.workflowReducer
-  );
-  const { existingData, existingDataId, title, description } = yield select(
+
+  const { inputDeckData, existingDataId, title, description } = yield select(
     (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
   );
 
@@ -55,17 +52,19 @@ function* saveInputDeckSaga(action: IAction) {
     userId,
     title,
     description,
-    [getInputDeckId(inputDeckType)]: existingDataId,
-    [getInputDeckName(inputDeckType)]: existingData,
+    inputDeck: inputDeckData,
+    [getInputDeckId(workflowProcess)]: existingDataId,
+    // [getInputDeckName(inputDeckType)]: existingData,
   };
 
   const config = { headers: null };
   const saveinputDeckAPI = (url: string) => authService.post(url, config, data);
+  const inputDeckType = getInputDeckName(workflowProcess);
 
   try {
     const response = yield call(
       saveinputDeckAPI,
-      "https://jsonplaceholder.typicode.com/posts"
+      `https://jsonplaceholder.typicode.com/posts`
       // "http://a4b6b400f0c6.ngrok.io/api/project"
     );
 
@@ -78,7 +77,11 @@ function* saveInputDeckSaga(action: IAction) {
     });
 
     //If it's a forecast deck, save it
-    yield call(watchAutogenerateNetworkSaga);
+    if (workflowProcess.includes("facilities"))
+      yield put(showDialogAction(successDialogParameters(inputDeckType)));
+    else if (workflowProcess.includes("forecast"))
+      yield call(watchAutogenerateNetworkSaga);
+    else return "";
   } catch (errors) {
     const failureAction = saveInputDeckFailureAction();
 
@@ -93,8 +96,6 @@ function* saveInputDeckSaga(action: IAction) {
   yield put(hideSpinnerAction());
 }
 
-function* handleClick(userId: string, projectId: string) {
-  // const action = openRecentProjectAction(userId,projectId);
-  // yield put({ ...action, userId, projectId });
-  yield put(openRecentProjectAction(userId, projectId));
+function forwardTo(routeUrl: string) {
+  history.push(routeUrl);
 }

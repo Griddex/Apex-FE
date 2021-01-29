@@ -3,18 +3,18 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { confirmationDialogParameters } from "../../Components/DialogParameters/ConfirmationDialogParameters";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
-import { InputStateType } from "../../Redux/State/InputStateTypes";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingFacilitiesDecks from "./ExistingFacilitiesDecks";
@@ -107,22 +107,20 @@ const FacilitiesInputDeckLanding = () => {
   //CSS using overlap and z-index
 
   //Paying it back
-  const facilitiesExcelandDbWorkflowFinalAction = () => {
-    const dialogParameters: DialogStuff = {
-      name: "Manage_Deck_Dialog",
-      title: `Manage Facilities Deck`,
-      type: "finalizeInputDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "sm",
-      iconType: "information",
-      actionsList: () => (
-        <DialogSaveCancelButtons
-          action={() => saveInputDeckRequestAction("Facilities Deck")}
-        />
-      ),
-    };
-    dispatch(showDialogAction(dialogParameters));
+  const facilitiesExcelandDbWorkflowFinalAction = (
+    workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+  ) => {
+    dispatch(
+      showDialogAction(
+        confirmationDialogParameters(
+          "Save_FacilitiesDeck_Dialog",
+          "Save Facilities Deck",
+          "Do you want to save your facilities input deck?",
+          false,
+          () => saveInputDeckRequestAction(workflowProcess)
+        )
+      )
+    );
   };
 
   const existingDataFinalAction = () => {
@@ -163,14 +161,22 @@ const FacilitiesInputDeckLanding = () => {
                   <ExcelWorkflow
                     workflowCategory={"importDataWorkflows"}
                     workflowProcess={"facilitiesInputDeckExcel"}
-                    finalAction={facilitiesExcelandDbWorkflowFinalAction}
+                    finalAction={() =>
+                      facilitiesExcelandDbWorkflowFinalAction(
+                        "facilitiesInputDeckExcel"
+                      )
+                    }
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
                     workflowCategory={"importDataWorkflows"}
                     workflowProcess={"facilitiesInputDeckDatabase"}
-                    finalAction={facilitiesExcelandDbWorkflowFinalAction}
+                    finalAction={() =>
+                      facilitiesExcelandDbWorkflowFinalAction(
+                        "facilitiesInputDeckExcel"
+                      )
+                    }
                   />
                 ),
                 approveddeck: (

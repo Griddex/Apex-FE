@@ -6,6 +6,7 @@ import {
   UPDATE_NEWPROJECT,
   FETCHRECENTPROJECTS_SUCCESS,
   FETCHRECENTPROJECTS_FAILURE,
+  OPENRECENTPROJECT_SUCCESS,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
@@ -46,6 +47,16 @@ const projectReducer = (
         ...state,
         statusCode,
         errors,
+      };
+    }
+
+    case OPENRECENTPROJECT_SUCCESS: {
+      const { statusCode, title } = action.payload;
+
+      return {
+        ...state,
+        statusCode,
+        projectName: title,
       };
     }
 

@@ -3,6 +3,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/OpenProjectFailureDialogParameters";
 import {
   openRecentProjectFailureAction,
@@ -19,23 +20,31 @@ function* openRecentProjectSaga(action: IAction) {
   const { userId, projectId } = payload; //grab from own dps
 
   const config = { headers: null };
-  const openRecentProjectAPI = (url: string) =>
-    authService.post(url, config, { userId, projectId });
+  const openRecentProjectAPI = (url: string) => authService.get(url, config);
 
   try {
-    const response = yield call(
+    const result = yield call(
       openRecentProjectAPI,
-      "https://jsonplaceholder.typicode.com/posts"
-      // "http://a4b6b400f0c6.ngrok.io/api/project"
+      // `${getBaseUrl()}/project/${projectId}`
+      `https://jsonplaceholder.typicode.com/posts`
+    );
+    console.log(
+      "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 29 ~ function*openRecentProjectSaga ~ result",
+      result
     );
 
-    const { statusCode, data } = response; //data that'll go to several reducers to
+    // const { statusCode, data } = response; //data that'll go to several reducers to
     //boostrap project
+
+    const {
+      data: { statusCode, data, succcess }, //prevent 2nd trip to server
+    } = result;
+    const { title } = data;
 
     const successAction = openRecentProjectSuccessAction(); //this will do the bootstrap
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, data },
+      payload: { ...payload, statusCode, title },
     });
   } catch (errors) {
     const failureAction = openRecentProjectFailureAction();

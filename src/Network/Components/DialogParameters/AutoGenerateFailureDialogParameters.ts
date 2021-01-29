@@ -12,6 +12,6 @@ export const failureDialogParameters = (): DialogStuff => ({
   dialogText: `Network could not be generated.
   Please try again`,
   iconType: "error",
-  actionsList: () => DialogOkayButton(false, unloadDialogsAction),
+  actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });

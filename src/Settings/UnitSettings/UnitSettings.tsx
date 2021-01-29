@@ -9,16 +9,11 @@ import SelectItem from "../../Application/Components/Selects/SelectItem";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { GenericObjectSType } from "../../Application/Layout/LayoutTypes";
-import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import { tableOptions } from "../Configurations/SettingsTableOptions";
-import {
-  updateAllUnitsAction,
-  updateFirstLevelUnitSettingsAction,
-  updateUnitGroupAction,
-} from "../Redux/Actions/UnitSettingsActions";
+import { updateFirstLevelUnitSettingsAction } from "../Redux/Actions/UnitSettingsActions";
 import {
   IUnit,
   IUnitSettingsData,
@@ -79,7 +74,7 @@ export default function UnitSettings({
     monthFormat,
     yearFormat,
     unitGroup,
-    units: unitsData,
+    variableUnits: unitsData,
   } = useSelector(
     (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
   ) as IUnitSettingsData;

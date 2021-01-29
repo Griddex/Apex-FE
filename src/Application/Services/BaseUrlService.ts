@@ -1,5 +1,5 @@
-const getBaseUrl = (url: string) => {
-  if (url) return url.substring(0, url.lastIndexOf("/"));
+const getBaseUrl = () => {
+  return "http://b10eabbfbfca.ngrok.io/api";
 };
 
 export default getBaseUrl;

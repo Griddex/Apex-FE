@@ -11,6 +11,6 @@ export const failureDialogParameters: DialogStuff = {
   maxWidth: "xs",
   dialogText: "Open Projects Fetch failure",
   iconType: "error",
-  actionsList: () => DialogOkayButton(false, unloadDialogsAction),
+  actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 };

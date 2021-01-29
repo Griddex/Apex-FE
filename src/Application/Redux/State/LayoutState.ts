@@ -4,7 +4,7 @@ const layoutState: ILayoutState = {
   showMainDrawer: true,
   expandMainDrawer: false,
   mainDrawertext: "",
-  menusDisabled: true,
+  menusDisabled: false, //Change to true later
 
   showNavbar: true,
   expandNavbar: false,

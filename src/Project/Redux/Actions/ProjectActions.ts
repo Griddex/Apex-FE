@@ -64,7 +64,7 @@ export const openRecentProjectSuccessAction = () => {
     type: OPENRECENTPROJECT_SUCCESS,
     payload: {
       statusCode: 0,
-      data: [],
+      title: "",
     },
   };
 };

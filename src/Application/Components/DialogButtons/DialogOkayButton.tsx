@@ -6,8 +6,9 @@ import { IFinalAction } from "../../Layout/LayoutTypes";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 
 const DialogOkayButton = (
-  executeFinalAction: IFinalAction["executeFinalAction"],
-  finalAction: IFinalAction["finalAction"]
+  shouldExecute: IFinalAction["shouldExecute"],
+  shouldDispatch: IFinalAction["shouldDispatch"],
+  finalActions: IFinalAction["finalActions"]
 ) => {
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [
@@ -17,8 +18,15 @@ const DialogOkayButton = (
       color: "primary",
       startIcon: <DoneOutlinedIcon />,
       handleAction: () => {
-        // dispatch(hideDialogAction());
-        executeFinalAction && dispatch(finalAction());
+        let i = 0;
+        for (const execute of shouldExecute) {
+          if (execute) {
+            const action = finalActions[i];
+            if (shouldDispatch[i]) dispatch(action());
+            else action();
+          }
+          i += 1;
+        }
       },
     },
   ];

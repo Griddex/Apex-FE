@@ -8,12 +8,12 @@ import { failureDialogParameters } from "../../../Components/DialogActions/UnitS
 import {
   fetchUnitSettingsFailureAction,
   fetchUnitSettingsSuccessAction,
-  FETCH_UNITSETTINGS,
+  FETCH_UNITSETTINGS_REQUEST,
 } from "../../Actions/UnitSettingsActions";
 import { IUnitSettingsData } from "../../State/UnitSettingsStateTypes";
 
 export default function* watchFetchUnitSettingsSaga() {
-  yield takeLatest(FETCH_UNITSETTINGS, fetchUnitSettingsSaga);
+  yield takeLatest(FETCH_UNITSETTINGS_REQUEST, fetchUnitSettingsSaga);
 }
 
 function* fetchUnitSettingsSaga(action: IAction) {
@@ -37,7 +37,7 @@ function* fetchUnitSettingsSaga(action: IAction) {
       monthFormat: "mm",
       yearFormat: "yyyy",
       unitGroup: "Field",
-      units: [
+      variableUnits: [
         {
           variableName: "oilRate", //send
           variableTitle: "Oil Rate",

@@ -9,7 +9,7 @@ const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
     monthFormat: "mm",
     yearFormat: "yyyy",
     unitGroup: "Field",
-    units: [],
+    variableUnits: [],
   },
   statusCode: 200,
   errors: { message: "" },

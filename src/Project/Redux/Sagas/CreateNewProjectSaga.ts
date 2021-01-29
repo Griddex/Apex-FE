@@ -5,6 +5,7 @@ import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import {
   createNewProjectFailureAction,
   createNewProjectSuccessAction,
@@ -28,22 +29,30 @@ function* createNewProjectSaga(action: IAction) {
   );
 
   const data = {
-    projectName,
-    projectDescription,
-    pressureAddend,
-    unitSettingsData,
+    userId: "Gideon",
+    title: projectName,
+    description: projectDescription,
+    ...unitSettingsData,
   };
   const config = { headers: null };
   const createNewProjectAPI = (url: string) =>
     authService.post(url, data, config);
 
   try {
-    const response = yield call(
+    const result = yield call(
       createNewProjectAPI,
-      "https://jsonplaceholder.typicode.com/posts"
+      // `${getBaseUrl()}/project`
+      `https://jsonplaceholder.typicode.com/posts`
     );
 
-    const { statusCode, data } = response;
+    const {
+      data: { statusCode, data, succcess }, //prevent 2nd trip to server
+    } = result;
+    console.log(
+      "Logged output --> ~ file: CreateNewProjectSaga.ts ~ line 47 ~ function*createNewProjectSaga ~ result",
+      result
+    );
+
     const successAction = createNewProjectSuccessAction();
     yield put({
       ...successAction,
