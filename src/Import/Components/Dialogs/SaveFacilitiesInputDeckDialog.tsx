@@ -3,19 +3,19 @@ import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
-import SaveNetworkDialogButtons from "../DialogBottons/SaveNetworkDialogButtons";
-import SaveNetworkForm from "../Forms/SaveNetworkForm";
+import FacilitiesTitleAndDescription from "../Forms/FacilitiesTitleAndDescription";
+import FacilitiesTitleAndDescriptionForm from "../Forms/FacilitiesTitleAndDescriptionForm";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogHeader: {
     display: "flex",
-    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: "5%",
@@ -37,23 +37,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "90%",
+    width: "100%",
     height: "100%",
   },
   closeButton: {
     color: theme.palette.grey[500],
-    width: "5%",
     height: "100%",
     padding: 0,
-  },
-  listDialogContent: { display: "flex", flexDirection: "column" },
-  listBorder: {
-    height: 200,
-    overflow: "overlay",
-    border: "1px solid #F7F7F7",
-  },
-  avatar: {
-    color: theme.palette.primary.main,
   },
 }));
 
@@ -94,14 +84,11 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const SaveNetworkDialog = (props: DialogStuff) => {
+const SaveFacilitiesInputDeckDialog = (
+  props: DialogStuff & INavigationButtonsProp
+) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType } = props;
-  const [isSaveNetworkValid, setIsSaveNetworkValid] = React.useState(true);
-  console.log(
-    "Logged output --> ~ file: SaveNetworkDialog.tsx ~ line 120 ~ SaveNetworkDialog ~ isSaveNetworkValid",
-    isSaveNetworkValid
-  );
+  const { title, show, maxWidth, iconType, actionsList, children } = props;
 
   return (
     <Dialog
@@ -118,22 +105,17 @@ const SaveNetworkDialog = (props: DialogStuff) => {
       </DialogTitle>
       <DialogContent
         dividers
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <SaveNetworkForm>
-          {(props) => (
-            <SaveNetworkNameAndDescription
-              {...props}
-              setIsSaveNetworkValid={setIsSaveNetworkValid}
-            />
-          )}
-        </SaveNetworkForm>
+        <FacilitiesTitleAndDescriptionForm>
+          {(props) => <FacilitiesTitleAndDescription {...props} />}
+        </FacilitiesTitleAndDescriptionForm>
       </DialogContent>
-      <DialogActions>
-        <SaveNetworkDialogButtons isSaveNetworkValid={isSaveNetworkValid} />
+      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
+        {actionsList && actionsList()}
       </DialogActions>
     </Dialog>
   );
 };
 
-export default SaveNetworkDialog;
+export default SaveFacilitiesInputDeckDialog;

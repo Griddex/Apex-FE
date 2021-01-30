@@ -49,12 +49,19 @@ export const fetchRecentProjectsFailureAction = () => {
   };
 };
 
-export const openRecentProjectAction = (userId: string, projectId: string) => {
+export const openRecentProjectAction = (
+  userId: string,
+  projectId: string,
+  projectTitle: string,
+  projectDescription: string
+) => {
   return {
     type: OPENRECENTPROJECT_REQUEST,
     payload: {
       userId,
       projectId,
+      projectTitle,
+      projectDescription,
     },
   };
 };
@@ -64,7 +71,9 @@ export const openRecentProjectSuccessAction = () => {
     type: OPENRECENTPROJECT_SUCCESS,
     payload: {
       statusCode: 0,
-      title: "",
+      projectId: "",
+      projectTitle: "",
+      projectDescription: "",
     },
   };
 };
@@ -80,7 +89,7 @@ export const openRecentProjectFailureAction = () => {
 };
 
 export const createNewProjectAction = (
-  projectName: string,
+  projectTitle: string,
   projectDescription: string,
   dayFormat: string,
   monthFormat: string,
@@ -92,7 +101,7 @@ export const createNewProjectAction = (
   return {
     type: CREATE_NEWPROJECT,
     payload: {
-      projectName,
+      projectTitle,
       projectDescription,
       dayFormat,
       monthFormat,

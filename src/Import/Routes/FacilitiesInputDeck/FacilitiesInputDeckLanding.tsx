@@ -3,10 +3,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { confirmationDialogParameters } from "../../Components/DialogParameters/ConfirmationDialogParameters";
@@ -54,9 +58,6 @@ const FacilitiesInputDeckLanding = () => {
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  // const { currentWorkflowProcess } = useSelector(
-  //   (state: RootState) => state.workflowReducer
-  // ) as { currentWorkflowProcess: InputStateType["currentWorkflowProcess"] };
 
   const facilitiesInputLandingData: IFacilitiesLandingData[] = [
     {
@@ -110,17 +111,27 @@ const FacilitiesInputDeckLanding = () => {
   const facilitiesExcelandDbWorkflowFinalAction = (
     workflowProcess: IAllWorkflowProcesses["workflowProcess"]
   ) => {
-    dispatch(
-      showDialogAction(
-        confirmationDialogParameters(
-          "Save_FacilitiesDeck_Dialog",
-          "Save Facilities Deck",
-          "Do you want to save your facilities input deck?",
-          false,
-          () => saveInputDeckRequestAction(workflowProcess)
-        )
-      )
-    );
+    const dialogParameters: DialogStuff = {
+      name: "Save_Facilities_Input_Deck_Dialog",
+      title: "Save Facilities Input Deck",
+      type: "saveFacilitiesInputDeckDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "xs",
+      iconType: "information",
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            () => saveInputDeckRequestAction(workflowProcess),
+            unloadDialogsAction,
+          ]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
   };
 
   const existingDataFinalAction = () => {
@@ -135,15 +146,6 @@ const FacilitiesInputDeckLanding = () => {
     };
     dispatch(showDialogAction(dialogParameters));
   };
-
-  React.useEffect(() => {
-    dispatch(
-      fetchExistingDataRequestAction(
-        "facilitiesInputDeck",
-        "facilitiesInputDeckExisting"
-      )
-    );
-  }, []);
 
   return (
     <>

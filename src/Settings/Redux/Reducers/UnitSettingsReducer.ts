@@ -14,7 +14,13 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
     case FETCH_UNITSETTINGS_SUCCESS: {
       const {
         statusCode,
-        unitsData: { dayFormat, monthFormat, yearFormat, unitGroup, units },
+        unitsData: {
+          dayFormat,
+          monthFormat,
+          yearFormat,
+          unitGroup,
+          variableUnits,
+        },
       } = action.payload;
 
       return {
@@ -25,7 +31,7 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
           monthFormat,
           yearFormat,
           unitGroup,
-          units,
+          variableUnits,
         },
         statusCode,
       };

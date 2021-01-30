@@ -2,23 +2,24 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Formik, FormikProps } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
-import projectState from "../../Redux/State/ProjectState";
 import {
-  INewProjectFormProps,
-  INewProjectFormValues,
-} from "../../Redux/State/ProjectStateTypes";
+  INewFacilitiesInputDeckWorkflowProps,
+  INewFacilitiesInputDeckFormValues,
+} from "../../Redux/State/InputStateTypes";
+import InputState from "./../../Redux/State/InputState";
 
 const useStyles = makeStyles(() => ({
   form: { height: "100%" },
 }));
 
-const NewProjectForm = ({ children }: INewProjectFormProps) => {
+const FacilitiesTitleAndDescriptionForm = ({
+  children,
+}: INewFacilitiesInputDeckWorkflowProps) => {
   const classes = useStyles();
 
   return (
     <Formik
-      initialValues={{ ...projectState, pressureAddend: 14.7 }}
+      initialValues={InputState}
       validationSchema={Yup.object().shape({
         projectTitle: Yup.string().required("projectTitle is required"),
         projectDescription: Yup.string().required(
@@ -27,9 +28,9 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
       })}
       onSubmit={() => {}}
     >
-      {(props: FormikProps<INewProjectFormValues>) => {
+      {(props: FormikProps<INewFacilitiesInputDeckFormValues>) => {
         const {
-          values: { projectTitle, projectDescription, pressureAddend },
+          values: { facilitiesInputDeckTitle, facilitiesInputDeckDescription },
           errors,
           touched,
           handleChange,
@@ -45,9 +46,8 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
           >
             {children &&
               children({
-                projectTitle,
-                projectDescription,
-                pressureAddend,
+                facilitiesInputDeckTitle,
+                facilitiesInputDeckDescription,
                 errors,
                 touched,
                 handleChange,
@@ -60,4 +60,4 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
   );
 };
 
-export default NewProjectForm;
+export default FacilitiesTitleAndDescriptionForm;

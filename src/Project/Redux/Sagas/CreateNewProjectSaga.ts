@@ -20,7 +20,7 @@ function* createNewProjectSaga(action: IAction) {
   const { payload } = action;
   const { successDialogParameters, failureDialogParameters } = payload;
 
-  const { projectName, projectDescription, pressureAddend } = yield select(
+  const { projectTitle, projectDescription, pressureAddend } = yield select(
     (state: RootState) => state.projectReducer
   );
 
@@ -30,7 +30,7 @@ function* createNewProjectSaga(action: IAction) {
 
   const data = {
     userId: "Gideon",
-    title: projectName,
+    title: projectTitle,
     description: projectDescription,
     ...unitSettingsData,
   };
@@ -41,22 +41,24 @@ function* createNewProjectSaga(action: IAction) {
   try {
     const result = yield call(
       createNewProjectAPI,
-      // `${getBaseUrl()}/project`
-      `https://jsonplaceholder.typicode.com/posts`
+      `${getBaseUrl()}/project`
+      // `https://jsonplaceholder.typicode.com/posts`
     );
 
     const {
-      data: { statusCode, data, succcess }, //prevent 2nd trip to server
+      data: {
+        statusCode,
+        data: { id },
+        succcess,
+      }, //prevent 2nd trip to server
     } = result;
-    console.log(
-      "Logged output --> ~ file: CreateNewProjectSaga.ts ~ line 47 ~ function*createNewProjectSaga ~ result",
-      result
-    );
+    //put default unitsettings data received into
+    //unitsettings store
 
     const successAction = createNewProjectSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, data },
+      payload: { ...payload, statusCode, id },
     });
 
     yield put(activateDisabledMenusAction());

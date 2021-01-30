@@ -127,13 +127,19 @@ const inputReducer = (state = InputState, action: IAction) => {
       };
     }
     case FETCHAPPLICATIONHEADERS_SUCCESS: {
-      const { statusCode, headerType, data } = action.payload;
+      const {
+        statusCode,
+        headerType,
+        facilitiesInputHeaders,
+        forecastInputHeaders,
+      } = action.payload;
 
       return {
         ...state,
         statusCode,
         headerType,
-        [headerType]: data,
+        facilitiesInputHeaders,
+        forecastInputHeaders,
       };
     }
     default:

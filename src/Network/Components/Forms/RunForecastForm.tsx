@@ -20,7 +20,7 @@ const RunForecastForm = ({ children }: ISaveForecastParametersProps) => {
       initialValues={networkState.saveForecastParameters}
       validationSchema={Yup.object().shape({
         forecastParametersName: Yup.string().required(
-          "projectName is required"
+          "projectTitle is required"
         ),
         forecastParametersDescription: Yup.string().required(
           "projectDescription is required"

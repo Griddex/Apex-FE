@@ -164,7 +164,7 @@ const FinalizeInputDialog = (props: DialogStuff) => {
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
-  const { inputDeckData, success } = useSelector(
+  const { inputDeckData, success, facilitiesInputDeckTitle } = useSelector(
     (state: RootState) => state.inputReducer[wc][wp]
   );
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
@@ -314,9 +314,9 @@ const FinalizeInputDialog = (props: DialogStuff) => {
       <div>
         <div>
           <AnalyticsComp
-            title="Selected Facilities Deck"
+            title="Associated Facilities Deck"
             direction="Vertical"
-            content={<Typography>{}</Typography>}
+            content={<Typography>{facilitiesInputDeckTitle}</Typography>}
           />
         </div>
         <div className={classes.dialogContent}>

@@ -108,6 +108,9 @@ const InputState: InputStateType = {
   forecastInputHeaders: [],
   importDataWorkflows: importDataState,
   existingDataName: existingDataState,
+
+  facilitiesInputDeckTitle: "",
+  facilitiesInputDeckDescription: "",
 };
 
 export default InputState;

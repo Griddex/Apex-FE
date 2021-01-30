@@ -27,8 +27,8 @@ function* fetchRecentProjectsSaga(action: IAction) {
   try {
     const result = yield call(
       fetchRecentProjectsAPI,
-      // `${getBaseUrl()}/project/recents/6`
-      `https://jsonplaceholder.typicode.com/posts`
+      `${getBaseUrl()}/project/recents/6`
+      // `https://jsonplaceholder.typicode.com/posts`
     );
 
     const {
@@ -36,10 +36,10 @@ function* fetchRecentProjectsSaga(action: IAction) {
     } = result;
 
     const recentProjects = data.map((row: any) => ({
-      title: row.title,
       projectId: row.id,
+      projectTitle: row.title,
+      projectDescription: row.description,
       toggleSN: true,
-      handleClick: () => handleClick(userId, row.projectId as string),
     }));
 
     const successAction = fetchRecentProjectsSuccessAction();
@@ -59,10 +59,4 @@ function* fetchRecentProjectsSaga(action: IAction) {
   }
 
   yield put(hideSpinnerAction());
-}
-
-function* handleClick(userId: string, projectId: string) {
-  // const action = openRecentProjectAction(userId,projectId);
-  // yield put({ ...action, userId, projectId });
-  yield put(openRecentProjectAction(userId, projectId));
 }

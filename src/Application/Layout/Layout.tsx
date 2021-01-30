@@ -49,8 +49,7 @@ const Layout = () => {
     //Boostrap recent projects
 
     //Application headers
-    dispatch(fetchApplicationHeadersRequestAction("forecastInputDeckExcel"));
-    dispatch(fetchApplicationHeadersRequestAction("facilitiesInputDeckExcel"));
+    dispatch(fetchApplicationHeadersRequestAction());
 
     //Existing Data tables
     dispatch(

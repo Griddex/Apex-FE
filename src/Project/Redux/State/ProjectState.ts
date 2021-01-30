@@ -1,10 +1,11 @@
 import { IProjectState } from "./ProjectStateTypes";
 
 const projectState: IProjectState = {
-  projectName: "",
+  projectTitle: "",
   projectDescription: "",
   pressureAddend: 14.7,
   recentProjects: [],
+  projectId: "",
 };
 
 export default projectState;

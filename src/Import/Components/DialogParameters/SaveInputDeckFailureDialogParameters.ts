@@ -20,11 +20,12 @@ export const successDialogParameters = (
   dialogText: `${inputDeckType} was saved successfully`,
   iconType: "success",
   actionsList: () =>
-    DialogOkayButton(
-      [true, true],
-      [true, false],
-      [unloadDialogsAction, navigateToFacilitiesLanding]
-    ),
+    // DialogOkayButton(
+    //   [true, true],
+    //   [true, false],
+    //   [unloadDialogsAction, navigateToFacilitiesLanding]
+    // ),
+    DialogOkayButton([true], [true], [unloadDialogsAction]),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });
 

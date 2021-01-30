@@ -57,7 +57,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     }
   };
 
-  const { projectName, projectDescription, pressureAddend } = useSelector(
+  const { projectTitle, projectDescription, pressureAddend } = useSelector(
     (state: RootState) => state.projectReducer
   );
   const { dayFormat, monthFormat, yearFormat } = useSelector(
@@ -66,7 +66,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
   const finalAction = React.useCallback(() => {
     dispatch(
       createNewProjectAction(
-        projectName,
+        projectTitle,
         projectDescription,
         dayFormat,
         monthFormat,
@@ -77,7 +77,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
       )
     );
   }, [
-    projectName,
+    projectTitle,
     projectDescription,
     dayFormat,
     monthFormat,
@@ -115,7 +115,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
     <NewProjectDialog {...props} {...navigationButtonProps}>
       <NewProjectForm>
         {({
-          projectName,
+          projectTitle,
           projectDescription,
           pressureAddend,
           errors,
@@ -124,7 +124,7 @@ const NewProjectDialogWorkflow = (props: DialogStuff) => {
           isValid,
         }) =>
           renderImportStep(activeStep, {
-            projectName,
+            projectTitle,
             projectDescription,
             pressureAddend,
             errors,

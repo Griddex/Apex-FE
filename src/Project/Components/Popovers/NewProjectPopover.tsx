@@ -11,6 +11,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
@@ -48,7 +49,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
 
   const ApexMenuItem = ({
     projectId,
-    title,
+    projectTitle,
     handleClick,
     icon,
     sn,
@@ -81,11 +82,11 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           >
             {`${sn}.`}
             <span>&nbsp;</span>
-            <Typography variant="body2">{title}</Typography>
+            <Typography variant="body2">{projectTitle}</Typography>
           </div>
         ) : (
           <div style={{ width: "100%" }}>
-            <Typography variant="body2">{title}</Typography>
+            <Typography variant="body2">{projectTitle}</Typography>
           </div>
         )}
       </MenuItem>
@@ -115,7 +116,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     <div className={classes.root}>
       <div className={classes.newProject}>
         <ApexMenuItem
-          title="New Project"
+          projectTitle="New Project"
           icon={
             <CheckBoxOutlineBlankOutlinedIcon
               fontSize="small"
@@ -129,7 +130,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
       </div>
       <div className={classes.recentProjects}>
         <ApexMenuItem
-          title="Recent Projects"
+          projectTitle="Recent Projects"
           icon={
             <ImageAspectRatioOutlinedIcon
               fontSize="small"
@@ -139,16 +140,22 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
         />
         {recentProjects &&
           recentProjects.map((project: IRecentProject, i: number) => {
-            const { title, projectId } = project;
+            const { projectTitle, projectId, projectDescription } = project;
             return (
               <ApexMenuItem
                 key={i}
-                title={title}
-                handleClick={() =>
+                projectTitle={projectTitle as string}
+                handleClick={() => {
                   dispatch(
-                    openRecentProjectAction("Gideon", projectId as string)
-                  )
-                }
+                    openRecentProjectAction(
+                      "Gideon",
+                      projectId as string,
+                      projectTitle as string,
+                      projectDescription as string
+                    )
+                  );
+                  dispatch(activateDisabledMenusAction()); //put in saga
+                }}
                 sn={i + 1}
                 toggleSN={true}
               />
@@ -157,7 +164,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
       </div>
       <div>
         <ApexMenuItem
-          title="Close Project"
+          projectTitle="Close Project"
           icon={
             <CloseOutlinedIcon
               fontSize="default"

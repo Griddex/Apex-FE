@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
@@ -21,6 +22,7 @@ const applicationDialogs: IApplicationDialogs = {
   textDialog: TextDialog,
   selectWorksheetDialog: SelectWorksheetDialog,
   finalizeInputDialog: FinalizeInputDialog,
+  saveFacilitiesInputDeckDialog: SaveFacilitiesInputDeckDialog,
   economicsParametersDialog: EconomicsParametersDialog,
   economicsParameterImportDialogWorkflow: EconomicsParameterImportWorkflowDialog,
   newProjectDialogWorkflow: NewProjectDialogWorkflow,

@@ -1,3 +1,4 @@
+import { FormikErrors, FormikTouched } from "formik";
 import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
 
@@ -56,11 +57,28 @@ export interface IImportState {
   success: false;
 }
 
-export interface InputStateType {
+export interface InputStateType extends INewFacilitiesInputDeckFormValues {
   currentWorkflowProcess: IImportWorkflowProcess["workflowProcess"];
   headerType: string;
   facilitiesInputHeaders: Record<string, string>[];
   forecastInputHeaders: Record<string, string>[];
   importDataWorkflows: Record<string, IImportState>;
   existingDataName: Record<string, IExistingDataRow[]>;
+}
+
+export interface INewFacilitiesInputDeckFormValues {
+  facilitiesInputDeckTitle: string;
+  facilitiesInputDeckDescription: string;
+}
+
+export interface INewFacilitiesInputDeckWorkflowProps
+  extends Partial<INewFacilitiesInputDeckFormValues> {
+  activeStep?: number;
+  errors?: FormikErrors<INewFacilitiesInputDeckFormValues>;
+  touched?: FormikTouched<INewFacilitiesInputDeckFormValues>;
+  isValid?: boolean;
+  handleChange?: (event: React.ChangeEvent<any>) => void;
+  children?: (
+    props: INewFacilitiesInputDeckWorkflowProps
+  ) => JSX.Element | JSX.Element[];
 }

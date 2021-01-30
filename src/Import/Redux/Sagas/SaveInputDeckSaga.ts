@@ -16,12 +16,13 @@ import {
   SAVEINPUTDECK_REQUEST,
 } from "../Actions/ImportActions";
 import history from "../../../Application/Services/HistoryService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 
 export default function* watchSaveInputDeckSaga() {
   yield takeLatest(SAVEINPUTDECK_REQUEST, saveInputDeckSaga);
 }
 
-function getInputDeckName(
+function getInputDeckType(
   workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) {
   if (workflowProcess.includes("facilities")) return "Facilities Input Deck";
@@ -29,11 +30,11 @@ function getInputDeckName(
   else return "";
 }
 
-function getInputDeckId(
+function getInputDeckRouteParam(
   workflowProcess: IAllWorkflowProcesses["workflowProcess"]
 ) {
-  if (workflowProcess.includes("facilities")) return "facilitiesInputDeckId";
-  else if (workflowProcess.includes("forecast")) return "forecastInputDeckId";
+  if (workflowProcess.includes("facilities")) return "facility-inputdeck";
+  else if (workflowProcess.includes("forecast")) return "forecast-inputdeck";
   else return "";
 }
 
@@ -43,29 +44,41 @@ function* saveInputDeckSaga(action: IAction) {
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
-  const { inputDeckData, existingDataId, title, description } = yield select(
+  const {
+    tableData: inputDeck,
+    facilitiesInputDeckTitle,
+    facilitiesInputDeckDescription,
+    forecastInputDeckTitle,
+    forecastInputDeckDescription,
+  } = yield select(
     (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
   );
 
   const data = {
     projectId,
-    userId,
-    title,
-    description,
-    inputDeck: inputDeckData,
-    [getInputDeckId(workflowProcess)]: existingDataId,
-    // [getInputDeckName(inputDeckType)]: existingData,
+    userId: "Gideon",
+    title: workflowProcess.includes("facilities")
+      ? facilitiesInputDeckTitle
+      : forecastInputDeckTitle,
+    description: workflowProcess.includes("forecast")
+      ? facilitiesInputDeckDescription
+      : forecastInputDeckDescription,
+    inputDeck,
   };
+  console.log(
+    "Logged output --> ~ file: SaveInputDeckSaga.ts ~ line 60 ~ function*saveInputDeckSaga ~ data",
+    data
+  );
 
   const config = { headers: null };
-  const saveinputDeckAPI = (url: string) => authService.post(url, config, data);
-  const inputDeckType = getInputDeckName(workflowProcess);
+  const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
+  const inputDeckType = getInputDeckType(workflowProcess);
 
   try {
     const response = yield call(
       saveinputDeckAPI,
-      `https://jsonplaceholder.typicode.com/posts`
-      // "http://a4b6b400f0c6.ngrok.io/api/project"
+      // `https://jsonplaceholder.typicode.com/posts`
+      `${getBaseUrl()}/${getInputDeckRouteParam(workflowProcess)}`
     );
 
     const { statusCode, success, data } = response;

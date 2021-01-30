@@ -1,30 +1,32 @@
 import { TextareaAutosize, TextField } from "@material-ui/core";
 import React from "react";
-import { INewProjectWorkflowProps } from "../../../Project/Redux/State/ProjectStateTypes";
-import AnalyticsComp from "../Basic/AnalyticsComp";
+import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import { INewFacilitiesInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
-const NameAndDescription = ({
-  projectTitle,
-  projectDescription,
+const FacilitiesTitleAndDescription = ({
+  facilitiesInputDeckTitle,
+  facilitiesInputDeckDescription,
   errors,
   touched,
   handleChange,
-}: INewProjectWorkflowProps) => {
+}: INewFacilitiesInputDeckWorkflowProps) => {
   const helperText =
-    touched && touched.projectTitle ? errors && errors.projectTitle : "";
+    touched && touched.facilitiesInputDeckTitle
+      ? errors && errors.facilitiesInputDeckTitle
+      : "";
   return (
     <div>
       <AnalyticsComp
-        title="Project Name"
+        title="Facilities InputDeck Title"
         direction="Vertical"
         content={
           <TextField
-            name="projectTitle"
+            name="facilitiesInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={projectTitle}
+            value={facilitiesInputDeckTitle}
             onChange={handleChange}
             required
             autoFocus
@@ -33,15 +35,15 @@ const NameAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Project Description"
+        title="Facilities InputDeck Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={
           <TextareaAutosize
-            name="projectDescription"
+            name="facilitiesInputDeckDescription"
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
-            value={projectDescription}
+            value={facilitiesInputDeckDescription}
             onChange={handleChange}
           />
         }
@@ -50,4 +52,4 @@ const NameAndDescription = ({
   );
 };
 
-export default NameAndDescription;
+export default FacilitiesTitleAndDescription;

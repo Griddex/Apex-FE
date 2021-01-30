@@ -17,7 +17,11 @@ export default function* watchOpenRecentProjectSaga() {
 
 function* openRecentProjectSaga(action: IAction) {
   const { payload } = action;
-  const { userId, projectId } = payload; //grab from own dps
+  const { userId, projectId, projectTitle, projectDescription } = payload; //grab from own dps
+  console.log(
+    "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 21 ~ function*openRecentProjectSaga ~ payload",
+    payload
+  );
 
   const config = { headers: null };
   const openRecentProjectAPI = (url: string) => authService.get(url, config);
@@ -25,12 +29,8 @@ function* openRecentProjectSaga(action: IAction) {
   try {
     const result = yield call(
       openRecentProjectAPI,
-      // `${getBaseUrl()}/project/${projectId}`
-      `https://jsonplaceholder.typicode.com/posts`
-    );
-    console.log(
-      "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 29 ~ function*openRecentProjectSaga ~ result",
-      result
+      `${getBaseUrl()}/project/${projectId}`
+      // `https://jsonplaceholder.typicode.com/posts`
     );
 
     // const { statusCode, data } = response; //data that'll go to several reducers to
@@ -39,12 +39,18 @@ function* openRecentProjectSaga(action: IAction) {
     const {
       data: { statusCode, data, succcess }, //prevent 2nd trip to server
     } = result;
-    const { title } = data;
+    const { title } = data; //unitsettins object
 
     const successAction = openRecentProjectSuccessAction(); //this will do the bootstrap
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, title },
+      payload: {
+        ...payload,
+        statusCode,
+        projectId,
+        projectTitle,
+        projectDescription,
+      },
     });
   } catch (errors) {
     const failureAction = openRecentProjectFailureAction();

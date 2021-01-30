@@ -274,14 +274,9 @@ export const saveInputDeckFailureAction = () => {
   };
 };
 
-export const fetchApplicationHeadersRequestAction = (
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
-) => {
+export const fetchApplicationHeadersRequestAction = () => {
   return {
     type: FETCHAPPLICATIONHEADERS_REQUEST,
-    payload: {
-      workflowProcess,
-    },
   };
 };
 export const fetchApplicationHeadersSuccessAction = () => {
@@ -290,6 +285,8 @@ export const fetchApplicationHeadersSuccessAction = () => {
     payload: {
       statusCode: 0,
       headerType: "",
+      facilityInputHeaders: [],
+      forecastInputHeaders: [],
     },
   };
 };

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { Column } from "react-data-griddex";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
@@ -22,6 +23,7 @@ export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
   textDialog: typeof TextDialog;
   selectWorksheetDialog: typeof SelectWorksheetDialog;
+  saveFacilitiesInputDeckDialog: typeof SaveFacilitiesInputDeckDialog;
   finalizeInputDialog: typeof FinalizeInputDialog;
   economicsParametersDialog: typeof EconomicsParametersDialog;
   economicsParameterImportDialogWorkflow: typeof EconomicsParameterImportWorkflowDialog;
@@ -58,6 +60,7 @@ export interface DialogStuff {
     | "listDialog"
     | "textDialog"
     | "selectWorksheetDialog"
+    | "saveFacilitiesInputDeckDialog"
     | "finalizeInputDialog"
     | "economicsParametersDialog"
     | "economicsParameterImportDialogWorkflow"

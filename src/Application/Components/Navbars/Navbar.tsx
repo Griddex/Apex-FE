@@ -97,7 +97,7 @@ const Navbar = () => {
   const username = faker.name.findName();
   const role = "Corporate Forecaster";
   const userinitials = GetInitials(username);
-  const { projectName } = useSelector(
+  const { projectTitle } = useSelector(
     (state: RootState) => state.projectReducer
   );
 
@@ -135,7 +135,7 @@ const Navbar = () => {
               <ChevronLeftIcon />
             </IconButton>
           )}
-          <Box>{projectName}</Box>
+          <Box>{projectTitle}</Box>
           <Box className={classes.userToolBar}>
             <UserProfilePopover>
               <div className={classes.userToolBar}>

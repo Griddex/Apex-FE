@@ -51,39 +51,38 @@ const projectReducer = (
     }
 
     case OPENRECENTPROJECT_SUCCESS: {
-      const { statusCode, title } = action.payload;
-
-      return {
-        ...state,
-        statusCode,
-        projectName: title,
-      };
-    }
-
-    case CREATE_NEWPROJECT: {
       const {
-        projectName,
+        statusCode,
+        projectId,
+        projectTitle,
         projectDescription,
-        dateFormat,
-        pressureAddend,
       } = action.payload;
 
       return {
         ...state,
-        projectName,
+        statusCode,
+        projectId,
+        projectTitle,
         projectDescription,
-        dateFormat,
-        pressureAddend,
+      };
+    }
+
+    case CREATE_NEWPROJECT: {
+      const { id } = action.payload;
+
+      return {
+        ...state,
+        projectId: id,
       };
     }
 
     case NEWPROJECT_SUCCESS: {
-      const { statusCode, data } = action.payload;
+      const { statusCode, id } = action.payload;
 
       return {
         ...state,
         statusCode,
-        data,
+        projectId: id,
       };
     }
 

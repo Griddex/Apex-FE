@@ -1,4 +1,12 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import {
+  all,
+  AllEffect,
+  call,
+  CallEffect,
+  put,
+  PutEffect,
+  takeLatest,
+} from "redux-saga/effects";
 import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -24,7 +32,7 @@ function getHeadersType(
 ) {
   switch (workflowProcess) {
     case "facilitiesInputDeckExcel":
-      return "facilityInputHeaders";
+      return "facilitiesInputHeaders";
     case "forecastInputDeckExcel":
       return "forecastInputHeaders";
     // case "economicsInputDataExisting":
@@ -38,39 +46,63 @@ function getHeadersType(
   }
 }
 
-function* fetchApplicationHeadersSaga(action: IAction) {
-  const { payload } = action;
-  const { workflowProcess } = payload;
+//use dataType to tell backend what data you are looking for
+const config = { headers: null };
+const fetchFacilitiesHeadersAPI = (url: string) => authService.get(url, config);
+const fetchForecastHeadersAPI = (url: string) => authService.get(url, config);
+const facilitiesUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
+  "facilitiesInputDeckExcel"
+)}`;
+const forecastUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
+  "forecastInputDeckExcel"
+)}`;
 
-  //use dataType to tell backend what data you are looking for
-  const config = { headers: null };
-  const fetchApplicationHeadersAPI = (url: string) =>
-    authService.get(url, config);
+type FacilitiesAxiosPromise = ReturnType<typeof fetchFacilitiesHeadersAPI>;
+type ForecastAxiosPromise = ReturnType<typeof fetchForecastHeadersAPI>;
+
+function* fetchApplicationHeadersSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<FacilitiesAxiosPromise>>
+  | PutEffect<{
+      payload: any;
+      type: string;
+    }>,
+  void,
+  [any, any]
+> {
+  const { payload } = action;
 
   try {
-    const result = yield call(
-      fetchApplicationHeadersAPI,
-      // `${getBaseUrl()}/global-variableunit/${getHeadersType(workflowProcess)}`
-      `https://jsonplaceholder.typicode.com/posts`
-    );
+    const [facilitiesResult, forecastResult] = yield all<
+      CallEffect<FacilitiesAxiosPromise>
+    >([
+      call<(url: string) => FacilitiesAxiosPromise>(
+        fetchFacilitiesHeadersAPI,
+        facilitiesUrl
+      ),
+      call<(url: string) => ForecastAxiosPromise>(
+        fetchForecastHeadersAPI,
+        forecastUrl
+      ),
+      // `https://jsonplaceholder.typicode.com/posts`,
+    ]);
 
     const {
-      data: { statusCode, data, succcess }, //prevent 2nd trip to server
-    } = result;
-    console.log(
-      "Logged output --> ~ file: FetchApplicationHeadersSaga.ts ~ line 59 ~ function*fetchApplicationHeadersSaga ~ result",
-      result
-    );
+      data: { data: facilitiesInputHeaders }, //prevent 2nd trip to server
+    } = facilitiesResult;
+    const {
+      data: { data: forecastInputHeaders }, //prevent 2nd trip to server
+    } = forecastResult;
 
     const successAction = fetchApplicationHeadersSuccessAction();
-    const headerType = getHeadersType(workflowProcess) as string;
+    // const headerType = getHeadersType(workflowProcess) as string;
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        statusCode,
-        headerType,
-        [headerType]: data,
+        facilitiesInputHeaders,
+        forecastInputHeaders,
       },
     });
   } catch (errors) {

@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Toolbar } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React from "react";
@@ -54,10 +54,16 @@ const useStyles = makeStyles((theme) => ({
 const SubNavbar = ({ subNavbarData }: { subNavbarData: ISubNavbarData }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const { expandMainDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
+
+  const [selected, setMainMenuSelected] = React.useState("");
+  // const handleMenuSelected = (name: string, e: any) => {
+  //   setMainMenuSelected(name);
+  // };
 
   return (
     <AppBar
@@ -73,14 +79,18 @@ const SubNavbar = ({ subNavbarData }: { subNavbarData: ISubNavbarData }) => {
 
             return (
               <Button
-                key={i}
+                key={name}
                 className={classes.button}
                 onClick={() => {
                   dispatch(subNavbarSetMenuAction(name));
                   dispatch(navigateResetWorkflowAction());
+                  setMainMenuSelected(name);
                   history.push(route);
                 }}
                 endIcon={icon}
+                style={
+                  name === selected ? { color: theme.palette.primary.main } : {}
+                }
               >
                 <Typography variant="subtitle2">{name}</Typography>
               </Button>

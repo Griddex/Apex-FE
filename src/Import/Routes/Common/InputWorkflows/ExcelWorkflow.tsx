@@ -62,7 +62,6 @@ const ExcelWorkflow = ({
 }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const workflowCategory = "importDataWorkflows";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(

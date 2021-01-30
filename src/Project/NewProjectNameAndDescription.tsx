@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NewProjectNameAndDescription = ({
-  projectName,
+  projectTitle,
   projectDescription,
   errors,
   touched,
@@ -64,7 +64,7 @@ const NewProjectNameAndDescription = ({
   };
 
   const helperText =
-    touched && touched.projectName ? errors && errors.projectName : "";
+    touched && touched.projectTitle ? errors && errors.projectTitle : "";
 
   return (
     <div>
@@ -73,12 +73,12 @@ const NewProjectNameAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="projectName"
+            name="projectTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={projectName}
+            value={projectTitle}
             onChange={handleChange}
             onBlur={handleBlur}
             required

@@ -91,13 +91,12 @@ const MainDrawer = () => {
   const classes = useStyles(layoutProps);
   const { expandMainDrawer, menusDisabled } = layoutProps;
 
-  const [selected, setMainMenuSelected] = useState("");
   const { url } = useRouteMatch();
   const theme = useTheme();
 
-  const handleClick = (route: string, e: any) => {
+  const [selected, setMainMenuSelected] = useState("");
+  const handleMenuSelected = (route: string, e: any) => {
     setMainMenuSelected(route);
-    console.log(e);
   };
 
   //Can replace with dynamically loaded json config file
@@ -212,7 +211,7 @@ const MainDrawer = () => {
                 to={route}
                 selected={name === selected}
                 onClick={(e: any) => {
-                  handleClick(name, e);
+                  handleMenuSelected(name, e);
                   dispatch(mainDrawerSetMenuAction(name));
                   history.push(route);
                 }}
@@ -227,7 +226,15 @@ const MainDrawer = () => {
                 {name === "Project" ? (
                   <ProjectContextMenu>
                     <div className={classes.menuItemDiv}>
-                      <div>{icon}</div>
+                      <div
+                        style={
+                          name === selected
+                            ? { color: theme.palette.primary.main }
+                            : {}
+                        }
+                      >
+                        {icon}
+                      </div>
                       {expandMainDrawer && (
                         <Typography variant="caption">{name}</Typography>
                       )}
@@ -235,7 +242,15 @@ const MainDrawer = () => {
                   </ProjectContextMenu>
                 ) : (
                   <div className={classes.menuItemDiv}>
-                    <div>{icon}</div>
+                    <div
+                      style={
+                        name === selected
+                          ? { color: theme.palette.primary.main }
+                          : {}
+                      }
+                    >
+                      {icon}
+                    </div>
                     {expandMainDrawer && (
                       <Typography variant="caption">{name}</Typography>
                     )}

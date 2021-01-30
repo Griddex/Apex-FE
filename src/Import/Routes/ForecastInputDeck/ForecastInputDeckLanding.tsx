@@ -53,9 +53,6 @@ const ForecastInputDeckLanding = () => {
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { currentWorkflowProcess } = useSelector(
-    (state: RootState) => state.workflowReducer
-  );
 
   const forecastInputLandingData: IForecastLandingData[] = [
     {
@@ -105,7 +102,7 @@ const ForecastInputDeckLanding = () => {
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
-  const excelWorkflowFinalAction = () => {
+  const forecastExcelandDbWorkflowFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Facilities Deck`,
@@ -118,14 +115,18 @@ const ForecastInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  React.useEffect(() => {
-    dispatch(
-      fetchExistingDataRequestAction(
-        "forecastInputDeck",
-        currentWorkflowProcess
-      )
-    );
-  }, []);
+  const existingDataFinalAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Manage_Deck_Dialog",
+      title: `Manage Facilities Deck`,
+      type: "textDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   return (
     <>
@@ -142,21 +143,21 @@ const ForecastInputDeckLanding = () => {
                 excel: (
                   <ExcelWorkflow
                     workflowCategory={"importDataWorkflows"}
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
+                    workflowProcess={"forecastInputDeckExcel"}
+                    finalAction={forecastExcelandDbWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
                     workflowCategory={"importDataWorkflows"}
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
+                    workflowProcess={"forecastInputDeckExcel"}
+                    finalAction={forecastExcelandDbWorkflowFinalAction}
                   />
                 ),
                 approveddeck: (
                   <ExistingForecastDecks
                     workflowProcess={"forecastInputDeckExisting"}
-                    finalAction={excelWorkflowFinalAction}
+                    finalAction={existingDataFinalAction}
                   />
                 ),
               };
