@@ -1,9 +1,18 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import {
+  all,
+  AllEffect,
+  call,
+  CallEffect,
+  put,
+  PutEffect,
+  takeLatest,
+} from "redux-saga/effects";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import {
   IExistingDataProps,
   IExistingDataRow,
@@ -44,81 +53,54 @@ function getInsert(workflowProcess: IExistingDataProps["workflowProcess"]) {
   }
 }
 
-function* fetchExistingDataSaga(action: IAction) {
-  const { payload } = action;
-  const { dataType, workflowCategory, workflowProcess } = payload;
+type AxiosPromise = ReturnType<typeof fetchExistingDataAPI>;
 
-  //use dataType to tell backend what data you are looking for
-  const config = { headers: null };
-  const fetchExistingDataAPI = (url: string) => authService.get(url, config);
+const config = { headers: null };
+const fetchExistingDataAPI = (url: string) => authService.get(url, config);
+
+function* fetchExistingDataSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<AxiosPromise>>
+  | PutEffect<{
+      payload: any;
+      type: string;
+    }>,
+  void,
+  [any, any]
+> {
+  const { payload } = action;
+  const { projectId } = payload;
+  const facilitiesUrl = `${getBaseUrl()}/facility-inputdeck/light/${projectId}`;
+  const forecastUrl = `${getBaseUrl()}/forecast-inputdeck/light/${projectId}`;
 
   try {
-    const response = yield call(
-      fetchExistingDataAPI,
-      "https://jsonplaceholder.typicode.com/posts"
-      // "http://a4b6b400f0c6.ngrok.io/api/project"
-    );
+    const [facilitiesResult, forecastResult] = yield all<
+      CallEffect<AxiosPromise>
+    >([
+      call<(url: string) => AxiosPromise>(fetchExistingDataAPI, facilitiesUrl),
+      call<(url: string) => AxiosPromise>(fetchExistingDataAPI, forecastUrl),
+    ]);
 
-    const { statusCode, data } = response;
-    //TODO: API saga to get entire units object from server
-    const { existingDataId } = data;
-    const insert = getInsert(workflowProcess);
-    const existingData: IExistingDataRow[] = [
-      {
-        status: "Existing",
-        title: `ARPR_${insert}_DECK 2020`,
-        author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-        description: "Description 1",
-        approvers: [
-          { avatarUrl: anitaImg, name: "Anita Stragan" },
-          { avatarUrl: glenImg, name: "Glen Moore John III" },
-          { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-        ],
-        createdOn: formatDate(new Date(2019, 9, 23)),
-        modifiedOn: formatDate(new Date(2019, 11, 23)),
-      },
-      {
-        status: "Pending",
-        title: `ARPR_${insert}_DECK 2019`,
-        author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-        description: "Description 2",
-        approvers: [
-          { avatarUrl: anitaImg, name: "Anita Stragan" },
-          { avatarUrl: glenImg, name: "Glen Moore John III" },
-          { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-        ],
-        createdOn: formatDate(new Date(2019, 9, 23)),
-        modifiedOn: formatDate(new Date(2019, 11, 23)),
-      },
-      {
-        status: "Returned",
-        title: `ARPR_${insert}_DECK 2018`,
-        author: { avatarUrl: johnImg, name: "John Bravo" },
-        description: "Description 3",
-        approvers: [
-          { avatarUrl: anitaImg, name: "Anita Stragan" },
-          { avatarUrl: glenImg, name: "Glen Moore John III" },
-          { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
-        ],
-        createdOn: formatDate(new Date(2019, 9, 23)),
-        modifiedOn: formatDate(new Date(2019, 11, 23)),
-      },
-    ];
+    const {
+      data: { data: facilitiesInputDeckExisting }, //prevent 2nd trip to server
+    } = facilitiesResult;
+    const {
+      data: { data: forecastInputDeckExisting }, //prevent 2nd trip to server
+    } = forecastResult;
 
     const successAction = fetchExistingDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        statusCode,
-        existingData,
-        existingDataId,
-        workflowProcess,
+        facilitiesInputDeckExisting,
+        forecastInputDeckExisting,
       },
     });
   } catch (errors) {
     const failureAction = fetchExistingDataFailureAction();
-    console.log("heyyyyyyyyyyyyyyyy mennnnnnnnnnnnnnnn");
+
     yield put({
       ...failureAction,
       payload: { ...payload, errors },

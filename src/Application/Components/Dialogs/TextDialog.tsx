@@ -44,6 +44,7 @@ const useDialogTitleStyles = makeStyles((theme: Theme) => ({
     padding: 0,
   },
 }));
+
 const TextDialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useDialogTitleStyles(props);
   const { iconType, children, onClose, ...other } = props;

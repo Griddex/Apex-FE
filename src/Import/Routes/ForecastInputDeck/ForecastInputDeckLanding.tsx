@@ -5,22 +5,17 @@ import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 import ExistingForecastDecks from "./ExistingForecastDecks";
-import {
-  IdType,
-  IForecastDeckRow,
-  IForecastLandingData,
-} from "./ForecastInputDeckLandingTypes";
+import { IdType, IForecastLandingData } from "./ForecastInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   ForecastInputDeckLanding: {
@@ -102,15 +97,19 @@ const ForecastInputDeckLanding = () => {
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
-  const forecastExcelandDbWorkflowFinalAction = () => {
+  const forecastExcelandDbWorkflowFinalAction = (
+    workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+  ) => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Facilities Deck`,
-      type: "finalizeInputDialog",
+      type: "saveForecastInputDeckWorkflowDialog",
       show: true,
       exclusive: true,
-      maxWidth: "sm",
+      maxWidth: "md",
       iconType: "information",
+      workflowProcess,
+      workflowCategory: "importDataWorkflows",
     };
     dispatch(showDialogAction(dialogParameters));
   };
@@ -144,19 +143,26 @@ const ForecastInputDeckLanding = () => {
                   <ExcelWorkflow
                     workflowCategory={"importDataWorkflows"}
                     workflowProcess={"forecastInputDeckExcel"}
-                    finalAction={forecastExcelandDbWorkflowFinalAction}
+                    finalAction={() =>
+                      forecastExcelandDbWorkflowFinalAction(
+                        "forecastInputDeckExcel"
+                      )
+                    }
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
                     workflowCategory={"importDataWorkflows"}
                     workflowProcess={"forecastInputDeckExcel"}
-                    finalAction={forecastExcelandDbWorkflowFinalAction}
+                    finalAction={() =>
+                      forecastExcelandDbWorkflowFinalAction(
+                        "forecastInputDeckDatabase"
+                      )
+                    }
                   />
                 ),
                 approveddeck: (
                   <ExistingForecastDecks
-                    workflowProcess={"forecastInputDeckExisting"}
                     finalAction={existingDataFinalAction}
                   />
                 ),

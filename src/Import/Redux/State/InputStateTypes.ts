@@ -57,7 +57,9 @@ export interface IImportState {
   success: false;
 }
 
-export interface InputStateType extends INewFacilitiesInputDeckFormValues {
+export interface InputStateType
+  extends INewFacilitiesInputDeckFormValues,
+    INewForecastInputDeckFormValues {
   currentWorkflowProcess: IImportWorkflowProcess["workflowProcess"];
   headerType: string;
   facilitiesInputHeaders: Record<string, string>[];
@@ -78,7 +80,25 @@ export interface INewFacilitiesInputDeckWorkflowProps
   touched?: FormikTouched<INewFacilitiesInputDeckFormValues>;
   isValid?: boolean;
   handleChange?: (event: React.ChangeEvent<any>) => void;
+  handleBlur?: (event: React.ChangeEvent<any>) => void;
   children?: (
     props: INewFacilitiesInputDeckWorkflowProps
+  ) => JSX.Element | JSX.Element[];
+}
+export interface INewForecastInputDeckFormValues {
+  forecastInputDeckTitle: string;
+  forecastInputDeckDescription: string;
+}
+
+export interface INewForecastInputDeckWorkflowProps
+  extends Partial<INewForecastInputDeckFormValues> {
+  activeStep?: number;
+  errors?: FormikErrors<INewForecastInputDeckFormValues>;
+  touched?: FormikTouched<INewForecastInputDeckFormValues>;
+  isValid?: boolean;
+  handleChange?: (event: React.ChangeEvent<any>) => void;
+  handleBlur?: (event: React.ChangeEvent<any>) => void;
+  children?: (
+    props: INewForecastInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
 }

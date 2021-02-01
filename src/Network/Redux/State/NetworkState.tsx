@@ -34,7 +34,9 @@ const networkState: INetworkState = {
 
   existingDataWorkflow: {
     networkExisting: {
-      status: "",
+      id: "",
+      userId: "",
+      status: "Not Started",
       title: "",
       description: "",
       author: { avatarUrl: "", name: "" },

@@ -3,33 +3,32 @@ import { Formik, FormikProps } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import {
-  INewFacilitiesInputDeckWorkflowProps,
-  INewFacilitiesInputDeckFormValues,
+  INewForecastInputDeckWorkflowProps,
+  INewForecastInputDeckFormValues,
 } from "../../Redux/State/InputStateTypes";
-import InputState from "./../../Redux/State/InputState";
+import InputState from "../../Redux/State/InputState";
+import ForecastTitleAndDescription from "./ForecastTitleAndDescription";
 
 const useStyles = makeStyles(() => ({
   form: { height: "100%" },
 }));
 
-const FacilitiesTitleAndDescriptionForm = ({
-  children,
-}: INewFacilitiesInputDeckWorkflowProps) => {
+const ForecastTitleAndDescriptionForm = () => {
   const classes = useStyles();
 
   return (
     <Formik
       initialValues={InputState}
       validationSchema={Yup.object().shape({
-        facilitiesInputDeckTitle: Yup.string().required(
+        forecastInputDeckTitle: Yup.string().required(
           "projectTitle is required"
         ),
       })}
       onSubmit={() => {}}
     >
-      {(props: FormikProps<INewFacilitiesInputDeckFormValues>) => {
+      {(props: FormikProps<INewForecastInputDeckFormValues>) => {
         const {
-          values: { facilitiesInputDeckTitle, facilitiesInputDeckDescription },
+          values: { forecastInputDeckTitle, forecastInputDeckDescription },
           errors,
           touched,
           handleChange,
@@ -37,21 +36,22 @@ const FacilitiesTitleAndDescriptionForm = ({
           handleSubmit,
         } = props;
 
+        const formProps = {
+          forecastInputDeckTitle,
+          forecastInputDeckDescription,
+          errors,
+          touched,
+          handleChange,
+          isValid,
+        };
+
         return (
           <form
             className={classes.form}
             onSubmit={handleSubmit}
             style={{ height: "100%", width: "100%" }}
           >
-            {children &&
-              children({
-                facilitiesInputDeckTitle,
-                facilitiesInputDeckDescription,
-                errors,
-                touched,
-                handleChange,
-                isValid,
-              })}
+            <ForecastTitleAndDescription {...formProps} />
           </form>
         );
       }}
@@ -59,4 +59,4 @@ const FacilitiesTitleAndDescriptionForm = ({
   );
 };
 
-export default FacilitiesTitleAndDescriptionForm;
+export default ForecastTitleAndDescriptionForm;

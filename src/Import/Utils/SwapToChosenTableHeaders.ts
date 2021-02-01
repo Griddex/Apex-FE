@@ -1,13 +1,13 @@
-import { IRawTable } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import zipObject from "lodash/zipObject";
+import { IRawTable } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 const swapToChosenTableHeaders = (
   tableData: IRawTable,
-  chosenHeaders: string[]
+  appHeaderNames: string[]
 ) => {
   const newTable = tableData.map((row) => {
     const tableValues = Object.values(row);
-    const newRow = zipObject(chosenHeaders, tableValues);
+    const newRow = zipObject(appHeaderNames, tableValues);
 
     return newRow;
   });

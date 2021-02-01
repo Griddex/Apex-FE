@@ -1,7 +1,7 @@
 import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
 import { IWorkflowState } from "./WorkflowStateTypes";
 
-const projectWorkflowProcesses = ["newProjectDialogWorkflow"];
+const projectWorkflowProcesses = ["newProjectWorkflowDialog"];
 const generateProjectWorkflowState = () => {
   return projectWorkflowProcesses.reduce((acc, workflowProcess) => {
     const initialSkipped = new Set<number>();

@@ -2,13 +2,17 @@ import { ITableIconsOptions } from "../Components/Table/ReactDataGrid/ApexGridTy
 import { IUserDetails } from "../Components/User/UserTypes";
 
 export interface IExistingDataRow {
-  status: string;
-  title: string;
-  description: string;
+  sn?: number;
+  id?: string;
+  userId?: string;
+  status: "Approved" | "Pending" | "Returned" | "Not Started";
+  title?: string;
+  description?: string;
   author: IUserDetails;
   approvers: IUserDetails[];
-  createdOn: string;
-  modifiedOn: string;
+  createdOn?: string;
+  modifiedOn?: string;
+  // workflowProcess?:IExistingDataProps["workflowProcess"]
 }
 
 export interface IExistingDataProps {
@@ -28,4 +32,12 @@ export interface IExistingDataProps {
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;
+}
+
+export interface IGiftExistingData {
+  createdAt: string;
+  userId: string;
+  title: string;
+  description: string;
+  id: string;
 }

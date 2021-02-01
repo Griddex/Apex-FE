@@ -183,7 +183,6 @@ const FacilitiesInputDeckLanding = () => {
                 ),
                 approveddeck: (
                   <ExistingFacilitiesDecks
-                    workflowProcess={"facilitiesInputDeckExisting"}
                     finalAction={existingDataFinalAction}
                   />
                 ),

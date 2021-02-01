@@ -17,6 +17,7 @@ import {
 } from "../../../../Application/Types/ApplicationTypes";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
+import { updateInputAction } from "../../../Redux/Actions/ImportActions";
 
 const useStyles = makeStyles(() => ({
   rootExistingData: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     width: "100%",
     height: "100%",
+    minHeight: 525,
     backgroundColor: "#FFF",
   },
   workflowBody: {
@@ -45,6 +47,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const getExistingTitle = (
+  workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]>
+) => {
+  if (workflowProcess.includes("facilities")) return "facilitiesInputDeckTitle";
+  else if (workflowProcess.includes("forecast"))
+    return "forecastInputDeckTitle";
+  else return "";
+};
+
 export default function ExistingDataRoute<
   TRow extends IExistingDataRow = IExistingDataRow
 >({
@@ -53,17 +64,24 @@ export default function ExistingDataRoute<
   dataTitle,
   chartData,
   tableOptions,
+  workflowProcess,
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const wp = workflowProcess as NonNullable<
+    IExistingDataProps["workflowProcess"]
+  >;
 
+  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (
     row: TRow,
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.persist();
-    alert(row);
+    const existingTitle = getExistingTitle(wp);
+    dispatch(updateInputAction(existingTitle, row.title as string));
+
+    setSelectedRows((prev) => prev.add(row.sn as number));
     setCheckboxSelected(!checkboxSelected);
   };
 
@@ -159,7 +177,7 @@ export default function ExistingDataRoute<
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), []);
+  const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snExistingData);
   const rows = tableRows.current;
 
@@ -178,6 +196,8 @@ export default function ExistingDataRoute<
           rows={rows}
           options={tableOptions as ITableIconsOptions}
           newTableRowHeight={35}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
         />
       </div>
     </div>

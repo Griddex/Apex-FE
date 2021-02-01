@@ -2,7 +2,7 @@ import { TextField, MenuItem } from "@material-ui/core";
 import React from "react";
 import { IApexSelect, ISelectItem } from "./SelectItemsType";
 
-const ApexSelect = ({
+const ApexSelectNative = ({
   currentItem,
   itemData,
   handleChange,
@@ -24,4 +24,4 @@ const ApexSelect = ({
   );
 };
 
-export default ApexSelect;
+export default ApexSelectNative;

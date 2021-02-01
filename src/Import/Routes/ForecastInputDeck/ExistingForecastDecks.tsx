@@ -16,13 +16,13 @@ const chartData = [
 ];
 
 export default function ExistingForecastDecks({
-  workflowProcess,
   finalAction,
 }: {
-  workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]>;
   finalAction: () => void;
 }) {
   const workflowCategory = "existingDataName";
+  const workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]> =
+    "forecastInputDeckExisting";
 
   const { existingData } = useSelector(
     (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]

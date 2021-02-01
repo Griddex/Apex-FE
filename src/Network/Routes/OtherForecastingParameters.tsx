@@ -3,7 +3,7 @@ import "carbon-components/css/carbon-components.min.css";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import ApexSelect from "../../Application/Components/Selects/ApexSelect";
+import ApexSelectNative from "../../Application/Components/Selects/ApexSelectNative";
 import { persistForecastParametersAction } from "../Redux/Actions/ForecastingActions";
 
 const OtherForecastingParameters = () => {
@@ -52,7 +52,7 @@ const OtherForecastingParameters = () => {
         title="Hydrocarbon Stream Prioritization"
         direction="Horizontal"
         content={
-          <ApexSelect
+          <ApexSelectNative
             currentItem={hSPName}
             itemData={hSPList}
             selectItemStyle={{ width: "100%" }}
@@ -64,7 +64,7 @@ const OtherForecastingParameters = () => {
         title="Time Frequency"
         direction="Horizontal"
         content={
-          <ApexSelect
+          <ApexSelectNative
             currentItem={timeFrequency}
             itemData={timeFrequencyList}
             selectItemStyle={{ width: "100%" }}
@@ -76,7 +76,7 @@ const OtherForecastingParameters = () => {
         title="Realtime Results"
         direction="Horizontal"
         content={
-          <ApexSelect
+          <ApexSelectNative
             currentItem={realtimeResults}
             itemData={realtimeResultsList}
             selectItemStyle={{ width: "100%" }}

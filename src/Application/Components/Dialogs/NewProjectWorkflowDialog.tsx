@@ -6,9 +6,17 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  successDialogParameters,
+  failureDialogParameters,
+} from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
+import { createNewProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
+import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { workflowInitAction } from "../../Redux/Actions/WorkflowActions";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import dialogIcons from "../Icons/DialogIcons";
 import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
@@ -83,20 +91,88 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const NewProjectDialog = (props: DialogStuff & INavigationButtonsProp) => {
+const steps = ["New Project Details", "Choose Unit Settings"];
+const workflowCategory = "projectDataWorkflows";
+const workflowProcess = "newProjectWorkflowDialog";
+
+const NewProjectWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, children } = props;
-  const {
-    mainNav,
-    showReset,
-    showBack,
-    showSkip,
-    showNext,
+  const { title, show, maxWidth, iconType } = props;
+
+  const skipped = new Set<number>();
+  const { activeStep } = useSelector(
+    (state: RootState) =>
+      state.workflowReducer[workflowCategory][workflowProcess]
+  );
+  const isStepOptional = useCallback(
+    (activeStep: number) => activeStep === 50,
+    [activeStep]
+  );
+  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
+    skipped,
+  ]);
+
+  const workflowProps = {
+    activeStep,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  };
+
+  const { projectTitle, projectDescription, pressureAddend } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
+  );
+
+  const finalAction = React.useCallback(() => {
+    dispatch(
+      createNewProjectAction(
+        projectTitle,
+        projectDescription,
+        dayFormat,
+        monthFormat,
+        yearFormat,
+        pressureAddend,
+        successDialogParameters,
+        failureDialogParameters
+      )
+    );
+  }, [
+    projectTitle,
+    projectDescription,
+    dayFormat,
+    monthFormat,
+    yearFormat,
+    pressureAddend,
+    successDialogParameters,
+    failureDialogParameters,
+  ]);
+  const navigationButtonProps: INavigationButtonsProp = {
+    mainNav: false,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
     finalAction,
     workflowProps,
     workflowProcess,
     workflowCategory,
-  } = props;
+  };
+
+  useEffect(() => {
+    dispatch(
+      workflowInitAction(
+        steps,
+        isStepOptional,
+        isStepSkipped,
+        workflowProcess,
+        workflowCategory
+      )
+    );
+  }, [dispatch]);
 
   return (
     <Dialog
@@ -115,23 +191,13 @@ const NewProjectDialog = (props: DialogStuff & INavigationButtonsProp) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        {children && children}
+        <NewProjectWorkflow activeStep={activeStep} />
       </DialogContent>
       <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
-        <NavigationButtons
-          mainNav={mainNav}
-          showReset={showReset}
-          showBack={showBack}
-          showSkip={showSkip}
-          showNext={showNext}
-          finalAction={finalAction}
-          workflowProps={workflowProps}
-          workflowProcess={workflowProcess}
-          workflowCategory={workflowCategory}
-        />
+        <NavigationButtons {...navigationButtonProps} />
       </DialogActions>
     </Dialog>
   );
 };
 
-export default NewProjectDialog;
+export default NewProjectWorkflowDialog;

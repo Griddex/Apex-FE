@@ -51,16 +51,6 @@ const Layout = () => {
     //Application headers
     dispatch(fetchApplicationHeadersRequestAction());
 
-    //Existing Data tables
-    dispatch(
-      fetchExistingDataRequestAction("A", "facilitiesInputDeckExisting")
-    );
-    dispatch(fetchExistingDataRequestAction("A", "forecastInputDeckExisting"));
-    dispatch(fetchExistingDataRequestAction("A", "economicsInputDataExisting"));
-    dispatch(
-      fetchExistingDataRequestAction("A", "productionInputDataExisting")
-    );
-    dispatch(fetchExistingDataRequestAction("A", "networkExisting"));
     dispatch(fetchRecentProjectsAction(failureDialogParameters));
     dispatch(fetchUnitSettingsRequestAction());
 

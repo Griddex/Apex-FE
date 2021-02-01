@@ -13,6 +13,7 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
 
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
+const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -97,7 +98,7 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     const dialogParameters: DialogStuff = {
       name: "New_Project_Dialog",
       title: "Create New Project",
-      type: "newProjectDialogWorkflow",
+      type: "newProjectWorkflowDialog",
       show: true,
       exclusive: true,
       maxWidth: "md",
@@ -146,6 +147,8 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                 key={i}
                 projectTitle={projectTitle as string}
                 handleClick={() => {
+                  //TODO:Economics table, production etc
+                  dispatch(fetchExistingDataRequestAction(projectId as string));
                   dispatch(
                     openRecentProjectAction(
                       "Gideon",
@@ -178,4 +181,4 @@ const NewProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   );
 });
 
-export default NewProjectPopover;
+export default ProjectPopover;

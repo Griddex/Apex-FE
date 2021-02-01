@@ -15,6 +15,7 @@ import { IAllWorkflowProcesses } from "../../../../Application/Components/Workfl
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { persistTableDataAction } from "../../../Redux/Actions/ImportActions";
+import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +57,14 @@ export default function PreviewSave({
   const dispatch = useDispatch();
   const workflowCategory = "importDataWorkflows";
 
+  const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
+    (state: RootState) => state.inputReducer
+  );
+  const isFacilitiesWorkflow = workflowProcess.includes("facilities");
+  let applicationHeaders = [];
+  if (isFacilitiesWorkflow) applicationHeaders = facilitiesInputHeaders;
+  else applicationHeaders = forecastInputHeaders;
+
   const {
     tableRoleNames,
     chosenApplicationHeaders,
@@ -74,11 +83,14 @@ export default function PreviewSave({
     chosenApplicationHeaders,
     chosenApplicationUnits
   ) as IRawRow;
-  const newUnitRow = { sn: 1, ...unitsRow };
 
+  const appHeaderNames = swapTitleToNames(
+    chosenApplicationHeaders,
+    applicationHeaders
+  );
   const applicationHeadertableData = swapToChosenTableHeaders(
     columnNameTableData,
-    chosenApplicationHeaders
+    appHeaderNames
   );
 
   const dataRows = applicationHeadertableData.filter(
@@ -96,8 +108,9 @@ export default function PreviewSave({
     sn: i + 2,
     ...row,
   }));
-
-  const tableData = [newUnitRow, ...orderedDataRows];
+  const newUnitsRow = zipObject(appHeaderNames, Object.values(unitsRow));
+  const newUnitRowWithVariableName = { sn: 1, ...newUnitsRow };
+  const tableData = [newUnitRowWithVariableName, ...orderedDataRows];
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -154,7 +167,7 @@ export default function PreviewSave({
 
     //TODO: Check for uniqueness of file headers
     //otherwise error is thrown
-    const otherColumns = chosenApplicationHeaders.map((columnName: string) => ({
+    const otherColumns = appHeaderNames.map((columnName: string) => ({
       key: columnName,
       name: columnName.toLocaleUpperCase(),
       editable: true,

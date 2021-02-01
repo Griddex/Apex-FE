@@ -27,6 +27,7 @@ import {
 } from "../../../Redux/Actions/ImportActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
+import { IApplicationHeaders } from "./MatchHeadersTypes";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -162,6 +163,10 @@ export default function MatchHeaders({
   const workflowCategory = "importDataWorkflows";
 
   //File Headers
+  const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
+    (state: RootState) => state.inputReducer
+  );
+
   const { fileHeaders } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
@@ -169,8 +174,17 @@ export default function MatchHeaders({
       ]
   );
 
-  //Application headers
-  const applicationHeaders = getApplicationHeaders(workflowProcess);
+  const isFacilitiesWorkflow = workflowProcess.includes("facilities");
+  let applicationHeaders: string[] = [];
+  if (isFacilitiesWorkflow)
+    applicationHeaders = facilitiesInputHeaders.map(
+      (header: IApplicationHeaders) => header.variableTitle
+    );
+  else
+    applicationHeaders = forecastInputHeaders.map(
+      (header: IApplicationHeaders) => header.variableTitle
+    );
+
   const options = {
     isCaseSensitive: false,
     includeScore: true,

@@ -115,12 +115,6 @@ const ProductionDataLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  React.useEffect(() => {
-    dispatch(
-      fetchExistingDataRequestAction("productionData", currentWorkflowProcess)
-    );
-  }, []);
-
   return (
     <>
       {loadWorkflow ? (

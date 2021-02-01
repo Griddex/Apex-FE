@@ -44,26 +44,28 @@ function* saveInputDeckSaga(action: IAction) {
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
+  const { tableData: inputDeck } = yield select(
+    (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
+  );
   const {
-    tableData: inputDeck,
     facilitiesInputDeckTitle,
     facilitiesInputDeckDescription,
     forecastInputDeckTitle,
     forecastInputDeckDescription,
-  } = yield select(
-    (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
-  );
+  } = yield select((state) => state.inputReducer);
 
+  const inputDeckData = [...inputDeck];
+  inputDeckData.shift();
   const data = {
     projectId,
     userId: "Gideon",
     title: workflowProcess.includes("facilities")
       ? facilitiesInputDeckTitle
       : forecastInputDeckTitle,
-    description: workflowProcess.includes("forecast")
+    description: workflowProcess.includes("facilities")
       ? facilitiesInputDeckDescription
       : forecastInputDeckDescription,
-    inputDeck,
+    inputDeck: inputDeckData,
   };
   console.log(
     "Logged output --> ~ file: SaveInputDeckSaga.ts ~ line 60 ~ function*saveInputDeckSaga ~ data",

@@ -1,5 +1,6 @@
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 
+export const UPDATE_INPUT = "UPDATE_INPUT";
 export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
 export const PERSIST_FILE = "PERSIST_FILE";
 export const PERSIST_WORKSHEETNAMES = "PERSIST_WORKSHEETNAMES";
@@ -39,6 +40,16 @@ export const FETCHAPPLICATIONHEADERS_SUCCESS =
   "FETCHAPPLICATIONHEADERS_SUCCESS";
 export const FETCHAPPLICATIONHEADERS_FAILURE =
   "FETCHAPPLICATIONHEADERS_FAILURE";
+
+export const updateInputAction = (name: string, value: string) => {
+  return {
+    type: UPDATE_INPUT,
+    payload: {
+      name,
+      value,
+    },
+  };
+};
 
 export const importFileInitAction = (
   fileLastModified: number,

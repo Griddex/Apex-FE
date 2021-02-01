@@ -8,27 +8,29 @@ import ExistingNetworksDialog from "../../../Network/Components/Dialogs/Existing
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
-import GenerateNetworkDialogWorkflow from "../../../Network/Workflows/GenerateNetworkDialogWorkflow";
-import NewProjectDialogWorkflow from "../../../Project/Workflows/NewProjectDialogWorkflow";
+import GenerateNetworkWorkflow from "../../../Network/Workflows/GenerateNetworkWorkflow";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
-import FinalizeInputDialog from "./FinalizeInputDialog";
+import SaveForecastInputDeckWorkflowDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckWorkflowDialog";
 import ListDialog from "./ListDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
+import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
+import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
   selectWorksheetDialog: SelectWorksheetDialog,
-  finalizeInputDialog: FinalizeInputDialog,
+  finalizeInputDialog: SaveForecastInputDeckWorkflowDialog,
   saveFacilitiesInputDeckDialog: SaveFacilitiesInputDeckDialog,
+  saveForecastInputDeckWorkflowDialog: SaveForecastInputDeckWorkflowDialog,
   economicsParametersDialog: EconomicsParametersDialog,
-  economicsParameterImportDialogWorkflow: EconomicsParameterImportWorkflowDialog,
-  newProjectDialogWorkflow: NewProjectDialogWorkflow,
+  economicsParameterImportWorkflowDialog: EconomicsParameterImportWorkflowDialog,
+  newProjectWorkflowDialog: NewProjectWorkflowDialog,
   saveNetworkDialog: SaveNetworkDialog,
   existingNetworksDialog: ExistingNetworksDialog,
-  networkGenerationDialogWorkflow: GenerateNetworkDialogWorkflow,
+  networkGenerationWorkflowDialog: GenerateNetworkWorkflowDialog,
   existingForecastingParametersDialog: ExistingForecastingParametersDialog,
   saveForecastingParametersDialog: SaveForecastingParametersDialog,
   runForecastDialog: RunForecastDialog,

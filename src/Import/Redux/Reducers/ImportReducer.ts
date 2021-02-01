@@ -5,6 +5,7 @@ import {
   EXISTINGDATA_SUCCESS,
 } from "../Actions/ExistingDataActions";
 import {
+  UPDATE_INPUT,
   IMPORTFILE_INITIALIZATION,
   PERSIST_CHOSENAPPLICATIONHEADERS,
   PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
@@ -32,6 +33,13 @@ import InputState from "../State/InputState";
 
 const inputReducer = (state = InputState, action: IAction) => {
   switch (action.type) {
+    case UPDATE_INPUT: {
+      const { name, value } = action.payload;
+      return {
+        ...state,
+        [name]: value,
+      };
+    }
     case IMPORTFILE_INITIALIZATION:
     case PERSIST_FILE:
     case PERSIST_WORKSHEETNAMES:
@@ -65,17 +73,16 @@ const inputReducer = (state = InputState, action: IAction) => {
       };
     }
     case EXISTINGDATA_SUCCESS: {
-      const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
+      const {
+        facilitiesInputDeckExisting,
+        forecastInputDeckExisting,
+      } = action.payload;
 
       return {
         ...state,
         existingDataName: {
           ...state.existingDataName,
-          [workflowProcessDefined]: {
-            ...state.existingDataName[workflowProcessDefined],
-            ...action.payload,
-          },
+          ...action.payload,
         },
       };
     }

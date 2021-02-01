@@ -126,15 +126,6 @@ const EconomicsDataLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  React.useEffect(() => {
-    dispatch(
-      fetchExistingDataRequestAction(
-        "economicsInputDeck",
-        currentWorkflowProcess
-      )
-    );
-  }, []);
-
   return (
     <>
       {loadWorkflow ? (

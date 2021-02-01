@@ -111,6 +111,8 @@ const InputState: InputStateType = {
 
   facilitiesInputDeckTitle: "",
   facilitiesInputDeckDescription: "",
+  forecastInputDeckTitle: "",
+  forecastInputDeckDescription: "",
 };
 
 export default InputState;

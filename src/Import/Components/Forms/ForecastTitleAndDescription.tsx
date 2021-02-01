@@ -3,41 +3,40 @@ import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { updateInputAction } from "../../Redux/Actions/ImportActions";
-import { INewFacilitiesInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
+import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
-const FacilitiesTitleAndDescription = ({
-  facilitiesInputDeckTitle,
-  facilitiesInputDeckDescription,
+const ForecastTitleAndDescription = ({
+  forecastInputDeckTitle,
+  forecastInputDeckDescription,
   errors,
   touched,
   handleChange,
-}: // handleBlur,
-INewFacilitiesInputDeckWorkflowProps) => {
+}: INewForecastInputDeckWorkflowProps) => {
   const dispatch = useDispatch();
 
   const helperText =
-    touched && touched.facilitiesInputDeckTitle
-      ? errors && errors.facilitiesInputDeckTitle
+    touched && touched.forecastInputDeckTitle
+      ? errors && errors.forecastInputDeckTitle
       : "";
 
   const handleBlur = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-
     dispatch(updateInputAction(name, value));
   };
+
   return (
     <div>
       <AnalyticsComp
-        title="Facilities InputDeck Title"
+        title="Forecast InputDeck Title"
         direction="Vertical"
         content={
           <TextField
-            name="facilitiesInputDeckTitle"
+            name="forecastInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={facilitiesInputDeckTitle}
+            value={forecastInputDeckTitle}
             onChange={handleChange}
             onBlur={handleBlur}
             required
@@ -47,15 +46,15 @@ INewFacilitiesInputDeckWorkflowProps) => {
         }
       />
       <AnalyticsComp
-        title="Facilities InputDeck Description"
+        title="Forecast InputDeck Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={
           <TextareaAutosize
-            name="facilitiesInputDeckDescription"
+            name="forecastInputDeckDescription"
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
-            value={facilitiesInputDeckDescription}
+            value={forecastInputDeckDescription}
             onChange={handleChange}
             onBlur={handleBlur}
           />
@@ -65,4 +64,4 @@ INewFacilitiesInputDeckWorkflowProps) => {
   );
 };
 
-export default FacilitiesTitleAndDescription;
+export default ForecastTitleAndDescription;

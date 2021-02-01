@@ -16,7 +16,7 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
 }
 
 export interface IProjectWorkflowProcess {
-  workflowProcess: "newProjectDialogWorkflow" | "";
+  workflowProcess: "newProjectWorkflowDialog" | "";
   workflowCategory: "projectDataWorkflows";
   finalAction?: () => void;
   finalIcon?: JSX.Element;

@@ -1,9 +1,7 @@
 import {
-  fade,
   FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
   makeStyles,
   OutlinedInput,
 } from "@material-ui/core";
@@ -15,7 +13,6 @@ import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import React, { useCallback, useMemo, useState } from "react";
 import ReactDataGrid, {
-  Column,
   DataGridHandle,
   HeaderRendererProps,
   SortDirection,
@@ -23,7 +20,7 @@ import ReactDataGrid, {
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TableIcons from "../TableIcons";
-import { ITableIconsOptions } from "./ApexGridTypes";
+import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 import { SelectEditor } from "./SelectEditor";
 
@@ -106,22 +103,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface IApexGrid<R, O> {
-  columns: readonly Column<R, unknown>[];
-  rows: R[];
-  options: ITableIconsOptions;
-  setRowsChange?: React.SetStateAction<any>;
-  newTableRowHeight?: number;
-}
-
-export interface ITableMetaData<R> {
-  scrollToIndex?: number;
-  pageSelect?: string;
-  tableFilter?: string;
-  pageSelectTableRows?: R[];
-  filteredTableRows?: R[];
-}
-
 export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const classes = useStyles();
 
@@ -130,14 +111,14 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     rows: rawRows,
     options,
     newTableRowHeight,
+    selectedRows,
+    setSelectedRows,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
   const [, setRenderRows] = React.useState(rawRows);
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
-  const [selectedRows, setSelectedRows] = React.useState(
-    () => new Set<React.Key>()
-  );
+
   const tableRef = React.useRef<HTMLDivElement>(null);
   const gridRef = React.useRef<DataGridHandle>(null);
   const tableHeaderHeight = 40;

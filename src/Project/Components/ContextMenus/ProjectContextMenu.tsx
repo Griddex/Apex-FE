@@ -3,7 +3,7 @@ import React from "react";
 import { XYPosition } from "react-flow-renderer";
 import { useSelector } from "react-redux";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
-import NewProjectPopover from "../Popovers/NewProjectPopover";
+import ProjectPopover from "../Popovers/ProjectPopover";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const ProjectContextMenu = ({ children }: IContextMenuProps) => {
@@ -48,7 +48,7 @@ const ProjectContextMenu = ({ children }: IContextMenuProps) => {
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}
       >
-        <NewProjectPopover />
+        <ProjectPopover />
       </Menu>
     </div>
   );

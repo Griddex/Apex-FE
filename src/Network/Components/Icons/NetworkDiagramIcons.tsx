@@ -35,7 +35,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
     const dialogParameters: DialogStuff = {
       name: "Generate_Network_Dialog",
       title: "Generate Network",
-      type: "networkGenerationDialogWorkflow",
+      type: "networkGenerationWorkflowDialog",
       show: true,
       exclusive: true,
       maxWidth: "md",

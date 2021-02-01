@@ -48,8 +48,7 @@ function getHeadersType(
 
 //use dataType to tell backend what data you are looking for
 const config = { headers: null };
-const fetchFacilitiesHeadersAPI = (url: string) => authService.get(url, config);
-const fetchForecastHeadersAPI = (url: string) => authService.get(url, config);
+const fetchHeadersAPI = (url: string) => authService.get(url, config);
 const facilitiesUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
   "facilitiesInputDeckExcel"
 )}`;
@@ -57,13 +56,12 @@ const forecastUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
   "forecastInputDeckExcel"
 )}`;
 
-type FacilitiesAxiosPromise = ReturnType<typeof fetchFacilitiesHeadersAPI>;
-type ForecastAxiosPromise = ReturnType<typeof fetchForecastHeadersAPI>;
+type AxiosPromise = ReturnType<typeof fetchHeadersAPI>;
 
 function* fetchApplicationHeadersSaga(
   action: IAction
 ): Generator<
-  | AllEffect<CallEffect<FacilitiesAxiosPromise>>
+  | AllEffect<CallEffect<AxiosPromise>>
   | PutEffect<{
       payload: any;
       type: string;
@@ -75,17 +73,10 @@ function* fetchApplicationHeadersSaga(
 
   try {
     const [facilitiesResult, forecastResult] = yield all<
-      CallEffect<FacilitiesAxiosPromise>
+      CallEffect<AxiosPromise>
     >([
-      call<(url: string) => FacilitiesAxiosPromise>(
-        fetchFacilitiesHeadersAPI,
-        facilitiesUrl
-      ),
-      call<(url: string) => ForecastAxiosPromise>(
-        fetchForecastHeadersAPI,
-        forecastUrl
-      ),
-      // `https://jsonplaceholder.typicode.com/posts`,
+      call<(url: string) => AxiosPromise>(fetchHeadersAPI, facilitiesUrl),
+      call<(url: string) => AxiosPromise>(fetchHeadersAPI, forecastUrl),
     ]);
 
     const {

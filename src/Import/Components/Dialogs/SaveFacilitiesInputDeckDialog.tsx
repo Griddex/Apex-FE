@@ -84,9 +84,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const SaveFacilitiesInputDeckDialog = (
-  props: DialogStuff & INavigationButtonsProp
-) => {
+const SaveFacilitiesInputDeckDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList, children } = props;
 

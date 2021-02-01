@@ -51,10 +51,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
-    // backgroundColor: (props) => props.iconColor,
-    // color: (props: DialogStuff) => {
-    //   return props.iconColor;
-    // },
   },
   dialogTitle: {
     display: "flex",
@@ -64,9 +60,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
   },
   closeButton: {
-    // position: "absolute",
-    // right: theme.spacing(1),
-    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
@@ -79,7 +72,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
-    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
@@ -142,19 +134,14 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     workflowCategory,
   } = props;
 
-  const workflowCategoryDefined = workflowCategory as IAllWorkflowProcesses["workflowCategory"];
+  const wc = workflowCategory as IAllWorkflowProcesses["workflowCategory"];
+  const wp = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategoryDefined][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
-      ]
+    (state: RootState) => state.workflowReducer[wc][wp]
   );
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
-    (state: RootState) =>
-      state.inputReducer["importDataWorkflows"][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
-      ]
+    (state: RootState) => state.inputReducer["importDataWorkflows"][wp]
   );
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
@@ -174,13 +161,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                 button
                 onClick={() => {
                   setSelectedListItem(name);
-                  dispatch(
-                    persistWorksheetAction(
-                      name,
-                      [],
-                      workflowProcess as IAllWorkflowProcesses["workflowProcess"]
-                    )
-                  );
+                  dispatch(persistWorksheetAction(name, [], wp));
                 }}
               >
                 <ListItemAvatar>
@@ -209,11 +190,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     }
 
     dispatch(
-      persistWorksheetAction(
-        selectedWorksheetName,
-        selectedWorksheetData,
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
-      )
+      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData, wp)
     );
     dispatch(
       workflowNextAction(
@@ -222,8 +199,8 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         activeStep,
         steps,
         "Loading",
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"],
-        workflowCategory as IAllWorkflowProcesses["workflowCategory"]
+        wp,
+        wc
       )
     );
     dispatch(hideDialogAction());

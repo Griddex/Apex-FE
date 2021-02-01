@@ -420,7 +420,7 @@ const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
                 const dialogParameters: DialogStuff = {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",
-                  type: "economicsParameterImportDialogWorkflow",
+                  type: "economicsParameterImportWorkflowDialog",
                   show: true,
                   exclusive: true,
                   maxWidth: "md",
@@ -450,7 +450,7 @@ const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
                 const dialogParameters: DialogStuff = {
                   name: "Excel_Worksheet_Selection_Dialog",
                   title: "Excel Worksheet Selection",
-                  type: "economicsParameterImportDialogWorkflow",
+                  type: "economicsParameterImportWorkflowDialog",
                   show: true,
                   exclusive: true,
                   maxWidth: "md",
