@@ -13,7 +13,7 @@ const SaveForecastInputDeckWorkflow = ({
   finalAction,
 }: {
   activeStep: number;
-  workflowProcess: NonNullable<IAllWorkflowProcesses["workflowProcess"]>;
+  workflowProcess: NonNullable<IAllWorkflowProcesses["wrkflwPrcss"]>;
   finalAction: () => void;
 }) => {
   // const workflowProcess = wp

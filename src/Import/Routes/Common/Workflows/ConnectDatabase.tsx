@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 const ConnectDatabase = ({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();

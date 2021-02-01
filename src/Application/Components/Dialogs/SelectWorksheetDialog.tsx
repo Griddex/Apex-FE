@@ -134,8 +134,8 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     workflowCategory,
   } = props;
 
-  const wc = workflowCategory as IAllWorkflowProcesses["workflowCategory"];
-  const wp = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
+  const wc = workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"];
+  const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]

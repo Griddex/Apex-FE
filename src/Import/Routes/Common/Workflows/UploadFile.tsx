@@ -176,8 +176,8 @@ const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
                   activeStep,
                   steps,
                   "Loading...",
-                  workflowProcess as IAllWorkflowProcesses["workflowProcess"],
-                  workflowCategory as IAllWorkflowProcesses["workflowCategory"]
+                  workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"],
+                  workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"]
                 )
               );
             }

@@ -28,7 +28,7 @@ export default function* watchFetchApplicationHeadersSaga() {
 }
 
 function getHeadersType(
-  workflowProcess: IImportWorkflowProcess["workflowProcess"]
+  workflowProcess: IImportWorkflowProcess["wrkflwPrcss"]
 ) {
   switch (workflowProcess) {
     case "facilitiesInputDeckExcel":

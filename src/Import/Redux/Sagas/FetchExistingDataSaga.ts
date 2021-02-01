@@ -36,7 +36,7 @@ export default function* watchFetchExistingDataSaga() {
   yield takeLatest(EXISTINGDATA_REQUEST, fetchExistingDataSaga);
 }
 
-function getInsert(workflowProcess: IExistingDataProps["workflowProcess"]) {
+function getInsert(workflowProcess: IExistingDataProps["wkPs"]) {
   switch (workflowProcess) {
     case "facilitiesInputDeckExisting":
       return "FACILITIES";

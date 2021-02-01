@@ -19,15 +19,17 @@ import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { updateInputAction } from "../../../Redux/Actions/ImportActions";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   rootExistingData: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "100%",
-    height: "100%",
+    width: "98%",
+    height: "95%",
     minHeight: 525,
     backgroundColor: "#FFF",
+    boxShadow: theme.shadows[3],
+    padding: 10,
   },
   workflowBody: {
     display: "flex",
@@ -48,11 +50,18 @@ const useStyles = makeStyles(() => ({
 }));
 
 const getExistingTitle = (
-  workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]>
+  workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>
 ) => {
   if (workflowProcess.includes("facilities")) return "facilitiesInputDeckTitle";
   else if (workflowProcess.includes("forecast"))
     return "forecastInputDeckTitle";
+  else return "";
+};
+const getExistingId = (
+  workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>
+) => {
+  if (workflowProcess.includes("facilities")) return "facilitiesInputDeckId";
+  else if (workflowProcess.includes("forecast")) return "forecastInputDeckId";
   else return "";
 };
 
@@ -68,18 +77,25 @@ export default function ExistingDataRoute<
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wp = workflowProcess as NonNullable<
-    IExistingDataProps["workflowProcess"]
-  >;
+  const wp = workflowProcess as NonNullable<IExistingDataProps["wrkflwPrcss"]>;
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (
     row: TRow,
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    // event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.ChangeEvent<any>
   ) => {
+    // const { name, value } = event.target;
+    console.log(
+      "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 83 ~ event",
+      event
+    );
+
     const existingTitle = getExistingTitle(wp);
+    const existingId = getExistingId(wp);
     dispatch(updateInputAction(existingTitle, row.title as string));
+    dispatch(updateInputAction(existingId, row.id as string));
 
     setSelectedRows((prev) => prev.add(row.sn as number));
     setCheckboxSelected(!checkboxSelected);
@@ -90,7 +106,7 @@ export default function ExistingDataRoute<
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "select",
-        name: "",
+        name: "SELECT",
         editable: true,
         resizable: true,
         formatter: ({ row }) => (

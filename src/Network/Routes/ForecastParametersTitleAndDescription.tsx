@@ -3,31 +3,31 @@ import React from "react";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 
-const ForecastParametersNameAndDescription = ({
-  forecastParametersName,
+const ForecastParametersTitleAndDescription = ({
+  forecastParametersTitle,
   forecastParametersDescription,
   errors,
   touched,
   handleChange,
 }: ISaveForecastParametersFormProps) => {
   const helperText =
-    touched && touched.forecastParametersName
-      ? errors && errors.forecastParametersName
+    touched && touched.forecastParametersTitle
+      ? errors && errors.forecastParametersTitle
       : "";
 
   return (
     <div>
       <AnalyticsComp
-        title="Forecast Parameters Name"
+        title="Forecast Parameters Title"
         direction="Vertical"
         content={
           <TextField
-            name="forecastParametersName"
+            name="forecastParametersTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={forecastParametersName}
+            value={forecastParametersTitle}
             onChange={handleChange}
             required
             autoFocus
@@ -53,4 +53,4 @@ const ForecastParametersNameAndDescription = ({
   );
 };
 
-export default ForecastParametersNameAndDescription;
+export default ForecastParametersTitleAndDescription;

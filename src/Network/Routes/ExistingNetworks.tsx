@@ -18,10 +18,10 @@ const chartData = [
 export default function ExistingNetworks({
   workflowProcess,
 }: {
-  workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]>;
+  workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>;
 }) {
   const dispatch = useDispatch();
-  const workflowCategory = "existingDataName";
+  const workflowCategory = "existingDataWorkflows";
 
   const { existingData } = useSelector(
     (state: RootState) =>

@@ -72,7 +72,7 @@ const existingData = [
 export default function DeclineCurveParameters({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -82,7 +82,7 @@ export default function DeclineCurveParameters({
   const { inputDeckData } = useSelector(
     (state: RootState) =>
       state.networkReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 

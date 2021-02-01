@@ -1,9 +1,8 @@
 import { TextareaAutosize, TextField } from "@material-ui/core";
 import React from "react";
+import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { ISaveNetworkFormProps } from "../Redux/State/NetworkStateTypes";
-import { useDispatch } from "react-redux";
-import { saveNetworkExtrudeIsValidAction } from "../Redux/Actions/NetworkActions";
 import { IIsSaveNetworkValid } from "./../Components/Dialogs/SaveNetworkDialogTypes";
 
 const SaveNetworkNameAndDescription = ({
@@ -22,7 +21,7 @@ const SaveNetworkNameAndDescription = ({
   return (
     <div>
       <AnalyticsComp
-        title="Network Name"
+        title="Network Title"
         direction="Vertical"
         content={
           <TextField
@@ -33,8 +32,14 @@ const SaveNetworkNameAndDescription = ({
             error={Boolean(helperText)}
             value={networkTitle}
             onChange={(e) => {
-              setIsSaveNetworkValid && setIsSaveNetworkValid(true);
+              const { value } = e.target;
               handleChange && handleChange(e);
+
+              if (value.length > 2) {
+                setIsSaveNetworkValid && setIsSaveNetworkValid(false);
+              } else {
+                setIsSaveNetworkValid && setIsSaveNetworkValid(true);
+              }
             }}
             required
             autoFocus

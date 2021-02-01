@@ -18,6 +18,12 @@ export const AUTOGENERATENETWORK_FAILURE = "AUTOGENERATENETWORK_FAILURE";
 export const SAVENETWORK_REQUEST = "SAVENETWORK_REQUEST";
 export const SAVENETWORK_SUCCESS = "SAVENETWORK_SUCCESS";
 export const SAVENETWORK_FAILURE = "SAVENETWORK_FAILURE";
+export const EXISTINGFORECASTPARAMETERS_REQUEST =
+  "EXISTINGFORECASTPARAMETERS_REQUEST";
+export const EXISTINGFORECASTPARAMETERS_SUCCESS =
+  "EXISTINGFORECASTPARAMETERS_SUCCESS";
+export const EXISTINGFORECASTPARAMETERS_FAILURE =
+  "EXISTINGFORECASTPARAMETERS_FAILURE";
 
 export const setCurrentElementAction = (currentElement: FlowElement) => {
   return {
@@ -154,6 +160,7 @@ export const autoGenerateNetworkFailureAction = () => {
 export const saveNetworkRequestAction = () => {
   return {
     type: SAVENETWORK_REQUEST,
+    meta: { showSpinner: true },
   };
 };
 
@@ -169,6 +176,31 @@ export const saveNetworkSuccessAction = () => {
 export const saveNetworkFailureAction = () => {
   return {
     type: SAVENETWORK_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchExistingForecastingparametersRequestAction = () => {
+  return {
+    type: EXISTINGFORECASTPARAMETERS_REQUEST,
+    meta: { showSpinner: true },
+  };
+};
+export const fetchExistingForecastParametersSuccessAction = () => {
+  return {
+    type: EXISTINGFORECASTPARAMETERS_SUCCESS,
+    payload: {
+      statusCode: 0,
+    },
+  };
+};
+
+export const fetchExistingForecastParametersFailureAction = () => {
+  return {
+    type: EXISTINGFORECASTPARAMETERS_FAILURE,
     payload: {
       statusCode: 0,
       errors: { message: "" },

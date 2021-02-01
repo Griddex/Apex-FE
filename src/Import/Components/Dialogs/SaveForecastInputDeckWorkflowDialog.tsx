@@ -116,14 +116,14 @@ const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
 
   const skipped = new Set<number>();
 
-  // const wc = workflowCategory as IImportWorkflowProcess["workflowCategory"];
-  // const wp = workflowProcess as IImportWorkflowProcess["workflowProcess"];
+  // const wc = workflowCategory as IImportWorkflowProcess["wrkflwCtgry"];
+  // const wp = workflowProcess as IImportWorkflowProcess["wrkflwPrcss"];
   const wc = "importDataWorkflows";
   const { workflowProcess } = props as {
-    workflowProcess: NonNullable<IAllWorkflowProcesses["workflowProcess"]>;
+    workflowProcess: NonNullable<IAllWorkflowProcesses["wrkflwPrcss"]>;
   };
   const wp = workflowProcess as NonNullable<
-    IAllWorkflowProcesses["workflowProcess"]
+    IAllWorkflowProcesses["wrkflwPrcss"]
   >;
 
   const { activeStep } = useSelector(

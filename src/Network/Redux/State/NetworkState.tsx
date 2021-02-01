@@ -13,7 +13,7 @@ const networkState: INetworkState = {
   showWellheadSummaryEdges: true,
 
   saveForecastParameters: {
-    forecastParametersName: "",
+    forecastParametersTitle: "",
     forecastParametersDescription: "",
     hSPName: "Oil",
     timeFrequency: "Yearly",
@@ -24,6 +24,8 @@ const networkState: INetworkState = {
   isValids: { saveNetworkExtrudeIsValid: false },
 
   isNetworkSaved: false,
+  isNetworkChanged: false,
+  networkId: "",
   networkTitle: "",
   networkDescription: "",
   statusCode: 0,

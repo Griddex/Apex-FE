@@ -98,7 +98,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = ["New Project Details", "Choose Unit Settings"];
+const steps = ["Select Facilities Input Deck", "Select Forecast Input Deck"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
@@ -128,13 +128,17 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
+  const finalAction = React.useCallback(() => {
+    dispatch(autoGenerateNetworkRequestAction());
+  }, []);
+
   const navigationButtonProps: INavigationButtonsProp = {
     mainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction: () => dispatch(autoGenerateNetworkRequestAction()),
+    finalAction,
     workflowProps,
     workflowProcess,
     workflowCategory,

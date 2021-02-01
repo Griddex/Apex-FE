@@ -127,7 +127,7 @@ const DatabaseWorkflow = ({
         steps,
         isStepOptional,
         isStepSkipped,
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"],
         workflowCategory
       )
     );

@@ -1,11 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IExistingDataRow,
+  IGiftExistingData,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 
@@ -17,15 +16,16 @@ const chartData = [
 ];
 
 export default function ExistingEconomicsParametersDecks({
-  workflowProcess,
   finalAction,
 }: {
-  workflowProcess: IImportWorkflowProcess["workflowProcess"];
   finalAction: () => void;
 }) {
-  const workflowCategory = "existingDataName";
-  const { existingData } = useSelector(
-    (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
+  const workflowCategory = "existingDataWorkflows";
+  const workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]> =
+    "economicsInputDataExisting";
+  const existingData = useSelector(
+    (state: RootState) =>
+      state.economicsReducer[workflowCategory][workflowProcess]
   );
 
   const tableOptions: ITableIconsOptions = {
@@ -44,9 +44,16 @@ export default function ExistingEconomicsParametersDecks({
   };
 
   const snExistingData = existingData.map(
-    (row: IExistingDataRow, i: number) => ({
+    (row: IGiftExistingData, i: number) => ({
       sn: i + 1,
-      ...row,
+      id: row.id,
+      status: "Not Started",
+      title: row.title,
+      description: row.description,
+      author: "None",
+      approvers: ["None", "None"],
+      createdOn: row.createdAt,
+      modifiedOn: row.createdAt,
     })
   );
 
@@ -54,6 +61,7 @@ export default function ExistingEconomicsParametersDecks({
   const dataTitle = "ECONOMIC PARAMETERS TITLE";
 
   const props: IExistingDataProps = {
+    workflowProcess,
     snExistingData,
     dataKey,
     dataTitle,

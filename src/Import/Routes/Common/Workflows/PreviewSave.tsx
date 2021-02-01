@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PreviewSave({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ export default function PreviewSave({
   } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 

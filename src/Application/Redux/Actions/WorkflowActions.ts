@@ -12,11 +12,11 @@ export const SETUP_WORKFLOW = "SETUP_WORKFLOW";
 
 export const setWorkflowProcessAction = (
   workflowProcess:
-    | IAllWorkflowProcesses["workflowProcess"]
-    | IExistingDataProps["workflowProcess"],
+    | IAllWorkflowProcesses["wrkflwPrcss"]
+    | IExistingDataProps["wkPs"],
   workflowCategory:
-    | IAllWorkflowProcesses["workflowCategory"]
-    | IExistingDataProps["workflowCategory"]
+    | IAllWorkflowProcesses["wrkflwCtgry"]
+    | IExistingDataProps["wkCy"]
 ) => {
   return {
     type: SET_WORKFLOWPROCESS,
@@ -31,8 +31,8 @@ export const workflowInitAction = (
   steps: string[],
   isStepOptional: (activeStep: number) => boolean,
   isStepSkipped: (step: number) => boolean,
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
-  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
 ) => {
   return {
     type: INITIALIZE_WORKFLOW,
@@ -48,8 +48,8 @@ export const workflowInitAction = (
 
 export const workflowResetAction = (
   activeStep: number,
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
-  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
 ) => {
   return {
     type: RESET_WORKFLOW,
@@ -67,8 +67,8 @@ export const workflowNextAction = (
   activeStep: number,
   steps: string[],
   message: string,
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
-  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
 ) => {
   return {
     type: NEXT_WORKFLOW,
@@ -86,8 +86,8 @@ export const workflowNextAction = (
 
 export const workflowBackAction = (
   activeStep: number,
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
-  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
 ) => {
   return {
     type: BACK_WORKFLOW,
@@ -102,8 +102,8 @@ export const workflowBackAction = (
 export const workflowSkipAction = (
   isStepOptional: (activeStep: number) => boolean,
   activeStep: number,
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
-  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
 ) => {
   return {
     type: SKIP_WORKFLOW,
@@ -117,8 +117,8 @@ export const workflowSkipAction = (
 };
 
 export const workflowSaveAction = (
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
-  workflowCategory: IAllWorkflowProcesses["workflowCategory"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
 ) => {
   return {
     type: SAVE_WORKFLOW,
@@ -130,8 +130,8 @@ export const workflowSaveAction = (
 };
 
 export const setUpWorkflowAction = (
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"],
-  workflowCategory: IAllWorkflowProcesses["workflowCategory"],
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"],
   name: string
 ) => {
   return {

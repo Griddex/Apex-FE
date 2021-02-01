@@ -9,7 +9,7 @@ import ExistingForecastingParametersDialog from "../../../Network/Components/Dia
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
-import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
+import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
@@ -33,7 +33,7 @@ export interface IApplicationDialogs {
   existingNetworksDialog: typeof ExistingNetworksDialog;
   networkGenerationWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   existingForecastingParametersDialog: typeof ExistingForecastingParametersDialog;
-  saveForecastingParametersDialog: typeof SaveForecastingParametersDialog;
+  saveForecastingParametersWorkflowDialog: typeof SaveForecastingParametersWorkflowDialog;
   runForecastDialog: typeof RunForecastDialog;
 }
 
@@ -71,7 +71,7 @@ export interface DialogStuff {
     | "existingNetworksDialog"
     | "networkGenerationWorkflowDialog"
     | "existingForecastingParametersDialog"
-    | "saveForecastingParametersDialog";
+    | "saveForecastingParametersWorkflowDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -87,8 +87,8 @@ export interface DialogStuff {
   dialogContentStyle?: CSSProperties;
   dialogActionsStyle?: CSSProperties;
   // activeStep?: number;
-  workflowProcess?: IAllWorkflowProcesses["workflowProcess"];
-  workflowCategory?: IAllWorkflowProcesses["workflowCategory"];
+  workflowProcess?: IAllWorkflowProcesses["wrkflwPrcss"];
+  workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

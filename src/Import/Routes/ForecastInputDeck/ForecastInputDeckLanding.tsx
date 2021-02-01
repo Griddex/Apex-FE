@@ -91,14 +91,14 @@ const ForecastInputDeckLanding = () => {
       ),
       route: `${url}/approveddeck`,
       workflowProcess: "forecastInputDeckExisting",
-      workflowCategory: "existingDataCategory",
+      workflowCategory: "existingDataWorkflows",
     },
   ];
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
   const forecastExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",

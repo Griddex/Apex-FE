@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
 import SaveNetworkDialogButtons from "../DialogBottons/SaveNetworkDialogButtons";
 import SaveNetworkForm from "../Forms/SaveNetworkForm";
@@ -98,10 +99,6 @@ const SaveNetworkDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
   const [isSaveNetworkValid, setIsSaveNetworkValid] = React.useState(true);
-  console.log(
-    "Logged output --> ~ file: SaveNetworkDialog.tsx ~ line 120 ~ SaveNetworkDialog ~ isSaveNetworkValid",
-    isSaveNetworkValid
-  );
 
   return (
     <Dialog

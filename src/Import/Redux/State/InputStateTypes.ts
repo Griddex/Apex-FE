@@ -60,12 +60,14 @@ export interface IImportState {
 export interface InputStateType
   extends INewFacilitiesInputDeckFormValues,
     INewForecastInputDeckFormValues {
-  currentWorkflowProcess: IImportWorkflowProcess["workflowProcess"];
+  currentWorkflowProcess: IImportWorkflowProcess["wrkflwPrcss"];
   headerType: string;
+  facilitiesInputDeckId: string;
+  forecastInputDeckId: string;
   facilitiesInputHeaders: Record<string, string>[];
   forecastInputHeaders: Record<string, string>[];
   importDataWorkflows: Record<string, IImportState>;
-  existingDataName: Record<string, IExistingDataRow[]>;
+  existingDataWorkflows: Record<string, IExistingDataRow[]>;
 }
 
 export interface INewFacilitiesInputDeckFormValues {

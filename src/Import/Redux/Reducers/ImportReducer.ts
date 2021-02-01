@@ -59,7 +59,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     case PERSIST_DEFINEDTABLEDATA:
     case PERSIST_TABLEHEADERS: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       return {
         ...state,
@@ -80,22 +80,23 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       return {
         ...state,
-        existingDataName: {
-          ...state.existingDataName,
-          ...action.payload,
+        existingDataWorkflows: {
+          ...state.existingDataWorkflows,
+          facilitiesInputDeckExisting,
+          forecastInputDeckExisting,
         },
       };
     }
     case EXISTINGDATA_FAILURE: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       return {
         ...state,
-        existingDataName: {
-          ...state.existingDataName,
+        existingDataWorkflows: {
+          ...state.existingDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.existingDataName[workflowProcessDefined],
+            ...state.existingDataWorkflows[workflowProcessDefined],
             ...action.payload.existingData,
           },
         },
@@ -103,7 +104,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case SAVEINPUTDECK_SUCCESS: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       return {
         ...state,
@@ -120,7 +121,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case SAVEINPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["workflowProcess"];
+      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       return {
         ...state,

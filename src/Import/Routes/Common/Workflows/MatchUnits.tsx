@@ -90,7 +90,7 @@ const getApplicationUnits = () => {
 export default function MatchUnits({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -99,7 +99,7 @@ export default function MatchUnits({
   const { fileUnits, fileUniqueUnits } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 

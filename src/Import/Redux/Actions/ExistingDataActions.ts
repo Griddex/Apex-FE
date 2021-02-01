@@ -1,5 +1,3 @@
-import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
-
 export const EXISTINGDATA_REQUEST = "EXISTINGDATA_REQUEST";
 export const EXISTINGDATA_SUCCESS = "EXISTINGDATA_SUCCESS";
 export const EXISTINGDATA_FAILURE = "EXISTINGDATA_FAILURE";

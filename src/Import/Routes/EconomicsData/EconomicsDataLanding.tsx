@@ -11,7 +11,6 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import { IdType, IEconomicsLandingData } from "./EconomicsDataLandingTypes";
@@ -47,9 +46,6 @@ const EconomicsDataLanding = () => {
   const { url, path } = useRouteMatch();
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
-  );
-  const { currentWorkflowProcess } = useSelector(
-    (state: RootState) => state.workflowReducer
   );
 
   const economicsLandingData: IEconomicsLandingData[] = [
@@ -113,11 +109,24 @@ const EconomicsDataLanding = () => {
     },
   ];
 
-  const excelWorkflowFinalAction = () => {
+  const economicsExcelandDbWorkflowFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Economics Deck`,
       type: "finalizeInputDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+    };
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const existingDataFinalAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Manage_Deck_Dialog",
+      title: `Manage Economics Parameters Deck`,
+      type: "textDialog",
       show: true,
       exclusive: true,
       maxWidth: "sm",
@@ -143,21 +152,20 @@ const EconomicsDataLanding = () => {
                 excel: (
                   <ExcelWorkflow
                     workflowCategory={"economicsDataWorkflows"}
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
+                    workflowProcess={"economicsInputDataExcel"}
+                    finalAction={economicsExcelandDbWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
                     workflowCategory={"economicsDataWorkflows"}
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
+                    workflowProcess={"economicsInputDataDatabase"}
+                    finalAction={economicsExcelandDbWorkflowFinalAction}
                   />
                 ),
                 approveddata: (
                   <ExistingEconomicsParametersDecks
-                    workflowProcess={currentWorkflowProcess}
-                    finalAction={excelWorkflowFinalAction}
+                    finalAction={existingDataFinalAction}
                   />
                 ),
               };

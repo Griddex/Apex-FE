@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 const ForecastInputDeckFinalization = ({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();

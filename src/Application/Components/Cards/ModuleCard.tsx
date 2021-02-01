@@ -57,28 +57,16 @@ const useStyles = makeStyles((theme) => ({
 
 interface IModuleCardProps {
   moduleAction: () => { type: string; payload: { loadWorkflow: boolean } };
-  Icon: JSX.Element;
+  icon: JSX.Element;
   name: string;
   description: string;
   route: string;
-  workflowProcess:
-    | IAllWorkflowProcesses["workflowProcess"]
-    | IExistingDataProps["workflowProcess"];
-  workflowCategory:
-    | IAllWorkflowProcesses["workflowCategory"]
-    | IExistingDataProps["workflowCategory"];
+  wP: IAllWorkflowProcesses["wrkflwPrcss"] | IExistingDataProps["wkPs"];
+  wC: IAllWorkflowProcesses["wrkflwCtgry"] | IExistingDataProps["wkCy"];
 }
 
 const ModuleCard: React.FC<IModuleCardProps> = (props) => {
-  const {
-    moduleAction,
-    Icon,
-    name,
-    description,
-    route,
-    workflowProcess,
-    workflowCategory,
-  } = props;
+  const { moduleAction, icon, name, description, route, wP, wC } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -90,14 +78,14 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         onClick={() => {
           //use redux saga to send this all at once,
           //when all return, do history push
-          dispatch(setWorkflowProcessAction(workflowProcess, workflowCategory));
+          dispatch(setWorkflowProcessAction(wP, wC));
           dispatch(workflowSetMenuAction(name));
           dispatch(moduleAction());
           dispatch(showContextDrawerAction());
           history.push(route);
         }}
       >
-        {Icon}
+        {icon}
         <Typography
           className={classes.name}
           gutterBottom

@@ -12,7 +12,7 @@ export interface IExistingDataRow {
   approvers: IUserDetails[];
   createdOn?: string;
   modifiedOn?: string;
-  // workflowProcess?:IExistingDataProps["workflowProcess"]
+  // workflowProcess?:IExistingDataProps["wrkflwPrcss"]
 }
 
 export interface IExistingDataProps {
@@ -21,14 +21,15 @@ export interface IExistingDataProps {
   dataTitle?: string;
   chartData?: Record<string, React.Key>[];
   tableOptions?: ITableIconsOptions;
-  workflowProcess?:
+  wkPs?:
     | "facilitiesInputDeckExisting"
     | "forecastInputDeckExisting"
     | "productionInputDataExisting"
     | "economicsInputDataExisting"
     | "networkExisting"
+    | "economicsParametersExisting"
     | "";
-  workflowCategory?: "existingDataCategory";
+  wkCy?: "existingDataWorkflows";
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;

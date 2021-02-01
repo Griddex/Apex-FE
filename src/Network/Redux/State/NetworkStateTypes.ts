@@ -28,7 +28,7 @@ export interface ISaveNetworkProps {
 
 //ForecastParameters
 export interface ISaveForecastParametersFormValues {
-  forecastParametersName: string;
+  forecastParametersTitle: string;
   forecastParametersDescription: string;
   hSPName: string;
   timeFrequency: string;
@@ -48,7 +48,7 @@ export interface ISaveForecastParametersProps {
   children?: (props: ISaveForecastParametersFormProps) => JSX.Element;
 }
 export interface IRunForecastParametersFormValues {
-  forecastParametersName: string;
+  forecastParametersTitle: string;
   forecastParametersDescription: string;
   hSPName: string;
   timeFrequency: string;
@@ -94,6 +94,8 @@ export interface INetworkState extends ISaveNetworkFormProps {
   showWellheadSummaryEdges: boolean;
 
   isNetworkSaved: boolean;
+  isNetworkChanged: boolean;
+  networkId: string;
   statusCode: number;
   message: string;
   error: { message: string };

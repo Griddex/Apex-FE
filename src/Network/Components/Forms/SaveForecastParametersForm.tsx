@@ -21,7 +21,7 @@ const SaveForecastParametersForm = ({
     <Formik
       initialValues={networkState.saveForecastParameters}
       validationSchema={Yup.object().shape({
-        forecastParametersName: Yup.string().required(
+        forecastParametersTitle: Yup.string().required(
           "projectTitle is required"
         ),
         forecastParametersDescription: Yup.string().required(
@@ -33,7 +33,7 @@ const SaveForecastParametersForm = ({
       {(props: FormikProps<ISaveForecastParametersFormValues>) => {
         const {
           values: {
-            forecastParametersName,
+            forecastParametersTitle,
             forecastParametersDescription,
             hSPName,
             timeFrequency,
@@ -55,7 +55,7 @@ const SaveForecastParametersForm = ({
           >
             {children &&
               children({
-                forecastParametersName,
+                forecastParametersTitle,
                 forecastParametersDescription,
                 hSPName,
                 timeFrequency,

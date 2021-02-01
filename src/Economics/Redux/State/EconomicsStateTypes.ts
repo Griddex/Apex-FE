@@ -13,5 +13,5 @@ export type IEconomicsWorkflowProcessesType =
 export interface EconomicsStateType {
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   importDataWorkflows: Record<string, IEconomicsState>;
-  existingDataName: Record<string, IEconomicsState[]>;
+  existingDataWorkflows: Record<string, IEconomicsState[]>;
 }

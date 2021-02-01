@@ -100,7 +100,7 @@ const FacilitiesInputDeckLanding = () => {
       ),
       route: `${url}/approveddeck`,
       workflowProcess: "facilitiesInputDeckExisting",
-      workflowCategory: "existingDataCategory",
+      workflowCategory: "existingDataWorkflows",
     },
   ];
 
@@ -109,7 +109,7 @@ const FacilitiesInputDeckLanding = () => {
 
   //Paying it back
   const facilitiesExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Save_Facilities_Input_Deck_Dialog",

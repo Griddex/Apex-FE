@@ -98,7 +98,7 @@ const ProductionDataLanding = () => {
       ),
       route: `${url}/approveddata`,
       workflowProcess: "productionInputDataExisting",
-      workflowCategory: "existingDataCategory",
+      workflowCategory: "existingDataWorkflows",
     },
   ];
 

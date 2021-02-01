@@ -1,24 +1,25 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
+  PERSIST_FORECASTPARAMETERS,
+  RUN_FORECAST_FAILURE,
   RUN_FORECAST_REQUEST,
   RUN_FORECAST_SUCCESS,
-  RUN_FORECAST_FAILURE,
-  PERSIST_FORECASTPARAMETERS,
 } from "../Actions/ForecastingActions";
 import {
-  SET_CURRENTELEMENT,
-  PERSIST_NETWORKELEMENTS,
   ADD_NETWORKELEMENT,
-  PERSIST_POPOVER,
-  SHOW_POPOVER,
-  PERSIST_POPOVERID,
-  SHOW_NETWORKELEMENTDETAILS,
-  HIDE_NETWORKELEMENTDETAILS,
-  HIDE_WELHEADSUMMARYNODES,
-  HIDE_WELHEADSUMMARYEDGES,
-  SAVENETWORK_ISVALID,
   AUTOGENERATENETWORK_SUCCESS,
+  HIDE_NETWORKELEMENTDETAILS,
+  HIDE_WELHEADSUMMARYEDGES,
+  HIDE_WELHEADSUMMARYNODES,
+  PERSIST_NETWORKELEMENTS,
+  PERSIST_POPOVER,
+  PERSIST_POPOVERID,
+  SAVENETWORK_ISVALID,
+  SET_CURRENTELEMENT,
+  SHOW_NETWORKELEMENTDETAILS,
+  SHOW_POPOVER,
+  SAVENETWORK_SUCCESS,
+  SAVENETWORK_FAILURE,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -99,6 +100,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         ...action.payload,
       };
+
     case SAVENETWORK_ISVALID:
       return {
         ...state,
@@ -110,6 +112,23 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         nodeElements,
         edeElements,
+      };
+    }
+    case SAVENETWORK_SUCCESS: {
+      const { statusCode, success } = action.payload;
+      return {
+        ...state,
+        statusCode,
+        success,
+      };
+    }
+    case SAVENETWORK_FAILURE: {
+      const { statusCode, errors } = action.payload;
+
+      return {
+        ...state,
+        statusCode,
+        errors,
       };
     }
     default:

@@ -6,7 +6,7 @@ import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/Sa
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
-import SaveForecastingParametersDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersDialog";
+import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import GenerateNetworkWorkflow from "../../../Network/Workflows/GenerateNetworkWorkflow";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -32,7 +32,7 @@ const applicationDialogs: IApplicationDialogs = {
   existingNetworksDialog: ExistingNetworksDialog,
   networkGenerationWorkflowDialog: GenerateNetworkWorkflowDialog,
   existingForecastingParametersDialog: ExistingForecastingParametersDialog,
-  saveForecastingParametersDialog: SaveForecastingParametersDialog,
+  saveForecastingParametersWorkflowDialog: SaveForecastingParametersWorkflowDialog,
   runForecastDialog: RunForecastDialog,
 };
 

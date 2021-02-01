@@ -16,46 +16,41 @@ export default function* watchSaveNetworkSaga() {
 
 function* saveNetworkSaga(action: IAction) {
   const { payload } = action;
-  const { workflowProcess } = payload;
   const { userId } = yield select((state) => state.loginReducer);
-  const { inputDeckId: facilitiesInputDeckId } = yield select((state) => {
-    const facilitiesState = state.inputReducer;
-    const facilitiesWorkflowNames = Object.keys(facilitiesState).filter((n) =>
-      n.includes("facilities")
-    );
-    const currentFacilityWorkflow = facilitiesWorkflowNames.filter((n) => {
-      const workflowState = facilitiesState[n];
-      return workflowState["inputDeckId"] !== "";
-    });
+  const { projectId } = yield select((state) => state.projectReducer);
 
-    return currentFacilityWorkflow[0];
-  });
-  const { inputDeckId: forecastInputDeckId } = yield select(
-    (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
+  const { networkId, nodeElements, edgeElements } = yield select(
+    (state) => state.networkReducer
   );
 
   const data = {
     userId,
-    facilitiesInputDeckId,
-    forecastInputDeckId,
+    id: projectId,
+    networkId,
+    nodeElements,
+    edgeElements,
   };
 
   const config = { headers: null };
   const saveNetworkAPI = (url: string) => authService.post(url, config, data);
 
   try {
-    const response = yield call(
+    const result = yield call(
       saveNetworkAPI,
       "https://jsonplaceholder.typicode.com/posts"
       // "http://a4b6b400f0c6.ngrok.io/api/project"
     );
 
-    const { statusCode, data } = response;
+    const {
+      // data: { data: facilitiesInputDeckExisting }, //prevent 2nd trip to server
+      statusCode,
+      success,
+    } = result;
 
     const successAction = saveNetworkSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, data },
+      payload: { ...payload, statusCode, success },
     });
   } catch (errors) {
     const failureAction = saveNetworkFailureAction();

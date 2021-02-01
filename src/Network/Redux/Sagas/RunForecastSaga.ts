@@ -22,7 +22,7 @@ function* runForecastSaga(action: IAction) {
   const { inputDeckData } = yield select(
     (state) =>
       state.inputReducer["importDataWorkflows"][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
   const data = inputDeckData;

@@ -44,7 +44,7 @@ const useStyles = makeStyles(() => ({
 export default function SelectHeaderUnitData({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export default function SelectHeaderUnitData({
   const { selectedWorksheetData } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 

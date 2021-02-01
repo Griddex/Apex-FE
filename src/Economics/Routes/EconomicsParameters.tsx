@@ -124,7 +124,7 @@ const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
   const { dnDDisabled } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
   const [economicsDataSource, setEconomicsDataSource] = React.useState(

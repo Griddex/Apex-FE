@@ -168,8 +168,8 @@ const NetCashFlowWorkflow = () => {
   }, [dispatch]);
 
   const props: {
-    workflowCategory: IAllWorkflowProcesses["workflowCategory"];
-    workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+    workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"];
+    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
   } = {
     workflowCategory,
     workflowProcess,

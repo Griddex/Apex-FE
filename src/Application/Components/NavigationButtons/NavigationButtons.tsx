@@ -58,6 +58,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
 
   const classes = useStyles(props);
   const dispatch = useDispatch();
+  const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+  const wc = workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"];
 
   const {
     activeStep,
@@ -75,14 +77,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           variant="outlined"
           color="secondary"
           onClick={() =>
-            workflowResetAction &&
-            dispatch(
-              workflowResetAction(
-                0,
-                workflowProcess as IAllWorkflowProcesses["workflowProcess"],
-                workflowCategory as IAllWorkflowProcesses["workflowCategory"]
-              )
-            )
+            workflowResetAction && dispatch(workflowResetAction(0, wp, wc))
           }
         >
           <div className={classes.buttonContent}>
@@ -98,13 +93,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           disabled={activeStep === 0}
           onClick={() =>
             workflowBackAction &&
-            dispatch(
-              workflowBackAction(
-                activeStep,
-                workflowProcess as IAllWorkflowProcesses["workflowProcess"],
-                workflowCategory as IAllWorkflowProcesses["workflowCategory"]
-              )
-            )
+            dispatch(workflowBackAction(activeStep, wp, wc))
           }
         >
           <div className={classes.buttonContent}>
@@ -120,14 +109,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           color="primary"
           onClick={() =>
             workflowSkipAction &&
-            dispatch(
-              workflowSkipAction(
-                isStepOptional,
-                activeStep,
-                workflowProcess as IAllWorkflowProcesses["workflowProcess"],
-                workflowCategory as IAllWorkflowProcesses["workflowCategory"]
-              )
-            )
+            dispatch(workflowSkipAction(isStepOptional, activeStep, wp, wc))
           }
         >
           <div className={classes.buttonContent}>
@@ -152,8 +134,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
                     activeStep,
                     steps,
                     "Loading...",
-                    workflowProcess as IAllWorkflowProcesses["workflowProcess"],
-                    workflowCategory as IAllWorkflowProcesses["workflowCategory"]
+                    wp,
+                    wc
                   )
                 );
           }}

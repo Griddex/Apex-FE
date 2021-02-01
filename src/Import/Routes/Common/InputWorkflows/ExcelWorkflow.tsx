@@ -112,7 +112,7 @@ const ExcelWorkflow = ({
         steps,
         isStepOptional,
         isStepSkipped,
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"],
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"],
         workflowCategory
       )
     );

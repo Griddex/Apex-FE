@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 const SelectSheet = ({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -87,14 +87,14 @@ const SelectSheet = ({
   } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 

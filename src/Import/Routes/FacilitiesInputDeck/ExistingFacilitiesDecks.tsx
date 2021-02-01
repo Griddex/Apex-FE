@@ -4,7 +4,6 @@ import { ITableIconsOptions } from "../../../Application/Components/Table/ReactD
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IExistingDataRow,
   IGiftExistingData,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
@@ -19,13 +18,12 @@ const chartData = [
 export default function ExistingFacilitiesDecks({
   finalAction,
 }: {
-  // workflowProcess: NonNullable<IExistingDataProps["workflowProcess"]>;
+  // workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>;
   finalAction: () => void;
 }) {
-  const workflowCategory = "existingDataName";
-  const workflowProcess = "facilitiesInputDeckExisting" as NonNullable<
-    IExistingDataProps["workflowProcess"]
-  >;
+  const workflowCategory = "existingDataWorkflows";
+  const workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]> =
+    "facilitiesInputDeckExisting";
   const existingData = useSelector(
     (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
   );
@@ -63,12 +61,12 @@ export default function ExistingFacilitiesDecks({
   const dataTitle = "FACILITIES DECK TITLE";
 
   const props = {
+    workflowProcess,
     snExistingData,
     dataKey,
     dataTitle,
     tableOptions,
     chartData,
-    workflowProcess,
   };
 
   return <ExistingDataRoute {...props} />;

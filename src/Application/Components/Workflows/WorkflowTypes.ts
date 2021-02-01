@@ -16,14 +16,14 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
 }
 
 export interface IProjectWorkflowProcess {
-  workflowProcess: "newProjectWorkflowDialog" | "";
-  workflowCategory: "projectDataWorkflows";
+  wkPs: "newProjectWorkflowDialog" | "";
+  wkCy: "projectDataWorkflows";
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;
 }
 export interface IImportWorkflowProcess {
-  workflowProcess:
+  wkPs:
     | "facilitiesInputDeckExcel"
     | "facilitiesInputDeckDatabase"
     | "forecastInputDeckExcel"
@@ -34,33 +34,33 @@ export interface IImportWorkflowProcess {
     | "economicsInputDataDatabase"
     | "economicsInputDataManual"
     | "";
-  workflowCategory: "importDataWorkflows";
+  wkCy: "importDataWorkflows";
 }
 export interface INetworkWorkflowProcess {
-  workflowProcess: "networkGeneration" | "saveForecastParametersWorkflow" | "";
-  workflowCategory: "networkDataWorkflows";
+  wkPs: "networkGeneration" | "saveForecastParametersWorkflow" | "";
+  wkCy: "networkDataWorkflows";
 }
 export interface IEconomicsWorkflowProcess {
-  workflowProcess:
+  wkPs:
     | "economicsAnalyses"
     | "economicsParameterImportWorkflow"
     | "economicsParameters"
     | "netCashAnalysisWorkflow"
     | "";
-  workflowCategory: "economicsDataWorkflows";
+  wkCy: "economicsDataWorkflows";
 }
 
 export interface IAllWorkflowProcesses {
-  workflowProcess:
-    | IProjectWorkflowProcess["workflowProcess"]
-    | IImportWorkflowProcess["workflowProcess"]
-    | INetworkWorkflowProcess["workflowProcess"]
-    | IEconomicsWorkflowProcess["workflowProcess"];
-  workflowCategory:
-    | IProjectWorkflowProcess["workflowCategory"]
-    | IImportWorkflowProcess["workflowCategory"]
-    | INetworkWorkflowProcess["workflowCategory"]
-    | IEconomicsWorkflowProcess["workflowCategory"];
+  wrkflwPrcss:
+    | IProjectWorkflowProcess["wkPs"]
+    | IImportWorkflowProcess["wkPs"]
+    | INetworkWorkflowProcess["wkPs"]
+    | IEconomicsWorkflowProcess["wkPs"];
+  wrkflwCtgry:
+    | IProjectWorkflowProcess["wkCy"]
+    | IImportWorkflowProcess["wkCy"]
+    | INetworkWorkflowProcess["wkCy"]
+    | IEconomicsWorkflowProcess["wkCy"];
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;

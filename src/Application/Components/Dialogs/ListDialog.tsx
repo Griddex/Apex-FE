@@ -161,7 +161,7 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                     persistWorksheetAction(
                       name,
                       [],
-                      workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+                      workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
                     )
                   );
                 }}

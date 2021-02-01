@@ -62,7 +62,7 @@ const useStyles = makeStyles(() => ({
 
 //TODO: API saga to get app headers from server, use zero-deps useEffect
 const getApplicationHeaders = (
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   if (
     workflowProcess === "facilitiesInputDeckExcel" ||
@@ -156,7 +156,7 @@ const getApplicationHeaders = (
 export default function MatchHeaders({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"];
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -170,7 +170,7 @@ export default function MatchHeaders({
   const { fileHeaders } = useSelector(
     (state: RootState) =>
       state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["workflowProcess"]
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 

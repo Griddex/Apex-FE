@@ -4,8 +4,9 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import history from "../../../Application/Services/HistoryService";
 import watchAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/AutogenerateNetworkSaga";
-import { openRecentProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -15,15 +16,13 @@ import {
   saveInputDeckSuccessAction,
   SAVEINPUTDECK_REQUEST,
 } from "../Actions/ImportActions";
-import history from "../../../Application/Services/HistoryService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
 
 export default function* watchSaveInputDeckSaga() {
   yield takeLatest(SAVEINPUTDECK_REQUEST, saveInputDeckSaga);
 }
 
 function getInputDeckType(
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) {
   if (workflowProcess.includes("facilities")) return "Facilities Input Deck";
   else if (workflowProcess.includes("forecast")) return "Forecast Input Deck";
@@ -31,7 +30,7 @@ function getInputDeckType(
 }
 
 function getInputDeckRouteParam(
-  workflowProcess: IAllWorkflowProcesses["workflowProcess"]
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) {
   if (workflowProcess.includes("facilities")) return "facility-inputdeck";
   else if (workflowProcess.includes("forecast")) return "forecast-inputdeck";
@@ -48,6 +47,7 @@ function* saveInputDeckSaga(action: IAction) {
     (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
   );
   const {
+    facilitiesInputDeckId,
     facilitiesInputDeckTitle,
     facilitiesInputDeckDescription,
     forecastInputDeckTitle,
@@ -59,6 +59,7 @@ function* saveInputDeckSaga(action: IAction) {
   const data = {
     projectId,
     userId: "Gideon",
+    facilitiesInputDeckId,
     title: workflowProcess.includes("facilities")
       ? facilitiesInputDeckTitle
       : forecastInputDeckTitle,
@@ -67,10 +68,6 @@ function* saveInputDeckSaga(action: IAction) {
       : forecastInputDeckDescription,
     inputDeck: inputDeckData,
   };
-  console.log(
-    "Logged output --> ~ file: SaveInputDeckSaga.ts ~ line 60 ~ function*saveInputDeckSaga ~ data",
-    data
-  );
 
   const config = { headers: null };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
@@ -79,7 +76,6 @@ function* saveInputDeckSaga(action: IAction) {
   try {
     const response = yield call(
       saveinputDeckAPI,
-      // `https://jsonplaceholder.typicode.com/posts`
       `${getBaseUrl()}/${getInputDeckRouteParam(workflowProcess)}`
     );
 

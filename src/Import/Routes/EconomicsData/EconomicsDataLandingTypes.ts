@@ -16,9 +16,9 @@ export interface IEconomicsLandingData {
   icon: JSX.Element;
   route: string;
   workflowProcess:
-    | IAllWorkflowProcesses["workflowProcess"]
-    | IExistingDataProps["workflowProcess"];
+    | IAllWorkflowProcesses["wrkflwPrcss"]
+    | IExistingDataProps["wrkflwPrcss"];
   workflowCategory:
-    | IAllWorkflowProcesses["workflowCategory"]
-    | IExistingDataProps["workflowCategory"];
+    | IAllWorkflowProcesses["wrkflwCtgry"]
+    | IExistingDataProps["wrkflwCtgry"];
 }

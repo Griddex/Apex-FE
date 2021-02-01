@@ -1,6 +1,8 @@
+import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import { InputStateType } from "./InputStateTypes";
 
-const importWorkflowProcesses = [
+const importWorkflowProcesses: Array<IImportWorkflowProcess["wrkflwPrcss"]> = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
 
@@ -76,11 +78,15 @@ const generateImportState = () => {
 
 //This like existing network, DCA parameters, etc will be
 //created
-const existingDataWorkflowNames = [
+const existingDataWorkflowNames: Array<
+  NonNullable<IExistingDataProps["wrkflwPrcss"]>
+> = [
   "facilitiesInputDeckExisting",
   "forecastInputDeckExisting",
   "productionInputDataExisting",
   "economicsInputDataExisting",
+  "networkExisting",
+  "economicsParametersExisting",
 ];
 const generateExistingDataState = () => {
   return existingDataWorkflowNames.reduce((acc, workflowName: string) => {
@@ -107,10 +113,12 @@ const InputState: InputStateType = {
   facilitiesInputHeaders: [],
   forecastInputHeaders: [],
   importDataWorkflows: importDataState,
-  existingDataName: existingDataState,
+  existingDataWorkflows: existingDataState,
 
+  facilitiesInputDeckId: "",
   facilitiesInputDeckTitle: "",
   facilitiesInputDeckDescription: "",
+  forecastInputDeckId: "",
   forecastInputDeckTitle: "",
   forecastInputDeckDescription: "",
 };

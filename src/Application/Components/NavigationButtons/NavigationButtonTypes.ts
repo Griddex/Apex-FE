@@ -9,6 +9,6 @@ export interface INavigationButtonsProp {
   showNext?: boolean;
   finalAction?: () => void;
   workflowProps?: IWorkflowProcessState;
-  workflowProcess?: IAllWorkflowProcesses["workflowProcess"];
-  workflowCategory?: IAllWorkflowProcesses["workflowCategory"];
+  workflowProcess?: IAllWorkflowProcesses["wrkflwPrcss"];
+  workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];
 }
