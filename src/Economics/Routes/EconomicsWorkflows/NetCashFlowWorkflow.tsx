@@ -100,16 +100,15 @@ const steps = [
 const NetCashFlowWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "economicsDataWorkflows";
-  const workflowProcess = "netCashAnalysisWorkflow";
+  const wc = "economicsDataWorkflows";
+  const wp = "netCashAnalysisWorkflow";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.workflowReducer[wc][wp]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -155,24 +154,13 @@ const NetCashFlowWorkflow = () => {
   useEffect(() => {
     //Set optional steps here
     //Error steps can be set from any view in a workflow
-    dispatch(
-      workflowInitAction(
-        steps,
-        isStepOptional,
-        isStepSkipped,
-        workflowProcess,
-        workflowCategory
-      )
-    );
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  const props: {
-    workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"];
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-  } = {
-    workflowCategory,
-    workflowProcess,
+  const props = {
+    wrkflwCtgry: wc,
+    wrkflwPrcss: wp,
   };
 
   function renderImportStep(activeStep: number) {
@@ -182,7 +170,12 @@ const NetCashFlowWorkflow = () => {
       case 1:
         return <EconomicCosts />;
       case 2:
-        return <EconomicsParameters {...props} />;
+        return (
+          <EconomicsParameters
+            wrkflwPrcss={wp}
+            wrkflwCtgry="economicsDataWorkflows"
+          />
+        );
       case 3:
         return <EconomicsCalculations />;
       default:
@@ -198,8 +191,8 @@ const NetCashFlowWorkflow = () => {
     showNext: true,
     finalAction: () => console.log("hi"),
     workflowProps,
-    workflowProcess,
-    workflowCategory,
+    workflowProcess: wp,
+    workflowCategory: wc,
   };
 
   return (

@@ -20,12 +20,11 @@ export default function ExistingEconomicsParametersDecks({
 }: {
   finalAction: () => void;
 }) {
-  const workflowCategory = "existingDataWorkflows";
-  const workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]> =
+  const wc = "existingDataWorkflows";
+  const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "economicsInputDataExisting";
   const existingData = useSelector(
-    (state: RootState) =>
-      state.economicsReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.economicsReducer[wc][wp]
   );
 
   const tableOptions: ITableIconsOptions = {
@@ -61,7 +60,7 @@ export default function ExistingEconomicsParametersDecks({
   const dataTitle = "ECONOMIC PARAMETERS TITLE";
 
   const props: IExistingDataProps = {
-    workflowProcess,
+    wkPs: wp,
     snExistingData,
     dataKey,
     dataTitle,

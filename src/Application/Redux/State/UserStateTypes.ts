@@ -13,12 +13,7 @@ export interface IUserState {
   email: string;
   mobileNumber?: string;
   jobTitle?: string;
-  role:
-    | ""
-    | "Admin"
-    | "Corporate Forecaster"
-    | "Asset Forecaster"
-    | "Economist";
+  role: "Admin" | "Corporate Forecaster" | "Asset Forecaster" | "Economist";
   avatarUrl?: string;
   registrationScenario?: "single" | "multiple";
 

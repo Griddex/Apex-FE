@@ -8,8 +8,8 @@ export interface IExistingDataRow {
   status: "Approved" | "Pending" | "Returned" | "Not Started";
   title?: string;
   description?: string;
-  author: IUserDetails;
-  approvers: IUserDetails[];
+  author: IUserDetails | string;
+  approvers: IUserDetails[] | string;
   createdOn?: string;
   modifiedOn?: string;
   // workflowProcess?:IExistingDataProps["wrkflwPrcss"]
@@ -27,8 +27,7 @@ export interface IExistingDataProps {
     | "productionInputDataExisting"
     | "economicsInputDataExisting"
     | "networkExisting"
-    | "economicsParametersExisting"
-    | "";
+    | "economicsParametersExisting";
   wkCy?: "existingDataWorkflows";
   finalAction?: () => void;
   finalIcon?: JSX.Element;

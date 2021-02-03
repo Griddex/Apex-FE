@@ -151,15 +151,15 @@ const EconomicsDataLanding = () => {
               const inputEconomicsDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    workflowCategory={"economicsDataWorkflows"}
-                    workflowProcess={"economicsInputDataExcel"}
+                    wrkflwCtgry={"economicsDataWorkflows"}
+                    wrkflwPrcss={"economicsInputDataExcel"}
                     finalAction={economicsExcelandDbWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
-                    workflowCategory={"economicsDataWorkflows"}
-                    workflowProcess={"economicsInputDataDatabase"}
+                    wrkflwCtgry={"economicsDataWorkflows"}
+                    wrkflwPrcss={"economicsInputDataDatabase"}
                     finalAction={economicsExcelandDbWorkflowFinalAction}
                   />
                 ),
@@ -191,10 +191,10 @@ const EconomicsDataLanding = () => {
                 moduleAction={loadWorkflowAction}
                 name={name}
                 description={description}
-                Icon={icon}
+                icon={icon}
                 route={route}
-                workflowProcess={workflowProcess}
-                workflowCategory={workflowCategory}
+                wP={workflowProcess}
+                wC={workflowCategory}
               />
             );
           })}

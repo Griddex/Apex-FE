@@ -7,7 +7,6 @@ import {
 } from "../Actions/ForecastingActions";
 import {
   ADD_NETWORKELEMENT,
-  AUTOGENERATENETWORK_SUCCESS,
   HIDE_NETWORKELEMENTDETAILS,
   HIDE_WELHEADSUMMARYEDGES,
   HIDE_WELHEADSUMMARYNODES,
@@ -15,6 +14,9 @@ import {
   PERSIST_POPOVER,
   PERSIST_POPOVERID,
   SAVENETWORK_ISVALID,
+  AUTOGENERATENETWORK_REQUEST,
+  AUTOGENERATENETWORK_SUCCESS,
+  AUTOGENERATENETWORK_FAILURE,
   SET_CURRENTELEMENT,
   SHOW_NETWORKELEMENTDETAILS,
   SHOW_POPOVER,
@@ -106,14 +108,25 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         isValids: { ...action.payload },
       };
+
     case AUTOGENERATENETWORK_SUCCESS: {
-      const { nodeElements, edeElements } = action.payload.data;
+      const { statusCode, nodeElements, edeElements } = action.payload.data;
       return {
         ...state,
+        statusCode,
         nodeElements,
         edeElements,
       };
     }
+
+    case AUTOGENERATENETWORK_FAILURE: {
+      const { errors } = action.payload.data;
+      return {
+        ...state,
+        errors,
+      };
+    }
+
     case SAVENETWORK_SUCCESS: {
       const { statusCode, success } = action.payload;
       return {

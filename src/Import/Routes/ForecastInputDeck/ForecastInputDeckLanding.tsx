@@ -141,8 +141,8 @@ const ForecastInputDeckLanding = () => {
               const forecastInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    workflowCategory={"importDataWorkflows"}
-                    workflowProcess={"forecastInputDeckExcel"}
+                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwPrcss={"forecastInputDeckExcel"}
                     finalAction={() =>
                       forecastExcelandDbWorkflowFinalAction(
                         "forecastInputDeckExcel"
@@ -152,8 +152,8 @@ const ForecastInputDeckLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
-                    workflowCategory={"importDataWorkflows"}
-                    workflowProcess={"forecastInputDeckExcel"}
+                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwPrcss={"forecastInputDeckExcel"}
                     finalAction={() =>
                       forecastExcelandDbWorkflowFinalAction(
                         "forecastInputDeckDatabase"
@@ -189,10 +189,10 @@ const ForecastInputDeckLanding = () => {
                 moduleAction={loadWorkflowAction}
                 name={name}
                 description={description}
-                Icon={icon}
+                icon={icon}
                 route={route}
-                workflowProcess={workflowProcess}
-                workflowCategory={workflowCategory}
+                wP={workflowProcess}
+                wC={workflowCategory}
               />
             );
           })}

@@ -14,7 +14,7 @@ const userState: IUserState = {
   lastName: "",
   email: "",
   mobileNumber: "",
-  role: "",
+  role: "Asset Forecaster",
   avatarUrl: "",
 
   statusCode: 0,

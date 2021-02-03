@@ -18,6 +18,7 @@ import {
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { updateInputAction } from "../../../Redux/Actions/ImportActions";
+import { IAuthor } from "./../../../../Application/Components/Author/AuthorTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -49,19 +50,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getExistingTitle = (
-  workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>
-) => {
-  if (workflowProcess.includes("facilities")) return "facilitiesInputDeckTitle";
-  else if (workflowProcess.includes("forecast"))
-    return "forecastInputDeckTitle";
+const getExistingTitle = (wp: NonNullable<IExistingDataProps["wkPs"]>) => {
+  if (wp.includes("facilities")) return "facilitiesInputDeckTitle";
+  else if (wp.includes("forecast")) return "forecastInputDeckTitle";
   else return "";
 };
-const getExistingId = (
-  workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>
-) => {
-  if (workflowProcess.includes("facilities")) return "facilitiesInputDeckId";
-  else if (workflowProcess.includes("forecast")) return "forecastInputDeckId";
+const getExistingId = (wp: NonNullable<IExistingDataProps["wkPs"]>) => {
+  if (wp.includes("facilities")) return "facilitiesInputDeckId";
+  else if (wp.includes("forecast")) return "forecastInputDeckId";
   else return "";
 };
 
@@ -73,11 +69,12 @@ export default function ExistingDataRoute<
   dataTitle,
   chartData,
   tableOptions,
-  workflowProcess,
+  wkPs,
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wp = workflowProcess as NonNullable<IExistingDataProps["wrkflwPrcss"]>;
+  const wp = wkPs as NonNullable<IExistingDataProps["wkPs"]>;
+  // const wp = wkPs
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);

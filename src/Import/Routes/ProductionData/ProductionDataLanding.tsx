@@ -131,22 +131,21 @@ const ProductionDataLanding = () => {
               const inputProductionDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    workflowCategory={"importDataWorkflows"}
-                    workflowProcess={currentWorkflowProcess}
+                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwPrcss={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
                 //Work on this, not really importing but connecting
                 database: (
                   <DatabaseWorkflow
-                    workflowCategory={"importDataWorkflows"}
-                    workflowProcess={currentWorkflowProcess}
+                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwPrcss={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
                 approveddata: (
                   <ExistingProductionData
-                    workflowProcess={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),
@@ -173,10 +172,10 @@ const ProductionDataLanding = () => {
                 moduleAction={loadWorkflowAction}
                 name={name}
                 description={description}
-                Icon={icon}
+                icon={icon}
                 route={route}
-                workflowProcess={workflowProcess}
-                workflowCategory={workflowCategory}
+                wP={workflowProcess}
+                wC={workflowCategory}
               />
             );
           })}

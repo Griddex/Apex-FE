@@ -6,6 +6,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
   IExistingDataRow,
+  IGiftExistingData,
 } from "../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
 
@@ -18,14 +19,14 @@ const chartData = [
 export default function ExistingNetworks({
   workflowProcess,
 }: {
-  workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>;
+  workflowProcess: NonNullable<IExistingDataProps["wkPs"]>;
 }) {
   const dispatch = useDispatch();
-  const workflowCategory = "existingDataWorkflows";
+  const wc = "existingDataWorkflows";
+  const wp = workflowProcess;
 
-  const { existingData } = useSelector(
-    (state: RootState) =>
-      state.networkReducer[workflowCategory][workflowProcess]
+  const existingData = useSelector(
+    (state: RootState) => state.networkReducer[wc][wp]
   );
 
   const tableOptions: ITableIconsOptions = {
@@ -44,9 +45,16 @@ export default function ExistingNetworks({
   };
 
   const snExistingData = existingData.map(
-    (row: IExistingDataRow, i: number) => ({
+    (row: IGiftExistingData, i: number) => ({
       sn: i + 1,
-      ...row,
+      id: row.id,
+      status: "Not Started",
+      title: row.title,
+      description: row.description,
+      author: "None",
+      approvers: ["None", "None"],
+      createdOn: row.createdAt,
+      modifiedOn: row.createdAt,
     })
   );
 
@@ -58,7 +66,7 @@ export default function ExistingNetworks({
   const dataTitle = "NETWORK TITLE";
 
   const props = {
-    workflowProcess,
+    workflowProcess: wp,
     snExistingData,
     dataKey,
     dataTitle,

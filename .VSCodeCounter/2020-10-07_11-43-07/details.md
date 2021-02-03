@@ -118,7 +118,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Import/Redux/Actions/ImportActions.js](/src/Import/Redux/Actions/ImportActions.js) | JavaScript | 167 | 1 | 18 | 186 |
 | [src/Import/Redux/Actions/SetStepperActions.js](/src/Import/Redux/Actions/SetStepperActions.js) | JavaScript | 63 | 0 | 2 | 65 |
 | [src/Import/Redux/Reducers/DatabaseServerReducers.js](/src/Import/Redux/Reducers/DatabaseServerReducers.js) | JavaScript | 34 | 0 | 4 | 38 |
-| [src/Import/Redux/Reducers/ImportReducer.js](/src/Import/Redux/Reducers/ImportReducer.js) | JavaScript | 103 | 0 | 29 | 132 |
+| [src/Import/Redux/Reducers/InputReducer.js](/src/Import/Redux/Reducers/InputReducer.js) | JavaScript | 103 | 0 | 29 | 132 |
 | [src/Import/Redux/Sagas/connectDatabaseSaga.js](/src/Import/Redux/Sagas/connectDatabaseSaga.js) | JavaScript | 45 | 4 | 11 | 60 |
 | [src/Import/Redux/State/DatabaseServerState.js](/src/Import/Redux/State/DatabaseServerState.js) | JavaScript | 6 | 0 | 2 | 8 |
 | [src/Import/Redux/State/ImportState.js](/src/Import/Redux/State/ImportState.js) | JavaScript | 38 | 0 | 6 | 44 |

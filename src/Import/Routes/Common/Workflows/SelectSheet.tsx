@@ -66,16 +66,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectSheet = ({
-  workflowProcess,
-}: {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-}) => {
+const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
-  const workflowCategory = "importDataWorkflows";
+  const wc = "importDataWorkflows";
+  const wp = wrkflwPrcss;
 
   const {
     fileLastModified,
@@ -84,18 +81,10 @@ const SelectSheet = ({
     fileType,
     fileAuthor,
     fileCreated,
-  } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
-  );
+  } = useSelector((state: RootState) => state.inputReducer[wc][wp]);
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(
@@ -119,11 +108,7 @@ const SelectSheet = ({
     }
 
     dispatch(
-      persistWorksheetAction(
-        selectedWorksheetName,
-        selectedWorksheetData,
-        workflowProcess
-      )
+      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData, wp)
     );
   };
 

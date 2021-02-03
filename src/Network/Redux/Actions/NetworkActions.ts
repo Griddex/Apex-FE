@@ -1,4 +1,8 @@
 import { FlowElement } from "react-flow-renderer";
+import {
+  IAllWorkflowProcesses,
+  IImportWorkflowProcess,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
 export const SET_CURRENTELEMENT = "SET_CURRENTELEMENT";
@@ -13,6 +17,12 @@ export const HIDE_WELHEADSUMMARYNODES = "HIDE_WELHEADSUMMARYNODES";
 export const HIDE_WELHEADSUMMARYEDGES = "HIDE_WELHEADSUMMARYEDGES";
 export const SAVENETWORK_ISVALID = "SAVENETWORK_ISVALID";
 export const AUTOGENERATENETWORK_REQUEST = "AUTOGENERATENETWORK_REQUEST";
+export const SAVEAUTOGENERATENETWORK_REQUEST =
+  "SAVEAUTOGENERATENETWORK_REQUEST";
+export const SAVEAUTOGENERATENETWORK_SUCCESS =
+  "SAVEAUTOGENERATENETWORK_SUCCESS";
+export const SAVEAUTOGENERATENETWORK_FAILURE =
+  "SAVEAUTOGENERATENETWORK_FAILURE";
 export const AUTOGENERATENETWORK_SUCCESS = "AUTOGENERATENETWORK_SUCCESS";
 export const AUTOGENERATENETWORK_FAILURE = "AUTOGENERATENETWORK_FAILURE";
 export const SAVENETWORK_REQUEST = "SAVENETWORK_REQUEST";
@@ -157,6 +167,34 @@ export const autoGenerateNetworkFailureAction = () => {
   };
 };
 
+export const saveAndAutoGenerateNetworkRequestAction = (
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+) => {
+  return {
+    type: SAVEAUTOGENERATENETWORK_REQUEST,
+    payload: { workflowProcess },
+  };
+};
+
+export const saveAndAutoGenerateNetworkSuccessAction = () => {
+  return {
+    type: SAVEAUTOGENERATENETWORK_SUCCESS,
+    payload: {
+      statusCode: 0,
+    },
+  };
+};
+
+export const saveAndAutoGenerateNetworkFailureAction = () => {
+  return {
+    type: SAVEAUTOGENERATENETWORK_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
 export const saveNetworkRequestAction = () => {
   return {
     type: SAVENETWORK_REQUEST,
@@ -189,6 +227,7 @@ export const fetchExistingForecastingparametersRequestAction = () => {
     meta: { showSpinner: true },
   };
 };
+
 export const fetchExistingForecastParametersSuccessAction = () => {
   return {
     type: EXISTINGFORECASTPARAMETERS_SUCCESS,

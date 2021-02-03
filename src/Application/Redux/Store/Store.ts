@@ -22,6 +22,7 @@ import watchSaveForecastParametersSaga from "../../../Network/Redux/Sagas/SaveFo
 import watchSaveNetworkSaga from "../../../Network/Redux/Sagas/SaveNetworkSaga";
 import watchFetchUnitSettingsSaga from "../../../Settings/Redux/Sagas/Sagas/UnitSettingsSaga";
 import watchFetchApplicationHeadersSaga from "../../../Import/Redux/Sagas/FetchApplicationHeadersSaga";
+import watchAndSaveAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/SaveAndAutogenerateNetworkSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -34,6 +35,7 @@ function* rootSaga() {
   yield spawn(watchFetchExistingDataSaga);
   yield spawn(watchSaveInputDeckSaga);
   yield spawn(watchAutogenerateNetworkSaga);
+  yield spawn(watchAndSaveAutogenerateNetworkSaga);
   yield spawn(watchRunForecastSaga);
   yield spawn(watchSaveForecastParametersSaga);
   yield spawn(watchSaveNetworkSaga);

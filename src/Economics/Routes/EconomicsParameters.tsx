@@ -115,17 +115,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
+const EconomicsParameters = ({
+  wrkflwPrcss,
+  wrkflwCtgry,
+}: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const workflowCategory = "importDataWorkflows";
+  const wc = wrkflwCtgry as IAllWorkflowProcesses["wrkflwCtgry"];
+  const wp = wrkflwPrcss as IAllWorkflowProcesses["wrkflwPrcss"];
+
   const { dnDDisabled } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
+    (state: RootState) => state.economicsReducer[wc][wp]
   );
   const [economicsDataSource, setEconomicsDataSource] = React.useState(
     "template"
@@ -409,12 +411,10 @@ const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
               const fileData = new Uint8Array(reader.result as ArrayBuffer);
               const inputWorkbook = xlsx.read(fileData, { type: "array" });
 
-              dispatch(persistFileAction(inputWorkbook, workflowProcess));
+              dispatch(persistFileAction(inputWorkbook, wp));
 
               const workSheetNames = inputWorkbook.SheetNames;
-              dispatch(
-                persistWorksheetNamesAction(workSheetNames, workflowProcess)
-              );
+              dispatch(persistWorksheetNamesAction(workSheetNames, wp));
 
               if (workSheetNames.length > 1) {
                 const dialogParameters: DialogStuff = {
@@ -427,7 +427,7 @@ const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
                   iconType: "select",
                   dialogText: "singleSheetFile",
                   contentList: workSheetNames,
-                  workflowProcess: workflowProcess,
+                  workflowProcess: wp,
                 };
                 dispatch(showDialogAction(dialogParameters));
               } else {
@@ -443,7 +443,7 @@ const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
                   persistWorksheetAction(
                     selectedWorksheetName,
                     selectedWorksheetData,
-                    workflowProcess
+                    wp
                   )
                 );
 
@@ -457,7 +457,7 @@ const EconomicsParameters = ({ workflowProcess }: IAllWorkflowProcesses) => {
                   iconType: "select",
                   dialogText: "multiSheetFile",
                   contentList: workSheetNames,
-                  workflowProcess: workflowProcess,
+                  workflowProcess: wp,
                 };
                 dispatch(showDialogAction(dialogParameters));
               }

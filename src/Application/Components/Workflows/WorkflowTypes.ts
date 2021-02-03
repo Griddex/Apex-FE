@@ -16,7 +16,7 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
 }
 
 export interface IProjectWorkflowProcess {
-  wkPs: "newProjectWorkflowDialog" | "";
+  wkPs: "newProjectWorkflowDialog";
   wkCy: "projectDataWorkflows";
   finalAction?: () => void;
   finalIcon?: JSX.Element;
@@ -32,12 +32,11 @@ export interface IImportWorkflowProcess {
     | "productionInputDataDatabase"
     | "economicsInputDataExcel"
     | "economicsInputDataDatabase"
-    | "economicsInputDataManual"
-    | "";
+    | "economicsInputDataManual";
   wkCy: "importDataWorkflows";
 }
 export interface INetworkWorkflowProcess {
-  wkPs: "networkGeneration" | "saveForecastParametersWorkflow" | "";
+  wkPs: "networkGeneration" | "saveForecastParametersWorkflow";
   wkCy: "networkDataWorkflows";
 }
 export interface IEconomicsWorkflowProcess {
@@ -45,8 +44,7 @@ export interface IEconomicsWorkflowProcess {
     | "economicsAnalyses"
     | "economicsParameterImportWorkflow"
     | "economicsParameters"
-    | "netCashAnalysisWorkflow"
-    | "";
+    | "netCashAnalysisWorkflow";
   wkCy: "economicsDataWorkflows";
 }
 

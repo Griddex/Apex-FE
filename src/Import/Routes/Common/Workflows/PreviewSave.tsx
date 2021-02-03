@@ -48,19 +48,16 @@ const useStyles = makeStyles((theme) => ({
   score: { fontSize: 14 },
 }));
 
-export default function PreviewSave({
-  workflowProcess,
-}: {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-}) {
+export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "importDataWorkflows";
+  const wc = "importDataWorkflows";
+  const wp = wrkflwPrcss;
 
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
     (state: RootState) => state.inputReducer
   );
-  const isFacilitiesWorkflow = workflowProcess.includes("facilities");
+  const isFacilitiesWorkflow = wp.includes("facilities");
   let applicationHeaders = [];
   if (isFacilitiesWorkflow) applicationHeaders = facilitiesInputHeaders;
   else applicationHeaders = forecastInputHeaders;
@@ -72,12 +69,7 @@ export default function PreviewSave({
     columnNameTableData,
     selectedHeaderRowIndex,
     selectedUnitRowIndex,
-  } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
-  );
+  } = useSelector((state: RootState) => state.inputReducer[wc][wp]);
 
   const unitsRow = zipObject(
     chosenApplicationHeaders,
@@ -182,7 +174,7 @@ export default function PreviewSave({
   const columns = generateColumns();
 
   React.useEffect(() => {
-    dispatch(persistTableDataAction(tableData, workflowProcess));
+    dispatch(persistTableDataAction(tableData, wp));
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);

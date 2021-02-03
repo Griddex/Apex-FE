@@ -17,8 +17,8 @@ export interface IEconomicsLandingData {
   route: string;
   workflowProcess:
     | IAllWorkflowProcesses["wrkflwPrcss"]
-    | IExistingDataProps["wrkflwPrcss"];
+    | IExistingDataProps["wkPs"];
   workflowCategory:
     | IAllWorkflowProcesses["wrkflwCtgry"]
-    | IExistingDataProps["wrkflwCtgry"];
+    | IExistingDataProps["wkCy"];
 }

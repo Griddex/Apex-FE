@@ -64,7 +64,7 @@ Total : 76 files, 23285 codes, 149 comments, 419 blanks, all 23853 lines
 | [src/Import/Images/Notepad.svg](/src/Import/Images/Notepad.svg)                                                                                 | XML              |     50 |       1 |     1 |     52 |
 | [src/Import/Redux/Actions/ImportActions.js](/src/Import/Redux/Actions/ImportActions.js)                                                         | JavaScript       |     28 |       0 |     2 |     30 |
 | [src/Import/Redux/Actions/SetStepperActions.js](/src/Import/Redux/Actions/SetStepperActions.js)                                                 | JavaScript       |     62 |       0 |     2 |     64 |
-| [src/Import/Redux/Reducers/ImportReducer.js](/src/Import/Redux/Reducers/ImportReducer.js)                                                       | JavaScript       |     90 |       2 |     9 |    101 |
+| [src/Import/Redux/Reducers/InputReducer.js](/src/Import/Redux/Reducers/InputReducer.js)                                                       | JavaScript       |     90 |       2 |     9 |    101 |
 | [src/Import/Redux/State/ImportState.js](/src/Import/Redux/State/ImportState.js)                                                                 | JavaScript       |     16 |       0 |     4 |     20 |
 | [src/Import/Routes/Common/InputBackground.js](/src/Import/Routes/Common/InputBackground.js)                                                     | JavaScript       |     21 |       0 |     5 |     26 |
 | [src/Import/Routes/Common/InputLayout.js](/src/Import/Routes/Common/InputLayout.js)                                                             | JavaScript       |     64 |       0 |     9 |     73 |

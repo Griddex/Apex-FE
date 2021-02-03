@@ -19,23 +19,29 @@ const useStyles = makeStyles(() => ({
   noOfApprovers: { marginLeft: 15 },
 }));
 
+const approversCheck = (variableToCheck: any): variableToCheck is IApprover =>
+  (variableToCheck as IApprover).name !== undefined;
+
 const Approvers = ({ approvers }: { approvers: IApprover[] | string }) => {
   const theme = useTheme();
   const classes = useStyles();
-  const noOfApprovers = approvers.length;
-  const noOfApproversInWords = ToTitleCase(numberToWords(noOfApprovers));
+  const isApprover = approversCheck(approvers);
 
-  return (
-    <div className={classes.approvers}>
-      <AvatarStack
-        nextOverlapPrevious={true}
-        maxAvatarNumber={3}
-        numberLeftBackgroundColor={theme.palette.primary.main}
-        numberLeftColor={"white"}
-      >
-        {typeof approvers === "string"
-          ? "None"
-          : approvers.map((approver, i) => {
+  const getApprovers = () => {
+    if (isApprover) {
+      const apprvrs = approvers as IApprover[];
+      const noOfApprovers = apprvrs.length;
+      const noOfApproversInWords = ToTitleCase(numberToWords(noOfApprovers));
+
+      return (
+        <div className={classes.approvers}>
+          <AvatarStack
+            nextOverlapPrevious={true}
+            maxAvatarNumber={3}
+            numberLeftBackgroundColor={theme.palette.primary.main}
+            numberLeftColor={"white"}
+          >
+            {apprvrs.map((approver, i) => {
               return (
                 <Image
                   key={i}
@@ -45,12 +51,23 @@ const Approvers = ({ approvers }: { approvers: IApprover[] | string }) => {
                 />
               );
             })}
-      </AvatarStack>
-      <Typography
-        className={classes.noOfApprovers}
-      >{`${noOfApproversInWords} (${noOfApprovers}) Approvers`}</Typography>
-    </div>
-  );
+          </AvatarStack>
+          <Typography
+            className={classes.noOfApprovers}
+          >{`${noOfApproversInWords} (${noOfApprovers}) Approvers`}</Typography>
+        </div>
+      );
+    } else {
+      const apprvrs = approvers as string;
+      return (
+        <div className={classes.approvers}>
+          <Typography className={classes.noOfApprovers}>{apprvrs}</Typography>
+        </div>
+      );
+    }
+  };
+
+  return <>{getApprovers()}</>;
 };
 
 export default Approvers;

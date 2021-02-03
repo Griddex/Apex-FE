@@ -54,13 +54,11 @@ const useStyles = makeStyles((theme) => ({
   selectItem: {},
 }));
 
-const ConnectDatabase = ({
-  workflowProcess,
-}: {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-}) => {
+const ConnectDatabase = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const wc = "importDataWorkflows";
+  const wp = wrkflwPrcss;
 
   const dbSourcesItemData: string[] = ["MSSQL Server", "Oracle Server"];
   const serverNameItemData: string[] = ["SQLDBSQLExpress", "OracleExpress"];

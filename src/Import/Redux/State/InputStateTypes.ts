@@ -1,6 +1,9 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import {
+  IExistingDataProps,
+  IExistingDataRow,
+} from "../../../Application/Types/ApplicationTypes";
 
 export interface IImportState {
   fileLastModified: string;
@@ -60,14 +63,17 @@ export interface IImportState {
 export interface InputStateType
   extends INewFacilitiesInputDeckFormValues,
     INewForecastInputDeckFormValues {
-  currentWorkflowProcess: IImportWorkflowProcess["wrkflwPrcss"];
+  currentWorkflowProcess: string;
   headerType: string;
   facilitiesInputDeckId: string;
   forecastInputDeckId: string;
   facilitiesInputHeaders: Record<string, string>[];
   forecastInputHeaders: Record<string, string>[];
   importDataWorkflows: Record<string, IImportState>;
-  existingDataWorkflows: Record<string, IExistingDataRow[]>;
+  existingDataWorkflows: Record<
+    NonNullable<IExistingDataProps["wkPs"]>,
+    IExistingDataRow[]
+  >;
 }
 
 export interface INewFacilitiesInputDeckFormValues {

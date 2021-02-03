@@ -51,7 +51,7 @@ const generateExistingDataState = () => {
 const importDataState = generateImportState();
 const existingDataState = generateExistingDataState();
 const EconomicsState: EconomicsStateType = {
-  currentWorkflowProcess: "",
+  currentWorkflowProcess: "economicsAnalyses",
   importDataWorkflows: importDataState,
   existingDataWorkflows: existingDataState,
 };

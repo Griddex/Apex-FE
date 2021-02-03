@@ -56,20 +56,21 @@ const steps = [
 ];
 
 const ExcelWorkflow = ({
-  workflowCategory,
-  workflowProcess,
+  wrkflwCtgry,
+  wrkflwPrcss,
   finalAction,
 }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const wc = wrkflwCtgry;
+  const wp = wrkflwPrcss;
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.workflowReducer[wc][wp]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -107,20 +108,12 @@ const ExcelWorkflow = ({
   };
 
   useEffect(() => {
-    dispatch(
-      workflowInitAction(
-        steps,
-        isStepOptional,
-        isStepSkipped,
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"],
-        workflowCategory
-      )
-    );
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
   }, [dispatch]);
 
   const props = {
-    workflowCategory,
-    workflowProcess,
+    wrkflwCtgry: wc,
+    wrkflwPrcss: wp,
   };
 
   function renderImportStep(activeStep: number) {
@@ -166,8 +159,8 @@ const ExcelWorkflow = ({
     showNext: true,
     finalAction,
     workflowProps,
-    workflowProcess,
-    workflowCategory,
+    workflowProcess: wp,
+    workflowCategory: wc,
   };
 
   return (

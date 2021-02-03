@@ -2,7 +2,7 @@ import { IImportWorkflowProcess } from "../../../Application/Components/Workflow
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import { InputStateType } from "./InputStateTypes";
 
-const importWorkflowProcesses: Array<IImportWorkflowProcess["wrkflwPrcss"]> = [
+const importWorkflowProcesses: Array<IImportWorkflowProcess["wkPs"]> = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
 
@@ -18,7 +18,7 @@ const importWorkflowProcesses: Array<IImportWorkflowProcess["wrkflwPrcss"]> = [
 ];
 
 const generateImportState = () => {
-  return importWorkflowProcesses.reduce((acc, workflowName: string) => {
+  return importWorkflowProcesses.reduce((acc, workflowName) => {
     return {
       ...acc,
       [workflowName]: {
@@ -79,7 +79,7 @@ const generateImportState = () => {
 //This like existing network, DCA parameters, etc will be
 //created
 const existingDataWorkflowNames: Array<
-  NonNullable<IExistingDataProps["wrkflwPrcss"]>
+  NonNullable<IExistingDataProps["wkPs"]>
 > = [
   "facilitiesInputDeckExisting",
   "forecastInputDeckExisting",
@@ -89,20 +89,33 @@ const existingDataWorkflowNames: Array<
   "economicsParametersExisting",
 ];
 const generateExistingDataState = () => {
-  return existingDataWorkflowNames.reduce((acc, workflowName: string) => {
+  const wf = existingDataWorkflowNames.reduce((acc, workflowName) => {
     return {
       ...acc,
       [workflowName]: {
-        existingData: [],
+        // existingData: [],
 
-        existingDataId: "",
-        statusCode: 0,
-        message: "",
-        errors: { message: "" },
-        success: false,
+        // existingDataId: "",
+        // statusCode: 0,
+        // message: "",
+        // errors: { message: "" },
+        // success: false,
+
+        sn: 0,
+        id: "",
+        userId: "",
+        status: "Not Started",
+        title: "",
+        description: "",
+        author: "",
+        approvers: "",
+        createdOn: "",
+        modifiedOn: "",
       },
     };
   }, {});
+
+  return wf as InputStateType["existingDataWorkflows"];
 };
 
 const importDataState = generateImportState();

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import inputReducer from "../../../Import/Redux/Reducers/ImportReducer";
+import inputReducer from "../../../Import/Redux/Reducers/InputReducer";
 import chartReducer from "../../../Visualytics/Redux/ChartReducer/ChartReducer";
 import networkReducer from "../../../Network/Redux/Reducers/NetworkReducers";
 import applicationReducer from "./ApplicationReducer";

@@ -39,11 +39,7 @@ function* createNewProjectSaga(action: IAction) {
     authService.post(url, data, config);
 
   try {
-    const result = yield call(
-      createNewProjectAPI,
-      `${getBaseUrl()}/project`
-      // `https://jsonplaceholder.typicode.com/posts`
-    );
+    const result = yield call(createNewProjectAPI, `${getBaseUrl()}/project`);
 
     const {
       data: {

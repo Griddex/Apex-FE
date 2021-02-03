@@ -60,107 +60,11 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-//TODO: API saga to get app headers from server, use zero-deps useEffect
-const getApplicationHeaders = (
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
-) => {
-  if (
-    workflowProcess === "facilitiesInputDeckExcel" ||
-    workflowProcess === "facilitiesInputDeckDatabase"
-  )
-    return [
-      "Gas Market",
-      "Area",
-      "Facility Name",
-      "F Code",
-      "Year 2p",
-      "Gross Capacity 2p",
-      "Scheduled 2p",
-      "Unscheduled 2p",
-      "Third Party 2p",
-      "2p Total",
-      "Year 1p",
-      "Gross Capacity 1p",
-      "Scheduled 1p",
-      "Unscheduled 1p",
-      "Third Party 1p",
-      "1p Total",
-      "Year 3p",
-      "Gross Capacity 3p",
-      "Scheduled 3p",
-      "Unscheduled 3p",
-      "Third Party 3p",
-      "3p Total",
-      "Year Low",
-      "Gross Capacity Low",
-      "Scheduled Low",
-      "Unscheduled Low",
-      "Third Party Low",
-      "Low Total",
-      "Deferment Section",
-    ];
-  else
-    return [
-      "Version",
-      "Asset Team",
-      "Field Name",
-      "Reservoir Identification",
-      "Drainage Point Nomenclature",
-      "String",
-      "Module",
-      "PEEP",
-      "Activity",
-      "Flow station",
-      "Hydrocarbon Stream",
-      "Resource Category",
-      "Change Category",
-      "1P Technique",
-      "URo 1P/1C",
-      "URo Low",
-      "URo 2P/2C",
-      "URo 3P/3C",
-      "Np",
-      "URg 1P/1C",
-      "URg Low",
-      "URg 2P/2C",
-      "URg 3P/3C",
-      "Gp",
-      "Init. Oil/Gas Rate 1P/1C",
-      "Init. Oil/Gas Rate Low",
-      "Init. Oil/Gas Rate 2P/2C",
-      "Init. Oil/Gas Rate 3P/3C",
-      "Aband. Oil/Gas Rate 1P/1C",
-      "Aband. Oil/Gas Rate 2P/2C",
-      "Aband. Oil/Gas Rate 3P/3C",
-      "Init. BSW/WGR",
-      "Aband. BSW/WGR 1P/1C",
-      "Aband. BSW/WGR 2P/2C",
-      "Aband. BSW/WGR 3P/3C",
-      "Init. GOR/CGR",
-      "Aband. GOR/CGR 1P/1C",
-      "Aband. GOR/CGR 2P/2C",
-      "Aband. GOR/CGR 3P/3C",
-      "lift Gas Rate",
-      "Plateau [Oil/Gas]",
-      "In-year Booking",
-      "LE/LV",
-      "PRCS",
-      "On-stream Date-1P/1C",
-      "On-stream Date-2P/2C",
-      "On-stream Date-3P/3C",
-      "Remarks",
-      "TRANCHE",
-    ];
-};
-
-export default function MatchHeaders({
-  workflowProcess,
-}: {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-}) {
+export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "importDataWorkflows";
+  const wc = "importDataWorkflows";
+  const wp = wrkflwPrcss;
 
   //File Headers
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
@@ -168,13 +72,10 @@ export default function MatchHeaders({
   );
 
   const { fileHeaders } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
 
-  const isFacilitiesWorkflow = workflowProcess.includes("facilities");
+  const isFacilitiesWorkflow = wp.includes("facilities");
   let applicationHeaders: string[] = [];
   if (isFacilitiesWorkflow)
     applicationHeaders = facilitiesInputHeaders.map(
@@ -210,6 +111,11 @@ export default function MatchHeaders({
           (score: number | undefined) =>
             score !== undefined ? Math.round((1 - score) * 100) : 0
         );
+
+        if (!matchedHeaders.includes("None")) {
+          matchedHeaders.push("None");
+          cleanedMatchedScores.push(0);
+        }
 
         return zipObject(matchedHeaders, cleanedMatchedScores);
       } else {
@@ -281,6 +187,10 @@ export default function MatchHeaders({
   const keyedApplicationHeaderOptions = zipObject(
     fileHeaders,
     applicationHeaderOptions
+  );
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 186 ~ MatchHeaders ~ keyedApplicationHeaderOptions",
+    keyedApplicationHeaderOptions
   );
 
   const keyedScoreOptions = zipObject(fileHeaders, scoreOptions);
@@ -461,17 +371,17 @@ export default function MatchHeaders({
       (column) => column.name as string
     );
     const tableHeaders = omit(columnNames, ["SN", "NAMES"]) as string[];
-    dispatch(persistTableHeadersAction(tableHeaders, workflowProcess));
+    dispatch(persistTableHeadersAction(tableHeaders, wp));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
     //Any need?
-    dispatch(persistFileHeadersMatchAction(fileHeaderMatches, workflowProcess));
+    dispatch(persistFileHeadersMatchAction(fileHeaderMatches, wp));
     dispatch(
       persistChosenApplicationHeadersIndicesAction(
         chosenApplicationHeaderIndices,
-        workflowProcess
+        wp
       )
     );
 
@@ -481,10 +391,7 @@ export default function MatchHeaders({
     );
 
     dispatch(
-      persistChosenApplicationHeadersAction(
-        chosenApplicationHeaders,
-        workflowProcess
-      )
+      persistChosenApplicationHeadersAction(chosenApplicationHeaders, wp)
     );
 
     dispatch(hideSpinnerAction());

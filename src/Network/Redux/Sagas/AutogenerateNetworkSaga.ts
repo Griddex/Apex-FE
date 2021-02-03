@@ -3,41 +3,35 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
   autoGenerateNetworkFailureAction,
   autoGenerateNetworkSuccessAction,
   AUTOGENERATENETWORK_REQUEST,
 } from "../Actions/NetworkActions";
+import history from "../../../Application/Services/HistoryService";
 
 export default function* watchAutogenerateNetworkSaga() {
   yield takeLatest(AUTOGENERATENETWORK_REQUEST, autoGenerateNetworkSaga);
 }
 
-function* autoGenerateNetworkSaga(action: IAction) {
+export function* autoGenerateNetworkSaga(action: IAction) {
   const { payload } = action;
-  const { workflowProcess } = payload;
   const { userId } = yield select((state) => state.loginReducer);
-  const { inputDeckId: facilitiesInputDeckId } = yield select((state) => {
-    const facilitiesState = state.inputReducer;
-    const facilitiesWorkflowNames = Object.keys(facilitiesState).filter((n) =>
-      n.includes("facilities")
-    );
-    const currentFacilityWorkflow = facilitiesWorkflowNames.filter((n) => {
-      const workflowState = facilitiesState[n];
-      return workflowState["inputDeckId"] !== "";
-    });
-
-    return currentFacilityWorkflow[0];
-  });
-  const { inputDeckId: forecastInputDeckId } = yield select(
-    (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
+  const { forecastInputDeckId, facilitiesInputDeckId } = yield select(
+    (state) => state.inputReducer
+  );
+  const { showWellheadSummaryNodes, showWellheadSummaryEdges } = yield select(
+    (state) => state.networkReducer
   );
 
   const data = {
     userId,
     facilitiesInputDeckId,
     forecastInputDeckId,
+    showWellheadSummaryNodes,
+    showWellheadSummaryEdges,
   };
 
   const config = { headers: null };
@@ -45,19 +39,24 @@ function* autoGenerateNetworkSaga(action: IAction) {
     authService.post(url, config, data);
 
   try {
-    const response = yield call(
+    const result = yield call(
       autoGenerateNetworkAPI,
-      "https://jsonplaceholder.typicode.com/posts"
-      // "http://a4b6b400f0c6.ngrok.io/api/project"
+      `${getBaseUrl()}/network/generate`
     );
 
-    const { statusCode, data } = response;
+    const {
+      statusCode,
+      data: { data },
+    } = result;
+    const { nodeElements, edgeElements } = data;
 
     const successAction = autoGenerateNetworkSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, data },
+      payload: { ...payload, statusCode, nodeElements, edgeElements },
     });
+
+    yield call(forwardTo, "/apex/network");
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
 
@@ -70,4 +69,8 @@ function* autoGenerateNetworkSaga(action: IAction) {
   }
 
   yield put(hideSpinnerAction());
+}
+
+function forwardTo(routeUrl: string) {
+  history.push(routeUrl);
 }

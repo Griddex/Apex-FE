@@ -7,7 +7,10 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { persistNetworkElementsAction } from "../../../Network/Redux/Actions/NetworkActions";
+import {
+  persistNetworkElementsAction,
+  saveAndAutoGenerateNetworkRequestAction,
+} from "../../../Network/Redux/Actions/NetworkActions";
 import ConnectFlowstationsToTerminal from "../../../Network/Utils/ConnectFlowstationsToTerminal";
 import ConnectManifoldsToStations from "../../../Network/Utils/ConnectManifoldsToStations";
 import ConnectWellheadsToManifolds from "../../../Network/Utils/ConnectWellheadsToManifolds";
@@ -41,10 +44,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    height: "80%",
+    height: 300,
+    width: "100%",
     "& > *": {
       height: 50,
-      width: 0.9 * theme.breakpoints.width("sm"),
+      // width: 0.98 * theme.breakpoints.width("md"),
+      width: "95%",
       boxShadow: theme.shadows[1],
       border: `1px solid ${theme.palette.primary.main}`,
     },
@@ -77,6 +82,13 @@ const ForecastInputDeckFinalization = ({
     (state: RootState) => state.networkReducer
   );
 
+  if (success) {
+    enqueueSnackbar(`${subModuleName} saved`, {
+      persist: false,
+      variant: "success",
+    });
+  }
+
   const buttonsData: ButtonProps[] = [
     {
       title: "Save Deck Only",
@@ -91,95 +103,7 @@ const ForecastInputDeckFinalization = ({
       color: "primary",
       startIcon: <ControlCameraOutlinedIcon />,
       handleAction: () => {
-        enqueueSnackbar(`${subModuleName} saved`, {
-          persist: false,
-          variant: "success",
-        });
-
-        //Group forecast data by station
-        const flowStationsGasFacilitiesData = groupBy(
-          inputDeckData,
-          (row) => row["Flow station"]
-        );
-        const {
-          flowStationsData,
-          gasFacilitiesData,
-        } = SplitFlowstationsGasFacilities(flowStationsGasFacilitiesData);
-
-        //Group forecast data by station
-        const wellheadDatabyManifold = groupBy(
-          inputDeckData,
-          (row) => row["Drainage Point"]
-        );
-
-        //Nodes
-        const terminalNodes = GenerateTerminalNodes([
-          "Forcados Yokri Terminal",
-        ]);
-        const flowstationNodes = GenerateFlowstationNodes(flowStationsData);
-        const gasFacilityNodes = GenerateGasFacilityNodes(gasFacilitiesData);
-        const manifoldNodes = GenerateManifoldNodes(
-          flowstationNodes,
-          gasFacilityNodes
-        );
-        const wellheadNodes = GenerateWellheadNodes(
-          manifoldNodes,
-          flowStationsData,
-          gasFacilitiesData,
-          wellheadDatabyManifold
-        );
-        const wellheadNodesMerged = [];
-        for (const node of Object.values(wellheadNodes)) {
-          wellheadNodesMerged.push(...node);
-        }
-
-        const wellheadSummaryNodes = GenerateWellheadSummaryNodes(
-          manifoldNodes
-        );
-        const wellheadOrSummaryNodes = showWellheadSummaryNodes
-          ? wellheadSummaryNodes
-          : wellheadNodesMerged;
-
-        const allNodes = [
-          ...terminalNodes,
-          ...flowstationNodes,
-          ...gasFacilityNodes,
-          ...manifoldNodes,
-          ...wellheadOrSummaryNodes,
-        ];
-
-        //Edges
-        const flowstationTerminalEdges = ConnectFlowstationsToTerminal(
-          terminalNodes,
-          flowstationNodes,
-          gasFacilityNodes
-        );
-        const manifoldFlowstationEdges = ConnectManifoldsToStations(
-          manifoldNodes,
-          flowstationNodes,
-          gasFacilityNodes
-        );
-        const wellheadManifoldEdges = ConnectWellheadsToManifolds(
-          wellheadNodes,
-          manifoldNodes
-        );
-        const wellheadSummaryManifoldEdges = ConnectWellheadSummariesToManifolds(
-          wellheadSummaryNodes,
-          manifoldNodes
-        );
-        const wellheadOrSummaryEdges = showWellheadSummaryEdges
-          ? wellheadSummaryManifoldEdges
-          : wellheadManifoldEdges;
-
-        const allEdges = [
-          ...flowstationTerminalEdges,
-          ...manifoldFlowstationEdges,
-          ...wellheadOrSummaryEdges,
-        ];
-
-        dispatch(persistNetworkElementsAction(allNodes, allEdges));
-        dispatch(hideDialogAction());
-        history.push("/apex/network");
+        dispatch(saveAndAutoGenerateNetworkRequestAction(workflowProcess));
       },
     },
     {

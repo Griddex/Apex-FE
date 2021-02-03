@@ -60,21 +60,21 @@ const steps = [
 ];
 
 const DatabaseWorkflow = ({
-  workflowCategory,
-  workflowProcess,
+  wrkflwCtgry,
+  wrkflwPrcss,
   finalAction,
 }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const workflowCategory = "importDataWorkflows";
+  const wc = wrkflwCtgry;
+  const wp = wrkflwPrcss;
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.workflowReducer[wc][wp]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -88,9 +88,6 @@ const DatabaseWorkflow = ({
   const isStepSkipped = useCallback((step: number) => skipped.has(step), [
     skipped,
   ]);
-
-  const data = { skipped, isStepSkipped, activeStep, steps, errorSteps: [] };
-  // const isStepFailed = useCallback((step) => activeStep === 50, [steps]);
 
   const WorkflowBannerProps = {
     activeStep,
@@ -120,23 +117,12 @@ const DatabaseWorkflow = ({
   };
 
   useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
-    dispatch(
-      workflowInitAction(
-        steps,
-        isStepOptional,
-        isStepSkipped,
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"],
-        workflowCategory
-      )
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
   }, [dispatch]);
 
   const props = {
-    workflowCategory,
-    workflowProcess,
+    wrkflwCtgry: wc,
+    wrkflwPrcss: wp,
   };
 
   function renderImportStep(activeStep: number) {
@@ -164,10 +150,10 @@ const DatabaseWorkflow = ({
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction: () => console.log("DatabaseWorkflow"),
+    finalAction,
     workflowProps,
-    workflowProcess,
-    workflowCategory,
+    workflowProcess: wp,
+    workflowCategory: wc,
   };
 
   return (

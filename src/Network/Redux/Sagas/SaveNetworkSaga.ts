@@ -3,6 +3,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
   saveNetworkFailureAction,
@@ -19,27 +20,27 @@ function* saveNetworkSaga(action: IAction) {
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
-  const { networkId, nodeElements, edgeElements } = yield select(
-    (state) => state.networkReducer
+  const { facilitiesInputDeckId, forecastInputDeckId } = yield select(
+    (state) => state.inputReducer
   );
 
   const data = {
-    userId,
-    id: projectId,
-    networkId,
-    nodeElements,
-    edgeElements,
+    facilitiesInputDeckId,
+    forecastInputDeckId,
   };
+  // const data = {
+  //   userId,
+  //   id: projectId,
+  //   networkId,
+  //   nodeElements,
+  //   edgeElements,
+  // };
 
   const config = { headers: null };
   const saveNetworkAPI = (url: string) => authService.post(url, config, data);
 
   try {
-    const result = yield call(
-      saveNetworkAPI,
-      "https://jsonplaceholder.typicode.com/posts"
-      // "http://a4b6b400f0c6.ngrok.io/api/project"
-    );
+    const result = yield call(saveNetworkAPI, `${getBaseUrl()}/network`);
 
     const {
       // data: { data: facilitiesInputDeckExisting }, //prevent 2nd trip to server

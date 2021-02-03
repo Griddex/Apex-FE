@@ -1,7 +1,6 @@
-import { useTheme } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React from "react";
 import Dropzone, { FileWithPath } from "react-dropzone";
@@ -69,18 +68,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
+const UploadFile = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "importDataWorkflows";
+  const wc = "importDataWorkflows";
+  const wp = wrkflwPrcss;
 
   const { dnDDisabled } = useSelector(
-    (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.workflowReducer[wc][wp]
   );
 
   React.useEffect(() => {
@@ -112,7 +111,7 @@ const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
               type: "array",
             });
 
-            dispatch(persistFileAction(inputWorkbook, workflowProcess));
+            dispatch(persistFileAction(inputWorkbook, wp));
 
             const {
               Author: fileAuthor,
@@ -131,14 +130,12 @@ const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
                 true,
                 true,
                 "Uploading file...",
-                workflowProcess
+                wp
               )
             );
 
             const workSheetNames = inputWorkbook.SheetNames;
-            dispatch(
-              persistWorksheetNamesAction(workSheetNames, workflowProcess)
-            );
+            dispatch(persistWorksheetNamesAction(workSheetNames, wp));
 
             if (workSheetNames.length > 1) {
               const dialogParameters: DialogStuff = {
@@ -150,8 +147,8 @@ const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
                 maxWidth: "sm",
                 iconType: "select",
                 contentList: workSheetNames,
-                workflowProcess,
-                workflowCategory,
+                workflowProcess: wp,
+                workflowCategory: wc,
               };
               dispatch(showDialogAction(dialogParameters));
             } else {
@@ -166,7 +163,7 @@ const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
                 persistWorksheetAction(
                   selectedWorksheetName,
                   selectedWorksheetData,
-                  workflowProcess
+                  wp
                 )
               );
               dispatch(
@@ -176,8 +173,8 @@ const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
                   activeStep,
                   steps,
                   "Loading...",
-                  workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"],
-                  workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"]
+                  wp as IAllWorkflowProcesses["wrkflwPrcss"],
+                  wc as IAllWorkflowProcesses["wrkflwCtgry"]
                 )
               );
             }
@@ -186,7 +183,7 @@ const UploadFile = ({ workflowProcess }: IAllWorkflowProcesses) => {
             // console.log("Logged output -->: UploadFile -> e", e);
           };
         }}
-        disabled={dnDDisabled}
+        // disabled={dnDDisabled}
         minSize={0}
         maxSize={10485760}
         multiple={false}

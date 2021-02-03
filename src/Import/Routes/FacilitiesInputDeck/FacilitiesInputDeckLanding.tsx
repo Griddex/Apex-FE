@@ -161,8 +161,8 @@ const FacilitiesInputDeckLanding = () => {
               const facilitiesInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    workflowCategory={"importDataWorkflows"}
-                    workflowProcess={"facilitiesInputDeckExcel"}
+                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwPrcss={"facilitiesInputDeckExcel"}
                     finalAction={() =>
                       facilitiesExcelandDbWorkflowFinalAction(
                         "facilitiesInputDeckExcel"
@@ -172,8 +172,8 @@ const FacilitiesInputDeckLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
-                    workflowCategory={"importDataWorkflows"}
-                    workflowProcess={"facilitiesInputDeckDatabase"}
+                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwPrcss={"facilitiesInputDeckDatabase"}
                     finalAction={() =>
                       facilitiesExcelandDbWorkflowFinalAction(
                         "facilitiesInputDeckExcel"
@@ -209,10 +209,10 @@ const FacilitiesInputDeckLanding = () => {
                 moduleAction={loadWorkflowAction}
                 name={name}
                 description={description}
-                Icon={icon}
+                icon={icon}
                 route={route}
-                workflowProcess={workflowProcess}
-                workflowCategory={workflowCategory}
+                wP={workflowProcess}
+                wC={workflowCategory}
               />
             );
           })}

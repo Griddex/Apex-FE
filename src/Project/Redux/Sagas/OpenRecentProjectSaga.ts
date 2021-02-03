@@ -18,10 +18,6 @@ export default function* watchOpenRecentProjectSaga() {
 function* openRecentProjectSaga(action: IAction) {
   const { payload } = action;
   const { userId, projectId, projectTitle, projectDescription } = payload; //grab from own dps
-  console.log(
-    "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 21 ~ function*openRecentProjectSaga ~ payload",
-    payload
-  );
 
   const config = { headers: null };
   const openRecentProjectAPI = (url: string) => authService.get(url, config);

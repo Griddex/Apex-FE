@@ -87,20 +87,14 @@ const getApplicationUnits = () => {
   ];
 };
 
-export default function MatchUnits({
-  workflowProcess,
-}: {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-}) {
+export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "importDataWorkflows";
+  const wc = "importDataWorkflows";
+  const wp = wrkflwPrcss;
 
   const { fileUnits, fileUniqueUnits } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
 
   //Application headers
@@ -420,13 +414,11 @@ export default function MatchUnits({
   const rows = tableRows.current;
 
   React.useEffect(() => {
-    dispatch(
-      persistFileUnitsMatchAction(fileUniqueUnitMatches, workflowProcess)
-    );
+    dispatch(persistFileUnitsMatchAction(fileUniqueUnitMatches, wp));
     dispatch(
       persistChosenApplicationUniqueUnitIndicesAction(
         chosenApplicationUniqueUnitIndices,
-        workflowProcess
+        wp
       )
     );
 
@@ -436,12 +428,7 @@ export default function MatchUnits({
       chosenApplicationUniqueUnitIndices
     );
 
-    dispatch(
-      persistChosenApplicationUnitsAction(
-        chosenApplicationUnits,
-        workflowProcess
-      )
-    );
+    dispatch(persistChosenApplicationUnitsAction(chosenApplicationUnits, wp));
 
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps

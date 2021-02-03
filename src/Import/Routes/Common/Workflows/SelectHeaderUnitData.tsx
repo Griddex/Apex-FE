@@ -42,19 +42,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function SelectHeaderUnitData({
-  workflowProcess,
-}: {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-}) {
+  wrkflwPrcss,
+}: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "importDataWorkflows";
+  const wc = "importDataWorkflows";
+  const wp = wrkflwPrcss;
 
   const { selectedWorksheetData } = useSelector(
-    (state: RootState) =>
-      state.inputReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
 
   //Generate actual ColumnHeaders
@@ -269,35 +265,23 @@ export default function SelectHeaderUnitData({
 
   //Run once after 1st render
   React.useEffect(() => {
-    dispatch(
-      persistTableHeadersAction(columnNameTableHeaders, workflowProcess)
-    );
+    dispatch(persistTableHeadersAction(columnNameTableHeaders, wp));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Run everytime rows or columns change
   React.useEffect(() => {
-    dispatch(
-      persistFileHeadersAction(
-        selectedHeaderRowIndex,
-        fileHeaders,
-        workflowProcess
-      )
-    );
+    dispatch(persistFileHeadersAction(selectedHeaderRowIndex, fileHeaders, wp));
     dispatch(
       persistFileUnitsAndUniqueUnitsAction(
         selectedUnitRowIndex,
         fileUnits,
         fileUniqueUnits,
-        workflowProcess
+        wp
       )
     );
-    dispatch(
-      persistColumnNameTableDataAction(columnNameTableData, workflowProcess)
-    );
-    dispatch(
-      persistTableRoleNamesAction(chosenTableRoleNames, workflowProcess)
-    );
+    dispatch(persistColumnNameTableDataAction(columnNameTableData, wp));
+    dispatch(persistTableRoleNamesAction(chosenTableRoleNames, wp));
 
     dispatch(hideSpinnerAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps

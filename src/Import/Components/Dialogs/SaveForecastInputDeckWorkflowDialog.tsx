@@ -170,9 +170,9 @@ const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
     workflowCategory: wc,
   };
 
-  useEffect(() => {
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
+  // }, [dispatch]);
 
   return (
     <Dialog

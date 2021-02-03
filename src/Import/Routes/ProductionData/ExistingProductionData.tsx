@@ -15,22 +15,28 @@ const chartData = [
   { name: "Group B", value: 4567 },
   { name: "Group C", value: 1398 },
 ];
+type wpTypeNon = NonNullable<IExistingDataProps["wkPs"]>;
+// type wpType = Omit<wpTypeNon, "">;
 
 export default function ExistingProductionData({
   finalAction,
 }: {
   finalAction: () => void;
 }) {
-  const workflowCategory = "existingDataWorkflows";
-  // const workflowProcess = "productionInputDataExisting" as NonNullable<
-  //   IExistingDataProps["wrkflwPrcss"]
-  // >;
-  const workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]> =
-    "productionInputDataExisting";
+  const wc = "existingDataWorkflows";
+  const wp: wpTypeNon = "productionInputDataExisting";
+  // const wp = "productionInputDataExisting" as wpType;
+  // const wp = "productionInputDataExisting" as Omit<NonNullable<
+  //   IExistingDataProps["wkPs"]
+  // >,"">;
+
   const existing = useSelector((state: RootState) => state.inputReducer);
-  existing.existingDataWorkflows;
+  //existing.existingDataWorkflows;
+  // const existingData = useSelector(
+  //   (state: RootState) => state.inputReducer[wc]
+  // );
   const existingData = useSelector(
-    (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
 
   const tableOptions: ITableIconsOptions = {
@@ -48,25 +54,29 @@ export default function ExistingProductionData({
     },
   };
 
-  const snExistingData = existingData.map(
-    (row: IGiftExistingData, i: number) => ({
-      sn: i + 1,
-      id: row.id,
-      status: "Not Started",
-      title: row.title,
-      description: row.description,
-      author: "None",
-      approvers: ["None", "None"],
-      createdOn: row.createdAt,
-      modifiedOn: row.createdAt,
-    })
+  const snExistingData: IExistingDataRow[] = existingData.map(
+    (row: any, i: number) => {
+      const data: IExistingDataRow = {
+        sn: i + 1,
+        id: row.id,
+        status: "Not Started",
+        title: row.title,
+        description: row.description,
+        author: "None",
+        approvers: "None",
+        createdOn: row.createdAt,
+        modifiedOn: row.createdAt,
+      };
+
+      return data;
+    }
   );
 
   const dataKey = "title";
   const dataTitle = "PRODUCTION DATA TITLE";
 
   const props = {
-    workflowProcess,
+    wkPs: wp,
     snExistingData,
     dataKey,
     dataTitle,

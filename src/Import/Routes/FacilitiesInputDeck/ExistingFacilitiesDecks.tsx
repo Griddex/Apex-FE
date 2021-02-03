@@ -18,14 +18,14 @@ const chartData = [
 export default function ExistingFacilitiesDecks({
   finalAction,
 }: {
-  // workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]>;
+  // wp: NonNullable<IExistingDataProps["wrkflwPrcss"]>;
   finalAction: () => void;
 }) {
-  const workflowCategory = "existingDataWorkflows";
-  const workflowProcess: NonNullable<IExistingDataProps["wrkflwPrcss"]> =
+  const wc = "existingDataWorkflows";
+  const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "facilitiesInputDeckExisting";
   const existingData = useSelector(
-    (state: RootState) => state.inputReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.inputReducer[wc][wp]
   );
 
   const tableOptions: ITableIconsOptions = {
@@ -43,8 +43,9 @@ export default function ExistingFacilitiesDecks({
     },
   };
 
-  const snExistingData = existingData.map(
-    (row: IGiftExistingData, i: number) => ({
+  const snExistingData =
+    existingData &&
+    existingData.map((row: IGiftExistingData, i: number) => ({
       sn: i + 1,
       id: row.id,
       status: "Not Started",
@@ -54,14 +55,13 @@ export default function ExistingFacilitiesDecks({
       approvers: ["None", "None"],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
-    })
-  );
+    }));
 
   const dataKey = "title";
   const dataTitle = "FACILITIES DECK TITLE";
 
-  const props = {
-    workflowProcess,
+  const props: IExistingDataProps = {
+    wkPs: wp,
     snExistingData,
     dataKey,
     dataTitle,

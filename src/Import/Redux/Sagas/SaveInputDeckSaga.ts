@@ -5,12 +5,12 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
-import history from "../../../Application/Services/HistoryService";
-import watchAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/AutogenerateNetworkSaga";
+import { autoGenerateNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/SaveInputDeckFailureDialogParameters";
+import { fetchExistingDataRequestAction } from "../Actions/ExistingDataActions";
 import {
   saveInputDeckFailureAction,
   saveInputDeckSuccessAction,
@@ -37,7 +37,7 @@ function getInputDeckRouteParam(
   else return "";
 }
 
-function* saveInputDeckSaga(action: IAction) {
+export function* saveInputDeckSaga(action: IAction) {
   const { payload } = action;
   const { workflowProcess } = payload;
   const { userId } = yield select((state) => state.loginReducer);
@@ -74,12 +74,16 @@ function* saveInputDeckSaga(action: IAction) {
   const inputDeckType = getInputDeckType(workflowProcess);
 
   try {
-    const response = yield call(
+    const result = yield call(
       saveinputDeckAPI,
       `${getBaseUrl()}/${getInputDeckRouteParam(workflowProcess)}`
     );
 
-    const { statusCode, success, data } = response;
+    const {
+      statusCode,
+      success,
+      data: { data },
+    } = result;
 
     const successAction = saveInputDeckSuccessAction();
     yield put({
@@ -90,9 +94,11 @@ function* saveInputDeckSaga(action: IAction) {
     //If it's a forecast deck, save it
     if (workflowProcess.includes("facilities"))
       yield put(showDialogAction(successDialogParameters(inputDeckType)));
-    else if (workflowProcess.includes("forecast"))
-      yield call(watchAutogenerateNetworkSaga);
-    else return "";
+    // else if (workflowProcess.includes("forecast"))
+    //   yield put(autoGenerateNetworkRequestAction());
+    // else return "";
+
+    yield put(fetchExistingDataRequestAction(projectId));
   } catch (errors) {
     const failureAction = saveInputDeckFailureAction();
 
@@ -105,8 +111,4 @@ function* saveInputDeckSaga(action: IAction) {
   }
 
   yield put(hideSpinnerAction());
-}
-
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
 }

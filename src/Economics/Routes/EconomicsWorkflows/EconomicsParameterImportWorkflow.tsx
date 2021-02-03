@@ -28,7 +28,10 @@ import MatchUnits from "../../../Import/Routes/Common/Workflows/MatchUnits";
 import PreviewSave from "../../../Import/Routes/Common/Workflows/PreviewSave";
 import SelectHeaderUnitData from "../../../Import/Routes/Common/Workflows/SelectHeaderUnitData";
 import SelectSheet from "../../../Import/Routes/Common/Workflows/SelectSheet";
-import { IAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  IEconomicsWorkflowProcess,
+} from "./../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -125,16 +128,15 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const workflowCategory = "economicsDataWorkflows";
-  const workflowProcess = "economicsParameterImportWorkflow";
+  const wc = "economicsDataWorkflows" as IEconomicsWorkflowProcess["wkCy"];
+  const wp = "economicsParameterImportWorkflow" as IEconomicsWorkflowProcess["wkPs"];
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.workflowReducer[wc][wp]
   );
   const { moduleName, subModuleName, workflowName } = useSelector(
     (state: RootState) => state.applicationReducer
@@ -179,23 +181,12 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
   };
 
   useEffect(() => {
-    dispatch(
-      workflowInitAction(
-        steps,
-        isStepOptional,
-        isStepSkipped,
-        workflowProcess,
-        workflowCategory
-      )
-    );
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
   }, [dispatch]);
 
-  const props: {
-    workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"];
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-  } = {
-    workflowCategory,
-    workflowProcess,
+  const props = {
+    wrkflwCtgry: wc,
+    wrkflwPrcss: wp,
   };
 
   function renderSingleSheetWorkflow(activeStep: number) {
@@ -218,7 +209,9 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
   function renderMultiSheetWorkflow(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <SelectWorksheetDialog {...props} />;
+        return (
+          <SelectWorksheetDialog workflowProcess={wp} workflowCategory={wc} />
+        );
       case 1:
         return <SelectSheet {...props} />;
       case 2:
@@ -246,8 +239,8 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
     showNext: true,
     finalAction,
     workflowProps,
-    workflowProcess,
-    workflowCategory,
+    workflowProcess: wp,
+    workflowCategory: wc,
   };
 
   const renderWorkflow =

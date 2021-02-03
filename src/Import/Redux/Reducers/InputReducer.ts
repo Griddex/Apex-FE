@@ -1,5 +1,6 @@
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import {
   EXISTINGDATA_FAILURE,
   EXISTINGDATA_SUCCESS,
@@ -89,46 +90,46 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case EXISTINGDATA_FAILURE: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const wp = workflowProcess as NonNullable<IExistingDataProps["wkPs"]>;
 
       return {
         ...state,
         existingDataWorkflows: {
           ...state.existingDataWorkflows,
-          [workflowProcessDefined]: {
-            ...state.existingDataWorkflows[workflowProcessDefined],
+          [wp as string]: {
+            ...state.existingDataWorkflows[wp],
             ...action.payload.existingData,
           },
         },
       };
     }
     case SAVEINPUTDECK_SUCCESS: {
-      const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const { workflowProcess, data, statusCode, success } = action.payload;
+      const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       return {
         ...state,
         importDataWorkflows: {
           ...state.importDataWorkflows,
-          [workflowProcessDefined]: {
-            ...state.importDataWorkflows[workflowProcessDefined],
-            existingDataId: action.payload.data["id"], //please Gift use id
-            statusCode: action.payload.statusCode, //please Gift use id
-            success: action.payload.success, //please Gift use id
+          [wp]: {
+            ...state.importDataWorkflows[wp],
+            existingDataId: data, //please Gift use id
+            statusCode, //please Gift use id
+            success, //please Gift use id
           },
         },
       };
     }
     case SAVEINPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       return {
         ...state,
         importDataWorkflows: {
           ...state.importDataWorkflows,
-          [workflowProcessDefined]: {
-            ...state.importDataWorkflows[workflowProcessDefined],
+          [wp]: {
+            ...state.importDataWorkflows[wp],
             ...action.payload,
           },
         },
