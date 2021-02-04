@@ -22,14 +22,14 @@ const generateImportState = () => {
 //   "economicsParameterImportWorkflow",
 //   "economicsParameters",
 //   "netCashAnalysisWorkflow",
-//   "saveForecastParametersWorkflow",
+//   "saveForecastingParametersWorkflowDialog",
 // ];
 const analysesWorkflowProcesses = [
   "economicsAnalyses",
   "economicsParameterImportWorkflow",
   "economicsParameters",
   "netCashAnalysisWorkflow",
-  "saveForecastParametersWorkflow",
+  "saveForecastingParametersWorkflowDialog",
 ];
 const generateExistingDataState = () => {
   return analysesWorkflowProcesses.reduce((acc, workflowProcess) => {

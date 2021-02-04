@@ -4,7 +4,8 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import React from "react";
+import { findIndex } from "lodash";
+import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
@@ -62,37 +63,40 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-//TODO: API saga to get entire units object from server
+//TODO: add this to boostrap in Layout
 const forecastParametersList: IForecastParametersDetail[] = [
   {
+    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2020",
+    forecastParametersType: "Default",
+    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2020",
     forecastParametershSPName: "Oil",
     forecastParametersTimeFreq: "Monthly",
     forecastParametersRealtime: "Yes",
     forecastParametersEndForecast: "December 2060",
-    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2020",
-    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2020",
     author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
     createdOn: formatDate(new Date(2019, 9, 23)),
     modifiedOn: formatDate(new Date(2019, 11, 23)),
   },
   {
+    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2019",
+    forecastParametersType: "User",
+    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2019",
     forecastParametershSPName: "Gas",
     forecastParametersTimeFreq: "Yearly",
     forecastParametersRealtime: "Yes",
     forecastParametersEndForecast: "December 2060",
-    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2019",
-    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2019",
     author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
     createdOn: formatDate(new Date(2019, 9, 23)),
     modifiedOn: formatDate(new Date(2019, 11, 23)),
   },
   {
+    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2018",
+    forecastParametersType: "User",
+    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2018",
     forecastParametershSPName: "Oil",
     forecastParametersTimeFreq: "Yearly",
     forecastParametersRealtime: "Yes",
     forecastParametersEndForecast: "December 2060",
-    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2018",
-    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2018",
     author: { avatarUrl: johnImg, name: "John Bravo" },
     createdOn: formatDate(new Date(2019, 9, 23)),
     modifiedOn: formatDate(new Date(2019, 11, 23)),
@@ -135,12 +139,29 @@ export default function ExistingForecastingParameters() {
     setCheckboxSelected(!checkboxSelected);
   };
 
+  const initialTableRows = fileHeaders.map((fileHeader: string, i: number) => {
+    return {
+      sn: i + 1,
+      fileHeader: fileHeader,
+      applicationHeader: selectedApplicationHeader.value,
+      match: score.value,
+    };
+  });
+
+  const tableRows = React.useRef<IRawTable>(initialTableRows);
+  const [, setRerender] = React.useState(false);
+
+  const forecastParametersTypeOptions = forecastParametersList.map((p) => ({
+    value: p.forecastParametersType,
+    label: p.forecastParametersType,
+  }));
+
   const generateColumns = () => {
     const columns: Column<IForecastParametersDetail>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "selectNetwork",
-        name: "",
+        name: "SELECT",
         editable: true,
         resizable: true,
         formatter: ({ row }) => (
@@ -149,7 +170,7 @@ export default function ExistingForecastingParameters() {
             checked={checkboxSelected}
           />
         ),
-        width: 300,
+        width: 50,
       },
       {
         key: "actions",
@@ -157,29 +178,67 @@ export default function ExistingForecastingParameters() {
         editable: false,
         formatter: ({ row }) => (
           <div>
+            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
+            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
+            <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
             <VisibilityOutlinedIcon
               onClick={() => alert(`View Row is:${row}`)}
             />
             <ArrowRightIcon
               onClick={() => alert(`Forecast run Row is:${row}`)}
             />
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
           </div>
         ),
+        width: 150,
+      },
+      {
+        key: "forecastParametersType",
+        name: "TYPE",
+        editable: false,
+        resizable: true,
         width: 100,
+        formatter: ({ row, onRowChange }) => {
+          const type = row.forecastParametersType as string;
+
+          return (
+            <select
+              style={{ width: "100%", height: "95%" }}
+              value={type as string}
+              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                event.stopPropagation();
+                const selectedValue = event.target.value;
+
+                onRowChange({
+                  ...row,
+                  forecastParametersType: selectedValue as IForecastParametersDetail["forecastParametersType"],
+                });
+
+                const selectedTypeOptionIndex = findIndex(
+                  forecastParametersTypeOptions,
+                  (option) => option.value === selectedValue
+                );
+
+                // setChosenApplicationDeclineTypeIndices((prev) => ({
+                //   ...prev,
+                //   [`${module}`]: selectedTypeOptionIndex,
+                // }));
+
+                modifyTableRows(type, selectedTypeOptionIndex);
+                setRerender((rerender) => !rerender);
+              }}
+            >
+              {forecastParametersTypeOptions.map((option, i: number) => (
+                <option key={i} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          );
+        },
       },
       {
         key: "forecastParametersTitle",
         name: "FORECAST PARAMETERS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
-      },
-      {
-        key: "forecastParametersDCA",
-        name: "DECLINE CURVE PARAMETERS",
         editable: false,
         resizable: true,
         width: 300,
@@ -252,6 +311,18 @@ export default function ExistingForecastingParameters() {
   };
   const columns = React.useMemo(() => generateColumns(), []);
 
+  const modifyTableRows = (type: string, selectedHeaderOptionIndex: number) => {
+    const modifiedRows = tableRows.current.map((row, i: number) => {
+      if (row.forecastParametersType === type) {
+        return {
+          forecastParametersType: type,
+        };
+      } else return row;
+    });
+
+    tableRows.current = modifiedRows;
+  };
+
   const snForecastParametersList = forecastParametersList.map(
     (row, i: number) => ({
       sn: i + 1,
@@ -278,7 +349,7 @@ export default function ExistingForecastingParameters() {
           columns={columns}
           rows={rows}
           options={tableOptions}
-          newTableRowHeight={80}
+          newTableRowHeight={35}
         />
       </div>
     </div>

@@ -1,34 +1,19 @@
-import { Typography, Button, makeStyles } from "@material-ui/core";
-import { groupBy } from "lodash";
+import { Button, makeStyles, Typography } from "@material-ui/core";
+import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
+import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
+import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import {
-  persistNetworkElementsAction,
-  saveAndAutoGenerateNetworkRequestAction,
-} from "../../../Network/Redux/Actions/NetworkActions";
-import ConnectFlowstationsToTerminal from "../../../Network/Utils/ConnectFlowstationsToTerminal";
-import ConnectManifoldsToStations from "../../../Network/Utils/ConnectManifoldsToStations";
-import ConnectWellheadsToManifolds from "../../../Network/Utils/ConnectWellheadsToManifolds";
-import ConnectWellheadSummariesToManifolds from "../../../Network/Utils/ConnectWellheadSummariesToManifolds";
-import GenerateFlowstationNodes from "../../../Network/Utils/GenerateFlowstationNodes";
-import GenerateGasFacilityNodes from "../../../Network/Utils/GenerateGasFacilityNodes";
-import GenerateManifoldNodes from "../../../Network/Utils/GenerateManifoldNodes";
-import GenerateTerminalNodes from "../../../Network/Utils/GenerateTerminalNodes";
-import GenerateWellheadNodes from "../../../Network/Utils/GenerateWellheadNodes";
-import GenerateWellheadSummaryNodes from "../../../Network/Utils/GenerateWellheadSummaryNodes";
-import SplitFlowstationsGasFacilities from "../../../Network/Utils/SplitFlowstationsGasFacilities";
+import { saveAndAutoGenerateNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
-import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
-import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
 import { IAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +53,7 @@ const ForecastInputDeckFinalization = ({
 
   const wc = "importDataWorkflows";
   const wp = workflowProcess;
-  const { tableData: inputDeckData, success } = useSelector(
+  const { success } = useSelector(
     (state: RootState) => state.inputReducer[wc][wp]
   );
   const { subModuleName } = useSelector(
@@ -76,10 +61,6 @@ const ForecastInputDeckFinalization = ({
   );
   const { facilitiesInputDeckTitle } = useSelector(
     (state: RootState) => state.inputReducer
-  );
-
-  const { showWellheadSummaryNodes, showWellheadSummaryEdges } = useSelector(
-    (state: RootState) => state.networkReducer
   );
 
   if (success) {
@@ -95,6 +76,7 @@ const ForecastInputDeckFinalization = ({
       color: "primary",
       startIcon: <SaveOutlinedIcon />,
       handleAction: () => {
+        dispatch(hideDialogAction());
         dispatch(saveInputDeckRequestAction(wp));
       },
     },
@@ -103,6 +85,7 @@ const ForecastInputDeckFinalization = ({
       color: "primary",
       startIcon: <ControlCameraOutlinedIcon />,
       handleAction: () => {
+        dispatch(hideDialogAction());
         dispatch(saveAndAutoGenerateNetworkRequestAction(workflowProcess));
       },
     },
@@ -111,6 +94,7 @@ const ForecastInputDeckFinalization = ({
       color: "primary",
       startIcon: <DeviceHubOutlinedIcon />,
       handleAction: () => {
+        dispatch(hideDialogAction());
         enqueueSnackbar(`${subModuleName} saved`, {
           persist: false,
           variant: "success",
@@ -124,6 +108,7 @@ const ForecastInputDeckFinalization = ({
       color: "primary",
       startIcon: <LinkOutlinedIcon />,
       handleAction: () => {
+        dispatch(hideDialogAction());
         enqueueSnackbar(`${subModuleName} saved`, {
           persist: false,
           variant: "error",

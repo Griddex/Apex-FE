@@ -1,4 +1,4 @@
-import { Button, makeStyles } from "@material-ui/core";
+import { Button, Hidden, makeStyles } from "@material-ui/core";
 import React from "react";
 import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
@@ -12,7 +12,12 @@ import { INetworkDiagramIcons } from "./NetworkDiagramIconsTypes";
 import networkReducer from "./../../Redux/Reducers/NetworkReducers";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
+import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
+import { runForecastRequestAction } from "../../Redux/Actions/ForecastingActions";
 
 const useStyles = makeStyles(() => ({
   networkContentIcons: {
@@ -45,6 +50,27 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const runForecast = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Existing_Network_Dialog",
+      title: "Existing Network Dialog",
+      type: "runForecastDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "lg",
+      iconType: "information",
+      actionsList: () =>
+        DialogOkayCancelButtons(
+          [true, true],
+          [true, true],
+          [runForecastRequestAction, unloadDialogsAction]
+        ),
+      // dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
   return (
     <div className={classes.networkContentIcons}>
       <Button
@@ -54,7 +80,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         style={{ height: "28px" }}
         onClick={() => saveNetworkExtrude(dispatch)}
       >
-        Save Network
+        <Hidden mdDown>Save Network</Hidden>
       </Button>
       <Button
         startIcon={<PlaylistPlayIcon />}
@@ -63,7 +89,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         style={{ height: "28px" }}
         onClick={() => existingNetworksExtrude(dispatch)}
       >
-        Existing Networks
+        <Hidden mdDown>Existing Networks</Hidden>
       </Button>
       <Button
         startIcon={<PlaylistPlayIcon />}
@@ -72,7 +98,16 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         style={{ height: "28px" }}
         onClick={() => generateNetwork()}
       >
-        Generate Network
+        <Hidden mdDown>Generate Network</Hidden>
+      </Button>
+      <Button
+        startIcon={<PlayArrowIcon />}
+        variant="outlined"
+        color="secondary"
+        style={{ height: "28px" }}
+        onClick={() => runForecast()}
+      >
+        <Hidden mdDown>Run Forecast</Hidden>
       </Button>
       <Button
         startIcon={<PlayArrowIcon />}
@@ -81,7 +116,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         style={{ height: "28px" }}
         onClick={() => existingNetworksExtrude(dispatch)}
       >
-        Run Forecast
+        <Hidden mdDown>Existing Forecast Parameters</Hidden>
       </Button>
       <Button
         startIcon={<MapOutlinedIcon />}
@@ -90,7 +125,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         style={{ height: "28px" }}
         onClick={() => setShowMiniMap(!showMiniMap)}
       >
-        Toggle Minimap
+        <Hidden mdDown>Toggle Minimap</Hidden>
       </Button>
       <Button
         startIcon={<ViewAgendaOutlinedIcon />}
@@ -99,7 +134,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         style={{ height: "28px" }}
         onClick={() => setShowControls(!showControls)}
       >
-        Toggle Controls
+        <Hidden mdDown>Toggle Controls</Hidden>
       </Button>
     </div>
   );

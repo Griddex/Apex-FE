@@ -5,7 +5,7 @@ import {
   CallEffect,
   put,
   PutEffect,
-  takeLatest,
+  takeLeading,
 } from "redux-saga/effects";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -33,7 +33,7 @@ import {
 } from "../Actions/ExistingDataActions";
 
 export default function* watchFetchExistingDataSaga() {
-  yield takeLatest(EXISTINGDATA_REQUEST, fetchExistingDataSaga);
+  yield takeLeading(EXISTINGDATA_REQUEST, fetchExistingDataSaga);
 }
 
 function getInsert(workflowProcess: IExistingDataProps["wkPs"]) {

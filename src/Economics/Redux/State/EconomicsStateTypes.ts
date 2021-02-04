@@ -7,7 +7,7 @@ export type IEconomicsWorkflowProcessesType =
   | "economicsParameterImportWorkflow"
   | "economicsParameters"
   | "netCashAnalysisWorkflow"
-  | "saveForecastParametersWorkflow";
+  | "saveForecastingParametersWorkflowDialog";
 
 export interface EconomicsStateType {
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;

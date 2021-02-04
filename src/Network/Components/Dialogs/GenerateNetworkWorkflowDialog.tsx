@@ -8,11 +8,15 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
-import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  hideDialogAction,
+  showDialogAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { autoGenerateNetworkRequestAction } from "../../Redux/Actions/NetworkActions";
@@ -128,9 +132,27 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const finalAction = React.useCallback(() => {
-    dispatch(autoGenerateNetworkRequestAction());
-  }, []);
+  const finalAction = () => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: "Generate_Network_Dialog",
+      title: "Generate Network Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "sm",
+      dialogText: "Confirm generation of network",
+      iconType: "error",
+      actionsList: () =>
+        DialogOkayCancelButtons(
+          [true],
+          [true],
+          [autoGenerateNetworkRequestAction]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(confirmationDialogParameters));
+  };
 
   const navigationButtonProps: INavigationButtonsProp = {
     mainNav: false,
@@ -145,8 +167,6 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   };
 
   useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
     dispatch(
       workflowInitAction(
         steps,

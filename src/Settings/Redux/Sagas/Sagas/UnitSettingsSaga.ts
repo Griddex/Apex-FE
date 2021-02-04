@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -13,7 +13,7 @@ import {
 import { IUnitSettingsData } from "../../State/UnitSettingsStateTypes";
 
 export default function* watchFetchUnitSettingsSaga() {
-  yield takeLatest(FETCH_UNITSETTINGS_REQUEST, fetchUnitSettingsSaga);
+  yield takeLeading(FETCH_UNITSETTINGS_REQUEST, fetchUnitSettingsSaga);
 }
 
 function* fetchUnitSettingsSaga(action: IAction) {

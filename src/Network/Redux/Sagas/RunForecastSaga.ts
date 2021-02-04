@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLeading } from "redux-saga/effects";
 import * as authService from "../../../Application/Services/AuthService";
 import history from "../../../Application/Services/HistoryService";
 import {
@@ -12,7 +12,7 @@ import { ActionType } from "@redux-saga/types";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export default function* watchRunForecastSaga() {
-  yield takeLatest<ActionType>(RUN_FORECAST_REQUEST, runForecastSaga);
+  yield takeLeading<ActionType>(RUN_FORECAST_REQUEST, runForecastSaga);
 }
 
 function* runForecastSaga(action: IAction) {

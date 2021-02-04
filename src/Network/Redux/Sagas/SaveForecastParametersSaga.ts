@@ -1,5 +1,5 @@
 import { ActionType } from "@redux-saga/types";
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLeading } from "redux-saga/effects";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -12,7 +12,7 @@ import {
 } from "../Actions/ForecastingActions";
 
 export default function* watchSaveForecastParametersSaga() {
-  yield takeLatest<ActionType>(
+  yield takeLeading<ActionType>(
     SAVE_FORECASTPARAMETERS_REQUEST,
     saveForecastParametersSaga
   );

@@ -64,6 +64,7 @@ export interface DialogStuff {
     | "saveFacilitiesInputDeckDialog"
     | "saveForecastInputDeckWorkflowDialog"
     | "finalizeInputDialog"
+    | "runForecastDialog"
     | "economicsParametersDialog"
     | "economicsParameterImportWorkflowDialog"
     | "newProjectWorkflowDialog"

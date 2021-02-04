@@ -3,14 +3,45 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";
-import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
+import {
+  ButtonProps,
+  DialogStuff,
+} from "../../../Application/Components/Dialogs/DialogTypes";
+import {
+  hideDialogAction,
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { IIsSaveNetworkValid } from "../Dialogs/SaveNetworkDialogTypes";
+import { saveNetworkRequestAction } from "./../../Redux/Actions/NetworkActions";
 
 const SaveNetworkDialogButtons = ({
   isSaveNetworkValid,
 }: IIsSaveNetworkValid) => {
   const dispatch = useDispatch();
+
+  const finalAction = () => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: "Save_Network_Dialog",
+      title: "Save Network Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the network?",
+      iconType: "error",
+      actionsList: () =>
+        DialogOkayCancelButtons(
+          [true, true],
+          [true, true],
+          [saveNetworkRequestAction, unloadDialogsAction]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(confirmationDialogParameters));
+  };
 
   const buttonsData: ButtonProps[] = [
     {
@@ -25,9 +56,7 @@ const SaveNetworkDialogButtons = ({
       variant: "contained",
       color: "primary",
       startIcon: <DoneOutlinedIcon />,
-      handleAction: () => {
-        //dispatch confirmation dialog parameters
-      },
+      handleAction: finalAction,
     },
   ];
 

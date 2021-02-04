@@ -260,9 +260,17 @@ export const persistTableHeadersAction = (
 export const saveInputDeckRequestAction = (
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
+  let inputDeck;
+
+  if (workflowProcess.includes("facilities"))
+    inputDeck = "facilities inputdeck";
+  else if (workflowProcess.includes("forecast"))
+    inputDeck = "forecast inputdeck";
+
   return {
     type: SAVEINPUTDECK_REQUEST,
     payload: { workflowProcess },
+    meta: { message: `Saving ${inputDeck}...` },
   };
 };
 
@@ -288,6 +296,7 @@ export const saveInputDeckFailureAction = () => {
 export const fetchApplicationHeadersRequestAction = () => {
   return {
     type: FETCHAPPLICATIONHEADERS_REQUEST,
+    meta: { showSpinner: true, message: "Loading application..." },
   };
 };
 export const fetchApplicationHeadersSuccessAction = () => {

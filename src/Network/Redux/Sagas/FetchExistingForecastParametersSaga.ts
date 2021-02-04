@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -12,7 +12,7 @@ import {
 } from "../Actions/NetworkActions";
 
 export default function* watchFetchExistingForecastParametersSaga() {
-  yield takeLatest(
+  yield takeLeading(
     EXISTINGFORECASTPARAMETERS_REQUEST,
     fetchExistingForecastParametersSaga
   );

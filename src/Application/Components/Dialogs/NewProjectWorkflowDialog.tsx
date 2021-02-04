@@ -150,6 +150,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     successDialogParameters,
     failureDialogParameters,
   ]);
+
   const navigationButtonProps: INavigationButtonsProp = {
     mainNav: false,
     showReset: true,

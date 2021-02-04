@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -12,7 +12,7 @@ import {
 } from "../Actions/NetworkActions";
 
 export default function* watchSaveNetworkSaga() {
-  yield takeLatest(SAVENETWORK_REQUEST, saveNetworkSaga);
+  yield takeLeading(SAVENETWORK_REQUEST, saveNetworkSaga);
 }
 
 function* saveNetworkSaga(action: IAction) {

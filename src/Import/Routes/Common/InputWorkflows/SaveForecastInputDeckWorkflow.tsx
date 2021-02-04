@@ -18,11 +18,11 @@ const SaveForecastInputDeckWorkflow = ({
 
   const renderImportStep = () => {
     switch (activeStep) {
-      case 0:
+      case 5:
         return <ExistingFacilitiesDecks {...props} />;
-      case 1:
+      case 6:
         return <ForecastTitleAndDescriptionForm />;
-      case 2:
+      case 7:
         return (
           <ForecastInputDeckFinalization workflowProcess={workflowProcess} />
         );

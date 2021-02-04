@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLeading } from "redux-saga/effects";
 import * as authService from "../../../Application/Services/AuthService";
 import history from "../../../Application/Services/HistoryService";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -10,7 +10,7 @@ import {
 } from "../Actions/AdminActions";
 
 export default function* watchRegisterSaga() {
-  yield takeLatest(REGISTER_REQUEST, registerSaga);
+  yield takeLeading(REGISTER_REQUEST, registerSaga);
 }
 
 function* registerSaga(action: IAction) {

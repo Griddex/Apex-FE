@@ -79,21 +79,16 @@ export default function DeclineCurveParameters({
 
   //TODO: API saga to get entire units object from server
   const workflowCategory = "importDataWorkflows";
-  const { inputDeckData } = useSelector(
+  const { tableData: inputDeckData } = useSelector(
     (state: RootState) =>
       state.networkReducer[workflowCategory][
         workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
       ]
   );
 
-  const declineCurveList: Omit<
+  const declineCurveList: Pick<
     IDeclineCurveParametersDetail,
-    | "module"
-    | "drainagePoint"
-    | "field"
-    | "initialRate"
-    | "reservoir"
-    | "initialRate"
+    "declineType" | "declineRate" | "declineExponent"
   >[] = [
     {
       declineType: "Exponential",
@@ -195,7 +190,7 @@ export default function DeclineCurveParameters({
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "selectDecline",
-        name: "",
+        name: "SELECT",
         editable: true,
         resizable: true,
         formatter: ({ row }) => (
@@ -204,7 +199,7 @@ export default function DeclineCurveParameters({
             checked={checkboxSelected}
           />
         ),
-        width: 300,
+        width: 100,
       },
       {
         key: "actions",
@@ -360,7 +355,7 @@ export default function DeclineCurveParameters({
           columns={columns}
           rows={rows}
           options={tableOptions}
-          newTableRowHeight={80}
+          newTableRowHeight={35}
         />
       </div>
     </div>

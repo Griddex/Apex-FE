@@ -105,7 +105,7 @@ const DialogContent = withStyles((theme) => ({
 
 const steps = ["New Project Details", "Choose Unit Settings"];
 const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "saveForecastParametersWorkflow";
+const workflowProcess = "saveForecastingParametersWorkflowDialog";
 
 const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();

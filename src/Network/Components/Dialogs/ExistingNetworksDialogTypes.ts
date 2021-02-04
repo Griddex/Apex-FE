@@ -13,6 +13,7 @@ export interface INetworkDetail {
 
 export interface IForecastParametersDetail {
   sn?: number;
+  forecastParametersType: "Default" | "User";
   forecastParametersTitle: string;
   forecastParametersDescription: string;
   forecastParametershSPName: string;

@@ -376,7 +376,11 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         </Grid>
       </Grid>
       <DndProvider backend={HTML5Backend}>
-        <div ref={tableRef} style={{ width: "100%", height: "100%" }}>
+        <div
+          ref={tableRef}
+          // style={{ width: "100%", height: "100%", minHeight: 200 }}
+          style={{ width: "100%", height: "100%" }}
+        >
           <ReactDataGrid
             ref={gridRef}
             style={{ width: "100%", height: "100%" }}
@@ -396,15 +400,15 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       </DndProvider>
       <div className={classes.tablePagination}>
         <div>Pages</div>
-        <FormControl variant="outlined" className={classes.formControl}>
-          <SelectEditor
-            className={classes.formControl}
-            value={pageSelect || "All"}
-            onChange={(value) => handlePageSelectChange(value)}
-            options={uniquePageOptions}
-            rowHeight={pagesHeight}
-          />
-        </FormControl>
+        {/* <FormControl variant="outlined" className={classes.formControl}> */}
+        <SelectEditor
+          className={classes.formControl}
+          value={pageSelect || "All"}
+          onChange={(value) => handlePageSelectChange(value)}
+          options={uniquePageOptions}
+          rowHeight={pagesHeight}
+        />
+        {/* </FormControl> */}
         <Pagination
           count={tablePagination + 1}
           variant="outlined"

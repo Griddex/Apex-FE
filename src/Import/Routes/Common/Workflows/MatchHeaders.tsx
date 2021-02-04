@@ -4,7 +4,7 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
-import { Dictionary, findIndex, omit } from "lodash";
+import { Dictionary, findIndex, findLastIndex, omit } from "lodash";
 import zipObject from "lodash/zipObject";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
@@ -188,10 +188,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     fileHeaders,
     applicationHeaderOptions
   );
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 186 ~ MatchHeaders ~ keyedApplicationHeaderOptions",
-    keyedApplicationHeaderOptions
-  );
 
   const keyedScoreOptions = zipObject(fileHeaders, scoreOptions);
 
@@ -202,12 +198,35 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     {}
   );
 
+  const initialTableRows = fileHeaders.map((fileHeader: string, i: number) => {
+    const headerOptions = keyedApplicationHeaderOptions[fileHeader];
+    const selectedApplicationHeader = headerOptions[0];
+    const scoreOpts = keyedScoreOptions[fileHeader];
+    const score = scoreOpts[0];
+
+    return {
+      sn: i + 1,
+      fileHeader: fileHeader,
+      applicationHeader: selectedApplicationHeader.value,
+      match: score.value,
+    };
+  });
+
+  const tableRows = React.useRef<IRawTable>(initialTableRows);
+  const [, setRerender] = React.useState(false);
+
   const [
     chosenApplicationHeaderIndices,
     setChosenApplicationHeaderIndices,
   ] = React.useState(snChosenApplicationHeaderIndices);
 
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
+  const [
+    acceptMatchCheckboxSelected,
+    setAcceptMatchCheckboxSelected,
+  ] = React.useState(false);
+  const [excludeCheckboxSelected, setExcludeCheckboxSelected] = React.useState(
+    false
+  );
   const generateColumns = (
     keyedApplicationHeaderOptions: Dictionary<
       {
@@ -216,13 +235,37 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       }[]
     >
   ) => {
-    const handleCheckboxChange = (
+    const handleExcludeCheckboxChange = (
+      row: IRawRow,
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      event.persist();
+      console.log(row);
+      const selectedFileHeader = row.fileHeader as string;
+      const headerOptions = keyedApplicationHeaderOptions[selectedFileHeader];
+      const selectedOptionIndex = findLastIndex(
+        headerOptions,
+        (u: { value: string; label: string }) => u.label === "None"
+      );
+      console.log(
+        "Logged output --> ~ file: MatchHeaders.tsx ~ line 233 ~ MatchHeaders ~ selectedOptionIndex",
+        selectedOptionIndex
+      );
+      modifyTableRows(selectedFileHeader, selectedOptionIndex);
+      setExcludeCheckboxSelected(
+        (excludeCheckboxSelected) => !excludeCheckboxSelected
+      );
+
+      setRerender((rerender) => !rerender);
+    };
+
+    const handleAcceptMatchCheckboxChange = (
       row: IRawRow,
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       event.persist();
       alert(row);
-      setCheckboxSelected(!checkboxSelected);
+      setAcceptMatchCheckboxSelected(!acceptMatchCheckboxSelected);
     };
 
     const columns: Column<IRawRow>[] = [
@@ -255,12 +298,12 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           const rowSN = row.sn;
           const fileHeader = row.fileHeader as string;
           const options = keyedApplicationHeaderOptions[fileHeader];
-          const value = row.applicationHeader as string;
+          const appHeader = row.applicationHeader as string;
 
           return (
             <select
               style={{ width: "100%", height: "95%" }}
-              value={value as string}
+              value={appHeader as string}
               onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                 event.stopPropagation();
                 const selectedValue = event.target.value;
@@ -298,7 +341,21 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         name: "MATCH",
         editable: false,
         resizable: true,
-        width: 150,
+        width: 100,
+      },
+
+      {
+        key: "exclude",
+        name: "EXCLUDE",
+        editable: true,
+        resizable: true,
+        formatter: ({ row }) => (
+          <Checkbox
+            onClick={(event) => handleExcludeCheckboxChange(row, event)}
+            checked={excludeCheckboxSelected}
+          />
+        ),
+        width: 100,
       },
       {
         key: "acceptMatch",
@@ -307,8 +364,8 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         resizable: true,
         formatter: ({ row }) => (
           <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
+            onClick={(event) => handleAcceptMatchCheckboxChange(row, event)}
+            checked={acceptMatchCheckboxSelected}
           />
         ),
         width: 150,
@@ -323,22 +380,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     [keyedApplicationHeaderOptions]
   );
 
-  const initialTableRows = fileHeaders.map((fileHeader: string, i: number) => {
-    const headerOptions = keyedApplicationHeaderOptions[fileHeader];
-    const selectedApplicationHeader = headerOptions[0];
-    const scoreOpts = keyedScoreOptions[fileHeader];
-    const score = scoreOpts[0];
-
-    return {
-      sn: i + 1,
-      fileHeader: fileHeader,
-      applicationHeader: selectedApplicationHeader.value,
-      match: score.value,
-    };
-  });
-
-  const tableRows = React.useRef<IRawTable>(initialTableRows);
-  const [, setRerender] = React.useState(false);
   const modifyTableRows = (
     selectedFileHeader: string,
     selectedHeaderOptionIndex: number
@@ -364,6 +405,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   };
 
   const rows = tableRows.current;
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 405 ~ MatchHeaders ~ rows",
+    rows
+  );
 
   //Run once after 1st render
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -13,7 +13,7 @@ import {
 import history from "../../../Application/Services/HistoryService";
 
 export default function* watchAutogenerateNetworkSaga() {
-  yield takeLatest(AUTOGENERATENETWORK_REQUEST, autoGenerateNetworkSaga);
+  yield takeLeading(AUTOGENERATENETWORK_REQUEST, autoGenerateNetworkSaga);
 }
 
 export function* autoGenerateNetworkSaga(action: IAction) {

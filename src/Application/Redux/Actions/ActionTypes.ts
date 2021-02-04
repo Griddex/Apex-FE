@@ -1,5 +1,10 @@
 export interface IAction {
   type: string;
   payload?: any;
-  meta?: Record<string, React.Key>;
+  meta?: {
+    showSpinner?: boolean;
+    message?: string;
+    addAuth?: boolean;
+    exclusive?: boolean;
+  };
 }

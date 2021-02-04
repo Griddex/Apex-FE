@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeLeading } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
@@ -9,7 +9,7 @@ import {
 import { hideSpinnerAction } from "../Actions/UISpinnerActions";
 
 export default function* watchLoginSaga() {
-  yield takeLatest(SETUP_WORKFLOW, setUpWorkflowSaga);
+  yield takeLeading(SETUP_WORKFLOW, setUpWorkflowSaga);
 }
 
 function* setUpWorkflowSaga(action: IAction) {

@@ -1,11 +1,10 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLeading } from "redux-saga/effects";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
-import { autoGenerateNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -16,10 +15,7 @@ import {
   saveInputDeckSuccessAction,
   SAVEINPUTDECK_REQUEST,
 } from "../Actions/ImportActions";
-
-export default function* watchSaveInputDeckSaga() {
-  yield takeLatest(SAVEINPUTDECK_REQUEST, saveInputDeckSaga);
-}
+import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
 function getInputDeckType(
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
@@ -37,15 +33,24 @@ function getInputDeckRouteParam(
   else return "";
 }
 
+export default function* watchSaveInputDeckSaga() {
+  yield takeLeading(SAVEINPUTDECK_REQUEST, saveInputDeckSaga);
+}
+
 export function* saveInputDeckSaga(action: IAction) {
-  const { payload } = action;
+  const { payload, meta } = action;
+  const message = meta && meta.message ? meta.message : "";
+
   const { workflowProcess } = payload;
+  const wp = workflowProcess;
+  const wc = "importDataWorkflows";
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
   const { tableData: inputDeck } = yield select(
-    (state) => state.inputReducer["importDataWorkflows"][workflowProcess]
+    (state) => state.inputReducer[wc][wp]
   );
+
   const {
     facilitiesInputDeckId,
     facilitiesInputDeckTitle,
@@ -60,10 +65,10 @@ export function* saveInputDeckSaga(action: IAction) {
     projectId,
     userId: "Gideon",
     facilitiesInputDeckId,
-    title: workflowProcess.includes("facilities")
+    title: wp.includes("facilities")
       ? facilitiesInputDeckTitle
       : forecastInputDeckTitle,
-    description: workflowProcess.includes("facilities")
+    description: wp.includes("facilities")
       ? facilitiesInputDeckDescription
       : forecastInputDeckDescription,
     inputDeck: inputDeckData,
@@ -71,12 +76,14 @@ export function* saveInputDeckSaga(action: IAction) {
 
   const config = { headers: null };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
-  const inputDeckType = getInputDeckType(workflowProcess);
+  const inputDeckType = getInputDeckType(wp);
+
+  yield put(showSpinnerAction(message));
 
   try {
     const result = yield call(
       saveinputDeckAPI,
-      `${getBaseUrl()}/${getInputDeckRouteParam(workflowProcess)}`
+      `${getBaseUrl()}/${getInputDeckRouteParam(wp)}`
     );
 
     const {
@@ -88,15 +95,11 @@ export function* saveInputDeckSaga(action: IAction) {
     const successAction = saveInputDeckSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, workflowProcess, statusCode, success, data },
+      payload: { ...payload, workflowProcess: wp, statusCode, success, data },
     });
 
-    //If it's a forecast deck, save it
-    if (workflowProcess.includes("facilities"))
+    if (wp.includes("facilities"))
       yield put(showDialogAction(successDialogParameters(inputDeckType)));
-    // else if (workflowProcess.includes("forecast"))
-    //   yield put(autoGenerateNetworkRequestAction());
-    // else return "";
 
     yield put(fetchExistingDataRequestAction(projectId));
   } catch (errors) {

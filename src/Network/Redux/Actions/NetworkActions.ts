@@ -145,6 +145,7 @@ export const saveNetworkExtrudeIsValidAction = (
 export const autoGenerateNetworkRequestAction = () => {
   return {
     type: AUTOGENERATENETWORK_REQUEST,
+    meta: { showSpinner: true, message: "Generating network..." },
   };
 };
 
@@ -170,9 +171,17 @@ export const autoGenerateNetworkFailureAction = () => {
 export const saveAndAutoGenerateNetworkRequestAction = (
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
+  let inputDeck;
+
+  if (workflowProcess.includes("facilities"))
+    inputDeck = "facilities inputdeck";
+  else if (workflowProcess.includes("forecast"))
+    inputDeck = "forecast inputdeck";
+
   return {
     type: SAVEAUTOGENERATENETWORK_REQUEST,
     payload: { workflowProcess },
+    meta: { message: `Saving ${inputDeck}...` },
   };
 };
 
@@ -198,7 +207,7 @@ export const saveAndAutoGenerateNetworkFailureAction = () => {
 export const saveNetworkRequestAction = () => {
   return {
     type: SAVENETWORK_REQUEST,
-    meta: { showSpinner: true },
+    meta: { showSpinner: true, message: "Saving network..." },
   };
 };
 

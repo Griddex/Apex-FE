@@ -39,7 +39,7 @@ export const runForecastFailureAction = () => {
 export const saveForecastParametersRequestAction = () => {
   return {
     type: SAVE_FORECASTPARAMETERS_REQUEST,
-    meta: { showSpinner: true, message: "Saving forecast..." },
+    meta: { showSpinner: true, message: "Saving forecast parameters..." },
   };
 };
 

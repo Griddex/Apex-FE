@@ -15,7 +15,7 @@ const SaveForecastParametersWorkflow = ({
     switch (activeStep) {
       case 0:
         return (
-          <DeclineCurveParameters workflowProcess="saveForecastParametersWorkflow" />
+          <DeclineCurveParameters workflowProcess="saveForecastingParametersWorkflowDialog" />
         );
       case 1:
         return <OtherForecastingParameters />;

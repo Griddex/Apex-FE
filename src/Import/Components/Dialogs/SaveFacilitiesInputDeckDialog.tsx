@@ -10,7 +10,6 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
-import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import FacilitiesTitleAndDescription from "../Forms/FacilitiesTitleAndDescription";
 import FacilitiesTitleAndDescriptionForm from "../Forms/FacilitiesTitleAndDescriptionForm";

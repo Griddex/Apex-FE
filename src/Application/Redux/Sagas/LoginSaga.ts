@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLeading } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
@@ -10,7 +10,7 @@ import {
 import { hideSpinnerAction } from "../Actions/UISpinnerActions";
 
 export default function* watchLoginSaga() {
-  yield takeLatest(LOGIN_REQUEST, loginSaga);
+  yield takeLeading(LOGIN_REQUEST, loginSaga);
 }
 
 function* loginSaga(action: IAction) {

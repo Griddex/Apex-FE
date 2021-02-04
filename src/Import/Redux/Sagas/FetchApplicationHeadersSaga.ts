@@ -5,7 +5,7 @@ import {
   CallEffect,
   put,
   PutEffect,
-  takeLatest,
+  takeLeading,
 } from "redux-saga/effects";
 import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -21,7 +21,7 @@ import {
 import getBaseUrl from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchApplicationHeadersSaga() {
-  yield takeLatest(
+  yield takeLeading(
     FETCHAPPLICATIONHEADERS_REQUEST,
     fetchApplicationHeadersSaga
   );
