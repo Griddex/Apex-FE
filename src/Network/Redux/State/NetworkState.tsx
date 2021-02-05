@@ -15,7 +15,7 @@ const networkState: INetworkState = {
   saveForecastParameters: {
     forecastParametersTitle: "",
     forecastParametersDescription: "",
-    hSPName: "Oil",
+    targetFluidTitle: "Oil",
     timeFrequency: "Yearly",
     realtimeResults: "No",
     endForecastDate: new Date(),
@@ -34,18 +34,9 @@ const networkState: INetworkState = {
   success: false,
   data: [],
 
-  existingDataWorkflow: {
-    networkExisting: {
-      id: "",
-      userId: "",
-      status: "Not Started",
-      title: "",
-      description: "",
-      author: { avatarUrl: "", name: "" },
-      approvers: [],
-      createdOn: "",
-      modifiedOn: "",
-    },
+  existingDataWorkflows: {
+    networkExisting: [],
+    forecastingParametersExisting: [],
   },
 };
 

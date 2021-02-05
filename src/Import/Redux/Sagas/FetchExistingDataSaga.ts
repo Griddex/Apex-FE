@@ -71,7 +71,7 @@ function* fetchExistingDataSaga(
 > {
   const { payload } = action;
   const { projectId } = payload;
-  const facilitiesUrl = `${getBaseUrl()}/facility-inputdeck/light/${projectId}`;
+  const facilitiesUrl = `${getBaseUrl()}/facilities-inputdeck/light/${projectId}`;
   const forecastUrl = `${getBaseUrl()}/forecast-inputdeck/light/${projectId}`;
 
   try {
@@ -85,6 +85,7 @@ function* fetchExistingDataSaga(
     const {
       data: { data: facilitiesInputDeckExisting }, //prevent 2nd trip to server
     } = facilitiesResult;
+
     const {
       data: { data: forecastInputDeckExisting }, //prevent 2nd trip to server
     } = forecastResult;

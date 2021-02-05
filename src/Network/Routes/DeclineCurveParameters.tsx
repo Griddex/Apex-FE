@@ -71,80 +71,27 @@ const existingData = [
 
 export default function DeclineCurveParameters({
   workflowProcess,
+  rowNumber,
 }: {
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
+  rowNumber: number;
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  //TODO: API saga to get entire units object from server
-  const workflowCategory = "importDataWorkflows";
-  const { tableData: inputDeckData } = useSelector(
-    (state: RootState) =>
-      state.networkReducer[workflowCategory][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
+  const wc = "existingDataWorkflows";
+  const wp = "forecastingParametersExisting";
+
+  const existingData = useSelector(
+    (state: RootState) => state.networkReducer[wc][wp]
+  );
+  console.log(
+    "Logged output --> ~ file: DeclineCurveParameters.tsx ~ line 88 ~ existingData",
+    existingData
   );
 
-  const declineCurveList: Pick<
-    IDeclineCurveParametersDetail,
-    "declineType" | "declineRate" | "declineExponent"
-  >[] = [
-    {
-      declineType: "Exponential",
-      declineRate: 2500,
-      declineExponent: 0.2,
-    },
-    {
-      declineType: "Hyperbolic",
-      declineRate: 2500,
-      declineExponent: 1.3,
-    },
-    {
-      declineType: "Harmonic",
-      declineRate: 2500,
-      declineExponent: 1.3,
-    },
-  ];
-  const modules: string[] = inputDeckData.map(
-    (row: Record<string, React.Key>) => row["Modules"]
-  );
-  const drainagePoints: string[] = inputDeckData.map(
-    (row: Record<string, React.Key>) => row["Drainage Point"]
-  );
-  const initialRates: number[] = inputDeckData.map(
-    (row: Record<string, React.Key>) => row["Init. Oil/Gas Rate 2P/2C"]
-  );
-  const fields: string[] = inputDeckData.map(
-    (row: Record<string, React.Key>) => row["Field"]
-  );
-  const reservoirs: string[] = inputDeckData.map(
-    (row: Record<string, React.Key>) => row["Reservoir"]
-  );
-
-  const getRndInteger = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-  const indexerArr = modules.map((m) => getRndInteger(0, 2));
-  const declineCurveParametersList: IDeclineCurveParametersDetail[] = modules.map(
-    (module, i: number) => {
-      const index = indexerArr[i];
-      const { declineType, declineRate, declineExponent } = declineCurveList[
-        index
-      ];
-
-      return {
-        module: module,
-        drainagePoint: drainagePoints[i],
-        field: fields[i],
-        reservoir: reservoirs[i],
-        initialRate: initialRates[i],
-        declineType: declineType,
-        declineRate: declineRate,
-        declineExponent: declineExponent,
-      };
-    }
-  );
+  const parametersList = existingData[0].forecastingParametersList;
+  const declineCurveParametersList = parametersList[0]["declineParameters"];
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
@@ -164,17 +111,18 @@ export default function DeclineCurveParameters({
     },
   };
   //Assuming all index 0 i.e. Exponential
-  const snChosenApplicationDeclineTypeIndices = modules.reduce(
-    (acc: Record<string, number>, module, i: number) => {
-      return { ...acc, [module]: 0 };
-    },
-    {}
-  );
+  // const snChosenApplicationDeclineTypeIndices = modules.reduce(
+  //   (acc: Record<string, number>, module, i: number) => {
+  //     return { ...acc, [module]: 0 };
+  //   },
+  //   {}
+  // );
 
-  const [
-    chosenApplicationDeclineTypeIndices,
-    setChosenApplicationDeclineTypeIndices,
-  ] = React.useState(snChosenApplicationDeclineTypeIndices);
+  // const [
+  //   chosenApplicationDeclineTypeIndices,
+  //   setChosenApplicationDeclineTypeIndices,
+  // ] = React.useState(snChosenApplicationDeclineTypeIndices);
+
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (
     row: IDeclineCurveParametersDetail,
@@ -220,34 +168,56 @@ export default function DeclineCurveParameters({
         width: 100,
       },
       {
-        key: "module",
-        name: "MODULE",
+        key: "forecastVersion",
+        name: "FORECAST VERSION",
         editable: false,
         resizable: true,
-        width: 150,
       },
+      {
+        key: "asset",
+        name: "ASSET",
+        editable: false,
+        resizable: true,
+      },
+      {
+        key: "field",
+        name: "FIELD",
+        editable: false,
+        resizable: true,
+      },
+      {
+        key: "reservoir",
+        name: "RESERVOIR",
+        editable: false,
+        resizable: true,
+      },
+
       {
         key: "drainagePoint",
         name: "DRAINAGE POINT",
         editable: false,
         resizable: true,
-        width: 150,
       },
       {
-        key: "initialRate",
-        name: "INITIAL RATE",
+        key: "string",
+        name: "STRING",
         editable: false,
         resizable: true,
-        width: 150,
       },
       {
-        key: "declineType",
-        name: "DECLINE TYPE",
+        key: "module",
+        name: "MODULE",
+        editable: false,
+        resizable: true,
+      },
+      {
+        key: "declineMethod",
+        name: "DECLINE METHOD",
         editable: false,
         resizable: true,
         formatter: ({ row, onRowChange }) => {
           const module = row.module as string;
-          const declineTypeValue = row.declineType as string;
+          const declineTypeValue = row.declineMethod as string;
 
           return (
             <select
@@ -259,7 +229,7 @@ export default function DeclineCurveParameters({
 
                 onRowChange({
                   ...row,
-                  declineType: selectedValue as string,
+                  declineMethod: selectedValue as string,
                 });
 
                 const selectedDeclineTypeOptionIndex = findIndex(
@@ -267,10 +237,10 @@ export default function DeclineCurveParameters({
                   (option) => option.value === selectedValue
                 );
 
-                setChosenApplicationDeclineTypeIndices((prev) => ({
-                  ...prev,
-                  [`${module}`]: selectedDeclineTypeOptionIndex,
-                }));
+                // setChosenApplicationDeclineTypeIndices((prev) => ({
+                //   ...prev,
+                //   [`${module}`]: selectedDeclineTypeOptionIndex,
+                // }));
 
                 modifyTableRows(module, selectedDeclineTypeOptionIndex);
                 setRerender((rerender) => !rerender);
@@ -287,15 +257,66 @@ export default function DeclineCurveParameters({
         width: 100,
       },
       {
-        key: "declineRate",
-        name: "DECLINE RATE",
+        key: "initOilGasRate1P1C",
+        name: "INITIAL RATE (1P1C)",
+        editable: false,
+        resizable: true,
+        width: 150,
+      },
+      {
+        key: "initOilGasRate2P2C",
+        name: "INITIAL RATE (2P2C)",
+        editable: false,
+        resizable: true,
+        width: 150,
+      },
+      {
+        key: "initOilGasRate3P3C",
+        name: "INITIAL RATE (3P3C)",
+        editable: false,
+        resizable: true,
+        width: 150,
+      },
+
+      {
+        key: "rateofChangeRate1P1C",
+        name: "DECLINE RATE (1P1C)",
         editable: false,
         resizable: true,
         width: 100,
       },
       {
-        key: "declineExponent",
-        name: "DECLINE EXPONENT",
+        key: "rateofChangeRate2P2C",
+        name: "DECLINE RATE (2P2C)",
+        editable: false,
+        resizable: true,
+        width: 100,
+      },
+      {
+        key: "rateofChangeRate3P3C",
+        name: "DECLINE RATE (3P3C)",
+        editable: false,
+        resizable: true,
+        width: 100,
+      },
+
+      {
+        key: "declineExponent1P1C",
+        name: "DECLINE EXPONENT (1P1C)",
+        editable: true,
+        resizable: true,
+        width: 100,
+      },
+      {
+        key: "declineExponent2P2C",
+        name: "DECLINE EXPONENT (2P2C)",
+        editable: true,
+        resizable: true,
+        width: 100,
+      },
+      {
+        key: "declineExponent3P3C",
+        name: "DECLINE EXPONENT (3P3C)",
         editable: true,
         resizable: true,
         width: 100,
@@ -307,7 +328,7 @@ export default function DeclineCurveParameters({
   const columns = React.useMemo(() => generateColumns(), []);
 
   const snDeclineCurveParametersList = declineCurveParametersList.map(
-    (row, i: number) => ({
+    (row: any, i: number) => ({
       sn: i + 1,
       ...row,
     })
@@ -323,15 +344,8 @@ export default function DeclineCurveParameters({
     const modifiedRows = tableRows.current.map((row, i: number) => {
       if (row.module === selectedModule) {
         return {
+          ...row,
           sn: i + 1,
-          module: row.module,
-          drainagePoint: row.drainagePoint,
-          field: row.field,
-          reservoir: row.reservoir,
-          initialRate: row.initialRate,
-          declineType: "Exponential",
-          declineRate: 2500,
-          declineExponent: 0.2,
         };
       } else return row;
     });

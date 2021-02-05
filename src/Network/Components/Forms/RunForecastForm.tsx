@@ -33,7 +33,7 @@ const RunForecastForm = ({ children }: ISaveForecastParametersProps) => {
           values: {
             forecastParametersTitle,
             forecastParametersDescription,
-            hSPName,
+            targetFluidTitle,
             timeFrequency,
             realtimeResults,
             endForecastDate,
@@ -55,7 +55,7 @@ const RunForecastForm = ({ children }: ISaveForecastParametersProps) => {
               children({
                 forecastParametersTitle,
                 forecastParametersDescription,
-                hSPName,
+                targetFluidTitle,
                 timeFrequency,
                 realtimeResults,
                 endForecastDate,

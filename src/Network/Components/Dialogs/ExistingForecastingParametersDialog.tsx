@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import ExistingForecastingParameters from "../../Routes/ExistingForecastingParameters";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,7 +113,7 @@ const ExistingForecastingParametersDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        {children && children}
+        <ExistingForecastingParameters />
       </DialogContent>
       <DialogActions>{actionsList && actionsList}</DialogActions>
     </Dialog>

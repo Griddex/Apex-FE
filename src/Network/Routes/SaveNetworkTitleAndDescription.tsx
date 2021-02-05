@@ -3,9 +3,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { ISaveNetworkFormProps } from "../Redux/State/NetworkStateTypes";
-import { IIsSaveNetworkValid } from "./../Components/Dialogs/SaveNetworkDialogTypes";
+import { IIsSaveNetworkValid } from "../Components/Dialogs/SaveNetworkDialogTypes";
+import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 
-const SaveNetworkNameAndDescription = ({
+const SaveNetworkTitleAndDescription = ({
   networkTitle,
   networkDescription,
   errors,
@@ -32,14 +33,19 @@ const SaveNetworkNameAndDescription = ({
             error={Boolean(helperText)}
             value={networkTitle}
             onChange={(e) => {
-              const { value } = e.target;
+              const { name, value } = e.target;
               handleChange && handleChange(e);
 
               if (value.length > 2) {
                 setIsSaveNetworkValid && setIsSaveNetworkValid(false);
+                dispatch(updateNetworkParameterAction(name, value));
               } else {
                 setIsSaveNetworkValid && setIsSaveNetworkValid(true);
               }
+            }}
+            onBlur={(e) => {
+              const { name, value } = e.target;
+              dispatch(updateNetworkParameterAction(name, value));
             }}
             required
             autoFocus
@@ -65,4 +71,4 @@ const SaveNetworkNameAndDescription = ({
   );
 };
 
-export default SaveNetworkNameAndDescription;
+export default SaveNetworkTitleAndDescription;

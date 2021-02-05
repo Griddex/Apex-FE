@@ -305,7 +305,7 @@ export const fetchApplicationHeadersSuccessAction = () => {
     payload: {
       statusCode: 0,
       headerType: "",
-      facilityInputHeaders: [],
+      facilitiesInputHeaders: [],
       forecastInputHeaders: [],
     },
   };

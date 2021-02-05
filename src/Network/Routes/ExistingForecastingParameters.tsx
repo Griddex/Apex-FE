@@ -7,15 +7,16 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import { findIndex } from "lodash";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
-import formatDate from "../../Application/Utils/FormatDate";
-import { johnImg, shirleyImg } from "../../Import/Utils/iconImages";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { IForecastParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
+import formatDate from "./../../Application/Utils/FormatDate";
 
 const useStyles = makeStyles(() => ({
   rootExistingData: {
@@ -63,48 +64,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-//TODO: add this to boostrap in Layout
-const forecastParametersList: IForecastParametersDetail[] = [
-  {
-    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2020",
-    forecastParametersType: "Default",
-    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2020",
-    forecastParametershSPName: "Oil",
-    forecastParametersTimeFreq: "Monthly",
-    forecastParametersRealtime: "Yes",
-    forecastParametersEndForecast: "December 2060",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2019",
-    forecastParametersType: "User",
-    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2019",
-    forecastParametershSPName: "Gas",
-    forecastParametersTimeFreq: "Yearly",
-    forecastParametersRealtime: "Yes",
-    forecastParametersEndForecast: "December 2060",
-    author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-  {
-    forecastParametersTitle: "ARPR_FORECAST PARAMETERS 2018",
-    forecastParametersType: "User",
-    forecastParametersDescription: "ARPR_FORECAST PARAMETERS 2018",
-    forecastParametershSPName: "Oil",
-    forecastParametersTimeFreq: "Yearly",
-    forecastParametersRealtime: "Yes",
-    forecastParametersEndForecast: "December 2060",
-    author: { avatarUrl: johnImg, name: "John Bravo" },
-    createdOn: formatDate(new Date(2019, 9, 23)),
-    modifiedOn: formatDate(new Date(2019, 11, 23)),
-  },
-];
-
 //TODO: Calculate classification data from collection
-const existingData = [
+const chartData = [
   { name: "Group A", value: 2400 },
   { name: "Group B", value: 4567 },
   { name: "Group C", value: 1398 },
@@ -113,6 +74,43 @@ const existingData = [
 export default function ExistingForecastingParameters() {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const wc = "existingDataWorkflows";
+  const wp = "forecastingParametersExisting";
+
+  const existingData = useSelector(
+    (state: RootState) => state.networkReducer[wc][wp]
+  );
+
+  const transExistingData = existingData.map((row: any) => {
+    const { title, description } = row;
+    const {
+      type,
+      createdAt,
+      declineParameters,
+    } = row.forecastingParametersList;
+
+    const day = 12;
+    const month = 9;
+    const year = 2020;
+    const timeFrequency = "Monthly";
+    const targetFluid = "Oil";
+    const isDefered = 0;
+
+    return {
+      declineParameters,
+      type,
+      title,
+      description,
+      targetFluid,
+      timeFrequency,
+      isDefered: isDefered === 0 ? "No" : "Yes", //Referred, Realtime not yet
+      endForecast: formatDate(new Date(year, month, day)),
+      author: "None",
+      createdOn: createdAt,
+      modifiedOn: createdAt,
+    };
+  });
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -139,22 +137,7 @@ export default function ExistingForecastingParameters() {
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const initialTableRows = fileHeaders.map((fileHeader: string, i: number) => {
-    return {
-      sn: i + 1,
-      fileHeader: fileHeader,
-      applicationHeader: selectedApplicationHeader.value,
-      match: score.value,
-    };
-  });
-
-  const tableRows = React.useRef<IRawTable>(initialTableRows);
   const [, setRerender] = React.useState(false);
-
-  const forecastParametersTypeOptions = forecastParametersList.map((p) => ({
-    value: p.forecastParametersType,
-    label: p.forecastParametersType,
-  }));
 
   const generateColumns = () => {
     const columns: Column<IForecastParametersDetail>[] = [
@@ -181,9 +164,6 @@ export default function ExistingForecastingParameters() {
             <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
             <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
             <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-            <VisibilityOutlinedIcon
-              onClick={() => alert(`View Row is:${row}`)}
-            />
             <ArrowRightIcon
               onClick={() => alert(`Forecast run Row is:${row}`)}
             />
@@ -192,84 +172,53 @@ export default function ExistingForecastingParameters() {
         width: 150,
       },
       {
-        key: "forecastParametersType",
+        key: "type",
         name: "TYPE",
         editable: false,
         resizable: true,
         width: 100,
-        formatter: ({ row, onRowChange }) => {
-          const type = row.forecastParametersType as string;
-
+        formatter: ({ row }) => {
+          const { type } = row;
           return (
-            <select
-              style={{ width: "100%", height: "95%" }}
-              value={type as string}
-              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                event.stopPropagation();
-                const selectedValue = event.target.value;
-
-                onRowChange({
-                  ...row,
-                  forecastParametersType: selectedValue as IForecastParametersDetail["forecastParametersType"],
-                });
-
-                const selectedTypeOptionIndex = findIndex(
-                  forecastParametersTypeOptions,
-                  (option) => option.value === selectedValue
-                );
-
-                // setChosenApplicationDeclineTypeIndices((prev) => ({
-                //   ...prev,
-                //   [`${module}`]: selectedTypeOptionIndex,
-                // }));
-
-                modifyTableRows(type, selectedTypeOptionIndex);
-                setRerender((rerender) => !rerender);
-              }}
-            >
-              {forecastParametersTypeOptions.map((option, i: number) => (
-                <option key={i} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <>
+              <DeclineParametersType dpTypeText={type} />;
+              <VisibilityOutlinedIcon
+                onClick={() => alert(`View Row is:${row}`)}
+              />
+            </>
           );
         },
       },
       {
-        key: "forecastParametersTitle",
+        key: "title",
         name: "FORECAST PARAMETERS TITLE",
         editable: false,
         resizable: true,
         width: 300,
       },
       {
-        key: "forecastParametershSPName",
-        name: "HYDROCARBON STREAM PRIORITIZATION",
+        key: "targetFluid",
+        name: "TARGET FLUID",
         editable: false,
         resizable: true,
-        formatter: ({ row }) => {
-          // return <DCAParametersStatus author={row.author} />;
-          return <div>Default or User</div>;
-        },
         width: 100,
       },
       {
-        key: "forecastParametersTimeFreq",
+        key: "timeFrequency",
         name: "TIME FREQUENCY",
         editable: false,
         resizable: true,
         width: 100,
       },
       {
-        key: "forecastParametersRealtime",
+        key: "isDefered",
         name: "REALTIME RESULTS",
         editable: false,
         resizable: true,
         width: 100,
       },
       {
-        key: "forecastParametersEndForecast",
+        key: "endForecast",
         name: "END FORECAST DATE",
         editable: false,
         resizable: true,
@@ -311,26 +260,14 @@ export default function ExistingForecastingParameters() {
   };
   const columns = React.useMemo(() => generateColumns(), []);
 
-  const modifyTableRows = (type: string, selectedHeaderOptionIndex: number) => {
-    const modifiedRows = tableRows.current.map((row, i: number) => {
-      if (row.forecastParametersType === type) {
-        return {
-          forecastParametersType: type,
-        };
-      } else return row;
-    });
-
-    tableRows.current = modifiedRows;
-  };
-
-  const snForecastParametersList = forecastParametersList.map(
-    (row, i: number) => ({
+  const snTransExistingData = transExistingData.map(
+    (row: IForecastParametersDetail, i: number) => ({
       sn: i + 1,
       ...row,
     })
   );
   const tableRows = React.useRef<IForecastParametersDetail[]>(
-    snForecastParametersList
+    snTransExistingData
   );
   const rows = tableRows.current;
 
@@ -342,7 +279,7 @@ export default function ExistingForecastingParameters() {
   return (
     <div className={classes.rootExistingData}>
       <div className={classes.chart}>
-        <DoughnutChart data={existingData} />
+        <DoughnutChart data={chartData} />
       </div>
       <div className={classes.table}>
         <ApexGrid<IForecastParametersDetail, ITableIconsOptions>

@@ -1,14 +1,17 @@
-import { call, put, takeLeading } from "redux-saga/effects";
+import { call, put, select, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/FetchForecastingParametersFailureDialogParameters";
 import {
   EXISTINGFORECASTPARAMETERS_REQUEST,
-  fetchExistingForecastParametersFailureAction,
-  fetchExistingForecastParametersSuccessAction,
+  fetchExistingForecastingParametersFailureAction,
+  fetchExistingForecastingParametersSuccessAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchFetchExistingForecastParametersSaga() {
@@ -26,29 +29,31 @@ const fetchExistingForecastParametersAPI = (url: string) =>
 
 function* fetchExistingForecastParametersSaga(action: IAction) {
   const { payload } = action;
-  const { projectId } = payload;
-  const facilitiesUrl = `${getBaseUrl()}/forecast-parameters/light/${projectId}`;
+  const { projectId } = yield select((state) => state.projectReducer);
+  const forecastParametersUrl = `${getBaseUrl()}/forecast-parameters/${projectId}`;
 
   try {
+    yield put(showSpinnerAction("Loading Forecasting Parameters..."));
+
     const result = yield call<(url: string) => AxiosPromise>(
       fetchExistingForecastParametersAPI,
-      facilitiesUrl
+      forecastParametersUrl
     );
 
     const {
-      data: { data: forecastParameters }, //prevent 2nd trip to server
+      data: { data: forecastingParametersExisting }, //prevent 2nd trip to server
     } = result;
 
-    const successAction = fetchExistingForecastParametersSuccessAction();
+    const successAction = fetchExistingForecastingParametersSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        forecastParameters,
+        forecastingParametersExisting,
       },
     });
   } catch (errors) {
-    const failureAction = fetchExistingForecastParametersFailureAction();
+    const failureAction = fetchExistingForecastingParametersFailureAction();
 
     yield put({
       ...failureAction,

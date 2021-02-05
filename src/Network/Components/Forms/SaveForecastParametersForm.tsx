@@ -35,7 +35,7 @@ const SaveForecastParametersForm = ({
           values: {
             forecastParametersTitle,
             forecastParametersDescription,
-            hSPName,
+            targetFluidTitle,
             timeFrequency,
             realtimeResults,
             endForecastDate,
@@ -57,7 +57,7 @@ const SaveForecastParametersForm = ({
               children({
                 forecastParametersTitle,
                 forecastParametersDescription,
-                hSPName,
+                targetFluidTitle,
                 timeFrequency,
                 realtimeResults,
                 endForecastDate,

@@ -13,11 +13,9 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { confirmationDialogParameters } from "../../Components/DialogParameters/ConfirmationDialogParameters";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";

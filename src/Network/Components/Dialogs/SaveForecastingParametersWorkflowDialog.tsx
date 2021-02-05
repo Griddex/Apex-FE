@@ -103,7 +103,11 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = ["New Project Details", "Choose Unit Settings"];
+const steps = [
+  "DCA Parameters",
+  "Other Forecast Parameters",
+  "Title and Description",
+];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "saveForecastingParametersWorkflowDialog";
 

@@ -28,7 +28,7 @@ function getInputDeckType(
 function getInputDeckRouteParam(
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) {
-  if (workflowProcess.includes("facilities")) return "facility-inputdeck";
+  if (workflowProcess.includes("facilities")) return "facilities-inputdeck";
   else if (workflowProcess.includes("forecast")) return "forecast-inputdeck";
   else return "";
 }

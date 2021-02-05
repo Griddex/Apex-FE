@@ -36,7 +36,7 @@ export function* autoGenerateNetworkSaga(action: IAction) {
 
   const config = { headers: null };
   const autoGenerateNetworkAPI = (url: string) =>
-    authService.post(url, config, data);
+    authService.post(url, data, config);
 
   try {
     const result = yield call(

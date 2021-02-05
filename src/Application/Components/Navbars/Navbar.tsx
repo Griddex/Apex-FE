@@ -151,7 +151,7 @@ const Navbar = () => {
                   alt={username}
                   // src={faker.internet.avatar()}
                   src={"GS"}
-                  variant="circle"
+                  variant="circular"
                 >
                   {userinitials}
                 </Avatar>

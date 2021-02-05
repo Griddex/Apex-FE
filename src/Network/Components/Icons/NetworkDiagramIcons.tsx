@@ -71,6 +71,27 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const existingForecastParameters = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Existing_Forecast_Parameters_Dialog",
+      title: "Existing Forecast Parameters Dialog",
+      type: "existingForecastingParametersDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "lg",
+      iconType: "information",
+      actionsList: () =>
+        DialogOkayCancelButtons(
+          [true, true],
+          [true, true],
+          [unloadDialogsAction, runForecastRequestAction]
+        ),
+      // dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
   return (
     <div className={classes.networkContentIcons}>
       <Button
@@ -114,7 +135,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         variant="outlined"
         color="secondary"
         style={{ height: "28px" }}
-        onClick={() => existingNetworksExtrude(dispatch)}
+        onClick={() => existingForecastParameters()}
       >
         <Hidden mdDown>Existing Forecast Parameters</Hidden>
       </Button>

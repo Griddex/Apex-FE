@@ -5,6 +5,7 @@ import {
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
+export const UPDATE_NETWORKPARAMETER = "UPDATE_NETWORKPARAMETER";
 export const SET_CURRENTELEMENT = "SET_CURRENTELEMENT";
 export const PERSIST_NETWORKELEMENTS = "PERSIST_NETWORKELEMENTS";
 export const ADD_NETWORKELEMENT = "ADD_NETWORKELEMENT";
@@ -34,6 +35,19 @@ export const EXISTINGFORECASTPARAMETERS_SUCCESS =
   "EXISTINGFORECASTPARAMETERS_SUCCESS";
 export const EXISTINGFORECASTPARAMETERS_FAILURE =
   "EXISTINGFORECASTPARAMETERS_FAILURE";
+export const EXISTINGNETWORKDATA_REQUEST = "EXISTINGNETWORKDATA_REQUEST";
+export const EXISTINGNETWORKDATA_SUCCESS = "EXISTINGNETWORKDATA_SUCCESS";
+export const EXISTINGNETWORKDATA_FAILURE = "EXISTINGNETWORKDATA_FAILURE";
+
+export const updateNetworkParameterAction = (name: string, value: string) => {
+  return {
+    type: UPDATE_NETWORKPARAMETER,
+    payload: {
+      name,
+      value,
+    },
+  };
+};
 
 export const setCurrentElementAction = (currentElement: FlowElement) => {
   return {
@@ -230,14 +244,14 @@ export const saveNetworkFailureAction = () => {
   };
 };
 
-export const fetchExistingForecastingparametersRequestAction = () => {
+export const fetchExistingForecastingParametersRequestAction = () => {
   return {
     type: EXISTINGFORECASTPARAMETERS_REQUEST,
     meta: { showSpinner: true },
   };
 };
 
-export const fetchExistingForecastParametersSuccessAction = () => {
+export const fetchExistingForecastingParametersSuccessAction = () => {
   return {
     type: EXISTINGFORECASTPARAMETERS_SUCCESS,
     payload: {
@@ -246,9 +260,34 @@ export const fetchExistingForecastParametersSuccessAction = () => {
   };
 };
 
-export const fetchExistingForecastParametersFailureAction = () => {
+export const fetchExistingForecastingParametersFailureAction = () => {
   return {
     type: EXISTINGFORECASTPARAMETERS_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchExistingNetworkDataRequestAction = () => {
+  return {
+    type: EXISTINGNETWORKDATA_REQUEST,
+  };
+};
+
+export const fetchExistingNetworkDataSuccessAction = () => {
+  return {
+    type: EXISTINGNETWORKDATA_SUCCESS,
+    payload: {
+      statusCode: 0,
+    },
+  };
+};
+
+export const fetchExistingNetworkDataFailureAction = () => {
+  return {
+    type: EXISTINGNETWORKDATA_FAILURE,
     payload: {
       statusCode: 0,
       errors: { message: "" },

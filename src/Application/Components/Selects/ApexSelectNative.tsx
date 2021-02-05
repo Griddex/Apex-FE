@@ -1,6 +1,5 @@
-import { TextField, MenuItem } from "@material-ui/core";
 import React from "react";
-import { IApexSelect, ISelectItem } from "./SelectItemsType";
+import { IApexSelect } from "./SelectItemsType";
 
 const ApexSelectNative = ({
   currentItem,
@@ -8,6 +7,11 @@ const ApexSelectNative = ({
   handleChange,
   selectItemStyle,
 }: IApexSelect) => {
+  const options: { value: string; label: string }[] = itemData.map((v) => ({
+    value: v,
+    label: v,
+  }));
+
   return (
     <select
       style={selectItemStyle}
@@ -15,10 +19,10 @@ const ApexSelectNative = ({
       value={currentItem}
       onChange={handleChange}
     >
-      {itemData.map((item) => (
-        <MenuItem key={item} value={item}>
-          {item}
-        </MenuItem>
+      {options.map((option, i: number) => (
+        <option key={i} value={option.value}>
+          {option.label}
+        </option>
       ))}
     </select>
   );

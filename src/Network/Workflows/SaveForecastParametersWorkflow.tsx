@@ -15,7 +15,10 @@ const SaveForecastParametersWorkflow = ({
     switch (activeStep) {
       case 0:
         return (
-          <DeclineCurveParameters workflowProcess="saveForecastingParametersWorkflowDialog" />
+          <DeclineCurveParameters
+            rowNumber={0}
+            workflowProcess="saveForecastingParametersWorkflowDialog"
+          />
         );
       case 1:
         return <OtherForecastingParameters />;
@@ -31,7 +34,7 @@ const SaveForecastParametersWorkflow = ({
       {({
         forecastParametersTitle,
         forecastParametersDescription,
-        hSPName,
+        targetFluidTitle,
         timeFrequency,
         realtimeResults,
         endForecastDate,
@@ -43,7 +46,7 @@ const SaveForecastParametersWorkflow = ({
         renderImportStep({
           forecastParametersTitle,
           forecastParametersDescription,
-          hSPName,
+          targetFluidTitle,
           timeFrequency,
           realtimeResults,
           endForecastDate,

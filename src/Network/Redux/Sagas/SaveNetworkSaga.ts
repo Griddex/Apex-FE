@@ -23,21 +23,26 @@ function* saveNetworkSaga(action: IAction) {
   const { facilitiesInputDeckId, forecastInputDeckId } = yield select(
     (state) => state.inputReducer
   );
+  const {
+    networkTitle,
+    networkDescription,
+    nodeElements,
+    edgeElements,
+  } = yield select((state) => state.networkReducer);
 
   const data = {
+    userId: "Gift",
+    projectId,
+    title: networkTitle,
+    description: networkDescription,
     facilitiesInputDeckId,
     forecastInputDeckId,
+    nodes: nodeElements,
+    edges: edgeElements,
   };
-  // const data = {
-  //   userId,
-  //   id: projectId,
-  //   networkId,
-  //   nodeElements,
-  //   edgeElements,
-  // };
 
   const config = { headers: null };
-  const saveNetworkAPI = (url: string) => authService.post(url, config, data);
+  const saveNetworkAPI = (url: string) => authService.post(url, data, config);
 
   try {
     const result = yield call(saveNetworkAPI, `${getBaseUrl()}/network`);

@@ -13,13 +13,14 @@ export interface INetworkDetail {
 
 export interface IForecastParametersDetail {
   sn?: number;
-  forecastParametersType: "Default" | "User";
-  forecastParametersTitle: string;
-  forecastParametersDescription: string;
-  forecastParametershSPName: string;
-  forecastParametersTimeFreq: string;
-  forecastParametersRealtime: string;
-  forecastParametersEndForecast: string;
+  declineParameters: IDeclineCurveParametersDetail[];
+  type: "Default" | "User";
+  title: string;
+  description: string;
+  targetFluid: string;
+  timeFrequency: string;
+  isDefered: number;
+  endForecast: string;
   author: IUserDetails;
   createdOn: string;
   modifiedOn: string;
@@ -27,12 +28,21 @@ export interface IForecastParametersDetail {
 
 export interface IDeclineCurveParametersDetail {
   sn?: number;
-  module: string;
-  drainagePoint: string;
+  forecastVersion: string;
+  asset: string;
   field: string;
   reservoir: string;
-  initialRate: number; //1P,2P and 3P
-  declineType: string;
-  declineRate: number; //1P,2P and 3P
-  declineExponent: number; //1P,2P and 3P
+  drainagePoint: string;
+  string: string;
+  module: string;
+  initOilGasRate1P1C: number;
+  initOilGasRate2P2C: number;
+  initOilGasRate3P3C: number;
+  rateofChangeRate1P1C: number;
+  rateofChangeRate2P2C: number;
+  rateofChangeRate3P3C: number;
+  declineExponent1P1C: number;
+  declineExponent2P2C: number;
+  declineExponent3P3C: number;
+  declineMethod: string;
 }

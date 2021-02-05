@@ -12,7 +12,7 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import SaveNetworkNameAndDescription from "../../Routes/SaveNetworkNameAndDescription";
+import SaveNetworkTitleAndDescription from "../../Routes/SaveNetworkTitleAndDescription";
 import SaveNetworkDialogButtons from "../DialogBottons/SaveNetworkDialogButtons";
 import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
@@ -119,7 +119,7 @@ const SaveNetworkDialog = (props: DialogStuff) => {
       >
         <SaveNetworkForm>
           {(props) => (
-            <SaveNetworkNameAndDescription
+            <SaveNetworkTitleAndDescription
               {...props}
               setIsSaveNetworkValid={setIsSaveNetworkValid}
             />

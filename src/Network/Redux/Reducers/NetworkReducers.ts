@@ -6,6 +6,7 @@ import {
   RUN_FORECAST_SUCCESS,
 } from "../Actions/ForecastingActions";
 import {
+  UPDATE_NETWORKPARAMETER,
   ADD_NETWORKELEMENT,
   HIDE_NETWORKELEMENTDETAILS,
   HIDE_WELHEADSUMMARYEDGES,
@@ -22,11 +23,22 @@ import {
   SHOW_POPOVER,
   SAVENETWORK_SUCCESS,
   SAVENETWORK_FAILURE,
+  EXISTINGFORECASTPARAMETERS_SUCCESS,
+  EXISTINGFORECASTPARAMETERS_FAILURE,
+  EXISTINGNETWORKDATA_FAILURE,
+  EXISTINGNETWORKDATA_SUCCESS,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
+    case UPDATE_NETWORKPARAMETER: {
+      const { name, value } = action.payload;
+      return {
+        ...state,
+        [name]: value,
+      };
+    }
     case SET_CURRENTELEMENT:
       return {
         ...state,
@@ -144,6 +156,55 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         errors,
       };
     }
+
+    case EXISTINGFORECASTPARAMETERS_SUCCESS: {
+      const {
+        statusCode,
+        success,
+        forecastingParametersExisting,
+      } = action.payload;
+      const wc = "existingDataWorkflows";
+
+      return {
+        ...state,
+        statusCode,
+        success,
+        [wc]: { ...state[wc], forecastingParametersExisting },
+      };
+    }
+
+    case EXISTINGFORECASTPARAMETERS_FAILURE: {
+      const { statusCode, errors } = action.payload;
+
+      return {
+        ...state,
+        statusCode,
+        errors,
+      };
+    }
+
+    case EXISTINGNETWORKDATA_SUCCESS: {
+      const { statusCode, success, networkExisting } = action.payload;
+      const wc = "existingDataWorkflows";
+
+      return {
+        ...state,
+        statusCode,
+        success,
+        [wc]: { ...state[wc], networkExisting },
+      };
+    }
+
+    case EXISTINGNETWORKDATA_FAILURE: {
+      const { statusCode, errors } = action.payload;
+
+      return {
+        ...state,
+        statusCode,
+        errors,
+      };
+    }
+
     default:
       return state;
   }

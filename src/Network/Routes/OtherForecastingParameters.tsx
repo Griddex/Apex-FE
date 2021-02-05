@@ -9,10 +9,10 @@ import { persistForecastParametersAction } from "../Redux/Actions/ForecastingAct
 const OtherForecastingParameters = () => {
   const dispatch = useDispatch();
 
-  const hSPList = ["Oil", "Gas", "Liquid"];
-  const [hSPName, setHSPName] = React.useState("");
-  const handleHSPNameChange = (event: ChangeEvent<any>) => {
-    setHSPName(event.target.value);
+  const targetFluids = ["Oil", "Gas", "Liquid"];
+  const [targetFluidTitle, setTargetFluidTitle] = React.useState("");
+  const handleTargetFluidTitleChange = (event: ChangeEvent<any>) => {
+    setTargetFluidTitle(event.target.value);
   };
 
   const timeFrequencyList = ["Monthly", "Yearly"];
@@ -38,31 +38,31 @@ const OtherForecastingParameters = () => {
   React.useEffect(() => {
     dispatch(
       persistForecastParametersAction({
-        hSPName,
+        targetFluidTitle,
         timeFrequency,
         realtimeResults,
         endForecastDate,
       })
     );
-  }, [hSPName, timeFrequency, realtimeResults, endForecastDate]);
+  }, [targetFluidTitle, timeFrequency, realtimeResults, endForecastDate]);
 
   return (
     <div>
       <AnalyticsComp
-        title="Hydrocarbon Stream Prioritization"
-        direction="Horizontal"
+        title="Target Fluid"
+        direction="Vertical"
         content={
           <ApexSelectNative
-            currentItem={hSPName}
-            itemData={hSPList}
+            currentItem={targetFluidTitle}
+            itemData={targetFluids}
             selectItemStyle={{ width: "100%" }}
-            handleChange={handleHSPNameChange}
+            handleChange={handleTargetFluidTitleChange}
           />
         }
       />
       <AnalyticsComp
         title="Time Frequency"
-        direction="Horizontal"
+        direction="Vertical"
         content={
           <ApexSelectNative
             currentItem={timeFrequency}
@@ -74,7 +74,7 @@ const OtherForecastingParameters = () => {
       />
       <AnalyticsComp
         title="Realtime Results"
-        direction="Horizontal"
+        direction="Vertical"
         content={
           <ApexSelectNative
             currentItem={realtimeResults}
@@ -86,7 +86,7 @@ const OtherForecastingParameters = () => {
       />
       <AnalyticsComp
         title="End Forecast Date"
-        direction="Horizontal"
+        direction="Vertical"
         content={
           <DatePicker
             datePickerType="single"

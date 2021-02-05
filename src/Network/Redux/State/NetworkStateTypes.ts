@@ -1,6 +1,7 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { Edge, Node } from "react-flow-renderer";
 import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import { IForecastParametersDetail } from "../../Components/Dialogs/ExistingNetworksDialogTypes";
 
 //NetworkModel
 export interface ISaveNetworkFormValues {
@@ -30,7 +31,7 @@ export interface ISaveNetworkProps {
 export interface ISaveForecastParametersFormValues {
   forecastParametersTitle: string;
   forecastParametersDescription: string;
-  hSPName: string;
+  targetFluidTitle: string;
   timeFrequency: string;
   realtimeResults: string;
   endForecastDate: Date;
@@ -50,7 +51,7 @@ export interface ISaveForecastParametersProps {
 export interface IRunForecastParametersFormValues {
   forecastParametersTitle: string;
   forecastParametersDescription: string;
-  hSPName: string;
+  targetFluidTitle: string;
   timeFrequency: string;
   realtimeResults: string;
   endForecastDate: Date;
@@ -102,5 +103,9 @@ export interface INetworkState extends ISaveNetworkFormProps {
   success: false;
 
   saveForecastParameters: ISaveForecastParametersFormValues;
-  existingDataWorkflow: Record<NetworkWorkflowProcessesType, IExistingDataRow>;
+
+  existingDataWorkflows: {
+    networkExisting: IExistingDataRow[];
+    forecastingParametersExisting: IForecastParametersDetail[];
+  };
 }

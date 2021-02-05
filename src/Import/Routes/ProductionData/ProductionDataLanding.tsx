@@ -11,15 +11,10 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import { fetchExistingDataRequestAction } from "../../Redux/Actions/ExistingDataActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingProductionData from "./ExistingProductionData";
-import {
-  IdType,
-  IProductionDataLandingWorkflows,
-  IProductionLandingData,
-} from "./ProductionDataLandingTypes";
+import { IdType, IProductionLandingData } from "./ProductionDataLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   ProductionDataLanding: {
