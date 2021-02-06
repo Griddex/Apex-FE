@@ -239,8 +239,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       row: IRawRow,
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
-      event.persist();
-      console.log(row);
       const selectedFileHeader = row.fileHeader as string;
       const headerOptions = keyedApplicationHeaderOptions[selectedFileHeader];
       const selectedOptionIndex = findLastIndex(
@@ -263,7 +261,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       row: IRawRow,
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
-      event.persist();
       alert(row);
       setAcceptMatchCheckboxSelected(!acceptMatchCheckboxSelected);
     };

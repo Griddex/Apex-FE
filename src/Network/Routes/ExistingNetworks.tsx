@@ -5,7 +5,6 @@ import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActi
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IExistingDataRow,
   IGiftExistingData,
 } from "../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";

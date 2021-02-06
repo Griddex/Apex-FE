@@ -18,6 +18,7 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
 import { runForecastRequestAction } from "../../Redux/Actions/ForecastingActions";
+import DialogOkayButton from "../../../Application/Components/DialogButtons/DialogOkayButton";
 
 const useStyles = makeStyles(() => ({
   networkContentIcons: {
@@ -52,8 +53,8 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
 
   const runForecast = () => {
     const dialogParameters: DialogStuff = {
-      name: "Existing_Network_Dialog",
-      title: "Existing Network Dialog",
+      name: "Forecasting_Parameters_Dialog",
+      title: "Select Forecasting Parameters",
       type: "runForecastDialog",
       show: true,
       exclusive: false,
@@ -63,9 +64,25 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         DialogOkayCancelButtons(
           [true, true],
           [true, true],
-          [runForecastRequestAction, unloadDialogsAction]
+          [unloadDialogsAction, runForecastRequestAction]
         ),
       // dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const existingNetworks = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Existing_Network_Dialog",
+      title: "Existing Network",
+      type: "existingNetworksDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "md",
+      iconType: "select",
+      actionsList: () =>
+        DialogOkayButton([true], [true], [unloadDialogsAction]),
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -108,7 +125,7 @@ const NetworkDiagramIcons = (props: INetworkDiagramIcons) => {
         variant="outlined"
         color="secondary"
         style={{ height: "28px" }}
-        onClick={() => existingNetworksExtrude(dispatch)}
+        onClick={() => existingNetworks()}
       >
         <Hidden mdDown>Existing Networks</Hidden>
       </Button>

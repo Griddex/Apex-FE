@@ -332,6 +332,10 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   React.useEffect(() => {
     const tableHeight = tableRef?.current?.clientHeight || 600;
+    console.log(
+      "Logged output --> ~ file: ApexGrid.tsx ~ line 335 ~ React.useEffect ~ tableHeight",
+      tableHeight
+    );
     const pagination = Math.round(
       noOfTableRows / (tableHeight / tableRowHeight)
     );
@@ -379,11 +383,12 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         <div
           ref={tableRef}
           // style={{ width: "100%", height: "100%", minHeight: 200 }}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%", minHeight: 200 }}
         >
           <ReactDataGrid
             ref={gridRef}
-            style={{ width: "100%", height: "100%" }}
+            // style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%" }}
             rows={sortedRows}
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}

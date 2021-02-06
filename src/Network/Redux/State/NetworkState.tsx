@@ -17,6 +17,7 @@ const networkState: INetworkState = {
     forecastParametersDescription: "",
     targetFluidTitle: "Oil",
     timeFrequency: "Yearly",
+    defermentDecision: "Add Deferment",
     realtimeResults: "No",
     endForecastDate: new Date(),
   },
@@ -33,6 +34,8 @@ const networkState: INetworkState = {
   error: { message: "" },
   success: false,
   data: [],
+
+  selectedForecastingParametersId: "",
 
   existingDataWorkflows: {
     networkExisting: [],

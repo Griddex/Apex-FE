@@ -1,3 +1,4 @@
+import { makeStyles } from "@material-ui/core/styles";
 import { DatePicker, DatePickerInput } from "carbon-components-react";
 import "carbon-components/css/carbon-components.min.css";
 import React, { ChangeEvent } from "react";
@@ -6,8 +7,19 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectNative from "../../Application/Components/Selects/ApexSelectNative";
 import { persistForecastParametersAction } from "../Redux/Actions/ForecastingActions";
 
+const useStyles = makeStyles(() => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "space-between",
+    width: "100%",
+    height: "100%",
+  },
+}));
+
 const OtherForecastingParameters = () => {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   const targetFluids = ["Oil", "Gas", "Liquid"];
   const [targetFluidTitle, setTargetFluidTitle] = React.useState("");
@@ -19,6 +31,12 @@ const OtherForecastingParameters = () => {
   const [timeFrequency, setTimeFrequency] = React.useState("");
   const handleTimeFrequencyChange = (event: ChangeEvent<any>) => {
     setTimeFrequency(event.target.value);
+  };
+
+  const defermentDecisions = ["Add Deferment", "No Deferment"];
+  const [defermentDecision, setDefermentDecision] = React.useState("");
+  const handleDefermentDecisionChange = (event: ChangeEvent<any>) => {
+    setDefermentDecision(event.target.value);
   };
 
   const realtimeResultsList = ["No", "Yes"];
@@ -47,7 +65,7 @@ const OtherForecastingParameters = () => {
   }, [targetFluidTitle, timeFrequency, realtimeResults, endForecastDate]);
 
   return (
-    <div>
+    <div className={classes.root}>
       <AnalyticsComp
         title="Target Fluid"
         direction="Vertical"
@@ -55,7 +73,7 @@ const OtherForecastingParameters = () => {
           <ApexSelectNative
             currentItem={targetFluidTitle}
             itemData={targetFluids}
-            selectItemStyle={{ width: "100%" }}
+            selectItemStyle={{ width: 250 }}
             handleChange={handleTargetFluidTitleChange}
           />
         }
@@ -67,8 +85,20 @@ const OtherForecastingParameters = () => {
           <ApexSelectNative
             currentItem={timeFrequency}
             itemData={timeFrequencyList}
-            selectItemStyle={{ width: "100%" }}
+            selectItemStyle={{ width: 250 }}
             handleChange={handleTimeFrequencyChange}
+          />
+        }
+      />
+      <AnalyticsComp
+        title="Add Deferment"
+        direction="Vertical"
+        content={
+          <ApexSelectNative
+            currentItem={defermentDecision}
+            itemData={defermentDecisions}
+            selectItemStyle={{ width: 250 }}
+            handleChange={handleDefermentDecisionChange}
           />
         }
       />
@@ -79,7 +109,7 @@ const OtherForecastingParameters = () => {
           <ApexSelectNative
             currentItem={realtimeResults}
             itemData={realtimeResultsList}
-            selectItemStyle={{ width: "100%" }}
+            selectItemStyle={{ width: 250 }}
             handleChange={handleRealtimeResultsChange}
           />
         }

@@ -21,7 +21,9 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
+import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import composeRefs from "../../Application/Utils/ComposeRefs";
 import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
 import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
 import {
@@ -104,16 +106,12 @@ const nodeTypes: NodeTypesType = {
 };
 
 const Network = () => {
-  const [rfi, setRfi] = React.useState<OnLoadParams>({} as OnLoadParams);
-  const onLoad = (reactFlowInstance: OnLoadParams) => {
-    reactFlowInstance.fitView();
-    setRfi(reactFlowInstance);
-  };
   const dispatch = useDispatch();
   const classes = useStyles();
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
+
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
@@ -193,6 +191,7 @@ const Network = () => {
     (state: RootState) => state.networkReducer
   );
 
+  const [render, setRender] = React.useState(false);
   const [showMiniMap, setShowMiniMap] = React.useState(false);
   const [showControls, setShowControls] = React.useState(true);
   const NetworkDiagramIconsProps = {
@@ -202,6 +201,26 @@ const Network = () => {
     setShowControls,
   };
 
+  // React.useEffect(() => {
+  //   dispatch(hideSpinnerAction());
+  // }, []);
+  console.log(
+    "Logged output --> ~ file: Network.tsx ~ line 300 ~ Network ~ allNetworkElements",
+    allNetworkElements
+  );
+  const elementsRef = React.useRef<FlowElement[]>(allNetworkElements);
+
+  const [rfi, setRfi] = React.useState<OnLoadParams>({} as OnLoadParams);
+
+  const onLoad = (reactFlowInstance: OnLoadParams) => {
+    reactFlowInstance.fitView();
+    setRfi(reactFlowInstance);
+  };
+
+  React.useEffect(() => {
+    setRender((render) => !render);
+  }, [render]);
+
   return (
     <div className={classes.root}>
       <ReactFlowProvider>
@@ -210,7 +229,7 @@ const Network = () => {
             <NetworkPanel />
           </div>
           <div
-            ref={drop}
+            ref={composeRefs(drop, elementsRef)}
             style={dndCanvasStyle}
             className={classes.networkContent}
           >

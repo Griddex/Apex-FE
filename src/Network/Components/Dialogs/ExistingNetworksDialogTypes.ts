@@ -13,6 +13,7 @@ export interface INetworkDetail {
 
 export interface IForecastParametersDetail {
   sn?: number;
+  forecastingParametersId: string;
   declineParameters: IDeclineCurveParametersDetail[];
   type: "Default" | "User";
   title: string;

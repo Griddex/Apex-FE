@@ -239,7 +239,6 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
       row: IRawRow,
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
-      event.persist();
       alert(row);
       setCheckboxSelected(!checkboxSelected);
     };

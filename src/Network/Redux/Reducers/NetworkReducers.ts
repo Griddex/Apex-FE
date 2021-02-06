@@ -122,12 +122,13 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
 
     case AUTOGENERATENETWORK_SUCCESS: {
-      const { statusCode, nodeElements, edeElements } = action.payload.data;
+      const { statusCode, nodeElements, edgeElements } = action.payload;
+
       return {
         ...state,
         statusCode,
         nodeElements,
-        edeElements,
+        edgeElements,
       };
     }
 

@@ -33,6 +33,7 @@ export interface ISaveForecastParametersFormValues {
   forecastParametersDescription: string;
   targetFluidTitle: string;
   timeFrequency: string;
+  defermentDecision: string;
   realtimeResults: string;
   endForecastDate: Date;
 }
@@ -104,6 +105,7 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   saveForecastParameters: ISaveForecastParametersFormValues;
 
+  selectedForecastingParametersId: string;
   existingDataWorkflows: {
     networkExisting: IExistingDataRow[];
     forecastingParametersExisting: IForecastParametersDetail[];

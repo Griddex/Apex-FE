@@ -14,7 +14,7 @@ const GenerateNetworkWorkflow = ({ activeStep }: { activeStep: number }) => {
     }
   };
 
-  return <>{renderImportStep()}</>;
+  return <div>{renderImportStep()}</div>;
 };
 
 export default GenerateNetworkWorkflow;

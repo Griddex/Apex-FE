@@ -1,7 +1,10 @@
 import { call, put, select, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
@@ -17,7 +20,9 @@ export default function* watchAutogenerateNetworkSaga() {
 }
 
 export function* autoGenerateNetworkSaga(action: IAction) {
-  const { payload } = action;
+  const { payload, meta } = action;
+  const message = meta && meta.message ? meta.message : "";
+
   const { userId } = yield select((state) => state.loginReducer);
   const { forecastInputDeckId, facilitiesInputDeckId } = yield select(
     (state) => state.inputReducer
@@ -38,6 +43,8 @@ export function* autoGenerateNetworkSaga(action: IAction) {
   const autoGenerateNetworkAPI = (url: string) =>
     authService.post(url, data, config);
 
+  yield put(showSpinnerAction(message));
+
   try {
     const result = yield call(
       autoGenerateNetworkAPI,
@@ -45,10 +52,15 @@ export function* autoGenerateNetworkSaga(action: IAction) {
     );
 
     const {
-      statusCode,
-      data: { data },
+      data: {
+        data: { nodes: nodeElements, edges: edgeElements },
+        statusCode,
+      },
     } = result;
-    const { nodeElements, edgeElements } = data;
+    console.log(
+      "Logged output --> ~ file: AutogenerateNetworkSaga.ts ~ line 58 ~ function*autoGenerateNetworkSaga ~ result",
+      result
+    );
 
     const successAction = autoGenerateNetworkSuccessAction();
     yield put({
@@ -56,7 +68,7 @@ export function* autoGenerateNetworkSaga(action: IAction) {
       payload: { ...payload, statusCode, nodeElements, edgeElements },
     });
 
-    yield call(forwardTo, "/apex/network");
+    yield put(hideSpinnerAction());
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
 
@@ -66,9 +78,10 @@ export function* autoGenerateNetworkSaga(action: IAction) {
     });
 
     yield put(showDialogAction(failureDialogParameters()));
-  }
+    // yield call(forwardTo, "/apex/network");
 
-  yield put(hideSpinnerAction());
+    yield put(hideSpinnerAction());
+  }
 }
 
 function forwardTo(routeUrl: string) {

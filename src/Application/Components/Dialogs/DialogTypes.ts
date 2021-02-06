@@ -9,7 +9,7 @@ import ExistingForecastingParametersDialog from "../../../Network/Components/Dia
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
-import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog";
+import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/DeclineParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
@@ -18,6 +18,7 @@ import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
+import DeclineParametersDialog from "../../../Network/Components/Dialogs/DeclineParametersDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -34,6 +35,7 @@ export interface IApplicationDialogs {
   networkGenerationWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   existingForecastingParametersDialog: typeof ExistingForecastingParametersDialog;
   saveForecastingParametersWorkflowDialog: typeof SaveForecastingParametersWorkflowDialog;
+  declineParametersDialog: typeof DeclineParametersDialog;
   runForecastDialog: typeof RunForecastDialog;
 }
 
@@ -72,7 +74,8 @@ export interface DialogStuff {
     | "existingNetworksDialog"
     | "networkGenerationWorkflowDialog"
     | "existingForecastingParametersDialog"
-    | "saveForecastingParametersWorkflowDialog";
+    | "saveForecastingParametersWorkflowDialog"
+    | "declineParametersDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -87,7 +90,7 @@ export interface DialogStuff {
   children?: JSX.Element | JSX.Element[];
   dialogContentStyle?: CSSProperties;
   dialogActionsStyle?: CSSProperties;
-  // activeStep?: number;
+  selectedRowIndex?: number;
   workflowProcess?: IAllWorkflowProcesses["wrkflwPrcss"];
   workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];
 }

@@ -12,13 +12,12 @@ import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid
 import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import {
-  IExistingDataRow,
   IExistingDataProps,
+  IExistingDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { updateInputAction } from "../../../Redux/Actions/ImportActions";
-import { IAuthor } from "./../../../../Application/Components/Author/AuthorTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {

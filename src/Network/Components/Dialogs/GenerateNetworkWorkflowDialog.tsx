@@ -16,6 +16,7 @@ import { INavigationButtonsProp } from "../../../Application/Components/Navigati
 import {
   hideDialogAction,
   showDialogAction,
+  unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -135,18 +136,19 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   const finalAction = () => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Generate_Network_Dialog",
-      title: "Generate Network Dialog",
+      title: "Confirm Network Generation",
       type: "textDialog",
       show: true,
       exclusive: false,
-      maxWidth: "sm",
-      dialogText: "Confirm generation of network",
-      iconType: "error",
+      maxWidth: "xs",
+      dialogText: `Do you want to generate a 
+      production network diagram with the current parameters?`,
+      iconType: "confirmation",
       actionsList: () =>
         DialogOkayCancelButtons(
-          [true],
-          [true],
-          [autoGenerateNetworkRequestAction]
+          [true, true],
+          [true, true],
+          [unloadDialogsAction, autoGenerateNetworkRequestAction]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

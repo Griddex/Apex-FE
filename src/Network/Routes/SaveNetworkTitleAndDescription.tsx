@@ -63,7 +63,11 @@ const SaveNetworkTitleAndDescription = ({
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
             value={networkDescription}
-            onChange={handleChange}
+            onChange={(e) => {
+              const { name, value } = e.target;
+              handleChange && handleChange(e);
+              dispatch(updateNetworkParameterAction(name, value));
+            }}
           />
         }
       />

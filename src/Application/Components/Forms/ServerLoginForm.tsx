@@ -123,7 +123,6 @@ const ServerLoginForm = () => {
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (event: { persist: () => void }) => {
-    event.persist();
     setCheckboxSelected(!checkboxSelected);
   };
 

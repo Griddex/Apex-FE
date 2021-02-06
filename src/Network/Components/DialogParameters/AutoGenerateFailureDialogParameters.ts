@@ -3,13 +3,13 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 export const failureDialogParameters = (): DialogStuff => ({
-  name: "Generate_Network_Failure_Dialog",
-  title: "Generate Network Failure",
+  name: "Network_Generation_Failure_Dialog",
+  title: "Network Generation Failure",
   type: "textDialog",
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Network could not be generated.
+  dialogText: `Oops! Something unexpected happended and the network could not be generated.
   Please try again`,
   iconType: "error",
   actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),

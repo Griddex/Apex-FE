@@ -10,6 +10,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { ActionType } from "@redux-saga/types";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 
 export default function* watchRunForecastSaga() {
   yield takeLeading<ActionType>(RUN_FORECAST_REQUEST, runForecastSaga);
@@ -17,15 +18,17 @@ export default function* watchRunForecastSaga() {
 
 function* runForecastSaga(action: IAction) {
   const { payload } = action;
-  const { workflowProcess } = payload;
 
-  const { inputDeckData } = yield select(
-    (state) =>
-      state.inputReducer["importDataWorkflows"][
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-      ]
+  const { projectId } = yield select((state) => state.projectReducer);
+  const { selectedForecastingParametersId } = yield select(
+    (state) => state.networkReducer
   );
-  const data = inputDeckData;
+
+  const data = {
+    projectId,
+    forecastingParameterId: selectedForecastingParametersId,
+  };
+
   const config = { headers: null };
   const runForecastAPI = (url: string) => authService.post(url, data, config);
   const statusCode = ""; //Get from success response
@@ -33,7 +36,7 @@ function* runForecastSaga(action: IAction) {
   try {
     const data = yield call(
       runForecastAPI,
-      "https://jsonplaceholder.typicode.com/posts" //This is the URL endpoint you should change
+      `${getBaseUrl()}/forecast/run` //This is the URL endpoint you should change
     );
 
     const successAction = runForecastSuccessAction();

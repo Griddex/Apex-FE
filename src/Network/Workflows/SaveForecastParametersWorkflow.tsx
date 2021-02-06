@@ -1,5 +1,4 @@
 import React from "react";
-import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
 import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
@@ -16,7 +15,7 @@ const SaveForecastParametersWorkflow = ({
       case 0:
         return (
           <DeclineCurveParameters
-            rowNumber={0}
+            selectedRowIndex={0}
             workflowProcess="saveForecastingParametersWorkflowDialog"
           />
         );
@@ -36,6 +35,7 @@ const SaveForecastParametersWorkflow = ({
         forecastParametersDescription,
         targetFluidTitle,
         timeFrequency,
+        defermentDecision,
         realtimeResults,
         endForecastDate,
         errors,
@@ -48,6 +48,7 @@ const SaveForecastParametersWorkflow = ({
           forecastParametersDescription,
           targetFluidTitle,
           timeFrequency,
+          defermentDecision,
           realtimeResults,
           endForecastDate,
           errors,

@@ -94,7 +94,7 @@ const DialogContent = withStyles((theme) => ({
 
 const ExistingNetworksDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType } = props;
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   return (
     <Dialog
@@ -116,13 +116,14 @@ const ExistingNetworksDialog = (props: DialogStuff) => {
         <ExistingNetworks workflowProcess="networkExisting" />
       </DialogContent>
       <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
-        <Button
+        {/* <Button
           variant="outlined"
           color="primary"
           onClick={() => dispatch(hideDialogAction())}
         >
           Close
-        </Button>
+        </Button> */}
+        {actionsList && actionsList()}
       </DialogActions>
     </Dialog>
   );

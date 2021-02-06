@@ -29,8 +29,8 @@ const SaveNetworkDialogButtons = ({
       show: true,
       exclusive: false,
       maxWidth: "xs",
-      dialogText: "Do you want to save the network?",
-      iconType: "error",
+      dialogText: "Do you want to save the current network diagram?",
+      iconType: "confirmation",
       actionsList: () =>
         DialogOkayCancelButtons(
           [true, true],

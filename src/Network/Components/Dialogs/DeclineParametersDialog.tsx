@@ -1,23 +1,21 @@
-import { Button, DialogActions } from "@material-ui/core";
+import { DialogActions, IconButton } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
-import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React from "react";
-import { useDispatch } from "react-redux";
-import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
-import {
-  hideDialogAction,
-  showDialogAction,
-  unloadDialogsAction,
-} from "../../../Application/Redux/Actions/DialogsAction";
-import ExistingForecastingParameters from "../../Routes/ExistingForecastingParameters";
-import { saveForecastParametersRequestAction } from "./../../Redux/Actions/ForecastingActions";
+import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import DeclineCurveParameters from "../../Routes/DeclineCurveParameters";
+import SaveForecastParametersWorkflow from "../../Workflows/SaveForecastParametersWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
+    // backgroundColor: (props) => props.iconColor,
+    // color: (props: DialogStuff) => {
+    //   return props.iconColor;
+    // },
   },
   dialogTitle: {
     display: "flex",
@@ -102,32 +104,24 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const RunForecastDialog = (props: DialogStuff) => {
+const steps = [
+  "DCA Parameters",
+  "Other Forecast Parameters",
+  "Title and Description",
+];
+const workflowCategory = "networkDataWorkflows";
+const workflowProcess = "declineParametersDialog";
+
+const DeclineParametersDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList } = props;
-
-  //Not supposed to here.
-  //Will be in a table icon and passed to table component
-  const extrudeExistingForecastParametersWorkflow = () => {
-    const dialogParameters: DialogStuff = {
-      name: "Existing_Forecast_Parameters_Dialog",
-      title: "Existing Forecast Parameters Dialog",
-      type: "saveForecastingParametersWorkflowDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "lg",
-      iconType: "information",
-      actionsList: () =>
-        DialogOkayCancelButtons(
-          [true, true],
-          [true, true],
-          [saveForecastParametersRequestAction, unloadDialogsAction]
-        ),
-      // dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-  };
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    actionsList,
+    selectedRowIndex,
+  } = props;
 
   return (
     <Dialog
@@ -146,18 +140,14 @@ const RunForecastDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <Button
-          color="primary"
-          variant="outlined"
-          onClick={extrudeExistingForecastParametersWorkflow}
-        >
-          {"New Forecast"}
-        </Button>
-        <ExistingForecastingParameters /> {/*remove */}
+        <DeclineCurveParameters
+          workflowProcess={workflowProcess}
+          selectedRowIndex={selectedRowIndex as number}
+        />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default RunForecastDialog;
+export default DeclineParametersDialog;

@@ -36,7 +36,10 @@ export interface IImportWorkflowProcess {
   wkCy: "importDataWorkflows";
 }
 export interface INetworkWorkflowProcess {
-  wkPs: "networkGeneration" | "saveForecastingParametersWorkflowDialog";
+  wkPs:
+    | "networkGeneration"
+    | "saveForecastingParametersWorkflowDialog"
+    | "declineParametersDialog";
   wkCy: "networkDataWorkflows";
 }
 export interface IEconomicsWorkflowProcess {

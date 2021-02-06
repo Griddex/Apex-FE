@@ -40,10 +40,18 @@ function* fetchExistingForecastParametersSaga(action: IAction) {
       forecastParametersUrl
     );
 
+    // const {
+    //   data: { data: forecastingParametersExisting }, //prevent 2nd trip to server
+    // } = result;
     const {
-      data: { data: forecastingParametersExisting }, //prevent 2nd trip to server
+      data: { data }, //prevent 2nd trip to server
     } = result;
 
+    const forecastingParametersExisting = data[0];
+    console.log(
+      "Logged output --> ~ file: FetchExistingForecastParametersSaga.ts ~ line 51 ~ function*fetchExistingForecastParametersSaga ~ forecastingParametersExisting",
+      forecastingParametersExisting
+    );
     const successAction = fetchExistingForecastingParametersSuccessAction();
     yield put({
       ...successAction,

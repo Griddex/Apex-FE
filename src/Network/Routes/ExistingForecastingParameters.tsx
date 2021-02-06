@@ -11,11 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
+import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
 import { IForecastParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
+import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import formatDate from "./../../Application/Utils/FormatDate";
 
 const useStyles = makeStyles(() => ({
@@ -82,35 +85,34 @@ export default function ExistingForecastingParameters() {
     (state: RootState) => state.networkReducer[wc][wp]
   );
 
-  const transExistingData = existingData.map((row: any) => {
-    const { title, description } = row;
-    const {
-      type,
-      createdAt,
-      declineParameters,
-    } = row.forecastingParametersList;
+  const { title, description } = existingData;
+  const transExistingData = existingData["forecastingParametersList"].map(
+    (row: any) => {
+      const { _id, type, createdAt, declineParameters } = row;
 
-    const day = 12;
-    const month = 9;
-    const year = 2020;
-    const timeFrequency = "Monthly";
-    const targetFluid = "Oil";
-    const isDefered = 0;
+      const day = 12;
+      const month = 9;
+      const year = 2020;
+      const timeFrequency = "Monthly";
+      const targetFluid = "Oil";
+      const isDefered = 0;
 
-    return {
-      declineParameters,
-      type,
-      title,
-      description,
-      targetFluid,
-      timeFrequency,
-      isDefered: isDefered === 0 ? "No" : "Yes", //Referred, Realtime not yet
-      endForecast: formatDate(new Date(year, month, day)),
-      author: "None",
-      createdOn: createdAt,
-      modifiedOn: createdAt,
-    };
-  });
+      return {
+        forecastingParametersId: _id,
+        declineParameters,
+        type,
+        title,
+        description,
+        targetFluid,
+        timeFrequency,
+        isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment", //Referred, Realtime not yet
+        endForecast: formatDate(new Date(year, month, day)),
+        author: "None",
+        createdOn: createdAt,
+        modifiedOn: createdAt,
+      };
+    }
+  );
 
   const tableOptions: ITableIconsOptions = {
     sort: {
@@ -132,8 +134,10 @@ export default function ExistingForecastingParameters() {
     row: IForecastParametersDetail,
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.persist();
-    alert(row);
+    const name = "selectedForecastingParametersId";
+    const value = row.forecastingParametersId;
+
+    dispatch(updateNetworkParameterAction(name, value));
     setCheckboxSelected(!checkboxSelected);
   };
 
@@ -159,33 +163,58 @@ export default function ExistingForecastingParameters() {
         key: "actions",
         name: "ACTIONS",
         editable: false,
-        formatter: ({ row }) => (
-          <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-            <ArrowRightIcon
-              onClick={() => alert(`Forecast run Row is:${row}`)}
-            />
-          </div>
-        ),
+        formatter: ({ row }) => {
+          return (
+            <div>
+              <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
+              <DeleteOutlinedIcon
+                onClick={() => alert(`Delete Row is:${row}`)}
+              />
+              <MenuOpenOutlinedIcon
+                onClick={() => alert(`Menu Row is:${row}`)}
+              />
+
+              <ArrowRightIcon
+                onClick={() => alert(`Forecast run Row is:${row}`)}
+              />
+            </div>
+          );
+        },
         width: 150,
+      },
+      {
+        key: "dcaParameters",
+        name: "DCA Parameters",
+        editable: false,
+        resizable: true,
+        width: 150,
+        formatter: ({ row }) => {
+          const { sn } = row;
+          const selectedRowIndex = (sn as number) - 1;
+          return (
+            <VisibilityOutlinedIcon
+              style={{ display: "flex", alignSelf: "center" }}
+              onClick={() =>
+                dispatch(
+                  showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                )
+              }
+            />
+          );
+        },
       },
       {
         key: "type",
         name: "TYPE",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 150,
         formatter: ({ row }) => {
           const { type } = row;
           return (
-            <>
+            <div>
               <DeclineParametersType dpTypeText={type} />;
-              <VisibilityOutlinedIcon
-                onClick={() => alert(`View Row is:${row}`)}
-              />
-            </>
+            </div>
           );
         },
       },

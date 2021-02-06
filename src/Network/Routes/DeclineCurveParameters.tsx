@@ -71,10 +71,10 @@ const existingData = [
 
 export default function DeclineCurveParameters({
   workflowProcess,
-  rowNumber,
+  selectedRowIndex,
 }: {
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-  rowNumber: number;
+  selectedRowIndex: number;
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -85,13 +85,10 @@ export default function DeclineCurveParameters({
   const existingData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
   );
-  console.log(
-    "Logged output --> ~ file: DeclineCurveParameters.tsx ~ line 88 ~ existingData",
-    existingData
-  );
 
-  const parametersList = existingData[0].forecastingParametersList;
-  const declineCurveParametersList = parametersList[0]["declineParameters"];
+  const parametersList = existingData.forecastingParametersList;
+  const declineCurveParametersList =
+    parametersList[selectedRowIndex]["declineParameters"];
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
