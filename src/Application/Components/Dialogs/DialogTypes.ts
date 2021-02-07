@@ -9,7 +9,7 @@ import ExistingForecastingParametersDialog from "../../../Network/Components/Dia
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
-import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/DeclineParametersDialog";
+import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
@@ -18,7 +18,7 @@ import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
-import DeclineParametersDialog from "../../../Network/Components/Dialogs/DeclineParametersDialog";
+import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -32,10 +32,10 @@ export interface IApplicationDialogs {
   newProjectWorkflowDialog: typeof NewProjectWorkflowDialog;
   saveNetworkDialog: typeof SaveNetworkDialog;
   existingNetworksDialog: typeof ExistingNetworksDialog;
-  networkGenerationWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
+  generateNetworkWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   existingForecastingParametersDialog: typeof ExistingForecastingParametersDialog;
   saveForecastingParametersWorkflowDialog: typeof SaveForecastingParametersWorkflowDialog;
-  declineParametersDialog: typeof DeclineParametersDialog;
+  declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
   runForecastDialog: typeof RunForecastDialog;
 }
 
@@ -72,10 +72,10 @@ export interface DialogStuff {
     | "newProjectWorkflowDialog"
     | "saveNetworkDialog"
     | "existingNetworksDialog"
-    | "networkGenerationWorkflowDialog"
+    | "generateNetworkWorkflowDialog"
     | "existingForecastingParametersDialog"
     | "saveForecastingParametersWorkflowDialog"
-    | "declineParametersDialog";
+    | "declineCurveParametersDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

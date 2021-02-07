@@ -106,6 +106,10 @@ export interface INetworkState extends ISaveNetworkFormProps {
   saveForecastParameters: ISaveForecastParametersFormValues;
 
   selectedForecastingParametersId: string;
+
+  selectedNetworkId: string;
+  selectedNetworkTitle: string;
+
   existingDataWorkflows: {
     networkExisting: IExistingDataRow[];
     forecastingParametersExisting: IForecastParametersDetail[];

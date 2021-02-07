@@ -7,18 +7,31 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   analyticsTitle: {
-    borderStyle: "solid",
-    borderColor: theme.palette.primary.main,
-    borderLeftWidth: 2,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    paddingLeft: 5,
+    // borderStyle: "solid",
+    // borderColor: theme.palette.primary.main,
+    // borderLeftWidth: 2,
+    // borderRightWidth: 0,
+    // borderTopWidth: 0,
+    // borderBottomWidth: 0,
+    padding: 5,
     lineHeight: "100%",
     marginBottom: theme.spacing(1),
     color: theme.palette.text.primary,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: theme.palette.secondary.light,
   },
+  // analyticsTitle: {
+  //   borderStyle: "solid",
+  //   borderColor: theme.palette.primary.main,
+  //   borderLeftWidth: 2,
+  //   borderRightWidth: 0,
+  //   borderTopWidth: 0,
+  //   borderBottomWidth: 0,
+  //   paddingLeft: 5,
+  //   lineHeight: "100%",
+  //   marginBottom: theme.spacing(1),
+  //   color: theme.palette.text.primary,
+  //   backgroundColor: "#F7F7F7",
+  // },
 }));
 
 interface IAnalyticsCompProps {
@@ -54,9 +67,9 @@ const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
       className={classes.analyticsComp}
       style={{ ...flexStyle(), ...containerStyle }}
     >
-      <Typography className={classes.analyticsTitle} style={titleStyle}>
-        {title}
-      </Typography>
+      <div className={classes.analyticsTitle} style={titleStyle}>
+        <Typography>{title}</Typography>
+      </div>
       <div style={{ width: "100%", ...contentStyle }}>{content}</div>
     </div>
   );

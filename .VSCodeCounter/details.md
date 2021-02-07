@@ -53,7 +53,7 @@ Total : 76 files, 23285 codes, 149 comments, 419 blanks, all 23853 lines
 | [src/Application/Styles/SubNavbarStyles.js](/src/Application/Styles/SubNavbarStyles.js)                                                         | JavaScript       |     60 |       0 |     3 |     63 |
 | [src/Application/Utils/GetInitials.js](/src/Application/Utils/GetInitials.js)                                                                   | JavaScript       |      6 |       0 |     2 |      8 |
 | [src/Import/Components/ImportCard.jsx](/src/Import/Components/ImportCard.jsx)                                                                   | JavaScript React |     73 |      12 |     5 |     90 |
-| [src/Import/Components/WorkflowStepper.jsx](/src/Import/Components/WorkflowStepper.jsx)                                                         | JavaScript React |     55 |       0 |     8 |     63 |
+| [src/Import/Components/VerticalWorkflowStepper.jsx](/src/Import/Components/VerticalWorkflowStepper.jsx)                                                         | JavaScript React |     55 |       0 |     8 |     63 |
 | [src/Import/Components/NotificationDialog.jsx](/src/Import/Components/NotificationDialog.jsx)                                                   | JavaScript React |     50 |       7 |     6 |     63 |
 | [src/Import/Components/SimpleDialog.js](/src/Import/Components/SimpleDialog.js)                                                                 | JavaScript       |     86 |       3 |     6 |     95 |
 | [src/Import/Images/DragAndDrop.svg](/src/Import/Images/DragAndDrop.svg)                                                                         | XML              |     79 |       0 |     1 |     80 |

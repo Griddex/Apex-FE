@@ -9,9 +9,9 @@ export interface IWorkflowBannerProps {
 }
 
 export interface IWorkflowDataProps extends IWorkflowProcessState {
-  moduleName: string;
-  subModuleName: string;
-  workflowName: string;
+  moduleName?: string;
+  subModuleName?: string;
+  workflowName?: string;
   workflowData?: any;
 }
 
@@ -39,7 +39,7 @@ export interface INetworkWorkflowProcess {
   wkPs:
     | "networkGeneration"
     | "saveForecastingParametersWorkflowDialog"
-    | "declineParametersDialog";
+    | "declineCurveParametersDialog";
   wkCy: "networkDataWorkflows";
 }
 export interface IEconomicsWorkflowProcess {

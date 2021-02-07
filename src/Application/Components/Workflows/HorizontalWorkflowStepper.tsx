@@ -3,14 +3,12 @@ import Step, { StepProps } from "@material-ui/core/Step";
 import StepLabel, { StepLabelProps } from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowDataProps } from "./WorkflowTypes";
 
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexDirection: "column",
+    width: "90%",
     justifyContent: "center",
     padding: 0,
     "& > *": {
@@ -19,12 +17,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const WorkflowStepper = (props: IWorkflowDataProps) => {
+const HorizontalWorkflowStepper = (props: IWorkflowDataProps) => {
   const classes = useStyles();
-
-  const { expandContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
 
   const { steps, activeStep, skipped, errorSteps } = props;
 
@@ -32,7 +26,7 @@ const WorkflowStepper = (props: IWorkflowDataProps) => {
     <Stepper
       className={classes.root}
       activeStep={activeStep}
-      orientation="vertical"
+      orientation="horizontal"
     >
       {steps.map((label: string, index: number) => {
         const stepProps: StepProps = {};
@@ -47,9 +41,7 @@ const WorkflowStepper = (props: IWorkflowDataProps) => {
 
         return (
           <Step key={label} {...stepProps}>
-            <StepLabel {...labelProps}>
-              {expandContextDrawer && label}
-            </StepLabel>
+            <StepLabel {...labelProps}>{label}</StepLabel>
           </Step>
         );
       })}
@@ -57,4 +49,4 @@ const WorkflowStepper = (props: IWorkflowDataProps) => {
   );
 };
 
-export default WorkflowStepper;
+export default HorizontalWorkflowStepper;

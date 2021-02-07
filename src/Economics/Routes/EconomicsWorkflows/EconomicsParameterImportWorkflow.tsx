@@ -14,7 +14,7 @@ import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowStepper from "../../../Application/Components/Workflows/WorkflowStepper";
+import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   workflowBackAction,
@@ -161,7 +161,7 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
     subModuleName,
     workflowName,
   };
-  const WorkflowStepperProps = {
+  const VerticalWorkflowStepperProps = {
     moduleName,
     subModuleName,
     workflowName,
@@ -254,7 +254,7 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
       <div className={classes.workflowBody}>{renderWorkflow(activeStep)}</div>
       {showContextDrawer && (
         <ContextDrawer>
-          {() => <WorkflowStepper {...WorkflowStepperProps} />}
+          {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
       )}
       <NavigationButtons {...navigationButtonProps} />

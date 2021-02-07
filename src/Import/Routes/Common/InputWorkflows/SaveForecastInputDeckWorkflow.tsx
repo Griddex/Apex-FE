@@ -14,7 +14,7 @@ const SaveForecastInputDeckWorkflow = ({
   finalAction: () => void;
 }) => {
   // const workflowProcess = wp
-  const props = { finalAction };
+  const props = { showChart: false, finalAction };
 
   const renderImportStep = () => {
     switch (activeStep) {

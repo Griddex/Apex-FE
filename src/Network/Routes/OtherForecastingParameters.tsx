@@ -10,10 +10,12 @@ import { persistForecastParametersAction } from "../Redux/Actions/ForecastingAct
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
+    flexWrap: "wrap",
     flexDirection: "column",
-    alignItems: "space-between",
+    justifyContent: "space-between",
     width: "100%",
     height: "100%",
+    padding: 20,
   },
 }));
 
@@ -73,7 +75,7 @@ const OtherForecastingParameters = () => {
           <ApexSelectNative
             currentItem={targetFluidTitle}
             itemData={targetFluids}
-            selectItemStyle={{ width: 250 }}
+            selectItemStyle={{ height: 40, width: 350 }}
             handleChange={handleTargetFluidTitleChange}
           />
         }
@@ -85,7 +87,7 @@ const OtherForecastingParameters = () => {
           <ApexSelectNative
             currentItem={timeFrequency}
             itemData={timeFrequencyList}
-            selectItemStyle={{ width: 250 }}
+            selectItemStyle={{ height: 40, width: 350 }}
             handleChange={handleTimeFrequencyChange}
           />
         }
@@ -97,7 +99,7 @@ const OtherForecastingParameters = () => {
           <ApexSelectNative
             currentItem={defermentDecision}
             itemData={defermentDecisions}
-            selectItemStyle={{ width: 250 }}
+            selectItemStyle={{ height: 40, width: 350 }}
             handleChange={handleDefermentDecisionChange}
           />
         }
@@ -109,7 +111,7 @@ const OtherForecastingParameters = () => {
           <ApexSelectNative
             currentItem={realtimeResults}
             itemData={realtimeResultsList}
-            selectItemStyle={{ width: 250 }}
+            selectItemStyle={{ height: 40, width: 350 }}
             handleChange={handleRealtimeResultsChange}
           />
         }

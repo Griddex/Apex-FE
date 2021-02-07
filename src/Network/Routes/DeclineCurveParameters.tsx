@@ -12,7 +12,6 @@ import { ITableIconsOptions } from "../../Application/Components/Table/ReactData
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { IDeclineCurveParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
 
@@ -63,11 +62,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 //TODO: Calculate classification data from collection
-const existingData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
 
 export default function DeclineCurveParameters({
   workflowProcess,
@@ -154,39 +148,45 @@ export default function DeclineCurveParameters({
           <div>
             <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
             <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <VisibilityOutlinedIcon
+
+            {/*Both functionalities below are tie-ins to the DCA module in V2 */}
+            {/* <VisibilityOutlinedIcon
               onClick={() => alert(`View decline curve:${row}`)}
             />
             <AmpStoriesOutlinedIcon
               onClick={() => alert(`Calculate decline parameters:${row}`)}
-            />
+            /> */}
           </div>
         ),
-        width: 100,
+        width: 120,
       },
       {
         key: "forecastVersion",
         name: "FORECAST VERSION",
         editable: false,
         resizable: true,
+        minWidth: 250,
       },
       {
         key: "asset",
         name: "ASSET",
         editable: false,
         resizable: true,
+        minWidth: 200,
       },
       {
         key: "field",
         name: "FIELD",
         editable: false,
         resizable: true,
+        minWidth: 200,
       },
       {
         key: "reservoir",
         name: "RESERVOIR",
         editable: false,
         resizable: true,
+        minWidth: 200,
       },
 
       {
@@ -194,18 +194,21 @@ export default function DeclineCurveParameters({
         name: "DRAINAGE POINT",
         editable: false,
         resizable: true,
+        minWidth: 250,
       },
       {
         key: "string",
         name: "STRING",
         editable: false,
         resizable: true,
+        minWidth: 50,
       },
       {
         key: "module",
         name: "MODULE",
         editable: false,
         resizable: true,
+        minWidth: 250,
       },
       {
         key: "declineMethod",
@@ -251,28 +254,28 @@ export default function DeclineCurveParameters({
             </select>
           );
         },
-        width: 100,
+        width: 150,
       },
       {
         key: "initOilGasRate1P1C",
         name: "INITIAL RATE (1P1C)",
         editable: false,
         resizable: true,
-        width: 150,
+        width: 200,
       },
       {
         key: "initOilGasRate2P2C",
         name: "INITIAL RATE (2P2C)",
         editable: false,
         resizable: true,
-        width: 150,
+        width: 200,
       },
       {
         key: "initOilGasRate3P3C",
         name: "INITIAL RATE (3P3C)",
         editable: false,
         resizable: true,
-        width: 150,
+        width: 200,
       },
 
       {
@@ -280,21 +283,21 @@ export default function DeclineCurveParameters({
         name: "DECLINE RATE (1P1C)",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 200,
       },
       {
         key: "rateofChangeRate2P2C",
         name: "DECLINE RATE (2P2C)",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 200,
       },
       {
         key: "rateofChangeRate3P3C",
         name: "DECLINE RATE (3P3C)",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 200,
       },
 
       {
@@ -302,21 +305,21 @@ export default function DeclineCurveParameters({
         name: "DECLINE EXPONENT (1P1C)",
         editable: true,
         resizable: true,
-        width: 100,
+        width: 200,
       },
       {
         key: "declineExponent2P2C",
         name: "DECLINE EXPONENT (2P2C)",
         editable: true,
         resizable: true,
-        width: 100,
+        width: 200,
       },
       {
         key: "declineExponent3P3C",
         name: "DECLINE EXPONENT (3P3C)",
         editable: true,
         resizable: true,
-        width: 100,
+        width: 200,
       },
     ];
 
@@ -358,17 +361,12 @@ export default function DeclineCurveParameters({
 
   return (
     <div className={classes.rootExistingData}>
-      <div className={classes.chart}>
-        <DoughnutChart data={existingData} />
-      </div>
-      <div className={classes.table}>
-        <ApexGrid<IDeclineCurveParametersDetail, ITableIconsOptions>
-          columns={columns}
-          rows={rows}
-          options={tableOptions}
-          newTableRowHeight={35}
-        />
-      </div>
+      <ApexGrid<IDeclineCurveParametersDetail, ITableIconsOptions>
+        columns={columns}
+        rows={rows}
+        options={tableOptions}
+        newTableRowHeight={35}
+      />
     </div>
   );
 }

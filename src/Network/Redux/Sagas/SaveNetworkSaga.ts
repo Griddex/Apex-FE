@@ -4,7 +4,10 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
+import {
+  failureDialogParameters,
+  successDialogParameters,
+} from "../../Components/DialogParameters/SaveNetworkSuccessFailureDialogParameters";
 import {
   saveNetworkFailureAction,
   saveNetworkSuccessAction,
@@ -58,6 +61,8 @@ function* saveNetworkSaga(action: IAction) {
       ...successAction,
       payload: { ...payload, statusCode, success },
     });
+
+    yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveNetworkFailureAction();
 
@@ -66,7 +71,10 @@ function* saveNetworkSaga(action: IAction) {
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters()));
+    yield put(
+      // showDialogAction(failureDialogParameters(errors["errors"][0].message))
+      showDialogAction(failureDialogParameters(errors[0].message))
+    );
   }
 
   yield put(hideSpinnerAction());

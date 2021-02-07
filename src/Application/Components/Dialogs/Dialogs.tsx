@@ -3,21 +3,20 @@ import { useSelector } from "react-redux";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
+import SaveForecastInputDeckWorkflowDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckWorkflowDialog";
+import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
+import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
-import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/DeclineParametersDialog";
+import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
-import GenerateNetworkWorkflow from "../../../Network/Workflows/GenerateNetworkWorkflow";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
-import SaveForecastInputDeckWorkflowDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckWorkflowDialog";
 import ListDialog from "./ListDialog";
+import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
-import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
-import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
-import DeclineParametersDialog from "../../../Network/Components/Dialogs/DeclineParametersDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -31,10 +30,10 @@ const applicationDialogs: IApplicationDialogs = {
   newProjectWorkflowDialog: NewProjectWorkflowDialog,
   saveNetworkDialog: SaveNetworkDialog,
   existingNetworksDialog: ExistingNetworksDialog,
-  networkGenerationWorkflowDialog: GenerateNetworkWorkflowDialog,
+  generateNetworkWorkflowDialog: GenerateNetworkWorkflowDialog,
   existingForecastingParametersDialog: ExistingForecastingParametersDialog,
   saveForecastingParametersWorkflowDialog: SaveForecastingParametersWorkflowDialog,
-  declineParametersDialog: DeclineParametersDialog,
+  declineCurveParametersDialog: DeclineCurveParametersDialog,
   runForecastDialog: RunForecastDialog,
 };
 

@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.grey[500],
     height: "100%",
     padding: 0,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "white",
+      borderRadius: 0,
+    },
   },
 }));
 

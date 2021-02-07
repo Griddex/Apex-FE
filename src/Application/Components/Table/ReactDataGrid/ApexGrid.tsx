@@ -63,14 +63,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     width: "100%",
     height: 40,
-    margin: 0,
+    margin: 5,
     justifyContent: "flex-end",
-    alignItems: "flex-end",
+    alignItems: "baseline",
   },
   formControl: {
     height: 30,
-    margin: theme.spacing(1),
-    minWidth: 70,
+    marginLeft: 5,
+    minWidth: 100,
   },
   filterIcon: { width: 20, height: 20, borderLeftColor: "#E7E7E7" },
   tableHeaders: {
@@ -382,13 +382,12 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       <DndProvider backend={HTML5Backend}>
         <div
           ref={tableRef}
-          // style={{ width: "100%", height: "100%", minHeight: 200 }}
-          style={{ width: "100%", height: "100%", minHeight: 200 }}
+          // style={{ width: "100%", height: "100%", minHeight: 400 }}
+          style={{ width: "100%", height: "100%" }}
         >
           <ReactDataGrid
             ref={gridRef}
-            // style={{ width: "100%", height: "100%" }}
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: "100%" }}
             rows={sortedRows}
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
@@ -405,7 +404,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       </DndProvider>
       <div className={classes.tablePagination}>
         <div>Pages</div>
-        {/* <FormControl variant="outlined" className={classes.formControl}> */}
         <SelectEditor
           className={classes.formControl}
           value={pageSelect || "All"}
@@ -413,8 +411,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           options={uniquePageOptions}
           rowHeight={pagesHeight}
         />
-        {/* </FormControl> */}
         <Pagination
+          style={{ marginLeft: 10 }}
           count={tablePagination + 1}
           variant="outlined"
           shape="rounded"

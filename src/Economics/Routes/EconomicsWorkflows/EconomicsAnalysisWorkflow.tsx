@@ -11,7 +11,7 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowStepper from "../../../Application/Components/Workflows/WorkflowStepper";
+import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import {
   workflowBackAction,
   workflowInitAction,
@@ -144,7 +144,7 @@ const EconomicsAnalysisWorkflow = () => {
     workflowName,
   };
 
-  const WorkflowStepperProps = {
+  const VerticalWorkflowStepperProps = {
     moduleName,
     subModuleName,
     workflowName,
@@ -200,7 +200,7 @@ const EconomicsAnalysisWorkflow = () => {
       </div>
       {showContextDrawer && (
         <ContextDrawer>
-          {() => <WorkflowStepper {...WorkflowStepperProps} />}
+          {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
       )}
       <div className={classes.navigationbuttons}>

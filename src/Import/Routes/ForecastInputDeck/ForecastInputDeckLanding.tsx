@@ -163,6 +163,7 @@ const ForecastInputDeckLanding = () => {
                 ),
                 approveddeck: (
                   <ExistingForecastDecks
+                    showChart={true}
                     finalAction={existingDataFinalAction}
                   />
                 ),

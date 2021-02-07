@@ -42,7 +42,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Application/Components/Visuals/Image.jsx](/src/Application/Components/Visuals/Image.jsx) | JavaScript React | 5 | 0 | 3 | 8 |
 | [src/Application/Components/Visuals/Loading.jsx](/src/Application/Components/Visuals/Loading.jsx) | JavaScript React | 20 | 0 | 6 | 26 |
 | [src/Application/Components/Visuals/Spinners.js](/src/Application/Components/Visuals/Spinners.js) | JavaScript | 62 | 0 | 7 | 69 |
-| [src/Application/Components/Workflows/WorkflowStepper.jsx](/src/Application/Components/Workflows/WorkflowStepper.jsx) | JavaScript React | 51 | 0 | 10 | 61 |
+| [src/Application/Components/Workflows/VerticalWorkflowStepper.jsx](/src/Application/Components/Workflows/VerticalWorkflowStepper.jsx) | JavaScript React | 51 | 0 | 10 | 61 |
 | [src/Application/ContextMenus/TableRowContextMenu.js](/src/Application/ContextMenus/TableRowContextMenu.js) | JavaScript | 6 | 0 | 4 | 10 |
 | [src/Application/Images/CompanyLogo.svg](/src/Application/Images/CompanyLogo.svg) | XML | 10 | 0 | 0 | 10 |
 | [src/Application/Layout/Layout.js](/src/Application/Layout/Layout.js) | JavaScript | 62 | 0 | 8 | 70 |

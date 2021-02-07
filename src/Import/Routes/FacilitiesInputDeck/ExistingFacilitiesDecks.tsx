@@ -17,8 +17,9 @@ const chartData = [
 
 export default function ExistingFacilitiesDecks({
   finalAction,
+  showChart,
 }: {
-  // wp: NonNullable<IExistingDataProps["wrkflwPrcss"]>;
+  showChart: boolean;
   finalAction: () => void;
 }) {
   const wc = "existingDataWorkflows";
@@ -51,8 +52,8 @@ export default function ExistingFacilitiesDecks({
       status: "Not Started",
       title: row.title,
       description: row.description,
-      author: "None",
-      approvers: ["None", "None"],
+      author: "---",
+      approvers: ["--", "--"],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     }));
@@ -67,6 +68,7 @@ export default function ExistingFacilitiesDecks({
     dataTitle,
     tableOptions,
     chartData,
+    showChart,
   };
 
   return <ExistingDataRoute {...props} />;

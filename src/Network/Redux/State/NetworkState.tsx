@@ -37,6 +37,8 @@ const networkState: INetworkState = {
 
   selectedForecastingParametersId: "",
 
+  selectedNetworkId: "",
+  selectedNetworkTitle: "",
   existingDataWorkflows: {
     networkExisting: [],
     forecastingParametersExisting: [],

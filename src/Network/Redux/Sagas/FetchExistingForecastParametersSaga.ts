@@ -33,25 +33,19 @@ function* fetchExistingForecastParametersSaga(action: IAction) {
   const forecastParametersUrl = `${getBaseUrl()}/forecast-parameters/${projectId}`;
 
   try {
-    yield put(showSpinnerAction("Loading Forecasting Parameters..."));
+    yield put(showSpinnerAction("Loading Network Data..."));
 
     const result = yield call<(url: string) => AxiosPromise>(
       fetchExistingForecastParametersAPI,
       forecastParametersUrl
     );
 
-    // const {
-    //   data: { data: forecastingParametersExisting }, //prevent 2nd trip to server
-    // } = result;
     const {
       data: { data }, //prevent 2nd trip to server
     } = result;
 
     const forecastingParametersExisting = data[0];
-    console.log(
-      "Logged output --> ~ file: FetchExistingForecastParametersSaga.ts ~ line 51 ~ function*fetchExistingForecastParametersSaga ~ forecastingParametersExisting",
-      forecastingParametersExisting
-    );
+
     const successAction = fetchExistingForecastingParametersSuccessAction();
     yield put({
       ...successAction,

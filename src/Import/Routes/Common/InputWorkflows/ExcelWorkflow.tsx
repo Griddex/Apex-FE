@@ -6,7 +6,7 @@ import NavigationButtons from "../../../../Application/Components/NavigationButt
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
+import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -88,7 +88,7 @@ const ExcelWorkflow = ({
     workflowName,
   };
 
-  const WorkflowStepperProps = {
+  const VerticalWorkflowStepperProps = {
     activeStep,
     steps,
     skipped,
@@ -169,7 +169,7 @@ const ExcelWorkflow = ({
       <div className={classes.workflowBody}>{renderImportStep(activeStep)}</div>
       {showContextDrawer && (
         <ContextDrawer>
-          {() => <WorkflowStepper {...WorkflowStepperProps} />}
+          {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
       )}
       <NavigationButtons {...navigationButtonProps} />

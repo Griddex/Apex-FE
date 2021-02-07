@@ -27,6 +27,8 @@ import {
   EXISTINGFORECASTPARAMETERS_FAILURE,
   EXISTINGNETWORKDATA_FAILURE,
   EXISTINGNETWORKDATA_SUCCESS,
+  GENERATENETWORKBYSELECTION_FAILURE,
+  GENERATENETWORKBYSELECTION_SUCCESS,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -122,10 +124,16 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
 
     case AUTOGENERATENETWORK_SUCCESS: {
-      const { statusCode, nodeElements, edgeElements } = action.payload;
+      const {
+        success,
+        statusCode,
+        nodeElements,
+        edgeElements,
+      } = action.payload;
 
       return {
         ...state,
+        success,
         statusCode,
         nodeElements,
         edgeElements,
@@ -133,7 +141,32 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case AUTOGENERATENETWORK_FAILURE: {
-      const { errors } = action.payload.data;
+      const { errors } = action.payload;
+      return {
+        ...state,
+        errors,
+      };
+    }
+
+    case GENERATENETWORKBYSELECTION_SUCCESS: {
+      const {
+        success,
+        statusCode,
+        nodeElements,
+        edgeElements,
+      } = action.payload;
+
+      return {
+        ...state,
+        success,
+        statusCode,
+        nodeElements,
+        edgeElements,
+      };
+    }
+
+    case GENERATENETWORKBYSELECTION_FAILURE: {
+      const { errors } = action.payload;
       return {
         ...state,
         errors,
@@ -148,6 +181,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         success,
       };
     }
+
     case SAVENETWORK_FAILURE: {
       const { statusCode, errors } = action.payload;
 

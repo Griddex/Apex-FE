@@ -15,6 +15,7 @@ import {
   IExistingDataProps,
   IExistingDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
+import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { updateInputAction } from "../../../Redux/Actions/ImportActions";
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   workflowBody: {
     display: "flex",
     flexDirection: "column",
-    height: "80%",
+    flexGrow: 1,
     width: "100%",
     alignItems: "center",
     justifyContent: "center", //around, between
@@ -69,6 +70,7 @@ export default function ExistingDataRoute<
   chartData,
   tableOptions,
   wkPs,
+  showChart,
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -77,21 +79,24 @@ export default function ExistingDataRoute<
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (
-    row: TRow,
-    // event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    event: React.ChangeEvent<any>
-  ) => {
-    // const { name, value } = event.target;
-    console.log(
-      "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 83 ~ event",
-      event
-    );
+  const handleCheckboxChange = (row: TRow, event: React.ChangeEvent<any>) => {
+    if (wp.includes("facilities") || wp.includes("forecast")) {
+      const existingTitle = getExistingTitle(wp);
+      const existingId = getExistingId(wp);
 
-    const existingTitle = getExistingTitle(wp);
-    const existingId = getExistingId(wp);
-    dispatch(updateInputAction(existingTitle, row.title as string));
-    dispatch(updateInputAction(existingId, row.id as string));
+      dispatch(updateInputAction(existingTitle, row.title as string));
+      dispatch(updateInputAction(existingId, row.id as string));
+    } else {
+      dispatch(
+        updateNetworkParameterAction(
+          "selectedNetworkTitle",
+          row.title as string
+        )
+      );
+      dispatch(
+        updateNetworkParameterAction("selectedNetworkId", row.id as string)
+      );
+    }
 
     setSelectedRows((prev) => prev.add(row.sn as number));
     setCheckboxSelected(!checkboxSelected);
@@ -199,9 +204,11 @@ export default function ExistingDataRoute<
 
   return (
     <div className={classes.rootExistingData}>
-      <div className={classes.chart}>
-        <DoughnutChart data={chartData as ChartType} />
-      </div>
+      {showChart && (
+        <div className={classes.chart}>
+          <DoughnutChart data={chartData as ChartType} />
+        </div>
+      )}
       <div className={classes.workflowBody}>
         <ApexGrid<TRow, ITableIconsOptions>
           columns={columns}

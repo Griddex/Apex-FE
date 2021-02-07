@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
     width: "5%",
     height: "100%",
     padding: 0,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "white",
+      borderRadius: 0,
+    },
   },
   listDialogContent: { display: "flex", flexDirection: "column" },
   listBorder: {
@@ -103,7 +108,11 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = ["Select Facilities Input Deck", "Select Forecast Input Deck"];
+const steps = [
+  "Select Facilities Input Deck",
+  "Select Forecast Input Deck",
+  "Generate Network",
+];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
@@ -195,9 +204,9 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
       </DialogTitle>
       <DialogContent
         dividers
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <GenerateNetworkWorkflow activeStep={activeStep} />
+        <GenerateNetworkWorkflow {...workflowProps} />
       </DialogContent>
       <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
         <NavigationButtons {...navigationButtonProps} />

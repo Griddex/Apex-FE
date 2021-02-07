@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import { useSnackbar } from "notistack";
+import React, { useCallback } from "react";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
   addEdge,
@@ -31,7 +32,7 @@ import {
   default as WellheadContextDrawer,
 } from "../Components/ContextDrawer/ManifoldContextDrawer";
 import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
-import NetworkDiagramIcons from "../Components/Icons/NetworkDiagramIcons";
+import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
 import FlowstationNode from "../Components/Widgets/FlowstationWidget";
 import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
 import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
@@ -108,22 +109,33 @@ const nodeTypes: NodeTypesType = {
 const Network = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [currentElement, setCurrentElement] = React.useState<FlowElement>(
-    {} as FlowElement
-  );
-
+  const { enqueueSnackbar } = useSnackbar();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
+  const { success, nodeElements, edgeElements } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
 
-  const onElementClick = (
-    event: React.MouseEvent<Element, MouseEvent>,
-    element: FlowElement
-  ) => {
-    dispatch(setCurrentElementAction(element));
-    setCurrentElement(element);
+  const renderCount = React.useRef<number>(1);
+  const [showMiniMap, setShowMiniMap] = React.useState(false);
+  const [showControls, setShowControls] = React.useState(true);
+  const [rfi, setRfi] = React.useState<OnLoadParams>({} as OnLoadParams);
+  const [currentElement, setCurrentElement] = React.useState<FlowElement>(
+    {} as FlowElement
+  );
+  const { currentPopoverData, showNetworkElementDetails } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
+  const NetworkDiagramIconsProps = {
+    showMiniMap,
+    setShowMiniMap,
+    showControls,
+    setShowControls,
   };
 
+  //Drag and Drop
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.NETWORK_ELEMENT,
     drop: (item, monitor) => handleWidgetDrop(item, monitor),
@@ -146,25 +158,6 @@ const Network = () => {
       border: "1px solid grey",
     };
   }
-  const { nodeElements, edgeElements } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-
-  const nodeElementsWithWidgets = AddWidgetsToNodes(nodeElements as Node[]);
-  const allNetworkElements = [
-    ...nodeElementsWithWidgets,
-    ...(edgeElements as Edge[]),
-  ];
-
-  const [elements, setElements] = React.useState(
-    allNetworkElements as Elements
-  );
-  const onElementsRemove = (elementsToRemove: Elements) =>
-    setElements((els) => removeElements(elementsToRemove, els));
-
-  const onConnect = (params: Edge | Connection) =>
-    setElements((els) => addEdge(params, els));
-
   const handleWidgetDrop = (
     item: DragObjectWithType,
     monitor: DropTargetMonitor
@@ -184,42 +177,85 @@ const Network = () => {
       position: { ...mouseCoordProjected } as XYPosition,
     };
 
-    setElements((els) => [...els, updatedNewElement]);
+    localDispatch({
+      type: "UPDATE_ELEMENTS",
+      payload: [...networkElements, updatedNewElement],
+    });
   };
 
-  const { currentPopoverData, showNetworkElementDetails } = useSelector(
-    (state: RootState) => state.networkReducer
+  //Flow Elements
+  const nodeElementsWithWidgets = AddWidgetsToNodes(nodeElements as Node[]);
+  const allNetworkElements = [
+    ...nodeElementsWithWidgets,
+    ...(edgeElements as Edge[]),
+  ];
+
+  const init = (allNetworkElements: FlowElement[]) => {
+    return allNetworkElements;
+  };
+
+  const reducer = (state: FlowElement[], action: any) => {
+    switch (action.type) {
+      case "INITIALIZE_ELEMENTS":
+        return state;
+      case "UPDATE_ELEMENTS":
+      case "REMOVE_ELEMENTS":
+      case "CONNECT_ELEMENTS": {
+        const updatedElements = action.payload;
+        return updatedElements;
+      }
+      default:
+        break;
+    }
+  };
+
+  const [networkElements, localDispatch] = React.useReducer(
+    reducer,
+    allNetworkElements,
+    init
   );
-
-  const [render, setRender] = React.useState(false);
-  const [showMiniMap, setShowMiniMap] = React.useState(false);
-  const [showControls, setShowControls] = React.useState(true);
-  const NetworkDiagramIconsProps = {
-    showMiniMap,
-    setShowMiniMap,
-    showControls,
-    setShowControls,
-  };
-
-  // React.useEffect(() => {
-  //   dispatch(hideSpinnerAction());
-  // }, []);
   console.log(
-    "Logged output --> ~ file: Network.tsx ~ line 300 ~ Network ~ allNetworkElements",
-    allNetworkElements
+    "Logged output --> ~ file: Network.tsx ~ line 190 ~ Network ~ networkElements",
+    networkElements
   );
-  const elementsRef = React.useRef<FlowElement[]>(allNetworkElements);
 
-  const [rfi, setRfi] = React.useState<OnLoadParams>({} as OnLoadParams);
+  const onElementsRemove = (elementsToRemove: Elements) => {
+    renderCount.current = renderCount.current + 1;
+
+    const updatedElements = removeElements(elementsToRemove, networkElements);
+    localDispatch({ type: "REMOVE_ELEMENTS", payload: updatedElements });
+  };
+
+  const onConnect = (params: Edge | Connection) => {
+    renderCount.current = renderCount.current + 1;
+
+    const updatedElements = addEdge(params, networkElements);
+    localDispatch({ type: "CONNECT_ELEMENTS", payload: updatedElements });
+  };
+
+  const onElementClick = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    element: FlowElement
+  ) => {
+    dispatch(setCurrentElementAction(element));
+    setCurrentElement(element);
+  };
 
   const onLoad = (reactFlowInstance: OnLoadParams) => {
     reactFlowInstance.fitView();
     setRfi(reactFlowInstance);
+    console.log("Inside Onload");
   };
 
-  React.useEffect(() => {
-    setRender((render) => !render);
-  }, [render]);
+  if (success) {
+    enqueueSnackbar("Network Generated", {
+      persist: false,
+      variant: "success",
+    });
+  }
+  // React.useEffect(() => {
+  //   localDispatch({type: "CONNECT_ELEMENTS", payload: updatedElements})
+  // },[])
 
   return (
     <div className={classes.root}>
@@ -229,13 +265,15 @@ const Network = () => {
             <NetworkPanel />
           </div>
           <div
-            ref={composeRefs(drop, elementsRef)}
+            ref={composeRefs(drop)}
             style={dndCanvasStyle}
             className={classes.networkContent}
           >
-            <NetworkDiagramIcons {...NetworkDiagramIconsProps} />
+            <NetworkDiagramButtons {...NetworkDiagramIconsProps} />
             <ReactFlow
-              elements={elements}
+              elements={
+                renderCount.current === 1 ? allNetworkElements : networkElements
+              }
               onElementsRemove={onElementsRemove}
               onConnect={onConnect}
               onLoad={onLoad}

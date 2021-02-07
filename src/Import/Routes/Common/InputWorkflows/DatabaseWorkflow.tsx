@@ -5,7 +5,7 @@ import ContextDrawer from "../../../../Application/Components/Drawers/ContextDra
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowStepper from "../../../../Application/Components/Workflows/WorkflowStepper";
+import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import {
   IAllWorkflowProcesses,
   IImportWorkflowProcess,
@@ -97,7 +97,7 @@ const DatabaseWorkflow = ({
     workflowName,
   };
 
-  const WorkflowStepperProps = {
+  const VerticalWorkflowStepperProps = {
     moduleName,
     subModuleName,
     workflowName,
@@ -171,7 +171,7 @@ const DatabaseWorkflow = ({
       </div>
       {showContextDrawer && (
         <ContextDrawer>
-          {() => <WorkflowStepper {...WorkflowStepperProps} />}
+          {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
       )}
       <NavigationButtons {...navigationButtonProps} />

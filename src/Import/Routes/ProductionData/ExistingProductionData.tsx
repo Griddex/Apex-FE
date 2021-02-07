@@ -62,7 +62,7 @@ export default function ExistingProductionData({
         status: "Not Started",
         title: row.title,
         description: row.description,
-        author: "None",
+        author: "---",
         approvers: "None",
         createdOn: row.createdAt,
         modifiedOn: row.createdAt,

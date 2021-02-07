@@ -9,65 +9,58 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
-  autoGenerateNetworkFailureAction,
-  autoGenerateNetworkSuccessAction,
-  AUTOGENERATENETWORK_REQUEST,
+  generateNetworkBySelectionFailureAction,
+  generateNetworkBySelectionSuccessAction,
+  GENERATENETWORKBYSELECTION_REQUEST,
 } from "../Actions/NetworkActions";
 import history from "../../../Application/Services/HistoryService";
 
-export default function* watchAutogenerateNetworkSaga() {
-  yield takeLeading(AUTOGENERATENETWORK_REQUEST, autoGenerateNetworkSaga);
+export default function* watchGenerateNetworkBySelectionSaga() {
+  yield takeLeading(
+    GENERATENETWORKBYSELECTION_REQUEST,
+    generateNetworkBySelectionSaga
+  );
 }
 
-export function* autoGenerateNetworkSaga(action: IAction) {
+export function* generateNetworkBySelectionSaga(action: IAction) {
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
 
-  const { userId } = yield select((state) => state.loginReducer);
-  const { forecastInputDeckId, facilitiesInputDeckId } = yield select(
-    (state) => state.inputReducer
-  );
-  const { showWellheadSummaryNodes, showWellheadSummaryEdges } = yield select(
-    (state) => state.networkReducer
-  );
-
-  const data = {
-    userId,
-    facilitiesInputDeckId,
-    forecastInputDeckId,
-    showWellheadSummaryNodes,
-    showWellheadSummaryEdges,
-  };
+  const { selectedNetworkId } = yield select((state) => state.networkReducer);
 
   const config = { headers: null };
-  const autoGenerateNetworkAPI = (url: string) =>
-    authService.post(url, data, config);
+  const generateNetworkBySelectionAPI = (url: string) =>
+    authService.get(url, config);
 
   yield put(showSpinnerAction(message));
 
   try {
     const result = yield call(
-      autoGenerateNetworkAPI,
-      `${getBaseUrl()}/network/generate`
+      generateNetworkBySelectionAPI,
+      `${getBaseUrl()}/network/${selectedNetworkId}`
     );
 
     const {
       data: {
         success,
-        data: { nodes: nodeElements, edges: edgeElements },
         statusCode,
+        data: { nodes: nodeElements, edges: edgeElements },
       },
     } = result;
+    console.log(
+      "Logged output --> ~ file: AutogenerateNetworkSaga.ts ~ line 58 ~ function*generateNetworkBySelectionSaga ~ result",
+      result
+    );
 
-    const successAction = autoGenerateNetworkSuccessAction();
+    const successAction = generateNetworkBySelectionSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, success, statusCode, nodeElements, edgeElements },
+      payload: { ...payload, statusCode, success, nodeElements, edgeElements },
     });
 
     yield put(hideSpinnerAction());
   } catch (errors) {
-    const failureAction = autoGenerateNetworkFailureAction();
+    const failureAction = generateNetworkBySelectionFailureAction();
 
     yield put({
       ...failureAction,

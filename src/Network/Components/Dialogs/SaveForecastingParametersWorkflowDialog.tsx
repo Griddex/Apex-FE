@@ -14,7 +14,6 @@ import { INavigationButtonsProp } from "../../../Application/Components/Navigati
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import DeclineCurveParameters from "../../Routes/DeclineCurveParameters";
 import SaveForecastParametersWorkflow from "../../Workflows/SaveForecastParametersWorkflow";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,10 +33,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "5%",
     height: "100%",
-    // backgroundColor: (props) => props.iconColor,
-    // color: (props: DialogStuff) => {
-    //   return props.iconColor;
-    // },
   },
   dialogTitle: {
     display: "flex",
@@ -47,13 +42,15 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   closeButton: {
-    // position: "absolute",
-    // right: theme.spacing(1),
-    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
     padding: 0,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "white",
+      borderRadius: 0,
+    },
   },
   listDialogContent: { display: "flex", flexDirection: "column" },
   listBorder: {
@@ -62,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
-    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
@@ -110,18 +106,61 @@ const steps = [
   "Title and Description",
 ];
 const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "declineParametersDialog";
+const workflowProcess = "saveForecastingParametersWorkflowDialog";
 
-const DeclineParametersDialog = (props: DialogStuff) => {
+const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    actionsList,
-    selectedRowIndex,
-  } = props;
+  const { title, show, maxWidth, iconType, actionsList, children } = props;
+
+  const skipped = new Set<number>();
+  const { activeStep } = useSelector(
+    (state: RootState) =>
+      state.workflowReducer[workflowCategory][workflowProcess]
+  );
+
+  const isStepOptional = useCallback(
+    (activeStep: number) => activeStep === 50,
+    [activeStep]
+  );
+  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
+    skipped,
+  ]);
+
+  const workflowProps = {
+    activeStep,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  };
+
+  const finalAction = () => {
+    dispatch({ type: "HELLO" });
+  };
+
+  const navigationButtonProps: INavigationButtonsProp = {
+    mainNav: false,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
+    finalAction,
+    workflowProps,
+    workflowProcess,
+    workflowCategory,
+  };
+
+  React.useEffect(() => {
+    dispatch(
+      workflowInitAction(
+        steps,
+        isStepOptional,
+        isStepSkipped,
+        workflowProcess,
+        workflowCategory
+      )
+    );
+  }, [dispatch]);
 
   return (
     <Dialog
@@ -140,14 +179,13 @@ const DeclineParametersDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <DeclineCurveParameters
-          workflowProcess={workflowProcess}
-          selectedRowIndex={selectedRowIndex as number}
-        />
+        <SaveForecastParametersWorkflow activeStep={activeStep} />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList()}</DialogActions>
+      <DialogActions>
+        <NavigationButtons {...navigationButtonProps} />
+      </DialogActions>
     </Dialog>
   );
 };
 
-export default DeclineParametersDialog;
+export default SaveForecastingParametersWorkflowDialog;

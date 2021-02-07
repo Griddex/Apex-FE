@@ -181,6 +181,7 @@ const FacilitiesInputDeckLanding = () => {
                 ),
                 approveddeck: (
                   <ExistingFacilitiesDecks
+                    showChart={true}
                     finalAction={existingDataFinalAction}
                   />
                 ),

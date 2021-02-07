@@ -12,11 +12,12 @@ import Network from "./Network";
 import NetworkBackground from "./NetworkBackground";
 import { ReactFlowProvider } from "react-flow-renderer";
 import { IdType, INetworkLayouts } from "./NetworkLayoutTypes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchExistingForecastingParametersRequestAction,
   fetchExistingNetworkDataRequestAction,
 } from "../Redux/Actions/NetworkActions";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 
 const navbarHeight = 43;
 // const subNavBarHeight = 25;
@@ -41,10 +42,12 @@ const NetworkLayout = () => {
   const dispatch = useDispatch();
   const { path, url } = useRouteMatch();
 
+  const { success } = useSelector((state: RootState) => state.networkReducer);
+
   React.useEffect(() => {
     dispatch(fetchExistingForecastingParametersRequestAction());
     dispatch(fetchExistingNetworkDataRequestAction());
-  }, []);
+  }, [success]);
 
   return (
     <main className={classes.networkLayoutRoot}>

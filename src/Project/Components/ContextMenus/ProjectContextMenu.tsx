@@ -19,9 +19,6 @@ const ProjectContextMenu = ({ children }: IContextMenuProps) => {
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    // event.preventDefault();
-    // event.persist();
-
     setOpen(!open);
   };
 

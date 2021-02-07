@@ -50,8 +50,8 @@ export default function ExistingNetworks({
       status: "Not Started",
       title: row.title,
       description: row.description,
-      author: "None",
-      approvers: ["None", "None"],
+      author: "---",
+      approvers: ["--", "--"],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -61,16 +61,16 @@ export default function ExistingNetworks({
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  const dataKey = "networkKey";
+  const dataKey = "title";
   const dataTitle = "NETWORK TITLE";
 
   const props = {
-    workflowProcess: wp,
     snExistingData,
     dataKey,
     dataTitle,
     tableOptions,
     chartData,
+    wkPs: wp,
   };
 
   return <ExistingDataRoute {...props} />;

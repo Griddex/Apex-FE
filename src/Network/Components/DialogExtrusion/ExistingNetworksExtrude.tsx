@@ -52,7 +52,7 @@ const existingNetworksActions = (dispatch: Dispatch<any>) => {
 const existingNetworksExtrude = (dispatch: Dispatch<any>) => {
   const dialogParameters: DialogStuff = {
     name: "Existing_Network_Dialog",
-    title: "Existing Network",
+    title: "Existing Production Networks",
     type: "existingNetworksDialog",
     show: true,
     exclusive: true,

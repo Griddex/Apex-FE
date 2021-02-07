@@ -164,12 +164,15 @@ theme.overrides = {
     tooltip: {
       // backgroundColor: "#0084A1",
       backgroundColor: "white",
-      border: `1px solid ${theme.palette.primary.main}`,
-      color: theme.palette.primary.main,
+      // border: `1px solid ${theme.palette.primary.main}`,
+      color: "#333",
+      boxShadow: theme.shadows[2],
       fontSize: 14,
     },
     arrow: {
-      color: theme.palette.primary.main,
+      backgroundColor: "white",
+      // color: "white",
+      boxShadow: theme.shadows[2],
     },
   },
   MuiDialogTitle: { root: { padding: theme.spacing(1) } },

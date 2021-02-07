@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
     width: "5%",
     height: "100%",
     padding: 0,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "white",
+      borderRadius: 0,
+    },
   },
   listDialogContent: { display: "flex", flexDirection: "column" },
   listBorder: {
@@ -116,13 +121,6 @@ const ExistingNetworksDialog = (props: DialogStuff) => {
         <ExistingNetworks workflowProcess="networkExisting" />
       </DialogContent>
       <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
-        {/* <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => dispatch(hideDialogAction())}
-        >
-          Close
-        </Button> */}
         {actionsList && actionsList()}
       </DialogActions>
     </Dialog>

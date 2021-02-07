@@ -56,6 +56,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "5%",
     height: "100%",
     padding: 0,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "white",
+      borderRadius: 0,
+    },
   },
   economicParameterDialogContent: {
     display: "flex",

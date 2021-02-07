@@ -1,4 +1,4 @@
-import { Checkbox, makeStyles } from "@material-ui/core";
+import { Checkbox, makeStyles, Typography } from "@material-ui/core";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
@@ -106,8 +106,9 @@ export default function ExistingForecastingParameters() {
         targetFluid,
         timeFrequency,
         isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment", //Referred, Realtime not yet
+        realtimeResults: "Yes",
         endForecast: formatDate(new Date(year, month, day)),
-        author: "None",
+        author: "---",
         createdOn: createdAt,
         modifiedOn: createdAt,
       };
@@ -173,18 +174,14 @@ export default function ExistingForecastingParameters() {
               <MenuOpenOutlinedIcon
                 onClick={() => alert(`Menu Row is:${row}`)}
               />
-
-              <ArrowRightIcon
-                onClick={() => alert(`Forecast run Row is:${row}`)}
-              />
             </div>
           );
         },
-        width: 150,
+        width: 120,
       },
       {
         key: "dcaParameters",
-        name: "DCA Parameters",
+        name: "DCA Table",
         editable: false,
         resizable: true,
         width: 150,
@@ -192,14 +189,25 @@ export default function ExistingForecastingParameters() {
           const { sn } = row;
           const selectedRowIndex = (sn as number) - 1;
           return (
-            <VisibilityOutlinedIcon
-              style={{ display: "flex", alignSelf: "center" }}
-              onClick={() =>
-                dispatch(
-                  showDialogAction(extrudeDialogParameters(selectedRowIndex))
-                )
-              }
-            />
+            <div
+              style={{
+                display: "flex",
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <VisibilityOutlinedIcon
+                style={{ display: "flex", alignSelf: "center" }}
+                onClick={() =>
+                  dispatch(
+                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                  )
+                }
+              />
+              <Typography>View</Typography>
+            </div>
           );
         },
       },
@@ -230,28 +238,35 @@ export default function ExistingForecastingParameters() {
         name: "TARGET FLUID",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 150,
       },
       {
         key: "timeFrequency",
         name: "TIME FREQUENCY",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 150,
       },
       {
         key: "isDefered",
+        name: "DEFERMENT",
+        editable: false,
+        resizable: true,
+        width: 150,
+      },
+      {
+        key: "realtimeResults",
         name: "REALTIME RESULTS",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 150,
       },
       {
         key: "endForecast",
         name: "END FORECAST DATE",
         editable: false,
         resizable: true,
-        width: 100,
+        width: 200,
       },
       {
         key: "author",
@@ -261,7 +276,7 @@ export default function ExistingForecastingParameters() {
         formatter: ({ row }) => {
           return <Author author={row.author} />;
         },
-        width: 300,
+        width: 200,
       },
       {
         key: "createdOn",
@@ -269,9 +284,9 @@ export default function ExistingForecastingParameters() {
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{row.createdOn}</div>;
+          return <div>{formatDate(new Date(row.createdOn))}</div>;
         },
-        // width: 200,
+        width: 200,
       },
       {
         key: "modifiedOn",
@@ -279,9 +294,9 @@ export default function ExistingForecastingParameters() {
         editable: true,
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{row.modifiedOn}</div>;
+          return <div>{formatDate(new Date(row.modifiedOn))}</div>;
         },
-        // width: 200,
+        width: 200,
       },
     ];
 

@@ -41,6 +41,10 @@ function* fetchExistingNetworkDataSaga(action: IAction) {
     const {
       data: { data: networkExisting }, //prevent 2nd trip to server
     } = networkResult;
+    console.log(
+      "Logged output --> ~ file: FetchExistingNetworkDataSaga.ts ~ line 44 ~ function*fetchExistingNetworkDataSaga ~ networkExisting",
+      networkExisting
+    );
 
     const successAction = fetchExistingNetworkDataSuccessAction();
     yield put({

@@ -14,6 +14,7 @@ import { INavigationButtonsProp } from "../../../Application/Components/Navigati
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import DeclineCurveParameters from "../../Routes/DeclineCurveParameters";
 import SaveForecastParametersWorkflow from "../../Workflows/SaveForecastParametersWorkflow";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
     width: "5%",
     height: "100%",
     padding: 0,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "white",
+      borderRadius: 0,
+    },
   },
   listDialogContent: { display: "flex", flexDirection: "column" },
   listBorder: {
@@ -109,61 +115,18 @@ const steps = [
   "Title and Description",
 ];
 const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "saveForecastingParametersWorkflowDialog";
+const workflowProcess = "declineCurveParametersDialog";
 
-const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
+const DeclineCurveParametersDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, children } = props;
-
-  const skipped = new Set<number>();
-  const { activeStep } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
-  );
-
-  const isStepOptional = useCallback(
-    (activeStep: number) => activeStep === 50,
-    [activeStep]
-  );
-  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
-    skipped,
-  ]);
-
-  const workflowProps = {
-    activeStep,
-    steps,
-    isStepOptional,
-    skipped,
-    isStepSkipped,
-  };
-
-  const finalAction = () => {
-    dispatch({ type: "HELLO" });
-  };
-
-  const navigationButtonProps: INavigationButtonsProp = {
-    mainNav: false,
-    showReset: true,
-    showBack: true,
-    showSkip: true,
-    showNext: true,
-    finalAction,
-    workflowProps,
-    workflowProcess,
-    workflowCategory,
-  };
-
-  React.useEffect(() => {
-    dispatch(
-      workflowInitAction(
-        steps,
-        isStepOptional,
-        isStepSkipped,
-        workflowProcess,
-        workflowCategory
-      )
-    );
-  }, [dispatch]);
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    actionsList,
+    selectedRowIndex,
+  } = props;
 
   return (
     <Dialog
@@ -182,13 +145,14 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <SaveForecastParametersWorkflow activeStep={activeStep} />
+        <DeclineCurveParameters
+          workflowProcess={workflowProcess}
+          selectedRowIndex={selectedRowIndex as number}
+        />
       </DialogContent>
-      <DialogActions>
-        <NavigationButtons {...navigationButtonProps} />
-      </DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default SaveForecastingParametersWorkflowDialog;
+export default DeclineCurveParametersDialog;

@@ -5,7 +5,7 @@ import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowStepper from "../../../Application/Components/Workflows/WorkflowStepper";
+import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -140,7 +140,7 @@ const NetCashFlowWorkflow = () => {
     workflowName,
   };
 
-  const WorkflowStepperProps = {
+  const VerticalWorkflowStepperProps = {
     moduleName,
     subModuleName,
     workflowName,
@@ -210,7 +210,7 @@ const NetCashFlowWorkflow = () => {
       </div>
       {showContextDrawer && (
         <ContextDrawer>
-          {() => <WorkflowStepper {...WorkflowStepperProps} />}
+          {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
       )}
       <NavigationButtons {...navigationButtonProps} />

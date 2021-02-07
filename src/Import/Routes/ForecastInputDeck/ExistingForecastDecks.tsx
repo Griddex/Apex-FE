@@ -17,7 +17,9 @@ const chartData = [
 
 export default function ExistingForecastDecks({
   finalAction,
+  showChart,
 }: {
+  showChart: boolean;
   finalAction: () => void;
 }) {
   const wc = "existingDataWorkflows";
@@ -50,8 +52,8 @@ export default function ExistingForecastDecks({
       status: "Not Started",
       title: row.title,
       description: row.description,
-      author: "None",
-      approvers: ["None", "None"],
+      author: "---",
+      approvers: ["--", "--"],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -67,6 +69,7 @@ export default function ExistingForecastDecks({
     dataTitle,
     tableOptions,
     chartData,
+    showChart,
   };
 
   return <ExistingDataRoute {...props} />;
