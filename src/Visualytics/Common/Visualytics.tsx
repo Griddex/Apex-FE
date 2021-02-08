@@ -5,7 +5,8 @@ import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import SelectChart from "./SelectChart";
 import SelectChartDataPanel from "./SelectChartDataPanel";
 import FormatAggregator from "../Components/FormatAggregator";
-import { showContextDrawerAction } from "./../../Application/Redux/Actions/LayoutActions";
+import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -46,8 +47,9 @@ const Visualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { showContextDrawer } = useSelector((state) => state.layoutReducer);
-  const data = [];
+  const { showContextDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
 
   useEffect(() => {
     dispatch(showContextDrawerAction());
@@ -64,7 +66,7 @@ const Visualytics = () => {
         </div>
       </div>
       {showContextDrawer && (
-        <ContextDrawer data={data}>{() => <FormatAggregator />}</ContextDrawer>
+        <ContextDrawer>{() => <FormatAggregator />}</ContextDrawer>
       )}
     </div>
   );

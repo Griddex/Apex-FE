@@ -1,11 +1,11 @@
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import { persistChartIndexAction } from "./../Redux/ChartActions/ChartActions";
+import { persistChartIndexAction } from "../Redux/ChartActions/ChartActions";
 import { useDispatch } from "react-redux";
-import StackedAreaChartPanel from "./../Components/StackedAreaChartPanel";
+import StackedAreaChartPanel from "../Components/StackedAreaChartPanel";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -49,7 +49,7 @@ const SelectChartDataPanel = () => {
 
   const [chartName, setChartName] = React.useState(charts[0]);
 
-  const handleSelectChange = (event) => {
+  const handleSelectChange = (event: ChangeEvent<any>) => {
     const chartPanelName = event.target.value;
     setChartName(chartPanelName);
 
@@ -77,7 +77,7 @@ const SelectChartDataPanel = () => {
     );
   };
 
-  const renderChartDataPanel = (chartName) => {
+  const renderChartDataPanel = (chartName: string) => {
     switch (chartName) {
       case "StackedAreaChartPanel":
         return <StackedAreaChartPanel />;
@@ -100,7 +100,7 @@ const SelectChartDataPanel = () => {
     <>
       <AnalyticsComp
         title="Select Chart"
-        content={<SelectItem classes={classes} />}
+        content={<SelectItem />}
         direction="Vertical"
       />
       <div className={classes.chartPanel}>

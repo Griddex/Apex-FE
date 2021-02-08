@@ -9,8 +9,9 @@ import {
   UPDATE_CHARTELEMENTOBJECT,
 } from "../ChartActions/ChartActions";
 import chartState from "../ChartState/ChartState";
+import { IChartState } from "../ChartState/ChartStateTypes";
 
-const chartReducer = (state = chartState, action: IAction) => {
+const chartReducer = (state = chartState, action: IAction): IChartState => {
   switch (action.type) {
     case PERSIST_CHARTINDEX:
       return {
@@ -42,7 +43,7 @@ const chartReducer = (state = chartState, action: IAction) => {
     case SET_CHARTELEMENTOBJECT: {
       const filteredObjects =
         state.chartObjects &&
-        state.chartObjects.filter((obj) => obj.id !== action.payload.id);
+        state.chartObjects.filter((obj) => obj.chartId !== action.payload.id);
 
       return {
         ...state,
@@ -52,7 +53,7 @@ const chartReducer = (state = chartState, action: IAction) => {
     case UPDATE_CHARTELEMENTOBJECT: {
       const selectedChartElement =
         state.chartObjects &&
-        state.chartObjects.find((obj) => obj.id === action.payload.id);
+        state.chartObjects.find((obj) => obj.chartId === action.payload.id);
 
       const updatedSelectedChartElement = {
         ...selectedChartElement,
@@ -61,7 +62,7 @@ const chartReducer = (state = chartState, action: IAction) => {
 
       const otherObjects =
         state.chartObjects &&
-        state.chartObjects.filter((obj) => obj.id !== action.payload.id);
+        state.chartObjects.filter((obj) => obj.chartId !== action.payload.id);
 
       return {
         ...state,

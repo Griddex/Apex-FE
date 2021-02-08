@@ -12,8 +12,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
 import { useDispatch } from "react-redux";
 import getPredefinedPalettes from "../Utils/PredefinedPalettes";
-import { setChartCellColorsAction } from "./../Redux/ChartActions/ChartActions";
-import generateRandomColors from "./../Utils/GenerateRandomColors";
+import { setChartCellColorsAction } from "../Redux/ChartActions/ChartActions";
+import generateRandomColors from "../Utils/GenerateRandomColors";
 
 const useStyles = makeStyles((theme) => ({
   rootPalette: {

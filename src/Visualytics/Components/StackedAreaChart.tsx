@@ -16,9 +16,9 @@ import {
 import {
   setChartElementObjectAction,
   setSelectedChartElementIdAction,
-} from "./../Redux/ChartActions/ChartActions";
-import ItemTypes from "./../Utils/DragAndDropItemTypes";
-import removeAllSpaces from "./../Utils/RemoveAllSpaces";
+} from "../Redux/ChartActions/ChartActions";
+import ItemTypes from "../Utils/DragAndDropItemTypes";
+import removeAllSpaces from "../Utils/RemoveAllSpaces";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {

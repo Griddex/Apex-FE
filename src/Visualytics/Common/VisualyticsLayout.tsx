@@ -1,10 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useRouteMatch,
+} from "react-router-dom";
 import Loading from "../../Application/Components/Visuals/Loading";
 import Visualytics from "./Visualytics";
 import VisualyticsBackground from "./VisualyticsBackground";
+import { IdType, IVisualyticsLayouts } from "./VisualyticsLayoutTypes";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -35,14 +41,14 @@ const VisualyticsLayout = () => {
             <Route exact path={path} component={Visualytics} />
             <Route
               path={`${url}/:visualyticsId`}
-              render={(props) => {
+              render={(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { visualyticsId },
                   },
                 } = props;
 
-                const Layouts = {
+                const Layouts: IVisualyticsLayouts = {
                   background: <VisualyticsBackground />,
                   visualytics: <Visualytics />,
                 };

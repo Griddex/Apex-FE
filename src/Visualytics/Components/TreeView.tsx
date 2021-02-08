@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import TreeItem from "@material-ui/lab/TreeItem";
+import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
 import { useSnackbar } from "notistack";
 import PropTypes from "prop-types";
@@ -26,10 +26,14 @@ import {
   showDialogAction,
 } from "../../Application/Redux/Actions/DialogsAction";
 import getTableHeaders from "../../Application/Utils/GetTableHeaders";
-import ItemTypes from "./../Utils/DragAndDropItemTypes";
+import ItemTypes from "../Utils/DragAndDropItemTypes";
 import { useTheme } from "@material-ui/core";
+import {
+  ButtonProps,
+  DialogStuff,
+} from "./../../Application/Components/Dialogs/DialogTypes";
 
-function MinusSquare(props) {
+function MinusSquare(props: any) {
   return (
     <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
       {/* tslint:disable-next-line: max-line-length */}
@@ -38,7 +42,7 @@ function MinusSquare(props) {
   );
 }
 
-function PlusSquare(props) {
+function PlusSquare(props: any) {
   return (
     <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
       {/* tslint:disable-next-line: max-line-length */}
@@ -47,7 +51,7 @@ function PlusSquare(props) {
   );
 }
 
-function CloseSquare(props) {
+function CloseSquare(props: any) {
   return (
     <SvgIcon
       className="close"
@@ -61,7 +65,7 @@ function CloseSquare(props) {
   );
 }
 
-function TransitionComponent(props) {
+function TransitionComponent(props: { in?: boolean }) {
   const style = useSpring({
     from: { opacity: 0, transform: "translate3d(20px,0,0)" },
     to: {
@@ -77,13 +81,6 @@ function TransitionComponent(props) {
   );
 }
 
-TransitionComponent.propTypes = {
-  /**
-   * Show the component; triggers the enter or exit states
-   */
-  in: PropTypes.bool,
-};
-
 const StyledTreeItem = withStyles((theme) => ({
   iconContainer: {
     "& .close": {
@@ -95,7 +92,7 @@ const StyledTreeItem = withStyles((theme) => ({
     paddingLeft: 18,
     borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
   },
-}))((props) => {
+}))((props: TreeItemProps) => {
   const { label } = props;
 
   const [{ isDragging }, drag] = useDrag({
@@ -154,12 +151,17 @@ export default function CustomizedTreeView() {
   const theme = useTheme();
 
   const [selectedListItem, setSelectedListItem] = React.useState("");
-  const [inputDeckWorkbook, setInputDeckWorkbook] = React.useState([]);
+  const [
+    inputDeckWorkbook,
+    setInputDeckWorkbook,
+  ] = React.useState<xlsx.WorkBook>({} as xlsx.WorkBook);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [worksheetNames, setWorksheetNames] = React.useState("");
+  const [worksheetNames, setWorksheetNames] = React.useState<string[]>([]);
   const [selectedWorksheetName, setSelectedWorksheetName] = React.useState("");
-  const [selectedWorksheetData, setSelectedWorksheetData] = React.useState([]);
+  const [selectedWorksheetData, setSelectedWorksheetData] = React.useState<
+    Record<string, React.Key>[]
+  >([]);
 
   const SelectWorksheetDialogContent = () => {
     return (
@@ -190,7 +192,7 @@ export default function CustomizedTreeView() {
     );
   };
 
-  const prepareSelectWorksheetRoute = (selectedWorksheetName) => {
+  const prepareSelectWorksheetRoute = (selectedWorksheetName: string) => {
     const selectedWorksheetDataXLSX =
       inputDeckWorkbook.Sheets[selectedWorksheetName];
     const selectedWorksheetData = xlsx.utils.sheet_to_json(
@@ -202,8 +204,8 @@ export default function CustomizedTreeView() {
     }
   };
 
-  const SelectWorksheetDialogActions = (selectedWorksheetName) => {
-    const buttonsData = [
+  const SelectWorksheetDialogActions = (selectedWorksheetName: string) => {
+    const buttonsData: ButtonProps[] = [
       {
         title: "Cancel",
         variant: "contained",
@@ -254,7 +256,7 @@ export default function CustomizedTreeView() {
         reader.onabort = () => console.log("file reading was aborted");
         reader.onerror = () => console.log("file reading has failed");
         reader.onload = () => {
-          const fileData = new Uint8Array(reader.result);
+          const fileData = new Uint8Array(reader.result as ArrayBuffer);
           const inputWorkbook = xlsx.read(fileData, { type: "array" });
           const { SheetNames, Sheets } = inputWorkbook;
 
@@ -262,29 +264,26 @@ export default function CustomizedTreeView() {
           setWorksheetNames(SheetNames);
 
           if (SheetNames.length > 1) {
-            const dialogParameters = {
+            const dialogParameters: DialogStuff = {
               name: "Excel_Worksheet_Selection_Dialog",
               title: "Excel Worksheet Selection",
-              type: "listDialog",
+              type: "selectWorksheetDialog",
               show: true,
               exclusive: true,
               maxWidth: "sm",
               iconType: "select",
-              dialogText: "",
-              iconColor: theme.palette.primary.main,
-              content: JSON.stringify(() => SelectWorksheetDialogContent()),
-              actions: JSON.stringify(() =>
-                SelectWorksheetDialogActions(selectedWorksheetName)
-              ),
+              contentList: SheetNames,
+              // workflowProcess: wp,
+              // workflowCategory: wc,
             };
             dispatch(showDialogAction(dialogParameters));
           } else {
             const selectedWorksheetName = SheetNames && SheetNames[0];
 
             const selectedWorksheetDataXLSX = Sheets[selectedWorksheetName];
-            const worksheetData = xlsx.utils.sheet_to_json(
-              selectedWorksheetDataXLSX
-            );
+            const worksheetData = xlsx.utils.sheet_to_json<
+              Record<string, React.Key>
+            >(selectedWorksheetDataXLSX);
             setSelectedWorksheetName(selectedWorksheetName);
             setSelectedWorksheetData(worksheetData);
           }

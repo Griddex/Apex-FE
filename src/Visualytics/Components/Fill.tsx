@@ -13,7 +13,7 @@ import { SketchPicker } from "react-color";
 import { ColorPicker } from "react-color-gradient-picker";
 import "react-color-gradient-picker/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { updateChartElementObjectAction } from "./../Redux/ChartActions/ChartActions";
+import { updateChartElementObjectAction } from "../Redux/ChartActions/ChartActions";
 
 const useStyles = makeStyles((theme) => ({
   rootFill: {

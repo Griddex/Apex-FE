@@ -103,6 +103,6 @@ export interface ButtonProps {
   type?: "button" | "submit" | "reset" | undefined;
   variant?: "text" | "outlined" | "contained";
   color?: "inherit" | "primary" | "secondary" | "default";
-  startIcon: ReactNode;
+  startIcon?: JSX.Element;
   handleAction?: () => { type: string } | void;
 }
