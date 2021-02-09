@@ -8,10 +8,12 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React from "react";
-import { SketchPicker } from "react-color";
+import React, { ChangeEvent } from "react";
+import { ColorResult, SketchPicker } from "react-color";
 import { ColorPicker } from "react-color-gradient-picker";
 import "react-color-gradient-picker/dist/index.css";
+import { IAction } from "./../../Application/Redux/Actions/ActionTypes";
+import { optionType } from "./FormatAggregatorTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootGradient: {
@@ -36,8 +38,8 @@ export default function Border() {
   const classes = useStyles();
   const theme = useTheme();
 
-  const options = ["None", "Solid", "Gradient"];
-  const [option, setOption] = React.useState("none");
+  const options: optionType[] = ["None", "Solid", "Gradient"];
+  const [option, setOption] = React.useState<optionType>("None");
   const [solidColor, setSolidColor] = React.useState(
     theme.palette.primary.main
   );
@@ -47,14 +49,18 @@ export default function Border() {
   //   { offset: 1.0, color: theme.palette.primary.dark, opacity: 1.0 },
   // ]);
 
-  const handleFillOptionChange = (event) => {
+  const handleFillOptionChange = (event: ChangeEvent<any>) => {
     setOption(event.target.value);
   };
-  const handleSolidColorChangeComplete = (solidColor) => {
-    setSolidColor(solidColor);
+  const handleSolidColorChangeComplete = (
+    solidColor: ColorResult,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const hexColor = solidColor.hex;
+    setSolidColor(hexColor);
   };
 
-  const [gradientAttrs, setGradientAttrs] = React.useState({
+  const initialColorGradient = {
     points: [
       {
         left: 0,
@@ -73,10 +79,27 @@ export default function Border() {
     ],
     degree: 0,
     type: "linear",
-  });
+  };
 
-  const handleGradientAttrsChange = (gradientAttrs) => {
-    setGradientAttrs(gradientAttrs);
+  const reducer = (state: typeof initialColorGradient, action: IAction) => {
+    switch (action.type) {
+      case "UPDATE_GRADIENT":
+        return { ...state, ...action.payload };
+
+      default:
+        return state;
+    }
+  };
+  // const [gradientAttrs, setGradientAttrs] = React.useReducer(initialColorGradient);
+  const [gradientAttrs, localDispatch] = React.useReducer(
+    reducer,
+    initialColorGradient
+  );
+
+  const handleGradientAttrsChange = (
+    gradientAttrs: typeof initialColorGradient
+  ) => {
+    localDispatch({ type: "UPDATE_GRADIENT", payload: { gradientAttrs } });
   };
 
   const presetColors = [
@@ -85,12 +108,13 @@ export default function Border() {
     // theme.palette.tertiary.main,
     theme.palette.secondary.main,
   ];
-  const renderFillOption = (option) => {
+
+  const renderFillOption = (option: optionType) => {
     switch (option) {
-      case "none":
+      case "None":
         return null;
 
-      case "solid":
+      case "Solid":
         return (
           <SketchPicker
             color={solidColor}
@@ -100,7 +124,7 @@ export default function Border() {
           />
         );
 
-      case "gradient":
+      case "Gradient":
         return (
           <ColorPicker
             isGradient
@@ -136,12 +160,12 @@ export default function Border() {
                 value={option}
                 onChange={handleFillOptionChange}
               >
-                {options.map((option, i) => {
+                {options.map((option: optionType, i) => {
                   return (
                     <FormControlLabel
                       className={classes.gradientFormControlLabel}
                       key={i}
-                      value={option.toLowerCase()}
+                      value={option}
                       control={<Radio />}
                       label={option}
                     />
@@ -149,7 +173,7 @@ export default function Border() {
                 })}
               </RadioGroup>
             </FormControl>
-            {!(option === "none") && <div>{renderFillOption(option)}</div>}
+            {!(option === "None") && <div>{renderFillOption(option)}</div>}
           </div>
         </AccordionDetails>
       </Accordion>

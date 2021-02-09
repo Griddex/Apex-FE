@@ -1,7 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-import React from "react";
+import React, { ChangeEvent } from "react";
+import { chartObjNameType } from "../Redux/ChartState/ChartStateTypes";
+import { IChartTabPanel, ISubContextTabData } from "./ChartTabsWrapperTypes";
+import { IChartObjContent } from "./FormatAggregatorTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootSubContextTabs: {
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TabPanel = ({ children, value, index, ...other }) => {
+const TabPanel = ({ children, value, index, ...other }: IChartTabPanel) => {
   const classes = useStyles();
 
   return (
@@ -40,19 +43,30 @@ const TabPanel = ({ children, value, index, ...other }) => {
   );
 };
 
-const ChartTabsWrapper = ({ chartItemsContent }) => {
+const ChartTabsWrapper = ({
+  chartObjsContent,
+  chartObjName,
+}: {
+  chartObjsContent: IChartObjContent;
+  chartObjName: chartObjNameType;
+}) => {
   const classes = useStyles();
-
+  //   const nonNullableContent = chartObjsContent[chartObjName] as NonNullable<
+  //   typeof content
+  // >;
   const [
     currentSubContextTabValue,
     setCurrentSubContextTabValue,
   ] = React.useState(0);
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (event: ChangeEvent<any>, newValue: number) => {
     setCurrentSubContextTabValue(newValue);
   };
 
-  const { subContextTabs, subContextTabPanels } = chartItemsContent;
+  const { chartLayout } = chartObjsContent;
+  const { subContextTabs, subContextTabPanels } = chartLayout as NonNullable<
+    IChartObjContent["chartLayout"]
+  >;
 
   return (
     <div className={classes.rootSubContextTabs}>
@@ -66,7 +80,7 @@ const ChartTabsWrapper = ({ chartItemsContent }) => {
         aria-label="Charts Contextual Tabs"
       >
         {subContextTabs &&
-          subContextTabs.map((tab, i) => {
+          (subContextTabs as ISubContextTabData[]).map((tab, i) => {
             return (
               <Tab
                 key={i}
@@ -81,7 +95,7 @@ const ChartTabsWrapper = ({ chartItemsContent }) => {
         subContextTabPanels.map((tabPanel, i) => {
           return (
             <TabPanel key={i} value={currentSubContextTabValue} index={i}>
-              {tabPanel.component}
+              {tabPanel.component()}
             </TabPanel>
           );
         })}

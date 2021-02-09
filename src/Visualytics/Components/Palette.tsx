@@ -9,11 +9,12 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getPredefinedPalettes from "../Utils/PredefinedPalettes";
 import { setChartCellColorsAction } from "../Redux/ChartActions/ChartActions";
 import generateRandomColors from "../Utils/GenerateRandomColors";
+import { IPaletteRidge, PaletteOptionsType } from "./PaletteTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootPalette: {
@@ -49,16 +50,16 @@ export default function Palette() {
   const dispatch = useDispatch();
 
   const options = ["None", "Predefined", "User"];
-  const [option, setOption] = React.useState("none");
+  const [option, setOption] = React.useState<PaletteOptionsType>("None");
 
-  const handlePaletteOptionChange = (event) => {
+  const handlePaletteOptionChange = (event: ChangeEvent<any>) => {
     setOption(event.target.value);
   };
   //Ability to add and store user's own preset colors
   const palettes = getPredefinedPalettes();
   const [newColors, setNewColors] = React.useState([]);
 
-  const handlePaletteChange = (palette) => {
+  const handlePaletteChange = (palette: string[]) => {
     dispatch(setChartCellColorsAction(palette));
   };
 
@@ -67,7 +68,7 @@ export default function Palette() {
     setNewColors(colors);
   };
 
-  const PaletteRidge = ({ colors, handleClick }) => {
+  const PaletteRidge = ({ colors, handleClick }: IPaletteRidge) => {
     return (
       <div className={classes.paletteRidge} onClick={handleClick}>
         {colors.slice(0, 11).map((color, i) => (
@@ -80,12 +81,12 @@ export default function Palette() {
     );
   };
 
-  const renderPaletteOption = (option) => {
+  const renderPaletteOption = (option: PaletteOptionsType) => {
     switch (option) {
-      case "none":
+      case "None":
         return null;
 
-      case "predefined":
+      case "Predefined":
         return (
           <div className={classes.predefinedPalette}>
             {palettes.map((palette, i) => (
@@ -98,7 +99,7 @@ export default function Palette() {
           </div>
         );
 
-      case "user":
+      case "User":
         return (
           <div>
             <Button
@@ -157,7 +158,7 @@ export default function Palette() {
                 })}
               </RadioGroup>
             </FormControl>
-            {!(option === "none") && renderPaletteOption(option)}
+            {!(option === "None") && renderPaletteOption(option)}
           </div>
         </AccordionDetails>
       </Accordion>

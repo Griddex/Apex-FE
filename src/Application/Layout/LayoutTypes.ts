@@ -4,6 +4,7 @@ export type LayoutNames =
   | "background"
   | "import"
   | "network"
+  | "forecast"
   | "visualytics"
   | "economics"
   | "declineCurveAnalysis"

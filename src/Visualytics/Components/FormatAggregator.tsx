@@ -6,6 +6,10 @@ import React from "react";
 import ChartTabsWrapper from "./ChartTabsWrapper";
 import FillBorderOptions from "./FillBorderOptions";
 import { useSelector } from "react-redux";
+import { IChartObjContent } from "./FormatAggregatorTypes";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { chartObjectsNameTitleMap } from "../Redux/ChartState/ChartState";
+import { IChartObject } from "../Redux/ChartState/ChartStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootFormatAggregator: {
@@ -18,22 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const chartElements = {
-  none: null,
-  chartLayout: "Chart Layout",
-  charplotArea: "Plot Area",
-  Legend: "Legend",
-  yAxis: "Y Axis",
-  xAxis: "X Axis",
-  axisTitle: "Axis Title",
-  chartTitle: "Chart Title",
-  dataLabels: "Data Labels",
-  dataPoint: "Data Point",
-  dataSeries: "Data Series",
-  gridLines: "Grid Lines",
-};
-
-const chartItemsContent = {
+const chartObjsContent: IChartObjContent = {
   none: null,
   chartLayout: {
     subContextTabs: [
@@ -41,8 +30,8 @@ const chartItemsContent = {
       { name: "OtherFormatting", icon: () => <ViewCarouselIcon /> },
     ],
     subContextTabPanels: [
-      { name: "ColorFormatting", component: <FillBorderOptions /> },
-      { name: "OtherFormatting", component: <FillBorderOptions /> },
+      { name: "ColorFormatting", component: () => <FillBorderOptions /> },
+      { name: "OtherFormatting", component: () => <FillBorderOptions /> },
     ],
   },
 };
@@ -50,19 +39,33 @@ const chartItemsContent = {
 export default function FormatAggregator() {
   const classes = useStyles();
 
-  const { chartElementType } = useSelector(
-    (state) => state.chartReducer.selectedChartElementId
+  const { selectedChartObjId, chartObjects } = useSelector(
+    (state: RootState) => state.chartReducer
   );
-  const header = chartElements[chartElementType];
+  const chartObj = chartObjects.find(
+    (o) => o.chartObjId === selectedChartObjId
+  ) as NonNullable<IChartObject>;
+
+  let title = "";
+  let content = {} as IChartObjContent;
+  if (chartObj) {
+    const { chartObjName } = chartObj;
+    title = chartObjectsNameTitleMap[chartObjName];
+    content = chartObjsContent[chartObjName] as IChartObjContent;
+    // const nonNullableContent = chartObjsContent[chartObjName] as NonNullable<
+    //   typeof content
+    // >;
+  }
 
   return (
     <div className={classes.rootFormatAggregator}>
       <Typography className={classes.heading} variant="caption">
-        {header && header.toUpperCase()}
+        {title && title.toUpperCase()}
       </Typography>
-      {header ? (
+      {title ? (
         <ChartTabsWrapper
-          chartItemsContent={chartItemsContent[chartElementType]}
+          chartObjsContent={chartObjsContent}
+          chartObjName={"chartLayout"}
         />
       ) : (
         <div>Chart</div>

@@ -1,17 +1,42 @@
+import { chartObjectsNameTitleMap, initialColorGradient } from "./ChartState";
+
+export type chartObjNameType = keyof typeof chartObjectsNameTitleMap;
 export interface IChartObject {
-  chartId: string;
-  yAxes: { yAxisId: string }[];
+  chartObjId: string;
+  chartObjName: chartObjNameType;
+  formatObj?: {
+    colorScheme: "solid" | "gradient";
+    color?: string;
+    gradient?: colorGradient;
+  };
 }
 export interface IChartState {
-  currentChartIndex: number;
-  selectedChartElementId: Record<string, React.Key>;
-  chartLayoutColor: "white";
-  chartSeriesSolidColors: string[];
+  selectedChartIndex: number;
+  selectedChartObjId: string;
+
   chartObjects: IChartObject[];
-  xAxes: string[];
-  yAxes: string[];
+  formatObj: {
+    chartLayoutColor: "white";
+    chartSeriesSolidColors: string[];
+  };
+  structureObj: {
+    xAxes: { xAxisId: string }[];
+    yAxes: { yAxisId: string }[];
+  };
 }
 
 export interface ICharts {
   [index: number]: () => JSX.Element;
 }
+export interface IChartMetaData {
+  activeIndex?: number;
+  chartAreaBorder?: number;
+  activeDataKey?: string;
+}
+export interface IChartLayoutProps {
+  chartLayoutColor?: string;
+  chartLayoutGradient?: string;
+  chartMetaData?: IChartMetaData;
+}
+
+export type colorGradient = typeof initialColorGradient;

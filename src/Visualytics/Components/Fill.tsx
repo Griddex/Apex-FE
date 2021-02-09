@@ -8,12 +8,16 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React from "react";
-import { SketchPicker } from "react-color";
+import React, { ChangeEvent } from "react";
+import { ColorResult, SketchPicker } from "react-color";
 import { ColorPicker } from "react-color-gradient-picker";
 import "react-color-gradient-picker/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { updateChartElementObjectAction } from "../Redux/ChartActions/ChartActions";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { updateChartObjectAction } from "../Redux/ChartActions/ChartActions";
+import { initialColorGradient } from "../Redux/ChartState/ChartState";
+import { optionType } from "./FormatAggregatorTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootFill: {
@@ -45,14 +49,14 @@ export default function Fill() {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const options = ["None", "Solid", "Gradient"];
-  const [option, setOption] = React.useState("none");
+  const options: optionType[] = ["None", "Solid", "Gradient"];
+  const [option, setOption] = React.useState<optionType>("None");
   const [solidColor, setSolidColor] = React.useState(
     theme.palette.primary.main
   );
 
-  const selectedChartElementId = useSelector(
-    (state) => state.chartReducer.selectedChartElementId
+  const { selectedChartObjId } = useSelector(
+    (state: RootState) => state.chartReducer
   );
 
   // const [gradientColorStops, setGradientColorStops] = React.useState([
@@ -70,64 +74,69 @@ export default function Fill() {
     theme.palette.secondary.main,
   ]);
 
-  const handleFillOptionChange = (event) => {
+  const handleFillOptionChange = (event: ChangeEvent<any>) => {
     setOption(event.target.value);
   };
 
-  const handleSolidColorChangeComplete = (solidColor) => {
-    setSolidColor(solidColor.hex);
+  const handleSolidColorChangeComplete = (
+    solidColor: ColorResult,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const hexColor = solidColor.hex;
+    setSolidColor(hexColor);
 
     dispatch(
-      updateChartElementObjectAction({
-        id: selectedChartElementId.id,
-        colorScheme: "solid",
-        color: solidColor.hex,
-        gradient: null,
+      updateChartObjectAction({
+        chartObjId: selectedChartObjId,
+        chartObjName: "none", //Pass obj here
+        formatObj: {
+          colorScheme: "solid",
+          color: solidColor.hex,
+        },
       })
     );
-    setPresetColors((prevState) => [...prevState, solidColor]);
+
+    setPresetColors((prevState) => [...prevState, hexColor]);
   };
 
-  const [gradientAttrs, setGradientAttrs] = React.useState({
-    points: [
-      {
-        left: 0,
-        red: 0,
-        green: 0,
-        blue: 0,
-        alpha: 1,
-      },
-      {
-        left: 100,
-        red: 255,
-        green: 0,
-        blue: 0,
-        alpha: 1,
-      },
-    ],
-    degree: 0,
-    type: "linear",
-  });
+  const reducer = (state: typeof initialColorGradient, action: IAction) => {
+    switch (action.type) {
+      case "UPDATE_GRADIENT":
+        return { ...state, ...action.payload };
 
-  const handleGradientAttrsChange = (gradientAttrs) => {
-    setGradientAttrs(gradientAttrs);
+      default:
+        return state;
+    }
+  };
+  // const [gradientAttrs, setGradientAttrs] = React.useReducer(initialColorGradient);
+  const [gradientAttrs, localDispatch] = React.useReducer(
+    reducer,
+    initialColorGradient
+  );
+
+  const handleGradientAttrsChange = (
+    gradientAttrs: typeof initialColorGradient
+  ) => {
+    localDispatch({ type: "UPDATE_GRADIENT", payload: { gradientAttrs } });
 
     dispatch(
-      updateChartElementObjectAction({
-        id: selectedChartElementId.id,
-        colorScheme: "gradient",
-        gradient: gradientAttrs,
-        color: null,
+      updateChartObjectAction({
+        chartObjId: selectedChartObjId,
+        chartObjName: "none",
+        formatObj: {
+          colorScheme: "gradient",
+          gradient: gradientAttrs,
+        },
       })
     );
   };
 
-  const renderFillOption = (option) => {
+  const renderFillOption = (option: optionType) => {
     switch (option) {
-      case "none":
+      case "None":
         return null;
 
-      case "solid":
+      case "Solid":
         return (
           <SketchPicker
             className={classes.colorPicker}
@@ -138,7 +147,7 @@ export default function Fill() {
           />
         );
 
-      case "gradient":
+      case "Gradient":
         return (
           <div style={{ width: "190px" }}>
             <ColorPicker
@@ -189,7 +198,7 @@ export default function Fill() {
                 })}
               </RadioGroup>
             </FormControl>
-            {!(option === "none") && renderFillOption(option)}
+            {!(option === "None") && renderFillOption(option)}
           </div>
         </AccordionDetails>
       </Accordion>

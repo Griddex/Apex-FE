@@ -5,8 +5,8 @@ import {
   PERSIST_CHARTELEMENTID,
   SET_CHARTCOLOR,
   SET_CHARTCELLCOLORS,
-  SET_CHARTELEMENTOBJECT,
-  UPDATE_CHARTELEMENTOBJECT,
+  SET_CHARTOBJECT,
+  UPDATE_CHARTOBJECT,
 } from "../ChartActions/ChartActions";
 import chartState from "../ChartState/ChartState";
 import { IChartState } from "../ChartState/ChartStateTypes";
@@ -22,10 +22,10 @@ const chartReducer = (state = chartState, action: IAction): IChartState => {
     case PERSIST_CHARTELEMENTID:
       return {
         ...state,
-        selectedChartElementId: {
-          ...state.selectedChartElementId,
-          ...action.payload,
-        },
+        // selectedChartObjId: {
+        //   ...state.selectedChartObjId,
+        ...action.payload,
+        // },
       };
 
     case SET_CHARTCOLOR:
@@ -40,33 +40,38 @@ const chartReducer = (state = chartState, action: IAction): IChartState => {
         ...action.payload,
       };
 
-    case SET_CHARTELEMENTOBJECT: {
+    case SET_CHARTOBJECT: {
       const filteredObjects =
         state.chartObjects &&
-        state.chartObjects.filter((obj) => obj.chartId !== action.payload.id);
+        state.chartObjects.filter(
+          (obj) => obj.chartObjId !== action.payload.id
+        );
 
       return {
         ...state,
         chartObjects: [...filteredObjects, action.payload],
       };
     }
-    case UPDATE_CHARTELEMENTOBJECT: {
-      const selectedChartElement =
-        state.chartObjects &&
-        state.chartObjects.find((obj) => obj.chartId === action.payload.id);
 
-      const updatedSelectedChartElement = {
-        ...selectedChartElement,
+    case UPDATE_CHARTOBJECT: {
+      const selectedChartObj =
+        state.chartObjects &&
+        state.chartObjects.find((obj) => obj.chartObjId === action.payload.id);
+
+      const updatedSelectedChartObj = {
+        ...selectedChartObj,
         ...action.payload,
       };
 
       const otherObjects =
         state.chartObjects &&
-        state.chartObjects.filter((obj) => obj.chartId !== action.payload.id);
+        state.chartObjects.filter(
+          (obj) => obj.chartObjId !== action.payload.id
+        );
 
       return {
         ...state,
-        chartObjects: [...otherObjects, updatedSelectedChartElement],
+        chartObjects: [...otherObjects, updatedSelectedChartObj],
       };
     }
 

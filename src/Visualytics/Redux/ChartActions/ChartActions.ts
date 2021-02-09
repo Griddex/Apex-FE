@@ -1,27 +1,29 @@
-import { ChartObjectType } from "../ChartState/ChartStateTypes";
+import { chartObjectsNameTitleMap } from "../ChartState/ChartState";
+import { IChartObject } from "./../ChartState/ChartStateTypes";
 
 export const PERSIST_CHARTINDEX = "PERSIST_CHARTINDEX";
 export const PERSIST_CHARTELEMENTID = "PERSIST_CHARTELEMENTID";
 export const SET_CHARTCOLOR = "SET_CHARTCOLOR";
 export const SET_CHARTCELLCOLORS = "SET_CHARTCELLCOLORS";
-export const SET_CHARTELEMENTOBJECT = "SET_CHARTELEMENTOBJECT";
-export const UPDATE_CHARTELEMENTOBJECT = "UPDATE_CHARTELEMENTOBJECT";
+export const SET_CHARTOBJECT = "SET_CHARTOBJECT";
+export const UPDATE_CHARTOBJECT = "UPDATE_CHARTOBJECT";
 
-export const persistChartIndexAction = (currentChartIndex: number) => {
+export const persistChartIndexAction = (selectedChartIndex: number) => {
   return {
     type: PERSIST_CHARTINDEX,
     payload: {
-      currentChartIndex,
+      selectedChartIndex,
     },
   };
 };
 
-export const setSelectedChartElementIdAction = (
-  selectedChartElementId: React.Key
+export const setSelectedChartObjIdAction = (
+  selectedChartObjId: React.Key,
+  chartObjName: keyof typeof chartObjectsNameTitleMap
 ) => {
   return {
     type: PERSIST_CHARTELEMENTID,
-    payload: selectedChartElementId,
+    payload: { selectedChartObjId, chartObjName },
   };
 };
 
@@ -43,20 +45,16 @@ export const setChartCellColorsAction = (chartSeriesSolidColors: string[]) => {
   };
 };
 
-export const setChartElementObjectAction = (
-  selectedChartElementObject: ChartObjectType
-) => {
+export const setChartObjectAction = (selectedChartObj: IChartObject) => {
   return {
-    type: SET_CHARTELEMENTOBJECT,
-    payload: selectedChartElementObject,
+    type: SET_CHARTOBJECT,
+    payload: selectedChartObj,
   };
 };
 
-export const updateChartElementObjectAction = (
-  selectedChartElementObject: ChartObjectType
-) => {
+export const updateChartObjectAction = (selectedChartObj: IChartObject) => {
   return {
-    type: UPDATE_CHARTELEMENTOBJECT,
-    payload: selectedChartElementObject,
+    type: UPDATE_CHARTOBJECT,
+    payload: selectedChartObj,
   };
 };

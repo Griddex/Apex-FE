@@ -5,11 +5,16 @@ import LineChart from "../Components/LineChart";
 import StackedAreaChart from "../Components/StackedAreaChart";
 import BarChart from "../Components/BarChart";
 import Button from "@material-ui/core/Button";
-import { updateChartElementObjectAction } from "../Redux/ChartActions/ChartActions";
+import {
+  setChartObjectAction,
+  updateChartObjectAction,
+} from "../Redux/ChartActions/ChartActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ICharts } from "../Redux/ChartState/ChartStateTypes";
 import { IChartObject } from "./../Redux/ChartState/ChartStateTypes";
 // const charts = ["StackedAreaChart", "LineChart", "DoughnutChart"];
+import { v4 as uuidv4 } from "uuid";
+
 const tempData = [
   { name: "Oil", value: 450 },
   { name: "Gas", value: 250 },
@@ -26,13 +31,11 @@ const charts: ICharts = {
 const SelectChart = () => {
   const dispatch = useDispatch();
 
-  const {
-    currentChartIndex,
-    selectedChartElementId,
-    chartObjects,
-  } = useSelector((state: RootState) => state.chartReducer);
+  const { selectedChartIndex, selectedChartObjId, chartObjects } = useSelector(
+    (state: RootState) => state.chartReducer
+  );
 
-  const i = currentChartIndex;
+  const i = selectedChartIndex;
   const chart = charts[i || 0];
 
   return (
@@ -40,15 +43,14 @@ const SelectChart = () => {
       <Button
         onClick={() => {
           const chartObject = chartObjects.find(
-            (obj) => obj.chartId === selectedChartElementId.id
+            (obj) => obj.chartObjId === selectedChartObjId
           );
-          const { yAxes } = chartObject as IChartObject;
-          const lastYaxisId = yAxes ? yAxes.length : 0;
+          const lastYaxisId = uuidv4();
 
           dispatch(
-            updateChartElementObjectAction({
-              id: selectedChartElementId,
-              yAxes: { id: lastYaxisId + 1 },
+            setChartObjectAction({
+              chartObjId: selectedChartObjId,
+              chartObjName: "yAxis",
             })
           );
         }}

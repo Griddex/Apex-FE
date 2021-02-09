@@ -25,6 +25,8 @@ export const getExistingWorkflowlabel: {
   facilitiesInputDeckExisting: "Existing Facilities InputDeck",
   forecastInputDeckExisting: "Existing Forecast InputDeck",
   productionInputDataExisting: "Existing Production Data",
+  forecastResultsVisualytics: "Forecast Results Visualytics",
+  forecastResultsExisting: "Existing Forecast Results",
   economicsInputDataExisting: "Existing Economics Data",
   economicsParametersExisting: "Existing Economics Parameters Data",
   networkExisting: "Existing Network Data",

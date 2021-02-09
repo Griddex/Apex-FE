@@ -6,6 +6,7 @@ import AdministrationLayout from "../../Administration/Routes/Common/Administrat
 import CorporateLayout from "../../Corporate/Routes/Common/CorporateLayout";
 import DeclineCurveAnalysisLayout from "../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout";
 import EconomicsLayout from "../../Economics/Routes/Common/EconomicsLayout";
+import ForecastLayout from "../../Forecast/Common/ForecastLayout";
 import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/ImportActions";
 import InputLayout from "../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "../../Network/Common/NetworkLayout";
@@ -77,6 +78,7 @@ const Layout = () => {
                   background: <ProductBackground />,
                   import: <InputLayout />,
                   network: <NetworkLayout />,
+                  forecast: <ForecastLayout />,
                   visualytics: <VisualyticsLayout />,
                   economics: <EconomicsLayout />,
                   declineCurveAnalysis: <DeclineCurveAnalysisLayout />,

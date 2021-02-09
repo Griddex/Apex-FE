@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { IAction } from "../../Redux/Actions/ActionTypes";
 import { workflowSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { showContextDrawerAction } from "../../Redux/Actions/LayoutActions";
 import { setWorkflowProcessAction } from "../../Redux/Actions/WorkflowActions";
@@ -56,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IModuleCardProps {
-  moduleAction: () => { type: string; payload: { loadWorkflow: boolean } };
+  isDispatched?: boolean;
+  moduleAction: () => IAction | void;
   icon: JSX.Element;
   name: string;
   description: string;
@@ -66,7 +68,17 @@ interface IModuleCardProps {
 }
 
 const ModuleCard: React.FC<IModuleCardProps> = (props) => {
-  const { moduleAction, icon, name, description, route, wP, wC } = props;
+  const {
+    isDispatched,
+    moduleAction,
+    icon,
+    name,
+    description,
+    route,
+    wP,
+    wC,
+  } = props;
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -76,8 +88,6 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
       <CardActionArea
         className={classes.cardActionArea}
         onClick={() => {
-          //use redux saga to send this all at once,
-          //when all return, do history push
           dispatch(setWorkflowProcessAction(wP, wC));
           dispatch(workflowSetMenuAction(name));
           dispatch(moduleAction());

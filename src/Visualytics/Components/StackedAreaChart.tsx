@@ -13,21 +13,31 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
-  setChartElementObjectAction,
-  setSelectedChartElementIdAction,
+  setChartObjectAction,
+  setSelectedChartObjIdAction,
 } from "../Redux/ChartActions/ChartActions";
 import ItemTypes from "../Utils/DragAndDropItemTypes";
 import removeAllSpaces from "../Utils/RemoveAllSpaces";
+import {
+  IChartLayoutProps,
+  IChartMetaData,
+  IChartState,
+} from "./../Redux/ChartState/ChartStateTypes";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
     marginTop: 10,
-    backgroundColor: (props) =>
+    backgroundColor: (props: IChartLayoutProps) =>
       props.chartLayoutColor ? props.chartLayoutColor : "white",
-    background: (props) =>
-      props.chartLayoutGradient ? props.chartLayoutGradient.style : null,
-    border: (props) => `${props.chartAreaBorder}px solid`,
+    backgroundImage: (props: IChartLayoutProps) =>
+      props.chartLayoutGradient
+        ? props.chartLayoutGradient
+        : "linear-gradient(white, white)",
+    border: (props: IChartLayoutProps) =>
+      `${props?.chartMetaData?.chartAreaBorder}px solid`,
   },
   area: {
     "&:hover": { backgroundColor: "green" },
@@ -67,10 +77,10 @@ const data = [
 //   { date: "1/2/2020", AGBA-AS1: {oilRate:2000,gasRate:53}, AGBA-AS2: {oilRate:2000,gasRate:100}, AGBA-AS3:{oilRate:2400,gasRate:34} },]}
 // }
 
-const StackedAreaChart = (props) => {
+const StackedAreaChart = (props: any) => {
   const dispatch = useDispatch();
 
-  const chartRef = React.useRef(null);
+  const chartRef = React.useRef<any>("");
 
   const [again, setAgain] = React.useState(0);
   // const [yAxisStyleOnHover, setyAxisStyleOnHover] = React.useState(false);
@@ -106,40 +116,36 @@ const StackedAreaChart = (props) => {
     };
   }
 
-  React.useEffect(() => {
-    const chartId = chartRef.current && chartRef.current.uniqueChartId;
-
-    if (chartId === null) setAgain(1);
-    else dispatch(setChartElementObjectAction({ id: chartId }));
-    // eslint-disable-next-line
-  }, [again]);
-
-  const chartObjects = useSelector((state) => state.chartReducer.chartObjects);
+  const { chartObjects } = useSelector(
+    (state: RootState) => state.chartReducer
+  );
   const chartObject = chartObjects.find(
-    (obj) => obj.id === chartRef.current.uniqueChartId
+    (obj) => obj.chartObjId === chartRef.current.uniqueChartId
   );
 
-  const chartLayoutColor = chartObject && chartObject.color;
-  const chartLayoutGradient = chartObject && chartObject.gradient;
-  const { chartSeriesSolidColors } = useSelector((state) => state.chartReducer);
+  const chartLayoutColor = chartObject?.formatObj?.color;
+  const chartLayoutGradient = chartObject?.formatObj?.gradient;
+  const {
+    formatObj: { chartSeriesSolidColors },
+  } = useSelector((state: RootState) => state.chartReducer);
 
   const handleClickAway = () => {
     localDispatch({
       type: "RESET",
     });
     // dispatch(
-    //   setSelectedChartElementIdAction({
+    //   setSelectedChartObjIdAction({
     //     id: chartRef.current.uniqueChartId,
-    //     chartElementType: "none",
+    //     chartObjName: "none",
     //   })
     // );
     // dispatch(contextDrawerCollapseAction());
   };
 
   const initializeChartMetaData = () => {
-    const activeIndex = null;
+    const activeIndex = 0;
     const chartAreaBorder = 0;
-    const activeDataKey = null;
+    const activeDataKey = "";
 
     return {
       activeIndex,
@@ -148,7 +154,7 @@ const StackedAreaChart = (props) => {
     };
   };
 
-  const chartMetaDataReducer = (state, action) => {
+  const chartMetaDataReducer = (state: IChartMetaData, action: IAction) => {
     switch (action.type) {
       case "SET_ACTIVEINDEX":
         return { ...state, activeIndex: action.payload.activeIndex };
@@ -207,6 +213,18 @@ const StackedAreaChart = (props) => {
   //         outlineStyle: "dashed",
   //       }
   //     : {};
+  React.useEffect(() => {
+    const chartObjId = chartRef.current && chartRef.current.uniqueChartId;
+
+    if (chartObjId === null) setAgain(1);
+    else
+      dispatch(
+        setChartObjectAction({
+          chartObjId: chartObjId,
+          chartObjName: "chartLayout",
+        })
+      );
+  }, [again]);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -220,10 +238,10 @@ const StackedAreaChart = (props) => {
           // strokeWidth={chartAreaBorder}
           onClick={(chartEventObj, event) => {
             dispatch(
-              setSelectedChartElementIdAction({
-                id: chartRef.current.uniqueChartId,
-                chartElementType: "chartLayout",
-              })
+              setSelectedChartObjIdAction(
+                chartRef.current.uniqueChartId,
+                "chartLayout"
+              )
             );
             localDispatch({
               type: "SET_CHARTAREABORDER",
@@ -251,29 +269,28 @@ const StackedAreaChart = (props) => {
           <XAxis dataKey="name" />
           {/* {yAxes &&
             yAxes.map((axis, i) => <YAxis yAxisId={i} orientation="left" />)} */}
-
-          <YAxis
-            ref={drop}
-            id="yAxes1"
-            className={classes.yAxis}
-            yAxisId="left1"
-            orientation="left"
-            scale="auto"
-            dataKey="amt"
-            type="number"
-            // domain={["dataMin", "dataMax"]}
-            // onMouseOver={(obj, index, event) => {
-            //   console.log(obj, index, event);
-            //   event.nativeEvent.stopPropagation();
-            // }}
-            onClick={(obj, index, event) => console.log(obj, index, event)}
-            // onMouseEnter={(o, e, a) => setyAxisStyleOnHover(true)}
-            // onMouseLeave={(o, e, a) => setyAxisStyleOnHover(false)}
-            // style={yAxisStyle()}
-            style={dndYAxisStyle}
-            name="1"
-          />
-
+          <div ref={drop}>
+            <YAxis
+              // id="yAxes1"
+              // className={classes.yAxis}
+              yAxisId="left1"
+              orientation="left"
+              scale="auto"
+              dataKey="amt"
+              type="number"
+              // domain={["dataMin", "dataMax"]}
+              // onMouseOver={(obj, index, event) => {
+              //   console.log(obj, index, event);
+              //   event.nativeEvent.stopPropagation();
+              // }}
+              onClick={(obj, index, event) => console.log(obj, index, event)}
+              // onMouseEnter={(o, e, a) => setyAxisStyleOnHover(true)}
+              // onMouseLeave={(o, e, a) => setyAxisStyleOnHover(false)}
+              // style={yAxisStyle()}
+              // style={dndYAxisStyle}
+              name="1"
+            />
+          </div>
           <YAxis
             yAxisId="left2"
             orientation="left"

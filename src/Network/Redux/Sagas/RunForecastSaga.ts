@@ -1,16 +1,15 @@
+import { ActionType } from "@redux-saga/types";
 import { call, put, select, takeLeading } from "redux-saga/effects";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
   runForecastFailureAction,
   runForecastSuccessAction,
   RUN_FORECAST_REQUEST,
 } from "../Actions/ForecastingActions";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { ActionType } from "@redux-saga/types";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
 
 export default function* watchRunForecastSaga() {
   yield takeLeading<ActionType>(RUN_FORECAST_REQUEST, runForecastSaga);
@@ -19,13 +18,13 @@ export default function* watchRunForecastSaga() {
 function* runForecastSaga(action: IAction) {
   const { payload } = action;
 
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { networkId } = yield select((state) => state.networkReducer);
   const { selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
   );
 
   const data = {
-    projectId,
+    networkId,
     forecastingParameterId: selectedForecastingParametersId,
   };
 

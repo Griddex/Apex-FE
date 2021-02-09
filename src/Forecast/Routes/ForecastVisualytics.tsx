@@ -2,11 +2,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
-import SelectChart from "./SelectChart";
-import SelectChartDataPanel from "./SelectChartDataPanel";
-import FormatAggregator from "../Components/FormatAggregator";
+import SelectChartDataPanel from "../Common/SelectForecastChartDataPanel";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import FormatAggregator from "../../Visualytics/Components/FormatAggregator";
+import { IForecastRoutes } from "./ForecastRoutesTypes";
+import SelectChart from "../../Visualytics/Common/SelectChart";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Visualytics = () => {
+const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -71,4 +72,4 @@ const Visualytics = () => {
   );
 };
 
-export default Visualytics;
+export default ForecastVisualytics;

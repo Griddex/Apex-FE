@@ -129,6 +129,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         statusCode,
         nodeElements,
         edgeElements,
+        networkId,
       } = action.payload;
 
       return {
@@ -137,6 +138,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         statusCode,
         nodeElements,
         edgeElements,
+        networkId,
       };
     }
 

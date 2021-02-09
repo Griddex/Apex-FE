@@ -26,6 +26,7 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import history from "../../Services/HistoryService";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
 import { IMainDrawerData } from "./MainDrawerTypes";
+import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => ({
@@ -125,6 +126,15 @@ const MainDrawer = () => {
       ),
     },
     {
+      name: "Forecast",
+      route: `${url}/forecast`,
+      icon: (
+        <InsertPhotoOutlinedIcon
+          fontSize={expandMainDrawer ? "large" : "default"}
+        />
+      ),
+    },
+    {
       name: "Visualytics",
       route: `${url}/visualytics`,
       icon: <BarChartIcon fontSize={expandMainDrawer ? "large" : "default"} />,
@@ -190,16 +200,7 @@ const MainDrawer = () => {
           const { name, route, icon } = drawerData;
 
           return (
-            <Tooltip
-              key={name}
-              title={name}
-              placement="right"
-              // interactive
-              // open={openTooltip}
-              // onClose={handleTooltipClose}
-              // onOpen={handleTooltipOpen}
-              arrow
-            >
+            <Tooltip key={name} title={name} placement="right" arrow>
               <MenuItem
                 className={clsx(
                   classes.menuItem,
@@ -263,12 +264,6 @@ const MainDrawer = () => {
       </MenuList>
     </Drawer>
   );
-};
-
-MainDrawer.propTypes = {
-  animation: PropTypes.string,
-  direction: PropTypes.string,
-  visible: PropTypes.bool,
 };
 
 export default React.memo(MainDrawer);

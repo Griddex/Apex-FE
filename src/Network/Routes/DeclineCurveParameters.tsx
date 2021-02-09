@@ -281,25 +281,24 @@ export default function DeclineCurveParameters({
       {
         key: "rateofChangeRate1P1C",
         name: "DECLINE RATE (1P1C)",
-        editable: false,
+        editable: true,
         resizable: true,
         width: 200,
       },
       {
         key: "rateofChangeRate2P2C",
         name: "DECLINE RATE (2P2C)",
-        editable: false,
+        editable: true,
         resizable: true,
         width: 200,
       },
       {
         key: "rateofChangeRate3P3C",
         name: "DECLINE RATE (3P3C)",
-        editable: false,
+        editable: true,
         resizable: true,
         width: 200,
       },
-
       {
         key: "declineExponent1P1C",
         name: "DECLINE EXPONENT (1P1C)",

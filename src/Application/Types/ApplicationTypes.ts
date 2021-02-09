@@ -28,6 +28,8 @@ export interface IExistingDataProps {
     | "productionInputDataExisting"
     | "economicsInputDataExisting"
     | "networkExisting"
+    | "forecastResultsVisualytics"
+    | "forecastResultsExisting"
     | "economicsParametersExisting";
   wkCy?: "existingDataWorkflows";
   finalAction?: () => void;

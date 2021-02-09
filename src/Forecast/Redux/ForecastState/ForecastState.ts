@@ -1,14 +1,17 @@
-import { chartObjNameType, IChartState } from "./ChartStateTypes";
+import {
+  forecastChartObjNameType,
+  IForecastChartState,
+} from "./ForecastStateTypes";
 
-export const chartObjectsNameTitleMap = {
+export const forecastChartObjectsNameTitleMap = {
   none: "",
-  chartLayout: "Chart Layout",
-  chartPlotArea: "Plot Area",
+  forecastChartLayout: "Chart Layout",
+  forecastChartPlotArea: "Plot Area",
   legend: "Legend",
   yAxis: "Y Axis",
   xAxis: "X Axis",
   axisTitle: "Axis Title",
-  chartTitle: "Chart Title",
+  forecastChartTitle: "Chart Title",
   dataLabels: "Data Labels",
   dataPoint: "Data Point",
   dataSeries: "Data Series",
@@ -36,15 +39,15 @@ export const initialColorGradient = {
   type: "linear",
 };
 
-const chartState: IChartState = {
+const forecastChartState: IForecastChartState = {
   selectedChartIndex: 0,
   selectedChartObjId: "",
-  chartObjects: [],
+  forecastChartObjects: [],
   structureObj: { xAxes: [], yAxes: [] },
-  // chartObjName: "None",
+  // forecastChartObjName: "None",
   formatObj: {
-    chartLayoutColor: "white",
-    chartSeriesSolidColors: [
+    forecastChartLayoutColor: "white",
+    forecastChartSeriesSolidColors: [
       "#31BFCC",
       "#DA1B57",
       "#00C49F",
@@ -352,4 +355,4 @@ const chartState: IChartState = {
     ],
   },
 };
-export default chartState;
+export default forecastChartState;

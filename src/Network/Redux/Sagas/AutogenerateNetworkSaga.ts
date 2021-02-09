@@ -54,7 +54,7 @@ export function* autoGenerateNetworkSaga(action: IAction) {
     const {
       data: {
         success,
-        data: { nodes: nodeElements, edges: edgeElements },
+        data: { nodes: nodeElements, edges: edgeElements, networkId },
         statusCode,
       },
     } = result;
@@ -62,7 +62,14 @@ export function* autoGenerateNetworkSaga(action: IAction) {
     const successAction = autoGenerateNetworkSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, success, statusCode, nodeElements, edgeElements },
+      payload: {
+        ...payload,
+        success,
+        statusCode,
+        nodeElements,
+        edgeElements,
+        networkId,
+      },
     });
 
     yield put(hideSpinnerAction());
