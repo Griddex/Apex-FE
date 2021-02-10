@@ -20,7 +20,7 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import { runForecastRequestAction } from "../../Redux/Actions/ForecastingActions";
+import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
 
 const ForecastActionsMenu = () => {
   const dispatch = useDispatch();

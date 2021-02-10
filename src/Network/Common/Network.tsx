@@ -33,6 +33,7 @@ import {
 } from "../Components/ContextDrawer/ManifoldContextDrawer";
 import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
 import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
+import NetworkTitlePlaque from "../Components/TitlePlaques/NetworkTitlePlaque";
 import FlowstationNode from "../Components/Widgets/FlowstationWidget";
 import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
 import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
@@ -269,7 +270,12 @@ const Network = () => {
             style={dndCanvasStyle}
             className={classes.networkContent}
           >
-            <NetworkDiagramButtons {...NetworkDiagramIconsProps} />
+            <div
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <NetworkTitlePlaque />
+              <NetworkDiagramButtons {...NetworkDiagramIconsProps} />
+            </div>
             <ReactFlow
               elements={
                 renderCount.current === 1 ? allNetworkElements : networkElements

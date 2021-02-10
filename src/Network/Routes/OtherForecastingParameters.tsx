@@ -5,7 +5,7 @@ import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectNative from "../../Application/Components/Selects/ApexSelectNative";
-import { persistForecastParametersAction } from "../Redux/Actions/ForecastingActions";
+import { persistForecastParametersAction } from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -57,12 +57,12 @@ const OtherForecastingParameters = () => {
 
   React.useEffect(() => {
     dispatch(
-      persistForecastParametersAction({
+      persistForecastParametersAction(
         targetFluidTitle,
         timeFrequency,
         realtimeResults,
-        endForecastDate,
-      })
+        endForecastDate
+      )
     );
   }, [targetFluidTitle, timeFrequency, realtimeResults, endForecastDate]);
 

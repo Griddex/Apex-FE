@@ -44,6 +44,21 @@ export const EXISTINGFORECASTPARAMETERS_FAILURE =
 export const EXISTINGNETWORKDATA_REQUEST = "EXISTINGNETWORKDATA_REQUEST";
 export const EXISTINGNETWORKDATA_SUCCESS = "EXISTINGNETWORKDATA_SUCCESS";
 export const EXISTINGNETWORKDATA_FAILURE = "EXISTINGNETWORKDATA_FAILURE";
+export const RUN_FORECAST_REQUEST = "RUN_FORECAST_REQUEST";
+export const SAVE_FORECASTPARAMETERS_REQUEST =
+  "SAVE_FORECASTPARAMETERS_REQUEST";
+export const SAVE_FORECASTPARAMETERS_SUCCESS =
+  "SAVE_FORECASTPARAMETERS_SUCCESS";
+export const SAVE_FORECASTPARAMETERS_FAILURE =
+  "SAVE_FORECASTPARAMETERS_FAILURE";
+export const PERSIST_FORECASTPARAMETERS = "PERSIST_FORECASTPARAMETERS";
+
+export const runForecastRequestAction = () => {
+  return {
+    type: RUN_FORECAST_REQUEST,
+    meta: { showSpinner: true, message: "Running forecast..." },
+  };
+};
 
 export const updateNetworkParameterAction = (name: string, value: string) => {
   return {
@@ -324,5 +339,50 @@ export const fetchExistingNetworkDataFailureAction = () => {
       statusCode: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const saveForecastParametersRequestAction = () => {
+  return {
+    type: SAVE_FORECASTPARAMETERS_REQUEST,
+    meta: { showSpinner: true, message: "Saving forecast parameters..." },
+  };
+};
+
+export const saveForecastParametersSuccessAction = () => {
+  return {
+    type: SAVE_FORECASTPARAMETERS_SUCCESS,
+    payload: {
+      statusCode: 0,
+      data: [],
+    },
+  };
+};
+
+export const saveForecastParametersFailureAction = () => {
+  return {
+    type: SAVE_FORECASTPARAMETERS_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const persistForecastParametersAction = (
+  targetFluidTitle: string,
+  timeFrequency: string,
+  realtimeResults: string,
+  endForecastDate: Date
+) => {
+  return {
+    type: PERSIST_FORECASTPARAMETERS,
+    payload: {
+      targetFluidTitle,
+      timeFrequency,
+      realtimeResults,
+      endForecastDate,
+    },
+    meta: { showSpinner: true, message: "" },
   };
 };

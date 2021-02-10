@@ -53,9 +53,9 @@ function* registerSaga(action: IAction) {
       ...failureAction,
       payload: { ...payload, statusCode, errors },
     });
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }
 
 function forwardTo(routeUrl: string) {

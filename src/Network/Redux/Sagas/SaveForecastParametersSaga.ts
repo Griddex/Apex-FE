@@ -6,10 +6,10 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import history from "../../../Application/Services/HistoryService";
 import {
-  saveForecastParametersFailureAction,
-  saveForecastParametersSuccessAction,
   SAVE_FORECASTPARAMETERS_REQUEST,
-} from "../Actions/ForecastingActions";
+  saveForecastParametersSuccessAction,
+  saveForecastParametersFailureAction,
+} from "../Actions/NetworkActions";
 
 export default function* watchSaveForecastParametersSaga() {
   yield takeLeading<ActionType>(
@@ -54,9 +54,9 @@ function* saveForecastParametersSaga(action: IAction) {
       ...failureAction,
       payload: { ...payload, statusCode, errors },
     });
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }
 
 function forwardTo(routeUrl: string) {

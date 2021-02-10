@@ -111,7 +111,7 @@ export function* saveInputDeckSaga(action: IAction) {
     });
 
     yield put(showDialogAction(failureDialogParameters(inputDeckType)));
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }

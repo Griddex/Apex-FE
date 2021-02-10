@@ -84,9 +84,13 @@ export default function ExistingForecastingParameters() {
   const existingData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
   );
+  console.log(
+    "Logged output --> ~ file: ExistingForecastingParameters.tsx ~ line 87 ~ ExistingForecastingParameters ~ existingData",
+    existingData
+  );
 
   const { title, description } = existingData;
-  const transExistingData = existingData["forecastingParametersList"].map(
+  const transExistingData = existingData["forecastingParametersGroupList"].map(
     (row: any) => {
       const { _id, type, createdAt, declineParameters } = row;
 

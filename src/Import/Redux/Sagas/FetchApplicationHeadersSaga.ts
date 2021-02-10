@@ -103,7 +103,7 @@ function* fetchApplicationHeadersSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }

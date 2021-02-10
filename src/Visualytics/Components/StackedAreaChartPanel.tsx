@@ -106,7 +106,7 @@ const StackedAreaChartPanel = () => {
   // };
 
   return (
-    <>
+    <div style={{ height: "100%" }}>
       <TreeView />
       <div className={classes.chartProps}>
         <AnalyticsComp
@@ -136,7 +136,7 @@ const StackedAreaChartPanel = () => {
           direction="Vertical"
         />
       </div>
-    </>
+    </div>
   );
 };
 

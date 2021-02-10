@@ -44,9 +44,9 @@ function* loginSaga(action: IAction) {
       ...failureAction,
       payload: { ...payload, errors },
     });
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }
 
 function forwardTo(routeUrl: string) {

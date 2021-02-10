@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
 import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
@@ -154,7 +155,7 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
       production network diagram with the current parameters?`,
       iconType: "confirmation",
       actionsList: () =>
-        DialogOkayCancelButtons(
+        DialogGenerateNetworkCancelButtons(
           [true, true],
           [true, true],
           [unloadDialogsAction, autoGenerateNetworkRequestAction]

@@ -71,8 +71,6 @@ export function* autoGenerateNetworkSaga(action: IAction) {
         networkId,
       },
     });
-
-    yield put(hideSpinnerAction());
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
 
@@ -83,7 +81,7 @@ export function* autoGenerateNetworkSaga(action: IAction) {
 
     yield put(showDialogAction(failureDialogParameters()));
     // yield call(forwardTo, "/apex/network");
-
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

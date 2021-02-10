@@ -9,6 +9,7 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/SaveNetworkSuccessFailureDialogParameters";
 import {
+  fetchExistingNetworkDataRequestAction,
   saveNetworkFailureAction,
   saveNetworkSuccessAction,
   SAVENETWORK_REQUEST,
@@ -51,7 +52,7 @@ function* saveNetworkSaga(action: IAction) {
     const result = yield call(saveNetworkAPI, `${getBaseUrl()}/network`);
 
     const {
-      // data: { data: facilitiesInputDeckExisting }, //prevent 2nd trip to server
+      data: { data: selectedNetworkId }, //prevent 2nd trip to server
       statusCode,
       success,
     } = result;
@@ -59,9 +60,10 @@ function* saveNetworkSaga(action: IAction) {
     const successAction = saveNetworkSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, success },
+      payload: { ...payload, statusCode, success, selectedNetworkId },
     });
 
+    yield put(fetchExistingNetworkDataRequestAction());
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveNetworkFailureAction();
@@ -73,9 +75,9 @@ function* saveNetworkSaga(action: IAction) {
 
     yield put(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
-      showDialogAction(failureDialogParameters(errors[0].message))
+      showDialogAction(failureDialogParameters(errors.message))
     );
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }

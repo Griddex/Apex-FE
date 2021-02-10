@@ -16,7 +16,7 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import { saveForecastParametersRequestAction } from "../../Redux/Actions/ForecastingActions";
+import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
 import ExistingForecastingParameters from "../../Routes/ExistingForecastingParameters";
 
 const useStyles = makeStyles((theme) => ({

@@ -8,6 +8,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import FormatAggregator from "../../Visualytics/Components/FormatAggregator";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 import SelectChart from "../../Visualytics/Common/SelectChart";
+import SelectForecastChartDataPanel from "../Common/SelectForecastChartDataPanel";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -59,7 +60,7 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
-          <SelectChartDataPanel />
+          <SelectForecastChartDataPanel />
         </div>
         <div className={classes.chartContent}>
           <SelectChart />

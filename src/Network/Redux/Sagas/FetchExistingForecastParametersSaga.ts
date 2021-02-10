@@ -43,6 +43,10 @@ function* fetchExistingForecastParametersSaga(action: IAction) {
     const {
       data: { data }, //prevent 2nd trip to server
     } = result;
+    console.log(
+      "Logged output --> ~ file: FetchExistingForecastParametersSaga.ts ~ line 46 ~ function*fetchExistingForecastParametersSaga ~ data",
+      data
+    );
 
     const forecastingParametersExisting = data[0];
 
@@ -63,7 +67,7 @@ function* fetchExistingForecastParametersSaga(action: IAction) {
     });
 
     yield put(showDialogAction(failureDialogParameters()));
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }

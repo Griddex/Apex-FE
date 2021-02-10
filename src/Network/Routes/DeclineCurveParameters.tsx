@@ -80,7 +80,7 @@ export default function DeclineCurveParameters({
     (state: RootState) => state.networkReducer[wc][wp]
   );
 
-  const parametersList = existingData.forecastingParametersList;
+  const parametersList = existingData.forecastingParametersGroupList;
   const declineCurveParametersList =
     parametersList[selectedRowIndex]["declineParameters"];
 

@@ -57,7 +57,7 @@ function* openRecentProjectSaga(action: IAction) {
     });
 
     yield put(showDialogAction(failureDialogParameters));
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }

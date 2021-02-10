@@ -57,8 +57,6 @@ export function* generateNetworkBySelectionSaga(action: IAction) {
       ...successAction,
       payload: { ...payload, statusCode, success, nodeElements, edgeElements },
     });
-
-    yield put(hideSpinnerAction());
   } catch (errors) {
     const failureAction = generateNetworkBySelectionFailureAction();
 
@@ -69,7 +67,7 @@ export function* generateNetworkBySelectionSaga(action: IAction) {
 
     yield put(showDialogAction(failureDialogParameters()));
     // yield call(forwardTo, "/apex/network");
-
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

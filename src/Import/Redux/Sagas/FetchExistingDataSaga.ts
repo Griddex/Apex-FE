@@ -108,7 +108,7 @@ function* fetchExistingDataSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }

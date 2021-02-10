@@ -7,15 +7,28 @@ import {
   SET_FORECASTCHARTCELLCOLORS,
   SET_FORECASTCHARTOBJECT,
   UPDATE_FORECASTCHARTOBJECT,
+  RUN_FORECAST_SUCCESS,
+  RUN_FORECAST_FAILURE,
 } from "../ForecastActions/ForecastActions";
-import forecastChartState from "../ForecastState/ForecastState";
-import { IForecastChartState } from "../ForecastState/ForecastStateTypes";
+import forecastState from "../ForecastState/ForecastState";
+import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
 
-const forecastChartReducer = (
-  state = forecastChartState,
+const forecastReducer = (
+  state = forecastState,
   action: IAction
-): IForecastChartState => {
+): ForecastStateType => {
   switch (action.type) {
+    case RUN_FORECAST_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case RUN_FORECAST_FAILURE:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     case PERSIST_FORECASTCHARTINDEX:
       return {
         ...state,
@@ -85,4 +98,4 @@ const forecastChartReducer = (
   }
 };
 
-export default forecastChartReducer;
+export default forecastReducer;

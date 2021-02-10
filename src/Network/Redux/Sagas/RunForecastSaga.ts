@@ -6,10 +6,10 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
-  runForecastFailureAction,
   runForecastSuccessAction,
-  RUN_FORECAST_REQUEST,
-} from "../Actions/ForecastingActions";
+  runForecastFailureAction,
+} from "../../../Forecast/Redux/ForecastActions/ForecastActions";
+import { RUN_FORECAST_REQUEST } from "../Actions/NetworkActions";
 
 export default function* watchRunForecastSaga() {
   yield takeLeading<ActionType>(RUN_FORECAST_REQUEST, runForecastSaga);
@@ -18,14 +18,14 @@ export default function* watchRunForecastSaga() {
 function* runForecastSaga(action: IAction) {
   const { payload } = action;
 
-  const { networkId } = yield select((state) => state.networkReducer);
+  const { selectedNetworkId } = yield select((state) => state.networkReducer);
   const { selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
   );
 
   const data = {
-    networkId,
-    forecastingParameterId: selectedForecastingParametersId,
+    networkId: selectedNetworkId,
+    forecastingParametersId: selectedForecastingParametersId,
   };
 
   const config = { headers: null };
@@ -33,15 +33,19 @@ function* runForecastSaga(action: IAction) {
   const statusCode = ""; //Get from success response
 
   try {
-    const data = yield call(
+    const result = yield call(
       runForecastAPI,
       `${getBaseUrl()}/forecast/run` //This is the URL endpoint you should change
     );
 
+    const {
+      data: { result: forecastResult, tree: forecastTree },
+    } = result;
+
     const successAction = runForecastSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, data },
+      payload: { ...payload, statusCode, forecastResult, forecastTree },
     });
 
     // yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
@@ -52,9 +56,9 @@ function* runForecastSaga(action: IAction) {
       ...failureAction,
       payload: { ...payload, statusCode, errors },
     });
+  } finally {
+    yield put(hideSpinnerAction());
   }
-
-  yield put(hideSpinnerAction());
 }
 
 function forwardTo(routeUrl: string) {

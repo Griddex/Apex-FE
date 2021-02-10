@@ -2,10 +2,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import React, { ChangeEvent } from "react";
+import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { persistForecastChartIndexAction } from "../Redux/ForecastActions/ForecastActions";
-import { useDispatch } from "react-redux";
-import StackedAreaChartPanel from "../../Visualytics/Components/StackedAreaChartPanel";
+import ForecastStackedAreaChartPanel from "./ForecastStackedAreaChartPanel";
+import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -29,82 +30,66 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    height: "auto",
+    height: 500,
     // border: "1px solid #C4C4C4",
     width: "100%",
-    // overflow: "auto",
   },
 }));
-
-const charts = [
-  "StackedAreaChartPanel",
-  "LineChartPanel",
-  "DoughnutChartPanel",
-  "BarChartPanel",
-];
 
 const SelectForecastChartDataPanel = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [chartName, setChartName] = React.useState(charts[0]);
+  const forecastRuns = [
+    "ARPR Forecast Run 1",
+    "ARPR Forecast Run 2",
+    "ARPR Forecast Run 3",
+    "ARPR Forecast Run 4",
+  ];
+  const [forecastRun, setForecastRun] = React.useState(forecastRuns[0]);
 
   const handleSelectChange = (event: ChangeEvent<any>) => {
-    const chartPanelName = event.target.value;
-    setChartName(chartPanelName);
+    const forcastRunName = event.target.value;
+    setForecastRun(forcastRunName);
 
-    const chartIndex = charts.indexOf(chartPanelName);
-    dispatch(persistForecastChartIndexAction(chartIndex));
+    const chartIndex = forecastRuns.indexOf(forcastRunName);
+    // dispatch(persistForecastChartIndexAction(chartIndex));
   };
 
   const SelectItem = () => {
     return (
       <TextField
-        id="outlined-select-chartName"
+        id="outlined-select-forecastRun"
         select
         label=""
-        value={chartName}
+        value={forecastRun}
         onChange={handleSelectChange}
         variant="outlined"
         fullWidth
       >
-        {charts.map((chartName) => (
-          <MenuItem key={chartName} value={chartName}>
-            {chartName}
+        {forecastRuns.map((forecastRun) => (
+          <MenuItem key={forecastRun} value={forecastRun}>
+            {forecastRun}
           </MenuItem>
         ))}
       </TextField>
     );
   };
 
-  const renderForecastChartDataPanel = (chartName: string) => {
-    switch (chartName) {
-      case "StackedAreaChartPanel":
-        return <StackedAreaChartPanel />;
-
-      case "LineChartPanel":
-        return <h6>{"LineChartPanel"}</h6>;
-
-      case "DoughnutChartPanel":
-        return <h6>{"DoughnutChartPanel"}</h6>;
-
-      case "BarChartPanel":
-        return <h6>{"BarChartPanel"}</h6>;
-
-      default:
-        break;
-    }
-  };
-
   return (
     <>
       <AnalyticsComp
-        title="Select Chart"
-        content={<SelectItem />}
+        title="Select Forecast Run"
+        content={
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <SelectItem />
+            <CallMadeOutlinedIcon />
+          </div>
+        }
         direction="Vertical"
       />
       <div className={classes.chartPanel}>
-        {renderForecastChartDataPanel(chartName)}
+        <ForecastStackedAreaChartPanel />
       </div>
     </>
   );

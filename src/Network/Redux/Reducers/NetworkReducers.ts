@@ -1,34 +1,29 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
-  PERSIST_FORECASTPARAMETERS,
-  RUN_FORECAST_FAILURE,
-  RUN_FORECAST_REQUEST,
-  RUN_FORECAST_SUCCESS,
-} from "../Actions/ForecastingActions";
-import {
-  UPDATE_NETWORKPARAMETER,
   ADD_NETWORKELEMENT,
-  HIDE_NETWORKELEMENTDETAILS,
-  HIDE_WELHEADSUMMARYEDGES,
-  HIDE_WELHEADSUMMARYNODES,
-  PERSIST_NETWORKELEMENTS,
-  PERSIST_POPOVER,
-  PERSIST_POPOVERID,
-  SAVENETWORK_ISVALID,
-  AUTOGENERATENETWORK_REQUEST,
-  AUTOGENERATENETWORK_SUCCESS,
   AUTOGENERATENETWORK_FAILURE,
-  SET_CURRENTELEMENT,
-  SHOW_NETWORKELEMENTDETAILS,
-  SHOW_POPOVER,
-  SAVENETWORK_SUCCESS,
-  SAVENETWORK_FAILURE,
-  EXISTINGFORECASTPARAMETERS_SUCCESS,
+  AUTOGENERATENETWORK_SUCCESS,
   EXISTINGFORECASTPARAMETERS_FAILURE,
+  EXISTINGFORECASTPARAMETERS_SUCCESS,
   EXISTINGNETWORKDATA_FAILURE,
   EXISTINGNETWORKDATA_SUCCESS,
   GENERATENETWORKBYSELECTION_FAILURE,
   GENERATENETWORKBYSELECTION_SUCCESS,
+  HIDE_NETWORKELEMENTDETAILS,
+  HIDE_WELHEADSUMMARYEDGES,
+  HIDE_WELHEADSUMMARYNODES,
+  PERSIST_FORECASTPARAMETERS,
+  PERSIST_NETWORKELEMENTS,
+  PERSIST_POPOVER,
+  PERSIST_POPOVERID,
+  RUN_FORECAST_REQUEST,
+  SAVENETWORK_FAILURE,
+  SAVENETWORK_ISVALID,
+  SAVENETWORK_SUCCESS,
+  SET_CURRENTELEMENT,
+  SHOW_NETWORKELEMENTDETAILS,
+  SHOW_POPOVER,
+  UPDATE_NETWORKPARAMETER,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -97,25 +92,20 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         ...action.payload,
       };
-    case RUN_FORECAST_REQUEST:
+    case RUN_FORECAST_REQUEST: //Rare case, where request is in netowrkreducer but success/failure is in forecast reducer
       return {
         ...state,
       };
-    case RUN_FORECAST_SUCCESS:
+
+    case PERSIST_FORECASTPARAMETERS: {
       return {
         ...state,
-        ...action.payload,
+        saveForecastParameters: {
+          ...state["saveForecastParameters"],
+          ...action.payload,
+        },
       };
-    case RUN_FORECAST_FAILURE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case PERSIST_FORECASTPARAMETERS:
-      return {
-        ...state,
-        ...action.payload,
-      };
+    }
 
     case SAVENETWORK_ISVALID:
       return {
@@ -176,11 +166,12 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case SAVENETWORK_SUCCESS: {
-      const { statusCode, success } = action.payload;
+      const { statusCode, success, selectedNetworkId } = action.payload;
       return {
         ...state,
         statusCode,
         success,
+        selectedNetworkId,
       };
     }
 

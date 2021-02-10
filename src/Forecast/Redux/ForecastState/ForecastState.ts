@@ -1,6 +1,6 @@
 import {
-  forecastChartObjNameType,
   IForecastChartState,
+  IForecastResultState,
 } from "./ForecastStateTypes";
 
 export const forecastChartObjectsNameTitleMap = {
@@ -355,4 +355,12 @@ const forecastChartState: IForecastChartState = {
     ],
   },
 };
-export default forecastChartState;
+
+const forcastResultState: IForecastResultState = {
+  forecastResult: [],
+  forecastTree: [],
+};
+
+const forcastState = { ...forecastChartState, ...forcastResultState };
+
+export default forcastState;

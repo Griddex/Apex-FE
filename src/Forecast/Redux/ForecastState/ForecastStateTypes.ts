@@ -42,4 +42,13 @@ export interface IForecastChartLayoutProps {
   forecastChartMetaData?: IForecastChartMetaData;
 }
 
+export interface IForecastResultState {
+  forecastResult: any[];
+  forecastTree: any[];
+}
+
 export type colorGradient = typeof initialColorGradient;
+
+export type ForecastStateType = IForecastResultState &
+  IForecastChartState &
+  IForecastChartLayoutProps;
