@@ -1,4 +1,10 @@
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
@@ -13,7 +19,8 @@ import {
 } from "../Actions/ProjectActions";
 
 export default function* watchCreateNewProjectSaga() {
-  yield takeLeading(CREATE_NEWPROJECT, createNewProjectSaga);
+  const createNewProjectChan = yield actionChannel(CREATE_NEWPROJECT);
+  yield takeLeading(createNewProjectChan, createNewProjectSaga);
 }
 
 function* createNewProjectSaga(action: IAction) {

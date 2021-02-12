@@ -1,4 +1,5 @@
 import {
+  actionChannel,
   all,
   AllEffect,
   call,
@@ -33,7 +34,8 @@ import {
 } from "../Actions/ExistingDataActions";
 
 export default function* watchFetchExistingDataSaga() {
-  yield takeLeading(EXISTINGDATA_REQUEST, fetchExistingDataSaga);
+  const existingDataChan = yield actionChannel(EXISTINGDATA_REQUEST);
+  yield takeLeading(existingDataChan, fetchExistingDataSaga);
 }
 
 function getInsert(workflowProcess: IExistingDataProps["wkPs"]) {

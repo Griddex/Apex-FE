@@ -177,7 +177,14 @@ theme.overrides = {
   },
   MuiDialogTitle: { root: { padding: theme.spacing(1) } },
   MuiDialogContent: { dividers: { borderWidth: 0 } },
-  MuiSvgIcon: { root: { cursor: "pointer" } },
+  MuiSvgIcon: {
+    root: {
+      cursor: "pointer",
+      "&:hover": {
+        color: theme.palette.primary.main,
+      },
+    },
+  },
 };
 
 export default theme;

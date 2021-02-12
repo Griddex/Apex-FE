@@ -47,21 +47,9 @@ const ForecastLanding = () => {
   const dispatch = useDispatch();
 
   const { url, path } = useRouteMatch();
-  console.log(
-    "Logged output --> ~ file: ForecastLanding.tsx ~ line 50 ~ ForecastLanding ~ path",
-    path
-  );
-  console.log(
-    "Logged output --> ~ file: ForecastLanding.tsx ~ line 50 ~ ForecastLanding ~ url",
-    url
-  );
 
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
-  );
-  console.log(
-    "Logged output --> ~ file: ForecastLanding.tsx ~ line 60 ~ ForecastLanding ~ loadWorkflow",
-    loadWorkflow
   );
 
   const forecastLandingData: IForecastLandingData[] = [

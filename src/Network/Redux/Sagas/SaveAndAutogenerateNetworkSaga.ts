@@ -1,4 +1,4 @@
-import { call, put, takeLeading } from "redux-saga/effects";
+import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { saveInputDeckSaga } from "../../../Import/Redux/Sagas/SaveInputDeckSaga";
 import {
@@ -9,8 +9,11 @@ import { autoGenerateNetworkSaga } from "./AutogenerateNetworkSaga";
 import { saveInputDeckRequestAction } from "./../../../Import/Redux/Actions/ImportActions";
 
 export default function* watchAndSaveAutogenerateNetworkSaga() {
+  const saveAutoGenerateNetworkChan = yield actionChannel(
+    SAVEAUTOGENERATENETWORK_REQUEST
+  );
   yield takeLeading(
-    SAVEAUTOGENERATENETWORK_REQUEST,
+    saveAutoGenerateNetworkChan,
     saveAndAutoGenerateNetworkSaga
   );
 }

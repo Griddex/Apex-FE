@@ -1,3 +1,4 @@
+import { RenderTree } from "./../../Components/ForecastTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
   initialColorGradient,
@@ -44,7 +45,7 @@ export interface IForecastChartLayoutProps {
 
 export interface IForecastResultState {
   forecastResult: any[];
-  forecastTree: any[];
+  forecastTree: RenderTree;
 }
 
 export type colorGradient = typeof initialColorGradient;

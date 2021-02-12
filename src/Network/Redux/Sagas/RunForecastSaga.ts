@@ -1,5 +1,11 @@
 import { ActionType } from "@redux-saga/types";
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -12,7 +18,8 @@ import {
 import { RUN_FORECAST_REQUEST } from "../Actions/NetworkActions";
 
 export default function* watchRunForecastSaga() {
-  yield takeLeading<ActionType>(RUN_FORECAST_REQUEST, runForecastSaga);
+  const runForecastChan = yield actionChannel(RUN_FORECAST_REQUEST);
+  yield takeLeading<ActionType>(runForecastChan, runForecastSaga);
 }
 
 function* runForecastSaga(action: IAction) {
@@ -39,7 +46,9 @@ function* runForecastSaga(action: IAction) {
     );
 
     const {
-      data: { result: forecastResult, tree: forecastTree },
+      data: {
+        data: { chart: forecastResult, tree: forecastTree },
+      },
     } = result;
 
     const successAction = runForecastSuccessAction();

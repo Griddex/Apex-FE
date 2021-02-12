@@ -358,7 +358,7 @@ const forecastChartState: IForecastChartState = {
 
 const forcastResultState: IForecastResultState = {
   forecastResult: [],
-  forecastTree: [],
+  forecastTree: { id: "", name: "", children: [] },
 };
 
 const forcastState = { ...forecastChartState, ...forcastResultState };

@@ -1,4 +1,10 @@
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -16,8 +22,11 @@ import {
 import history from "../../../Application/Services/HistoryService";
 
 export default function* watchGenerateNetworkBySelectionSaga() {
+  const generateNetworkBySelectionChan = yield actionChannel(
+    GENERATENETWORKBYSELECTION_REQUEST
+  );
   yield takeLeading(
-    GENERATENETWORKBYSELECTION_REQUEST,
+    generateNetworkBySelectionChan,
     generateNetworkBySelectionSaga
   );
 }

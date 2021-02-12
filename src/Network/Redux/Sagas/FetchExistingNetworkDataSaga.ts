@@ -1,4 +1,5 @@
 import {
+  actionChannel,
   call,
   CallEffect,
   put,
@@ -19,7 +20,10 @@ import {
 } from "../Actions/NetworkActions";
 
 export default function* watchFetchExistingNetworkDataSaga() {
-  yield takeLeading(EXISTINGNETWORKDATA_REQUEST, fetchExistingNetworkDataSaga);
+  const existingNetworkDataChan = yield actionChannel(
+    EXISTINGNETWORKDATA_REQUEST
+  );
+  yield takeLeading(existingNetworkDataChan, fetchExistingNetworkDataSaga);
 }
 
 type AxiosPromise = ReturnType<typeof fetchExistingDataAPI>;

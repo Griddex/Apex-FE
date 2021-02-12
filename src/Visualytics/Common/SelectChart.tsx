@@ -40,7 +40,7 @@ const SelectChart = () => {
 
   return (
     <>
-      <Button
+      {/* <Button
         onClick={() => {
           const chartObject = chartObjects.find(
             (obj) => obj.chartObjId === selectedChartObjId
@@ -58,7 +58,7 @@ const SelectChart = () => {
         color="secondary"
       >
         Add Yaxis
-      </Button>
+      </Button> */}
       {chart()}
     </>
   );

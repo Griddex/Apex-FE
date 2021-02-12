@@ -1,4 +1,10 @@
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -15,8 +21,11 @@ import {
 } from "../Actions/NetworkActions";
 
 export default function* watchFetchExistingForecastParametersSaga() {
+  const existingForecastParametersChan = yield actionChannel(
+    EXISTINGFORECASTPARAMETERS_REQUEST
+  );
   yield takeLeading(
-    EXISTINGFORECASTPARAMETERS_REQUEST,
+    existingForecastParametersChan,
     fetchExistingForecastParametersSaga
   );
 }
@@ -30,7 +39,7 @@ const fetchExistingForecastParametersAPI = (url: string) =>
 function* fetchExistingForecastParametersSaga(action: IAction) {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
-  const forecastParametersUrl = `${getBaseUrl()}/forecast-parameters/${projectId}`;
+  const forecastParametersUrl = `${getBaseUrl()}/forecast-parameters/project/${projectId}`;
 
   try {
     yield put(showSpinnerAction("Loading Network Data..."));

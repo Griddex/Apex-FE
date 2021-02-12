@@ -20,6 +20,4 @@ const Loading = () => {
   );
 };
 
-Loading.propTypes = {};
-
 export default Loading;

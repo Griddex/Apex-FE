@@ -1,4 +1,10 @@
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -13,7 +19,10 @@ import { IRecentProject } from "../State/ProjectStateTypes";
 import getBaseUrl from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchRecentProjectsSaga() {
-  yield takeLeading(FETCHRECENTPROJECTS_REQUEST, fetchRecentProjectsSaga);
+  const fetchRecentProjectsChan = yield actionChannel(
+    FETCHRECENTPROJECTS_REQUEST
+  );
+  yield takeLeading(fetchRecentProjectsChan, fetchRecentProjectsSaga);
 }
 
 function* fetchRecentProjectsSaga(action: IAction) {

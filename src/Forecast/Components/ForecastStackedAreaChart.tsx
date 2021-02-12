@@ -18,13 +18,13 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
   setChartObjectAction,
   setSelectedChartObjIdAction,
-} from "../Redux/ChartActions/ChartActions";
-import ItemTypes from "../Utils/DragAndDropItemTypes";
-import removeAllSpaces from "../Utils/RemoveAllSpaces";
+} from "../../Visualytics/Redux/ChartActions/ChartActions";
 import {
   IChartLayoutProps,
   IChartMetaData,
-} from "./../Redux/ChartState/ChartStateTypes";
+} from "../../Visualytics/Redux/ChartState/ChartStateTypes";
+import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
+import removeAllSpaces from "../../Visualytics/Utils/RemoveAllSpaces";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
@@ -37,6 +37,8 @@ const useStyles = makeStyles(() => ({
         : "linear-gradient(white, white)",
     border: (props: IChartLayoutProps) =>
       `${props?.chartMetaData?.chartAreaBorder}px solid`,
+    width: "100%",
+    height: "100%",
   },
   area: {
     "&:hover": { backgroundColor: "green" },
@@ -54,7 +56,7 @@ const data = [
   { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-const StackedAreaChart = (props: any) => {
+const ForecastStackedAreaChart = (props: any) => {
   const dispatch = useDispatch();
 
   const chartRef = React.useRef<any>("");
@@ -64,7 +66,7 @@ const StackedAreaChart = (props: any) => {
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.TABLE_COLUMNDATA,
-    drop: () => ({ name: "StackedAreaChart" }),
+    drop: () => ({ name: "StackedAreaChartv" }),
     collect: (monitor) => {
       return {
         isOver: !!monitor.isOver(),
@@ -330,4 +332,4 @@ const StackedAreaChart = (props: any) => {
   );
 };
 
-export default StackedAreaChart;
+export default ForecastStackedAreaChart;

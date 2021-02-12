@@ -105,7 +105,7 @@ const DialogContent = withStyles((theme) => ({
 
 const ExistingForecastingParametersDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, children } = props;
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   //Not supposed to here.
   //Will be in a table icon and passed to table component

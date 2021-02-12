@@ -1,4 +1,10 @@
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -16,7 +22,10 @@ import {
 import history from "../../../Application/Services/HistoryService";
 
 export default function* watchAutogenerateNetworkSaga() {
-  yield takeLeading(AUTOGENERATENETWORK_REQUEST, autoGenerateNetworkSaga);
+  const autoGenerateNetworkChan = yield actionChannel(
+    AUTOGENERATENETWORK_REQUEST
+  );
+  yield takeLeading(autoGenerateNetworkChan, autoGenerateNetworkSaga);
 }
 
 export function* autoGenerateNetworkSaga(action: IAction) {

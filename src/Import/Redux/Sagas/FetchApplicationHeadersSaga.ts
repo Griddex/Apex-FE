@@ -1,4 +1,5 @@
 import {
+  actionChannel,
   all,
   AllEffect,
   call,
@@ -21,10 +22,8 @@ import {
 import getBaseUrl from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchApplicationHeadersSaga() {
-  yield takeLeading(
-    FETCHAPPLICATIONHEADERS_REQUEST,
-    fetchApplicationHeadersSaga
-  );
+  const appHeadersChan = yield actionChannel(FETCHAPPLICATIONHEADERS_REQUEST);
+  yield takeLeading(appHeadersChan, fetchApplicationHeadersSaga);
 }
 
 function getHeadersType(workflowProcess: IImportWorkflowProcess["wkPs"]) {

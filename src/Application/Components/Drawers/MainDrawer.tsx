@@ -219,7 +219,10 @@ const MainDrawer = () => {
                 disabled={name === "Project" ? false : menusDisabled}
                 style={
                   name === selected
-                    ? { borderRight: `3px solid ${theme.palette.primary.main}` }
+                    ? {
+                        backgroundColor: theme.palette.primary.light,
+                        borderRight: `3px solid ${theme.palette.primary.main}`,
+                      }
                     : {}
                 }
                 disableGutters
@@ -230,7 +233,7 @@ const MainDrawer = () => {
                       <div
                         style={
                           name === selected
-                            ? { color: theme.palette.primary.main }
+                            ? { backgroundColor: theme.palette.primary.light }
                             : {}
                         }
                       >
@@ -246,7 +249,7 @@ const MainDrawer = () => {
                     <div
                       style={
                         name === selected
-                          ? { color: theme.palette.primary.main }
+                          ? { backgroundColor: theme.palette.primary.light }
                           : {}
                       }
                     >

@@ -1,16 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import {
-  Route,
-  RouteComponentProps,
-  Switch,
-  useRouteMatch,
-} from "react-router-dom";
-import Loading from "../../Application/Components/Visuals/Loading";
-import ForecastBackground from "./ForecastBackground";
+import { Route, useRouteMatch } from "react-router-dom";
+import PerpetualSpinner from "./../../Application/Components/Visuals/PerpetualSpinner";
 import ForecastLanding from "./ForecastLanding";
-import { IdType, IForecastLayouts } from "./ForecastLayoutTypes";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -18,12 +11,15 @@ const useStyles = makeStyles(() => {
   return {
     forecastLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      // flexGrow: 1,
+      width: "100%",
+      height: "100%",
     },
     forecastLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      // flexGrow: 1,
       marginTop: navbarHeight + subNavBarHeight,
+      width: "100%",
       height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
     },
   };
@@ -36,28 +32,10 @@ const ForecastLayout = () => {
   return (
     <main className={classes.forecastLayoutRoot}>
       <div className={clsx(classes.forecastLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
-          <Switch>
-            <Route path={path} component={ForecastLanding} />
-            <Route
-              path={`${url}/:forecastId`}
-              render={(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { forecastId },
-                  },
-                } = props;
-
-                const Layouts: IForecastLayouts = {
-                  background: <ForecastBackground />,
-                  forecastresults: <ForecastLanding />,
-                };
-
-                return Layouts[forecastId];
-              }}
-            />
-            <Route path="*" render={() => <h1>Not Available</h1>} />
-          </Switch>
+        <Suspense fallback={<PerpetualSpinner />}>
+          <Route path={path}>
+            <ForecastLanding />
+          </Route>
         </Suspense>
       </div>
     </main>

@@ -1,4 +1,10 @@
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -34,7 +40,8 @@ function getInputDeckRouteParam(
 }
 
 export default function* watchSaveInputDeckSaga() {
-  yield takeLeading(SAVEINPUTDECK_REQUEST, saveInputDeckSaga);
+  const saveInputDeckChan = yield actionChannel(SAVEINPUTDECK_REQUEST);
+  yield takeLeading(saveInputDeckChan, saveInputDeckSaga);
 }
 
 export function* saveInputDeckSaga(action: IAction) {

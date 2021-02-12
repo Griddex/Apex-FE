@@ -31,8 +31,8 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignSelf: "flex-start",
     height: "100%",
-    width: "15%",
-    // border: "1px solid #A8A8A8",
+    width: 300,
+    border: "1px solid #A8A8A8",
     backgroundColor: "#FFF",
     padding: 5,
   },
@@ -41,6 +41,7 @@ const useStyles = makeStyles(() => ({
     height: "100%",
     width: "85%",
     backgroundColor: "#FFF",
+    border: "1px solid #A8A8A8",
   },
 }));
 

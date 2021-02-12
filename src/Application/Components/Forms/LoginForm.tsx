@@ -9,12 +9,13 @@ import LockIcon from "@material-ui/icons/Lock";
 import PersonIcon from "@material-ui/icons/Person";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { Formik } from "formik";
+import { Formik, FormikProps } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { loginAction } from "../../Redux/Actions/LoginActions";
 import userState from "../../Redux/State/UserState";
+import { IUserState } from "../../Redux/State/UserStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -62,14 +63,15 @@ export const LoginForm = () => {
         dispatch(loginAction(userName, password));
       }}
     >
-      {(props) => {
+      {(props: FormikProps<IUserState>) => {
         const {
           values: { userName, password },
           errors,
           touched,
           handleChange,
-          isValid,
           handleSubmit,
+          isValid,
+          isSubmitting,
         } = props;
 
         const helperTextUsername =
@@ -141,7 +143,7 @@ export const LoginForm = () => {
               disabled={!isValid}
               fullWidth
             >
-              Submit
+              {isSubmitting ? "Logging in..." : "Submit"}
             </Button>
           </form>
         );

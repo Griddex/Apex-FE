@@ -1,4 +1,4 @@
-import { call, put, takeLeading } from "redux-saga/effects";
+import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -10,7 +10,8 @@ import {
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 
 export default function* watchConnectDatabaseSaga() {
-  yield takeLeading(CONNECTDATABASE_REQUEST, connectDatabaseSaga);
+  const connectDbChan = yield actionChannel(CONNECTDATABASE_REQUEST);
+  yield takeLeading(connectDbChan, connectDatabaseSaga);
 }
 
 function* connectDatabaseSaga(action: IAction) {

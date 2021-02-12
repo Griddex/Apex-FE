@@ -12,7 +12,7 @@ const DialogCancelButton = (
   finalActions: IFinalAction["finalActions"]
 ) => {
   const dispatch = useDispatch();
-  console.log("Im in dialog cancel");
+
   const buttonsData: ButtonProps[] = [
     {
       title: "Cancel",

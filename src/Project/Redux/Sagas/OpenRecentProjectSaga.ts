@@ -1,4 +1,4 @@
-import { call, put, takeLeading } from "redux-saga/effects";
+import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -12,7 +12,8 @@ import {
 } from "../Actions/ProjectActions";
 
 export default function* watchOpenRecentProjectSaga() {
-  yield takeLeading(OPENRECENTPROJECT_REQUEST, openRecentProjectSaga);
+  const openRecentProjectChan = yield actionChannel(OPENRECENTPROJECT_REQUEST);
+  yield takeLeading(openRecentProjectChan, openRecentProjectSaga);
 }
 
 function* openRecentProjectSaga(action: IAction) {
