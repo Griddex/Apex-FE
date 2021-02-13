@@ -21,7 +21,7 @@ import {
   Table,
 } from "react-virtualized";
 import "react-virtualized/styles.css";
-import TableIcons from "./TableIcons";
+import TableButtons from "./TableButtons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     height: "86%",
   },
 
-  tableIcons: {
+  TableButtons: {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "flex-end",
@@ -438,8 +438,8 @@ export default function ApexTable({
             />
           </FormControl>
         </Grid>
-        <Grid item container className={classes.tableIcons}>
-          <TableIcons localDispatch={localDispatch} />
+        <Grid item container className={classes.TableButtons}>
+          <TableButtons localDispatch={localDispatch} />
         </Grid>
       </Grid>
       <div className={classes.tableRoot} ref={tableRef}>

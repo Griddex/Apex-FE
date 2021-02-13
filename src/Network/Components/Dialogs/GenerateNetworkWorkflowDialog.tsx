@@ -1,4 +1,4 @@
-import { DialogActions } from "@material-ui/core";
+import { DialogActions, Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
@@ -9,11 +9,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
-import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import {
   hideDialogAction,
   showDialogAction,
@@ -109,11 +109,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = [
-  "Select Facilities Input Deck",
-  "Select Forecast Input Deck",
-  "Generate Network",
-];
+const steps = ["Select Facilities Input Deck", "Select Forecast Input Deck"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
@@ -205,11 +201,18 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
       </DialogTitle>
       <DialogContent
         dividers
-        style={{ display: "flex", flexDirection: "column", height: 650 }}
+        style={{
+          display: "flex",
+          flexWrap: "nowrap",
+          flexDirection: "row",
+          height: 650,
+        }}
       >
         <GenerateNetworkWorkflow {...workflowProps} />
+        <Divider />
+        <DialogVerticalWorkflowStepper {...workflowProps} />
       </DialogContent>
-      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
+      <DialogActions>
         <NavigationButtons {...navigationButtonProps} />
       </DialogActions>
     </Dialog>

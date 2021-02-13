@@ -2,8 +2,8 @@ import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
 import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
 import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
 import React from "react";
-import ForecastActionsMenu from "../Menus/ForecastActionsMenu";
-import NetworkActionsMenu from "../Menus/NetworkActionsMenu";
+import ForecastButtonsMenu from "../Menus/ForecastButtonsMenu";
+import NetworkButtonsMenu from "../Menus/NetworkButtonsMenu";
 import { INetworkDiagramIcons } from "./NetworkDiagramIconsTypes";
 
 const useStyles = makeStyles(() => ({
@@ -28,8 +28,8 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
 
   return (
     <div className={classes.networkContentIcons}>
-      <NetworkActionsMenu />
-      <ForecastActionsMenu />
+      <NetworkButtonsMenu />
+      <ForecastButtonsMenu />
       <Tooltip
         key={"miniMapToolTip"}
         title={"Toggle the production network's minimap on or off"}
@@ -41,7 +41,7 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
             height: "28px",
             backgroundColor: theme.palette.primary.light,
             border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: 0,
+            borderRadius: 2,
           }}
           onClick={() => setShowMiniMap(!showMiniMap)}
         >
@@ -59,7 +59,7 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
             height: "28px",
             backgroundColor: theme.palette.primary.light,
             border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: 0,
+            borderRadius: 2,
           }}
           onClick={() => setShowControls(!showControls)}
         >

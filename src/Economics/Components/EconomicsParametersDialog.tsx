@@ -20,10 +20,8 @@ import {
 } from "../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../Application/Components/Icons/DialogIcons";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import {
-  IRawRow,
-  ITableIconsOptions,
-} from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -137,19 +135,9 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
   const { title, show, maxWidth, iconType, dialogData } = props;
   const { columns, rows } = dialogData as IDialogData<IRawRow>;
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
 
   const economicsParametersDialogContent = (
@@ -160,10 +148,10 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
       <div className={classes.economicParameterDialogContent}>
         <MainTitle title="Economics Parameters 1" />
         <div style={{ width: "100%", height: "500px" }}>
-          <ApexGrid<IRawRow, ITableIconsOptions>
+          <ApexGrid<IRawRow, ITableButtonsProps>
             columns={columns}
             rows={rows}
-            options={tableOptions}
+            tableButtons={tableButtons}
           />
         </div>
       </div>

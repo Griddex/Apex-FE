@@ -11,9 +11,9 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import {
   IRawRow,
   IRawTable,
-  ITableIconsOptions,
 } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -26,19 +26,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const tableOptions: ITableIconsOptions = {
-  sort: {
-    show: true,
-  },
-  filter: {
-    show: true,
-  },
-  save: {
-    show: true,
-    action: () => {
-      alert("Save table icon");
-    },
-  },
+const tableButtons: ITableButtonsProps = {
+  showExtraButtons: false,
+  extraButtons: () => <div></div>,
 };
 
 export default function EconomicCosts() {
@@ -167,10 +157,10 @@ export default function EconomicCosts() {
 
   return (
     <div className={classes.rootParseTable}>
-      <ApexGrid<IRawRow, ITableIconsOptions>
+      <ApexGrid<IRawRow, ITableButtonsProps>
         columns={columns}
         rows={rawTableData}
-        options={tableOptions}
+        tableButtons={tableButtons}
       />
     </div>
   );

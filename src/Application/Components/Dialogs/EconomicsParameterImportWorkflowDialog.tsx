@@ -10,10 +10,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
 import EconomicsParameterImportWorkflow from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
-import {
-  hideDialogAction,
-  unloadDialogsAction,
-} from "../../Redux/Actions/DialogsAction";
+import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import dialogIcons from "../Icons/DialogIcons";
 import DialogCancelButton from "./../DialogButtons/DialogCancelButton";
 import { DialogStuff } from "./DialogTypes";
@@ -130,9 +127,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         <EconomicsParameterImportWorkflow {...props} />
         <Divider />
       </DialogContent>
-      <DialogActions>
-        {DialogCancelButton([false], [true], [unloadDialogsAction])}
-      </DialogActions>
+      <DialogActions>{DialogCancelButton()}</DialogActions>
     </Dialog>
   );
 };

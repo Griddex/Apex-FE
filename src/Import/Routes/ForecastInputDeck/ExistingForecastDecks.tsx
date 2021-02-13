@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
   IGiftExistingData,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
+import { IExistingInputDeck } from "../InputDeckTypes";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -16,12 +17,10 @@ const chartData = [
 ];
 
 export default function ExistingForecastDecks({
+  containerStyle,
   finalAction,
   showChart,
-}: {
-  showChart: boolean;
-  finalAction: () => void;
-}) {
+}: IExistingInputDeck) {
   const wc = "existingDataWorkflows";
   const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "forecastInputDeckExisting";
@@ -30,19 +29,9 @@ export default function ExistingForecastDecks({
     (state: RootState) => state.inputReducer[wc][wp]
   );
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
 
   const snExistingData = existingData.map(
@@ -67,9 +56,10 @@ export default function ExistingForecastDecks({
     snExistingData,
     dataKey,
     dataTitle,
-    tableOptions,
+    tableButtons,
     chartData,
     showChart,
+    containerStyle,
   };
 
   return <ExistingDataRoute {...props} />;

@@ -23,9 +23,9 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import {
   IRawRow,
   IRawTable,
-  ITableIconsOptions,
 } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -499,19 +499,9 @@ const EconomicsParameters = ({
 
   const EconomicsDataManual = () => {
     const classes = useStyles();
-    const tableOptions: ITableIconsOptions = {
-      sort: {
-        show: true,
-      },
-      filter: {
-        show: true,
-      },
-      save: {
-        show: true,
-        action: () => {
-          alert("Save table icon");
-        },
-      },
+    const tableButtons: ITableButtonsProps = {
+      showExtraButtons: false,
+      extraButtons: () => <div></div>,
     };
 
     const ecoparameters = [
@@ -602,10 +592,10 @@ const EconomicsParameters = ({
 
     return (
       <div className={classes.maxContainer}>
-        <ApexGrid<IRawRow, ITableIconsOptions>
+        <ApexGrid<IRawRow, ITableButtonsProps>
           columns={columns}
           rows={rawTableData}
-          options={tableOptions}
+          tableButtons={tableButtons}
         />
       </div>
     );

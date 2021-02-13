@@ -122,7 +122,7 @@ const RunForecastDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <ExistingForecastingParameters /> {/*remove */}
+        <ExistingForecastingParameters showChart={false} />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>

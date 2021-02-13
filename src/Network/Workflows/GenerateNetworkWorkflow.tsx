@@ -20,6 +20,7 @@ const GenerateNetworkWorkflow = (workflowProps: IWorkflowDataProps) => {
   const { activeStep } = workflowProps;
 
   const props = {
+    containerStyle: { boxShadow: "none" },
     showChart: false,
     finalAction: () => {},
   };
@@ -37,7 +38,6 @@ const GenerateNetworkWorkflow = (workflowProps: IWorkflowDataProps) => {
 
   return (
     <div className={classes.rootWorkflow}>
-      <HorizontalWorkflowStepper {...workflowProps} />
       <div
         style={{ display: "flex", flexGrow: 1, width: "100%", marginTop: 20 }}
       >

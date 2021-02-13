@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IAction } from "../../Redux/Actions/ActionTypes";
@@ -12,7 +12,7 @@ const DialogSaveButton = (action: () => IAction) => {
       title: "Save",
       variant: "outlined",
       color: "primary",
-      startIcon: <DoneOutlinedIcon />,
+      startIcon: <SaveOutlinedIcon />,
       handleAction: () => dispatch(action()),
     },
   ];

@@ -25,6 +25,6 @@ export const failureDialogParameters: DialogStuff = {
   maxWidth: "xs",
   dialogText: "Existing Data Retrieval failure",
   iconType: "error",
-  actionsList: () => DialogCancelButton([true], [true], [unloadDialogsAction]),
+  actionsList: () => DialogCancelButton(),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 };

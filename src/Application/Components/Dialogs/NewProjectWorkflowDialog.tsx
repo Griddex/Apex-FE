@@ -199,7 +199,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
       >
         <NewProjectWorkflow activeStep={activeStep} />
       </DialogContent>
-      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
+      <DialogActions>
         <NavigationButtons {...navigationButtonProps} />
       </DialogActions>
     </Dialog>

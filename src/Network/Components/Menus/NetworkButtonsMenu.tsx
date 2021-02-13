@@ -22,7 +22,7 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 
-const NetworkActionsMenu = () => {
+const NetworkButtonsMenu = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -151,4 +151,4 @@ const NetworkActionsMenu = () => {
   );
 };
 
-export default NetworkActionsMenu;
+export default NetworkButtonsMenu;

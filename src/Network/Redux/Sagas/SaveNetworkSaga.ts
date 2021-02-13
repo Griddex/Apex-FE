@@ -58,6 +58,8 @@ function* saveNetworkSaga(action: IAction) {
   try {
     const result = yield call(saveNetworkAPI, `${getBaseUrl()}/network`);
 
+    //IsNetworkSaved is kinda a hack
+    //this flag should be stored for every network in the Db
     const {
       data: { data: selectedNetworkId }, //prevent 2nd trip to server
       statusCode,

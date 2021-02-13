@@ -5,10 +5,11 @@ import { useDispatch } from "react-redux";
 import { IFinalAction } from "../../Layout/LayoutTypes";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import { runForecastRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 
-const DialogSaveCancelButtons = (
+const DialogRunForecastCancelButtonsConfirmation = (
   shouldExecute: IFinalAction["shouldExecute"],
   shouldDispatch: IFinalAction["shouldDispatch"],
   finalActions: IFinalAction["finalActions"]
@@ -17,27 +18,17 @@ const DialogSaveCancelButtons = (
   const buttonsData: ButtonProps[] = [
     {
       title: "Cancel",
-      variant: "outlined",
+      variant: "contained",
       color: "secondary",
-      startIcon: <ClearOutlinedIcon />,
+      startIcon: <CloseOutlinedIcon />,
       handleAction: () => dispatch(hideDialogAction()),
     },
     {
-      title: "Save",
-      variant: "outlined",
+      title: "Run Forecast",
+      variant: "contained",
       color: "primary",
-      startIcon: <SaveOutlinedIcon />,
-      handleAction: () => {
-        let i = 0;
-        for (const execute of shouldExecute) {
-          if (execute) {
-            const action = finalActions[i];
-            if (shouldDispatch[i]) dispatch(action());
-            else action();
-          }
-          i += 1;
-        }
-      },
+      startIcon: <PlayArrowIcon />,
+      handleAction: () => dispatch(runForecastRequestAction()),
     },
   ];
 
@@ -58,4 +49,4 @@ const DialogSaveCancelButtons = (
   );
 };
 
-export default DialogSaveCancelButtons;
+export default DialogRunForecastCancelButtonsConfirmation;

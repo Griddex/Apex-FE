@@ -42,11 +42,24 @@ const NetworkLayout = () => {
   const dispatch = useDispatch();
   const { path, url } = useRouteMatch();
 
-  const { success } = useSelector((state: RootState) => state.networkReducer);
+  const {
+    success,
+    existingDataWorkflows: { networkExisting, forecastingParametersExisting },
+  } = useSelector((state: RootState) => state.networkReducer);
+
+  const existingNetworksPresent =
+    Array.isArray(networkExisting) && networkExisting.length > 0;
+
+  const existingForecastParametersPresent =
+    Array.isArray(forecastingParametersExisting) &&
+    forecastingParametersExisting.length > 0;
 
   React.useEffect(() => {
-    dispatch(fetchExistingForecastingParametersRequestAction());
-    dispatch(fetchExistingNetworkDataRequestAction());
+    if (!existingForecastParametersPresent)
+      dispatch(fetchExistingForecastingParametersRequestAction());
+
+    if (!existingNetworksPresent)
+      dispatch(fetchExistingNetworkDataRequestAction());
   }, [success]);
 
   return (

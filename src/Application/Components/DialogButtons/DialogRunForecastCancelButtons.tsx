@@ -23,7 +23,7 @@ const DialogRunForecastCancelButtons = (
       handleAction: () => dispatch(hideDialogAction()),
     },
     {
-      title: "Run",
+      title: "Run Forecast",
       variant: "contained",
       color: "primary",
       startIcon: <PlayArrowIcon />,

@@ -13,9 +13,9 @@ import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid
 import {
   IRawRow,
   IRawTable,
-  ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -146,19 +146,9 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
   //TODO: Use saga to fetch from server?
   const unitClassificationData = ["FIELD", "SI", "CUSTOM"];
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
 
   type AppUnitOptionsType = {
@@ -439,10 +429,10 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
         <DoughnutChart data={unitsMatchChartData} />
       </div>
       <div className={classes.table}>
-        <ApexGrid<IRawRow, ITableIconsOptions>
+        <ApexGrid<IRawRow, ITableButtonsProps>
           columns={columns}
           rows={rows}
-          options={tableOptions}
+          tableButtons={tableButtons}
         />
       </div>
     </div>

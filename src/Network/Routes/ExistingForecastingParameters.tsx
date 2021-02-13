@@ -1,16 +1,14 @@
 import { Checkbox, makeStyles, Typography } from "@material-ui/core";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import { findIndex } from "lodash";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -18,8 +16,10 @@ import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
 import { IForecastParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
+import NewForecastParametersButton from "../Components/Menus/NewForecastParametersButton";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import formatDate from "./../../Application/Utils/FormatDate";
+import { IExistingForcastParameters } from "./ExistingForecastParametersTypes";
 
 const useStyles = makeStyles(() => ({
   rootExistingData: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
   },
   table: {
     width: "100%",
-    height: "80%",
+    height: "100%",
     padding: 20,
   },
   status: {
@@ -74,7 +74,9 @@ const chartData = [
   { name: "Group C", value: 1398 },
 ];
 
-export default function ExistingForecastingParameters() {
+export default function ExistingForecastingParameters({
+  showChart,
+}: IExistingForcastParameters) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -83,10 +85,6 @@ export default function ExistingForecastingParameters() {
 
   const existingData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
-  );
-  console.log(
-    "Logged output --> ~ file: ExistingForecastingParameters.tsx ~ line 87 ~ ExistingForecastingParameters ~ existingData",
-    existingData
   );
 
   const { title, description } = existingData;
@@ -119,19 +117,9 @@ export default function ExistingForecastingParameters() {
     }
   );
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <NewForecastParametersButton />,
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
@@ -154,7 +142,7 @@ export default function ExistingForecastingParameters() {
       {
         key: "selectNetwork",
         name: "SELECT",
-        editable: true,
+        editable: false,
         resizable: true,
         formatter: ({ row }) => (
           <Checkbox
@@ -185,7 +173,7 @@ export default function ExistingForecastingParameters() {
       },
       {
         key: "dcaParameters",
-        name: "DCA Table",
+        name: "DCA TABLE",
         editable: false,
         resizable: true,
         width: 150,
@@ -198,8 +186,9 @@ export default function ExistingForecastingParameters() {
                 display: "flex",
                 height: "100%",
                 width: "100%",
-                justifyContent: "center",
+                justifyContent: "space-evenly",
                 alignItems: "center",
+                alignSelf: "center",
               }}
             >
               <VisibilityOutlinedIcon
@@ -275,7 +264,7 @@ export default function ExistingForecastingParameters() {
       {
         key: "author",
         name: "AUTHOR",
-        editable: true,
+        editable: false,
         resizable: true,
         formatter: ({ row }) => {
           return <Author author={row.author} />;
@@ -285,7 +274,7 @@ export default function ExistingForecastingParameters() {
       {
         key: "createdOn",
         name: "CREATED",
-        editable: true,
+        editable: false,
         resizable: true,
         formatter: ({ row }) => {
           return <div>{formatDate(new Date(row.createdOn))}</div>;
@@ -295,7 +284,7 @@ export default function ExistingForecastingParameters() {
       {
         key: "modifiedOn",
         name: "MODIFIED",
-        editable: true,
+        editable: false,
         resizable: true,
         formatter: ({ row }) => {
           return <div>{formatDate(new Date(row.modifiedOn))}</div>;
@@ -320,20 +309,21 @@ export default function ExistingForecastingParameters() {
   const rows = tableRows.current;
 
   React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
   return (
     <div className={classes.rootExistingData}>
-      <div className={classes.chart}>
-        <DoughnutChart data={chartData} />
-      </div>
+      {showChart && (
+        <div className={classes.chart}>
+          <DoughnutChart data={chartData} />
+        </div>
+      )}
       <div className={classes.table}>
-        <ApexGrid<IForecastParametersDetail, ITableIconsOptions>
+        <ApexGrid<IForecastParametersDetail, ITableButtonsProps>
           columns={columns}
           rows={rows}
-          options={tableOptions}
+          tableButtons={tableButtons}
           newTableRowHeight={35}
         />
       </div>

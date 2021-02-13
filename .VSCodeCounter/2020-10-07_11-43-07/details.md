@@ -35,7 +35,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Application/Components/Table/ApexTable.jsx](/src/Application/Components/Table/ApexTable.jsx) | JavaScript React | 472 | 6 | 39 | 517 |
 | [src/Application/Components/Table/TableAction.jsx](/src/Application/Components/Table/TableAction.jsx) | JavaScript React | 148 | 4 | 4 | 156 |
 | [src/Application/Components/Table/TableActions.jsx](/src/Application/Components/Table/TableActions.jsx) | JavaScript React | 35 | 3 | 7 | 45 |
-| [src/Application/Components/Table/TableIcons.jsx](/src/Application/Components/Table/TableIcons.jsx) | JavaScript React | 150 | 0 | 5 | 155 |
+| [src/Application/Components/Table/TableButtons.jsx](/src/Application/Components/Table/TableButtons.jsx) | JavaScript React | 150 | 0 | 5 | 155 |
 | [src/Application/Components/Table/TableRole.jsx](/src/Application/Components/Table/TableRole.jsx) | JavaScript React | 99 | 2 | 14 | 115 |
 | [src/Application/Components/Table/TableRoles.jsx](/src/Application/Components/Table/TableRoles.jsx) | JavaScript React | 63 | 2 | 11 | 76 |
 | [src/Application/Components/Tabs/TabsWrapper.jsx](/src/Application/Components/Tabs/TabsWrapper.jsx) | JavaScript React | 106 | 7 | 10 | 123 |

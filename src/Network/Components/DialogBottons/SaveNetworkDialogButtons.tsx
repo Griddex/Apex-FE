@@ -3,7 +3,7 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
-import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
+import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import {
   ButtonProps,
   DialogStuff,
@@ -15,6 +15,7 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { IIsSaveNetworkValid } from "../Dialogs/SaveNetworkDialogTypes";
 import { saveNetworkRequestAction } from "./../../Redux/Actions/NetworkActions";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 
 const SaveNetworkDialogButtons = ({
   isSaveNetworkValid,
@@ -32,7 +33,7 @@ const SaveNetworkDialogButtons = ({
       dialogText: "Do you want to save the current network diagram?",
       iconType: "confirmation",
       actionsList: () =>
-        DialogOkayCancelButtons(
+        DialogSaveCancelButtons(
           [true, true],
           [true, true],
           [saveNetworkRequestAction, unloadDialogsAction]
@@ -55,7 +56,7 @@ const SaveNetworkDialogButtons = ({
       title: "Save",
       variant: "contained",
       color: "primary",
-      startIcon: <DoneOutlinedIcon />,
+      startIcon: <SaveOutlinedIcon />,
       handleAction: finalAction,
     },
   ];

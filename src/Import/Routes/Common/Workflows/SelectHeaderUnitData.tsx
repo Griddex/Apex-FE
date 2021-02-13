@@ -11,8 +11,8 @@ import { ApexGridRolesState } from "../../../../Application/Components/Table/Rea
 import {
   IRawRow,
   IRawTable,
-  ITableIconsOptions,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -77,19 +77,9 @@ export default function SelectHeaderUnitData({
   );
 
   //TABLE OPTIONS
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
   type RoleOptionsType = {
     value: string;
@@ -289,10 +279,10 @@ export default function SelectHeaderUnitData({
 
   return (
     <div className={classes.rootParseTable}>
-      <ApexGrid<IRawRow, ITableIconsOptions>
+      <ApexGrid<IRawRow, ITableButtonsProps>
         columns={columns}
         rows={rows}
-        options={tableOptions}
+        tableButtons={tableButtons}
       />
     </div>
   );

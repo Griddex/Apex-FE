@@ -12,19 +12,25 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React, { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
-import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
+import { useDispatch, useSelector } from "react-redux";
+import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import DialogRunForecastCancelButtons from "../../../Application/Components/DialogButtons/DialogRunForecastCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
 
-const ForecastActionsMenu = () => {
+const ForecastButtonsMenu = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+
+  const { selectedNetworkId } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: ChangeEvent<any>) => {
@@ -33,6 +39,28 @@ const ForecastActionsMenu = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const runForecastFinalAction = () => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: "Run_Forecast_Dialog",
+      title: "Confirm Run Forecast",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: `Do you want to run the forecast for the current parameters?`,
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogRunForecastCancelButtons(
+          [true, true],
+          [true, true],
+          [unloadDialogsAction, runForecastRequestAction]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(confirmationDialogParameters));
   };
 
   const runForecast = () => {
@@ -48,9 +76,8 @@ const ForecastActionsMenu = () => {
         DialogRunForecastCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, runForecastRequestAction]
+          [unloadDialogsAction, runForecastFinalAction]
         ),
-      // dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -69,33 +96,35 @@ const ForecastActionsMenu = () => {
       exclusive: false,
       maxWidth: "xl",
       iconType: "information",
-      actionsList: () =>
-        DialogOkayCancelButtons(
-          [true, true],
-          [true, true],
-          [unloadDialogsAction, runForecastRequestAction]
-        ),
-      // dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      actionsList: () => DialogCancelButton(),
     };
 
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const buttons: { title: string; action: () => void; icon: JSX.Element }[] = [
+  const buttons: {
+    title: string;
+    action: () => void;
+    icon: JSX.Element;
+    disable: boolean;
+  }[] = [
     {
       title: "Run Forecast",
       action: runForecast,
       icon: <PlayArrowIcon color="primary" fontSize="small" />,
+      disable: selectedNetworkId === "" ? true : false,
     },
     {
       title: "View Results",
       action: viewResults,
       icon: <VisibilityOutlinedIcon color="primary" fontSize="small" />,
+      disable: false,
     },
     {
-      title: "Parameters List",
+      title: "Forecast Parameters",
       action: existingForecastParameters,
       icon: <ListOutlinedIcon color="primary" fontSize="small" />,
+      disable: false,
     },
   ];
 
@@ -129,10 +158,11 @@ const ForecastActionsMenu = () => {
         }}
       >
         {buttons.map((row, i) => {
-          const { title, action, icon } = row;
+          const { title, action, icon, disable } = row;
 
           return (
             <MenuItem
+              // style={{disabled: disable}}
               key={i}
               onClick={() => {
                 action();
@@ -149,4 +179,4 @@ const ForecastActionsMenu = () => {
   );
 };
 
-export default ForecastActionsMenu;
+export default ForecastButtonsMenu;

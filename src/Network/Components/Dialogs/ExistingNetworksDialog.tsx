@@ -118,11 +118,12 @@ const ExistingNetworksDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <ExistingNetworks workflowProcess="networkExisting" />
+        <ExistingNetworks
+          workflowProcess="networkExisting"
+          containerStyle={{ boxShadow: "none" }}
+        />
       </DialogContent>
-      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
-        {actionsList && actionsList()}
-      </DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };

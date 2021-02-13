@@ -1,14 +1,12 @@
 import { Checkbox, makeStyles } from "@material-ui/core";
-import AmpStoriesOutlinedIcon from "@material-ui/icons/AmpStoriesOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import { findIndex } from "lodash";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -87,19 +85,9 @@ export default function DeclineCurveParameters({
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
   //Assuming all index 0 i.e. Exponential
   // const snChosenApplicationDeclineTypeIndices = modules.reduce(
@@ -360,10 +348,10 @@ export default function DeclineCurveParameters({
 
   return (
     <div className={classes.rootExistingData}>
-      <ApexGrid<IDeclineCurveParametersDetail, ITableIconsOptions>
+      <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
         columns={columns}
         rows={rows}
-        options={tableOptions}
+        tableButtons={tableButtons}
         newTableRowHeight={35}
       />
     </div>

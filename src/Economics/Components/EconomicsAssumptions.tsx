@@ -9,8 +9,8 @@ import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import MainTitle from "../../Application/Components/Basic/MainTitle";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -63,19 +63,9 @@ export default function EconomicsAssumptions() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
 
   const options = createTableRows(100).map((row: IRawRow) => ({
@@ -193,10 +183,10 @@ export default function EconomicsAssumptions() {
   return (
     <div className={classes.rootParseTable}>
       <MainTitle title="Economics Assumptions" />
-      <ApexGrid<IRawRow, ITableIconsOptions>
+      <ApexGrid<IRawRow, ITableButtonsProps>
         columns={columns}
         rows={tableRows}
-        options={tableOptions}
+        tableButtons={tableButtons}
       />
     </div>
   );

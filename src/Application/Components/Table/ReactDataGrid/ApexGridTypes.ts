@@ -1,4 +1,5 @@
 import { Column } from "react-data-griddex";
+import { ITableButtonsProps } from "../TableButtonsTypes";
 
 export type IRawRow = Record<
   string,
@@ -7,14 +8,10 @@ export type IRawRow = Record<
 
 export type IRawTable = IRawRow[];
 
-export interface ITableIconsOptions {
-  [x: string]: { show: boolean; action?: () => void };
-}
-
 export interface IApexGrid<R, O> {
   columns: readonly Column<R, unknown>[];
   rows: R[];
-  options: ITableIconsOptions;
+  tableButtons: ITableButtonsProps;
   setRowsChange?: React.SetStateAction<any>;
   newTableRowHeight?: number;
   selectedRows?: Set<React.Key>;

@@ -16,3 +16,11 @@ export interface IApexSelect {
   label?: string;
   selectItemStyle?: CSSProperties;
 }
+
+export interface IApexSelectRS {
+  currentItem: string;
+  dataOptions: string[];
+  handleChange: (event: React.ChangeEvent<any>) => void;
+  label?: string;
+  selectItemStyle?: CSSProperties;
+}

@@ -1,5 +1,6 @@
-import { ITableIconsOptions } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 import { IUserDetails } from "../Components/User/UserTypes";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
 
 export interface IExistingDataRow {
   sn?: number;
@@ -21,7 +22,7 @@ export interface IExistingDataProps {
   dataTitle?: string;
   chartData?: Record<string, React.Key>[];
   showChart?: boolean;
-  tableOptions?: ITableIconsOptions;
+  tableButtons?: ITableButtonsProps;
   wkPs?:
     | "facilitiesInputDeckExisting"
     | "forecastInputDeckExisting"
@@ -32,6 +33,7 @@ export interface IExistingDataProps {
     | "forecastResultsExisting"
     | "economicsParametersExisting";
   wkCy?: "existingDataWorkflows";
+  containerStyle?: CSSProperties;
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;

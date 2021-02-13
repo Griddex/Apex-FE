@@ -9,7 +9,7 @@ import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
 import Status from "../../../../Application/Components/Status/Status";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import {
   IExistingDataProps,
@@ -68,9 +68,10 @@ export default function ExistingDataRoute<
   dataKey,
   dataTitle,
   chartData,
-  tableOptions,
+  tableButtons,
   wkPs,
   showChart,
+  containerStyle,
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -203,17 +204,17 @@ export default function ExistingDataRoute<
   }, [dispatch]);
 
   return (
-    <div className={classes.rootExistingData}>
+    <div className={classes.rootExistingData} style={containerStyle}>
       {showChart && (
         <div className={classes.chart}>
           <DoughnutChart data={chartData as ChartType} />
         </div>
       )}
       <div className={classes.workflowBody}>
-        <ApexGrid<TRow, ITableIconsOptions>
+        <ApexGrid<TRow, ITableButtonsProps>
           columns={columns}
           rows={rows}
-          options={tableOptions as ITableIconsOptions}
+          tableButtons={tableButtons as ITableButtonsProps}
           newTableRowHeight={35}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}

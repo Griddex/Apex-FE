@@ -39,7 +39,7 @@ const SelectChart = () => {
   const chart = charts[i || 0];
 
   return (
-    <>
+    <div style={{ height: "100%", width: "100%" }}>
       {/* <Button
         onClick={() => {
           const chartObject = chartObjects.find(
@@ -60,7 +60,7 @@ const SelectChart = () => {
         Add Yaxis
       </Button> */}
       {chart()}
-    </>
+    </div>
   );
 };
 

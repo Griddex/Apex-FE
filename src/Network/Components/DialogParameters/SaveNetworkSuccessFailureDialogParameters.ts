@@ -29,6 +29,6 @@ export const failureDialogParameters = (errorMessage: string): DialogStuff => ({
   ${errorMessage}
   `,
   iconType: "error",
-  actionsList: () => DialogCancelButton([true], [true], [unloadDialogsAction]),
+  actionsList: () => DialogCancelButton(),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
@@ -8,6 +8,7 @@ import {
   IGiftExistingData,
 } from "../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
+import { IExistingNetworks } from "./ExistingNetworkTypes";
 
 const chartData = [
   { name: "Group A", value: 2400 },
@@ -17,9 +18,8 @@ const chartData = [
 
 export default function ExistingNetworks({
   workflowProcess,
-}: {
-  workflowProcess: NonNullable<IExistingDataProps["wkPs"]>;
-}) {
+  containerStyle,
+}: IExistingNetworks) {
   const dispatch = useDispatch();
   const wc = "existingDataWorkflows";
   const wp = workflowProcess;
@@ -28,19 +28,9 @@ export default function ExistingNetworks({
     (state: RootState) => state.networkReducer[wc][wp]
   );
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
 
   const snExistingData = existingData.map(
@@ -68,9 +58,10 @@ export default function ExistingNetworks({
     snExistingData,
     dataKey,
     dataTitle,
-    tableOptions,
+    tableButtons,
     chartData,
     wkPs: wp,
+    containerStyle,
   };
 
   return <ExistingDataRoute {...props} />;

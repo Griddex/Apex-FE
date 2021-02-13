@@ -26,6 +26,7 @@ import {
   UPDATE_NETWORKPARAMETER,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
+import { INetworkState } from "../State/NetworkStateTypes";
 
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {

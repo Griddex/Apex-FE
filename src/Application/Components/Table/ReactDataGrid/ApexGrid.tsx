@@ -19,7 +19,7 @@ import ReactDataGrid, {
 } from "react-data-griddex";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import TableIcons from "../TableIcons";
+import TableButtons from "../TableButtons";
 import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 import { SelectEditor } from "./SelectEditor";
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "86%",
   },
-  tableIcons: {
+  TableButtons: {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "flex-end",
@@ -109,7 +109,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const {
     columns: rawColumns,
     rows: rawRows,
-    options,
+    tableButtons,
     newTableRowHeight,
     selectedRows,
     setSelectedRows,
@@ -332,10 +332,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   React.useEffect(() => {
     const tableHeight = tableRef?.current?.clientHeight || 600;
-    console.log(
-      "Logged output --> ~ file: ApexGrid.tsx ~ line 335 ~ React.useEffect ~ tableHeight",
-      tableHeight
-    );
     const pagination = Math.round(
       noOfTableRows / (tableHeight / tableRowHeight)
     );
@@ -348,7 +344,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const { pageSelect, tableFilter } = tableMetaData;
 
   return (
-    <>
+    <div style={{ width: "100%", height: "100%" }}>
       <Grid
         className={classes.tableHeadBanner}
         container
@@ -375,19 +371,19 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             />
           </FormControl>
         </Grid>
-        <Grid item container className={classes.tableIcons}>
-          <TableIcons localDispatch={localDispatch} options={options} />
+        <Grid item container className={classes.TableButtons}>
+          <TableButtons {...tableButtons} />
         </Grid>
       </Grid>
       <DndProvider backend={HTML5Backend}>
         <div
           ref={tableRef}
           // style={{ width: "100%", height: "100%", minHeight: 400 }}
-          style={{ width: "100%", height: "100%" }}
+          // style={{ width: "100%", height: "100%" }}
         >
           <ReactDataGrid
             ref={gridRef}
-            style={{ width: "100%", height: "100%" }}
+            // style={{ width: "100%", height: "100%" }}
             rows={sortedRows}
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
@@ -419,6 +415,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           onChange={handlePaginationChange}
         />
       </div>
-    </>
+    </div>
   );
 }

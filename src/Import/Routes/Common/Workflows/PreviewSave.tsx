@@ -7,10 +7,8 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import {
-  IRawRow,
-  ITableIconsOptions,
-} from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -104,19 +102,9 @@ export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const newUnitRowWithVariableName = { sn: 1, ...newUnitsRow };
   const tableData = [newUnitRowWithVariableName, ...orderedDataRows];
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
 
   const generateColumns = () => {
@@ -181,10 +169,10 @@ export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
   return (
     <div className={classes.rootPreviewSave}>
-      <ApexGrid<IRawRow, ITableIconsOptions>
+      <ApexGrid<IRawRow, ITableButtonsProps>
         columns={columns}
         rows={tableData}
-        options={tableOptions}
+        tableButtons={tableButtons}
       />
     </div>
   );

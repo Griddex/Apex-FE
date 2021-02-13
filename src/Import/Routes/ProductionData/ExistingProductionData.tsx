@@ -1,11 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ITableIconsOptions } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
   IExistingDataRow,
-  IGiftExistingData,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 
@@ -39,19 +38,9 @@ export default function ExistingProductionData({
     (state: RootState) => state.inputReducer[wc][wp]
   );
 
-  const tableOptions: ITableIconsOptions = {
-    sort: {
-      show: true,
-    },
-    filter: {
-      show: true,
-    },
-    save: {
-      show: true,
-      action: () => {
-        alert("Save table icon");
-      },
-    },
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
   };
 
   const snExistingData: IExistingDataRow[] = existingData.map(
@@ -80,7 +69,7 @@ export default function ExistingProductionData({
     snExistingData,
     dataKey,
     dataTitle,
-    tableOptions,
+    tableButtons,
     chartData,
   };
 

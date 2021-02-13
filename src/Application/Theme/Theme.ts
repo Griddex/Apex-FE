@@ -185,6 +185,17 @@ theme.overrides = {
       },
     },
   },
+  MuiDialogActions: {
+    root: {
+      backgroundColor: "#F7F7F7",
+    },
+  },
+
+  MuiPaper: {
+    elevation1: {
+      boxShadow: "none",
+    },
+  },
 };
 
 export default theme;

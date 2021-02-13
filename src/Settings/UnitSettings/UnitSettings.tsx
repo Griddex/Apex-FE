@@ -7,12 +7,11 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import SelectItem from "../../Application/Components/Selects/SelectItem";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ITableIconsOptions } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { GenericObjectSType } from "../../Application/Layout/LayoutTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
-import { tableOptions } from "../Configurations/SettingsTableOptions";
 import { updateFirstLevelUnitSettingsAction } from "../Redux/Actions/UnitSettingsActions";
 import {
   IUnit,
@@ -89,6 +88,11 @@ export default function UnitSettings({
   const [month, setMonth] = React.useState(monthFormat);
   const [year, setYear] = React.useState(yearFormat);
   const [pressAddend, setPressAddend] = React.useState(pressureAddend);
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
+  };
 
   const handleFirstLevelSettingsChange = (event: ChangeEvent<any>) => {
     const name = event.target.name;
@@ -396,10 +400,10 @@ export default function UnitSettings({
           />
         </div>
       </div>
-      <ApexGrid<IUnitsRow, ITableIconsOptions>
+      <ApexGrid<IUnitsRow, ITableButtonsProps>
         columns={columns}
         rows={rows}
-        options={tableOptions}
+        tableButtons={tableButtons}
       />
     </div>
   );

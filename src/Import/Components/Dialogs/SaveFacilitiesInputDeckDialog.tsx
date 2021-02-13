@@ -113,9 +113,7 @@ const SaveFacilitiesInputDeckDialog = (props: DialogStuff) => {
           {(props) => <FacilitiesTitleAndDescription {...props} />}
         </FacilitiesTitleAndDescriptionForm>
       </DialogContent>
-      <DialogActions style={{ backgroundColor: "#F7F7F7" }}>
-        {actionsList && actionsList()}
-      </DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
