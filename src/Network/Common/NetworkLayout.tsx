@@ -44,15 +44,15 @@ const NetworkLayout = () => {
 
   const {
     success,
-    existingDataWorkflows: { networkExisting, forecastingParametersExisting },
+    existingDataWorkflows: { networkExisting, forecastingParametersServer },
   } = useSelector((state: RootState) => state.networkReducer);
 
   const existingNetworksPresent =
     Array.isArray(networkExisting) && networkExisting.length > 0;
 
   const existingForecastParametersPresent =
-    Array.isArray(forecastingParametersExisting) &&
-    forecastingParametersExisting.length > 0;
+    Array.isArray(forecastingParametersServer) &&
+    forecastingParametersServer.length > 0;
 
   React.useEffect(() => {
     if (!existingForecastParametersPresent)

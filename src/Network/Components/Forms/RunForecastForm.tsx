@@ -17,7 +17,7 @@ const RunForecastForm = ({ children }: ISaveForecastParametersProps) => {
 
   return (
     <Formik
-      initialValues={networkState.saveForecastParameters}
+      initialValues={networkState.parameterEntries}
       validationSchema={Yup.object().shape({
         forecastParametersTitle: Yup.string().required(
           "projectTitle is required"
@@ -33,7 +33,7 @@ const RunForecastForm = ({ children }: ISaveForecastParametersProps) => {
           values: {
             forecastParametersTitle,
             forecastParametersDescription,
-            targetFluidTitle,
+            targetFluid,
             timeFrequency,
             defermentDecision,
             realtimeResults,
@@ -56,7 +56,7 @@ const RunForecastForm = ({ children }: ISaveForecastParametersProps) => {
               children({
                 forecastParametersTitle,
                 forecastParametersDescription,
-                targetFluidTitle,
+                targetFluid,
                 timeFrequency,
                 defermentDecision,
                 realtimeResults,

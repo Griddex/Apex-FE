@@ -1,7 +1,11 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { Edge, Node } from "react-flow-renderer";
 import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
-import { IForecastParametersDetail } from "../../Components/Dialogs/ExistingNetworksDialogTypes";
+import {
+  IDeclineCurveParametersDetail,
+  IForecastingParametersRow,
+  IForecastParametersRoot,
+} from "../../Components/Dialogs/ExistingNetworksDialogTypes";
 
 //NetworkModel
 export interface ISaveNetworkFormValues {
@@ -31,7 +35,7 @@ export interface ISaveNetworkProps {
 export interface ISaveForecastParametersFormValues {
   forecastParametersTitle: string;
   forecastParametersDescription: string;
-  targetFluidTitle: string;
+  targetFluid: string;
   timeFrequency: string;
   defermentDecision: string;
   realtimeResults: string;
@@ -52,7 +56,7 @@ export interface ISaveForecastParametersProps {
 export interface IRunForecastParametersFormValues {
   forecastParametersTitle: string;
   forecastParametersDescription: string;
-  targetFluidTitle: string;
+  targetFluid: string;
   timeFrequency: string;
   realtimeResults: string;
   endForecastDate: Date;
@@ -103,8 +107,11 @@ export interface INetworkState extends ISaveNetworkFormProps {
   error: { message: string };
   success: false;
 
-  saveForecastParameters: ISaveForecastParametersFormValues;
+  forecastParametersTitle: string;
+  forecastParametersDescription: string;
 
+  parameterEntries: ISaveForecastParametersFormValues;
+  declineParameters: IDeclineCurveParametersDetail[];
   selectedForecastingParametersId: string;
 
   selectedNetworkId: string;
@@ -112,6 +119,10 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   existingDataWorkflows: {
     networkExisting: IExistingDataRow[];
-    forecastingParametersExisting: IForecastParametersDetail[];
+    forecastingParametersServer: IForecastParametersRoot[];
   };
+
+  selectedForecastingParametersRootId: string;
+  selectedForecastingParametersGroupId: string;
+  forecastingParametersExisting: IForecastingParametersRow[];
 }

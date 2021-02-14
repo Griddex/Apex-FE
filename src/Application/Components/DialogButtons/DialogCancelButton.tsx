@@ -1,10 +1,9 @@
 import { Button } from "@material-ui/core";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ButtonProps } from "../Dialogs/DialogTypes";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { IFinalAction } from "../../Layout/LayoutTypes";
+import { ButtonProps } from "../Dialogs/DialogTypes";
 
 const DialogCancelButton = () => {
   const dispatch = useDispatch();
@@ -12,7 +11,7 @@ const DialogCancelButton = () => {
   const buttonsData: ButtonProps[] = [
     {
       title: "Cancel",
-      variant: "outlined",
+      variant: "contained",
       color: "secondary",
       startIcon: <DoneOutlinedIcon />,
       handleAction: () => dispatch(hideDialogAction()),

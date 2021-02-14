@@ -16,11 +16,16 @@ import {
 import { IContextMenuProps } from "../ContextMenu/ContextMenuTypes";
 import CalendarViewDayOutlinedIcon from "@material-ui/icons/CalendarViewDayOutlined";
 import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
-import { generateNetworkBySelectionRequestAction } from "../../Redux/Actions/NetworkActions";
+import {
+  generateNetworkBySelectionRequestAction,
+  removeCurrentNetworkAction,
+} from "../../Redux/Actions/NetworkActions";
 import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 
 const NetworkButtonsMenu = () => {
   const theme = useTheme();
@@ -64,20 +69,66 @@ const NetworkButtonsMenu = () => {
   };
 
   const existingNetworks = () => {
+    const networkGenerationConfirmation = () => {
+      const dialogParameters: DialogStuff = {
+        name: "Existing_Network_Dialog",
+        title: "Confirm Network Generation",
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        iconType: "confirmation",
+        dialogText:
+          "Do you want to generate the network with the current parameters?",
+        actionsList: () =>
+          DialogGenerateNetworkCancelButtons(
+            [true, true],
+            [true, true],
+            [unloadDialogsAction, generateNetworkBySelectionRequestAction]
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(dialogParameters));
+    };
+
     const dialogParameters: DialogStuff = {
       name: "Existing_Network_Dialog",
       title: "Production Networks",
       type: "existingNetworksDialog",
       show: true,
-      exclusive: true,
+      exclusive: false,
       maxWidth: "lg",
       iconType: "select",
       actionsList: () =>
         DialogGenerateNetworkCancelButtons(
           [true, true],
-          [true, true],
-          [unloadDialogsAction, generateNetworkBySelectionRequestAction]
+          [true, false],
+          [unloadDialogsAction, networkGenerationConfirmation]
         ),
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const removeNetwork = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Remove_Network_Dialog",
+      title: "Remove Network",
+      type: "textDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "xs",
+      iconType: "select",
+      dialogText:
+        "Do you want to remove the currently displayed production network?",
+      actionsList: () =>
+        DialogRemoveNetworkCancelButtons(
+          [true, true],
+          [true, true],
+          [unloadDialogsAction, removeCurrentNetworkAction]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -98,6 +149,11 @@ const NetworkButtonsMenu = () => {
       title: "Network List",
       action: existingNetworks,
       icon: <ListOutlinedIcon color="primary" fontSize="small" />,
+    },
+    {
+      title: "Remove Network",
+      action: removeNetwork,
+      icon: <CloseOutlinedIcon color="secondary" fontSize="small" />,
     },
   ];
 

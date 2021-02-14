@@ -7,13 +7,19 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
-import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  hideDialogAction,
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
 import SaveForecastParametersWorkflow from "../../Workflows/SaveForecastParametersWorkflow";
 
 const useStyles = makeStyles((theme) => ({
@@ -134,8 +140,26 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const finalAction = () => {
-    dispatch({ type: "HELLO" });
+  const saveForecastingParametersConfirmation = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Existing_Network_Dialog",
+      title: "Confirm Parameters Save",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      iconType: "confirmation",
+      dialogText: "Do you want to save the current forecasting parameters?",
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, true],
+          [unloadDialogsAction, saveForecastParametersRequestAction]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
   };
 
   const navigationButtonProps: INavigationButtonsProp = {
@@ -144,7 +168,7 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction,
+    finalAction: saveForecastingParametersConfirmation,
     workflowProps,
     workflowProcess,
     workflowCategory,

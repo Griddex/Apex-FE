@@ -12,15 +12,18 @@ const networkState: INetworkState = {
   showWellheadSummaryNodes: true,
   showWellheadSummaryEdges: true,
 
-  saveForecastParameters: {
+  parameterEntries: {
     forecastParametersTitle: "",
     forecastParametersDescription: "",
-    targetFluidTitle: "Oil",
-    timeFrequency: "Yearly",
+    targetFluid: "Oil",
+    timeFrequency: "Monthly",
     defermentDecision: "Add Deferment",
     realtimeResults: "No",
     endForecastDate: new Date(),
   },
+  declineParameters: [],
+  forecastParametersTitle: "",
+  forecastParametersDescription: "",
 
   isValids: { saveNetworkExtrudeIsValid: false },
 
@@ -41,8 +44,12 @@ const networkState: INetworkState = {
   selectedNetworkTitle: "",
   existingDataWorkflows: {
     networkExisting: [],
-    forecastingParametersExisting: [],
+    forecastingParametersServer: [],
   },
+
+  selectedForecastingParametersRootId: "",
+  selectedForecastingParametersGroupId: "",
+  forecastingParametersExisting: [],
 };
 
 export default networkState;

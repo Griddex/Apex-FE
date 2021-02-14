@@ -247,15 +247,16 @@ const Network = () => {
     console.log("Inside Onload");
   };
 
-  if (success) {
-    enqueueSnackbar("Network Generated", {
-      persist: false,
-      variant: "success",
-    });
-  }
-  // React.useEffect(() => {
-  //   localDispatch({type: "CONNECT_ELEMENTS", payload: updatedElements})
-  // },[])
+  React.useEffect(() => {
+    if (success) {
+      enqueueSnackbar("Network Generated", {
+        persist: false,
+        variant: "success",
+      });
+    }
+
+    // localDispatch({type: "CONNECT_ELEMENTS", payload: updatedElements})
+  }, []);
 
   return (
     <div className={classes.root}>

@@ -51,7 +51,14 @@ export const SAVE_FORECASTPARAMETERS_SUCCESS =
   "SAVE_FORECASTPARAMETERS_SUCCESS";
 export const SAVE_FORECASTPARAMETERS_FAILURE =
   "SAVE_FORECASTPARAMETERS_FAILURE";
+export const UPDATE_FORECASTPARAMETERS_REQUEST =
+  "UPDATE_FORECASTPARAMETERS_REQUEST";
+export const UPDATE_FORECASTPARAMETERS_SUCCESS =
+  "UPDATE_FORECASTPARAMETERS_SUCCESS";
+export const UPDATE_FORECASTPARAMETERS_FAILURE =
+  "UPDATE_FORECASTPARAMETERS_FAILURE";
 export const PERSIST_FORECASTPARAMETERS = "PERSIST_FORECASTPARAMETERS";
+export const REMOVE_NETWORK = "REMOVE_NETWORK";
 
 export const runForecastRequestAction = () => {
   return {
@@ -60,7 +67,7 @@ export const runForecastRequestAction = () => {
   };
 };
 
-export const updateNetworkParameterAction = (name: string, value: string) => {
+export const updateNetworkParameterAction = (name: string, value: any) => {
   return {
     type: UPDATE_NETWORKPARAMETER,
     payload: {
@@ -369,20 +376,55 @@ export const saveForecastParametersFailureAction = () => {
   };
 };
 
+export const updateForecastParametersRequestAction = () => {
+  return {
+    type: UPDATE_FORECASTPARAMETERS_REQUEST,
+    meta: { showSpinner: true, message: "Updating forecast parameters..." },
+  };
+};
+
+export const updateForecastParametersSuccessAction = () => {
+  return {
+    type: UPDATE_FORECASTPARAMETERS_SUCCESS,
+    payload: {
+      statusCode: 0,
+      data: [],
+    },
+  };
+};
+
+export const updateForecastParametersFailureAction = () => {
+  return {
+    type: UPDATE_FORECASTPARAMETERS_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
 export const persistForecastParametersAction = (
-  targetFluidTitle: string,
+  targetFluid: string,
   timeFrequency: string,
+  defermentDecision: string,
   realtimeResults: string,
   endForecastDate: Date
 ) => {
   return {
     type: PERSIST_FORECASTPARAMETERS,
     payload: {
-      targetFluidTitle,
+      targetFluid,
       timeFrequency,
+      defermentDecision,
       realtimeResults,
       endForecastDate,
     },
     meta: { showSpinner: true, message: "" },
+  };
+};
+
+export const removeCurrentNetworkAction = () => {
+  return {
+    type: REMOVE_NETWORK,
   };
 };

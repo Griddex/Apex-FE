@@ -10,7 +10,11 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IDeclineCurveParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import {
+  IDeclineCurveParametersDetail,
+  IForecastingParametersRow,
+} from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
 
 const useStyles = makeStyles(() => ({
@@ -72,15 +76,24 @@ export default function DeclineCurveParameters({
   const dispatch = useDispatch();
 
   const wc = "existingDataWorkflows";
-  const wp = "forecastingParametersExisting";
+  const wp = "forecastingParametersServer";
 
-  const existingData = useSelector(
-    (state: RootState) => state.networkReducer[wc][wp]
+  const { forecastingParametersExisting } = useSelector(
+    (state: RootState) => state.networkReducer
   );
 
-  const parametersList = existingData.forecastingParametersGroupList;
+  console.log(
+    "Logged output --> ~ file: DeclineCurveParameters.tsx ~ line 365 ~ forecastingParametersExisting",
+    forecastingParametersExisting
+  );
+
   const declineCurveParametersList =
-    parametersList[selectedRowIndex]["declineParameters"];
+    forecastingParametersExisting[selectedRowIndex]["declineParameters"];
+
+  console.log(
+    "Logged output --> ~ file: DeclineCurveParameters.tsx ~ line 90 ~ declineCurveParametersList",
+    declineCurveParametersList
+  );
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
@@ -342,9 +355,10 @@ export default function DeclineCurveParameters({
   const rows = tableRows.current;
 
   React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
-  }, [dispatch]);
+
+    dispatch(updateNetworkParameterAction("declineParameters", rows));
+  }, [dispatch, rows]);
 
   return (
     <div className={classes.rootExistingData}>

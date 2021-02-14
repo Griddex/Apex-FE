@@ -13,28 +13,28 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
-  SAVE_FORECASTPARAMETERS_REQUEST,
-  saveForecastParametersSuccessAction,
-  saveForecastParametersFailureAction,
+  UPDATE_FORECASTPARAMETERS_REQUEST,
+  updateForecastParametersSuccessAction,
+  updateForecastParametersFailureAction,
 } from "../Actions/NetworkActions";
 
-export default function* watchSaveForecastParametersSaga() {
-  const saveForecastParametersChan = yield actionChannel(
-    SAVE_FORECASTPARAMETERS_REQUEST
+export default function* watchUpdateForecastParametersSaga() {
+  const updateForecastParametersChan = yield actionChannel(
+    UPDATE_FORECASTPARAMETERS_REQUEST
   );
   yield takeLeading<ActionType>(
-    saveForecastParametersChan,
-    saveForecastParametersSaga
+    updateForecastParametersChan,
+    updateForecastParametersSaga
   );
 }
 
-function* saveForecastParametersSaga(action: IAction) {
+function* updateForecastParametersSaga(action: IAction) {
   const { payload } = action;
   const { userId } = yield select((state) => state.loginReducer);
   const {
     forecastParametersTitle,
     forecastParametersDescription,
-    selectedForecastingParametersRootId,
+    selectedForecastingParametersGroupId,
     declineParameters,
     parameterEntries: {
       targetFluid,
@@ -51,7 +51,7 @@ function* saveForecastParametersSaga(action: IAction) {
     description: forecastParametersDescription,
     type: "User",
     userId: "Gideon",
-    forecastingParametersId: selectedForecastingParametersRootId,
+    forecastingParametersId: selectedForecastingParametersGroupId,
     declineParameters,
     parameterEntries: {
       targetFluid,
@@ -65,13 +65,13 @@ function* saveForecastParametersSaga(action: IAction) {
   };
 
   const config = { headers: null };
-  const saveForecastParametersAPI = (url: string) =>
+  const updateForecastParametersAPI = (url: string) =>
     authService.post(url, data, config);
   const statusCode = ""; //Get from success response
 
   try {
     const result = yield call(
-      saveForecastParametersAPI,
+      updateForecastParametersAPI,
       `${getBaseUrl()}/forecast-parameters` //This is the URL endpoint you should change
     );
 
@@ -83,7 +83,7 @@ function* saveForecastParametersSaga(action: IAction) {
       },
     } = result;
 
-    const successAction = saveForecastParametersSuccessAction();
+    const successAction = updateForecastParametersSuccessAction();
     yield put({
       ...successAction,
       payload: { ...payload, success, statusCode, data },
@@ -91,7 +91,7 @@ function* saveForecastParametersSaga(action: IAction) {
 
     // yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
   } catch (errors) {
-    const failureAction = saveForecastParametersFailureAction();
+    const failureAction = updateForecastParametersFailureAction();
 
     yield put({
       ...failureAction,

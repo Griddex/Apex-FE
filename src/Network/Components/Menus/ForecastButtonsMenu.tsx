@@ -41,7 +41,7 @@ const ForecastButtonsMenu = () => {
     setAnchorEl(null);
   };
 
-  const runForecastFinalAction = () => {
+  const confirmRunForecast = () => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Run_Forecast_Dialog",
       title: "Confirm Run Forecast",
@@ -75,8 +75,8 @@ const ForecastButtonsMenu = () => {
       actionsList: () =>
         DialogRunForecastCancelButtons(
           [true, true],
-          [true, true],
-          [unloadDialogsAction, runForecastFinalAction]
+          [true, false],
+          [unloadDialogsAction, confirmRunForecast]
         ),
     };
 

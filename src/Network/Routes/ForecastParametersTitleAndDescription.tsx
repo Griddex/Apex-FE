@@ -1,6 +1,8 @@
 import { TextareaAutosize, TextField } from "@material-ui/core";
-import React from "react";
+import React, { ChangeEvent } from "react";
+import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 
 const ForecastParametersTitleAndDescription = ({
@@ -10,10 +12,18 @@ const ForecastParametersTitleAndDescription = ({
   touched,
   handleChange,
 }: ISaveForecastParametersFormProps) => {
+  const dispatch = useDispatch();
+
   const helperText =
     touched && touched.forecastParametersTitle
       ? errors && errors.forecastParametersTitle
       : "";
+
+  const handleBlur = (event: ChangeEvent<any>) => {
+    const { name, value } = event.target;
+
+    dispatch(updateNetworkParameterAction(name, value));
+  };
 
   return (
     <div>
@@ -29,6 +39,7 @@ const ForecastParametersTitleAndDescription = ({
             error={Boolean(helperText)}
             value={forecastParametersTitle}
             onChange={handleChange}
+            onBlur={handleBlur}
             required
             autoFocus
             fullWidth
@@ -46,6 +57,7 @@ const ForecastParametersTitleAndDescription = ({
             rowsMin={20}
             value={forecastParametersDescription}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         }
       />

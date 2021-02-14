@@ -2,13 +2,8 @@ import { Button, Tooltip, useTheme } from "@material-ui/core";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import {
-  showDialogAction,
-  unloadDialogsAction,
-} from "../../../Application/Redux/Actions/DialogsAction";
-import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 const NewForecastParametersButton = () => {
   const theme = useTheme();
@@ -23,12 +18,6 @@ const NewForecastParametersButton = () => {
       exclusive: false,
       maxWidth: "xl",
       iconType: "information",
-      actionsList: () =>
-        DialogSaveCancelButtons(
-          [true, true],
-          [true, true],
-          [saveForecastParametersRequestAction, unloadDialogsAction]
-        ),
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -51,7 +40,7 @@ const NewForecastParametersButton = () => {
         onClick={saveForecastParametersWorkflow}
         startIcon={<AddOutlinedIcon />}
       >
-        {"New Forecast"}
+        {"New"}
       </Button>
     </Tooltip>
   );

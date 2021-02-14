@@ -1,14 +1,13 @@
 import { Button } from "@material-ui/core";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IFinalAction } from "../../Layout/LayoutTypes";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
 
-const DialogSaveCancelButtons = (
+const DialogDeleteCancelButtons = (
   shouldExecute: IFinalAction["shouldExecute"],
   shouldDispatch: IFinalAction["shouldDispatch"],
   finalActions: IFinalAction["finalActions"]
@@ -19,14 +18,14 @@ const DialogSaveCancelButtons = (
       title: "Cancel",
       variant: "contained",
       color: "secondary",
-      startIcon: <ClearOutlinedIcon />,
+      startIcon: <CloseOutlinedIcon />,
       handleAction: () => dispatch(hideDialogAction()),
     },
     {
-      title: "Save",
+      title: "Remove",
       variant: "contained",
       color: "primary",
-      startIcon: <SaveOutlinedIcon />,
+      startIcon: <DeleteForeverOutlinedIcon />,
       handleAction: () => {
         let i = 0;
         for (const execute of shouldExecute) {
@@ -58,4 +57,4 @@ const DialogSaveCancelButtons = (
   );
 };
 
-export default DialogSaveCancelButtons;
+export default DialogDeleteCancelButtons;

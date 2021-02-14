@@ -16,6 +16,7 @@ import {
   PERSIST_NETWORKELEMENTS,
   PERSIST_POPOVER,
   PERSIST_POPOVERID,
+  REMOVE_NETWORK,
   RUN_FORECAST_REQUEST,
   SAVENETWORK_FAILURE,
   SAVENETWORK_ISVALID,
@@ -101,8 +102,8 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     case PERSIST_FORECASTPARAMETERS: {
       return {
         ...state,
-        saveForecastParameters: {
-          ...state["saveForecastParameters"],
+        parameterEntries: {
+          ...state["parameterEntries"],
           ...action.payload,
         },
       };
@@ -190,7 +191,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       const {
         statusCode,
         success,
-        forecastingParametersExisting,
+        forecastingParametersServer,
       } = action.payload;
       const wc = "existingDataWorkflows";
 
@@ -198,7 +199,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         statusCode,
         success,
-        [wc]: { ...state[wc], forecastingParametersExisting },
+        [wc]: { ...state[wc], forecastingParametersServer },
       };
     }
 
@@ -231,6 +232,15 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         statusCode,
         errors,
+      };
+    }
+
+    case REMOVE_NETWORK: {
+      return {
+        ...state,
+        nodeElements: [],
+        edgeElements: [],
+        selectedNetworkId: "",
       };
     }
 

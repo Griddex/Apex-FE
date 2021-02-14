@@ -1,30 +1,18 @@
 import React from "react";
-import { IApexSelect, IApexSelectRS } from "./SelectItemsType";
+import { IApexSelectRS } from "./SelectItemsType";
+import Select from "react-select";
 
 const ApexSelectRS = ({
-  currentItem,
   dataOptions,
-  handleChange,
-  selectItemStyle,
+  handleSelect,
+  colorStyles,
 }: IApexSelectRS) => {
-  const options: { value: string; label: string }[] = dataOptions.map((v) => ({
-    value: v,
-    label: v,
-  }));
-
   return (
-    <select
-      style={selectItemStyle}
-      id="outlined-select-worksheet"
-      value={currentItem}
-      onChange={handleChange}
-    >
-      {options.map((option, i: number) => (
-        <option key={i} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+    <Select
+      options={dataOptions}
+      styles={colorStyles}
+      onChange={handleSelect}
+    />
   );
 };
 

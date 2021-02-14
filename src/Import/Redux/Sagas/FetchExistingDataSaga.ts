@@ -8,25 +8,13 @@ import {
   PutEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
-import {
-  IExistingDataProps,
-  IExistingDataRow,
-} from "../../../Application/Types/ApplicationTypes";
-import formatDate from "../../../Application/Utils/FormatDate";
+import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingDataDialogParameters";
-import {
-  anitaImg,
-  glenImg,
-  johnImg,
-  kerryImg,
-  shirleyImg,
-} from "../../Utils/iconImages";
 import {
   EXISTINGDATA_REQUEST,
   fetchExistingDataFailureAction,

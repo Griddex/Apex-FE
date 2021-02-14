@@ -13,11 +13,17 @@ import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction"
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
+import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
-import { IForecastParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import {
+  IForecastingParametersGroup,
+  IForecastingParametersRow,
+  IForecastParametersRoot,
+} from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
 import NewForecastParametersButton from "../Components/Menus/NewForecastParametersButton";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
+import flattenObject from "../Utils/FlattenObject";
 import formatDate from "./../../Application/Utils/FormatDate";
 import { IExistingForcastParameters } from "./ExistingForecastParametersTypes";
 
@@ -81,41 +87,59 @@ export default function ExistingForecastingParameters({
   const dispatch = useDispatch();
 
   const wc = "existingDataWorkflows";
-  const wp = "forecastingParametersExisting";
+  const wp = "forecastingParametersServer";
 
   const existingData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
-  );
+  ) as IForecastParametersRoot[];
 
-  const { title, description } = existingData;
-  const transExistingData = existingData["forecastingParametersGroupList"].map(
-    (row: any) => {
-      const { _id, type, createdAt, declineParameters } = row;
+  const transExistingData = existingData.map((row: IForecastParametersRoot) => {
+    const { id, forecastInputdeckTitle, forecastingParametersGroupList } = row;
 
-      const day = 12;
-      const month = 9;
-      const year = 2020;
-      const timeFrequency = "Monthly";
-      const targetFluid = "Oil";
-      const isDefered = 0;
+    const arrExistingData = forecastingParametersGroupList.map(
+      (row: IForecastingParametersGroup) => {
+        const {
+          _id,
+          title,
+          description,
+          type,
+          createdAt,
+          declineParameters,
+          parametersEntity,
+        } = row;
 
-      return {
-        forecastingParametersId: _id,
-        declineParameters,
-        type,
-        title,
-        description,
-        targetFluid,
-        timeFrequency,
-        isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment", //Referred, Realtime not yet
-        realtimeResults: "Yes",
-        endForecast: formatDate(new Date(year, month, day)),
-        author: "---",
-        createdOn: createdAt,
-        modifiedOn: createdAt,
-      };
-    }
-  );
+        const {
+          timeFrequency,
+          targetFluid,
+          isDefered,
+          stopDay,
+          stopMonth,
+          stopYear,
+        } = parametersEntity;
+
+        return {
+          forecastingParametersRootId: id,
+          forecastingParametersGroupId: _id,
+          forcastInputDeckTitle: forecastInputdeckTitle,
+          declineParameters,
+          type,
+          title,
+          description,
+          targetFluid,
+          timeFrequency,
+          // isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment", //Referred, Realtime not yet
+          isDefered, //Referred, Realtime not yet
+          realtimeResults: "Yes",
+          endForecast: formatDate(new Date(stopYear, stopMonth, stopDay)),
+          author: { avatarUrl: "", name: "" },
+          createdOn: createdAt,
+          modifiedOn: createdAt,
+        };
+      }
+    );
+
+    return arrExistingData;
+  });
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
@@ -124,11 +148,11 @@ export default function ExistingForecastingParameters({
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (
-    row: IForecastParametersDetail,
+    row: IForecastingParametersRow,
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const name = "selectedForecastingParametersId";
-    const value = row.forecastingParametersId;
+    const value = row.forecastingParametersRootId;
 
     dispatch(updateNetworkParameterAction(name, value));
     setCheckboxSelected(!checkboxSelected);
@@ -137,7 +161,7 @@ export default function ExistingForecastingParameters({
   const [, setRerender] = React.useState(false);
 
   const generateColumns = () => {
-    const columns: Column<IForecastParametersDetail>[] = [
+    const columns: Column<IForecastingParametersRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "selectNetwork",
@@ -157,11 +181,33 @@ export default function ExistingForecastingParameters({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
+          const { sn } = row;
+          const selectedRowIndex = (sn as number) - 1;
+
           return (
-            <div>
-              <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
+            <div
+              style={{
+                display: "flex",
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <EditOutlinedIcon
+                onClick={() => {
+                  // alert(`Edit Row is:${row}`);
+                  dispatch(
+                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                  );
+                }}
+              />
               <DeleteOutlinedIcon
-                onClick={() => alert(`Delete Row is:${row}`)}
+                onClick={() => {
+                  dispatch(
+                    showDialogAction(deleteDialogParameters(selectedRowIndex))
+                  );
+                }}
               />
               <MenuOpenOutlinedIcon
                 onClick={() => alert(`Menu Row is:${row}`)}
@@ -180,6 +226,7 @@ export default function ExistingForecastingParameters({
         formatter: ({ row }) => {
           const { sn } = row;
           const selectedRowIndex = (sn as number) - 1;
+
           return (
             <div
               style={{
@@ -193,11 +240,17 @@ export default function ExistingForecastingParameters({
             >
               <VisibilityOutlinedIcon
                 style={{ display: "flex", alignSelf: "center" }}
-                onClick={() =>
+                onClick={() => {
                   dispatch(
                     showDialogAction(extrudeDialogParameters(selectedRowIndex))
-                  )
-                }
+                  );
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedForecastingParametersRootId",
+                      row.forecastingParametersRootId
+                    )
+                  );
+                }}
               />
               <Typography>View</Typography>
             </div>
@@ -218,6 +271,13 @@ export default function ExistingForecastingParameters({
             </div>
           );
         },
+      },
+      {
+        key: "forcastInputDeckTitle",
+        name: "FORECAST INPUT DECK TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
       },
       {
         key: "title",
@@ -297,20 +357,60 @@ export default function ExistingForecastingParameters({
   };
   const columns = React.useMemo(() => generateColumns(), []);
 
-  const snTransExistingData = transExistingData.map(
-    (row: IForecastParametersDetail, i: number) => ({
-      sn: i + 1,
-      ...row,
-    })
-  );
-  const tableRows = React.useRef<IForecastParametersDetail[]>(
+  const snTransExistingData: IForecastingParametersRow[] = [];
+  let i = 0;
+  for (const forecastParametersTable of transExistingData) {
+    for (const row of forecastParametersTable) {
+      const {
+        title,
+        description,
+        forecastingParametersRootId,
+        forecastingParametersGroupId,
+        forcastInputDeckTitle,
+        declineParameters,
+        targetFluid,
+        timeFrequency,
+        isDefered,
+        endForecast,
+        type,
+        author,
+        createdOn,
+        modifiedOn,
+      } = row;
+
+      snTransExistingData.push({
+        sn: i + 1,
+        title,
+        description,
+        forecastingParametersRootId,
+        forecastingParametersGroupId,
+        forcastInputDeckTitle,
+        declineParameters,
+        targetFluid,
+        timeFrequency,
+        isDefered,
+        endForecast,
+        type,
+        author,
+        createdOn,
+        modifiedOn,
+      });
+
+      i = i + 1;
+    }
+  }
+
+  const tableRows = React.useRef<IForecastingParametersRow[]>(
     snTransExistingData
   );
   const rows = tableRows.current;
 
   React.useEffect(() => {
+    dispatch(
+      updateNetworkParameterAction("forecastingParametersExisting", rows)
+    );
     dispatch(hideSpinnerAction());
-  }, [dispatch]);
+  }, [dispatch, rows]);
 
   return (
     <div className={classes.rootExistingData}>
@@ -320,7 +420,7 @@ export default function ExistingForecastingParameters({
         </div>
       )}
       <div className={classes.table}>
-        <ApexGrid<IForecastParametersDetail, ITableButtonsProps>
+        <ApexGrid<IForecastingParametersRow, ITableButtonsProps>
           columns={columns}
           rows={rows}
           tableButtons={tableButtons}

@@ -191,11 +191,11 @@ theme.overrides = {
     },
   },
 
-  MuiPaper: {
-    elevation1: {
-      boxShadow: "none",
-    },
-  },
+  // MuiPaper: {
+  //   elevation1: {
+  //     boxShadow: "none",
+  //   },
+  // },
 };
 
 export default theme;

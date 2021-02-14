@@ -15,7 +15,7 @@ const SaveForecastParametersWorkflow = ({
       case 0:
         return (
           <DeclineCurveParameters
-            selectedRowIndex={0}
+            selectedRowIndex={0} //Provide default DCA parameters
             workflowProcess="saveForecastingParametersWorkflowDialog"
           />
         );
@@ -33,7 +33,7 @@ const SaveForecastParametersWorkflow = ({
       {({
         forecastParametersTitle,
         forecastParametersDescription,
-        targetFluidTitle,
+        targetFluid,
         timeFrequency,
         defermentDecision,
         realtimeResults,
@@ -46,7 +46,7 @@ const SaveForecastParametersWorkflow = ({
         renderImportStep({
           forecastParametersTitle,
           forecastParametersDescription,
-          targetFluidTitle,
+          targetFluid,
           timeFrequency,
           defermentDecision,
           realtimeResults,
