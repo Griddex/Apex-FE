@@ -1,29 +1,37 @@
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
-import DialogOkayButton from "../../../Application/Components/DialogButtons/DialogOkayButton";
+import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  hideDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 
 export const successDialogParameters = (): DialogStuff => ({
-  name: "Save_Network_Success_Dialog",
-  title: "Save Network Success",
+  name: "Save_Forecast_Success_Dialog",
+  title: "Forecast Save Success",
   type: "textDialog",
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `The network was successfully saved!`,
+  dialogText: `Forecast save was successfully completed!`,
   iconType: "success",
-  actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),
+  actionsList: () =>
+    DialogOkayCancelButtons(
+      [true, true],
+      [true, true],
+      [unloadDialogsAction, hideDialogAction]
+    ),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });
 
 export const failureDialogParameters = (errorMessage: string): DialogStuff => ({
-  name: "Save_Network_Failure_Dialog",
-  title: "Save Network Failure",
+  name: "Save_Forecast_Failure_Dialog",
+  title: "Forecast Save Failure",
   type: "textDialog",
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Something unexpected happended and the network could not be saved.
+  dialogText: `Something unexpected happended and the forecast run could not be saved.
   Please try again
   
   ${errorMessage}

@@ -1,3 +1,4 @@
+import { FormikErrors, FormikTouched } from "formik";
 import { RenderTree } from "./../../Components/ForecastTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
@@ -15,6 +16,7 @@ export interface IForecastChartObject {
   };
 }
 export interface IForecastChartState {
+  selectedForecastChartVariable: string;
   selectedChartIndex: number;
   selectedChartObjId: string;
 
@@ -43,9 +45,27 @@ export interface IForecastChartLayoutProps {
   forecastChartMetaData?: IForecastChartMetaData;
 }
 
-export interface IForecastResultState {
+export interface ISaveForecastResultsFormValues {
+  forecastResultsTitle: string;
+  forecastResultsDescription: string;
+}
+
+export interface ISaveForecastResultsProps
+  extends ISaveForecastResultsFormValues {
+  errors?: FormikErrors<ISaveForecastResultsFormValues>;
+  touched?: FormikTouched<ISaveForecastResultsFormValues>;
+  isValid?: boolean;
+  handleChange?: (event: React.ChangeEvent<any>) => void;
+  children?: (props: ISaveForecastResultsProps) => JSX.Element;
+}
+export interface ISaveForecastProps {
+  children?: (props: ISaveForecastResultsProps) => JSX.Element;
+}
+
+export interface IForecastResultState extends ISaveForecastResultsProps {
   forecastResult: any[];
-  forecastTree: RenderTree;
+  forecastTree: RenderTree["children"];
+  transForecastResult: any[];
 }
 
 export type colorGradient = typeof initialColorGradient;

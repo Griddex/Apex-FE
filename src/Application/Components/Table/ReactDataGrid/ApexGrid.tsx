@@ -375,15 +375,18 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           <TableButtons {...tableButtons} />
         </Grid>
       </Grid>
+      {/* <div style={{ width: "100%", height: "100%" }}> */}
       <DndProvider backend={HTML5Backend}>
         <div
           ref={tableRef}
           // style={{ width: "100%", height: "100%", minHeight: 400 }}
           // style={{ width: "100%", height: "100%" }}
+          style={{ display: "flex", flexGrow: 1, height: "100%" }}
         >
           <ReactDataGrid
             ref={gridRef}
             // style={{ width: "100%", height: "100%" }}
+            style={{ display: "flex", flexGrow: 1, height: "100%" }}
             rows={sortedRows}
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
@@ -398,6 +401,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           />
         </div>
       </DndProvider>
+      {/* </div> */}
       <div className={classes.tablePagination}>
         <div>Pages</div>
         <SelectEditor

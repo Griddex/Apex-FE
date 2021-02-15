@@ -13,41 +13,49 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
-  runForecastSuccessAction,
-  runForecastFailureAction,
+  saveForecastSuccessAction,
+  saveForecastFailureAction,
 } from "../../../Forecast/Redux/ForecastActions/ForecastActions";
 import {
   successDialogParameters,
   failureDialogParameters,
-} from "../../Components/DialogParameters/RunForecastSuccessFailureDialogParameters";
-import { RUN_FORECAST_REQUEST } from "../Actions/NetworkActions";
+} from "../../Components/DialogParameters/SaveForecastSuccessFailureDialogParameters";
+import { SAVE_FORECAST_REQUEST } from "../Actions/NetworkActions";
 
-export default function* watchRunForecastSaga() {
-  const runForecastChan = yield actionChannel(RUN_FORECAST_REQUEST);
-  yield takeLeading<ActionType>(runForecastChan, runForecastSaga);
+export default function* watchSaveForecastSaga() {
+  const saveForecastChan = yield actionChannel(SAVE_FORECAST_REQUEST);
+  yield takeLeading<ActionType>(saveForecastChan, saveForecastSaga);
 }
 
-function* runForecastSaga(action: IAction) {
+function* saveForecastSaga(action: IAction) {
   const { payload } = action;
+  const { userId } = yield select((state) => state.loginReducer);
+  const { projectId } = yield select((state) => state.projectReducer);
 
-  const { selectedNetworkId } = yield select((state) => state.networkReducer);
-  const { selectedForecastingParametersId } = yield select(
+  const { selectedNetworkId, selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
+  );
+  const { forecastResultsTitle, forecastResultsDescription } = yield select(
+    (state) => state.forecastReducer
   );
 
   const data = {
+    userId: "Gideon",
+    projectId,
     networkId: selectedNetworkId,
-    forecastingParametersGroupId: selectedForecastingParametersId,
+    forecastingParametersId: selectedForecastingParametersId,
+    title: forecastResultsTitle,
+    description: forecastResultsDescription,
   };
 
   const config = { headers: null };
-  const runForecastAPI = (url: string) => authService.post(url, data, config);
+  const saveForecastAPI = (url: string) => authService.post(url, data, config);
   const statusCode = ""; //Get from success response
 
   try {
     const result = yield call(
-      runForecastAPI,
-      `${getBaseUrl()}/forecast/run` //This is the URL endpoint you should change
+      saveForecastAPI,
+      `${getBaseUrl()}/forecast/save` //This is the URL endpoint you should change
     );
 
     const {
@@ -56,7 +64,7 @@ function* runForecastSaga(action: IAction) {
       },
     } = result;
 
-    const successAction = runForecastSuccessAction();
+    const successAction = saveForecastSuccessAction();
     yield put({
       ...successAction,
       payload: { ...payload, statusCode, forecastResult, forecastTree },
@@ -65,7 +73,7 @@ function* runForecastSaga(action: IAction) {
     yield put(showDialogAction(successDialogParameters()));
     // yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
   } catch (errors) {
-    const failureAction = runForecastFailureAction();
+    const failureAction = saveForecastFailureAction();
 
     yield put({
       ...failureAction,

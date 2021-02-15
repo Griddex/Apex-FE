@@ -27,13 +27,13 @@ import flattenObject from "../Utils/FlattenObject";
 import formatDate from "./../../Application/Utils/FormatDate";
 import { IExistingForcastParameters } from "./ExistingForecastParametersTypes";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   rootExistingData: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    height: "100%",
+    height: 560,
     backgroundColor: "#FFF",
   },
   chart: {
@@ -71,6 +71,19 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     height: "100%",
   },
+  dcaTable: {
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  visibilityOutlinedIcon: {
+    "&:hover": {
+      color: theme.palette.primary.main,
+    },
+  },
 }));
 
 //TODO: Calculate classification data from collection
@@ -94,7 +107,12 @@ export default function ExistingForecastingParameters({
   ) as IForecastParametersRoot[];
 
   const transExistingData = existingData.map((row: IForecastParametersRoot) => {
-    const { id, forecastInputdeckTitle, forecastingParametersGroupList } = row;
+    const {
+      id,
+      forecastInputDeckId,
+      forecastInputdeckTitle,
+      forecastingParametersGroupList,
+    } = row;
 
     const arrExistingData = forecastingParametersGroupList.map(
       (row: IForecastingParametersGroup) => {
@@ -120,7 +138,8 @@ export default function ExistingForecastingParameters({
         return {
           forecastingParametersRootId: id,
           forecastingParametersGroupId: _id,
-          forcastInputDeckTitle: forecastInputdeckTitle,
+          forecastInputDeckId,
+          forecastInputDeckTitle: forecastInputdeckTitle,
           declineParameters,
           type,
           title,
@@ -152,7 +171,7 @@ export default function ExistingForecastingParameters({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const name = "selectedForecastingParametersId";
-    const value = row.forecastingParametersRootId;
+    const value = row.forecastingParametersGroupId;
 
     dispatch(updateNetworkParameterAction(name, value));
     setCheckboxSelected(!checkboxSelected);
@@ -228,18 +247,9 @@ export default function ExistingForecastingParameters({
           const selectedRowIndex = (sn as number) - 1;
 
           return (
-            <div
-              style={{
-                display: "flex",
-                height: "100%",
-                width: "100%",
-                justifyContent: "space-evenly",
-                alignItems: "center",
-                alignSelf: "center",
-              }}
-            >
+            <div className={classes.dcaTable}>
               <VisibilityOutlinedIcon
-                style={{ display: "flex", alignSelf: "center" }}
+                className={classes.visibilityOutlinedIcon}
                 onClick={() => {
                   dispatch(
                     showDialogAction(extrudeDialogParameters(selectedRowIndex))
@@ -273,7 +283,7 @@ export default function ExistingForecastingParameters({
         },
       },
       {
-        key: "forcastInputDeckTitle",
+        key: "forecastInputDeckTitle",
         name: "FORECAST INPUT DECK TITLE",
         editable: false,
         resizable: true,
@@ -355,7 +365,7 @@ export default function ExistingForecastingParameters({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), []);
+  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
   const snTransExistingData: IForecastingParametersRow[] = [];
   let i = 0;
@@ -366,7 +376,8 @@ export default function ExistingForecastingParameters({
         description,
         forecastingParametersRootId,
         forecastingParametersGroupId,
-        forcastInputDeckTitle,
+        forecastInputDeckId,
+        forecastInputDeckTitle,
         declineParameters,
         targetFluid,
         timeFrequency,
@@ -384,7 +395,8 @@ export default function ExistingForecastingParameters({
         description,
         forecastingParametersRootId,
         forecastingParametersGroupId,
-        forcastInputDeckTitle,
+        forecastInputDeckId,
+        forecastInputDeckTitle,
         declineParameters,
         targetFluid,
         timeFrequency,

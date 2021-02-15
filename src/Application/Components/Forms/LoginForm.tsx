@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
   button: {
     padding: theme.spacing(1),
     textAlign: "center",
-    color: theme.palette.text.primary,
-    background: theme.palette.primary.main,
+    // color: theme.palette.text.primary,
+    // background: theme.palette.primary.main,
     width: "100%",
     height: 50,
     margin: 0,

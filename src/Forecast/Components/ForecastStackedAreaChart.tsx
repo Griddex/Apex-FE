@@ -28,7 +28,6 @@ import removeAllSpaces from "../../Visualytics/Utils/RemoveAllSpaces";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
-    marginTop: 10,
     backgroundColor: (props: IChartLayoutProps) =>
       props.chartLayoutColor ? props.chartLayoutColor : "white",
     backgroundImage: (props: IChartLayoutProps) =>

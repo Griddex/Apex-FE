@@ -107,6 +107,7 @@ const DialogContent = withStyles((theme) => ({
 }))(MuiDialogContent);
 
 const steps = [
+  "Select Forecast Input Deck",
   "DCA Parameters",
   "Other Forecast Parameters",
   "Title and Description",

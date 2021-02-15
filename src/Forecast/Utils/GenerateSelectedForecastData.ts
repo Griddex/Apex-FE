@@ -1,8 +1,7 @@
 import { get, groupBy, omit } from "lodash";
-import { RenderTree } from "../Components/ForecastTreeViewTypes";
 
 const generateSelectedForecastData = (
-  forecastTreeData: RenderTree,
+  forecastData: any,
   variables: string[],
   paths: string[],
   modules: string[],
@@ -24,13 +23,13 @@ const generateSelectedForecastData = (
       const vr = path.substring(0, lastIndex + 1);
       const newvr = `${vr}${v}`;
       if (newvr.endsWith("day")) {
-        day = get(forecastTreeData, newvr);
+        day = get(forecastData, newvr);
       } else if (newvr.endsWith("month")) {
-        month = get(forecastTreeData, newvr);
+        month = get(forecastData, newvr);
       } else if (newvr.endsWith("year")) {
-        year = get(forecastTreeData, newvr);
+        year = get(forecastData, newvr);
       } else {
-        moduleData[v] = get(forecastTreeData, newvr);
+        moduleData[v] = get(forecastData, newvr);
       }
     }
 

@@ -11,22 +11,21 @@ import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import BusinessOutlinedIcon from "@material-ui/icons/BusinessOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 import LocalAtmOutlinedIcon from "@material-ui/icons/LocalAtmOutlined";
 import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import TuneIcon from "@material-ui/icons/Tune";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
+import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import history from "../../Services/HistoryService";
-import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
 import { IMainDrawerData } from "./MainDrawerTypes";
-import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => ({
@@ -222,6 +221,7 @@ const MainDrawer = () => {
                     ? {
                         backgroundColor: theme.palette.primary.light,
                         borderRight: `3px solid ${theme.palette.primary.main}`,
+                        // ":hover":{color:theme.palette.primary.main}
                       }
                     : {}
                 }

@@ -55,7 +55,7 @@ const existingNetworksExtrude = (dispatch: Dispatch<any>) => {
     title: "Existing Production Networks",
     type: "existingNetworksDialog",
     show: true,
-    exclusive: true,
+    exclusive: false,
     maxWidth: "md",
     iconType: "select",
     actionsList: () => existingNetworksActions(dispatch),

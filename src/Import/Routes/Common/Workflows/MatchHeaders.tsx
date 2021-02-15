@@ -65,6 +65,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const dispatch = useDispatch();
   const wc = "importDataWorkflows";
   const wp = wrkflwPrcss;
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 68 ~ MatchHeaders ~ wp",
+    wp
+  );
 
   //File Headers
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
@@ -76,6 +80,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   );
 
   const isFacilitiesWorkflow = wp.includes("facilities");
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 83 ~ MatchHeaders ~ isFacilitiesWorkflow",
+    isFacilitiesWorkflow
+  );
   let applicationHeaders: string[] = [];
   if (isFacilitiesWorkflow)
     applicationHeaders = facilitiesInputHeaders.map(

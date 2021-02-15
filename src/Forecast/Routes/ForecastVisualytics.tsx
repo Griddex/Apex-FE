@@ -9,6 +9,8 @@ import FormatAggregator from "../../Visualytics/Components/FormatAggregator";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 import SelectChart from "../../Visualytics/Common/SelectChart";
 import SelectForecastChartDataPanel from "../Common/SelectForecastChartDataPanel";
+import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
+import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -31,13 +33,17 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignSelf: "flex-start",
     height: "100%",
-    width: 300,
+    // width: 300,
+    width: "15%",
     border: "1px solid #A8A8A8",
     backgroundColor: "#FFF",
     padding: 5,
   },
   chartContent: {
+    display: "flex",
+    flexDirection: "column",
     marginLeft: 5,
+    marginRight: 45,
     height: "100%",
     width: "85%",
     backgroundColor: "#FFF",
@@ -45,7 +51,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
+const ForecastVisualytics = ({
+  wrkflwCtgry,
+  wrkflwPrcss,
+  chartButtons,
+}: IForecastRoutes) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -64,6 +74,10 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
           <SelectForecastChartDataPanel />
         </div>
         <div className={classes.chartContent}>
+          <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+            <ForecastChartTitlePlaque />
+            <ChartButtons {...chartButtons} />{" "}
+          </div>
           <SelectChart />
         </div>
       </div>

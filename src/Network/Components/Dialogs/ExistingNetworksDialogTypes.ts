@@ -37,7 +37,7 @@ export interface IForecastingParametersGroup {
   createdAt: string;
   title: string;
   description: string;
-  forcastInputDeckTitle: string;
+  forecastInputDeckTitle: string;
   declineParameters: IDeclineCurveParametersDetail[];
   parametersEntity: IParametersEntity;
   type: "Default" | "User";
@@ -49,7 +49,8 @@ export interface IForecastingParametersRow {
   sn?: number;
   title: string;
   description: string;
-  forcastInputDeckTitle: string;
+  forecastInputDeckId: string;
+  forecastInputDeckTitle: string;
   declineParameters: IDeclineCurveParametersDetail[];
   targetFluid: string;
   timeFrequency: string;
@@ -63,7 +64,7 @@ export interface IForecastingParametersRow {
 
 export interface IForecastParametersRoot {
   id: string;
-  forcastInputDeckId: string;
+  forecastInputDeckId: string;
   forecastInputdeckTitle: string;
   forecastingParametersGroupList: IForecastingParametersGroup[];
 }

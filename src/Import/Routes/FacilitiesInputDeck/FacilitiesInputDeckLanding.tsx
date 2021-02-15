@@ -115,7 +115,7 @@ const FacilitiesInputDeckLanding = () => {
       type: "saveFacilitiesInputDeckDialog",
       show: true,
       exclusive: true,
-      maxWidth: "xs",
+      maxWidth: "sm",
       iconType: "information",
       actionsList: () =>
         DialogSaveCancelButtons(

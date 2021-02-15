@@ -147,7 +147,7 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
       show: true,
       exclusive: false,
       maxWidth: "xs",
-      dialogText: `Do you want to generate a 
+      dialogText: `Do you want to generate the 
       production network diagram with the current parameters?`,
       iconType: "confirmation",
       actionsList: () =>

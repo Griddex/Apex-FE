@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Divider,
   List,
@@ -14,14 +13,10 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import InfoIcon from "@material-ui/icons/Info";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import WarningIcon from "@material-ui/icons/Warning";
 import { useSnackbar } from "notistack";
 import React, { ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,26 +37,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   dialogHeader: {
     display: "flex",
-    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    width: "5%",
+    marginRight: 5,
     height: "100%",
   },
   dialogTitle: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "90%",
+    width: "100%",
     height: "100%",
   },
   closeButton: {
     color: theme.palette.grey[500],
-    width: "5%",
     height: "100%",
     padding: 0,
     "&:hover": {
@@ -70,14 +64,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderRadius: 0,
     },
   },
-  listDialogContent: { display: "flex", flexDirection: "column" },
+  listDialogContent: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: 5,
+  },
   listBorder: {
     height: 200,
     overflow: "overlay",
     border: "1px solid #F7F7F7",
-  },
-  avatar: {
-    color: theme.palette.primary.main,
   },
 }));
 
@@ -153,7 +148,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const SelectWorksheetDialogContent = () => {
     return (
       <div className={classes.listDialogContent}>
-        <Typography variant="h6">
+        <Typography variant="body1" style={{ marginTop: 10, marginBottom: 10 }}>
           Workbook contains more than one worksheet. Please select the worksheet
           that contains the Facilities Deck
         </Typography>
@@ -170,9 +165,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                 }}
               >
                 <ListItemAvatar>
-                  <Avatar className={classes.avatar}>
-                    <DescriptionOutlinedIcon />
-                  </Avatar>
+                  <DescriptionOutlinedIcon color="primary" />
                 </ListItemAvatar>
                 <ListItemText>{name}</ListItemText>
               </ListItem>

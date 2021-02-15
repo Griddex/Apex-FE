@@ -74,7 +74,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
       {showReset && (
         <Button
           className={classes.button}
-          variant="outlined"
+          variant="contained"
           color="secondary"
           onClick={() =>
             workflowResetAction && dispatch(workflowResetAction(0, wp, wc))
@@ -89,7 +89,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
       {showBack && (
         <Button
           className={classes.button}
-          variant="outlined"
+          variant="contained"
           disabled={activeStep === 0}
           onClick={() =>
             workflowBackAction &&
@@ -105,7 +105,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
       {showSkip && isStepOptional && isStepOptional(activeStep) && (
         <Button
           className={classes.button}
-          variant="outlined"
+          variant="contained"
           color="primary"
           onClick={() =>
             workflowSkipAction &&
@@ -121,7 +121,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
       {showNext && (
         <Button
           className={classes.button}
-          variant="outlined"
+          variant="contained"
           color="primary"
           onClick={() => {
             activeStep === steps.length - 1

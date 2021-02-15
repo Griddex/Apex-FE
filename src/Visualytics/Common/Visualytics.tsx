@@ -7,6 +7,8 @@ import SelectChartDataPanel from "./SelectChartDataPanel";
 import FormatAggregator from "../Components/FormatAggregator";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import ChartButtons from "../Components/Menus/ChartButtons";
+import { IChartButtonsProps } from "../Components/Menus/ChartButtonsTypes";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -50,6 +52,11 @@ const Visualytics = () => {
     (state: RootState) => state.layoutReducer
   );
 
+  const chartButtons: IChartButtonsProps = {
+    showExtraButtons: false,
+    extraButtons: () => <div></div>,
+  };
+
   useEffect(() => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
@@ -61,6 +68,7 @@ const Visualytics = () => {
           <SelectChartDataPanel />
         </div>
         <div className={classes.chartContent}>
+          <ChartButtons {...chartButtons} />
           <SelectChart />
         </div>
       </div>

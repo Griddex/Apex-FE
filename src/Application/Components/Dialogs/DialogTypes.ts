@@ -19,6 +19,7 @@ import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
 import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
+import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -37,6 +38,7 @@ export interface IApplicationDialogs {
   saveForecastingParametersWorkflowDialog: typeof SaveForecastingParametersWorkflowDialog;
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
   runForecastDialog: typeof RunForecastDialog;
+  saveForecastDialog: typeof SaveForecastDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -67,6 +69,7 @@ export interface DialogStuff {
     | "saveForecastInputDeckWorkflowDialog"
     | "finalizeInputDialog"
     | "runForecastDialog"
+    | "saveForecastDialog"
     | "economicsParametersDialog"
     | "economicsParameterImportWorkflowDialog"
     | "newProjectWorkflowDialog"

@@ -1,31 +1,30 @@
 import {
-  MenuItem,
-  ListItemIcon,
-  Typography,
   Button,
+  ListItemIcon,
+  MenuItem,
+  Typography,
   useTheme,
 } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
+import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import CalendarViewDayOutlinedIcon from "@material-ui/icons/CalendarViewDayOutlined";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
+import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
+import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import { IContextMenuProps } from "../ContextMenu/ContextMenuTypes";
-import CalendarViewDayOutlinedIcon from "@material-ui/icons/CalendarViewDayOutlined";
-import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
 import {
   generateNetworkBySelectionRequestAction,
   removeCurrentNetworkAction,
 } from "../../Redux/Actions/NetworkActions";
-import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 
 const NetworkButtonsMenu = () => {
   const theme = useTheme();
@@ -78,8 +77,8 @@ const NetworkButtonsMenu = () => {
         exclusive: false,
         maxWidth: "xs",
         iconType: "confirmation",
-        dialogText:
-          "Do you want to generate the network with the current parameters?",
+        dialogText: `Do you want to generate the 
+          production network diagram with the current parameters?`,
         actionsList: () =>
           DialogGenerateNetworkCancelButtons(
             [true, true],

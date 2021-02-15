@@ -9,7 +9,7 @@ export const failureDialogParameters: DialogStuff = {
   exclusive: true,
   maxWidth: "xs",
   dialogText:
-    "Oops! An unexpected error occurred while trying to retrieve recent projects. Please try again",
+    "An unexpected error occurred while trying to retrieve recent projects. Please try again",
   iconType: "error",
   actionsList: () => DialogCancelButton(),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

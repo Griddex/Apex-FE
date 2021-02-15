@@ -10,7 +10,7 @@ const DialogSelectButton = ({ action }: { action: () => IAction }) => {
   const buttonsData: ButtonProps[] = [
     {
       title: "Select",
-      variant: "outlined",
+      variant: "contained",
       color: "primary",
       startIcon: <DoneOutlinedIcon />,
       handleAction: () => dispatch(action()),

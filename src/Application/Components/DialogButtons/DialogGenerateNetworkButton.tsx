@@ -14,7 +14,7 @@ const DialogGenerateNetworkButton = (
   const buttonsData: ButtonProps[] = [
     {
       title: "Generate",
-      variant: "outlined",
+      variant: "contained",
       color: "primary",
       startIcon: <AccountTreeIcon />,
       handleAction: () => {

@@ -10,7 +10,7 @@ const DialogSaveButton = (action: () => IAction) => {
   const buttonsData: ButtonProps[] = [
     {
       title: "Save",
-      variant: "outlined",
+      variant: "contained",
       color: "primary",
       startIcon: <SaveOutlinedIcon />,
       handleAction: () => dispatch(action()),

@@ -7,10 +7,11 @@ import TreeView from "@material-ui/lab/TreeView";
 import pick from "lodash/pick";
 import React from "react";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
+import { updateForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
 import generatePathsAndModules from "../Utils/GeneratePathsAndModules";
 import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData";
 import forecastData from "./ForecastResults10Feb2021.json";
@@ -147,16 +148,19 @@ const variables = [
 
 export default function ForecastTreeView() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const { forecastTree } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+  const {
+    forecastTree,
+    forecastResult,
+    selectedForecastChartVariable,
+  } = useSelector((state: RootState) => state.forecastReducer);
 
-  // const scenarioTree = {
-  //   id: "6021dd778f358e2184skjds4b7",
-  //   name: "Scenarios",
-  //   children: [...forecastTree],
-  // };
+  const scenarioTree = {
+    id: "6021dd778f358e2184skjds4b7",
+    name: "Scenarios",
+    children: [...(forecastTree as RenderTree[])],
+  };
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
@@ -210,9 +214,9 @@ export default function ForecastTreeView() {
   };
 
   const getOnChange = (checked: boolean, scenarioNode: RenderTree) => {
-    const allIdNodes: string[] = getChildById(forecastTree, scenarioNode.id)[0];
+    const allIdNodes: string[] = getChildById(scenarioTree, scenarioNode.id)[0];
     const allNameNodes: string[] = getChildById(
-      forecastTree,
+      scenarioTree,
       scenarioNode.id
     )[1];
 
@@ -257,18 +261,34 @@ export default function ForecastTreeView() {
 
   React.useEffect(() => {
     const { paths, modules } = generatePathsAndModules(
-      forecastTree,
+      forecastResult,
       selectedIds
     );
+    console.log(
+      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 270 ~ React.useEffect ~ paths, modules",
+      paths,
+      modules
+    );
 
-    const data = generateSelectedForecastData(
-      forecastTree,
+    const filteredForecastData = generateSelectedForecastData(
+      forecastResult,
       variables,
       paths,
       modules,
-      "oilRate"
+      selectedForecastChartVariable
     );
-  }, []);
+    console.log(
+      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 281 ~ React.useEffect ~ filteredForecastData",
+      filteredForecastData
+    );
+
+    dispatch(
+      updateForecastChartParameterAction(
+        "transForecastResult",
+        filteredForecastData
+      )
+    );
+  }, [selectedIds, selectedForecastChartVariable]);
 
   return (
     <TreeView
@@ -278,7 +298,7 @@ export default function ForecastTreeView() {
       defaultExpandIcon={<PlusSquare />}
       // defaultEndIcon={<CloseSquare />}
     >
-      {renderTree(forecastTree)}
+      {renderTree(scenarioTree)}
     </TreeView>
   );
 }

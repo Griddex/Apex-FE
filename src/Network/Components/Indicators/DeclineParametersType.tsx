@@ -18,16 +18,16 @@ const statusColor = (dpTypeText: StatusTextType) => {
   const theme = useTheme();
 
   switch (dpTypeText) {
-    case "default":
+    case "Default":
       return {
         color: theme.palette.text.primary,
-        backgroundColor: theme.palette.text.disabled,
+        backgroundColor: theme.palette.grey[100],
       };
 
-    case "user":
+    case "User":
       return {
-        color: theme.palette.secondary.main,
-        backgroundColor: theme.palette.secondary.light,
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.light,
       };
 
     default:

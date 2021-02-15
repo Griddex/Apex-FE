@@ -40,6 +40,7 @@ export const initialColorGradient = {
 };
 
 const forecastChartState: IForecastChartState = {
+  selectedForecastChartVariable: "Oil Rate",
   selectedChartIndex: 0,
   selectedChartObjId: "",
   forecastChartObjects: [],
@@ -358,9 +359,13 @@ const forecastChartState: IForecastChartState = {
 
 const forcastResultState: IForecastResultState = {
   forecastResult: [],
-  forecastTree: { id: "", name: "", children: [] },
+  forecastTree: [],
+  transForecastResult: [],
+
+  forecastResultsTitle: "",
+  forecastResultsDescription: "",
 };
 
-const forcastState = { ...forecastChartState, ...forcastResultState };
+const forecastState = { ...forecastChartState, ...forcastResultState };
 
-export default forcastState;
+export default forecastState;

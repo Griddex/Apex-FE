@@ -45,6 +45,7 @@ export const EXISTINGNETWORKDATA_REQUEST = "EXISTINGNETWORKDATA_REQUEST";
 export const EXISTINGNETWORKDATA_SUCCESS = "EXISTINGNETWORKDATA_SUCCESS";
 export const EXISTINGNETWORKDATA_FAILURE = "EXISTINGNETWORKDATA_FAILURE";
 export const RUN_FORECAST_REQUEST = "RUN_FORECAST_REQUEST";
+export const SAVE_FORECAST_REQUEST = "SAVE_FORECAST_REQUEST";
 export const SAVE_FORECASTPARAMETERS_REQUEST =
   "SAVE_FORECASTPARAMETERS_REQUEST";
 export const SAVE_FORECASTPARAMETERS_SUCCESS =
@@ -64,6 +65,13 @@ export const runForecastRequestAction = () => {
   return {
     type: RUN_FORECAST_REQUEST,
     meta: { showSpinner: true, message: "Running forecast..." },
+  };
+};
+
+export const saveForecastRequestAction = () => {
+  return {
+    type: SAVE_FORECAST_REQUEST,
+    meta: { showSpinner: true, message: "Saving forecast..." },
   };
 };
 

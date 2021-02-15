@@ -18,6 +18,9 @@ import ExistingForecastResults from "../Routes/ExistingForecastResults";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
 import { IdType, IForecastLandingData } from "./ForecastLandingTypes";
 import Image from "../../Application/Components/Visuals/Image";
+import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
+import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -99,12 +102,17 @@ const ForecastLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const chartButtons: IChartButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ForecastVariableButtonsMenu />,
+  };
+
   return (
     <>
       {loadWorkflow ? (
         <div className={classes.forecastWorkflow}>
           <Switch>
-            <Route exact path={`${path}/:dataInputId`}>
+            <Route exact path={`${url}/:dataInputId`}>
               {(props: RouteComponentProps<IdType>) => {
                 const { match } = props;
 
@@ -115,6 +123,7 @@ const ForecastLanding = () => {
                 const forecastWorkflows = {
                   forecastvisualytics: (
                     <ForecastVisualytics
+                      chartButtons={chartButtons}
                       wrkflwCtgry={"existingDataWorkflows"}
                       wrkflwPrcss={"forecastResultsVisualytics"}
                     />

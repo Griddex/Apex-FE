@@ -26,11 +26,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "98%",
-    height: "95%",
-    minHeight: 525,
+    height: 560,
     backgroundColor: "#FFF",
     boxShadow: theme.shadows[3],
-    padding: 10,
+    // padding: 10,
   },
   workflowBody: {
     display: "flex",

@@ -1,6 +1,7 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
+  UPDATE_FORECASTCHARTPARAMETER,
   PERSIST_FORECASTCHARTINDEX,
   PERSIST_FORECASTCHARTELEMENTID,
   SET_FORECASTCHARTCOLOR,
@@ -18,6 +19,13 @@ const forecastReducer = (
   action: IAction
 ): ForecastStateType => {
   switch (action.type) {
+    case UPDATE_FORECASTCHARTPARAMETER: {
+      const { name, value } = action.payload;
+      return {
+        ...state,
+        [name]: value,
+      };
+    }
     case RUN_FORECAST_SUCCESS:
       return {
         ...state,

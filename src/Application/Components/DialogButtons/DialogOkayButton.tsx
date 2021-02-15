@@ -14,7 +14,7 @@ const DialogOkayButton = (
   const buttonsData: ButtonProps[] = [
     {
       title: "Okay",
-      variant: "outlined",
+      variant: "contained",
       color: "primary",
       startIcon: <DoneOutlinedIcon />,
       handleAction: () => {

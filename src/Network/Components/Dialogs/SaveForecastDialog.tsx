@@ -1,28 +1,22 @@
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@material-ui/core";
+import { DialogActions } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
-import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import React, { ReactNode } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import dialogIcons from "../Icons/DialogIcons";
-import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
-import { DialogStuff } from "./DialogTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import SaveForecastResultsDialogButtons from "../../../Forecast/Components/DialogButtons/SaveForecastResutlsDialogButtons";
+import SaveForecastResultsForm from "../Forms/SaveForecastResultsForm";
+import SaveForecastResultsTitleAndDescription from "../Forms/SaveForecastResultsTitleAndDescription";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -64,6 +58,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "overlay",
     border: "1px solid #F7F7F7",
   },
+  avatar: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
@@ -103,28 +100,13 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
-
-const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    contentText,
-    contentList,
-    actionsList,
-    dialogContentStyle,
-    workflowProcess,
-  } = props;
-  const classes = useStyles();
+const SaveForecastDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
+  const { title, show, maxWidth, iconType } = props;
+  const [
+    isSaveForecastResultsValid,
+    setIsSaveForecastResultsValid,
+  ] = React.useState(true);
 
   return (
     <Dialog
@@ -139,39 +121,26 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       >
         <div>{title}</div>
       </DialogTitle>
-      <DialogContent dividers style={dialogContentStyle}>
-        <Typography variant="body1" style={{ marginTop: 10, marginBottom: 10 }}>
-          {contentText && contentText}
-        </Typography>
-        <List className={classes.listBorder}>
-          {contentList &&
-            contentList.map((name: string, i: number) => (
-              <ListItem
-                key={i}
-                selected={name === selectedListItem}
-                button
-                onClick={() => {
-                  setSelectedListItem(name);
-                  dispatch(
-                    persistWorksheetAction(
-                      name,
-                      [],
-                      workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-                    )
-                  );
-                }}
-              >
-                <ListItemAvatar>
-                  <DescriptionOutlinedIcon color="primary" />
-                </ListItemAvatar>
-                <ListItemText>{name}</ListItemText>
-              </ListItem>
-            ))}
-        </List>
-        <Divider />
+      <DialogContent
+        dividers
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <SaveForecastResultsForm>
+          {(props) => (
+            <SaveForecastResultsTitleAndDescription
+              {...props}
+              setIsSaveForecastResultsValid={setIsSaveForecastResultsValid}
+            />
+          )}
+        </SaveForecastResultsForm>
       </DialogContent>
-      <DialogActions>{actionsList && actionsList}</DialogActions>
+      <DialogActions>
+        <SaveForecastResultsDialogButtons
+          isSaveForecastResultsValid={isSaveForecastResultsValid}
+        />
+      </DialogActions>
     </Dialog>
   );
 };
-export default ListDialog;
+
+export default SaveForecastDialog;

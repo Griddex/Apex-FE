@@ -24,7 +24,7 @@ export const failureDialogParameters: DialogStuff = {
   exclusive: false,
   maxWidth: "xs",
   dialogText:
-    "Oops! An unexpected error occurred while trying to create your new project. Please try again",
+    "An unexpected error occurred while trying to create your new project. Please try again",
   iconType: "error",
   actionsList: () => DialogCancelButton(),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

@@ -9,6 +9,7 @@ import ExistingForecastingParametersDialog from "../../../Network/Components/Dia
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
+import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -35,6 +36,7 @@ const applicationDialogs: IApplicationDialogs = {
   saveForecastingParametersWorkflowDialog: SaveForecastingParametersWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
   runForecastDialog: RunForecastDialog,
+  saveForecastDialog: SaveForecastDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {
