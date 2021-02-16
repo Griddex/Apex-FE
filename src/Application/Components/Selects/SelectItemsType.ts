@@ -1,10 +1,11 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import { OptionsType, Styles, ValueType } from "react-select";
+import { Styles, ValueType } from "react-select";
 
 export interface ISelectOptions {
   value: string;
   label: string;
 }
+export type SelectOptionsType = ISelectOptions[];
 export interface ISelectItem {
   name: string;
   currentItem: string;

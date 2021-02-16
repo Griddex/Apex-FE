@@ -23,7 +23,6 @@ import {
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
 import NewForecastParametersButton from "../Components/Menus/NewForecastParametersButton";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
-import flattenObject from "../Utils/FlattenObject";
 import formatDate from "./../../Application/Utils/FormatDate";
 import { IExistingForcastParameters } from "./ExistingForecastParametersTypes";
 

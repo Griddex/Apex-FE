@@ -1,41 +1,48 @@
 import { get } from "lodash";
 import objectScan from "object-scan";
-import getLastTwoDotPositions from "./GetLastTwoDotPositions";
+
+const makeModulePath = (path: string) => {
+  const l = path.length;
+  const lastIndex = path.lastIndexOf(".");
+
+  return path.substring(0, lastIndex + 1) + "module";
+};
+
+const getUpperPath = (path: string) => {
+  const l = path.length;
+  const lastIndex = path.lastIndexOf(".");
+  return path.substring(0, lastIndex);
+};
 
 const generatePathsAndModules = (forecastData: any[], ids: string[]) => {
-  const pathArray = objectScan([`*[*].*[*].*._id`], {
+  const idPaths = objectScan([`*[*]*.*[*]._id`], {
     joined: true,
   })(forecastData);
 
   const paths = [];
   const modules = [];
-  const scaneedIds = [];
-
+  const dates = [];
   for (const id of ids) {
-    for (const path of pathArray) {
-      const scannedId = get(forecastData, path);
-      scaneedIds.push(scannedId);
+    for (const idPath of idPaths) {
+      const scannedId = get(forecastData, idPath);
+
       if (id === scannedId) {
-        paths.push(path);
+        paths.push(idPath);
 
-        const dots = getLastTwoDotPositions(path);
-        const module = path.substring(dots[0] + 1, dots[1]);
+        const datePath = getUpperPath(getUpperPath(idPath));
+        const dateObjs = get(forecastData, datePath);
+        const dateKeys = Object.keys(dateObjs);
+
+        dates.push(...dateKeys);
+
+        const modulePath = makeModulePath(idPath);
+        const module = get(forecastData, modulePath);
+
         modules.push(module);
-
         break;
       }
     }
   }
-  console.log(
-    "Logged output --> ~ file: GeneratePathsAndModules.ts ~ line 15 ~ generatePathsAndModules ~ ids",
-    ids
-  );
-
-  // const strIds = scaneedIds.join();
-  // console.log(
-  //   "Logged output --> ~ file: GeneratePathsAndModules.ts ~ line 31 ~ generatePathsAndModules ~ strIds",
-  //   strIds
-  // );
 
   return { paths, modules };
 };

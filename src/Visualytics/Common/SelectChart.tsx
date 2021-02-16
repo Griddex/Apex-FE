@@ -14,6 +14,7 @@ import { ICharts } from "../Redux/ChartState/ChartStateTypes";
 import { IChartObject } from "./../Redux/ChartState/ChartStateTypes";
 // const charts = ["StackedAreaChart", "LineChart", "DoughnutChart"];
 import { v4 as uuidv4 } from "uuid";
+import ForecastStackedAreaChart from "../../Forecast/Components/ForecastStackedAreaChart";
 
 const tempData = [
   { name: "Oil", value: 450 },
@@ -22,7 +23,7 @@ const tempData = [
 ];
 
 const charts: ICharts = {
-  0: () => <StackedAreaChart />,
+  0: () => <ForecastStackedAreaChart />,
   1: () => <LineChart />,
   2: () => <DoughnutChart data={tempData} />,
   3: () => <BarChart />,

@@ -43,15 +43,16 @@ const useStyles = makeStyles(() => ({
   yAxis: { fill: "#FCD123", stroke: "#FCA345", fontSize: 16 },
 }));
 
-// const data = [
-//   { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-//   { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-//   { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-//   { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-//   { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-//   { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-//   { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
-// ];
+const data = [
+  { date: "Page A", amt: 2400 },
+  // { date: "Page A", uv: 4000, pv: 2400, amt: 2400 },
+  { date: "Page B", uv: 3000, pv: 1398, amt: 2210 },
+  { date: "Page C", uv: 2000, pv: 9800, amt: 2290 },
+  { date: "Page D", uv: 2780, pv: 3908, amt: 2000 },
+  { date: "Page E", uv: 1890, pv: 4800, amt: 2181 },
+  { date: "Page F", uv: 2390, pv: 3800, amt: 2500 },
+  { date: "Page G", uv: 3490, pv: 4300, amt: 2100 },
+];
 
 const StackedAreaChart = (props: any) => {
   const dispatch = useDispatch();
@@ -59,9 +60,9 @@ const StackedAreaChart = (props: any) => {
 
   const [again, setAgain] = React.useState(0);
   // const [yAxisStyleOnHover, setyAxisStyleOnHover] = React.useState(false);
-  const { transForecastResult: data } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+  // const { transForecastResult: data } = useSelector(
+  //   (state: RootState) => state.forecastReducer
+  // );
   console.log(
     "Logged output --> ~ file: StackedAreaChart.tsx ~ line 63 ~ StackedAreaChart ~ data",
     data
@@ -234,7 +235,7 @@ const StackedAreaChart = (props: any) => {
         >
           <defs>
             {data.map((dataPoint, i) => {
-              const name = removeAllSpaces(dataPoint.name);
+              const name = removeAllSpaces(dataPoint.date);
 
               return (
                 <linearGradient key={i} id={name} x1="0" y1="0" x2="0" y2="1">
@@ -294,7 +295,7 @@ const StackedAreaChart = (props: any) => {
           <Tooltip />
           <Legend verticalAlign="middle" align="right" height={36} />
           {data.map((dataPoint, i) => {
-            const name = removeAllSpaces(dataPoint.name);
+            const name = removeAllSpaces(dataPoint.date);
 
             return (
               <Area

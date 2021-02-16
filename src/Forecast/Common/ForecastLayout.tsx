@@ -27,15 +27,15 @@ const useStyles = makeStyles(() => {
 
 const ForecastLayout = () => {
   const classes = useStyles();
-  const { path, url } = useRouteMatch();
+  // const { path, url } = useRouteMatch();
 
   return (
     <main className={classes.forecastLayoutRoot}>
       <div className={clsx(classes.forecastLayoutContainer)}>
         <Suspense fallback={<PerpetualSpinner />}>
-          <Route path={path}>
-            <ForecastLanding />
-          </Route>
+          {/* <Route exact path={path}> */}
+          <ForecastLanding />
+          {/* </Route> */}
         </Suspense>
       </div>
     </main>

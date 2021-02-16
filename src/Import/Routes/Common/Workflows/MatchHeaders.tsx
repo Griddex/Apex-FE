@@ -9,6 +9,7 @@ import zipObject from "lodash/zipObject";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import { SelectOptionsType } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -80,10 +81,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   );
 
   const isFacilitiesWorkflow = wp.includes("facilities");
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 83 ~ MatchHeaders ~ isFacilitiesWorkflow",
-    isFacilitiesWorkflow
-  );
+
   let applicationHeaders: string[] = [];
   if (isFacilitiesWorkflow)
     applicationHeaders = facilitiesInputHeaders.map(
@@ -145,16 +143,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     extraButtons: () => <div></div>,
   };
 
-  type ApplicationHeaderOptionsType = {
-    value: string;
-    label: string;
-  }[];
-  type ScoreOptionsType = {
-    value: string;
-    label: string;
-  }[];
-
-  const applicationHeaderOptions: ApplicationHeaderOptionsType[] = fileHeaders.map(
+  const applicationHeaderOptions: SelectOptionsType[] = fileHeaders.map(
     (fileHeader: string) => {
       const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
 
@@ -169,7 +158,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     }
   );
 
-  const scoreOptions: ScoreOptionsType[] = fileHeaders.map(
+  const scoreOptions: SelectOptionsType[] = fileHeaders.map(
     (fileHeader: string) => {
       const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
 

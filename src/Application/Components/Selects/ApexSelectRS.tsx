@@ -1,6 +1,6 @@
 import React from "react";
-import { IApexSelectRS } from "./SelectItemsType";
 import Select from "react-select";
+import { IApexSelectRS } from "./SelectItemsType";
 
 const ApexSelectRS = ({
   dataOptions,

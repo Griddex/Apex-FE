@@ -19,7 +19,7 @@ import {
   IUnitsRow,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
-import { AppUnitOptionsType } from "./UnitSettingsTypes";
+import { SelectOptionsType } from "./UnitSettingsTypes";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -122,7 +122,7 @@ export default function UnitSettings({
   }));
 
   //Application Units
-  const unitOptions: AppUnitOptionsType = snUnits.reduce(
+  const unitOptions: SelectOptionsType = snUnits.reduce(
     (acc, row: IUnitsRow) => {
       const fieldOptions = row.units.filter(
         (v) => v.group.toLowerCase() === "field"

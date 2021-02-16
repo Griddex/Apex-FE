@@ -51,9 +51,11 @@ const ForecastLanding = () => {
 
   const { url, path } = useRouteMatch();
 
-  const { loadWorkflow } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  // const { loadWorkflow } = useSelector(
+  //   (state: RootState) => state.layoutReducer
+  // );
+
+  const [loadWorkflow, setLoadWorkflow] = React.useState(false);
 
   const forecastLandingData: IForecastLandingData[] = [
     {
@@ -165,8 +167,10 @@ const ForecastLanding = () => {
             return (
               <ModuleCard
                 key={name}
-                isDispatched={true}
-                moduleAction={loadWorkflowAction}
+                isDispatched={false}
+                moduleAction={() => {
+                  setLoadWorkflow(true);
+                }}
                 name={name}
                 description={description}
                 icon={icon}

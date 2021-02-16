@@ -13,6 +13,7 @@ import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { updateForecastChartParameterAction } from "../../Redux/ForecastActions/ForecastActions";
+import { variablesObj } from "../../Utils/ForecastVariables";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -40,20 +41,6 @@ const ForecastVariableButtonsMenu = () => {
   };
 
   type VariableObjType = keyof typeof variablesObj;
-
-  const variablesObj = {
-    "Oil Rate": "oilRate",
-    "Gas Rate": "gasRate",
-    "Water Rate": "waterRate",
-    "Gas/Oil Ratio": "GOR",
-    "Base: Sediment & Water": "BSW",
-    "Condensate/Gas Ratio": "CGR",
-    "Water/Gas Ratio": "WGR",
-    Cutback: "cutBack",
-    "Hydrocarbon Stream": "hyrocarbonStream",
-    "Oil Ultimate Recovery": "URo",
-    "Gas Ultimate Recovery": "URg",
-  };
 
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>

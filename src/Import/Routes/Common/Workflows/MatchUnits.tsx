@@ -9,6 +9,7 @@ import zipObject from "lodash/zipObject";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import { SelectOptionsType } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -151,21 +152,8 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
     extraButtons: () => <div></div>,
   };
 
-  type AppUnitOptionsType = {
-    value: string;
-    label: string;
-  }[];
-  type UnitGroupOptionsType = {
-    value: string;
-    label: string;
-  }[];
-  type ScoreOptionsType = {
-    value: string;
-    label: string;
-  }[];
-
   //Application Unit
-  const appUnitOptions: AppUnitOptionsType[] = fileUniqueUnits.map(
+  const appUnitOptions: SelectOptionsType[] = fileUniqueUnits.map(
     (fileUnit: string) => {
       const unitMatch = keyedFileUnitMatches[fileUnit];
 
@@ -183,12 +171,12 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
   );
 
   //Unit Classification
-  const unitGroupOptions: UnitGroupOptionsType = unitClassificationData.map(
+  const unitGroupOptions: SelectOptionsType = unitClassificationData.map(
     (unitClass: string) => ({ value: unitClass, label: unitClass })
   );
 
   //Score match
-  const scoreOptions: ScoreOptionsType[] = fileUniqueUnits.map(
+  const scoreOptions: SelectOptionsType[] = fileUniqueUnits.map(
     (fileUnit: string) => {
       const fileUnitMatch = keyedFileUnitMatches[fileUnit];
 
@@ -223,7 +211,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
         label: string;
       }[]
     >,
-    unitGroupOptions: UnitGroupOptionsType
+    unitGroupOptions: SelectOptionsType
   ) => {
     const handleCheckboxChange = (
       row: IRawRow,

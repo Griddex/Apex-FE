@@ -51,10 +51,6 @@ function* saveForecastParametersSaga(action: IAction) {
     (k: IForecastingParametersRow) =>
       k.forecastInputDeckId === forecastInputDeckId
   );
-  console.log(
-    "Logged output --> ~ file: SaveForecastParametersSaga.ts ~ line 53 ~ function*saveForecastParametersSaga ~ selectedParametersObj",
-    selectedParametersObj
-  );
 
   const id = selectedParametersObj.forecastingParametersRootId;
 

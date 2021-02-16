@@ -1,334 +1,181 @@
-import { makeStyles } from "@material-ui/core";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+// install (please make sure versions match peerDependencies)
+// yarn add @nivo/core @nivo/stream
 import React from "react";
-import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { IAction } from "../../Application/Redux/Actions/ActionTypes";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import {
-  setChartObjectAction,
-  setSelectedChartObjIdAction,
-} from "../../Visualytics/Redux/ChartActions/ChartActions";
-import {
-  IChartLayoutProps,
-  IChartMetaData,
-} from "../../Visualytics/Redux/ChartState/ChartStateTypes";
-import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
-import removeAllSpaces from "../../Visualytics/Utils/RemoveAllSpaces";
 
-const useStyles = makeStyles(() => ({
-  rootStackedAreaChart: {
-    backgroundColor: (props: IChartLayoutProps) =>
-      props.chartLayoutColor ? props.chartLayoutColor : "white",
-    backgroundImage: (props: IChartLayoutProps) =>
-      props.chartLayoutGradient
-        ? props.chartLayoutGradient
-        : "linear-gradient(white, white)",
-    border: (props: IChartLayoutProps) =>
-      `${props?.chartMetaData?.chartAreaBorder}px solid`,
-    width: "100%",
-    height: "100%",
-  },
-  area: {
-    "&:hover": { backgroundColor: "green" },
-  },
-  yAxis: { fill: "#FCD123", stroke: "#FCA345", fontSize: 16 },
-}));
-
+import { ResponsiveStream } from "@nivo/stream";
+// make sure parent container have a defined height when using
+// responsive component, otherwise height will be 0 and
+// no chart will be rendered.
+// website examples showcase many properties,
+// you'll often use just a few of them.
 const data = [
-  { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-  { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-  { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-  { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-  { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-  { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-  { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
+  {
+    G01_E1000X_ABASE10E40W06: 73,
+    G01_E4000X_ABASE10E40W06: 56,
+    G01_E8000X_ABASE80E85W02: 90,
+    G01_E8500X_ABASE80E85W02: 11,
+    G01_E8500X_ABASE80E85W05: 147,
+    G01_F2000X_ABASF20W01: 69,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 74,
+    G01_E4000X_ABASE10E40W06: 88,
+    G01_E8000X_ABASE80E85W02: 78,
+    G01_E8500X_ABASE80E85W02: 160,
+    G01_E8500X_ABASE80E85W05: 64,
+    G01_F2000X_ABASF20W01: 71,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 139,
+    G01_E4000X_ABASE10E40W06: 187,
+    G01_E8000X_ABASE80E85W02: 26,
+    G01_E8500X_ABASE80E85W02: 103,
+    G01_E8500X_ABASE80E85W05: 119,
+    G01_F2000X_ABASF20W01: 194,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 51,
+    G01_E4000X_ABASE10E40W06: 163,
+    G01_E8000X_ABASE80E85W02: 153,
+    G01_E8500X_ABASE80E85W02: 72,
+    G01_E8500X_ABASE80E85W05: 62,
+    G01_F2000X_ABASF20W01: 200,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 106,
+    G01_E4000X_ABASE10E40W06: 86,
+    G01_E8000X_ABASE80E85W02: 139,
+    G01_E8500X_ABASE80E85W02: 176,
+    G01_E8500X_ABASE80E85W05: 76,
+    G01_F2000X_ABASF20W01: 30,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 182,
+    G01_E4000X_ABASE10E40W06: 153,
+    G01_E8000X_ABASE80E85W02: 146,
+    G01_E8500X_ABASE80E85W02: 105,
+    G01_E8500X_ABASE80E85W05: 31,
+    G01_F2000X_ABASF20W01: 189,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 135,
+    G01_E4000X_ABASE10E40W06: 184,
+    G01_E8000X_ABASE80E85W02: 74,
+    G01_E8500X_ABASE80E85W02: 71,
+    G01_E8500X_ABASE80E85W05: 28,
+    G01_F2000X_ABASF20W01: 40,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 49,
+    G01_E4000X_ABASE10E40W06: 58,
+    G01_E8000X_ABASE80E85W02: 83,
+    G01_E8500X_ABASE80E85W02: 43,
+    G01_E8500X_ABASE80E85W05: 196,
+    G01_F2000X_ABASF20W01: 175,
+  },
+  {
+    G01_E1000X_ABASE10E40W06: 64,
+    G01_E4000X_ABASE10E40W06: 142,
+    G01_E8000X_ABASE80E85W02: 58,
+    G01_E8500X_ABASE80E85W02: 113,
+    G01_E8500X_ABASE80E85W05: 77,
+    G01_F2000X_ABASF20W01: 48,
+  },
 ];
-
-const ForecastStackedAreaChart = (props: any) => {
-  const dispatch = useDispatch();
-
-  const chartRef = React.useRef<any>("");
-
-  const [again, setAgain] = React.useState(0);
-  // const [yAxisStyleOnHover, setyAxisStyleOnHover] = React.useState(false);
-
-  const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ItemTypes.TABLE_COLUMNDATA,
-    drop: () => ({ name: "StackedAreaChartv" }),
-    collect: (monitor) => {
-      return {
-        isOver: !!monitor.isOver(),
-        canDrop: !!monitor.canDrop(),
-      };
-    },
-  });
-  const isActive = canDrop && isOver;
-  let dndYAxisStyle = {};
-  if (isActive) {
-    dndYAxisStyle = {
-      strokeWidth: 2,
-      opacity: 0.5,
-      fontSize: 16,
-      outline: "1px solid black",
-      outlineStyle: "dashed",
-      fill: "green",
-      stroke: "green",
-    };
-  } else if (canDrop) {
-    dndYAxisStyle = {
-      fill: "red",
-      stroke: "red",
-      outline: "1px solid red",
-      outlineStyle: "dashed",
-    };
-  }
-
-  const { chartObjects } = useSelector(
-    (state: RootState) => state.chartReducer
-  );
-  const chartObject = chartObjects.find(
-    (obj) => obj.chartObjId === chartRef.current.uniqueChartId
-  );
-
-  const chartLayoutColor = chartObject?.formatObj?.color;
-  const chartLayoutGradient = chartObject?.formatObj?.gradient;
-  const {
-    formatObj: { chartSeriesSolidColors },
-  } = useSelector((state: RootState) => state.chartReducer);
-
-  const handleClickAway = () => {
-    localDispatch({
-      type: "RESET",
-    });
-    // dispatch(
-    //   setSelectedChartObjIdAction({
-    //     id: chartRef.current.uniqueChartId,
-    //     chartObjName: "none",
-    //   })
-    // );
-    // dispatch(contextDrawerCollapseAction());
-  };
-
-  const initializeChartMetaData = () => {
-    const activeIndex = 0;
-    const chartAreaBorder = 0;
-    const activeDataKey = "";
-
-    return {
-      activeIndex,
-      chartAreaBorder,
-      activeDataKey,
-    };
-  };
-
-  const chartMetaDataReducer = (state: IChartMetaData, action: IAction) => {
-    switch (action.type) {
-      case "SET_ACTIVEINDEX":
-        return { ...state, activeIndex: action.payload.activeIndex };
-
-      case "SET_CHARTAREABORDER":
-        return {
-          ...state,
-          chartAreaBorder: action.payload.chartAreaBorder,
-        };
-
-      case "SET_ACTIVEDATAKEY":
-        return {
-          ...state,
-          activeDataKey: action.payload.activeDataKey,
-        };
-
-      case "RESET":
-        return {
-          ...state,
-          activeIndex: null,
-          chartAreaBorder: 0,
-        };
-
-      default:
-        return state;
-    }
-  };
-
-  const [chartMetaData, localDispatch] = React.useReducer(
-    chartMetaDataReducer,
-    initializeChartMetaData()
-  );
-
-  const dataKeys = Object.keys(data[0]);
-  const colors = chartSeriesSolidColors.slice(0, dataKeys.length);
-
-  const { activeIndex } = chartMetaData;
-
-  const allProps = {
-    ...props,
-    chartLayoutColor,
-    chartLayoutGradient,
-    ...chartMetaData,
-  };
-  const classes = useStyles(allProps);
-
-  // const yAxisStyle = () =>
-  //   yAxisStyleOnHover
-  //     ? {
-  //         // fill: "#FCD123",
-  //         // stroke: "#FCA345",
-  //         strokeWidth: 2,
-  //         opacity: 0.5,
-  //         fontSize: 16,
-  //         outline: "1px solid black",
-  //         outlineStyle: "dashed",
-  //       }
-  //     : {};
-  React.useEffect(() => {
-    const chartObjId = chartRef.current && chartRef.current.uniqueChartId;
-
-    if (chartObjId === null) setAgain(1);
-    else
-      dispatch(
-        setChartObjectAction({
-          chartObjId: chartObjId,
-          chartObjName: "chartLayout",
-        })
-      );
-  }, [again]);
-
-  return (
-    <ClickAwayListener onClickAway={handleClickAway}>
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart
-          ref={chartRef}
-          syncId="chartId1"
-          className={classes.rootStackedAreaChart}
-          data={data}
-          margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
-          // strokeWidth={chartAreaBorder}
-          onClick={(chartEventObj, event) => {
-            dispatch(
-              setSelectedChartObjIdAction(
-                chartRef.current.uniqueChartId,
-                "chartLayout"
-              )
-            );
-            localDispatch({
-              type: "SET_CHARTAREABORDER",
-              payload: { chartAreaBorder: 1 },
-            });
-            event.stopPropagation();
-          }}
-        >
-          <defs>
-            {data.map((dataPoint, i) => {
-              const name = removeAllSpaces(dataPoint.name);
-
-              return (
-                <linearGradient key={i} id={name} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={colors[i]} stopOpacity={0.8} />
-                  <stop offset="95%" stopColor={colors[i]} stopOpacity={0} />
-                </linearGradient>
-              );
-            })}
-          </defs>
-          <foreignObject height={400}>
-            <div>Hello</div>
-          </foreignObject>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          {/* {yAxes &&
-            yAxes.map((axis, i) => <YAxis yAxisId={i} orientation="left" />)} */}
-          <div ref={drop}>
-            <YAxis
-              // id="yAxes1"
-              // className={classes.yAxis}
-              yAxisId="left1"
-              orientation="left"
-              scale="auto"
-              dataKey="amt"
-              type="number"
-              // domain={["dataMin", "dataMax"]}
-              // onMouseOver={(obj, index, event) => {
-              //   console.log(obj, index, event);
-              //   event.nativeEvent.stopPropagation();
-              // }}
-              onClick={(obj, index, event) => console.log(obj, index, event)}
-              // onMouseEnter={(o, e, a) => setyAxisStyleOnHover(true)}
-              // onMouseLeave={(o, e, a) => setyAxisStyleOnHover(false)}
-              // style={yAxisStyle()}
-              // style={dndYAxisStyle}
-              name="1"
-            />
-          </div>
-          <YAxis
-            yAxisId="left2"
-            orientation="left"
-            scale="auto"
-            dataKey="amt"
-            type="number"
-            // domain={["dataMin", "dataMax"]}
-            // onMouseOver={(o, e, a) => console.log(o, e, a)}
-          />
-          <YAxis
-            // yAxisId="right"
-            orientation="right"
-            scale="auto"
-            dataKey="pv"
-            type="number"
-            // domain={["dataMin", "dataMax"]}
-            // onMouseOver={(o, e) => console.log(o, e)}
-          />
-          <Tooltip />
-          <Legend verticalAlign="middle" align="right" height={36} />
-          {data.map((dataPoint, i) => {
-            const name = removeAllSpaces(dataPoint.name);
-
-            return (
-              <Area
-                key={i}
-                type="monotone"
-                dataKey={dataKeys && dataKeys[i + 1]}
-                stackId="1" //Create a unique id and store one time - useRef
-                stroke={activeIndex === i ? "black" : colors[i]}
-                fillOpacity={1}
-                strokeWidth={activeIndex === i ? 3 : 1}
-                fill={`url(#${name})`}
-                // fill={colors[i]}
-                legendType="wye"
-                isAnimationActive={false}
-                // dot={{ stroke: "red", strokeWidth: 4 }}
-                // activeDot={{ stroke: "red", strokeWidth: 4 }}
-                // label={{ fill: "red", fontSize: 20 }}
-                // layout="vertical"
-                // baseLine={[{ x: 12, y: 15 }]}
-                // points={[{ x: 12, y: 12, value: 240 }]}
-                onClick={(event) => {
-                  localDispatch({
-                    type: "SET_ACTIVEINDEX",
-                    payload: { activeIndex: i },
-                  });
-                  localDispatch({
-                    type: "SET_ACTIVEDATAKEY",
-                    payload: { activeDataKey: event.dataKey },
-                  });
-                }}
-                className={classes.area}
-              />
-            );
-          })}
-        </AreaChart>
-      </ResponsiveContainer>
-    </ClickAwayListener>
-  );
-};
+const ForecastStackedAreaChart = () => (
+  <ResponsiveStream
+    data={data}
+    keys={[
+      "G01_E1000X_ABASE10E40W06",
+      "G01_E4000X_ABASE10E40W06",
+      "G01_E8000X_ABASE80E85W02",
+      "G01_E8500X_ABASE80E85W02",
+      "G01_E8500X_ABASE80E85W05",
+      "G01_F2000X_ABASF20W01",
+    ]}
+    margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+    axisTop={null}
+    axisRight={null}
+    axisBottom={{
+      orient: "bottom",
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: "",
+      legendOffset: 36,
+    }}
+    axisLeft={{
+      orient: "left",
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: "",
+      legendOffset: -40,
+    }}
+    curve="linear"
+    offsetType="diverging"
+    colors={{ scheme: "nivo" }}
+    fillOpacity={0.85}
+    borderColor={{ theme: "background" }}
+    defs={[
+      {
+        id: "dots",
+        type: "patternDots",
+        background: "inherit",
+        color: "#2c998f",
+        size: 4,
+        padding: 2,
+        stagger: true,
+      },
+      {
+        id: "squares",
+        type: "patternSquares",
+        background: "inherit",
+        color: "#e4c912",
+        size: 6,
+        padding: 2,
+        stagger: true,
+      },
+    ]}
+    fill={[
+      {
+        match: {
+          id: "G01_E8500X_ABASE80E85W05",
+        },
+        id: "dots",
+      },
+      {
+        match: {
+          id: "G01_E8000X_ABASE80E85W02",
+        },
+        id: "squares",
+      },
+    ]}
+    dotSize={8}
+    dotColor={{ from: "color" }}
+    dotBorderWidth={2}
+    dotBorderColor={{ from: "color", modifiers: [["darker", 0.7]] }}
+    legends={[
+      {
+        anchor: "bottom-right",
+        direction: "column",
+        translateX: 100,
+        itemWidth: 80,
+        itemHeight: 20,
+        itemTextColor: "#999999",
+        symbolSize: 12,
+        symbolShape: "circle",
+        effects: [
+          {
+            on: "hover",
+            style: {
+              itemTextColor: "#000000",
+            },
+          },
+        ],
+      },
+    ]}
+  />
+);
 
 export default ForecastStackedAreaChart;

@@ -90,7 +90,8 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         onClick={() => {
           dispatch(setWorkflowProcessAction(wP, wC));
           dispatch(workflowSetMenuAction(name));
-          dispatch(moduleAction());
+          if (isDispatched) dispatch(moduleAction());
+          else moduleAction();
           dispatch(showContextDrawerAction());
           history.push(route);
         }}

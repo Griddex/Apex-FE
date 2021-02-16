@@ -6,7 +6,7 @@ export type UnitOptionsType = {
   group: "field" | "metric";
 }[];
 
-export interface AppUnitOptionsType {
+export interface SelectOptionsType {
   [key: string]: [UnitOptionsType, UnitOptionsType];
 }
 

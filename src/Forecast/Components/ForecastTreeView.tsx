@@ -4,7 +4,6 @@ import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
-import pick from "lodash/pick";
 import React from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +13,6 @@ import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
 import { updateForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
 import generatePathsAndModules from "../Utils/GeneratePathsAndModules";
 import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData";
-import forecastData from "./ForecastResults10Feb2021.json";
 import { RenderTree } from "./ForecastTreeViewTypes";
 
 function MinusSquare(props: any) {
@@ -129,23 +127,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const variables = [
-  "day",
-  "month",
-  "year",
-  "oilRate",
-  "gasRate",
-  "waterRate",
-  "GOR",
-  "BSW",
-  "CGR",
-  "WGR",
-  "cutBack",
-  "hyrocarbonStream",
-  "URo",
-  "URg",
-];
-
 export default function ForecastTreeView() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -155,6 +136,10 @@ export default function ForecastTreeView() {
     forecastResult,
     selectedForecastChartVariable,
   } = useSelector((state: RootState) => state.forecastReducer);
+  console.log(
+    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 141 ~ ForecastTreeView ~ forecastResult",
+    forecastResult
+  );
 
   const scenarioTree = {
     id: "6021dd778f358e2184skjds4b7",
@@ -164,7 +149,6 @@ export default function ForecastTreeView() {
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
-  const [selectedVariable, setSelectedVariable] = React.useState<string>("");
 
   // const initExpanded = forecastTree.map((scenarioNode) => scenarioNode.id);
 
@@ -264,22 +248,12 @@ export default function ForecastTreeView() {
       forecastResult,
       selectedIds
     );
-    console.log(
-      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 270 ~ React.useEffect ~ paths, modules",
-      paths,
-      modules
-    );
 
     const filteredForecastData = generateSelectedForecastData(
       forecastResult,
-      variables,
       paths,
       modules,
       selectedForecastChartVariable
-    );
-    console.log(
-      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 281 ~ React.useEffect ~ filteredForecastData",
-      filteredForecastData
     );
 
     dispatch(

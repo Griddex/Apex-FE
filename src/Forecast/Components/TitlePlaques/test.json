@@ -1,0 +1,39 @@
+{"2018-1-1":{
+    "G01_E1000X_ABASE10E40W06": {
+        "_id": "600dd815ff4db02cb0fdb763",
+        "day": 1,
+        "month": 1,
+        "year": 2018,
+        "oilRate": 999,
+        "gasRate": 27,
+        "waterRate": 2.7e-7,
+        "GOR": 0,
+        "BSW": 0,
+        "CGR": 37,
+        "WGR": 1e-8,
+        "cutBack": 1,
+        "hyrocarbonStream": "gas",
+        "URo": 0,
+        "URg": 56160
+    }
+},
+"2018-1-2":{
+    "N01_E2000X_ABASE10D40S06": {
+        "_id": "600dd815ff4db02cb0fdb763",
+        "day": 1,
+        "month": 1,
+        "year": 2018,
+        "oilRate": 999,
+        "gasRate": 27,
+        "waterRate": 2.7e-7,
+        "GOR": 0,
+        "BSW": 0,
+        "CGR": 37,
+        "WGR": 1e-8,
+        "cutBack": 1,
+        "hyrocarbonStream": "gas",
+        "URo": 0,
+        "URg": 56160
+    }
+}
+}
