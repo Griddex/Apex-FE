@@ -12,8 +12,8 @@ const SaveForecastResultsTitleAndDescription = ({
   errors,
   touched,
   handleChange,
-}: // handleBlur,
-ISaveForecastResultsProps & IIsSaveForecastResultsValid) => {
+  setIsSaveForecastResultsValid,
+}: ISaveForecastResultsProps & IIsSaveForecastResultsValid) => {
   const dispatch = useDispatch();
 
   const helperText =
@@ -23,9 +23,9 @@ ISaveForecastResultsProps & IIsSaveForecastResultsValid) => {
 
   const handleBlur = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-
     dispatch(updateForecastChartParameterAction(name, value));
   };
+
   return (
     <div>
       <AnalyticsComp
@@ -39,7 +39,19 @@ ISaveForecastResultsProps & IIsSaveForecastResultsValid) => {
             helperText={helperText}
             error={Boolean(helperText)}
             value={forecastResultsTitle}
-            onChange={handleChange}
+            onChange={(e) => {
+              const { name, value } = e.target;
+              handleChange && handleChange(e);
+
+              if (value.length > 2) {
+                setIsSaveForecastResultsValid &&
+                  setIsSaveForecastResultsValid(false);
+                dispatch(updateForecastChartParameterAction(name, value));
+              } else {
+                setIsSaveForecastResultsValid &&
+                  setIsSaveForecastResultsValid(true);
+              }
+            }}
             onBlur={handleBlur}
             required
             autoFocus

@@ -40,8 +40,6 @@ const DialogOkayCancelButtons = (
     },
   ];
 
-  console.log("helooo");
-
   return (
     <>
       {buttonsData.map((button, i) => (

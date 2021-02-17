@@ -40,9 +40,19 @@ export interface IExistingDataProps {
 }
 
 export interface IGiftExistingData {
-  createdAt: string;
-  userId: string;
+  id: string;
+  userId?: string;
   title: string;
   description: string;
-  id: string;
+  createdAt: string;
+}
+export interface IGiftExistingForecastResultsRow extends IGiftExistingData {
+  forecastResultsId: string;
+  forecastParametersGroupId: string;
+  forecastInputDeckId: string;
+  forecastInputDeckTitle: string;
+  forecastParametersTitle: string;
+  status: "Approved" | "Pending" | "Returned" | "Not Started";
+  author: IUserDetails | string;
+  approvers: IUserDetails[] | string;
 }

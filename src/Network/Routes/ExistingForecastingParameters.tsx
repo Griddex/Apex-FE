@@ -12,6 +12,7 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
@@ -24,7 +25,6 @@ import DeclineParametersType from "../Components/Indicators/DeclineParametersTyp
 import NewForecastParametersButton from "../Components/Menus/NewForecastParametersButton";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import formatDate from "./../../Application/Utils/FormatDate";
-import { IExistingForcastParameters } from "./ExistingForecastParametersTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -94,7 +94,7 @@ const chartData = [
 
 export default function ExistingForecastingParameters({
   showChart,
-}: IExistingForcastParameters) {
+}: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 

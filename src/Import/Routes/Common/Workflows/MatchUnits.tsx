@@ -20,6 +20,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationUniqueUnitIndicesAction,
@@ -108,13 +109,6 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
   };
   const fuse = new Fuse(applicationUnits, options);
 
-  //Header matching in a useeffect - call backend api
-  //Rematch button to call api with new matching method?
-  //Replace empty matches with all headers in select control
-  //set score to zero and red background
-  //Monitor all currently selected to ensure no app header is
-  //selected twice
-
   const fileUniqueUnitMatches: Record<string, number>[] = fileUniqueUnits.map(
     (fileUnit: string) => {
       if (fileUnit === "") return {};
@@ -157,12 +151,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
     (fileUnit: string) => {
       const unitMatch = keyedFileUnitMatches[fileUnit];
 
-      const result = Object.keys(unitMatch).map((applicationUnit: string) => ({
-        value: applicationUnit.toString(),
-        label: applicationUnit.toString(),
-      }));
-
-      return result;
+      return generateSelectOptions(Object.keys(unitMatch));
     }
   );
   const keyedApplicationUnitOptions = zipObject(
@@ -180,12 +169,9 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
     (fileUnit: string) => {
       const fileUnitMatch = keyedFileUnitMatches[fileUnit];
 
-      const result = Object.values(fileUnitMatch).map((score: number) => ({
-        value: score.toString(),
-        label: score.toString(),
-      }));
-
-      return result;
+      return generateSelectOptions(
+        Object.values(fileUnitMatch).map((u) => u.toString())
+      );
     }
   );
   const keyedScoreOptions = zipObject(fileUniqueUnits, scoreOptions);
@@ -245,7 +231,6 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
       {
         key: "applicationUnit",
         name: "APPLICATION UNIT",
-        editable: true,
         resizable: true,
         formatter: ({ row, onRowChange }) => {
           const rowSN = row.sn;
@@ -292,7 +277,6 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
       {
         key: "unitClassification",
         name: "UNIT CLASSIFICATION",
-        editable: true,
         resizable: true,
         editor: (p) => (
           <SelectEditor
@@ -318,7 +302,6 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
       {
         key: "acceptMatch",
         name: "ACCEPT MATCH",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => (
           <Checkbox

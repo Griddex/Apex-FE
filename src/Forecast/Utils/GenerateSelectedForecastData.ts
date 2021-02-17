@@ -1,4 +1,4 @@
-import { get, groupBy, omit } from "lodash";
+import { get } from "lodash";
 import { variablesObj } from "./ForecastVariables";
 
 const generateSelectedForecastData = (
@@ -46,7 +46,6 @@ const generateSelectedForecastData = (
 
   const filteredData = allData.map((module) => {
     const mNames = Object.keys(module);
-    console.log("mNames", mNames);
 
     const data = mNames.map((m) => {
       return {
@@ -56,8 +55,6 @@ const generateSelectedForecastData = (
 
     return data;
   });
-
-  console.log("filteredData", filteredData);
 
   return filteredData;
 };

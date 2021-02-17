@@ -126,7 +126,6 @@ export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
       {
         key: "role",
         name: "Role",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => {
           const rowSN = row.sn as number;
@@ -150,7 +149,6 @@ export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
     const otherColumns = appHeaderNames.map((columnName: string) => ({
       key: columnName,
       name: columnName.toLocaleUpperCase(),
-      editable: true,
       resizable: true,
     }));
 

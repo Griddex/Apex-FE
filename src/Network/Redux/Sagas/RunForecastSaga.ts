@@ -52,14 +52,20 @@ function* runForecastSaga(action: IAction) {
 
     const {
       data: {
-        data: { chart: forecastResult, tree: forecastTree },
+        data: { chart: forecastResult, tree: forecastTree, keys: forecastKeys },
       },
     } = result;
 
     const successAction = runForecastSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, forecastResult, forecastTree },
+      payload: {
+        ...payload,
+        statusCode,
+        forecastResult,
+        forecastTree,
+        forecastKeys,
+      },
     });
 
     yield put(showDialogAction(successDialogParameters()));

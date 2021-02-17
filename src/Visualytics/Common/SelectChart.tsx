@@ -1,20 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import ForecastStackedAreaChart from "../../Forecast/Components/ForecastStackedAreaChart";
+import BarChart from "../Components/BarChart";
 import DoughnutChart from "../Components/DoughnutChart";
 import LineChart from "../Components/LineChart";
 import StackedAreaChart from "../Components/StackedAreaChart";
-import BarChart from "../Components/BarChart";
-import Button from "@material-ui/core/Button";
-import {
-  setChartObjectAction,
-  updateChartObjectAction,
-} from "../Redux/ChartActions/ChartActions";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ICharts } from "../Redux/ChartState/ChartStateTypes";
-import { IChartObject } from "./../Redux/ChartState/ChartStateTypes";
-// const charts = ["StackedAreaChart", "LineChart", "DoughnutChart"];
-import { v4 as uuidv4 } from "uuid";
-import ForecastStackedAreaChart from "../../Forecast/Components/ForecastStackedAreaChart";
 
 const tempData = [
   { name: "Oil", value: 450 },
@@ -23,7 +15,7 @@ const tempData = [
 ];
 
 const charts: ICharts = {
-  0: () => <ForecastStackedAreaChart />,
+  0: () => <StackedAreaChart />,
   1: () => <LineChart />,
   2: () => <DoughnutChart data={tempData} />,
   3: () => <BarChart />,

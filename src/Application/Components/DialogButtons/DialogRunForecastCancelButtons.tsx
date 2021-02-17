@@ -41,8 +41,6 @@ const DialogRunForecastCancelButtons = (
     },
   ];
 
-  console.log("helooo");
-
   return (
     <>
       {buttonsData.map((button, i) => (

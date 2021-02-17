@@ -11,6 +11,7 @@ import SelectChart from "../../Visualytics/Common/SelectChart";
 import SelectForecastChartDataPanel from "../Common/SelectForecastChartDataPanel";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
+import ForecastSelectChart from "../Common/ForecastSelectChart";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -76,9 +77,9 @@ const ForecastVisualytics = ({
         <div className={classes.chartContent}>
           <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
             <ForecastChartTitlePlaque />
-            <ChartButtons {...chartButtons} />{" "}
+            <ChartButtons {...chartButtons} />
           </div>
-          <SelectChart />
+          <ForecastSelectChart />
         </div>
       </div>
       {showContextDrawer && (

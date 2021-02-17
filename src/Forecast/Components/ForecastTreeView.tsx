@@ -13,7 +13,11 @@ import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
 import { updateForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
 import generatePathsAndModules from "../Utils/GeneratePathsAndModules";
 import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData";
+import getFilteredForecastData from "../Utils/GetFilteredForecastData";
 import { RenderTree } from "./ForecastTreeViewTypes";
+import objectScan from "object-scan";
+import { get } from "lodash";
+import { uniq } from "lodash";
 
 function MinusSquare(props: any) {
   return (
@@ -137,8 +141,8 @@ export default function ForecastTreeView() {
     selectedForecastChartVariable,
   } = useSelector((state: RootState) => state.forecastReducer);
   console.log(
-    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 141 ~ ForecastTreeView ~ forecastResult",
-    forecastResult
+    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 143 ~ ForecastTreeView ~ selectedForecastChartVariable",
+    selectedForecastChartVariable
   );
 
   const scenarioTree = {
@@ -148,9 +152,37 @@ export default function ForecastTreeView() {
   };
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
-  const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
+  const [selectedModuleNames, setSelectedModuleNames] = React.useState<
+    string[]
+  >([]);
+  const [selectedScenarios, setSelectedScenarios] = React.useState<string[]>(
+    []
+  );
 
-  // const initExpanded = forecastTree.map((scenarioNode) => scenarioNode.id);
+  // const initExpanded = forecastTree.map((scenarioNodes) => scenarioNodes.id);
+
+  const getScenarioNames = (nodes: RenderTree) => {
+    const idPaths = objectScan([`children[*].children[*].children[*].id`], {
+      joined: true,
+    })(nodes);
+
+    const scenarios = [];
+
+    for (const idPath of idPaths) {
+      const idValue = get(nodes, idPath);
+
+      if (selectedIds.includes(idValue)) {
+        const firstDotIndex = idPath.indexOf(".");
+        const scenarioPath = idPath.substring(0, firstDotIndex) + ".name";
+
+        const scenarioValue = get(nodes, scenarioPath);
+
+        scenarios.push(scenarioValue);
+      }
+    }
+
+    return uniq(scenarios);
+  };
 
   const getChildById = (node: RenderTree, id: string) => {
     let idArray: string[] = [];
@@ -197,11 +229,15 @@ export default function ForecastTreeView() {
     return getAllChildren(getNodeById(node, id));
   };
 
-  const getOnChange = (checked: boolean, scenarioNode: RenderTree) => {
-    const allIdNodes: string[] = getChildById(scenarioTree, scenarioNode.id)[0];
+  const getOnChange = (checked: boolean, scenarioNodes: RenderTree) => {
+    const allIdNodes: string[] = getChildById(
+      scenarioTree,
+      scenarioNodes.id
+    )[0];
+
     const allNameNodes: string[] = getChildById(
       scenarioTree,
-      scenarioNode.id
+      scenarioNodes.id
     )[1];
 
     let idArray = checked
@@ -211,48 +247,47 @@ export default function ForecastTreeView() {
     setSelectedIds(idArray);
 
     let nameArray = checked
-      ? [...selectedNames, ...allNameNodes]
-      : selectedNames.filter((value) => !allNameNodes.includes(value));
+      ? [...selectedModuleNames, ...allNameNodes]
+      : selectedModuleNames.filter((value) => !allNameNodes.includes(value));
     nameArray = nameArray.filter((v, i) => nameArray.indexOf(v) === i);
-    setSelectedNames(nameArray);
+    setSelectedModuleNames(nameArray);
   };
 
-  const renderTree = (scenarioNode: RenderTree) => (
-    <StyledTreeItem
-      key={scenarioNode.id}
-      nodeId={scenarioNode.id}
-      label={
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={selectedIds.some((item) => item === scenarioNode.id)}
-              onChange={(event) =>
-                getOnChange(event.currentTarget.checked, scenarioNode)
-              }
-              onClick={(e) => e.stopPropagation()}
-            />
-          }
-          label={<>{scenarioNode.name}</>}
-          key={scenarioNode.id}
-        />
-      }
-    >
-      {Array.isArray(scenarioNode.children)
-        ? scenarioNode.children.map((node) => renderTree(node))
-        : null}
-    </StyledTreeItem>
-  );
+  const renderTree = (scenarioNodes: RenderTree) => {
+    return (
+      <StyledTreeItem
+        key={scenarioNodes.id}
+        nodeId={scenarioNodes.id}
+        label={
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectedIds.some((item) => item === scenarioNodes.id)}
+                onChange={(event) =>
+                  getOnChange(event.currentTarget.checked, scenarioNodes)
+                }
+                onClick={(e) => e.stopPropagation()}
+              />
+            }
+            label={<>{scenarioNodes.name}</>}
+            key={scenarioNodes.id}
+          />
+        }
+      >
+        {Array.isArray(scenarioNodes.children)
+          ? scenarioNodes.children.map((node) => renderTree(node))
+          : null}
+      </StyledTreeItem>
+    );
+  };
 
   React.useEffect(() => {
-    const { paths, modules } = generatePathsAndModules(
-      forecastResult,
-      selectedIds
-    );
+    const scenarios = getScenarioNames(scenarioTree);
 
-    const filteredForecastData = generateSelectedForecastData(
+    const filteredForecastData = getFilteredForecastData(
+      scenarios,
+      selectedModuleNames,
       forecastResult,
-      paths,
-      modules,
       selectedForecastChartVariable
     );
 

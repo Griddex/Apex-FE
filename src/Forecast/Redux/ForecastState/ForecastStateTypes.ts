@@ -1,4 +1,6 @@
 import { FormikErrors, FormikTouched } from "formik";
+import { IUserDetails } from "../../../Application/Components/User/UserTypes";
+import { IGiftExistingForecastResultsRow } from "../../../Application/Types/ApplicationTypes";
 import { RenderTree } from "./../../Components/ForecastTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
@@ -65,10 +67,35 @@ export interface ISaveForecastProps {
 export interface IForecastResultState extends ISaveForecastResultsProps {
   forecastResult: any[];
   forecastTree: RenderTree["children"];
+  forecastKeys: string[];
   transForecastResult: any[];
+
+  selectedForecastingResultsId: string;
+
+  existingDataWorkflows: {
+    forecastResultsExisting: IGiftExistingForecastResultsRow[];
+  };
 }
 
 export type colorGradient = typeof initialColorGradient;
+
+export interface IExistingForecastResultsRow {
+  sn?: number;
+  id?: string;
+  userId?: string;
+  status: "Approved" | "Pending" | "Returned" | "Not Started";
+  title?: string;
+  forecastResultsId?: string;
+  forecastParametersGroupId?: string;
+  forecastInputDeckId?: string;
+  forecastInputDeckTitle?: string;
+  forecastParametersTitle?: string;
+  description?: string;
+  author: IUserDetails | string;
+  approvers: IUserDetails[] | string;
+  createdOn: string;
+  modifiedOn: string;
+}
 
 export type ForecastStateType = IForecastResultState &
   IForecastChartState &

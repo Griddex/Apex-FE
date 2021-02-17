@@ -75,7 +75,6 @@ const ForecastVariableButtonsMenu = () => {
         {(Object.keys(variablesObj) as VariableObjType[]).map(
           (k: VariableObjType, i) => {
             const avatar = getFirstCharFromEveryWord(k);
-            const value = variablesObj[k];
 
             return (
               <MenuItem
@@ -85,7 +84,7 @@ const ForecastVariableButtonsMenu = () => {
                   dispatch(
                     updateForecastChartParameterAction(
                       "selectedForecastChartVariable",
-                      value
+                      k
                     )
                   );
                   handleClose();

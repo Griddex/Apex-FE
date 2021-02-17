@@ -50,24 +50,31 @@ function* saveForecastSaga(action: IAction) {
 
   const config = { headers: null };
   const saveForecastAPI = (url: string) => authService.post(url, data, config);
-  const statusCode = ""; //Get from success response
 
   try {
-    const result = yield call(
-      saveForecastAPI,
-      `${getBaseUrl()}/forecast/save` //This is the URL endpoint you should change
-    );
+    const result = yield call(saveForecastAPI, `${getBaseUrl()}/forecast/save`);
 
     const {
       data: {
-        data: { chart: forecastResult, tree: forecastTree },
+        data: {
+          statusCode,
+          forecastResultsId,
+          forecastParametersGroupId,
+          forecastInputDeckId,
+        },
       },
     } = result;
 
     const successAction = saveForecastSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, forecastResult, forecastTree },
+      payload: {
+        ...payload,
+        statusCode,
+        forecastResultsId,
+        forecastParametersGroupId,
+        forecastInputDeckId,
+      },
     });
 
     yield put(showDialogAction(successDialogParameters()));
@@ -77,7 +84,7 @@ function* saveForecastSaga(action: IAction) {
 
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode, errors },
+      payload: { ...payload, errors },
     });
 
     yield put(showDialogAction(failureDialogParameters("")));

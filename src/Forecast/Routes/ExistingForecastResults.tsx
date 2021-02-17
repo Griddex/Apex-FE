@@ -1,13 +1,85 @@
+import { Checkbox, makeStyles, Typography } from "@material-ui/core";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
-import { useSelector } from "react-redux";
+import { Column } from "react-data-griddex";
+import { useDispatch, useSelector } from "react-redux";
+import Author from "../../Application/Components/Author/Author";
+import Status from "../../Application/Components/Status/Status";
+import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IGiftExistingData,
+  IGiftExistingForecastResultsRow,
 } from "../../Application/Types/ApplicationTypes";
-import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
-import { IForecastRoutes } from "./ForecastRoutesTypes";
+import formatDate from "../../Application/Utils/FormatDate";
+import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
+import { updateForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
+import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+
+const useStyles = makeStyles((theme) => ({
+  rootExistingData: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    height: 560,
+    backgroundColor: "#FFF",
+  },
+  chart: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "20%",
+  },
+  table: {
+    width: "100%",
+    height: "100%",
+    padding: 20,
+  },
+  status: {
+    height: "100%",
+    width: "100%",
+    fontSize: 14,
+  },
+  image: { height: 30, width: 30 },
+  author: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    height: "100%",
+  },
+  approvers: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    height: "100%",
+  },
+  dcaTable: {
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  visibilityOutlinedIcon: {
+    "&:hover": {
+      color: theme.palette.primary.main,
+    },
+  },
+}));
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -17,49 +89,200 @@ const chartData = [
 ];
 
 export default function ExistingForecastResults({
-  wrkflwCtgry,
-  wrkflwPrcss,
-  finalAction,
   showChart,
-}: IForecastRoutes) {
-  const wc = wrkflwCtgry;
-  const wp = wrkflwPrcss as NonNullable<typeof wrkflwPrcss>;
+}: IExistingDataProps) {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const wc = "existingDataWorkflows";
+  const wp = "forecastResultsExisting";
 
   const existingData = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
-  );
+    (state: RootState) => state.forecastReducer[wc][wp]
+  ) as IGiftExistingForecastResultsRow[];
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
   };
 
+  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
+  const handleCheckboxChange = (
+    row: IExistingForecastResultsRow,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const name = "selectedForecastingResultsId";
+    const value = row.forecastResultsId;
+
+    dispatch(updateForecastChartParameterAction(name, value));
+    setCheckboxSelected(!checkboxSelected);
+  };
+
+  const [, setRerender] = React.useState(false);
+
+  const generateColumns = () => {
+    const columns: Column<IExistingForecastResultsRow>[] = [
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+      {
+        key: "selectForecastResult",
+        name: "SELECT",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => (
+          <Checkbox
+            onClick={(event) => handleCheckboxChange(row, event)}
+            checked={checkboxSelected}
+          />
+        ),
+        width: 50,
+      },
+      {
+        key: "actions",
+        name: "ACTIONS",
+        editable: false,
+        formatter: ({ row }) => {
+          const { sn } = row;
+          const selectedRowIndex = (sn as number) - 1;
+
+          return (
+            <div
+              style={{
+                display: "flex",
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <EditOutlinedIcon
+                onClick={() => {
+                  alert(`Edit Row is:${row}`);
+                  // dispatch(
+                  //   showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                  // );
+                }}
+              />
+              <DeleteOutlinedIcon
+                onClick={() => {
+                  alert(`Edit Row is:${row}`);
+                  // dispatch(
+                  //   showDialogAction(deleteDialogParameters(selectedRowIndex))
+                  // );
+                }}
+              />
+              <MenuOpenOutlinedIcon
+                onClick={() => alert(`Menu Row is:${row}`)}
+              />
+            </div>
+          );
+        },
+        width: 120,
+      },
+      {
+        key: "status",
+        name: "STATUS",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Status statusText={row.status} />;
+        },
+        width: 100,
+      },
+      {
+        key: "title",
+        name: "FORECAST RESULTS TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "forecastInputDeckTitle",
+        name: "FORECAST INPUT DECK TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "forecastParametersTitle",
+        name: "FORECAST PARAMETERS TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "author",
+        name: "AUTHOR",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Author author={row.author} />;
+        },
+        width: 200,
+      },
+      {
+        key: "createdOn",
+        name: "CREATED",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <div>{formatDate(new Date(row.createdOn))}</div>;
+        },
+        width: 200,
+      },
+      {
+        key: "modifiedOn",
+        name: "MODIFIED",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <div>{formatDate(new Date(row.modifiedOn))}</div>;
+        },
+        width: 200,
+      },
+    ];
+
+    return columns;
+  };
+  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
+
   const snExistingData = existingData.map(
-    (row: IGiftExistingData, i: number) => ({
+    (row: IGiftExistingForecastResultsRow, i: number) => ({
       sn: i + 1,
       id: row.id,
-      status: "Not Started",
       title: row.title,
       description: row.description,
+      status: "Not Started",
+      forecastInputDeckTitle: row.forecastInputDeckTitle,
+      forecastParametersTitle: row.forecastParametersTitle,
       author: "---",
-      approvers: ["--", "--"],
+      approvers: "---",
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
+  ) as IExistingForecastResultsRow[];
+
+  const tableRows = React.useRef<IExistingForecastResultsRow[]>(snExistingData);
+  const rows = tableRows.current;
+
+  React.useEffect(() => {
+    dispatch(hideSpinnerAction());
+  }, [dispatch, rows]);
+
+  return (
+    <div className={classes.rootExistingData}>
+      {showChart && (
+        <div className={classes.chart}>
+          <DoughnutChart data={chartData} />
+        </div>
+      )}
+      <div className={classes.table}>
+        <ApexGrid<IExistingForecastResultsRow, ITableButtonsProps>
+          columns={columns}
+          rows={rows}
+          tableButtons={tableButtons}
+          newTableRowHeight={35}
+        />
+      </div>
+    </div>
   );
-
-  const dataKey = "title";
-  const dataTitle = "FORECAST DECK TITLE";
-
-  const props = {
-    wkPs: wp,
-    snExistingData,
-    dataKey,
-    dataTitle,
-    tableButtons,
-    chartData,
-    showChart,
-  };
-
-  return <ExistingDataRoute {...props} />;
 }

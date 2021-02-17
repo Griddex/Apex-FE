@@ -1,5 +1,5 @@
 const getBaseUrl = () => {
-  return "http://986ff08994f9.ngrok.io/api";
+  return "http://0244427fac12.ngrok.io/api";
 };
 
 export default getBaseUrl;

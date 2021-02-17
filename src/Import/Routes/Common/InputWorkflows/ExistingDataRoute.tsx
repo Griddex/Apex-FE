@@ -108,7 +108,6 @@ export default function ExistingDataRoute<
       {
         key: "select",
         name: "SELECT",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => (
           <Checkbox
@@ -153,7 +152,6 @@ export default function ExistingDataRoute<
       {
         key: "author",
         name: "AUTHOR",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => {
           return <Author author={row.author} />;
@@ -163,7 +161,6 @@ export default function ExistingDataRoute<
       {
         key: "approvers",
         name: "APPROVERS",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => {
           return <Approvers approvers={row.approvers} />;
@@ -173,7 +170,6 @@ export default function ExistingDataRoute<
       {
         key: "createdOn",
         name: "CREATED",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => {
           return <div>{row.createdOn}</div>;
@@ -183,7 +179,6 @@ export default function ExistingDataRoute<
       {
         key: "modifiedOn",
         name: "MODIFIED",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => {
           return <div>{row.modifiedOn}</div>;

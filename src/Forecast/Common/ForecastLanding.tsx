@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Route,
   RouteComponentProps,
@@ -9,18 +9,15 @@ import {
 } from "react-router-dom";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import Image from "../../Application/Components/Visuals/Image";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
-import { loadWorkflowAction } from "../../Application/Redux/Actions/LayoutActions";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Import/Images/ExistingDeck.svg";
+import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
+import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastCharts from "../Images/ForecastCharts.svg";
 import ExistingForecastResults from "../Routes/ExistingForecastResults";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
 import { IdType, IForecastLandingData } from "./ForecastLandingTypes";
-import Image from "../../Application/Components/Visuals/Image";
-import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
-import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -132,8 +129,8 @@ const ForecastLanding = () => {
                   ),
                   approvedforecastresults: (
                     <ExistingForecastResults
-                      wrkflwCtgry={"existingDataWorkflows"}
-                      wrkflwPrcss={"forecastResultsExisting"}
+                      wkCy={"existingDataWorkflows"}
+                      wkPs={"forecastResultsExisting"}
                       showChart={true}
                       finalAction={existingDataFinalAction}
                     />
@@ -146,7 +143,6 @@ const ForecastLanding = () => {
             <Route
               path="*"
               render={(props) => {
-                console.log(props);
                 return <h1>Not Available</h1>;
               }}
             />

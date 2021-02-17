@@ -75,10 +75,6 @@ export function SimpleApexGrid<R>(props: IApexGrid<R>) {
       return { ...c, headerRenderer: HeaderRenderer };
     });
   }, [columns]);
-  console.log(
-    "Logged output --> ~ file: SimpleApexGrid.tsx ~ line 78 ~ draggableColumns ~ draggableColumns",
-    draggableColumns
-  );
 
   const sortedRows = useMemo((): R[] => {
     if (sortDirection === "NONE") return rawTableRows.current;
@@ -89,10 +85,6 @@ export function SimpleApexGrid<R>(props: IApexGrid<R>) {
 
     return sortDirection === "DESC" ? sortedRows.reverse() : sortedRows;
   }, [rawTableRows, sortDirection, sortColumn]);
-  console.log(
-    "Logged output --> ~ file: SimpleApexGrid.tsx ~ line 88 ~ sortedRows ~ sortedRows",
-    sortedRows
-  );
 
   function rowKeyGetter(row: R) {
     return (row as any)["sn"];

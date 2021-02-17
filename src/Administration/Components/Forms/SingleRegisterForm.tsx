@@ -115,16 +115,7 @@ const SingleRegisterForm = () => {
         <ImageUploader
           withIcon={true}
           buttonText="Choose images"
-          onChange={(files: File[], pictures: string[]) => {
-            console.log(
-              "Logged output --> ~ file: SingleRegisterForm.tsx ~ line 126 ~ SingleRegisterForm ~ pictures",
-              pictures
-            );
-            console.log(
-              "Logged output --> ~ file: SingleRegisterForm.tsx ~ line 126 ~ SingleRegisterForm ~ files",
-              files
-            );
-          }}
+          onChange={(files: File[], pictures: string[]) => {}}
           imgExtension={[".jpg", ".gif", ".png", "gif"]}
           maxFileSize={5242880}
           withPreview={true}

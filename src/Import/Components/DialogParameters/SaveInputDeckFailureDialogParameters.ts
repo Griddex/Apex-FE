@@ -4,7 +4,6 @@ import { DialogStuff } from "./../../../Application/Components/Dialogs/DialogTyp
 import history from "../../../Application/Services/HistoryService";
 
 const navigateToFacilitiesLanding = () => {
-  console.log("navigate to facilities landinggggggggggg");
   history.replace("/apex/import/facilitiesdeck");
 };
 

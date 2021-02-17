@@ -184,7 +184,6 @@ export default function UnitSettings({
       {
         key: "applicationUnit",
         name: "APPLICATION UNIT",
-        editable: true,
         resizable: true,
         formatter: ({ row, onRowChange }) => {
           const variableName = row.variableName as string;
@@ -262,7 +261,6 @@ export default function UnitSettings({
       {
         key: "unitGroups",
         name: "UNIT GROUP",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => {
           const variableName = row.variableName as string;

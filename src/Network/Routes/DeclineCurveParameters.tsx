@@ -3,7 +3,7 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import { findIndex } from "lodash";
 import React, { ChangeEvent } from "react";
-import { Column } from "react-data-griddex";
+import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -131,7 +131,6 @@ export default function DeclineCurveParameters({
       {
         key: "selectDecline",
         name: "SELECT",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => (
           <Checkbox
@@ -283,6 +282,7 @@ export default function DeclineCurveParameters({
         key: "rateofChangeRate1P1C",
         name: "DECLINE RATE (1P1C)",
         editable: true,
+        editor: TextEditor,
         resizable: true,
         width: 200,
       },
@@ -290,6 +290,7 @@ export default function DeclineCurveParameters({
         key: "rateofChangeRate2P2C",
         name: "DECLINE RATE (2P2C)",
         editable: true,
+        editor: TextEditor,
         resizable: true,
         width: 200,
       },
@@ -297,6 +298,7 @@ export default function DeclineCurveParameters({
         key: "rateofChangeRate3P3C",
         name: "DECLINE RATE (3P3C)",
         editable: true,
+        editor: TextEditor,
         resizable: true,
         width: 200,
       },
@@ -304,6 +306,7 @@ export default function DeclineCurveParameters({
         key: "declineExponent1P1C",
         name: "DECLINE EXPONENT (1P1C)",
         editable: true,
+        editor: TextEditor,
         resizable: true,
         width: 200,
       },
@@ -311,6 +314,7 @@ export default function DeclineCurveParameters({
         key: "declineExponent2P2C",
         name: "DECLINE EXPONENT (2P2C)",
         editable: true,
+        editor: TextEditor,
         resizable: true,
         width: 200,
       },
@@ -318,6 +322,7 @@ export default function DeclineCurveParameters({
         key: "declineExponent3P3C",
         name: "DECLINE EXPONENT (3P3C)",
         editable: true,
+        editor: TextEditor,
         resizable: true,
         width: 200,
       },

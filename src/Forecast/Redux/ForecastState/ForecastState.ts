@@ -360,10 +360,17 @@ const forecastChartState: IForecastChartState = {
 const forcastResultState: IForecastResultState = {
   forecastResult: [],
   forecastTree: [],
+  forecastKeys: [],
   transForecastResult: [],
 
   forecastResultsTitle: "",
   forecastResultsDescription: "",
+
+  selectedForecastingResultsId: "",
+
+  existingDataWorkflows: {
+    forecastResultsExisting: [],
+  },
 };
 
 const forecastState = { ...forecastChartState, ...forcastResultState };

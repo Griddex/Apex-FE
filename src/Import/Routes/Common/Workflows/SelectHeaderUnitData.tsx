@@ -188,7 +188,6 @@ export default function SelectHeaderUnitData({
       {
         key: "role",
         name: "Role",
-        editable: true,
         resizable: true,
         width: 150,
         formatter: ({ row, onRowChange }) => {
@@ -239,7 +238,6 @@ export default function SelectHeaderUnitData({
     const otherColumns = Object.keys(indexRow).map((columnName: string) => ({
       key: ToTitleCase(columnName),
       name: columnName,
-      editable: true,
       resizable: true,
       width: 200,
     }));

@@ -58,10 +58,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case NEXT_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      console.log(
-        "Logged output --> ~ file: WorkflowReducer.ts ~ line 66 ~ workflowReducer ~ action.payload",
-        action.payload
-      );
+
       const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
       const wc = workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"];
 
@@ -82,10 +79,6 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       // if (activeStep === steps.length - 1) {
       //   return { ...state["importDataWorkflows"][wp] };
       // }
-      console.log(
-        "Logged output --> ~ file: WorkflowReducer.ts ~ line 62 ~ workflowReducer ~ state",
-        state
-      );
 
       return {
         ...state,

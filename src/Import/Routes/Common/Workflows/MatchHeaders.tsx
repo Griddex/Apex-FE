@@ -19,6 +19,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationHeadersAction,
@@ -66,10 +67,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const dispatch = useDispatch();
   const wc = "importDataWorkflows";
   const wp = wrkflwPrcss;
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 68 ~ MatchHeaders ~ wp",
-    wp
-  );
 
   //File Headers
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
@@ -100,12 +97,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   };
   const fuse = new Fuse(applicationHeaders, options);
 
-  //Header matching in a useeffect - call backend api
-  //Rematch button to call api with new matching method?
-  //Replace empty matches with all headers in select control
-  //set score to zero and red background
-  //Monitor all currently selected to ensure no app header is
-  //selected twice
   const fileHeaderMatches: Record<string, number>[] = fileHeaders.map(
     (fileHeader: string) => {
       const searchResult = fuse.search(fileHeader);
@@ -147,14 +138,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     (fileHeader: string) => {
       const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
 
-      const result = Object.keys(fileHeaderMatch).map(
-        (applicationHeader: string) => ({
-          value: applicationHeader.toString(),
-          label: applicationHeader.toString(),
-        })
-      );
-
-      return result;
+      return generateSelectOptions(Object.keys(fileHeaderMatch));
     }
   );
 
@@ -162,12 +146,9 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     (fileHeader: string) => {
       const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
 
-      const result = Object.values(fileHeaderMatch).map((score: number) => ({
-        value: score.toString(),
-        label: score.toString(),
-      }));
-
-      return result;
+      return generateSelectOptions(
+        Object.values(fileHeaderMatch).map((h) => h.toString())
+      );
     }
   );
 
@@ -276,7 +257,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       {
         key: "applicationHeader",
         name: "APPLICATION HEADER",
-        editable: true,
         resizable: true,
         formatter: ({ row, onRowChange }) => {
           const rowSN = row.sn;
@@ -331,7 +311,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       {
         key: "exclude",
         name: "EXCLUDE",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => (
           <Checkbox
@@ -344,7 +323,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       {
         key: "acceptMatch",
         name: "ACCEPT MATCH",
-        editable: true,
         resizable: true,
         formatter: ({ row }) => (
           <Checkbox

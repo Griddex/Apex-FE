@@ -15,7 +15,7 @@ const getUpperPath = (path: string) => {
 };
 
 const generatePathsAndModules = (forecastData: any[], ids: string[]) => {
-  const idPaths = objectScan([`*[*]*.*[*]._id`], {
+  const idPaths = objectScan([`*.*[*].*[*]._id`], {
     joined: true,
   })(forecastData);
 
