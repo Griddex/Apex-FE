@@ -1,4 +1,10 @@
-import { Box, Container, makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  Chip,
+  Container,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
 import CompanyLogo from "../../Images/CompanyLogo.svg";
@@ -54,14 +60,15 @@ const WorkflowBanner = ({
         <Typography variant="subtitle1">{`${subModuleName}`}</Typography>
         <span>&nbsp;</span>
         <Typography variant="subtitle1">{`${moduleName} `}</Typography>
-        {/* <Typography variant="subtitle1" color="primary">
-          {` | ${workflowName}`}
-        </Typography> */}
-        <Box className={classes.workflowBanner}>
-          <Typography variant="subtitle1">{`${activeStep + 1}/${
-            steps.length
-          }`}</Typography>
-        </Box>
+        <Chip
+          style={{
+            marginLeft: 5,
+            borderRadius: 4,
+            minWidth: 50,
+          }}
+          size="small"
+          label={`${activeStep + 1}/${steps.length}`}
+        />
       </Box>
     </Container>
   );

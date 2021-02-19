@@ -13,9 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   hideDialogAction,
@@ -72,7 +74,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
@@ -195,6 +197,7 @@ const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
       <DialogContent dividers>
         <SaveForecastInputDeckWorkflow {...existingProps} />
         <Divider />
+        <DialogVerticalWorkflowStepper {...workflowProps} />
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />

@@ -45,7 +45,8 @@ const App: React.FC<JSX.Element> = () => {
       // }}
     >
       <DndProvider backend={HTML5Backend}>
-        <Suspense fallback={<PerpetualSpinner />}>
+        {/* <Suspense fallback={<PerpetualSpinner />}> */}
+        <Suspense fallback={PerpetualSpinner}>
           <Switch>
             <Route exact path="/" component={LandingRoute} />
             <Route path="/login" component={LoginRoute} />

@@ -248,12 +248,13 @@ export default function ExistingForecastResults({
   const snExistingData = existingData.map(
     (row: IGiftExistingForecastResultsRow, i: number) => ({
       sn: i + 1,
-      id: row.id,
+      forecastResultsId: row.id,
       title: row.title,
       description: row.description,
       status: "Not Started",
+      networkTitle: row.networkTitle,
       forecastInputDeckTitle: row.forecastInputDeckTitle,
-      forecastParametersTitle: row.forecastParametersTitle,
+      forecastParametersTitle: row.forecastingParametersGroupTitle,
       author: "---",
       approvers: "---",
       createdOn: row.createdAt,

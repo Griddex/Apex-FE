@@ -48,10 +48,9 @@ export interface IGiftExistingData {
 }
 export interface IGiftExistingForecastResultsRow extends IGiftExistingData {
   forecastResultsId: string;
-  forecastParametersGroupId: string;
-  forecastInputDeckId: string;
+  networkTitle: string;
   forecastInputDeckTitle: string;
-  forecastParametersTitle: string;
+  forecastingParametersGroupTitle: string;
   status: "Approved" | "Pending" | "Returned" | "Not Started";
   author: IUserDetails | string;
   approvers: IUserDetails[] | string;

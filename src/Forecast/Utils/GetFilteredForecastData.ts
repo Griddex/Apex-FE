@@ -25,6 +25,10 @@ const getFilteredForecastData = (
     const modulePaths = objectScan([`*[*].*[*].module`], {
       joined: true,
     })(scenarioData);
+    console.log(
+      "Logged output --> ~ file: GetFilteredForecastData.ts ~ line 28 ~ modulePaths",
+      modulePaths
+    );
 
     for (const name of moduleNames) {
       const moduleObjsArr = [];
@@ -35,10 +39,17 @@ const getFilteredForecastData = (
         if (name === foundModuleName) {
           const moduleObj = getModuleObject(scenarioData, modulePath);
           moduleObjsArr.push(moduleObj);
+          console.log(
+            "Logged output --> ~ file: GetFilteredForecastData.ts ~ line 42 ~ moduleObjsArr",
+            moduleObjsArr
+          );
         }
       }
 
-      moduleNameModuleObj[name] = moduleObjsArr;
+      console.log(
+        "Logged output --> ~ file: GetFilteredForecastData.ts ~ line 46 ~ moduleNameModuleObj",
+        moduleNameModuleObj
+      );
     }
 
     for (const moduleName of Object.keys(moduleNameModuleObj)) {

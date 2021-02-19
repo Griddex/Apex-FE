@@ -195,6 +195,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const [excludeCheckboxSelected, setExcludeCheckboxSelected] = React.useState(
     false
   );
+
   const generateColumns = (
     keyedApplicationHeaderOptions: Dictionary<
       {

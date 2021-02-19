@@ -9,9 +9,11 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import {
   hideDialogAction,
   showDialogAction,
@@ -77,7 +79,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
@@ -205,6 +207,7 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
         <SaveForecastParametersWorkflow activeStep={activeStep} />
+        <DialogVerticalWorkflowStepper {...workflowProps} />
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />

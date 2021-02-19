@@ -11,14 +11,13 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
-import history from "../../../Application/Services/HistoryService";
 import {
-  saveForecastSuccessAction,
   saveForecastFailureAction,
+  saveForecastSuccessAction,
 } from "../../../Forecast/Redux/ForecastActions/ForecastActions";
 import {
-  successDialogParameters,
   failureDialogParameters,
+  successDialogParameters,
 } from "../../Components/DialogParameters/SaveForecastSuccessFailureDialogParameters";
 import { SAVE_FORECAST_REQUEST } from "../Actions/NetworkActions";
 
@@ -35,17 +34,20 @@ function* saveForecastSaga(action: IAction) {
   const { selectedNetworkId, selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
   );
-  const { forecastResultsTitle, forecastResultsDescription } = yield select(
-    (state) => state.forecastReducer
-  );
+  const {
+    forecastResultsTitle,
+    forecastResultsDescription,
+    selectedForecastingResultsId,
+  } = yield select((state) => state.forecastReducer);
 
   const data = {
     userId: "Gideon",
     projectId,
     networkId: selectedNetworkId,
-    forecastingParametersId: selectedForecastingParametersId,
+    forecastingParametersGroupId: selectedForecastingParametersId,
     title: forecastResultsTitle,
     description: forecastResultsDescription,
+    forecastResultsKey: selectedForecastingResultsId,
   };
 
   const config = { headers: null };
@@ -56,12 +58,8 @@ function* saveForecastSaga(action: IAction) {
 
     const {
       data: {
-        data: {
-          statusCode,
-          forecastResultsId,
-          forecastParametersGroupId,
-          forecastInputDeckId,
-        },
+        success,
+        data: { statusCode },
       },
     } = result;
 
@@ -71,14 +69,11 @@ function* saveForecastSaga(action: IAction) {
       payload: {
         ...payload,
         statusCode,
-        forecastResultsId,
-        forecastParametersGroupId,
-        forecastInputDeckId,
+        success,
       },
     });
 
     yield put(showDialogAction(successDialogParameters()));
-    // yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
   } catch (errors) {
     const failureAction = saveForecastFailureAction();
 
@@ -91,8 +86,4 @@ function* saveForecastSaga(action: IAction) {
   } finally {
     yield put(hideSpinnerAction());
   }
-}
-
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
 }

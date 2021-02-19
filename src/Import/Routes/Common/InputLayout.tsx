@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import Loading from "../../../Application/Components/Visuals/Loading";
+import PerpetualSpinner from "../../../Application/Components/Visuals/PerpetualSpinner";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
 import ForecastInputDeckLanding from "../ForecastInputDeck/ForecastInputDeckLanding";
@@ -73,7 +74,7 @@ const InputLayout = () => {
     <main className={classes.importLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.importLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<PerpetualSpinner />}>
           <Switch>
             <Route exact path={path} component={InputBackground} />
             <Route
@@ -84,6 +85,10 @@ const InputLayout = () => {
                     params: { subNavbarId },
                   },
                 } = props;
+                console.log(
+                  "Logged output --> ~ file: InputLayout.tsx ~ line 88 ~ InputLayout ~ props",
+                  props
+                );
 
                 const Layouts: Record<string, JSX.Element> = {
                   background: <InputBackground />,

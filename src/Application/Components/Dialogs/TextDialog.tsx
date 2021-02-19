@@ -10,7 +10,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import dialogIcons from "../Icons/DialogIcons";
+import DialogIcons from "../Icons/DialogIcons";
+import { IconNameType } from "../Icons/DialogIconsTypes";
 import { DialogStuff } from "./DialogTypes";
 
 const useDialogTitleStyles = makeStyles((theme: Theme) => ({
@@ -58,7 +59,7 @@ const TextDialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>{children}</div>
         {onClose ? (

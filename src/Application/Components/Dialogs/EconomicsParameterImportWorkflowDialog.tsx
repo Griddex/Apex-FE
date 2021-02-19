@@ -11,7 +11,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import EconomicsParameterImportWorkflow from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import dialogIcons from "../Icons/DialogIcons";
+import DialogIcons from "../Icons/DialogIcons";
+import { IconNameType } from "../Icons/DialogIconsTypes";
 import DialogCancelButton from "./../DialogButtons/DialogCancelButton";
 import { DialogStuff } from "./DialogTypes";
 
@@ -70,7 +71,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>

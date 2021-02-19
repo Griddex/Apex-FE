@@ -19,6 +19,12 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import formatDate from "../../../../Application/Utils/FormatDate";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import Select, { ValueType } from "react-select";
+import {
+  ISelectOptions,
+  SelectOptionsType,
+} from "../../../../Application/Components/Selects/SelectItemsType";
+import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -91,12 +97,13 @@ const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
     selectedWorksheetName
   );
 
-  const handleSelectChange = (event: { target: { value: any } }) => {
-    const selectedWorksheetName = event.target.value;
+  const handleSelectChange = (value: ValueType<ISelectOptions, false>) => {
+    const selectedWorksheetName = value && value.label;
+    const sWN = selectedWorksheetName as string;
 
-    setWorksheetName(selectedWorksheetName);
+    setWorksheetName(sWN);
 
-    const selectedWorksheetDataXLSX = inputFile.Sheets[selectedWorksheetName];
+    const selectedWorksheetDataXLSX = inputFile.Sheets[sWN];
     const selectedWorksheetData = xlsx.utils.sheet_to_json<
       Record<string, React.Key>
     >(selectedWorksheetDataXLSX);
@@ -107,28 +114,25 @@ const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
       enqueueSnackbar("Data worksheet...", { persist: false, variant: "info" });
     }
 
-    dispatch(
-      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData, wp)
-    );
+    dispatch(persistWorksheetAction(sWN, selectedWorksheetData, wp));
   };
 
   const SelectWorksheet = () => {
+    const worksheetNameOptions: SelectOptionsType = generateSelectOptions(
+      workSheetNames
+    );
+
+    const worksheetNameOption = generateSelectOptions([worksheetName])[0];
+
     return (
-      <TextField
+      <Select
         className={classes.selectWorksheet}
-        id="outlined-select-worksheet"
-        select
-        label=""
-        value={worksheetName}
+        // value={valueOption}
+        defaultValue={worksheetNameOption}
+        options={worksheetNameOptions}
         onChange={handleSelectChange}
-        variant="outlined"
-      >
-        {workSheetNames.map((worksheetName: string) => (
-          <MenuItem key={worksheetName} value={worksheetName}>
-            {worksheetName}
-          </MenuItem>
-        ))}
-      </TextField>
+        // menuIsOpen={true}
+      />
     );
   };
 

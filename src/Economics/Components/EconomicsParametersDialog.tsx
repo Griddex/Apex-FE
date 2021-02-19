@@ -18,7 +18,8 @@ import {
   DialogStuff,
   IDialogData,
 } from "../../Application/Components/Dialogs/DialogTypes";
-import dialogIcons from "../../Application/Components/Icons/DialogIcons";
+import DialogIcons from "../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../Application/Components/Icons/DialogIconsTypes";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -89,7 +90,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>

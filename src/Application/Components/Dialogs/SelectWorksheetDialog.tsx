@@ -25,7 +25,8 @@ import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActi
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import dialogIcons from "../Icons/DialogIcons";
+import DialogIcons from "../Icons/DialogIcons";
+import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 
@@ -84,7 +85,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>

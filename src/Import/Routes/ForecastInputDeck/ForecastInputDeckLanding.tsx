@@ -187,6 +187,7 @@ const ForecastInputDeckLanding = () => {
             return (
               <ModuleCard
                 key={name}
+                isDispatched={true}
                 moduleAction={loadWorkflowAction}
                 name={name}
                 description={description}

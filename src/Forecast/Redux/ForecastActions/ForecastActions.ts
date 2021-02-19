@@ -48,7 +48,6 @@ export const saveForecastSuccessAction = () => {
     type: SAVE_FORECAST_SUCCESS,
     payload: {
       statusCode: 0,
-      data: [],
     },
   };
 };

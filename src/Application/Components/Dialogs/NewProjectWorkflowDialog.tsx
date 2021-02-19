@@ -17,9 +17,11 @@ import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import dialogIcons from "../Icons/DialogIcons";
+import DialogIcons from "../Icons/DialogIcons";
+import { IconNameType } from "../Icons/DialogIconsTypes";
 import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
+import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowStepper";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -67,7 +69,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>
@@ -198,6 +200,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
         <NewProjectWorkflow activeStep={activeStep} />
+        <DialogVerticalWorkflowStepper {...workflowProps} />
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />

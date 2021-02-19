@@ -8,7 +8,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import dialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -80,7 +81,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle className={classes.root} {...other} disableTypography>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
-          {dialogIcons[iconType ? iconType : "select"]}
+          <DialogIcons iconType={iconType as IconNameType} />
         </div>
         <div className={classes.dialogTitle}>
           <Typography variant="h6">{children}</Typography>

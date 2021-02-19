@@ -52,7 +52,12 @@ function* runForecastSaga(action: IAction) {
 
     const {
       data: {
-        data: { chart: forecastResult, tree: forecastTree, keys: forecastKeys },
+        data: {
+          chart: forecastResult,
+          tree: forecastTree,
+          keys: forecastKeys,
+          forecastResultsKey: selectedForecastingResultsId,
+        },
       },
     } = result;
 
@@ -65,6 +70,7 @@ function* runForecastSaga(action: IAction) {
         forecastResult,
         forecastTree,
         forecastKeys,
+        selectedForecastingResultsId,
       },
     });
 

@@ -164,6 +164,7 @@ const ProductionDataLanding = () => {
             return (
               <ModuleCard
                 key={name}
+                isDispatched={true}
                 moduleAction={loadWorkflowAction}
                 name={name}
                 description={description}

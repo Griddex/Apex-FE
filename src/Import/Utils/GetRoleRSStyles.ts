@@ -1,0 +1,119 @@
+import { Theme } from "@material-ui/core/styles";
+import { Styles } from "react-select";
+import { ISelectOptions } from "../../Application/Components/Selects/SelectItemsType";
+
+const getColors = (name: string, theme: Theme) => {
+  switch (name) {
+    case "Headers":
+      return [theme.palette.primary.light, theme.palette.primary.main];
+    case "Units":
+      return [theme.palette.secondary.light, theme.palette.secondary.main];
+    case "Data":
+      return [theme.palette.grey[200], theme.palette.grey[700]];
+    default:
+      return [theme.palette.grey[200], theme.palette.grey[700]];
+  }
+};
+
+const getRoleRSStyles = (theme: Theme) => {
+  const colourStyles: Styles<ISelectOptions, false> = {
+    container: (styles, props) => ({
+      ...styles,
+      height: "100%",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }),
+    valueContainer: (styles, props) => ({
+      ...styles,
+      height: "100%",
+      width: "100%",
+      alignSelf: "center",
+      // display: "flex",
+      // alignItems: "center",
+      // justifyContent: "center",
+    }),
+    control: (styles, props) => {
+      const { getValue } = props;
+      const currentValue = getValue()[0].label;
+
+      let currentValueLabel = "";
+
+      switch (currentValue) {
+        case "Headers":
+          currentValueLabel = theme.palette.primary.main;
+          break;
+        case "Units":
+          currentValueLabel = theme.palette.secondary.main;
+          break;
+        case "Data":
+          currentValueLabel = theme.palette.grey[700];
+          break;
+        default:
+          currentValueLabel = theme.palette.grey[700];
+          break;
+      }
+
+      return {
+        ...styles,
+        backgroundColor: "white",
+        borderColor: currentValueLabel,
+        borderWidth: 2,
+        minHeight: 30,
+        height: "95%",
+        flex: 1,
+      };
+    },
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      return {
+        ...styles,
+        backgroundColor: isDisabled
+          ? theme.palette.text.disabled
+          : isSelected
+          ? getColors(data.label, theme)[1]
+          : isFocused
+          ? getColors(data.label, theme)[1]
+          : "white",
+        color: "black",
+        cursor: isDisabled ? "not-allowed" : "default",
+
+        // ":active": {
+        //   ...styles[":active"],
+        //   backgroundColor:
+        //     !isDisabled && (isSelected ? data.color : color.alpha(0.3).css())
+        // }
+      };
+    },
+    input: (styles) => ({ ...styles }),
+    placeholder: (styles) => ({ ...styles }),
+    singleValue: (styles, { data }) => {
+      let label = theme.palette.grey[700];
+
+      switch (data.label) {
+        case "Headers":
+          label = theme.palette.primary.main;
+          break;
+        case "Units":
+          label = theme.palette.secondary.main;
+          break;
+        case "Data":
+          label = theme.palette.grey[700];
+          break;
+        default:
+          label = theme.palette.grey[700];
+          break;
+      }
+
+      const updatedStyles = { ...styles, color: label };
+      return { ...updatedStyles };
+    },
+    indicatorSeparator: (styles, props) => {
+      return { ...styles, backgroundColor: "white" };
+    },
+  };
+
+  return colourStyles;
+};
+
+export default getRoleRSStyles;
