@@ -25,17 +25,19 @@ const getRoleRSStyles = (theme: Theme) => {
       alignItems: "center",
       justifyContent: "center",
     }),
-    valueContainer: (styles, props) => ({
+    valueContainer: (styles) => ({
       ...styles,
       height: "100%",
       width: "100%",
       alignSelf: "center",
-      // display: "flex",
-      // alignItems: "center",
-      // justifyContent: "center",
+      fontWeight: 700,
     }),
-    control: (styles, props) => {
-      const { getValue } = props;
+    input: (styles) => ({
+      ...styles,
+      display: "none",
+      height: "100%",
+    }),
+    control: (styles, { getValue }) => {
       const currentValue = getValue()[0].label;
 
       let currentValueLabel = "";
@@ -75,17 +77,10 @@ const getRoleRSStyles = (theme: Theme) => {
           : isFocused
           ? getColors(data.label, theme)[1]
           : "white",
-        color: "black",
+        color: isSelected || isFocused ? "white" : "black",
         cursor: isDisabled ? "not-allowed" : "default",
-
-        // ":active": {
-        //   ...styles[":active"],
-        //   backgroundColor:
-        //     !isDisabled && (isSelected ? data.color : color.alpha(0.3).css())
-        // }
       };
     },
-    input: (styles) => ({ ...styles }),
     placeholder: (styles) => ({ ...styles }),
     singleValue: (styles, { data }) => {
       let label = theme.palette.grey[700];
@@ -108,8 +103,14 @@ const getRoleRSStyles = (theme: Theme) => {
       const updatedStyles = { ...styles, color: label };
       return { ...updatedStyles };
     },
-    indicatorSeparator: (styles, props) => {
+    indicatorSeparator: (styles) => {
       return { ...styles, backgroundColor: "white" };
+    },
+    indicatorsContainer: (styles) => {
+      return { ...styles, height: "100%" };
+    },
+    dropdownIndicator: (styles) => {
+      return { ...styles, color: theme.palette.grey[700] };
     },
   };
 

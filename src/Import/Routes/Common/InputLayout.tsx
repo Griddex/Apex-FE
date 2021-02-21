@@ -85,10 +85,6 @@ const InputLayout = () => {
                     params: { subNavbarId },
                   },
                 } = props;
-                console.log(
-                  "Logged output --> ~ file: InputLayout.tsx ~ line 88 ~ InputLayout ~ props",
-                  props
-                );
 
                 const Layouts: Record<string, JSX.Element> = {
                   background: <InputBackground />,

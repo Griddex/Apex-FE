@@ -6,15 +6,24 @@ import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import WarningIcon from "@material-ui/icons/Warning";
 import { DialogIconsType, IconNameType } from "./DialogIconsTypes";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import { useTheme } from "@material-ui/core/styles";
 
 const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
+  const theme = useTheme();
+
   const icons: DialogIconsType = {
-    error: <WarningIcon style={{ color: "#DA1B57" }} />,
-    success: <CheckCircleIcon style={{ color: "#00C49F" }} />,
-    select: <PlaylistAddCheckOutlinedIcon style={{ color: "#31BFCC" }} />,
-    information: <InfoIcon style={{ color: "#31BFCC" }} />,
-    confirmation: <HelpOutlineOutlinedIcon style={{ color: "#31BFCC" }} />,
-    network: <AccountTreeIcon style={{ color: "#31BFCC" }} />,
+    error: <WarningIcon style={{ color: theme.palette.secondary.main }} />,
+    success: <CheckCircleIcon style={{ color: theme.palette.success.main }} />,
+    select: (
+      <PlaylistAddCheckOutlinedIcon
+        style={{ color: theme.palette.primary.main }}
+      />
+    ),
+    information: <InfoIcon style={{ color: theme.palette.primary.main }} />,
+    confirmation: (
+      <HelpOutlineOutlinedIcon style={{ color: theme.palette.primary.main }} />
+    ),
+    network: <AccountTreeIcon style={{ color: theme.palette.primary.main }} />,
   };
 
   return icons[iconType];

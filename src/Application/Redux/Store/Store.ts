@@ -52,6 +52,27 @@ function* rootSaga() {
   yield spawn(watchSaveForecastSaga);
 }
 
+// function listenMongoDb() {
+//   try {
+//     mongoose.connect(
+//       "mongodb+srv://apex:Yv10NPk7c2WmgKt4@syncware-cluster.a69fi.mongodb.net/apex-db?retryWrites=true&w=majority"
+//     );
+
+//     const db = mongoose.connection;
+//     const taskCollection = db.collection("datastreams");
+//     const changeStream = taskCollection.watch();
+//     changeStream.on("change", (change) => {
+//       console.log("Changes made to DataStream");
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
+function listenWebsocket() {
+  // const socket = new WebSocket()
+}
+
 const sagaMiddleware = createSagaMiddleware();
 
 const persistConfig = {
@@ -73,4 +94,5 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 // export { store, persistor };
+// listenMongoDb();
 export { store };

@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
@@ -9,7 +9,11 @@ import zipObject from "lodash/zipObject";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectOptionsType } from "../../../../Application/Components/Selects/SelectItemsType";
+import { ValueType } from "react-select/src/types";
+import {
+  ISelectOptions,
+  SelectOptionsType,
+} from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -30,6 +34,9 @@ import {
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
+import { Styles } from "react-select";
+import Select from "react-select";
+import getRoleRSStyles from "../../../Utils/GetRoleRSStyles";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -65,6 +72,8 @@ const useStyles = makeStyles(() => ({
 export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const wc = "importDataWorkflows";
   const wp = wrkflwPrcss;
 
@@ -214,10 +223,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         headerOptions,
         (u: { value: string; label: string }) => u.label === "None"
       );
-      console.log(
-        "Logged output --> ~ file: MatchHeaders.tsx ~ line 233 ~ MatchHeaders ~ selectedOptionIndex",
-        selectedOptionIndex
-      );
+
       modifyTableRows(selectedFileHeader, selectedOptionIndex);
       setExcludeCheckboxSelected(
         (excludeCheckboxSelected) => !excludeCheckboxSelected
@@ -262,42 +268,44 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         formatter: ({ row, onRowChange }) => {
           const rowSN = row.sn;
           const fileHeader = row.fileHeader as string;
-          const options = keyedApplicationHeaderOptions[fileHeader];
+          const headerOptions = keyedApplicationHeaderOptions[fileHeader];
           const appHeader = row.applicationHeader as string;
+          const valueOption = generateSelectOptions([appHeader])[0];
+
+          const colorStyles: Styles<ISelectOptions, false> = getRoleRSStyles(
+            theme
+          );
+
+          const handleSelect = (value: ValueType<ISelectOptions, false>) => {
+            const selectedValue = value && value.label;
+
+            onRowChange({
+              ...row,
+              applicationHeader: selectedValue as string,
+            });
+
+            const selectedHeaderOptionIndex = findIndex(
+              headerOptions,
+              (option) => option.value === selectedValue
+            );
+
+            setChosenApplicationHeaderIndices((prev) => ({
+              ...prev,
+              [`${rowSN}`]: selectedHeaderOptionIndex,
+            }));
+
+            modifyTableRows(fileHeader, selectedHeaderOptionIndex);
+            setRerender((rerender) => !rerender);
+          };
 
           return (
-            <select
-              style={{ width: "100%", height: "95%" }}
-              value={appHeader as string}
-              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                event.stopPropagation();
-                const selectedValue = event.target.value;
-
-                onRowChange({
-                  ...row,
-                  applicationHeader: selectedValue as string,
-                });
-
-                const selectedHeaderOptionIndex = findIndex(
-                  options,
-                  (option) => option.value === selectedValue
-                );
-
-                setChosenApplicationHeaderIndices((prev) => ({
-                  ...prev,
-                  [`${rowSN}`]: selectedHeaderOptionIndex,
-                }));
-
-                modifyTableRows(fileHeader, selectedHeaderOptionIndex);
-                setRerender((rerender) => !rerender);
-              }}
-            >
-              {options.map((option, i: number) => (
-                <option key={i} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <Select
+              value={valueOption}
+              options={headerOptions}
+              styles={colorStyles}
+              onChange={handleSelect}
+              menuPortalTarget={document.body}
+            />
           );
         },
       },
@@ -368,10 +376,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   };
 
   const rows = tableRows.current;
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 405 ~ MatchHeaders ~ rows",
-    rows
-  );
 
   //Run once after 1st render
   React.useEffect(() => {

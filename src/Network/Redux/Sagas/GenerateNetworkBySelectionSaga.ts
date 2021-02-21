@@ -1,10 +1,19 @@
+import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
+  AllEffect,
   call,
+  CallEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  take,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
+import { Stream } from "stream";
+import http from "stream-http";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -19,7 +28,6 @@ import {
   generateNetworkBySelectionSuccessAction,
   GENERATENETWORKBYSELECTION_REQUEST,
 } from "../Actions/NetworkActions";
-import history from "../../../Application/Services/HistoryService";
 
 export default function* watchGenerateNetworkBySelectionSaga() {
   const generateNetworkBySelectionChan = yield actionChannel(
@@ -31,56 +39,91 @@ export default function* watchGenerateNetworkBySelectionSaga() {
   );
 }
 
-export function* generateNetworkBySelectionSaga(action: IAction) {
+const config = { headers: null };
+const generateNetworkBySelectionAPI = (url: string) =>
+  authService.get(url, config);
+type AxiosPromise = ReturnType<typeof generateNetworkBySelectionAPI>;
+
+export function* generateNetworkBySelectionSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<AxiosPromise>>
+  | CallEffect<EventChannel<any>>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  { selectedNetworkId: any } & [any, any]
+> {
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
-
   const { selectedNetworkId } = yield select((state) => state.networkReducer);
-
-  const config = { headers: null };
-  const generateNetworkBySelectionAPI = (url: string) =>
-    authService.get(url, config);
+  const url = `${getBaseUrl()}/network/${selectedNetworkId}`;
 
   yield put(showSpinnerAction(message));
 
-  try {
-    const result = yield call(
-      generateNetworkBySelectionAPI,
-      `${getBaseUrl()}/network/${selectedNetworkId}`
-    );
+  while (true) {
+    try {
+      const chan = yield call(updateNodesAndEdges, url);
+      const [nodeElements, edgeElements] = yield take(chan);
 
-    const {
-      data: {
-        success,
-        statusCode,
-        data: { nodes: nodeElements, edges: edgeElements },
-      },
-    } = result;
-    console.log(
-      "Logged output --> ~ file: AutogenerateNetworkSaga.ts ~ line 58 ~ function*generateNetworkBySelectionSaga ~ result",
-      result
-    );
+      const successAction = generateNetworkBySelectionSuccessAction();
+      yield put({
+        ...successAction,
+        payload: { ...payload, nodeElements, edgeElements },
+      });
+    } catch (errors) {
+      const failureAction = generateNetworkBySelectionFailureAction();
 
-    const successAction = generateNetworkBySelectionSuccessAction();
-    yield put({
-      ...successAction,
-      payload: { ...payload, statusCode, success, nodeElements, edgeElements },
-    });
-  } catch (errors) {
-    const failureAction = generateNetworkBySelectionFailureAction();
+      yield put({
+        ...failureAction,
+        payload: { ...payload, errors },
+      });
 
-    yield put({
-      ...failureAction,
-      payload: { ...payload, errors },
-    });
-
-    yield put(showDialogAction(failureDialogParameters()));
-    // yield call(forwardTo, "/apex/network");
-  } finally {
-    yield put(hideSpinnerAction());
+      yield put(showDialogAction(failureDialogParameters()));
+    } finally {
+      yield put(hideSpinnerAction());
+    }
   }
 }
 
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
+function updateNodesAndEdges(url: string) {
+  const decoder = new TextDecoder();
+
+  return eventChannel((emitter) => {
+    http.get(url, function (res: Stream) {
+      let nodeElements: any = [];
+      let edgeElements: any = [];
+
+      res.on("data", function (buf) {
+        const str = decoder.decode(buf);
+        const objs = JSON.parse(str);
+
+        const splitData = objs.reduce(
+          (acc: any, o: any) => {
+            if (Array.isArray(o))
+              return { ...acc, metadata: [...acc.metadata, o] };
+            else {
+              if (o.type && o.type.endsWith("Node"))
+                return { ...acc, nodeElements: [...acc.nodeElements, o] };
+              else return { ...acc, edgeElements: [...acc.edgeElements, o] };
+            }
+          },
+          { metadata: [], edgeElements: [], nodeElements: [] }
+        );
+
+        nodeElements = [...nodeElements, ...splitData["nodeElements"]];
+        edgeElements = [...edgeElements, ...splitData["edgeElements"]];
+
+        emitter([nodeElements, edgeElements]);
+      });
+      res.on("end", function (buf) {
+        emitter(END);
+      });
+    });
+
+    return () => {
+      emitter(END);
+    };
+  });
 }
