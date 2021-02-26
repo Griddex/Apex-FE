@@ -126,9 +126,9 @@ const EconomicsParameters = ({
   const wc = wrkflwCtgry as IAllWorkflowProcesses["wrkflwCtgry"];
   const wp = wrkflwPrcss as IAllWorkflowProcesses["wrkflwPrcss"];
 
-  const { dnDDisabled } = useSelector(
-    (state: RootState) => state.economicsReducer[wc][wp]
-  );
+  // const { dnDDisabled } = useSelector(
+  //   (state: RootState) => state.economicsReducer[wc][wp]
+  // );
   const [economicsDataSource, setEconomicsDataSource] = React.useState(
     "template"
   );
@@ -466,7 +466,7 @@ const EconomicsParameters = ({
               // console.log("Logged output -->: UploadFile -> e", e);
             };
           }}
-          disabled={dnDDisabled}
+          // disabled={dnDDisabled}
           minSize={0}
           maxSize={10485760}
           multiple={false}

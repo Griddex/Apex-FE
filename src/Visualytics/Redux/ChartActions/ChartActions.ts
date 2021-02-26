@@ -52,7 +52,7 @@ export const setChartObjectAction = (selectedChartObj: IChartObject) => {
   };
 };
 
-export const updateChartObjectAction = (selectedChartObj: IChartObject) => {
+export const persistChartObjectAction = (selectedChartObj: IChartObject) => {
   return {
     type: UPDATE_CHARTOBJECT,
     payload: selectedChartObj,

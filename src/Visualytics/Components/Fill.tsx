@@ -15,7 +15,7 @@ import "react-color-gradient-picker/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { updateChartObjectAction } from "../Redux/ChartActions/ChartActions";
+import { persistChartObjectAction } from "../Redux/ChartActions/ChartActions";
 import { initialColorGradient } from "../Redux/ChartState/ChartState";
 import { optionType } from "./FormatAggregatorTypes";
 
@@ -86,7 +86,7 @@ export default function Fill() {
     setSolidColor(hexColor);
 
     dispatch(
-      updateChartObjectAction({
+      persistChartObjectAction({
         chartObjId: selectedChartObjId,
         chartObjName: "none", //Pass obj here
         formatObj: {
@@ -120,7 +120,7 @@ export default function Fill() {
     localDispatch({ type: "UPDATE_GRADIENT", payload: { gradientAttrs } });
 
     dispatch(
-      updateChartObjectAction({
+      persistChartObjectAction({
         chartObjId: selectedChartObjId,
         chartObjName: "none",
         formatObj: {

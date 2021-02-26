@@ -19,7 +19,7 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
-import { updateForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
+import { persistForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -114,7 +114,7 @@ export default function ExistingForecastResults({
     const name = "selectedForecastingResultsId";
     const value = row.forecastResultsId;
 
-    dispatch(updateForecastChartParameterAction(name, value));
+    dispatch(persistForecastChartParameterAction(name, value));
     setCheckboxSelected(!checkboxSelected);
   };
 

@@ -1,13 +1,13 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
-  UPDATE_FORECASTCHARTPARAMETER,
+  PERSIST_FORECASTCHARTPARAMETER,
   PERSIST_FORECASTCHARTINDEX,
   PERSIST_FORECASTCHARTELEMENTID,
   SET_FORECASTCHARTCOLOR,
   SET_FORECASTCHARTCELLCOLORS,
   SET_FORECASTCHARTOBJECT,
-  UPDATE_FORECASTCHARTOBJECT,
+  PERSIST_FORECASTCHARTOBJECT,
   RUN_FORECAST_SUCCESS,
   RUN_FORECAST_FAILURE,
 } from "../ForecastActions/ForecastActions";
@@ -19,18 +19,31 @@ const forecastReducer = (
   action: IAction
 ): ForecastStateType => {
   switch (action.type) {
-    case UPDATE_FORECASTCHARTPARAMETER: {
+    case PERSIST_FORECASTCHARTPARAMETER: {
       const { name, value } = action.payload;
       return {
         ...state,
         [name]: value,
       };
     }
-    case RUN_FORECAST_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-      };
+    case RUN_FORECAST_SUCCESS: {
+      const { isCumulative } = action.payload;
+
+      if (isCumulative) {
+        const currentForecastResult = state["forecastResult"];
+        const newForecastResult = [...currentForecastResult, ...action.payload];
+
+        return {
+          ...state,
+          forecastResult: newForecastResult,
+        };
+      } else {
+        return {
+          ...state,
+          ...action.payload,
+        };
+      }
+    }
     case RUN_FORECAST_FAILURE:
       return {
         ...state,
@@ -77,7 +90,7 @@ const forecastReducer = (
       };
     }
 
-    case UPDATE_FORECASTCHARTOBJECT: {
+    case PERSIST_FORECASTCHARTOBJECT: {
       const selectedChartObj =
         state.forecastChartObjects &&
         state.forecastChartObjects.find(

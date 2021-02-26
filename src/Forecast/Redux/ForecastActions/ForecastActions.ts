@@ -1,7 +1,7 @@
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
-export const UPDATE_FORECASTCHARTPARAMETER = "UPDATE_FORECASTCHARTPARAMETER";
+export const PERSIST_FORECASTCHARTPARAMETER = "PERSIST_FORECASTCHARTPARAMETER";
 export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
 export const RUN_FORECAST_FAILURE = "RUN_FORECAST_FAILURE";
 export const SAVE_FORECAST_SUCCESS = "SAVE_FORECAST_SUCCESS";
@@ -11,14 +11,14 @@ export const PERSIST_FORECASTCHARTELEMENTID = "PERSIST_FORECASTCHARTELEMENTID";
 export const SET_FORECASTCHARTCOLOR = "SET_FORECASTCHARTCOLOR";
 export const SET_FORECASTCHARTCELLCOLORS = "SET_FORECASTCHARTCELLCOLORS";
 export const SET_FORECASTCHARTOBJECT = "SET_FORECASTCHARTOBJECT";
-export const UPDATE_FORECASTCHARTOBJECT = "UPDATE_FORECASTCHARTOBJECT";
+export const PERSIST_FORECASTCHARTOBJECT = "PERSIST_FORECASTCHARTOBJECT";
 
-export const updateForecastChartParameterAction = (
+export const persistForecastChartParameterAction = (
   name: string,
   value: any
 ) => {
   return {
-    type: UPDATE_FORECASTCHARTPARAMETER,
+    type: PERSIST_FORECASTCHARTPARAMETER,
     payload: { name, value },
   };
 };
@@ -112,11 +112,11 @@ export const setChartObjectAction = (
   };
 };
 
-export const updateChartObjectAction = (
+export const persistChartObjectAction = (
   selectedForecastChartObj: IForecastChartObject
 ) => {
   return {
-    type: UPDATE_FORECASTCHARTOBJECT,
+    type: PERSIST_FORECASTCHARTOBJECT,
     payload: selectedForecastChartObj,
   };
 };

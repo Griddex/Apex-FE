@@ -62,28 +62,26 @@ export function* generateNetworkBySelectionSaga(
 
   yield put(showSpinnerAction(message));
 
-  while (true) {
-    try {
-      const chan = yield call(updateNodesAndEdges, url);
-      const [nodeElements, edgeElements] = yield take(chan);
+  try {
+    const chan = yield call(updateNodesAndEdges, url);
+    const [nodeElements, edgeElements] = yield take(chan);
 
-      const successAction = generateNetworkBySelectionSuccessAction();
-      yield put({
-        ...successAction,
-        payload: { ...payload, nodeElements, edgeElements },
-      });
-    } catch (errors) {
-      const failureAction = generateNetworkBySelectionFailureAction();
+    const successAction = generateNetworkBySelectionSuccessAction();
+    yield put({
+      ...successAction,
+      payload: { ...payload, nodeElements, edgeElements },
+    });
+  } catch (errors) {
+    const failureAction = generateNetworkBySelectionFailureAction();
 
-      yield put({
-        ...failureAction,
-        payload: { ...payload, errors },
-      });
+    yield put({
+      ...failureAction,
+      payload: { ...payload, errors },
+    });
 
-      yield put(showDialogAction(failureDialogParameters()));
-    } finally {
-      yield put(hideSpinnerAction());
-    }
+    yield put(showDialogAction(failureDialogParameters()));
+  } finally {
+    yield put(hideSpinnerAction());
   }
 }
 
@@ -95,8 +93,12 @@ function updateNodesAndEdges(url: string) {
       let nodeElements: any = [];
       let edgeElements: any = [];
 
-      res.on("data", function (buf) {
-        const str = decoder.decode(buf);
+      res.on("data", function (chunk) {
+        console.log(
+          "Logged output --> ~ file: GenerateNetworkBySelectionSaga.ts ~ line 97 ~ chunk",
+          chunk
+        );
+        const str = decoder.decode(chunk);
         const objs = JSON.parse(str);
 
         const splitData = objs.reduce(
@@ -117,7 +119,7 @@ function updateNodesAndEdges(url: string) {
 
         emitter([nodeElements, edgeElements]);
       });
-      res.on("end", function (buf) {
+      res.on("end", function (chunk) {
         emitter(END);
       });
     });

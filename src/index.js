@@ -13,12 +13,12 @@ import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import { PersistGate } from "redux-persist/integration/react";
 
-Sentry.init({
-  dsn:
-    "https://c2967263fae54787a9c535167158d65a@o324350.ingest.sentry.io/5442360",
-  integrations: [new Integrations.BrowserTracing()],
-  tracesSampleRate: 1.0,
-});
+// Sentry.init({
+//   dsn:
+//     "https://c2967263fae54787a9c535167158d65a@o324350.ingest.sentry.io/5442360",
+//   integrations: [new Integrations.BrowserTracing()],
+//   tracesSampleRate: 1.0,
+// });
 
 ReactDOM.render(
   <Provider store={store}>

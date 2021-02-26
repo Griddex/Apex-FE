@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
-import { updateForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
+import { persistForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
 import generatePathsAndModules from "../Utils/GeneratePathsAndModules";
 import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData";
 import getFilteredForecastData from "../Utils/GetFilteredForecastData";
@@ -292,7 +292,7 @@ export default function ForecastTreeView() {
     );
 
     dispatch(
-      updateForecastChartParameterAction(
+      persistForecastChartParameterAction(
         "transForecastResult",
         filteredForecastData
       )
