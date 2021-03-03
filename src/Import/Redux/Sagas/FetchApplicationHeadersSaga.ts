@@ -69,7 +69,7 @@ function* fetchApplicationHeadersSaga(
   const { payload } = action;
 
   try {
-    const [facilitiesResult, forecastResult] = yield all<
+    const [facilitiesResult, forecastResults] = yield all<
       CallEffect<AxiosPromise>
     >([
       call<(url: string) => AxiosPromise>(fetchHeadersAPI, facilitiesUrl),
@@ -81,7 +81,7 @@ function* fetchApplicationHeadersSaga(
     } = facilitiesResult;
     const {
       data: { data: forecastInputHeaders }, //prevent 2nd trip to server
-    } = forecastResult;
+    } = forecastResults;
 
     const successAction = fetchApplicationHeadersSuccessAction();
     // const headerType = getHeadersType(workflowProcess) as string;

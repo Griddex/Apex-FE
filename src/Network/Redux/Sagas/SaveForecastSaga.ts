@@ -14,7 +14,7 @@ import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import {
   saveForecastFailureAction,
   saveForecastSuccessAction,
-} from "../../../Forecast/Redux/ForecastActions/ForecastActions";
+} from "../../../Forecast/Redux/Actions/ForecastActions";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -54,7 +54,7 @@ function* saveForecastSaga(action: IAction) {
   const saveForecastAPI = (url: string) => authService.post(url, data, config);
 
   try {
-    const result = yield call(saveForecastAPI, `${getBaseUrl()}/forecast/save`);
+    const result = yield call(saveForecastAPI, `${getBaseUrl()}/save`);
 
     const {
       data: {

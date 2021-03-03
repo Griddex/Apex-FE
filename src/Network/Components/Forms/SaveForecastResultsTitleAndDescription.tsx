@@ -2,7 +2,7 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { persistForecastChartParameterAction } from "../../../Forecast/Redux/ForecastActions/ForecastActions";
+import { persistForecastChartParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { ISaveForecastResultsProps } from "../../../Forecast/Redux/ForecastState/ForecastStateTypes";
 import { IIsSaveForecastResultsValid } from "../Dialogs/SaveNetworkDialogTypes";
 

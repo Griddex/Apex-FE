@@ -19,7 +19,7 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
-import { persistForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
+import { persistForecastChartParameterAction } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 
 const useStyles = makeStyles((theme) => ({

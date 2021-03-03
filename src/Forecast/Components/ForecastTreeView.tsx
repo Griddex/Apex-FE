@@ -10,7 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
-import { persistForecastChartParameterAction } from "../Redux/ForecastActions/ForecastActions";
+import {
+  getForecastResultsRequestAction,
+  persistForecastChartParameterAction,
+} from "../Redux/Actions/ForecastActions";
 import generatePathsAndModules from "../Utils/GeneratePathsAndModules";
 import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData";
 import getFilteredForecastData from "../Utils/GetFilteredForecastData";
@@ -135,54 +138,35 @@ export default function ForecastTreeView() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const {
-    forecastTree,
-    forecastResult,
-    selectedForecastChartVariable,
-  } = useSelector((state: RootState) => state.forecastReducer);
-  console.log(
-    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 143 ~ ForecastTreeView ~ selectedForecastChartVariable",
-    selectedForecastChartVariable
+  const { forecastTree, selectedForecastChartVariable } = useSelector(
+    (state: RootState) => state.forecastReducer
   );
+  console.log(
+    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 145 ~ ForecastTreeView ~ forecastTree",
+    forecastTree
+  );
+  const updatedForecastTree = [
+    { ...forecastTree?.[0], id: "5749dc74-4b81-4652-8a46-a58b6bea0157" },
+    { ...forecastTree?.[1], id: "ac430726-1b97-45f6-8b09-0c2ac347cc6e" },
+    { ...forecastTree?.[2], id: "3d515091-8d7e-4650-8345-9fa953a23418" },
+  ];
 
   const scenarioTree = {
-    id: "6021dd778f358e2184skjds4b7",
+    id: "6e611ee3-4133-496b-a7cc-43cea89686bc",
     name: "Scenarios",
-    children: [...(forecastTree as RenderTree[])],
+    children: [...(updatedForecastTree as RenderTree[])],
   };
+  console.log(
+    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 154 ~ ForecastTreeView ~ scenarioTree",
+    scenarioTree
+  );
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
     string[]
   >([]);
-  const [selectedScenarios, setSelectedScenarios] = React.useState<string[]>(
-    []
-  );
 
   // const initExpanded = forecastTree.map((scenarioNodes) => scenarioNodes.id);
-
-  const getScenarioNames = (nodes: RenderTree) => {
-    const idPaths = objectScan([`children[*].children[*].children[*].id`], {
-      joined: true,
-    })(nodes);
-
-    const scenarios = [];
-
-    for (const idPath of idPaths) {
-      const idValue = get(nodes, idPath);
-
-      if (selectedIds.includes(idValue)) {
-        const firstDotIndex = idPath.indexOf(".");
-        const scenarioPath = idPath.substring(0, firstDotIndex) + ".name";
-
-        const scenarioValue = get(nodes, scenarioPath);
-
-        scenarios.push(scenarioValue);
-      }
-    }
-
-    return uniq(scenarios);
-  };
 
   const getChildById = (node: RenderTree, id: string) => {
     let idArray: string[] = [];
@@ -254,6 +238,10 @@ export default function ForecastTreeView() {
   };
 
   const renderTree = (scenarioNodes: RenderTree) => {
+    console.log(
+      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 236 ~ renderTree ~ scenarioNodes.id",
+      scenarioNodes.id
+    );
     return (
       <StyledTreeItem
         key={scenarioNodes.id}
@@ -282,21 +270,16 @@ export default function ForecastTreeView() {
   };
 
   React.useEffect(() => {
-    const scenarios = getScenarioNames(scenarioTree);
+    // const {selectedModuleIds} = useSelector((state:RootState) => state.forecastReducer)
 
-    const filteredForecastData = getFilteredForecastData(
-      scenarios,
-      selectedModuleNames,
-      forecastResult,
-      selectedForecastChartVariable
-    );
-
-    dispatch(
-      persistForecastChartParameterAction(
-        "transForecastResult",
-        filteredForecastData
-      )
-    );
+    if (selectedIds.length > 0) {
+      dispatch(
+        getForecastResultsRequestAction(
+          selectedIds,
+          selectedForecastChartVariable
+        )
+      );
+    }
   }, [selectedIds, selectedForecastChartVariable]);
 
   return (

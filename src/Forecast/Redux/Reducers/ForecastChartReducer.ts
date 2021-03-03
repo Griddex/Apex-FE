@@ -10,7 +10,9 @@ import {
   PERSIST_FORECASTCHARTOBJECT,
   RUN_FORECAST_SUCCESS,
   RUN_FORECAST_FAILURE,
-} from "../ForecastActions/ForecastActions";
+  GET_FORECASTRESULTS_FAILURE,
+  GET_FORECASTRESULTS_SUCCESS,
+} from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
 
@@ -26,29 +28,49 @@ const forecastReducer = (
         [name]: value,
       };
     }
+
     case RUN_FORECAST_SUCCESS: {
-      const { isCumulative } = action.payload;
+      const { keyVar } = action.payload;
 
-      if (isCumulative) {
-        const currentForecastResult = state["forecastResult"];
-        const newForecastResult = [...currentForecastResult, ...action.payload];
-
+      if (keyVar === "forecastKeys") {
+        const { forecastKeys } = action.payload;
         return {
           ...state,
-          forecastResult: newForecastResult,
+          forecastKeys,
         };
       } else {
+        const { forecastTree } = action.payload;
+        // const currentForecastResults = state["forecastResults"];
+        // const newForecastResults = [...currentForecastResults, forecastTree];
+
         return {
           ...state,
-          ...action.payload,
+          forecastTree,
         };
       }
     }
+
     case RUN_FORECAST_FAILURE:
       return {
         ...state,
         ...action.payload,
       };
+
+    case GET_FORECASTRESULTS_SUCCESS: {
+      const { forecastResults } = action.payload;
+
+      return {
+        ...state,
+        forecastResults,
+      };
+    }
+
+    case GET_FORECASTRESULTS_FAILURE: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
 
     case PERSIST_FORECASTCHARTINDEX:
       return {

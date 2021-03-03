@@ -112,7 +112,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "postinstall": "patch-package"
   },
   "browserslist": {
     "production": [

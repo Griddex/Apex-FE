@@ -9,7 +9,6 @@ import AccountBalanceTwoToneIcon from "@material-ui/icons/AccountBalanceTwoTone"
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React, { useState } from "react";
-import "react-data-griddex/dist/react-data-grid.css";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ParameterGrid from "../../Components/ParameterGrid";
 import {

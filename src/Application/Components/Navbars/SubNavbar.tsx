@@ -75,26 +75,63 @@ const SubNavbar = ({ subNavbarData }: { subNavbarData: ISubNavbarData }) => {
       <Toolbar className={classes.appbarToolBar} disableGutters>
         <ButtonGroup variant="text">
           {subNavbarData.map((navbarData, i) => {
-            const { name, route, icon } = navbarData;
+            const {
+              name,
+              route,
+              icon,
+              isDropDown,
+              dropDownIcon,
+              ButtonMenu,
+            } = navbarData;
 
-            return (
-              <Button
-                key={name}
-                className={classes.button}
-                onClick={() => {
-                  dispatch(subNavbarSetMenuAction(name));
-                  dispatch(navigateResetWorkflowAction());
-                  setMainMenuSelected(name);
-                  history.push(route);
-                }}
-                endIcon={icon}
-                style={
-                  name === selected ? { color: theme.palette.primary.main } : {}
-                }
-              >
-                <Typography variant="subtitle2">{name}</Typography>
-              </Button>
-            );
+            if (isDropDown) {
+              return (
+                <div>
+                  <Button
+                    key={name}
+                    className={classes.button}
+                    onClick={() => {
+                      dispatch(subNavbarSetMenuAction(name));
+                      dispatch(navigateResetWorkflowAction());
+                      setMainMenuSelected(name);
+                      history.push(route);
+                    }}
+                    startIcon={icon}
+                    endIcon={dropDownIcon}
+                    style={
+                      name === selected
+                        ? { color: theme.palette.primary.main }
+                        : {}
+                    }
+                  >
+                    <Typography variant="subtitle2">{name}</Typography>
+                  </Button>
+                  {ButtonMenu ? <ButtonMenu /> : <div></div>}
+                </div>
+              );
+            } else {
+              return (
+                <Button
+                  key={name}
+                  className={classes.button}
+                  onClick={() => {
+                    dispatch(subNavbarSetMenuAction(name));
+                    dispatch(navigateResetWorkflowAction());
+                    setMainMenuSelected(name);
+                    history.push(route);
+                  }}
+                  startIcon={icon}
+                  endIcon={icon}
+                  style={
+                    name === selected
+                      ? { color: theme.palette.primary.main }
+                      : {}
+                  }
+                >
+                  <Typography variant="subtitle2">{name}</Typography>
+                </Button>
+              );
+            }
           })}
         </ButtonGroup>
       </Toolbar>

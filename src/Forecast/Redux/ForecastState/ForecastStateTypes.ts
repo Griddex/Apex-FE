@@ -19,6 +19,7 @@ export interface IForecastChartObject {
 }
 export interface IForecastChartState {
   selectedForecastChartVariable: string;
+  selectedModuleIds: string[];
   selectedChartIndex: number;
   selectedChartObjId: string;
 
@@ -65,12 +66,13 @@ export interface ISaveForecastProps {
 }
 
 export interface IForecastResultState extends ISaveForecastResultsProps {
-  forecastResult: any[];
+  forecastResults: any[];
   forecastTree: RenderTree["children"];
   forecastKeys: string[];
   transForecastResult: any[];
 
   selectedForecastingResultsId: string;
+  isForecastResultsSaved: boolean;
 
   existingDataWorkflows: {
     forecastResultsExisting: IGiftExistingForecastResultsRow[];

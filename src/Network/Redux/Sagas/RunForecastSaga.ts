@@ -22,7 +22,7 @@ import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import {
   runForecastFailureAction,
   runForecastSuccessAction,
-} from "../../../Forecast/Redux/ForecastActions/ForecastActions";
+} from "../../../Forecast/Redux/Actions/ForecastActions";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -55,54 +55,56 @@ function* runForecastSaga(
   );
 
   const userId = "Gideon";
-  const url = `${getBaseUrl()}/forecast/run/networkId=${selectedNetworkId}/forecastingParametersGroupId=${selectedForecastingParametersId}/userId=${userId}`;
+  const url = `${getBaseUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersGroupId=${selectedForecastingParametersId}/userId=${userId}`;
 
   try {
-    const chan = yield call(updateForecastResults, url);
+    const chan = yield call(updateForecastKeysAndTrees, url);
 
-    const data = yield take(chan);
-    console.log(
-      "Logged output --> ~ file: RunForecastSaga.ts ~ line 64 ~ data",
-      data
-    );
-    const successAction = runForecastSuccessAction();
-    if (Object.keys(data).includes("keys")) {
-      yield put({
-        ...successAction,
-        payload: {
-          ...payload,
-          isCumulative: false,
-          forecastKeys: data["keys"],
-        },
-      });
+    while (true) {
+      const data = yield take(chan);
+      const successAction = runForecastSuccessAction();
+      if (Object.keys(data)[0] === "keys") {
+        console.log(
+          "Logged output --> ~ file: RunForecastSaga.ts ~ line 75 ~",
+          data["keys"]
+        );
+        yield put({
+          ...successAction,
+          payload: {
+            ...payload,
+            keyVar: "forecastKeys",
+            forecastKeys: data["keys"],
+          },
+        });
+      } else if (Object.keys(data)[0] === "tree") {
+        const { forecastTree } = yield select((state) => state.forecastReducer);
+        // const newData =
+        //   forecastTree.length > 0
+        //     ? [...forecastTree, data["tree"]]
+        //     : [data["tree"]];
 
-      console.log("here are the keys: ", data);
-    } else if (Object.keys(data).includes("tree")) {
-      yield put({
-        ...successAction,
-        payload: {
-          ...payload,
-          isCumulative: false,
-          forecastTree: data["tree"],
-        },
-      });
+        const newData = data["tree"];
+        console.log(
+          "Logged output --> ~ file: RunForecastSaga.ts ~ line 79 ~ newData",
+          newData
+        );
 
-      console.log("here is the tree: ", data);
-    } else {
-      yield put({
-        ...successAction,
-        payload: {
-          ...payload,
-          isCumulative: true,
-          forecastResult: data,
-        },
-      });
-
-      console.log("Chunking along", data);
+        yield put({
+          ...successAction,
+          payload: {
+            ...payload,
+            keyVar: "forecastTree",
+            forecastTree: newData,
+          },
+        });
+      }
+      yield put(showDialogAction(successDialogParameters()));
     }
-
-    yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
+    console.log(
+      "Logged output --> ~ file: RunForecastSaga.ts ~ line 97 ~ errors",
+      errors
+    );
     const failureAction = runForecastFailureAction();
 
     yield put({
@@ -116,30 +118,18 @@ function* runForecastSaga(
   }
 }
 
-function updateForecastResults(url: string) {
+function updateForecastKeysAndTrees(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
       withCredentials: false,
       success: function (chunk) {
-        console.log(
-          "Logged output --> ~ file: RunForecastSaga.ts ~ line 125 ~ returneventChannel ~ chunk",
-          chunk
-        );
         emitter(chunk);
       },
       error: function (chunk) {
-        console.log(
-          "Logged output --> ~ file: RunForecastSaga.ts ~ line 132 ~ returneventChannel ~ chunk",
-          chunk
-        );
         emitter(END);
       },
       complete: function (chunk) {
-        console.log(
-          "Logged output --> ~ file: RunForecastSaga.ts ~ line 135 ~ returneventChannel ~ chunk",
-          chunk
-        );
         emitter(END);
       },
     });

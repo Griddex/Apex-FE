@@ -143,20 +143,23 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case GENERATENETWORKBYSELECTION_SUCCESS: {
-      const {
-        success,
-        statusCode,
-        nodeElements,
-        edgeElements,
-      } = action.payload;
+      const { success, statusCode, isNode, newFlowElements } = action.payload;
 
-      return {
-        ...state,
-        success,
-        statusCode,
-        nodeElements,
-        edgeElements,
-      };
+      if (isNode) {
+        return {
+          ...state,
+          success,
+          statusCode,
+          nodeElements: newFlowElements,
+        };
+      } else {
+        return {
+          ...state,
+          success,
+          statusCode,
+          edgeElements: newFlowElements,
+        };
+      }
     }
 
     case GENERATENETWORKBYSELECTION_FAILURE: {

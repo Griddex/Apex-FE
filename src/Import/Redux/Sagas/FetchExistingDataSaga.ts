@@ -65,7 +65,7 @@ function* fetchExistingDataSaga(
   const forecastUrl = `${getBaseUrl()}/forecast-inputdeck/light/${projectId}`;
 
   try {
-    const [facilitiesResult, forecastResult] = yield all<
+    const [facilitiesResult, forecastResults] = yield all<
       CallEffect<AxiosPromise>
     >([
       call<(url: string) => AxiosPromise>(fetchExistingDataAPI, facilitiesUrl),
@@ -78,7 +78,7 @@ function* fetchExistingDataSaga(
 
     const {
       data: { data: forecastInputDeckExisting }, //prevent 2nd trip to server
-    } = forecastResult;
+    } = forecastResults;
 
     const successAction = fetchExistingDataSuccessAction();
     yield put({

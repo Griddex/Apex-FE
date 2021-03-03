@@ -41,6 +41,7 @@ export const initialColorGradient = {
 
 const forecastChartState: IForecastChartState = {
   selectedForecastChartVariable: "Oil Rate",
+  selectedModuleIds: [],
   selectedChartIndex: 0,
   selectedChartObjId: "",
   forecastChartObjects: [],
@@ -358,7 +359,7 @@ const forecastChartState: IForecastChartState = {
 };
 
 const forcastResultState: IForecastResultState = {
-  forecastResult: [],
+  forecastResults: [],
   forecastTree: [],
   forecastKeys: [],
   transForecastResult: [],
@@ -367,6 +368,7 @@ const forcastResultState: IForecastResultState = {
   forecastResultsDescription: "",
 
   selectedForecastingResultsId: "",
+  isForecastResultsSaved: false,
 
   existingDataWorkflows: {
     forecastResultsExisting: [],

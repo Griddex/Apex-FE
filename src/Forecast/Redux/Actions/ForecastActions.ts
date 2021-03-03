@@ -4,6 +4,9 @@ import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 export const PERSIST_FORECASTCHARTPARAMETER = "PERSIST_FORECASTCHARTPARAMETER";
 export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
 export const RUN_FORECAST_FAILURE = "RUN_FORECAST_FAILURE";
+export const GET_FORECASTRESULTS_REQUEST = "GET_FORECASTRESULTS_REQUEST";
+export const GET_FORECASTRESULTS_SUCCESS = "GET_FORECASTRESULTS_SUCCESS";
+export const GET_FORECASTRESULTS_FAILURE = "GET_FORECASTRESULTS_FAILURE";
 export const SAVE_FORECAST_SUCCESS = "SAVE_FORECAST_SUCCESS";
 export const SAVE_FORECAST_FAILURE = "SAVE_FORECAST_FAILURE";
 export const PERSIST_FORECASTCHARTINDEX = "PERSIST_FORECASTCHARTINDEX";
@@ -43,6 +46,19 @@ export const runForecastFailureAction = () => {
   };
 };
 
+export const getForecastResultsRequestAction = (
+  selectedIds: string[],
+  selectedForecastChartVariable: string
+) => {
+  return {
+    type: GET_FORECASTRESULTS_REQUEST,
+    payload: {
+      selectedIds,
+      selectedForecastChartVariable,
+    },
+  };
+};
+
 export const saveForecastSuccessAction = () => {
   return {
     type: SAVE_FORECAST_SUCCESS,
@@ -55,6 +71,25 @@ export const saveForecastSuccessAction = () => {
 export const saveForecastFailureAction = () => {
   return {
     type: SAVE_FORECAST_FAILURE,
+    payload: {
+      statusCode: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const getForecastResultsSuccessAction = () => {
+  return {
+    type: GET_FORECASTRESULTS_SUCCESS,
+    payload: {
+      statusCode: 0,
+    },
+  };
+};
+
+export const getForecastResultsFailureAction = () => {
+  return {
+    type: GET_FORECASTRESULTS_FAILURE,
     payload: {
       statusCode: 0,
       errors: { message: "" },

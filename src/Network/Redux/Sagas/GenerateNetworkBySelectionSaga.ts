@@ -1,3 +1,4 @@
+import jsonpipe from "jsonpipe";
 import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
@@ -12,8 +13,6 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { Stream } from "stream";
-import http from "stream-http";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -53,7 +52,7 @@ export function* generateNetworkBySelectionSaga(
   | PutEffect<{ payload: any; type: string }>
   | SelectEffect,
   void,
-  { selectedNetworkId: any } & [any, any]
+  any
 > {
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
@@ -64,13 +63,40 @@ export function* generateNetworkBySelectionSaga(
 
   try {
     const chan = yield call(updateNodesAndEdges, url);
-    const [nodeElements, edgeElements] = yield take(chan);
 
-    const successAction = generateNetworkBySelectionSuccessAction();
-    yield put({
-      ...successAction,
-      payload: { ...payload, nodeElements, edgeElements },
-    });
+    while (true) {
+      const flowElement = yield take(chan);
+      console.log(
+        "Logged output --> ~ file: GenerateNetworkBySelectionSaga.ts ~ line 68 ~ flowElement",
+        flowElement
+      );
+
+      let isNode = false;
+      const successAction = generateNetworkBySelectionSuccessAction();
+
+      if (Object.keys(flowElement)[0] === "nodes") {
+        isNode = true;
+        const { nodeElements } = yield select((state) => state.networkReducer);
+        const newFlowElements = [...nodeElements, flowElement["nodes"]];
+
+        yield put({
+          ...successAction,
+          payload: { ...payload, isNode, newFlowElements },
+        });
+      } else if (Object.keys(flowElement)[0] === "edges") {
+        isNode = false;
+        const { edgeElements } = yield select((state) => state.networkReducer);
+        const newFlowElements = [...edgeElements, flowElement["edges"]];
+
+        yield put({
+          ...successAction,
+          payload: { ...payload, isNode, newFlowElements },
+        });
+      }
+      // else if (Object.keys(flowElement)[0] === "properties") {
+      //   yield "properties"
+      // }
+    }
   } catch (errors) {
     const failureAction = generateNetworkBySelectionFailureAction();
 
@@ -86,42 +112,19 @@ export function* generateNetworkBySelectionSaga(
 }
 
 function updateNodesAndEdges(url: string) {
-  const decoder = new TextDecoder();
-
   return eventChannel((emitter) => {
-    http.get(url, function (res: Stream) {
-      let nodeElements: any = [];
-      let edgeElements: any = [];
-
-      res.on("data", function (chunk) {
-        console.log(
-          "Logged output --> ~ file: GenerateNetworkBySelectionSaga.ts ~ line 97 ~ chunk",
-          chunk
-        );
-        const str = decoder.decode(chunk);
-        const objs = JSON.parse(str);
-
-        const splitData = objs.reduce(
-          (acc: any, o: any) => {
-            if (Array.isArray(o))
-              return { ...acc, metadata: [...acc.metadata, o] };
-            else {
-              if (o.type && o.type.endsWith("Node"))
-                return { ...acc, nodeElements: [...acc.nodeElements, o] };
-              else return { ...acc, edgeElements: [...acc.edgeElements, o] };
-            }
-          },
-          { metadata: [], edgeElements: [], nodeElements: [] }
-        );
-
-        nodeElements = [...nodeElements, ...splitData["nodeElements"]];
-        edgeElements = [...edgeElements, ...splitData["edgeElements"]];
-
-        emitter([nodeElements, edgeElements]);
-      });
-      res.on("end", function (chunk) {
+    jsonpipe.flow(url, {
+      method: "GET",
+      withCredentials: false,
+      success: function (chunk) {
+        emitter(chunk);
+      },
+      error: function (chunk) {
         emitter(END);
-      });
+      },
+      complete: function (chunk) {
+        emitter(END);
+      },
     });
 
     return () => {
