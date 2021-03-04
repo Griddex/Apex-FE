@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import {
   actionChannel,
   all,
@@ -53,12 +54,12 @@ const forecastUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
   "forecastInputDeckExcel"
 )}`;
 
-type AxiosPromise = ReturnType<typeof fetchHeadersAPI>;
+// type AxiosPromise =  ReturnType<typeof  fetchHeadersAPI>;
 
 function* fetchApplicationHeadersSaga(
   action: IAction
 ): Generator<
-  | AllEffect<CallEffect<AxiosPromise>>
+  | AllEffect<CallEffect<AxiosResponse<any>>>
   | PutEffect<{
       payload: any;
       type: string;
@@ -69,11 +70,9 @@ function* fetchApplicationHeadersSaga(
   const { payload } = action;
 
   try {
-    const [facilitiesResult, forecastResults] = yield all<
-      CallEffect<AxiosPromise>
-    >([
-      call<(url: string) => AxiosPromise>(fetchHeadersAPI, facilitiesUrl),
-      call<(url: string) => AxiosPromise>(fetchHeadersAPI, forecastUrl),
+    const [facilitiesResult, forecastResults] = yield all([
+      call(fetchHeadersAPI, facilitiesUrl),
+      call(fetchHeadersAPI, forecastUrl),
     ]);
 
     const {

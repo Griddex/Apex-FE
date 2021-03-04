@@ -4,7 +4,6 @@ import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import ExposureNeg1TwoToneIcon from "@material-ui/icons/ExposureNeg1TwoTone";
 import PlusOneTwoToneIcon from "@material-ui/icons/PlusOneTwoTone";
 import React from "react";
-import { Grid, GridCellProps } from "react-virtualized";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,20 +43,20 @@ const ParameterGrid = ({ parameter }: { parameter: string }) => {
   const initialRowHeight = 30;
   const [rowHeight, setRowHeight] = React.useState(initialRowHeight);
 
-  function cellRenderer(props: GridCellProps) {
-    const { key, style } = props;
+  // function cellRenderer(props: GridCellProps) {
+  //   const { key, style } = props;
 
-    const enhancedStyle = {
-      ...style,
-      border: "1px solid #999",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexGrow: 1,
-      height: `${initialRowHeight}px`,
-    };
-    return <input type="text" key={key} style={enhancedStyle} />;
-  }
+  //   const enhancedStyle = {
+  //     ...style,
+  //     border: "1px solid #999",
+  //     display: "flex",
+  //     alignItems: "center",
+  //     justifyContent: "center",
+  //     flexGrow: 1,
+  //     height: `${initialRowHeight}px`,
+  //   };
+  //   return <input type="text" key={key} style={enhancedStyle} />;
+  // }
 
   return (
     <div className={classes.parameterGridControl}>
@@ -90,7 +89,7 @@ const ParameterGrid = ({ parameter }: { parameter: string }) => {
           />
         </div>
       </div>
-      <Grid
+      {/* <Grid
         cellRenderer={cellRenderer}
         columnCount={columnCount}
         columnWidth={columnWidth}
@@ -98,7 +97,7 @@ const ParameterGrid = ({ parameter }: { parameter: string }) => {
         rowCount={rowCount}
         rowHeight={initialRowHeight}
         width={width}
-      />
+      /> */}
     </div>
   );
 };

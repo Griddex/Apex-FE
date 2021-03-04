@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import {
   actionChannel,
   all,
@@ -43,15 +44,13 @@ function getInsert(workflowProcess: IExistingDataProps["wkPs"]) {
   }
 }
 
-type AxiosPromise = ReturnType<typeof fetchExistingDataAPI>;
-
 const config = { headers: null };
 const fetchExistingDataAPI = (url: string) => authService.get(url, config);
 
 function* fetchExistingDataSaga(
   action: IAction
 ): Generator<
-  | AllEffect<CallEffect<AxiosPromise>>
+  | AllEffect<CallEffect<AxiosResponse>>
   | PutEffect<{
       payload: any;
       type: string;
@@ -65,11 +64,9 @@ function* fetchExistingDataSaga(
   const forecastUrl = `${getBaseUrl()}/forecast-inputdeck/light/${projectId}`;
 
   try {
-    const [facilitiesResult, forecastResults] = yield all<
-      CallEffect<AxiosPromise>
-    >([
-      call<(url: string) => AxiosPromise>(fetchExistingDataAPI, facilitiesUrl),
-      call<(url: string) => AxiosPromise>(fetchExistingDataAPI, forecastUrl),
+    const [facilitiesResult, forecastResults] = yield all([
+      call(fetchExistingDataAPI, facilitiesUrl),
+      call(fetchExistingDataAPI, forecastUrl),
     ]);
 
     const {
