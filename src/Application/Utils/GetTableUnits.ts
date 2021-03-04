@@ -1,4 +1,4 @@
-import uniq from "lodash/uniq";
+import uniq from "lodash.uniq";
 import { IRawTable } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 
 const getTableUnits = (tableData: IRawTable) => {

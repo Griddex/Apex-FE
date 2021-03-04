@@ -13,6 +13,8 @@ import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import AssessmentOutlinedIcon from "@material-ui/icons/AssessmentOutlined";
 import EconomicsAnalysisWorkflow from "../EconomicsWorkflows/EconomicsAnalysisWorkflow";
 import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
+import KeyboardArrowDownOutlinedIcon from "@material-ui/icons/KeyboardArrowDownOutlined";
+import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -58,7 +60,13 @@ const EconomicsLayout = () => {
 
   return (
     <main className={classes.economicsLayoutRoot}>
-      {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
+      {showSubNavbar && (
+        <SubNavbar
+          subNavbarData={subNavbarData}
+          hasExtraButton={true}
+          ExtraButton={() => <EconomicsInputButtonsMenu />}
+        />
+      )}
       <div className={clsx(classes.economicsLayoutContainer)}>
         <Suspense fallback={<Loading />}>
           <Switch>

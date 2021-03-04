@@ -1,4 +1,4 @@
-import zipObject from "lodash/zipObject";
+import zipObject from "lodash.zipobject";
 import { IRawTable } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 const swapToChosenTableHeaders = (

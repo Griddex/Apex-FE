@@ -1,5 +1,5 @@
 import { makeStyles, TextField } from "@material-ui/core";
-import { findIndex } from "lodash";
+import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";

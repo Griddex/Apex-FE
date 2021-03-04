@@ -1,5 +1,4 @@
 import { ThemeProvider } from "@material-ui/core";
-
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -9,16 +8,8 @@ import history from "./Application/Services/HistoryService";
 import theme from "./Application/Theme/Theme";
 import { store, persistor } from "./Application/Redux/Store/Store";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
 import { PersistGate } from "redux-persist/integration/react";
 import "react-data-griddex/dist/react-data-grid.css";
-// Sentry.init({
-//   dsn:
-//     "https://c2967263fae54787a9c535167158d65a@o324350.ingest.sentry.io/5442360",
-//   integrations: [new Integrations.BrowserTracing()],
-//   tracesSampleRate: 1.0,
-// });
 
 ReactDOM.render(
   <Provider store={store}>

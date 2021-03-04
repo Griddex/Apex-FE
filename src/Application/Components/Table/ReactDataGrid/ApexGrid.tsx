@@ -8,9 +8,9 @@ import {
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
-import filter from "lodash/filter";
-import sortBy from "lodash/sortBy";
-import uniqBy from "lodash/uniqBy";
+import filter from "lodash.filter";
+import sortBy from "lodash.sortby";
+import uniqBy from "lodash.uniqby";
 import React, { useCallback, useMemo, useState } from "react";
 import ReactDataGrid, {
   DataGridHandle,

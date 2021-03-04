@@ -1,4 +1,4 @@
-import { findIndex } from "lodash";
+import findIndex from "lodash.findindex";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";

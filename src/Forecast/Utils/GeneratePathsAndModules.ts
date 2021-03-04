@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import get from "lodash.get";
 import objectScan from "object-scan";
 
 const makeModulePath = (path: string) => {

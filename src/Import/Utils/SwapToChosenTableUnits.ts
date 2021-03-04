@@ -1,5 +1,5 @@
 import { IRawTable } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import zipObject from "lodash/zipObject";
+import zipObject from "lodash.zipobject";
 
 const swapToChosenTableUnits = (tableData: IRawTable, newUnits: string[]) => {
   const newTable = tableData.map((row) => {

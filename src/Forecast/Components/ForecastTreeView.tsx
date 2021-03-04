@@ -19,8 +19,8 @@ import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData"
 import getFilteredForecastData from "../Utils/GetFilteredForecastData";
 import { RenderTree } from "./ForecastTreeViewTypes";
 import objectScan from "object-scan";
-import { get } from "lodash";
-import { uniq } from "lodash";
+import get from "lodash.get";
+import uniq from "lodash.uniq";
 
 function MinusSquare(props: any) {
   return (

@@ -4,11 +4,14 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
-import { Dictionary, findIndex, findLastIndex, omit } from "lodash";
-import zipObject from "lodash/zipObject";
-import React, { ChangeEvent } from "react";
+import findIndex from "lodash.findindex";
+import findLastIndex from "lodash.findlastindex";
+import omit from "lodash.omit";
+import zipObject from "lodash.zipobject";
+import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import Select, { Styles } from "react-select";
 import { ValueType } from "react-select/src/types";
 import {
   ISelectOptions,
@@ -32,11 +35,9 @@ import {
   persistTableHeadersAction,
 } from "../../../Redux/Actions/ImportActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
+import getRoleRSStyles from "../../../Utils/GetRoleRSStyles";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
-import { Styles } from "react-select";
-import Select from "react-select";
-import getRoleRSStyles from "../../../Utils/GetRoleRSStyles";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -205,14 +206,9 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     false
   );
 
-  const generateColumns = (
-    keyedApplicationHeaderOptions: Dictionary<
-      {
-        value: string;
-        label: string;
-      }[]
-    >
-  ) => {
+  const generateColumns = (keyedApplicationHeaderOptions: {
+    [index: string]: { value: string; label: string }[];
+  }) => {
     const handleExcludeCheckboxChange = (
       row: IRawRow,
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>

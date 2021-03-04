@@ -5,11 +5,15 @@ import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import history from "../../Services/HistoryService";
-import { navigateResetWorkflowAction } from "../../Redux/Actions/LayoutActions";
+import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
+import {
+  ISubNavbar,
+  ISubNavbarData,
+} from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import { subNavbarSetMenuAction } from "../../Redux/Actions/ApplicationActions";
+import { navigateResetWorkflowAction } from "../../Redux/Actions/LayoutActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
+import history from "../../Services/HistoryService";
 
 const mainDrawerExpanded = 96;
 const mainDrawerWidthCollapsed = 40;
@@ -51,7 +55,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubNavbar = ({ subNavbarData }: { subNavbarData: ISubNavbarData }) => {
+const SubNavbar = ({
+  subNavbarData,
+  hasExtraButton,
+  ExtraButton,
+  url,
+}: ISubNavbar) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -74,64 +83,29 @@ const SubNavbar = ({ subNavbarData }: { subNavbarData: ISubNavbarData }) => {
     >
       <Toolbar className={classes.appbarToolBar} disableGutters>
         <ButtonGroup variant="text">
-          {subNavbarData.map((navbarData, i) => {
-            const {
-              name,
-              route,
-              icon,
-              isDropDown,
-              dropDownIcon,
-              ButtonMenu,
-            } = navbarData;
+          {hasExtraButton && ExtraButton && <ExtraButton />}
+          {(subNavbarData as ISubNavbarData).map((navbarData, i) => {
+            const { name, route, icon } = navbarData;
 
-            if (isDropDown) {
-              return (
-                <div>
-                  <Button
-                    key={name}
-                    className={classes.button}
-                    onClick={() => {
-                      dispatch(subNavbarSetMenuAction(name));
-                      dispatch(navigateResetWorkflowAction());
-                      setMainMenuSelected(name);
-                      history.push(route);
-                    }}
-                    startIcon={icon}
-                    endIcon={dropDownIcon}
-                    style={
-                      name === selected
-                        ? { color: theme.palette.primary.main }
-                        : {}
-                    }
-                  >
-                    <Typography variant="subtitle2">{name}</Typography>
-                  </Button>
-                  {ButtonMenu ? <ButtonMenu /> : <div></div>}
-                </div>
-              );
-            } else {
-              return (
-                <Button
-                  key={name}
-                  className={classes.button}
-                  onClick={() => {
-                    dispatch(subNavbarSetMenuAction(name));
-                    dispatch(navigateResetWorkflowAction());
-                    setMainMenuSelected(name);
-                    history.push(route);
-                  }}
-                  startIcon={icon}
-                  endIcon={icon}
-                  style={
-                    name === selected
-                      ? { color: theme.palette.primary.main }
-                      : {}
-                  }
-                >
-                  <Typography variant="subtitle2">{name}</Typography>
-                </Button>
-              );
-            }
+            return (
+              <Button
+                key={name}
+                className={classes.button}
+                onClick={() => {
+                  dispatch(subNavbarSetMenuAction(name));
+                  dispatch(navigateResetWorkflowAction());
+                  setMainMenuSelected(name);
+                  history.push(route);
+                }}
+                startIcon={icon}
+                endIcon={icon}
+                style={
+                  name === selected ? { color: theme.palette.primary.main } : {}
+                }
+              >
+                <Typography variant="subtitle2">{name}</Typography>
+              </Button>
+            );
           })}
         </ButtonGroup>
       </Toolbar>

@@ -3,7 +3,7 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import faker from "faker";
-import uniqBy from "lodash/uniqBy";
+import uniqBy from "lodash.uniqby";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";

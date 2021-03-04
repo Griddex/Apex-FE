@@ -10,7 +10,7 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import faker from "faker";
-import uniqBy from "lodash/uniqBy";
+import uniqBy from "lodash.uniqby";
 import React, { ChangeEvent } from "react";
 import ReactDataGrid, { Column, SelectColumn } from "react-data-griddex";
 import Dropzone from "react-dropzone";

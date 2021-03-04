@@ -15,7 +15,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import clsx from "clsx";
 import faker from "faker";
-import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -179,10 +178,6 @@ const Navbar = () => {
       )}
     </AppBar>
   );
-};
-
-Navbar.propTypes = {
-  children: PropTypes.node,
 };
 
 export default React.memo(Navbar);

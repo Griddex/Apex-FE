@@ -14,7 +14,6 @@ import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
 import { useSnackbar } from "notistack";
-import PropTypes from "prop-types";
 import React from "react";
 import { useDrag } from "react-dnd";
 import Dropzone from "react-dropzone";

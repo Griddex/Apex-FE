@@ -1,4 +1,4 @@
-import sortBy from "lodash/sortBy";
+import sortBy from "lodash.sortby";
 import React, { useCallback, useMemo, useState } from "react";
 import ReactDataGrid, {
   Column,

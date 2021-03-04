@@ -1,4 +1,4 @@
-import zipObject from "lodash/zipObject";
+import zipObject from "lodash.zipobject";
 
 const generateColumnNameInfo = (rawTableHeaders, cleanTableData) => {
   //Generate interim ColumnHeaders

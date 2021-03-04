@@ -1,8 +1,6 @@
-import { Dictionary } from "lodash";
-
 const getChosenApplicationUnits = (
   fileUnits: string[],
-  keyedFileUnitMatches: Dictionary<Record<string, React.Key>>,
+  keyedFileUnitMatches: { [index: string]: Record<string, React.Key> },
   chosenApplicationUniqueUnitIndices: Record<string, number>
 ) => {
   const chosenApplicationUnits = fileUnits.map((unit) => {

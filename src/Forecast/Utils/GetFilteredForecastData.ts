@@ -1,4 +1,5 @@
-import { get, zipWith } from "lodash";
+import get from "lodash.get";
+import zipWith from "lodash.zipwith";
 import objectScan from "object-scan";
 import React from "react";
 import getModuleObject from "./GetModuleObject";

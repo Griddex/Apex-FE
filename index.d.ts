@@ -5,4 +5,3 @@ declare module "randomcolor";
 declare module "react-color-gradient-picker";
 declare module "object-scan";
 declare module "react-modal";
-declare module "stream-http";

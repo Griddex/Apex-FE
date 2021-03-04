@@ -4,8 +4,8 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
-import { Dictionary, findIndex } from "lodash";
-import zipObject from "lodash/zipObject";
+import findIndex from "lodash.findindex";
+import zipObject from "lodash.zipobject";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
@@ -191,12 +191,9 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const generateColumns = (
-    keyedApplicationUnitOptions: Dictionary<
-      {
-        value: string;
-        label: string;
-      }[]
-    >,
+    keyedApplicationUnitOptions: {
+      [index: string]: { value: string; label: string }[];
+    },
     unitGroupOptions: SelectOptionsType
   ) => {
     const handleCheckboxChange = (

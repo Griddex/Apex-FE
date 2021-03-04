@@ -1,7 +1,7 @@
 import { Checkbox, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import { findIndex } from "lodash";
+import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
