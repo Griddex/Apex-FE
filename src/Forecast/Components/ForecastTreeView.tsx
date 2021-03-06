@@ -141,10 +141,7 @@ export default function ForecastTreeView() {
   const { forecastTree, selectedForecastChartVariable } = useSelector(
     (state: RootState) => state.forecastReducer
   );
-  console.log(
-    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 145 ~ ForecastTreeView ~ forecastTree",
-    forecastTree
-  );
+
   const updatedForecastTree = [
     { ...forecastTree?.[0], id: "5749dc74-4b81-4652-8a46-a58b6bea0157" },
     { ...forecastTree?.[1], id: "ac430726-1b97-45f6-8b09-0c2ac347cc6e" },
@@ -156,13 +153,12 @@ export default function ForecastTreeView() {
     name: "Scenarios",
     children: [...(updatedForecastTree as RenderTree[])],
   };
-  console.log(
-    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 154 ~ ForecastTreeView ~ scenarioTree",
-    scenarioTree
-  );
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
+    string[]
+  >([]);
+  const [selectedModulePaths, setSelectedModulePaths] = React.useState<
     string[]
   >([]);
 
@@ -171,25 +167,29 @@ export default function ForecastTreeView() {
   const getChildById = (node: RenderTree, id: string) => {
     let idArray: string[] = [];
     let nameArray: string[] = [];
+    let pathArray: string[] = [];
 
     const getAllChildren = (nodes: RenderTree | null) => {
       if (nodes === null) return [];
 
       idArray.push(nodes.id);
       nameArray.push(nodes.name);
+      pathArray.push(nodes.path as string);
 
       if (Array.isArray(nodes.children)) {
         nodes.children.forEach((node) => {
           idArray = [...idArray, ...getAllChildren(node)[0]];
           idArray = idArray.filter((v, i) => idArray.indexOf(v) === i);
-        });
-        nodes.children.forEach((node) => {
+
           nameArray = [...nameArray, ...getAllChildren(node)[1]];
           nameArray = nameArray.filter((v, i) => nameArray.indexOf(v) === i);
+
+          pathArray = [...pathArray, ...getAllChildren(node)[1]];
+          pathArray = pathArray.filter((v, i) => pathArray.indexOf(v) === i);
         });
       }
 
-      return [idArray, nameArray];
+      return [idArray, nameArray, pathArray];
     };
 
     const getNodeById = (nodes: RenderTree, id: string) => {
@@ -224,6 +224,11 @@ export default function ForecastTreeView() {
       scenarioNodes.id
     )[1];
 
+    const allPathNodes: string[] = getChildById(
+      scenarioTree,
+      scenarioNodes.id
+    )[2];
+
     let idArray = checked
       ? [...selectedIds, ...allIdNodes]
       : selectedIds.filter((value) => !allIdNodes.includes(value));
@@ -235,13 +240,15 @@ export default function ForecastTreeView() {
       : selectedModuleNames.filter((value) => !allNameNodes.includes(value));
     nameArray = nameArray.filter((v, i) => nameArray.indexOf(v) === i);
     setSelectedModuleNames(nameArray);
+
+    let pathArray = checked
+      ? [...selectedModulePaths, ...allPathNodes]
+      : selectedModulePaths.filter((value) => !allPathNodes.includes(value));
+    pathArray = pathArray.filter((v, i) => pathArray.indexOf(v) === i);
+    setSelectedModulePaths(pathArray);
   };
 
   const renderTree = (scenarioNodes: RenderTree) => {
-    console.log(
-      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 236 ~ renderTree ~ scenarioNodes.id",
-      scenarioNodes.id
-    );
     return (
       <StyledTreeItem
         key={scenarioNodes.id}
@@ -276,6 +283,8 @@ export default function ForecastTreeView() {
       dispatch(
         getForecastResultsRequestAction(
           selectedIds,
+          selectedModuleNames,
+          selectedModulePaths,
           selectedForecastChartVariable
         )
       );

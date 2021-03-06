@@ -3,9 +3,11 @@ import jsonpipe from "jsonpipe";
 import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
+  ActionChannelEffect,
   AllEffect,
   call,
   CallEffect,
+  ForkEffect,
   put,
   PutEffect,
   select,
@@ -26,7 +28,11 @@ import {
   GET_FORECASTRESULTS_REQUEST,
 } from "../Actions/ForecastActions";
 
-export default function* watchGetForecastResultsSaga() {
+export default function* watchGetForecastResultsSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const getForecastResultsChan = yield actionChannel(
     GET_FORECASTRESULTS_REQUEST
   );
@@ -48,7 +54,12 @@ function* getForecastResultsSaga(
   any
 > {
   const { payload } = action;
-  const { selectedIds, selectedForecastChartVariable } = payload;
+  const {
+    selectedIds,
+    selectedModuleNames,
+    selectedModulePaths,
+    selectedForecastChartVariable,
+  } = payload;
   const {
     // selectedVariable,
     // selectedModuleIds,
@@ -61,9 +72,11 @@ function* getForecastResultsSaga(
   //if former selected variable is different form current one
   //please replace chart data in store
   const reqPayload = {
-    userId,
+    userId: userId,
     selectedVariable: selectedForecastChartVariable,
     selectedModuleIds: selectedIds,
+    selectedModuleNames: selectedModuleNames,
+    selectedModulePaths: selectedModulePaths,
     isSaved: isForecastResultsSaved,
   };
 
@@ -72,8 +85,22 @@ function* getForecastResultsSaga(
       const chan = yield call(updateForecastResults, url, reqPayload);
 
       const forecastResultsChunk = yield take(chan);
-      const forecastResults = yield select((state) => state.forecastReducer);
+      console.log(
+        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 88 ~ forecastResultsChunk",
+        forecastResultsChunk
+      );
+      const { forecastResults } = yield select(
+        (state) => state.forecastReducer
+      );
+      console.log(
+        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 93 ~ forecastResults",
+        forecastResults
+      );
       const newForecastResults = [...forecastResults, forecastResultsChunk];
+      console.log(
+        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 90 ~ newForecastResults",
+        newForecastResults
+      );
 
       const successAction = getForecastResultsSuccessAction();
       yield put({
@@ -111,6 +138,8 @@ function updateForecastResults(url: string, reqPayload: any) {
     jsonpipe.flow(url, {
       method: "POST",
       data: JSON.stringify(reqPayload),
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      disableContentType: true,
       withCredentials: false,
       success: function (chunk) {
         emitter(chunk);

@@ -48,12 +48,16 @@ export const runForecastFailureAction = () => {
 
 export const getForecastResultsRequestAction = (
   selectedIds: string[],
+  selectedModuleNames: string[],
+  selectedModulePaths: string[],
   selectedForecastChartVariable: string
 ) => {
   return {
     type: GET_FORECASTRESULTS_REQUEST,
     payload: {
       selectedIds,
+      selectedModuleNames,
+      selectedModulePaths,
       selectedForecastChartVariable,
     },
   };

@@ -30,7 +30,7 @@ const ForecastVariableButtonsMenu = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [variable, setVariable] = React.useState("Oil Rate");
+  const [variable, setVariable] = React.useState("oilrate");
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);
@@ -75,6 +75,7 @@ const ForecastVariableButtonsMenu = () => {
         {(Object.keys(variablesObj) as VariableObjType[]).map(
           (k: VariableObjType, i) => {
             const avatar = getFirstCharFromEveryWord(k);
+            const selectedVar = variablesObj[k];
 
             return (
               <MenuItem
@@ -84,7 +85,7 @@ const ForecastVariableButtonsMenu = () => {
                   dispatch(
                     persistForecastChartParameterAction(
                       "selectedForecastChartVariable",
-                      k
+                      selectedVar
                     )
                   );
                   handleClose();
