@@ -22,7 +22,7 @@ const loginReducer = (state = databaseServerState, action: IAction) => {
     case CONNECTDATABASE_FAILURE:
       return {
         ...state,
-        statusCode: action.payload.statusCode,
+        status: action.payload.status,
         errors: new Array(action.payload.errors),
       };
 

@@ -54,7 +54,7 @@ export interface IImportState {
   title: string;
   description: string;
   inputDeckId: string;
-  statusCode: number;
+  status: number;
   message: string;
   errors: { message: string };
   success: false;

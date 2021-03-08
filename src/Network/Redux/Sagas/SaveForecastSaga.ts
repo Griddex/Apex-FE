@@ -1,9 +1,16 @@
 import { ActionType } from "@redux-saga/types";
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -21,12 +28,26 @@ import {
 } from "../../Components/DialogParameters/SaveForecastSuccessFailureDialogParameters";
 import { SAVE_FORECAST_REQUEST } from "../Actions/NetworkActions";
 
-export default function* watchSaveForecastSaga() {
+export default function* watchSaveForecastSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const saveForecastChan = yield actionChannel(SAVE_FORECAST_REQUEST);
   yield takeLeading<ActionType>(saveForecastChan, saveForecastSaga);
 }
 
-function* saveForecastSaga(action: IAction) {
+function* saveForecastSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
@@ -50,7 +71,7 @@ function* saveForecastSaga(action: IAction) {
     forecastResultsKey: selectedForecastingResultsId,
   };
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const saveForecastAPI = (url: string) => authService.post(url, data, config);
 
   try {
@@ -59,7 +80,7 @@ function* saveForecastSaga(action: IAction) {
     const {
       data: {
         success,
-        data: { statusCode },
+        data: { status },
       },
     } = result;
 
@@ -68,7 +89,7 @@ function* saveForecastSaga(action: IAction) {
       ...successAction,
       payload: {
         ...payload,
-        statusCode,
+        status,
         success,
       },
     });

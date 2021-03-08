@@ -93,8 +93,8 @@ theme.overrides = {
       "&:hover": { backgroundColor: theme.palette.primary.light },
     },
     input: {
-      "&:hover": { backgroundColor: theme.palette.primary.light },
-      "&:focus": { backgroundColor: theme.palette.primary.light },
+      "&:hover": { backgroundColor: "#F7F7F7" },
+      "&:focus": { backgroundColor: "#F7F7F7" },
     },
   },
   MuiInput: {

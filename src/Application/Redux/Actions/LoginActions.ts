@@ -2,6 +2,9 @@ export const PERSIST_STORE = "PERSIST_STORE";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
+export const FETCH_USERDETAILS_REQUEST = "FETCH_USERDETAILS_REQUEST";
+export const FETCH_USERDETAILS_SUCCESS = "FETCH_USERDETAILS_SUCCESS";
+export const FETCH_USERDETAILS_FAILURE = "FETCH_USERDETAILS_FAILURE";
 
 export const persistToStoreAction = (name: string, value: string) => {
   return {
@@ -13,7 +16,7 @@ export const persistToStoreAction = (name: string, value: string) => {
   };
 };
 
-export const loginAction = (userName: string, password: string) => {
+export const loginRequestAction = (userName: string, password: string) => {
   return {
     type: LOGIN_REQUEST,
     payload: {
@@ -28,7 +31,7 @@ export const loginSuccessAction = () => {
   return {
     type: LOGIN_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       userId: "", //In token or by itself?
       token: "",
     },
@@ -39,7 +42,34 @@ export const loginFailureAction = () => {
   return {
     type: LOGIN_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchUserDetailsRequestAction = () => {
+  return {
+    type: FETCH_USERDETAILS_REQUEST,
+    payload: {},
+    meta: { showSpinner: true, message: "Fetching user details..." },
+  };
+};
+
+export const fetchUserDetailsSuccessAction = () => {
+  return {
+    type: FETCH_USERDETAILS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchUserDetailsFailureAction = () => {
+  return {
+    type: FETCH_USERDETAILS_FAILURE,
+    payload: {
+      status: 0,
       errors: { message: "" },
     },
   };

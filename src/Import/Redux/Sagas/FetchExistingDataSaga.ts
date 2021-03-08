@@ -1,10 +1,12 @@
 import { AxiosResponse } from "axios";
 import {
   actionChannel,
+  ActionChannelEffect,
   all,
   AllEffect,
   call,
   CallEffect,
+  ForkEffect,
   put,
   PutEffect,
   takeLeading,
@@ -22,7 +24,11 @@ import {
   fetchExistingDataSuccessAction,
 } from "../Actions/ExistingDataActions";
 
-export default function* watchFetchExistingDataSaga() {
+export default function* watchFetchExistingDataSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const existingDataChan = yield actionChannel(EXISTINGDATA_REQUEST);
   yield takeLeading(existingDataChan, fetchExistingDataSaga);
 }
@@ -44,7 +50,7 @@ function getInsert(workflowProcess: IExistingDataProps["wkPs"]) {
   }
 }
 
-const config = { headers: null };
+const config = { withCredentials: false };
 const fetchExistingDataAPI = (url: string) => authService.get(url, config);
 
 function* fetchExistingDataSaga(

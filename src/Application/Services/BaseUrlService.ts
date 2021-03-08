@@ -1,5 +1,9 @@
 const getBaseUrl = () => {
-  return "http://60a441e2b8bf.ngrok.io/api/forecast";
+  return "http://54.174.78.245/forecast";
+};
+
+export const getBaseAuthUrl = () => {
+  return "http://54.174.78.245/auth";
 };
 
 export default getBaseUrl;

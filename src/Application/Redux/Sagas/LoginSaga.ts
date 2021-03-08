@@ -1,4 +1,17 @@
-import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  ActionChannelEffect,
+  AllEffect,
+  call,
+  CallEffect,
+  delay,
+  ForkEffect,
+  put,
+  PutEffect,
+  SelectEffect,
+  TakeEffect,
+  takeLeading,
+} from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
@@ -8,39 +21,50 @@ import {
   LOGIN_REQUEST,
 } from "../Actions/LoginActions";
 import { hideSpinnerAction } from "../Actions/UISpinnerActions";
+import { getBaseAuthUrl } from "./../../Services/BaseUrlService";
+import watchFetchUserDetailsSaga from "./FetchUserDetailsSaga";
 
-export default function* watchLoginSaga() {
+export default function* watchLoginSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const loginChan = yield actionChannel(LOGIN_REQUEST);
   yield takeLeading(loginChan, loginSaga);
 }
 
-function* loginSaga(action: IAction) {
+function* loginSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { userName, password } = payload;
 
   const data = {
-    title: userName,
-    body: password,
+    email: userName,
+    password: password,
   };
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const loginAPI = (url: string) => authService.post(url, data, config);
 
   try {
-    const response = yield call(
-      loginAPI,
-      "https://jsonplaceholder.typicode.com/posts"
-    );
-
-    const { statusCode, userId, token } = response;
-    const successAction = loginSuccessAction();
-    yield put({
-      ...successAction,
-      payload: { ...payload, statusCode, userId, token },
-    });
+    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    const { status } = response;
 
     yield call(forwardTo, "/apex");
+    if (status === 200) {
+      yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
+    }
   } catch (errors) {
     const failureAction = loginFailureAction();
+
     yield put({
       ...failureAction,
       payload: { ...payload, errors },

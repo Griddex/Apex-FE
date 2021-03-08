@@ -1,9 +1,16 @@
 import { ActionType } from "@redux-saga/types";
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -18,7 +25,11 @@ import {
   updateForecastParametersFailureAction,
 } from "../Actions/NetworkActions";
 
-export default function* watchUpdateForecastParametersSaga() {
+export default function* watchUpdateForecastParametersSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const updateForecastParametersChan = yield actionChannel(
     UPDATE_FORECASTPARAMETERS_REQUEST
   );
@@ -28,7 +39,17 @@ export default function* watchUpdateForecastParametersSaga() {
   );
 }
 
-function* updateForecastParametersSaga(action: IAction) {
+function* updateForecastParametersSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { userId } = yield select((state) => state.loginReducer);
   const {
@@ -64,10 +85,10 @@ function* updateForecastParametersSaga(action: IAction) {
     },
   };
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const updateForecastParametersAPI = (url: string) =>
     authService.post(url, data, config);
-  const statusCode = ""; //Get from success response
+  const status = ""; //Get from success response
 
   try {
     const result = yield call(
@@ -78,7 +99,7 @@ function* updateForecastParametersSaga(action: IAction) {
     const {
       data: {
         success,
-        statusCode,
+        status,
         data: { nodes: nodeElements, edges: edgeElements },
       },
     } = result;
@@ -86,7 +107,7 @@ function* updateForecastParametersSaga(action: IAction) {
     const successAction = updateForecastParametersSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, success, statusCode, data },
+      payload: { ...payload, success, status, data },
     });
 
     // yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
@@ -95,7 +116,7 @@ function* updateForecastParametersSaga(action: IAction) {
 
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode, errors },
+      payload: { ...payload, status, errors },
     });
   } finally {
     yield put(hideSpinnerAction());

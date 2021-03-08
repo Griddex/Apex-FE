@@ -1,58 +1,91 @@
-import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
-import * as authService from "../../../Application/Services/AuthService";
-import history from "../../../Application/Services/HistoryService";
+import {
+  actionChannel,
+  ActionChannelEffect,
+  AllEffect,
+  call,
+  CallEffect,
+  ForkEffect,
+  put,
+  PutEffect,
+  SelectEffect,
+  TakeEffect,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import * as authService from "../../../Application/Services/AuthService";
+import history from "../../../Application/Services/HistoryService";
 import {
-  REGISTER_REQUEST,
-  registerSuccessAction,
   registerFailureAction,
+  registerSuccessAction,
+  REGISTER_REQUEST,
 } from "../Actions/AdminActions";
+import { getBaseAuthUrl } from "./../../../Application/Services/BaseUrlService";
 
-export default function* watchRegisterSaga() {
+export default function* watchRegisterSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const registerChan = yield actionChannel(REGISTER_REQUEST);
   yield takeLeading(registerChan, registerSaga);
 }
 
-function* registerSaga(action: IAction) {
+const authServAPI = (url: string) => authService.post("", {}, {});
+type AxiosPromise = ReturnType<typeof authServAPI>;
+
+function* registerSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<AxiosPromise>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const {
     userName,
+    email,
+    password,
     firstName,
     middleName,
     lastName,
-    email,
     mobileNumber,
     role,
     avatarUrl,
   } = payload;
 
   const data = {
-    title: userName,
-    body: firstName,
+    username: userName,
+    email,
+    password,
   };
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const registerAPI = (url: string) => authService.post(url, data, config);
-  const statusCode = ""; //Get from success response
 
   try {
-    const data = yield call(
-      registerAPI,
-      "https://jsonplaceholder.typicode.com/posts"
+    const result = yield call(registerAPI, `${getBaseAuthUrl()}/signup`);
+    console.log(
+      "Logged output --> ~ file: RegisterSaga.ts ~ line 71 ~ result",
+      result
     );
 
+    const {
+      data: { status, data, succcess }, //prevent 2nd trip to server
+    } = result;
     const successAction = registerSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, data },
+      payload: { ...payload, status, data },
     });
-
-    yield call(forwardTo, "/apex"); //put --> show snackbar, reset registration form
   } catch (errors) {
     const failureAction = registerFailureAction();
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode, errors },
+      payload: { ...payload, errors },
     });
   } finally {
     yield put(hideSpinnerAction());

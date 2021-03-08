@@ -1,4 +1,12 @@
-import { actionChannel, all, call, put, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  ActionChannelEffect,
+  all,
+  call,
+  ForkEffect,
+  put,
+  takeLeading,
+} from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
@@ -8,7 +16,11 @@ import {
 } from "../Actions/WorkflowActions";
 import { hideSpinnerAction } from "../Actions/UISpinnerActions";
 
-export default function* watchLoginSaga() {
+export default function* watchLoginSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const setupWorkflowChan = yield actionChannel(SETUP_WORKFLOW);
   yield takeLeading(setupWorkflowChan, setUpWorkflowSaga);
 }
@@ -19,11 +31,11 @@ function* setUpWorkflowSaga(action: IAction) {
 
   // try {
   //  yield all([call(setWorkflowProcessAction,workflowProcess)])
-  //   const { statusCode, userId, token } = response;
+  //   const { status, userId, token } = response;
   //   // const successAction = setUpWorkflowSuccessAction();
   //   yield put({
   //     ...successAction,
-  //     payload: { ...payload, statusCode, userId, token },
+  //     payload: { ...payload, status, userId, token },
   //   });
 
   //   yield call(forwardTo, route);

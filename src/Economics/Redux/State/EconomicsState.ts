@@ -8,7 +8,7 @@ const generateImportState = () => {
       [workflowProcess]: {
         existingData: [], //change this
 
-        statusCode: 0,
+        status: 0,
         message: "",
         errors: { message: "" },
         success: false,
@@ -39,7 +39,7 @@ const generateExistingDataState = () => {
         existingData: [],
 
         existingDataId: "",
-        statusCode: 0,
+        status: 0,
         message: "",
         errors: { message: "" },
         success: false,

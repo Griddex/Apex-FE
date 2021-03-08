@@ -29,7 +29,7 @@ export const fetchUnitSettingsSuccessAction = () => {
   return {
     type: FETCH_UNITSETTINGS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       data: [],
     },
   };
@@ -39,7 +39,7 @@ export const fetchUnitSettingsFailureAction = () => {
   return {
     type: FETCH_UNITSETTINGS_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };

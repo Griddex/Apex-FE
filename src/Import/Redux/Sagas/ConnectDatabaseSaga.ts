@@ -1,4 +1,16 @@
-import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  ActionChannelEffect,
+  AllEffect,
+  call,
+  CallEffect,
+  ForkEffect,
+  put,
+  PutEffect,
+  SelectEffect,
+  TakeEffect,
+  takeLeading,
+} from "redux-saga/effects";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -9,12 +21,26 @@ import {
 } from "../Actions/DatabaseServerActions";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 
-export default function* watchConnectDatabaseSaga() {
+export default function* watchConnectDatabaseSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const connectDbChan = yield actionChannel(CONNECTDATABASE_REQUEST);
   yield takeLeading(connectDbChan, connectDatabaseSaga);
 }
 
-function* connectDatabaseSaga(action: IAction) {
+function* connectDatabaseSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { successDialogParameters, failureDialogParameters } = payload;
   //add authenticationType
@@ -25,9 +51,9 @@ function* connectDatabaseSaga(action: IAction) {
     title: userName,
     body: password,
   };
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const connectDatabaI = (url: string) => authService.post(url, data, config);
-  const statusCode = "";
+  const status = "";
 
   //Replace with actual API call
   try {
@@ -40,7 +66,7 @@ function* connectDatabaseSaga(action: IAction) {
     const successAction = connectDatabaseSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, databases: databases },
+      payload: { ...payload, status, databases: databases },
     });
 
     //dispatch spinner
@@ -52,7 +78,7 @@ function* connectDatabaseSaga(action: IAction) {
 
     yield put({
       ...failureAction,
-      payload: { ...payload, statusCode, errors },
+      payload: { ...payload, status, errors },
     });
 
     yield put(showDialogAction(failureDialogParameters));

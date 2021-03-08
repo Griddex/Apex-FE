@@ -1,10 +1,15 @@
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
   CallEffect,
+  ForkEffect,
   put,
   PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -19,7 +24,11 @@ import {
   fetchExistingNetworkDataSuccessAction,
 } from "../Actions/NetworkActions";
 
-export default function* watchFetchExistingNetworkDataSaga() {
+export default function* watchFetchExistingNetworkDataSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const existingNetworkDataChan = yield actionChannel(
     EXISTINGNETWORKDATA_REQUEST
   );
@@ -28,10 +37,20 @@ export default function* watchFetchExistingNetworkDataSaga() {
 
 type AxiosPromise = ReturnType<typeof fetchExistingDataAPI>;
 
-const config = { headers: null };
+const config = { withCredentials: false };
 const fetchExistingDataAPI = (url: string) => authService.get(url, config);
 
-function* fetchExistingNetworkDataSaga(action: IAction) {
+function* fetchExistingNetworkDataSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
   const networkUrl = `${getBaseUrl()}/network/light/${projectId}`;

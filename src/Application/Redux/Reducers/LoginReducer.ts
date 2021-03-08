@@ -4,6 +4,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  FETCH_USERDETAILS_REQUEST,
+  FETCH_USERDETAILS_SUCCESS,
+  FETCH_USERDETAILS_FAILURE,
 } from "../Actions/LoginActions";
 import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import userState from "../State/UserState";
@@ -16,19 +19,18 @@ const loginReducer = (state = userState, action: IAction) => {
         [action.payload.name]: action.payload.value,
       };
     case LOGIN_REQUEST:
-      return {
-        ...state,
-        ...action.payload,
-      };
     case LOGIN_SUCCESS:
+    case FETCH_USERDETAILS_REQUEST:
+    case FETCH_USERDETAILS_SUCCESS:
       return {
         ...state,
         ...action.payload,
       };
     case LOGIN_FAILURE:
+    case FETCH_USERDETAILS_FAILURE:
       return {
         ...state,
-        statusCode: action.payload.statusCode,
+        status: action.payload.status,
         errors: new Array(action.payload.errors),
       };
     case LOGOUT_REQUEST:

@@ -1,5 +1,5 @@
 {
-    "statusCode": 200,
+    "status": 200,
     "data": {
         "createdAt": "2021-02-11T23:49:51.793Z",
         "userId": "Gift",

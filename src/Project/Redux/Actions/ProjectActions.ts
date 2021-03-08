@@ -33,7 +33,7 @@ export const fetchRecentProjectsSuccessAction = () => {
   return {
     type: FETCHRECENTPROJECTS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       data: [],
     },
   };
@@ -43,7 +43,7 @@ export const fetchRecentProjectsFailureAction = () => {
   return {
     type: FETCHRECENTPROJECTS_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -70,7 +70,7 @@ export const openRecentProjectSuccessAction = () => {
   return {
     type: OPENRECENTPROJECT_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       projectId: "",
       projectTitle: "",
       projectDescription: "",
@@ -82,7 +82,7 @@ export const openRecentProjectFailureAction = () => {
   return {
     type: OPENRECENTPROJECT_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -117,7 +117,7 @@ export const createNewProjectSuccessAction = () => {
   return {
     type: NEWPROJECT_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       data: [],
     },
   };
@@ -127,7 +127,7 @@ export const createNewProjectFailureAction = () => {
   return {
     type: NEWPROJECT_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };

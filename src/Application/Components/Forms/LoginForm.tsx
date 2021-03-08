@@ -13,7 +13,7 @@ import { Formik, FormikProps } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { loginAction } from "../../Redux/Actions/LoginActions";
+import { loginRequestAction } from "../../Redux/Actions/LoginActions";
 import userState from "../../Redux/State/UserState";
 import { IUserState } from "../../Redux/State/UserStateTypes";
 
@@ -60,7 +60,7 @@ export const LoginForm = () => {
         password: Yup.string().required("Password is required"),
       })}
       onSubmit={({ userName, password }) => {
-        dispatch(loginAction(userName, password));
+        dispatch(loginRequestAction(userName, password));
       }}
     >
       {(props: FormikProps<IUserState>) => {

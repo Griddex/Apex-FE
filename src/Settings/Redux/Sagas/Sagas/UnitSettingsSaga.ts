@@ -1,4 +1,16 @@
-import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  ActionChannelEffect,
+  AllEffect,
+  call,
+  CallEffect,
+  ForkEffect,
+  put,
+  PutEffect,
+  SelectEffect,
+  TakeEffect,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -12,15 +24,29 @@ import {
 } from "../../Actions/UnitSettingsActions";
 import { IUnitSettingsData } from "../../State/UnitSettingsStateTypes";
 
-export default function* watchFetchUnitSettingsSaga() {
+export default function* watchFetchUnitSettingsSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const fetchUnitSettingsChan = yield actionChannel(FETCH_UNITSETTINGS_REQUEST);
   yield takeLeading(fetchUnitSettingsChan, fetchUnitSettingsSaga);
 }
 
-function* fetchUnitSettingsSaga(action: IAction) {
+function* fetchUnitSettingsSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const fetchUnitSettingsAPI = (url: string) => authService.get(url, config);
 
   try {
@@ -29,7 +55,7 @@ function* fetchUnitSettingsSaga(action: IAction) {
       "https://jsonplaceholder.typicode.com/posts"
     );
 
-    const { statusCode, data } = response;
+    const { status, data } = response;
 
     const unitsData: IUnitSettingsData &
       Pick<INewProjectFormValues, "pressureAddend"> = {
@@ -84,7 +110,7 @@ function* fetchUnitSettingsSaga(action: IAction) {
     const successAction = fetchUnitSettingsSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, unitsData },
+      payload: { ...payload, status, unitsData },
     });
   } catch (errors) {
     const failureAction = fetchUnitSettingsFailureAction();

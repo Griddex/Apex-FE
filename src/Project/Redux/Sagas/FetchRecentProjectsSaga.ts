@@ -1,8 +1,15 @@
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -18,19 +25,33 @@ import {
 import { IRecentProject } from "../State/ProjectStateTypes";
 import getBaseUrl from "./../../../Application/Services/BaseUrlService";
 
-export default function* watchFetchRecentProjectsSaga() {
+export default function* watchFetchRecentProjectsSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const fetchRecentProjectsChan = yield actionChannel(
     FETCHRECENTPROJECTS_REQUEST
   );
   yield takeLeading(fetchRecentProjectsChan, fetchRecentProjectsSaga);
 }
 
-function* fetchRecentProjectsSaga(action: IAction) {
+function* fetchRecentProjectsSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { failureDialogParameters } = payload;
   const { userId } = yield select((state) => state.loginReducer);
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const fetchRecentProjectsAPI = (url: string) => authService.get(url, config);
 
   try {
@@ -41,7 +62,7 @@ function* fetchRecentProjectsSaga(action: IAction) {
     );
 
     const {
-      data: { statusCode, data, succcess }, //prevent 2nd trip to server
+      data: { status, data, succcess }, //prevent 2nd trip to server
     } = result;
 
     const recentProjects = data.map((row: any) => ({
@@ -54,7 +75,7 @@ function* fetchRecentProjectsSaga(action: IAction) {
     const successAction = fetchRecentProjectsSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, recentProjects },
+      payload: { ...payload, status, recentProjects },
     });
   } catch (errors) {
     const failureAction = fetchRecentProjectsFailureAction();

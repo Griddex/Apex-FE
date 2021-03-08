@@ -1,9 +1,16 @@
 import { ActionType } from "@redux-saga/types";
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -19,7 +26,11 @@ import {
   SAVE_FORECASTPARAMETERS_REQUEST,
 } from "../Actions/NetworkActions";
 
-export default function* watchSaveForecastParametersSaga() {
+export default function* watchSaveForecastParametersSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const saveForecastParametersChan = yield actionChannel(
     SAVE_FORECASTPARAMETERS_REQUEST
   );
@@ -29,7 +40,17 @@ export default function* watchSaveForecastParametersSaga() {
   );
 }
 
-function* saveForecastParametersSaga(action: IAction) {
+function* saveForecastParametersSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload?: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { userId } = yield select((state) => state.loginReducer);
   const { forecastInputDeckId } = yield select((state) => state.inputReducer);
@@ -73,7 +94,7 @@ function* saveForecastParametersSaga(action: IAction) {
     },
   };
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const saveForecastParametersAPI = (url: string) =>
     authService.post(url, data, config);
 
@@ -84,13 +105,13 @@ function* saveForecastParametersSaga(action: IAction) {
     );
 
     const {
-      data: { success, statusCode, data },
+      data: { success, status, data },
     } = result;
 
     const successAction = saveForecastParametersSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, success, statusCode, data },
+      payload: { ...payload, success, status, data },
     });
 
     yield put(fetchExistingForecastingParametersRequestAction());

@@ -1,8 +1,15 @@
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -20,7 +27,11 @@ import {
   fetchExistingForecastingParametersSuccessAction,
 } from "../Actions/NetworkActions";
 
-export default function* watchFetchExistingForecastParametersSaga() {
+export default function* watchFetchExistingForecastParametersSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const existingForecastParametersChan = yield actionChannel(
     EXISTINGFORECASTPARAMETERS_REQUEST
   );
@@ -32,11 +43,21 @@ export default function* watchFetchExistingForecastParametersSaga() {
 
 type AxiosPromise = ReturnType<typeof fetchExistingForecastParametersAPI>;
 
-const config = { headers: null };
+const config = { withCredentials: false };
 const fetchExistingForecastParametersAPI = (url: string) =>
   authService.get(url, config);
 
-function* fetchExistingForecastParametersSaga(action: IAction) {
+function* fetchExistingForecastParametersSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
   const forecastParametersUrl = `${getBaseUrl()}/forecast-parameters/project/${projectId}`;

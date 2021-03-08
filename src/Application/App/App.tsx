@@ -4,6 +4,7 @@ import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
+import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
 import ProtectedRoute from "../Routes/ProtectedRoute";
 import PerpetualSpinner from "./../Components/Visuals/PerpetualSpinner";
 
@@ -50,6 +51,7 @@ const App: React.FC<JSX.Element> = () => {
           <Switch>
             <Route exact path="/" component={LandingRoute} />
             <Route path="/login" component={LoginRoute} />
+            <Route path="/register" component={RegisterRoute} />
             <Route path="/apex" component={Layout} />
             {/* Not authorized will be inside protected route */}
             <ProtectedRoute

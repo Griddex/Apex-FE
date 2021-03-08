@@ -1,10 +1,12 @@
 import { AxiosResponse } from "axios";
 import {
   actionChannel,
+  ActionChannelEffect,
   all,
   AllEffect,
   call,
   CallEffect,
+  ForkEffect,
   put,
   PutEffect,
   takeLeading,
@@ -22,7 +24,11 @@ import {
 } from "../Actions/ImportActions";
 import getBaseUrl from "./../../../Application/Services/BaseUrlService";
 
-export default function* watchFetchApplicationHeadersSaga() {
+export default function* watchFetchApplicationHeadersSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const appHeadersChan = yield actionChannel(FETCHAPPLICATIONHEADERS_REQUEST);
   yield takeLeading(appHeadersChan, fetchApplicationHeadersSaga);
 }
@@ -45,7 +51,7 @@ function getHeadersType(workflowProcess: IImportWorkflowProcess["wkPs"]) {
 }
 
 //use dataType to tell backend what data you are looking for
-const config = { headers: null };
+const config = { withCredentials: false };
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
 const facilitiesUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
   "facilitiesInputDeckExcel"

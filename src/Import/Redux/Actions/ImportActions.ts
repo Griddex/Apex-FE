@@ -278,7 +278,7 @@ export const saveInputDeckSuccessAction = () => {
   return {
     type: SAVEINPUTDECK_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -287,7 +287,7 @@ export const saveInputDeckFailureAction = () => {
   return {
     type: SAVEINPUTDECK_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -303,7 +303,7 @@ export const fetchApplicationHeadersSuccessAction = () => {
   return {
     type: FETCHAPPLICATIONHEADERS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       headerType: "",
       facilitiesInputHeaders: [],
       forecastInputHeaders: [],
@@ -314,7 +314,7 @@ export const fetchApplicationHeadersFailureAction = () => {
   return {
     type: FETCHAPPLICATIONHEADERS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };

@@ -30,7 +30,7 @@ export const runForecastSuccessAction = () => {
   return {
     type: RUN_FORECAST_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       data: [],
     },
   };
@@ -40,7 +40,7 @@ export const runForecastFailureAction = () => {
   return {
     type: RUN_FORECAST_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -67,7 +67,7 @@ export const saveForecastSuccessAction = () => {
   return {
     type: SAVE_FORECAST_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -76,7 +76,7 @@ export const saveForecastFailureAction = () => {
   return {
     type: SAVE_FORECAST_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -86,7 +86,7 @@ export const getForecastResultsSuccessAction = () => {
   return {
     type: GET_FORECASTRESULTS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -95,7 +95,7 @@ export const getForecastResultsFailureAction = () => {
   return {
     type: GET_FORECASTRESULTS_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };

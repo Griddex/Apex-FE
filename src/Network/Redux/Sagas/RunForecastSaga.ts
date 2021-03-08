@@ -3,9 +3,11 @@ import jsonpipe from "jsonpipe";
 import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
+  ActionChannelEffect,
   AllEffect,
   call,
   CallEffect,
+  ForkEffect,
   put,
   PutEffect,
   select,
@@ -29,7 +31,11 @@ import {
 } from "../../Components/DialogParameters/RunForecastSuccessFailureDialogParameters";
 import { RUN_FORECAST_REQUEST } from "../Actions/NetworkActions";
 
-export default function* watchRunForecastSaga() {
+export default function* watchRunForecastSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const runForecastChan = yield actionChannel(RUN_FORECAST_REQUEST);
   yield takeLeading<ActionType>(runForecastChan, runForecastSaga);
 }

@@ -2,11 +2,10 @@ import { IUserState } from "./UserStateTypes";
 
 const userState: IUserState = {
   //login
+  userId: "",
   userName: "",
   password: "",
   rememberMe: false,
-  userId: "",
-  token: "",
 
   //registration
   firstName: "",
@@ -17,7 +16,7 @@ const userState: IUserState = {
   role: "Asset Forecaster",
   avatarUrl: "",
 
-  statusCode: 0,
+  status: 0,
   data: [],
   errors: { message: "" },
   isAdmin: false,

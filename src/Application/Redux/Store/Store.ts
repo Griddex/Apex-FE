@@ -29,6 +29,7 @@ import watchGenerateNetworkBySelectionSaga from "../../../Network/Redux/Sagas/Ge
 import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/UpdateForecastParametersSaga";
 import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
 import watchGetForecastResultsSaga from "../../../Forecast/Redux/Sagas/GetForecastResultsSaga";
+import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -52,6 +53,7 @@ function* rootSaga() {
   yield spawn(watchGenerateNetworkBySelectionSaga);
   yield spawn(watchSaveForecastSaga);
   yield spawn(watchGetForecastResultsSaga);
+  yield spawn(watchFetchUserDetailsSaga);
 }
 
 // function listenMongoDb() {

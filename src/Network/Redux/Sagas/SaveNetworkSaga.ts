@@ -1,8 +1,16 @@
+import { EventChannel } from "redux-saga";
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -21,12 +29,29 @@ import {
   SAVENETWORK_REQUEST,
 } from "../Actions/NetworkActions";
 
-export default function* watchSaveNetworkSaga() {
+export default function* watchSaveNetworkSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const saveNetworkChan = yield actionChannel(SAVENETWORK_REQUEST);
   yield takeLeading(saveNetworkChan, saveNetworkSaga);
 }
 
-function* saveNetworkSaga(action: IAction) {
+const authServAPI = (url: string) => authService.post("", {}, {});
+type AxiosPromise = ReturnType<typeof authServAPI>;
+
+function* saveNetworkSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<AxiosPromise>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload?: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
@@ -52,7 +77,7 @@ function* saveNetworkSaga(action: IAction) {
     edges: edgeElements,
   };
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const saveNetworkAPI = (url: string) => authService.post(url, data, config);
 
   try {
@@ -62,14 +87,14 @@ function* saveNetworkSaga(action: IAction) {
     //this flag should be stored for every network in the Db
     const {
       data: { data: selectedNetworkId }, //prevent 2nd trip to server
-      statusCode,
+      status,
       success,
     } = result;
 
     const successAction = saveNetworkSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, success, selectedNetworkId },
+      payload: { ...payload, status, success, selectedNetworkId },
     });
 
     yield put(fetchExistingNetworkDataRequestAction());

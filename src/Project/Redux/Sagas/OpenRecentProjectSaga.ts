@@ -1,4 +1,16 @@
-import { actionChannel, call, put, takeLeading } from "redux-saga/effects";
+import {
+  actionChannel,
+  ActionChannelEffect,
+  AllEffect,
+  call,
+  CallEffect,
+  ForkEffect,
+  put,
+  PutEffect,
+  SelectEffect,
+  TakeEffect,
+  takeLeading,
+} from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -11,16 +23,30 @@ import {
   OPENRECENTPROJECT_REQUEST,
 } from "../Actions/ProjectActions";
 
-export default function* watchOpenRecentProjectSaga() {
+export default function* watchOpenRecentProjectSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const openRecentProjectChan = yield actionChannel(OPENRECENTPROJECT_REQUEST);
   yield takeLeading(openRecentProjectChan, openRecentProjectSaga);
 }
 
-function* openRecentProjectSaga(action: IAction) {
+function* openRecentProjectSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { userId, projectId, projectTitle, projectDescription } = payload; //grab from own dps
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const openRecentProjectAPI = (url: string) => authService.get(url, config);
 
   try {
@@ -30,11 +56,11 @@ function* openRecentProjectSaga(action: IAction) {
       // `https://jsonplaceholder.typicode.com/posts`
     );
 
-    // const { statusCode, data } = response; //data that'll go to several reducers to
+    // const { status, data } = response; //data that'll go to several reducers to
     //boostrap project
 
     const {
-      data: { statusCode, data, succcess }, //prevent 2nd trip to server
+      data: { status, data, succcess }, //prevent 2nd trip to server
     } = result;
     const { title } = data; //unitsettins object
 
@@ -43,7 +69,7 @@ function* openRecentProjectSaga(action: IAction) {
       ...successAction,
       payload: {
         ...payload,
-        statusCode,
+        status,
         projectId,
         projectTitle,
         projectDescription,

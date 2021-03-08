@@ -20,7 +20,7 @@ export interface ISaveNetworkFormProps extends ISaveNetworkFormValues {
   errors?: FormikErrors<ISaveNetworkFormValues>;
   touched?: FormikTouched<ISaveNetworkFormValues>;
   isValid?: boolean;
-  statusCode?: number;
+  status?: number;
   data?: any[];
   handleChange?: (event: React.ChangeEvent<any>) => void;
   children?: (props: ISaveNetworkFormValues) => JSX.Element;
@@ -102,7 +102,7 @@ export interface INetworkState extends ISaveNetworkFormProps {
   isNetworkSaved: boolean;
   isNetworkChanged: boolean;
   networkId: string;
-  statusCode: number;
+  status: number;
   message: string;
   error: { message: string };
   success: false;

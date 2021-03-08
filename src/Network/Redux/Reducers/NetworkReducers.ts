@@ -118,7 +118,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     case AUTOGENERATENETWORK_SUCCESS: {
       const {
         success,
-        statusCode,
+        status,
         nodeElements,
         edgeElements,
         networkId,
@@ -127,7 +127,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       return {
         ...state,
         success,
-        statusCode,
+        status,
         nodeElements,
         edgeElements,
         networkId,
@@ -143,20 +143,20 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case GENERATENETWORKBYSELECTION_SUCCESS: {
-      const { success, statusCode, isNode, newFlowElements } = action.payload;
+      const { success, status, isNode, newFlowElements } = action.payload;
 
       if (isNode) {
         return {
           ...state,
           success,
-          statusCode,
+          status,
           nodeElements: newFlowElements,
         };
       } else {
         return {
           ...state,
           success,
-          statusCode,
+          status,
           edgeElements: newFlowElements,
         };
       }
@@ -171,69 +171,65 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case SAVENETWORK_SUCCESS: {
-      const { statusCode, success, selectedNetworkId } = action.payload;
+      const { status, success, selectedNetworkId } = action.payload;
       return {
         ...state,
-        statusCode,
+        status,
         success,
         selectedNetworkId,
       };
     }
 
     case SAVENETWORK_FAILURE: {
-      const { statusCode, errors } = action.payload;
+      const { status, errors } = action.payload;
 
       return {
         ...state,
-        statusCode,
+        status,
         errors,
       };
     }
 
     case EXISTINGFORECASTPARAMETERS_SUCCESS: {
-      const {
-        statusCode,
-        success,
-        forecastingParametersServer,
-      } = action.payload;
+      const { status, success, forecastingParametersServer } = action.payload;
       const wc = "existingDataWorkflows";
 
       return {
         ...state,
-        statusCode,
+        status,
         success,
         [wc]: { ...state[wc], forecastingParametersServer },
       };
     }
 
     case EXISTINGFORECASTPARAMETERS_FAILURE: {
-      const { statusCode, errors } = action.payload;
+      const { status, errors } = action.payload;
 
       return {
         ...state,
-        statusCode,
+        status,
         errors,
       };
     }
 
     case EXISTINGNETWORKDATA_SUCCESS: {
-      const { statusCode, success, networkExisting } = action.payload;
+      const { status, success, networkExisting } = action.payload;
       const wc = "existingDataWorkflows";
 
       return {
         ...state,
-        statusCode,
+        status,
         success,
         [wc]: { ...state[wc], networkExisting },
       };
     }
 
     case EXISTINGNETWORKDATA_FAILURE: {
-      const { statusCode, errors } = action.payload;
+      const { status, errors } = action.payload;
 
       return {
         ...state,
-        statusCode,
+        status,
         errors,
       };
     }

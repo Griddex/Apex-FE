@@ -1,5 +1,5 @@
 {
-    "statusCode": 200,
+    "status": 200,
     "data": [
         {
             "createdAt": "2021-02-11T20:36:56.976Z",

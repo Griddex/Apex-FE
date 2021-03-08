@@ -31,28 +31,28 @@ const projectReducer = (
     }
 
     case FETCHRECENTPROJECTS_SUCCESS: {
-      const { statusCode, recentProjects } = action.payload;
+      const { status, recentProjects } = action.payload;
 
       return {
         ...state,
-        statusCode,
+        status,
         recentProjects,
       };
     }
 
     case FETCHRECENTPROJECTS_FAILURE: {
-      const { statusCode, errors } = action.payload;
+      const { status, errors } = action.payload;
 
       return {
         ...state,
-        statusCode,
+        status,
         errors,
       };
     }
 
     case OPENRECENTPROJECT_SUCCESS: {
       const {
-        statusCode,
+        status,
         projectId,
         projectTitle,
         projectDescription,
@@ -60,7 +60,7 @@ const projectReducer = (
 
       return {
         ...state,
-        statusCode,
+        status,
         projectId,
         projectTitle,
         projectDescription,
@@ -77,21 +77,21 @@ const projectReducer = (
     }
 
     case NEWPROJECT_SUCCESS: {
-      const { statusCode, id } = action.payload;
+      const { status, id } = action.payload;
 
       return {
         ...state,
-        statusCode,
+        status,
         projectId: id,
       };
     }
 
     case NEWPROJECT_FAILURE: {
-      const { statusCode, error } = action.payload;
+      const { status, error } = action.payload;
 
       return {
         ...state,
-        statusCode,
+        status,
         error,
       };
     }

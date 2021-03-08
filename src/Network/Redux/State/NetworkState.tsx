@@ -32,7 +32,7 @@ const networkState: INetworkState = {
   networkId: "",
   networkTitle: "",
   networkDescription: "",
-  statusCode: 0,
+  status: 0,
   message: "",
   error: { message: "" },
   success: false,

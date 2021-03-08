@@ -1,8 +1,15 @@
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -21,14 +28,28 @@ import {
 } from "../Actions/NetworkActions";
 import history from "../../../Application/Services/HistoryService";
 
-export default function* watchAutogenerateNetworkSaga() {
+export default function* watchAutogenerateNetworkSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const autoGenerateNetworkChan = yield actionChannel(
     AUTOGENERATENETWORK_REQUEST
   );
   yield takeLeading(autoGenerateNetworkChan, autoGenerateNetworkSaga);
 }
 
-export function* autoGenerateNetworkSaga(action: IAction) {
+export function* autoGenerateNetworkSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
 
@@ -48,7 +69,7 @@ export function* autoGenerateNetworkSaga(action: IAction) {
     showWellheadSummaryEdges,
   };
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const autoGenerateNetworkAPI = (url: string) =>
     authService.post(url, data, config);
 
@@ -64,7 +85,7 @@ export function* autoGenerateNetworkSaga(action: IAction) {
       data: {
         success,
         data: { nodes: nodeElements, edges: edgeElements, networkId },
-        statusCode,
+        status,
       },
     } = result;
 
@@ -74,7 +95,7 @@ export function* autoGenerateNetworkSaga(action: IAction) {
       payload: {
         ...payload,
         success,
-        statusCode,
+        status,
         nodeElements,
         edgeElements,
         networkId,

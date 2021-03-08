@@ -203,7 +203,7 @@ export const generateNetworkBySelectionSuccessAction = () => {
   return {
     type: GENERATENETWORKBYSELECTION_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -212,7 +212,7 @@ export const generateNetworkBySelectionFailureAction = () => {
   return {
     type: GENERATENETWORKBYSELECTION_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -229,7 +229,7 @@ export const autoGenerateNetworkSuccessAction = () => {
   return {
     type: AUTOGENERATENETWORK_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -238,7 +238,7 @@ export const autoGenerateNetworkFailureAction = () => {
   return {
     type: AUTOGENERATENETWORK_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -265,7 +265,7 @@ export const saveAndAutoGenerateNetworkSuccessAction = () => {
   return {
     type: SAVEAUTOGENERATENETWORK_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -274,7 +274,7 @@ export const saveAndAutoGenerateNetworkFailureAction = () => {
   return {
     type: SAVEAUTOGENERATENETWORK_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -291,7 +291,7 @@ export const saveNetworkSuccessAction = () => {
   return {
     type: SAVENETWORK_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -300,7 +300,7 @@ export const saveNetworkFailureAction = () => {
   return {
     type: SAVENETWORK_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -317,7 +317,7 @@ export const fetchExistingForecastingParametersSuccessAction = () => {
   return {
     type: EXISTINGFORECASTPARAMETERS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -326,7 +326,7 @@ export const fetchExistingForecastingParametersFailureAction = () => {
   return {
     type: EXISTINGFORECASTPARAMETERS_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -342,7 +342,7 @@ export const fetchExistingNetworkDataSuccessAction = () => {
   return {
     type: EXISTINGNETWORKDATA_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
     },
   };
 };
@@ -351,7 +351,7 @@ export const fetchExistingNetworkDataFailureAction = () => {
   return {
     type: EXISTINGNETWORKDATA_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -368,7 +368,7 @@ export const saveForecastParametersSuccessAction = () => {
   return {
     type: SAVE_FORECASTPARAMETERS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       data: [],
     },
   };
@@ -378,7 +378,7 @@ export const saveForecastParametersFailureAction = () => {
   return {
     type: SAVE_FORECASTPARAMETERS_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };
@@ -395,7 +395,7 @@ export const updateForecastParametersSuccessAction = () => {
   return {
     type: UPDATE_FORECASTPARAMETERS_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       data: [],
     },
   };
@@ -405,7 +405,7 @@ export const updateForecastParametersFailureAction = () => {
   return {
     type: UPDATE_FORECASTPARAMETERS_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };

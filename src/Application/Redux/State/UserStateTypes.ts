@@ -17,7 +17,7 @@ export interface IUserState {
   avatarUrl?: string;
   registrationScenario?: "single" | "multiple";
 
-  statusCode: number;
+  status: number;
   data: any[];
   errors: { message: string };
   isAdmin: boolean;

@@ -1,8 +1,15 @@
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -18,12 +25,26 @@ import {
   CREATE_NEWPROJECT,
 } from "../Actions/ProjectActions";
 
-export default function* watchCreateNewProjectSaga() {
+export default function* watchCreateNewProjectSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const createNewProjectChan = yield actionChannel(CREATE_NEWPROJECT);
   yield takeLeading(createNewProjectChan, createNewProjectSaga);
 }
 
-function* createNewProjectSaga(action: IAction) {
+function* createNewProjectSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload } = action;
   const { successDialogParameters, failureDialogParameters } = payload;
 
@@ -41,7 +62,7 @@ function* createNewProjectSaga(action: IAction) {
     description: projectDescription,
     ...unitSettingsData,
   };
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const createNewProjectAPI = (url: string) =>
     authService.post(url, data, config);
 
@@ -50,7 +71,7 @@ function* createNewProjectSaga(action: IAction) {
 
     const {
       data: {
-        statusCode,
+        status,
         data: { id },
         succcess,
       }, //prevent 2nd trip to server
@@ -61,7 +82,7 @@ function* createNewProjectSaga(action: IAction) {
     const successAction = createNewProjectSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, statusCode, id },
+      payload: { ...payload, status, id },
     });
 
     yield put(activateDisabledMenusAction());

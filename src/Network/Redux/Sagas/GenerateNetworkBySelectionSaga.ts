@@ -2,9 +2,11 @@ import jsonpipe from "jsonpipe";
 import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
+  ActionChannelEffect,
   AllEffect,
   call,
   CallEffect,
+  ForkEffect,
   put,
   PutEffect,
   select,
@@ -28,7 +30,11 @@ import {
   GENERATENETWORKBYSELECTION_REQUEST,
 } from "../Actions/NetworkActions";
 
-export default function* watchGenerateNetworkBySelectionSaga() {
+export default function* watchGenerateNetworkBySelectionSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const generateNetworkBySelectionChan = yield actionChannel(
     GENERATENETWORKBYSELECTION_REQUEST
   );
@@ -38,7 +44,7 @@ export default function* watchGenerateNetworkBySelectionSaga() {
   );
 }
 
-const config = { headers: null };
+const config = { withCredentials: false };
 const generateNetworkBySelectionAPI = (url: string) =>
   authService.get(url, config);
 type AxiosPromise = ReturnType<typeof generateNetworkBySelectionAPI>;

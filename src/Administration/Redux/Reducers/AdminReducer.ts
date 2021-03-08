@@ -36,7 +36,7 @@ const adminReducer = (state = userState, action: IAction) => {
     case REGISTER_FAILURE:
       return {
         ...state,
-        statusCode: action.payload.statusCode,
+        status: action.payload.status,
         errors: new Array(action.payload.errors),
       };
     default:

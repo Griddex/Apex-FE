@@ -21,7 +21,7 @@ export const fetchExistingDataFailureAction = () => {
   return {
     type: EXISTINGDATA_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };

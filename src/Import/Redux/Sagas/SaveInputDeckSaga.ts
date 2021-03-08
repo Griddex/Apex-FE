@@ -1,8 +1,15 @@
 import {
   actionChannel,
+  ActionChannelEffect,
+  AllEffect,
   call,
+  CallEffect,
+  ForkEffect,
   put,
+  PutEffect,
   select,
+  SelectEffect,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -39,12 +46,26 @@ function getInputDeckRouteParam(
   else return "";
 }
 
-export default function* watchSaveInputDeckSaga() {
+export default function* watchSaveInputDeckSaga(): Generator<
+  ActionChannelEffect | ForkEffect<never>,
+  void,
+  any
+> {
   const saveInputDeckChan = yield actionChannel(SAVEINPUTDECK_REQUEST);
   yield takeLeading(saveInputDeckChan, saveInputDeckSaga);
 }
 
-export function* saveInputDeckSaga(action: IAction) {
+export function* saveInputDeckSaga(
+  action: IAction
+): Generator<
+  | AllEffect<CallEffect<any>>
+  | CallEffect<any>
+  | TakeEffect
+  | PutEffect<{ payload: any; type: string }>
+  | SelectEffect,
+  void,
+  any
+> {
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
 
@@ -81,7 +102,7 @@ export function* saveInputDeckSaga(action: IAction) {
     inputDeck: inputDeckData,
   };
 
-  const config = { headers: null };
+  const config = { withCredentials: false };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
   const inputDeckType = getInputDeckType(wp);
 
@@ -94,7 +115,7 @@ export function* saveInputDeckSaga(action: IAction) {
     );
 
     const {
-      statusCode,
+      status,
       success,
       data: { data },
     } = result;
@@ -102,7 +123,7 @@ export function* saveInputDeckSaga(action: IAction) {
     const successAction = saveInputDeckSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, workflowProcess: wp, statusCode, success, data },
+      payload: { ...payload, workflowProcess: wp, status, success, data },
     });
 
     if (wp.includes("facilities"))

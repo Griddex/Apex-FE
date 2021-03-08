@@ -28,7 +28,7 @@ export const connectDatabaseSuccessAction = () => {
   return {
     type: CONNECTDATABASE_SUCCESS,
     payload: {
-      statusCode: 0,
+      status: 0,
       databases: [],
     },
   };
@@ -38,7 +38,7 @@ export const connectDatabaseFailureAction = () => {
   return {
     type: CONNECTDATABASE_FAILURE,
     payload: {
-      statusCode: 0,
+      status: 0,
       errors: { message: "" },
     },
   };

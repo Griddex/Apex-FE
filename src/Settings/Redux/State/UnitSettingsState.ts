@@ -11,7 +11,7 @@ const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
     unitGroup: "Field",
     variableUnits: [],
   },
-  statusCode: 200,
+  status: 200,
   errors: { message: "" },
 };
 
