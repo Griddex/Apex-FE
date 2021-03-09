@@ -60,7 +60,11 @@ function* loginSaga(
       "Logged output --> ~ file: LoginSaga.ts ~ line 59 ~ response",
       response
     );
-    const { status } = response;
+    const { status, headers } = response;
+    console.log(
+      "Logged output --> ~ file: LoginSaga.ts ~ line 64 ~ headers",
+      headers
+    );
 
     yield call(forwardTo, "/apex");
     if (status === 200) {
