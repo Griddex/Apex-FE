@@ -26,15 +26,15 @@ const ProtectedRoute = ({
             />
           );
 
-        if (roles && roles.indexOf(auth.role) === -1)
-          return (
-            <Redirect
-              to={{
-                pathname: "/unauthorized",
-                state: { from: props.location },
-              }}
-            />
-          );
+        // if (roles && roles.indexOf(auth.role) === -1)
+        //   return (
+        //     <Redirect
+        //       to={{
+        //         pathname: "/unauthorized",
+        //         state: { from: props.location },
+        //       }}
+        //     />
+        //   );
 
         return <Component />;
       }}

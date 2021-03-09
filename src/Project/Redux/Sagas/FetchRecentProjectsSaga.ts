@@ -58,7 +58,6 @@ function* fetchRecentProjectsSaga(
     const result = yield call(
       fetchRecentProjectsAPI,
       `${getBaseUrl()}/project/recents/6`
-      // `https://jsonplaceholder.typicode.com/posts`
     );
 
     const {

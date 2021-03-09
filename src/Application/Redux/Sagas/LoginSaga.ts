@@ -56,6 +56,10 @@ function* loginSaga(
 
   try {
     const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    console.log(
+      "Logged output --> ~ file: LoginSaga.ts ~ line 59 ~ response",
+      response
+    );
     const { status } = response;
 
     yield call(forwardTo, "/apex");

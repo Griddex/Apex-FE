@@ -46,15 +46,9 @@ const Layout = () => {
   );
 
   React.useEffect(() => {
-    //Boostrap recent projects
-
-    //Application headers
     dispatch(fetchApplicationHeadersRequestAction());
-
     dispatch(fetchRecentProjectsAction(failureDialogParameters));
     dispatch(fetchUnitSettingsRequestAction());
-
-    //Boostrap User details
   }, []);
 
   return (

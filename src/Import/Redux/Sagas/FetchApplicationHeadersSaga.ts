@@ -39,18 +39,11 @@ function getHeadersType(workflowProcess: IImportWorkflowProcess["wkPs"]) {
       return "facilitiesInputHeaders";
     case "forecastInputDeckExcel":
       return "forecastInputHeaders";
-    // case "economicsInputDataExisting":
-    //   return "economicsInputHeaders";
-    // case "productionInputDataExisting":
-    //   return "productionHeaders";
-    // case "networkExisting":
-    //   return "NETWORK";
     default:
       break;
   }
 }
 
-//use dataType to tell backend what data you are looking for
 const config = { withCredentials: false };
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
 const facilitiesUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
@@ -59,8 +52,6 @@ const facilitiesUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
 const forecastUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
   "forecastInputDeckExcel"
 )}`;
-
-// type AxiosPromise =  ReturnType<typeof  fetchHeadersAPI>;
 
 function* fetchApplicationHeadersSaga(
   action: IAction

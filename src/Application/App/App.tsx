@@ -1,3 +1,4 @@
+import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { SnackbarProvider } from "notistack";
 import React, { Suspense } from "react";
@@ -12,15 +13,15 @@ const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
 const Layout = React.lazy(() => import("../Layout/Layout"));
 
-// const useStyles = makeStyles((theme: Theme) => ({
-//   success: { backgroundColor: theme.palette.tertiary.main },
-//   error: { backgroundColor: theme.palette.secondary.main },
-//   warning: { backgroundColor: theme.palette.quaternary.main },
-//   info: { backgroundColor: theme.palette.primary.main },
-// }));
+const useStyles = makeStyles((theme) => ({
+  info: { backgroundColor: theme.palette.primary.main },
+  success: { backgroundColor: theme.palette.success.main },
+  error: { backgroundColor: theme.palette.secondary.main },
+  warning: { backgroundColor: theme.palette.warning.main },
+}));
 
 const App: React.FC<JSX.Element> = () => {
-  // const classes = useStyles();
+  const classes = useStyles();
   const notistackRef = React.useRef<SnackbarProvider>(null);
 
   return (
@@ -38,22 +39,19 @@ const App: React.FC<JSX.Element> = () => {
           Dismiss
         </Button>
       )}
-      // classes={{
-      //   variantSuccess: classes.success,
-      //   variantError: classes.error,
-      //   variantWarning: classes.warning,
-      //   variantInfo: classes.info,
-      // }}
+      classes={{
+        variantSuccess: classes.success,
+        variantError: classes.error,
+        variantWarning: classes.warning,
+        variantInfo: classes.info,
+      }}
     >
       <DndProvider backend={HTML5Backend}>
         <Suspense fallback={<PerpetualSpinner />}>
-          {/* <Suspense fallback={PerpetualSpinner}> */}
           <Switch>
             <Route exact path="/" component={LandingRoute} />
             <Route path="/login" component={LoginRoute} />
             <Route path="/register" component={RegisterRoute} />
-            <Route path="/apex" component={Layout} />
-            {/* Not authorized will be inside protected route */}
             <ProtectedRoute
               path={"/apex"}
               roles={["Officer", "Admin"]}
