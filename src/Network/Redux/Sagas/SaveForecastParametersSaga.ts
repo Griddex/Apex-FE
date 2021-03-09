@@ -94,7 +94,7 @@ function* saveForecastParametersSaga(
     },
   };
 
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const saveForecastParametersAPI = (url: string) =>
     authService.post(url, data, config);
 

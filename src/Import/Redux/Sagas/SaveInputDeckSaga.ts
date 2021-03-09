@@ -102,7 +102,7 @@ export function* saveInputDeckSaga(
     inputDeck: inputDeckData,
   };
 
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
   const inputDeckType = getInputDeckType(wp);
 

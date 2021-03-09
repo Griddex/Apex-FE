@@ -37,7 +37,7 @@ export default function* watchFetchExistingNetworkDataSaga(): Generator<
 
 type AxiosPromise = ReturnType<typeof fetchExistingDataAPI>;
 
-const config = { withCredentials: false };
+const config = { withCredentials: true };
 const fetchExistingDataAPI = (url: string) => authService.get(url, config);
 
 function* fetchExistingNetworkDataSaga(

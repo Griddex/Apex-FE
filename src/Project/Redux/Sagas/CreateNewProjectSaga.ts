@@ -62,7 +62,7 @@ function* createNewProjectSaga(
     description: projectDescription,
     ...unitSettingsData,
   };
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const createNewProjectAPI = (url: string) =>
     authService.post(url, data, config);
 

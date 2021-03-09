@@ -51,7 +51,7 @@ function* fetchRecentProjectsSaga(
   const { failureDialogParameters } = payload;
   const { userId } = yield select((state) => state.loginReducer);
 
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const fetchRecentProjectsAPI = (url: string) => authService.get(url, config);
 
   try {
