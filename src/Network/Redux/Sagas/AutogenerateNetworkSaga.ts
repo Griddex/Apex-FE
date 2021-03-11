@@ -65,7 +65,7 @@ export function* autoGenerateNetworkSaga(
     (state) => state.networkReducer
   );
 
-  const data = {
+  const reqPayload = {
     userId,
     facilitiesInputDeckId,
     forecastInputDeckId,
@@ -73,16 +73,12 @@ export function* autoGenerateNetworkSaga(
     showWellheadSummaryEdges,
   };
 
-  const config = { withCredentials: false };
-  const autoGenerateNetworkAPI = (url: string) =>
-    authService.post(url, data, config);
-
   const url = `${getBaseUrl()}/network/generate`;
 
   yield put(showSpinnerAction(message));
 
   try {
-    const chan = yield call(updateNodesAndEdges, url);
+    const chan = yield call(updateNodesAndEdges, url, reqPayload);
 
     while (true) {
       const flowElement = yield take(chan);
@@ -128,10 +124,13 @@ export function* autoGenerateNetworkSaga(
   }
 }
 
-function updateNodesAndEdges(url: string) {
+function updateNodesAndEdges(url: string, reqPayload: any) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
-      method: "GET",
+      method: "POST",
+      data: JSON.stringify(reqPayload),
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      disableContentType: true,
       withCredentials: false,
       success: function (chunk) {
         emitter(chunk);
