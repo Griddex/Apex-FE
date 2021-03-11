@@ -1,3 +1,6 @@
+import jsonpipe from "jsonpipe";
+import { END, eventChannel, EventChannel } from "redux-saga";
+
 import {
   actionChannel,
   ActionChannelEffect,
@@ -8,6 +11,7 @@ import {
   put,
   PutEffect,
   select,
+  take,
   SelectEffect,
   TakeEffect,
   takeLeading,
@@ -73,34 +77,43 @@ export function* autoGenerateNetworkSaga(
   const autoGenerateNetworkAPI = (url: string) =>
     authService.post(url, data, config);
 
+  const url = `${getBaseUrl()}/network/generate`;
+
   yield put(showSpinnerAction(message));
 
   try {
-    const result = yield call(
-      autoGenerateNetworkAPI,
-      `${getBaseUrl()}/network/generate`
-    );
+    const chan = yield call(updateNodesAndEdges, url);
 
-    const {
-      data: {
-        success,
-        data: { nodes: nodeElements, edges: edgeElements, networkId },
-        status,
-      },
-    } = result;
+    while (true) {
+      const flowElement = yield take(chan);
+      console.log(
+        "Logged output --> ~ file: GenerateNetworkBySelectionSaga.ts ~ line 68 ~ flowElement",
+        flowElement
+      );
 
-    const successAction = autoGenerateNetworkSuccessAction();
-    yield put({
-      ...successAction,
-      payload: {
-        ...payload,
-        success,
-        status,
-        nodeElements,
-        edgeElements,
-        networkId,
-      },
-    });
+      let isNode = false;
+      const successAction = autoGenerateNetworkSuccessAction();
+
+      if (Object.keys(flowElement)[0] === "nodes") {
+        isNode = true;
+        const { nodeElements } = yield select((state) => state.networkReducer);
+        const newFlowElements = [...nodeElements, flowElement["nodes"]];
+
+        yield put({
+          ...successAction,
+          payload: { ...payload, isNode, newFlowElements },
+        });
+      } else if (Object.keys(flowElement)[0] === "edges") {
+        isNode = false;
+        const { edgeElements } = yield select((state) => state.networkReducer);
+        const newFlowElements = [...edgeElements, flowElement["edges"]];
+
+        yield put({
+          ...successAction,
+          payload: { ...payload, isNode, newFlowElements },
+        });
+      }
+    }
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
 
@@ -110,12 +123,29 @@ export function* autoGenerateNetworkSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters()));
-    // yield call(forwardTo, "/apex/network");
   } finally {
     yield put(hideSpinnerAction());
   }
 }
 
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
+function updateNodesAndEdges(url: string) {
+  return eventChannel((emitter) => {
+    jsonpipe.flow(url, {
+      method: "GET",
+      withCredentials: false,
+      success: function (chunk) {
+        emitter(chunk);
+      },
+      error: function (chunk) {
+        emitter(END);
+      },
+      complete: function (chunk) {
+        emitter(END);
+      },
+    });
+
+    return () => {
+      emitter(END);
+    };
+  });
 }
