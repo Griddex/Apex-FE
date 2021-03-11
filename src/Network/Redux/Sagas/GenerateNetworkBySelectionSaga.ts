@@ -44,7 +44,7 @@ export default function* watchGenerateNetworkBySelectionSaga(): Generator<
   );
 }
 
-const config = { withCredentials: true };
+const config = { withCredentials: false };
 const generateNetworkBySelectionAPI = (url: string) =>
   authService.get(url, config);
 type AxiosPromise = ReturnType<typeof generateNetworkBySelectionAPI>;

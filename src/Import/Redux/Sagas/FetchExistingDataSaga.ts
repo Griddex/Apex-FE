@@ -50,7 +50,7 @@ function getInsert(workflowProcess: IExistingDataProps["wkPs"]) {
   }
 }
 
-const config = { withCredentials: true };
+const config = { withCredentials: false };
 const fetchExistingDataAPI = (url: string) => authService.get(url, config);
 
 function* fetchExistingDataSaga(

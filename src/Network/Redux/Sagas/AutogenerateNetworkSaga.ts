@@ -69,7 +69,7 @@ export function* autoGenerateNetworkSaga(
     showWellheadSummaryEdges,
   };
 
-  const config = { withCredentials: true };
+  const config = { withCredentials: false };
   const autoGenerateNetworkAPI = (url: string) =>
     authService.post(url, data, config);
 

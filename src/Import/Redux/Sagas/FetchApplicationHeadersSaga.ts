@@ -44,7 +44,7 @@ function getHeadersType(workflowProcess: IImportWorkflowProcess["wkPs"]) {
   }
 }
 
-const config = { withCredentials: true };
+const config = { withCredentials: false };
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
 const facilitiesUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
   "facilitiesInputDeckExcel"
