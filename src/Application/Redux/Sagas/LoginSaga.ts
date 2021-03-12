@@ -4,7 +4,6 @@ import {
   AllEffect,
   call,
   CallEffect,
-  delay,
   ForkEffect,
   put,
   PutEffect,
@@ -15,14 +14,9 @@ import {
 import * as authService from "../../Services/AuthService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
-import {
-  loginFailureAction,
-  loginSuccessAction,
-  LOGIN_REQUEST,
-} from "../Actions/LoginActions";
+import { loginFailureAction, LOGIN_REQUEST } from "../Actions/LoginActions";
 import { hideSpinnerAction } from "../Actions/UISpinnerActions";
 import { getBaseAuthUrl } from "./../../Services/BaseUrlService";
-import watchFetchUserDetailsSaga from "./FetchUserDetailsSaga";
 
 export default function* watchLoginSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -55,21 +49,13 @@ function* loginSaga(
   const loginAPI = (url: string) => authService.post(url, data, config);
 
   try {
-    // const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
-    const response = yield call(
-      loginAPI,
-      `https://jsonplaceholder.typicode.com/posts`
-    );
-    console.log(
-      "Logged output --> ~ file: LoginSaga.ts ~ line 59 ~ response",
-      response
-    );
+    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
     const { status, headers } = response;
 
     yield call(forwardTo, "/apex");
-    // if (status === 200) {
-    //   yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
-    // }
+    if (status === 200) {
+      yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
+    }
   } catch (errors) {
     const failureAction = loginFailureAction();
 
