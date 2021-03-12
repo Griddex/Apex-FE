@@ -18,7 +18,7 @@ import VisualyticsLayout from "../../Visualytics/Common/VisualyticsLayout";
 import Dialogs from "../Components/Dialogs/Dialogs";
 import MainDrawer from "../Components/Drawers/MainDrawer";
 import Navbar from "../Components/Navbars/Navbar";
-import Loading from "../Components/Visuals/Loading";
+import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import Spinners from "../Components/Visuals/Spinners";
 import { RootState } from "../Redux/Reducers/AllReducers";
 import ProductBackground from "../Routes/ProductBackground";
@@ -56,7 +56,7 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<PerpetualSpinner />}>
           <Switch>
             <Route exact path={url} component={ProductBackground} />
             <Route

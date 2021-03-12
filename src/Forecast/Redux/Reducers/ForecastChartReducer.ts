@@ -1,17 +1,20 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
-  PERSIST_FORECASTCHARTPARAMETER,
-  PERSIST_FORECASTCHARTINDEX,
-  PERSIST_FORECASTCHARTELEMENTID,
-  SET_FORECASTCHARTCOLOR,
-  SET_FORECASTCHARTCELLCOLORS,
-  SET_FORECASTCHARTOBJECT,
-  PERSIST_FORECASTCHARTOBJECT,
-  RUN_FORECAST_SUCCESS,
-  RUN_FORECAST_FAILURE,
   GET_FORECASTRESULTS_FAILURE,
   GET_FORECASTRESULTS_SUCCESS,
+  PERSIST_FIRSTLEVELFORECASTPROPERTY,
+  PERSIST_FORECASTCHARTELEMENTID,
+  PERSIST_FORECASTCHARTINDEX,
+  PERSIST_FORECASTCHARTOBJECT,
+  RUN_FORECAST_FAILURE,
+  RUN_FORECAST_SUCCESS,
+  SET_FORECASTCHARTCELLCOLORS,
+  SET_FORECASTCHARTCOLOR,
+  SET_FORECASTCHARTOBJECT,
+  EXISTINGFORECASTINGRESULTS_SUCCESS,
+  EXISTINGFORECASTINGRESULTS_FAILURE,
+  TREEVIEWKEYS_SUCCESS,
+  TREEVIEWKEYS_FAILURE,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -21,7 +24,7 @@ const forecastReducer = (
   action: IAction
 ): ForecastStateType => {
   switch (action.type) {
-    case PERSIST_FORECASTCHARTPARAMETER: {
+    case PERSIST_FIRSTLEVELFORECASTPROPERTY: {
       const { name, value } = action.payload;
       return {
         ...state,
@@ -133,6 +136,44 @@ const forecastReducer = (
       return {
         ...state,
         forecastChartObjects: [...otherObjects, updatedSelectedChartObj],
+      };
+    }
+
+    case EXISTINGFORECASTINGRESULTS_SUCCESS: {
+      const { forecastResultsExisting } = action.payload;
+      const wc = "existingDataWorkflows";
+
+      return {
+        ...state,
+        [wc]: { ...state[wc], forecastResultsExisting },
+      };
+    }
+
+    case EXISTINGFORECASTINGRESULTS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
+    }
+
+    case TREEVIEWKEYS_SUCCESS: {
+      const { forecastTree, forecastKeys } = action.payload;
+
+      return {
+        ...state,
+        forecastTree,
+        forecastKeys,
+      };
+    }
+
+    case TREEVIEWKEYS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
       };
     }
 

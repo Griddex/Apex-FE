@@ -27,7 +27,6 @@ import {
   UPDATE_NETWORKPARAMETER,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
-import { INetworkState } from "../State/NetworkStateTypes";
 
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
@@ -116,22 +115,23 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
 
     case AUTOGENERATENETWORK_SUCCESS: {
-      const {
-        success,
-        status,
-        nodeElements,
-        edgeElements,
-        networkId,
-      } = action.payload;
+      const { success, status, isNode, newFlowElements } = action.payload;
 
-      return {
-        ...state,
-        success,
-        status,
-        nodeElements,
-        edgeElements,
-        networkId,
-      };
+      if (isNode) {
+        return {
+          ...state,
+          success,
+          status,
+          nodeElements: newFlowElements,
+        };
+      } else {
+        return {
+          ...state,
+          success,
+          status,
+          edgeElements: newFlowElements,
+        };
+      }
     }
 
     case AUTOGENERATENETWORK_FAILURE: {

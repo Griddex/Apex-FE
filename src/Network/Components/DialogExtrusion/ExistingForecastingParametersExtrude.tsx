@@ -23,7 +23,7 @@ const existingForecastingParametersActions = (dispatch: Dispatch<any>) => {
       handleAction: () => dispatch(hideDialogAction()),
     },
     {
-      title: "Run Forecast",
+      title: "Run",
       variant: "contained",
       color: "primary",
       startIcon: <DoneOutlinedIcon />,

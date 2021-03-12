@@ -21,7 +21,7 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/GetForecastResultsSuccessFailureDialogParameters";
+import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
 import {
   getForecastResultsFailureAction,
   getForecastResultsSuccessAction,
@@ -111,7 +111,7 @@ function* getForecastResultsSaga(
       });
 
       yield put({
-        type: "PERSIST_FORECASTCHARTPARAMETER",
+        type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
         payload: {
           selectedModuleIds: selectedIds,
         },
@@ -142,6 +142,10 @@ function updateForecastResults(url: string, reqPayload: any) {
       disableContentType: true,
       withCredentials: false,
       success: function (chunk) {
+        console.log(
+          "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 145 ~ returneventChannel ~ chunk",
+          chunk
+        );
         emitter(chunk);
       },
       error: function (chunk) {

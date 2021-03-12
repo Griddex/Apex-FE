@@ -1,12 +1,11 @@
 import { Button } from "@material-ui/core";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IFinalAction } from "../../Layout/LayoutTypes";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
 
 const DialogSaveCancelButtons = (
   shouldExecute: IFinalAction["shouldExecute"],

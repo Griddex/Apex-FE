@@ -1,4 +1,5 @@
 import { FormikErrors, FormikTouched } from "formik";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 
 export interface IRecentProject {
   sn?: number;
@@ -8,6 +9,7 @@ export interface IRecentProject {
   icon?: JSX.Element;
   handleClick?: () => void;
   toggleSN?: boolean;
+  recentProjectsStyles?: CSSProperties;
 }
 
 export interface IProjectState extends INewProjectFormValues {

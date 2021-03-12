@@ -1,6 +1,5 @@
 import jsonpipe from "jsonpipe";
-import { END, eventChannel, EventChannel } from "redux-saga";
-
+import { END, eventChannel } from "redux-saga";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -11,8 +10,8 @@ import {
   put,
   PutEffect,
   select,
-  take,
   SelectEffect,
+  take,
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -22,7 +21,6 @@ import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
-import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
@@ -30,7 +28,6 @@ import {
   autoGenerateNetworkSuccessAction,
   AUTOGENERATENETWORK_REQUEST,
 } from "../Actions/NetworkActions";
-import history from "../../../Application/Services/HistoryService";
 
 export default function* watchAutogenerateNetworkSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,

@@ -55,21 +55,21 @@ function* loginSaga(
   const loginAPI = (url: string) => authService.post(url, data, config);
 
   try {
-    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    // const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    const response = yield call(
+      loginAPI,
+      `https://jsonplaceholder.typicode.com/posts`
+    );
     console.log(
       "Logged output --> ~ file: LoginSaga.ts ~ line 59 ~ response",
       response
     );
     const { status, headers } = response;
-    console.log(
-      "Logged output --> ~ file: LoginSaga.ts ~ line 64 ~ headers",
-      headers
-    );
 
     yield call(forwardTo, "/apex");
-    if (status === 200) {
-      yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
-    }
+    // if (status === 200) {
+    //   yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
+    // }
   } catch (errors) {
     const failureAction = loginFailureAction();
 

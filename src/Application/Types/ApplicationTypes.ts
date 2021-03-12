@@ -47,6 +47,7 @@ export interface IGiftExistingData {
   createdAt: string;
 }
 export interface IGiftExistingForecastResultsRow extends IGiftExistingData {
+  saved: "Saved" | "Not Saved";
   forecastResultsId: string;
   networkTitle: string;
   forecastInputDeckTitle: string;

@@ -12,7 +12,7 @@ import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
-import { persistForecastChartParameterAction } from "../../Redux/Actions/ForecastActions";
+import { persistFirstLevelForecastPropertyAction } from "../../Redux/Actions/ForecastActions";
 import { variablesObj } from "../../Utils/ForecastVariables";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +83,7 @@ const ForecastVariableButtonsMenu = () => {
                 onClick={() => {
                   setVariable(k);
                   dispatch(
-                    persistForecastChartParameterAction(
+                    persistFirstLevelForecastPropertyAction(
                       "selectedForecastChartVariable",
                       selectedVar
                     )

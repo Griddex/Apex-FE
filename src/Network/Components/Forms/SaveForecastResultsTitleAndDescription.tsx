@@ -2,7 +2,7 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { persistForecastChartParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
+import { persistFirstLevelForecastPropertyAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { ISaveForecastResultsProps } from "../../../Forecast/Redux/ForecastState/ForecastStateTypes";
 import { IIsSaveForecastResultsValid } from "../Dialogs/SaveNetworkDialogTypes";
 
@@ -23,7 +23,7 @@ const SaveForecastResultsTitleAndDescription = ({
 
   const handleBlur = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-    dispatch(persistForecastChartParameterAction(name, value));
+    dispatch(persistFirstLevelForecastPropertyAction(name, value));
   };
 
   return (
@@ -46,7 +46,7 @@ const SaveForecastResultsTitleAndDescription = ({
               if (value.length > 2) {
                 setIsSaveForecastResultsValid &&
                   setIsSaveForecastResultsValid(false);
-                dispatch(persistForecastChartParameterAction(name, value));
+                dispatch(persistFirstLevelForecastPropertyAction(name, value));
               } else {
                 setIsSaveForecastResultsValid &&
                   setIsSaveForecastResultsValid(true);

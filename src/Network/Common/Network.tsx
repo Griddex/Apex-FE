@@ -248,14 +248,12 @@ const Network = () => {
   };
 
   React.useEffect(() => {
-    // if (success) {
-    enqueueSnackbar("Network Generated", {
-      persist: false,
-      variant: "success",
-    });
-    // }
-
-    // localDispatch({type: "CONNECT_ELEMENTS", payload: updatedElements})
+    if (success) {
+      enqueueSnackbar("Network Generated", {
+        persist: false,
+        variant: "success",
+      });
+    }
   }, []);
 
   return (

@@ -14,7 +14,7 @@ const Loading = () => {
   const classes = useStyles();
 
   return (
-    <Backdrop className={classes.backdrop} open={false}>
+    <Backdrop className={classes.backdrop} open={true}>
       <CircularProgress />
     </Backdrop>
   );

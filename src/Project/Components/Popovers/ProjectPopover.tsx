@@ -13,6 +13,7 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
@@ -55,6 +56,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     icon,
     sn,
     toggleSN,
+    recentProjectsStyles,
   }: IRecentProject) => {
     return (
       <MenuItem
@@ -63,8 +65,8 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
         }}
         style={{
           display: "flex",
-          // justifyContent: "center",
           alignItems: "center",
+          ...recentProjectsStyles,
         }}
       >
         {icon && (
@@ -76,6 +78,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           <div
             style={{
               display: "flex",
+              alignItems: "center",
               marginLeft: 30,
               width: "100%",
               minHeight: 40,
@@ -86,7 +89,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
             <Typography variant="body2">{projectTitle}</Typography>
           </div>
         ) : (
-          <div style={{ width: "100%" }}>
+          <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
             <Typography variant="body2">{projectTitle}</Typography>
           </div>
         )}
@@ -108,7 +111,6 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  //TODO: Saga Api to fetch recently opened projects from server
   const recentProjects = useSelector(
     (state: RootState) => state.projectReducer["recentProjects"]
   ) as IRecentProject[];
@@ -132,6 +134,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
       <div className={classes.recentProjects}>
         <ApexMenuItem
           projectTitle="Recent Projects"
+          recentProjectsStyles={{ pointerEvents: "none" }}
           icon={
             <ImageAspectRatioOutlinedIcon
               fontSize="small"
@@ -155,6 +158,11 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                       projectId as string,
                       projectTitle as string,
                       projectDescription as string
+                    )
+                  );
+                  dispatch(
+                    fetchExistingForecastingResultsRequestAction(
+                      projectId as string
                     )
                   );
                   dispatch(activateDisabledMenusAction()); //put in saga

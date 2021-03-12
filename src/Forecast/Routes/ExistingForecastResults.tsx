@@ -19,7 +19,7 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
-import { persistForecastChartParameterAction } from "../Redux/Actions/ForecastActions";
+import { persistFirstLevelForecastPropertyAction } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -114,7 +114,7 @@ export default function ExistingForecastResults({
     const name = "selectedForecastingResultsId";
     const value = row.forecastResultsId;
 
-    dispatch(persistForecastChartParameterAction(name, value));
+    dispatch(persistFirstLevelForecastPropertyAction(name, value));
     setCheckboxSelected(!checkboxSelected);
   };
 
@@ -251,6 +251,7 @@ export default function ExistingForecastResults({
       forecastResultsId: row.id,
       title: row.title,
       description: row.description,
+      saved: row.saved,
       status: "Not Started",
       networkTitle: row.networkTitle,
       forecastInputDeckTitle: row.forecastInputDeckTitle,
@@ -284,6 +285,7 @@ export default function ExistingForecastResults({
           newTableRowHeight={35}
         />
       </div>
+      <div></div>
     </div>
   );
 }

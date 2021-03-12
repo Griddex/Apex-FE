@@ -12,7 +12,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
 import {
   getForecastResultsRequestAction,
-  persistForecastChartParameterAction,
+  persistFirstLevelForecastPropertyAction,
 } from "../Redux/Actions/ForecastActions";
 import generatePathsAndModules from "../Utils/GeneratePathsAndModules";
 import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData";

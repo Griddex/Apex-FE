@@ -1,5 +1,5 @@
 import { grey } from "@material-ui/core/colors";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme, fade } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
@@ -90,11 +90,29 @@ theme.overrides = {
     root: {
       height: 36,
       borderRadius: 2,
-      "&:hover": { backgroundColor: theme.palette.primary.light },
+      "&:hover": { backgroundColor: "#F7F7F7" },
+      //       input:-webkit-autofill,
+      // input:-webkit-autofill:hover,
+      // input:-webkit-autofill:focus,
+      // textarea:-webkit-autofill,
+      // textarea:-webkit-autofill:hover,
+      // textarea:-webkit-autofill:focus,
+      // select:-webkit-autofill,
+      // select:-webkit-autofill:hover,
+      // select:-webkit-autofill:focus {
+      //   border: 1px solid green;
+      //   -webkit-text-fill-color: green;
+      //   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+      //   transition: background-color 5000s ease-in-out 0s;
+      // }
     },
     input: {
       "&:hover": { backgroundColor: "#F7F7F7" },
       "&:focus": { backgroundColor: "#F7F7F7" },
+      "&:-webkit-autofill": {
+        WebkitBoxShadow: "0 0 0 100px #FFF inset",
+        WebkitTextFillColor: `${grey[900]}`,
+      },
     },
   },
   MuiInput: {
@@ -103,12 +121,12 @@ theme.overrides = {
       border: `1px solid ${grey[500]}`,
       outline: `1px solid transparent`,
       padding: theme.spacing(1),
-      // "&$focused": {
-      //   border: `1px solid ${theme.palette.primary.main}`,
-      //   outline: `1px solid ${theme.palette.primary.main}`,
-      //   boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
-      //   borderRadius: 2,
-      // },
+      "&$focused": {
+        border: `1px solid ${theme.palette.primary.main}`,
+        outline: `1px solid ${theme.palette.primary.main}`,
+        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        borderRadius: 2,
+      },
     },
   },
   MuiTooltip: {

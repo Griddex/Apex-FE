@@ -97,7 +97,7 @@ const SubNavbar = ({
                   setMainMenuSelected(name);
                   history.push(route);
                 }}
-                startIcon={icon}
+                // startIcon={icon}
                 endIcon={icon}
                 style={
                   name === selected ? { color: theme.palette.primary.main } : {}
