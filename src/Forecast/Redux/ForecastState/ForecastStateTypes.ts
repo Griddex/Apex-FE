@@ -86,6 +86,7 @@ export interface IExistingForecastResultsRow {
   id?: string;
   userId?: string;
   status: "Approved" | "Pending" | "Returned" | "Not Started";
+  saved: "Saved" | "Not Saved" | string;
   title?: string;
   forecastResultsId?: string;
   forecastParametersGroupId?: string;

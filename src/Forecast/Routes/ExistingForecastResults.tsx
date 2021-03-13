@@ -1,18 +1,17 @@
-import { Checkbox, makeStyles, Typography } from "@material-ui/core";
+import { Checkbox, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
-import { Column } from "react-data-griddex";
+import { Column, SelectCellFormatter, SelectColumn } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
 import Status from "../../Application/Components/Status/Status";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import Saved from "../../Application/Saved/Saved";
 import {
   IExistingDataProps,
   IGiftExistingForecastResultsRow,
@@ -119,23 +118,38 @@ export default function ExistingForecastResults({
   };
 
   const [, setRerender] = React.useState(false);
+  const [selectedRows, setSelectedRows] = React.useState(
+    () => new Set<React.Key>()
+  );
+
+  const ApexRDGCheckbox: Column<any, any> = {
+    ...SelectColumn,
+    frozen: true,
+    headerRenderer() {
+      return <div>SELECT</div>;
+    },
+    formatter(props) {
+      console.log(
+        "Logged output --> ~ file: ExistingForecastResults.tsx ~ line 132 ~ formatter ~ props",
+        props
+      );
+      return (
+        <SelectCellFormatter
+          aria-label="Select"
+          tabIndex={-1}
+          isCellSelected={props.isCellSelected}
+          value={props.isRowSelected}
+          // onClick={(e) => e.stopPropagation()}
+          onChange={props.onRowSelectionChange}
+        />
+      );
+    },
+  };
 
   const generateColumns = () => {
     const columns: Column<IExistingForecastResultsRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      {
-        key: "selectForecastResult",
-        name: "SELECT",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
-          />
-        ),
-        width: 50,
-      },
+
       {
         key: "actions",
         name: "ACTIONS",
@@ -178,6 +192,7 @@ export default function ExistingForecastResults({
         },
         width: 120,
       },
+      ApexRDGCheckbox,
       {
         key: "status",
         name: "STATUS",
@@ -185,6 +200,16 @@ export default function ExistingForecastResults({
         resizable: true,
         formatter: ({ row }) => {
           return <Status statusText={row.status} />;
+        },
+        width: 100,
+      },
+      {
+        key: "saved",
+        name: "SAVED",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Saved savedText={row.saved} />;
         },
         width: 100,
       },
@@ -264,7 +289,8 @@ export default function ExistingForecastResults({
   ) as IExistingForecastResultsRow[];
 
   const tableRows = React.useRef<IExistingForecastResultsRow[]>(snExistingData);
-  const rows = tableRows.current;
+  const currentRows = tableRows.current;
+  const [rows, setRows] = React.useState(currentRows);
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -283,6 +309,9 @@ export default function ExistingForecastResults({
           rows={rows}
           tableButtons={tableButtons}
           newTableRowHeight={35}
+          selectedRows={selectedRows}
+          onSelectedRowsChange={setSelectedRows}
+          setRows={setRows}
         />
       </div>
       <div></div>

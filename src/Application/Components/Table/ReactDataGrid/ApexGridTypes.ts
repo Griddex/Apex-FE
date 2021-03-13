@@ -16,6 +16,8 @@ export interface IApexGrid<R, O> {
   newTableRowHeight?: number;
   selectedRows?: Set<React.Key>;
   setSelectedRows?: React.Dispatch<React.SetStateAction<Set<React.Key>>>;
+  setRows?: (rows: R[]) => void;
+  onSelectedRowsChange?: (selectedRows: Set<React.Key>) => void | undefined;
 }
 
 export interface ITableMetaData<R> {

@@ -74,6 +74,7 @@ const ForecastInputDeckFinalization = ({
     {
       title: "Save Deck Only",
       color: "primary",
+      variant: "contained",
       startIcon: <SaveOutlinedIcon />,
       handleAction: () => {
         dispatch(hideDialogAction());
@@ -83,6 +84,7 @@ const ForecastInputDeckFinalization = ({
     {
       title: "Save and Automatically Generate Network",
       color: "primary",
+      variant: "contained",
       startIcon: <ControlCameraOutlinedIcon />,
       handleAction: () => {
         dispatch(hideDialogAction());
@@ -92,6 +94,7 @@ const ForecastInputDeckFinalization = ({
     {
       title: "Save and Manually Generate Network",
       color: "primary",
+      variant: "contained",
       startIcon: <DeviceHubOutlinedIcon />,
       handleAction: () => {
         dispatch(hideDialogAction());
@@ -106,6 +109,7 @@ const ForecastInputDeckFinalization = ({
     {
       title: "Save and Link Deck to Existing Network",
       color: "primary",
+      variant: "contained",
       startIcon: <LinkOutlinedIcon />,
       handleAction: () => {
         dispatch(hideDialogAction());

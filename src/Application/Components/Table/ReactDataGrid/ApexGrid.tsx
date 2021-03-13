@@ -25,26 +25,10 @@ import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 import { SelectEditor } from "./SelectEditor";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    width: "98%",
-    height: "95%",
-    border: "1px solid #A8A8A8",
-    boxShadow: theme.shadows[2],
-    backgroundColor: "#FFF",
-  },
   tableHeadBanner: {
     width: "100%",
     height: 30,
     marginBottom: 5,
-  },
-  tableRoot: {
-    display: "flex",
-    alignItems: "flex-start",
-    overflow: "overlay",
-    width: "100%",
-    height: "86%",
   },
   TableButtons: {
     display: "flex",
@@ -57,8 +41,6 @@ const useStyles = makeStyles((theme) => ({
   tableFilter: {
     "& > *": { width: 190 },
   },
-  tableHeader: { flexWrap: "nowrap" },
-  tableColumnTitle: { "& > *": { textTransform: "capitalize" } },
   tablePagination: {
     display: "flex",
     width: "100%",
@@ -72,35 +54,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
     minWidth: 100,
   },
-  filterIcon: { width: 20, height: 20, borderLeftColor: "#E7E7E7" },
-  tableHeaders: {
-    margin: 0,
-  },
-  headerRow: {
-    fontSize: "14px",
-    backgroundColor: "#EFEFEF",
-    "& > *": {
-      textTransform: "none",
-    },
-    borderBottom: "1px solid #F1F1F1",
-  },
-  bodyRow: {
-    fontSize: "14px",
-    borderBottom: "1px solid #F1F1F1",
-    height: "100%",
-    "&:hover": {
-      backgroundColor: theme.palette.primary.light,
-      // border: `1px solid ${theme.palette.primary.light}`,
-    },
-  },
-  selectedRow: {
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.primary.light,
-    "& > *": {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.light,
-    },
-  },
 }));
 
 export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
@@ -113,10 +66,11 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     newTableRowHeight,
     selectedRows,
     setSelectedRows,
+    setRows,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
-  const [, setRenderRows] = React.useState(rawRows);
+  // const [, setRows] = React.useState(rawRows);
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
 
   const tableRef = React.useRef<HTMLDivElement>(null);
@@ -338,7 +292,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     setTablePagination(pagination);
     setTableHeight(tableHeight);
     setFilteredTableRows(rawRows);
-    setRenderRows(rawRows);
+    // setRows(rawRows);
   }, [noOfTableRows, rawRows]);
 
   const { pageSelect, tableFilter } = tableMetaData;
@@ -364,7 +318,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
                     aria-label="toggle password visibility"
                     edge="end"
                   >
-                    <SearchIcon className={classes.filterIcon} />
+                    <SearchIcon />
                   </IconButton>
                 </InputAdornment>
               }
@@ -391,7 +345,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
-            onRowsChange={setRenderRows}
+            onRowsChange={setRows}
             columns={draggableColumns}
             sortColumn={sortColumn}
             sortDirection={sortDirection}

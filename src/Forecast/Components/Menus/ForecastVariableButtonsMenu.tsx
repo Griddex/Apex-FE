@@ -30,7 +30,7 @@ const ForecastVariableButtonsMenu = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [variable, setVariable] = React.useState("oilrate");
+  const [variable, setVariable] = React.useState("oilRate");
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);

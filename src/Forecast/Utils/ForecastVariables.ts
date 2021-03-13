@@ -1,5 +1,5 @@
 export const variablesObj: Record<string, string> = {
-  "Oil Rate": "oilrate",
+  "Oil Rate": "oilRate",
   "Gas Rate": "gasRate",
   "Water Rate": "waterRate",
   "Liquid Rate": "liquidRate",

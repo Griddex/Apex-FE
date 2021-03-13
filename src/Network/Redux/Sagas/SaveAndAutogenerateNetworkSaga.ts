@@ -9,11 +9,15 @@ import {
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { saveInputDeckSaga } from "../../../Import/Redux/Sagas/SaveInputDeckSaga";
 import {
+  autoGenerateNetworkFailureAction,
   autoGenerateNetworkRequestAction,
   SAVEAUTOGENERATENETWORK_REQUEST,
 } from "../Actions/NetworkActions";
 import { autoGenerateNetworkSaga } from "./AutogenerateNetworkSaga";
 import { saveInputDeckRequestAction } from "./../../../Import/Redux/Actions/ImportActions";
+import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 
 export default function* watchAndSaveAutogenerateNetworkSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -30,12 +34,24 @@ export default function* watchAndSaveAutogenerateNetworkSaga(): Generator<
 }
 
 function* saveAndAutoGenerateNetworkSaga(action: IAction) {
-  const {
-    payload: { workflowProcess },
-  } = action;
+  const { payload } = action;
+  const { workflowProcess } = payload;
 
-  // yield call(saveInputDeckSaga, action);
-  yield put(saveInputDeckRequestAction(workflowProcess));
-  // yield call(autoGenerateNetworkSaga, action);
-  yield put(autoGenerateNetworkRequestAction());
+  try {
+    // yield call(saveInputDeckSaga, action);
+    yield put(saveInputDeckRequestAction(workflowProcess));
+    // yield call(autoGenerateNetworkSaga, action);
+    yield put(autoGenerateNetworkRequestAction());
+  } catch (errors) {
+    const failureAction = autoGenerateNetworkFailureAction();
+
+    yield put({
+      ...failureAction,
+      payload: { ...payload, errors },
+    });
+
+    yield put(showDialogAction(failureDialogParameters()));
+  } finally {
+    yield put(hideSpinnerAction());
+  }
 }

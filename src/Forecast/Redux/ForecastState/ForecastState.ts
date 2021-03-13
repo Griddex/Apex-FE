@@ -40,7 +40,7 @@ export const initialColorGradient = {
 };
 
 const forecastChartState: IForecastChartState = {
-  selectedForecastChartVariable: "oilrate",
+  selectedForecastChartVariable: "oilRate",
   selectedModuleIds: [],
   selectedChartIndex: 0,
   selectedChartObjId: "",
