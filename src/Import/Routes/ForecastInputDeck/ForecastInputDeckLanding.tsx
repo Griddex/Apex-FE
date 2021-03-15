@@ -79,7 +79,6 @@ const ForecastInputDeckLanding = () => {
       workflowCategory: "importDataWorkflows",
     },
     {
-      // name: `Existing Name`,
       name: `Existing Forecast Input Deck`,
       description: `Select a pre-exisiting and approved forecast input deck stored in the Apex\u2122 database`,
       icon: (
@@ -102,7 +101,7 @@ const ForecastInputDeckLanding = () => {
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
-      title: `Manage Facilities Deck`,
+      title: `Manage Forecast Input Deck`,
       type: "saveForecastInputDeckWorkflowDialog",
       show: true,
       exclusive: true,
@@ -117,7 +116,7 @@ const ForecastInputDeckLanding = () => {
   const existingDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
-      title: `Manage Facilities Deck`,
+      title: `Manage Forecast Input Deck`,
       type: "textDialog",
       show: true,
       exclusive: true,
