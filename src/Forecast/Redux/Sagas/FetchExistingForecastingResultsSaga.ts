@@ -54,7 +54,7 @@ function* fetchExistingForecastingResultsSaga(
 > {
   const { payload } = action;
   const { projectId } = payload;
-  const forecastResultsUrl = `${getBaseUrl()}/forecastResults/light=${projectId}`;
+  const forecastResultsUrl = `${getBaseUrl()}/forecastResults/light/projectId=${projectId}`;
 
   try {
     const forecastResults = yield call(
