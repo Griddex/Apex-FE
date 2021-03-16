@@ -22,12 +22,15 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     height: "100%",
     maxWidth: 700,
+    padding: 10,
   },
   avatarField: {
     display: "flex",
     flexDirection: "column",
     height: "100%",
     width: "100%",
+    minWidth: 500,
+    padding: 10,
   },
   namesContainer: {
     display: "flex",

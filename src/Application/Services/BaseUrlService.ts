@@ -4,7 +4,7 @@ const getBaseUrl = () => {
   // return "http://34.205.77.46/forecast";
 
   // return "http://61d0ebadbac1.ngrok.io/api/forecast";
-  return "https://107.23.121.64/forecast";
+  return "http://107.23.121.64/forecast";
 };
 
 export const getBaseAuthUrl = () => {
@@ -13,7 +13,7 @@ export const getBaseAuthUrl = () => {
   // return "http://34.205.77.46/auth";
 
   // return "http://61d0ebadbac1.ngrok.io/api/forecast";
-  return "https://107.23.121.64/auth";
+  return "http://107.23.121.64/auth";
 };
 
 export default getBaseUrl;
