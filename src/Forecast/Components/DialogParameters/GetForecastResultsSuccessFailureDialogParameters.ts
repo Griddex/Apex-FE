@@ -22,7 +22,7 @@ export const failureDialogParameters = (errorMessage: string): DialogStuff => ({
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Something unexpected happended and the selected forecast result data could not be fetched.
+  dialogText: `Something unexpected happened and the selected forecast result data could not be fetched.
   Please try again
   
   ${errorMessage}

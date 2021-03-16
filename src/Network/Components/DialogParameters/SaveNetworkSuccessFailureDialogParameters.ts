@@ -23,7 +23,7 @@ export const failureDialogParameters = (errorMessage: string): DialogStuff => ({
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Something unexpected happended and the network could not be saved.
+  dialogText: `Something unexpected happened and the network could not be saved.
   Please try again
   
   ${errorMessage}

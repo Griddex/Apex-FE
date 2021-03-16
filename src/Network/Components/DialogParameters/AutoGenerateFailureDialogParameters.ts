@@ -9,7 +9,7 @@ export const failureDialogParameters = (): DialogStuff => ({
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Something unexpected happended and the network could not be generated.
+  dialogText: `Something unexpected happened and the network could not be generated.
   Please try again`,
   iconType: "error",
   actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),
