@@ -2,8 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
-import SaveForecastInputDeckWorkflowDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckWorkflowDialog";
+import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
+import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
 import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
@@ -23,9 +25,10 @@ const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
   selectWorksheetDialog: SelectWorksheetDialog,
-  finalizeInputDialog: SaveForecastInputDeckWorkflowDialog,
+  finalizeForecastInputDeckDialog: FinalizeForecastInputDeckDialog,
   saveFacilitiesInputDeckDialog: SaveFacilitiesInputDeckDialog,
-  saveForecastInputDeckWorkflowDialog: SaveForecastInputDeckWorkflowDialog,
+  saveForecastInputDeckDialog: SaveForecastInputDeckDialog,
+  saveInputDeckGenerateNetworkWorkflowDialog: SaveInputDeckGenerateNetworkWorkflowDialog,
   economicsParametersDialog: EconomicsParametersDialog,
   economicsParameterImportWorkflowDialog: EconomicsParameterImportWorkflowDialog,
   newProjectWorkflowDialog: NewProjectWorkflowDialog,

@@ -213,14 +213,14 @@ const MainDrawer = () => {
                 onClick={(e: any) => {
                   handleMenuSelected(name, e);
                   dispatch(mainDrawerSetMenuAction(name));
-                  history.push(route);
+                  name !== "Project" && history.push(route);
                 }}
                 disabled={name === "Project" ? false : menusDisabled}
                 style={
                   name === selected
                     ? {
                         backgroundColor: theme.palette.primary.light,
-                        borderRight: `3px solid ${theme.palette.primary.main}`,
+                        borderLeft: `3px solid ${theme.palette.primary.main}`,
                         // ":hover":{color:theme.palette.primary.main}
                       }
                     : {}

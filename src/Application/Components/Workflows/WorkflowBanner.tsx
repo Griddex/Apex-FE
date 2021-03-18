@@ -4,10 +4,10 @@ import {
   Container,
   makeStyles,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
 
 const useStyles = makeStyles((theme) => ({
   workflowHeaderRow: {
@@ -50,11 +50,30 @@ const WorkflowBanner = ({
   workflowName,
 }: IWorkflowBannerProps) => {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <Container className={classes.workflowHeaderRow} fixed disableGutters>
-      <div className={classes.companyLogoToolbar}>
-        <img src={CompanyLogo} alt="Company logo" height={24} width={24} />
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div>
+          <hr
+            style={{
+              width: "80px",
+              height: "2px",
+              color: "gray",
+              backgroundColor: "gray",
+              textAlign: "left",
+              marginLeft: "0px",
+            }}
+          />
+        </div>
+        <div
+          style={{
+            height: "24px",
+            width: "24px",
+            backgroundColor: theme.palette.primary.main,
+          }}
+        />
       </div>
       <Box className={classes.workflowBannerHeader}>
         <Typography variant="subtitle1">{`${subModuleName}`}</Typography>
@@ -63,7 +82,7 @@ const WorkflowBanner = ({
         <Chip
           style={{
             marginLeft: 5,
-            borderRadius: 4,
+            // borderRadius: 4,
             minWidth: 50,
           }}
           size="small"

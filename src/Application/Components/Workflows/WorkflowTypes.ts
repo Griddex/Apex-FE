@@ -28,6 +28,8 @@ export interface IImportWorkflowProcess {
     | "facilitiesInputDeckDatabase"
     | "forecastInputDeckExcel"
     | "forecastInputDeckDatabase"
+    | "forecastInputDeckSaveAutogenerate"
+    | "forecastInputDeckSaveManualgenerate"
     | "productionInputDataExcel"
     | "productionInputDataDatabase"
     | "economicsInputDataExcel"

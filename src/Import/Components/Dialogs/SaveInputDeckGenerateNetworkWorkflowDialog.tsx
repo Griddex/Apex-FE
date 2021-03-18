@@ -7,11 +7,9 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import { useSnackbar } from "notistack";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
+import DialogSaveAndGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveAndGenerateNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
@@ -21,12 +19,13 @@ import DialogVerticalWorkflowStepper from "../../../Application/Components/Workf
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   hideDialogAction,
+  showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
-import SaveForecastInputDeckWorkflow from "../../Routes/Common/InputWorkflows/SaveForecastInputDeckWorkflow";
+import { saveAndAutoGenerateNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
+import SaveInputDeckGenerateNetworkWorkflow from "../../Routes/Common/InputWorkflows/SaveInputDeckGenerateNetworkWorkflow";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -110,25 +109,14 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const steps = [
-  "Select Facilities Deck",
-  "Input Title and Description",
-  "Finalize",
-];
+const steps = ["Select Facilities Deck", "Save & Generate"];
 
-const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
+const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-
-  const { title, show, maxWidth, iconType } = props;
-
+  const { title, show, maxWidth, iconType, workflowProcess } = props;
   const skipped = new Set<number>();
 
-  // const wc = workflowCategory as IImportWorkflowProcess["wrkflwCtgry"];
-  // const wp = workflowProcess as IImportWorkflowProcess["wrkflwPrcss"];
   const wc = "importDataWorkflows";
-  const { workflowProcess } = props as {
-    workflowProcess: NonNullable<IAllWorkflowProcesses["wrkflwPrcss"]>;
-  };
   const wp = workflowProcess as NonNullable<
     IAllWorkflowProcesses["wrkflwPrcss"]
   >;
@@ -159,11 +147,37 @@ const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const finalAction = React.useCallback(() => {
-    dispatch(saveInputDeckRequestAction(wp));
-  }, [wp]);
+  const saveForecastInputdeckConfirmation = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Save_Forecast_Inputdeck_Generate_Network_Confirmation_Dialog",
+      title: "Save Forecast Inputdeck + Generate Network Confirmation",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      iconType: "confirmation",
+      dialogText: `Do you want to save the current Forecast 
+        Inputdeck and then generate the network?`,
+      actionsList: () =>
+        DialogSaveAndGenerateNetworkCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () => saveAndAutoGenerateNetworkRequestAction(wp),
+          ]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
 
-  const existingProps = { activeStep, workflowProcess, finalAction };
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const existingProps = {
+    activeStep,
+    workflowProcess: wp,
+    finalAction: saveForecastInputdeckConfirmation,
+  };
 
   const navigationButtonProps: INavigationButtonsProp = {
     mainNav: false,
@@ -171,15 +185,15 @@ const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction,
+    finalAction: saveForecastInputdeckConfirmation,
     workflowProps,
-    workflowProcess,
+    workflowProcess: wp,
     workflowCategory: wc,
   };
 
-  // useEffect(() => {
-  //   dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  // }, [dispatch]);
+  React.useEffect(() => {
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
+  }, []);
 
   return (
     <Dialog
@@ -195,7 +209,7 @@ const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
         <div>{title}</div>
       </DialogTitle>
       <DialogContent dividers>
-        <SaveForecastInputDeckWorkflow {...existingProps} />
+        <SaveInputDeckGenerateNetworkWorkflow {...existingProps} />
         <Divider />
         <DialogVerticalWorkflowStepper {...workflowProps} />
       </DialogContent>
@@ -205,4 +219,4 @@ const SaveForecastInputDeckWorkflowDialog = (props: DialogStuff) => {
     </Dialog>
   );
 };
-export default SaveForecastInputDeckWorkflowDialog;
+export default SaveInputDeckGenerateNetworkWorkflowDialog;

@@ -30,13 +30,18 @@ const useStyles = makeStyles((theme) => ({
     height: 30,
     marginBottom: 5,
   },
-  TableButtons: {
+  tableButtons: {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "flex-end",
     "& > *": {
       marginLeft: 10,
     },
+  },
+  mappingErrors: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   tableFilter: {
     "& > *": { width: 190 },
@@ -67,6 +72,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     selectedRows,
     setSelectedRows,
     setRows,
+    mappingErrors,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
@@ -325,7 +331,10 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             />
           </FormControl>
         </Grid>
-        <Grid item container className={classes.TableButtons}>
+        <Grid item container className={classes.mappingErrors}>
+          {mappingErrors && mappingErrors}
+        </Grid>
+        <Grid className={classes.tableButtons} item xs container>
           <TableButtons {...tableButtons} />
         </Grid>
       </Grid>

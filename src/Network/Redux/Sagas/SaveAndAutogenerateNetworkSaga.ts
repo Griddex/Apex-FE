@@ -18,6 +18,7 @@ import { saveInputDeckRequestAction } from "./../../../Import/Redux/Actions/Impo
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import history from "../../../Application/Services/HistoryService";
 
 export default function* watchAndSaveAutogenerateNetworkSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -40,6 +41,9 @@ function* saveAndAutoGenerateNetworkSaga(action: IAction) {
   try {
     // yield call(saveInputDeckSaga, action);
     yield put(saveInputDeckRequestAction(workflowProcess));
+
+    yield call(forwardTo, "/apex");
+
     // yield call(autoGenerateNetworkSaga, action);
     yield put(autoGenerateNetworkRequestAction());
   } catch (errors) {
@@ -54,4 +58,8 @@ function* saveAndAutoGenerateNetworkSaga(action: IAction) {
   } finally {
     yield put(hideSpinnerAction());
   }
+}
+
+function forwardTo(routeUrl: string) {
+  history.push(routeUrl);
 }

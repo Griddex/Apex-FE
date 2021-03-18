@@ -17,6 +17,7 @@ import {
   ISelectOptions,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
+import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -236,6 +237,13 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       setAcceptMatchCheckboxSelected(!acceptMatchCheckboxSelected);
     };
 
+    const [switchChecked, setSwitchChecked] = React.useState(true);
+    const handleExcludeSwitchChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      setSwitchChecked(event.target.checked);
+    };
+
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 20 },
       {
@@ -312,15 +320,19 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         resizable: true,
         width: 100,
       },
-
       {
         key: "exclude",
         name: "EXCLUDE",
         resizable: true,
         formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleExcludeCheckboxChange(row, event)}
-            checked={excludeCheckboxSelected}
+          // <Checkbox
+          //   onClick={(event) => handleExcludeCheckboxChange(row, event)}
+          //   checked={excludeCheckboxSelected}
+          // />
+
+          <ApexMuiSwitch
+            handleChange={handleExcludeSwitchChange}
+            checked={switchChecked}
           />
         ),
         width: 100,
