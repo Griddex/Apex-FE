@@ -58,7 +58,7 @@ const WorkflowBanner = ({
         <div>
           <hr
             style={{
-              width: "80px",
+              width: "50px",
               height: "2px",
               color: "gray",
               backgroundColor: "gray",
@@ -69,8 +69,8 @@ const WorkflowBanner = ({
         </div>
         <div
           style={{
-            height: "24px",
-            width: "24px",
+            height: "10px",
+            width: "10px",
             backgroundColor: theme.palette.primary.main,
           }}
         />

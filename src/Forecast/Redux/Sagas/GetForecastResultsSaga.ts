@@ -81,9 +81,9 @@ function* getForecastResultsSaga(
   };
 
   try {
-    while (true) {
-      const chan = yield call(updateForecastResults, url, reqPayload);
+    const chan = yield call(updateForecastResults, url, reqPayload);
 
+    while (true) {
       const forecastResultsChunk = yield take(chan);
       console.log(
         "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 88 ~ forecastResultsChunk",

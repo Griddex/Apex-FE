@@ -97,10 +97,10 @@ const SubNavbar = ({
                   setMainMenuSelected(name);
                   history.push(route);
                 }}
-                // startIcon={icon}
-                endIcon={icon}
+                startIcon={icon}
+                // endIcon={icon}
                 style={
-                  name === selected ? { color: theme.palette.primary.main } : {}
+                  name === selected ? { color: theme.palette.primary.dark } : {}
                 }
               >
                 <Typography variant="subtitle2">{name}</Typography>

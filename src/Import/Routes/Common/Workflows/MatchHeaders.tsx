@@ -39,6 +39,7 @@ import generateMatchData from "../../../Utils/GenerateMatchData";
 import getRoleRSStyles from "../../../Utils/GetRoleRSStyles";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
+import uniq from "lodash.uniq";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -218,7 +219,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       const headerOptions = keyedApplicationHeaderOptions[selectedFileHeader];
       const selectedOptionIndex = findLastIndex(
         headerOptions,
-        (u: { value: string; label: string }) => u.label === "None"
+        (u: ISelectOptions) => u.label === "None"
       );
 
       modifyTableRows(selectedFileHeader, selectedOptionIndex);
@@ -383,7 +384,25 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     tableRows.current = modifiedRows;
   };
 
-  const rows = tableRows.current;
+  // const rows = tableRows.current;
+  const [rows, setRows] = React.useState(tableRows.current);
+  const [selectedRows, setSelectedRows] = React.useState(
+    () => new Set<React.Key>()
+  );
+
+  const getMappingErrors = () => {
+    const chosenApplicationHeaders = getChosenApplicationHeaders(
+      fileHeaderMatches,
+      chosenApplicationHeaderIndices
+    );
+
+    const uniqueChosenApplicationHeaders = uniq(chosenApplicationHeaders);
+    if (
+      chosenApplicationHeaders.length > uniqueChosenApplicationHeaders.length
+    ) {
+      return "Some chosen application headers are duplicated";
+    } else "";
+  };
 
   //Run once after 1st render
   React.useEffect(() => {
@@ -428,6 +447,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           columns={columns}
           rows={rows}
           tableButtons={tableButtons}
+          setRows={setRows}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          mappingErrors={getMappingErrors()}
         />
       </div>
     </div>
