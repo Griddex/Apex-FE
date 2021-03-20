@@ -126,10 +126,8 @@ export function* saveInputDeckSaga(
       payload: { ...payload, workflowProcess: wp, status, success, data },
     });
 
-    if (wp.includes("facilities")) {
+    if (wp.includes("facilities"))
       yield put(showDialogAction(successDialogParameters(inputDeckType, wp)));
-    } else {
-    }
 
     yield put(fetchExistingDataRequestAction(projectId));
   } catch (errors) {
