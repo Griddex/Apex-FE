@@ -74,7 +74,7 @@ export default function ApexMuiSwitch({
   return (
     <FormControlLabel
       control={<IOSSwitch checked={checked} onChange={handleChange} />}
-      label="iOS style"
+      label=""
     />
   );
 }

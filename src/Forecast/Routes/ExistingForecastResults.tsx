@@ -129,10 +129,6 @@ export default function ExistingForecastResults({
       return <div>SELECT</div>;
     },
     formatter(props) {
-      console.log(
-        "Logged output --> ~ file: ExistingForecastResults.tsx ~ line 132 ~ formatter ~ props",
-        props
-      );
       return (
         <SelectCellFormatter
           aria-label="Select"

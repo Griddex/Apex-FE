@@ -8,10 +8,6 @@ export interface NodeComponentsType {
 }
 
 const AddWidgetsToNodes = (nodes: FlowElement[]) => {
-  console.log(
-    "Logged output --> ~ file: AddWidgetsToNodes.tsx ~ line 11 ~ AddWidgetsToNodes ~ nodes",
-    nodes
-  );
   const nodesWithWidgets = nodes.map((node) => {
     return node;
   });

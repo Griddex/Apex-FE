@@ -60,10 +60,6 @@ function* loginSaga(
     //   loginAPI,
     //   `https://jsonplaceholder.typicode.com/posts`
     // );
-    console.log(
-      "Logged output --> ~ file: LoginSaga.ts ~ line 59 ~ response",
-      response
-    );
     const { status, headers } = response;
 
     yield call(forwardTo, "/apex");

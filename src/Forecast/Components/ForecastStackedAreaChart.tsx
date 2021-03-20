@@ -1,91 +1,10 @@
-// install (please make sure versions match peerDependencies)
-// yarn add @nivo/core @nivo/stream
 import React from "react";
-
 import { ResponsiveStream } from "@nivo/stream";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-// const data = [
-//   {
-//     G01_E1000X_ABASE10E40W06: 73,
-//     G01_E4000X_ABASE10E40W06: 56,
-//     G01_E8000X_ABASE80E85W02: 90,
-//     G01_E8500X_ABASE80E85W02: 11,
-//     G01_E8500X_ABASE80E85W05: 147,
-//     G01_F2000X_ABASF20W01: 69,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 74,
-//     G01_E4000X_ABASE10E40W06: 88,
-//     G01_E8000X_ABASE80E85W02: 78,
-//     G01_E8500X_ABASE80E85W02: 160,
-//     G01_E8500X_ABASE80E85W05: 64,
-//     G01_F2000X_ABASF20W01: 71,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 139,
-//     G01_E4000X_ABASE10E40W06: 187,
-//     G01_E8000X_ABASE80E85W02: 26,
-//     G01_E8500X_ABASE80E85W02: 103,
-//     G01_E8500X_ABASE80E85W05: 119,
-//     G01_F2000X_ABASF20W01: 194,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 51,
-//     G01_E4000X_ABASE10E40W06: 163,
-//     G01_E8000X_ABASE80E85W02: 153,
-//     G01_E8500X_ABASE80E85W02: 72,
-//     G01_E8500X_ABASE80E85W05: 62,
-//     G01_F2000X_ABASF20W01: 200,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 106,
-//     G01_E4000X_ABASE10E40W06: 86,
-//     G01_E8000X_ABASE80E85W02: 139,
-//     G01_E8500X_ABASE80E85W02: 176,
-//     G01_E8500X_ABASE80E85W05: 76,
-//     G01_F2000X_ABASF20W01: 30,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 182,
-//     G01_E4000X_ABASE10E40W06: 153,
-//     G01_E8000X_ABASE80E85W02: 146,
-//     G01_E8500X_ABASE80E85W02: 105,
-//     G01_E8500X_ABASE80E85W05: 31,
-//     G01_F2000X_ABASF20W01: 189,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 135,
-//     G01_E4000X_ABASE10E40W06: 184,
-//     G01_E8000X_ABASE80E85W02: 74,
-//     G01_E8500X_ABASE80E85W02: 71,
-//     G01_E8500X_ABASE80E85W05: 28,
-//     G01_F2000X_ABASF20W01: 40,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 49,
-//     G01_E4000X_ABASE10E40W06: 58,
-//     G01_E8000X_ABASE80E85W02: 83,
-//     G01_E8500X_ABASE80E85W02: 43,
-//     G01_E8500X_ABASE80E85W05: 196,
-//     G01_F2000X_ABASF20W01: 175,
-//   },
-//   {
-//     G01_E1000X_ABASE10E40W06: 64,
-//     G01_E4000X_ABASE10E40W06: 142,
-//     G01_E8000X_ABASE80E85W02: 58,
-//     G01_E8500X_ABASE80E85W02: 113,
-//     G01_E8500X_ABASE80E85W05: 77,
-//     G01_F2000X_ABASF20W01: 48,
-//   },
-// ];
+
 const ForecastStackedAreaChart = () => {
-  const { transForecastResult: data, forecastKeys } = useSelector(
+  const { transForecastResult: data } = useSelector(
     (state: RootState) => state.forecastReducer
   );
 
@@ -101,15 +20,7 @@ const ForecastStackedAreaChart = () => {
   return (
     <ResponsiveStream
       data={data}
-      keys={forecastKeys}
-      // keys={[
-      //   "G01_E1000X_ABASE10E40W06",
-      //   "G01_E4000X_ABASE10E40W06",
-      //   "G01_E8000X_ABASE80E85W02",
-      //   "G01_E8500X_ABASE80E85W02",
-      //   "G01_E8500X_ABASE80E85W05",
-      //   "G01_F2000X_ABASF20W01",
-      // ]}
+      keys={keys}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
       axisTop={null}
       axisRight={null}
