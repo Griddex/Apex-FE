@@ -28,6 +28,7 @@ import { IAllWorkflowProcesses } from "../../../../Application/Components/Workfl
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import getMappingErrors from "../../../../Application/Utils/GetMappingErrors";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationHeadersAction,
@@ -39,7 +40,6 @@ import generateMatchData from "../../../Utils/GenerateMatchData";
 import getRoleRSStyles from "../../../Utils/GetRoleRSStyles";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
-import uniq from "lodash.uniq";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -390,19 +390,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     () => new Set<React.Key>()
   );
 
-  const getMappingErrors = () => {
-    const chosenApplicationHeaders = getChosenApplicationHeaders(
-      fileHeaderMatches,
-      chosenApplicationHeaderIndices
-    );
-
-    const uniqueChosenApplicationHeaders = uniq(chosenApplicationHeaders);
-    if (
-      chosenApplicationHeaders.length > uniqueChosenApplicationHeaders.length
-    ) {
-      return "Some chosen application headers are duplicated";
-    } else "";
-  };
+  const chosenApplicationHeaders = getChosenApplicationHeaders(
+    fileHeaderMatches,
+    chosenApplicationHeaderIndices
+  );
 
   //Run once after 1st render
   React.useEffect(() => {
@@ -450,7 +441,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           setRows={setRows}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
-          mappingErrors={getMappingErrors()}
+          mappingErrors={getMappingErrors(chosenApplicationHeaders)}
         />
       </div>
     </div>

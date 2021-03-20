@@ -42,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
+    color: theme.palette.secondary.main,
+    marginLeft: 5,
   },
   tableFilter: {
     "& > *": { width: 190 },

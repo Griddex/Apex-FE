@@ -1,80 +1,47 @@
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
-import Switch, { SwitchClassKey, SwitchProps } from "@material-ui/core/Switch";
+import Switch, { SwitchClassKey } from "@material-ui/core/Switch";
 import React from "react";
 import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 
-interface Styles extends Partial<Record<SwitchClassKey, string>> {
-  focusVisible?: string;
-}
-
-interface Props extends SwitchProps {
-  classes: Styles;
-}
-
-const IOSSwitch = withStyles((theme: Theme) =>
+const AntSwitch = withStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 42,
-      height: 26,
+      width: 28,
+      height: 16,
       padding: 0,
-      margin: theme.spacing(1),
+      display: "flex",
     },
     switchBase: {
-      padding: 1,
+      padding: 2,
+      color: theme.palette.grey[500],
       "&$checked": {
-        transform: "translateX(16px)",
+        transform: "translateX(12px)",
         color: theme.palette.common.white,
         "& + $track": {
-          backgroundColor: theme.palette.success.main,
           opacity: 1,
-          border: "none",
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.main,
         },
-      },
-      "&$focusVisible $thumb": {
-        color: theme.palette.success.main,
-        border: "6px solid #fff",
       },
     },
     thumb: {
-      width: 24,
-      height: 24,
+      width: 12,
+      height: 12,
+      boxShadow: "none",
     },
     track: {
-      borderRadius: 26 / 2,
-      border: `1px solid ${theme.palette.grey[400]}`,
-      backgroundColor: theme.palette.grey[50],
+      border: `1px solid ${theme.palette.grey[500]}`,
+      borderRadius: 16 / 2,
       opacity: 1,
-      transition: theme.transitions.create(["background-color", "border"]),
+      backgroundColor: theme.palette.common.white,
     },
     checked: {},
-    focusVisible: {},
   })
-)(({ classes, ...props }: Props) => {
-  return (
-    <Switch
-      focusVisibleClassName={classes.focusVisible}
-      disableRipple
-      classes={{
-        root: classes.root,
-        switchBase: classes.switchBase,
-        thumb: classes.thumb,
-        track: classes.track,
-        checked: classes.checked,
-      }}
-      {...props}
-    />
-  );
-});
+)(Switch);
 
 export default function ApexMuiSwitch({
   handleChange,
   checked,
 }: IApexMuiSwitch) {
-  return (
-    <FormControlLabel
-      control={<IOSSwitch checked={checked} onChange={handleChange} />}
-      label=""
-    />
-  );
+  return <AntSwitch checked={checked} onChange={handleChange} />;
 }
