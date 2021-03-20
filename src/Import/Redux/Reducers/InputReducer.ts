@@ -39,11 +39,11 @@ const inputReducer = (state = InputState, action: IAction) => {
       const { path, value } = action.payload;
 
       const updatedState = set(state, path, value);
+      console.log(
+        "Logged output --> ~ file: InputReducer.ts ~ line 42 ~ inputReducer ~ updatedState",
+        updatedState
+      );
       return updatedState;
-      // return {
-      //   ...state,
-      //   [path]: value,
-      // };
     }
     case IMPORTFILE_INITIALIZATION:
     case PERSIST_FILE:
