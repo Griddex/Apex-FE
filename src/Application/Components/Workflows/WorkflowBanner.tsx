@@ -69,8 +69,8 @@ const WorkflowBanner = ({
         </div>
         <div
           style={{
-            height: "10px",
-            width: "10px",
+            height: 14,
+            width: 6,
             backgroundColor: theme.palette.primary.main,
           }}
         />

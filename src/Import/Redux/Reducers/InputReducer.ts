@@ -31,15 +31,19 @@ import {
   FETCHAPPLICATIONHEADERS_FAILURE,
 } from "../Actions/ImportActions";
 import InputState from "../State/InputState";
+import set from "lodash.set";
 
 const inputReducer = (state = InputState, action: IAction) => {
   switch (action.type) {
     case UPDATE_INPUT: {
-      const { name, value } = action.payload;
-      return {
-        ...state,
-        [name]: value,
-      };
+      const { path, value } = action.payload;
+
+      const updatedState = set(state, path, value);
+      return updatedState;
+      // return {
+      //   ...state,
+      //   [path]: value,
+      // };
     }
     case IMPORTFILE_INITIALIZATION:
     case PERSIST_FILE:
