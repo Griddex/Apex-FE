@@ -30,7 +30,7 @@ const getRoleRSStyles = (theme: Theme) => {
       height: "100%",
       width: "100%",
       alignSelf: "center",
-      fontWeight: 700,
+      // fontWeight: 700,
     }),
     input: (styles) => ({
       ...styles,
@@ -61,7 +61,7 @@ const getRoleRSStyles = (theme: Theme) => {
         ...styles,
         backgroundColor: "white",
         borderColor: currentValueLabel,
-        borderWidth: 2,
+        borderWidth: 1,
         minHeight: 30,
         height: "95%",
         flex: 1,
