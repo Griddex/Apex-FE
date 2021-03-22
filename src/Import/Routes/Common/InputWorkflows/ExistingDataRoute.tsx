@@ -19,6 +19,7 @@ import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { updateInputAction } from "../../../Redux/Actions/ImportActions";
+import apexCheckbox from "./../../../../Application/Components/Checkboxes/ApexCheckbox";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -78,8 +79,7 @@ export default function ExistingDataRoute<
   // const wp = wkPs
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (row: TRow, event: React.ChangeEvent<any>) => {
+  const handleCheckboxChange = (row: TRow) => {
     if (wp.includes("facilities") || wp.includes("forecast")) {
       const existingTitle = getExistingTitle(wp);
       const existingId = getExistingId(wp);
@@ -99,24 +99,18 @@ export default function ExistingDataRoute<
     }
 
     setSelectedRows((prev) => prev.add(row.sn as number));
-    setCheckboxSelected(!checkboxSelected);
   };
+
+  const ApexCheckboxColumn = apexCheckbox({
+    shouldExecute: true,
+    shouldDispatch: false,
+    apexCheckboxAction: handleCheckboxChange,
+  });
 
   const generateColumns = () => {
     const columns: Column<TRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      {
-        key: "select",
-        name: "SELECT",
-        resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
-          />
-        ),
-        width: 50,
-      },
+      ApexCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",

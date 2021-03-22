@@ -4,13 +4,10 @@ import { Column } from "react-data-griddex";
 import { IApexCheckbox } from "./ApexCheckboxTypes";
 import { useDispatch } from "react-redux";
 
-export const SELECT_COLUMN_KEY = "select-row";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ApexCheckbox = ({
+const apexCheckbox = ({
   shouldExecute,
   shouldDispatch,
-  apexCheckboxActions,
+  apexCheckboxAction,
 }: IApexCheckbox): Column<any, any> => {
   const dispatch = useDispatch();
 
@@ -28,15 +25,9 @@ const ApexCheckbox = ({
           value={props.isRowSelected}
           onClick={(e) => {
             e.stopPropagation();
-
-            let i = 0;
-            for (const execute of shouldExecute) {
-              if (execute) {
-                const action = apexCheckboxActions[i];
-                if (shouldDispatch[i]) dispatch(action());
-                else action();
-              }
-              i += 1;
+            if (shouldExecute) {
+              if (shouldDispatch) dispatch(apexCheckboxAction());
+              else apexCheckboxAction(props.row);
             }
           }}
           onChange={props.onRowSelectionChange}
@@ -46,4 +37,4 @@ const ApexCheckbox = ({
   };
 };
 
-export default ApexCheckbox;
+export default apexCheckbox;
