@@ -1,4 +1,5 @@
 import {
+  ClickAwayListener,
   FormControl,
   IconButton,
   InputAdornment,
@@ -350,24 +351,28 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           // style={{ width: "100%", height: "100%" }}
           style={{ display: "flex", flexGrow: 1, height: "100%" }}
         >
-          <ReactDataGrid
-            ref={gridRef}
-            // style={{ width: "100%", height: "100%" }}
-            style={{ display: "flex", flexGrow: 1, height: "100%" }}
-            rows={sortedRows}
-            rowKeyGetter={rowKeyGetter}
-            selectedRows={selectedRows}
-            onSelectedRowsChange={setSelectedRows}
-            onRowsChange={onRowsChange}
-            selectedRow={selectedRow}
-            onSelectedRowChange={onSelectedRowChange}
-            columns={draggableColumns}
-            sortColumn={sortColumn}
-            sortDirection={sortDirection}
-            onSort={handleSort}
-            headerRowHeight={tableHeaderHeight}
-            rowHeight={tableRowHeight}
-          />
+          <ClickAwayListener
+            onClickAway={() => onSelectedRowChange && onSelectedRowChange(-1)}
+          >
+            <ReactDataGrid
+              ref={gridRef}
+              // style={{ width: "100%", height: "100%" }}
+              style={{ display: "flex", flexGrow: 1, height: "100%" }}
+              rows={sortedRows}
+              rowKeyGetter={rowKeyGetter}
+              selectedRows={selectedRows}
+              onSelectedRowsChange={setSelectedRows}
+              onRowsChange={onRowsChange}
+              selectedRow={selectedRow}
+              onSelectedRowChange={onSelectedRowChange}
+              columns={draggableColumns}
+              sortColumn={sortColumn}
+              sortDirection={sortDirection}
+              onSort={handleSort}
+              headerRowHeight={tableHeaderHeight}
+              rowHeight={tableRowHeight}
+            />
+          </ClickAwayListener>
         </div>
       </DndProvider>
       {/* </div> */}

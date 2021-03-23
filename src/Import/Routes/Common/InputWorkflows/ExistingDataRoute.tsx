@@ -1,4 +1,4 @@
-import { Checkbox, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
@@ -200,6 +200,7 @@ export default function ExistingDataRoute<
           <DoughnutChart data={chartData as ChartType} />
         </div>
       )}
+
       <div className={classes.workflowBody}>
         <ApexGrid<TRow, ITableButtonsProps>
           columns={columns}
