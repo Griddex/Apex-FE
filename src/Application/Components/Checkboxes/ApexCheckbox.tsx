@@ -13,6 +13,7 @@ const apexCheckbox = ({
 
   return {
     ...SelectColumn,
+    frozen: false,
     headerRenderer() {
       return <div>SELECT</div>;
     },
