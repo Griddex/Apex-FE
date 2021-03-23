@@ -20,6 +20,7 @@ import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { persistFirstLevelForecastPropertyAction } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -106,10 +107,7 @@ export default function ExistingForecastResults({
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (
-    row: IExistingForecastResultsRow,
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleCheckboxChange = (row: IExistingForecastResultsRow) => {
     const name = "selectedForecastingResultsId";
     const value = row.forecastResultsId;
 
@@ -122,30 +120,16 @@ export default function ExistingForecastResults({
     () => new Set<React.Key>()
   );
 
-  const ApexRDGCheckbox: Column<any, any> = {
-    ...SelectColumn,
-    frozen: true,
-    headerRenderer() {
-      return <div>SELECT</div>;
-    },
-    formatter(props) {
-      return (
-        <SelectCellFormatter
-          aria-label="Select"
-          tabIndex={-1}
-          isCellSelected={props.isCellSelected}
-          value={props.isRowSelected}
-          // onClick={(e) => e.stopPropagation()}
-          onChange={props.onRowSelectionChange}
-        />
-      );
-    },
-  };
+  const ApexCheckboxColumn = apexCheckbox({
+    shouldExecute: true,
+    shouldDispatch: false,
+    apexCheckboxAction: handleCheckboxChange,
+  });
 
   const generateColumns = () => {
     const columns: Column<IExistingForecastResultsRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-
+      ApexCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
@@ -188,7 +172,6 @@ export default function ExistingForecastResults({
         },
         width: 120,
       },
-      ApexRDGCheckbox,
       {
         key: "status",
         name: "STATUS",
