@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
@@ -201,19 +201,21 @@ export default function ExistingDataRoute<
         </div>
       )}
 
-      <div className={classes.workflowBody}>
-        <ApexGrid<TRow, ITableButtonsProps>
-          columns={columns}
-          rows={rows}
-          tableButtons={tableButtons as ITableButtonsProps}
-          newTableRowHeight={35}
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-          selectedRow={sRow}
-          onSelectedRowChange={setSRow}
-          onRowsChange={setRows}
-        />
-      </div>
+      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+        <div className={classes.workflowBody}>
+          <ApexGrid<TRow, ITableButtonsProps>
+            columns={columns}
+            rows={rows}
+            tableButtons={tableButtons as ITableButtonsProps}
+            newTableRowHeight={35}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+            selectedRow={sRow}
+            onSelectedRowChange={setSRow}
+            onRowsChange={setRows}
+          />
+        </div>
+      </ClickAwayListener>
     </div>
   );
 }
