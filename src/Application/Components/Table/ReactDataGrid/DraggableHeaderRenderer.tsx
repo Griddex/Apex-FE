@@ -1,9 +1,9 @@
 import React from "react";
 import { useDrag, useDrop } from "react-dnd";
 import type { DragObjectWithType } from "react-dnd";
-import { HeaderRendererProps } from "react-data-griddex/lib/types";
 import { useCombinedRefs } from "./useCombinedRefs";
 import SortableHeaderCell from "./SortableHeaderCell";
+import { HeaderRendererProps } from "react-data-griddex";
 
 interface ColumnDragObject extends DragObjectWithType {
   key: string;
