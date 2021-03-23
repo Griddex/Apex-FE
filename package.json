@@ -112,7 +112,8 @@
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint src",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "typecheck":"tsc"
   },
   "browserslist": {
     "production": [

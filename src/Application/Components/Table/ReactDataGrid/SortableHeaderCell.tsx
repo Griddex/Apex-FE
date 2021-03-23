@@ -1,6 +1,6 @@
 import React from "react";
-import { SortDirection } from "react-data-griddex/lib/enums";
-import { HeaderCellProps } from "react-data-griddex/lib/HeaderCell";
+import { SortDirection } from "react-data-griddex";
+import { HeaderCellProps } from "react-data-griddex/lib/src/HeaderCell";
 
 const SORT_TEXT = {
   ASC: "\u25B2",
