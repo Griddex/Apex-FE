@@ -18,6 +18,9 @@ export interface IApexGrid<R, O> {
   setSelectedRows?: React.Dispatch<React.SetStateAction<Set<React.Key>>>;
   setRows?: (rows: R[]) => void;
   onSelectedRowsChange?: (selectedRows: Set<React.Key>) => void | undefined;
+  selectedRow: number;
+  onSelectedRowChange: React.Dispatch<React.SetStateAction<number>>;
+  onRowsChange: React.Dispatch<any>;
   mappingErrors?: string;
 }
 

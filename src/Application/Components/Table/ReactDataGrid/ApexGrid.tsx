@@ -73,7 +73,9 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     newTableRowHeight,
     selectedRows,
     setSelectedRows,
-    setRows,
+    selectedRow,
+    onSelectedRowChange,
+    onRowsChange,
     mappingErrors,
   } = props;
 
@@ -356,7 +358,9 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
-            onRowsChange={setRows}
+            onRowsChange={onRowsChange}
+            selectedRow={selectedRow}
+            onSelectedRowChange={onSelectedRowChange}
             columns={draggableColumns}
             sortColumn={sortColumn}
             sortDirection={sortDirection}

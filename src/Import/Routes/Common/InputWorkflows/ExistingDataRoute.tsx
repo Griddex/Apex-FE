@@ -79,6 +79,7 @@ export default function ExistingDataRoute<
   // const wp = wkPs
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
+  const [sRow, setSRow] = React.useState(-1);
   const handleCheckboxChange = (row: TRow) => {
     if (wp.includes("facilities") || wp.includes("forecast")) {
       const existingTitle = getExistingTitle(wp);
@@ -185,7 +186,8 @@ export default function ExistingDataRoute<
   };
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snExistingData);
-  const rows = tableRows.current;
+  const currentRows = tableRows.current;
+  const [rows, setRows] = React.useState(currentRows);
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -206,6 +208,9 @@ export default function ExistingDataRoute<
           newTableRowHeight={35}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
+          selectedRow={sRow}
+          onSelectedRowChange={setSRow}
+          onRowsChange={setRows}
         />
       </div>
     </div>
