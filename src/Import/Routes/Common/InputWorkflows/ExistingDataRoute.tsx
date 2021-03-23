@@ -107,6 +107,10 @@ export default function ExistingDataRoute<
     shouldDispatch: false,
     apexCheckboxAction: handleCheckboxChange,
   });
+  console.log(
+    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 110 ~ ApexCheckboxColumn",
+    ApexCheckboxColumn
+  );
 
   const generateColumns = () => {
     const columns: Column<TRow>[] = [
