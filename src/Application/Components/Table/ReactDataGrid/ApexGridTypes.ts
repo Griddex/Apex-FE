@@ -1,10 +1,15 @@
 import { Column } from "react-data-griddex";
 import { ITableButtonsProps } from "../TableButtonsTypes";
 
-export type IRawRow = Record<
-  string,
-  React.Key | Record<string, React.Key> | Record<string, React.Key>[] | boolean
->;
+export type IRawRow = {
+  [index: string]:
+    | React.Key
+    | Record<string, React.Key>
+    | Record<string, React.Key>[]
+    | boolean;
+};
+
+export type IRawRowValueType<T> = T[keyof T];
 
 export type IRawTable = IRawRow[];
 
