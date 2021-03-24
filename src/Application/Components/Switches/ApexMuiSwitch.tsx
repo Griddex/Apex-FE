@@ -1,47 +1,55 @@
-import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
-import Switch, { SwitchClassKey } from "@material-ui/core/Switch";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import Switch from "@material-ui/core/Switch";
 import React from "react";
 import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 
-const AntSwitch = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: 28,
-      height: 16,
-      padding: 0,
-      display: "flex",
-    },
-    switchBase: {
-      padding: 2,
-      color: theme.palette.grey[500],
-      "&$checked": {
-        transform: "translateX(12px)",
-        color: theme.palette.common.white,
-        "& + $track": {
-          opacity: 1,
-          backgroundColor: theme.palette.primary.main,
-          borderColor: theme.palette.primary.main,
-        },
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: 28,
+    height: 16,
+    padding: 0,
+    display: "flex",
+  },
+  switchBase: {
+    padding: 2,
+    color: theme.palette.grey[500],
+    "&$checked": {
+      transform: "translateX(12px)",
+      color: theme.palette.common.white,
+      "& + $track": {
+        opacity: 1,
+        backgroundColor: (props: IApexMuiSwitch) => props.checkedColor,
+        borderColor: (props: IApexMuiSwitch) => props.checkedColor,
       },
     },
-    thumb: {
-      width: 12,
-      height: 12,
-      boxShadow: "none",
-    },
-    track: {
-      border: `1px solid ${theme.palette.grey[500]}`,
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor: theme.palette.common.white,
-    },
-    checked: {},
-  })
-)(Switch);
+  },
+  thumb: {
+    width: 12,
+    height: 12,
+    boxShadow: "none",
+  },
+  track: {
+    border: `1px solid ${theme.palette.grey[500]}`,
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor: (props: IApexMuiSwitch) => props.notCheckedColor,
+  },
+}));
 
-export default function ApexMuiSwitch({
-  handleChange,
-  checked,
-}: IApexMuiSwitch) {
-  return <AntSwitch checked={checked} onChange={handleChange} />;
+export default function ApexMuiSwitch(props: IApexMuiSwitch) {
+  const { handleChange, checked } = props;
+  const classes = useStyles(props);
+
+  return (
+    <Switch
+      classes={{
+        root: classes.root,
+        switchBase: classes.switchBase,
+        thumb: classes.thumb,
+        track: classes.track,
+      }}
+      checked={checked}
+      onChange={handleChange}
+    />
+  );
 }
