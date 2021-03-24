@@ -32,12 +32,14 @@ import watchGetForecastResultsSaga from "../../../Forecast/Redux/Sagas/GetForeca
 import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
 import watchFetchExistingForecastingResultsSaga from "../../../Forecast/Redux/Sagas/FetchExistingForecastingResultsSaga";
 import watchFetchTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchTreeviewKeysSaga";
+import watchFetchExistingProjectsSaga from "../../../Project/Redux/Sagas/FetchExistingProjectsSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
   yield spawn(watchRegisterSaga);
   yield spawn(watchConnectDatabaseSaga);
   yield spawn(watchCreateNewProjectSaga);
+  yield spawn(watchFetchExistingProjectsSaga);
   yield spawn(watchFetchRecentProjectsSaga);
   yield spawn(watchFetchUnitSettingsSaga);
   yield spawn(watchOpenRecentProjectSaga);

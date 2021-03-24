@@ -14,6 +14,7 @@ import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDi
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
+import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
 import ListDialog from "./ListDialog";
@@ -24,6 +25,7 @@ import TextDialog from "./TextDialog";
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
+  existingProjectsDialog: ExistingProjectsDialog,
   selectWorksheetDialog: SelectWorksheetDialog,
   finalizeForecastInputDeckDialog: FinalizeForecastInputDeckDialog,
   saveFacilitiesInputDeckDialog: SaveFacilitiesInputDeckDialog,

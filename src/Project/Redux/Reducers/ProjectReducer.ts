@@ -1,12 +1,13 @@
-import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
   CREATE_NEWPROJECT,
-  NEWPROJECT_SUCCESS,
-  NEWPROJECT_FAILURE,
-  UPDATE_NEWPROJECT,
-  FETCHRECENTPROJECTS_SUCCESS,
   FETCHRECENTPROJECTS_FAILURE,
+  FETCHRECENTPROJECTS_SUCCESS,
+  FETCHEXISTINGPROJECTS_FAILURE,
+  FETCHEXISTINGPROJECTS_SUCCESS,
+  NEWPROJECT_FAILURE,
+  NEWPROJECT_SUCCESS,
   OPENRECENTPROJECT_SUCCESS,
+  UPDATE_NEWPROJECT,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
@@ -41,6 +42,26 @@ const projectReducer = (
     }
 
     case FETCHRECENTPROJECTS_FAILURE: {
+      const { status, errors } = action.payload;
+
+      return {
+        ...state,
+        status,
+        errors,
+      };
+    }
+
+    case FETCHEXISTINGPROJECTS_SUCCESS: {
+      const { status, existingProjects } = action.payload;
+
+      return {
+        ...state,
+        status,
+        existingProjects,
+      };
+    }
+
+    case FETCHEXISTINGPROJECTS_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -95,9 +116,6 @@ const projectReducer = (
         error,
       };
     }
-
-    case LOGOUT_REQUEST:
-      return { ...state, undefined };
 
     default:
       return state;

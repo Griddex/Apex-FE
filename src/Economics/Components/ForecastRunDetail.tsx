@@ -91,7 +91,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type StatusTextType = "Existing" | "Pending" | "Returned" | string;
+export type StatusTextType =
+  | "Existing"
+  | "Pending"
+  | "Returned"
+  | string
+  | undefined;
 export interface IForecastDetail {
   titleName: string;
   statusText: StatusTextType;

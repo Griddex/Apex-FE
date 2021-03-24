@@ -5,6 +5,9 @@ export const NEWPROJECT_FAILURE = "NEWPROJECT_FAILURE";
 export const FETCHRECENTPROJECTS_REQUEST = "FETCHRECENTPROJECTS_REQUEST";
 export const FETCHRECENTPROJECTS_SUCCESS = "FETCHRECENTPROJECTS_SUCCESS";
 export const FETCHRECENTPROJECTS_FAILURE = "FETCHRECENTPROJECTS_FAILURE";
+export const FETCHEXISTINGPROJECTS_REQUEST = "FETCHEXISTINGPROJECTS_REQUEST";
+export const FETCHEXISTINGPROJECTS_SUCCESS = "FETCHEXISTINGPROJECTS_SUCCESS";
+export const FETCHEXISTINGPROJECTS_FAILURE = "FETCHEXISTINGPROJECTS_FAILURE";
 export const OPENRECENTPROJECT_REQUEST = "OPENRECENTPROJECT_REQUEST";
 export const OPENRECENTPROJECT_SUCCESS = "OPENRECENTPROJECT_SUCCESS";
 export const OPENRECENTPROJECT_FAILURE = "OPENRECENTPROJECT_FAILURE";
@@ -42,6 +45,32 @@ export const fetchRecentProjectsSuccessAction = () => {
 export const fetchRecentProjectsFailureAction = () => {
   return {
     type: FETCHRECENTPROJECTS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchExistingProjectsAction = () => {
+  return {
+    type: FETCHEXISTINGPROJECTS_REQUEST,
+  };
+};
+
+export const fetchExistingProjectsSuccessAction = () => {
+  return {
+    type: FETCHEXISTINGPROJECTS_SUCCESS,
+    payload: {
+      status: 0,
+      data: [],
+    },
+  };
+};
+
+export const fetchExistingProjectsFailureAction = () => {
+  return {
+    type: FETCHEXISTINGPROJECTS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

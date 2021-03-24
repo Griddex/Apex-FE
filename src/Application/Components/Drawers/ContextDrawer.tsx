@@ -126,9 +126,9 @@ const ContextDrawer = ({ children }: { children: () => JSX.Element }) => {
         </IconButton>
       )}
       <div className={classes.contextDrawerHeader}>
-        <Typography>{moduleName}</Typography>
-        <Typography>{subModuleName}</Typography>
-        <Typography>{workflowName}</Typography>
+        {expandContextDrawer && <Typography>{moduleName}</Typography>}
+        {expandContextDrawer && <Typography>{subModuleName}</Typography>}
+        {expandContextDrawer && <Typography>{workflowName}</Typography>}
       </div>
       <div className={classes.contextDrawerContent}>
         {children && children()}

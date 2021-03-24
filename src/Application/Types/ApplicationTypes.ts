@@ -6,11 +6,11 @@ export interface IExistingDataRow {
   sn?: number;
   id?: string;
   userId?: string;
-  status: "Approved" | "Pending" | "Returned" | "Not Started";
+  status?: "Approved" | "Pending" | "Returned" | "Not Started";
   title?: string;
   description?: string;
-  author: IUserDetails | string;
-  approvers: IUserDetails[] | string;
+  author?: IUserDetails | string;
+  approvers?: IUserDetails[] | string;
   createdOn?: string;
   modifiedOn?: string;
   // workflowProcess?:IExistingDataProps["wrkflwPrcss"]

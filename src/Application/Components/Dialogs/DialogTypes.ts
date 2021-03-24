@@ -22,10 +22,12 @@ import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecast
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
 import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
+import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
   textDialog: typeof TextDialog;
+  existingProjectsDialog: typeof ExistingProjectsDialog;
   selectWorksheetDialog: typeof SelectWorksheetDialog;
   finalizeForecastInputDeckDialog: typeof FinalizeForecastInputDeckDialog;
   saveFacilitiesInputDeckDialog: typeof SaveFacilitiesInputDeckDialog;

@@ -1,7 +1,7 @@
 import { Avatar, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import Image from "../../../Application/Components/Visuals/Image";
-import { IAuthor } from "./AuthorTypes";
+import { AuthorType, IAuthor } from "./AuthorTypes";
 import getFirstCharFromEveryWord from "./../../Utils/GetFirstCharFromEveryWord";
 
 const useStyles = makeStyles(() => ({
@@ -20,13 +20,14 @@ const useStyles = makeStyles(() => ({
 const authorCheck = (variableToCheck: any): variableToCheck is IAuthor =>
   (variableToCheck as IAuthor).name !== undefined;
 
-const Author = ({ author }: { author: IAuthor | string }) => {
+const Author = ({ author }: { author: AuthorType }) => {
   const classes = useStyles();
   const isAuthor = authorCheck(author);
 
   const getAuthor = () => {
     if (isAuthor) {
       const authr = author as IAuthor;
+
       return (
         <div className={classes.author}>
           <Avatar className={classes.image} src={authr.avatarUrl}>
@@ -37,6 +38,7 @@ const Author = ({ author }: { author: IAuthor | string }) => {
       );
     } else {
       const authr = author as string;
+
       return (
         <div className={classes.author}>
           <Typography className={classes.name}>{authr}</Typography>
