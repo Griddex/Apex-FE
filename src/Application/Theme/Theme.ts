@@ -171,6 +171,12 @@ theme.overrides = {
       padding: 0,
     },
   },
+
+  MuiStepIcon: {
+    root: {
+      backgroundColor: "#E0E0E0",
+    },
+  },
 };
 
 export default theme;

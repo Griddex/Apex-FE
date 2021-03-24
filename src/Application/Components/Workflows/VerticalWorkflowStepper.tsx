@@ -1,4 +1,4 @@
-import { makeStyles, StepConnector } from "@material-ui/core";
+import { makeStyles, StepConnector, StepIcon } from "@material-ui/core";
 import Step, { StepProps } from "@material-ui/core/Step";
 import StepLabel, { StepLabelProps } from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
