@@ -290,7 +290,7 @@ export default function ExistingForecastResults({
           newTableRowHeight={35}
           selectedRows={selectedRows}
           onSelectedRowsChange={setSelectedRows}
-          setRows={setRows}
+          onRowsChange={setRows}
         />
       </div>
       <div></div>

@@ -3,7 +3,7 @@ import { ITableButtonsProps } from "../TableButtonsTypes";
 
 export type IRawRow = Record<
   string,
-  React.Key | Record<string, React.Key> | Record<string, React.Key>[]
+  React.Key | Record<string, React.Key> | Record<string, React.Key>[] | boolean
 >;
 
 export type IRawTable = IRawRow[];
@@ -16,7 +16,6 @@ export interface IApexGrid<R, O> {
   newTableRowHeight?: number;
   selectedRows?: Set<React.Key>;
   setSelectedRows?: React.Dispatch<React.SetStateAction<Set<React.Key>>>;
-  setRows?: (rows: R[]) => void;
   onSelectedRowsChange?: (selectedRows: Set<React.Key>) => void | undefined;
   selectedRow?: number;
   onSelectedRowChange?: React.Dispatch<React.SetStateAction<number>>;
