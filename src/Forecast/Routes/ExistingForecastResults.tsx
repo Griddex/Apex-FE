@@ -6,7 +6,7 @@ import React from "react";
 import { Column, SelectCellFormatter, SelectColumn } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
-import Status from "../../Application/Components/Status/Status";
+import Approval from "../../Application/Components/Approval/Approval";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
@@ -173,12 +173,12 @@ export default function ExistingForecastResults({
         width: 120,
       },
       {
-        key: "status",
-        name: "STATUS",
+        key: "approval",
+        name: "APPROVAL",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <Status statusText={row.status} />;
+          return <Approval approvalText={row.status} />;
         },
         width: 100,
       },

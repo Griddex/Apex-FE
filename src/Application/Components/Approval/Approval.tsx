@@ -1,9 +1,9 @@
 import { makeStyles, useTheme } from "@material-ui/core";
 import React from "react";
-import { StatusTextType } from "../../../Economics/Components/ForecastRunDetail";
+import { ApprovalTextType } from "./ApprovalTypes";
 
 const useStyles = makeStyles(() => ({
-  status: {
+  approval: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -13,10 +13,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const statusColor = (statusText: StatusTextType) => {
+const approvalColor = (approvalText: ApprovalTextType) => {
   const theme = useTheme();
 
-  switch (statusText) {
+  switch (approvalText) {
     case "Existing":
       return {
         color: theme.palette.primary.main,
@@ -43,15 +43,15 @@ const statusColor = (statusText: StatusTextType) => {
   }
 };
 
-const Status = ({ statusText }: { statusText: StatusTextType }) => {
+const Approval = ({ approvalText }: { approvalText: ApprovalTextType }) => {
   const classes = useStyles();
-  const statusStyle = statusColor(statusText);
+  const approvalStyle = approvalColor(approvalText);
 
   return (
-    <div className={classes.status} style={statusStyle}>
-      {statusText}
+    <div className={classes.approval} style={approvalStyle}>
+      {approvalText}
     </div>
   );
 };
 
-export default Status;
+export default Approval;

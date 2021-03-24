@@ -77,7 +77,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Application/Components/Selects/ApexSelectRS.tsx](/src/Application/Components/Selects/ApexSelectRS.tsx) | TypeScript React | 17 | 0 | 3 | 20 |
 | [src/Application/Components/Selects/SelectItem.tsx](/src/Application/Components/Selects/SelectItem.tsx) | TypeScript React | 32 | 0 | 3 | 35 |
 | [src/Application/Components/Selects/SelectItemsType.ts](/src/Application/Components/Selects/SelectItemsType.ts) | TypeScript | 28 | 0 | 4 | 32 |
-| [src/Application/Components/Status/Status.tsx](/src/Application/Components/Status/Status.tsx) | TypeScript React | 48 | 0 | 10 | 58 |
+| [src/Application/Components/Approval/Approval.tsx](/src/Application/Components/Approval/Approval.tsx) | TypeScript React | 48 | 0 | 10 | 58 |
 | [src/Application/Components/Table/ApexTable.jsx](/src/Application/Components/Table/ApexTable.jsx) | JavaScript React | 472 | 6 | 39 | 517 |
 | [src/Application/Components/Table/ReactDataGrid/ApexGrid.tsx](/src/Application/Components/Table/ReactDataGrid/ApexGrid.tsx) | TypeScript React | 372 | 12 | 37 | 421 |
 | [src/Application/Components/Table/ReactDataGrid/ApexGridState.ts](/src/Application/Components/Table/ReactDataGrid/ApexGridState.ts) | TypeScript | 4 | 0 | 1 | 5 |

@@ -7,7 +7,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
-import Status from "../../../../Application/Components/Status/Status";
+import Approval from "../../../../Application/Components/Approval/Approval";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -128,12 +128,12 @@ export default function ExistingDataRoute<
         width: 100,
       },
       {
-        key: "status",
-        name: "STATUS",
+        key: "approval",
+        name: "APPROVAL",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <Status statusText={row.status} />;
+          return <Approval approvalText={row.status} />;
         },
         width: 100,
       },

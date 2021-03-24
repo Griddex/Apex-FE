@@ -52,7 +52,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | Application\Components\NavigationButtons | 2 | 166 | 0 | 10 | 176 |
 | Application\Components\Popovers | 7 | 713 | 7 | 37 | 757 |
 | Application\Components\Selects | 5 | 187 | 2 | 21 | 210 |
-| Application\Components\Status | 1 | 48 | 0 | 10 | 58 |
+| Application\Components\Approval | 1 | 48 | 0 | 10 | 58 |
 | Application\Components\Table | 12 | 1,220 | 20 | 128 | 1,368 |
 | Application\Components\Table\ReactDataGrid | 8 | 662 | 14 | 78 | 754 |
 | Application\Components\Tabs | 2 | 117 | 7 | 12 | 136 |

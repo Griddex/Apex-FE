@@ -1,11 +1,10 @@
+import { ApprovalTextType } from "../../Application/Components/Approval/ApprovalTypes";
 import { IApprover } from "../../Application/Components/Approvers/ApproversTypes";
 import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 
-export type StatusTextType = "Existing" | "Pending" | "Returned" | string;
-
 export interface IForecastDetail {
   titleName: string;
-  statusText: StatusTextType;
+  approvalText: ApprovalTextType;
   author: IAuthor;
   approvers?: IApprover;
   createdOn: Date;
