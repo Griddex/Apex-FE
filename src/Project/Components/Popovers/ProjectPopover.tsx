@@ -17,6 +17,7 @@ import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,11 +26,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  newProject: {
-    borderBottom: "1px solid #999",
-    padding: 3,
-  },
-  recentProjects: {
+  demarcation: {
     borderBottom: "1px solid #999",
     padding: 3,
   },
@@ -117,7 +114,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.newProject}>
+      <div className={classes.demarcation}>
         <ApexMenuItem
           projectTitle="New Project"
           icon={
@@ -131,7 +128,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           }}
         />
       </div>
-      <div className={classes.recentProjects}>
+      <div className={classes.demarcation}>
         <ApexMenuItem
           projectTitle="Recent Projects"
           recentProjectsStyles={{ pointerEvents: "none" }}
@@ -172,6 +169,20 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               />
             );
           })}
+      </div>
+      <div className={classes.demarcation}>
+        <ApexMenuItem
+          projectTitle="All Projects"
+          icon={
+            <AllInclusiveOutlinedIcon
+              fontSize="small"
+              className={classes.primaryIcon}
+            />
+          }
+          handleClick={() => {
+            createNewProject();
+          }}
+        />
       </div>
       <div>
         <ApexMenuItem

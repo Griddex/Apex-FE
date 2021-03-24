@@ -1,11 +1,9 @@
 import { makeStyles, useTheme } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
 import findIndex from "lodash.findindex";
-import findLastIndex from "lodash.findlastindex";
 import omit from "lodash.omit";
 import zipObject from "lodash.zipobject";
 import React from "react";
@@ -329,6 +327,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         resizable: true,
         formatter: ({ row }) => {
           const checked = row.exclude as boolean;
+          console.log(
+            "Logged output --> ~ file: MatchHeaders.tsx ~ line 330 ~ MatchHeaders ~ checked",
+            checked
+          );
 
           return (
             <ApexMuiSwitch
@@ -349,6 +351,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         resizable: true,
         formatter: ({ row }) => {
           const checked = row.exclude as boolean;
+          console.log(
+            "Logged output --> ~ file: MatchHeaders.tsx ~ line 351 ~ MatchHeaders ~ checked",
+            checked
+          );
 
           return (
             <ApexMuiSwitch
