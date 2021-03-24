@@ -29,12 +29,12 @@ const DoughnutChart = ({ data }: { data: ChartType }) => {
   const theme = useTheme();
   const COLORS = [
     theme.palette.primary.main,
-    "#22BE34",
+    theme.palette.success.main,
     theme.palette.secondary.main,
   ];
-  const onPieEnter = (data: ChartType, index: number) => {
-    console.log(data, index);
-  };
+  // const onPieEnter = (data: ChartType, index: number) => {
+  //   console.log(data, index);
+  // };
 
   const RADIAN = Math.PI / 180;
   const renderLabel = ({
@@ -94,7 +94,7 @@ const DoughnutChart = ({ data }: { data: ChartType }) => {
           innerRadius={"60%"}
           outerRadius={"80%"}
           paddingAngle={3}
-          onMouseEnter={onPieEnter}
+          // onMouseEnter={onPieEnter}
           label={renderLabel}
         >
           {data.map((entry, index) => (

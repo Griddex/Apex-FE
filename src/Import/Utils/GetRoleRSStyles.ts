@@ -16,8 +16,8 @@ const getColors = (name: string, theme: Theme) => {
 };
 
 const getRoleRSStyles = (theme: Theme) => {
-  const colourStyles: Styles<ISelectOptions, false> = {
-    container: (styles, props) => ({
+  const apexSelectStyles: Styles<ISelectOptions, false> = {
+    container: (styles) => ({
       ...styles,
       height: "100%",
       width: "100%",
@@ -100,8 +100,7 @@ const getRoleRSStyles = (theme: Theme) => {
           break;
       }
 
-      const updatedStyles = { ...styles, color: label };
-      return { ...updatedStyles };
+      return { ...styles, color: label };
     },
     indicatorSeparator: (styles) => {
       return { ...styles, backgroundColor: "white" };
@@ -114,7 +113,7 @@ const getRoleRSStyles = (theme: Theme) => {
     },
   };
 
-  return colourStyles;
+  return apexSelectStyles;
 };
 
 export default getRoleRSStyles;

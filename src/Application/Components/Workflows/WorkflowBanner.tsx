@@ -87,7 +87,7 @@ const WorkflowBanner = ({
             letterSpacing: 2,
           }}
           size="small"
-          label={`${activeStep + 1}/${steps.length}`}
+          label={`${activeStep + 1} | ${steps.length}`}
         />
       </Box>
     </Container>
