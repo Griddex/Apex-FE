@@ -157,8 +157,9 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         <List className={classes.listBorder}>
           {contentList &&
             contentList.map((name: string, i: number) => {
-              if (name === selectedListItem)
-                <SelectionArdorner>
+              const showArdornment = name === selectedListItem;
+              return (
+                <SelectionArdorner showArdornment={showArdornment}>
                   <ListItem
                     key={i}
                     selected={name === selectedListItem}
@@ -173,22 +174,8 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                     </ListItemAvatar>
                     <ListItemText>{name}</ListItemText>
                   </ListItem>
-                </SelectionArdorner>;
-              else
-                <ListItem
-                  key={i}
-                  selected={name === selectedListItem}
-                  button
-                  onClick={() => {
-                    setSelectedListItem(name);
-                    dispatch(persistWorksheetAction(name, [], wp));
-                  }}
-                >
-                  <ListItemAvatar>
-                    <DescriptionOutlinedIcon color="primary" />
-                  </ListItemAvatar>
-                  <ListItemText>{name}</ListItemText>
-                </ListItem>;
+                </SelectionArdorner>
+              );
             })}
         </List>
       </div>

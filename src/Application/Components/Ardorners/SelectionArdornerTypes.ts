@@ -1,3 +1,4 @@
-export interface ISelectionArdorner{
-    children: JSX.Element
+export interface ISelectionArdorner {
+  showArdornment: boolean;
+  children: JSX.Element;
 }
