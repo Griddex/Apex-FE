@@ -73,6 +73,7 @@
     "react": "^16.13.1",
     "react-avatar-stack": "0.0.4",
     "react-awesome-popover": "^6.1.1",
+    "react-border-wrapper": "^1.0.3",
     "react-circle-progress-bar_no-css": "^0.1.4",
     "react-color": "^2.18.1",
     "react-color-gradient-picker": "^0.1.2",

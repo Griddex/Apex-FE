@@ -42,9 +42,11 @@ const useStyles = makeStyles((theme) => ({
   mappingErrors: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
-    color: theme.palette.secondary.main,
+    justifyContent: "center",
     marginLeft: 5,
+    border: `2px solid ${theme.palette.secondary.main}`,
+    color: theme.palette.secondary.main,
+    fontWeight: theme.typography.fontWeightBold,
   },
   tableFilter: {
     "& > *": { width: 190 },

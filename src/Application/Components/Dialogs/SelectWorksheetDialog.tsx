@@ -25,6 +25,7 @@ import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActi
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import SelectionArdorner from "../Ardorners/SelectionArdorner";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
@@ -155,22 +156,40 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         </Typography>
         <List className={classes.listBorder}>
           {contentList &&
-            contentList.map((name: string, i: number) => (
-              <ListItem
-                key={i}
-                selected={name === selectedListItem}
-                button
-                onClick={() => {
-                  setSelectedListItem(name);
-                  dispatch(persistWorksheetAction(name, [], wp));
-                }}
-              >
-                <ListItemAvatar>
-                  <DescriptionOutlinedIcon color="primary" />
-                </ListItemAvatar>
-                <ListItemText>{name}</ListItemText>
-              </ListItem>
-            ))}
+            contentList.map((name: string, i: number) => {
+              if (name === selectedListItem)
+                <SelectionArdorner>
+                  <ListItem
+                    key={i}
+                    selected={name === selectedListItem}
+                    button
+                    onClick={() => {
+                      setSelectedListItem(name);
+                      dispatch(persistWorksheetAction(name, [], wp));
+                    }}
+                  >
+                    <ListItemAvatar>
+                      <DescriptionOutlinedIcon color="primary" />
+                    </ListItemAvatar>
+                    <ListItemText>{name}</ListItemText>
+                  </ListItem>
+                </SelectionArdorner>;
+              else
+                <ListItem
+                  key={i}
+                  selected={name === selectedListItem}
+                  button
+                  onClick={() => {
+                    setSelectedListItem(name);
+                    dispatch(persistWorksheetAction(name, [], wp));
+                  }}
+                >
+                  <ListItemAvatar>
+                    <DescriptionOutlinedIcon color="primary" />
+                  </ListItemAvatar>
+                  <ListItemText>{name}</ListItemText>
+                </ListItem>;
+            })}
         </List>
       </div>
     );

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     height: 560,
     backgroundColor: "#FFF",
     boxShadow: theme.shadows[3],
-    // padding: 10,
+    padding: 10,
   },
   workflowBody: {
     display: "flex",
