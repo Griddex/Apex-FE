@@ -159,9 +159,8 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
             contentList.map((name: string, i: number) => {
               const showArdornment = name === selectedListItem;
               return (
-                <SelectionArdorner showArdornment={showArdornment}>
+                <SelectionArdorner key={i} showArdornment={showArdornment}>
                   <ListItem
-                    key={i}
                     selected={name === selectedListItem}
                     button
                     onClick={() => {
