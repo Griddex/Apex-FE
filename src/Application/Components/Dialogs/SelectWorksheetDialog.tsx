@@ -165,6 +165,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
             contentList.map((name: string, i: number) => {
               return (
                 <ListItem
+                  key={i}
                   selected={name === selectedListItem}
                   button
                   onClick={() => {
