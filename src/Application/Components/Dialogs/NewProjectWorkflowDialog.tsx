@@ -199,8 +199,10 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <NewProjectWorkflow activeStep={activeStep} />
-        <DialogVerticalWorkflowStepper {...workflowProps} />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <NewProjectWorkflow activeStep={activeStep} />
+          <DialogVerticalWorkflowStepper {...workflowProps} />
+        </div>
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />
