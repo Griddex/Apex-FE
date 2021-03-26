@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     minWidth: "70%",
   },
-  analyticsTitle: {
+  analyticsText: {
     minWidth: "30%",
     borderStyle: "solid",
     borderColor: theme.palette.primary.main,
@@ -19,10 +19,13 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 5,
     lineHeight: "100%",
     marginBottom: theme.spacing(1),
-    color: theme.palette.text.primary,
-    backgroundColor: "#F7F7F7",
+    textTransform: "uppercase",
+    color: theme.palette.primary.main,
+    letterSpacing: 2,
+    // color: theme.palette.text.primary,
+    // backgroundColor: "#F7F7F7",
   },
-  analyticsText: {
+  textContainer: {
     minWidth: "70%",
   },
 }));
@@ -44,8 +47,8 @@ const AnalyticsText: React.FC<IAnalyticsTitleProps> = (props) => {
 
   return (
     <div className={classes.analyticsContainer} style={flexStyle()}>
-      <Typography className={classes.analyticsTitle}>{title}</Typography>
-      <Typography className={classes.analyticsText}>{text}</Typography>
+      <Typography className={classes.analyticsText}>{title}</Typography>
+      <Typography className={classes.textContainer}>{text}</Typography>
     </div>
   );
 };
