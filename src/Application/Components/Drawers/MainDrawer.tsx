@@ -243,7 +243,7 @@ const MainDrawer = () => {
                         <Typography
                           style={
                             name === selected
-                              ? { color: theme.palette.primary.dark }
+                              ? { color: theme.palette.primary.main }
                               : {}
                           }
                           variant="caption"
@@ -255,20 +255,12 @@ const MainDrawer = () => {
                   </ProjectContextMenu>
                 ) : (
                   <div className={classes.menuItemDiv}>
-                    <div
-                      style={
-                        name === selected
-                          ? { backgroundColor: theme.palette.primary.light }
-                          : {}
-                      }
-                    >
-                      {icon}
-                    </div>
+                    <div>{icon}</div>
                     {expandMainDrawer && (
                       <Typography
                         style={
                           name === selected
-                            ? { color: theme.palette.primary.dark }
+                            ? { color: theme.palette.primary.main }
                             : {}
                         }
                         variant="caption"

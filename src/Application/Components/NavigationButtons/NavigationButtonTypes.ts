@@ -8,6 +8,7 @@ export interface INavigationButtonsProp {
   showSkip?: boolean;
   showNext?: boolean;
   finalAction?: () => void;
+  finalNavIcon?: () => JSX.Element;
   workflowProps?: IWorkflowProcessState;
   workflowProcess?: IAllWorkflowProcesses["wrkflwPrcss"];
   workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];

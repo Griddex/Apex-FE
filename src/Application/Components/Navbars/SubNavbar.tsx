@@ -5,7 +5,6 @@ import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
 import {
   ISubNavbar,
   ISubNavbarData,
@@ -70,9 +69,6 @@ const SubNavbar = ({
   );
 
   const [selected, setMainMenuSelected] = React.useState("");
-  // const handleMenuSelected = (name: string, e: any) => {
-  //   setMainMenuSelected(name);
-  // };
 
   return (
     <AppBar
@@ -98,9 +94,8 @@ const SubNavbar = ({
                   history.push(route);
                 }}
                 startIcon={icon}
-                // endIcon={icon}
                 style={
-                  name === selected ? { color: theme.palette.primary.dark } : {}
+                  name === selected ? { color: theme.palette.primary.main } : {}
                 }
               >
                 <Typography variant="subtitle2">{name}</Typography>

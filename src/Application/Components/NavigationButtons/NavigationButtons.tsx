@@ -52,6 +52,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     showSkip,
     showNext,
     finalAction,
+    finalNavIcon,
     workflowProps,
     workflowProcess,
     workflowCategory,
@@ -143,7 +144,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
         >
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
-              <DoneAllIcon />
+              {finalNavIcon ? finalNavIcon() : <DoneAllIcon />}
               {mainNav && <Typography>{"Finalize"}</Typography>}
             </div>
           ) : (
