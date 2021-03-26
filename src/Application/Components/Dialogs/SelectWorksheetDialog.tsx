@@ -163,7 +163,6 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         <List className={classes.listBorder}>
           {contentList &&
             contentList.map((name: string, i: number) => {
-              const showArdornment = name === selectedListItem;
               return (
                 <ListItem
                   selected={name === selectedListItem}
