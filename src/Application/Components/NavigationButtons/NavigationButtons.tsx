@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContent: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    // alignItems: "center",
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
   },

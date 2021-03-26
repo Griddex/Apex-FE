@@ -177,6 +177,12 @@ theme.overrides = {
       color: "#E0E0E0",
     },
   },
+
+  MuiStepConnector: {
+    line: {
+      borderColor: theme.palette.primary.main,
+    },
+  },
 };
 
 export default theme;

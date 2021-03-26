@@ -1,5 +1,4 @@
 import {
-  ClickAwayListener,
   FormControl,
   IconButton,
   InputAdornment,
@@ -44,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 5,
-    border: `2px solid ${theme.palette.secondary.main}`,
+    height: "100%",
+    border: `1px solid ${theme.palette.secondary.main}`,
     color: theme.palette.secondary.main,
     fontWeight: theme.typography.fontWeightBold,
   },
@@ -83,7 +83,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
-  // const [, setRows] = React.useState(rawRows);
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
 
   const tableRef = React.useRef<HTMLDivElement>(null);
@@ -305,7 +304,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     setTablePagination(pagination);
     setTableHeight(tableHeight);
     setFilteredTableRows(rawRows);
-    // setRows(rawRows);
   }, [noOfTableRows, rawRows]);
 
   const { pageSelect, tableFilter } = tableMetaData;
@@ -326,7 +324,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
               value={tableFilter}
               onChange={handleFilterChange}
               endAdornment={
-                <InputAdornment position="start">
+                <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     edge="end"
@@ -338,28 +336,23 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             />
           </FormControl>
         </Grid>
-        <Grid item container className={classes.mappingErrors}>
-          {mappingErrors && mappingErrors}
-        </Grid>
+        {mappingErrors && (
+          <Grid item container className={classes.mappingErrors}>
+            {mappingErrors}
+          </Grid>
+        )}
         <Grid className={classes.tableButtons} item xs container>
           <TableButtons {...tableButtons} />
         </Grid>
       </Grid>
-      {/* <div style={{ width: "100%", height: "100%" }}> */}
       <DndProvider backend={HTML5Backend}>
         <div
           ref={tableRef}
-          // style={{ width: "100%", height: "100%", minHeight: 400 }}
-          // style={{ width: "100%", height: "100%" }}
           style={{ display: "flex", flexGrow: 1, height: "100%" }}
         >
-          {/* <ClickAwayListener
-            onClickAway={() => onSelectedRowChange && onSelectedRowChange(-1)}
-          > */}
           <ReactDataGrid
             ref={gridRef}
-            // style={{ width: "100%", height: "100%" }}
-            style={{ display: "flex", flexGrow: 1, height: "100%" }}
+            style={{ height: "100%" }}
             rows={sortedRows}
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
@@ -374,10 +367,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             headerRowHeight={tableHeaderHeight}
             rowHeight={tableRowHeight}
           />
-          {/* </ClickAwayListener> */}
         </div>
       </DndProvider>
-      {/* </div> */}
       <div className={classes.tablePagination}>
         <div>Pages</div>
         <SelectEditor

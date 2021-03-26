@@ -219,9 +219,9 @@ const MainDrawer = () => {
                 style={
                   name === selected
                     ? {
-                        backgroundColor: theme.palette.primary.light,
-                        borderLeft: `3px solid ${theme.palette.primary.main}`,
-                        // ":hover":{color:theme.palette.primary.main}
+                        // backgroundColor: theme.palette.primary.light,
+                        // borderLeft: `3px solid ${theme.palette.primary.main}`,
+                        color: theme.palette.primary.main,
                       }
                     : {}
                 }
@@ -233,14 +233,23 @@ const MainDrawer = () => {
                       <div
                         style={
                           name === selected
-                            ? { backgroundColor: theme.palette.primary.light }
+                            ? { color: theme.palette.primary.main }
                             : {}
                         }
                       >
                         {icon}
                       </div>
                       {expandMainDrawer && (
-                        <Typography variant="caption">{name}</Typography>
+                        <Typography
+                          style={
+                            name === selected
+                              ? { color: theme.palette.primary.dark }
+                              : {}
+                          }
+                          variant="caption"
+                        >
+                          {name}
+                        </Typography>
                       )}
                     </div>
                   </ProjectContextMenu>
@@ -256,7 +265,16 @@ const MainDrawer = () => {
                       {icon}
                     </div>
                     {expandMainDrawer && (
-                      <Typography variant="caption">{name}</Typography>
+                      <Typography
+                        style={
+                          name === selected
+                            ? { color: theme.palette.primary.dark }
+                            : {}
+                        }
+                        variant="caption"
+                      >
+                        {name}
+                      </Typography>
                     )}
                   </div>
                 )}
