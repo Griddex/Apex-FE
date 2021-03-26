@@ -348,7 +348,12 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       <DndProvider backend={HTML5Backend}>
         <div
           ref={tableRef}
-          style={{ display: "flex", flexGrow: 1, height: "100%" }}
+          style={{
+            display: "flex",
+            flexGrow: 1,
+            height: "100%",
+            width: "100%",
+          }}
         >
           <ReactDataGrid
             ref={gridRef}
