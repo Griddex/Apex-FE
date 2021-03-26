@@ -92,7 +92,7 @@ export function* saveInputDeckSaga(
   const data = {
     projectId,
     userId: "Gideon",
-    facilitiesInputDeckId: "605335d7201e044744bddd70",
+    facilitiesInputDeckId: "60550537637e480012547bb1",
     title: wp.includes("facilities")
       ? facilitiesInputDeckTitle
       : forecastInputDeckTitle,
