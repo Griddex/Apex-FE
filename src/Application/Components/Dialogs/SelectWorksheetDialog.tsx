@@ -11,7 +11,12 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  Theme,
+  useTheme,
+  withStyles,
+} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
@@ -25,7 +30,6 @@ import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActi
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import SelectionArdorner from "../Ardorners/SelectionArdorner";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
@@ -125,6 +129,7 @@ const DialogActions = withStyles((theme) => ({
 const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const {
     title,
@@ -145,6 +150,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
     (state: RootState) => state.inputReducer["importDataWorkflows"][wp]
   );
+
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
   const SelectWorksheetDialogContent = () => {
@@ -159,21 +165,24 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
             contentList.map((name: string, i: number) => {
               const showArdornment = name === selectedListItem;
               return (
-                <SelectionArdorner key={i} showArdornment={showArdornment}>
-                  <ListItem
-                    selected={name === selectedListItem}
-                    button
-                    onClick={() => {
-                      setSelectedListItem(name);
-                      dispatch(persistWorksheetAction(name, [], wp));
-                    }}
-                  >
-                    <ListItemAvatar>
-                      <DescriptionOutlinedIcon color="primary" />
-                    </ListItemAvatar>
-                    <ListItemText>{name}</ListItemText>
-                  </ListItem>
-                </SelectionArdorner>
+                <ListItem
+                  selected={name === selectedListItem}
+                  button
+                  onClick={() => {
+                    setSelectedListItem(name);
+                    dispatch(persistWorksheetAction(name, [], wp));
+                  }}
+                  style={
+                    name === selectedListItem
+                      ? { border: `2px solid ${theme.palette.primary.main}` }
+                      : {}
+                  }
+                >
+                  <ListItemAvatar>
+                    <DescriptionOutlinedIcon color="primary" />
+                  </ListItemAvatar>
+                  <ListItemText>{name}</ListItemText>
+                </ListItem>
               );
             })}
         </List>
