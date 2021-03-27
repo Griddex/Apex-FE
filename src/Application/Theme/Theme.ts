@@ -182,6 +182,9 @@ theme.overrides = {
     line: {
       borderColor: theme.palette.primary.main,
     },
+    root: {
+      flex: "0 1 auto",
+    },
   },
 };
 

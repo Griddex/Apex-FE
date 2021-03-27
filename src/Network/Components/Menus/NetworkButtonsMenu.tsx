@@ -14,7 +14,7 @@ import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
+import DialogDisplayNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogDisplayNetworkCancelButtons";
 import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
@@ -22,7 +22,7 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import {
-  generateNetworkBySelectionRequestAction,
+  displayNetworkBySelectionRequestAction,
   removeCurrentNetworkAction,
 } from "../../Redux/Actions/NetworkActions";
 
@@ -68,7 +68,7 @@ const NetworkButtonsMenu = () => {
   };
 
   const existingNetworks = () => {
-    const networkGenerationConfirmation = () => {
+    const networkDisplayConfirmation = () => {
       const dialogParameters: DialogStuff = {
         name: "Existing_Network_Dialog",
         title: "Confirm Network Generation",
@@ -77,13 +77,13 @@ const NetworkButtonsMenu = () => {
         exclusive: false,
         maxWidth: "xs",
         iconType: "confirmation",
-        dialogText: `Do you want to generate the 
-          production network diagram with the current parameters?`,
+        dialogText: `Do you want to display the 
+        currently selected  production network diagram?`,
         actionsList: () =>
-          DialogGenerateNetworkCancelButtons(
+          DialogDisplayNetworkCancelButtons(
             [true, true],
             [true, true],
-            [unloadDialogsAction, generateNetworkBySelectionRequestAction]
+            [unloadDialogsAction, displayNetworkBySelectionRequestAction]
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -100,10 +100,10 @@ const NetworkButtonsMenu = () => {
       maxWidth: "lg",
       iconType: "select",
       actionsList: () =>
-        DialogGenerateNetworkCancelButtons(
+        DialogDisplayNetworkCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, networkGenerationConfirmation]
+          [unloadDialogsAction, networkDisplayConfirmation]
         ),
     };
 
