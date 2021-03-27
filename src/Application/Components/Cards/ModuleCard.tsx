@@ -13,21 +13,18 @@ import { setWorkflowProcessAction } from "../../Redux/Actions/WorkflowActions";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
-const cardWidth = 250;
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    width: cardWidth,
-    height: cardWidth * 1.3,
+  root: (props: IModuleCardProps) => {
+    const { cardWidth } = props;
+    const cw = cardWidth ? cardWidth : 250;
+
+    return {
+      width: cw,
+      height: cw * 1.3,
+    };
   },
   cardActionArea: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    height: "60%",
+    height: "100%",
     width: "100%",
     cursor: "pointer ",
   },
@@ -35,13 +32,21 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     fontSize: 18,
   },
-  cardContent: {
+  cardIconTitle: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    height: "60%",
+    width: "100%",
+    padding: 0,
+  },
+  cardDescription: {
     height: "40%",
     width: "100%",
     padding: 0,
     backgroundColor: "#F7F7F7",
   },
-  cardDescription: {
+  cardText: {
     width: "80%",
     margin: "auto",
     marginTop: "5%",
@@ -57,12 +62,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IModuleCardProps {
-  isDispatched?: boolean;
-  moduleAction: () => IAction | void;
   icon: JSX.Element;
   name: string;
   description: string;
   route: string;
+  isDispatched?: boolean;
+  moduleAction: () => IAction | void;
+  cardWidth?: number;
   wP: IAllWorkflowProcesses["wrkflwPrcss"] | IExistingDataProps["wkPs"];
   wC: IAllWorkflowProcesses["wrkflwCtgry"] | IExistingDataProps["wkCy"];
 }
@@ -79,7 +85,7 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
     wC,
   } = props;
 
-  const classes = useStyles();
+  const classes = useStyles(props);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -90,31 +96,35 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         onClick={() => {
           dispatch(setWorkflowProcessAction(wP, wC));
           dispatch(workflowSetMenuAction(name));
+
           if (isDispatched) dispatch(moduleAction());
           else moduleAction();
+
           dispatch(showContextDrawerAction());
           history.push(route);
         }}
       >
-        {icon}
-        <Typography
-          className={classes.name}
-          gutterBottom
-          variant="h5"
-          component="h2"
-        >
-          {name}
-        </Typography>
-        <CardContent className={classes.cardContent}>
+        <div className={classes.cardIconTitle}>
+          {icon}
           <Typography
-            className={classes.cardDescription}
+            className={classes.name}
+            gutterBottom
+            variant="h5"
+            component="h2"
+          >
+            {name}
+          </Typography>
+        </div>
+        <div className={classes.cardDescription}>
+          <Typography
+            className={classes.cardText}
             variant="body2"
             color="textSecondary"
             component="p"
           >
             {description}
           </Typography>
-        </CardContent>
+        </div>
       </CardActionArea>
     </Card>
   );
