@@ -28,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     cursor: "pointer ",
   },
-  name: {
+  title: {
+    display: "flex",
+    justifyContent: "center",
     width: "100%",
   },
   cardIconTitle: {
@@ -67,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IModuleCardProps {
   icon: JSX.Element;
-  name: string;
+  title: string;
   description: string;
   route: string;
   isDispatched?: boolean;
@@ -82,7 +84,7 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
     isDispatched,
     moduleAction,
     icon,
-    name,
+    title,
     description,
     route,
     wP,
@@ -99,7 +101,7 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         className={classes.cardActionArea}
         onClick={() => {
           dispatch(setWorkflowProcessAction(wP, wC));
-          dispatch(workflowSetMenuAction(name));
+          dispatch(workflowSetMenuAction(title));
 
           if (isDispatched) dispatch(moduleAction());
           else moduleAction();
@@ -110,10 +112,8 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
       >
         <div className={classes.cardIconTitle}>
           {icon}
-          <div className={classes.name}>
-            <Typography variant="h5" component="h2">
-              {name}
-            </Typography>
+          <div className={classes.title}>
+            <Typography variant="h6">{title}</Typography>
           </div>
         </div>
         <div className={classes.cardDescription}>
