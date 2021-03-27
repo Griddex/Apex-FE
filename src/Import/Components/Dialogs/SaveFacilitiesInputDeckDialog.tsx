@@ -91,7 +91,7 @@ const DialogContent = withStyles((theme) => ({
 
 const SaveFacilitiesInputDeckDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, children } = props;
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   return (
     <Dialog

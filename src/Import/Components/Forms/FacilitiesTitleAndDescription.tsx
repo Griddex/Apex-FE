@@ -11,8 +11,7 @@ const FacilitiesTitleAndDescription = ({
   errors,
   touched,
   handleChange,
-}: // handleBlur,
-INewFacilitiesInputDeckWorkflowProps) => {
+}: INewFacilitiesInputDeckWorkflowProps) => {
   const dispatch = useDispatch();
 
   const helperText =
@@ -20,11 +19,13 @@ INewFacilitiesInputDeckWorkflowProps) => {
       ? errors && errors.facilitiesInputDeckTitle
       : "";
 
-  const handleBlur = (event: ChangeEvent<any>) => {
+  const handleTitleDescChange = (event: ChangeEvent<any>) => {
+    handleChange && handleChange(event);
     const { name, value } = event.target;
 
     dispatch(workflowReInitAction(name, value));
   };
+
   return (
     <div>
       <AnalyticsComp
@@ -38,8 +39,7 @@ INewFacilitiesInputDeckWorkflowProps) => {
             helperText={helperText}
             error={Boolean(helperText)}
             value={facilitiesInputDeckTitle}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={handleTitleDescChange}
             required
             autoFocus
             fullWidth
