@@ -18,6 +18,7 @@ import React, { ReactNode } from "react";
 import { useDispatch } from "react-redux";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -84,7 +86,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>

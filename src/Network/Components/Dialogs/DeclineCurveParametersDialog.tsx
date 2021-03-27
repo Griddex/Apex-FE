@@ -5,18 +5,14 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
-import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
-import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import DeclineCurveParameters from "../../Routes/DeclineCurveParameters";
-import SaveForecastParametersWorkflow from "../../Workflows/SaveForecastParametersWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -90,7 +87,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>

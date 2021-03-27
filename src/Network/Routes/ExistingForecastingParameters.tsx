@@ -174,7 +174,6 @@ export default function ExistingForecastingParameters({
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const [, setRerender] = React.useState(false);
   const ApexCheckboxColumn = apexCheckbox({
     shouldExecute: true,
     shouldDispatch: false,

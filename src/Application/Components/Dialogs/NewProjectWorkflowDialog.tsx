@@ -29,6 +29,7 @@ import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowSt
 import { DialogStuff } from "./DialogTypes";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import DialogSaveCancelButtons from "../DialogButtons/DialogSaveCancelButtons";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -84,7 +86,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>

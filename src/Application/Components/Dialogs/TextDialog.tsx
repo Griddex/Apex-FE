@@ -10,6 +10,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { DialogStuff } from "./DialogTypes";
@@ -53,6 +54,7 @@ const useDialogTitleStyles = makeStyles((theme: Theme) => ({
 
 const TextDialogTitle: React.FC<DialogStuff> = (props) => {
   const classes = useDialogTitleStyles(props);
+  const dispatch = useDispatch();
   const { iconType, children, onClose, ...other } = props;
 
   return (
@@ -66,7 +68,10 @@ const TextDialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>
