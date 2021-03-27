@@ -7,7 +7,8 @@ const useStyles = makeStyles((theme) => ({
   analyticsTitle: {
     borderStyle: "solid",
     borderColor: theme.palette.primary.main,
-    borderLeftWidth: 2,
+    borderLeftWidth: 0,
+    // borderLeftWidth: 2,
     borderRightWidth: 0,
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
     textTransform: "uppercase",
     color: theme.palette.primary.main,
-    letterSpacing: 2,
+    letterSpacing: 1,
+    fontSize: 12,
   },
 }));
 
