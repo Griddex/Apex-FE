@@ -23,13 +23,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.25),
     height: props.mainNav ? 30 : 30,
-    width: props.mainNav ? 80 : 40,
+    width: props.mainNav ? 90 : 40,
   }),
   buttonContent: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
+    width: "100%",
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
   },
@@ -155,10 +156,10 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             </div>
           ) : (
             <div className={classes.buttonContent}>
+              <div>{mainNav && <Typography>{"Next"}</Typography>}</div>
               <div>
                 <ArrowForwardIosIcon />
               </div>
-              <div>{mainNav && <Typography>{"Next"}</Typography>}</div>
             </div>
           )}
         </Button>

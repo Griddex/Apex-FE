@@ -219,8 +219,6 @@ const MainDrawer = () => {
                 style={
                   name === selected
                     ? {
-                        // backgroundColor: theme.palette.primary.light,
-                        // borderLeft: `3px solid ${theme.palette.primary.main}`,
                         color: theme.palette.primary.main,
                       }
                     : {}
