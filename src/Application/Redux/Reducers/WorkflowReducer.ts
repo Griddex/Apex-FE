@@ -7,6 +7,7 @@ import {
   BACK_WORKFLOW,
   SKIP_WORKFLOW,
   SAVE_WORKFLOW,
+  REINITIALIZE_WORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
 import {
@@ -14,6 +15,7 @@ import {
   IWorkflowState,
 } from "../State/WorkflowStateTypes";
 import { IAction } from "./../Actions/ActionTypes";
+import set from "lodash.set";
 
 const workflowReducer = (state = workflowState, action: IAction) => {
   switch (action.type) {
@@ -22,6 +24,13 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         ...state,
         currentWorkflowProcess: action.payload.workflowProcess,
       };
+
+    case REINITIALIZE_WORKFLOW: {
+      const { path, value } = action.payload;
+
+      const updatedState = set(state, path, value);
+      return updatedState;
+    }
 
     case INITIALIZE_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;

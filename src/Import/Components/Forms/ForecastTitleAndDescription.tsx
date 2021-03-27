@@ -2,7 +2,7 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { updateInputAction } from "../../Redux/Actions/ImportActions";
+import { workflowReInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
 const ForecastTitleAndDescription = ({
@@ -21,7 +21,7 @@ const ForecastTitleAndDescription = ({
 
   const handleBlur = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-    dispatch(updateInputAction(name, value));
+    dispatch(workflowReInitAction(name, value));
   };
 
   return (
