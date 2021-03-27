@@ -45,10 +45,10 @@ const useStyles = makeStyles((theme) => ({
     width: "80%",
     margin: "auto",
     marginTop: "5%",
-    paddingLeft: 7,
+    paddingLeft: 0,
     borderStyle: "solid",
     borderColor: theme.palette.primary.main,
-    borderLeftWidth: 2,
+    borderLeftWidth: 0,
     borderRightWidth: 0,
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -105,17 +105,17 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         >
           {name}
         </Typography>
+        <CardContent className={classes.cardContent}>
+          <Typography
+            className={classes.cardDescription}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            {description}
+          </Typography>
+        </CardContent>
       </CardActionArea>
-      <CardContent className={classes.cardContent}>
-        <Typography
-          className={classes.cardDescription}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          {description}
-        </Typography>
-      </CardContent>
     </Card>
   );
 };

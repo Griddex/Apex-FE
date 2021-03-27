@@ -7,20 +7,10 @@ const useStyles = makeStyles(() => ({
   networkPanel: {
     display: "flex",
     flexDirection: "column",
-    // alignItems: "flex-start",
-    // justifyContent: "flex-start",
     height: "100%",
-    // border: "1px solid #C4C4C4",
     width: "100%",
-    // overflow: "auto",
   },
 }));
-
-// export interface WellheadWidgetProps {
-//   model: any;
-//   color?: string;
-//   name?: string;
-// }
 
 const NetworkPanel = () => {
   const classes = useStyles();
@@ -46,7 +36,7 @@ const NetworkPanel = () => {
 
   return (
     <>
-      <AnalyticsTitle title="Network Diagram Panel" />
+      <AnalyticsTitle title="Network Nodes" />
       <div className={classes.networkPanel}>{renderNetworkPanel()}</div>
     </>
   );
