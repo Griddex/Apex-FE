@@ -70,10 +70,6 @@ function* runForecastSaga(
       const data = yield take(chan);
       const successAction = runForecastSuccessAction();
       if (Object.keys(data)[0] === "keys") {
-        console.log(
-          "Logged output --> ~ file: RunForecastSaga.ts ~ line 75 ~",
-          data["keys"]
-        );
         yield put({
           ...successAction,
           payload: {
