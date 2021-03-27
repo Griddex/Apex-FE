@@ -26,7 +26,7 @@ import { IAllWorkflowProcesses } from "../../../../Application/Components/Workfl
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import getMappingErrors from "../../../../Application/Utils/GetMappingErrors";
+import getDuplicates from "../../../../Application/Utils/GetDuplicates";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationHeadersAction,
@@ -327,10 +327,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         resizable: true,
         formatter: ({ row }) => {
           const checked = row.exclude as boolean;
-          console.log(
-            "Logged output --> ~ file: MatchHeaders.tsx ~ line 330 ~ MatchHeaders ~ checked",
-            checked
-          );
 
           return (
             <ApexMuiSwitch
@@ -403,7 +399,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     tableRows.current = modifiedRows;
   };
 
-  // const rows = tableRows.current;
   const [rows, setRows] = React.useState(tableRows.current);
 
   const chosenApplicationHeaders = getChosenApplicationHeaders(
@@ -418,7 +413,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     );
     const tableHeaders = omit(columnNames, ["SN", "NAMES"]) as string[];
     dispatch(persistTableHeadersAction(tableHeaders, wp));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -441,7 +435,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     );
 
     dispatch(hideSpinnerAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, rows]);
 
   return (
@@ -455,7 +448,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           rows={rows}
           tableButtons={tableButtons}
           onRowsChange={setRows}
-          mappingErrors={getMappingErrors(chosenApplicationHeaders)}
+          mappingErrors={getDuplicates(chosenApplicationHeaders)}
         />
       </div>
     </div>

@@ -1,9 +1,11 @@
 import {
+  Box,
   FormControl,
   IconButton,
   InputAdornment,
   makeStyles,
   OutlinedInput,
+  Tooltip,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
@@ -19,6 +21,7 @@ import ReactDataGrid, {
 } from "react-data-griddex";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import TableMappingErrors from "../../Errors/TableMappingErrors";
 import TableButtons from "../TableButtons";
 import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
@@ -297,7 +300,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   }
 
   React.useEffect(() => {
-    const tableHeight = tableRef?.current?.clientHeight || 600;
+    const tableHeight = tableRef?.current?.clientHeight || 550;
     const pagination = Math.round(
       noOfTableRows / (tableHeight / tableRowHeight)
     );
@@ -337,9 +340,25 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           </FormControl>
         </Grid>
         {mappingErrors && (
-          <Grid item container className={classes.mappingErrors}>
-            {mappingErrors}
-          </Grid>
+          <Tooltip
+            title={<TableMappingErrors errors={mappingErrors} />}
+            placement="top"
+            arrow
+            interactive
+            leaveDelay={10000}
+            leaveTouchDelay={0}
+          >
+            <Box
+              fontSize="h5.fontSize"
+              component="div"
+              overflow="hidden"
+              whiteSpace="pre-line"
+              textOverflow="ellipsis"
+              className={classes.mappingErrors}
+            >
+              {`Duplicates: ${mappingErrors.join(", ")}`}
+            </Box>
+          </Tooltip>
         )}
         <Grid className={classes.tableButtons} item xs container>
           <TableButtons {...tableButtons} />

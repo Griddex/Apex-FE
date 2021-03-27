@@ -199,7 +199,13 @@ const MainDrawer = () => {
           const { name, route, icon } = drawerData;
 
           return (
-            <Tooltip key={name} title={name} placement="right" arrow>
+            <Tooltip
+              key={name}
+              title={name}
+              placement="right"
+              arrow
+              leaveTouchDelay={0}
+            >
               <MenuItem
                 className={clsx(
                   classes.menuItem,

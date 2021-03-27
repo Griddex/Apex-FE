@@ -79,14 +79,14 @@ const LandingRoute = () => {
         >
           Proceed
         </Button>
-        <Button
+        {/* <Button
           className={classes.buttonReg}
           variant="contained"
           color="primary"
           onClick={() => history.push("/register")}
         >
           Register
-        </Button>
+        </Button> */}
       </Grid>
     </Grid>
   );

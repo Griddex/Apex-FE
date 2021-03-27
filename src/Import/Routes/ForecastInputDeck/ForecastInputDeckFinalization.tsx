@@ -1,4 +1,4 @@
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
 import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
@@ -6,7 +6,6 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import {
   ButtonProps,
@@ -21,28 +20,17 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
 import { IAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    height: 350,
-    width: "100%",
-    marginLeft: 5,
-  },
+const useStyles = makeStyles(() => ({
   dialogButtons: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-between",
     height: 300,
     width: "100%",
     "& > *": {
-      height: 50,
-      // width: 0.98 * theme.breakpoints.width("md"),
-      width: "95%",
-      // boxShadow: theme.shadows[1],
-      // border: `1px solid ${theme.palette.primary.main}`,
+      height: 120,
+      width: "45%",
     },
   },
 }));
@@ -64,9 +52,6 @@ const ForecastInputDeckFinalization = ({
   );
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
-  );
-  const { facilitiesInputDeckTitle } = useSelector(
-    (state: RootState) => state.inputReducer
   );
 
   if (success) {
@@ -196,25 +181,18 @@ const ForecastInputDeckFinalization = ({
   ];
 
   return (
-    <div className={classes.root}>
-      <AnalyticsComp
-        title="Associated Facilities Deck"
-        direction="Vertical"
-        content={<Typography>{facilitiesInputDeckTitle}</Typography>}
-      />
-      <div className={classes.dialogButtons}>
-        {buttonsData.map((button, i) => (
-          <Button
-            key={i}
-            variant={button.variant}
-            color={button.color}
-            onClick={button.handleAction}
-            startIcon={button.startIcon}
-          >
-            {button.title}
-          </Button>
-        ))}
-      </div>
+    <div className={classes.dialogButtons}>
+      {buttonsData.map((button, i) => (
+        <Button
+          key={i}
+          variant={button.variant}
+          color={button.color}
+          onClick={button.handleAction}
+          startIcon={button.startIcon}
+        >
+          {button.title}
+        </Button>
+      ))}
     </div>
   );
 };
