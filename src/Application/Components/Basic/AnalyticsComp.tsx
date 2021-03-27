@@ -65,8 +65,8 @@ const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
       className={classes.analyticsComp}
       style={{ ...flexStyle(), ...containerStyle }}
     >
-      <div className={classes.analyticsTitle} style={titleStyle}>
-        <Typography>{title}</Typography>
+      <div style={titleStyle}>
+        <Typography className={classes.analyticsTitle}>{title}</Typography>
       </div>
       <div style={{ width: "100%", ...contentStyle }}>{content}</div>
     </div>
