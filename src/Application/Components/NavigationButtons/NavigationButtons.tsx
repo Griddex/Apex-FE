@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
   button: (props: INavigationButtonsProp) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.25),
-    height: props.mainNav ? 40 : 30,
-    width: props.mainNav ? 80 : 30,
+    height: props.mainNav ? 30 : 30,
+    width: props.mainNav ? 80 : 40,
   }),
   buttonContent: {
     display: "flex",
