@@ -19,9 +19,12 @@ import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { INavigationButtonsProp } from "./NavigationButtonTypes";
 
 const useStyles = makeStyles((theme) => ({
-  button: {
+  button: (props: INavigationButtonsProp) => ({
     marginRight: theme.spacing(1),
-  },
+    padding: theme.spacing(0.25),
+    height: props.mainNav ? 40 : 30,
+    width: props.mainNav ? 80 : 30,
+  }),
   buttonContent: {
     display: "flex",
     flexDirection: "row",
@@ -30,16 +33,11 @@ const useStyles = makeStyles((theme) => ({
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
   },
-  navigationbuttons: (props: INavigationButtonsProp) => ({
+  navigationbuttons: {
     display: "flex",
     justifyContent: "center",
     width: "100%",
-    "& > *": {
-      padding: theme.spacing(0.25),
-      height: props.mainNav ? 40 : 30,
-      width: props.mainNav ? 80 : 35,
-    },
-  }),
+  },
 }));
 
 type isStepSkippedType = (step: number) => boolean;
