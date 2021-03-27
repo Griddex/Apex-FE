@@ -25,12 +25,10 @@ const useStyles = makeStyles((theme) => ({
   buttonContent: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
-    width: 80,
-    height: 35,
   },
   navigationbuttons: (props: INavigationButtonsProp) => ({
     display: "flex",
@@ -39,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       padding: theme.spacing(0.25),
       height: props.mainNav ? 40 : 30,
-      width: props.mainNav ? 50 : 35,
+      width: props.mainNav ? 80 : 35,
     },
   }),
 }));
@@ -53,6 +51,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     showBack,
     showSkip,
     showNext,
+    nextDisabled,
     finalAction,
     finalNavIcon,
     workflowProps,
@@ -133,6 +132,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           className={classes.button}
           variant="contained"
           color="primary"
+          disabled={nextDisabled}
           onClick={() => {
             activeStep === steps.length - 1
               ? finalAction && finalAction()
