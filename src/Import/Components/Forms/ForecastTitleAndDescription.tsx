@@ -2,7 +2,7 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { workflowReInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
+import { updateInputAction } from "../../Redux/Actions/ImportActions";
 import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
 const ForecastTitleAndDescription = ({
@@ -19,9 +19,10 @@ const ForecastTitleAndDescription = ({
       ? errors && errors.forecastInputDeckTitle
       : "";
 
-  const handleBlur = (event: ChangeEvent<any>) => {
+  const handleTitleDescChange = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-    dispatch(workflowReInitAction(name, value));
+
+    dispatch(updateInputAction(name, value));
   };
 
   return (
@@ -37,8 +38,7 @@ const ForecastTitleAndDescription = ({
             helperText={helperText}
             error={Boolean(helperText)}
             value={forecastInputDeckTitle}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={handleTitleDescChange}
             required
             autoFocus
             fullWidth
@@ -56,7 +56,6 @@ const ForecastTitleAndDescription = ({
             rowsMin={20}
             value={forecastInputDeckDescription}
             onChange={handleChange}
-            onBlur={handleBlur}
           />
         }
       />
