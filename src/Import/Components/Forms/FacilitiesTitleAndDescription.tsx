@@ -57,7 +57,6 @@ const FacilitiesTitleAndDescription = ({
             rowsMin={20}
             value={facilitiesInputDeckDescription}
             onChange={handleChange}
-            onBlur={handleBlur}
           />
         }
       />
