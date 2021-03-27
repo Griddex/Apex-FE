@@ -140,7 +140,7 @@ const UploadFile = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
             if (workSheetNames.length > 1) {
               const dialogParameters: DialogStuff = {
                 name: "Excel_Worksheet_Selection_Dialog",
-                title: "Excel Worksheet Selection",
+                title: "Select Worksheet",
                 type: "selectWorksheetDialog",
                 show: true,
                 exclusive: true,

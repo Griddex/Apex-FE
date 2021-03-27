@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogIcons from "../Icons/DialogIcons";
@@ -83,6 +84,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -99,7 +101,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>
@@ -244,17 +249,22 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       },
     ];
 
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        startIcon={button.startIcon}
-        onClick={button.handleAction}
-      >
-        {button.title}
-      </Button>
-    ));
+    return buttonsData.map((button, i) => {
+      const { variant, color, startIcon, handleAction, title } = button;
+
+      return (
+        <Button
+          key={i}
+          variant={variant}
+          color={color}
+          startIcon={startIcon}
+          onClick={handleAction}
+          disabled={title === "Okay" && (selectedListItem ? false : true)}
+        >
+          {title}
+        </Button>
+      );
+    });
   };
 
   return (

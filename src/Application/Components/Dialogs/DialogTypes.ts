@@ -93,7 +93,7 @@ export interface DialogStuff {
   contentText?: string;
   contentList?: Record<string, any>;
   actionsList?: (() => JSX.Element) | (() => JSX.Element[]);
-  onClose?: () => unknown;
+  onClose?: () => void;
   classes?: Record<string, string>;
   dialogData?: IDialogData<IRawRow>;
   children?: JSX.Element | JSX.Element[];
