@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     // width: "100%",
 
     textTransform: "uppercase",
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.dark,
     letterSpacing: 1,
     fontSize: 12,
   },

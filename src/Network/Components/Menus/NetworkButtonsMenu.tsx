@@ -71,7 +71,7 @@ const NetworkButtonsMenu = () => {
     const networkDisplayConfirmation = () => {
       const dialogParameters: DialogStuff = {
         name: "Existing_Network_Dialog",
-        title: "Confirm Network Generation",
+        title: "Confirm Network Display",
         type: "textDialog",
         show: true,
         exclusive: false,
