@@ -30,19 +30,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: "bold",
   },
-  // analyticsTitle: {
-  //   borderStyle: "solid",
-  //   borderColor: theme.palette.primary.main,
-  //   borderLeftWidth: 2,
-  //   borderRightWidth: 0,
-  //   borderTopWidth: 0,
-  //   borderBottomWidth: 0,
-  //   paddingLeft: 5,
-  //   lineHeight: "100%",
-  //   marginBottom: theme.spacing(1),
-  //   color: theme.palette.text.primary,
-  //   backgroundColor: "#F7F7F7",
-  // },
 }));
 
 interface IAnalyticsCompProps {

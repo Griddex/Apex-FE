@@ -1,4 +1,4 @@
-import { Checkbox, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import findIndex from "lodash.findindex";
@@ -11,10 +11,7 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import {
-  IDeclineCurveParametersDetail,
-  IForecastingParametersRow,
-} from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import { IDeclineCurveParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
 
@@ -130,20 +127,20 @@ export default function DeclineCurveParameters({
         ),
         width: 120,
       },
-      {
-        key: "forecastVersion",
-        name: "FORECAST VERSION",
-        editable: false,
-        resizable: true,
-        minWidth: 250,
-      },
-      {
-        key: "asset",
-        name: "ASSET",
-        editable: false,
-        resizable: true,
-        minWidth: 200,
-      },
+      // {
+      //   key: "forecastVersion",
+      //   name: "FORECAST VERSION",
+      //   editable: false,
+      //   resizable: true,
+      //   minWidth: 250,
+      // },
+      // {
+      //   key: "asset",
+      //   name: "ASSET",
+      //   editable: false,
+      //   resizable: true,
+      //   minWidth: 200,
+      // },
       {
         key: "field",
         name: "FIELD",
@@ -151,21 +148,21 @@ export default function DeclineCurveParameters({
         resizable: true,
         minWidth: 200,
       },
-      {
-        key: "reservoir",
-        name: "RESERVOIR",
-        editable: false,
-        resizable: true,
-        minWidth: 200,
-      },
+      // {
+      //   key: "reservoir",
+      //   name: "RESERVOIR",
+      //   editable: false,
+      //   resizable: true,
+      //   minWidth: 200,
+      // },
 
-      {
-        key: "drainagePoint",
-        name: "DRAINAGE POINT",
-        editable: false,
-        resizable: true,
-        minWidth: 250,
-      },
+      // {
+      //   key: "drainagePoint",
+      //   name: "DRAINAGE POINT",
+      //   editable: false,
+      //   resizable: true,
+      //   minWidth: 250,
+      // },
       {
         key: "string",
         name: "STRING",
