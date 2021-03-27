@@ -26,9 +26,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    // alignItems: "center",
+    alignItems: "center",
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
+    width: 80,
+    height: 35,
   },
   navigationbuttons: (props: INavigationButtonsProp) => ({
     display: "flex",
@@ -83,8 +85,10 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           }
         >
           <div className={classes.buttonContent}>
-            <RotateLeftIcon />
-            {mainNav && <Typography>{"Reset"}</Typography>}
+            <div>
+              <RotateLeftIcon />
+            </div>
+            <div>{mainNav && <Typography>{"Reset"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -99,8 +103,10 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           }
         >
           <div className={classes.buttonContent}>
-            <ArrowBackIosIcon />
-            {mainNav && <Typography>{"Back"}</Typography>}
+            <div>
+              <ArrowBackIosIcon />
+            </div>
+            <div>{mainNav && <Typography>{"Back"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -115,8 +121,10 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           }
         >
           <div className={classes.buttonContent}>
-            <SkipNextOutlinedIcon />
-            {mainNav && <Typography>{"Skip"}</Typography>}
+            <div>
+              <SkipNextOutlinedIcon />
+            </div>
+            <div>{mainNav && <Typography>{"Skip"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -144,13 +152,15 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
         >
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
-              {finalNavIcon ? finalNavIcon() : <DoneAllIcon />}
-              {mainNav && <Typography>{"Finalize"}</Typography>}
+              <div>{finalNavIcon ? finalNavIcon() : <DoneAllIcon />}</div>
+              <div>{mainNav && <Typography>{"Finalize"}</Typography>}</div>
             </div>
           ) : (
             <div className={classes.buttonContent}>
-              <ArrowForwardIosIcon />
-              {mainNav && <Typography>{"Next"}</Typography>}
+              <div>
+                <ArrowForwardIosIcon />
+              </div>
+              <div>{mainNav && <Typography>{"Next"}</Typography>}</div>
             </div>
           )}
         </Button>
