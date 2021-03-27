@@ -20,6 +20,7 @@ const ForecastTitleAndDescription = ({
       : "";
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
+    handleChange && handleChange(event);
     const { name, value } = event.target;
 
     dispatch(updateInputAction(name, value));
