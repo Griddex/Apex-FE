@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
   },
   name: {
     width: "100%",
-    fontSize: 18,
   },
   cardIconTitle: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-evenly",
+    alignItems: "center",
     height: "60%",
     width: "100%",
     padding: 0,
@@ -106,14 +106,11 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
       >
         <div className={classes.cardIconTitle}>
           {icon}
-          <Typography
-            className={classes.name}
-            gutterBottom
-            variant="h5"
-            component="h2"
-          >
-            {name}
-          </Typography>
+          <div className={classes.name}>
+            <Typography variant="h5" component="h2">
+              {name}
+            </Typography>
+          </div>
         </div>
         <div className={classes.cardDescription}>
           <Typography
