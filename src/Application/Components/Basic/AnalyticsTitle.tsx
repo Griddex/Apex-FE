@@ -14,9 +14,13 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 5,
     lineHeight: "100%",
     marginBottom: theme.spacing(1),
-    color: theme.palette.text.primary,
-    backgroundColor: "#F7F7F7",
-    width: "100%",
+    // color: theme.palette.text.primary,
+    // backgroundColor: "#F7F7F7",
+    // width: "100%",
+
+    textTransform: "uppercase",
+    color: theme.palette.primary.main,
+    letterSpacing: 2,
   },
 }));
 
