@@ -11,7 +11,12 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  Theme,
+  useTheme,
+  withStyles,
+} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
@@ -23,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogIcons from "../Icons/DialogIcons";
@@ -78,6 +84,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -94,7 +101,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>
@@ -124,6 +134,7 @@ const DialogActions = withStyles((theme) => ({
 const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const {
     title,
@@ -144,6 +155,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
     (state: RootState) => state.inputReducer["importDataWorkflows"][wp]
   );
+
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
   const SelectWorksheetDialogContent = () => {
@@ -155,22 +167,29 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         </Typography>
         <List className={classes.listBorder}>
           {contentList &&
-            contentList.map((name: string, i: number) => (
-              <ListItem
-                key={i}
-                selected={name === selectedListItem}
-                button
-                onClick={() => {
-                  setSelectedListItem(name);
-                  dispatch(persistWorksheetAction(name, [], wp));
-                }}
-              >
-                <ListItemAvatar>
-                  <DescriptionOutlinedIcon color="primary" />
-                </ListItemAvatar>
-                <ListItemText>{name}</ListItemText>
-              </ListItem>
-            ))}
+            contentList.map((name: string, i: number) => {
+              return (
+                <ListItem
+                  key={i}
+                  selected={name === selectedListItem}
+                  button
+                  onClick={() => {
+                    setSelectedListItem(name);
+                    dispatch(persistWorksheetAction(name, [], wp));
+                  }}
+                  style={
+                    name === selectedListItem
+                      ? { border: `2px solid ${theme.palette.primary.main}` }
+                      : {}
+                  }
+                >
+                  <ListItemAvatar>
+                    <DescriptionOutlinedIcon color="primary" />
+                  </ListItemAvatar>
+                  <ListItemText>{name}</ListItemText>
+                </ListItem>
+              );
+            })}
         </List>
       </div>
     );
@@ -230,17 +249,22 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       },
     ];
 
-    return buttonsData.map((button, i) => (
-      <Button
-        key={i}
-        variant={button.variant}
-        color={button.color}
-        startIcon={button.startIcon}
-        onClick={button.handleAction}
-      >
-        {button.title}
-      </Button>
-    ));
+    return buttonsData.map((button, i) => {
+      const { variant, color, startIcon, handleAction, title } = button;
+
+      return (
+        <Button
+          key={i}
+          variant={variant}
+          color={color}
+          startIcon={startIcon}
+          onClick={handleAction}
+          disabled={title === "Okay" && (selectedListItem ? false : true)}
+        >
+          {title}
+        </Button>
+      );
+    });
   };
 
   return (

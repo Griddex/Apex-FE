@@ -8,10 +8,9 @@ import { useSelector } from "react-redux";
 import Approvers from "../../Application/Components/Approvers/Approvers";
 import { IApprover } from "../../Application/Components/Approvers/ApproversTypes";
 import Author from "../../Application/Components/Author/Author";
-import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import MainTitle from "../../Application/Components/Basic/MainTitle";
-import Status from "../../Application/Components/Status/Status";
+import Approval from "../../Application/Components/Approval/Approval";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import formatDate from "../../Application/Utils/FormatDate";
 import {
@@ -20,6 +19,8 @@ import {
   kerryImg,
   shirleyImg,
 } from "./../../Import/Utils/iconImages";
+import { ApprovalTextType } from "../../Application/Components/Approval/ApprovalTypes";
+import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -91,10 +92,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type StatusTextType = "Existing" | "Pending" | "Returned" | string;
 export interface IForecastDetail {
   titleName: string;
-  statusText: StatusTextType;
+  approvalText: ApprovalTextType;
   author: IAuthor;
   approvers?: IApprover[] | string;
   createdOn: string;
@@ -115,7 +115,7 @@ const ForecastRunDetail = () => {
   const forecastDetails: Record<string, IForecastDetail> = {
     ForecastRun_1: {
       titleName: "ForecastRun_1",
-      statusText: "Existing",
+      approvalText: "Existing",
       author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
       approvers: [
         { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -127,7 +127,7 @@ const ForecastRunDetail = () => {
     },
     ForecastRun_2: {
       titleName: "ForecastRun_2",
-      statusText: "Pending",
+      approvalText: "Pending",
       author: { avatarUrl: glenImg, name: "Glen Moore John III" },
       approvers: [{ avatarUrl: anitaImg, name: "Anita Stragan" }],
       createdOn: formatDate(new Date(2018, 2, 20)),
@@ -135,7 +135,7 @@ const ForecastRunDetail = () => {
     },
     ForecastRun_3: {
       titleName: "ForecastRun_1",
-      statusText: "Existing",
+      approvalText: "Existing",
       author: { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
       approvers: [
         { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -148,7 +148,7 @@ const ForecastRunDetail = () => {
 
   const {
     titleName,
-    statusText,
+    approvalText,
     author,
     approvers,
     createdOn,
@@ -189,8 +189,8 @@ const ForecastRunDetail = () => {
       Content: () => <Name />,
     },
     {
-      Title: () => <AnalyticsTitle title="Status" />,
-      Content: () => <Status statusText={statusText} />,
+      Title: () => <AnalyticsTitle title="Approval" />,
+      Content: () => <Approval approvalText={approvalText} />,
     },
     {
       Title: () => <AnalyticsTitle title="Author" />,

@@ -124,27 +124,27 @@ const ExcelWorkflow = ({
         return <SelectSheet {...props} />;
       case 2:
         return (
-          <TabsWrapper>
-            <SelectHeaderUnitData {...props} />
-          </TabsWrapper>
+          // <TabsWrapper>
+          <SelectHeaderUnitData {...props} />
+          // </TabsWrapper>
         );
       case 3:
         return (
-          <TabsWrapper>
-            <MatchHeaders {...props} />
-          </TabsWrapper>
+          // <TabsWrapper>
+          <MatchHeaders {...props} />
+          // </TabsWrapper>
         );
       case 4:
         return (
-          <TabsWrapper>
-            <MatchUnits {...props} />
-          </TabsWrapper>
+          // <TabsWrapper>
+          <MatchUnits {...props} />
+          // </TabsWrapper>
         );
       case 5:
         return (
-          <TabsWrapper>
-            <PreviewSave {...props} />
-          </TabsWrapper>
+          // <TabsWrapper>
+          <PreviewSave {...props} />
+          // </TabsWrapper>
         );
       default:
         return <h1>End</h1>;

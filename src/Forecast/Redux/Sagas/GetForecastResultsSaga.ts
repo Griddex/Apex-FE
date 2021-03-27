@@ -81,26 +81,14 @@ function* getForecastResultsSaga(
   };
 
   try {
-    while (true) {
-      const chan = yield call(updateForecastResults, url, reqPayload);
+    const chan = yield call(updateForecastResults, url, reqPayload);
 
+    while (true) {
       const forecastResultsChunk = yield take(chan);
-      console.log(
-        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 88 ~ forecastResultsChunk",
-        forecastResultsChunk
-      );
       const { forecastResults } = yield select(
         (state) => state.forecastReducer
       );
-      console.log(
-        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 93 ~ forecastResults",
-        forecastResults
-      );
       const newForecastResults = [...forecastResults, forecastResultsChunk];
-      console.log(
-        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 90 ~ newForecastResults",
-        newForecastResults
-      );
 
       const successAction = getForecastResultsSuccessAction();
       yield put({
@@ -142,10 +130,6 @@ function updateForecastResults(url: string, reqPayload: any) {
       disableContentType: true,
       withCredentials: false,
       success: function (chunk) {
-        console.log(
-          "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 145 ~ returneventChannel ~ chunk",
-          chunk
-        );
         emitter(chunk);
       },
       error: function (chunk) {

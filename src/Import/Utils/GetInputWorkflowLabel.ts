@@ -11,6 +11,10 @@ export const getInputWorkflowlabel: {
   forecastInputDeckExcel: "Forecast InputDeck",
   forecastInputDeckDatabase: "Forecast InputDeck",
 
+  forecastInputDeckSaveAutogenerate: "Forecast InputDeck Save & Auto Generate",
+  forecastInputDeckSaveManualgenerate:
+    "Forecast InputDeck Save & Manually Generate",
+
   productionInputDataExcel: "Production Data",
   productionInputDataDatabase: "Production Data",
 

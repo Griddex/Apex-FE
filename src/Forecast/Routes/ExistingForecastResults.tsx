@@ -1,18 +1,17 @@
-import { Checkbox, makeStyles, Typography } from "@material-ui/core";
+import { Checkbox, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
-import { Column } from "react-data-griddex";
+import { Column, SelectCellFormatter, SelectColumn } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
-import Status from "../../Application/Components/Status/Status";
+import Approval from "../../Application/Components/Approval/Approval";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import Saved from "../../Application/Components/Saved/Saved";
 import {
   IExistingDataProps,
   IGiftExistingForecastResultsRow,
@@ -21,6 +20,7 @@ import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { persistFirstLevelForecastPropertyAction } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -107,10 +107,7 @@ export default function ExistingForecastResults({
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (
-    row: IExistingForecastResultsRow,
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleCheckboxChange = (row: IExistingForecastResultsRow) => {
     const name = "selectedForecastingResultsId";
     const value = row.forecastResultsId;
 
@@ -119,23 +116,20 @@ export default function ExistingForecastResults({
   };
 
   const [, setRerender] = React.useState(false);
+  const [selectedRows, setSelectedRows] = React.useState(
+    () => new Set<React.Key>()
+  );
+
+  const ApexCheckboxColumn = apexCheckbox({
+    shouldExecute: true,
+    shouldDispatch: false,
+    apexCheckboxAction: handleCheckboxChange,
+  });
 
   const generateColumns = () => {
     const columns: Column<IExistingForecastResultsRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      {
-        key: "selectForecastResult",
-        name: "SELECT",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
-          />
-        ),
-        width: 50,
-      },
+      ApexCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
@@ -179,12 +173,22 @@ export default function ExistingForecastResults({
         width: 120,
       },
       {
-        key: "status",
-        name: "STATUS",
+        key: "approval",
+        name: "APPROVAL",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <Status statusText={row.status} />;
+          return <Approval approvalText={row.status} />;
+        },
+        width: 100,
+      },
+      {
+        key: "saved",
+        name: "SAVED",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Saved savedText={row.saved} />;
         },
         width: 100,
       },
@@ -264,7 +268,8 @@ export default function ExistingForecastResults({
   ) as IExistingForecastResultsRow[];
 
   const tableRows = React.useRef<IExistingForecastResultsRow[]>(snExistingData);
-  const rows = tableRows.current;
+  const currentRows = tableRows.current;
+  const [rows, setRows] = React.useState(currentRows);
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -283,6 +288,9 @@ export default function ExistingForecastResults({
           rows={rows}
           tableButtons={tableButtons}
           newTableRowHeight={35}
+          selectedRows={selectedRows}
+          onSelectedRowsChange={setSelectedRows}
+          onRowsChange={setRows}
         />
       </div>
       <div></div>

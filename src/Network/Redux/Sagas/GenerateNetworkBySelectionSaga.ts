@@ -25,8 +25,8 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
-  generateNetworkBySelectionFailureAction,
-  generateNetworkBySelectionSuccessAction,
+  displayNetworkBySelectionFailureAction,
+  displayNetworkBySelectionSuccessAction,
   GENERATENETWORKBYSELECTION_REQUEST,
 } from "../Actions/NetworkActions";
 
@@ -35,21 +35,21 @@ export default function* watchGenerateNetworkBySelectionSaga(): Generator<
   void,
   any
 > {
-  const generateNetworkBySelectionChan = yield actionChannel(
+  const displayNetworkBySelectionChan = yield actionChannel(
     GENERATENETWORKBYSELECTION_REQUEST
   );
   yield takeLeading(
-    generateNetworkBySelectionChan,
-    generateNetworkBySelectionSaga
+    displayNetworkBySelectionChan,
+    displayNetworkBySelectionSaga
   );
 }
 
 const config = { withCredentials: false };
-const generateNetworkBySelectionAPI = (url: string) =>
+const displayNetworkBySelectionAPI = (url: string) =>
   authService.get(url, config);
-type AxiosPromise = ReturnType<typeof generateNetworkBySelectionAPI>;
+type AxiosPromise = ReturnType<typeof displayNetworkBySelectionAPI>;
 
-export function* generateNetworkBySelectionSaga(
+export function* displayNetworkBySelectionSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -78,7 +78,7 @@ export function* generateNetworkBySelectionSaga(
       );
 
       let isNode = false;
-      const successAction = generateNetworkBySelectionSuccessAction();
+      const successAction = displayNetworkBySelectionSuccessAction();
 
       if (Object.keys(flowElement)[0] === "nodes") {
         isNode = true;
@@ -104,7 +104,7 @@ export function* generateNetworkBySelectionSaga(
       // }
     }
   } catch (errors) {
-    const failureAction = generateNetworkBySelectionFailureAction();
+    const failureAction = displayNetworkBySelectionFailureAction();
 
     yield put({
       ...failureAction,

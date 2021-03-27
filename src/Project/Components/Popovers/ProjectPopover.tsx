@@ -10,13 +10,22 @@ import ImageAspectRatioOutlinedIcon from "@material-ui/icons/ImageAspectRatioOut
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
-import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
-import { IRecentProject } from "../../Redux/State/ProjectStateTypes";
+import {
+  fetchExistingProjectsAction,
+  openRecentProjectAction,
+} from "../../Redux/Actions/ProjectActions";
+import { IProject } from "../../Redux/State/ProjectStateTypes";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
+import DialogOpenCancelButtons from "../../../Application/Components/DialogButtons/DialogOpenCancelButtons";
+import { saveNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,11 +34,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  newProject: {
-    borderBottom: "1px solid #999",
-    padding: 3,
-  },
-  recentProjects: {
+  demarcation: {
     borderBottom: "1px solid #999",
     padding: 3,
   },
@@ -57,7 +62,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     sn,
     toggleSN,
     recentProjectsStyles,
-  }: IRecentProject) => {
+  }: IProject) => {
     return (
       <MenuItem
         onClick={() => {
@@ -111,13 +116,34 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const fetchExistingProjects = () => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: "Existing_Projects_Dialog",
+      title: "Existing Projects Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "md",
+      iconType: "information",
+      actionsList: () =>
+        DialogOpenCancelButtons(
+          [true, true],
+          [true, true],
+          [fetchExistingProjectsAction, unloadDialogsAction]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(confirmationDialogParameters));
+  };
+
   const recentProjects = useSelector(
     (state: RootState) => state.projectReducer["recentProjects"]
-  ) as IRecentProject[];
+  ) as IProject[];
 
   return (
     <div className={classes.root}>
-      <div className={classes.newProject}>
+      <div className={classes.demarcation}>
         <ApexMenuItem
           projectTitle="New Project"
           icon={
@@ -131,7 +157,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           }}
         />
       </div>
-      <div className={classes.recentProjects}>
+      <div className={classes.demarcation}>
         <ApexMenuItem
           projectTitle="Recent Projects"
           recentProjectsStyles={{ pointerEvents: "none" }}
@@ -143,7 +169,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           }
         />
         {recentProjects &&
-          recentProjects.map((project: IRecentProject, i: number) => {
+          recentProjects.map((project: IProject, i: number) => {
             const { projectTitle, projectId, projectDescription } = project;
             return (
               <ApexMenuItem
@@ -172,6 +198,20 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               />
             );
           })}
+      </div>
+      <div className={classes.demarcation}>
+        <ApexMenuItem
+          projectTitle="All Projects"
+          icon={
+            <AllInclusiveOutlinedIcon
+              fontSize="small"
+              className={classes.primaryIcon}
+            />
+          }
+          handleClick={() => {
+            fetchExistingProjects();
+          }}
+        />
       </div>
       <div>
         <ApexMenuItem

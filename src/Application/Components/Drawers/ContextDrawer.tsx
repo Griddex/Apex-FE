@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => {
     },
     contextDrawerMenuIcon: {
       margin: 0,
+      alignSelf: "center",
     },
     contextDrawerHeader: {
       display: "flex",
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme) => {
     contextDrawerContent: {
       marginTop: 20,
     },
-    menuButton: { height: 30, width: 30 },
+    menuButton: { alignSelf: "center", height: 30, width: 30 },
   };
 });
 
@@ -126,9 +127,9 @@ const ContextDrawer = ({ children }: { children: () => JSX.Element }) => {
         </IconButton>
       )}
       <div className={classes.contextDrawerHeader}>
-        <Typography>{moduleName}</Typography>
-        <Typography>{subModuleName}</Typography>
-        <Typography>{workflowName}</Typography>
+        {expandContextDrawer && <Typography>{moduleName}</Typography>}
+        {expandContextDrawer && <Typography>{subModuleName}</Typography>}
+        {expandContextDrawer && <Typography>{workflowName}</Typography>}
       </div>
       <div className={classes.contextDrawerContent}>
         {children && children()}

@@ -24,6 +24,7 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -83,6 +84,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -99,7 +101,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>

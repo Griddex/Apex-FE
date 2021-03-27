@@ -1,7 +1,6 @@
-import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core";
-import { StatusTextType } from "../../../Economics/Components/ForecastRunDetail";
-import ToTitleCase from "../../../Application/Utils/ToTitleCase";
+import React from "react";
+import { ApprovalTextType } from "../../../Application/Components/Approval/ApprovalTypes";
 
 const useStyles = makeStyles(() => ({
   DeclineParametersType: {
@@ -14,7 +13,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const statusColor = (dpTypeText: StatusTextType) => {
+const statusColor = (dpTypeText: ApprovalTextType) => {
   const theme = useTheme();
 
   switch (dpTypeText) {
@@ -41,7 +40,7 @@ const statusColor = (dpTypeText: StatusTextType) => {
 const DeclineParametersType = ({
   dpTypeText,
 }: {
-  dpTypeText: StatusTextType;
+  dpTypeText: ApprovalTextType;
 }) => {
   const classes = useStyles();
   const dpStyle = statusColor(dpTypeText);

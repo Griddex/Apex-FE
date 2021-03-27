@@ -4,7 +4,6 @@ import { Column } from "react-data-griddex";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
-import SaveForecastInputDeckWorkflowDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckWorkflowDialog";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
@@ -20,14 +19,20 @@ import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
 import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
+import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
+import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
+import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
+import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
   textDialog: typeof TextDialog;
+  existingProjectsDialog: typeof ExistingProjectsDialog;
   selectWorksheetDialog: typeof SelectWorksheetDialog;
+  finalizeForecastInputDeckDialog: typeof FinalizeForecastInputDeckDialog;
   saveFacilitiesInputDeckDialog: typeof SaveFacilitiesInputDeckDialog;
-  saveForecastInputDeckWorkflowDialog: typeof SaveForecastInputDeckWorkflowDialog;
-  finalizeInputDialog: typeof SaveForecastInputDeckWorkflowDialog;
+  saveForecastInputDeckDialog: typeof SaveForecastInputDeckDialog;
+  saveInputDeckGenerateNetworkWorkflowDialog: typeof SaveInputDeckGenerateNetworkWorkflowDialog;
   economicsParametersDialog: typeof EconomicsParametersDialog;
   economicsParameterImportWorkflowDialog: typeof EconomicsParameterImportWorkflowDialog;
   newProjectWorkflowDialog: typeof NewProjectWorkflowDialog;
@@ -65,9 +70,10 @@ export interface DialogStuff {
     | "listDialog"
     | "textDialog"
     | "selectWorksheetDialog"
+    | "finalizeForecastInputDeckDialog"
     | "saveFacilitiesInputDeckDialog"
-    | "saveForecastInputDeckWorkflowDialog"
-    | "finalizeInputDialog"
+    | "saveForecastInputDeckDialog"
+    | "saveInputDeckGenerateNetworkWorkflowDialog"
     | "runForecastDialog"
     | "saveForecastDialog"
     | "economicsParametersDialog"
@@ -87,7 +93,7 @@ export interface DialogStuff {
   contentText?: string;
   contentList?: Record<string, any>;
   actionsList?: (() => JSX.Element) | (() => JSX.Element[]);
-  onClose?: () => unknown;
+  onClose?: () => void;
   classes?: Record<string, string>;
   dialogData?: IDialogData<IRawRow>;
   children?: JSX.Element | JSX.Element[];

@@ -50,6 +50,13 @@ function* loginSaga(
 
   try {
     const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+<<<<<<< HEAD
+=======
+    // const response = yield call(
+    //   loginAPI,
+    //   `https://jsonplaceholder.typicode.com/posts`
+    // );
+>>>>>>> Development
     const { status, headers } = response;
 
     yield call(forwardTo, "/apex");

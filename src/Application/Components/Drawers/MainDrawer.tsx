@@ -199,7 +199,13 @@ const MainDrawer = () => {
           const { name, route, icon } = drawerData;
 
           return (
-            <Tooltip key={name} title={name} placement="right" arrow>
+            <Tooltip
+              key={name}
+              title={name}
+              placement="right"
+              arrow
+              leaveTouchDelay={0}
+            >
               <MenuItem
                 className={clsx(
                   classes.menuItem,
@@ -213,15 +219,13 @@ const MainDrawer = () => {
                 onClick={(e: any) => {
                   handleMenuSelected(name, e);
                   dispatch(mainDrawerSetMenuAction(name));
-                  history.push(route);
+                  name !== "Project" && history.push(route);
                 }}
                 disabled={name === "Project" ? false : menusDisabled}
                 style={
                   name === selected
                     ? {
-                        backgroundColor: theme.palette.primary.light,
-                        borderRight: `3px solid ${theme.palette.primary.main}`,
-                        // ":hover":{color:theme.palette.primary.main}
+                        color: theme.palette.primary.main,
                       }
                     : {}
                 }
@@ -233,30 +237,40 @@ const MainDrawer = () => {
                       <div
                         style={
                           name === selected
-                            ? { backgroundColor: theme.palette.primary.light }
+                            ? { color: theme.palette.primary.main }
                             : {}
                         }
                       >
                         {icon}
                       </div>
                       {expandMainDrawer && (
-                        <Typography variant="caption">{name}</Typography>
+                        <Typography
+                          style={
+                            name === selected
+                              ? { color: theme.palette.primary.main }
+                              : {}
+                          }
+                          variant="caption"
+                        >
+                          {name}
+                        </Typography>
                       )}
                     </div>
                   </ProjectContextMenu>
                 ) : (
                   <div className={classes.menuItemDiv}>
-                    <div
-                      style={
-                        name === selected
-                          ? { backgroundColor: theme.palette.primary.light }
-                          : {}
-                      }
-                    >
-                      {icon}
-                    </div>
+                    <div>{icon}</div>
                     {expandMainDrawer && (
-                      <Typography variant="caption">{name}</Typography>
+                      <Typography
+                        style={
+                          name === selected
+                            ? { color: theme.palette.primary.main }
+                            : {}
+                        }
+                        variant="caption"
+                      >
+                        {name}
+                      </Typography>
                     )}
                   </div>
                 )}

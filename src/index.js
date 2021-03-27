@@ -9,7 +9,6 @@ import theme from "./Application/Theme/Theme";
 import { store, persistor } from "./Application/Redux/Store/Store";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { PersistGate } from "redux-persist/integration/react";
-import "react-data-griddex/dist/react-data-grid.css";
 
 ReactDOM.render(
   <Provider store={store}>

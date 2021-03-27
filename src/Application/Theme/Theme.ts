@@ -171,6 +171,21 @@ theme.overrides = {
       padding: 0,
     },
   },
+
+  MuiStepIcon: {
+    root: {
+      color: "#E0E0E0",
+    },
+  },
+
+  MuiStepConnector: {
+    line: {
+      borderColor: theme.palette.primary.main,
+    },
+    root: {
+      flex: "0 1 auto",
+    },
+  },
 };
 
 export default theme;

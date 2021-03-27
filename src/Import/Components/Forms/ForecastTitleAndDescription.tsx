@@ -19,8 +19,10 @@ const ForecastTitleAndDescription = ({
       ? errors && errors.forecastInputDeckTitle
       : "";
 
-  const handleBlur = (event: ChangeEvent<any>) => {
+  const handleTitleDescChange = (event: ChangeEvent<any>) => {
+    handleChange && handleChange(event);
     const { name, value } = event.target;
+
     dispatch(updateInputAction(name, value));
   };
 
@@ -37,8 +39,7 @@ const ForecastTitleAndDescription = ({
             helperText={helperText}
             error={Boolean(helperText)}
             value={forecastInputDeckTitle}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={handleTitleDescChange}
             required
             autoFocus
             fullWidth
@@ -56,7 +57,6 @@ const ForecastTitleAndDescription = ({
             rowsMin={20}
             value={forecastInputDeckDescription}
             onChange={handleChange}
-            onBlur={handleBlur}
           />
         }
       />

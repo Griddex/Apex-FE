@@ -14,7 +14,11 @@ import {
 } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
 import { createNewProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import {
+  hideDialogAction,
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../Redux/Actions/DialogsAction";
 import { workflowInitAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogIcons from "../Icons/DialogIcons";
@@ -23,6 +27,9 @@ import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowStepper";
 import { DialogStuff } from "./DialogTypes";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import DialogSaveCancelButtons from "../DialogButtons/DialogSaveCancelButtons";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -62,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -78,7 +86,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>
@@ -134,29 +145,40 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
   );
 
-  const finalAction = React.useCallback(() => {
-    dispatch(
-      createNewProjectAction(
-        projectTitle,
-        projectDescription,
-        dayFormat,
-        monthFormat,
-        yearFormat,
-        pressureAddend,
-        successDialogParameters,
-        failureDialogParameters
-      )
-    );
-  }, [
-    projectTitle,
-    projectDescription,
-    dayFormat,
-    monthFormat,
-    yearFormat,
-    pressureAddend,
-    successDialogParameters,
-    failureDialogParameters,
-  ]);
+  const finalAction = () => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: "Create_New_Project_Dialog",
+      title: "Create New Project Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: "Do you want to create the new project?",
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            () =>
+              createNewProjectAction(
+                projectTitle,
+                projectDescription,
+                dayFormat,
+                monthFormat,
+                yearFormat,
+                pressureAddend,
+                successDialogParameters,
+                failureDialogParameters
+              ),
+            unloadDialogsAction,
+          ]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(confirmationDialogParameters));
+  };
 
   const navigationButtonProps: INavigationButtonsProp = {
     mainNav: false,
@@ -165,6 +187,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     showSkip: true,
     showNext: true,
     finalAction,
+    finalNavIcon: () => <SaveOutlinedIcon />,
     workflowProps,
     workflowProcess,
     workflowCategory,
@@ -199,8 +222,10 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <NewProjectWorkflow activeStep={activeStep} />
-        <DialogVerticalWorkflowStepper {...workflowProps} />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <NewProjectWorkflow activeStep={activeStep} />
+          <DialogVerticalWorkflowStepper {...workflowProps} />
+        </div>
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />

@@ -36,6 +36,15 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
     height: 50,
   },
+  buttonReg: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.primary,
+    background: theme.palette.primary.main,
+    margin: "20px",
+    width: 250,
+    height: 50,
+  },
 }));
 
 const LandingRoute = () => {
@@ -70,6 +79,14 @@ const LandingRoute = () => {
         >
           Proceed
         </Button>
+        {/* <Button
+          className={classes.buttonReg}
+          variant="contained"
+          color="primary"
+          onClick={() => history.push("/register")}
+        >
+          Register
+        </Button> */}
       </Grid>
     </Grid>
   );

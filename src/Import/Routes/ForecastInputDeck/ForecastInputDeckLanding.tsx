@@ -79,7 +79,6 @@ const ForecastInputDeckLanding = () => {
       workflowCategory: "importDataWorkflows",
     },
     {
-      // name: `Existing Name`,
       name: `Existing Forecast Input Deck`,
       description: `Select a pre-exisiting and approved forecast input deck stored in the Apex\u2122 database`,
       icon: (
@@ -97,13 +96,29 @@ const ForecastInputDeckLanding = () => {
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
+  // const forecastExcelandDbWorkflowFinalAction = (
+  //   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+  // ) => {
+  //   const dialogParameters: DialogStuff = {
+  //     name: "Manage_Deck_Dialog",
+  //     title: `Manage Forecast Input Deck`,
+  //     type: "saveForecastInputDeckDialog",
+  //     show: true,
+  //     exclusive: true,
+  //     maxWidth: "md",
+  //     iconType: "information",
+  //     workflowProcess,
+  //     workflowCategory: "importDataWorkflows",
+  //   };
+  //   dispatch(showDialogAction(dialogParameters));
+  // };
   const forecastExcelandDbWorkflowFinalAction = (
     workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
-      title: `Manage Facilities Deck`,
-      type: "saveForecastInputDeckWorkflowDialog",
+      title: `Manage Forecast Input Deck`,
+      type: "finalizeForecastInputDeckDialog",
       show: true,
       exclusive: true,
       maxWidth: "md",
@@ -117,7 +132,7 @@ const ForecastInputDeckLanding = () => {
   const existingDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
-      title: `Manage Facilities Deck`,
+      title: `Manage Forecast Inputdeck`,
       type: "textDialog",
       show: true,
       exclusive: true,

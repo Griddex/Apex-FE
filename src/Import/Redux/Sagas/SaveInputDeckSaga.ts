@@ -127,7 +127,7 @@ export function* saveInputDeckSaga(
     });
 
     if (wp.includes("facilities"))
-      yield put(showDialogAction(successDialogParameters(inputDeckType)));
+      yield put(showDialogAction(successDialogParameters(inputDeckType, wp)));
 
     yield put(fetchExistingDataRequestAction(projectId));
   } catch (errors) {

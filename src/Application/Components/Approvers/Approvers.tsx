@@ -22,7 +22,11 @@ const useStyles = makeStyles(() => ({
 const approversCheck = (variableToCheck: any): variableToCheck is IApprover =>
   (variableToCheck as IApprover).name !== undefined;
 
-const Approvers = ({ approvers }: { approvers: IApprover[] | string }) => {
+const Approvers = ({
+  approvers,
+}: {
+  approvers: IApprover[] | string | undefined;
+}) => {
   const theme = useTheme();
   const classes = useStyles();
   const isApprover = approversCheck(approvers);

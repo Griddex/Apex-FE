@@ -101,7 +101,7 @@ const ProductionDataLanding = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Facilities Deck`,
-      type: "finalizeInputDialog",
+      type: "finalizeForecastInputDeckDialog",
       show: true,
       exclusive: true,
       maxWidth: "sm",

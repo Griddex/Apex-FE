@@ -9,15 +9,15 @@ const getColors = (name: string, theme: Theme) => {
     case "Units":
       return [theme.palette.secondary.light, theme.palette.secondary.main];
     case "Data":
-      return [theme.palette.grey[200], theme.palette.grey[700]];
+      return [theme.palette.grey[200], theme.palette.grey[900]];
     default:
-      return [theme.palette.grey[200], theme.palette.grey[700]];
+      return [theme.palette.grey[200], theme.palette.grey[900]];
   }
 };
 
 const getRoleRSStyles = (theme: Theme) => {
-  const colourStyles: Styles<ISelectOptions, false> = {
-    container: (styles, props) => ({
+  const apexSelectStyles: Styles<ISelectOptions, false> = {
+    container: (styles) => ({
       ...styles,
       height: "100%",
       width: "100%",
@@ -30,7 +30,7 @@ const getRoleRSStyles = (theme: Theme) => {
       height: "100%",
       width: "100%",
       alignSelf: "center",
-      fontWeight: 700,
+      // fontWeight: 900,
     }),
     input: (styles) => ({
       ...styles,
@@ -50,10 +50,10 @@ const getRoleRSStyles = (theme: Theme) => {
           currentValueLabel = theme.palette.secondary.main;
           break;
         case "Data":
-          currentValueLabel = theme.palette.grey[700];
+          currentValueLabel = theme.palette.grey[900];
           break;
         default:
-          currentValueLabel = theme.palette.grey[700];
+          currentValueLabel = theme.palette.grey[900];
           break;
       }
 
@@ -61,7 +61,7 @@ const getRoleRSStyles = (theme: Theme) => {
         ...styles,
         backgroundColor: "white",
         borderColor: currentValueLabel,
-        borderWidth: 2,
+        borderWidth: 1,
         minHeight: 30,
         height: "95%",
         flex: 1,
@@ -83,7 +83,7 @@ const getRoleRSStyles = (theme: Theme) => {
     },
     placeholder: (styles) => ({ ...styles }),
     singleValue: (styles, { data }) => {
-      let label = theme.palette.grey[700];
+      let label = theme.palette.grey[900];
 
       switch (data.label) {
         case "Headers":
@@ -93,15 +93,14 @@ const getRoleRSStyles = (theme: Theme) => {
           label = theme.palette.secondary.main;
           break;
         case "Data":
-          label = theme.palette.grey[700];
+          label = theme.palette.grey[900];
           break;
         default:
-          label = theme.palette.grey[700];
+          label = theme.palette.grey[900];
           break;
       }
 
-      const updatedStyles = { ...styles, color: label };
-      return { ...updatedStyles };
+      return { ...styles, color: label };
     },
     indicatorSeparator: (styles) => {
       return { ...styles, backgroundColor: "white" };
@@ -110,11 +109,11 @@ const getRoleRSStyles = (theme: Theme) => {
       return { ...styles, height: "100%" };
     },
     dropdownIndicator: (styles) => {
-      return { ...styles, color: theme.palette.grey[700] };
+      return { ...styles, color: theme.palette.grey[900] };
     },
   };
 
-  return colourStyles;
+  return apexSelectStyles;
 };
 
 export default getRoleRSStyles;

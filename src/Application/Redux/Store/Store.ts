@@ -32,12 +32,14 @@ import watchGetForecastResultsSaga from "../../../Forecast/Redux/Sagas/GetForeca
 import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
 import watchFetchExistingForecastingResultsSaga from "../../../Forecast/Redux/Sagas/FetchExistingForecastingResultsSaga";
 import watchFetchTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchTreeviewKeysSaga";
+import watchFetchExistingProjectsSaga from "../../../Project/Redux/Sagas/FetchExistingProjectsSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
   yield spawn(watchRegisterSaga);
   yield spawn(watchConnectDatabaseSaga);
   yield spawn(watchCreateNewProjectSaga);
+  yield spawn(watchFetchExistingProjectsSaga);
   yield spawn(watchFetchRecentProjectsSaga);
   yield spawn(watchFetchUnitSettingsSaga);
   yield spawn(watchOpenRecentProjectSaga);
@@ -60,27 +62,6 @@ function* rootSaga() {
   yield spawn(watchFetchTreeviewKeysSaga);
 }
 
-// function listenMongoDb() {
-//   try {
-//     mongoose.connect(
-//       "mongodb+srv://apex:Yv10NPk7c2WmgKt4@syncware-cluster.a69fi.mongodb.net/apex-db?retryWrites=true&w=majority"
-//     );
-
-//     const db = mongoose.connection;
-//     const taskCollection = db.collection("datastreams");
-//     const changeStream = taskCollection.watch();
-//     changeStream.on("change", (change) => {
-//       console.log("Changes made to DataStream");
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
-function listenWebsocket() {
-  // const socket = new WebSocket()
-}
-
 const sagaMiddleware = createSagaMiddleware();
 
 const persistConfig = {
@@ -93,7 +74,8 @@ const persistConfig = {
 const store = createStore(
   rootReducer,
   composeWithDevTools(
-    applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
+    // applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
+    applyMiddleware(authMiddleware, sagaMiddleware)
   )
 );
 

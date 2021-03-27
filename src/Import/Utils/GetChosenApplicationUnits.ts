@@ -12,10 +12,6 @@ const getChosenApplicationUnits = (
     }
   });
 
-  console.log(
-    "Logged output --> ~ file: GetChosenApplicationUnits.ts ~ line 19 ~ chosenApplicationUnits",
-    chosenApplicationUnits
-  );
   return chosenApplicationUnits;
 };
 export default getChosenApplicationUnits;

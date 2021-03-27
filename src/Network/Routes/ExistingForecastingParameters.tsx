@@ -7,6 +7,7 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Author from "../../Application/Components/Author/Author";
+import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
@@ -97,6 +98,8 @@ export default function ExistingForecastingParameters({
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
+  const [sRow, setSRow] = React.useState(-1);
 
   const wc = "existingDataWorkflows";
   const wp = "forecastingParametersServer";
@@ -165,10 +168,7 @@ export default function ExistingForecastingParameters({
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (
-    row: IForecastingParametersRow,
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleCheckboxChange = (row: IForecastingParametersRow) => {
     const name = "selectedForecastingParametersId";
     const value = row.forecastingParametersGroupId;
 
@@ -176,24 +176,16 @@ export default function ExistingForecastingParameters({
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const [, setRerender] = React.useState(false);
+  const ApexCheckboxColumn = apexCheckbox({
+    shouldExecute: true,
+    shouldDispatch: false,
+    apexCheckboxAction: handleCheckboxChange,
+  });
 
   const generateColumns = () => {
     const columns: Column<IForecastingParametersRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      {
-        key: "selectNetwork",
-        name: "SELECT",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
-          />
-        ),
-        width: 50,
-      },
+      ApexCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
@@ -414,7 +406,8 @@ export default function ExistingForecastingParameters({
   const tableRows = React.useRef<IForecastingParametersRow[]>(
     snTransExistingData
   );
-  const rows = tableRows.current;
+  const currentRows = tableRows.current;
+  const [rows, setRows] = React.useState(currentRows);
 
   React.useEffect(() => {
     dispatch(
@@ -436,6 +429,11 @@ export default function ExistingForecastingParameters({
           rows={rows}
           tableButtons={tableButtons}
           newTableRowHeight={35}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          selectedRow={sRow}
+          onSelectedRowChange={setSRow}
+          onRowsChange={setRows}
         />
       </div>
     </div>

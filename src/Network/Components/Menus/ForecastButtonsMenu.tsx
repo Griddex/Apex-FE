@@ -41,29 +41,29 @@ const ForecastButtonsMenu = () => {
     setAnchorEl(null);
   };
 
-  const confirmRunForecast = () => {
-    const confirmationDialogParameters: DialogStuff = {
-      name: "Run_Forecast_Dialog",
-      title: "Confirm Run Forecast",
-      type: "textDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "xs",
-      dialogText: `Do you want to run the forecast for the current parameters?`,
-      iconType: "confirmation",
-      actionsList: () =>
-        DialogRunForecastCancelButtons(
-          [true, true],
-          [true, true],
-          [unloadDialogsAction, runForecastRequestAction]
-        ),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+  const runForecast = () => {
+    const confirmRunForecast = () => {
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Run_Forecast_Dialog",
+        title: "Confirm Run Forecast",
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to run the forecast for the current parameters?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogRunForecastCancelButtons(
+            [true, true],
+            [true, true],
+            [unloadDialogsAction, runForecastRequestAction]
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
     };
 
-    dispatch(showDialogAction(confirmationDialogParameters));
-  };
-
-  const runForecast = () => {
     const dialogParameters: DialogStuff = {
       name: "Run_Forecast_Dialog",
       title: "Run Forecast",

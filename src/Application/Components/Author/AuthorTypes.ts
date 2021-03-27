@@ -5,4 +5,4 @@ export interface IAuthor extends IUserDetails {
   authorStyles?: CSSProperties;
 }
 
-export type AuthorType = IAuthor | string;
+export type AuthorType = IAuthor | string | undefined;

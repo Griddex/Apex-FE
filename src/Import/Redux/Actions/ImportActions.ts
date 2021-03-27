@@ -1,3 +1,7 @@
+import {
+  IRawRow,
+  IRawRowValueType,
+} from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
@@ -41,11 +45,11 @@ export const FETCHAPPLICATIONHEADERS_SUCCESS =
 export const FETCHAPPLICATIONHEADERS_FAILURE =
   "FETCHAPPLICATIONHEADERS_FAILURE";
 
-export const updateInputAction = (name: string, value: string) => {
+export const updateInputAction = (path: string, value: React.Key) => {
   return {
     type: UPDATE_INPUT,
     payload: {
-      name,
+      path,
       value,
     },
   };
@@ -154,18 +158,8 @@ export const persistChosenApplicationUniqueUnitIndicesAction = (
 
 export const persistFileUnitsAndUniqueUnitsAction = (
   selectedUnitRowIndex: number,
-  fileUnits: (
-    | string
-    | number
-    | Record<string, React.Key>
-    | Record<string, React.Key>[]
-  )[],
-  fileUniqueUnits: (
-    | string
-    | number
-    | Record<string, React.Key>
-    | Record<string, React.Key>[]
-  )[],
+  fileUnits: IRawRowValueType<IRawRow>[],
+  fileUniqueUnits: IRawRowValueType<IRawRow>[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {

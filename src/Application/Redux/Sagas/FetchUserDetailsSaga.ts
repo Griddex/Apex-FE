@@ -58,10 +58,6 @@ function* fetchUserDetailsSaga(
     const {
       data: { status, id, email, username },
     } = response;
-    console.log(
-      "Logged output --> ~ file: FetchUserDetailsSaga.ts ~ line 59 ~ response",
-      response
-    );
 
     const successAction = fetchUserDetailsSuccessAction();
     yield put({

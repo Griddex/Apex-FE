@@ -192,14 +192,14 @@ export const saveNetworkExtrudeIsValidAction = (
   };
 };
 
-export const generateNetworkBySelectionRequestAction = () => {
+export const displayNetworkBySelectionRequestAction = () => {
   return {
     type: GENERATENETWORKBYSELECTION_REQUEST,
     meta: { showSpinner: true, message: "Generating network..." },
   };
 };
 
-export const generateNetworkBySelectionSuccessAction = () => {
+export const displayNetworkBySelectionSuccessAction = () => {
   return {
     type: GENERATENETWORKBYSELECTION_SUCCESS,
     payload: {
@@ -208,7 +208,7 @@ export const generateNetworkBySelectionSuccessAction = () => {
   };
 };
 
-export const generateNetworkBySelectionFailureAction = () => {
+export const displayNetworkBySelectionFailureAction = () => {
   return {
     type: GENERATENETWORKBYSELECTION_FAILURE,
     payload: {

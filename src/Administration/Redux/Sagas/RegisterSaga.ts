@@ -68,10 +68,6 @@ function* registerSaga(
 
   try {
     const result = yield call(registerAPI, `${getBaseAuthUrl()}/signup`);
-    console.log(
-      "Logged output --> ~ file: RegisterSaga.ts ~ line 71 ~ result",
-      result
-    );
 
     const {
       data: { status, data, succcess }, //prevent 2nd trip to server

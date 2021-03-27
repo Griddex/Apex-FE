@@ -20,9 +20,7 @@ import {
   fetchRecentProjectsFailureAction,
   fetchRecentProjectsSuccessAction,
   FETCHRECENTPROJECTS_REQUEST,
-  openRecentProjectAction,
 } from "../Actions/ProjectActions";
-import { IRecentProject } from "../State/ProjectStateTypes";
 import getBaseUrl from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchRecentProjectsSaga(): Generator<

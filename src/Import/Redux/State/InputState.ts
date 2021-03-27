@@ -9,6 +9,9 @@ const importWorkflowProcesses: Array<IImportWorkflowProcess["wkPs"]> = [
   "forecastInputDeckExcel",
   "forecastInputDeckDatabase",
 
+  "forecastInputDeckSaveAutogenerate",
+  "forecastInputDeckSaveManualgenerate",
+
   "productionInputDataExcel",
   "productionInputDataDatabase",
 

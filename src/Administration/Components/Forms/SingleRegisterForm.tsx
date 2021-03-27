@@ -22,12 +22,15 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     height: "100%",
     maxWidth: 700,
+    padding: 10,
   },
   avatarField: {
     display: "flex",
     flexDirection: "column",
     height: "100%",
     width: "100%",
+    minWidth: 500,
+    padding: 10,
   },
   namesContainer: {
     display: "flex",
@@ -93,10 +96,6 @@ const SingleRegisterForm = () => {
         password: Yup.string().required("Password is required"),
       })}
       onSubmit={({ userName, email, password }) => {
-        console.log(
-          "Logged output --> ~ file: SingleRegisterForm.tsx ~ line 97 ~ SingleRegisterForm ~ userName",
-          userName
-        );
         dispatch(registerAction(userName, email, password));
       }}
     >

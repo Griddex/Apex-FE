@@ -1,11 +1,9 @@
 import { makeStyles, useTheme } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
 import findIndex from "lodash.findindex";
-import findLastIndex from "lodash.findlastindex";
 import omit from "lodash.omit";
 import zipObject from "lodash.zipobject";
 import React from "react";
@@ -17,6 +15,7 @@ import {
   ISelectOptions,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
+import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -27,6 +26,7 @@ import { IAllWorkflowProcesses } from "../../../../Application/Components/Workfl
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import getDuplicates from "../../../../Application/Utils/GetDuplicates";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationHeadersAction,
@@ -136,7 +136,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   );
 
   const keyedFileHeaderMatches = zipObject(fileHeaders, fileHeaderMatches);
-
   const headerMatchChartData = generateMatchData(fileHeaderMatches);
 
   const tableButtons: ITableButtonsProps = {
@@ -181,12 +180,16 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     const selectedApplicationHeader = headerOptions[0];
     const scoreOpts = keyedScoreOptions[fileHeader];
     const score = scoreOpts[0];
+    const exclude = false;
+    const acceptMatch = false;
 
     return {
       sn: i + 1,
       fileHeader: fileHeader,
       applicationHeader: selectedApplicationHeader.value,
       match: score.value,
+      exclude,
+      acceptMatch,
     };
   });
 
@@ -198,42 +201,48 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     setChosenApplicationHeaderIndices,
   ] = React.useState(snChosenApplicationHeaderIndices);
 
-  const [
-    acceptMatchCheckboxSelected,
-    setAcceptMatchCheckboxSelected,
-  ] = React.useState(false);
-  const [excludeCheckboxSelected, setExcludeCheckboxSelected] = React.useState(
-    false
-  );
+  const [, setExcludeSwitchChecked] = React.useState(false);
+  const [, setAcceptMatchSwitchChecked] = React.useState(false);
 
   const generateColumns = (keyedApplicationHeaderOptions: {
     [index: string]: { value: string; label: string }[];
   }) => {
-    const handleExcludeCheckboxChange = (
+    const handleAcceptMatchSwitchChange = (
       row: IRawRow,
-      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      event: React.ChangeEvent<HTMLInputElement>
     ) => {
-      const selectedFileHeader = row.fileHeader as string;
-      const headerOptions = keyedApplicationHeaderOptions[selectedFileHeader];
-      const selectedOptionIndex = findLastIndex(
-        headerOptions,
-        (u: { value: string; label: string }) => u.label === "None"
-      );
+      setAcceptMatchSwitchChecked(event.target.checked);
 
-      modifyTableRows(selectedFileHeader, selectedOptionIndex);
-      setExcludeCheckboxSelected(
-        (excludeCheckboxSelected) => !excludeCheckboxSelected
-      );
+      const selectedRowSN = row.sn as number;
+      const currentRows = tableRows.current;
+      const selectedRow = currentRows[selectedRowSN];
+
+      currentRows[selectedRowSN] = {
+        ...selectedRow,
+        acceptMatch: event.target.checked,
+      };
+      tableRows.current = currentRows;
 
       setRerender((rerender) => !rerender);
     };
 
-    const handleAcceptMatchCheckboxChange = (
+    const handleExcludeSwitchChange = (
       row: IRawRow,
-      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      event: React.ChangeEvent<HTMLInputElement>
     ) => {
-      alert(row);
-      setAcceptMatchCheckboxSelected(!acceptMatchCheckboxSelected);
+      setExcludeSwitchChecked(event.target.checked);
+
+      const selectedRowSN = row.sn as number;
+      const currentRows = tableRows.current;
+      const selectedRow = currentRows[selectedRowSN];
+
+      currentRows[selectedRowSN] = {
+        ...selectedRow,
+        exclude: event.target.checked,
+      };
+      tableRows.current = currentRows;
+
+      setRerender((rerender) => !rerender);
     };
 
     const columns: Column<IRawRow>[] = [
@@ -290,7 +299,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
               [`${rowSN}`]: selectedHeaderOptionIndex,
             }));
 
-            modifyTableRows(fileHeader, selectedHeaderOptionIndex);
+            updateTableBySelectedOption(fileHeader, selectedHeaderOptionIndex);
             setRerender((rerender) => !rerender);
           };
 
@@ -312,29 +321,46 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         resizable: true,
         width: 100,
       },
-
       {
         key: "exclude",
         name: "EXCLUDE",
         resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleExcludeCheckboxChange(row, event)}
-            checked={excludeCheckboxSelected}
-          />
-        ),
+        formatter: ({ row }) => {
+          const checked = row.exclude as boolean;
+
+          return (
+            <ApexMuiSwitch
+              handleChange={(event) =>
+                handleAcceptMatchSwitchChange(row, event)
+              }
+              checked={checked}
+              checkedColor={theme.palette.secondary.main}
+              notCheckedColor={theme.palette.common.white}
+            />
+          );
+        },
         width: 100,
       },
       {
         key: "acceptMatch",
         name: "ACCEPT MATCH",
         resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleAcceptMatchCheckboxChange(row, event)}
-            checked={acceptMatchCheckboxSelected}
-          />
-        ),
+        formatter: ({ row }) => {
+          const checked = row.exclude as boolean;
+          console.log(
+            "Logged output --> ~ file: MatchHeaders.tsx ~ line 351 ~ MatchHeaders ~ checked",
+            checked
+          );
+
+          return (
+            <ApexMuiSwitch
+              handleChange={(event) => handleExcludeSwitchChange(row, event)}
+              checked={checked}
+              checkedColor={theme.palette.success.main}
+              notCheckedColor={theme.palette.common.white}
+            />
+          );
+        },
         width: 150,
       },
     ];
@@ -347,7 +373,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     [keyedApplicationHeaderOptions]
   );
 
-  const modifyTableRows = (
+  const updateTableBySelectedOption = (
     selectedFileHeader: string,
     selectedHeaderOptionIndex: number
   ) => {
@@ -364,6 +390,8 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           fileHeader: selectedFileHeader,
           applicationHeader: selectedApplicationHeader.value,
           match: score.value,
+          exclude: row.exclude,
+          acceptMatch: row.acceptMatch,
         };
       } else return row;
     });
@@ -371,7 +399,12 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     tableRows.current = modifiedRows;
   };
 
-  const rows = tableRows.current;
+  const [rows, setRows] = React.useState(tableRows.current);
+
+  const chosenApplicationHeaders = getChosenApplicationHeaders(
+    fileHeaderMatches,
+    chosenApplicationHeaderIndices
+  );
 
   //Run once after 1st render
   React.useEffect(() => {
@@ -380,7 +413,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     );
     const tableHeaders = omit(columnNames, ["SN", "NAMES"]) as string[];
     dispatch(persistTableHeadersAction(tableHeaders, wp));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -403,7 +435,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     );
 
     dispatch(hideSpinnerAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, rows]);
 
   return (
@@ -416,6 +447,8 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           columns={columns}
           rows={rows}
           tableButtons={tableButtons}
+          onRowsChange={setRows}
+          mappingErrors={getDuplicates(chosenApplicationHeaders)}
         />
       </div>
     </div>

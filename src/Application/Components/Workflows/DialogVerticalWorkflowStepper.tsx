@@ -1,20 +1,27 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, StepConnector } from "@material-ui/core";
 import Step, { StepProps } from "@material-ui/core/Step";
 import StepLabel, { StepLabelProps } from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import React from "react";
 import { IWorkflowDataProps } from "./WorkflowTypes";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    flexGrow: 0,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     padding: 0,
     "& > *": {
       alignItems: "center",
     },
+  },
+  verticalConnector: {
+    padding: 0,
+    borderLeft: `2px solid ${theme.palette.primary.main}`,
+  },
+  contentRoot: {
+    marginTop: 0,
+    borderLeft: `2px solid ${theme.palette.primary.main}`,
   },
 }));
 
@@ -28,6 +35,13 @@ const DialogVerticalWorkflowStepper = (props: IWorkflowDataProps) => {
       className={classes.root}
       activeStep={activeStep}
       orientation="vertical"
+      connector={
+        <StepConnector
+          classes={{
+            vertical: classes.verticalConnector,
+          }}
+        />
+      }
     >
       {steps.map((label: string, index: number) => {
         const stepProps: StepProps = {};

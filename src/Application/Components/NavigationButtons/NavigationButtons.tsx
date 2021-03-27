@@ -19,26 +19,26 @@ import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { INavigationButtonsProp } from "./NavigationButtonTypes";
 
 const useStyles = makeStyles((theme) => ({
-  button: {
+  button: (props: INavigationButtonsProp) => ({
     marginRight: theme.spacing(1),
-  },
+    padding: theme.spacing(0.25),
+    height: props.mainNav ? 30 : 30,
+    width: props.mainNav ? 90 : 40,
+  }),
   buttonContent: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     alignItems: "center",
+    width: "100%",
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
   },
-  navigationbuttons: (props: INavigationButtonsProp) => ({
+  navigationbuttons: {
     display: "flex",
     justifyContent: "center",
     width: "100%",
-    "& > *": {
-      padding: theme.spacing(0.25),
-      height: props.mainNav ? 40 : 30,
-      width: props.mainNav ? 50 : 35,
-    },
-  }),
+  },
 }));
 
 type isStepSkippedType = (step: number) => boolean;
@@ -50,7 +50,9 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     showBack,
     showSkip,
     showNext,
+    nextDisabled,
     finalAction,
+    finalNavIcon,
     workflowProps,
     workflowProcess,
     workflowCategory,
@@ -81,8 +83,10 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           }
         >
           <div className={classes.buttonContent}>
-            <RotateLeftIcon />
-            {mainNav && <Typography>{"Reset"}</Typography>}
+            <div>
+              <RotateLeftIcon />
+            </div>
+            <div>{mainNav && <Typography>{"Reset"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -97,8 +101,10 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           }
         >
           <div className={classes.buttonContent}>
-            <ArrowBackIosIcon />
-            {mainNav && <Typography>{"Back"}</Typography>}
+            <div>
+              <ArrowBackIosIcon />
+            </div>
+            <div>{mainNav && <Typography>{"Back"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -113,8 +119,10 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           }
         >
           <div className={classes.buttonContent}>
-            <SkipNextOutlinedIcon />
-            {mainNav && <Typography>{"Skip"}</Typography>}
+            <div>
+              <SkipNextOutlinedIcon />
+            </div>
+            <div>{mainNav && <Typography>{"Skip"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -123,6 +131,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           className={classes.button}
           variant="contained"
           color="primary"
+          disabled={nextDisabled}
           onClick={() => {
             activeStep === steps.length - 1
               ? finalAction && finalAction()
@@ -142,13 +151,15 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
         >
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
-              <DoneAllIcon />
-              {mainNav && <Typography>{"Finalize"}</Typography>}
+              <div>{finalNavIcon ? finalNavIcon() : <DoneAllIcon />}</div>
+              <div>{mainNav && <Typography>{"Finalize"}</Typography>}</div>
             </div>
           ) : (
             <div className={classes.buttonContent}>
-              <ArrowForwardIosIcon />
-              {mainNav && <Typography>{"Next"}</Typography>}
+              <div>{mainNav && <Typography>{"Next"}</Typography>}</div>
+              <div>
+                <ArrowForwardIosIcon />
+              </div>
             </div>
           )}
         </Button>

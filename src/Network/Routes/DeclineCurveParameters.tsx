@@ -5,6 +5,7 @@ import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
@@ -82,18 +83,8 @@ export default function DeclineCurveParameters({
     (state: RootState) => state.networkReducer
   );
 
-  console.log(
-    "Logged output --> ~ file: DeclineCurveParameters.tsx ~ line 365 ~ forecastingParametersExisting",
-    forecastingParametersExisting
-  );
-
   const declineCurveParametersList =
     forecastingParametersExisting[selectedRowIndex]["declineParameters"];
-
-  console.log(
-    "Logged output --> ~ file: DeclineCurveParameters.tsx ~ line 90 ~ declineCurveParametersList",
-    declineCurveParametersList
-  );
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
@@ -102,44 +93,23 @@ export default function DeclineCurveParameters({
     showExtraButtons: false,
     extraButtons: () => <div></div>,
   };
-  //Assuming all index 0 i.e. Exponential
-  // const snChosenApplicationDeclineTypeIndices = modules.reduce(
-  //   (acc: Record<string, number>, module, i: number) => {
-  //     return { ...acc, [module]: 0 };
-  //   },
-  //   {}
-  // );
-
-  // const [
-  //   chosenApplicationDeclineTypeIndices,
-  //   setChosenApplicationDeclineTypeIndices,
-  // ] = React.useState(snChosenApplicationDeclineTypeIndices);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (
-    row: IDeclineCurveParametersDetail,
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.persist();
+  const handleCheckboxChange = (row: IDeclineCurveParametersDetail) => {
     alert(row);
     setCheckboxSelected(!checkboxSelected);
   };
 
+  const ApexCheckboxColumn = apexCheckbox({
+    shouldExecute: true,
+    shouldDispatch: false,
+    apexCheckboxAction: handleCheckboxChange,
+  });
+
   const generateColumns = () => {
     const columns: Column<IDeclineCurveParametersDetail>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      {
-        key: "selectDecline",
-        name: "SELECT",
-        resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
-          />
-        ),
-        width: 100,
-      },
+      ApexCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",

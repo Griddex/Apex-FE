@@ -12,6 +12,7 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import FacilitiesTitleAndDescription from "../Forms/FacilitiesTitleAndDescription";
 import FacilitiesTitleAndDescriptionForm from "../Forms/FacilitiesTitleAndDescriptionForm";
 
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
@@ -69,7 +71,10 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
           <IconButton
             className={classes.closeButton}
             aria-label="close"
-            onClick={onClose}
+            onClick={() => {
+              dispatch(hideSpinnerAction());
+              onClose();
+            }}
           >
             <CloseIcon />
           </IconButton>
@@ -91,7 +96,7 @@ const DialogContent = withStyles((theme) => ({
 
 const SaveFacilitiesInputDeckDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, children } = props;
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   return (
     <Dialog

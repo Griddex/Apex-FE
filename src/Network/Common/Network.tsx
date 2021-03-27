@@ -244,7 +244,6 @@ const Network = () => {
   const onLoad = (reactFlowInstance: OnLoadParams) => {
     reactFlowInstance.fitView();
     setRfi(reactFlowInstance);
-    console.log("Inside Onload");
   };
 
   React.useEffect(() => {

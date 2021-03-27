@@ -1,4 +1,4 @@
-import { Checkbox, makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
@@ -7,7 +7,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
-import Status from "../../../../Application/Components/Status/Status";
+import Approval from "../../../../Application/Components/Approval/Approval";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -19,6 +19,7 @@ import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { updateInputAction } from "../../../Redux/Actions/ImportActions";
+import apexCheckbox from "./../../../../Application/Components/Checkboxes/ApexCheckbox";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     height: 560,
     backgroundColor: "#FFF",
     boxShadow: theme.shadows[3],
-    // padding: 10,
+    padding: 10,
   },
   workflowBody: {
     display: "flex",
@@ -75,11 +76,10 @@ export default function ExistingDataRoute<
   const classes = useStyles();
   const dispatch = useDispatch();
   const wp = wkPs as NonNullable<IExistingDataProps["wkPs"]>;
-  // const wp = wkPs
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (row: TRow, event: React.ChangeEvent<any>) => {
+  const [sRow, setSRow] = React.useState(-1);
+  const handleCheckboxChange = (row: TRow) => {
     if (wp.includes("facilities") || wp.includes("forecast")) {
       const existingTitle = getExistingTitle(wp);
       const existingId = getExistingId(wp);
@@ -99,24 +99,18 @@ export default function ExistingDataRoute<
     }
 
     setSelectedRows((prev) => prev.add(row.sn as number));
-    setCheckboxSelected(!checkboxSelected);
   };
+
+  const ApexCheckboxColumn = apexCheckbox({
+    shouldExecute: true,
+    shouldDispatch: false,
+    apexCheckboxAction: handleCheckboxChange,
+  });
 
   const generateColumns = () => {
     const columns: Column<TRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      {
-        key: "select",
-        name: "SELECT",
-        resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
-          />
-        ),
-        width: 50,
-      },
+      ApexCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
@@ -133,12 +127,12 @@ export default function ExistingDataRoute<
         width: 100,
       },
       {
-        key: "status",
-        name: "STATUS",
+        key: "approval",
+        name: "APPROVAL",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <Status statusText={row.status} />;
+          return <Approval approvalText={row.status} />;
         },
         width: 100,
       },
@@ -191,7 +185,8 @@ export default function ExistingDataRoute<
   };
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snExistingData);
-  const rows = tableRows.current;
+  const currentRows = tableRows.current;
+  const [rows, setRows] = React.useState(currentRows);
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -204,16 +199,22 @@ export default function ExistingDataRoute<
           <DoughnutChart data={chartData as ChartType} />
         </div>
       )}
-      <div className={classes.workflowBody}>
-        <ApexGrid<TRow, ITableButtonsProps>
-          columns={columns}
-          rows={rows}
-          tableButtons={tableButtons as ITableButtonsProps}
-          newTableRowHeight={35}
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-        />
-      </div>
+
+      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+        <div className={classes.workflowBody}>
+          <ApexGrid<TRow, ITableButtonsProps>
+            columns={columns}
+            rows={rows}
+            tableButtons={tableButtons as ITableButtonsProps}
+            newTableRowHeight={35}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+            selectedRow={sRow}
+            onSelectedRowChange={setSRow}
+            onRowsChange={setRows}
+          />
+        </div>
+      </ClickAwayListener>
     </div>
   );
 }

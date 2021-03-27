@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, StepConnector, StepIcon } from "@material-ui/core";
 import Step, { StepProps } from "@material-ui/core/Step";
 import StepLabel, { StepLabelProps } from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowDataProps } from "./WorkflowTypes";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -16,6 +16,14 @@ const useStyles = makeStyles(() => ({
     "& > *": {
       alignItems: "center",
     },
+  },
+  verticalConnector: {
+    padding: 0,
+    borderLeft: `2px solid ${theme.palette.primary.main}`,
+  },
+  contentRoot: {
+    marginTop: 0,
+    borderLeft: `2px solid ${theme.palette.primary.main}`,
   },
 }));
 
@@ -33,6 +41,13 @@ const VerticalWorkflowStepper = (props: IWorkflowDataProps) => {
       className={classes.root}
       activeStep={activeStep}
       orientation="vertical"
+      connector={
+        <StepConnector
+          classes={{
+            vertical: classes.verticalConnector,
+          }}
+        />
+      }
     >
       {steps.map((label: string, index: number) => {
         const stepProps: StepProps = {};

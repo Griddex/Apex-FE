@@ -18,8 +18,7 @@ const ForecastSelectChart = () => {
     (state: RootState) => state.chartReducer
   );
 
-  const i = selectedChartIndex;
-  const chart = charts[i || 0];
+  const chart = charts[selectedChartIndex || 0];
 
   return <div style={{ height: "100%", width: "100%" }}>{chart()}</div>;
 };

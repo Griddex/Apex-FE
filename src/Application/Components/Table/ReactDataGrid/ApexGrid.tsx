@@ -1,9 +1,11 @@
 import {
+  Box,
   FormControl,
   IconButton,
   InputAdornment,
   makeStyles,
   OutlinedInput,
+  Tooltip,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
@@ -19,34 +21,19 @@ import ReactDataGrid, {
 } from "react-data-griddex";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import TableMappingErrors from "../../Errors/TableMappingErrors";
 import TableButtons from "../TableButtons";
 import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 import { SelectEditor } from "./SelectEditor";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    width: "98%",
-    height: "95%",
-    border: "1px solid #A8A8A8",
-    boxShadow: theme.shadows[2],
-    backgroundColor: "#FFF",
-  },
   tableHeadBanner: {
     width: "100%",
     height: 30,
     marginBottom: 5,
   },
-  tableRoot: {
-    display: "flex",
-    alignItems: "flex-start",
-    overflow: "overlay",
-    width: "100%",
-    height: "86%",
-  },
-  TableButtons: {
+  tableButtons: {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "flex-end",
@@ -54,11 +41,19 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 10,
     },
   },
+  mappingErrors: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 5,
+    height: "100%",
+    border: `1px solid ${theme.palette.secondary.main}`,
+    color: theme.palette.secondary.main,
+    fontWeight: theme.typography.fontWeightBold,
+  },
   tableFilter: {
     "& > *": { width: 190 },
   },
-  tableHeader: { flexWrap: "nowrap" },
-  tableColumnTitle: { "& > *": { textTransform: "capitalize" } },
   tablePagination: {
     display: "flex",
     width: "100%",
@@ -72,35 +67,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
     minWidth: 100,
   },
-  filterIcon: { width: 20, height: 20, borderLeftColor: "#E7E7E7" },
-  tableHeaders: {
-    margin: 0,
-  },
-  headerRow: {
-    fontSize: "14px",
-    backgroundColor: "#EFEFEF",
-    "& > *": {
-      textTransform: "none",
-    },
-    borderBottom: "1px solid #F1F1F1",
-  },
-  bodyRow: {
-    fontSize: "14px",
-    borderBottom: "1px solid #F1F1F1",
-    height: "100%",
-    "&:hover": {
-      backgroundColor: theme.palette.primary.light,
-      // border: `1px solid ${theme.palette.primary.light}`,
-    },
-  },
-  selectedRow: {
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.primary.light,
-    "& > *": {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.light,
-    },
-  },
 }));
 
 export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
@@ -113,10 +79,13 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     newTableRowHeight,
     selectedRows,
     setSelectedRows,
+    selectedRow,
+    onSelectedRowChange,
+    onRowsChange,
+    mappingErrors,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
-  const [, setRenderRows] = React.useState(rawRows);
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
 
   const tableRef = React.useRef<HTMLDivElement>(null);
@@ -331,14 +300,13 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   }
 
   React.useEffect(() => {
-    const tableHeight = tableRef?.current?.clientHeight || 600;
+    const tableHeight = tableRef?.current?.clientHeight || 550;
     const pagination = Math.round(
       noOfTableRows / (tableHeight / tableRowHeight)
     );
     setTablePagination(pagination);
     setTableHeight(tableHeight);
     setFilteredTableRows(rawRows);
-    setRenderRows(rawRows);
   }, [noOfTableRows, rawRows]);
 
   const { pageSelect, tableFilter } = tableMetaData;
@@ -359,39 +327,60 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
               value={tableFilter}
               onChange={handleFilterChange}
               endAdornment={
-                <InputAdornment position="start">
+                <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     edge="end"
                   >
-                    <SearchIcon className={classes.filterIcon} />
+                    <SearchIcon />
                   </IconButton>
                 </InputAdornment>
               }
             />
           </FormControl>
         </Grid>
-        <Grid item container className={classes.TableButtons}>
+        {mappingErrors && (
+          <Tooltip
+            title={<TableMappingErrors errors={mappingErrors} />}
+            placement="top"
+            arrow
+            interactive
+            leaveDelay={10000}
+            leaveTouchDelay={0}
+          >
+            <Box
+              fontSize="h5.fontSize"
+              component="div"
+              overflow="hidden"
+              whiteSpace="pre-line"
+              textOverflow="ellipsis"
+              className={classes.mappingErrors}
+            >
+              {`Duplicates: ${mappingErrors.join(", ")}`}
+            </Box>
+          </Tooltip>
+        )}
+        <Grid className={classes.tableButtons} item xs container>
           <TableButtons {...tableButtons} />
         </Grid>
       </Grid>
-      {/* <div style={{ width: "100%", height: "100%" }}> */}
       <DndProvider backend={HTML5Backend}>
         <div
           ref={tableRef}
-          // style={{ width: "100%", height: "100%", minHeight: 400 }}
-          // style={{ width: "100%", height: "100%" }}
-          style={{ display: "flex", flexGrow: 1, height: "100%" }}
+          style={{
+            height: "100%",
+          }}
         >
           <ReactDataGrid
             ref={gridRef}
-            // style={{ width: "100%", height: "100%" }}
-            style={{ display: "flex", flexGrow: 1, height: "100%" }}
+            style={{ height: "100%" }}
             rows={sortedRows}
             rowKeyGetter={rowKeyGetter}
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
-            onRowsChange={setRenderRows}
+            onRowsChange={onRowsChange}
+            selectedRow={selectedRow}
+            onSelectedRowChange={onSelectedRowChange}
             columns={draggableColumns}
             sortColumn={sortColumn}
             sortDirection={sortDirection}
@@ -401,7 +390,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           />
         </div>
       </DndProvider>
-      {/* </div> */}
       <div className={classes.tablePagination}>
         <div>Pages</div>
         <SelectEditor
