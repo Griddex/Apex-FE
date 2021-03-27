@@ -2,7 +2,7 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { workflowReInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
+import { updateInputAction } from "../../Redux/Actions/ImportActions";
 import { INewFacilitiesInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
 const FacilitiesTitleAndDescription = ({
@@ -23,7 +23,7 @@ const FacilitiesTitleAndDescription = ({
     handleChange && handleChange(event);
     const { name, value } = event.target;
 
-    dispatch(workflowReInitAction(name, value));
+    dispatch(updateInputAction(name, value));
   };
 
   return (
