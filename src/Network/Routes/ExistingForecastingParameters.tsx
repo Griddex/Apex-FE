@@ -98,6 +98,8 @@ export default function ExistingForecastingParameters({
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
+  const [sRow, setSRow] = React.useState(-1);
 
   const wc = "existingDataWorkflows";
   const wp = "forecastingParametersServer";
@@ -404,7 +406,8 @@ export default function ExistingForecastingParameters({
   const tableRows = React.useRef<IForecastingParametersRow[]>(
     snTransExistingData
   );
-  const rows = tableRows.current;
+  const currentRows = tableRows.current;
+  const [rows, setRows] = React.useState(currentRows);
 
   React.useEffect(() => {
     dispatch(
@@ -426,6 +429,11 @@ export default function ExistingForecastingParameters({
           rows={rows}
           tableButtons={tableButtons}
           newTableRowHeight={35}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          selectedRow={sRow}
+          onSelectedRowChange={setSRow}
+          onRowsChange={setRows}
         />
       </div>
     </div>

@@ -76,7 +76,6 @@ export default function ExistingDataRoute<
   const classes = useStyles();
   const dispatch = useDispatch();
   const wp = wkPs as NonNullable<IExistingDataProps["wkPs"]>;
-  // const wp = wkPs
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
