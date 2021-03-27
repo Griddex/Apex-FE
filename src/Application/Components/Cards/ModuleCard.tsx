@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   cardDescription: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     height: "40%",
     width: "100%",
     padding: 0,
