@@ -13,42 +13,53 @@ import { setWorkflowProcessAction } from "../../Redux/Actions/WorkflowActions";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
-const cardWidth = 250;
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    width: cardWidth,
-    height: cardWidth * 1.3,
+  root: (props: IModuleCardProps) => {
+    const { cardWidth } = props;
+    const cw = cardWidth ? cardWidth : 250;
+
+    return {
+      width: cw,
+      height: cw * 1.3,
+    };
   },
   cardActionArea: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    height: "60%",
+    height: "100%",
     width: "100%",
     cursor: "pointer ",
   },
-  name: {
+  title: {
+    display: "flex",
+    justifyContent: "center",
     width: "100%",
-    fontSize: 18,
   },
-  cardContent: {
+  cardIconTitle: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    height: "60%",
+    width: "100%",
+    padding: 0,
+  },
+  cardDescription: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     height: "40%",
     width: "100%",
     padding: 0,
     backgroundColor: "#F7F7F7",
   },
-  cardDescription: {
+  cardText: {
     width: "80%",
     margin: "auto",
     marginTop: "5%",
-    paddingLeft: 7,
+    paddingLeft: 0,
     borderStyle: "solid",
     borderColor: theme.palette.primary.main,
-    borderLeftWidth: 2,
+    borderLeftWidth: 0,
     borderRightWidth: 0,
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -57,12 +68,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IModuleCardProps {
-  isDispatched?: boolean;
-  moduleAction: () => IAction | void;
   icon: JSX.Element;
-  name: string;
+  title: string;
   description: string;
   route: string;
+  isDispatched?: boolean;
+  moduleAction: () => IAction | void;
+  cardWidth?: number;
   wP: IAllWorkflowProcesses["wrkflwPrcss"] | IExistingDataProps["wkPs"];
   wC: IAllWorkflowProcesses["wrkflwCtgry"] | IExistingDataProps["wkCy"];
 }
@@ -72,14 +84,14 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
     isDispatched,
     moduleAction,
     icon,
-    name,
+    title,
     description,
     route,
     wP,
     wC,
   } = props;
 
-  const classes = useStyles();
+  const classes = useStyles(props);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -89,33 +101,32 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         className={classes.cardActionArea}
         onClick={() => {
           dispatch(setWorkflowProcessAction(wP, wC));
-          dispatch(workflowSetMenuAction(name));
+          dispatch(workflowSetMenuAction(title));
+
           if (isDispatched) dispatch(moduleAction());
           else moduleAction();
+
           dispatch(showContextDrawerAction());
           history.push(route);
         }}
       >
-        {icon}
-        <Typography
-          className={classes.name}
-          gutterBottom
-          variant="h5"
-          component="h2"
-        >
-          {name}
-        </Typography>
+        <div className={classes.cardIconTitle}>
+          {icon}
+          <div className={classes.title}>
+            <Typography variant="h6">{title}</Typography>
+          </div>
+        </div>
+        <div className={classes.cardDescription}>
+          <Typography
+            className={classes.cardText}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            {description}
+          </Typography>
+        </div>
       </CardActionArea>
-      <CardContent className={classes.cardContent}>
-        <Typography
-          className={classes.cardDescription}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          {description}
-        </Typography>
-      </CardContent>
     </Card>
   );
 };

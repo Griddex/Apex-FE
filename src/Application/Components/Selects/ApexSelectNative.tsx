@@ -16,7 +16,7 @@ const ApexSelectNative = ({
 
   return (
     <select
-      name={name}
+      title={name}
       style={selectItemStyle}
       id="outlined-select-worksheet"
       value={currentItem}

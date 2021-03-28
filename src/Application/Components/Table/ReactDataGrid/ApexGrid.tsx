@@ -342,14 +342,14 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         {mappingErrors && (
           <Tooltip
             title={<TableMappingErrors errors={mappingErrors} />}
-            placement="top"
+            placement="left"
             arrow
             interactive
             leaveDelay={10000}
             leaveTouchDelay={0}
           >
             <Box
-              fontSize="h5.fontSize"
+              fontSize={12}
               component="div"
               overflow="hidden"
               whiteSpace="pre-line"

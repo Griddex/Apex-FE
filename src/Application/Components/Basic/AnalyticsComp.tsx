@@ -26,23 +26,10 @@ const useStyles = makeStyles((theme) => ({
     // border: `1px solid ${theme.palette.primary.dark}`,
     textTransform: "uppercase",
     color: theme.palette.primary.dark,
-    letterSpacing: 1,
-    fontSize: 12,
+    letterSpacing: 2,
+    fontSize: 14,
     fontWeight: "bold",
   },
-  // analyticsTitle: {
-  //   borderStyle: "solid",
-  //   borderColor: theme.palette.primary.main,
-  //   borderLeftWidth: 2,
-  //   borderRightWidth: 0,
-  //   borderTopWidth: 0,
-  //   borderBottomWidth: 0,
-  //   paddingLeft: 5,
-  //   lineHeight: "100%",
-  //   marginBottom: theme.spacing(1),
-  //   color: theme.palette.text.primary,
-  //   backgroundColor: "#F7F7F7",
-  // },
 }));
 
 interface IAnalyticsCompProps {
@@ -78,8 +65,8 @@ const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
       className={classes.analyticsComp}
       style={{ ...flexStyle(), ...containerStyle }}
     >
-      <div className={classes.analyticsTitle} style={titleStyle}>
-        <Typography>{title}</Typography>
+      <div style={titleStyle}>
+        <Typography className={classes.analyticsTitle}>{title}</Typography>
       </div>
       <div style={{ width: "100%", ...contentStyle }}>{content}</div>
     </div>

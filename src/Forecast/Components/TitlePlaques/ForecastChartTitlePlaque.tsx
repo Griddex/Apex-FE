@@ -16,7 +16,6 @@ const ForecastChartTitlePlaque = () => {
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <InsertPhotoOutlinedIcon />
-      {/* <Typography style={{ marginLeft: 5 }}>{networkTitle}</Typography> */}
       <Box style={{ display: "flex", alignItems: "center", marginLeft: 5 }}>
         {networkTitle ? networkTitle : "---"}
       </Box>
@@ -24,10 +23,9 @@ const ForecastChartTitlePlaque = () => {
         <Chip
           style={{
             backgroundColor: isNetworkSaved
-              ? "#00C49F"
+              ? theme.palette.success.main
               : theme.palette.secondary.main,
             marginLeft: 5,
-            borderRadius: 4,
           }}
           size="small"
           label={isNetworkSaved ? "Saved" : "Not Saved"}
