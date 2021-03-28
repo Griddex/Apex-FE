@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
     textTransform: "uppercase",
     color: theme.palette.primary.dark,
-    letterSpacing: 1,
-    fontSize: 14,
+    letterSpacing: 1.5,
+    fontSize: 12,
     fontWeight: "bold",
   },
 }));

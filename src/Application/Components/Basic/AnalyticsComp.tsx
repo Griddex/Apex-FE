@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
     // border: `1px solid ${theme.palette.primary.dark}`,
     textTransform: "uppercase",
     color: theme.palette.primary.dark,
-    letterSpacing: 2,
-    fontSize: 14,
+    letterSpacing: 1.5,
+    fontSize: 12,
     fontWeight: "bold",
   },
 }));
