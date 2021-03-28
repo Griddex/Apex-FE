@@ -167,7 +167,7 @@ const ForecastLanding = () => {
                 moduleAction={() => {
                   setLoadWorkflow(true);
                 }}
-                name={name}
+                title={name}
                 description={description}
                 icon={icon}
                 route={route}

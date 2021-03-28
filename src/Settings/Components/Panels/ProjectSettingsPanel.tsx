@@ -10,17 +10,13 @@ const useStyles = makeStyles(() => ({
   settingsPanel: {
     display: "flex",
     flexDirection: "column",
-    // alignItems: "flex-start",
-    // justifyContent: "flex-start",
     height: "100%",
-    // border: "1px solid #C4C4C4",
     width: "100%",
-    // overflow: "auto",
   },
 }));
 
 interface IProjectSettingsProps {
-  name: string;
+  title: string;
 }
 interface IProjectSettings {
   name: string;
@@ -31,11 +27,11 @@ interface IProjectSettings {
   >;
 }
 
-const ProjectSettingsType: React.FC<IProjectSettingsProps> = ({ name }) => {
+const ProjectSettingsType: React.FC<IProjectSettingsProps> = ({ title }) => {
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.PROJECT_SETTINGS_TYPE,
-      calculationName: name,
+      calculationName: title,
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
@@ -64,7 +60,7 @@ const ProjectSettingsType: React.FC<IProjectSettingsProps> = ({ name }) => {
 
   const opacity = isDragging ? 0.4 : 1;
   const currentSetting: IProjectSettings = settings.find(
-    (calculation) => calculation.name === name
+    (calculation) => calculation.name === title
   ) as IProjectSettings;
 
   return (
@@ -113,7 +109,7 @@ const ProjectSettingsPanel = () => {
       <AnalyticsTitle title="Settings Panel" />
       <div className={classes.settingsPanel}>
         {projectSettingNames.map((name, i) => (
-          <ProjectSettingsType key={i} name={name} />
+          <ProjectSettingsType key={i} title={name} />
         ))}
       </div>
     </>

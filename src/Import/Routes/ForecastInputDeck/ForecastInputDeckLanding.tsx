@@ -204,7 +204,7 @@ const ForecastInputDeckLanding = () => {
                 key={name}
                 isDispatched={true}
                 moduleAction={loadWorkflowAction}
-                name={name}
+                title={name}
                 description={description}
                 icon={icon}
                 route={route}

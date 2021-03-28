@@ -91,7 +91,7 @@ const ForecastInputDeckFinalization = ({
     };
 
     const dialogParameters: DialogStuff = {
-      name: "Existing_Network_Dialog",
+      name: "Save_Forecast_InputDeck_Dialog",
       title: "Save Forecast Inputdeck",
       type: "saveForecastInputDeckDialog",
       show: true,

@@ -12,7 +12,7 @@ const SelectItem = ({
 }: ISelectItem) => {
   return (
     <TextField
-      name={name}
+      title={name}
       style={selectItemStyle}
       id="outlined-select-worksheet"
       select

@@ -11,17 +11,13 @@ const useStyles = makeStyles(() => ({
   economicsCalculationPanel: {
     display: "flex",
     flexDirection: "column",
-    // alignItems: "flex-start",
-    // justifyContent: "flex-start",
     height: "100%",
-    // border: "1px solid #C4C4C4",
     width: "100%",
-    // overflow: "auto",
   },
 }));
 
 interface IEconomicsProps {
-  name: string;
+  title: string;
 }
 interface IEconomicsCalculation {
   name: string;
@@ -32,7 +28,7 @@ interface IEconomicsCalculation {
   >;
 }
 
-const EconomicsCalculationsType: React.FC<IEconomicsProps> = ({ name }) => {
+const EconomicsCalculationsType: React.FC<IEconomicsProps> = ({ title }) => {
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.ECONOMICS_CALCULATION_TYPE,
@@ -77,7 +73,7 @@ const EconomicsCalculationsType: React.FC<IEconomicsProps> = ({ name }) => {
 
   const opacity = isDragging ? 0.4 : 1;
   const currentCalculation: IEconomicsCalculation = calculations.find(
-    (calculation) => calculation.name === name
+    (calculation) => calculation.name === title
   ) as IEconomicsCalculation;
 
   return (
@@ -126,7 +122,7 @@ const EconomicsCalculationsPanel = () => {
       <AnalyticsTitle title="Economics Calculation Panel" />
       <div className={classes.economicsCalculationPanel}>
         {economicsCalculationsNames.map((name, i) => (
-          <EconomicsCalculationsType key={i} name={name} />
+          <EconomicsCalculationsType key={i} title={name} />
         ))}
       </div>
     </>
