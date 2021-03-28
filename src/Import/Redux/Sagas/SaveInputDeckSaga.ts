@@ -21,7 +21,7 @@ import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import {
   failureDialogParameters,
   successDialogParameters,
-} from "../../Components/DialogParameters/SaveInputDeckFailureDialogParameters";
+} from "../../Components/DialogParameters/SaveInputDeckDialogParameters";
 import { fetchExistingDataRequestAction } from "../Actions/ExistingDataActions";
 import {
   saveInputDeckFailureAction,
@@ -126,10 +126,9 @@ export function* saveInputDeckSaga(
       payload: { ...payload, workflowProcess: wp, status, success, data },
     });
 
-    if (wp.includes("facilities"))
-      yield put(showDialogAction(successDialogParameters(inputDeckType, wp)));
-
     yield put(fetchExistingDataRequestAction(projectId));
+
+    yield put(showDialogAction(successDialogParameters(inputDeckType, wp)));
   } catch (errors) {
     const failureAction = saveInputDeckFailureAction();
 

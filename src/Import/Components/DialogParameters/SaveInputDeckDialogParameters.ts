@@ -1,8 +1,8 @@
 import DialogOkayButton from "../../../Application/Components/DialogButtons/DialogOkayButton";
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { updateInputAction } from "../../Redux/Actions/ImportActions";
-import { DialogStuff } from "./../../../Application/Components/Dialogs/DialogTypes";
-import { IImportWorkflowProcess } from "./../../../Application/Components/Workflows/WorkflowTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const successDialogParameters = (
   inputDeckType: string,
