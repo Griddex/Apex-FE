@@ -69,6 +69,7 @@ function* runForecastSaga(
     while (true) {
       const data = yield take(chan);
       const successAction = runForecastSuccessAction();
+
       if (Object.keys(data)[0] === "keys") {
         yield put({
           ...successAction,
@@ -86,10 +87,6 @@ function* runForecastSaga(
         //     : [data["tree"]];
 
         const newData = data["tree"];
-        console.log(
-          "Logged output --> ~ file: RunForecastSaga.ts ~ line 79 ~ newData",
-          newData
-        );
 
         yield put({
           ...successAction,

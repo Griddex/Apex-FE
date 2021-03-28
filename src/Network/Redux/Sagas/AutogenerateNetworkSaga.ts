@@ -79,10 +79,6 @@ export function* autoGenerateNetworkSaga(
 
     while (true) {
       const flowElement = yield take(chan);
-      console.log(
-        "Logged output --> ~ file: GenerateNetworkBySelectionSaga.ts ~ line 68 ~ flowElement",
-        flowElement
-      );
 
       let isNode = false;
       const successAction = autoGenerateNetworkSuccessAction();
