@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     width: 600,
     height: "60%",
     alignItems: "center",
-    overflow: "overlay",
+    overflow: "auto",
     marginTop: 20,
     border: "1px solid #F7F7F7",
     backgroundColor: "#F7F7F7",

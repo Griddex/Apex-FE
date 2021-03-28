@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   selectItem: {},
   listBorder: {
     height: 300,
-    overflow: "overlay",
+    overflow: "auto",
     border: "1px solid #F7F7F7",
   },
   dbTables: { marginTop: 50 },

@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     width: "70%",
     height: "60%",
     alignItems: "center",
-    overflow: "overlay",
+    overflow: "auto",
     // height: 500,
   },
 

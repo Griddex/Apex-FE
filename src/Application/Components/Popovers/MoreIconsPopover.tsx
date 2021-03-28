@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "70%",
     width: "100%",
-    overflow: "overlay",
+    overflow: "auto",
   },
   listItem: { padding: 0, cursor: "pointer" },
   itemIcon: {

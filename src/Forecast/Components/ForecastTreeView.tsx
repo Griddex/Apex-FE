@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
   listDialogContent: { display: "flex", flexDirection: "column" },
   listBorder: {
     height: 200,
-    overflow: "overlay",
+    overflow: "auto",
     border: "1px solid #F7F7F7",
   },
 }));

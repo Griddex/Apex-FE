@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "60%",
     width: "100%",
-    overflow: "overlay",
+    overflow: "auto",
   },
   footer: {
     display: "flex",

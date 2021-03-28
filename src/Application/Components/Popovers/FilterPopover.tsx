@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "auto",
     width: "100%",
-    overflow: "overlay",
+    overflow: "auto",
   },
   listItem: { padding: 0, cursor: "pointer" },
   listItemAvatar: {
