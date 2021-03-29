@@ -207,29 +207,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const generateColumns = (keyedApplicationHeaderOptions: {
     [index: string]: { value: string; label: string }[];
   }) => {
-    const handleAcceptMatchSwitchChange = (
-      row: IRawRow,
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      console.log(
-        "Logged output --> ~ file: MatchHeaders.tsx ~ line 214 ~ MatchHeaders ~ row",
-        row
-      );
-      setAcceptMatchSwitchChecked(event.target.checked);
-
-      const selectedRowSN = row.sn as number;
-      const currentRows = tableRows.current;
-      const selectedRow = currentRows[selectedRowSN - 1];
-
-      currentRows[selectedRowSN] = {
-        ...selectedRow,
-        acceptMatch: event.target.checked,
-      };
-      tableRows.current = currentRows;
-
-      setRerender((rerender) => !rerender);
-    };
-
     const handleExcludeSwitchChange = (
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
@@ -244,7 +221,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       const currentRows = tableRows.current;
       const selectedRow = currentRows[selectedRowSN - 1];
 
-      currentRows[selectedRowSN] = {
+      currentRows[selectedRowSN - 1] = {
         ...selectedRow,
         exclude: event.target.checked,
       };
@@ -253,6 +230,29 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         "Logged output --> ~ file: MatchHeaders.tsx ~ line 249 ~ MatchHeaders ~ currentRows",
         currentRows
       );
+
+      // setRerender((rerender) => !rerender);
+    };
+
+    const handleAcceptMatchSwitchChange = (
+      row: IRawRow,
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      console.log(
+        "Logged output --> ~ file: MatchHeaders.tsx ~ line 214 ~ MatchHeaders ~ row",
+        row
+      );
+      setAcceptMatchSwitchChecked(event.target.checked);
+
+      const selectedRowSN = row.sn as number;
+      const currentRows = tableRows.current;
+      const selectedRow = currentRows[selectedRowSN - 1];
+
+      currentRows[selectedRowSN - 1] = {
+        ...selectedRow,
+        acceptMatch: event.target.checked,
+      };
+      tableRows.current = currentRows;
 
       // setRerender((rerender) => !rerender);
     };
@@ -351,6 +351,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
               }}
             >
               <ApexMuiSwitch
+                name="exclude"
                 handleChange={(event) => handleExcludeSwitchChange(row, event)}
                 checked={checked}
                 checkedColor={theme.palette.secondary.main}
@@ -383,6 +384,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
               }}
             >
               <ApexMuiSwitch
+                name="acceptMatch"
                 handleChange={(event) =>
                   handleAcceptMatchSwitchChange(row, event)
                 }

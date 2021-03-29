@@ -37,11 +37,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function ApexMuiSwitch(props: IApexMuiSwitch) {
-  const { handleChange, checked } = props;
+  const { name, handleChange, checked } = props;
   const classes = useStyles(props);
 
   return (
     <Switch
+      name={name}
       classes={{
         root: classes.root,
         switchBase: classes.switchBase,
