@@ -342,9 +342,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
           return (
             <ApexMuiSwitch
-              handleChange={(event) =>
-                handleAcceptMatchSwitchChange(row, event)
-              }
+              handleChange={(event) => handleExcludeSwitchChange(row, event)}
               checked={checked}
               checkedColor={theme.palette.secondary.main}
               notCheckedColor={theme.palette.common.white}
@@ -366,7 +364,9 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
           return (
             <ApexMuiSwitch
-              handleChange={(event) => handleExcludeSwitchChange(row, event)}
+              handleChange={(event) =>
+                handleAcceptMatchSwitchChange(row, event)
+              }
               checked={checked}
               checkedColor={theme.palette.success.main}
               notCheckedColor={theme.palette.common.white}
