@@ -240,6 +240,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         nodeElements: [],
         edgeElements: [],
         selectedNetworkId: "",
+        selectedNetworkTitle: "",
       };
     }
 
