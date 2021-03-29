@@ -6,6 +6,10 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import MiniCard, {
+  IMiniCardProps,
+} from "../../../Application/Components/Cards/MiniCard";
+import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import {
   ButtonProps,
@@ -182,17 +186,19 @@ const ForecastInputDeckFinalization = ({
 
   return (
     <div className={classes.dialogButtons}>
-      {buttonsData.map((button, i) => (
-        <Button
-          key={i}
-          variant={button.variant}
-          color={button.color}
-          onClick={button.handleAction}
-          startIcon={button.startIcon}
-        >
-          {button.title}
-        </Button>
-      ))}
+      {buttonsData.map((button, i) => {
+        const { startIcon, handleAction, title } = button;
+
+        return (
+          <MiniCard
+            key={title}
+            icon={startIcon as IMiniCardProps["icon"]}
+            moduleAction={handleAction as IMiniCardProps["moduleAction"]}
+            title={title as IMiniCardProps["title"]}
+            cardWidth={150}
+          />
+        );
+      })}
     </div>
   );
 };
