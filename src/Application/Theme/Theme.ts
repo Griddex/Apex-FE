@@ -189,13 +189,13 @@ theme.overrides = {
 
   MuiCardActionArea: {
     root: {
-      border: `1px solid #F7F7F7F7`,
+      border: `1px solid #999`,
       "&:hover": {
         border: `1px solid ${theme.palette.primary.main}`,
         outline: `1px solid ${theme.palette.primary.main}`,
-        // boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
         borderRadius: 2,
-        boxShadow: `0 0 .5rem #fff, inset 0 0 .5rem #fff,  0 0 2rem ${theme.palette.primary.main}, inset 0 0 2rem  ${theme.palette.primary.main}, 0 0 4rem  ${theme.palette.primary.main}, inset 0 0 4rem  ${theme.palette.primary.main}`,
+        // boxShadow: `0 0 .5rem #fff, inset 0 0 .5rem #fff,  0 0 2rem ${theme.palette.primary.main}, inset 0 0 2rem  ${theme.palette.primary.main}, 0 0 4rem  ${theme.palette.primary.main}, inset 0 0 4rem  ${theme.palette.primary.main}`,
       },
     },
   },
