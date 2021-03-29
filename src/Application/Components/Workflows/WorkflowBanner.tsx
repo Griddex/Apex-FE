@@ -54,7 +54,7 @@ const WorkflowBanner = ({
 
   return (
     <Container className={classes.workflowHeaderRow} fixed disableGutters>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      {/* <div style={{ display: "flex", alignItems: "center" }}>
         <div>
           <hr
             style={{
@@ -74,11 +74,11 @@ const WorkflowBanner = ({
             backgroundColor: theme.palette.primary.main,
           }}
         />
-      </div>
+      </div> */}
       <Box className={classes.workflowBannerHeader}>
-        <Typography variant="subtitle1">{`${subModuleName}`}</Typography>
+        <Typography variant="button">{`${subModuleName}`}</Typography>
         <span>&nbsp;</span>
-        <Typography variant="subtitle1">{`${moduleName} `}</Typography>
+        <Typography variant="button">{`${moduleName} `}</Typography>
         <Chip
           style={{
             marginLeft: 5,

@@ -235,6 +235,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
       setExcludeSwitchChecked(event.target.checked);
+      console.log(
+        "Logged output --> ~ file: MatchHeaders.tsx ~ line 244 ~ MatchHeaders ~ event.target.checked",
+        event.target.checked
+      );
 
       const selectedRowSN = row.sn as number;
       const currentRows = tableRows.current;
@@ -245,8 +249,12 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         exclude: event.target.checked,
       };
       tableRows.current = currentRows;
+      console.log(
+        "Logged output --> ~ file: MatchHeaders.tsx ~ line 249 ~ MatchHeaders ~ currentRows",
+        currentRows
+      );
 
-      setRerender((rerender) => !rerender);
+      // setRerender((rerender) => !rerender);
     };
 
     const columns: Column<IRawRow>[] = [
