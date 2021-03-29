@@ -211,6 +211,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
+      console.log(
+        "Logged output --> ~ file: MatchHeaders.tsx ~ line 214 ~ MatchHeaders ~ row",
+        row
+      );
       setAcceptMatchSwitchChecked(event.target.checked);
 
       const selectedRowSN = row.sn as number;
