@@ -1,4 +1,4 @@
-import { Button, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
 import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
@@ -9,7 +9,6 @@ import { useHistory } from "react-router-dom";
 import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
-import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import {
   ButtonProps,

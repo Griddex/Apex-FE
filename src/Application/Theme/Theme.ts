@@ -186,6 +186,17 @@ theme.overrides = {
       flex: "0 1 auto",
     },
   },
+
+  MuiCardActionArea: {
+    root: {
+      "&:hover": {
+        border: `1px solid ${theme.palette.primary.main}`,
+        outline: `1px solid ${theme.palette.primary.main}`,
+        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        borderRadius: 2,
+      },
+    },
+  },
 };
 
 export default theme;
