@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: "space-between",
     width: "100%",
     "& > *": {
-      height: 120,
+      height: 150,
       width: "45%",
     },
   },
