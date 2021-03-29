@@ -339,7 +339,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             />
           </FormControl>
         </Grid>
-        {mappingErrors && (
+        {mappingErrors && mappingErrors?.length > 0 && (
           <Tooltip
             title={<TableMappingErrors errors={mappingErrors} />}
             placement="left"

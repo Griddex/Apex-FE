@@ -7,8 +7,8 @@ import {
   EXISTINGFORECASTPARAMETERS_SUCCESS,
   EXISTINGNETWORKDATA_FAILURE,
   EXISTINGNETWORKDATA_SUCCESS,
-  GENERATENETWORKBYSELECTION_FAILURE,
-  GENERATENETWORKBYSELECTION_SUCCESS,
+  DISPLAYNETWORKBYSELECTION_FAILURE,
+  DISPLAYNETWORKBYSELECTION_SUCCESS,
   HIDE_NETWORKELEMENTDETAILS,
   HIDE_WELHEADSUMMARYEDGES,
   HIDE_WELHEADSUMMARYNODES,
@@ -142,7 +142,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case GENERATENETWORKBYSELECTION_SUCCESS: {
+    case DISPLAYNETWORKBYSELECTION_SUCCESS: {
       const { success, status, isNode, newFlowElements } = action.payload;
 
       if (isNode) {
@@ -162,7 +162,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       }
     }
 
-    case GENERATENETWORKBYSELECTION_FAILURE: {
+    case DISPLAYNETWORKBYSELECTION_FAILURE: {
       const { errors } = action.payload;
       return {
         ...state,

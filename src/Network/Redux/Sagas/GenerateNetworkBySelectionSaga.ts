@@ -27,7 +27,7 @@ import { failureDialogParameters } from "../../Components/DialogParameters/AutoG
 import {
   displayNetworkBySelectionFailureAction,
   displayNetworkBySelectionSuccessAction,
-  GENERATENETWORKBYSELECTION_REQUEST,
+  DISPLAYNETWORKBYSELECTION_REQUEST,
 } from "../Actions/NetworkActions";
 
 export default function* watchGenerateNetworkBySelectionSaga(): Generator<
@@ -36,7 +36,7 @@ export default function* watchGenerateNetworkBySelectionSaga(): Generator<
   any
 > {
   const displayNetworkBySelectionChan = yield actionChannel(
-    GENERATENETWORKBYSELECTION_REQUEST
+    DISPLAYNETWORKBYSELECTION_REQUEST
   );
   yield takeLeading(
     displayNetworkBySelectionChan,

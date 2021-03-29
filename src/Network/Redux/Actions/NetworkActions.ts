@@ -20,12 +20,12 @@ export const SAVENETWORK_ISVALID = "SAVENETWORK_ISVALID";
 export const AUTOGENERATENETWORK_REQUEST = "AUTOGENERATENETWORK_REQUEST";
 export const AUTOGENERATENETWORK_SUCCESS = "AUTOGENERATENETWORK_SUCCESS";
 export const AUTOGENERATENETWORK_FAILURE = "AUTOGENERATENETWORK_FAILURE";
-export const GENERATENETWORKBYSELECTION_REQUEST =
-  "GENERATENETWORKBYSELECTION_REQUEST";
-export const GENERATENETWORKBYSELECTION_SUCCESS =
-  "GENERATENETWORKBYSELECTION_SUCCESS";
-export const GENERATENETWORKBYSELECTION_FAILURE =
-  "GENERATENETWORKBYSELECTION_FAILURE";
+export const DISPLAYNETWORKBYSELECTION_REQUEST =
+  "DISPLAYNETWORKBYSELECTION_REQUEST";
+export const DISPLAYNETWORKBYSELECTION_SUCCESS =
+  "DISPLAYNETWORKBYSELECTION_SUCCESS";
+export const DISPLAYNETWORKBYSELECTION_FAILURE =
+  "DISPLAYNETWORKBYSELECTION_FAILURE";
 export const SAVEAUTOGENERATENETWORK_REQUEST =
   "SAVEAUTOGENERATENETWORK_REQUEST";
 export const SAVEAUTOGENERATENETWORK_SUCCESS =
@@ -194,14 +194,14 @@ export const saveNetworkExtrudeIsValidAction = (
 
 export const displayNetworkBySelectionRequestAction = () => {
   return {
-    type: GENERATENETWORKBYSELECTION_REQUEST,
-    meta: { showSpinner: true, message: "Generating network..." },
+    type: DISPLAYNETWORKBYSELECTION_REQUEST,
+    meta: { showSpinner: true, message: "Display network..." },
   };
 };
 
 export const displayNetworkBySelectionSuccessAction = () => {
   return {
-    type: GENERATENETWORKBYSELECTION_SUCCESS,
+    type: DISPLAYNETWORKBYSELECTION_SUCCESS,
     payload: {
       status: 0,
     },
@@ -210,7 +210,7 @@ export const displayNetworkBySelectionSuccessAction = () => {
 
 export const displayNetworkBySelectionFailureAction = () => {
   return {
-    type: GENERATENETWORKBYSELECTION_FAILURE,
+    type: DISPLAYNETWORKBYSELECTION_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
