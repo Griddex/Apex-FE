@@ -219,7 +219,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
       const selectedRowSN = row.sn as number;
       const currentRows = tableRows.current;
-      const selectedRow = currentRows[selectedRowSN];
+      const selectedRow = currentRows[selectedRowSN - 1];
 
       currentRows[selectedRowSN] = {
         ...selectedRow,
@@ -242,7 +242,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
       const selectedRowSN = row.sn as number;
       const currentRows = tableRows.current;
-      const selectedRow = currentRows[selectedRowSN];
+      const selectedRow = currentRows[selectedRowSN - 1];
 
       currentRows[selectedRowSN] = {
         ...selectedRow,
@@ -341,12 +341,22 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           const checked = row.exclude as boolean;
 
           return (
-            <ApexMuiSwitch
-              handleChange={(event) => handleExcludeSwitchChange(row, event)}
-              checked={checked}
-              checkedColor={theme.palette.secondary.main}
-              notCheckedColor={theme.palette.common.white}
-            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <ApexMuiSwitch
+                handleChange={(event) => handleExcludeSwitchChange(row, event)}
+                checked={checked}
+                checkedColor={theme.palette.secondary.main}
+                notCheckedColor={theme.palette.common.white}
+              />
+            </div>
           );
         },
         width: 100,
@@ -363,14 +373,24 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           );
 
           return (
-            <ApexMuiSwitch
-              handleChange={(event) =>
-                handleAcceptMatchSwitchChange(row, event)
-              }
-              checked={checked}
-              checkedColor={theme.palette.success.main}
-              notCheckedColor={theme.palette.common.white}
-            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <ApexMuiSwitch
+                handleChange={(event) =>
+                  handleAcceptMatchSwitchChange(row, event)
+                }
+                checked={checked}
+                checkedColor={theme.palette.success.main}
+                notCheckedColor={theme.palette.common.white}
+              />
+            </div>
           );
         },
         width: 150,
