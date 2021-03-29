@@ -121,7 +121,7 @@ const ForecastInputDeckLanding = () => {
       type: "finalizeForecastInputDeckDialog",
       show: true,
       exclusive: true,
-      maxWidth: "md",
+      maxWidth: "sm",
       iconType: "information",
       workflowProcess,
       workflowCategory: "importDataWorkflows",

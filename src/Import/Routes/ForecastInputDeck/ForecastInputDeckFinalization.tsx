@@ -30,7 +30,6 @@ const useStyles = makeStyles(() => ({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    height: 300,
     width: "100%",
     "& > *": {
       height: 120,
@@ -138,7 +137,7 @@ const ForecastInputDeckFinalization = ({
       title: "Save Deck Only",
       color: "primary",
       variant: "contained",
-      startIcon: <SaveOutlinedIcon />,
+      startIcon: <SaveOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
         dispatch(hideDialogAction());
         saveForecastInputdeck(wp);
@@ -148,7 +147,7 @@ const ForecastInputDeckFinalization = ({
       title: "Save and Automatically Generate Network",
       color: "primary",
       variant: "contained",
-      startIcon: <ControlCameraOutlinedIcon />,
+      startIcon: <ControlCameraOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
         dispatch(hideDialogAction());
         saveForecastInputdeckAndGenerateNetwork(workflowProcess);
@@ -158,7 +157,7 @@ const ForecastInputDeckFinalization = ({
       title: "Save and Manually Generate Network",
       color: "primary",
       variant: "contained",
-      startIcon: <DeviceHubOutlinedIcon />,
+      startIcon: <DeviceHubOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
         dispatch(hideDialogAction());
         enqueueSnackbar(`${subModuleName} saved`, {
@@ -195,7 +194,7 @@ const ForecastInputDeckFinalization = ({
             icon={startIcon as IMiniCardProps["icon"]}
             moduleAction={handleAction as IMiniCardProps["moduleAction"]}
             title={title as IMiniCardProps["title"]}
-            cardWidth={150}
+            // cardWidth={100}
           />
         );
       })}

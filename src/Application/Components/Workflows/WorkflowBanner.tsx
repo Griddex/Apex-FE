@@ -82,9 +82,9 @@ const WorkflowBanner = ({
         <Chip
           style={{
             marginLeft: 5,
-            // borderRadius: 4,
+            border: `1px solid ${theme.palette.primary.main}`,
+            backgroundColor: theme.palette.primary.light,
             minWidth: 50,
-            // letterSpacing: 2,
           }}
           size="small"
           label={`${activeStep + 1} | ${steps.length}`}
