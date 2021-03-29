@@ -199,6 +199,14 @@ theme.overrides = {
       },
     },
   },
+
+  MuiSwitch: {
+    switchBase: {
+      "&$checked": {
+        transform: "translateX(12px)",
+      },
+    },
+  },
 };
 
 export default theme;
