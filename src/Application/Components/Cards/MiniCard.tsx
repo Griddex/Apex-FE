@@ -76,21 +76,21 @@ const MiniCard: React.FC<IMiniCardProps> = (props) => {
   const classes = useStyles(props);
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea
-        className={classes.cardActionArea}
-        onClick={() => {
-          moduleAction();
-        }}
-      >
-        <div className={classes.cardIconTitle}>
-          {icon}
-          <div className={classes.title}>
-            <Typography variant="h6">{title}</Typography>
-          </div>
+    // <Card className={classes.root}>
+    <CardActionArea
+      className={classes.cardActionArea}
+      onClick={() => {
+        moduleAction();
+      }}
+    >
+      <div className={classes.cardIconTitle}>
+        {icon}
+        <div className={classes.title}>
+          <Typography variant="h6">{title}</Typography>
         </div>
-      </CardActionArea>
-    </Card>
+      </div>
+    </CardActionArea>
+    // </Card>
   );
 };
 

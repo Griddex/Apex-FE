@@ -31,8 +31,9 @@ const useStyles = makeStyles(() => ({
     justifyContent: "space-between",
     width: "100%",
     "& > *": {
-      height: 150,
+      height: 200,
       width: "45%",
+      margin: 20,
     },
   },
 }));

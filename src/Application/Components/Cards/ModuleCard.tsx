@@ -96,38 +96,38 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
   const history = useHistory();
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea
-        className={classes.cardActionArea}
-        onClick={() => {
-          dispatch(setWorkflowProcessAction(wP, wC));
-          dispatch(workflowSetMenuAction(title));
+    // <Card className={classes.root}>
+    <CardActionArea
+      className={classes.cardActionArea}
+      onClick={() => {
+        dispatch(setWorkflowProcessAction(wP, wC));
+        dispatch(workflowSetMenuAction(title));
 
-          if (isDispatched) dispatch(moduleAction());
-          else moduleAction();
+        if (isDispatched) dispatch(moduleAction());
+        else moduleAction();
 
-          dispatch(showContextDrawerAction());
-          history.push(route);
-        }}
-      >
-        <div className={classes.cardIconTitle}>
-          {icon}
-          <div className={classes.title}>
-            <Typography variant="h6">{title}</Typography>
-          </div>
+        dispatch(showContextDrawerAction());
+        history.push(route);
+      }}
+    >
+      <div className={classes.cardIconTitle}>
+        {icon}
+        <div className={classes.title}>
+          <Typography variant="h6">{title}</Typography>
         </div>
-        <div className={classes.cardDescription}>
-          <Typography
-            className={classes.cardText}
-            variant="body2"
-            color="textSecondary"
-            component="p"
-          >
-            {description}
-          </Typography>
-        </div>
-      </CardActionArea>
-    </Card>
+      </div>
+      <div className={classes.cardDescription}>
+        <Typography
+          className={classes.cardText}
+          variant="body2"
+          color="textSecondary"
+          component="p"
+        >
+          {description}
+        </Typography>
+      </div>
+    </CardActionArea>
+    // </Card>
   );
 };
 
