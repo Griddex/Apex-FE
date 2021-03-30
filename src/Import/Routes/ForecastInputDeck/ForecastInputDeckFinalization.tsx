@@ -185,7 +185,7 @@ const ForecastInputDeckFinalization = ({
 
   return (
     <div className={classes.dialogButtons}>
-      {buttonsData.map((button, i) => {
+      {buttonsData.map((button) => {
         const { startIcon, handleAction, title } = button;
 
         return (
@@ -194,7 +194,6 @@ const ForecastInputDeckFinalization = ({
             icon={startIcon as IMiniCardProps["icon"]}
             moduleAction={handleAction as IMiniCardProps["moduleAction"]}
             title={title as IMiniCardProps["title"]}
-            // cardWidth={100}
           />
         );
       })}

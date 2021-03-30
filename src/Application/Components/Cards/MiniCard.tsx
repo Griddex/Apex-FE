@@ -37,29 +37,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: 0,
   },
-  cardDescription: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "40%",
-    width: "100%",
-    padding: 0,
-    backgroundColor: "#F7F7F7",
-  },
-  cardText: {
-    width: "80%",
-    margin: "auto",
-    marginTop: "5%",
-    paddingLeft: 0,
-    borderStyle: "solid",
-    borderColor: theme.palette.primary.main,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    textAlign: "left",
-  },
 }));
 
 export interface IMiniCardProps {
@@ -81,7 +58,9 @@ const MiniCard: React.FC<IMiniCardProps> = (props) => {
       <div className={classes.cardIconTitle}>
         {icon}
         <div className={classes.title}>
-          <Typography variant="h6">{title}</Typography>
+          <Typography variant="h6" align="center">
+            {title}
+          </Typography>
         </div>
       </div>
     </CardActionArea>

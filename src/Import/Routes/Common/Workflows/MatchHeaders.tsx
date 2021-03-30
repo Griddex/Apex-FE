@@ -343,7 +343,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
                 handleChange={(event) => handleExcludeSwitchChange(row, event)}
                 checked={checked}
                 checkedColor={theme.palette.secondary.main}
-                notCheckedColor={theme.palette.warning.main}
+                notCheckedColor={theme.palette.common.white}
               />
             </div>
           );
@@ -356,10 +356,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         resizable: true,
         formatter: ({ row }) => {
           const checked = row.exclude as boolean;
-          console.log(
-            "Logged output --> ~ file: MatchHeaders.tsx ~ line 351 ~ MatchHeaders ~ checked",
-            checked
-          );
 
           return (
             <div
@@ -378,7 +374,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
                 }
                 checked={checked}
                 checkedColor={theme.palette.success.main}
-                notCheckedColor={theme.palette.common.white}
+                notCheckedColor={theme.palette.warning.main}
               />
             </div>
           );

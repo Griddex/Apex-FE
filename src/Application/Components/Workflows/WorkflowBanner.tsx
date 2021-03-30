@@ -78,12 +78,12 @@ const WorkflowBanner = ({
       <Box className={classes.workflowBannerHeader}>
         <Typography
           variant="button"
-          style={{ color: "#6D7374" }}
+          style={{ color: "#6D7374", letterSpacing: 2 }}
         >{`${subModuleName}`}</Typography>
         <span>&nbsp;</span>
         <Typography
           variant="button"
-          style={{ color: "#6D7374" }}
+          style={{ color: "#6D7374", letterSpacing: 2 }}
         >{`${moduleName} `}</Typography>
         <Chip
           style={{
