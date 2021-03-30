@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
@@ -10,6 +10,7 @@ import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SelectOptionsType } from "../../../../Application/Components/Selects/SelectItemsType";
+import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -92,6 +93,8 @@ const getApplicationUnits = () => {
 export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const wc = "importDataWorkflows";
   const wp = wrkflwPrcss;
 
@@ -189,19 +192,28 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
     snChosenApplicationUniqueUnitIndices
   );
 
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
+  const [, setAcceptMatchSwitchChecked] = React.useState(false);
   const generateColumns = (
     keyedApplicationUnitOptions: {
       [index: string]: { value: string; label: string }[];
     },
     unitGroupOptions: SelectOptionsType
   ) => {
-    const handleCheckboxChange = (
+    const handleAcceptMatchSwitchChange = (
       row: IRawRow,
-      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      event: React.ChangeEvent<HTMLInputElement>
     ) => {
-      alert(row);
-      setCheckboxSelected(!checkboxSelected);
+      setAcceptMatchSwitchChecked(event.target.checked);
+
+      const selectedRowSN = row.sn as number;
+      const currentRows = tableRows.current;
+      const selectedRow = currentRows[selectedRowSN - 1];
+
+      currentRows[selectedRowSN - 1] = {
+        ...selectedRow,
+        acceptMatch: event.target.checked,
+      };
+      tableRows.current = currentRows;
     };
 
     const columns: Column<IRawRow>[] = [
@@ -272,7 +284,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
         },
       },
       {
-        key: "unitClassification",
+        key: "unitClassification", //appUnit match selection will define this using units package
         name: "UNIT CLASSIFICATION",
         resizable: true,
         editor: (p) => (
@@ -300,12 +312,31 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
         key: "acceptMatch",
         name: "ACCEPT MATCH",
         resizable: true,
-        formatter: ({ row }) => (
-          <Checkbox
-            onClick={(event) => handleCheckboxChange(row, event)}
-            checked={checkboxSelected}
-          />
-        ),
+        formatter: ({ row }) => {
+          const checked = row.exclude as boolean;
+
+          return (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <ApexMuiSwitch
+                name="acceptMatch"
+                handleChange={(event) =>
+                  handleAcceptMatchSwitchChange(row, event)
+                }
+                checked={checked}
+                checkedColor={theme.palette.success.main}
+                notCheckedColor={theme.palette.warning.main}
+              />
+            </div>
+          );
+        },
         width: 150,
       },
     ];

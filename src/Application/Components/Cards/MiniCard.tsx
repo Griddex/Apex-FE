@@ -1,4 +1,3 @@
-import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -21,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     cursor: "pointer ",
+    border: `2px solid ${theme.palette.primary.main}`,
+    backgroundColor: theme.palette.primary.light,
   },
   title: {
     display: "flex",
@@ -76,13 +77,7 @@ const MiniCard: React.FC<IMiniCardProps> = (props) => {
   const classes = useStyles(props);
 
   return (
-    // <Card className={classes.root}>
-    <CardActionArea
-      className={classes.cardActionArea}
-      onClick={() => {
-        moduleAction();
-      }}
-    >
+    <CardActionArea className={classes.cardActionArea} onClick={moduleAction}>
       <div className={classes.cardIconTitle}>
         {icon}
         <div className={classes.title}>
@@ -90,7 +85,6 @@ const MiniCard: React.FC<IMiniCardProps> = (props) => {
         </div>
       </div>
     </CardActionArea>
-    // </Card>
   );
 };
 

@@ -343,7 +343,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
                 handleChange={(event) => handleExcludeSwitchChange(row, event)}
                 checked={checked}
                 checkedColor={theme.palette.secondary.main}
-                notCheckedColor={theme.palette.common.white}
+                notCheckedColor={theme.palette.warning.main}
               />
             </div>
           );
