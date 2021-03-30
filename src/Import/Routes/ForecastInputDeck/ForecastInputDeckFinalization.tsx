@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
     "& > *": {
       height: 200,
       width: "45%",
-      margin: 20,
+      margin: 10,
     },
   },
 }));

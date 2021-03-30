@@ -3,10 +3,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
@@ -96,22 +100,7 @@ const ForecastInputDeckLanding = () => {
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
-  // const forecastExcelandDbWorkflowFinalAction = (
-  //   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
-  // ) => {
-  //   const dialogParameters: DialogStuff = {
-  //     name: "Manage_Deck_Dialog",
-  //     title: `Manage Forecast Input Deck`,
-  //     type: "saveForecastInputDeckDialog",
-  //     show: true,
-  //     exclusive: true,
-  //     maxWidth: "md",
-  //     iconType: "information",
-  //     workflowProcess,
-  //     workflowCategory: "importDataWorkflows",
-  //   };
-  //   dispatch(showDialogAction(dialogParameters));
-  // };
+
   const forecastExcelandDbWorkflowFinalAction = (
     workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
   ) => {
@@ -125,6 +114,7 @@ const ForecastInputDeckLanding = () => {
       iconType: "information",
       workflowProcess,
       workflowCategory: "importDataWorkflows",
+      actionsList: () => DialogCancelButton(),
     };
     dispatch(showDialogAction(dialogParameters));
   };

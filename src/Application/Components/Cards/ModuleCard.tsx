@@ -110,13 +110,16 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
       <div className={classes.cardIconTitle}>
         {icon}
         <div className={classes.title}>
-          <Typography variant="h6">{title}</Typography>
+          <Typography variant="h6" align="center">
+            {title}
+          </Typography>
         </div>
       </div>
       <div className={classes.cardDescription}>
         <Typography
           className={classes.cardText}
           variant="body2"
+          align="center"
           color="textSecondary"
           component="p"
         >

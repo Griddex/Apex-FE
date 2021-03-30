@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     cursor: "pointer ",
-    border: `2px solid ${theme.palette.primary.main}`,
+    border: `1px solid ${theme.palette.primary.main}`,
     backgroundColor: theme.palette.primary.light,
   },
   title: {
