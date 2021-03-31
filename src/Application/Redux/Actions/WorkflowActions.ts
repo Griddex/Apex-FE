@@ -9,7 +9,6 @@ export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
 export const BACK_WORKFLOW = "BACK_WORKFLOW";
 export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
-export const SETUP_WORKFLOW = "SETUP_WORKFLOW";
 
 export const setWorkflowProcessAction = (
   workflowProcess:
@@ -134,21 +133,6 @@ export const workflowSaveAction = (
   return {
     type: SAVE_WORKFLOW,
     payload: {
-      workflowProcess,
-      workflowCategory,
-    },
-  };
-};
-
-export const setUpWorkflowAction = (
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"],
-  name: string
-) => {
-  return {
-    type: SETUP_WORKFLOW,
-    payload: {
-      name,
       workflowProcess,
       workflowCategory,
     },

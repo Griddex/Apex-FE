@@ -94,9 +94,9 @@ const MainDrawer = () => {
   const { url } = useRouteMatch();
   const theme = useTheme();
 
-  const [selected, setMainMenuSelected] = useState("");
-  const handleMenuSelected = (route: string, e: any) => {
-    setMainMenuSelected(route);
+  const [selectedName, setSelectedName] = useState("");
+  const handleSelectedName = (route: string, e: any) => {
+    setSelectedName(route);
   };
 
   //Can replace with dynamically loaded json config file
@@ -215,15 +215,15 @@ const MainDrawer = () => {
                 )}
                 component={Link}
                 to={route}
-                selected={name === selected}
+                selected={name === selectedName}
                 onClick={(e: any) => {
-                  handleMenuSelected(name, e);
+                  handleSelectedName(name, e);
                   dispatch(mainDrawerSetMenuAction(name));
                   name !== "Project" && history.push(route);
                 }}
                 disabled={name === "Project" ? false : menusDisabled}
                 style={
-                  name === selected
+                  name === selectedName
                     ? {
                         color: theme.palette.primary.main,
                       }
@@ -236,7 +236,7 @@ const MainDrawer = () => {
                     <div className={classes.menuItemDiv}>
                       <div
                         style={
-                          name === selected
+                          name === selectedName
                             ? { color: theme.palette.primary.main }
                             : {}
                         }
@@ -246,7 +246,7 @@ const MainDrawer = () => {
                       {expandMainDrawer && (
                         <Typography
                           style={
-                            name === selected
+                            name === selectedName
                               ? { color: theme.palette.primary.main }
                               : {}
                           }
@@ -263,7 +263,7 @@ const MainDrawer = () => {
                     {expandMainDrawer && (
                       <Typography
                         style={
-                          name === selected
+                          name === selectedName
                             ? { color: theme.palette.primary.main }
                             : {}
                         }

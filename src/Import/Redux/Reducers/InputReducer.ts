@@ -104,7 +104,12 @@ const inputReducer = (state = InputState, action: IAction) => {
       };
     }
     case SAVEINPUTDECK_SUCCESS: {
-      const { workflowProcess, data, status, success } = action.payload;
+      const {
+        workflowProcess,
+        existingDataId,
+        status,
+        success,
+      } = action.payload;
       const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       return {
@@ -113,9 +118,9 @@ const inputReducer = (state = InputState, action: IAction) => {
           ...state.importDataWorkflows,
           [wp]: {
             ...state.importDataWorkflows[wp],
-            existingDataId: data, //please Gift use id
-            status, //please Gift use id
-            success, //please Gift use id
+            existingDataId,
+            status,
+            success,
           },
         },
       };
