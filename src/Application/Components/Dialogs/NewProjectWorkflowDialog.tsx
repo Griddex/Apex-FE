@@ -142,7 +142,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     (state: RootState) => state.projectReducer
   );
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
+    (state: RootState) => state.unitSettingsReducer
   );
 
   const finalAction = () => {

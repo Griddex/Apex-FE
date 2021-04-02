@@ -53,7 +53,7 @@ function* createNewProjectSaga(
   );
 
   const unitSettingsData = yield select(
-    (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
+    (state: RootState) => state.unitSettingsReducer
   );
 
   const data = {

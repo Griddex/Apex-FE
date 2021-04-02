@@ -13,10 +13,10 @@ export interface IUnitsRow {
 }
 
 export interface IUnitSettingsData {
+  unitGroup: "Field" | "Metric" | "Mixed";
   dayFormat: string;
   monthFormat: string;
   yearFormat: string;
-  unitGroup: "Field" | "Metric" | "Mixed";
-  variableUnits: IUnitsRow[];
   pressureAddend?: number;
+  variableUnits: IUnitsRow[];
 }
