@@ -117,13 +117,19 @@ export function* saveInputDeckSaga(
     const {
       status,
       success,
-      data: { data },
+      data: { data: existingDataId },
     } = result;
 
     const successAction = saveInputDeckSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, workflowProcess: wp, status, success, data },
+      payload: {
+        ...payload,
+        workflowProcess: wp,
+        status,
+        success,
+        existingDataId,
+      },
     });
 
     yield put(fetchExistingDataRequestAction(projectId));

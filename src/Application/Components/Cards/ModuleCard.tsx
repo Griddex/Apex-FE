@@ -1,6 +1,4 @@
-import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
@@ -96,7 +94,6 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
   const history = useHistory();
 
   return (
-    // <Card className={classes.root}>
     <CardActionArea
       className={classes.cardActionArea}
       onClick={() => {
@@ -113,13 +110,16 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
       <div className={classes.cardIconTitle}>
         {icon}
         <div className={classes.title}>
-          <Typography variant="h6">{title}</Typography>
+          <Typography variant="h6" align="center">
+            {title}
+          </Typography>
         </div>
       </div>
       <div className={classes.cardDescription}>
         <Typography
           className={classes.cardText}
           variant="body2"
+          align="center"
           color="textSecondary"
           component="p"
         >
@@ -127,7 +127,6 @@ const ModuleCard: React.FC<IModuleCardProps> = (props) => {
         </Typography>
       </div>
     </CardActionArea>
-    // </Card>
   );
 };
 

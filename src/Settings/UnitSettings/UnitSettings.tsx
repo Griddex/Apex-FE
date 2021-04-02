@@ -68,14 +68,14 @@ export default function UnitSettings({
   const dispatch = useDispatch();
 
   const {
-    pressureAddend,
+    unitGroup,
     dayFormat,
     monthFormat,
     yearFormat,
-    unitGroup,
+    pressureAddend,
     variableUnits: unitsData,
   } = useSelector(
-    (state: RootState) => state.unitSettingsReducer["unitSettingsData"]
+    (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
   const unitGroups = ["Field", "Metric", "Mixed"];

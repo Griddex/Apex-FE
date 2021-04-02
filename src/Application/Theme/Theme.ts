@@ -190,7 +190,7 @@ theme.overrides = {
   MuiCardActionArea: {
     root: {
       border: `1px solid #999`,
-      boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+      boxShadow: `${fade("#999", 0.25)} 0 0 0 2px`,
       "&:hover": {
         border: `1px solid ${theme.palette.primary.main}`,
         outline: `1px solid ${theme.palette.primary.main}`,

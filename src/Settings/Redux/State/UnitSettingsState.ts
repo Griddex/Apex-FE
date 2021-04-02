@@ -1,16 +1,14 @@
 import { IHTTPResponse } from "../../../Application/Layout/LayoutTypes";
 import { IUnitSettingsData } from "./UnitSettingsStateTypes";
 
-const unitSettingsState: Record<"unitSettingsData", IUnitSettingsData> &
-  IHTTPResponse = {
-  unitSettingsData: {
-    pressureAddend: 14.7,
-    dayFormat: "dd",
-    monthFormat: "mm",
-    yearFormat: "yyyy",
-    unitGroup: "Field",
-    variableUnits: [],
-  },
+const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
+  pressureAddend: 14.7,
+  dayFormat: "dd",
+  monthFormat: "mm",
+  yearFormat: "yyyy",
+  unitGroup: "Field",
+  variableUnits: [],
+
   status: 200,
   errors: { message: "" },
 };
