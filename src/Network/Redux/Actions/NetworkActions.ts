@@ -195,7 +195,7 @@ export const saveNetworkExtrudeIsValidAction = (
 export const displayNetworkBySelectionRequestAction = () => {
   return {
     type: DISPLAYNETWORKBYSELECTION_REQUEST,
-    meta: { showSpinner: true, message: "Display network..." },
+    meta: { showSpinner: true, message: "Displaying network..." },
   };
 };
 

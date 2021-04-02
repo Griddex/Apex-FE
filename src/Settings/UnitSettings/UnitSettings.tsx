@@ -73,7 +73,7 @@ export default function UnitSettings({
     monthFormat,
     yearFormat,
     pressureAddend,
-    variableUnits: unitsData,
+    variableUnits,
   } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
@@ -116,7 +116,7 @@ export default function UnitSettings({
     dispatch(updateFirstLevelUnitSettingsAction(name, value));
   };
 
-  const snUnits = unitsData.map((row, i: number) => ({
+  const snUnits = variableUnits.map((row, i: number) => ({
     sn: i + 1,
     ...row,
   }));
@@ -264,7 +264,7 @@ export default function UnitSettings({
         resizable: true,
         formatter: ({ row }) => {
           const variableName = row.variableName as string;
-          const unitsObj = unitsData.find(
+          const unitsObj = variableUnits.find(
             (u) => u.variableName === variableName
           );
 

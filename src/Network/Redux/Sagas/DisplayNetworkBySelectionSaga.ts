@@ -30,7 +30,7 @@ import {
   DISPLAYNETWORKBYSELECTION_REQUEST,
 } from "../Actions/NetworkActions";
 
-export default function* watchGenerateNetworkBySelectionSaga(): Generator<
+export default function* watchDisplayNetworkBySelectionSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any

@@ -15,6 +15,7 @@ import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../../Application/Services/AuthService";
+import getBaseUrl from "../../../../Application/Services/BaseUrlService";
 import { INewProjectFormValues } from "../../../../Project/Redux/State/ProjectStateTypes";
 import { failureDialogParameters } from "../../../Components/DialogActions/UnitSettingsSuccessFailureDialogParameters";
 import {
@@ -52,61 +53,12 @@ function* fetchUnitSettingsSaga(
   try {
     const result = yield call(
       fetchUnitSettingsAPI,
-      "api/forecast/global-variableunit/detail"
+      `${getBaseUrl()}/global-variableunit/detail`
     );
 
     const {
       data: { status, data: unitsData, succcess }, //prevent 2nd trip to server
     } = result;
-    // const unitsData: IUnitSettingsData &
-    //   Pick<INewProjectFormValues, "pressureAddend"> = {
-    //   unitGroup: "Field",
-    //   dayFormat: "dd",
-    //   monthFormat: "mm",
-    //   yearFormat: "yyyy",
-    //   pressureAddend: 14.7, //convert to g to a and vice versa
-    //   variableUnits: [
-    //     {
-    //       variableName: "oilRate", //send
-    //       variableTitle: "Oil Rate",
-    //       variableId: "hsajflbshjdbls", //send
-    //       displayUnitId: "shvdhsdvshds", //Send
-    //       units: [
-    //         { title: "bbl Oil/day", group: "field", unitId: "shvdhsdvshds" },
-    //         { title: "stb/day", group: "field", unitId: "shvdhshgmkdvshds" },
-    //         { title: "m3/day", group: "metric", unitId: "aasf" },
-    //         { title: "cm3/day", group: "metric", unitId: "jhkk" },
-    //         { title: "Unit3", group: "metric", unitId: "hfhdd" },
-    //       ],
-    //     },
-    //     {
-    //       variableName: "liquidRate", //send
-    //       variableTitle: "Liquid Rate",
-    //       variableId: "vhcsyefgdvcjhssd", //send
-    //       displayUnitId: "rjbvvbvhdvjl", //Send
-    //       units: [
-    //         { title: "bbl Oil/day", group: "field", unitId: "rjbvvbvhdvjl" },
-    //         { title: "stb/day", group: "field", unitId: "dsgfhgdgv" },
-    //         { title: "m3/day", group: "metric", unitId: "ertghg" },
-    //         { title: "cm3/day", group: "metric", unitId: "aevc" },
-    //         { title: "dm3/day", group: "metric", unitId: "kjhgvc" },
-    //       ],
-    //     },
-    //     {
-    //       variableName: "gasRate", //send
-    //       variableTitle: "Gas Rate",
-    //       variableId: "yfdsyhfsydshlshdl", //send
-    //       displayUnitId: "trowuythfewh", //Send
-    //       units: [
-    //         { title: "MScf/day", group: "field", unitId: "trowuythfewh" },
-    //         { title: "MMScf/day", group: "field", unitId: "isvtu" },
-    //         { title: "m3/day", group: "metric", unitId: "qhgfqq" },
-    //         { title: "cm3/day", group: "metric", unitId: "zzzcfhjk" },
-    //         { title: "Unit3", group: "metric", unitId: "kolohggf" },
-    //       ],
-    //     },
-    //   ],
-    // };
 
     const successAction = fetchUnitSettingsSuccessAction();
     yield put({
