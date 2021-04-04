@@ -26,6 +26,10 @@ export interface IApexGrid<R, O> {
   onSelectedRowChange?: React.Dispatch<React.SetStateAction<number>>;
   onRowsChange?: React.Dispatch<any>;
   mappingErrors?: React.Key[];
+  size?: {
+    readonly width: number | null;
+    readonly height: number | null;
+  };
 }
 
 export interface ITableMetaData<R> {

@@ -6,6 +6,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import Author from "../../Application/Components/Author/Author";
 import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -424,17 +425,22 @@ export default function ExistingForecastingParameters({
         </div>
       )}
       <div className={classes.table}>
-        <ApexGrid<IForecastingParametersRow, ITableButtonsProps>
-          columns={columns}
-          rows={rows}
-          tableButtons={tableButtons}
-          newTableRowHeight={35}
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-          selectedRow={sRow}
-          onSelectedRowChange={setSRow}
-          onRowsChange={setRows}
-        />
+        <SizeMe monitorHeight refreshRate={32}>
+          {({ size }) => (
+            <ApexGrid<IForecastingParametersRow, ITableButtonsProps>
+              columns={columns}
+              rows={rows}
+              tableButtons={tableButtons}
+              newTableRowHeight={35}
+              selectedRows={selectedRows}
+              setSelectedRows={setSelectedRows}
+              selectedRow={sRow}
+              onSelectedRowChange={setSRow}
+              onRowsChange={setRows}
+              size={size}
+            />
+          )}
+        </SizeMe>
       </div>
     </div>
   );

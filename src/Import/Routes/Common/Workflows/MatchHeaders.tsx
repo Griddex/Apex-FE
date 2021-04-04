@@ -11,6 +11,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { Styles } from "react-select";
 import { ValueType } from "react-select/src/types";
+import { SizeMe } from "react-sizeme";
 import {
   ISelectOptions,
   SelectOptionsType,
@@ -461,13 +462,18 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         <DoughnutChart data={headerMatchChartData} />
       </div>
       <div className={classes.table}>
-        <ApexGrid<IRawRow, ITableButtonsProps>
-          columns={columns}
-          rows={rows}
-          tableButtons={tableButtons}
-          onRowsChange={setRows}
-          mappingErrors={getDuplicates(chosenApplicationHeaders)}
-        />
+        <SizeMe monitorHeight refreshRate={32}>
+          {({ size }) => (
+            <ApexGrid<IRawRow, ITableButtonsProps>
+              columns={columns}
+              rows={rows}
+              tableButtons={tableButtons}
+              onRowsChange={setRows}
+              mappingErrors={getDuplicates(chosenApplicationHeaders)}
+              size={size}
+            />
+          )}
+        </SizeMe>
       </div>
     </div>
   );

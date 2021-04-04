@@ -20,6 +20,7 @@ import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import { updateInputAction } from "../../../Redux/Actions/ImportActions";
 import apexCheckbox from "./../../../../Application/Components/Checkboxes/ApexCheckbox";
+import { SizeMe } from "react-sizeme";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "98%",
-    height: 560,
+    height: "90%",
     backgroundColor: "#FFF",
     boxShadow: theme.shadows[3],
     padding: 10,
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   workflowBody: {
     display: "flex",
     flexDirection: "column",
-    flexGrow: 1,
+    height: "100%",
     width: "100%",
     alignItems: "center",
     justifyContent: "center", //around, between
@@ -202,17 +203,22 @@ export default function ExistingDataRoute<
 
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.workflowBody}>
-          <ApexGrid<TRow, ITableButtonsProps>
-            columns={columns}
-            rows={rows}
-            tableButtons={tableButtons as ITableButtonsProps}
-            newTableRowHeight={35}
-            selectedRows={selectedRows}
-            setSelectedRows={setSelectedRows}
-            selectedRow={sRow}
-            onSelectedRowChange={setSRow}
-            onRowsChange={setRows}
-          />
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => (
+              <ApexGrid<TRow, ITableButtonsProps>
+                columns={columns}
+                rows={rows}
+                tableButtons={tableButtons as ITableButtonsProps}
+                newTableRowHeight={35}
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                selectedRow={sRow}
+                onSelectedRowChange={setSRow}
+                onRowsChange={setRows}
+                size={size}
+              />
+            )}
+          </SizeMe>
         </div>
       </ClickAwayListener>
     </div>

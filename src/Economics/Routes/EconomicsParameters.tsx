@@ -20,6 +20,7 @@ import React, { ChangeEvent } from "react";
 import ReactDataGrid, { Column, SelectColumn } from "react-data-griddex";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import xlsx from "xlsx";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
@@ -600,11 +601,16 @@ const EconomicsParameters = ({
     return (
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.maxContainer}>
-          <ApexGrid<IRawRow, ITableButtonsProps>
-            columns={columns}
-            rows={rawTableData}
-            tableButtons={tableButtons}
-          />
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => (
+              <ApexGrid<IRawRow, ITableButtonsProps>
+                columns={columns}
+                rows={rawTableData}
+                tableButtons={tableButtons}
+                size={size}
+              />
+            )}
+          </SizeMe>
         </div>
       </ClickAwayListener>
     );

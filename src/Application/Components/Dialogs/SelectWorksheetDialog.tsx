@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
-  const classes = useStyles(props);
+  const classes = useStyles();
   const { iconType, children, onClose, ...other } = props;
 
   return (
@@ -132,7 +132,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const dispatch = useDispatch();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
@@ -179,7 +179,10 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                   }}
                   style={
                     name === selectedListItem
-                      ? { border: `2px solid ${theme.palette.primary.main}` }
+                      ? {
+                          border: `2px solid ${theme.palette.primary.main}`,
+                          backgroundColor: theme.palette.primary.light,
+                        }
                       : {}
                   }
                 >

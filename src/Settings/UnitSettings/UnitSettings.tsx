@@ -3,6 +3,7 @@ import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import SelectItem from "../../Application/Components/Selects/SelectItem";
@@ -349,7 +350,7 @@ export default function UnitSettings({
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          height: "100%",
+          height: 150,
         }}
       >
         <div>
@@ -366,16 +367,14 @@ export default function UnitSettings({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginTop: 20,
-            marginBottom: 20,
             width: "100%",
-            height: "100%",
+            height: 100,
           }}
         >
           <AnalyticsComp
             title="Date Format"
             direction="Vertical"
-            containerStyle={{ marginBottom: 20, marginTop: 20 }}
+            // containerStyle={{ marginBottom: 20, marginTop: 20 }}
             content={
               <div
                 style={{
@@ -438,11 +437,17 @@ export default function UnitSettings({
           /> */}
         </div>
       </div>
-      <ApexGrid<IUnitsRow, ITableButtonsProps>
-        columns={columns}
-        rows={rows}
-        tableButtons={tableButtons}
-      />
+
+      <SizeMe monitorHeight refreshRate={32}>
+        {({ size }) => (
+          <ApexGrid<IUnitsRow, ITableButtonsProps>
+            columns={columns}
+            rows={rows}
+            tableButtons={tableButtons}
+            size={size}
+          />
+        )}
+      </SizeMe>
     </div>
   );
 }

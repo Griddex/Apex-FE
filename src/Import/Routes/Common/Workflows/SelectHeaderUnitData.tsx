@@ -37,6 +37,7 @@ import {
 } from "../../../Redux/Actions/ImportActions";
 import getRoleRSStyles from "./../../../Utils/GetRoleRSStyles";
 import { ValueType } from "react-select";
+import { SizeMe } from "react-sizeme";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -280,11 +281,16 @@ export default function SelectHeaderUnitData({
 
   return (
     <div className={classes.rootParseTable}>
-      <ApexGrid<IRawRow, ITableButtonsProps>
-        columns={columns}
-        rows={rows}
-        tableButtons={tableButtons}
-      />
+      <SizeMe monitorHeight refreshRate={32}>
+        {({ size }) => (
+          <ApexGrid<IRawRow, ITableButtonsProps>
+            columns={columns}
+            rows={rows}
+            tableButtons={tableButtons}
+            size={size}
+          />
+        )}
+      </SizeMe>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -336,15 +337,20 @@ export default function DeclineCurveParameters({
 
   return (
     <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-      <div className={classes.rootExistingData}>
-        <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
-          columns={columns}
-          rows={rows}
-          tableButtons={tableButtons}
-          newTableRowHeight={35}
-          selectedRow={sRow}
-        />
-      </div>
+      <SizeMe monitorHeight refreshRate={32}>
+        {({ size }) => (
+          <div className={classes.rootExistingData}>
+            <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
+              columns={columns}
+              rows={rows}
+              tableButtons={tableButtons}
+              newTableRowHeight={35}
+              selectedRow={sRow}
+              size={size}
+            />
+          </div>
+        )}
+      </SizeMe>
     </ClickAwayListener>
   );
 }

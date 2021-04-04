@@ -9,6 +9,7 @@ import zipObject from "lodash.zipobject";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import { SelectOptionsType } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -428,11 +429,16 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
         <DoughnutChart data={unitsMatchChartData} />
       </div>
       <div className={classes.table}>
-        <ApexGrid<IRawRow, ITableButtonsProps>
-          columns={columns}
-          rows={rows}
-          tableButtons={tableButtons}
-        />
+        <SizeMe monitorHeight refreshRate={32}>
+          {({ size }) => (
+            <ApexGrid<IRawRow, ITableButtonsProps>
+              columns={columns}
+              rows={rows}
+              tableButtons={tableButtons}
+              size={size}
+            />
+          )}
+        </SizeMe>
       </div>
     </div>
   );

@@ -213,13 +213,13 @@ const MainDrawer = () => {
                     ? classes.menuItemBoxOpen
                     : classes.menuItemBoxClosed
                 )}
-                component={Link}
-                to={route}
                 selected={name === selectedName}
                 onClick={(e: any) => {
                   handleSelectedName(name, e);
                   dispatch(mainDrawerSetMenuAction(name));
-                  name !== "Project" && history.push(route);
+
+                  if (name !== "Project") history.push(route);
+                  else return null;
                 }}
                 disabled={name === "Project" ? false : menusDisabled}
                 style={

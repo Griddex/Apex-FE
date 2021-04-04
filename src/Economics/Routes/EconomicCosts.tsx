@@ -7,6 +7,7 @@ import uniqBy from "lodash.uniqby";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -159,11 +160,16 @@ export default function EconomicCosts() {
   return (
     <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
       <div className={classes.rootParseTable}>
-        <ApexGrid<IRawRow, ITableButtonsProps>
-          columns={columns}
-          rows={rawTableData}
-          tableButtons={tableButtons}
-        />
+        <SizeMe monitorHeight refreshRate={32}>
+          {({ size }) => (
+            <ApexGrid<IRawRow, ITableButtonsProps>
+              columns={columns}
+              rows={rawTableData}
+              tableButtons={tableButtons}
+              size={size}
+            />
+          )}
+        </SizeMe>
       </div>
     </ClickAwayListener>
   );

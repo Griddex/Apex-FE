@@ -83,13 +83,18 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     onSelectedRowChange,
     onRowsChange,
     mappingErrors,
+    size,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
 
+  const totaltableHeight = size?.height as number;
+  const tableHeight = totaltableHeight - 70;
+
   const tableRef = React.useRef<HTMLDivElement>(null);
   const gridRef = React.useRef<DataGridHandle>(null);
+
   const tableHeaderHeight = 40;
   const tableRowHeight = newTableRowHeight ? newTableRowHeight : 35;
   const pagesHeight = 35;
@@ -101,7 +106,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   >(["", "NONE"]);
 
   const [tablePagination, setTablePagination] = React.useState(0);
-  const [tableHeight, setTableHeight] = React.useState(500);
 
   const pageOptions = ["All", 25, 50, 100, 500].map((v) => ({
     value: v,
@@ -299,15 +303,14 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     return (row as any)["sn"];
   }
 
-  React.useEffect(() => {
-    const tableHeight = tableRef?.current?.clientHeight || 550;
+  React.useLayoutEffect(() => {
     const pagination = Math.round(
       noOfTableRows / (tableHeight / tableRowHeight)
     );
+
     setTablePagination(pagination);
-    setTableHeight(tableHeight);
     setFilteredTableRows(rawRows);
-  }, [noOfTableRows, rawRows]);
+  }, [tableHeight, rawRows]);
 
   const { pageSelect, tableFilter } = tableMetaData;
 
@@ -368,7 +371,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         <div
           ref={tableRef}
           style={{
-            height: "100%",
+            height: "85%",
           }}
         >
           <ReactDataGrid

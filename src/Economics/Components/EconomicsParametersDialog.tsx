@@ -12,6 +12,7 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import MainTitle from "../../Application/Components/Basic/MainTitle";
 import {
   ButtonProps,
@@ -156,11 +157,16 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
         <div className={classes.economicParameterDialogContent}>
           <MainTitle title="Economics Parameters 1" />
           <div style={{ width: "100%", height: "500px" }}>
-            <ApexGrid<IRawRow, ITableButtonsProps>
-              columns={columns}
-              rows={rows}
-              tableButtons={tableButtons}
-            />
+            <SizeMe monitorHeight refreshRate={32}>
+              {({ size }) => (
+                <ApexGrid<IRawRow, ITableButtonsProps>
+                  columns={columns}
+                  rows={rows}
+                  tableButtons={tableButtons}
+                  size={size}
+                />
+              )}
+            </SizeMe>
           </div>
         </div>
       </ClickAwayListener>

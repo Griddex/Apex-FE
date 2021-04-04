@@ -21,6 +21,7 @@ import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { persistFirstLevelForecastPropertyAction } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import { SizeMe } from "react-sizeme";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -286,16 +287,21 @@ export default function ExistingForecastResults({
       )}
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.table}>
-          <ApexGrid<IExistingForecastResultsRow, ITableButtonsProps>
-            columns={columns}
-            rows={rows}
-            tableButtons={tableButtons}
-            newTableRowHeight={35}
-            selectedRows={selectedRows}
-            onSelectedRowsChange={setSelectedRows}
-            onRowsChange={setRows}
-            selectedRow={sRow}
-          />
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => (
+              <ApexGrid<IExistingForecastResultsRow, ITableButtonsProps>
+                columns={columns}
+                rows={rows}
+                tableButtons={tableButtons}
+                newTableRowHeight={35}
+                selectedRows={selectedRows}
+                onSelectedRowsChange={setSelectedRows}
+                onRowsChange={setRows}
+                selectedRow={sRow}
+                size={size}
+              />
+            )}
+          </SizeMe>
         </div>
       </ClickAwayListener>
     </div>
