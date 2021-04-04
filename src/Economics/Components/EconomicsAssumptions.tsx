@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
@@ -54,6 +54,8 @@ export default function EconomicsAssumptions() {
     return fakeRows;
   };
   const tableRows = createTableRows(100);
+  const currentRows = tableRows;
+  const [sRow, setSRow] = React.useState(-1);
 
   React.useEffect(() => {
     // dispatch(persistTableDataAction(noAddedColumnTableData,workflowProcess));
@@ -181,13 +183,15 @@ export default function EconomicsAssumptions() {
   ];
 
   return (
-    <div className={classes.rootParseTable}>
-      <MainTitle title="Economics Assumptions" />
-      <ApexGrid<IRawRow, ITableButtonsProps>
-        columns={columns}
-        rows={tableRows}
-        tableButtons={tableButtons}
-      />
-    </div>
+    <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+      <div className={classes.rootParseTable}>
+        <MainTitle title="Economics Assumptions" />
+        <ApexGrid<IRawRow, ITableButtonsProps>
+          columns={columns}
+          rows={tableRows}
+          tableButtons={tableButtons}
+        />
+      </div>
+    </ClickAwayListener>
   );
 }

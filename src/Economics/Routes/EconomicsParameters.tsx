@@ -1,4 +1,9 @@
-import { Container, makeStyles, useTheme } from "@material-ui/core";
+import {
+  ClickAwayListener,
+  Container,
+  makeStyles,
+  useTheme,
+} from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Radio from "@material-ui/core/Radio";
@@ -590,14 +595,18 @@ const EconomicsParameters = ({
       { key: "remark", name: "Remark", editable: true, resizable: true },
     ];
 
+    const [sRow, setSRow] = React.useState(-1);
+
     return (
-      <div className={classes.maxContainer}>
-        <ApexGrid<IRawRow, ITableButtonsProps>
-          columns={columns}
-          rows={rawTableData}
-          tableButtons={tableButtons}
-        />
-      </div>
+      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+        <div className={classes.maxContainer}>
+          <ApexGrid<IRawRow, ITableButtonsProps>
+            columns={columns}
+            rows={rawTableData}
+            tableButtons={tableButtons}
+          />
+        </div>
+      </ClickAwayListener>
     );
   };
 

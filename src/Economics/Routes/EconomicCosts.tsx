@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
@@ -155,13 +155,16 @@ export default function EconomicCosts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  const [sRow, setSRow] = React.useState(-1);
   return (
-    <div className={classes.rootParseTable}>
-      <ApexGrid<IRawRow, ITableButtonsProps>
-        columns={columns}
-        rows={rawTableData}
-        tableButtons={tableButtons}
-      />
-    </div>
+    <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+      <div className={classes.rootParseTable}>
+        <ApexGrid<IRawRow, ITableButtonsProps>
+          columns={columns}
+          rows={rawTableData}
+          tableButtons={tableButtons}
+        />
+      </div>
+    </ClickAwayListener>
   );
 }

@@ -1,4 +1,4 @@
-import { Button, Divider } from "@material-ui/core";
+import { Button, ClickAwayListener, Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -146,21 +146,24 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
     extraButtons: () => <div></div>,
   };
 
+  const [sRow, setSRow] = React.useState(-1);
   const economicsParametersDialogContent = (
     columns: Column<IRawRow>[],
     rows: IRawRow[]
   ) => {
     return (
-      <div className={classes.economicParameterDialogContent}>
-        <MainTitle title="Economics Parameters 1" />
-        <div style={{ width: "100%", height: "500px" }}>
-          <ApexGrid<IRawRow, ITableButtonsProps>
-            columns={columns}
-            rows={rows}
-            tableButtons={tableButtons}
-          />
+      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+        <div className={classes.economicParameterDialogContent}>
+          <MainTitle title="Economics Parameters 1" />
+          <div style={{ width: "100%", height: "500px" }}>
+            <ApexGrid<IRawRow, ITableButtonsProps>
+              columns={columns}
+              rows={rows}
+              tableButtons={tableButtons}
+            />
+          </div>
         </div>
-      </div>
+      </ClickAwayListener>
     );
   };
 

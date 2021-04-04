@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import findIndex from "lodash.findindex";
@@ -332,14 +332,19 @@ export default function DeclineCurveParameters({
     dispatch(updateNetworkParameterAction("declineParameters", rows));
   }, [dispatch, rows]);
 
+  const [sRow, setSRow] = React.useState(-1);
+
   return (
-    <div className={classes.rootExistingData}>
-      <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
-        columns={columns}
-        rows={rows}
-        tableButtons={tableButtons}
-        newTableRowHeight={35}
-      />
-    </div>
+    <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+      <div className={classes.rootExistingData}>
+        <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
+          columns={columns}
+          rows={rows}
+          tableButtons={tableButtons}
+          newTableRowHeight={35}
+          selectedRow={sRow}
+        />
+      </div>
+    </ClickAwayListener>
   );
 }

@@ -1,4 +1,4 @@
-import { Checkbox, makeStyles } from "@material-ui/core";
+import { Checkbox, ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
@@ -275,6 +275,8 @@ export default function ExistingForecastResults({
     dispatch(hideSpinnerAction());
   }, [dispatch, rows]);
 
+  const [sRow, setSRow] = React.useState(-1);
+
   return (
     <div className={classes.rootExistingData}>
       {showChart && (
@@ -282,18 +284,20 @@ export default function ExistingForecastResults({
           <DoughnutChart data={chartData} />
         </div>
       )}
-      <div className={classes.table}>
-        <ApexGrid<IExistingForecastResultsRow, ITableButtonsProps>
-          columns={columns}
-          rows={rows}
-          tableButtons={tableButtons}
-          newTableRowHeight={35}
-          selectedRows={selectedRows}
-          onSelectedRowsChange={setSelectedRows}
-          onRowsChange={setRows}
-        />
-      </div>
-      <div></div>
+      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+        <div className={classes.table}>
+          <ApexGrid<IExistingForecastResultsRow, ITableButtonsProps>
+            columns={columns}
+            rows={rows}
+            tableButtons={tableButtons}
+            newTableRowHeight={35}
+            selectedRows={selectedRows}
+            onSelectedRowsChange={setSelectedRows}
+            onRowsChange={setRows}
+            selectedRow={sRow}
+          />
+        </div>
+      </ClickAwayListener>
     </div>
   );
 }
