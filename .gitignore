@@ -2,6 +2,7 @@
 
 # Files
 BaseUrlService.ts
+LoginSaga.ts
 
 # dependencies
 /node_modules
