@@ -11,6 +11,7 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogSaveAndGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveAndGenerateNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
@@ -185,7 +186,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   };
 
   const navigationButtonProps: INavigationButtonsProp = {
-    mainNav: false,
+    isMainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
@@ -214,9 +215,12 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
         <div>{title}</div>
       </DialogTitle>
       <DialogContent dividers>
-        <SaveInputDeckGenerateNetworkWorkflow {...existingProps} />
-        <Divider />
-        <DialogVerticalWorkflowStepper {...workflowProps} />
+        <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
+          <SaveInputDeckGenerateNetworkWorkflow {...existingProps} />
+          <DialogContextDrawer>
+            <DialogVerticalWorkflowStepper {...workflowProps} />
+          </DialogContextDrawer>{" "}
+        </div>
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />

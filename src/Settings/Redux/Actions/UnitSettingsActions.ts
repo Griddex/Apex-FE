@@ -1,4 +1,7 @@
-import { IUnitSettingsData } from "../State/UnitSettingsStateTypes";
+import {
+  IUnitSettingsData,
+  SelectedVariablesType,
+} from "../State/UnitSettingsStateTypes";
 import { IUnitsRow } from "./../State/UnitSettingsStateTypes";
 
 export const SAVE_UNITS = "SAVE_UNITS";
@@ -6,7 +9,7 @@ export const FETCH_UNITSETTINGS_REQUEST = "FETCH_UNITSETTINGS_REQUEST";
 export const FETCH_UNITSETTINGS_SUCCESS = "FETCH_UNITSETTINGS_SUCCESS";
 export const FETCH_UNITSETTINGS_FAILURE = "FETCH_UNITSETTINGS_FAILURE";
 export const UPDATE_FIRSTLEVELUNITSETTINGS = "UPDATE_FIRSTLEVELUNITSETTINGS";
-export const UPDATE_ALLUNITS = "UPDATE_ALLUNITS";
+export const UPDATE_SELECTEDVARIABLEUNITS = "UPDATE_SELECTEDVARIABLEUNITS";
 export const UPDATE_UNITGROUPS = "UPDATE_UNITGROUPS";
 
 export const saveUnitsAction = (units: IUnitSettingsData) => {
@@ -55,10 +58,12 @@ export const updateFirstLevelUnitSettingsAction = (
   };
 };
 
-export const updateAllUnitsAction = (units: IUnitsRow[]) => {
+export const updateSelectedVariableUnitsAction = (
+  selectedVariableUnits: SelectedVariablesType[]
+) => {
   return {
-    type: UPDATE_ALLUNITS,
-    payload: { units },
+    type: UPDATE_SELECTEDVARIABLEUNITS,
+    payload: { selectedVariableUnits },
   };
 };
 

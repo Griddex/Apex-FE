@@ -30,6 +30,7 @@ import { DialogStuff } from "./DialogTypes";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import DialogSaveCancelButtons from "../DialogButtons/DialogSaveCancelButtons";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
+import DialogContextDrawer from "../Drawers/DialogContextDrawer";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -181,7 +182,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
   };
 
   const navigationButtonProps: INavigationButtonsProp = {
-    mainNav: false,
+    isMainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
@@ -222,9 +223,11 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
           <NewProjectWorkflow activeStep={activeStep} />
-          <DialogVerticalWorkflowStepper {...workflowProps} />
+          <DialogContextDrawer>
+            <DialogVerticalWorkflowStepper {...workflowProps} />
+          </DialogContextDrawer>
         </div>
       </DialogContent>
       <DialogActions>

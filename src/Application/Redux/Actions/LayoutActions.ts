@@ -2,6 +2,12 @@ export const SHOW_MAINDRAWER = "SHOW_MAINDRAWER";
 export const HIDE_MAINDRAWER = "HIDE_MAINDRAWER";
 export const EXPAND_MAINDRAWER = "EXPAND_MAINDRAWER";
 export const COLLAPSE_MAINDRAWER = "COLLAPSE_MAINDRAWER";
+export const SHOW_DIALOGCONTEXTDRAWER = "SHOW_DIALOGCONTEXTDRAWER";
+export const HIDE_DIALOGCONTEXTDRAWER = "HIDE_DIALOGCONTEXTDRAWER";
+export const EXPAND_DIALOGCONTEXTDRAWER = "EXPAND_DIALOGCONTEXTDRAWER";
+export const COLLAPSE_DIALOGCONTEXTDRAWER = "COLLAPSE_DIALOGCONTEXTDRAWER";
+export const DIALOGCONTEXTDRAWERMENU_SET = "DIALOGCONTEXTDRAWERMENU_SET";
+
 export const SHOW_CONTEXTDRAWER = "SHOW_CONTEXTDRAWER";
 export const HIDE_CONTEXTDRAWER = "HIDE_CONTEXTDRAWER";
 export const EXPAND_CONTEXTDRAWER = "EXPAND_CONTEXTDRAWER";
@@ -45,6 +51,38 @@ export const mainDrawerCollapseAction = () => {
   return {
     type: COLLAPSE_MAINDRAWER,
     payload: { expandMainDrawer: false },
+  };
+};
+
+//DIALOG CONTEXT DRAWER
+export const showDialogContextDrawerAction = () => {
+  return {
+    type: SHOW_DIALOGCONTEXTDRAWER,
+    payload: { showDialogContextDrawer: true },
+  };
+};
+export const dialogContextDrawerHideAction = () => {
+  return {
+    type: HIDE_DIALOGCONTEXTDRAWER,
+    payload: { showDialogContextDrawer: false },
+  };
+};
+export const dialogContextDrawerExpandAction = () => {
+  return {
+    type: EXPAND_DIALOGCONTEXTDRAWER,
+    payload: { expandDialogContextDrawer: true },
+  };
+};
+export const dialogContextDrawerCollapseAction = () => {
+  return {
+    type: COLLAPSE_DIALOGCONTEXTDRAWER,
+    payload: { expandDialogContextDrawer: false },
+  };
+};
+export const dialogContextDrawerSetMenuAction = (text: string) => {
+  return {
+    type: DIALOGCONTEXTDRAWERMENU_SET,
+    payload: { dialogContextDrawertext: text },
   };
 };
 

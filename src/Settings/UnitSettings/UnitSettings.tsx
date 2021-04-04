@@ -8,15 +8,22 @@ import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import SelectItem from "../../Application/Components/Selects/SelectItem";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { GenericObjectSType } from "../../Application/Layout/LayoutTypes";
+import {
+  GenericObjectObjStrType,
+  GenericObjectSType,
+} from "../../Application/Layout/LayoutTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
-import { updateFirstLevelUnitSettingsAction } from "../Redux/Actions/UnitSettingsActions";
+import {
+  updateFirstLevelUnitSettingsAction,
+  updateSelectedVariableUnitsAction,
+} from "../Redux/Actions/UnitSettingsActions";
 import {
   IUnit,
   IUnitSettingsData,
   IUnitsRow,
+  SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
 import { SelectOptionsType } from "./UnitSettingsTypes";
@@ -94,6 +101,7 @@ export default function UnitSettings({
     extraButtons: () => <div></div>,
   };
 
+  //TODO use Unit group to do global units change
   const handleFirstLevelSettingsChange = (event: ChangeEvent<any>) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -153,7 +161,7 @@ export default function UnitSettings({
   ); //{oilRate:[fieldOptions,metricOptions], gasRate:[fieldOptions,metricOptions]}
 
   const initVariableUnitsGroupObj = () =>
-    snUnits.reduce((acc: Record<string, string>, row: IUnitsRow) => {
+    snUnits.reduce((acc: Record<string, any>, row: IUnitsRow) => {
       const { variableName, units, displayUnitId } = row;
       const selectedUnitObj = units.filter((u) => u.unitId === displayUnitId);
       const selectedUnitGroup = selectedUnitObj[0].group;
@@ -164,12 +172,27 @@ export default function UnitSettings({
     initVariableUnitsGroupObj
   );
 
-  const initUnitDisplayIds = (): GenericObjectSType =>
-    snUnits.reduce((acc: Record<string, string>, row: IUnitsRow) => {
-      const { variableName, units, displayUnitId } = row;
-      return { ...acc, [variableName]: displayUnitId };
-    }, {}); //[{oilRate: "stb/day"},{gasRate: "m3/day"}]
-  const [, setUnitDisplayIds] = React.useState(initUnitDisplayIds);
+  const initSelectedVariableUnits = () =>
+    snUnits.reduce(
+      (acc: Record<string, SelectedVariablesType>, row: IUnitsRow) => {
+        const { variableId, variableName, displayUnitId, databaseUnitId } = row;
+
+        const variableIdStr = variableId as string;
+
+        return {
+          ...acc,
+          [variableIdStr]: {
+            variableName,
+            displayUnitId,
+            databaseUnitId,
+          },
+        };
+      },
+      {}
+    ); //[{oilRate: "stb/day"},{gasRate: "m3/day"}]
+  const [selectedVariableUnits, setSelectedVariableUnits] = React.useState(
+    initSelectedVariableUnits
+  );
 
   const generateColumns = () => {
     const columns: Column<IUnitsRow>[] = [
@@ -187,6 +210,8 @@ export default function UnitSettings({
         resizable: true,
         formatter: ({ row, onRowChange }) => {
           const variableName = row.variableName as string;
+          const variableId = row.variableId as string;
+          const databaseUnitId = row.databaseUnitId as string;
           const [fieldOptions, metricOptions] = unitOptions[variableName];
           const displayUnitIdValue = row.displayUnitId;
 
@@ -225,11 +250,24 @@ export default function UnitSettings({
                   return newAllAppUnits;
                 });
 
-                setUnitDisplayIds((prev) => {
-                  return {
+                setSelectedVariableUnits((prev) => {
+                  const newSelectedVariablesDict = {
                     ...prev,
-                    [variableName]: selecteddisplayUnitId,
+                    [variableId]: {
+                      variableName,
+                      displayUnitId: selecteddisplayUnitId,
+                      databaseUnitId,
+                    },
                   };
+
+                  const newSelectedVariables = Object.values(
+                    newSelectedVariablesDict
+                  );
+                  dispatch(
+                    updateSelectedVariableUnitsAction(newSelectedVariables)
+                  );
+
+                  return newSelectedVariablesDict;
                 });
 
                 modifyTableRows(variableName, selecteddisplayUnitId);
@@ -301,8 +339,8 @@ export default function UnitSettings({
 
   const rows = tableRows.current;
 
-  const helperText =
-    touched && touched.pressureAddend ? errors && errors.pressureAddend : "";
+  // const helperText =
+  //   touched && touched.pressureAddend ? errors && errors.pressureAddend : "";
 
   return (
     <div className={classes.rootUnitSettingsGrid}>
@@ -311,6 +349,7 @@ export default function UnitSettings({
           display: "flex",
           flexDirection: "column",
           width: "100%",
+          height: "100%",
         }}
       >
         <div>
@@ -330,6 +369,7 @@ export default function UnitSettings({
             marginTop: 20,
             marginBottom: 20,
             width: "100%",
+            height: "100%",
           }}
         >
           <AnalyticsComp
@@ -378,7 +418,7 @@ export default function UnitSettings({
               </div>
             }
           />
-          <AnalyticsComp
+          {/* <AnalyticsComp
             title="Pressure Addend"
             direction="Vertical"
             content={
@@ -395,7 +435,7 @@ export default function UnitSettings({
                 fullWidth
               />
             }
-          />
+          /> */}
         </div>
       </div>
       <ApexGrid<IUnitsRow, ITableButtonsProps>

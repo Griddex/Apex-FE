@@ -10,6 +10,9 @@ export interface ILayoutState {
   showContextDrawer: boolean;
   expandContextDrawer: boolean;
 
+  showDialogContextDrawer: boolean;
+  expandDialogContextDrawer: boolean;
+
   showSubNavbar: boolean;
   expandSubNavbar: boolean;
 

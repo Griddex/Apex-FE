@@ -16,14 +16,12 @@ import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsA
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../../Application/Services/AuthService";
 import getBaseUrl from "../../../../Application/Services/BaseUrlService";
-import { INewProjectFormValues } from "../../../../Project/Redux/State/ProjectStateTypes";
 import { failureDialogParameters } from "../../../Components/DialogActions/UnitSettingsSuccessFailureDialogParameters";
 import {
   fetchUnitSettingsFailureAction,
   fetchUnitSettingsSuccessAction,
   FETCH_UNITSETTINGS_REQUEST,
 } from "../../Actions/UnitSettingsActions";
-import { IUnitSettingsData } from "../../State/UnitSettingsStateTypes";
 
 export default function* watchFetchUnitSettingsSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,

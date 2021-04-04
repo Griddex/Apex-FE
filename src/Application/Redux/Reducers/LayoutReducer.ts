@@ -9,6 +9,11 @@ import {
   EXPAND_CONTEXTDRAWER,
   COLLAPSE_CONTEXTDRAWER,
   CONTEXTDRAWERMENU_SET,
+  SHOW_DIALOGCONTEXTDRAWER,
+  HIDE_DIALOGCONTEXTDRAWER,
+  EXPAND_DIALOGCONTEXTDRAWER,
+  COLLAPSE_DIALOGCONTEXTDRAWER,
+  DIALOGCONTEXTDRAWERMENU_SET,
   SHOW_SUBNAVBAR,
   HIDE_SUBNAVBAR,
   EXPAND_SUBNAVBAR,
@@ -69,6 +74,33 @@ const layoutReducer = (state = UILayoutState, action: IAction) => {
       return {
         ...state,
         expandMainDrawer: action.payload.expandMainDrawer,
+      };
+
+    //DIALOG CONTEXT DRAWER
+    case SHOW_DIALOGCONTEXTDRAWER:
+      return {
+        ...state,
+        showDialogContextDrawer: action.payload.showDialogContextDrawer,
+      };
+    case HIDE_DIALOGCONTEXTDRAWER:
+      return {
+        ...state,
+        showDialogContextDrawer: action.payload.showDialogContextDrawer,
+      };
+    case EXPAND_DIALOGCONTEXTDRAWER:
+      return {
+        ...state,
+        expandDialogContextDrawer: action.payload.expandDialogContextDrawer,
+      };
+    case COLLAPSE_DIALOGCONTEXTDRAWER:
+      return {
+        ...state,
+        expandDialogContextDrawer: action.payload.expandDialogContextDrawer,
+      };
+    case DIALOGCONTEXTDRAWERMENU_SET:
+      return {
+        ...state,
+        dialogContextDrawertext: action.payload.dialogContextDrawertext,
       };
 
     //CONTEXT DRAWER

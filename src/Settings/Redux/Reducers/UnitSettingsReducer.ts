@@ -2,7 +2,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   FETCH_UNITSETTINGS_FAILURE,
   FETCH_UNITSETTINGS_SUCCESS,
-  UPDATE_ALLUNITS,
+  UPDATE_SELECTEDVARIABLEUNITS,
   UPDATE_FIRSTLEVELUNITSETTINGS,
   UPDATE_UNITGROUPS,
 } from "../Actions/UnitSettingsActions";
@@ -53,12 +53,12 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
       };
     }
 
-    case UPDATE_ALLUNITS: {
-      const { units } = action.payload;
+    case UPDATE_SELECTEDVARIABLEUNITS: {
+      const { selectedVariableUnits } = action.payload;
 
       return {
         ...state,
-        units,
+        selectedVariableUnits,
       };
     }
 

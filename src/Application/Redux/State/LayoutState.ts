@@ -12,6 +12,9 @@ const layoutState: ILayoutState = {
   showContextDrawer: false,
   expandContextDrawer: false,
 
+  showDialogContextDrawer: true,
+  expandDialogContextDrawer: false,
+
   showSubNavbar: true,
   expandSubNavbar: false,
 

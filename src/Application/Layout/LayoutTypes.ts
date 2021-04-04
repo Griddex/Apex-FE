@@ -24,6 +24,7 @@ export interface IHTTPResponse {
 export type GenericObjectRKType = Record<string, React.Key>;
 export type GenericArrayRKType = GenericObjectRKType[];
 export type GenericObjectSType = Record<string, string>;
+export type GenericObjectObjStrType = Record<string, Record<string, string>>;
 export type GenericArraySType = GenericObjectSType[];
 
 export interface IFinalAction {

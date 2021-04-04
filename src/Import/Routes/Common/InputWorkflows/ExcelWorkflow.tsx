@@ -152,7 +152,7 @@ const ExcelWorkflow = ({
   }
 
   const navigationButtonProps: INavigationButtonsProp = {
-    mainNav: true,
+    isMainNav: true,
     showReset: true,
     showBack: true,
     showSkip: true,

@@ -22,18 +22,18 @@ const useStyles = makeStyles((theme) => ({
   button: (props: INavigationButtonsProp) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.25),
-    height: props.mainNav ? 30 : 30,
-    width: props.mainNav ? 90 : 40,
+    height: props.isMainNav ? 30 : 30,
+    width: props.isMainNav ? 90 : 40,
   }),
-  buttonContent: {
+  buttonContent: (props: INavigationButtonsProp) => ({
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: props.isMainNav ? "space-evenly" : "center",
     alignItems: "center",
     width: "100%",
     "& svg:first-child": { width: 15, height: 15 },
     "& p:last-child": { fontSize: 12, fontWeight: "bold" },
-  },
+  }),
   navigationbuttons: {
     display: "flex",
     justifyContent: "center",
@@ -45,7 +45,7 @@ type isStepSkippedType = (step: number) => boolean;
 
 const NavigationButtons = (props: INavigationButtonsProp) => {
   const {
-    mainNav,
+    isMainNav,
     showReset,
     showBack,
     showSkip,
@@ -86,7 +86,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             <div>
               <RotateLeftIcon />
             </div>
-            <div>{mainNav && <Typography>{"Reset"}</Typography>}</div>
+            <div>{isMainNav && <Typography>{"Reset"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -104,7 +104,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             <div>
               <ArrowBackIosIcon />
             </div>
-            <div>{mainNav && <Typography>{"Back"}</Typography>}</div>
+            <div>{isMainNav && <Typography>{"Back"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -122,7 +122,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             <div>
               <SkipNextOutlinedIcon />
             </div>
-            <div>{mainNav && <Typography>{"Skip"}</Typography>}</div>
+            <div>{isMainNav && <Typography>{"Skip"}</Typography>}</div>
           </div>
         </Button>
       )}
@@ -152,11 +152,11 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
               <div>{finalNavIcon ? finalNavIcon() : <DoneAllIcon />}</div>
-              <div>{mainNav && <Typography>{"Finalize"}</Typography>}</div>
+              <div>{isMainNav && <Typography>{"Finalize"}</Typography>}</div>
             </div>
           ) : (
             <div className={classes.buttonContent}>
-              <div>{mainNav && <Typography>{"Next"}</Typography>}</div>
+              <div>{isMainNav && <Typography>{"Next"}</Typography>}</div>
               <div>
                 <ArrowForwardIosIcon />
               </div>

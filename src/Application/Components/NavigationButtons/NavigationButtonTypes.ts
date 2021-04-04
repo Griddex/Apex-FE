@@ -2,7 +2,7 @@ import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
 import { IAllWorkflowProcesses } from "./../Workflows/WorkflowTypes";
 
 export interface INavigationButtonsProp {
-  mainNav?: boolean;
+  isMainNav?: boolean;
   showReset?: boolean;
   showBack?: boolean;
   showSkip?: boolean;

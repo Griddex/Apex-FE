@@ -48,19 +48,29 @@ function* createNewProjectSaga(
   const { payload } = action;
   const { successDialogParameters, failureDialogParameters } = payload;
 
-  const { projectTitle, projectDescription, pressureAddend } = yield select(
+  const { projectTitle, projectDescription } = yield select(
     (state: RootState) => state.projectReducer
   );
 
-  const unitSettingsData = yield select(
-    (state: RootState) => state.unitSettingsReducer
-  );
+  const {
+    unitGroup,
+    dayFormat,
+    monthFormat,
+    yearFormat,
+    pressureAddend,
+    selectedVariableUnits,
+  } = yield select((state: RootState) => state.unitSettingsReducer);
 
   const data = {
     userId: "Gideon",
     title: projectTitle,
     description: projectDescription,
-    ...unitSettingsData,
+    unitGroup,
+    dayFormat,
+    monthFormat,
+    yearFormat,
+    pressureAddend,
+    variableUnits: selectedVariableUnits,
   };
   const config = { withCredentials: false };
   const createNewProjectAPI = (url: string) =>

@@ -9,6 +9,7 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
@@ -171,7 +172,7 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
   };
 
   const navigationButtonProps: INavigationButtonsProp = {
-    mainNav: false,
+    isMainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
@@ -211,8 +212,12 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <SaveForecastParametersWorkflow activeStep={activeStep} />
-        <DialogVerticalWorkflowStepper {...workflowProps} />
+        <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
+          <SaveForecastParametersWorkflow activeStep={activeStep} />
+          <DialogContextDrawer>
+            <DialogVerticalWorkflowStepper {...workflowProps} />
+          </DialogContextDrawer>
+        </div>
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />

@@ -8,6 +8,7 @@ const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   yearFormat: "yyyy",
   unitGroup: "Field",
   variableUnits: [],
+  selectedVariableUnits: [],
 
   status: 200,
   errors: { message: "" },
