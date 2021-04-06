@@ -8,6 +8,8 @@ import {
   PERSIST_FORECASTCHARTOBJECT,
   RUN_FORECAST_FAILURE,
   RUN_FORECAST_SUCCESS,
+  SAVE_FORECAST_FAILURE,
+  SAVE_FORECAST_SUCCESS,
   SET_FORECASTCHARTCELLCOLORS,
   SET_FORECASTCHARTCOLOR,
   SET_FORECASTCHARTOBJECT,
@@ -54,6 +56,22 @@ const forecastReducer = (
     }
 
     case RUN_FORECAST_FAILURE:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
+    case SAVE_FORECAST_SUCCESS: {
+      const { selectedForecastingResultsId } = action.payload;
+
+      return {
+        ...state,
+        selectedForecastingResultsId,
+        isForecastResultsSaved: true,
+      };
+    }
+
+    case SAVE_FORECAST_FAILURE:
       return {
         ...state,
         ...action.payload,

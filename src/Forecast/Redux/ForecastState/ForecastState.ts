@@ -364,6 +364,7 @@ const forcastResultState: IForecastResultState = {
   forecastKeys: [],
   transForecastResult: [],
 
+  forecastResultsId: "",
   forecastResultsTitle: "",
   forecastResultsDescription: "",
 

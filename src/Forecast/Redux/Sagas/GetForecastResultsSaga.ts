@@ -54,17 +54,16 @@ function* getForecastResultsSaga(
   any
 > {
   const { payload } = action;
+  const { selectedNetworkId } = yield select((state) => state.networkReducer);
   const {
     selectedIds,
     selectedModuleNames,
     selectedModulePaths,
     selectedForecastChartVariable,
   } = payload;
-  const {
-    // selectedVariable,
-    // selectedModuleIds,
-    isForecastResultsSaved,
-  } = yield select((state) => state.forecastReducer);
+  const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
+    (state) => state.forecastReducer
+  );
 
   const userId = "Gideon";
   const url = `${getBaseUrl()}/chartData`;
@@ -73,11 +72,13 @@ function* getForecastResultsSaga(
   //please replace chart data in store
   const reqPayload = {
     userId: userId,
+    networkId: selectedNetworkId,
     selectedVariable: selectedForecastChartVariable,
     selectedModuleIds: selectedIds,
     selectedModuleNames: selectedModuleNames,
     selectedModulePaths: selectedModulePaths,
     isSaved: isForecastResultsSaved,
+    forecastId: selectedForecastingResultsId,
   };
 
   try {
@@ -85,6 +86,10 @@ function* getForecastResultsSaga(
 
     while (true) {
       const forecastResultsChunk = yield take(chan);
+      console.log(
+        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 90 ~ forecastResultsChunk",
+        forecastResultsChunk
+      );
       const { forecastResults } = yield select(
         (state) => state.forecastReducer
       );

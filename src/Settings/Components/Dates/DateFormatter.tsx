@@ -1,6 +1,6 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import React from "react";
-
+import { format } from "date-fns";
 interface IDateFormatter {
   dayFormat: string;
   monthFormat: string;
@@ -14,21 +14,14 @@ const DateFormatter = ({
   yearFormat,
   dateFormatterStyle,
 }: IDateFormatter) => {
-  // Saturday, September 17, 2016
-  const options: Record<string, string> = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  // return date.toLocaleDateString("en-US", options);
-  const date = new Date(2020, 6, 15);
-  return (
-    <div style={dateFormatterStyle}>
-      {date.toLocaleString("en-US", options)}
-    </div>
+  const date = new Date();
+  const formatString = `${dayFormat} ${monthFormat} ${yearFormat}`;
+  console.log(
+    "Logged output --> ~ file: DateFormatter.tsx ~ line 19 ~ formatString",
+    formatString
   );
+
+  return <div style={dateFormatterStyle}>{format(date, formatString)}</div>;
 };
 
 export default DateFormatter;

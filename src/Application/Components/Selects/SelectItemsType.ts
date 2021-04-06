@@ -28,5 +28,5 @@ export interface IApexSelect {
 export interface IApexSelectRS {
   dataOptions: ISelectOptions[];
   handleSelect: (value: ValueType<ISelectOptions, false>) => void;
-  colorStyles?: Styles<ISelectOptions, false>;
+  RSStyles?: Styles<ISelectOptions, false>;
 }

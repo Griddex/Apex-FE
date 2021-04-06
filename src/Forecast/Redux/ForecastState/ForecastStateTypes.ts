@@ -71,6 +71,8 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   forecastKeys: string[];
   transForecastResult: any[];
 
+  forecastResultsId: string;
+
   selectedForecastingResultsId: string;
   isForecastResultsSaved: boolean;
 

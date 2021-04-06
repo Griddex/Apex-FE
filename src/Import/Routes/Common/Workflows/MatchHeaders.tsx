@@ -278,7 +278,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
 
-          const colorStyles: Styles<ISelectOptions, false> = getRoleRSStyles(
+          const RSStyles: Styles<ISelectOptions, false> = getRoleRSStyles(
             theme
           );
 
@@ -308,7 +308,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
             <Select
               value={valueOption}
               options={headerOptions}
-              styles={colorStyles}
+              styles={RSStyles}
               onChange={handleSelect}
               menuPortalTarget={document.body}
             />

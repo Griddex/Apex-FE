@@ -6,6 +6,11 @@ export type UnitOptionsType = {
   group: "field" | "metric";
 }[];
 
+export type RSOptionsType = {
+  value: string;
+  label: string;
+};
+
 export interface SelectOptionsType {
   [key: string]: [UnitOptionsType, UnitOptionsType];
 }

@@ -79,7 +79,7 @@ const getApplicationUnits = () => {
     "barrel",
     "Bscf",
     "cp",
-    "dd/mm/yyyy",
+    "DD/MM/yyyy",
     "fraction",
     "ft",
     "int. Year / fraction",

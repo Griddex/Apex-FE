@@ -198,7 +198,7 @@ export default function SelectHeaderUnitData({
           const selectedSN = row.sn as number;
           const value = row.role as string;
           const valueOption = generateSelectOptions([value])[0];
-          const colorStyles = getRoleRSStyles(theme);
+          const RSStyles = getRoleRSStyles(theme);
 
           const handleSelect = (value: ValueType<ISelectOptions, false>) => {
             const currentValue = value && value.label;
@@ -228,7 +228,7 @@ export default function SelectHeaderUnitData({
             <Select
               value={valueOption}
               options={roleOptions}
-              styles={colorStyles}
+              styles={RSStyles}
               onChange={handleSelect}
               // isClearable={false}
               // isSearchable={false}

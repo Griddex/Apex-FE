@@ -40,6 +40,7 @@
     "color-scheme": "^1.0.1",
     "create-react-app": "^4.0.1",
     "dagre": "^0.8.5",
+    "date-fns": "^2.19.0",
     "faker": "^5.2.0",
     "flat": "^5.0.2",
     "formik": "^2.2.6",
