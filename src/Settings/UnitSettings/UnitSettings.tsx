@@ -399,7 +399,7 @@ export default function UnitSettings({
                   width: "100%",
                 }}
               >
-                {/* <SelectItem
+                <SelectItem
                   name="dayFormat"
                   currentItem={day}
                   itemData={dayDateFormats}
@@ -408,8 +408,8 @@ export default function UnitSettings({
                     handleFirstLevelSettingsChange(event);
                   }}
                   selectItemStyle={{ minWidth: 80 }}
-                /> */}
-                <Select
+                />
+                {/* <Select
                   value={dayOption}
                   options={dateOptions}
                   styles={RSStyles}
@@ -423,7 +423,7 @@ export default function UnitSettings({
                   // isSearchable={false}
                   // menuPortalTarget={document.body}
                   menuPortalTarget={dialogRef.current}
-                />
+                /> */}
                 <SelectItem
                   name="monthFormat"
                   currentItem={month}
