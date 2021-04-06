@@ -23,11 +23,11 @@ const useStyles = makeStyles(() => {
   return {
     economicsLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
     },
     economicsLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
       marginTop: navbarHeight + subNavBarHeight,
       height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
     },

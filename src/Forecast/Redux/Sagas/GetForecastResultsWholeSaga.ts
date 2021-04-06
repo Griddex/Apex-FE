@@ -28,12 +28,14 @@ import {
   GET_FORECASTRESULTS_REQUEST,
 } from "../Actions/ForecastActions";
 
-export default function* watchGetForecastResultsSaga(): Generator<
+export default function* watchGetForecastWholeResultsSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const getForecastResultsChan = yield actionChannel("DEPRECATED_ACTION");
+  const getForecastResultsChan = yield actionChannel(
+    GET_FORECASTRESULTS_REQUEST
+  );
   yield takeLeading<ActionType>(getForecastResultsChan, getForecastResultsSaga);
 }
 
@@ -44,7 +46,7 @@ function* getForecastResultsSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
-  | CallEffect<EventChannel<any>>
+  | CallEffect<any>
   | TakeEffect
   | PutEffect<{ payload: any; type: string }>
   | SelectEffect,
@@ -63,12 +65,13 @@ function* getForecastResultsSaga(
     (state) => state.forecastReducer
   );
 
+  const config = {};
   const userId = "Gideon";
   const url = `${getBaseUrl()}/chartData`;
 
   //if former selected variable is different form current one
   //please replace chart data in store
-  const reqPayload = {
+  const data = {
     userId: userId,
     networkId: selectedNetworkId,
     selectedVariable: selectedForecastChartVariable,
@@ -80,36 +83,40 @@ function* getForecastResultsSaga(
   };
 
   try {
-    const chan = yield call(updateForecastResults, url, reqPayload);
+    const forecastResultsAPI = (url: string) =>
+      authService.post(url, data, config);
+    const result = yield call(forecastResultsAPI, url);
+    console.log(
+      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 89 ~ result",
+      result
+    );
 
-    while (true) {
-      const forecastResultsChunk = yield take(chan);
-      console.log(
-        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 90 ~ forecastResultsChunk",
-        forecastResultsChunk
-      );
-      const { forecastResults } = yield select(
-        (state) => state.forecastReducer
-      );
-      const newForecastResults = [...forecastResults, forecastResultsChunk];
+    const {
+      status,
+      data: forecastResults,
+      succcess, //prevent 2nd trip to server
+    } = result;
+    console.log(
+      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 93 ~ forecastResults",
+      forecastResults
+    );
 
-      const successAction = getForecastResultsSuccessAction();
-      yield put({
-        ...successAction,
-        payload: {
-          forecastResults: newForecastResults,
-        },
-      });
+    const successAction = getForecastResultsSuccessAction();
+    yield put({
+      ...successAction,
+      payload: {
+        forecastResults,
+      },
+    });
 
-      yield put({
-        type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
-        payload: {
-          selectedModuleIds: selectedIds,
-        },
-      });
+    yield put({
+      type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
+      payload: {
+        selectedModuleIds: selectedIds,
+      },
+    });
 
-      // yield put(showDialogAction(successDialogParameters()));
-    }
+    // yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = getForecastResultsFailureAction();
 
@@ -122,29 +129,4 @@ function* getForecastResultsSaga(
   } finally {
     yield put(hideSpinnerAction());
   }
-}
-
-function updateForecastResults(url: string, reqPayload: any) {
-  return eventChannel((emitter) => {
-    jsonpipe.flow(url, {
-      method: "POST",
-      data: JSON.stringify(reqPayload),
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      disableContentType: true,
-      withCredentials: false,
-      success: function (chunk) {
-        emitter(chunk);
-      },
-      error: function (chunk) {
-        emitter(END);
-      },
-      complete: function (chunk) {
-        emitter(END);
-      },
-    });
-
-    return () => {
-      emitter(END);
-    };
-  });
 }

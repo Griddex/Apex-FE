@@ -33,6 +33,7 @@ import watchFetchExistingForecastingResultsSaga from "../../../Forecast/Redux/Sa
 import watchFetchTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchTreeviewKeysSaga";
 import watchFetchExistingProjectsSaga from "../../../Project/Redux/Sagas/FetchExistingProjectsSaga";
 import watchDisplayNetworkBySelectionSaga from "../../../Network/Redux/Sagas/DisplayNetworkBySelectionSaga";
+import watchGetForecastWholeResultsSaga from "../../../Forecast/Redux/Sagas/GetForecastResultsWholeSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -60,6 +61,7 @@ function* rootSaga() {
   yield spawn(watchFetchUserDetailsSaga);
   yield spawn(watchFetchExistingForecastingResultsSaga);
   yield spawn(watchFetchTreeviewKeysSaga);
+  yield spawn(watchGetForecastWholeResultsSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    height: 560,
+    height: "100%",
     backgroundColor: "#FFF",
   },
   chart: {

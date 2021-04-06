@@ -38,7 +38,7 @@ const GenerateNetworkWorkflow = (workflowProps: IWorkflowDataProps) => {
 
   return (
     <div className={classes.rootWorkflow}>
-      <div style={{ display: "flex", flexGrow: 1, width: "100%" }}>
+      <div style={{ display: "flex", width: "100%", height: "100%" }}>
         {renderImportStep()}
       </div>
     </div>

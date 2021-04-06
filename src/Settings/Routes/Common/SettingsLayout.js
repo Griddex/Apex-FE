@@ -13,11 +13,11 @@ const useStyles = makeStyles(() => {
   return {
     settingsLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
     },
     settingsLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
       marginTop: navbarHeight + addedHeight,
       height: `calc(100% - ${navbarHeight + addedHeight})`,
     },

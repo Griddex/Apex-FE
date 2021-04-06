@@ -19,7 +19,7 @@ import { IdType, IProductionLandingData } from "./ProductionDataLandingTypes";
 const useStyles = makeStyles((theme) => ({
   ProductionDataLanding: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ImportWorkflow: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },

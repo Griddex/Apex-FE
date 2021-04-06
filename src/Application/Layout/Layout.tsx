@@ -28,12 +28,12 @@ import { ILayouts, LayoutNames } from "./LayoutTypes";
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     height: "100%",
   },
   main: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
   },
 }));
 

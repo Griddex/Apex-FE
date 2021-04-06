@@ -29,11 +29,11 @@ const useStyles = makeStyles(() => {
   return {
     importLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
     },
     importLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
       marginTop: navbarHeight + subNavBarHeight,
       height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
     },

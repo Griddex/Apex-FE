@@ -10,17 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
-import {
-  getForecastResultsRequestAction,
-  persistFirstLevelForecastPropertyAction,
-} from "../Redux/Actions/ForecastActions";
-import generatePathsAndModules from "../Utils/GeneratePathsAndModules";
-import generateSelectedForecastData from "../Utils/GenerateSelectedForecastData";
-import getFilteredForecastData from "../Utils/GetFilteredForecastData";
+import { getForecastResultsRequestAction } from "../Redux/Actions/ForecastActions";
 import { RenderTree } from "./ForecastTreeViewTypes";
-import objectScan from "object-scan";
-import get from "lodash.get";
-import uniq from "lodash.uniq";
 
 function MinusSquare(props: any) {
   return (
@@ -110,7 +101,6 @@ const useStyles = makeStyles((theme) => ({
   rootTreeView: {
     height: "100%",
     width: "100%",
-    flexGrow: 1,
     overflow: "auto",
   },
   container: {
@@ -278,6 +268,10 @@ export default function ForecastTreeView() {
 
   React.useEffect(() => {
     // const {selectedModuleIds} = useSelector((state:RootState) => state.forecastReducer)
+    console.log(
+      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 282 ~ React.useEffect ~ selectedModulePaths",
+      selectedModulePaths
+    );
 
     if (selectedIds.length > 0) {
       dispatch(

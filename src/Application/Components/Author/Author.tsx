@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    flexGrow: 1,
+    width: "100%",
     height: 35,
   },
   name: { marginLeft: 15 },

@@ -22,7 +22,7 @@ import { IdType, IForecastLandingData } from "./ForecastLandingTypes";
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   forecastWorkflow: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },

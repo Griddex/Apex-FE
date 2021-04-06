@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   workflowBannerHeader: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     marginLeft: 6,
     "& > *": { fontWeight: "bold" },
   },

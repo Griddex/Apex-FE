@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
   rootTreeView: {
     height: 250,
     width: "100%",
-    flexGrow: 1,
     maxWidth: 300,
   },
   container: {

@@ -5,7 +5,7 @@ import React from "react";
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
   },

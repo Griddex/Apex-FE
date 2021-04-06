@@ -19,11 +19,11 @@ const useStyles = makeStyles(() => {
   return {
     declineCurveAnalysisLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
     },
     declineCurveAnalysisLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
       marginTop: navbarHeight + addedHeight,
       height: `calc(100% - ${navbarHeight + addedHeight})`,
     },
