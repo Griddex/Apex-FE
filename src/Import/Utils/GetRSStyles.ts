@@ -17,6 +17,7 @@ const getColors = (name: string, theme: Theme) => {
 
 const getRSStyles = (theme: Theme) => {
   const apexSelectStyles: Styles<ISelectOptions, false> = {
+    menu: (styles) => ({ ...styles, marginTop: 0 }),
     container: (styles) => ({
       ...styles,
       height: "100%",
@@ -81,7 +82,6 @@ const getRSStyles = (theme: Theme) => {
         cursor: isDisabled ? "not-allowed" : "default",
       };
     },
-    placeholder: (styles) => ({ ...styles }),
     singleValue: (styles, { data }) => {
       let label = theme.palette.grey[900];
 
@@ -111,6 +111,19 @@ const getRSStyles = (theme: Theme) => {
     dropdownIndicator: (styles) => {
       return { ...styles, color: theme.palette.grey[900] };
     },
+    placeholder: (styles) => ({ ...styles }),
+
+    clearIndicator: (styles) => ({ ...styles }),
+    group: (styles) => ({ ...styles }),
+    groupHeading: (styles) => ({ ...styles }),
+    loadingIndicator: (styles) => ({ ...styles }),
+    loadingMessage: (styles) => ({ ...styles }),
+    menuList: (styles) => ({ ...styles }),
+    menuPortal: (styles) => ({ ...styles }),
+    multiValue: (styles) => ({ ...styles }),
+    multiValueLabel: (styles) => ({ ...styles }),
+    multiValueRemove: (styles) => ({ ...styles }),
+    noOptionsMessage: (styles) => ({ ...styles }),
   };
 
   return apexSelectStyles;
