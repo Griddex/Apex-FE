@@ -35,7 +35,7 @@ import {
   persistTableHeadersAction,
   persistTableRoleNamesAction,
 } from "../../../Redux/Actions/ImportActions";
-import getRoleRSStyles from "./../../../Utils/GetRoleRSStyles";
+import getRSStyles from "./../../../Utils/GetRSStyles";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 
@@ -198,7 +198,7 @@ export default function SelectHeaderUnitData({
           const selectedSN = row.sn as number;
           const value = row.role as string;
           const valueOption = generateSelectOptions([value])[0];
-          const RSStyles = getRoleRSStyles(theme);
+          const RSStyles = getRSStyles(theme);
 
           const handleSelect = (value: ValueType<ISelectOptions, false>) => {
             const currentValue = value && value.label;
@@ -230,9 +230,17 @@ export default function SelectHeaderUnitData({
               options={roleOptions}
               styles={RSStyles}
               onChange={handleSelect}
-              // isClearable={false}
-              // isSearchable={false}
               menuPortalTarget={document.body}
+              theme={(thm) => ({
+                ...thm,
+                borderRadius: 0,
+                colors: {
+                  ...thm.colors,
+                  primary50: theme.palette.primary.light,
+                  primary25: theme.palette.primary.main,
+                  primary: theme.palette.grey[700],
+                },
+              })}
             />
           );
         },
