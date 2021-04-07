@@ -215,7 +215,14 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
           height: 650,
         }}
       >
-        <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            height: "100%",
+            width: "100%",
+          }}
+        >
           <GenerateNetworkWorkflow {...workflowProps} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />

@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignSelf: "flex-start",
     height: "100%",
-    width: "15%",
+    width: 300,
     // border: "1px solid #A8A8A8",
     backgroundColor: "#FFF",
     padding: 5,
@@ -39,8 +39,9 @@ const useStyles = makeStyles(() => ({
   chartContent: {
     marginLeft: 5,
     height: "100%",
-    width: "85%",
+    width: "90%",
     backgroundColor: "#FFF",
+    maxWidth: "90%",
   },
 }));
 

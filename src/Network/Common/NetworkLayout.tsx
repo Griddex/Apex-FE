@@ -26,11 +26,11 @@ const useStyles = makeStyles(() => {
   return {
     networkLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
     },
     networkLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
       marginTop: navbarHeight + addedHeight,
       height: `calc(100% - ${navbarHeight + addedHeight})`,
     },

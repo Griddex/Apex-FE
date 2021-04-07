@@ -5,14 +5,10 @@ import { IApexSelectRS } from "./SelectItemsType";
 const ApexSelectRS = ({
   dataOptions,
   handleSelect,
-  colorStyles,
+  RSStyles,
 }: IApexSelectRS) => {
   return (
-    <Select
-      options={dataOptions}
-      styles={colorStyles}
-      onChange={handleSelect}
-    />
+    <Select options={dataOptions} styles={RSStyles} onChange={handleSelect} />
   );
 };
 

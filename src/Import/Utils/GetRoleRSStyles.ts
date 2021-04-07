@@ -15,7 +15,7 @@ const getColors = (name: string, theme: Theme) => {
   }
 };
 
-const getRoleRSStyles = (theme: Theme) => {
+const getRSStyles = (theme: Theme) => {
   const apexSelectStyles: Styles<ISelectOptions, false> = {
     container: (styles) => ({
       ...styles,
@@ -116,4 +116,4 @@ const getRoleRSStyles = (theme: Theme) => {
   return apexSelectStyles;
 };
 
-export default getRoleRSStyles;
+export default getRSStyles;

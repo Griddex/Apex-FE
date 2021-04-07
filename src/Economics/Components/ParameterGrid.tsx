@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     // "& div:nth-child(2)": {
-    //   flexGrow: 1,
+    //   width: "100%",
     // },
   },
   gridIcons: {
@@ -52,7 +52,7 @@ const ParameterGrid = ({ parameter }: { parameter: string }) => {
   //     display: "flex",
   //     alignItems: "center",
   //     justifyContent: "center",
-  //     flexGrow: 1,
+  //     width: "100%",
   //     height: `${initialRowHeight}px`,
   //   };
   //   return <input type="text" key={key} style={enhancedStyle} />;

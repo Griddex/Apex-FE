@@ -79,6 +79,13 @@ function* fetchApplicationHeadersSaga(
       data: { data: forecastInputHeaders }, //prevent 2nd trip to server
     } = forecastResults;
 
+    //Had to do this because Gift changed the data structure for
+    // forecast input headers
+    const foreHeaders = Object.keys(forecastInputHeaders).map((k) => ({
+      variableName: k,
+      variableTitle: forecastInputHeaders[k],
+    }));
+
     const successAction = fetchApplicationHeadersSuccessAction();
     // const headerType = getHeadersType(workflowProcess) as string;
     yield put({
@@ -86,7 +93,7 @@ function* fetchApplicationHeadersSaga(
       payload: {
         ...payload,
         facilitiesInputHeaders,
-        forecastInputHeaders,
+        forecastInputHeaders: foreHeaders,
       },
     });
   } catch (errors) {
@@ -98,7 +105,5 @@ function* fetchApplicationHeadersSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
-  } finally {
-    yield put(hideSpinnerAction());
   }
 }

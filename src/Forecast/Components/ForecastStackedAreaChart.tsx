@@ -4,13 +4,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 
 const ForecastStackedAreaChart = () => {
-  const { transForecastResult: data } = useSelector(
+  const { forecastResults: data } = useSelector(
     (state: RootState) => state.forecastReducer
-  );
-
-  console.log(
-    "Logged output --> ~ file: ForecastStackedAreaChart.tsx ~ line 99 ~ ForecastStackedAreaChart ~ data",
-    data
   );
 
   let keys: string[] = [];
@@ -42,43 +37,43 @@ const ForecastStackedAreaChart = () => {
       }}
       curve="linear"
       offsetType="diverging"
-      colors={{ scheme: "nivo" }}
+      colors={{ scheme: "paired" }}
       fillOpacity={0.85}
       borderColor={{ theme: "background" }}
-      defs={[
-        {
-          id: "dots",
-          type: "patternDots",
-          background: "inherit",
-          color: "#2c998f",
-          size: 4,
-          padding: 2,
-          stagger: true,
-        },
-        {
-          id: "squares",
-          type: "patternSquares",
-          background: "inherit",
-          color: "#e4c912",
-          size: 6,
-          padding: 2,
-          stagger: true,
-        },
-      ]}
-      fill={[
-        {
-          match: {
-            id: "G01_E8500X_ABASE80E85W05",
-          },
-          id: "dots",
-        },
-        {
-          match: {
-            id: "G01_E8000X_ABASE80E85W02",
-          },
-          id: "squares",
-        },
-      ]}
+      // defs={[
+      //   {
+      //     id: "dots",
+      //     type: "patternDots",
+      //     background: "inherit",
+      //     color: "#2c998f",
+      //     size: 4,
+      //     padding: 2,
+      //     stagger: true,
+      //   },
+      //   {
+      //     id: "squares",
+      //     type: "patternSquares",
+      //     background: "inherit",
+      //     color: "#e4c912",
+      //     size: 6,
+      //     padding: 2,
+      //     stagger: true,
+      //   },
+      // ]}
+      // fill={[
+      //   {
+      //     match: {
+      //       id: "G01_E8500X_ABASE80E85W05",
+      //     },
+      //     id: "dots",
+      //   },
+      //   {
+      //     match: {
+      //       id: "G01_E8000X_ABASE80E85W02",
+      //     },
+      //     id: "squares",
+      //   },
+      // ]}
       dotSize={8}
       dotColor={{ from: "color" }}
       dotBorderWidth={2}

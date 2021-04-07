@@ -24,7 +24,7 @@ import { IdType, IForecastLandingData } from "./ForecastInputDeckLandingTypes";
 const useStyles = makeStyles((theme) => ({
   ForecastInputDeckLanding: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ImportWorkflow: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },

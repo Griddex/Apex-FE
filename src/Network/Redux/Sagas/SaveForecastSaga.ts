@@ -78,10 +78,7 @@ function* saveForecastSaga(
     const result = yield call(saveForecastAPI, `${getBaseUrl()}/save`);
 
     const {
-      data: {
-        success,
-        data: { status },
-      },
+      data: { data: selectedForecastingResultsId },
     } = result;
 
     const successAction = saveForecastSuccessAction();
@@ -90,7 +87,7 @@ function* saveForecastSaga(
       payload: {
         ...payload,
         status,
-        success,
+        selectedForecastingResultsId,
       },
     });
 

@@ -212,7 +212,14 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            height: "100%",
+            width: "100%",
+          }}
+        >
           <SaveForecastParametersWorkflow activeStep={activeStep} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />

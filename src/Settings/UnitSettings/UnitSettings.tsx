@@ -14,6 +14,8 @@ import {
   GenericObjectSType,
 } from "../../Application/Layout/LayoutTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import theme from "../../Application/Theme/Theme";
+import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
@@ -27,7 +29,14 @@ import {
   SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
-import { SelectOptionsType } from "./UnitSettingsTypes";
+import {
+  RSOptionsType,
+  SelectOptionsType,
+  UnitOptionsType,
+} from "./UnitSettingsTypes";
+import Select, { ValueType } from "react-select";
+import { ISelectOptions } from "../../Application/Components/Selects/SelectItemsType";
+import getRSStyles from "../../Import/Utils/GetRSStyles";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -87,15 +96,23 @@ export default function UnitSettings({
   ) as IUnitSettingsData;
 
   const unitGroups = ["Field", "Metric", "Mixed"];
-  const dayDateFormats = ["d", "dd", "ddd", "dddd"];
-  const monthDateFormats = ["m", "mm", "mmm", "mmmm"];
-  const yearDateFormats = ["yy", "yyyy"];
+  const dayDateFormats = ["d", "do", "dd", "ddd"];
+  const monthDateFormats = ["M", "Mo", "MM", "MMM", "MMMM"];
+  const yearDateFormats = ["y", "yo", "yy", "yyyy"];
 
+  const dialogRef = React.useRef(null);
   const [unitGroupName, setGlobalUnitGroupName] = React.useState(unitGroup);
-  const [day, setDay] = React.useState(dayFormat);
-  const [month, setMonth] = React.useState(monthFormat);
+  const [day, setDay] = React.useState("dd"); //Gift to change to DD
+  const [month, setMonth] = React.useState("MM"); //Gif to change to MM
   const [year, setYear] = React.useState(yearFormat);
   const [pressAddend, setPressAddend] = React.useState(pressureAddend);
+
+  const dateOptions: RSOptionsType[] = generateSelectOptions([
+    day,
+    month,
+    year,
+  ]);
+  const dayOption = generateSelectOptions([day])[0];
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -339,12 +356,12 @@ export default function UnitSettings({
   };
 
   const rows = tableRows.current;
-
+  const RSStyles = getRSStyles(theme);
   // const helperText =
   //   touched && touched.pressureAddend ? errors && errors.pressureAddend : "";
 
   return (
-    <div className={classes.rootUnitSettingsGrid}>
+    <div ref={dialogRef} className={classes.rootUnitSettingsGrid}>
       <div
         style={{
           display: "flex",
@@ -374,7 +391,7 @@ export default function UnitSettings({
           <AnalyticsComp
             title="Date Format"
             direction="Vertical"
-            // containerStyle={{ marginBottom: 20, marginTop: 20 }}
+            containerStyle={{ width: "100%" }}
             content={
               <div
                 style={{
@@ -386,21 +403,45 @@ export default function UnitSettings({
                   name="dayFormat"
                   currentItem={day}
                   itemData={dayDateFormats}
-                  handleChange={handleFirstLevelSettingsChange}
+                  handleChange={(event) => {
+                    setDay(event.target.value);
+                    handleFirstLevelSettingsChange(event);
+                  }}
                   selectItemStyle={{ minWidth: 80 }}
                 />
+                {/* <Select
+                  value={dayOption}
+                  options={dateOptions}
+                  styles={RSStyles}
+                  onChange={(value: ValueType<ISelectOptions, false>) => {
+                    console.log(
+                      "Logged output --> ~ file: UnitSettings.tsx ~ line 462 ~ value",
+                      value
+                    );
+                  }}
+                  // isClearable={false}
+                  // isSearchable={false}
+                  // menuPortalTarget={document.body}
+                  menuPortalTarget={dialogRef.current}
+                /> */}
                 <SelectItem
                   name="monthFormat"
                   currentItem={month}
                   itemData={monthDateFormats}
-                  handleChange={handleFirstLevelSettingsChange}
+                  handleChange={(event) => {
+                    setMonth(event.target.value);
+                    handleFirstLevelSettingsChange(event);
+                  }}
                   selectItemStyle={{ minWidth: 80 }}
                 />
                 <SelectItem
                   name="yearFormat"
                   currentItem={year}
                   itemData={yearDateFormats}
-                  handleChange={handleFirstLevelSettingsChange}
+                  handleChange={(event) => {
+                    setYear(event.target.value);
+                    handleFirstLevelSettingsChange(event);
+                  }}
                   selectItemStyle={{ minWidth: 80 }}
                 />
                 <DateFormatter
@@ -412,6 +453,8 @@ export default function UnitSettings({
                     alignItems: "center",
                     minWidth: 200,
                     marginLeft: 10,
+                    fontWeight: "bold",
+                    color: theme.palette.primary.main,
                   }}
                 />
               </div>
@@ -421,6 +464,8 @@ export default function UnitSettings({
             title="Pressure Addend"
             direction="Vertical"
             content={
+                  console.log("Logged output --> ~ file: UnitSettings.tsx ~ line 462 ~ value", value);
+                  console.log("Logged output --> ~ file: UnitSettings.tsx ~ line 462 ~ value", value);
               <TextField
                 name="pressureAddend"
                 variant="outlined"

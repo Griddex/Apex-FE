@@ -5,7 +5,7 @@ import Forecast from "../Images/Forecast.svg";
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
   },

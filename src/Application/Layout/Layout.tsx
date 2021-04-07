@@ -20,6 +20,7 @@ import MainDrawer from "../Components/Drawers/MainDrawer";
 import Navbar from "../Components/Navbars/Navbar";
 import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import Spinners from "../Components/Visuals/Spinners";
+import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
 import ProductBackground from "../Routes/ProductBackground";
 import { ILayouts, LayoutNames } from "./LayoutTypes";
@@ -27,12 +28,12 @@ import { ILayouts, LayoutNames } from "./LayoutTypes";
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
     height: "100%",
   },
   main: {
     display: "flex",
-    flexGrow: 1,
+    width: "100%",
   },
 }));
 
@@ -44,11 +45,16 @@ const Layout = () => {
   const { showMainDrawer, showNavbar } = useSelector(
     (state: RootState) => state.layoutReducer
   );
+  const { pending } = useSelector((state: RootState) => state.uiSpinnerReducer);
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
     dispatch(fetchRecentProjectsAction(failureDialogParameters));
     dispatch(fetchUnitSettingsRequestAction());
+  }, []);
+
+  React.useEffect(() => {
+    if (pending) dispatch(hideSpinnerAction());
   }, []);
 
   return (

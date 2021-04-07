@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "row",
-    flexGrow: 1,
+    width: "100%",
     backgroundColor: "#FFF",
     padding: 20,
   },

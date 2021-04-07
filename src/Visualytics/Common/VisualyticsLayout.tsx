@@ -18,11 +18,11 @@ const useStyles = makeStyles(() => {
   return {
     visualyticsLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
     },
     visualyticsLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
       marginTop: navbarHeight + subNavBarHeight,
       height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
     },

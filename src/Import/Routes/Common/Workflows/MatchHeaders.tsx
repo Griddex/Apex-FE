@@ -36,7 +36,7 @@ import {
   persistTableHeadersAction,
 } from "../../../Redux/Actions/ImportActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
-import getRoleRSStyles from "../../../Utils/GetRoleRSStyles";
+import getRSStyles from "../../../Utils/GetRSStyles";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
 
@@ -229,10 +229,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
-      console.log(
-        "Logged output --> ~ file: MatchHeaders.tsx ~ line 214 ~ MatchHeaders ~ row",
-        row
-      );
       setAcceptMatchSwitchChecked(event.target.checked);
 
       const selectedRowSN = row.sn as number;
@@ -278,9 +274,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
 
-          const colorStyles: Styles<ISelectOptions, false> = getRoleRSStyles(
-            theme
-          );
+          const RSStyles: Styles<ISelectOptions, false> = getRSStyles(theme);
 
           const handleSelect = (value: ValueType<ISelectOptions, false>) => {
             const selectedValue = value && value.label;
@@ -308,9 +302,19 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
             <Select
               value={valueOption}
               options={headerOptions}
-              styles={colorStyles}
+              styles={RSStyles}
               onChange={handleSelect}
               menuPortalTarget={document.body}
+              theme={(thm) => ({
+                ...thm,
+                borderRadius: 0,
+                colors: {
+                  ...thm.colors,
+                  primary50: theme.palette.primary.light,
+                  primary25: theme.palette.primary.main,
+                  primary: theme.palette.grey[700],
+                },
+              })}
             />
           );
         },
@@ -442,11 +446,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         chosenApplicationHeaderIndices,
         wp
       )
-    );
-
-    const chosenApplicationHeaders = getChosenApplicationHeaders(
-      fileHeaderMatches,
-      chosenApplicationHeaderIndices
     );
 
     dispatch(

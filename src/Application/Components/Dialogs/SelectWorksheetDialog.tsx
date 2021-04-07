@@ -81,6 +81,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "auto",
     border: "1px solid #F7F7F7",
   },
+  selectedListItem: {
+    "&:after": {
+      content: '"<<--Hi"',
+      right: 5,
+      color: "black",
+    },
+  },
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
@@ -171,6 +178,9 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
               return (
                 <ListItem
                   key={i}
+                  className={
+                    name === selectedListItem ? classes.selectedListItem : ""
+                  }
                   selected={name === selectedListItem}
                   button
                   onClick={() => {

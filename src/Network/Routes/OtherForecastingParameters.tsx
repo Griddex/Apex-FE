@@ -171,7 +171,7 @@ const OtherForecastingParameters = () => {
           >
             <DatePickerInput
               id="date-picker-input-id-start"
-              placeholder="mm/dd/yyyy"
+              placeholder="DD/MM/yyyy"
               labelText=""
             />
           </DatePicker>
@@ -188,7 +188,7 @@ const OtherForecastingParameters = () => {
           >
             <DatePickerInput
               id="date-picker-input-id-start"
-              placeholder="mm/dd/yyyy"
+              placeholder="DD/MM/yyyy"
               labelText=""
             />
           </DatePicker>

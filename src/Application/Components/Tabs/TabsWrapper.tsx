@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   tabPanel: {
     height: "97%",
     // display: "flex",
-    // flexGrow: 1,
+    // width: "100%",
   },
 }));
 

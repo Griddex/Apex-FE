@@ -13,7 +13,6 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
-import Loading from "../../../Application/Components/Visuals/Loading";
 import PerpetualSpinner from "../../../Application/Components/Visuals/PerpetualSpinner";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
@@ -30,11 +29,11 @@ const useStyles = makeStyles(() => {
   return {
     importLayoutRoot: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
     },
     importLayoutContainer: {
       display: "flex",
-      flexGrow: 1,
+      width: "100%",
       marginTop: navbarHeight + subNavBarHeight,
       height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
     },

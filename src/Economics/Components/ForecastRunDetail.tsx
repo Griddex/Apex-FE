@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     "& p:nth-child(1)": { width: 120 },
   },
   forecastRunInfoContent: {
-    flexGrow: 1,
+    width: "100%",
   },
 }));
 

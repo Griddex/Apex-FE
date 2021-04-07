@@ -72,7 +72,5 @@ function* fetchUnitSettingsSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
-  } finally {
-    yield put(hideSpinnerAction());
   }
 }

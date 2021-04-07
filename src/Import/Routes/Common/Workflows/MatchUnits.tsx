@@ -10,7 +10,10 @@ import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import { SelectOptionsType } from "../../../../Application/Components/Selects/SelectItemsType";
+import {
+  ISelectOptions,
+  SelectOptionsType,
+} from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
@@ -31,6 +34,11 @@ import {
 } from "../../../Redux/Actions/ImportActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationUnits from "../../../Utils/GetChosenApplicationUnits";
+import getRSStyles from "../../../Utils/GetRSStyles";
+import Select, { Styles, ValueType } from "react-select";
+import getDuplicates from "../../../../Application/Utils/GetDuplicates";
+import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
+import uniqBy from "lodash.uniqby";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -79,7 +87,7 @@ const getApplicationUnits = () => {
     "barrel",
     "Bscf",
     "cp",
-    "dd/mm/yyyy",
+    "DD/MM/yyyy",
     "fraction",
     "ft",
     "int. Year / fraction",
@@ -103,8 +111,29 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
     (state: RootState) => state.inputReducer[wc][wp]
   );
 
-  //Application headers
-  const applicationUnits = getApplicationUnits();
+  //Application units
+  const { variableUnits } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
+
+  //Get units list from Gift
+  //[{unitTitle:"bbl/D", group:"Field"}, {unitTitle:"psi", group:"Field"}]
+  const applicationUnitsCollection = variableUnits.reduce(
+    (acc: { title: string; group: string }[], row) => {
+      const units = row.units.map((u) => ({ title: u.title, group: u.group }));
+
+      return [...acc, ...units];
+    },
+    []
+  );
+
+  const applicationUnitsUniqueCollection = uniqBy(
+    applicationUnitsCollection,
+    (o) => o.title
+  );
+
+  const applicationUnits = applicationUnitsUniqueCollection.map((u) => u.title);
+
   const options = {
     isCaseSensitive: false,
     includeScore: true,
@@ -245,42 +274,52 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
         formatter: ({ row, onRowChange }) => {
           const rowSN = row.sn;
           const fileUnit = row.fileUnit as string;
-          const options = keyedApplicationUnitOptions[fileUnit];
-          const value = row.applicationUnit as string;
+          const unitOptions = keyedApplicationUnitOptions[fileUnit];
+          const appUnit = row.applicationUnit as string;
+
+          const valueOption = generateSelectOptions([appUnit])[0];
+
+          const RSStyles: Styles<ISelectOptions, false> = getRSStyles(theme);
+          const handleSelect = (value: ValueType<ISelectOptions, false>) => {
+            const selectedValue = value && value.label;
+
+            onRowChange({
+              ...row,
+              applicationUnit: selectedValue as string,
+            });
+
+            const selectedUnitOptionIndex = findIndex(
+              unitOptions,
+              (option) => option.value === selectedValue
+            );
+
+            setChosenApplicationUniqueUnitIndices((prev) => ({
+              ...prev,
+              [fileUnit]: selectedUnitOptionIndex,
+            }));
+
+            updateTableBySelectedOption(fileUnit, selectedUnitOptionIndex);
+            setRerender((rerender) => !rerender);
+          };
 
           return (
-            <select
-              style={{ width: "100%", height: "95%" }}
-              value={value as string}
-              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                event.stopPropagation();
-                const selectedValue = event.target.value;
-
-                onRowChange({
-                  ...row,
-                  applicationUnit: selectedValue as string,
-                });
-
-                const selectedUnitOptionIndex = findIndex(
-                  options,
-                  (option) => option.value === selectedValue
-                );
-
-                setChosenApplicationUniqueUnitIndices((prev) => ({
-                  ...prev,
-                  [fileUnit]: selectedUnitOptionIndex,
-                }));
-
-                modifyTableRows(fileUnit, selectedUnitOptionIndex);
-                setRerender((rerender) => !rerender);
-              }}
-            >
-              {options.map((option, i: number) => (
-                <option key={i} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <Select
+              value={valueOption}
+              options={unitOptions}
+              styles={RSStyles}
+              onChange={handleSelect}
+              menuPortalTarget={document.body}
+              theme={(thm) => ({
+                ...thm,
+                borderRadius: 0,
+                colors: {
+                  ...thm.colors,
+                  primary50: theme.palette.primary.light,
+                  primary25: theme.palette.primary.main,
+                  primary: theme.palette.grey[700],
+                },
+              })}
+            />
           );
         },
       },
@@ -372,7 +411,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
   const tableRows = React.useRef<IRawTable>(initialTableRows);
   const [, setRerender] = React.useState(false);
-  const modifyTableRows = (
+  const updateTableBySelectedOption = (
     selectedFileUnit: string,
     selectedUnitOptionIndex: number
   ) => {
@@ -393,6 +432,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
           applicationHeader: selectedApplicationUnit.value,
           unitClassification: selectedUnitClassification.value,
           match: score.value,
+          acceptMatch: row.acceptMatch,
         };
       } else return row;
     });
@@ -400,7 +440,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
     tableRows.current = modifiedRows;
   };
 
-  const rows = tableRows.current;
+  const [rows, setRows] = React.useState(tableRows.current);
 
   React.useEffect(() => {
     dispatch(persistFileUnitsMatchAction(fileUniqueUnitMatches, wp));
@@ -435,6 +475,8 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
               columns={columns}
               rows={rows}
               tableButtons={tableButtons}
+              onRowsChange={setRows}
+              // mappingErrors={getDuplicates(chosenApplicationHeaders)}
               size={size}
             />
           )}

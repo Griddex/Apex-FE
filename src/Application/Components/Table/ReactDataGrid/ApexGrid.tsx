@@ -67,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
     minWidth: 100,
   },
+  tableHeightStyle: {
+    height: `100%`,
+  },
 }));
 
 export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
@@ -368,12 +371,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         </Grid>
       </Grid>
       <DndProvider backend={HTML5Backend}>
-        <div
-          ref={tableRef}
-          style={{
-            height: "85%",
-          }}
-        >
+        <div ref={tableRef} className={classes.tableHeightStyle}>
           <ReactDataGrid
             ref={gridRef}
             style={{ height: "100%" }}

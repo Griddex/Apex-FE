@@ -215,7 +215,14 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
         <div>{title}</div>
       </DialogTitle>
       <DialogContent dividers>
-        <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            height: "100%",
+            width: "100%",
+          }}
+        >
           <SaveInputDeckGenerateNetworkWorkflow {...existingProps} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
