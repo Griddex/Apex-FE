@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # Files
-./**/BaseUrlService.ts
-./**/LoginSaga.ts
+BaseUrlService.ts
+LoginSaga.ts
 
 # dependencies
 /node_modules
