@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     height: "90%",
-    width: "100%",
+    width: "97%",
     alignItems: "center",
     justifyContent: "center", //around, between
     // justifyContent: "space-evenly", //around, between

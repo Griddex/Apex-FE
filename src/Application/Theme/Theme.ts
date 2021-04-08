@@ -8,6 +8,9 @@ const theme = createMuiTheme({
     success: { light: "#EEFCEF", main: "#22BE34", dark: "#15791C" },
     warning: { light: "#FFFAEB", main: "#F5B400", dark: "#A37800" },
   },
+  typography: {
+    fontFamily: ["Open Sans", "serif"].join(","),
+  },
 });
 
 theme.props = {
@@ -27,11 +30,11 @@ theme.props = {
 };
 
 theme.overrides = {
-  MuiCssBaseline: {
-    "@global": {
-      "@font-face": [{ fontFamily: "quicksand" }],
-    },
-  },
+  // MuiCssBaseline: {
+  //   "@global": {
+  //     "@font-face": [{ fontFamily: "quicksand" }],
+  //   },
+  // },
   MuiButton: {
     root: {
       borderRadius: 2,

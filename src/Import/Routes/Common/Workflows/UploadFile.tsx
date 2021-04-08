@@ -92,6 +92,7 @@ const UploadFile = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
         accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         onDropAccepted={(acceptedFiles: FileWithPath[]) => {
           const file: FileWithPath = acceptedFiles[0];
+
           const {
             lastModified: fileLastModified,
             name: fileName,

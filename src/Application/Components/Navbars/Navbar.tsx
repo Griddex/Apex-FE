@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const classes = useStyles(layoutProps);
 
@@ -157,7 +158,7 @@ const Navbar = () => {
                 <Typography
                   className={classes.userTypography}
                   variant="subtitle1"
-                  color="inherit"
+                  style={{ color: theme.palette.grey[900] }}
                 >
                   {username}
                 </Typography>
@@ -165,7 +166,7 @@ const Navbar = () => {
                 <Typography
                   className={classes.roleTypography}
                   variant="subtitle1"
-                  color="inherit"
+                  style={{ color: theme.palette.grey[700] }}
                 >
                   {role}
                 </Typography>

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     height: "90%",
-    width: "100%",
+    width: "97%",
     alignItems: "center",
     justifyContent: "center", //around, between
   },

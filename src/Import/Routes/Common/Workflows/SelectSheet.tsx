@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
     height: 139,
   },
   fileSizeProgress: {
-    width: 145,
-    height: 145,
+    width: 120,
+    height: 120,
   },
 }));
 
@@ -88,6 +88,10 @@ const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
     fileAuthor,
     fileCreated,
   } = useSelector((state: RootState) => state.inputReducer[wc][wp]);
+  console.log(
+    "Logged output --> ~ file: SelectSheet.tsx ~ line 91 ~ SelectSheet ~ fileLastModified",
+    fileLastModified
+  );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) => state.inputReducer[wc][wp]
@@ -228,7 +232,7 @@ const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
             <Grid item xs>
               <AnalyticsComp
                 title="File Last Modified"
-                content={formatDate(fileLastModified).toString()}
+                content={formatDate(new Date(fileLastModified)).toString()}
                 direction="Vertical"
               />
             </Grid>

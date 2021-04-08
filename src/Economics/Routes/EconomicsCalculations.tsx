@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   workflowBody: {
     marginLeft: 5,
     height: "100%",
-    width: "100%",
+    width: "97%",
     border: "1px solid #E7E7E7",
     backgroundColor: "#FFF",
   },

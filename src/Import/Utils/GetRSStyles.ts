@@ -14,20 +14,37 @@ const getRSStyles = (theme: Theme) => {
     }),
     valueContainer: (styles) => ({
       ...styles,
+      display: "flex",
+      justifyContent: "center",
       height: "100%",
       width: "100%",
       alignSelf: "center",
     }),
-    input: (styles) => ({
-      ...styles,
-      display: "none",
-      height: "100%",
-    }),
+
     menu: (styles) => ({ ...styles, marginTop: 0 }),
-    control: (styles) => {
+    control: (styles, { getValue }) => {
+      const currentValue = getValue()[0].label;
+
+      let currentValueLabel = "";
+
+      switch (currentValue) {
+        case "Headers":
+          currentValueLabel = theme.palette.primary.main;
+          break;
+        case "Units":
+          currentValueLabel = theme.palette.secondary.main;
+          break;
+        case "Data":
+          currentValueLabel = theme.palette.grey[900];
+          break;
+        default:
+          currentValueLabel = theme.palette.grey[900];
+          break;
+      }
       return {
         ...styles,
         backgroundColor: "white",
+        borderColor: currentValueLabel,
         borderWidth: 1,
         minHeight: 30,
         height: "95%",

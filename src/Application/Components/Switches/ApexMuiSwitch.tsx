@@ -39,10 +39,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function ApexMuiSwitch(props: IApexMuiSwitch) {
   const { name, handleChange, checked } = props;
   const classes = useStyles(props);
-  console.log(
-    "Logged output --> ~ file: ApexMuiSwitch.tsx ~ line 1 ~ ApexMuiSwitch ~ props",
-    props
-  );
 
   return (
     <Switch

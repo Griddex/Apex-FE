@@ -50,7 +50,7 @@ const ForecastButtonsMenu = () => {
         show: true,
         exclusive: false,
         maxWidth: "xs",
-        dialogText: `Do you want to run the forecast for the current parameters?`,
+        dialogText: `Do you want to run the forecast using the current parameters?`,
         iconType: "confirmation",
         actionsList: () =>
           DialogRunForecastCancelButtons(

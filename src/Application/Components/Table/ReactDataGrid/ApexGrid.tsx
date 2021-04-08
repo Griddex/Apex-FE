@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 100,
   },
   tableHeightStyle: {
-    height: `100%`,
+    height: `calc(100% - 70px)`,
   },
 }));
 

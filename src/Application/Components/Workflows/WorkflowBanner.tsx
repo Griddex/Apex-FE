@@ -78,13 +78,15 @@ const WorkflowBanner = ({
       <Box className={classes.workflowBannerHeader}>
         <Typography
           variant="button"
-          style={{ color: "#6D7374", letterSpacing: 2 }}
+          style={{ color: theme.palette.grey[900], letterSpacing: 1.2 }}
         >{`${subModuleName}`}</Typography>
+        <span>&nbsp;</span>
+        <Typography>{"|"}</Typography>
         <span>&nbsp;</span>
         <Typography
           variant="button"
           style={{ color: "#6D7374", letterSpacing: 2 }}
-        >{`${moduleName} `}</Typography>
+        >{`${steps[activeStep]} `}</Typography>
         <Chip
           style={{
             marginLeft: 5,
