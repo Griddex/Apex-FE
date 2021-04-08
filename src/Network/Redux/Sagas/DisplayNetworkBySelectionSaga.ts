@@ -101,11 +101,20 @@ export function* displayNetworkBySelectionSaga(
         });
       } else if (category === "properties") {
         categoryType = category;
-        const { title } = flowElement[category];
+        const { title, id } = flowElement[category];
+        console.log(
+          "Logged output --> ~ file: DisplayNetworkBySelectionSaga.ts ~ line 105 ~ flowElement",
+          flowElement
+        );
 
         yield put({
           ...successAction,
-          payload: { ...payload, categoryType, selectedNetworkTitle: title },
+          payload: {
+            ...payload,
+            categoryType,
+            selectedNetworkTitle: title,
+            selectedNetworkId: id,
+          },
         });
       }
     }
