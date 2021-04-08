@@ -149,6 +149,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         categoryType,
         newFlowElements,
         selectedNetworkTitle,
+        selectedNetworkId,
       } = action.payload;
 
       if (categoryType === "nodes") {
@@ -171,6 +172,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
           success,
           status,
           selectedNetworkTitle,
+          selectedNetworkId,
         };
       } else return state;
     }
