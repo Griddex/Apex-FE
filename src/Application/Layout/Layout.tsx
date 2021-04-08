@@ -10,7 +10,6 @@ import ForecastLayout from "../../Forecast/Common/ForecastLayout";
 import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/ImportActions";
 import InputLayout from "../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "../../Network/Common/NetworkLayout";
-import { failureDialogParameters } from "../../Project/Components/DialogParameters/RecentProjectsFailureDialogParameters";
 import { fetchRecentProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import SettingsLayout from "../../Settings/Routes/Common/SettingsLayout";
@@ -49,7 +48,7 @@ const Layout = () => {
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
-    dispatch(fetchRecentProjectsAction(failureDialogParameters));
+    dispatch(fetchRecentProjectsAction());
     dispatch(fetchUnitSettingsRequestAction());
   }, []);
 

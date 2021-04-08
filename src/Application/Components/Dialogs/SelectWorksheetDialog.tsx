@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:after": {
       content: '"<<--Hi"',
       right: 5,
-      color: "black",
+      color: theme.palette.secondary.main,
     },
   },
 }));

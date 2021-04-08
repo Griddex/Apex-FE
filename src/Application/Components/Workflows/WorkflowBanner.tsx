@@ -54,27 +54,6 @@ const WorkflowBanner = ({
 
   return (
     <Container className={classes.workflowHeaderRow} fixed disableGutters>
-      {/* <div style={{ display: "flex", alignItems: "center" }}>
-        <div>
-          <hr
-            style={{
-              width: "50px",
-              height: "2px",
-              color: "gray",
-              backgroundColor: "gray",
-              textAlign: "left",
-              marginLeft: "0px",
-            }}
-          />
-        </div>
-        <div
-          style={{
-            height: 14,
-            width: 6,
-            backgroundColor: theme.palette.primary.main,
-          }}
-        />
-      </div> */}
       <Box className={classes.workflowBannerHeader}>
         <Typography
           variant="button"
@@ -84,8 +63,8 @@ const WorkflowBanner = ({
         <Typography>{"|"}</Typography>
         <span>&nbsp;</span>
         <Typography
-          variant="button"
-          style={{ color: "#6D7374", letterSpacing: 2 }}
+          variant="subtitle1"
+          style={{ color: theme.palette.grey[700], letterSpacing: 1.2 }}
         >{`${steps[activeStep]} `}</Typography>
         <Chip
           style={{

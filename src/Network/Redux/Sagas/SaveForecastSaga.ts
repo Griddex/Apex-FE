@@ -27,6 +27,7 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/SaveForecastSuccessFailureDialogParameters";
 import { SAVE_FORECAST_REQUEST } from "../Actions/NetworkActions";
+import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
 export default function* watchSaveForecastSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -75,6 +76,8 @@ function* saveForecastSaga(
   const saveForecastAPI = (url: string) => authService.post(url, data, config);
 
   try {
+    yield put(showSpinnerAction("Saving forecast results..."));
+
     const result = yield call(saveForecastAPI, `${getBaseUrl()}/save`);
 
     const {

@@ -20,7 +20,26 @@ const getRSStyles = (theme: Theme) => {
       width: "100%",
       alignSelf: "center",
     }),
+    singleValue: (styles, { data }) => {
+      let label = theme.palette.grey[900];
 
+      switch (data.label) {
+        case "Headers":
+          label = theme.palette.primary.main;
+          break;
+        case "Units":
+          label = theme.palette.secondary.main;
+          break;
+        case "Data":
+          label = theme.palette.grey[900];
+          break;
+        default:
+          label = theme.palette.grey[900];
+          break;
+      }
+
+      return { ...styles, color: label, width: "100%", height: "100%" };
+    },
     menu: (styles) => ({ ...styles, marginTop: 0 }),
     control: (styles, { getValue }) => {
       const currentValue = getValue()[0].label;

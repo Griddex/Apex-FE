@@ -1,6 +1,7 @@
-import DialogSaveButton from "../../../Application/Components/DialogButtons/DialogSaveButton";
+import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 export const confirmationDialogParameters = (
   name: string,
@@ -18,7 +19,12 @@ export const confirmationDialogParameters = (
     maxWidth: "xs",
     dialogText,
     iconType: "confirmation",
-    actionsList: () => DialogSaveButton(action),
+    actionsList: () =>
+      DialogOkayCancelButtons(
+        [true, true],
+        [true, true],
+        [unloadDialogsAction, action]
+      ),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };
 };

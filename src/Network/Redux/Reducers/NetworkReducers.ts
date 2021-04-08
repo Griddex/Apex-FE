@@ -143,23 +143,36 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case DISPLAYNETWORKBYSELECTION_SUCCESS: {
-      const { success, status, isNode, newFlowElements } = action.payload;
+      const {
+        success,
+        status,
+        categoryType,
+        newFlowElements,
+        selectedNetworkTitle,
+      } = action.payload;
 
-      if (isNode) {
+      if (categoryType === "nodes") {
         return {
           ...state,
           success,
           status,
           nodeElements: newFlowElements,
         };
-      } else {
+      } else if (categoryType === "edges") {
         return {
           ...state,
           success,
           status,
           edgeElements: newFlowElements,
         };
-      }
+      } else if (categoryType === "properties") {
+        return {
+          ...state,
+          success,
+          status,
+          selectedNetworkTitle,
+        };
+      } else return state;
     }
 
     case DISPLAYNETWORKBYSELECTION_FAILURE: {

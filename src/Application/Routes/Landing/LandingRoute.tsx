@@ -51,18 +51,13 @@ const LandingRoute = () => {
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      className={classes.root}
-      direction="column"
-      justify="center"
-      alignItems="center"
-    >
-      <Grid item className={classes.item} xs={12} sm={6}>
+    <div className={classes.root}>
+      <div style={{ height: 70 }}>Header</div>
+      <div className={classes.item}>
         <Image
           className={classes.image}
           src={CompanyLogo}
-          alt="Hydrocarbon Forecasting Platform Company Logo"
+          alt="Apex Hydrocarbon Forecasting Platform Logo"
         />
         <Typography variant="h5">Hydrocarbon Forecasting Platform</Typography>
         <Typography className={classes.typography} variant="h6">
@@ -87,8 +82,8 @@ const LandingRoute = () => {
         >
           Register
         </Button> */}
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

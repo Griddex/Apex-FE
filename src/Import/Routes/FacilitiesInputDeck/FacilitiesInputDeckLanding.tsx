@@ -24,6 +24,7 @@ import {
   IdType,
   IFacilitiesLandingData,
 } from "./FacilitiesInputDeckLandingTypes";
+import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 
 const useStyles = makeStyles((theme) => ({
   FacilitiesInputDeckLanding: {
@@ -109,6 +110,18 @@ const FacilitiesInputDeckLanding = () => {
   const facilitiesExcelandDbWorkflowFinalAction = (
     workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
   ) => {
+    const saveFacilitiesInputdeckConfirmation = () => {
+      const dps = confirmationDialogParameters(
+        "FacilitiesDeck_Save_Confirmation",
+        "Facilities Deck Save Confirmation",
+        `Do you want to save the current facilities Inputdeck?`,
+        true,
+        () => saveInputDeckRequestAction(workflowProcess)
+      );
+
+      dispatch(showDialogAction(dps));
+    };
+
     const dialogParameters: DialogStuff = {
       name: "Save_Facilities_Input_Deck_Dialog",
       title: "Save Facilities Input Deck",
@@ -120,11 +133,8 @@ const FacilitiesInputDeckLanding = () => {
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],
-          [true, true],
-          [
-            () => saveInputDeckRequestAction(workflowProcess),
-            unloadDialogsAction,
-          ]
+          [true, false],
+          [unloadDialogsAction, saveFacilitiesInputdeckConfirmation]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

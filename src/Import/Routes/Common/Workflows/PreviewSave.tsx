@@ -126,7 +126,7 @@ export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
       },
       {
         key: "role",
-        name: "Role",
+        name: "ROLE",
         resizable: true,
         formatter: ({ row }) => {
           const rowSN = row.sn as number;

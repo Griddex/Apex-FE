@@ -27,6 +27,7 @@ import {
   autoGenerateNetworkFailureAction,
   autoGenerateNetworkSuccessAction,
   AUTOGENERATENETWORK_REQUEST,
+  removeCurrentNetworkAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchAutogenerateNetworkSaga(): Generator<
@@ -46,7 +47,7 @@ export function* autoGenerateNetworkSaga(
   | AllEffect<CallEffect<any>>
   | CallEffect<any>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<{ type: string; payload?: any }>
   | SelectEffect,
   void,
   any
@@ -72,9 +73,10 @@ export function* autoGenerateNetworkSaga(
 
   const url = `${getBaseUrl()}/network/generate`;
 
-  yield put(showSpinnerAction(message));
-
   try {
+    yield put(showSpinnerAction(message));
+    yield put(removeCurrentNetworkAction());
+
     const chan = yield call(updateNodesAndEdges, url, reqPayload);
 
     while (true) {

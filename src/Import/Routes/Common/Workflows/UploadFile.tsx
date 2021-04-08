@@ -201,14 +201,6 @@ const UploadFile = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
                   <p>Drag and Drop a file here or Browse a file to upload</p>
                 </div>
               </div>
-              <Button
-                // refKey={ref}
-                className={classes.selectFile}
-                variant="contained"
-                // {...getRootProps()}
-              >
-                Select File
-              </Button>
             </section>
           );
         }}

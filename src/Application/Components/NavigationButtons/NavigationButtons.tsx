@@ -8,6 +8,8 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SkipNextOutlinedIcon from "@material-ui/icons/SkipNextOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { showDialogAction } from "../../Redux/Actions/DialogsAction";
 import {
   workflowBackAction,
   workflowNextAction,
@@ -78,9 +80,18 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           className={classes.button}
           variant="contained"
           color="secondary"
-          onClick={() =>
-            workflowResetAction && dispatch(workflowResetAction(0, wp, wc))
-          }
+          onClick={() => {
+            const dialogParameters = confirmationDialogParameters(
+              "Navigation_Reset_Confirmation",
+              "Reset Confirmation",
+              `Do you want to reset this workflow?. 
+              You will lose all data up to current step.`,
+              true,
+              () => workflowResetAction(0, wp, wc)
+            );
+
+            dispatch(showDialogAction(dialogParameters));
+          }}
         >
           <div className={classes.buttonContent}>
             <div>

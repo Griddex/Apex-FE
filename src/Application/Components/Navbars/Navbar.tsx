@@ -135,7 +135,14 @@ const Navbar = () => {
               <ChevronLeftIcon />
             </IconButton>
           )}
-          <Box>{projectTitle}</Box>
+          <Box>
+            <Typography
+              variant="button"
+              style={{ color: theme.palette.grey[900], letterSpacing: 1.2 }}
+            >
+              {projectTitle}
+            </Typography>
+          </Box>
           <Box className={classes.userToolBar}>
             <UserProfilePopover>
               <div className={classes.userToolBar}>

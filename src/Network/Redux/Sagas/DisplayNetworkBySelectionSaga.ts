@@ -15,6 +15,7 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
+import MainTitle from "../../../Application/Components/Basic/MainTitle";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -28,6 +29,7 @@ import {
   displayNetworkBySelectionFailureAction,
   displayNetworkBySelectionSuccessAction,
   DISPLAYNETWORKBYSELECTION_REQUEST,
+  removeCurrentNetworkAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchDisplayNetworkBySelectionSaga(): Generator<
@@ -55,7 +57,7 @@ export function* displayNetworkBySelectionSaga(
   | AllEffect<CallEffect<AxiosPromise>>
   | CallEffect<EventChannel<any>>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<{ type: string; payload?: any }>
   | SelectEffect,
   void,
   any
@@ -65,39 +67,47 @@ export function* displayNetworkBySelectionSaga(
   const { selectedNetworkId } = yield select((state) => state.networkReducer);
   const url = `${getBaseUrl()}/network/${selectedNetworkId}`;
 
-  yield put(showSpinnerAction(message));
-
   try {
+    yield put(showSpinnerAction(message));
+    yield put(removeCurrentNetworkAction());
+
     const chan = yield call(updateNodesAndEdges, url);
 
     while (true) {
       const flowElement = yield take(chan);
 
-      let isNode = false;
+      let categoryType;
       const successAction = displayNetworkBySelectionSuccessAction();
 
-      if (Object.keys(flowElement)[0] === "nodes") {
-        isNode = true;
+      const category = Object.keys(flowElement)[0];
+
+      if (category === "nodes") {
+        categoryType = category;
         const { nodeElements } = yield select((state) => state.networkReducer);
         const newFlowElements = [...nodeElements, flowElement["nodes"]];
 
         yield put({
           ...successAction,
-          payload: { ...payload, isNode, newFlowElements },
+          payload: { ...payload, categoryType, newFlowElements },
         });
-      } else if (Object.keys(flowElement)[0] === "edges") {
-        isNode = false;
+      } else if (category === "edges") {
+        categoryType = category;
         const { edgeElements } = yield select((state) => state.networkReducer);
         const newFlowElements = [...edgeElements, flowElement["edges"]];
 
         yield put({
           ...successAction,
-          payload: { ...payload, isNode, newFlowElements },
+          payload: { ...payload, categoryType, newFlowElements },
+        });
+      } else if (category === "properties") {
+        categoryType = category;
+        const { title } = flowElement[category];
+
+        yield put({
+          ...successAction,
+          payload: { ...payload, categoryType, selectedNetworkTitle: title },
         });
       }
-      // else if (Object.keys(flowElement)[0] === "properties") {
-      //   yield "properties"
-      // }
     }
   } catch (errors) {
     const failureAction = displayNetworkBySelectionFailureAction();

@@ -16,8 +16,10 @@ import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import { fetchExistingForecastingParametersRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -61,7 +63,7 @@ export function* saveInputDeckSaga(
   | AllEffect<CallEffect<any>>
   | CallEffect<any>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<{ type: string; payload?: any }>
   | SelectEffect,
   void,
   any
@@ -106,9 +108,9 @@ export function* saveInputDeckSaga(
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
   const inputDeckType = getInputDeckType(wp);
 
-  yield put(showSpinnerAction(message));
-
   try {
+    yield put(showSpinnerAction(message));
+
     const result = yield call(
       saveinputDeckAPI,
       `${getBaseUrl()}/${getInputDeckRouteParam(wp)}`
@@ -133,7 +135,8 @@ export function* saveInputDeckSaga(
     });
 
     yield put(fetchExistingDataRequestAction(projectId));
-
+    yield put(fetchExistingForecastingParametersRequestAction());
+    yield put(workflowResetAction(0, wp, wc));
     yield put(showDialogAction(successDialogParameters(inputDeckType, wp)));
   } catch (errors) {
     const failureAction = saveInputDeckFailureAction();

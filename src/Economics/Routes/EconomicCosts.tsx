@@ -72,7 +72,7 @@ export default function EconomicCosts() {
     { key: "sn", name: "SN", editable: false, resizable: true },
     {
       key: "actions",
-      name: "Actions",
+      name: "ACTIONS",
       editable: false,
       formatter: ({ row }) => (
         <div>

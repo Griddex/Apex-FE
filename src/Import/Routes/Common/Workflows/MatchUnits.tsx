@@ -250,7 +250,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
         key: "actions",
-        name: "Actions",
+        name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
           <div>

@@ -16,7 +16,7 @@ const NetworkTitlePlaque = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-      <AccountTreeIcon />
+      <AccountTreeIcon style={{ color: theme.palette.grey[900] }} />
       <Box style={{ display: "flex", alignItems: "center", marginLeft: 5 }}>
         {selectedNetworkTitle ? selectedNetworkTitle : "---"}
       </Box>
@@ -27,6 +27,7 @@ const NetworkTitlePlaque = () => {
               ? theme.palette.success.main
               : theme.palette.secondary.main,
             marginLeft: 5,
+            color: "white",
           }}
           size="small"
           label={isNetworkSaved ? "Saved" : "Not Saved"}

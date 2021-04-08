@@ -29,7 +29,7 @@ const FacilitiesTitleAndDescription = ({
   return (
     <div>
       <AnalyticsComp
-        title="Facilities InputDeck Title"
+        title="Title"
         direction="Vertical"
         content={
           <TextField
@@ -47,7 +47,7 @@ const FacilitiesTitleAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Facilities InputDeck Description"
+        title="Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={

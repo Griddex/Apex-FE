@@ -174,7 +174,7 @@ export default function SelectHeaderUnitData({
       { key: "sn", name: "SN", editable: false, resizable: true },
       {
         key: "actions",
-        name: "Actions",
+        name: "ACTIONS",
         editable: false,
         width: 100,
         formatter: ({ row }) => (
@@ -191,7 +191,7 @@ export default function SelectHeaderUnitData({
       },
       {
         key: "role",
-        name: "Role",
+        name: "ROLE",
         resizable: true,
         width: 150,
         formatter: ({ row, onRowChange }) => {

@@ -265,7 +265,7 @@ const EconomicsParameters = ({
       },
       {
         key: "actions",
-        name: "Actions",
+        name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
           <div>
@@ -340,7 +340,7 @@ const EconomicsParameters = ({
       { key: "sn", name: "SN", width: 20, editable: false, resizable: true },
       {
         key: "actions",
-        name: "Actions",
+        name: "ACTIONS",
         width: 20,
         editable: false,
         formatter: ({ row }) => (
@@ -564,7 +564,7 @@ const EconomicsParameters = ({
       { key: "sn", name: "SN", editable: false, resizable: true },
       {
         key: "actions",
-        name: "Actions",
+        name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
           <div>

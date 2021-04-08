@@ -16,6 +16,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import { failureDialogParameters } from "../../Components/DialogParameters/RecentProjectsFailureDialogParameters";
 import {
   fetchRecentProjectsFailureAction,
   fetchRecentProjectsSuccessAction,
@@ -46,7 +47,6 @@ function* fetchRecentProjectsSaga(
   any
 > {
   const { payload } = action;
-  const { failureDialogParameters } = payload;
   const { userId } = yield select((state) => state.loginReducer);
 
   const config = { withCredentials: false };

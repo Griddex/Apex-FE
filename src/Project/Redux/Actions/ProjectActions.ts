@@ -23,12 +23,10 @@ export const updateProjectAction = (name: string, value: string) => {
   };
 };
 
-export const fetchRecentProjectsAction = (
-  failureDialogParameters: DialogStuff
-) => {
+export const fetchRecentProjectsAction = () => {
   return {
     type: FETCHRECENTPROJECTS_REQUEST,
-    payload: { failureDialogParameters },
+    payload: {},
   };
 };
 

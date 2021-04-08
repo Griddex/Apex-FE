@@ -15,7 +15,10 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import {
@@ -27,6 +30,7 @@ import {
   saveNetworkFailureAction,
   saveNetworkSuccessAction,
   SAVENETWORK_REQUEST,
+  updateNetworkParameterAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchSaveNetworkSaga(): Generator<
@@ -81,6 +85,8 @@ function* saveNetworkSaga(
   const saveNetworkAPI = (url: string) => authService.post(url, data, config);
 
   try {
+    yield put(showSpinnerAction("Saving network..."));
+
     const result = yield call(saveNetworkAPI, `${getBaseUrl()}/network`);
 
     //IsNetworkSaved is kinda a hack
@@ -90,13 +96,16 @@ function* saveNetworkSaga(
       status,
       success,
     } = result;
-
+    //networkTitle
     const successAction = saveNetworkSuccessAction();
     yield put({
       ...successAction,
       payload: { ...payload, status, success, selectedNetworkId },
     });
 
+    yield put(
+      updateNetworkParameterAction("selectedNetworkTitle", networkTitle)
+    );
     yield put(fetchExistingNetworkDataRequestAction());
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {

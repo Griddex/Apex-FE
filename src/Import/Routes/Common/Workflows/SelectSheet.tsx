@@ -88,10 +88,6 @@ const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
     fileAuthor,
     fileCreated,
   } = useSelector((state: RootState) => state.inputReducer[wc][wp]);
-  console.log(
-    "Logged output --> ~ file: SelectSheet.tsx ~ line 91 ~ SelectSheet ~ fileLastModified",
-    fileLastModified
-  );
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) => state.inputReducer[wc][wp]

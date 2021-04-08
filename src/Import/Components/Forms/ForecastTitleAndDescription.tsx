@@ -29,7 +29,7 @@ const ForecastTitleAndDescription = ({
   return (
     <div>
       <AnalyticsComp
-        title="Forecast InputDeck Title"
+        title="Title"
         direction="Vertical"
         content={
           <TextField
@@ -47,7 +47,7 @@ const ForecastTitleAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Forecast InputDeck Description"
+        title="Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={
