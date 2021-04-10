@@ -1,6 +1,5 @@
 import { Button } from "@material-ui/core";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IFinalAction } from "../../Layout/LayoutTypes";

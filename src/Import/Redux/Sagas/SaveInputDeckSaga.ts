@@ -35,8 +35,8 @@ import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinne
 function getInputDeckType(
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) {
-  if (workflowProcess.includes("facilities")) return "Facilities Input Deck";
-  else if (workflowProcess.includes("forecast")) return "Forecast Input Deck";
+  if (workflowProcess.includes("facilities")) return "Facilities InputDeck";
+  else if (workflowProcess.includes("forecast")) return "Forecast InputDeck";
   else return "";
 }
 

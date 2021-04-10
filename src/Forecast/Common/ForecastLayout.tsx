@@ -11,13 +11,11 @@ const useStyles = makeStyles(() => {
   return {
     forecastLayoutRoot: {
       display: "flex",
-      // width: "100%",
       width: "100%",
       height: "100%",
     },
     forecastLayoutContainer: {
       display: "flex",
-      // width: "100%",
       marginTop: navbarHeight + subNavBarHeight,
       width: "100%",
       height: `calc(100% - ${navbarHeight + subNavBarHeight})`,

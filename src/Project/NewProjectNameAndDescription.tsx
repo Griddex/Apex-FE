@@ -69,7 +69,7 @@ const NewProjectNameAndDescription = ({
   return (
     <div>
       <AnalyticsComp
-        title="Project Name"
+        title="Title"
         direction="Vertical"
         content={
           <TextField
@@ -88,7 +88,7 @@ const NewProjectNameAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Project Description"
+        title="Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={

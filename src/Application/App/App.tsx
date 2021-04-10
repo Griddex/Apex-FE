@@ -6,8 +6,8 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
 import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
+import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import ProtectedRoute from "../Routes/ProtectedRoute";
-import PerpetualSpinner from "./../Components/Visuals/PerpetualSpinner";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));

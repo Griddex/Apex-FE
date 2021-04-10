@@ -7,3 +7,7 @@ export interface IApplicationHeaders {
   displayUnitId: string;
   units: IUnit[];
 }
+
+export type UserMatchObjectType = {
+  [index: string]: { appHeader: string; acceptMatch: boolean };
+};

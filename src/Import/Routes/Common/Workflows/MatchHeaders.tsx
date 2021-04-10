@@ -5,6 +5,7 @@ import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
 import findIndex from "lodash.findindex";
 import omit from "lodash.omit";
+import pullAll from "lodash.pullall";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -38,7 +39,7 @@ import {
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getRSStyles from "../../../Utils/GetRSStyles";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
-import { IApplicationHeaders } from "./MatchHeadersTypes";
+import { IApplicationHeaders, UserMatchObjectType } from "./MatchHeadersTypes";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -79,6 +80,16 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const wc = "importDataWorkflows";
   const wp = wrkflwPrcss;
 
+  //TODO: Get from Gift
+  const savedMatchObject: UserMatchObjectType = {
+    "Version Name": { appHeader: "Forecast Version", acceptMatch: true },
+    "Activity Entity": { appHeader: "Project Name", acceptMatch: true },
+    "URg 1P/1C": { appHeader: "Gas UR/1P1C", acceptMatch: true },
+    "URg 2P/2C": { appHeader: "Gas UR/2P2C", acceptMatch: true },
+    "URg 3P/3C": { appHeader: "Gas UR/3P3C", acceptMatch: true },
+  };
+  const savedMatchObjectKeys = Object.keys(savedMatchObject);
+
   //File Headers
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
     (state: RootState) => state.inputReducer
@@ -108,33 +119,50 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   };
   const fuse = new Fuse(applicationHeaders, options);
 
-  const fileHeaderMatches: Record<string, number>[] = fileHeaders.map(
-    (fileHeader: string) => {
-      const searchResult = fuse.search(fileHeader);
-      const matchedHeaders = searchResult.map((match) => match["item"]);
-      const matchedScores = searchResult.map((match) => match["score"]);
+  const fileHeaderMatches: Record<string, number>[] = [];
+  for (const fileHeader of fileHeaders) {
+    const searchResult = fuse.search(fileHeader);
+    const matchedHeaders = searchResult.map((match) => match["item"]);
+    const matchedScores = searchResult.map((match) => match["score"]);
 
-      if (matchedHeaders.length > 0) {
-        const cleanedMatchedScores = matchedScores.map(
-          (score: number | undefined) =>
-            score !== undefined ? Math.round((1 - score) * 100) : 0
-        );
+    if (matchedHeaders.length > 0) {
+      const mtchdHeaders = matchedHeaders;
+      const mtchdScores = matchedScores;
 
-        if (!matchedHeaders.includes("None")) {
-          matchedHeaders.push("None");
-          cleanedMatchedScores.push(0);
-        }
+      const cleanedMatchedScores = mtchdScores.map(
+        (score: number | undefined) =>
+          score !== undefined ? Math.round((1 - score) * 100) : 0
+      );
 
-        return zipObject(matchedHeaders, cleanedMatchedScores);
-      } else {
-        const zeroScores: number[] = new Array(applicationHeaders.length).fill(
-          0
-        );
-
-        return zipObject(applicationHeaders, zeroScores);
+      if (!mtchdHeaders.includes("None")) {
+        mtchdHeaders.push("None");
+        cleanedMatchedScores.push(0);
       }
+
+      if (savedMatchObjectKeys.includes(fileHeader.trim())) {
+        const matchHeader = savedMatchObject[fileHeader];
+        pullAll(mtchdHeaders, [matchHeader.appHeader]);
+
+        mtchdHeaders.unshift(matchHeader.appHeader);
+        cleanedMatchedScores.unshift(100);
+      }
+
+      fileHeaderMatches.push(zipObject(mtchdHeaders, cleanedMatchedScores));
+    } else {
+      const appHeaders = applicationHeaders;
+      const zeroScores: number[] = new Array(appHeaders.length).fill(0);
+
+      if (savedMatchObjectKeys.includes(fileHeader.trim())) {
+        const matchHeader = savedMatchObject[fileHeader];
+        pullAll(appHeaders, [matchHeader.appHeader]);
+
+        appHeaders.unshift(matchHeader.appHeader);
+        zeroScores.unshift(100);
+      }
+
+      fileHeaderMatches.push(zipObject(appHeaders, zeroScores));
     }
-  );
+  }
 
   const keyedFileHeaderMatches = zipObject(fileHeaders, fileHeaderMatches);
   const headerMatchChartData = generateMatchData(fileHeaderMatches);
@@ -202,6 +230,11 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     setChosenApplicationHeaderIndices,
   ] = React.useState(snChosenApplicationHeaderIndices);
 
+  const [
+    userMatchObject,
+    setUserMatchObject,
+  ] = React.useState<UserMatchObjectType>(savedMatchObject);
+
   const [, setExcludeSwitchChecked] = React.useState(false);
   const [, setAcceptMatchSwitchChecked] = React.useState(false);
 
@@ -229,6 +262,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
+      const { fileHeader, applicationHeader } = row;
+      const strFileheader = fileHeader as string;
+      const strApplicationHeader = applicationHeader as string;
+
       setAcceptMatchSwitchChecked(event.target.checked);
 
       const selectedRowSN = row.sn as number;
@@ -240,6 +277,12 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         acceptMatch: event.target.checked,
       };
       tableRows.current = currentRows;
+
+      //Add to user match object
+      setUserMatchObject((prev) => ({
+        ...prev,
+        [strFileheader]: { appHeader: strApplicationHeader, acceptMatch: true },
+      }));
     };
 
     const columns: Column<IRawRow>[] = [
@@ -278,10 +321,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
           const handleSelect = (value: ValueType<ISelectOptions, false>) => {
             const selectedValue = value && value.label;
-
+            const selectedAppHeader = selectedValue as string;
             onRowChange({
               ...row,
-              applicationHeader: selectedValue as string,
+              applicationHeader: selectedAppHeader,
             });
 
             const selectedHeaderOptionIndex = findIndex(
@@ -321,7 +364,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       },
       {
         key: "match",
-        name: "MATCH",
+        name: "MATCH [%]",
         editable: false,
         resizable: true,
         width: 100,

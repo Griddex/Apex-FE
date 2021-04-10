@@ -10,12 +10,12 @@ import {
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
+import Spreadsheet from "../../Application/Images/Spreadsheet.svg";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import ExistingDeck from "../../Import/Images/ExistingDeck.svg";
-import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
-import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastCharts from "../Images/ForecastCharts.svg";
 import ExistingForecastResults from "../Routes/ExistingForecastResults";
+import ForecastData from "../Routes/ForecastData";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
 import { IdType, IForecastLandingData } from "./ForecastLandingTypes";
 
@@ -56,19 +56,34 @@ const ForecastLanding = () => {
 
   const forecastLandingData: IForecastLandingData[] = [
     {
-      name: "View Charts",
-      description: `View forecast results in highly interactive charts`,
+      name: "View Data",
+      description: `View forecast results data in responsive and perfomant tables`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={Spreadsheet}
+          alt="Spreadsheet Logo"
+        />
+      ),
+      route: `${url}/forecastdata`,
+      workflowProcess: "forecastResultsData",
+      workflowCategory: "existingDataWorkflows",
+    },
+    {
+      name: "Plot Charts",
+      description: `Plot forecast results in highly interactive charts`,
       icon: (
         <Image
           className={classes.image}
           src={ForecastCharts}
-          alt="Hydrocarbon Forecasting Platform Company Logo"
+          alt="Chart Logo"
         />
       ),
       route: `${url}/forecastvisualytics`,
       workflowProcess: "forecastResultsVisualytics",
       workflowCategory: "existingDataWorkflows",
     },
+
     {
       name: `Existing Forecast Results`,
       description: `Select a pre-exisiting and approved forecast results data stored in the Apex\u2122 database`,
@@ -101,11 +116,6 @@ const ForecastLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const chartButtons: IChartButtonsProps = {
-    showExtraButtons: true,
-    extraButtons: () => <ForecastVariableButtonsMenu />,
-  };
-
   return (
     <>
       {loadWorkflow ? (
@@ -120,9 +130,15 @@ const ForecastLanding = () => {
                 } = match;
 
                 const forecastWorkflows = {
+                  forecastdata: (
+                    <ForecastData
+                      wrkflwCtgry={"existingDataWorkflows"}
+                      wrkflwPrcss={"forecastResultsData"}
+                      showChart={false}
+                    />
+                  ),
                   forecastvisualytics: (
                     <ForecastVisualytics
-                      chartButtons={chartButtons}
                       wrkflwCtgry={"existingDataWorkflows"}
                       wrkflwPrcss={"forecastResultsVisualytics"}
                     />

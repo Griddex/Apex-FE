@@ -30,6 +30,13 @@ export interface IApexGrid<R, O> {
     readonly width: number | null;
     readonly height: number | null;
   };
+  groupBy?: readonly string[];
+  rowGrouper?: (
+    rows: readonly R[],
+    columnKey: string
+  ) => Record<string, readonly R[]>;
+  expandedGroupIds?: ReadonlySet<unknown>;
+  onExpandedGroupIdsChange?: (expandedGroupIds: Set<unknown>) => void;
 }
 
 export interface ITableMetaData<R> {

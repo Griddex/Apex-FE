@@ -1,13 +1,14 @@
 import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
 import {
+  REINITIALIZE_WORKFLOW,
   SET_WORKFLOWPROCESS,
   INITIALIZE_WORKFLOW,
   RESET_WORKFLOW,
   NEXT_WORKFLOW,
   BACK_WORKFLOW,
   SKIP_WORKFLOW,
+  NAVBUTTON_DISABLED,
   SAVE_WORKFLOW,
-  REINITIALIZE_WORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
 import {
@@ -71,24 +72,6 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
       const wc = workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"];
 
-      // const { activeStep, steps } = action.payload;
-
-      // let newSkipped = new Set<number>();
-      // try {
-      //   newSkipped = state["importDataWorkflows"][wp]["skipped"] as Set<number>;
-      // } catch (error) {
-      //   state["importDataWorkflows"][wp]["skipped"] = new Set<number>();
-      // }
-
-      // if (isStepSkipped && isStepSkipped(activeStep)) {
-      //   newSkipped = new Set(skipped.values());
-      //   newSkipped.delete(activeStep);
-      // }
-
-      // if (activeStep === steps.length - 1) {
-      //   return { ...state["importDataWorkflows"][wp] };
-      // }
-
       return {
         ...state,
         [wc]: {
@@ -141,6 +124,42 @@ const workflowReducer = (state = workflowState, action: IAction) => {
           [wp]: {
             activeStep: action.payload.activeStep + 1,
             skipped: newSkippedSet,
+          },
+        },
+      };
+    }
+
+    case NAVBUTTON_DISABLED: {
+      const {
+        navButton,
+        isDisabled,
+        workflowCategory,
+        workflowProcess,
+      } = action.payload;
+      const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const wc = workflowCategory as keyof IWorkflowState;
+      const { isStepOptional, activeStep } = action.payload;
+
+      const wcDef = state[wc] as Record<string, IWorkflowProcessState>;
+
+      if (!isStepOptional()) {
+        throw new Error("You can't skip a step that isn't optional.");
+      }
+      const workflowState = wcDef[wp];
+      const newSkippedSet = new Set(
+        workflowState.skipped && workflowState.skipped.values()
+      );
+      newSkippedSet.add(activeStep);
+
+      return {
+        ...state,
+        [wc]: {
+          ...wcDef,
+          [wp]: {
+            isNavButtonDisabled: {
+              ...wcDef[wp]["isNavButtonDisabled"],
+              [navButton]: isDisabled,
+            },
           },
         },
       };

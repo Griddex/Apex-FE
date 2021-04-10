@@ -15,8 +15,12 @@ const generateProjectWorkflowState = () => {
         skipped: initialSkipped,
         errorSteps: [],
         optionalSteps: [],
-        workflowProcess: "",
-
+        isNavButtonDisabled: {
+          reset: false,
+          skip: false,
+          back: false,
+          next: true,
+        },
         isStepOptional: () => false,
         isStepFailed: () => false,
         isStepSkipped: () => false,
@@ -52,7 +56,12 @@ const generateInputWorkflowState = () => {
         skipped: initialSkipped,
         errorSteps: [],
         optionalSteps: [],
-        workflowProcess: "",
+        isNavButtonDisabled: {
+          reset: false,
+          skip: false,
+          back: false,
+          next: true,
+        },
 
         isStepOptional: () => false,
         isStepFailed: () => false,
@@ -79,7 +88,12 @@ const generateNetworkWorkflowState = () => {
         skipped: initialSkipped,
         errorSteps: [],
         optionalSteps: [],
-        workflowProcess: "",
+        isNavButtonDisabled: {
+          reset: false,
+          skip: false,
+          back: false,
+          next: true,
+        },
 
         isStepOptional: () => false,
         isStepFailed: () => false,
@@ -107,7 +121,12 @@ const generateEconomicsWorkflowState = () => {
         skipped: initialSkipped,
         errorSteps: [],
         optionalSteps: [],
-        workflowProcess: "",
+        isNavButtonDisabled: {
+          reset: false,
+          skip: false,
+          back: false,
+          next: true,
+        },
 
         isStepOptional: () => false,
         isStepFailed: () => false,

@@ -5,6 +5,12 @@ export interface IWorkflowProcessState {
   errorSteps?: number[];
   optionalSteps?: number[];
   workflowProcess?: string;
+  isNavButtonDisabled?: {
+    reset: boolean;
+    skip: boolean;
+    back: boolean;
+    next: boolean;
+  };
 
   isStepOptional?: (activeStep: number) => boolean;
   isStepFailed?: () => boolean;

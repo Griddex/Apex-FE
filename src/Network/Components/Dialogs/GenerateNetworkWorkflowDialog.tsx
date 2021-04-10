@@ -116,7 +116,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = ["Select Facilities Input Deck", "Select Forecast Input Deck"];
+const steps = ["Select Facilities InputDeck", "Select Forecast InputDeck"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 

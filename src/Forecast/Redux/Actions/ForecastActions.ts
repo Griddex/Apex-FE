@@ -26,7 +26,7 @@ export const TREEVIEWKEYS_REQUEST = "TREEVIEWKEYS_REQUEST";
 export const TREEVIEWKEYS_SUCCESS = "TREEVIEWKEYS_SUCCESS";
 export const TREEVIEWKEYS_FAILURE = "TREEVIEWKEYS_FAILURE";
 
-export const persistFirstLevelForecastPropertyAction = (
+export const updateForecastResultsParameterAction = (
   name: string,
   value: any
 ) => {

@@ -124,7 +124,7 @@ const FacilitiesInputDeckLanding = () => {
 
     const dialogParameters: DialogStuff = {
       name: "Save_Facilities_Input_Deck_Dialog",
-      title: "Save Facilities Input Deck",
+      title: "Save Facilities InputDeck",
       type: "saveFacilitiesInputDeckDialog",
       show: true,
       exclusive: true,

@@ -82,17 +82,21 @@ function* getForecastResultsSaga(
     forecastId: selectedForecastingResultsId,
   };
 
+  //isForecastResultsLoading
   try {
-    yield put(showSpinnerAction("fetching data..."));
+    // yield put(showSpinnerAction("fetching data..."));
+    yield put({
+      type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
+      payload: {
+        name: "isForecastResultsLoading",
+        value: true,
+      },
+    });
 
     const chan = yield call(updateForecastResults, url, reqPayload);
 
     while (true) {
       const forecastResultsChunk = yield take(chan);
-      console.log(
-        "Logged output --> ~ file: GetForecastResultsSaga.ts ~ line 90 ~ forecastResultsChunk",
-        forecastResultsChunk
-      );
       const { forecastResults } = yield select(
         (state) => state.forecastReducer
       );
@@ -112,8 +116,6 @@ function* getForecastResultsSaga(
           selectedModuleIds: selectedIds,
         },
       });
-
-      // yield put(showDialogAction(successDialogParameters()));
     }
   } catch (errors) {
     const failureAction = getForecastResultsFailureAction();
@@ -125,7 +127,14 @@ function* getForecastResultsSaga(
 
     yield put(showDialogAction(failureDialogParameters("")));
   } finally {
-    yield put(hideSpinnerAction());
+    // yield put(hideSpinnerAction());
+    yield put({
+      type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
+      payload: {
+        name: "isForecastResultsLoading",
+        value: false,
+      },
+    });
   }
 }
 

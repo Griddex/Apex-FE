@@ -22,7 +22,7 @@ const SaveNetworkTitleAndDescription = ({
   return (
     <div>
       <AnalyticsComp
-        title="Network Title"
+        title="Title"
         direction="Vertical"
         content={
           <TextField
@@ -54,7 +54,7 @@ const SaveNetworkTitleAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Network Description"
+        title="Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={

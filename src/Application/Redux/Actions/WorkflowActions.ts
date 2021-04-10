@@ -1,3 +1,4 @@
+import { INavigationButtonsProp } from "../../Components/NavigationButtons/NavigationButtonTypes";
 import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
 
@@ -8,6 +9,7 @@ export const RESET_WORKFLOW = "RESET_WORKFLOW";
 export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
 export const BACK_WORKFLOW = "BACK_WORKFLOW";
 export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
+export const NAVBUTTON_DISABLED = "NAVBUTTON_DISABLED";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 
 export const setWorkflowProcessAction = (
@@ -120,6 +122,23 @@ export const workflowSkipAction = (
     payload: {
       isStepOptional,
       activeStep,
+      workflowProcess,
+      workflowCategory,
+    },
+  };
+};
+
+export const updateNavButtonDisbledAction = (
+  navButton: keyof INavigationButtonsProp["isNavButtonDisabled"],
+  isDisabled: boolean,
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+) => {
+  return {
+    type: SKIP_WORKFLOW,
+    payload: {
+      navButton,
+      isDisabled,
       workflowProcess,
       workflowCategory,
     },

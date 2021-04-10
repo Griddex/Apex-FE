@@ -1,12 +1,11 @@
 import { Button } from "@material-ui/core";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IFinalAction } from "../../Layout/LayoutTypes";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 
 const DialogRemoveNetworkCancelButtons = (
   shouldExecute: IFinalAction["shouldExecute"],

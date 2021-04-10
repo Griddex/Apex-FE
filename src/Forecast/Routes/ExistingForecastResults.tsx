@@ -1,4 +1,9 @@
-import { Checkbox, ClickAwayListener, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  Checkbox,
+  ClickAwayListener,
+  makeStyles,
+} from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
@@ -18,10 +23,13 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
-import { persistFirstLevelForecastPropertyAction } from "../Redux/Actions/ForecastActions";
+import { updateForecastResultsParameterAction } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { SizeMe } from "react-sizeme";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
+import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -112,7 +120,7 @@ export default function ExistingForecastResults({
     const name = "selectedForecastingResultsId";
     const value = row.forecastResultsId;
 
-    dispatch(persistFirstLevelForecastPropertyAction(name, value));
+    dispatch(updateForecastResultsParameterAction(name, value));
     setCheckboxSelected(!checkboxSelected);
   };
 
@@ -202,7 +210,7 @@ export default function ExistingForecastResults({
       },
       {
         key: "forecastInputDeckTitle",
-        name: "FORECAST INPUT DECK TITLE",
+        name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,
         width: 300,
@@ -295,15 +303,41 @@ export default function ExistingForecastResults({
                 tableButtons={tableButtons}
                 newTableRowHeight={35}
                 selectedRows={selectedRows}
-                onSelectedRowsChange={setSelectedRows}
-                onRowsChange={setRows}
+                setSelectedRows={setSelectedRows}
                 selectedRow={sRow}
+                onSelectedRowChange={setSRow}
+                onRowsChange={setRows}
                 size={size}
               />
             )}
           </SizeMe>
         </div>
       </ClickAwayListener>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: 4,
+          width: 270,
+        }}
+      >
+        <Button
+          variant="contained"
+          color="default"
+          startIcon={<TableChartOutlinedIcon />}
+          disabled={sRow === -1}
+        >
+          {"View Table"}
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<InsertPhotoOutlinedIcon />}
+          disabled={sRow === -1}
+        >
+          {"Plot Chart"}
+        </Button>
+      </div>
     </div>
   );
 }

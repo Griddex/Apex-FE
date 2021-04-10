@@ -29,6 +29,7 @@ export interface IExistingDataProps {
     | "productionInputDataExisting"
     | "economicsInputDataExisting"
     | "networkExisting"
+    | "forecastResultsData"
     | "forecastResultsVisualytics"
     | "forecastResultsExisting"
     | "economicsParametersExisting";

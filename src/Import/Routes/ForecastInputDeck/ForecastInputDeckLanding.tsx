@@ -56,7 +56,7 @@ const ForecastInputDeckLanding = () => {
   const forecastInputLandingData: IForecastLandingData[] = [
     {
       name: "Excel | Text",
-      description: `Import forecast input deck from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
+      description: `Import forecast inputdeck from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
       icon: (
         <Image
           className={classes.image}
@@ -70,7 +70,7 @@ const ForecastInputDeckLanding = () => {
     },
     {
       name: "Database",
-      description: `Import forecast input deck from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Import forecast inputdeck from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -83,8 +83,8 @@ const ForecastInputDeckLanding = () => {
       workflowCategory: "importDataWorkflows",
     },
     {
-      name: `Existing Forecast Input Deck`,
-      description: `Select a pre-exisiting and approved forecast input deck stored in the Apex\u2122 database`,
+      name: `Existing Forecast InputDeck`,
+      description: `Select a pre-exisiting and approved forecast inputdeck stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
@@ -106,7 +106,7 @@ const ForecastInputDeckLanding = () => {
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
-      title: `Manage Forecast Input Deck`,
+      title: `Manage Forecast InputDeck`,
       type: "finalizeForecastInputDeckDialog",
       show: true,
       exclusive: true,

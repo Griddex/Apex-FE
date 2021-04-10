@@ -148,11 +148,18 @@ export default function ForecastTreeView() {
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
     string[]
   >([]);
-  const [selectedModulePaths, setSelectedModulePaths] = React.useState<
-    string[]
-  >([]);
+  const [
+    selectedModulePathsUnfiltered,
+    setSelectedModulePathsUnfiltered,
+  ] = React.useState<string[]>([]);
 
-  // const initExpanded = forecastTree.map((scenarioNodes) => scenarioNodes.id);
+  const initExpanded = scenarioTree.children.map(
+    (scenarioNodes) => scenarioNodes.id
+  );
+  console.log(
+    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 157 ~ ForecastTreeView ~ initExpanded",
+    initExpanded
+  );
 
   const getChildById = (node: RenderTree, id: string) => {
     let idArray: string[] = [];
@@ -232,10 +239,12 @@ export default function ForecastTreeView() {
     setSelectedModuleNames(nameArray);
 
     let pathArray = checked
-      ? [...selectedModulePaths, ...allPathNodes]
-      : selectedModulePaths.filter((value) => !allPathNodes.includes(value));
+      ? [...selectedModulePathsUnfiltered, ...allPathNodes]
+      : selectedModulePathsUnfiltered.filter(
+          (value) => !allPathNodes.includes(value)
+        );
     pathArray = pathArray.filter((v, i) => pathArray.indexOf(v) === i);
-    setSelectedModulePaths(pathArray);
+    setSelectedModulePathsUnfiltered(pathArray);
   };
 
   const renderTree = (scenarioNodes: RenderTree) => {
@@ -267,10 +276,8 @@ export default function ForecastTreeView() {
   };
 
   React.useEffect(() => {
-    // const {selectedModuleIds} = useSelector((state:RootState) => state.forecastReducer)
-    console.log(
-      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 282 ~ React.useEffect ~ selectedModulePaths",
-      selectedModulePaths
+    const selectedModulePaths = selectedModulePathsUnfiltered.filter(
+      (p) => p?.match(/@#\$%/g)?.length === 2
     );
 
     if (selectedIds.length > 0) {
@@ -288,7 +295,7 @@ export default function ForecastTreeView() {
   return (
     <TreeView
       className={classes.rootTreeView}
-      // defaultExpanded={initExpanded}
+      defaultExpanded={initExpanded}
       defaultCollapseIcon={<MinusSquare />}
       defaultExpandIcon={<PlusSquare />}
       // defaultEndIcon={<CloseSquare />}

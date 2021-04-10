@@ -4,6 +4,7 @@ import {
   IExistingDataProps,
   IExistingDataRow,
 } from "../../../Application/Types/ApplicationTypes";
+import { UserMatchObjectType } from "../../Routes/Common/Workflows/MatchHeadersTypes";
 
 export interface IImportState {
   fileLastModified: string;
@@ -50,6 +51,8 @@ export interface IImportState {
 
   chosenApplicationHeaders: string[];
   chosenApplicationUnits: string[];
+
+  savedMatchObject: UserMatchObjectType;
 
   title: string;
   description: string;

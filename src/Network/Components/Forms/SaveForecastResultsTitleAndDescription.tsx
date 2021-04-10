@@ -2,7 +2,7 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { persistFirstLevelForecastPropertyAction } from "../../../Forecast/Redux/Actions/ForecastActions";
+import { updateForecastResultsParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { ISaveForecastResultsProps } from "../../../Forecast/Redux/ForecastState/ForecastStateTypes";
 import { IIsSaveForecastResultsValid } from "../Dialogs/SaveNetworkDialogTypes";
 
@@ -23,13 +23,13 @@ const SaveForecastResultsTitleAndDescription = ({
 
   const handleBlur = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-    dispatch(persistFirstLevelForecastPropertyAction(name, value));
+    dispatch(updateForecastResultsParameterAction(name, value));
   };
 
   return (
     <div>
       <AnalyticsComp
-        title="Forecast Results Title"
+        title="Title"
         direction="Vertical"
         content={
           <TextField
@@ -46,7 +46,7 @@ const SaveForecastResultsTitleAndDescription = ({
               if (value.length > 2) {
                 setIsSaveForecastResultsValid &&
                   setIsSaveForecastResultsValid(false);
-                dispatch(persistFirstLevelForecastPropertyAction(name, value));
+                dispatch(updateForecastResultsParameterAction(name, value));
               } else {
                 setIsSaveForecastResultsValid &&
                   setIsSaveForecastResultsValid(true);
@@ -60,7 +60,7 @@ const SaveForecastResultsTitleAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Forecast Results Description"
+        title="Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={

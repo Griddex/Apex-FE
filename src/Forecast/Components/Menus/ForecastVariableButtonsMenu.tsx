@@ -12,7 +12,7 @@ import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
-import { persistFirstLevelForecastPropertyAction } from "../../Redux/Actions/ForecastActions";
+import { updateForecastResultsParameterAction } from "../../Redux/Actions/ForecastActions";
 import { variablesObj } from "../../Utils/ForecastVariables";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,8 +20,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.primary.main,
     fontWeight: "bold",
-    // minWidth: 20,
     width: 40,
+  },
+  label: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));
 
@@ -49,11 +52,12 @@ const ForecastVariableButtonsMenu = () => {
         startIcon={<ShowChartOutlinedIcon />}
         endIcon={<KeyboardArrowDownIcon />}
         style={{
-          height: "28px",
+          height: 28,
           backgroundColor: theme.palette.primary.light,
           border: `1px solid ${theme.palette.primary.main}`,
           width: 250,
         }}
+        classes={{ label: classes.label }}
       >
         {variable}
       </Button>
@@ -83,7 +87,7 @@ const ForecastVariableButtonsMenu = () => {
                 onClick={() => {
                   setVariable(k);
                   dispatch(
-                    persistFirstLevelForecastPropertyAction(
+                    updateForecastResultsParameterAction(
                       "selectedForecastChartVariable",
                       selectedVar
                     )
@@ -92,9 +96,8 @@ const ForecastVariableButtonsMenu = () => {
                 }}
               >
                 <ListItemAvatar className={classes.listItemAvatar}>
-                  {avatar}
+                  <>{avatar}</>
                 </ListItemAvatar>
-                {/* <ListItemIcon style={{ minWidth: 36 }}>{icon}</ListItemIcon> */}
                 <Typography variant="inherit">{k}</Typography>
               </MenuItem>
             );

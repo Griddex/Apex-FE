@@ -28,7 +28,7 @@ const ForecastParametersTitleAndDescription = ({
   return (
     <div>
       <AnalyticsComp
-        title="Forecast Parameters Title"
+        title="Title"
         direction="Vertical"
         content={
           <TextField
@@ -47,7 +47,7 @@ const ForecastParametersTitleAndDescription = ({
         }
       />
       <AnalyticsComp
-        title="Forecast Parameters Description"
+        title="Description"
         direction="Vertical"
         containerStyle={{ marginTop: 30 }}
         content={

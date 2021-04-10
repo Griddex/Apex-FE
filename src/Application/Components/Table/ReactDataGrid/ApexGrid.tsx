@@ -87,6 +87,10 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     onRowsChange,
     mappingErrors,
     size,
+    groupBy,
+    rowGrouper,
+    expandedGroupIds,
+    onExpandedGroupIdsChange,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
@@ -388,6 +392,10 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             onSort={handleSort}
             headerRowHeight={tableHeaderHeight}
             rowHeight={tableRowHeight}
+            groupBy={groupBy}
+            rowGrouper={rowGrouper}
+            expandedGroupIds={expandedGroupIds}
+            onExpandedGroupIdsChange={onExpandedGroupIdsChange}
           />
         </div>
       </DndProvider>

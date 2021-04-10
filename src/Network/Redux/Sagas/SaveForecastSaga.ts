@@ -19,8 +19,10 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
 import {
+  fetchExistingForecastingResultsRequestAction,
   saveForecastFailureAction,
   saveForecastSuccessAction,
+  updateForecastResultsParameterAction,
 } from "../../../Forecast/Redux/Actions/ForecastActions";
 import {
   failureDialogParameters,
@@ -94,6 +96,13 @@ function* saveForecastSaga(
       },
     });
 
+    yield put(
+      updateForecastResultsParameterAction(
+        "forecastResultsTitle",
+        forecastResultsTitle
+      )
+    );
+    yield put(fetchExistingForecastingResultsRequestAction(projectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveForecastFailureAction();

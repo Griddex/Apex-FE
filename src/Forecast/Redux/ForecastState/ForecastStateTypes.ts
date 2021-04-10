@@ -74,6 +74,7 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   forecastResultsId: string;
 
   selectedForecastingResultsId: string;
+  isForecastResultsLoading: boolean;
   isForecastResultsSaved: boolean;
 
   existingDataWorkflows: {
