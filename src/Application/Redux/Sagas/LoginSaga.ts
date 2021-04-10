@@ -52,18 +52,18 @@ function* loginSaga(
   yield put(showSpinnerAction("Logging in..."));
 
   try {
-    // const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
-    const response = yield call(
-      loginAPI,
-      "https://jsonplaceholder.typicode.com/posts"
-    );
+    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    // const response = yield call(
+    //   loginAPI,
+    //   "https://jsonplaceholder.typicode.com/posts"
+    // );
 
     const { status } = response;
 
     yield call(forwardTo, "/apex");
-    // if (status === 200) {
-    //   yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
-    // }
+    if (status === 200) {
+      yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
+    }
   } catch (errors) {
     const failureAction = loginFailureAction();
 
