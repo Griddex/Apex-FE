@@ -138,7 +138,11 @@ const Navbar = () => {
           <Box>
             <Typography
               variant="button"
-              style={{ color: theme.palette.grey[900], letterSpacing: 1.2 }}
+              style={{
+                color: theme.palette.grey[900],
+                letterSpacing: 1.2,
+                fontWeight: "bold",
+              }}
             >
               {projectTitle}
             </Typography>

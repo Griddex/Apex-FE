@@ -69,7 +69,7 @@ const generateImportState = () => {
         chosenApplicationHeaders: [],
         chosenApplicationUnits: [],
 
-        savedMatchObject: {},
+        savedMatchObjectAll: {},
 
         inputDeckId: "",
         status: 0,

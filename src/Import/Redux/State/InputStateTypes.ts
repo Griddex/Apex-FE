@@ -52,7 +52,7 @@ export interface IImportState {
   chosenApplicationHeaders: string[];
   chosenApplicationUnits: string[];
 
-  savedMatchObject: UserMatchObjectType;
+  savedMatchObjectAll: UserMatchObjectType;
 
   title: string;
   description: string;

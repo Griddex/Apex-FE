@@ -6,9 +6,9 @@ const getChosenApplicationHeaders = (
     chosenApplicationHeadersIndices
   );
 
-  const applicationHeaders = fileHeaderMatches.map((match, i: number) => {
+  const applicationHeaders = fileHeaderMatches.map((match, rowSN: number) => {
     const headers = Object.keys(match);
-    const headerIndex = applicationHeadersIndices[i];
+    const headerIndex = applicationHeadersIndices[rowSN];
 
     return headers[headerIndex];
   });

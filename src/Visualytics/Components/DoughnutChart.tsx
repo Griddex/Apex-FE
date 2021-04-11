@@ -16,14 +16,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-// const COLORS = ["#31BFCC", "#00C49F", "#DA1B57"]; //"#22BE34"
-
-//May implement scale on hover
 const DoughnutChart = ({ data }: { data: ChartType }) => {
-  console.log(
-    "Logged output --> ~ file: DoughnutChart.tsx ~ line 23 ~ DoughnutChart ~ data",
-    data
-  );
   const classes = useStyles();
 
   const theme = useTheme();

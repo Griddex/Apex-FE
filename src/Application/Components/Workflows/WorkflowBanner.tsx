@@ -18,27 +18,10 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     "& > *": { height: "60%" },
   },
-  workflowBanner: {
-    display: "flex",
-    justifyContent: "center",
-    width: 54,
-    height: 24,
-    margin: 5,
-    borderRadius: theme.spacing(0.5),
-    border: `1px solid ${theme.palette.primary.main}`,
-    "& > *": { fontWeight: "bold" },
-  },
   workflowBannerHeader: {
     display: "flex",
     width: "100%",
     marginLeft: 6,
-    "& > *": { fontWeight: "bold" },
-  },
-  companyLogoToolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 12,
   },
 }));
 

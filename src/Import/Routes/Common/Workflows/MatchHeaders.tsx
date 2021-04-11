@@ -35,9 +35,11 @@ import {
   persistChosenApplicationHeadersIndicesAction,
   persistFileHeadersMatchAction,
   persistTableHeadersAction,
+  saveUserMatchAction,
 } from "../../../Redux/Actions/ImportActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getRSStyles from "../../../Utils/GetRSStyles";
+import CenteredStyle from "./../../../../Application/Components/Styles/CenteredStyle";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import { IApplicationHeaders, UserMatchObjectType } from "./MatchHeadersTypes";
 
@@ -79,16 +81,47 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
   const wc = "importDataWorkflows";
   const wp = wrkflwPrcss;
+  const isFacilitiesWorkflow = wp.includes("facilities");
+  let workflowClass = "";
+  if (wp.includes("facilities")) workflowClass = "facilities";
+  else if (wp.includes("forecast")) workflowClass = "forecast";
+  else workflowClass = "forecast";
 
   //TODO: Get from Gift
-  const savedMatchObject: UserMatchObjectType = {
-    "Version Name": { appHeader: "Forecast Version", acceptMatch: true },
-    "Activity Entity": { appHeader: "Project Name", acceptMatch: true },
-    "URg 1P/1C": { appHeader: "Gas UR/1P1C", acceptMatch: true },
-    "URg 2P/2C": { appHeader: "Gas UR/2P2C", acceptMatch: true },
-    "URg 3P/3C": { appHeader: "Gas UR/3P3C", acceptMatch: true },
+  const savedMatchObjectAll: UserMatchObjectType = {
+    facilities: {
+      headers: {
+        Liquid_Capacity_1P: {
+          header: "Liquid Capacity 1P",
+          acceptMatch: true,
+        },
+        Gas_Capacity_1P: { header: "Gas Capacity 1P", acceptMatch: true },
+      },
+      units: {
+        "MMstb/d": { header: "MMbbl/d", acceptMatch: true },
+        MMScf: { header: "MMscf", acceptMatch: true },
+      },
+    },
+    forecast: {
+      headers: {
+        "Version Name": { header: "Forecast Version", acceptMatch: true },
+        "Activity Entity": { header: "Project Name", acceptMatch: true },
+        "URg 1P/1C": { header: "Gas UR/1P1C", acceptMatch: true },
+        "URg 2P/2C": { header: "Gas UR/2P2C", acceptMatch: true },
+        "URg 3P/3C": { header: "Gas UR/3P3C", acceptMatch: true },
+      },
+      units: {
+        MMstb: { header: "MMbbl", acceptMatch: true },
+        BScf: { header: "Bscf", acceptMatch: true },
+      },
+    },
   };
-  const savedMatchObjectKeys = Object.keys(savedMatchObject);
+  const specificSavedMatchObject =
+    savedMatchObjectAll[workflowClass]["headers"];
+  const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
+  const specificSavedMatchObjectValues = Object.values(
+    specificSavedMatchObject
+  );
 
   //File Headers
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
@@ -98,8 +131,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const { fileHeaders } = useSelector(
     (state: RootState) => state.inputReducer[wc][wp]
   );
-
-  const isFacilitiesWorkflow = wp.includes("facilities");
 
   let applicationHeaders: string[] = [];
   if (isFacilitiesWorkflow)
@@ -139,11 +170,11 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         cleanedMatchedScores.push(0);
       }
 
-      if (savedMatchObjectKeys.includes(fileHeader.trim())) {
-        const matchHeader = savedMatchObject[fileHeader];
-        pullAll(mtchdHeaders, [matchHeader.appHeader]);
+      if (specificSavedMatchObjectKeys.includes(fileHeader.trim())) {
+        const matchHeader = specificSavedMatchObject[fileHeader];
+        pullAll(mtchdHeaders, [matchHeader.header]);
 
-        mtchdHeaders.unshift(matchHeader.appHeader);
+        mtchdHeaders.unshift(matchHeader.header);
         cleanedMatchedScores.unshift(100);
       }
 
@@ -152,11 +183,11 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       const appHeaders = applicationHeaders;
       const zeroScores: number[] = new Array(appHeaders.length).fill(0);
 
-      if (savedMatchObjectKeys.includes(fileHeader.trim())) {
-        const matchHeader = savedMatchObject[fileHeader];
-        pullAll(appHeaders, [matchHeader.appHeader]);
+      if (specificSavedMatchObjectKeys.includes(fileHeader.trim())) {
+        const matchHeader = specificSavedMatchObject[fileHeader];
+        pullAll(appHeaders, [matchHeader.header]);
 
-        appHeaders.unshift(matchHeader.appHeader);
+        appHeaders.unshift(matchHeader.header);
         zeroScores.unshift(100);
       }
 
@@ -209,8 +240,12 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     const selectedApplicationHeader = headerOptions[0];
     const scoreOpts = keyedScoreOptions[fileHeader];
     const score = scoreOpts[0];
-    const exclude = false;
-    const acceptMatch = false;
+    const exclude = false; //TODO: Can enforce columns that must be used in the forecast here
+    const acceptMatch = specificSavedMatchObjectValues
+      .map((h) => h.header)
+      .includes(selectedApplicationHeader.label)
+      ? true
+      : false;
 
     return {
       sn: i + 1,
@@ -223,7 +258,8 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   });
 
   const tableRows = React.useRef<IRawTable>(initialTableRows);
-  const [, setRerender] = React.useState(false);
+  const rerenderRef = React.useRef<boolean>(false);
+  const [rerender, setRerender] = React.useState(rerenderRef.current);
 
   const [
     chosenApplicationHeaderIndices,
@@ -233,40 +269,91 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const [
     userMatchObject,
     setUserMatchObject,
-  ] = React.useState<UserMatchObjectType>(savedMatchObject);
-
-  const [, setExcludeSwitchChecked] = React.useState(false);
-  const [, setAcceptMatchSwitchChecked] = React.useState(false);
+  ] = React.useState<UserMatchObjectType>(savedMatchObjectAll);
 
   const generateColumns = (keyedApplicationHeaderOptions: {
     [index: string]: { value: string; label: string }[];
   }) => {
+    const handleApplicationHeaderChange = (
+      value: ValueType<ISelectOptions, false>,
+      rowSN: number,
+      headerOptions: ISelectOptions[],
+      scoreOptions: ISelectOptions[]
+    ) => {
+      const selectedValue = value && value.label;
+      const selectedAppHeader = selectedValue as string;
+
+      const selectedHeaderOptionIndex = findIndex(
+        headerOptions,
+        (option) => option.value === selectedValue
+      );
+      const selectedScore = scoreOptions[selectedHeaderOptionIndex];
+
+      setChosenApplicationHeaderIndices((prev) => ({
+        ...prev,
+        [`${rowSN}`]: selectedHeaderOptionIndex,
+      }));
+
+      const currentRows = tableRows.current;
+      const selectedRow = currentRows[rowSN - 1];
+      currentRows[rowSN - 1] = {
+        ...selectedRow,
+        applicationHeader: selectedAppHeader,
+        match: selectedScore.value,
+        exclude: selectedAppHeader === "None" ? true : false,
+      };
+
+      tableRows.current = currentRows;
+
+      rerenderRef.current = !rerenderRef.current;
+      setRerender(rerenderRef.current);
+    };
+
     const handleExcludeSwitchChange = (
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
-      setExcludeSwitchChecked(event.target.checked);
+      const isChecked = event.target.checked;
 
       const selectedRowSN = row.sn as number;
       const currentRows = tableRows.current;
       const selectedRow = currentRows[selectedRowSN - 1];
 
+      const fileHeader = row.fileHeader as string;
+      const currentOptionIndex = chosenApplicationHeaderIndices[selectedRowSN];
+      const headerOptions = keyedApplicationHeaderOptions[fileHeader];
+      const formerHeader = headerOptions[currentOptionIndex];
+      const scoreOptions = keyedScoreOptions[fileHeader];
+      const formerScore = scoreOptions[currentOptionIndex];
+
       currentRows[selectedRowSN - 1] = {
         ...selectedRow,
-        exclude: event.target.checked,
+        applicationHeader: isChecked ? "None" : formerHeader.label,
+        match: isChecked ? 0 : formerScore.label,
+        exclude: isChecked,
       };
+
+      const noneOptionIndex = headerOptions.map((h) => h.label).indexOf("None");
+      setChosenApplicationHeaderIndices((prev) => ({
+        ...prev,
+        [`${selectedRowSN}`]: isChecked ? noneOptionIndex : currentOptionIndex,
+      }));
+
       tableRows.current = currentRows;
+
+      rerenderRef.current = !rerenderRef.current;
+      setRerender(rerenderRef.current);
     };
 
     const handleAcceptMatchSwitchChange = (
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
+      const isChecked = event.target.checked;
+
       const { fileHeader, applicationHeader } = row;
       const strFileheader = fileHeader as string;
       const strApplicationHeader = applicationHeader as string;
-
-      setAcceptMatchSwitchChecked(event.target.checked);
 
       const selectedRowSN = row.sn as number;
       const currentRows = tableRows.current;
@@ -274,15 +361,37 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
 
       currentRows[selectedRowSN - 1] = {
         ...selectedRow,
-        acceptMatch: event.target.checked,
+        acceptMatch: isChecked,
       };
+
       tableRows.current = currentRows;
 
-      //Add to user match object
-      setUserMatchObject((prev) => ({
-        ...prev,
-        [strFileheader]: { appHeader: strApplicationHeader, acceptMatch: true },
-      }));
+      //Update usermatchobject
+      if (isChecked) {
+        setUserMatchObject((prev) => ({
+          ...prev,
+          [workflowClass]: {
+            ...prev[workflowClass],
+            ["headers"]: {
+              ...prev[workflowClass]["headers"],
+              [strFileheader]: {
+                header: strApplicationHeader,
+                acceptMatch: true,
+              },
+            },
+          },
+        }));
+      } else {
+        setUserMatchObject((prev) => {
+          const matchObject = prev;
+          delete matchObject[workflowClass]["headers"][strFileheader];
+
+          return matchObject;
+        });
+      }
+
+      rerenderRef.current = !rerenderRef.current;
+      setRerender(rerenderRef.current);
     };
 
     const columns: Column<IRawRow>[] = [
@@ -311,42 +420,28 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         name: "APPLICATION HEADER",
         resizable: true,
         formatter: ({ row, onRowChange }) => {
-          const rowSN = row.sn;
+          const rowSN = row.sn as number;
           const fileHeader = row.fileHeader as string;
           const headerOptions = keyedApplicationHeaderOptions[fileHeader];
+          const scoreOptions = keyedScoreOptions[fileHeader];
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
 
           const RSStyles: Styles<ISelectOptions, false> = getRSStyles(theme);
-
-          const handleSelect = (value: ValueType<ISelectOptions, false>) => {
-            const selectedValue = value && value.label;
-            const selectedAppHeader = selectedValue as string;
-            onRowChange({
-              ...row,
-              applicationHeader: selectedAppHeader,
-            });
-
-            const selectedHeaderOptionIndex = findIndex(
-              headerOptions,
-              (option) => option.value === selectedValue
-            );
-
-            setChosenApplicationHeaderIndices((prev) => ({
-              ...prev,
-              [`${rowSN}`]: selectedHeaderOptionIndex,
-            }));
-
-            updateTableBySelectedOption(fileHeader, selectedHeaderOptionIndex);
-            setRerender((rerender) => !rerender);
-          };
 
           return (
             <Select
               value={valueOption}
               options={headerOptions}
               styles={RSStyles}
-              onChange={handleSelect}
+              onChange={(value: ValueType<ISelectOptions, false>) =>
+                handleApplicationHeaderChange(
+                  value,
+                  rowSN,
+                  headerOptions,
+                  scoreOptions
+                )
+              }
               menuPortalTarget={document.body}
               theme={(thm) => ({
                 ...thm,
@@ -367,6 +462,11 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
         name: "MATCH [%]",
         editable: false,
         resizable: true,
+        formatter: ({ row }) => {
+          const match = row.match as number;
+
+          return <CenteredStyle>{match}</CenteredStyle>;
+        },
         width: 100,
       },
       {
@@ -377,15 +477,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           const checked = row.exclude as boolean;
 
           return (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-              }}
-            >
+            <CenteredStyle>
               <ApexMuiSwitch
                 name="exclude"
                 handleChange={(event) => handleExcludeSwitchChange(row, event)}
@@ -393,7 +485,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.common.white}
               />
-            </div>
+            </CenteredStyle>
           );
         },
         width: 100,
@@ -406,15 +498,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
           const checked = row.acceptMatch as boolean;
 
           return (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-              }}
-            >
+            <CenteredStyle>
               <ApexMuiSwitch
                 name="acceptMatch"
                 handleChange={(event) =>
@@ -425,7 +509,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
                 // notCheckedColor={theme.palette.warning.main}
                 notCheckedColor={theme.palette.common.white}
               />
-            </div>
+            </CenteredStyle>
           );
         },
         width: 150,
@@ -439,32 +523,6 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
     () => generateColumns(keyedApplicationHeaderOptions),
     [keyedApplicationHeaderOptions]
   );
-
-  const updateTableBySelectedOption = (
-    selectedFileHeader: string,
-    selectedHeaderOptionIndex: number
-  ) => {
-    const modifiedRows = tableRows.current.map((row, i: number) => {
-      if (row.fileHeader === selectedFileHeader) {
-        const headerOptions = keyedApplicationHeaderOptions[selectedFileHeader];
-        const selectedApplicationHeader =
-          headerOptions[selectedHeaderOptionIndex];
-        const scoreOpts = keyedScoreOptions[selectedFileHeader];
-        const score = scoreOpts[selectedHeaderOptionIndex];
-
-        return {
-          sn: i + 1,
-          fileHeader: selectedFileHeader,
-          applicationHeader: selectedApplicationHeader.value,
-          match: score.value,
-          exclude: row.exclude,
-          acceptMatch: row.acceptMatch,
-        };
-      } else return row;
-    });
-
-    tableRows.current = modifiedRows;
-  };
 
   const [rows, setRows] = React.useState(tableRows.current);
 
@@ -496,8 +554,10 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
       persistChosenApplicationHeadersAction(chosenApplicationHeaders, wp)
     );
 
+    dispatch(saveUserMatchAction(userMatchObject));
+
     dispatch(hideSpinnerAction());
-  }, [dispatch, rows]);
+  }, [rerender]);
 
   return (
     <div className={classes.rootMatchHeaders}>

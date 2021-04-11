@@ -3,6 +3,7 @@ import {
   IRawRowValueType,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { UserMatchObjectType } from "../../Routes/Common/Workflows/MatchHeadersTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
 export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
@@ -44,6 +45,7 @@ export const FETCHAPPLICATIONHEADERS_SUCCESS =
   "FETCHAPPLICATIONHEADERS_SUCCESS";
 export const FETCHAPPLICATIONHEADERS_FAILURE =
   "FETCHAPPLICATIONHEADERS_FAILURE";
+export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
 
 export const updateInputAction = (path: string, value: React.Key) => {
   return {
@@ -310,5 +312,14 @@ export const fetchApplicationHeadersFailureAction = () => {
     payload: {
       status: 0,
     },
+  };
+};
+
+export const saveUserMatchAction = (
+  savedMatchObjectAll: UserMatchObjectType
+) => {
+  return {
+    type: SAVE_USERMATCH_ALL,
+    payload: { savedMatchObjectAll },
   };
 };

@@ -9,5 +9,9 @@ export interface IApplicationHeaders {
 }
 
 export type UserMatchObjectType = {
-  [index: string]: { appHeader: string; acceptMatch: boolean };
+  [index: string]: {
+    [index: string]: {
+      [index: string]: { header: string; acceptMatch: boolean };
+    };
+  };
 };

@@ -29,6 +29,7 @@ import {
   SAVEINPUTDECK_FAILURE,
   FETCHAPPLICATIONHEADERS_SUCCESS,
   FETCHAPPLICATIONHEADERS_FAILURE,
+  SAVE_USERMATCH_ALL,
 } from "../Actions/ImportActions";
 import InputState from "../State/InputState";
 import set from "lodash.set";
@@ -154,6 +155,14 @@ const inputReducer = (state = InputState, action: IAction) => {
         headerType,
         facilitiesInputHeaders,
         forecastInputHeaders,
+      };
+    }
+    case SAVE_USERMATCH_ALL: {
+      const { savedMatchObjectAll } = action.payload;
+
+      return {
+        ...state,
+        savedMatchObjectAll,
       };
     }
     default:
