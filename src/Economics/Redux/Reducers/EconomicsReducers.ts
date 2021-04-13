@@ -1,14 +1,13 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
-import { SELECT_FORECASTRUN } from "../Actions/EconomicsActions";
+import { LOAD_ECONOMICS_WORKFLOW } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
 const economicsReducer = (state = EconomicsState, action: IAction) => {
   switch (action.type) {
-    case SELECT_FORECASTRUN:
+    case LOAD_ECONOMICS_WORKFLOW:
       return {
         ...state,
-        ...action.payload,
+        [action.payload.name]: true,
       };
 
     default:

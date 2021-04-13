@@ -1,5 +1,5 @@
 import { FormikErrors, FormikTouched } from "formik";
-import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IExistingDataProps,
   IExistingDataRow,
@@ -72,7 +72,7 @@ export interface InputStateType
   forecastInputDeckId: string;
   facilitiesInputHeaders: Record<string, string>[];
   forecastInputHeaders: Record<string, string>[];
-  importDataWorkflows: Record<string, IImportState>;
+  inputDataWorkflows: Record<string, IImportState>;
   existingDataWorkflows: Record<
     NonNullable<IExistingDataProps["wkPs"]>,
     IExistingDataRow[]

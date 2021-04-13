@@ -122,7 +122,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   const { title, show, maxWidth, iconType, workflowProcess } = props;
   const skipped = new Set<number>();
 
-  const wc = "importDataWorkflows";
+  const wc = "inputDataWorkflows";
   const wp = workflowProcess as NonNullable<
     IAllWorkflowProcesses["wrkflwPrcss"]
   >;

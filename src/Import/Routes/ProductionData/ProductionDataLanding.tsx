@@ -64,7 +64,7 @@ const ProductionDataLanding = () => {
       ),
       route: `${url}/productionexcel`,
       workflowProcess: "productionInputDataExcel",
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
     },
     {
       name: "Database",
@@ -78,7 +78,7 @@ const ProductionDataLanding = () => {
       ),
       route: `${url}/productiondatabase`,
       workflowProcess: "productionInputDataDatabase",
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
@@ -126,7 +126,7 @@ const ProductionDataLanding = () => {
               const inputProductionDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />
@@ -134,7 +134,7 @@ const ProductionDataLanding = () => {
                 //Work on this, not really importing but connecting
                 database: (
                   <DatabaseWorkflow
-                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
                   />

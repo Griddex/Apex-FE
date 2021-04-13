@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
-import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import ForecastInputDeckFinalization from "../../Routes/ForecastInputDeck/ForecastInputDeckFinalization";
@@ -105,7 +105,7 @@ const FinalizeForecastInputDeckDialog = (props: DialogStuff) => {
     workflowProcess,
   } = props;
 
-  const wp = workflowProcess as IImportWorkflowProcess["wkPs"];
+  const wp = workflowProcess as IInputWorkflowProcess["wkPs"];
 
   return (
     <Dialog

@@ -11,7 +11,8 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
 import VerticalSplitOutlinedIcon from "@material-ui/icons/VerticalSplitOutlined";
 import React, { ChangeEvent } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { IEconomicsInputButton } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -23,8 +24,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EconomicsInputButtonsMenu = () => {
+const EconomicsInputButtonsMenu = ({
+  children,
+}: {
+  children: (props: IEconomicsInputButton) => JSX.Element;
+}) => {
   const history = useHistory();
+  const { url } = useRouteMatch();
+
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,26 +51,27 @@ const EconomicsInputButtonsMenu = () => {
   }[] = [
     {
       title: "Economics Costs",
-      action: () => history.push(`economics/EconomicsCosts`),
+      action: () => history.push(`${url}/costsrevenue`),
       icon: <AttachMoneyOutlinedIcon color="primary" fontSize="small" />,
     },
     {
       title: "Economics Parameters",
-      action: () => history.push(`economics/EconomicsParameters`),
+      action: () => history.push(`${url}/parameters`),
       icon: <VerticalSplitOutlinedIcon color="primary" fontSize="small" />,
     },
   ];
 
+  const childrenProps = {
+    name: "Economics Input",
+    startIcon: <TrendingUpOutlinedIcon />,
+    endIcon: <KeyboardArrowDownIcon />,
+    className: classes.button,
+    handleClick,
+  };
+
   return (
     <div style={{ cursor: "context-menu" }}>
-      <Button
-        className={classes.button}
-        onClick={handleClick}
-        startIcon={<TrendingUpOutlinedIcon />}
-        endIcon={<KeyboardArrowDownIcon />}
-      >
-        {"Economics input"}
-      </Button>
+      {children({ ...childrenProps })}
       <Menu
         keepMounted
         anchorEl={anchorEl}

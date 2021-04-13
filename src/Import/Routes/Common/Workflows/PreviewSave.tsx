@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wc = "importDataWorkflows";
+  const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(

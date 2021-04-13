@@ -2,11 +2,11 @@ import DialogOkayButton from "../../../Application/Components/DialogButtons/Dial
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { updateInputAction } from "../../Redux/Actions/ImportActions";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const successDialogParameters = (
   inputDeckType: string,
-  wp: IImportWorkflowProcess["wkPs"]
+  wp: IInputWorkflowProcess["wkPs"]
 ): DialogStuff => ({
   name: "Save_InputDeck_Success_Dialog",
   title: `Save  ${inputDeckType} Success`,
@@ -22,7 +22,7 @@ export const successDialogParameters = (
       [true, true],
       [
         unloadDialogsAction,
-        () => updateInputAction(`importDataWorkflows.${wp}.activeStep`, 0),
+        () => updateInputAction(`inputDataWorkflows.${wp}.activeStep`, 0),
       ]
     ),
 

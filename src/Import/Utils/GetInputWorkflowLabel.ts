@@ -1,9 +1,9 @@
-import { IImportWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
 
-// export const getInputWorkflowlabel: Record<IImportWorkflowProcess["wrkflwPrcss"],string> = {
+// export const getInputWorkflowlabel: Record<IInputWorkflowProcess["wrkflwPrcss"],string> = {
 export const getInputWorkflowlabel: {
-  [P in IImportWorkflowProcess["wkPs"]]: string;
+  [P in IInputWorkflowProcess["wkPs"]]: string;
 } = {
   facilitiesInputDeckExcel: "Facilities InputDeck",
   facilitiesInputDeckDatabase: "Facilities InputDeck",
@@ -18,9 +18,15 @@ export const getInputWorkflowlabel: {
   productionInputDataExcel: "Production Data",
   productionInputDataDatabase: "Production Data",
 
-  economicsInputDataExcel: "Economics Data",
-  economicsInputDataDatabase: "Economics Data",
-  economicsInputDataManual: "Economics Data",
+  economicsCostsRevenuesDeckExcel: "Economics Data",
+  economicsCostsRevenuesDeckDatabase: "Economics Data",
+  economicsCostsRevenuesDeckManual: "Economics Data",
+  economicsCostsRevenuesDeckApexForecast: "Economics Data",
+  economicsCostsRevenuesDeckExisting: "Economics Data",
+  economicsParametersDeckExcel: "Economics Data",
+  economicsParametersDeckDatabase: "Economics Data",
+  economicsParametersDeckManual: "Economics Data",
+  economicsParametersDeckExisting: "Economics Data",
 };
 
 export const getExistingWorkflowlabel: {
@@ -32,7 +38,7 @@ export const getExistingWorkflowlabel: {
   forecastResultsData: "Forecast Results Data",
   forecastResultsVisualytics: "Forecast Results Visualytics",
   forecastResultsExisting: "Existing Forecast Results",
-  economicsInputDataExisting: "Existing Economics Data",
-  economicsParametersExisting: "Existing Economics Parameters Data",
+  economicsCostsRevenuesDeckExisting: "Economics Data",
+  economicsParametersDeckExisting: "Economics Data",
   networkExisting: "Existing Network Data",
 };

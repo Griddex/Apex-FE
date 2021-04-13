@@ -4,7 +4,7 @@ import { ITableButtonsProps } from "../../../Application/Components/Table/TableB
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IGiftExistingData,
+  IApplicationExistingData,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 import { IExistingInputDeck } from "../InputDeckTypes";
@@ -35,7 +35,7 @@ export default function ExistingForecastDecks({
   };
 
   const snExistingData = existingData.map(
-    (row: IGiftExistingData, i: number) => ({
+    (row: IApplicationExistingData, i: number) => ({
       sn: i + 1,
       id: row.id,
       status: "Not Started",

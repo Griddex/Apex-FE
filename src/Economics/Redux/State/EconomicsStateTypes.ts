@@ -1,5 +1,11 @@
+import { IApplicationExistingData } from "../../../Application/Types/ApplicationTypes";
+
 export interface IEconomicsState {
-  forecastRun: string;
+  id: string;
+  userId?: string;
+  title: string;
+  description: string;
+  createdAt: string;
 }
 
 export type IEconomicsWorkflowProcessesType =
@@ -10,7 +16,10 @@ export type IEconomicsWorkflowProcessesType =
   | "saveForecastingParametersWorkflowDialog";
 
 export interface EconomicsStateType {
+  //Remove from here
+  forecastRun: string;
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
-  importDataWorkflows: Record<string, IEconomicsState>;
-  existingDataWorkflows: Record<string, IEconomicsState[]>;
+  loadCostsRevenueWorkflow: boolean;
+  inputDataWorkflows: Record<string, IApplicationExistingData>;
+  existingDataWorkflows: Record<string, IApplicationExistingData[]>;
 }

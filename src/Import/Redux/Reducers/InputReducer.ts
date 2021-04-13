@@ -65,10 +65,10 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
           [workflowProcessDefined]: {
-            ...state.importDataWorkflows[workflowProcessDefined],
+            ...state.inputDataWorkflows[workflowProcessDefined],
             ...action.payload,
           },
         },
@@ -115,10 +115,10 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
           [wp]: {
-            ...state.importDataWorkflows[wp],
+            ...state.inputDataWorkflows[wp],
             existingDataId,
             status,
             success,
@@ -132,10 +132,10 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       return {
         ...state,
-        importDataWorkflows: {
-          ...state.importDataWorkflows,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
           [wp]: {
-            ...state.importDataWorkflows[wp],
+            ...state.inputDataWorkflows[wp],
             ...action.payload,
           },
         },

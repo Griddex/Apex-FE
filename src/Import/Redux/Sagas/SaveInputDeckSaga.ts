@@ -73,7 +73,7 @@ export function* saveInputDeckSaga(
 
   const { workflowProcess } = payload;
   const wp = workflowProcess;
-  const wc = "importDataWorkflows";
+  const wc = "inputDataWorkflows";
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 

@@ -1,7 +1,7 @@
 import { FlowElement } from "react-flow-renderer";
 import {
   IAllWorkflowProcesses,
-  IImportWorkflowProcess,
+  IInputWorkflowProcess,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 

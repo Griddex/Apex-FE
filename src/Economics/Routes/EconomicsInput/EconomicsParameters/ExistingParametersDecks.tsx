@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
   IApplicationExistingData,
-} from "../../../Application/Types/ApplicationTypes";
-import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
-import { IExistingInputDeck } from "../InputDeckTypes";
+} from "../../../../Application/Types/ApplicationTypes";
+import ExistingDataRoute from "../../../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
+import { IExistingInputDeck } from "../../../../Import/Routes/InputDeckTypes";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -16,7 +16,7 @@ const chartData = [
   { name: "Group C", value: 1398 },
 ];
 
-export default function ExistingFacilitiesDecks({
+export default function ExistingParametersDecks({
   containerStyle,
   finalAction,
   showChart,
@@ -48,7 +48,7 @@ export default function ExistingFacilitiesDecks({
     }));
 
   const dataKey = "title";
-  const dataTitle = "FACILITIES DECK TITLE";
+  const dataTitle = "ECONOMICS PARAMETERS TITLE";
 
   const props: IExistingDataProps = {
     wkPs: wp,

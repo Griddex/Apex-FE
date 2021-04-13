@@ -1,8 +1,19 @@
 import { EconomicsStateType, IEconomicsState } from "./EconomicsStateTypes";
 
-const importWorkflowProcesses = ["economicsParameterImportWorkflow"];
+const inputWorkflowProcesses = [
+  "economicsCostsRevenuesDeckExcel",
+  "economicsCostsRevenuesDeckDatabase",
+  "economicsCostsRevenuesDeckManual",
+  "economicsCostsRevenuesDeckApexForecast",
+  "economicsCostsRevenuesDeckExisting",
+
+  "economicsParametersDeckExcel",
+  "economicsParametersDeckDatabase",
+  "economicsParametersDeckManual",
+  "economicsParametersDeckExisting",
+];
 const generateImportState = () => {
-  return importWorkflowProcesses.reduce((acc, workflowProcess) => {
+  return inputWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
       [workflowProcess]: {
@@ -48,11 +59,14 @@ const generateExistingDataState = () => {
   }, {});
 };
 
-const importDataState = generateImportState();
+const inputDataState = generateImportState();
 const existingDataState = generateExistingDataState();
 const EconomicsState: EconomicsStateType = {
+  //Remove from here
+  forecastRun: "",
   currentWorkflowProcess: "economicsAnalyses",
-  importDataWorkflows: importDataState,
+  loadCostsRevenueWorkflow: false,
+  inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
 };
 

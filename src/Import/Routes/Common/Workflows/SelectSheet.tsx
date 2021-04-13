@@ -77,7 +77,7 @@ const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
-  const wc = "importDataWorkflows";
+  const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
   const {

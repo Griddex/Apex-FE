@@ -1,10 +1,10 @@
-export const SELECT_FORECASTRUN = "SELECT_FORECASTRUN";
+export const LOAD_ECONOMICS_WORKFLOW = "LOAD_ECONOMICS_WORKFLOW";
 
-export const selectForecastRunAction = (forecastRun: string) => {
+export const loadEconomicsWorkflowAction = (name: string) => {
   return {
-    type: SELECT_FORECASTRUN,
+    type: LOAD_ECONOMICS_WORKFLOW,
     payload: {
-      forecastRun,
+      name,
     },
   };
 };

@@ -48,7 +48,7 @@ const ForecastInputDeckFinalization = ({
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
-  const wc = "importDataWorkflows";
+  const wc = "inputDataWorkflows";
   const wp = workflowProcess;
   const { success } = useSelector(
     (state: RootState) => state.inputReducer[wc][wp]
@@ -102,7 +102,7 @@ const ForecastInputDeckFinalization = ({
       maxWidth: "sm",
       iconType: "select",
       workflowProcess,
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],
@@ -126,7 +126,7 @@ const ForecastInputDeckFinalization = ({
       maxWidth: "sm",
       iconType: "select",
       workflowProcess,
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
     };
 
     dispatch(showDialogAction(dialogParameters));

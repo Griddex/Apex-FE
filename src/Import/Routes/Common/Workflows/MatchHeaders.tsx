@@ -79,7 +79,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const wc = "importDataWorkflows";
+  const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
   const isFacilitiesWorkflow = wp.includes("facilities");
   let workflowClass = "";

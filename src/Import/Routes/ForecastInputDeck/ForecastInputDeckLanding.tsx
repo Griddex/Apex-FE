@@ -13,13 +13,14 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingForecastDecks from "./ExistingForecastDecks";
-import { IdType, IForecastLandingData } from "./ForecastInputDeckLandingTypes";
+import { IdType } from "./ForecastInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   ForecastInputDeckLanding: {
@@ -53,7 +54,7 @@ const ForecastInputDeckLanding = () => {
     (state: RootState) => state.layoutReducer
   );
 
-  const forecastInputLandingData: IForecastLandingData[] = [
+  const forecastInputLandingData: ILandingData[] = [
     {
       name: "Excel | Text",
       description: `Import forecast inputdeck from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
@@ -66,7 +67,7 @@ const ForecastInputDeckLanding = () => {
       ),
       route: `${url}/excel`,
       workflowProcess: "forecastInputDeckExcel",
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
     },
     {
       name: "Database",
@@ -80,7 +81,7 @@ const ForecastInputDeckLanding = () => {
       ),
       route: `${url}/database`,
       workflowProcess: "forecastInputDeckDatabase",
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
     },
     {
       name: `Existing Forecast InputDeck`,
@@ -113,7 +114,7 @@ const ForecastInputDeckLanding = () => {
       maxWidth: "sm",
       iconType: "information",
       workflowProcess,
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
       actionsList: () => DialogCancelButton(),
     };
     dispatch(showDialogAction(dialogParameters));
@@ -146,7 +147,7 @@ const ForecastInputDeckLanding = () => {
               const forecastInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"forecastInputDeckExcel"}
                     finalAction={() =>
                       forecastExcelandDbWorkflowFinalAction(
@@ -157,7 +158,7 @@ const ForecastInputDeckLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
-                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"forecastInputDeckExcel"}
                     finalAction={() =>
                       forecastExcelandDbWorkflowFinalAction(

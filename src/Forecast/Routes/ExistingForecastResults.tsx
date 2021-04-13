@@ -19,7 +19,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import Saved from "../../Application/Components/Saved/Saved";
 import {
   IExistingDataProps,
-  IGiftExistingForecastResultsRow,
+  IApplicationExistingForecastResultsRow,
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
@@ -108,7 +108,7 @@ export default function ExistingForecastResults({
 
   const existingData = useSelector(
     (state: RootState) => state.forecastReducer[wc][wp]
-  ) as IGiftExistingForecastResultsRow[];
+  ) as IApplicationExistingForecastResultsRow[];
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -259,7 +259,7 @@ export default function ExistingForecastResults({
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
   const snExistingData = existingData.map(
-    (row: IGiftExistingForecastResultsRow, i: number) => ({
+    (row: IApplicationExistingForecastResultsRow, i: number) => ({
       sn: i + 1,
       forecastResultsId: row.id,
       title: row.title,

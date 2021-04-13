@@ -1,4 +1,10 @@
+import { Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AssessmentOutlinedIcon from "@material-ui/icons/AssessmentOutlined";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
+import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
+import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
@@ -6,19 +12,18 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import Loading from "../../../Application/Components/Visuals/Loading";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import Economics from "../../Economics";
-import EconomicsBackground from "./EconomicsBackground";
-import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";
-import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
-import AssessmentOutlinedIcon from "@material-ui/icons/AssessmentOutlined";
-import EconomicsAnalysisWorkflow from "../EconomicsWorkflows/EconomicsAnalysisWorkflow";
-import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
-import KeyboardArrowDownOutlinedIcon from "@material-ui/icons/KeyboardArrowDownOutlined";
+import {
+  IEconomicsInputButton,
+  ISubNavbarData,
+} from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
+import Economics from "../../Economics";
+import EconomicsCostsRevenuesLanding from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
+import EconomicsAnalysisWorkflow from "../EconomicsWorkflows/EconomicsAnalysisWorkflow";
+import EconomicsBackground from "./EconomicsBackground";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
-// const addedHeight = 10;
 const useStyles = makeStyles(() => {
   return {
     economicsLayoutRoot: {
@@ -42,31 +47,65 @@ const EconomicsLayout = () => {
 
   const subNavbarData: ISubNavbarData = [
     {
+      name: "Economic input",
+      route: `${url}`,
+      startIcon: <TrendingUpOutlinedIcon fontSize="default" />,
+      endIcon: <KeyboardArrowDownIcon fontSize="default" />,
+      hasWrapper: true,
+      component: () => (
+        <EconomicsInputButtonsMenu>
+          {({
+            name,
+            className,
+            startIcon,
+            endIcon,
+            styles,
+            handleClick,
+          }: IEconomicsInputButton) => {
+            return (
+              <Button
+                key={name}
+                className={className}
+                onClick={(event) => {
+                  handleClick && handleClick(event);
+                }}
+                startIcon={startIcon}
+                endIcon={endIcon}
+                style={styles}
+              >
+                <Typography variant="subtitle2">{name}</Typography>
+              </Button>
+            );
+          }}
+        </EconomicsInputButtonsMenu>
+      ),
+    },
+    {
       name: "Economic Analysis",
       route: `${url}/economicanalysis`,
-      icon: <WidgetsOutlinedIcon fontSize="default" />,
+      startIcon: <WidgetsOutlinedIcon fontSize="default" />,
+      hasWrapper: false,
+      component: () => <div></div>,
     },
     {
       name: "View Tables",
       route: `${url}/viewtables`,
-      icon: <TableChartOutlinedIcon fontSize="default" />,
+      startIcon: <TableChartOutlinedIcon fontSize="default" />,
+      hasWrapper: false,
+      component: () => <div></div>,
     },
     {
       name: "View Charts",
       route: `${url}/charttables`,
-      icon: <AssessmentOutlinedIcon fontSize="default" />,
+      startIcon: <AssessmentOutlinedIcon fontSize="default" />,
+      hasWrapper: false,
+      component: () => <div></div>,
     },
   ];
 
   return (
     <main className={classes.economicsLayoutRoot}>
-      {showSubNavbar && (
-        <SubNavbar
-          subNavbarData={subNavbarData}
-          hasExtraButton={true}
-          ExtraButton={() => <EconomicsInputButtonsMenu />}
-        />
-      )}
+      {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.economicsLayoutContainer)}>
         <Suspense fallback={<Loading />}>
           <Switch>
@@ -79,9 +118,15 @@ const EconomicsLayout = () => {
                     params: { economicsId },
                   },
                 } = props;
+                console.log(
+                  "Logged output --> ~ file: EconomicsLayout.tsx ~ line 120 ~ EconomicsLayout ~ economicsId",
+                  economicsId
+                );
 
                 const Layouts: Record<string, JSX.Element> = {
                   background: <EconomicsBackground />,
+                  costsrevenue: <EconomicsCostsRevenuesLanding />,
+                  parameters: <EconomicsAnalysisWorkflow />,
                   economicanalysis: <EconomicsAnalysisWorkflow />,
                   viewtables: <Economics />,
                   charttables: <Economics />,

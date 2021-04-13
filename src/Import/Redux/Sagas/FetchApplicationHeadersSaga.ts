@@ -11,7 +11,7 @@ import {
   PutEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -33,7 +33,7 @@ export default function* watchFetchApplicationHeadersSaga(): Generator<
   yield takeLeading(appHeadersChan, fetchApplicationHeadersSaga);
 }
 
-function getHeadersType(workflowProcess: IImportWorkflowProcess["wkPs"]) {
+function getHeadersType(workflowProcess: IInputWorkflowProcess["wkPs"]) {
   switch (workflowProcess) {
     case "facilitiesInputDeckExcel":
       return "facilitiesInputHeaders";

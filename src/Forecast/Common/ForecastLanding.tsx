@@ -12,12 +12,13 @@ import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
 import Spreadsheet from "../../Application/Images/Spreadsheet.svg";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import ExistingDeck from "../../Import/Images/ExistingDeck.svg";
 import ForecastCharts from "../Images/ForecastCharts.svg";
 import ExistingForecastResults from "../Routes/ExistingForecastResults";
 import ForecastData from "../Routes/ForecastData";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
-import { IdType, IForecastLandingData } from "./ForecastLandingTypes";
+import { IdType } from "./ForecastLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -54,7 +55,7 @@ const ForecastLanding = () => {
 
   const [loadWorkflow, setLoadWorkflow] = React.useState(false);
 
-  const forecastLandingData: IForecastLandingData[] = [
+  const forecastLandingData: ILandingData[] = [
     {
       name: "View Data",
       description: `View forecast results data in responsive and perfomant tables`,

@@ -179,7 +179,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     (state: RootState) => state.workflowReducer[wc][wp]
   );
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
-    (state: RootState) => state.inputReducer["importDataWorkflows"][wp]
+    (state: RootState) => state.inputReducer["inputDataWorkflows"][wp]
   );
 
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");

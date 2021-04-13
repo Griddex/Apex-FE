@@ -1,6 +1,6 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
-import { IGiftExistingForecastResultsRow } from "../../../Application/Types/ApplicationTypes";
+import { IApplicationExistingForecastResultsRow } from "../../../Application/Types/ApplicationTypes";
 import { RenderTree } from "./../../Components/ForecastTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
@@ -78,7 +78,7 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   isForecastResultsSaved: boolean;
 
   existingDataWorkflows: {
-    forecastResultsExisting: IGiftExistingForecastResultsRow[];
+    forecastResultsExisting: IApplicationExistingForecastResultsRow[];
   };
 }
 

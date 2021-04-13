@@ -5,7 +5,7 @@ import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActi
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IGiftExistingData,
+  IApplicationExistingData,
 } from "../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
 import { IExistingNetworks } from "./ExistingNetworkTypes";
@@ -34,7 +34,7 @@ export default function ExistingNetworks({
   };
 
   const snExistingData = existingData.map(
-    (row: IGiftExistingData, i: number) => ({
+    (row: IApplicationExistingData, i: number) => ({
       sn: i + 1,
       id: row.id,
       status: "Not Started",

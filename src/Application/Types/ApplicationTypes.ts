@@ -1,6 +1,7 @@
 import { IUserDetails } from "../Components/User/UserTypes";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
+import { IAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
 
 export interface IExistingDataRow {
   sn?: number;
@@ -27,12 +28,12 @@ export interface IExistingDataProps {
     | "facilitiesInputDeckExisting"
     | "forecastInputDeckExisting"
     | "productionInputDataExisting"
-    | "economicsInputDataExisting"
+    | "economicsCostsRevenuesDeckExisting"
+    | "economicsParametersDeckExisting"
     | "networkExisting"
     | "forecastResultsData"
     | "forecastResultsVisualytics"
-    | "forecastResultsExisting"
-    | "economicsParametersExisting";
+    | "forecastResultsExisting";
   wkCy?: "existingDataWorkflows";
   containerStyle?: CSSProperties;
   finalAction?: () => void;
@@ -40,20 +41,36 @@ export interface IExistingDataProps {
   finalText?: string;
 }
 
-export interface IGiftExistingData {
-  id: string;
+export interface IApplicationExistingData {
+  sn?: number;
+  id?: string;
   userId?: string;
-  title: string;
-  description: string;
-  createdAt: string;
+  status?: "Approved" | "Pending" | "Returned" | "Not Started";
+  title?: string;
+  description?: string;
+  author?: IUserDetails | string;
+  approvers?: IUserDetails[] | string;
+  createdAt?: string;
 }
-export interface IGiftExistingForecastResultsRow extends IGiftExistingData {
+export interface IApplicationExistingForecastResultsRow
+  extends IApplicationExistingData {
   saved: "Saved" | "Not Saved";
   forecastResultsId: string;
   networkTitle: string;
   forecastInputDeckTitle: string;
   forecastingParametersGroupTitle: string;
-  status: "Approved" | "Pending" | "Returned" | "Not Started";
-  author: IUserDetails | string;
-  approvers: IUserDetails[] | string;
+}
+
+// export interface ILandingData {
+export interface ILandingData {
+  name: string;
+  description: string;
+  icon: JSX.Element;
+  route: string;
+  workflowProcess:
+    | IAllWorkflowProcesses["wrkflwPrcss"]
+    | IExistingDataProps["wkPs"];
+  workflowCategory:
+    | IAllWorkflowProcesses["wrkflwCtgry"]
+    | IExistingDataProps["wkCy"];
 }

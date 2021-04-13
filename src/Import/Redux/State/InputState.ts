@@ -1,8 +1,8 @@
-import { IImportWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import { InputStateType } from "./InputStateTypes";
 
-const importWorkflowProcesses: Array<IImportWorkflowProcess["wkPs"]> = [
+const inputWorkflowProcesses: Array<IInputWorkflowProcess["wkPs"]> = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
 
@@ -15,13 +15,11 @@ const importWorkflowProcesses: Array<IImportWorkflowProcess["wkPs"]> = [
   "productionInputDataExcel",
   "productionInputDataDatabase",
 
-  "economicsInputDataExcel",
-  "economicsInputDataDatabase",
-  "economicsInputDataManual",
+  //Manage economics input from economics module
 ];
 
 const generateImportState = () => {
-  return importWorkflowProcesses.reduce((acc, workflowName) => {
+  return inputWorkflowProcesses.reduce((acc, workflowName) => {
     return {
       ...acc,
       [workflowName]: {
@@ -89,9 +87,9 @@ const existingDataWorkflowNames: Array<
   "facilitiesInputDeckExisting",
   "forecastInputDeckExisting",
   "productionInputDataExisting",
-  "economicsInputDataExisting",
+  "economicsCostsRevenuesDeckExisting",
+  "economicsParametersDeckExisting",
   "networkExisting",
-  "economicsParametersExisting",
 ];
 const generateExistingDataState = () => {
   const wf = existingDataWorkflowNames.reduce((acc, workflowName) => {
@@ -123,14 +121,14 @@ const generateExistingDataState = () => {
   return wf as InputStateType["existingDataWorkflows"];
 };
 
-const importDataState = generateImportState();
+const inputDataState = generateImportState();
 const existingDataState = generateExistingDataState();
 const InputState: InputStateType = {
   currentWorkflowProcess: "",
   headerType: "",
   facilitiesInputHeaders: [],
   forecastInputHeaders: [],
-  importDataWorkflows: importDataState,
+  inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
 
   facilitiesInputDeckId: "",

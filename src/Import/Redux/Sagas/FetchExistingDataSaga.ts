@@ -33,23 +33,6 @@ export default function* watchFetchExistingDataSaga(): Generator<
   yield takeLeading(existingDataChan, fetchExistingDataSaga);
 }
 
-function getInsert(workflowProcess: IExistingDataProps["wkPs"]) {
-  switch (workflowProcess) {
-    case "facilitiesInputDeckExisting":
-      return "FACILITIES";
-    case "forecastInputDeckExisting":
-      return "FORECAST";
-    case "economicsInputDataExisting":
-      return "ECONOMICS";
-    case "productionInputDataExisting":
-      return "PRODUCTION";
-    case "networkExisting":
-      return "NETWORK";
-    default:
-      break;
-  }
-}
-
 const config = { withCredentials: false };
 const fetchExistingDataAPI = (url: string) => authService.get(url, config);
 

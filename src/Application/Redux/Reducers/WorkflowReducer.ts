@@ -111,7 +111,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         // it should never occur unless someone's actively trying to break something.
         throw new Error("You can't skip a step that isn't optional.");
       }
-      const workflowState = state["importDataWorkflows"][wp];
+      const workflowState = state["inputDataWorkflows"][wp];
       const newSkippedSet = new Set(
         workflowState.skipped && workflowState.skipped.values()
       );

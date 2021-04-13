@@ -10,7 +10,6 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
-import { selectForecastRunAction } from "../Redux/Actions/EconomicsActions";
 
 function MinusSquare() {
   return (
@@ -135,7 +134,9 @@ export default function ForecastTreeView() {
                   key={i}
                   nodeId={Id}
                   label={forecastRun}
-                  onClick={() => dispatch(selectForecastRunAction(forecastRun))}
+                  onClick={() =>
+                    dispatch({ type: "Replacethis", payload: forecastRun })
+                  }
                 />
               );
             })}

@@ -54,12 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubNavbar = ({
-  subNavbarData,
-  hasExtraButton,
-  ExtraButton,
-  url,
-}: ISubNavbar) => {
+const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -79,28 +74,39 @@ const SubNavbar = ({
     >
       <Toolbar className={classes.appbarToolBar} disableGutters>
         <ButtonGroup variant="text">
-          {hasExtraButton && ExtraButton && <ExtraButton />}
           {(subNavbarData as ISubNavbarData).map((navbarData, i) => {
-            const { name, route, icon } = navbarData;
+            const {
+              name,
+              route,
+              startIcon,
+              hasWrapper,
+              component: Component,
+            } = navbarData;
 
-            return (
-              <Button
-                key={name}
-                className={classes.button}
-                onClick={() => {
-                  dispatch(subNavbarSetMenuAction(name));
-                  dispatch(navigateResetWorkflowAction());
-                  setMainMenuSelected(name);
-                  history.push(route);
-                }}
-                startIcon={icon}
-                style={
-                  name === selected ? { color: theme.palette.primary.main } : {}
-                }
-              >
-                <Typography variant="subtitle2">{name}</Typography>
-              </Button>
-            );
+            if (hasWrapper) {
+              return <Component key={name} />;
+            } else {
+              return (
+                <Button
+                  key={name}
+                  className={classes.button}
+                  onClick={() => {
+                    dispatch(subNavbarSetMenuAction(name));
+                    dispatch(navigateResetWorkflowAction());
+                    setMainMenuSelected(name);
+                    history.push(route);
+                  }}
+                  startIcon={startIcon}
+                  style={
+                    name === selected
+                      ? { color: theme.palette.primary.main }
+                      : {}
+                  }
+                >
+                  <Typography variant="subtitle2">{name}</Typography>
+                </Button>
+              );
+            }
           })}
         </ButtonGroup>
       </Toolbar>

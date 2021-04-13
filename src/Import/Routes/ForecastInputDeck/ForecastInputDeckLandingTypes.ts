@@ -15,16 +15,3 @@ export interface IForecastInputDeckLanding {
 export type IdType = {
   dataInputId: keyof IForecastInputDeckLanding;
 };
-
-export interface IForecastLandingData {
-  name: string;
-  description: string;
-  icon: JSX.Element;
-  route: string;
-  workflowProcess:
-    | IAllWorkflowProcesses["wrkflwPrcss"]
-    | IExistingDataProps["wkPs"];
-  workflowCategory:
-    | IAllWorkflowProcesses["wrkflwCtgry"]
-    | IExistingDataProps["wkCy"];
-}

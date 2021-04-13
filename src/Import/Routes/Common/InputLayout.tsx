@@ -50,22 +50,26 @@ const InputLayout = () => {
     {
       name: "Facilities Deck",
       route: `${url}/facilitiesdeck`,
-      icon: <AppsIcon fontSize="default" />,
+      startIcon: <AppsIcon fontSize="default" />,
+      component: () => <div></div>,
     },
     {
       name: "Forecast Deck",
       route: `${url}/forecastdeck`,
-      icon: <LandscapeIcon fontSize="default" />,
+      startIcon: <LandscapeIcon fontSize="default" />,
+      component: () => <div></div>,
     },
     {
       name: "Production Data",
       route: `${url}/productiondata`,
-      icon: <BubbleChartIcon fontSize="default" />,
+      startIcon: <BubbleChartIcon fontSize="default" />,
+      component: () => <div></div>,
     },
     {
       name: "Economics Data",
       route: `${url}/economicsdata`,
-      icon: <AttachMoneyIcon fontSize="default" />,
+      startIcon: <AttachMoneyIcon fontSize="default" />,
+      component: () => <div></div>,
     },
   ];
 

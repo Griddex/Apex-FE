@@ -39,9 +39,15 @@ const inputWorkflowProcesses = [
   "productionInputDataExcel",
   "productionInputDataDatabase",
 
-  "economicsInputDataExcel",
-  "economicsInputDataDatabase",
-  "economicsInputDataManual", //Manual is from approved table (+New)
+  "economicsCostsRevenuesDeckExcel",
+  "economicsCostsRevenuesDeckDatabase",
+  "economicsCostsRevenuesDeckManual",
+  "economicsCostsRevenuesDeckApexForecast",
+  "economicsCostsRevenuesDeckExisting",
+  "economicsParametersDeckExcel",
+  "economicsParametersDeckDatabase",
+  "economicsParametersDeckManual",
+  "economicsParametersDeckExisting",
 ];
 const generateInputWorkflowState = () => {
   return inputWorkflowProcesses.reduce((acc, workflowProcess) => {
@@ -143,7 +149,7 @@ const economicsState = generateEconomicsWorkflowState();
 const workflowState: IWorkflowState = {
   currentWorkflowProcess: "",
   projectDataWorkflows: projectState,
-  importDataWorkflows: inputState,
+  inputDataWorkflows: inputState,
   networkDataWorkflows: networkState,
   economicsDataWorkflows: economicsState,
 };

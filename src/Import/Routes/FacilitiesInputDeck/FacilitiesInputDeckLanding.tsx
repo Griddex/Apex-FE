@@ -20,11 +20,9 @@ import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingFacilitiesDecks from "./ExistingFacilitiesDecks";
-import {
-  IdType,
-  IFacilitiesLandingData,
-} from "./FacilitiesInputDeckLandingTypes";
+import { IdType } from "./FacilitiesInputDeckLandingTypes";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles((theme) => ({
   FacilitiesInputDeckLanding: {
@@ -58,7 +56,7 @@ const FacilitiesInputDeckLanding = () => {
     (state: RootState) => state.layoutReducer
   );
 
-  const facilitiesInputLandingData: IFacilitiesLandingData[] = [
+  const facilitiesInputLandingData: ILandingData[] = [
     {
       name: "Excel | Text",
       description: `Import facilities data from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
@@ -71,7 +69,7 @@ const FacilitiesInputDeckLanding = () => {
       ),
       route: `${url}/excel`,
       workflowProcess: "facilitiesInputDeckExcel",
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
     },
     {
       name: "Database",
@@ -85,7 +83,7 @@ const FacilitiesInputDeckLanding = () => {
       ),
       route: `${url}/database`,
       workflowProcess: "facilitiesInputDeckDatabase",
-      workflowCategory: "importDataWorkflows",
+      workflowCategory: "inputDataWorkflows",
     },
     {
       name: `Existing Facilities Data`,
@@ -169,7 +167,7 @@ const FacilitiesInputDeckLanding = () => {
               const facilitiesInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
-                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"facilitiesInputDeckExcel"}
                     finalAction={() =>
                       facilitiesExcelandDbWorkflowFinalAction(
@@ -180,7 +178,7 @@ const FacilitiesInputDeckLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
-                    wrkflwCtgry={"importDataWorkflows"}
+                    wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"facilitiesInputDeckDatabase"}
                     finalAction={() =>
                       facilitiesExcelandDbWorkflowFinalAction(

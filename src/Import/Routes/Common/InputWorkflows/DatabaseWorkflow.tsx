@@ -8,7 +8,7 @@ import WorkflowBanner from "../../../../Application/Components/Workflows/Workflo
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import {
   IAllWorkflowProcesses,
-  IImportWorkflowProcess,
+  IInputWorkflowProcess,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";

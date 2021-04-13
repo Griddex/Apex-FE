@@ -22,7 +22,7 @@ export interface IProjectWorkflowProcess {
   finalIcon?: JSX.Element;
   finalText?: string;
 }
-export interface IImportWorkflowProcess {
+export interface IInputWorkflowProcess {
   wkPs:
     | "facilitiesInputDeckExcel"
     | "facilitiesInputDeckDatabase"
@@ -32,10 +32,16 @@ export interface IImportWorkflowProcess {
     | "forecastInputDeckSaveManualgenerate"
     | "productionInputDataExcel"
     | "productionInputDataDatabase"
-    | "economicsInputDataExcel"
-    | "economicsInputDataDatabase"
-    | "economicsInputDataManual";
-  wkCy: "importDataWorkflows";
+    | "economicsCostsRevenuesDeckExcel"
+    | "economicsCostsRevenuesDeckDatabase"
+    | "economicsCostsRevenuesDeckManual"
+    | "economicsCostsRevenuesDeckApexForecast"
+    | "economicsCostsRevenuesDeckExisting"
+    | "economicsParametersDeckExcel"
+    | "economicsParametersDeckDatabase"
+    | "economicsParametersDeckManual"
+    | "economicsParametersDeckExisting";
+  wkCy: "inputDataWorkflows";
 }
 export interface INetworkWorkflowProcess {
   wkPs:
@@ -56,12 +62,12 @@ export interface IEconomicsWorkflowProcess {
 export interface IAllWorkflowProcesses {
   wrkflwPrcss:
     | IProjectWorkflowProcess["wkPs"]
-    | IImportWorkflowProcess["wkPs"]
+    | IInputWorkflowProcess["wkPs"]
     | INetworkWorkflowProcess["wkPs"]
     | IEconomicsWorkflowProcess["wkPs"];
   wrkflwCtgry:
     | IProjectWorkflowProcess["wkCy"]
-    | IImportWorkflowProcess["wkCy"]
+    | IInputWorkflowProcess["wkCy"]
     | INetworkWorkflowProcess["wkCy"]
     | IEconomicsWorkflowProcess["wkCy"];
   finalAction?: () => void;

@@ -1,13 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
   IApplicationExistingData,
-} from "../../../Application/Types/ApplicationTypes";
-import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
-import { IExistingInputDeck } from "../InputDeckTypes";
+  IExistingDataRow,
+} from "../../../../Application/Types/ApplicationTypes";
+import ExistingDataRoute from "../../../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
+import { IExistingInputDeck } from "../../../../Import/Routes/InputDeckTypes";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -16,16 +17,16 @@ const chartData = [
   { name: "Group C", value: 1398 },
 ];
 
-export default function ExistingFacilitiesDecks({
+export default function ExistingCostsAndRevenuesDecks({
   containerStyle,
   finalAction,
   showChart,
 }: IExistingInputDeck) {
   const wc = "existingDataWorkflows";
   const wp: NonNullable<IExistingDataProps["wkPs"]> =
-    "facilitiesInputDeckExisting";
-  const existingData = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    "economicsCostsRevenuesDeckExisting";
+  const existingData: IExistingDataRow[] = useSelector(
+    (state: RootState) => state.economicsReducer[wc][wp]
   );
 
   const tableButtons: ITableButtonsProps = {
@@ -33,7 +34,7 @@ export default function ExistingFacilitiesDecks({
     extraButtons: () => <div></div>,
   };
 
-  const snExistingData =
+  const snExistingData: IExistingDataRow[] =
     existingData &&
     existingData.map((row: IApplicationExistingData, i: number) => ({
       sn: i + 1,
@@ -42,13 +43,13 @@ export default function ExistingFacilitiesDecks({
       title: row.title,
       description: row.description,
       author: "---",
-      approvers: ["--", "--"],
+      approvers: '"--", "--"',
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     }));
 
   const dataKey = "title";
-  const dataTitle = "FACILITIES DECK TITLE";
+  const dataTitle = "COSTS & REVENUE TITLE";
 
   const props: IExistingDataProps = {
     wkPs: wp,

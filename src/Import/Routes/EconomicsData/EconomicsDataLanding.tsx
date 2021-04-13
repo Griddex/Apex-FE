@@ -60,7 +60,7 @@ const EconomicsDataLanding = () => {
         />
       ),
       route: `${url}/excel`,
-      workflowProcess: "economicsInputDataExcel",
+      workflowProcess: "economicsCostsRevenuesDeckExcel",
       workflowCategory: "economicsDataWorkflows",
     },
     {
@@ -74,7 +74,7 @@ const EconomicsDataLanding = () => {
         />
       ),
       route: `${url}/database`,
-      workflowProcess: "economicsInputDataDatabase",
+      workflowProcess: "economicsCostsRevenuesDeckDatabase",
       workflowCategory: "economicsDataWorkflows",
     },
     // {
@@ -104,7 +104,7 @@ const EconomicsDataLanding = () => {
         />
       ),
       route: `${url}/approveddata`,
-      workflowProcess: "economicsInputDataExisting",
+      workflowProcess: "economicsCostsRevenuesDeckExisting",
       workflowCategory: "economicsDataWorkflows",
     },
   ];
@@ -152,14 +152,14 @@ const EconomicsDataLanding = () => {
                 excel: (
                   <ExcelWorkflow
                     wrkflwCtgry={"economicsDataWorkflows"}
-                    wrkflwPrcss={"economicsInputDataExcel"}
+                    wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
                     finalAction={economicsExcelandDbWorkflowFinalAction}
                   />
                 ),
                 database: (
                   <DatabaseWorkflow
                     wrkflwCtgry={"economicsDataWorkflows"}
-                    wrkflwPrcss={"economicsInputDataDatabase"}
+                    wrkflwPrcss={"economicsCostsRevenuesDeckDatabase"}
                     finalAction={economicsExcelandDbWorkflowFinalAction}
                   />
                 ),

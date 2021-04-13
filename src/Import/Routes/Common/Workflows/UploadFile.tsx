@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wc = "importDataWorkflows";
+  const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
   const { dnDDisabled } = useSelector(
