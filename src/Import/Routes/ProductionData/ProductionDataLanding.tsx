@@ -43,6 +43,7 @@ const ProductionDataLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -126,6 +127,7 @@ const ProductionDataLanding = () => {
               const inputProductionDataWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
@@ -134,6 +136,7 @@ const ProductionDataLanding = () => {
                 //Work on this, not really importing but connecting
                 database: (
                   <DatabaseWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={currentWorkflowProcess}
                     finalAction={excelWorkflowFinalAction}
@@ -141,6 +144,8 @@ const ProductionDataLanding = () => {
                 ),
                 approveddata: (
                   <ExistingProductionData
+                    reducer={reducer}
+                    showChart={false}
                     finalAction={excelWorkflowFinalAction}
                   />
                 ),

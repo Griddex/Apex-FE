@@ -46,7 +46,7 @@ export default function ExistingProjects({
   }, [dispatch]);
 
   const dataKey = "title";
-  const dataTitle = "NETWORK TITLE";
+  const dataTitle = "PROJECT TITLE";
 
   const props = {
     snExistingData,

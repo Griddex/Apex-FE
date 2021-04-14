@@ -21,7 +21,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
+import ApexLogo from "../../Images/ApexLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import history from "../../Services/HistoryService";
@@ -192,7 +192,7 @@ const MainDrawer = () => {
       }}
     >
       <div className={classes.companyLogoToolbar}>
-        <img src={CompanyLogo} alt="Company logo" height={24} width={24} />
+        <img src={ApexLogo} alt="Company logo" height={24} width={24} />
       </div>
       <MenuList>
         {mainDrawerData.map((drawerData) => {

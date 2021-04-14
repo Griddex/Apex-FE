@@ -17,6 +17,7 @@ const chartData = [
 ];
 
 export default function ExistingFacilitiesDecks({
+  reducer,
   containerStyle,
   finalAction,
   showChart,
@@ -25,7 +26,7 @@ export default function ExistingFacilitiesDecks({
   const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "facilitiesInputDeckExisting";
   const existingData = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   const tableButtons: ITableButtonsProps = {

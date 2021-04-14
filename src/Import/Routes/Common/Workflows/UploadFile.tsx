@@ -16,7 +16,7 @@ import {
   persistFileAction,
   persistWorksheetAction,
   persistWorksheetNamesAction,
-} from "../../../Redux/Actions/ImportActions";
+} from "../../../Redux/Actions/InputActions";
 import { DialogStuff } from "./../../../../Application/Components/Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,14 +68,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UploadFile = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
+const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
   const { dnDDisabled } = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(

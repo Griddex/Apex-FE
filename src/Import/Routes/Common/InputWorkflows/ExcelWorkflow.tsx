@@ -56,6 +56,7 @@ const steps = [
 ];
 
 const ExcelWorkflow = ({
+  reducer,
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
@@ -114,6 +115,7 @@ const ExcelWorkflow = ({
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
+    reducer,
   };
 
   function renderImportStep(activeStep: number) {

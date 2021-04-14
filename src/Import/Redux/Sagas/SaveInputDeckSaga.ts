@@ -29,7 +29,7 @@ import {
   saveInputDeckFailureAction,
   saveInputDeckSuccessAction,
   SAVEINPUTDECK_REQUEST,
-} from "../Actions/ImportActions";
+} from "../Actions/InputActions";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
 function getInputDeckType(
@@ -71,14 +71,14 @@ export function* saveInputDeckSaga(
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
 
-  const { workflowProcess } = payload;
+  const { workflowProcess, reducer } = payload;
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
   const { tableData: inputDeck } = yield select(
-    (state) => state.inputReducer[wc][wp]
+    (state) => state[reducer][wc][wp]
   );
 
   const {

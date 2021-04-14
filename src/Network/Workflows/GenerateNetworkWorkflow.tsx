@@ -1,7 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import HorizontalWorkflowStepper from "../../Application/Components/Workflows/HorizontalWorkflowStepper";
-import { IWorkflowDataProps } from "../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IWorkflowDataProps,
+  ReducersType,
+} from "../../Application/Components/Workflows/WorkflowTypes";
 import ExistingFacilitiesDecks from "../../Import/Routes/FacilitiesInputDeck/ExistingFacilitiesDecks";
 import ExistingForecastDecks from "../../Import/Routes/ForecastInputDeck/ExistingForecastDecks";
 
@@ -18,8 +21,10 @@ const useStyles = makeStyles((theme) => ({
 const GenerateNetworkWorkflow = (workflowProps: IWorkflowDataProps) => {
   const classes = useStyles();
   const { activeStep } = workflowProps;
+  const reducer = "inputReducer" as ReducersType;
 
   const props = {
+    reducer,
     containerStyle: { boxShadow: "none" },
     showChart: false,
     finalAction: () => {},

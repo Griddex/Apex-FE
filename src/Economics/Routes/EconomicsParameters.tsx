@@ -40,7 +40,7 @@ import {
   persistFileAction,
   persistWorksheetAction,
   persistWorksheetNamesAction,
-} from "../../Import/Redux/Actions/ImportActions";
+} from "../../Import/Redux/Actions/InputActions";
 import { IEvent } from "./EconomicsParametersTypes";
 
 const useStyles = makeStyles((theme) => ({

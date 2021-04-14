@@ -16,7 +16,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ExistingDeck from "../../Images/ExistingDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
+import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import ExistingFacilitiesDecks from "./ExistingFacilitiesDecks";
@@ -25,7 +25,7 @@ import { confirmationDialogParameters } from "../../../Import/Components/DialogP
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles((theme) => ({
-  FacilitiesInputDeckLanding: {
+  facilitiesInputDeckLanding: {
     display: "flex",
     width: "100%",
     flexWrap: "wrap",
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
       width: 240,
     },
   },
-  ImportWorkflow: {
+  importWorkflow: {
     display: "flex",
     width: "100%",
     justifyContent: "center",
@@ -51,6 +51,7 @@ const FacilitiesInputDeckLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -156,7 +157,7 @@ const FacilitiesInputDeckLanding = () => {
   return (
     <>
       {loadWorkflow ? (
-        <div className={classes.ImportWorkflow}>
+        <div className={classes.importWorkflow}>
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
               const { match } = props;
@@ -167,6 +168,7 @@ const FacilitiesInputDeckLanding = () => {
               const facilitiesInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"facilitiesInputDeckExcel"}
                     finalAction={() =>
@@ -178,6 +180,7 @@ const FacilitiesInputDeckLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"facilitiesInputDeckDatabase"}
                     finalAction={() =>
@@ -189,6 +192,7 @@ const FacilitiesInputDeckLanding = () => {
                 ),
                 approveddeck: (
                   <ExistingFacilitiesDecks
+                    reducer={reducer}
                     showChart={true}
                     finalAction={existingDataFinalAction}
                   />
@@ -200,7 +204,7 @@ const FacilitiesInputDeckLanding = () => {
           </Route>
         </div>
       ) : (
-        <div className={classes.FacilitiesInputDeckLanding}>
+        <div className={classes.facilitiesInputDeckLanding}>
           {facilitiesInputLandingData.map((module) => {
             const {
               icon,

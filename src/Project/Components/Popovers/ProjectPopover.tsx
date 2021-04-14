@@ -116,11 +116,11 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const fetchExistingProjects = () => {
+  const extrudeMoreExistingProjects = () => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Existing_Projects_Dialog",
       title: "Existing Projects Dialog",
-      type: "textDialog",
+      type: "existingProjectsDialog",
       show: true,
       exclusive: false,
       maxWidth: "md",
@@ -191,7 +191,6 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                       projectId as string
                     )
                   );
-                  dispatch(activateDisabledMenusAction()); //put in saga
                 }}
                 sn={i + 1}
                 toggleSN={true}
@@ -209,7 +208,8 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
             />
           }
           handleClick={() => {
-            fetchExistingProjects();
+            dispatch(fetchExistingProjectsAction());
+            extrudeMoreExistingProjects();
           }}
         />
       </div>

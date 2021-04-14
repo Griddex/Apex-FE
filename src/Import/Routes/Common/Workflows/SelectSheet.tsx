@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import sizeConversions from "../../../../Application/Utils/SizeConversions";
-import { persistWorksheetAction } from "../../../Redux/Actions/ImportActions";
+import { persistWorksheetAction } from "../../../Redux/Actions/InputActions";
 import FileIconService from "../../../Services/FileIconService";
 import { useSnackbar } from "notistack";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
+const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -87,10 +87,10 @@ const SelectSheet = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
     fileType,
     fileAuthor,
     fileCreated,
-  } = useSelector((state: RootState) => state.inputReducer[wc][wp]);
+  } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   const [worksheetName, setWorksheetName] = React.useState(

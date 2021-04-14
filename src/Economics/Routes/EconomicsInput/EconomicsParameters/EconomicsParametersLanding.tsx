@@ -20,7 +20,7 @@ import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import ExistingDeck from "../../../../Import/Images/ExistingDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import { IdType } from "./EconomicsParametersTypes";
-import ExistingCostsAndRevenuesDecks from "./ExistingParametersDecks";
+import ExistingEconomicsParametersDecks from "./ExistingEconomicsParametersDecks";
 import { loadEconomicsWorkflowAction } from "../../../Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,8 +50,9 @@ const EconomicsParametersLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const reducer = "economicsReducer";
   const { url, path } = useRouteMatch();
-  const { loadCostsRevenueWorkflow } = useSelector(
+  const { loadParametersWorkflow } = useSelector(
     (state: RootState) => state.economicsReducer
   );
 
@@ -169,7 +170,7 @@ const EconomicsParametersLanding = () => {
 
   return (
     <>
-      {loadCostsRevenueWorkflow ? (
+      {loadParametersWorkflow ? (
         <div className={classes.importWorkflow}>
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
@@ -181,6 +182,7 @@ const EconomicsParametersLanding = () => {
               const economicsParametersDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckExcel"}
                     finalAction={() =>
@@ -192,6 +194,7 @@ const EconomicsParametersLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckDatabase"}
                     finalAction={() =>
@@ -203,17 +206,7 @@ const EconomicsParametersLanding = () => {
                 ),
                 manual: (
                   <ExcelWorkflow
-                    wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsParametersDeckExcel"}
-                    finalAction={() =>
-                      parametersExcelandDbWorkflowFinalAction(
-                        "economicsParametersDeckExcel"
-                      )
-                    }
-                  />
-                ),
-                apexforecast: (
-                  <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckExcel"}
                     finalAction={() =>
@@ -224,7 +217,8 @@ const EconomicsParametersLanding = () => {
                   />
                 ),
                 approveddeck: (
-                  <ExistingCostsAndRevenuesDecks
+                  <ExistingEconomicsParametersDecks
+                    reducer={reducer}
                     showChart={true}
                     finalAction={existingDataFinalAction}
                   />
@@ -251,7 +245,7 @@ const EconomicsParametersLanding = () => {
                 key={name}
                 isDispatched={true}
                 moduleAction={() =>
-                  loadEconomicsWorkflowAction("loadCostsRevenueWorkflow")
+                  loadEconomicsWorkflowAction("loadParametersWorkflow")
                 }
                 title={name}
                 description={description}

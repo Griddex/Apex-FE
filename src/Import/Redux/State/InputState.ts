@@ -96,14 +96,6 @@ const generateExistingDataState = () => {
     return {
       ...acc,
       [workflowName]: {
-        // existingData: [],
-
-        // existingDataId: "",
-        // status: 0,
-        // message: "",
-        // errors: { message: "" },
-        // success: false,
-
         sn: 0,
         id: "",
         userId: "",

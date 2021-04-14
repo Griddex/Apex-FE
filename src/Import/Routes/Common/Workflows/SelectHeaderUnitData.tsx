@@ -34,7 +34,7 @@ import {
   persistFileUnitsAndUniqueUnitsAction,
   persistTableHeadersAction,
   persistTableRoleNamesAction,
-} from "../../../Redux/Actions/ImportActions";
+} from "../../../Redux/Actions/InputActions";
 import getRSStyles from "./../../../Utils/GetRSStyles";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
@@ -51,6 +51,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function SelectHeaderUnitData({
+  reducer,
   wrkflwPrcss,
 }: IAllWorkflowProcesses) {
   const classes = useStyles();
@@ -60,7 +61,7 @@ export default function SelectHeaderUnitData({
   const wp = wrkflwPrcss;
 
   const { selectedWorksheetData } = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   //Generate actual ColumnHeaders

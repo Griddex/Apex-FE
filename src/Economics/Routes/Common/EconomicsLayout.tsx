@@ -19,6 +19,7 @@ import {
 import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
 import Economics from "../../Economics";
 import EconomicsCostsRevenuesLanding from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
+import EconomicsParametersLanding from "../EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
 import EconomicsAnalysisWorkflow from "../EconomicsWorkflows/EconomicsAnalysisWorkflow";
 import EconomicsBackground from "./EconomicsBackground";
 
@@ -126,7 +127,7 @@ const EconomicsLayout = () => {
                 const Layouts: Record<string, JSX.Element> = {
                   background: <EconomicsBackground />,
                   costsrevenue: <EconomicsCostsRevenuesLanding />,
-                  parameters: <EconomicsAnalysisWorkflow />,
+                  parameters: <EconomicsParametersLanding />,
                   economicanalysis: <EconomicsAnalysisWorkflow />,
                   viewtables: <Economics />,
                   charttables: <Economics />,

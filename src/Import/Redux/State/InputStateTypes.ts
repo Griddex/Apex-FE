@@ -1,12 +1,11 @@
 import { FormikErrors, FormikTouched } from "formik";
-import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IExistingDataProps,
   IExistingDataRow,
 } from "../../../Application/Types/ApplicationTypes";
 import { UserMatchObjectType } from "../../Routes/Common/Workflows/MatchHeadersTypes";
 
-export interface IImportState {
+export interface IInputState {
   fileLastModified: string;
   filePath: string;
   fileType: string;
@@ -72,7 +71,7 @@ export interface InputStateType
   forecastInputDeckId: string;
   facilitiesInputHeaders: Record<string, string>[];
   forecastInputHeaders: Record<string, string>[];
-  inputDataWorkflows: Record<string, IImportState>;
+  inputDataWorkflows: Record<string, IInputState>;
   existingDataWorkflows: Record<
     NonNullable<IExistingDataProps["wkPs"]>,
     IExistingDataRow[]
@@ -100,7 +99,6 @@ export interface INewForecastInputDeckFormValues {
   forecastInputDeckTitle: string;
   forecastInputDeckDescription: string;
 }
-
 export interface INewForecastInputDeckWorkflowProps
   extends Partial<INewForecastInputDeckFormValues> {
   activeStep?: number;

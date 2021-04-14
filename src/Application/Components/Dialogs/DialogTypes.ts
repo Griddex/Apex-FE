@@ -23,6 +23,7 @@ import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/
 import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
 import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
 import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
+import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -44,6 +45,7 @@ export interface IApplicationDialogs {
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
   runForecastDialog: typeof RunForecastDialog;
   saveForecastDialog: typeof SaveForecastDialog;
+  saveCostsRevenuesInputDeckDialog: typeof SaveCostsRevenuesInputDeckDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -69,6 +71,7 @@ export interface DialogStuff {
   type?:
     | "listDialog"
     | "textDialog"
+    | "existingProjectsDialog"
     | "selectWorksheetDialog"
     | "finalizeForecastInputDeckDialog"
     | "saveFacilitiesInputDeckDialog"
@@ -84,7 +87,8 @@ export interface DialogStuff {
     | "generateNetworkWorkflowDialog"
     | "existingForecastingParametersDialog"
     | "saveForecastingParametersWorkflowDialog"
-    | "declineCurveParametersDialog";
+    | "declineCurveParametersDialog"
+    | "saveCostsRevenuesInputDeckDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

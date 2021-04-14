@@ -18,7 +18,7 @@ import {
 import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
-import { updateInputAction } from "../../../Redux/Actions/ImportActions";
+import { updateInputParameterAction } from "../../../Redux/Actions/InputActions";
 import apexCheckbox from "./../../../../Application/Components/Checkboxes/ApexCheckbox";
 import { SizeMe } from "react-sizeme";
 
@@ -85,8 +85,8 @@ export default function ExistingDataRoute<
       const existingTitle = getExistingTitle(wp);
       const existingId = getExistingId(wp);
 
-      dispatch(updateInputAction(existingTitle, row.title as string));
-      dispatch(updateInputAction(existingId, row.id as string));
+      dispatch(updateInputParameterAction(existingTitle, row.title as string));
+      dispatch(updateInputParameterAction(existingId, row.id as string));
     } else {
       dispatch(
         updateNetworkParameterAction(

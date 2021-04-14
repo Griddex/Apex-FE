@@ -26,7 +26,7 @@ import { useSnackbar } from "notistack";
 import React, { ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
-import { persistWorksheetAction } from "../../../Import/Redux/Actions/ImportActions";
+import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";

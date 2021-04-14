@@ -17,7 +17,10 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  ReducersType,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   hideDialogAction,
   showDialogAction,
@@ -122,6 +125,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   const { title, show, maxWidth, iconType, workflowProcess } = props;
   const skipped = new Set<number>();
 
+  const reducer = "inputReducer" as ReducersType;
   const wc = "inputDataWorkflows";
   const wp = workflowProcess as NonNullable<
     IAllWorkflowProcesses["wrkflwPrcss"]
@@ -180,6 +184,8 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   };
 
   const existingProps = {
+    reducer,
+    showChart: false,
     activeStep,
     workflowProcess: wp,
     finalAction: saveForecastInputdeckConfirmation,

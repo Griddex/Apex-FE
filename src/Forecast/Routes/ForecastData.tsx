@@ -134,7 +134,7 @@ export default function ForecastData({
       },
       {
         key: "hydrocarbonStream",
-        name: "HYRDCARBONSTREAM",
+        name: "HYDROCARBON STREAM",
         editable: false,
         resizable: true,
         width: 300,
@@ -288,6 +288,7 @@ export default function ForecastData({
   return (
     <div className={classes.rootExistingData} style={containerStyle}>
       <Select
+        // className={}
         value={titleOption}
         options={forecastResultTitlesOptions}
         styles={RSStyles}

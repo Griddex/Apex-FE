@@ -14,7 +14,7 @@ import {
   SAVEAUTOGENERATENETWORK_REQUEST,
 } from "../Actions/NetworkActions";
 import { autoGenerateNetworkSaga } from "./AutogenerateNetworkSaga";
-import { saveInputDeckRequestAction } from "./../../../Import/Redux/Actions/ImportActions";
+import { saveInputDeckRequestAction } from "./../../../Import/Redux/Actions/InputActions";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";

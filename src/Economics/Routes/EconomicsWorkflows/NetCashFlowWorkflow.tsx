@@ -6,7 +6,10 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  ReducersType,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Import/Components/SelectDatabase";
@@ -100,8 +103,9 @@ const steps = [
 const NetCashFlowWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wc = "economicsDataWorkflows";
-  const wp = "netCashAnalysisWorkflow";
+  const wc = "economicsDataWorkflows" as IAllWorkflowProcesses["wrkflwCtgry"];
+  const wp = "netCashAnalysisWorkflow" as IAllWorkflowProcesses["wrkflwPrcss"];
+  const reducer = "economicsReducer" as ReducersType;
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -161,6 +165,7 @@ const NetCashFlowWorkflow = () => {
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
+    reducer,
   };
 
   function renderImportStep(activeStep: number) {
@@ -170,12 +175,7 @@ const NetCashFlowWorkflow = () => {
       case 1:
         return <EconomicCosts />;
       case 2:
-        return (
-          <EconomicsParameters
-            wrkflwPrcss={wp}
-            wrkflwCtgry="economicsDataWorkflows"
-          />
-        );
+        return <EconomicsParameters {...props} />;
       case 3:
         return <EconomicsCalculations />;
       default:

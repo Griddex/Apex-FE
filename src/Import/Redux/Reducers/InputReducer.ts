@@ -30,7 +30,7 @@ import {
   FETCHAPPLICATIONHEADERS_SUCCESS,
   FETCHAPPLICATIONHEADERS_FAILURE,
   SAVE_USERMATCH_ALL,
-} from "../Actions/ImportActions";
+} from "../Actions/InputActions";
 import InputState from "../State/InputState";
 import set from "lodash.set";
 

@@ -31,6 +31,7 @@ import SelectSheet from "../../../Import/Routes/Common/Workflows/SelectSheet";
 import {
   IAllWorkflowProcesses,
   IEconomicsWorkflowProcess,
+  ReducersType,
 } from "./../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -128,6 +129,8 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
+  const reducer = "economicsReducer" as ReducersType;
   const wc = "economicsDataWorkflows" as IEconomicsWorkflowProcess["wkCy"];
   const wp = "economicsParameterImportWorkflow" as IEconomicsWorkflowProcess["wkPs"];
 
@@ -187,6 +190,7 @@ const EconomicsParameterImportWorkflow = ({ dialogText }: DialogStuff) => {
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
+    reducer,
   };
 
   function renderSingleSheetWorkflow(activeStep: number) {

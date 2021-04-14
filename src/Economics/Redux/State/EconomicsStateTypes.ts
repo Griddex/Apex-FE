@@ -1,3 +1,4 @@
+import { FormikErrors, FormikTouched } from "formik";
 import { IApplicationExistingData } from "../../../Application/Types/ApplicationTypes";
 
 export interface IEconomicsState {
@@ -15,11 +16,38 @@ export type IEconomicsWorkflowProcessesType =
   | "netCashAnalysisWorkflow"
   | "saveForecastingParametersWorkflowDialog";
 
-export interface EconomicsStateType {
+export interface EconomicsStateType
+  extends INewCostsRevenuesInputDeckFormValues {
   //Remove from here
   forecastRun: string;
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   loadCostsRevenueWorkflow: boolean;
+  loadParametersWorkflow: boolean;
+
+  costsRevenuesInputDeckId: string;
+  costsRevenuesInputHeaders: Record<string, string>[];
+
+  parametersInputDeckId: string;
+  parametersInputHeaders: Record<string, string>[];
+
   inputDataWorkflows: Record<string, IApplicationExistingData>;
   existingDataWorkflows: Record<string, IApplicationExistingData[]>;
+}
+
+export interface INewCostsRevenuesInputDeckFormValues {
+  costsRevenuesInputDeckTitle: string;
+  costsRevenuesInputDeckDescription: string;
+}
+
+export interface INewCostsRevenuesInputDeckWorkflowProps
+  extends Partial<INewCostsRevenuesInputDeckFormValues> {
+  activeStep?: number;
+  errors?: FormikErrors<INewCostsRevenuesInputDeckFormValues>;
+  touched?: FormikTouched<INewCostsRevenuesInputDeckFormValues>;
+  isValid?: boolean;
+  handleChange?: (event: React.ChangeEvent<any>) => void;
+  handleBlur?: (event: React.ChangeEvent<any>) => void;
+  children?: (
+    props: INewCostsRevenuesInputDeckWorkflowProps
+  ) => JSX.Element | JSX.Element[];
 }

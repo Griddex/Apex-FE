@@ -7,7 +7,7 @@ import CorporateLayout from "../../Corporate/Routes/Common/CorporateLayout";
 import DeclineCurveAnalysisLayout from "../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout";
 import EconomicsLayout from "../../Economics/Routes/Common/EconomicsLayout";
 import ForecastLayout from "../../Forecast/Common/ForecastLayout";
-import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/ImportActions";
+import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/InputActions";
 import InputLayout from "../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "../../Network/Common/NetworkLayout";
 import { fetchRecentProjectsAction } from "../../Project/Redux/Actions/ProjectActions";

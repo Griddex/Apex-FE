@@ -21,7 +21,7 @@ import {
   fetchApplicationHeadersFailureAction,
   fetchApplicationHeadersSuccessAction,
   FETCHAPPLICATIONHEADERS_REQUEST,
-} from "../Actions/ImportActions";
+} from "../Actions/InputActions";
 import getBaseUrl from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchApplicationHeadersSaga(): Generator<

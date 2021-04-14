@@ -7,6 +7,7 @@ import {
   IExistingDataRow,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
+import { IExistingInputDeck } from "../InputDeckTypes";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -18,10 +19,9 @@ type wpTypeNon = NonNullable<IExistingDataProps["wkPs"]>;
 // type wpType = Omit<wpTypeNon, "">;
 
 export default function ExistingProductionData({
+  reducer,
   finalAction,
-}: {
-  finalAction: () => void;
-}) {
+}: IExistingInputDeck) {
   const wc = "existingDataWorkflows";
   const wp: wpTypeNon = "productionInputDataExisting";
   // const wp = "productionInputDataExisting" as wpType;
@@ -35,7 +35,7 @@ export default function ExistingProductionData({
   //   (state: RootState) => state.inputReducer[wc]
   // );
   const existingData = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   const tableButtons: ITableButtonsProps = {

@@ -1,6 +1,7 @@
 import findIndex from "lodash.findindex";
 import React from "react";
 import { useSelector } from "react-redux";
+import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ExistingForecastDecks from "../../Import/Routes/ForecastInputDeck/ExistingForecastDecks";
 import { IForecastingParametersRow } from "../Components/Dialogs/ExistingNetworksDialogTypes";
@@ -22,6 +23,7 @@ const SaveForecastParametersWorkflow = ({
     (state: RootState) => state.networkReducer
   );
 
+  const reducer = "inputReducer" as ReducersType;
   const index = findIndex(
     forecastingParametersExisting,
     (k: IForecastingParametersRow) =>
@@ -33,6 +35,7 @@ const SaveForecastParametersWorkflow = ({
       case 0:
         return (
           <ExistingForecastDecks
+            reducer={reducer}
             showChart={false}
             finalAction={() => {}}
             containerStyle={{ boxShadow: "none" }}

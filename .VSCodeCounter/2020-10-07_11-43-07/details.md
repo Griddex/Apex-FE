@@ -115,7 +115,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Import/Images/MSExcel.svg](/src/Import/Images/MSExcel.svg) | XML | 7 | 0 | 0 | 7 |
 | [src/Import/Images/Notepad.svg](/src/Import/Images/Notepad.svg) | XML | 50 | 1 | 1 | 52 |
 | [src/Import/Redux/Actions/DatabaseServerActions.js](/src/Import/Redux/Actions/DatabaseServerActions.js) | JavaScript | 40 | 0 | 4 | 44 |
-| [src/Import/Redux/Actions/ImportActions.js](/src/Import/Redux/Actions/ImportActions.js) | JavaScript | 167 | 1 | 18 | 186 |
+| [src/Import/Redux/Actions/InputActions.js](/src/Import/Redux/Actions/InputActions.js) | JavaScript | 167 | 1 | 18 | 186 |
 | [src/Import/Redux/Actions/SetStepperActions.js](/src/Import/Redux/Actions/SetStepperActions.js) | JavaScript | 63 | 0 | 2 | 65 |
 | [src/Import/Redux/Reducers/DatabaseServerReducers.js](/src/Import/Redux/Reducers/DatabaseServerReducers.js) | JavaScript | 34 | 0 | 4 | 38 |
 | [src/Import/Redux/Reducers/InputReducer.js](/src/Import/Redux/Reducers/InputReducer.js) | JavaScript | 103 | 0 | 29 | 132 |

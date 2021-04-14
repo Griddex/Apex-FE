@@ -1,6 +1,6 @@
 import DialogOkayButton from "../../../Application/Components/DialogButtons/DialogOkayButton";
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { updateInputAction } from "../../Redux/Actions/ImportActions";
+import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 
@@ -22,7 +22,8 @@ export const successDialogParameters = (
       [true, true],
       [
         unloadDialogsAction,
-        () => updateInputAction(`inputDataWorkflows.${wp}.activeStep`, 0),
+        () =>
+          updateInputParameterAction(`inputDataWorkflows.${wp}.activeStep`, 0),
       ]
     ),
 

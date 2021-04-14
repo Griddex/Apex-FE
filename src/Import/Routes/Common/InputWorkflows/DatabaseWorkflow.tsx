@@ -60,6 +60,7 @@ const steps = [
 ];
 
 const DatabaseWorkflow = ({
+  reducer,
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
@@ -123,6 +124,7 @@ const DatabaseWorkflow = ({
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
+    reducer,
   };
 
   function renderImportStep(activeStep: number) {

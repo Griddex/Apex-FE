@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
@@ -42,6 +43,7 @@ const applicationDialogs: IApplicationDialogs = {
   declineCurveParametersDialog: DeclineCurveParametersDialog,
   runForecastDialog: RunForecastDialog,
   saveForecastDialog: SaveForecastDialog,
+  saveCostsRevenuesInputDeckDialog: SaveCostsRevenuesInputDeckDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

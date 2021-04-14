@@ -36,7 +36,7 @@ import {
   persistFileHeadersMatchAction,
   persistTableHeadersAction,
   saveUserMatchAction,
-} from "../../../Redux/Actions/ImportActions";
+} from "../../../Redux/Actions/InputActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getRSStyles from "../../../Utils/GetRSStyles";
 import CenteredStyle from "./../../../../Application/Components/Styles/CenteredStyle";
@@ -74,7 +74,10 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
+export default function MatchHeaders({
+  reducer,
+  wrkflwPrcss,
+}: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -129,7 +132,7 @@ export default function MatchHeaders({ wrkflwPrcss }: IAllWorkflowProcesses) {
   );
 
   const { fileHeaders } = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   let applicationHeaders: string[] = [];

@@ -32,7 +32,7 @@ import {
   persistChosenApplicationUnitsAction,
   persistFileUnitsMatchAction,
   saveUserMatchAction,
-} from "../../../Redux/Actions/ImportActions";
+} from "../../../Redux/Actions/InputActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationUnits from "../../../Utils/GetChosenApplicationUnits";
 import getRSStyles from "../../../Utils/GetRSStyles";
@@ -81,7 +81,10 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
+export default function MatchUnits({
+  reducer,
+  wrkflwPrcss,
+}: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -136,7 +139,7 @@ export default function MatchUnits({ wrkflwPrcss }: IAllWorkflowProcesses) {
   );
 
   const { fileUnits, fileUniqueUnits } = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   //Application units

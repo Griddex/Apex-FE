@@ -263,7 +263,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Import/Images/Notepad.svg](/src/Import/Images/Notepad.svg) | XML | 50 | 1 | 1 | 52 |
 | [src/Import/Redux/Actions/DatabaseServerActions.ts](/src/Import/Redux/Actions/DatabaseServerActions.ts) | TypeScript | 41 | 0 | 5 | 46 |
 | [src/Import/Redux/Actions/ExistingDataActions.ts](/src/Import/Redux/Actions/ExistingDataActions.ts) | TypeScript | 25 | 0 | 4 | 29 |
-| [src/Import/Redux/Actions/ImportActions.ts](/src/Import/Redux/Actions/ImportActions.ts) | TypeScript | 299 | 1 | 21 | 321 |
+| [src/Import/Redux/Actions/InputActions.ts](/src/Import/Redux/Actions/InputActions.ts) | TypeScript | 299 | 1 | 21 | 321 |
 | [src/Import/Redux/Reducers/DatabaseServerReducers.ts](/src/Import/Redux/Reducers/DatabaseServerReducers.ts) | TypeScript | 31 | 0 | 4 | 35 |
 | [src/Import/Redux/Reducers/InputReducer.ts](/src/Import/Redux/Reducers/InputReducer.ts) | TypeScript | 151 | 0 | 9 | 160 |
 | [src/Import/Redux/Sagas/ConnectDatabaseSaga.ts](/src/Import/Redux/Sagas/ConnectDatabaseSaga.ts) | TypeScript | 48 | 5 | 10 | 63 |

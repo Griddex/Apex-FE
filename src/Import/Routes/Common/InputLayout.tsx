@@ -1,8 +1,10 @@
+import { Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AppsIcon from "@material-ui/icons/Apps";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import BubbleChartIcon from "@material-ui/icons/BubbleChart";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import LandscapeIcon from "@material-ui/icons/Landscape";
+import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
@@ -15,13 +17,18 @@ import {
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import PerpetualSpinner from "../../../Application/Components/Visuals/PerpetualSpinner";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import EconomicsLanding from "../EconomicsData/EconomicsDataLanding";
+import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
+import EconomicsCostsRevenuesLanding from "../../../Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
+import EconomicsParametersLanding from "../../../Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
 import ForecastInputDeckLanding from "../ForecastInputDeck/ForecastInputDeckLanding";
 import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
 import FacilitiesInputDeckLanding from "./../FacilitiesInputDeck/FacilitiesInputDeckLanding";
 import InputBackground from "./InputBackground";
 import { IdType } from "./InputLayoutTypes";
-import { ISubNavbarData } from "./Workflows/InputWorkflowsTypes";
+import {
+  IEconomicsInputButton,
+  ISubNavbarData,
+} from "./Workflows/InputWorkflowsTypes";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -66,10 +73,38 @@ const InputLayout = () => {
       component: () => <div></div>,
     },
     {
-      name: "Economics Data",
-      route: `${url}/economicsdata`,
-      startIcon: <AttachMoneyIcon fontSize="default" />,
-      component: () => <div></div>,
+      name: "Economic input",
+      route: `${url}`,
+      startIcon: <TrendingUpOutlinedIcon fontSize="default" />,
+      endIcon: <KeyboardArrowDownIcon fontSize="default" />,
+      hasWrapper: true,
+      component: () => (
+        <EconomicsInputButtonsMenu>
+          {({
+            name,
+            className,
+            startIcon,
+            endIcon,
+            styles,
+            handleClick,
+          }: IEconomicsInputButton) => {
+            return (
+              <Button
+                key={name}
+                className={className}
+                onClick={(event) => {
+                  handleClick && handleClick(event);
+                }}
+                startIcon={startIcon}
+                endIcon={endIcon}
+                style={styles}
+              >
+                <Typography variant="subtitle2">{name}</Typography>
+              </Button>
+            );
+          }}
+        </EconomicsInputButtonsMenu>
+      ),
     },
   ];
 
@@ -94,7 +129,8 @@ const InputLayout = () => {
                   facilitiesdeck: <FacilitiesInputDeckLanding />,
                   forecastdeck: <ForecastInputDeckLanding />,
                   productiondata: <ProductionDataLanding />,
-                  economicsdata: <EconomicsLanding />,
+                  costsrevenue: <EconomicsCostsRevenuesLanding />,
+                  parameters: <EconomicsParametersLanding />,
                 };
 
                 return Layouts[subNavbarId];

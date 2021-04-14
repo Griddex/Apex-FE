@@ -2,28 +2,28 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
-import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import { INewCostsRevenuesInputDeckWorkflowProps } from "../../Redux/State/EconomicsStateTypes";
 
-const ForecastTitleAndDescription = ({
-  forecastInputDeckTitle,
-  forecastInputDeckDescription,
+const CostsRevenuesTitleAndDescription = ({
+  costsRevenuesInputDeckTitle,
+  costsRevenuesInputDeckDescription,
   errors,
   touched,
   handleChange,
-}: INewForecastInputDeckWorkflowProps) => {
+}: INewCostsRevenuesInputDeckWorkflowProps) => {
   const dispatch = useDispatch();
 
   const helperText =
-    touched && touched.forecastInputDeckTitle
-      ? errors && errors.forecastInputDeckTitle
+    touched && touched.costsRevenuesInputDeckTitle
+      ? errors && errors.costsRevenuesInputDeckTitle
       : "";
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
     handleChange && handleChange(event);
     const { name, value } = event.target;
 
-    dispatch(updateInputParameterAction(name, value));
+    dispatch(updateEconomicsParameterAction(name, value));
   };
 
   return (
@@ -33,12 +33,12 @@ const ForecastTitleAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="forecastInputDeckTitle"
+            name="costsRevenuesInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={forecastInputDeckTitle}
+            value={costsRevenuesInputDeckTitle}
             onChange={handleTitleDescChange}
             required
             autoFocus
@@ -52,10 +52,10 @@ const ForecastTitleAndDescription = ({
         containerStyle={{ marginTop: 30 }}
         content={
           <TextareaAutosize
-            name="forecastInputDeckDescription"
+            name="costsRevenuesInputDeckDescription"
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
-            value={forecastInputDeckDescription}
+            value={costsRevenuesInputDeckDescription}
             onChange={handleChange}
           />
         }
@@ -64,4 +64,4 @@ const ForecastTitleAndDescription = ({
   );
 };
 
-export default ForecastTitleAndDescription;
+export default CostsRevenuesTitleAndDescription;

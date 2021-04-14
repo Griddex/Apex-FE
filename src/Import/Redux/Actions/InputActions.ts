@@ -47,7 +47,7 @@ export const FETCHAPPLICATIONHEADERS_FAILURE =
   "FETCHAPPLICATIONHEADERS_FAILURE";
 export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
 
-export const updateInputAction = (path: string, value: React.Key) => {
+export const updateInputParameterAction = (path: string, value: React.Key) => {
   return {
     type: UPDATE_INPUT,
     payload: {
@@ -118,7 +118,7 @@ export const persistWorksheetAction = (
     payload: { selectedWorksheetName, selectedWorksheetData, workflowProcess },
   };
 };
-///////////////////////////////
+
 export const persistFileHeadersAction = (
   selectedHeaderRowIndex: number,
   fileHeaders: string[],

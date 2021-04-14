@@ -20,7 +20,7 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveInputDeckRequestAction } from "../../Redux/Actions/ImportActions";
+import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import { IAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles(() => ({
@@ -48,11 +48,10 @@ const ForecastInputDeckFinalization = ({
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
+  const reducer = "inputReducer";
   const wc = "inputDataWorkflows";
   const wp = workflowProcess;
-  const { success } = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
-  );
+  const { success } = useSelector((state: RootState) => state[reducer][wc][wp]);
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );

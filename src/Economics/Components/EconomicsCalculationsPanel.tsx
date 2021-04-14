@@ -3,9 +3,9 @@ import React from "react";
 import { useDrag } from "react-dnd";
 import ItemTypes from "../../Economics/Utils/DragAndDropItemTypes";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import Flowstation from "../Images/Flowstation.svg";
-import GasFacility from "../Images/GasFacility.svg";
-import Manifold from "../Images/Manifold.svg";
+import NetPresentValue from "../Images/NetPresentValue.svg";
+import InternalRateOfReturn from "../Images/InternalRateOfReturn.svg";
+import NetCashflow from "../Images/NetCashflow.svg";
 
 const useStyles = makeStyles(() => ({
   economicsCalculationPanel: {
@@ -42,7 +42,12 @@ const EconomicsCalculationsType: React.FC<IEconomicsProps> = ({ title }) => {
       name: "ncf",
       label: "Net Cashflow",
       icon: (
-        <img src={Manifold} alt="Net Cashflow" height={"100%"} width={"100%"} />
+        <img
+          src={NetCashflow}
+          alt="Net Cashflow"
+          height={"100%"}
+          width={"100%"}
+        />
       ),
     },
     {
@@ -50,7 +55,7 @@ const EconomicsCalculationsType: React.FC<IEconomicsProps> = ({ title }) => {
       label: "Net Present Value",
       icon: (
         <img
-          src={Flowstation}
+          src={NetPresentValue}
           alt="Net Present Value"
           height={"100%"}
           width={"100%"}
@@ -62,7 +67,7 @@ const EconomicsCalculationsType: React.FC<IEconomicsProps> = ({ title }) => {
       label: "Internal Rate of Return",
       icon: (
         <img
-          src={GasFacility}
+          src={InternalRateOfReturn}
           alt="Internal Rate of Return"
           height={"100%"}
           width={"100%"}

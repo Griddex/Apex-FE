@@ -1,30 +1,17 @@
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import { fade, makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
-import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
+import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
-import {
-  workflowBackAction,
-  workflowInitAction,
-  workflowNextAction,
-  workflowResetAction,
-  workflowSaveAction,
-  workflowSkipAction,
-} from "../../../Application/Redux/Actions/WorkflowActions";
+import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
+import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
+import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import EconomicCosts from "../EconomicCosts";
 import EconomicsCalculations from "../EconomicsCalculations";
-import EconomicsParameters from "../EconomicsParameters";
-import SelectForecast from "../SelectForecast";
+import ExistingCostsAndRevenuesDecks from "../EconomicsInput/EconomicsCostsAndRevenues/ExistingCostsAndRevenuesDecks";
+import ExistingEconomicsParametersDecks from "../EconomicsInput/EconomicsParameters/ExistingEconomicsParametersDecks";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,40 +88,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const steps = [
-  "Select Forecast Run",
-  "Import or Input Costs",
-  "Input Economics Assumptions",
-  "Calculate Indices [and Define Sensitivities]",
-  "View Results",
+  "Select Parameters & Assumptions",
+  "Select Costs & Revenues",
+  "Economics Analyses",
+  // "Calculate Indices [and Define Sensitivities]",
 ];
 
 const EconomicsAnalysisWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const workflowCategory = "economicsDataWorkflows";
-  const workflowProcess = "economicsAnalyses";
+  const reducer = "economicsReducer";
+  const wc = "economicsDataWorkflows";
+  const wp = "economicsAnalyses";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { activeStep } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+    (state: RootState) => state.workflowReducer[wc][wp]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
   );
   const { moduleName, subModuleName, workflowName } = applicationData;
 
-  const isStepOptional: (activeStep: number) => boolean = useCallback(
-    (activeStep: number) => (activeStep as number) === 50,
-    [activeStep]
-  );
-  const isStepSkipped: (step: number) => boolean = useCallback(
-    (step: number) => skipped.has(step as number),
-    [skipped]
-  );
+  const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
+  const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
 
   const WorkflowBannerProps = {
     activeStep,
@@ -155,40 +135,56 @@ const EconomicsAnalysisWorkflow = () => {
     errorSteps: [],
   };
 
+  const workflowProps = {
+    activeStep,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  };
+
   useEffect(() => {
-    //Set optional steps here
-    //Error steps can be set from any view in a workflow
-    dispatch(
-      workflowInitAction(
-        steps,
-        isStepOptional,
-        isStepSkipped,
-        workflowProcess,
-        workflowCategory
-      )
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
+    dispatch(showContextDrawerAction());
   }, [dispatch]);
 
+  //ExistingEconomicsParametersDecks
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <SelectForecast />;
-      case 1:
-        return <EconomicCosts />;
-      case 2:
         return (
-          <EconomicsParameters
-            wrkflwPrcss="economicsParameterImportWorkflow"
-            wrkflwCtgry="economicsDataWorkflows"
+          <ExistingEconomicsParametersDecks
+            reducer={reducer}
+            finalAction={() => console.log("Hi")}
+            showChart={false}
           />
         );
-      case 3:
+      case 1:
+        return (
+          <ExistingCostsAndRevenuesDecks
+            reducer={reducer}
+            finalAction={() => console.log("Hi")}
+            showChart={false}
+          />
+        );
+      case 2:
         return <EconomicsCalculations />;
       default:
         return <h1>No view</h1>;
     }
   }
+
+  const navigationButtonProps: INavigationButtonsProp = {
+    isMainNav: true,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
+    finalAction: () => console.log("final"),
+    workflowProps,
+    workflowProcess: wp,
+    workflowCategory: wc,
+  };
 
   return (
     <div className={classes.root}>
@@ -203,80 +199,7 @@ const EconomicsAnalysisWorkflow = () => {
           {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
       )}
-      <div className={classes.navigationbuttons}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() =>
-            dispatch(workflowResetAction(0, workflowProcess, workflowCategory))
-          }
-          className={classes.button}
-          startIcon={<RotateLeftIcon />}
-        >
-          Reset
-        </Button>
-        <Button
-          variant="outlined"
-          disabled={activeStep === 0}
-          onClick={() =>
-            dispatch(
-              workflowBackAction(activeStep, workflowProcess, workflowCategory)
-            )
-          }
-          className={classes.button}
-          startIcon={<ArrowBackIosIcon />}
-        >
-          Back
-        </Button>
-        {isStepOptional(activeStep) && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              dispatch(
-                workflowSkipAction(
-                  isStepOptional,
-                  activeStep,
-                  workflowProcess,
-                  workflowCategory
-                )
-              )
-            }
-            className={classes.button}
-          >
-            Skip
-          </Button>
-        )}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            activeStep === steps.length - 1
-              ? dispatch(workflowSaveAction(workflowProcess, workflowCategory))
-              : dispatch(
-                  workflowNextAction(
-                    skipped,
-                    isStepSkipped,
-                    activeStep,
-                    steps,
-                    "Loading...",
-                    workflowProcess,
-                    workflowCategory
-                  )
-                );
-          }}
-          className={classes.button}
-          endIcon={
-            activeStep === steps.length - 1 ? (
-              <DoneAllIcon />
-            ) : (
-              <ArrowForwardIosIcon />
-            )
-          }
-        >
-          {activeStep === steps.length - 1 ? "Finalize" : "Next"}
-        </Button>
-      </div>
+      <NavigationButtons {...navigationButtonProps} />
     </div>
   );
 };

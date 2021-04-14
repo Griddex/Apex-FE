@@ -13,6 +13,7 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseUrl from "../../../Application/Services/BaseUrlService";
@@ -53,7 +54,6 @@ function* openRecentProjectSaga(
     const result = yield call(
       openRecentProjectAPI,
       `${getBaseUrl()}/project/${projectId}`
-      // `https://jsonplaceholder.typicode.com/posts`
     );
 
     // const { status, data } = response; //data that'll go to several reducers to
@@ -75,6 +75,8 @@ function* openRecentProjectSaga(
         projectDescription,
       },
     });
+
+    yield put(activateDisabledMenusAction());
   } catch (errors) {
     const failureAction = openRecentProjectFailureAction();
 

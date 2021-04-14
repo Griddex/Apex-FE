@@ -56,7 +56,11 @@ function* fetchExistingProjectsSaga(
   try {
     const result = yield call(
       fetchExistingProjectsAPI,
-      `${getBaseUrl()}/project/recents` //Put in actual URL
+      `${getBaseUrl()}/project/recents/${20}` //Put in actual URL
+    );
+    console.log(
+      "Logged output --> ~ file: FetchExistingProjectsSaga.ts ~ line 61 ~ result",
+      result
     );
 
     const {

@@ -49,6 +49,7 @@ const ForecastInputDeckLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -147,6 +148,7 @@ const ForecastInputDeckLanding = () => {
               const forecastInputDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"forecastInputDeckExcel"}
                     finalAction={() =>
@@ -158,6 +160,7 @@ const ForecastInputDeckLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"forecastInputDeckExcel"}
                     finalAction={() =>
@@ -169,6 +172,7 @@ const ForecastInputDeckLanding = () => {
                 ),
                 approveddeck: (
                   <ExistingForecastDecks
+                    reducer={reducer}
                     showChart={true}
                     finalAction={existingDataFinalAction}
                   />

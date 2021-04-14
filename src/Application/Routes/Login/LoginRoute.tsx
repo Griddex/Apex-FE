@@ -2,7 +2,7 @@ import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { LoginForm } from "../../Components/Forms/LoginForm";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
+import ApexLogo from "../../Images/ApexLogo.svg";
 import Image from "../../Components/Visuals/Image";
 
 const useStyles = makeStyles(() => ({
@@ -39,11 +39,11 @@ const LoginRoute = () => {
       <Grid item className={classes.item} xs={10} sm={6} lg={4}>
         <Image
           className={classes.image}
-          src={CompanyLogo}
+          src={ApexLogo}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
         <Typography className={classes.typography} variant="h5">
-          Hydrocarbon Forecasting Platform
+          Apex Hydrocarbon Forecasting Platform
         </Typography>
         <LoginForm />
       </Grid>

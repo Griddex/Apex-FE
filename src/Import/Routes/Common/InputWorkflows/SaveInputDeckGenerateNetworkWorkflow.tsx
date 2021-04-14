@@ -2,17 +2,15 @@ import React from "react";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import ForecastTitleAndDescriptionForm from "../../../Components/Forms/ForecastTitleAndDescriptionForm";
 import ExistingFacilitiesDecks from "../../FacilitiesInputDeck/ExistingFacilitiesDecks";
+import { IExistingInputDeck } from "../../InputDeckTypes";
 
 const SaveInputDeckGenerateNetworkWorkflow = ({
+  reducer,
   activeStep,
-  workflowProcess,
   finalAction,
-}: {
-  activeStep: number;
-  workflowProcess: NonNullable<IAllWorkflowProcesses["wrkflwPrcss"]>;
-  finalAction: () => void;
-}) => {
+}: IExistingInputDeck) => {
   const props = {
+    reducer,
     containerStyle: { boxShadow: "none" },
     showChart: false,
     finalAction,

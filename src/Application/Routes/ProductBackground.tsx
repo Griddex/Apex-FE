@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import CompanyLogo from "../Images/CompanyLogo.svg";
+import ApexLogo from "../Images/ApexLogo.svg";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,12 +17,7 @@ const ProductBackground = () => {
 
   return (
     <div className={classes.root}>
-      <img
-        src={CompanyLogo}
-        alt="Product background"
-        height={250}
-        width={250}
-      />
+      <img src={ApexLogo} alt="Product background" height={250} width={250} />
     </div>
   );
 };

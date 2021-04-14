@@ -19,6 +19,8 @@ import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/Excel
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import ExistingDeck from "../../../../Import/Images/ExistingDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
+import Manual from "../../../Images/Manual.svg";
+import ForecastResults from "../../../Images/ForecastResults.svg";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
 import ExistingCostsAndRevenuesDecks from "./ExistingCostsAndRevenuesDecks";
 import { loadEconomicsWorkflowAction } from "../../../Redux/Actions/EconomicsActions";
@@ -49,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
 const EconomicsCostsRevenuesLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const reducer = "economicsReducer";
 
   const { url, path } = useRouteMatch();
   const { loadCostsRevenueWorkflow } = useSelector(
@@ -91,7 +95,7 @@ const EconomicsCostsRevenuesLanding = () => {
       icon: (
         <Image
           className={classes.image}
-          src={ImportDatabase}
+          src={Manual}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
@@ -106,7 +110,7 @@ const EconomicsCostsRevenuesLanding = () => {
       icon: (
         <Image
           className={classes.image}
-          src={ImportDatabase}
+          src={ForecastResults}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
@@ -137,10 +141,10 @@ const EconomicsCostsRevenuesLanding = () => {
   const costsRevenueExcelandDbWorkflowFinalAction = (
     workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
   ) => {
-    const saveFacilitiesInputdeckConfirmation = () => {
+    const saveCostsRevenuesInputdeckConfirmation = () => {
       const dps = confirmationDialogParameters(
-        "FacilitiesDeck_Save_Confirmation",
-        "Facilities Deck Save Confirmation",
+        "Costs_RevenuesDeck_Save_Confirmation",
+        "Costs & Revenues Deck Save Confirmation",
         `Do you want to save the current costs & revenue Inputdeck?`,
         true,
         () => ({ type: "HELLO", payload: "yeah" })
@@ -150,9 +154,9 @@ const EconomicsCostsRevenuesLanding = () => {
     };
 
     const dialogParameters: DialogStuff = {
-      name: "Save_Facilities_Input_Deck_Dialog",
-      title: "Save Facilities InputDeck",
-      type: "saveFacilitiesInputDeckDialog",
+      name: "Save_CostsRevenues_Input_Deck_Dialog",
+      title: "Save CostsRevenues InputDeck",
+      type: "saveCostsRevenuesInputDeckDialog",
       show: true,
       exclusive: true,
       maxWidth: "sm",
@@ -161,7 +165,7 @@ const EconomicsCostsRevenuesLanding = () => {
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveFacilitiesInputdeckConfirmation]
+          [unloadDialogsAction, saveCostsRevenuesInputdeckConfirmation]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -172,7 +176,7 @@ const EconomicsCostsRevenuesLanding = () => {
   const existingDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
-      title: `Manage Facilities Deck`,
+      title: `Manage CostsRevenues Deck`,
       type: "textDialog",
       show: true,
       exclusive: true,
@@ -196,6 +200,7 @@ const EconomicsCostsRevenuesLanding = () => {
               const economicsCostsRevenuesDeckWorkflows = {
                 excel: (
                   <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
                     finalAction={() =>
@@ -207,6 +212,7 @@ const EconomicsCostsRevenuesLanding = () => {
                 ),
                 database: (
                   <DatabaseWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckDatabase"}
                     finalAction={() =>
@@ -218,6 +224,7 @@ const EconomicsCostsRevenuesLanding = () => {
                 ),
                 manual: (
                   <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
                     finalAction={() =>
@@ -229,6 +236,7 @@ const EconomicsCostsRevenuesLanding = () => {
                 ),
                 apexforecast: (
                   <ExcelWorkflow
+                    reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
                     finalAction={() =>
@@ -240,6 +248,7 @@ const EconomicsCostsRevenuesLanding = () => {
                 ),
                 approveddeck: (
                   <ExistingCostsAndRevenuesDecks
+                    reducer={reducer}
                     showChart={true}
                     finalAction={existingDataFinalAction}
                   />

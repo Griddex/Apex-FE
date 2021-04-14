@@ -1,28 +1,20 @@
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@material-ui/core";
+import { DialogActions } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
-import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import React, { ReactNode } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActions";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import DialogIcons from "../Icons/DialogIcons";
-import { IconNameType } from "../Icons/DialogIconsTypes";
-import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
-import { DialogStuff } from "./DialogTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import CostsRevenuesTitleAndDescription from "../Forms/CostsRevenuesTitleAndDescription";
+import CostsRevenuesTitleAndDescriptionForm from "../Forms/CostsRevenuesTitleAndDescriptionForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -32,11 +24,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   dialogHeader: {
     display: "flex",
-    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: "5%",
@@ -46,12 +38,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "90%",
+    width: "100%",
     height: "100%",
   },
   closeButton: {
     color: theme.palette.grey[500],
-    width: "5%",
     height: "100%",
     padding: 0,
     "&:hover": {
@@ -59,12 +50,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: "white",
       borderRadius: 0,
     },
-  },
-  listDialogContent: { display: "flex", flexDirection: "column" },
-  listBorder: {
-    height: 200,
-    overflow: "auto",
-    border: "1px solid #F7F7F7",
   },
 }));
 
@@ -109,28 +94,9 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
-
-const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    contentText,
-    contentList,
-    actionsList,
-    dialogContentStyle,
-    workflowProcess,
-  } = props;
-  const classes = useStyles();
+const SaveCostsRevenuesInputDeckDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   return (
     <Dialog
@@ -145,39 +111,17 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       >
         <div>{title}</div>
       </DialogTitle>
-      <DialogContent dividers style={dialogContentStyle}>
-        <Typography variant="body1" style={{ marginTop: 10, marginBottom: 10 }}>
-          {contentText && contentText}
-        </Typography>
-        <List className={classes.listBorder}>
-          {contentList &&
-            contentList.map((name: string, i: number) => (
-              <ListItem
-                key={i}
-                selected={name === selectedListItem}
-                button
-                onClick={() => {
-                  setSelectedListItem(name);
-                  dispatch(
-                    persistWorksheetAction(
-                      name,
-                      [],
-                      workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
-                    )
-                  );
-                }}
-              >
-                <ListItemAvatar>
-                  <DescriptionOutlinedIcon color="primary" />
-                </ListItemAvatar>
-                <ListItemText>{name}</ListItemText>
-              </ListItem>
-            ))}
-        </List>
-        <Divider />
+      <DialogContent
+        dividers
+        style={{ display: "flex", flexDirection: "column", height: 650 }}
+      >
+        <CostsRevenuesTitleAndDescriptionForm>
+          {(props) => <CostsRevenuesTitleAndDescription {...props} />}
+        </CostsRevenuesTitleAndDescriptionForm>
       </DialogContent>
-      <DialogActions>{actionsList && actionsList}</DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
-export default ListDialog;
+
+export default SaveCostsRevenuesInputDeckDialog;

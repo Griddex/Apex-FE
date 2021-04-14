@@ -17,6 +17,7 @@ const chartData = [
 ];
 
 export default function ExistingForecastDecks({
+  reducer,
   containerStyle,
   finalAction,
   showChart,
@@ -26,7 +27,7 @@ export default function ExistingForecastDecks({
     "forecastInputDeckExisting";
 
   const existingData = useSelector(
-    (state: RootState) => state.inputReducer[wc][wp]
+    (state: RootState) => state[reducer][wc][wp]
   );
 
   const tableButtons: ITableButtonsProps = {

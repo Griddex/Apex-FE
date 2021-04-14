@@ -13,7 +13,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { persistTableDataAction } from "../../../Redux/Actions/ImportActions";
+import { persistTableDataAction } from "../../../Redux/Actions/InputActions";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 
@@ -47,7 +47,10 @@ const useStyles = makeStyles((theme) => ({
   score: { fontSize: 14 },
 }));
 
-export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
+export default function PreviewSave({
+  reducer,
+  wrkflwPrcss,
+}: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = "inputDataWorkflows";
@@ -68,7 +71,7 @@ export default function PreviewSave({ wrkflwPrcss }: IAllWorkflowProcesses) {
     columnNameTableData,
     selectedHeaderRowIndex,
     selectedUnitRowIndex,
-  } = useSelector((state: RootState) => state.inputReducer[wc][wp]);
+  } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const unitsRow = zipObject(
     chosenApplicationHeaders,

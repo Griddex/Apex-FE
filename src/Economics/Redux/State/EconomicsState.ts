@@ -12,7 +12,7 @@ const inputWorkflowProcesses = [
   "economicsParametersDeckManual",
   "economicsParametersDeckExisting",
 ];
-const generateImportState = () => {
+const generateInputState = () => {
   return inputWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
@@ -28,44 +28,44 @@ const generateImportState = () => {
   }, {});
 };
 
-// const analysesWorkflowProcesses = [
-//   "economicsAnalyses",
-//   "economicsParameterImportWorkflow",
-//   "economicsParameters",
-//   "netCashAnalysisWorkflow",
-//   "saveForecastingParametersWorkflowDialog",
-// ];
 const analysesWorkflowProcesses = [
   "economicsAnalyses",
   "economicsParameterImportWorkflow",
   "economicsParameters",
   "netCashAnalysisWorkflow",
   "saveForecastingParametersWorkflowDialog",
+
+  "economicsCostsRevenuesDeckExisting",
+  "economicsParametersDeckExisting",
 ];
 const generateExistingDataState = () => {
   return analysesWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
-      [workflowProcess]: {
-        existingData: [],
-
-        existingDataId: "",
-        status: 0,
-        message: "",
-        errors: { message: "" },
-        success: false,
-      },
+      [workflowProcess]: [],
     };
   }, {});
 };
 
-const inputDataState = generateImportState();
+const inputDataState = generateInputState();
 const existingDataState = generateExistingDataState();
 const EconomicsState: EconomicsStateType = {
   //Remove from here
   forecastRun: "",
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
+  loadParametersWorkflow: false,
+
+  costsRevenuesInputDeckId: "",
+  costsRevenuesInputHeaders: [],
+  costsRevenuesInputDeckTitle: "",
+  costsRevenuesInputDeckDescription: "",
+
+  parametersInputDeckId: "",
+  parametersInputHeaders: [],
+  // parametersInputDeckTitle:"",
+  // parametersInputDeckDescription:"",
+
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
 };

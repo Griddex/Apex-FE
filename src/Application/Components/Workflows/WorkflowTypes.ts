@@ -1,3 +1,4 @@
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
 
 export interface IWorkflowBannerProps {
@@ -59,7 +60,11 @@ export interface IEconomicsWorkflowProcess {
   wkCy: "economicsDataWorkflows";
 }
 
+export type ReducersType = keyof {
+  [P in NonNullable<keyof RootState> as Exclude<P, symbol>]: boolean;
+};
 export interface IAllWorkflowProcesses {
+  reducer: ReducersType;
   wrkflwPrcss:
     | IProjectWorkflowProcess["wkPs"]
     | IInputWorkflowProcess["wkPs"]
