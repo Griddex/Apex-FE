@@ -4,17 +4,18 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import CheckBoxOutlineBlankOutlinedIcon from "@material-ui/icons/CheckBoxOutlineBlankOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import ImageAspectRatioOutlinedIcon from "@material-ui/icons/ImageAspectRatioOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DialogOpenCancelButtons from "../../../Application/Components/DialogButtons/DialogOpenCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
@@ -23,9 +24,6 @@ import {
   openRecentProjectAction,
 } from "../../Redux/Actions/ProjectActions";
 import { IProject } from "../../Redux/State/ProjectStateTypes";
-import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
-import DialogOpenCancelButtons from "../../../Application/Components/DialogButtons/DialogOpenCancelButtons";
-import { saveNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
 const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  const {
+    selectedProjectId,
+    selectedProjectTitle,
+    selectedProjectDescription,
+  } = useSelector((state: RootState) => state.projectReducer);
 
   const ApexMenuItem = ({
     projectId,
@@ -119,7 +123,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const extrudeMoreExistingProjects = () => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Existing_Projects_Dialog",
-      title: "Existing Projects Dialog",
+      title: "Existing Projects",
       type: "existingProjectsDialog",
       show: true,
       exclusive: false,
@@ -129,7 +133,16 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
         DialogOpenCancelButtons(
           [true, true],
           [true, true],
-          [fetchExistingProjectsAction, unloadDialogsAction]
+          [
+            () =>
+              openRecentProjectAction(
+                "Gideon",
+                selectedProjectId as string,
+                selectedProjectTitle as string,
+                selectedProjectDescription as string
+              ),
+            unloadDialogsAction,
+          ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -207,10 +220,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               className={classes.primaryIcon}
             />
           }
-          handleClick={() => {
-            dispatch(fetchExistingProjectsAction());
-            extrudeMoreExistingProjects();
-          }}
+          handleClick={extrudeMoreExistingProjects}
         />
       </div>
       <div>

@@ -1,14 +1,23 @@
 const getChosenApplicationUnits = (
   fileUnits: string[],
   keyedFileUnitMatches: { [index: string]: Record<string, React.Key> },
-  chosenApplicationUniqueUnitIndices: Record<string, number>
+  chosenApplicationUniqueUnitIndices: Record<string, number | number[]>
 ) => {
   const chosenApplicationUnits = fileUnits.map((unit) => {
-    if (unit === "") return "";
+    if (unit === "") return "unitless";
     else {
-      const unitMatches = keyedFileUnitMatches[unit];
       const optionIndex = chosenApplicationUniqueUnitIndices[unit];
-      return Object.keys(unitMatches)[optionIndex];
+      const unitMatches = keyedFileUnitMatches[unit];
+
+      const unitTitles = Object.keys(unitMatches);
+      if (typeof optionIndex === "number") {
+        return unitTitles[optionIndex];
+      } else {
+        const multipleUnitTitles: string[] = optionIndex.map(
+          (_: number, i) => unitTitles[i]
+        );
+        return multipleUnitTitles.join("&|&");
+      }
     }
   });
 

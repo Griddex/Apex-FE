@@ -6,6 +6,8 @@ import {
   SET_SUBNAVBARDATA,
   ADD_TAB,
   SET_CURRENTMAINTABVALUE,
+  FETCH_MATCHOBJECT_SUCCESS,
+  FETCH_MATCHOBJECT_FAILURE,
 } from "../Actions/ApplicationActions";
 import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import applicationState from "../State/ApplicationState";
@@ -47,6 +49,18 @@ const applicationReducer = (state = applicationState, action: IAction) => {
       };
 
     case SET_CURRENTMAINTABVALUE:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
+    case FETCH_MATCHOBJECT_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
+    case FETCH_MATCHOBJECT_FAILURE:
       return {
         ...state,
         ...action.payload,

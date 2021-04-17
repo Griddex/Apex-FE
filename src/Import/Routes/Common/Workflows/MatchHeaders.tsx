@@ -14,7 +14,7 @@ import Select, { Styles } from "react-select";
 import { ValueType } from "react-select/src/types";
 import { SizeMe } from "react-sizeme";
 import {
-  ISelectOptions,
+  ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
@@ -90,37 +90,15 @@ export default function MatchHeaders({
   else if (wp.includes("forecast")) workflowClass = "forecast";
   else workflowClass = "forecast";
 
-  //TODO: Get from Gift
-  const savedMatchObjectAll: UserMatchObjectType = {
-    facilities: {
-      headers: {
-        Liquid_Capacity_1P: {
-          header: "Liquid Capacity 1P",
-          acceptMatch: true,
-        },
-        Gas_Capacity_1P: { header: "Gas Capacity 1P", acceptMatch: true },
-      },
-      units: {
-        "MMstb/d": { header: "MMbbl/d", acceptMatch: true },
-        MMScf: { header: "MMscf", acceptMatch: true },
-      },
-    },
-    forecast: {
-      headers: {
-        "Version Name": { header: "Forecast Version", acceptMatch: true },
-        "Activity Entity": { header: "Project Name", acceptMatch: true },
-        "URg 1P/1C": { header: "Gas UR/1P1C", acceptMatch: true },
-        "URg 2P/2C": { header: "Gas UR/2P2C", acceptMatch: true },
-        "URg 3P/3C": { header: "Gas UR/3P3C", acceptMatch: true },
-      },
-      units: {
-        MMstb: { header: "MMbbl", acceptMatch: true },
-        BScf: { header: "Bscf", acceptMatch: true },
-      },
-    },
-  };
+  const {
+    savedMatchObjectAll,
+  }: { savedMatchObjectAll: UserMatchObjectType } = useSelector(
+    (state: RootState) => state.applicationReducer
+  );
+
   const specificSavedMatchObject =
     savedMatchObjectAll[workflowClass]["headers"];
+
   const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
   const specificSavedMatchObjectValues = Object.values(
     specificSavedMatchObject
@@ -278,10 +256,10 @@ export default function MatchHeaders({
     [index: string]: { value: string; label: string }[];
   }) => {
     const handleApplicationHeaderChange = (
-      value: ValueType<ISelectOptions, false>,
+      value: ValueType<ISelectOption, false>,
       rowSN: number,
-      headerOptions: ISelectOptions[],
-      scoreOptions: ISelectOptions[]
+      headerOptions: ISelectOption[],
+      scoreOptions: ISelectOption[]
     ) => {
       const selectedValue = value && value.label;
       const selectedAppHeader = selectedValue as string;
@@ -430,14 +408,14 @@ export default function MatchHeaders({
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
 
-          const RSStyles: Styles<ISelectOptions, false> = getRSStyles(theme);
+          const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
 
           return (
             <Select
               value={valueOption}
               options={headerOptions}
               styles={RSStyles}
-              onChange={(value: ValueType<ISelectOptions, false>) =>
+              onChange={(value: ValueType<ISelectOption, false>) =>
                 handleApplicationHeaderChange(
                   value,
                   rowSN,
@@ -534,6 +512,10 @@ export default function MatchHeaders({
     chosenApplicationHeaderIndices
   );
 
+  const chosenApplicationHeadersNoneExcluded = chosenApplicationHeaders.filter(
+    (h: string) => h.toLowerCase() !== "none"
+  );
+
   //Run once after 1st render
   React.useEffect(() => {
     const columnNames: string[] = columns.map(
@@ -554,7 +536,10 @@ export default function MatchHeaders({
     );
 
     dispatch(
-      persistChosenApplicationHeadersAction(chosenApplicationHeaders, wp)
+      persistChosenApplicationHeadersAction(
+        chosenApplicationHeadersNoneExcluded,
+        wp
+      )
     );
 
     dispatch(saveUserMatchAction(userMatchObject));

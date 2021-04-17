@@ -35,7 +35,7 @@ import {
   UnitOptionsType,
 } from "./UnitSettingsTypes";
 import Select, { ValueType } from "react-select";
-import { ISelectOptions } from "../../Application/Components/Selects/SelectItemsType";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import getRSStyles from "../../Import/Utils/GetRSStyles";
 
 const useStyles = makeStyles(() => ({
@@ -413,7 +413,7 @@ export default function UnitSettings({
                   value={dayOption}
                   options={dateOptions}
                   styles={RSStyles}
-                  onChange={(value: ValueType<ISelectOptions, false>) => {
+                  onChange={(value: ValueType<ISelectOption, false>) => {
                     console.log(
                       "Logged output --> ~ file: UnitSettings.tsx ~ line 462 ~ value",
                       value

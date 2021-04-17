@@ -73,34 +73,47 @@ export default function ExistingDataRoute<
   wkPs,
   showChart,
   containerStyle,
+  handleSelectAction,
+  name,
 }: IExistingDataProps) {
+  console.log(
+    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 77 ~ snExistingData",
+    snExistingData
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
   const wp = wkPs as NonNullable<IExistingDataProps["wkPs"]>;
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
-  const handleCheckboxChange = (row: TRow) => {
-    if (wp.includes("facilities") || wp.includes("forecast")) {
-      const existingTitle = getExistingTitle(wp);
-      const existingId = getExistingId(wp);
 
-      dispatch(updateInputParameterAction(existingTitle, row.title as string));
-      dispatch(updateInputParameterAction(existingId, row.id as string));
-    } else {
-      dispatch(
-        updateNetworkParameterAction(
-          "selectedNetworkTitle",
-          row.title as string
-        )
-      );
-      dispatch(
-        updateNetworkParameterAction("selectedNetworkId", row.id as string)
-      );
-    }
+  const handleCheckboxChange = (row: TRow) => {
+    const defName = name as NonNullable<IExistingDataProps["name"]>;
+    handleSelectAction && dispatch(handleSelectAction(defName, row[defName]));
 
     setSelectedRows((prev) => prev.add(row.sn as number));
   };
+  // const handleCheckboxChange = (row: TRow) => {
+  //   if (wp.includes("facilities") || wp.includes("forecast")) {
+  //     const existingTitle = getExistingTitle(wp);
+  //     const existingId = getExistingId(wp);
+
+  //     dispatch(updateInputParameterAction(existingTitle, row.title as string));
+  //     dispatch(updateInputParameterAction(existingId, row.id as string));
+  //   } else {
+  //     dispatch(
+  //       updateNetworkParameterAction(
+  //         "selectedNetworkTitle",
+  //         row.title as string
+  //       )
+  //     );
+  //     dispatch(
+  //       updateNetworkParameterAction("selectedNetworkId", row.id as string)
+  //     );
+  //   }
+
+  //   setSelectedRows((prev) => prev.add(row.sn as number));
+  // };
 
   const ApexCheckboxColumn = apexCheckbox({
     shouldExecute: true,

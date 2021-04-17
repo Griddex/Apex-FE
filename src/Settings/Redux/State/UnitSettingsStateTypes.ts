@@ -26,4 +26,5 @@ export interface IUnitSettingsData {
   pressureAddend?: number;
   selectedVariableUnits: SelectedVariablesType[];
   variableUnits: IUnitsRow[];
+  applicationUnitsCollection?: IUnitsRow["units"];
 }

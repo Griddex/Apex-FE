@@ -52,6 +52,7 @@ export interface IInputState {
   chosenApplicationUnits: string[];
 
   savedMatchObjectAll: UserMatchObjectType;
+  variableUnits: Record<string, string>;
 
   title: string;
   description: string;

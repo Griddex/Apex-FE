@@ -39,6 +39,17 @@ export interface IExistingDataProps {
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;
+  name?: keyof Pick<IExistingDataRow, "id" | "title">;
+  handleSelectAction?: (
+    name: IExistingDataProps["name"],
+    value: any
+  ) => {
+    type: string;
+    payload: {
+      name: IExistingDataProps["name"];
+      value: any;
+    };
+  };
 }
 
 export interface IApplicationExistingData {

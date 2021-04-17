@@ -15,7 +15,7 @@ const getRSStyles = (theme: Theme) => {
     valueContainer: (styles) => ({
       ...styles,
       display: "flex",
-      justifyContent: "flex-start",
+      justifyContent: "center",
       height: "100%",
       width: "100%",
       alignSelf: "center",
@@ -33,9 +33,6 @@ const getRSStyles = (theme: Theme) => {
         case "Data":
           label = theme.palette.grey[900];
           break;
-        case "Date":
-          label = theme.palette.primary.main;
-          break;
         default:
           label = theme.palette.grey[900];
           break;
@@ -45,12 +42,7 @@ const getRSStyles = (theme: Theme) => {
     },
     menu: (styles) => ({ ...styles, marginTop: 0 }),
     control: (styles, { getValue }) => {
-      const selectOptions = getValue();
-      console.log(
-        "Logged output --> ~ file: GetRSStyles.ts ~ line 46 ~ getRSStyles ~ selectOptions",
-        selectOptions
-      );
-      const currentValue = selectOptions ? selectOptions[0]?.label : "";
+      const currentValue = getValue()[0].label;
 
       let currentValueLabel = "";
 
@@ -64,9 +56,6 @@ const getRSStyles = (theme: Theme) => {
         case "Data":
           currentValueLabel = theme.palette.grey[900];
           break;
-        // case "Date":
-        //   currentValueLabel = theme.palette.primary.main;
-        //   break;
         default:
           currentValueLabel = theme.palette.grey[900];
           break;
@@ -81,34 +70,15 @@ const getRSStyles = (theme: Theme) => {
         flex: 1,
       };
     },
-    // indicatorSeparator: (styles) => {
-    //   return { ...styles, backgroundColor: "white" };
-    // },
+    indicatorSeparator: (styles) => {
+      return { ...styles, backgroundColor: "white" };
+    },
     indicatorsContainer: (styles) => {
       return { ...styles, height: "100%" };
     },
     dropdownIndicator: (styles) => {
       return { ...styles, color: theme.palette.grey[900] };
     },
-    // multiValue: (styles, { data }) => {
-    //   const color = chroma(data.color);
-    //   return {
-    //     ...styles,
-    //     backgroundColor: color.alpha(0.1).css(),
-    //   };
-    // },
-    // multiValueLabel: (styles, { data }) => ({
-    //   ...styles,
-    //   color: data.color,
-    // }),
-    // multiValueRemove: (styles, { data }) => ({
-    //   ...styles,
-    //   color: data.color,
-    //   ':hover': {
-    //     backgroundColor: data.color,
-    //     color: 'white',
-    //   },
-    // }),
   };
 
   return apexSelectStyles;

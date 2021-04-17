@@ -1,11 +1,11 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { Styles, ValueType } from "react-select";
 
-export interface ISelectOptions {
+export interface ISelectOption {
   value: string;
   label: string;
 }
-export type SelectOptionsType = ISelectOptions[];
+export type SelectOptionsType = ISelectOption[];
 export interface ISelectItem {
   name: string;
   currentItem: string;
@@ -26,7 +26,7 @@ export interface IApexSelect {
 }
 
 export interface IApexSelectRS {
-  dataOptions: ISelectOptions[];
-  handleSelect: (value: ValueType<ISelectOptions, false>) => void;
-  RSStyles?: Styles<ISelectOptions, false>;
+  dataOptions: ISelectOption[];
+  handleSelect: (value: ValueType<ISelectOption, false>) => void;
+  RSStyles?: Styles<ISelectOption, false>;
 }

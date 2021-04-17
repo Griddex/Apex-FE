@@ -16,6 +16,8 @@ const applicationState = {
   subContextTabs: [],
   subContextTabPanels: [],
   currentSubContextTabValue: 0,
+
+  savedMatchObjectAll: {},
 };
 
 export default applicationState;

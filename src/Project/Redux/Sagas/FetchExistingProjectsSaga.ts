@@ -58,10 +58,6 @@ function* fetchExistingProjectsSaga(
       fetchExistingProjectsAPI,
       `${getBaseUrl()}/project/recents/${20}` //Put in actual URL
     );
-    console.log(
-      "Logged output --> ~ file: FetchExistingProjectsSaga.ts ~ line 61 ~ result",
-      result
-    );
 
     const {
       data: { status, data: existingProjects, succcess }, //prevent 2nd trip to server

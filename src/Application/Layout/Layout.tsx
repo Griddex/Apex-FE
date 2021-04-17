@@ -10,7 +10,10 @@ import ForecastLayout from "../../Forecast/Common/ForecastLayout";
 import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/InputActions";
 import InputLayout from "../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "../../Network/Common/NetworkLayout";
-import { fetchRecentProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
+import {
+  fetchExistingProjectsAction,
+  fetchRecentProjectsAction,
+} from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import SettingsLayout from "../../Settings/Routes/Common/SettingsLayout";
 import VisualyticsLayout from "../../Visualytics/Common/VisualyticsLayout";
@@ -19,6 +22,7 @@ import MainDrawer from "../Components/Drawers/MainDrawer";
 import Navbar from "../Components/Navbars/Navbar";
 import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import Spinners from "../Components/Visuals/Spinners";
+import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
 import ProductBackground from "../Routes/ProductBackground";
@@ -48,8 +52,12 @@ const Layout = () => {
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
+    dispatch(fetchExistingProjectsAction());
+    //TODO: Fetch first 20, then save most recent
+    //6 to recent projects store. we may not need recent projects saga
     dispatch(fetchRecentProjectsAction());
     dispatch(fetchUnitSettingsRequestAction());
+    dispatch(fetchMatchObjectRequestAction());
   }, []);
 
   React.useEffect(() => {

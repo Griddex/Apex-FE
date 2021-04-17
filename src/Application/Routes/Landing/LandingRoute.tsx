@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     marginBottom: "40px",
-    height: 120,
+    height: "20vmin",
   },
   typography: {
     color: "#808080",

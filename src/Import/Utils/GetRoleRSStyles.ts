@@ -1,12 +1,14 @@
 import { Theme } from "@material-ui/core/styles";
 import { Styles } from "react-select";
-import { ISelectOptions } from "../../Application/Components/Selects/SelectItemsType";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 
 const getColors = (name: string, theme: Theme) => {
   switch (name) {
     case "Headers":
       return [theme.palette.primary.light, theme.palette.primary.main];
     case "Units":
+      return [theme.palette.secondary.light, theme.palette.secondary.main];
+    case "Date":
       return [theme.palette.secondary.light, theme.palette.secondary.main];
     case "Data":
       return [theme.palette.grey[200], theme.palette.grey[900]];
@@ -16,7 +18,7 @@ const getColors = (name: string, theme: Theme) => {
 };
 
 const getRSStyles = (theme: Theme) => {
-  const apexSelectStyles: Styles<ISelectOptions, false> = {
+  const apexSelectStyles: Styles<ISelectOption, boolean> = {
     container: (styles) => ({
       ...styles,
       height: "100%",
@@ -92,6 +94,9 @@ const getRSStyles = (theme: Theme) => {
         case "Units":
           label = theme.palette.secondary.main;
           break;
+        case "Date":
+          label = theme.palette.primary.main;
+          break;
         case "Data":
           label = theme.palette.grey[900];
           break;
@@ -102,9 +107,9 @@ const getRSStyles = (theme: Theme) => {
 
       return { ...styles, color: label };
     },
-    indicatorSeparator: (styles) => {
-      return { ...styles, backgroundColor: "white" };
-    },
+    // indicatorSeparator: (styles) => {
+    //   return { ...styles, backgroundColor: "white" };
+    // },
     indicatorsContainer: (styles) => {
       return { ...styles, height: "100%" };
     },

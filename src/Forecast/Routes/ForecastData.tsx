@@ -24,7 +24,7 @@ import Select, {
   Props as SelectProps,
   Styles,
 } from "react-select";
-import { ISelectOptions } from "../../Application/Components/Selects/SelectItemsType";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import groupBy from "lodash.groupby";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../Import/Utils/GetRSStyles";
@@ -221,18 +221,18 @@ export default function ForecastData({
     return <components.MultiValue {...props} innerProps={innerProps} />;
   });
 
-  const SortableSelect = SortableContainer<SelectProps<ISelectOptions, true>>(
+  const SortableSelect = SortableContainer<SelectProps<ISelectOption, true>>(
     // @ts-expect-error typescript quirkiness
     Select
   );
-  const options: OptionsType<ISelectOptions> = [
+  const options: OptionsType<ISelectOption> = [
     { value: "country", label: "Country" },
     { value: "year", label: "Year" },
     { value: "sport", label: "Sport" },
     { value: "athlete", label: "athlete" },
   ];
   const [selectedOptions, setSelectedOptions] = React.useState<
-    ValueType<ISelectOptions, true>
+    ValueType<ISelectOption, true>
   >([options[0], options[1]]);
   const [expandedGroupIds, setExpandedGroupIds] = React.useState(
     () =>
@@ -245,7 +245,7 @@ export default function ForecastData({
   const groupBy = React.useMemo(
     () =>
       Array.isArray(selectedOptions)
-        ? selectedOptions.map((o: ISelectOptions) => o.value)
+        ? selectedOptions.map((o: ISelectOption) => o.value)
         : undefined,
     [selectedOptions]
   );
@@ -258,7 +258,7 @@ export default function ForecastData({
     newIndex: number;
   }) {
     if (!Array.isArray(selectedOptions)) return;
-    const newOptions: ISelectOptions[] = [...selectedOptions];
+    const newOptions: ISelectOption[] = [...selectedOptions];
     newOptions.splice(
       newIndex < 0 ? newOptions.length + newIndex : newIndex,
       0,
@@ -271,10 +271,10 @@ export default function ForecastData({
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  const RSStyles: Styles<ISelectOptions, false> = getRSStyles(theme);
+  const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
   const forecastResultTitles = ["Result1", "Result2", "Result3", "Result4"];
 
-  const handleSelect = (value: ValueType<ISelectOptions, false>) => {
+  const handleSelect = (value: ValueType<ISelectOption, false>) => {
     if (value) setTitleOption(value);
   };
   const forecastResultTitlesOptions = generateSelectOptions(
@@ -288,7 +288,6 @@ export default function ForecastData({
   return (
     <div className={classes.rootExistingData} style={containerStyle}>
       <Select
-        // className={}
         value={titleOption}
         options={forecastResultTitlesOptions}
         styles={RSStyles}

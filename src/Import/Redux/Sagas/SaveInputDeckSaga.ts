@@ -77,8 +77,12 @@ export function* saveInputDeckSaga(
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
-  const { tableData: inputDeck } = yield select(
+  const { tableData: inputDeck, variableUnits } = yield select(
     (state) => state[reducer][wc][wp]
+  );
+
+  const { savedMatchObjectAll: matchObject } = yield select(
+    (state) => state.applicationReducer
   );
 
   const {
@@ -102,6 +106,8 @@ export function* saveInputDeckSaga(
       ? facilitiesInputDeckDescription
       : forecastInputDeckDescription,
     inputDeck: inputDeckData,
+    matchObject,
+    variableUnits,
   };
 
   const config = { withCredentials: false };

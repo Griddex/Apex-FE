@@ -9,6 +9,7 @@ const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   unitGroup: "Field",
   variableUnits: [],
   selectedVariableUnits: [],
+  applicationUnitsCollection: [],
 
   status: 200,
   errors: { message: "" },

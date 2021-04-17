@@ -1,5 +1,6 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
+  UPDATE_UNITSETTINGS,
   FETCH_UNITSETTINGS_FAILURE,
   FETCH_UNITSETTINGS_SUCCESS,
   UPDATE_SELECTEDVARIABLEUNITS,
@@ -8,9 +9,17 @@ import {
 } from "../Actions/UnitSettingsActions";
 import unitSettingsState from "../State/UnitSettingsState";
 import { IUnit } from "../State/UnitSettingsStateTypes";
+import set from "lodash.set";
 
 const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
   switch (action.type) {
+    case UPDATE_UNITSETTINGS: {
+      const { path, value } = action.payload;
+
+      const updatedState = set(state, path, value);
+      return updatedState;
+    }
+
     case FETCH_UNITSETTINGS_SUCCESS: {
       const {
         status,

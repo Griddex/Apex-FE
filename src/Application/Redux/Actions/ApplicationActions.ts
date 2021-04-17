@@ -6,6 +6,9 @@ export const SET_WORKFLOWMENU = "SET_WORKFLOWMENU";
 export const SET_SUBNAVBARDATA = "SET_SUBNAVBARDATA";
 export const ADD_TAB = "ADD_TAB";
 export const SET_CURRENTMAINTABVALUE = "SET_CURRENTMAINTABVALUE";
+export const FETCH_MATCHOBJECT_REQUEST = "FETCH_MATCHOBJECT_REQUEST";
+export const FETCH_MATCHOBJECT_SUCCESS = "FETCH_MATCHOBJECT_SUCCESS";
+export const FETCH_MATCHOBJECT_FAILURE = "FETCH_MATCHOBJECT_FAILURE";
 
 export const mainDrawerSetMenuAction = (moduleName: string) => {
   return {
@@ -46,5 +49,32 @@ export const setCurrentMainTabValueAction = (currentMainTabValue: number) => {
   return {
     type: SET_CURRENTMAINTABVALUE,
     payload: { currentMainTabValue },
+  };
+};
+
+export const fetchMatchObjectRequestAction = () => {
+  return {
+    type: FETCH_MATCHOBJECT_REQUEST,
+    payload: {},
+    meta: { showSpinner: true, message: "Fetching user matches..." },
+  };
+};
+
+export const fetchMatchObjectSuccessAction = () => {
+  return {
+    type: FETCH_MATCHOBJECT_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchMatchObjectFailureAction = () => {
+  return {
+    type: FETCH_MATCHOBJECT_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
   };
 };

@@ -21,7 +21,7 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import Select, { ValueType } from "react-select";
 import {
-  ISelectOptions,
+  ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
@@ -97,7 +97,7 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
     selectedWorksheetName
   );
 
-  const handleSelectChange = (value: ValueType<ISelectOptions, false>) => {
+  const handleSelectChange = (value: ValueType<ISelectOption, false>) => {
     const selectedWorksheetName = value && value.label;
     const sWN = selectedWorksheetName as string;
 

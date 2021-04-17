@@ -8,7 +8,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import {
-  ISelectOptions,
+  ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -170,6 +170,10 @@ export default function SelectHeaderUnitData({
   const rows = tableRows.current;
 
   const indexRow = columnNameTableData[0];
+  console.log(
+    "Logged output --> ~ file: SelectHeaderUnitData.tsx ~ line 173 ~ columnNameTableData",
+    columnNameTableData
+  );
   const generateColumns = (roleOptions: SelectOptionsType) => {
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true },
@@ -201,7 +205,7 @@ export default function SelectHeaderUnitData({
           const valueOption = generateSelectOptions([value])[0];
           const RSStyles = getRSStyles(theme);
 
-          const handleSelect = (value: ValueType<ISelectOptions, false>) => {
+          const handleSelect = (value: ValueType<ISelectOption, false>) => {
             const currentValue = value && value.label;
 
             onRowChange({
@@ -264,13 +268,10 @@ export default function SelectHeaderUnitData({
     rows,
   ]);
 
-  //Run once after 1st render
   React.useEffect(() => {
     dispatch(persistTableHeadersAction(columnNameTableHeaders, wp));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //Run everytime rows or columns change
   React.useEffect(() => {
     dispatch(persistFileHeadersAction(selectedHeaderRowIndex, fileHeaders, wp));
     dispatch(
@@ -285,8 +286,7 @@ export default function SelectHeaderUnitData({
     dispatch(persistTableRoleNamesAction(chosenTableRoleNames, wp));
 
     dispatch(hideSpinnerAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, rows]);
+  }, [rows]);
 
   return (
     <div className={classes.rootParseTable}>

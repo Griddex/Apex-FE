@@ -7,6 +7,7 @@ import { UserMatchObjectType } from "../../Routes/Common/Workflows/MatchHeadersT
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
 export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
+export const PERSIST_VARIABLEUNITS = "PERSIST_VARIABLEUNITS";
 export const PERSIST_FILE = "PERSIST_FILE";
 export const PERSIST_WORKSHEETNAMES = "PERSIST_WORKSHEETNAMES";
 export const PERSIST_WORKSHEET = "PERSIST_WORKSHEET";
@@ -53,6 +54,18 @@ export const updateInputParameterAction = (path: string, value: React.Key) => {
     payload: {
       path,
       value,
+    },
+  };
+};
+export const persistVariableUnitsAction = (
+  variableUnits: Record<string, string>,
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+) => {
+  return {
+    type: PERSIST_VARIABLEUNITS,
+    payload: {
+      workflowProcess,
+      variableUnits,
     },
   };
 };
@@ -149,7 +162,7 @@ export const persistChosenApplicationHeadersIndicesAction = (
   };
 };
 export const persistChosenApplicationUniqueUnitIndicesAction = (
-  chosenApplicationUniqueUnitIndices: Record<string, number>,
+  chosenApplicationUniqueUnitIndices: Record<string, number | number[]>,
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
@@ -257,6 +270,7 @@ export const saveInputDeckRequestAction = (
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   let inputDeck;
+  const reducer = "inputReducer";
 
   if (workflowProcess.includes("facilities"))
     inputDeck = "facilities inputdeck";
@@ -265,7 +279,7 @@ export const saveInputDeckRequestAction = (
 
   return {
     type: SAVEINPUTDECK_REQUEST,
-    payload: { workflowProcess },
+    payload: { workflowProcess, reducer },
     meta: { message: `Saving ${inputDeck}...` },
   };
 };

@@ -29,15 +29,20 @@ export default function ExistingProjects({
     extraButtons: () => <div></div>,
   };
 
+  //TODO: Tell Gift to pass in createdAt
   const snExistingData = (existingProjects as IGiftProject[]).map(
     (row: IGiftProject, i: number) => ({
       sn: i + 1,
       id: row.id,
       title: row.title,
       description: row.description,
+      approval: "Not Started",
       author: "---",
-      createdOn: row.createdAt,
-      modifiedOn: row.createdAt,
+      approvers: "---",
+      // createdOn: row.createdAt,
+      createdOn: "11th February, 2021",
+      // modifiedOn: row.createdAt,
+      modifiedOn: "11th February, 2021",
     })
   );
 

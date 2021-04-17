@@ -18,7 +18,7 @@ const inputWorkflowProcesses: Array<IInputWorkflowProcess["wkPs"]> = [
   //Manage economics input from economics module
 ];
 
-const generateImportState = () => {
+const generateInputState = () => {
   return inputWorkflowProcesses.reduce((acc, workflowName) => {
     return {
       ...acc,
@@ -68,6 +68,7 @@ const generateImportState = () => {
         chosenApplicationUnits: [],
 
         savedMatchObjectAll: {},
+        variableUnits: {},
 
         inputDeckId: "",
         status: 0,
@@ -113,7 +114,7 @@ const generateExistingDataState = () => {
   return wf as InputStateType["existingDataWorkflows"];
 };
 
-const inputDataState = generateImportState();
+const inputDataState = generateInputState();
 const existingDataState = generateExistingDataState();
 const InputState: InputStateType = {
   currentWorkflowProcess: "",

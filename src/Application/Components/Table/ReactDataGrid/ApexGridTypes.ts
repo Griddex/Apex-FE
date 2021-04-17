@@ -6,6 +6,7 @@ export type IRawRow = {
     | React.Key
     | Record<string, React.Key>
     | Record<string, React.Key>[]
+    | string[]
     | boolean;
 };
 

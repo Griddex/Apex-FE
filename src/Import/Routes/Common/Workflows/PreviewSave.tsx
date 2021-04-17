@@ -13,9 +13,17 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { persistTableDataAction } from "../../../Redux/Actions/InputActions";
+import {
+  IUnitSettingsData,
+  IUnit,
+} from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
+import {
+  persistTableDataAction,
+  persistVariableUnitsAction,
+} from "../../../Redux/Actions/InputActions";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
+import getUnitIdByUnitTitle from "../../../Utils/GetUnitIdByUnitTitle";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -64,6 +72,15 @@ export default function PreviewSave({
   if (isFacilitiesWorkflow) applicationHeaders = facilitiesInputHeaders;
   else applicationHeaders = forecastInputHeaders;
 
+  //Application units
+  const { applicationUnitsCollection } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
+  const applicationUnitsCollectionDefined = applicationUnitsCollection as IUnit[];
+  const unitTitles = applicationUnitsCollectionDefined.map((u) => u.title);
+  const unitIds = applicationUnitsCollectionDefined.map((u) => u.unitId);
+  const titleUnitIdObj = zipObject(unitTitles, unitIds);
+
   const {
     tableRoleNames,
     chosenApplicationHeaders,
@@ -102,6 +119,11 @@ export default function PreviewSave({
     sn: i + 2,
     ...row,
   }));
+
+  //Get chosen date format
+  //assemble all columns that are date columns
+  //use the new date format to carry out formatting
+
   const newUnitsRow = zipObject(appHeaderNames, Object.values(unitsRow));
   const newUnitRowWithVariableName = { sn: 1, ...newUnitsRow };
   const tableData = [newUnitRowWithVariableName, ...orderedDataRows];
@@ -154,6 +176,7 @@ export default function PreviewSave({
       key: columnName,
       name: columnName.toLocaleUpperCase(),
       resizable: true,
+      width: 180,
     }));
 
     const allColumns = [...snActionRoleColumns, ...otherColumns];
@@ -163,11 +186,41 @@ export default function PreviewSave({
 
   const columns = generateColumns();
 
+  //Generate unitLabel-unitId object
+  const appHeaderNamesUnitTitles = zipObject(
+    appHeaderNames,
+    chosenApplicationUnits
+  ) as IRawRow;
+
+  const variableUnits: Record<string, string> = {};
+  for (const name of Object.keys(appHeaderNamesUnitTitles)) {
+    const unitTitle = appHeaderNamesUnitTitles[name] as string;
+
+    if (unitTitle.includes("&|&")) {
+      const unitTitles: string[] = unitTitle.split("&|&");
+
+      const unitIds = getUnitIdByUnitTitle(
+        unitTitles,
+        titleUnitIdObj
+      ) as string[];
+      const multipleIds = unitIds.join("&|&");
+
+      variableUnits[name] = multipleIds;
+    } else if (unitTitle) {
+      const unitId = getUnitIdByUnitTitle(unitTitle, titleUnitIdObj) as string;
+      variableUnits[name] = unitId;
+    }
+  }
+
   React.useEffect(() => {
     dispatch(persistTableDataAction(tableData, wp));
+    dispatch(persistVariableUnitsAction(variableUnits, wp));
+    console.log(
+      "Logged output --> ~ file: PreviewSave.tsx ~ line 201 ~ React.useEffect ~ variableUnits",
+      variableUnits
+    );
     dispatch(hideSpinnerAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={classes.rootPreviewSave}>

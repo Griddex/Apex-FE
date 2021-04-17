@@ -22,6 +22,7 @@ import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import { IdType } from "./EconomicsParametersTypes";
 import ExistingEconomicsParametersDecks from "./ExistingEconomicsParametersDecks";
 import { loadEconomicsWorkflowAction } from "../../../Redux/Actions/EconomicsActions";
+import Manual from "../../../Images/Manual.svg";
 
 const useStyles = makeStyles((theme) => ({
   economicsParametersLanding: {
@@ -92,7 +93,7 @@ const EconomicsParametersLanding = () => {
       icon: (
         <Image
           className={classes.image}
-          src={ImportDatabase}
+          src={Manual}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
