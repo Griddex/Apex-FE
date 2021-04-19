@@ -1,15 +1,15 @@
 import { IAction } from "../Actions/ActionTypes";
 import {
+  ADD_TAB,
+  FETCH_MATCHOBJECT_FAILURE,
+  FETCH_MATCHOBJECT_SUCCESS,
+  SAVE_USERMATCH_ALL,
+  SET_CURRENTMAINTABVALUE,
   SET_MAINDRAWERMENU,
+  SET_SUBNAVBARDATA,
   SET_SUBNAVBARMENU,
   SET_WORKFLOWMENU,
-  SET_SUBNAVBARDATA,
-  ADD_TAB,
-  SET_CURRENTMAINTABVALUE,
-  FETCH_MATCHOBJECT_SUCCESS,
-  FETCH_MATCHOBJECT_FAILURE,
 } from "../Actions/ApplicationActions";
-import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import applicationState from "../State/ApplicationState";
 
 const applicationReducer = (state = applicationState, action: IAction) => {
@@ -65,6 +65,15 @@ const applicationReducer = (state = applicationState, action: IAction) => {
         ...state,
         ...action.payload,
       };
+
+    case SAVE_USERMATCH_ALL: {
+      const { savedMatchObjectAll } = action.payload;
+
+      return {
+        ...state,
+        savedMatchObjectAll,
+      };
+    }
 
     default:
       return state;

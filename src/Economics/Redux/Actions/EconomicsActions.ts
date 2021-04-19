@@ -12,7 +12,7 @@ export const SAVECOSTSREVENUES_FAILURE = "SAVECOSTSREVENUES_FAILURE";
 
 export const updateEconomicsParameterAction = (
   path: string,
-  value: React.Key
+  value: React.Key | boolean
 ) => {
   return {
     type: UPDATE_ECONOMICS,

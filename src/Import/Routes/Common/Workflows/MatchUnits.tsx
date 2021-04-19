@@ -1,53 +1,55 @@
 import { makeStyles, useTheme } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import Fuse from "fuse.js";
 import findIndex from "lodash.findindex";
+import pullAll from "lodash.pullall";
+import uniq from "lodash.uniq";
+import uniqBy from "lodash.uniqby";
 import zipObject from "lodash.zipobject";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import Select, { OptionsType, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import {
   ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   IRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
-import {
-  persistChosenApplicationUniqueUnitIndicesAction,
-  persistChosenApplicationUnitsAction,
-  persistFileUnitsMatchAction,
-  saveUserMatchAction,
-} from "../../../Redux/Actions/InputActions";
-import generateMatchData from "../../../Utils/GenerateMatchData";
-import getChosenApplicationUnits from "../../../Utils/GetChosenApplicationUnits";
-import getRSStyles from "../../../Utils/GetRSStyles";
-import Select, { OptionsType, Styles, ValueType } from "react-select";
 import getDuplicates from "../../../../Application/Utils/GetDuplicates";
+import { updateUnitsSettingsParameterAction } from "../../../../Settings/Redux/Actions/UnitSettingsActions";
 import {
   IUnit,
   IUnitSettingsData,
 } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import uniqBy from "lodash.uniqby";
-import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
+import {
+  persistChosenApplicationUnitIndicesAction,
+  persistChosenApplicationUnitsAction,
+  persistFileUnitsMatchAction,
+} from "../../../Redux/Actions/InputActions";
+import generateMatchData from "../../../Utils/GenerateMatchData";
+import getChosenApplicationUnits from "../../../Utils/GetChosenApplicationUnits";
+import getRSStyles from "../../../Utils/GetRSStyles";
 import { UserMatchObjectType } from "./MatchHeadersTypes";
-import pullAll from "lodash.pullall";
-import { updateUnitsSettingsParameterAction } from "../../../../Settings/Redux/Actions/UnitSettingsActions";
-import uniq from "lodash.uniq";
+import getWorkflowClass from "./../../../../Application/Utils/GetWorkflowClass";
+import computeFileUnitMatches from "../../../Utils/ComputeFileUnitMatches";
+import { IconButton, Tooltip } from "@material-ui/core";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -97,14 +99,38 @@ export default function MatchUnits({
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
-  let workflowClass = "";
-  if (wp.includes("facilities")) workflowClass = "facilities";
-  else if (wp.includes("forecast")) workflowClass = "forecast";
-  else workflowClass = "forecast";
+  const workflowClass = getWorkflowClass(wp);
 
   const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
+    showExtraButtons: true,
+    extraButtons: () => (
+      <Tooltip
+        key={"acceptAllToolTip"}
+        title={"Accept All"}
+        placement="bottom-end"
+        arrow
+      >
+        <IconButton
+          style={{
+            height: "28px",
+            backgroundColor: theme.palette.primary.light,
+            border: `1px solid ${theme.palette.primary.main}`,
+            borderRadius: 2,
+          }}
+          onClick={() => {
+            const rowsAllAcceptMatch = rows.map((row) => {
+              const rowAccept = { ...row, acceptMatch: true };
+
+              return rowAccept;
+            });
+
+            setRows(rowsAllAcceptMatch);
+          }}
+        >
+          <AllInclusiveOutlinedIcon />
+        </IconButton>
+      </Tooltip>
+    ),
   };
 
   const {
@@ -113,14 +139,38 @@ export default function MatchUnits({
     (state: RootState) => state.applicationReducer
   );
 
-  const specificSavedMatchObject = savedMatchObjectAll[workflowClass]["units"];
-  const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
   const specificSavedMatchObjectValues = Object.values(
-    specificSavedMatchObject
+    savedMatchObjectAll[workflowClass]["units"]
   );
 
-  const { fileUnits, fileUniqueUnits } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+  const {
+    fileHeaders,
+    fileUnits,
+    chosenApplicationHeadersWithNone,
+  } = useSelector((state: RootState) => state[reducer][wc][wp]);
+
+  //File units with "none" columns excluded
+  const fileUnitsWithUnitless = fileUnits.map((u: string) =>
+    u == "" ? "unitless" : u
+  );
+
+  const fileUnitsWithoutNone = (fileUnitsWithUnitless as string[]).filter(
+    (u: string, i) => {
+      const header = chosenApplicationHeadersWithNone[i];
+      if (header.toLowerCase() !== "none") return u;
+    }
+  );
+
+  //File headers with "none" columns excluded
+  const fileHeadersWithoutNone = (chosenApplicationHeadersWithNone as string[]).filter(
+    (u: string, i) => {
+      if (u.toLowerCase() !== "none") return u;
+    }
+  );
+
+  const fileHeadersUnitsWithoutNoneObj = zipObject(
+    fileHeadersWithoutNone,
+    fileUnitsWithoutNone
   );
 
   //Application units
@@ -130,7 +180,7 @@ export default function MatchUnits({
 
   //Get units list from Gift
   //[{unitTitle:"bbl/D", group:"Field"}, {unitTitle:"psi", group:"Field"}]
-  //TODO: Memoize for performance boost
+  //TODO: Memoize for performance boost or tell Gift to provide object
   const applicationUnitsCollection = variableUnits.reduce(
     (acc: IUnit[], row) => {
       const units = row.units.map((u) => ({
@@ -156,108 +206,57 @@ export default function MatchUnits({
   );
   const applicationUnits = Object.keys(applicationUnitsUniqueCollectionFinal);
 
-  const options = {
-    isCaseSensitive: false,
-    includeScore: true,
-    shouldSort: true,
-    keys: [],
-  };
-  const fuse = new Fuse(applicationUnits, options);
+  const fileUnitMatches = React.useMemo(
+    () =>
+      computeFileUnitMatches(
+        fileUnitsWithoutNone,
+        applicationUnits,
+        savedMatchObjectAll,
+        workflowClass
+      ),
+    []
+  );
 
-  const fileUnitMatches: Record<string, number>[] = [];
-  const fileUniqueUnitsClean = fileUniqueUnits.filter((u: string) => u != "");
-  for (const fileUnit of fileUniqueUnitsClean) {
-    const searchResult = fuse.search(fileUnit);
-    const matchedUnits = searchResult.map((match) => match["item"]);
-    const matchedScores = searchResult.map((match) => match["score"]);
-
-    if (matchedUnits.length > 0) {
-      const mtchdUnits = matchedUnits;
-      const mtchdScores = matchedScores;
-
-      const cleanedMatchedScores = mtchdScores.map(
-        (score: number | undefined) =>
-          score !== undefined ? Math.round((1 - score) * 100) : 0
-      );
-
-      if (!mtchdUnits.includes("None")) {
-        mtchdUnits.push("None");
-        cleanedMatchedScores.push(0);
-      }
-
-      if (specificSavedMatchObjectKeys.includes(fileUnit.trim())) {
-        const matchUnit = specificSavedMatchObject[fileUnit];
-
-        pullAll(mtchdUnits, [matchUnit.header]);
-        mtchdUnits.unshift(matchUnit.header);
-        cleanedMatchedScores.unshift(100);
-      }
-
-      fileUnitMatches.push(zipObject(mtchdUnits, cleanedMatchedScores));
-    } else {
-      const appUnits = applicationUnits;
-      const zeroScores: number[] = new Array(applicationUnits.length).fill(0);
-
-      if (specificSavedMatchObjectKeys.includes(fileUnit.trim())) {
-        const matchUnit = specificSavedMatchObject[fileUnit];
-        pullAll(appUnits, [matchUnit.header]);
-
-        appUnits.unshift(matchUnit.header);
-        zeroScores.unshift(100);
-      }
-
-      appUnits.push("Date");
-      zeroScores.push(0);
-
-      fileUnitMatches.push(zipObject(appUnits, zeroScores));
-    }
-  }
-
-  const keyedFileUnitMatches = zipObject(fileUniqueUnits, fileUnitMatches);
+  const keyedFileUnitMatches = zipObject(
+    fileHeadersWithoutNone,
+    fileUnitMatches
+  );
   const unitsMatchChartData = generateMatchData(fileUnitMatches);
 
   //Application Unit
-  const appUnitOptions: SelectOptionsType[] = fileUniqueUnits.map(
-    (fileUnit: string) => {
-      const unitMatch = keyedFileUnitMatches[fileUnit];
+  const appUnitOptions: SelectOptionsType[] = fileHeadersWithoutNone.map(
+    (fileHeader: string) => {
+      const unitMatch = keyedFileUnitMatches[fileHeader];
 
       return generateSelectOptions(Object.keys(unitMatch));
     }
   );
   const keyedApplicationUnitOptions = zipObject(
-    fileUniqueUnits,
+    fileHeadersWithoutNone,
     appUnitOptions
   );
 
   //Score match
-  const scoreOptions: SelectOptionsType[] = fileUniqueUnits.map(
-    (fileUnit: string) => {
-      const fileUnitMatch = keyedFileUnitMatches[fileUnit];
+  const scoreOptions: SelectOptionsType[] = fileHeadersWithoutNone.map(
+    (fileHeader: string) => {
+      const fileUnitMatch = keyedFileUnitMatches[fileHeader];
 
       return generateSelectOptions(
         Object.values(fileUnitMatch).map((u) => u.toString())
       );
     }
   );
-  const keyedScoreOptions = zipObject(fileUniqueUnits, scoreOptions);
-
-  //{"MMstb":0,...}
-  const snChosenApplicationUniqueUnitIndices = fileUniqueUnits.reduce(
-    (acc: Record<string, number>, unit: string) => {
-      return { ...acc, [unit]: 0 };
-    },
-    {}
-  );
+  const keyedScoreOptions = zipObject(fileHeadersWithoutNone, scoreOptions);
 
   //TODO: Saga Api to select unit family the current selected
   //unit belongs to. lookup data should be a dictionary
-  const initialTableRows = fileUniqueUnits.map(
-    (fileUnit: string, i: number) => {
-      const unitOptions = keyedApplicationUnitOptions[fileUnit];
+  const initialTableRows = fileHeadersWithoutNone.map(
+    (fileHeader: string, i: number) => {
+      const unitOptions = keyedApplicationUnitOptions[fileHeader];
       const selectedApplicationUnit = unitOptions[0];
       const selectedUnitClassification =
         applicationUnitsUniqueCollectionFinal[selectedApplicationUnit.label];
-      const scoreOpts = keyedScoreOptions[fileUnit];
+      const scoreOpts = keyedScoreOptions[fileHeader];
       const score = scoreOpts[0];
       const acceptMatch = specificSavedMatchObjectValues
         .map((h) => h.header)
@@ -267,7 +266,8 @@ export default function MatchUnits({
 
       return {
         sn: i + 1,
-        fileUnit: fileUnit,
+        fileHeader: fileHeader,
+        fileUnit: fileHeadersUnitsWithoutNoneObj[fileHeader],
         unitType: "Single",
         applicationUnit: selectedApplicationUnit.value,
         unitClassification: selectedUnitClassification,
@@ -281,25 +281,19 @@ export default function MatchUnits({
   const rerenderRef = React.useRef<boolean>(false);
   const [rerender, setRerender] = React.useState(rerenderRef.current);
 
-  const [
-    chosenApplicationUniqueUnitIndices,
-    setChosenApplicationUniqueUnitIndices,
-  ] = React.useState<Record<string, number | number[]>>(
-    snChosenApplicationUniqueUnitIndices
-  );
-
-  //{1:0, ...}
-  const snChosenAppUniqueUnitIndices = fileUniqueUnits.reduce(
-    (acc: Record<string, number>, _: any, i: number) => {
-      return { ...acc, [`${i + 1}`]: 0 };
+  //{"MMstb":0,...}
+  const snChosenApplicationUnitIndices = fileHeadersWithoutNone.reduce(
+    (acc: Record<string, number>, header: string) => {
+      return { ...acc, [header]: 0 };
     },
     {}
   );
+
   const [
-    chosenAppUniqueUnitIndices,
-    setChosenAppUniqueUnitIndices,
+    chosenApplicationUnitIndicesAction,
+    setChosenApplicationUnitIndices,
   ] = React.useState<Record<string, number | number[]>>(
-    snChosenAppUniqueUnitIndices
+    snChosenApplicationUnitIndices
   );
 
   const [
@@ -331,10 +325,10 @@ export default function MatchUnits({
       setRerender(rerenderRef.current);
     };
 
-    const handleApplicationHeaderChange = <T extends boolean>(
+    const handleApplicationUnitChange = <T extends boolean>(
       value: NonNullable<ValueType<ISelectOption, T>>,
       rowSN: number,
-      fileUnit: string,
+      fileHeader: string,
       unitType: "Single" | "Multiple",
       unitOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
@@ -376,13 +370,9 @@ export default function MatchUnits({
           0
         );
 
-        setChosenApplicationUniqueUnitIndices((prev) => ({
+        setChosenApplicationUnitIndices((prev) => ({
           ...prev,
-          [`${fileUnit}`]: selectedUnitOptionIndices,
-        }));
-        setChosenAppUniqueUnitIndices((prev) => ({
-          ...prev,
-          [`${rowSN}`]: selectedUnitOptionIndices,
+          [fileHeader]: selectedUnitOptionIndices,
         }));
 
         //TODO: From Gift Need an object with unit:group pairs
@@ -406,13 +396,9 @@ export default function MatchUnits({
         );
         const selectedScore = scoreOptions[selectedUnitOptionIndex];
 
-        setChosenApplicationUniqueUnitIndices((prev) => ({
+        setChosenApplicationUnitIndices((prev) => ({
           ...prev,
-          [`${fileUnit}`]: selectedUnitOptionIndex,
-        }));
-        setChosenAppUniqueUnitIndices((prev) => ({
-          ...prev,
-          [`${rowSN}`]: selectedUnitOptionIndex,
+          [`${fileHeader}`]: selectedUnitOptionIndex,
         }));
 
         //TODO: From Gift Need an object with unit:group pairs
@@ -431,6 +417,7 @@ export default function MatchUnits({
         setRerender(rerenderRef.current);
       }
     };
+
     const handleAcceptMatchSwitchChange = (
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
@@ -502,6 +489,13 @@ export default function MatchUnits({
         width: 200,
       },
       {
+        key: "fileHeader",
+        name: "FILE HEADER",
+        editable: false,
+        resizable: true,
+        width: 200,
+      },
+      {
         key: "unitType",
         name: "TYPE",
         resizable: true,
@@ -544,11 +538,11 @@ export default function MatchUnits({
         resizable: true,
         formatter: ({ row }) => {
           const rowSN = row.sn as number;
-          const fileUnit = row.fileUnit as string;
+          const fileHeader = row.fileHeader as string;
           const unitType = row.unitType as "Single" | "Multiple";
 
-          const unitOptions = keyedApplicationUnitOptions[fileUnit];
-          const scoreOptions = keyedScoreOptions[fileUnit];
+          const unitOptions = keyedApplicationUnitOptions[fileHeader];
+          const scoreOptions = keyedScoreOptions[fileHeader];
 
           let appUnit: string | string[];
           let valueOption: ISelectOption | ISelectOption[];
@@ -578,10 +572,10 @@ export default function MatchUnits({
               options={unitOptions}
               styles={RSStyles}
               onChange={(value: ValueType<ISelectOption, IsMultiType>) =>
-                handleApplicationHeaderChange<IsMultiType>(
+                handleApplicationUnitChange<IsMultiType>(
                   value as NonNullable<ValueType<ISelectOption, IsMultiType>>,
                   rowSN,
-                  fileUnit,
+                  fileHeader,
                   unitType,
                   unitOptions,
                   scoreOptions
@@ -667,18 +661,10 @@ export default function MatchUnits({
   );
 
   const [rows, setRows] = React.useState(tableRows.current);
-  const chosenApplicationUnits = getChosenApplicationUnits(
-    fileUnits,
+  const chosenApplicationUnitsWithoutNone = getChosenApplicationUnits(
+    fileHeadersWithoutNone,
     keyedFileUnitMatches,
-    chosenApplicationUniqueUnitIndices
-  );
-
-  const chosenApplicationUnitsUniqueSingle = chosenApplicationUnits.filter(
-    (u: string) => u !== "unitless" && u !== "Date" && !u.includes("&|&")
-  );
-
-  const chosenApplicationUnitsNoneExcluded = chosenApplicationUnits.filter(
-    (h: string) => h.toLowerCase() !== "none"
+    chosenApplicationUnitIndicesAction
   );
 
   React.useEffect(() => {
@@ -688,20 +674,19 @@ export default function MatchUnits({
         applicationUnitsUniqueCollection
       )
     );
-    dispatch(persistFileUnitsMatchAction(fileUniqueUnitsClean, wp));
+    dispatch(persistFileUnitsMatchAction(fileUnitMatches, wp));
     dispatch(
-      persistChosenApplicationUniqueUnitIndicesAction(
-        chosenApplicationUniqueUnitIndices,
+      persistChosenApplicationUnitIndicesAction(
+        chosenApplicationUnitIndicesAction,
         wp
       )
     );
 
     dispatch(
-      persistChosenApplicationUnitsAction(
-        chosenApplicationUnitsNoneExcluded,
-        wp
-      )
+      persistChosenApplicationUnitsAction(chosenApplicationUnitsWithoutNone, wp)
     );
+
+    dispatch(persistChosenApplicationUnitsAction(fileUnitsWithoutNone, wp));
 
     dispatch(saveUserMatchAction(userMatchObject));
 
@@ -721,7 +706,7 @@ export default function MatchUnits({
               rows={rows}
               tableButtons={tableButtons}
               onRowsChange={setRows}
-              mappingErrors={getDuplicates(chosenApplicationUnitsUniqueSingle)}
+              // mappingErrors={getDuplicates(chosenApplicationUnitsUniqueSingle)}
               size={size}
             />
           )}

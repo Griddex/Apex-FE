@@ -64,8 +64,11 @@ const generateInputState = () => {
         inputDeckData: [],
         selectedRow: null,
 
-        chosenApplicationHeaders: [],
-        chosenApplicationUnits: [],
+        chosenApplicationHeadersWithNone: [],
+        chosenApplicationHeadersWithoutNone: [],
+
+        chosenApplicationUnitsWithoutNone: [],
+        fileUnitsWithoutNone: [],
 
         savedMatchObjectAll: {},
         variableUnits: {},
@@ -130,6 +133,9 @@ const InputState: InputStateType = {
   forecastInputDeckId: "",
   forecastInputDeckTitle: "",
   forecastInputDeckDescription: "",
+
+  noneColumnIndices: {},
+  fileHeadersChosenAppHeaderWithNone: [],
 };
 
 export default InputState;

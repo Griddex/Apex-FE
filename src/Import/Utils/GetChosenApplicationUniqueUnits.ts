@@ -1,9 +1,9 @@
 const getChosenApplicationUniqueUnits = (
   fileUnitMatches: Record<string, number>[],
-  chosenApplicationUniqueUnitIndices: Record<string, number>
+  chosenApplicationUnitIndices: Record<string, number>
 ) => {
   const applicationUniqueUnitsIndices = Object.values(
-    chosenApplicationUniqueUnitIndices
+    chosenApplicationUnitIndices
   );
 
   const applicationUniqueUnits = fileUnitMatches.map((match, i: number) => {

@@ -40,7 +40,7 @@ export interface IExistingDataProps {
   finalIcon?: JSX.Element;
   finalText?: string;
   name?: keyof Pick<IExistingDataRow, "id" | "title">;
-  handleSelectAction?: (
+  persistIdTitleAction?: (
     name: IExistingDataProps["name"],
     value: any
   ) => {

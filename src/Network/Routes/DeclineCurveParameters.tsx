@@ -101,7 +101,7 @@ export default function DeclineCurveParameters({
   const ApexCheckboxColumn = apexCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxAction: handleCheckboxChange,
+    apexCheckboxFxn: handleCheckboxChange,
   });
 
   const generateColumns = () => {

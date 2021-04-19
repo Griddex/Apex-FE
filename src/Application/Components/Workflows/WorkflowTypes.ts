@@ -1,5 +1,6 @@
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
+import { IAction } from "./../../Redux/Actions/ActionTypes";
 
 export interface IWorkflowBannerProps {
   activeStep: number;
@@ -76,6 +77,11 @@ export interface IAllWorkflowProcesses {
     | INetworkWorkflowProcess["wkCy"]
     | IEconomicsWorkflowProcess["wkCy"];
   finalAction?: () => void;
+  persistIdTitleAction?: (
+    reducer: IAllWorkflowProcesses["reducer"],
+    idTitleObj: Record<string, string>
+  ) => IAction;
+  idTitleArr?: string[];
   finalIcon?: JSX.Element;
   finalText?: string;
 }

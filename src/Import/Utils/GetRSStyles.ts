@@ -46,10 +46,6 @@ const getRSStyles = (theme: Theme) => {
     menu: (styles) => ({ ...styles, marginTop: 0 }),
     control: (styles, { getValue }) => {
       const selectOptions = getValue();
-      console.log(
-        "Logged output --> ~ file: GetRSStyles.ts ~ line 46 ~ getRSStyles ~ selectOptions",
-        selectOptions
-      );
       const currentValue = selectOptions ? selectOptions[0]?.label : "";
 
       let currentValueLabel = "";

@@ -24,6 +24,7 @@ import ForecastResults from "../../../Images/ForecastResults.svg";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
 import ExistingCostsAndRevenuesDecks from "./ExistingCostsAndRevenuesDecks";
 import { loadEconomicsWorkflowAction } from "../../../Redux/Actions/EconomicsActions";
+import CostsAndRevenueManual from "./CostsAndRevenueManual";
 
 const useStyles = makeStyles((theme) => ({
   economicsCostsRevenuesLanding: {
@@ -223,13 +224,13 @@ const EconomicsCostsRevenuesLanding = () => {
                   />
                 ),
                 manual: (
-                  <ExcelWorkflow
+                  <CostsAndRevenueManual
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
+                    wrkflwPrcss={"economicsCostsRevenuesDeckManual"}
                     finalAction={() =>
                       costsRevenueExcelandDbWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckExcel"
+                        "economicsCostsRevenuesDeckManual"
                       )
                     }
                   />
@@ -238,10 +239,10 @@ const EconomicsCostsRevenuesLanding = () => {
                   <ExcelWorkflow
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
+                    wrkflwPrcss={"economicsCostsRevenuesDeckApexForecast"}
                     finalAction={() =>
                       costsRevenueExcelandDbWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckExcel"
+                        "economicsCostsRevenuesDeckApexForecast"
                       )
                     }
                   />

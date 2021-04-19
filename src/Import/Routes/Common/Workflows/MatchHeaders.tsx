@@ -2,10 +2,8 @@ import { makeStyles, useTheme } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import Fuse from "fuse.js";
 import findIndex from "lodash.findindex";
 import omit from "lodash.omit";
-import pullAll from "lodash.pullall";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -25,23 +23,27 @@ import {
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import getDuplicates from "../../../../Application/Utils/GetDuplicates";
+import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
-  persistChosenApplicationHeadersAction,
   persistChosenApplicationHeadersIndicesAction,
   persistFileHeadersMatchAction,
   persistTableHeadersAction,
-  saveUserMatchAction,
+  updateInputParameterAction,
 } from "../../../Redux/Actions/InputActions";
+import computeFileHeaderMatches from "../../../Utils/ComputeFileHeaderMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getRSStyles from "../../../Utils/GetRSStyles";
 import CenteredStyle from "./../../../../Application/Components/Styles/CenteredStyle";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import { IApplicationHeaders, UserMatchObjectType } from "./MatchHeadersTypes";
+import { IconButton, Tooltip } from "@material-ui/core";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -84,11 +86,10 @@ export default function MatchHeaders({
 
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
+
+  //TODO: Better way to recognize workflow process
   const isFacilitiesWorkflow = wp.includes("facilities");
-  let workflowClass = "";
-  if (wp.includes("facilities")) workflowClass = "facilities";
-  else if (wp.includes("forecast")) workflowClass = "forecast";
-  else workflowClass = "forecast";
+  const workflowClass = getWorkflowClass(wp);
 
   const {
     savedMatchObjectAll,
@@ -96,17 +97,12 @@ export default function MatchHeaders({
     (state: RootState) => state.applicationReducer
   );
 
-  const specificSavedMatchObject =
-    savedMatchObjectAll[workflowClass]["headers"];
-
-  const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
   const specificSavedMatchObjectValues = Object.values(
-    specificSavedMatchObject
+    savedMatchObjectAll[workflowClass]["headers"]
   );
-
-  //File Headers
+  //TODO: File Headers - how to generalize for other input categories?
   const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
-    (state: RootState) => state.inputReducer
+    (state: RootState) => state[reducer]
   );
 
   const { fileHeaders } = useSelector(
@@ -123,65 +119,50 @@ export default function MatchHeaders({
       (header: IApplicationHeaders) => header.variableTitle
     );
 
-  const options = {
-    isCaseSensitive: false,
-    includeScore: true,
-    shouldSort: true,
-    keys: [],
-  };
-  const fuse = new Fuse(applicationHeaders, options);
-
-  const fileHeaderMatches: Record<string, number>[] = [];
-  for (const fileHeader of fileHeaders) {
-    const searchResult = fuse.search(fileHeader);
-    const matchedHeaders = searchResult.map((match) => match["item"]);
-    const matchedScores = searchResult.map((match) => match["score"]);
-
-    if (matchedHeaders.length > 0) {
-      const mtchdHeaders = matchedHeaders;
-      const mtchdScores = matchedScores;
-
-      const cleanedMatchedScores = mtchdScores.map(
-        (score: number | undefined) =>
-          score !== undefined ? Math.round((1 - score) * 100) : 0
-      );
-
-      if (!mtchdHeaders.includes("None")) {
-        mtchdHeaders.push("None");
-        cleanedMatchedScores.push(0);
-      }
-
-      if (specificSavedMatchObjectKeys.includes(fileHeader.trim())) {
-        const matchHeader = specificSavedMatchObject[fileHeader];
-        pullAll(mtchdHeaders, [matchHeader.header]);
-
-        mtchdHeaders.unshift(matchHeader.header);
-        cleanedMatchedScores.unshift(100);
-      }
-
-      fileHeaderMatches.push(zipObject(mtchdHeaders, cleanedMatchedScores));
-    } else {
-      const appHeaders = applicationHeaders;
-      const zeroScores: number[] = new Array(appHeaders.length).fill(0);
-
-      if (specificSavedMatchObjectKeys.includes(fileHeader.trim())) {
-        const matchHeader = specificSavedMatchObject[fileHeader];
-        pullAll(appHeaders, [matchHeader.header]);
-
-        appHeaders.unshift(matchHeader.header);
-        zeroScores.unshift(100);
-      }
-
-      fileHeaderMatches.push(zipObject(appHeaders, zeroScores));
-    }
-  }
+  const fileHeaderMatches = React.useMemo(
+    () =>
+      computeFileHeaderMatches(
+        fileHeaders,
+        applicationHeaders,
+        savedMatchObjectAll,
+        workflowClass
+      ),
+    []
+  );
 
   const keyedFileHeaderMatches = zipObject(fileHeaders, fileHeaderMatches);
   const headerMatchChartData = generateMatchData(fileHeaderMatches);
 
   const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
+    showExtraButtons: true,
+    extraButtons: () => (
+      <Tooltip
+        key={"acceptAllToolTip"}
+        title={"Accept All"}
+        placement="bottom-end"
+        arrow
+      >
+        <IconButton
+          style={{
+            height: "28px",
+            backgroundColor: theme.palette.primary.light,
+            border: `1px solid ${theme.palette.primary.main}`,
+            borderRadius: 2,
+          }}
+          onClick={() => {
+            const rowsAllAcceptMatch = rows.map((row) => {
+              const rowAccept = { ...row, acceptMatch: true };
+
+              return rowAccept;
+            });
+
+            setRows(rowsAllAcceptMatch);
+          }}
+        >
+          <AllInclusiveOutlinedIcon />
+        </IconButton>
+      </Tooltip>
+    ),
   };
 
   const applicationHeaderOptions: SelectOptionsType[] = fileHeaders.map(
@@ -190,6 +171,10 @@ export default function MatchHeaders({
 
       return generateSelectOptions(Object.keys(fileHeaderMatch));
     }
+  );
+  const keyedApplicationHeaderOptions = zipObject(
+    fileHeaders,
+    applicationHeaderOptions
   );
 
   const scoreOptions: SelectOptionsType[] = fileHeaders.map(
@@ -201,12 +186,6 @@ export default function MatchHeaders({
       );
     }
   );
-
-  const keyedApplicationHeaderOptions = zipObject(
-    fileHeaders,
-    applicationHeaderOptions
-  );
-
   const keyedScoreOptions = zipObject(fileHeaders, scoreOptions);
 
   const snChosenApplicationHeaderIndices = fileHeaderMatches.reduce(
@@ -318,6 +297,11 @@ export default function MatchHeaders({
       setChosenApplicationHeaderIndices((prev) => ({
         ...prev,
         [`${selectedRowSN}`]: isChecked ? noneOptionIndex : currentOptionIndex,
+      }));
+
+      setNoneColumnIndices((prev) => ({
+        ...prev,
+        [`${selectedRowSN - 1}`]: isChecked ? true : false,
       }));
 
       tableRows.current = currentRows;
@@ -507,16 +491,49 @@ export default function MatchHeaders({
 
   const [rows, setRows] = React.useState(tableRows.current);
 
-  const chosenApplicationHeaders = getChosenApplicationHeaders(
+  const chosenApplicationHeadersWithNone = getChosenApplicationHeaders(
     fileHeaderMatches,
     chosenApplicationHeaderIndices
   );
 
-  const chosenApplicationHeadersNoneExcluded = chosenApplicationHeaders.filter(
+  const chosenApplicationHeadersWithoutNone = chosenApplicationHeadersWithNone.filter(
     (h: string) => h.toLowerCase() !== "none"
   );
 
-  //Run once after 1st render
+  const initialNoneColumnIndices = (chosenApplicationHeadersWithNone as string[]).reduce(
+    (acc, _, i) => {
+      return { ...acc, [i]: false };
+    },
+    {}
+  );
+  const [noneColumnIndices, setNoneColumnIndices] = React.useState(
+    initialNoneColumnIndices
+  );
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 243 ~ noneColumnIndices",
+    noneColumnIndices
+  );
+
+  //chosenApplicationHeadersWithNone
+  const noneColumnsBoolean = Object.values(noneColumnIndices);
+  const fileHeadersChosenAppHeaderWithNone = fileHeaders.reduce(
+    (
+      acc: Record<string, Record<string, string>>,
+      header: string,
+      i: number
+    ) => {
+      return {
+        ...acc,
+        [header]: {
+          chosenAppHeader: chosenApplicationHeadersWithNone[i],
+          exclude: noneColumnsBoolean[i],
+        },
+      };
+    },
+    {}
+  );
+
+  //TODO: No longer needed
   React.useEffect(() => {
     const columnNames: string[] = columns.map(
       (column) => column.name as string
@@ -536,9 +553,24 @@ export default function MatchHeaders({
     );
 
     dispatch(
-      persistChosenApplicationHeadersAction(
-        chosenApplicationHeadersNoneExcluded,
-        wp
+      updateInputParameterAction(
+        `inputDataWorkflows.${wp}.chosenApplicationHeadersWithNone`,
+        chosenApplicationHeadersWithNone
+      )
+    );
+    dispatch(
+      updateInputParameterAction(
+        `inputDataWorkflows.${wp}.chosenApplicationHeadersWithoutNone`,
+        chosenApplicationHeadersWithoutNone
+      )
+    );
+    dispatch(
+      updateInputParameterAction(`noneColumnIndices`, noneColumnIndices)
+    );
+    dispatch(
+      updateInputParameterAction(
+        `fileHeadersChosenAppHeaderWithNone`,
+        fileHeadersChosenAppHeaderWithNone
       )
     );
 
@@ -560,7 +592,7 @@ export default function MatchHeaders({
               rows={rows}
               tableButtons={tableButtons}
               onRowsChange={setRows}
-              mappingErrors={getDuplicates(chosenApplicationHeaders)}
+              mappingErrors={getDuplicates(chosenApplicationHeadersWithoutNone)}
               size={size}
             />
           )}

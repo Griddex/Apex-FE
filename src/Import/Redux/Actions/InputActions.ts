@@ -3,7 +3,6 @@ import {
   IRawRowValueType,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { UserMatchObjectType } from "../../Routes/Common/Workflows/MatchHeadersTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
 export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
@@ -18,8 +17,8 @@ export const PERSIST_SELECTEDHEADERROWINDEX = "PERSIST_SELECTEDHEADERROWINDEX";
 export const PERSIST_FILEHEADERSMATCH = "PERSIST_FILEHEADERSMATCH";
 export const PERSIST_CHOSENAPPLICATIONHEADERSINDICES =
   "PERSIST_CHOSENAPPLICATIONHEADERSINDICES";
-export const PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES =
-  "PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES";
+export const PERSIST_CHOSENAPPLICATIONUNITINDICES =
+  "PERSIST_CHOSENAPPLICATIONUNITINDICES";
 export const PERSIST_FILEUNITSANDUNIQUEUNITS =
   "PERSIST_FILEUNITSANDUNIQUEUNITS";
 export const PERSIST_SELECTEDUNITROWINDEX = "PERSIST_SELECTEDUNITROWINDEX";
@@ -48,11 +47,11 @@ export const FETCHAPPLICATIONHEADERS_FAILURE =
   "FETCHAPPLICATIONHEADERS_FAILURE";
 export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
 
-export const updateInputParameterAction = (path: string, value: React.Key) => {
+export const updateInputParameterAction = (nameOrPath: string, value: any) => {
   return {
     type: UPDATE_INPUT,
     payload: {
-      path,
+      nameOrPath,
       value,
     },
   };
@@ -161,13 +160,13 @@ export const persistChosenApplicationHeadersIndicesAction = (
     payload: { chosenApplicationHeadersIndices, workflowProcess },
   };
 };
-export const persistChosenApplicationUniqueUnitIndicesAction = (
-  chosenApplicationUniqueUnitIndices: Record<string, number | number[]>,
+export const persistChosenApplicationUnitIndicesAction = (
+  chosenApplicationUnitIndices: Record<string, number | number[]>,
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
-    type: PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
-    payload: { chosenApplicationUniqueUnitIndices, workflowProcess },
+    type: PERSIST_CHOSENAPPLICATIONUNITINDICES,
+    payload: { chosenApplicationUnitIndices, workflowProcess },
   };
 };
 
@@ -208,12 +207,12 @@ export const persistChosenApplicationHeadersAction = (
   };
 };
 export const persistChosenApplicationUnitsAction = (
-  chosenApplicationUnits: string[],
+  chosenApplicationUnitsWithoutNone: string[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITS,
-    payload: { chosenApplicationUnits, workflowProcess },
+    payload: { chosenApplicationUnitsWithoutNone, workflowProcess },
   };
 };
 
@@ -326,14 +325,5 @@ export const fetchApplicationHeadersFailureAction = () => {
     payload: {
       status: 0,
     },
-  };
-};
-
-export const saveUserMatchAction = (
-  savedMatchObjectAll: UserMatchObjectType
-) => {
-  return {
-    type: SAVE_USERMATCH_ALL,
-    payload: { savedMatchObjectAll },
   };
 };

@@ -48,10 +48,12 @@ export interface IInputState {
   inputDeckData: Record<string, React.Key>[];
   selectedRow: Record<string, React.Key>;
 
-  chosenApplicationHeaders: string[];
-  chosenApplicationUnits: string[];
+  chosenApplicationHeadersWithNone: string[];
+  chosenApplicationHeadersWithoutNone: string[];
 
-  savedMatchObjectAll: UserMatchObjectType;
+  chosenApplicationUnitsWithoutNone: string[];
+  fileUnitsWithoutNone: string[];
+
   variableUnits: Record<string, string>;
 
   title: string;
@@ -72,11 +74,15 @@ export interface InputStateType
   forecastInputDeckId: string;
   facilitiesInputHeaders: Record<string, string>[];
   forecastInputHeaders: Record<string, string>[];
+
   inputDataWorkflows: Record<string, IInputState>;
   existingDataWorkflows: Record<
     NonNullable<IExistingDataProps["wkPs"]>,
     IExistingDataRow[]
   >;
+
+  noneColumnIndices: Record<number, boolean>;
+  fileHeadersChosenAppHeaderWithNone: Record<string, string>[];
 }
 
 export interface INewFacilitiesInputDeckFormValues {

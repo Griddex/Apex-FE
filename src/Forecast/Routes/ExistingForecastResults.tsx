@@ -132,7 +132,7 @@ export default function ExistingForecastResults({
   const ApexCheckboxColumn = apexCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxAction: handleCheckboxChange,
+    apexCheckboxFxn: handleCheckboxChange,
   });
 
   const generateColumns = () => {

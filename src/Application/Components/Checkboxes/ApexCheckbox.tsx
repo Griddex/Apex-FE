@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 const apexCheckbox = ({
   shouldExecute,
   shouldDispatch,
-  apexCheckboxAction,
+  apexCheckboxFxn,
 }: IApexCheckbox): Column<any, any> => {
   const dispatch = useDispatch();
 
@@ -27,8 +27,8 @@ const apexCheckbox = ({
           onClick={(e) => {
             e.stopPropagation();
             if (shouldExecute) {
-              if (shouldDispatch) dispatch(apexCheckboxAction());
-              else apexCheckboxAction(props.row);
+              if (shouldDispatch) dispatch(apexCheckboxFxn());
+              else apexCheckboxFxn(props.row);
             }
           }}
           onChange={props.onRowSelectionChange}

@@ -1,3 +1,4 @@
+import { UserMatchObjectType } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
 
 export const SET_MAINDRAWERMENU = "SET_MAINDRAWERMENU";
@@ -9,6 +10,7 @@ export const SET_CURRENTMAINTABVALUE = "SET_CURRENTMAINTABVALUE";
 export const FETCH_MATCHOBJECT_REQUEST = "FETCH_MATCHOBJECT_REQUEST";
 export const FETCH_MATCHOBJECT_SUCCESS = "FETCH_MATCHOBJECT_SUCCESS";
 export const FETCH_MATCHOBJECT_FAILURE = "FETCH_MATCHOBJECT_FAILURE";
+export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
 
 export const mainDrawerSetMenuAction = (moduleName: string) => {
   return {
@@ -76,5 +78,14 @@ export const fetchMatchObjectFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const saveUserMatchAction = (
+  savedMatchObjectAll: UserMatchObjectType
+) => {
+  return {
+    type: SAVE_USERMATCH_ALL,
+    payload: { savedMatchObjectAll },
   };
 };

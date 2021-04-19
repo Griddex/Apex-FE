@@ -12,7 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
-import history from "../../Services/HistoryService";
+import getBaseUrl from "../../Services/BaseUrlService";
 import { IAction } from "../Actions/ActionTypes";
 import {
   fetchMatchObjectFailureAction,
@@ -20,7 +20,6 @@ import {
   FETCH_MATCHOBJECT_REQUEST,
 } from "../Actions/ApplicationActions";
 import { hideSpinnerAction } from "../Actions/UISpinnerActions";
-import getBaseUrl, { getBaseAuthUrl } from "../../Services/BaseUrlService";
 
 export default function* watchFetchMatchObjectSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -56,10 +55,6 @@ function* fetchMatchObjectSaga(
     );
 
     const { data: savedMatchObjectAll } = result;
-    console.log(
-      "Logged output --> ~ file: FetchMatchObjectSaga.ts ~ line 61 ~ savedMatchObjectAll",
-      savedMatchObjectAll
-    );
 
     const successAction = fetchMatchObjectSuccessAction();
     yield put({

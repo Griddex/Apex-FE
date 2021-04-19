@@ -29,10 +29,6 @@ export default function ExistingEconomicsParametersDecks({
   const existingData = useSelector(
     (state: RootState) => state.economicsReducer[wc][wp]
   );
-  console.log(
-    "Logged output --> ~ file: ExistingEconomicsParametersDecks.tsx ~ line 31 ~ existingData",
-    existingData
-  );
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,

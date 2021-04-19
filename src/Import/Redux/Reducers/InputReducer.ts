@@ -11,7 +11,7 @@ import {
   PERSIST_VARIABLEUNITS,
   PERSIST_CHOSENAPPLICATIONHEADERS,
   PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
-  PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES,
+  PERSIST_CHOSENAPPLICATIONUNITINDICES,
   PERSIST_CHOSENAPPLICATIONUNITS,
   PERSIST_COLUMNNAMETABLEDATA,
   PERSIST_DEFINEDTABLEDATA,
@@ -38,9 +38,9 @@ import set from "lodash.set";
 const inputReducer = (state = InputState, action: IAction) => {
   switch (action.type) {
     case UPDATE_INPUT: {
-      const { path, value } = action.payload;
+      const { nameOrPath, value } = action.payload;
 
-      const updatedState = set(state, path, value);
+      const updatedState = set(state, nameOrPath, value);
       return updatedState;
     }
     case IMPORTFILE_INITIALIZATION:
@@ -51,7 +51,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     case PERSIST_FILEHEADERS:
     case PERSIST_CHOSENAPPLICATIONHEADERSINDICES:
     case PERSIST_CHOSENAPPLICATIONUNITS:
-    case PERSIST_CHOSENAPPLICATIONUNIQUEUNITINDICES:
+    case PERSIST_CHOSENAPPLICATIONUNITINDICES:
     case PERSIST_CHOSENAPPLICATIONHEADERS:
     case PERSIST_SELECTEDHEADERROWINDEX:
     case PERSIST_FILEHEADERSMATCH:
@@ -159,14 +159,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         forecastInputHeaders,
       };
     }
-    case SAVE_USERMATCH_ALL: {
-      const { savedMatchObjectAll } = action.payload;
 
-      return {
-        ...state,
-        savedMatchObjectAll,
-      };
-    }
     default:
       return state;
   }

@@ -1,13 +1,13 @@
 const getChosenApplicationUnits = (
-  fileUnits: string[],
+  fileHeadersWithoutNone: string[],
   keyedFileUnitMatches: { [index: string]: Record<string, React.Key> },
-  chosenApplicationUniqueUnitIndices: Record<string, number | number[]>
+  chosenApplicationUnitIndices: Record<string, number | number[]>
 ) => {
-  const chosenApplicationUnits = fileUnits.map((unit) => {
-    if (unit === "") return "unitless";
+  const chosenApplicationUnits = fileHeadersWithoutNone.map((header) => {
+    if (header === "") return "unitless";
     else {
-      const optionIndex = chosenApplicationUniqueUnitIndices[unit];
-      const unitMatches = keyedFileUnitMatches[unit];
+      const optionIndex = chosenApplicationUnitIndices[header];
+      const unitMatches = keyedFileUnitMatches[header];
 
       const unitTitles = Object.keys(unitMatches);
       if (typeof optionIndex === "number") {

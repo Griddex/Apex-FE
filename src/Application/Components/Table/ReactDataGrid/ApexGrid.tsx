@@ -350,25 +350,35 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           </FormControl>
         </Grid>
         {mappingErrors && mappingErrors?.length > 0 && (
-          <Tooltip
-            title={<TableMappingErrors errors={mappingErrors} />}
-            placement="left"
-            arrow
-            interactive
-            leaveDelay={10000}
-            leaveTouchDelay={0}
+          <Box
+            fontSize={12}
+            component="div"
+            overflow="hidden"
+            whiteSpace="pre-line"
+            textOverflow="ellipsis"
+            className={classes.mappingErrors}
           >
-            <Box
-              fontSize={12}
-              component="div"
-              overflow="hidden"
-              whiteSpace="pre-line"
-              textOverflow="ellipsis"
-              className={classes.mappingErrors}
-            >
-              {`Duplicates: ${mappingErrors.join(", ")}`}
-            </Box>
-          </Tooltip>
+            {`Duplicates: ${mappingErrors.join(", ")}`}
+          </Box>
+          // <Tooltip
+          //   title={<TableMappingErrors errors={mappingErrors} />}
+          //   placement="left"
+          //   arrow
+          //   interactive
+          //   leaveDelay={10000}
+          //   leaveTouchDelay={0}
+          // >
+          //   <Box
+          //     fontSize={12}
+          //     component="div"
+          //     overflow="hidden"
+          //     whiteSpace="pre-line"
+          //     textOverflow="ellipsis"
+          //     className={classes.mappingErrors}
+          //   >
+          //     {`Duplicates: ${mappingErrors.join(", ")}`}
+          //   </Box>
+          // </Tooltip>
         )}
         <Grid className={classes.tableButtons} item xs container>
           <TableButtons {...tableButtons} />

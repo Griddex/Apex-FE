@@ -14,16 +14,16 @@ import { IAllWorkflowProcesses } from "../../../../Application/Components/Workfl
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
-  IUnitSettingsData,
   IUnit,
+  IUnitSettingsData,
 } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import {
   persistTableDataAction,
   persistVariableUnitsAction,
 } from "../../../Redux/Actions/InputActions";
+import getUnitIdByUnitTitle from "../../../Utils/GetUnitIdByUnitTitle";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
-import getUnitIdByUnitTitle from "../../../Utils/GetUnitIdByUnitTitle";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -64,15 +64,20 @@ export default function PreviewSave({
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
-  const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
-    (state: RootState) => state.inputReducer
-  );
+  //TODO: Need to generalize for other workflow processes
+  const {
+    facilitiesInputHeaders,
+    forecastInputHeaders,
+    noneColumnIndices,
+    fileHeadersChosenAppHeaderWithNone,
+  } = useSelector((state: RootState) => state[reducer]);
   const isFacilitiesWorkflow = wp.includes("facilities");
-  let applicationHeaders = [];
-  if (isFacilitiesWorkflow) applicationHeaders = facilitiesInputHeaders;
-  else applicationHeaders = forecastInputHeaders;
+  let applicationHeaderNameTitleCollection = [];
+  if (isFacilitiesWorkflow)
+    applicationHeaderNameTitleCollection = facilitiesInputHeaders;
+  else applicationHeaderNameTitleCollection = forecastInputHeaders;
 
-  //Application units
+  //TODO: Gift should do this and store in Redis - Application units
   const { applicationUnitsCollection } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
@@ -83,25 +88,34 @@ export default function PreviewSave({
 
   const {
     tableRoleNames,
-    chosenApplicationHeaders,
-    chosenApplicationUnits,
+    chosenApplicationHeadersWithoutNone,
+    chosenApplicationUnitsWithoutNone,
     columnNameTableData,
     selectedHeaderRowIndex,
     selectedUnitRowIndex,
   } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const unitsRow = zipObject(
-    chosenApplicationHeaders,
-    chosenApplicationUnits
+    chosenApplicationHeadersWithoutNone,
+    chosenApplicationUnitsWithoutNone
   ) as IRawRow;
 
   const appHeaderNames = swapTitleToNames(
-    chosenApplicationHeaders,
-    applicationHeaders
+    chosenApplicationHeadersWithoutNone,
+    applicationHeaderNameTitleCollection
   );
+
+  const appHeaderTitleNameObj = applicationHeaderNameTitleCollection.reduce(
+    (acc: Record<string, string>, row: Record<string, string>) => {
+      return { ...acc, [row.variableTitle]: row.variableName };
+    },
+    {}
+  );
+
   const applicationHeadertableData = swapToChosenTableHeaders(
     columnNameTableData,
-    appHeaderNames
+    fileHeadersChosenAppHeaderWithNone,
+    appHeaderTitleNameObj
   );
 
   const dataRows = applicationHeadertableData.filter(
@@ -189,7 +203,7 @@ export default function PreviewSave({
   //Generate unitLabel-unitId object
   const appHeaderNamesUnitTitles = zipObject(
     appHeaderNames,
-    chosenApplicationUnits
+    chosenApplicationUnitsWithoutNone
   ) as IRawRow;
 
   const variableUnits: Record<string, string> = {};
@@ -215,10 +229,7 @@ export default function PreviewSave({
   React.useEffect(() => {
     dispatch(persistTableDataAction(tableData, wp));
     dispatch(persistVariableUnitsAction(variableUnits, wp));
-    console.log(
-      "Logged output --> ~ file: PreviewSave.tsx ~ line 201 ~ React.useEffect ~ variableUnits",
-      variableUnits
-    );
+
     dispatch(hideSpinnerAction());
   }, []);
 

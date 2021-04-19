@@ -11,8 +11,10 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
 import VerticalSplitOutlinedIcon from "@material-ui/icons/VerticalSplitOutlined";
 import React, { ChangeEvent } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { IEconomicsInputButton } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -29,10 +31,10 @@ const EconomicsInputButtonsMenu = ({
 }: {
   children: (props: IEconomicsInputButton) => JSX.Element;
 }) => {
-  const history = useHistory();
-  const { url } = useRouteMatch();
-
   const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { url } = useRouteMatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -51,12 +53,22 @@ const EconomicsInputButtonsMenu = ({
   }[] = [
     {
       title: "Economics Costs",
-      action: () => history.push(`${url}/costsrevenue`),
+      action: () => {
+        dispatch(
+          updateEconomicsParameterAction("loadCostsRevenueWorkflow", false)
+        );
+        history.push(`${url}/costsrevenue`);
+      },
       icon: <AttachMoneyOutlinedIcon color="primary" fontSize="small" />,
     },
     {
       title: "Economics Parameters",
-      action: () => history.push(`${url}/parameters`),
+      action: () => {
+        dispatch(
+          updateEconomicsParameterAction("loadCostsRevenueWorkflow", false)
+        );
+        history.push(`${url}/parameters`);
+      },
       icon: <VerticalSplitOutlinedIcon color="primary" fontSize="small" />,
     },
   ];

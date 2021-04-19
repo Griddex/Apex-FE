@@ -73,13 +73,9 @@ export default function ExistingDataRoute<
   wkPs,
   showChart,
   containerStyle,
-  handleSelectAction,
+  persistIdTitleAction,
   name,
 }: IExistingDataProps) {
-  console.log(
-    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 77 ~ snExistingData",
-    snExistingData
-  );
   const classes = useStyles();
   const dispatch = useDispatch();
   const wp = wkPs as NonNullable<IExistingDataProps["wkPs"]>;
@@ -88,10 +84,10 @@ export default function ExistingDataRoute<
   const [sRow, setSRow] = React.useState(-1);
 
   const handleCheckboxChange = (row: TRow) => {
-    const defName = name as NonNullable<IExistingDataProps["name"]>;
-    handleSelectAction && dispatch(handleSelectAction(defName, row[defName]));
+    const nameDefined = name as NonNullable<IExistingDataProps["name"]>;
 
-    setSelectedRows((prev) => prev.add(row.sn as number));
+    persistIdTitleAction &&
+      dispatch(persistIdTitleAction(nameDefined, row[nameDefined]));
   };
   // const handleCheckboxChange = (row: TRow) => {
   //   if (wp.includes("facilities") || wp.includes("forecast")) {
@@ -118,7 +114,7 @@ export default function ExistingDataRoute<
   const ApexCheckboxColumn = apexCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxAction: handleCheckboxChange,
+    apexCheckboxFxn: handleCheckboxChange,
   });
 
   const generateColumns = () => {
