@@ -1,21 +1,15 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DialogSaveCancelButtons from "../../Application/Components/DialogButtons/DialogSaveCancelButtons";
-import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../Application/Components/Workflows/WorkflowBanner";
-import {
-  showDialogAction,
-  unloadDialogsAction,
-} from "../../Application/Redux/Actions/DialogsAction";
+import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ExistingForecastResults from "../../Forecast/Routes/ExistingForecastResults";
-import { saveCostsRevenuesRequestAction } from "../Redux/Actions/EconomicsActions";
 import CostsAndRevenueManual from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueManual";
 
 const useStyles = makeStyles((theme) => ({
@@ -96,7 +90,14 @@ const steps = ["Select Forecast Results", "Populate Costs"];
 const workflowCategory = "inputDataWorkflows";
 const workflowProcess = "economicsCostsRevenuesDeckApexForecast";
 
-const CostsRevenueForecastInputWorkflow = (props: DialogStuff) => {
+const CostsRevenueForecastInputWorkflow = ({
+  reducer,
+  wrkflwCtgry,
+  wrkflwPrcss,
+  finalAction,
+  idTitleArr,
+  persistIdTitleAction,
+}: IAllWorkflowProcesses) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -149,48 +150,6 @@ const CostsRevenueForecastInputWorkflow = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const finalAction = () => {
-    const confirmSaveCostsRevenue = () => {
-      const confirmationDialogParameters: DialogStuff = {
-        name: "Save_CostsRevenue_Dialog_Confirmation",
-        title: "Save Costs & Revenue Confirmation",
-        type: "textDialog",
-        show: true,
-        exclusive: false,
-        maxWidth: "xs",
-        dialogText: `Do you want to save the economics costs schedule?`,
-        iconType: "confirmation",
-        actionsList: () =>
-          DialogSaveCancelButtons(
-            [true, true],
-            [true, true],
-            [unloadDialogsAction, saveCostsRevenuesRequestAction]
-          ),
-        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      };
-
-      dispatch(showDialogAction(confirmationDialogParameters));
-    };
-
-    const dialogParameters: DialogStuff = {
-      name: "Save_CostsRevenue_Dialog",
-      title: "Save Costs & Revenue",
-      type: "saveCostsRevenuesInputDeckDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "sm",
-      iconType: "information",
-      actionsList: () =>
-        DialogSaveCancelButtons(
-          [true, true],
-          [true, false],
-          [unloadDialogsAction, confirmSaveCostsRevenue]
-        ),
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-  };
-
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: false,
     showReset: true,
@@ -215,12 +174,12 @@ const CostsRevenueForecastInputWorkflow = (props: DialogStuff) => {
     );
   }, [dispatch]);
 
-  const reducer = "economicsReducer";
-
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <ExistingForecastResults showChart={false} />;
+        return (
+          <ExistingForecastResults showChart={false} showBaseButtons={false} />
+        );
       case 1:
         return (
           <CostsAndRevenueManual

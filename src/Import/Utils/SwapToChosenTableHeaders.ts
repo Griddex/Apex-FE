@@ -37,10 +37,6 @@ const swapToChosenTableHeaders = (
     secondTable.push(chosenHeaderRow);
   }
 
-  console.log(
-    "Logged output --> ~ file: SwapToChosenTableHeaders.ts ~ line 60 ~ secondTable",
-    secondTable
-  );
   return secondTable;
 };
 

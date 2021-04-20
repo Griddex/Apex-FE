@@ -9,7 +9,7 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { Styles } from "react-select";
-import { ValueType } from "react-select/src/types";
+import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import {
   ISelectOption,
@@ -133,38 +133,6 @@ export default function MatchHeaders({
   const keyedFileHeaderMatches = zipObject(fileHeaders, fileHeaderMatches);
   const headerMatchChartData = generateMatchData(fileHeaderMatches);
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: true,
-    extraButtons: () => (
-      <Tooltip
-        key={"acceptAllToolTip"}
-        title={"Accept All"}
-        placement="bottom-end"
-        arrow
-      >
-        <IconButton
-          style={{
-            height: "28px",
-            backgroundColor: theme.palette.primary.light,
-            border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: 2,
-          }}
-          onClick={() => {
-            const rowsAllAcceptMatch = rows.map((row) => {
-              const rowAccept = { ...row, acceptMatch: true };
-
-              return rowAccept;
-            });
-
-            setRows(rowsAllAcceptMatch);
-          }}
-        >
-          <AllInclusiveOutlinedIcon />
-        </IconButton>
-      </Tooltip>
-    ),
-  };
-
   const applicationHeaderOptions: SelectOptionsType[] = fileHeaders.map(
     (fileHeader: string) => {
       const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
@@ -226,6 +194,21 @@ export default function MatchHeaders({
     setChosenApplicationHeaderIndices,
   ] = React.useState(snChosenApplicationHeaderIndices);
 
+  const initialFileHeaderChosenAppHeaderObj: Record<
+    string,
+    string
+  > = initialTableRows.reduce(
+    (acc: Record<string, string>, row: Record<string, string>) => {
+      return { ...acc, [row.fileHeader]: row.applicationHeader };
+    },
+    {}
+  );
+  const [
+    fileHeaderChosenAppHeaderObj,
+    setFileHeaderChosenAppHeaderObj,
+  ] = React.useState(initialFileHeaderChosenAppHeaderObj);
+
+  const [toggleAcceptAllMatch, setToggleAcceptAllMatch] = React.useState(false);
   const [
     userMatchObject,
     setUserMatchObject,
@@ -236,10 +219,15 @@ export default function MatchHeaders({
   }) => {
     const handleApplicationHeaderChange = (
       value: ValueType<ISelectOption, false>,
-      rowSN: number,
+      row: IRawRow,
       headerOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
     ) => {
+      const { sn, fileHeader, applicationHeader } = row;
+      const rowSN = sn as number;
+      const fileHeaderDefined = fileHeader as string;
+      const applicationHeaderDefined = applicationHeader as string;
+
       const selectedValue = value && value.label;
       const selectedAppHeader = selectedValue as string;
 
@@ -252,6 +240,11 @@ export default function MatchHeaders({
       setChosenApplicationHeaderIndices((prev) => ({
         ...prev,
         [`${rowSN}`]: selectedHeaderOptionIndex,
+      }));
+
+      setFileHeaderChosenAppHeaderObj((prev) => ({
+        ...prev,
+        [fileHeaderDefined]: applicationHeaderDefined,
       }));
 
       const currentRows = tableRows.current;
@@ -384,8 +377,7 @@ export default function MatchHeaders({
         key: "applicationHeader",
         name: "APPLICATION HEADER",
         resizable: true,
-        formatter: ({ row, onRowChange }) => {
-          const rowSN = row.sn as number;
+        formatter: ({ row }) => {
           const fileHeader = row.fileHeader as string;
           const headerOptions = keyedApplicationHeaderOptions[fileHeader];
           const scoreOptions = keyedScoreOptions[fileHeader];
@@ -402,7 +394,7 @@ export default function MatchHeaders({
               onChange={(value: ValueType<ISelectOption, false>) =>
                 handleApplicationHeaderChange(
                   value,
-                  rowSN,
+                  row,
                   headerOptions,
                   scoreOptions
                 )
@@ -471,7 +463,6 @@ export default function MatchHeaders({
                 }
                 checked={checked}
                 checkedColor={theme.palette.success.main}
-                // notCheckedColor={theme.palette.warning.main}
                 notCheckedColor={theme.palette.common.white}
               />
             </CenteredStyle>
@@ -509,10 +500,6 @@ export default function MatchHeaders({
   const [noneColumnIndices, setNoneColumnIndices] = React.useState(
     initialNoneColumnIndices
   );
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 243 ~ noneColumnIndices",
-    noneColumnIndices
-  );
 
   //chosenApplicationHeadersWithNone
   const noneColumnsBoolean = Object.values(noneColumnIndices);
@@ -532,6 +519,46 @@ export default function MatchHeaders({
     },
     {}
   );
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => (
+      <Tooltip
+        key={"acceptAllToolTip"}
+        title={"Accept All"}
+        placement="bottom-end"
+        arrow
+      >
+        <IconButton
+          style={{
+            height: "28px",
+            backgroundColor: theme.palette.primary.light,
+            border: `1px solid ${theme.palette.primary.main}`,
+            borderRadius: 2,
+          }}
+          onClick={() => {
+            const rowsAllAcceptMatch = rows.map((row) => {
+              const rowAccept = { ...row, acceptMatch: true };
+              return rowAccept;
+            });
+
+            const fileHeaderKeys = Object.keys(fileHeaderChosenAppHeaderObj);
+            for (const header of fileHeaderKeys) {
+              const chosenAppHeader = fileHeaderChosenAppHeaderObj[header];
+              userMatchObject[workflowClass]["headers"][header] = {
+                header: chosenAppHeader,
+                acceptMatch: true,
+              };
+            }
+            setRows(rowsAllAcceptMatch);
+            setUserMatchObject(userMatchObject);
+          }}
+        >
+          <AllInclusiveOutlinedIcon />
+        </IconButton>
+      </Tooltip>
+    ),
+  };
 
   //TODO: No longer needed
   React.useEffect(() => {

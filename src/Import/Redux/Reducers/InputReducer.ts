@@ -1,3 +1,4 @@
+import set from "lodash.set";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
@@ -6,9 +7,8 @@ import {
   EXISTINGDATA_SUCCESS,
 } from "../Actions/ExistingDataActions";
 import {
-  UPDATE_INPUT,
+  FETCHAPPLICATIONHEADERS_SUCCESS,
   IMPORTFILE_INITIALIZATION,
-  PERSIST_VARIABLEUNITS,
   PERSIST_CHOSENAPPLICATIONHEADERS,
   PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
   PERSIST_CHOSENAPPLICATIONUNITINDICES,
@@ -24,16 +24,14 @@ import {
   PERSIST_TABLEDATA,
   PERSIST_TABLEHEADERS,
   PERSIST_TABLEROLENAMES,
+  PERSIST_VARIABLEUNITS,
   PERSIST_WORKSHEET,
   PERSIST_WORKSHEETNAMES,
-  SAVEINPUTDECK_SUCCESS,
   SAVEINPUTDECK_FAILURE,
-  FETCHAPPLICATIONHEADERS_SUCCESS,
-  FETCHAPPLICATIONHEADERS_FAILURE,
-  SAVE_USERMATCH_ALL,
+  SAVEINPUTDECK_SUCCESS,
+  UPDATE_INPUT,
 } from "../Actions/InputActions";
 import InputState from "../State/InputState";
-import set from "lodash.set";
 
 const inputReducer = (state = InputState, action: IAction) => {
   switch (action.type) {

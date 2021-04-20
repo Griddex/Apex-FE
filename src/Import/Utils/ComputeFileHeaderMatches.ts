@@ -9,10 +9,6 @@ const computeFileHeaderMatches = (
   savedMatchObjectAll: UserMatchObjectType,
   workflowClass: string
 ) => {
-  console.log(
-    "Logged output --> ~ file: ComputeFileHeaderMatches.ts ~ line 12 ~ fileHeaders",
-    fileHeaders
-  );
   const specificSavedMatchObject =
     savedMatchObjectAll[workflowClass]["headers"];
 

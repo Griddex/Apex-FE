@@ -149,6 +149,7 @@ const ForecastLanding = () => {
                       wkCy={"existingDataWorkflows"}
                       wkPs={"forecastResultsExisting"}
                       showChart={true}
+                      showBaseButtons={true}
                       finalAction={existingDataFinalAction}
                     />
                   ),

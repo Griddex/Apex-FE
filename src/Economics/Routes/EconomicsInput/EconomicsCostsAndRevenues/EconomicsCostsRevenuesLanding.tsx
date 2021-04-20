@@ -6,25 +6,27 @@ import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../../Application/Types/ApplicationTypes";
-import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
-import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import ExistingDeck from "../../../../Import/Images/ExistingDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
-import Manual from "../../../Images/Manual.svg";
+import MSExcel from "../../../../Import/Images/MSExcel.svg";
+import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
+import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
 import ForecastResults from "../../../Images/ForecastResults.svg";
+import Manual from "../../../Images/Manual.svg";
+import {
+  loadEconomicsWorkflowAction,
+  saveCostsRevenuesRequestAction,
+} from "../../../Redux/Actions/EconomicsActions";
+import CostsRevenueForecastInputWorkflow from "../../../Workflows/CostsRevenueForecastInputWorkflow";
+import CostsAndRevenueManual from "./CostsAndRevenueManual";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
 import ExistingCostsAndRevenuesDecks from "./ExistingCostsAndRevenuesDecks";
-import { loadEconomicsWorkflowAction } from "../../../Redux/Actions/EconomicsActions";
-import CostsAndRevenueManual from "./CostsAndRevenueManual";
 
 const useStyles = makeStyles((theme) => ({
   economicsCostsRevenuesLanding: {
@@ -139,27 +141,35 @@ const EconomicsCostsRevenuesLanding = () => {
   //CSS using overlap and z-index
 
   //Paying it back
-  const costsRevenueExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
-  ) => {
+  const costsRevenueWorkflowFinalAction = () => {
     const saveCostsRevenuesInputdeckConfirmation = () => {
-      const dps = confirmationDialogParameters(
-        "Costs_RevenuesDeck_Save_Confirmation",
-        "Costs & Revenues Deck Save Confirmation",
-        `Do you want to save the current costs & revenue Inputdeck?`,
-        true,
-        () => ({ type: "HELLO", payload: "yeah" })
-      );
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Save_CostsRevenue_Dialog_Confirmation",
+        title: "Save Costs & Revenue Confirmation",
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to save the economics costs schedule?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogSaveCancelButtons(
+            [true, true],
+            [true, true],
+            [unloadDialogsAction, saveCostsRevenuesRequestAction]
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
 
-      dispatch(showDialogAction(dps));
+      dispatch(showDialogAction(confirmationDialogParameters));
     };
 
     const dialogParameters: DialogStuff = {
-      name: "Save_CostsRevenues_Input_Deck_Dialog",
-      title: "Save CostsRevenues InputDeck",
+      name: "Save_CostsRevenue_Dialog",
+      title: "Save Costs & Revenue",
       type: "saveCostsRevenuesInputDeckDialog",
       show: true,
-      exclusive: true,
+      exclusive: false,
       maxWidth: "sm",
       iconType: "information",
       actionsList: () =>
@@ -168,7 +178,6 @@ const EconomicsCostsRevenuesLanding = () => {
           [true, false],
           [unloadDialogsAction, saveCostsRevenuesInputdeckConfirmation]
         ),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -204,11 +213,7 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
-                    finalAction={() =>
-                      costsRevenueExcelandDbWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckExcel"
-                      )
-                    }
+                    finalAction={() => costsRevenueWorkflowFinalAction()}
                   />
                 ),
                 database: (
@@ -216,11 +221,7 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckDatabase"}
-                    finalAction={() =>
-                      costsRevenueExcelandDbWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckExcel"
-                      )
-                    }
+                    finalAction={() => costsRevenueWorkflowFinalAction()}
                   />
                 ),
                 manual: (
@@ -228,23 +229,15 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckManual"}
-                    finalAction={() =>
-                      costsRevenueExcelandDbWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckManual"
-                      )
-                    }
+                    finalAction={() => costsRevenueWorkflowFinalAction()}
                   />
                 ),
                 apexforecast: (
-                  <ExcelWorkflow
+                  <CostsRevenueForecastInputWorkflow
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckApexForecast"}
-                    finalAction={() =>
-                      costsRevenueExcelandDbWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckApexForecast"
-                      )
-                    }
+                    finalAction={() => costsRevenueWorkflowFinalAction()}
                   />
                 ),
                 approveddeck: (

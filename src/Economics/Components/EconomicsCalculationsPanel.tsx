@@ -32,7 +32,7 @@ const EconomicsCalculationsType: React.FC<IEconomicsProps> = ({ title }) => {
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.ECONOMICS_CALCULATION_TYPE,
-      calculationName: name,
+      calculationName: title,
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
@@ -124,7 +124,7 @@ const EconomicsCalculationsPanel = () => {
 
   return (
     <>
-      <AnalyticsTitle title="Economics Calculation Panel" />
+      <AnalyticsTitle title="Analyses Panel" />
       <div className={classes.economicsCalculationPanel}>
         {economicsCalculationsNames.map((name, i) => (
           <EconomicsCalculationsType key={i} title={name} />

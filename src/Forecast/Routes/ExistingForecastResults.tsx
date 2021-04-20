@@ -99,6 +99,7 @@ const chartData = [
 
 export default function ExistingForecastResults({
   showChart,
+  showBaseButtons,
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -313,31 +314,33 @@ export default function ExistingForecastResults({
           </SizeMe>
         </div>
       </ClickAwayListener>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 4,
-          width: 270,
-        }}
-      >
-        <Button
-          variant="contained"
-          color="default"
-          startIcon={<TableChartOutlinedIcon />}
-          disabled={sRow === -1}
+      {showBaseButtons && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 4,
+            width: 270,
+          }}
         >
-          {"View Table"}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<InsertPhotoOutlinedIcon />}
-          disabled={sRow === -1}
-        >
-          {"Plot Chart"}
-        </Button>
-      </div>
+          <Button
+            variant="contained"
+            color="default"
+            startIcon={<TableChartOutlinedIcon />}
+            disabled={sRow === -1}
+          >
+            {"View Table"}
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<InsertPhotoOutlinedIcon />}
+            disabled={sRow === -1}
+          >
+            {"Plot Chart"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

@@ -5,14 +5,16 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import faker from "faker";
 import zipObject from "lodash.zipobject";
 import React from "react";
-import { Column } from "react-data-griddex";
+import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch } from "react-redux";
+import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
-import apexCheckbox from "../../../../Application/Components/Checkboxes/ApexCheckbox";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
+import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
-  IRawTable
+  IRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -59,55 +61,80 @@ export default function CostsAndRevenueManual({
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
+  console.log(
+    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 61 ~ wp",
+    wp
+  );
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
-
-  // const existingData = useSelector(
-  //   (state: RootState) => state[reducer][wc][wp]
-  // );
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
   };
 
-  const handleCheckboxChange = (row: IRawRow) => {
-    const idTitleArrDefined = idTitleArr as string[];
-    const idTitleObj = zipObject(idTitleArrDefined, [
-      row.title,
-      row.id,
-    ]) as Record<string, string>;
-
-    persistIdTitleAction && dispatch(persistIdTitleAction(reducer, idTitleObj));
+  const initialAppHeaderChosenAppUnitObj: Record<string, string> = {
+    oilRate: "bopd",
+    gasRate: "MMScf/d",
+    seismicCost: "$m",
+    explApprCost: "$m",
+    facilitiesCost: "$m",
+    tangWellCost: "$m",
+    intangWellCost: "$m",
+    abandCost: "$m",
+    directCost: "$m",
+    cha: "$m",
+    terminalCost: "$m",
   };
+  const [
+    appHeaderChosenAppUnitObj,
+    setAppHeaderChosenAppUnitObj,
+  ] = React.useState(initialAppHeaderChosenAppUnitObj);
 
-  const ApexCheckboxColumn = apexCheckbox({
-    shouldExecute: true,
-    shouldDispatch: false,
-    apexCheckboxFxn: handleCheckboxChange,
-  });
+  const handleApplicationUnitChange = (
+    value: ValueType<ISelectOption, false>,
+    headerName: string
+  ) => {
+    const selectedValue = value && value.label;
+    const selectedAppUnit = selectedValue as string;
 
+    setAppHeaderChosenAppUnitObj((prev) => ({
+      ...prev,
+      [headerName]: selectedAppUnit,
+    }));
+  };
   const generateColumns = () => {
     const columns: Column<IRawRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true, formatter: ({ row }) => {
-        if (row.sn === 0) return <div> </div>;
-        else return <div> {row.sn}</div>;
-      }, width: 50 },
-      ApexCheckboxColumn,
+      {
+        key: "sn",
+        name: "SN",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          if (row.sn === 0) return <div> </div>;
+          else return <div> {row.sn}</div>;
+        },
+        width: 50,
+      },
       {
         key: "actions",
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
-          if (row.sn === 0) return <div></div>
-          else return        <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <VisibilityOutlinedIcon
-              onClick={() => alert(`View Row is:${row}`)}
-            />
-          </div>
+          if (row.sn === 0) return <div></div>;
+          else
+            return (
+              <div>
+                <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
+                <DeleteOutlinedIcon
+                  onClick={() => alert(`Delete Row is:${row}`)}
+                />
+                <VisibilityOutlinedIcon
+                  onClick={() => alert(`View Row is:${row}`)}
+                />
+              </div>
+            );
         },
         width: 100,
       },
@@ -115,11 +142,11 @@ export default function CostsAndRevenueManual({
         key: "year",
         name: "YEAR",
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
+        editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          if (row.sn === 0) 
-          return <div></div>
-          else return <div> {"Year"}</div>;
+          if (row.sn === 0) return <div></div>;
+          else return <div> {row.year}</div>;
         },
         width: 100,
       },
@@ -127,80 +154,252 @@ export default function CostsAndRevenueManual({
         key: "oilRate",
         name: `OIL RATE`,
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
+        editor: TextEditor,
         resizable: true,
-        width: 100,
+        formatter: ({ row }) => {
+          const data = ["bopd", "Mbopd"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "oilRate")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.oilRate}</div>;
+        },
+        width: 170,
       },
       {
         key: "gasRate",
         name: "GAS RATE",
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
+        editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          if (row.sn === 0) return <div> {"unit row"}</div>;
+          const data = ["MMScf/d", "MScf/d"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "gasRate")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
           else return <div> {row.gasRate}</div>;
         },
-        width: 100,
+        width: 170,
       },
       {
         key: "seismicCost",
         name: "SEISMIC COST",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "seismicCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.seismicCost}</div>;
+        },
         width: 170,
       },
       {
         key: "explApprCost",
         name: "EXPLR. & APPRAISAL COST",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "explApprCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.explApprCost}</div>;
+        },
         width: 170,
       },
       {
         key: "facilitiesCost",
         name: "FACILITIES CAPEX",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "facilitiesCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.facilitiesCost}</div>;
+        },
         width: 170,
       },
       {
         key: "tangWellCost",
         name: "TANG. DRILLING COST",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "tangWellCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.tangWellCost}</div>;
+        },
         width: 170,
       },
       {
         key: "intangWellCost",
         name: "INTANG. DRILLING COST",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "intangWellCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.intangWellCost}</div>;
+        },
         width: 170,
       },
       {
         key: "abandCost",
         name: "ABANDONMENT COST",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "abandCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.abandCost}</div>;
+        },
         width: 170,
       },
       {
         key: "directCost",
         name: "DIRECT COST",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "directCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.directCost}</div>;
+        },
         width: 170,
       },
       {
         key: "cha",
         name: "CHA",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
         resizable: true,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "cha")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.cha}</div>;
+        },
         width: 170,
       },
       {
         key: "terminalCost",
         name: "TERMINAL COST",
-        editable:true,
+        editable: true,
+        editor: TextEditor,
+        formatter: ({ row }) => {
+          const data = ["$m", "Nm"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "terminalCost")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.terminalCost}</div>;
+        },
         resizable: true,
       },
     ];

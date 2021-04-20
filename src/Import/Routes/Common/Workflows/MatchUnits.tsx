@@ -41,6 +41,7 @@ import {
   persistChosenApplicationUnitIndicesAction,
   persistChosenApplicationUnitsAction,
   persistFileUnitsMatchAction,
+  updateInputParameterAction,
 } from "../../../Redux/Actions/InputActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationUnits from "../../../Utils/GetChosenApplicationUnits";
@@ -100,38 +101,6 @@ export default function MatchUnits({
   const wp = wrkflwPrcss;
 
   const workflowClass = getWorkflowClass(wp);
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: true,
-    extraButtons: () => (
-      <Tooltip
-        key={"acceptAllToolTip"}
-        title={"Accept All"}
-        placement="bottom-end"
-        arrow
-      >
-        <IconButton
-          style={{
-            height: "28px",
-            backgroundColor: theme.palette.primary.light,
-            border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: 2,
-          }}
-          onClick={() => {
-            const rowsAllAcceptMatch = rows.map((row) => {
-              const rowAccept = { ...row, acceptMatch: true };
-
-              return rowAccept;
-            });
-
-            setRows(rowsAllAcceptMatch);
-          }}
-        >
-          <AllInclusiveOutlinedIcon />
-        </IconButton>
-      </Tooltip>
-    ),
-  };
 
   const {
     savedMatchObjectAll,
@@ -296,6 +265,18 @@ export default function MatchUnits({
     snChosenApplicationUnitIndices
   );
 
+  type fileAppUnitType = Record<string, React.Key | boolean>;
+  const initialFileUnitChosenAppUnitObj: fileAppUnitType = initialTableRows.reduce(
+    (acc: fileAppUnitType, row) => {
+      return { ...acc, [row.fileUnit]: row.applicationUnit };
+    },
+    {}
+  );
+  const [
+    fileUnitChosenAppUnitObj,
+    setFileUnitChosenAppUnitObj,
+  ] = React.useState(initialFileUnitChosenAppUnitObj);
+
   const [
     userMatchObject,
     setUserMatchObject,
@@ -327,12 +308,16 @@ export default function MatchUnits({
 
     const handleApplicationUnitChange = <T extends boolean>(
       value: NonNullable<ValueType<ISelectOption, T>>,
-      rowSN: number,
+      row: IRawRow,
       fileHeader: string,
       unitType: "Single" | "Multiple",
       unitOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
     ) => {
+      const { sn, fileUnit, applicationUnit } = row;
+      const applicationUnitDefined = applicationUnit as string;
+      const rowSN = sn as number;
+
       if (unitType === "Multiple") {
         const selectedAppUnitsOptions = value
           ? (value as OptionsType<ISelectOption>)
@@ -375,6 +360,10 @@ export default function MatchUnits({
           [fileHeader]: selectedUnitOptionIndices,
         }));
 
+        setFileUnitChosenAppUnitObj((prev) => ({
+          ...prev,
+          [fileHeader]: applicationUnitDefined,
+        }));
         //TODO: From Gift Need an object with unit:group pairs
         const currentRows = tableRows.current;
         const selectedRow = currentRows[rowSN - 1];
@@ -401,6 +390,10 @@ export default function MatchUnits({
           [`${fileHeader}`]: selectedUnitOptionIndex,
         }));
 
+        setFileUnitChosenAppUnitObj((prev) => ({
+          ...prev,
+          [fileHeader]: applicationUnitDefined,
+        }));
         //TODO: From Gift Need an object with unit:group pairs
         const currentRows = tableRows.current;
         const selectedRow = currentRows[rowSN - 1];
@@ -574,7 +567,7 @@ export default function MatchUnits({
               onChange={(value: ValueType<ISelectOption, IsMultiType>) =>
                 handleApplicationUnitChange<IsMultiType>(
                   value as NonNullable<ValueType<ISelectOption, IsMultiType>>,
-                  rowSN,
+                  row,
                   fileHeader,
                   unitType,
                   unitOptions,
@@ -667,6 +660,47 @@ export default function MatchUnits({
     chosenApplicationUnitIndicesAction
   );
 
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => (
+      <Tooltip
+        key={"acceptAllToolTip"}
+        title={"Accept All"}
+        placement="bottom-end"
+        arrow
+      >
+        <IconButton
+          style={{
+            height: "28px",
+            backgroundColor: theme.palette.primary.light,
+            border: `1px solid ${theme.palette.primary.main}`,
+            borderRadius: 2,
+          }}
+          onClick={() => {
+            const rowsAllAcceptMatch = rows.map((row) => {
+              const rowAccept = { ...row, acceptMatch: true };
+              return rowAccept;
+            });
+
+            const fileHeaderKeys = Object.keys(fileUnitChosenAppUnitObj);
+            for (const header of fileHeaderKeys) {
+              const chosenAppUnit = fileUnitChosenAppUnitObj[header];
+              userMatchObject[workflowClass]["units"][header] = {
+                header: chosenAppUnit as string,
+                acceptMatch: true,
+              };
+            }
+
+            setRows(rowsAllAcceptMatch);
+            setUserMatchObject(userMatchObject);
+          }}
+        >
+          <AllInclusiveOutlinedIcon />
+        </IconButton>
+      </Tooltip>
+    ),
+  };
+
   React.useEffect(() => {
     dispatch(
       updateUnitsSettingsParameterAction(
@@ -686,7 +720,9 @@ export default function MatchUnits({
       persistChosenApplicationUnitsAction(chosenApplicationUnitsWithoutNone, wp)
     );
 
-    dispatch(persistChosenApplicationUnitsAction(fileUnitsWithoutNone, wp));
+    dispatch(
+      updateInputParameterAction(`fileUnitsWithoutNone`, fileUnitsWithoutNone)
+    );
 
     dispatch(saveUserMatchAction(userMatchObject));
 

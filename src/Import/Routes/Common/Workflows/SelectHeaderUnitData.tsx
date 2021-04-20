@@ -168,12 +168,8 @@ export default function SelectHeaderUnitData({
   };
 
   const rows = tableRows.current;
-
   const indexRow = columnNameTableData[0];
-  console.log(
-    "Logged output --> ~ file: SelectHeaderUnitData.tsx ~ line 173 ~ columnNameTableData",
-    columnNameTableData
-  );
+
   const generateColumns = (roleOptions: SelectOptionsType) => {
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true },

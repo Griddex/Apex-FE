@@ -23,6 +23,7 @@ export interface IExistingDataProps {
   dataTitle?: string;
   chartData?: Record<string, React.Key>[];
   showChart?: boolean;
+  showBaseButtons?: boolean;
   tableButtons?: ITableButtonsProps;
   wkPs?:
     | "facilitiesInputDeckExisting"

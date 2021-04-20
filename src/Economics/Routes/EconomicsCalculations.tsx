@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
 export default function EconomicsCalculations() {
   const classes = useStyles();
   const [calculationName, setCalculationName] = React.useState("");
+  console.log(
+    "Logged output --> ~ file: EconomicsCalculations.tsx ~ line 48 ~ EconomicsCalculations ~ calculationName",
+    calculationName
+  );
 
   const handleWidgetDrop = (
     item: DragObjectWithType,

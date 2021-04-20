@@ -109,6 +109,10 @@ export function* saveInputDeckSaga(
     matchObject,
     variableUnits,
   };
+  console.log(
+    "Logged output --> ~ file: SaveInputDeckSaga.ts ~ line 99 ~ data",
+    data
+  );
 
   const config = { withCredentials: false };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
