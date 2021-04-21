@@ -11,8 +11,10 @@ const inputWorkflowProcesses = [
   "economicsParametersDeckDatabase",
   "economicsParametersDeckManual",
   "economicsParametersDeckExisting",
+
+  "economicsResultsExisting",
 ];
-const generateInputState = () => {
+const generateEconomicsState = () => {
   return inputWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
@@ -28,7 +30,7 @@ const generateInputState = () => {
   }, {});
 };
 
-const analysesWorkflowProcesses = [
+const existingWorkflowProcesses = [
   "economicsAnalyses",
   "economicsParameterImportWorkflow",
   "economicsParameters",
@@ -37,9 +39,10 @@ const analysesWorkflowProcesses = [
 
   "economicsCostsRevenuesDeckExisting",
   "economicsParametersDeckExisting",
+  "economicsResultsExisting",
 ];
 const generateExistingDataState = () => {
-  return analysesWorkflowProcesses.reduce((acc, workflowProcess) => {
+  return existingWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
       [workflowProcess]: [],
@@ -47,7 +50,7 @@ const generateExistingDataState = () => {
   }, {});
 };
 
-const inputDataState = generateInputState();
+const inputDataState = generateEconomicsState();
 const existingDataState = generateExistingDataState();
 const EconomicsState: EconomicsStateType = {
   //Remove from here

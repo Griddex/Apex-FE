@@ -38,7 +38,8 @@ export const getExistingWorkflowlabel: {
   forecastResultsData: "Forecast Results Data",
   forecastResultsVisualytics: "Forecast Results Visualytics",
   forecastResultsExisting: "Existing Forecast Results",
+  networkExisting: "Existing Network Data",
   economicsCostsRevenuesDeckExisting: "Economics Data",
   economicsParametersDeckExisting: "Economics Data",
-  networkExisting: "Existing Network Data",
+  economicsResultsExisting: "Economics Data",
 };

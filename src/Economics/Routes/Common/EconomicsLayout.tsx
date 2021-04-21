@@ -21,6 +21,7 @@ import Economics from "../../Economics";
 import EconomicsCostsRevenuesLanding from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
 import EconomicsParametersLanding from "../EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
 import EconomicsAnalysisWorkflow from "../EconomicsWorkflows/EconomicsAnalysisWorkflow";
+import EconomicsResultsWorkflow from "../EconomicsWorkflows/EconomicsResultsWorkflow";
 import EconomicsBackground from "./EconomicsBackground";
 
 const navbarHeight = 43;
@@ -89,16 +90,9 @@ const EconomicsLayout = () => {
       component: () => <div></div>,
     },
     {
-      name: "View Tables",
-      route: `${url}/viewtables`,
+      name: "View Results",
+      route: `${url}/viewresults`,
       startIcon: <TableChartOutlinedIcon fontSize="default" />,
-      hasWrapper: false,
-      component: () => <div></div>,
-    },
-    {
-      name: "View Charts",
-      route: `${url}/charttables`,
-      startIcon: <AssessmentOutlinedIcon fontSize="default" />,
       hasWrapper: false,
       component: () => <div></div>,
     },
@@ -129,8 +123,7 @@ const EconomicsLayout = () => {
                   costsrevenue: <EconomicsCostsRevenuesLanding />,
                   parameters: <EconomicsParametersLanding />,
                   economicanalysis: <EconomicsAnalysisWorkflow />,
-                  viewtables: <Economics />,
-                  charttables: <Economics />,
+                  viewresults: <EconomicsResultsWorkflow />,
                 };
 
                 return Layouts[economicsId];

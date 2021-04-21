@@ -1,11 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useDrag } from "react-dnd";
-import ItemTypes from "../../Economics/Utils/DragAndDropItemTypes";
-import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import NetPresentValue from "../Images/NetPresentValue.svg";
-import InternalRateOfReturn from "../Images/InternalRateOfReturn.svg";
-import NetCashflow from "../Images/NetCashflow.svg";
+import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
+import NetPresentValue from "../../Images/NetPresentValue.svg";
+import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
+import NetCashflow from "../../Images/NetCashflow.svg";
 
 const useStyles = makeStyles(() => ({
   economicsCalculationPanel: {

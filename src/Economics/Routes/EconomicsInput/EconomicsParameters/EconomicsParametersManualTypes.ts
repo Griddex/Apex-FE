@@ -1,6 +1,6 @@
-import { ApprovalTextType } from "../../Application/Components/Approval/ApprovalTypes";
-import { IApprover } from "../../Application/Components/Approvers/ApproversTypes";
-import { IAuthor } from "../../Application/Components/Author/AuthorTypes";
+import { ApprovalTextType } from "../../../../Application/Components/Approval/ApprovalTypes";
+import { IApprover } from "../../../../Application/Components/Approvers/ApproversTypes";
+import { IAuthor } from "../../../../Application/Components/Author/AuthorTypes";
 
 export interface IForecastDetail {
   titleName: string;

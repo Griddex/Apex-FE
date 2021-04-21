@@ -3,6 +3,7 @@ import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
 export const PERSIST_FIRSTLEVELFORECASTPROPERTY =
   "PERSIST_FIRSTLEVELFORECASTPROPERTY";
+export const LOAD_FORECASTRESULTS_WORKFLOW = "LOAD_FORECASTRESULTS_WORKFLOW";
 export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
 export const RUN_FORECAST_FAILURE = "RUN_FORECAST_FAILURE";
 export const GET_FORECASTRESULTS_REQUEST = "GET_FORECASTRESULTS_REQUEST";
@@ -33,6 +34,15 @@ export const updateForecastResultsParameterAction = (
   return {
     type: PERSIST_FIRSTLEVELFORECASTPROPERTY,
     payload: { name, value },
+  };
+};
+
+export const loadForecastResultsWorkflowAction = (name: string) => {
+  return {
+    type: LOAD_FORECASTRESULTS_WORKFLOW,
+    payload: {
+      name,
+    },
   };
 };
 

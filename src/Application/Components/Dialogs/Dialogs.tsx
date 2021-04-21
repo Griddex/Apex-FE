@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
-import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
+import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";

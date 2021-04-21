@@ -9,9 +9,9 @@ import AccountBalanceTwoToneIcon from "@material-ui/icons/AccountBalanceTwoTone"
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React, { useState } from "react";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
-import ParameterGrid from "../../Components/ParameterGrid";
+import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import AnalyticsTitle from "../../../../Application/Components/Basic/AnalyticsTitle";
+import ParameterGrid from "../../../Components/ParameterGrid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
     border: "1px solid #A8A8A8",
   },
-  selectItem: { minWidth: 200, marginRight: 20 },
+  selectItem: { width: 150, height: 150 },
   button: {
     color: theme.palette.primary.main,
     border: `2px solid ${theme.palette.primary.main}`,
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     height: "60%",
     alignItems: "center",
     overflow: "auto",
-    // height: 500,
+    border: "1px solid #F7F7F7",
   },
 
   secondaryButton: {
@@ -78,7 +78,7 @@ export interface IParameterGrid {
   rowCount: number;
 }
 
-const NPV = () => {
+const IRR = () => {
   const classes = useStyles();
   const [itemName, setItemName] = useState("");
   const [parameterSensitivityList, setParameterSensitivityList] = useState<
@@ -93,7 +93,7 @@ const NPV = () => {
   const SelectItem = ({ itemData }: { itemData: string[] }) => {
     return (
       <TextField
-        className={classes.selectItem}
+        // className={classes.C}
         id="outlined-select-worksheet"
         select
         label=""
@@ -156,7 +156,7 @@ const NPV = () => {
     <>
       <div className={classes.npvImage}>
         <AccountBalanceTwoToneIcon fontSize="large" />
-        <Typography>NPV</Typography>
+        <Typography>IRR</Typography>
         <Typography>Net Present Value</Typography>
       </div>
       <AnalyticsComp
@@ -184,4 +184,4 @@ const NPV = () => {
   );
 };
 
-export default NPV;
+export default IRR;

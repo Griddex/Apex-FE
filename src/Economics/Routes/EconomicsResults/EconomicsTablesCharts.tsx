@@ -1,11 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
-import ItemTypes from "../Utils/DragAndDropItemTypes";
-import EconomicsCalculationsPanel from "./../Components/EconomicsCalculationsPanel";
-import IRR from "./EconomicsIRR/IRR";
-import NCF from "./EconomicsNCF/NCF";
-import NPV from "./EconomicsNPV/NPV";
+import CenteredStyle from "./../../../Application/Components/Styles/CenteredStyle";
+import EconomicsResultTables from "./EconomicsResultTables";
+import EconomicsResultCharts from "./EconomicsResultCharts";
+import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import EconomicsResultsPanel from "../../Components/Panels/EconomicsResultsPanel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,24 +42,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EconomicsCalculations() {
+export default function EconomicsTablesCharts() {
   const classes = useStyles();
-  const [calculationName, setCalculationName] = React.useState("");
+  const [resultName, setResultName] = React.useState("");
   console.log(
-    "Logged output --> ~ file: EconomicsCalculations.tsx ~ line 48 ~ EconomicsCalculations ~ calculationName",
-    calculationName
+    "Logged output --> ~ file: EconomicsTablesCharts.tsx ~ line 48 ~ EconomicsTablesCharts ~ resultName",
+    resultName
   );
 
   const handleWidgetDrop = (
     item: DragObjectWithType,
     monitor: DropTargetMonitor
   ) => {
-    const { calculationName } = monitor.getItem();
-    setCalculationName(calculationName);
+    const { resultName } = monitor.getItem();
+    setResultName(resultName);
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ItemTypes.ECONOMICS_CALCULATION_TYPE,
+    accept: ItemTypes.ECONOMICS_RESULTS_TYPE,
     drop: (item, monitor) => handleWidgetDrop(item, monitor),
     collect: (monitor) => {
       return {
@@ -82,22 +82,20 @@ export default function EconomicsCalculations() {
   }
 
   function renderEconomicsCalculation() {
-    switch (calculationName) {
-      case "ncf":
-        return <NCF />;
-      case "npv":
-        return <NPV />;
-      case "irr":
-        return <IRR />;
+    switch (resultName) {
+      case "tables":
+        return <EconomicsResultTables />;
+      case "charts":
+        return <EconomicsResultCharts />;
       default:
-        return <h1>Click or Drag and Drop to View</h1>;
+        return <CenteredStyle>Click or Drag and Drop to View</CenteredStyle>;
     }
   }
 
   return (
     <div className={classes.root}>
       <div className={classes.workflowPanel}>
-        <EconomicsCalculationsPanel />
+        <EconomicsResultsPanel />
       </div>
       <div className={classes.workflowBody} ref={drop} style={dndCanvasStyle}>
         {renderEconomicsCalculation()}

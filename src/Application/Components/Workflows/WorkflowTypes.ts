@@ -57,7 +57,8 @@ export interface IEconomicsWorkflowProcess {
     | "economicsAnalyses"
     | "economicsParameterImportWorkflow"
     | "economicsParameters"
-    | "netCashAnalysisWorkflow";
+    | "netCashAnalysisWorkflow"
+    | "economicsResultsExisting";
   wkCy: "economicsDataWorkflows";
 }
 

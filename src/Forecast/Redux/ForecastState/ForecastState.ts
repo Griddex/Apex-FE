@@ -70,6 +70,8 @@ const forcastResultState: IForecastResultState = {
   existingDataWorkflows: {
     forecastResultsExisting: [],
   },
+
+  loadForecastResultsWorkflow: false,
 };
 
 const forecastState = { ...forecastChartState, ...forcastResultState };

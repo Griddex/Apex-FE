@@ -30,6 +30,7 @@ import { SizeMe } from "react-sizeme";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
+import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -323,22 +324,22 @@ export default function ExistingForecastResults({
             width: 270,
           }}
         >
-          <Button
-            variant="contained"
-            color="default"
-            startIcon={<TableChartOutlinedIcon />}
-            disabled={sRow === -1}
-          >
-            {"View Table"}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<InsertPhotoOutlinedIcon />}
-            disabled={sRow === -1}
-          >
-            {"Plot Chart"}
-          </Button>
+          <BaseButtons
+            buttonTexts={["View Table", "Plot Chart"]}
+            variants={["contained", "contained"]}
+            colors={["secondary", "primary"]}
+            startIcons={[
+              <TableChartOutlinedIcon key={1} />,
+              <InsertPhotoOutlinedIcon key={2} />,
+            ]}
+            disableds={[sRow === -1, sRow === -1]}
+            shouldExecute={[true, true]}
+            shouldDispatch={[false, false]}
+            finalActions={[
+              () => alert("View Table"),
+              () => alert("Plot Chart"),
+            ]}
+          />
         </div>
       )}
     </div>

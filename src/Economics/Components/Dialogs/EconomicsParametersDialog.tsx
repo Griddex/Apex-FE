@@ -13,19 +13,19 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import MainTitle from "../../Application/Components/Basic/MainTitle";
+import MainTitle from "../../../Application/Components/Basic/MainTitle";
 import {
   ButtonProps,
   DialogStuff,
   IDialogData,
-} from "../../Application/Components/Dialogs/DialogTypes";
-import DialogIcons from "../../Application/Components/Icons/DialogIcons";
-import { IconNameType } from "../../Application/Components/Icons/DialogIconsTypes";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { hideDialogAction } from "../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
+} from "../../../Application/Components/Dialogs/DialogTypes";
+import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
+import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

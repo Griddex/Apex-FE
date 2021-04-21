@@ -9,19 +9,19 @@ import AccountBalanceTwoToneIcon from "@material-ui/icons/AccountBalanceTwoTone"
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React, { useState } from "react";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import ParameterGrid from "../../Components/ParameterGrid";
-import {
-  ButtonProps,
-  DialogStuff,
-} from "../../../Application/Components/Dialogs/DialogTypes";
-import {
-  hideDialogAction,
-  showDialogAction,
-} from "../../../Application/Redux/Actions/DialogsAction";
 import { useDispatch } from "react-redux";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import {
+  ButtonProps,
+  DialogStuff,
+} from "../../../../Application/Components/Dialogs/DialogTypes";
+import {
+  hideDialogAction,
+  showDialogAction,
+} from "../../../../Application/Redux/Actions/DialogsAction";
+import ParameterGrid from "../../../Components/ParameterGrid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,7 +106,7 @@ const NCF = () => {
     string[]
   >([]);
 
-  const handleSelectChange = (event: { target: { value: any } }) => {
+  const handleSelectChange = (event: React.ChangeEvent<any>) => {
     const item = event.target.value;
     setItemName(item);
   };

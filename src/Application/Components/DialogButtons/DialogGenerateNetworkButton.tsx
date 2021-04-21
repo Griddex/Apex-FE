@@ -2,13 +2,13 @@ import { Button } from "@material-ui/core";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { IFinalAction } from "../../Layout/LayoutTypes";
+import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 
 const DialogGenerateNetworkButton = (
-  shouldExecute: IFinalAction["shouldExecute"],
-  shouldDispatch: IFinalAction["shouldDispatch"],
-  finalActions: IFinalAction["finalActions"]
+  shouldExecute: IButtonsConfigProps["shouldExecute"],
+  shouldDispatch: IButtonsConfigProps["shouldDispatch"],
+  finalActions: IButtonsConfigProps["finalActions"]
 ) => {
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [

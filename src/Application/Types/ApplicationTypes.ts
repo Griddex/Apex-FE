@@ -1,7 +1,10 @@
 import { IUserDetails } from "../Components/User/UserTypes";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
-import { IAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  ReducersType,
+} from "../Components/Workflows/WorkflowTypes";
 
 export interface IExistingDataRow {
   sn?: number;
@@ -19,6 +22,7 @@ export interface IExistingDataRow {
 
 export interface IExistingDataProps {
   snExistingData?: IExistingDataRow[];
+  reducer?: ReducersType;
   dataKey?: string;
   dataTitle?: string;
   chartData?: Record<string, React.Key>[];
@@ -34,7 +38,8 @@ export interface IExistingDataProps {
     | "networkExisting"
     | "forecastResultsData"
     | "forecastResultsVisualytics"
-    | "forecastResultsExisting";
+    | "forecastResultsExisting"
+    | "economicsResultsExisting";
   wkCy?: "existingDataWorkflows";
   containerStyle?: CSSProperties;
   finalAction?: () => void;

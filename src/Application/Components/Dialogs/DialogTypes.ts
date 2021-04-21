@@ -1,7 +1,7 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ReactNode } from "react";
 import { Column } from "react-data-griddex";
-import EconomicsParametersDialog from "../../../Economics/Components/EconomicsParametersDialog";
+import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";

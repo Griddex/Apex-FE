@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
   RouteComponentProps,
@@ -12,9 +12,11 @@ import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
 import Spreadsheet from "../../Application/Images/Spreadsheet.svg";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import ExistingDeck from "../../Import/Images/ExistingDeck.svg";
 import ForecastCharts from "../Images/ForecastCharts.svg";
+import { loadForecastResultsWorkflowAction } from "../Redux/Actions/ForecastActions";
 import ExistingForecastResults from "../Routes/ExistingForecastResults";
 import ForecastData from "../Routes/ForecastData";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
@@ -49,11 +51,9 @@ const ForecastLanding = () => {
 
   const { url, path } = useRouteMatch();
 
-  // const { loadWorkflow } = useSelector(
-  //   (state: RootState) => state.layoutReducer
-  // );
-
-  const [loadWorkflow, setLoadWorkflow] = React.useState(false);
+  const { loadForecastResultsWorkflow } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
 
   const forecastLandingData: ILandingData[] = [
     {
@@ -119,7 +119,7 @@ const ForecastLanding = () => {
 
   return (
     <>
-      {loadWorkflow ? (
+      {loadForecastResultsWorkflow ? (
         <div className={classes.forecastWorkflow}>
           <Switch>
             <Route exact path={`${url}/:dataInputId`}>
@@ -183,7 +183,9 @@ const ForecastLanding = () => {
                 key={name}
                 isDispatched={false}
                 moduleAction={() => {
-                  setLoadWorkflow(true);
+                  loadForecastResultsWorkflowAction(
+                    "loadForecastResultsWorkflow"
+                  );
                 }}
                 title={name}
                 description={description}

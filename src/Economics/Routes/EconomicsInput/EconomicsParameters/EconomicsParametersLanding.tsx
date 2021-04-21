@@ -23,6 +23,7 @@ import { IdType } from "./EconomicsParametersTypes";
 import ExistingEconomicsParametersDecks from "./ExistingEconomicsParametersDecks";
 import { loadEconomicsWorkflowAction } from "../../../Redux/Actions/EconomicsActions";
 import Manual from "../../../Images/Manual.svg";
+import EconomicsParametersManual from "./EconomicsParametersManual";
 
 const useStyles = makeStyles((theme) => ({
   economicsParametersLanding: {
@@ -53,6 +54,14 @@ const EconomicsParametersLanding = () => {
 
   const reducer = "economicsReducer";
   const { url, path } = useRouteMatch();
+  console.log(
+    "Logged output --> ~ file: EconomicsParametersLanding.tsx ~ line 56 ~ EconomicsParametersLanding ~ path",
+    path
+  );
+  console.log(
+    "Logged output --> ~ file: EconomicsParametersLanding.tsx ~ line 56 ~ EconomicsParametersLanding ~ url",
+    url
+  );
   const { loadParametersWorkflow } = useSelector(
     (state: RootState) => state.economicsReducer
   );
@@ -176,6 +185,10 @@ const EconomicsParametersLanding = () => {
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
               const { match } = props;
+              console.log(
+                "Logged output --> ~ file: EconomicsParametersLanding.tsx ~ line 179 ~ EconomicsParametersLanding ~ props",
+                props
+              );
               const {
                 params: { dataInputId },
               } = match;
@@ -206,7 +219,7 @@ const EconomicsParametersLanding = () => {
                   />
                 ),
                 manual: (
-                  <ExcelWorkflow
+                  <EconomicsParametersManual
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckExcel"}

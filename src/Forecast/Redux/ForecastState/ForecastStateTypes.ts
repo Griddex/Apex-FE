@@ -80,6 +80,8 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   existingDataWorkflows: {
     forecastResultsExisting: IApplicationExistingForecastResultsRow[];
   };
+
+  loadForecastResultsWorkflow: boolean;
 }
 
 export type colorGradient = typeof initialColorGradient;

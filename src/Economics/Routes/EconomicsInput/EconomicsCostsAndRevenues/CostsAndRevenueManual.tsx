@@ -5,10 +5,11 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import faker from "faker";
 import zipObject from "lodash.zipobject";
 import React from "react";
-import { Column, TextEditor } from "react-data-griddex";
+import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -104,6 +105,7 @@ export default function CostsAndRevenueManual({
       [headerName]: selectedAppUnit,
     }));
   };
+
   const generateColumns = () => {
     const columns: Column<IRawRow>[] = [
       {
@@ -154,7 +156,11 @@ export default function CostsAndRevenueManual({
         key: "oilRate",
         name: `OIL RATE`,
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
-        editor: TextEditor,
+        editor: (props: EditorProps<IRawRow>) => {
+          const { rowIdx } = props;
+          if (rowIdx === 0) return <div></div>;
+          else return <TextEditor {...props} />;
+        },
         resizable: true,
         formatter: ({ row }) => {
           const data = ["bopd", "Mbopd"];

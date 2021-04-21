@@ -10,8 +10,8 @@ import { showContextDrawerAction } from "../../../Application/Redux/Actions/Layo
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import EconomicsCalculations from "../EconomicsCalculations/EconomicsCalculations";
-import ExistingCostsAndRevenuesDecks from "../EconomicsInput/EconomicsCostsAndRevenues/ExistingCostsAndRevenuesDecks";
-import ExistingEconomicsParametersDecks from "../EconomicsInput/EconomicsParameters/ExistingEconomicsParametersDecks";
+import EconomicsTablesCharts from "../EconomicsResults/EconomicsTablesCharts";
+import ExistingEconomicsResults from "../EconomicsResults/ExistingEconomicsResults";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,19 +87,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = [
-  "Select Parameters & Assumptions",
-  "Select Costs & Revenues",
-  "Economics Analyses",
-  // "Calculate Indices [and Define Sensitivities]",
-];
+const steps = ["Select Economics Result", "View Tables & Charts"];
 
-const EconomicsAnalysisWorkflow = () => {
+const EconomicsResultsWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const reducer = "economicsReducer";
   const wc = "economicsDataWorkflows";
-  const wp = "economicsAnalyses";
+  const wp = "economicsResultsExisting";
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
@@ -153,22 +148,14 @@ const EconomicsAnalysisWorkflow = () => {
     switch (activeStep) {
       case 0:
         return (
-          <ExistingEconomicsParametersDecks
+          <ExistingEconomicsResults
             reducer={reducer}
             finalAction={() => console.log("Hi")}
             showChart={false}
           />
         );
       case 1:
-        return (
-          <ExistingCostsAndRevenuesDecks
-            reducer={reducer}
-            finalAction={() => console.log("Hi")}
-            showChart={false}
-          />
-        );
-      case 2:
-        return <EconomicsCalculations />;
+        return <EconomicsTablesCharts />;
       default:
         return <h1>No view</h1>;
     }
@@ -204,4 +191,4 @@ const EconomicsAnalysisWorkflow = () => {
   );
 };
 
-export default EconomicsAnalysisWorkflow;
+export default EconomicsResultsWorkflow;

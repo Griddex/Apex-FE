@@ -3,14 +3,14 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { IFinalAction } from "../../Layout/LayoutTypes";
+import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 
 const DialogRemoveNetworkCancelButtons = (
-  shouldExecute: IFinalAction["shouldExecute"],
-  shouldDispatch: IFinalAction["shouldDispatch"],
-  finalActions: IFinalAction["finalActions"]
+  shouldExecute: IButtonsConfigProps["shouldExecute"],
+  shouldDispatch: IButtonsConfigProps["shouldDispatch"],
+  finalActions: IButtonsConfigProps["finalActions"]
 ) => {
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [

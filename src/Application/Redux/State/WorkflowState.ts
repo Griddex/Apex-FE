@@ -113,6 +113,7 @@ const economicsWorkflowNames = [
   "economicsAnalyses",
   "economicsParameterImportWorkflow",
   "economicsGenerationWorkflow",
+  "economicsResultsExisting",
 ];
 const generateEconomicsWorkflowState = () => {
   return economicsWorkflowNames.reduce((acc, workflowProcess) => {

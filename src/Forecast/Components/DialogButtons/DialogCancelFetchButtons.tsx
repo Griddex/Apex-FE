@@ -4,13 +4,13 @@ import DetailsOutlinedIcon from "@material-ui/icons/DetailsOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";
-import { IFinalAction } from "../../../Application/Layout/LayoutTypes";
+import { IButtonsConfigProps } from "../../../Application/Layout/LayoutTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 const DialogCancelFetchButtons = (
-  shouldExecute: IFinalAction["shouldExecute"],
-  shouldDispatch: IFinalAction["shouldDispatch"],
-  finalActions: IFinalAction["finalActions"]
+  shouldExecute: IButtonsConfigProps["shouldExecute"],
+  shouldDispatch: IButtonsConfigProps["shouldDispatch"],
+  finalActions: IButtonsConfigProps["finalActions"]
 ) => {
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [

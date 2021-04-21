@@ -1,5 +1,6 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
+  LOAD_FORECASTRESULTS_WORKFLOW,
   GET_FORECASTRESULTS_FAILURE,
   GET_FORECASTRESULTS_SUCCESS,
   PERSIST_FIRSTLEVELFORECASTPROPERTY,
@@ -31,6 +32,14 @@ const forecastReducer = (
       return {
         ...state,
         [name]: value,
+      };
+    }
+
+    case LOAD_FORECASTRESULTS_WORKFLOW: {
+      const { name } = action.payload;
+      return {
+        ...state,
+        [name]: true,
       };
     }
 
