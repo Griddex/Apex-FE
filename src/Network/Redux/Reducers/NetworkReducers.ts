@@ -1,4 +1,5 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   ADD_NETWORKELEMENT,
   AUTOGENERATENETWORK_FAILURE,
@@ -36,6 +37,18 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...state,
         [name]: value,
       };
+    }
+    case UPDATE_SELECTEDIDTITLE: {
+      const { reducer, idTitleObj } = action.payload;
+
+      if (reducer === "networkReducer") {
+        return {
+          ...state,
+          ...idTitleObj,
+        };
+      } else {
+        return state;
+      }
     }
     case SET_CURRENTELEMENT:
       return {

@@ -56,17 +56,18 @@ export function* autoGenerateNetworkSaga(
   const message = meta && meta.message ? meta.message : "";
 
   const { userId } = yield select((state) => state.loginReducer);
-  const { forecastInputDeckId, facilitiesInputDeckId } = yield select(
-    (state) => state.inputReducer
-  );
+  const {
+    selectedForecastInputDeckId,
+    selectedFacilitiesInputDeckId,
+  } = yield select((state) => state.inputReducer);
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = yield select(
     (state) => state.networkReducer
   );
 
   const reqPayload = {
     userId,
-    facilitiesInputDeckId,
-    forecastInputDeckId,
+    facilitiesInputDeckId: selectedFacilitiesInputDeckId,
+    forecastInputDeckId: selectedForecastInputDeckId,
     showWellheadSummaryNodes,
     showWellheadSummaryEdges,
   };

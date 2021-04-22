@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
+import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
@@ -54,7 +55,19 @@ export default function ExistingEconomicsResults({
   }, [dispatch]);
 
   const dataKey = "title";
-  const dataTitle = "TITLE";
+  const dataTitle = "ECONOMICS RESULTS TITLE";
+
+  const handleCheckboxChange = (row: any) => {
+    const { id, title } = row;
+
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("economicsReducer", {
+          selectedEconomicsResultsId: id,
+          selectedEconomicsResultsTitle: title,
+        })
+      );
+  };
 
   const props = {
     reducer,
@@ -65,6 +78,7 @@ export default function ExistingEconomicsResults({
     chartData,
     wkPs: wp,
     containerStyle,
+    handleCheckboxChange,
   };
 
   return <ExistingDataRoute {...props} />;

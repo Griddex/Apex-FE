@@ -20,7 +20,7 @@ const ForecastTitleAndDescriptionForm = () => {
     <Formik
       initialValues={InputState}
       validationSchema={Yup.object().shape({
-        forecastInputDeckTitle: Yup.string().required(
+        selectedForecastInputDeckTitle: Yup.string().required(
           "projectTitle is required"
         ),
       })}
@@ -28,7 +28,10 @@ const ForecastTitleAndDescriptionForm = () => {
     >
       {(props: FormikProps<INewForecastInputDeckFormValues>) => {
         const {
-          values: { forecastInputDeckTitle, forecastInputDeckDescription },
+          values: {
+            selectedForecastInputDeckTitle,
+            forecastInputDeckDescription,
+          },
           errors,
           touched,
           handleChange,
@@ -37,7 +40,7 @@ const ForecastTitleAndDescriptionForm = () => {
         } = props;
 
         const formProps = {
-          forecastInputDeckTitle,
+          selectedForecastInputDeckTitle,
           forecastInputDeckDescription,
           errors,
           touched,

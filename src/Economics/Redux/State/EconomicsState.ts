@@ -59,15 +59,22 @@ const EconomicsState: EconomicsStateType = {
   loadCostsRevenueWorkflow: false,
   loadParametersWorkflow: false,
 
-  costsRevenuesInputDeckId: "",
   costsRevenuesInputHeaders: [],
+
+  costsRevenuesInputDeckId: "",
   costsRevenuesInputDeckTitle: "",
   costsRevenuesInputDeckDescription: "",
 
+  selectedCostsRevenuesInputDeckId: "",
+  selectedCostsRevenuesInputDeckTitle: "",
+
   parametersInputDeckId: "",
   parametersInputHeaders: [],
-  // parametersInputDeckTitle:"",
-  // parametersInputDeckDescription:"",
+  selectedParametersInputDeckId: "",
+  selectedParametersInputDeckTitle: "",
+
+  selectedEconomicsResultsId: "",
+  selectedEconomicsResultsTitle: "",
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,

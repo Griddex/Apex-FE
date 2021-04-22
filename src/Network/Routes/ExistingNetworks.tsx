@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
@@ -54,6 +55,22 @@ export default function ExistingNetworks({
   const dataKey = "title";
   const dataTitle = "NETWORK TITLE";
 
+  const handleCheckboxChange = (row: any) => {
+    const { id, title } = row;
+    console.log(
+      "Logged output --> ~ file: ExistingNetworks.tsx ~ line 60 ~ handleCheckboxChange ~ row",
+      row
+    );
+
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("networkReducer", {
+          selectedNetworkId: id,
+          selectedNetworkTitle: title,
+        })
+      );
+  };
+
   const props = {
     snExistingData,
     dataKey,
@@ -62,6 +79,7 @@ export default function ExistingNetworks({
     chartData,
     wkPs: wp,
     containerStyle,
+    handleCheckboxChange,
   };
 
   return <ExistingDataRoute {...props} />;

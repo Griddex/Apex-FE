@@ -96,7 +96,7 @@ const CostsRevenueForecastInputWorkflow = ({
   wrkflwPrcss,
   finalAction,
   idTitleArr,
-  persistIdTitleAction,
+  persistSelectedIdTitleAction,
 }: IAllWorkflowProcesses) => {
   const dispatch = useDispatch();
   const classes = useStyles();

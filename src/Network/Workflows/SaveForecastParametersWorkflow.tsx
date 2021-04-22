@@ -16,7 +16,7 @@ const SaveForecastParametersWorkflow = ({
 }: {
   activeStep: number;
 }) => {
-  const { forecastInputDeckId } = useSelector(
+  const { selectedForecastInputDeckId } = useSelector(
     (state: RootState) => state.inputReducer
   );
   const { forecastingParametersExisting } = useSelector(
@@ -27,7 +27,7 @@ const SaveForecastParametersWorkflow = ({
   const index = findIndex(
     forecastingParametersExisting,
     (k: IForecastingParametersRow) =>
-      k.forecastInputDeckId === forecastInputDeckId
+      k.forecastInputDeckId === selectedForecastInputDeckId
   );
 
   const renderImportStep = (props: ISaveForecastParametersFormProps) => {

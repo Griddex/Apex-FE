@@ -70,8 +70,8 @@ export interface InputStateType
     INewForecastInputDeckFormValues {
   currentWorkflowProcess: string;
   headerType: string;
-  facilitiesInputDeckId: string;
-  forecastInputDeckId: string;
+  selectedFacilitiesInputDeckId: string;
+  selectedForecastInputDeckId: string;
   facilitiesInputHeaders: Record<string, string>[];
   forecastInputHeaders: Record<string, string>[];
 
@@ -86,7 +86,7 @@ export interface InputStateType
 }
 
 export interface INewFacilitiesInputDeckFormValues {
-  facilitiesInputDeckTitle: string;
+  selectedFacilitiesInputDeckTitle: string;
   facilitiesInputDeckDescription: string;
 }
 
@@ -103,7 +103,7 @@ export interface INewFacilitiesInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
 }
 export interface INewForecastInputDeckFormValues {
-  forecastInputDeckTitle: string;
+  selectedForecastInputDeckTitle: string;
   forecastInputDeckDescription: string;
 }
 export interface INewForecastInputDeckWorkflowProps

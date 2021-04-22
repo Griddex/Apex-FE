@@ -1,5 +1,6 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
 
 export interface IExistingInputDeck {
   activeStep?: number;
@@ -7,5 +8,5 @@ export interface IExistingInputDeck {
   showChart: boolean;
   finalAction: () => void;
   containerStyle?: CSSProperties;
-  // workflowProcess: NonNullable<IAllWorkflowProcesses["wrkflwPrcss"]>;
+  handleCheckboxChange?: IExistingDataProps["handleCheckboxChange"];
 }

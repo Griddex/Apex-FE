@@ -1,6 +1,7 @@
 import set from "lodash.set";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import {
   EXISTINGDATA_FAILURE,
@@ -40,6 +41,18 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       const updatedState = set(state, nameOrPath, value);
       return updatedState;
+    }
+    case UPDATE_SELECTEDIDTITLE: {
+      const { reducer, idTitleObj } = action.payload;
+
+      if (reducer === "inputReducer") {
+        return {
+          ...state,
+          ...idTitleObj,
+        };
+      } else {
+        return state;
+      }
     }
     case IMPORTFILE_INITIALIZATION:
     case PERSIST_VARIABLEUNITS:

@@ -1,6 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
+import { persistSelectedIdTitleAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
@@ -22,6 +23,8 @@ export default function ExistingEconomicsParametersDecks({
   finalAction,
   showChart,
 }: IExistingInputDeck) {
+  const dispatch = useDispatch();
+
   const wc = "existingDataWorkflows";
   const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "economicsParametersDeckExisting";
@@ -52,6 +55,18 @@ export default function ExistingEconomicsParametersDecks({
   const dataKey = "title";
   const dataTitle = "ECONOMIC PARAMETERS TITLE";
 
+  const handleCheckboxChange = (row: any) => {
+    const { id, title } = row;
+
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("economicsReducer", {
+          selectedParametersInputDeckId: id,
+          selectedParametersInputDeckTitle: title,
+        })
+      );
+  };
+
   const props: IExistingDataProps = {
     wkPs: wp,
     snExistingData,
@@ -59,6 +74,7 @@ export default function ExistingEconomicsParametersDecks({
     dataTitle,
     chartData,
     tableButtons,
+    handleCheckboxChange,
   };
 
   return <ExistingDataRoute {...props} />;

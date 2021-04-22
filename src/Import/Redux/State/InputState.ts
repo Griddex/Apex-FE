@@ -127,11 +127,12 @@ const InputState: InputStateType = {
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
 
-  facilitiesInputDeckId: "",
-  facilitiesInputDeckTitle: "",
+  selectedFacilitiesInputDeckId: "",
+  selectedFacilitiesInputDeckTitle: "",
   facilitiesInputDeckDescription: "",
-  forecastInputDeckId: "",
-  forecastInputDeckTitle: "",
+
+  selectedForecastInputDeckId: "",
+  selectedForecastInputDeckTitle: "",
   forecastInputDeckDescription: "",
 
   noneColumnIndices: {},

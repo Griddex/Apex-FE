@@ -275,7 +275,7 @@ export default function ExistingForecastingParameters({
         },
       },
       {
-        key: "forecastInputDeckTitle",
+        key: "selectedForecastInputDeckTitle",
         name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,

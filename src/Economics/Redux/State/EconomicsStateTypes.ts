@@ -26,9 +26,16 @@ export interface EconomicsStateType
 
   costsRevenuesInputDeckId: string;
   costsRevenuesInputHeaders: Record<string, string>[];
+  selectedCostsRevenuesInputDeckId: string;
+  selectedCostsRevenuesInputDeckTitle: string;
 
   parametersInputDeckId: string;
   parametersInputHeaders: Record<string, string>[];
+  selectedParametersInputDeckId: string;
+  selectedParametersInputDeckTitle: string;
+
+  selectedEconomicsResultsId: string;
+  selectedEconomicsResultsTitle: string;
 
   inputDataWorkflows: Record<string, IApplicationExistingData>;
   existingDataWorkflows: Record<string, IApplicationExistingData[]>;

@@ -99,7 +99,10 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
                   startIcon={startIcon}
                   style={
                     name === selected
-                      ? { color: theme.palette.primary.main }
+                      ? {
+                          color: theme.palette.primary.dark,
+                          backgroundColor: theme.palette.primary.light,
+                        }
                       : {}
                   }
                 >

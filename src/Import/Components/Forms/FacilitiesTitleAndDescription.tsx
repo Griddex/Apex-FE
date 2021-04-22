@@ -6,7 +6,7 @@ import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { INewFacilitiesInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
 const FacilitiesTitleAndDescription = ({
-  facilitiesInputDeckTitle,
+  selectedFacilitiesInputDeckTitle,
   facilitiesInputDeckDescription,
   errors,
   touched,
@@ -15,8 +15,8 @@ const FacilitiesTitleAndDescription = ({
   const dispatch = useDispatch();
 
   const helperText =
-    touched && touched.facilitiesInputDeckTitle
-      ? errors && errors.facilitiesInputDeckTitle
+    touched && touched.selectedFacilitiesInputDeckTitle
+      ? errors && errors.selectedFacilitiesInputDeckTitle
       : "";
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
@@ -33,12 +33,12 @@ const FacilitiesTitleAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="facilitiesInputDeckTitle"
+            name="selectedFacilitiesInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={facilitiesInputDeckTitle}
+            value={selectedFacilitiesInputDeckTitle}
             onChange={handleTitleDescChange}
             required
             autoFocus

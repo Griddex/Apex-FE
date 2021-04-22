@@ -2,6 +2,7 @@ import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
@@ -53,6 +54,18 @@ export default function ExistingProjects({
   const dataKey = "title";
   const dataTitle = "PROJECT TITLE";
 
+  const handleCheckboxChange = (row: any) => {
+    const { id, title } = row;
+
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("projectReducer", {
+          selectedProjectId: id,
+          selectedProjectTitle: title,
+        })
+      );
+  };
+
   const props = {
     snExistingData,
     dataKey,
@@ -60,6 +73,7 @@ export default function ExistingProjects({
     tableButtons,
     chartData,
     containerStyle,
+    handleCheckboxChange,
   };
 
   return <ExistingDataRoute {...props} />;

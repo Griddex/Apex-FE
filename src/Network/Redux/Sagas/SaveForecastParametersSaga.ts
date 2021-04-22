@@ -53,7 +53,9 @@ function* saveForecastParametersSaga(
 > {
   const { payload } = action;
   const { userId } = yield select((state) => state.loginReducer);
-  const { forecastInputDeckId } = yield select((state) => state.inputReducer);
+  const { selectedForecastInputDeckId } = yield select(
+    (state) => state.inputReducer
+  );
   const {
     forecastingParametersExisting,
     forecastParametersTitle,
@@ -70,7 +72,7 @@ function* saveForecastParametersSaga(
 
   const selectedParametersObj = forecastingParametersExisting.find(
     (k: IForecastingParametersRow) =>
-      k.forecastInputDeckId === forecastInputDeckId
+      k.forecastInputDeckId === selectedForecastInputDeckId
   );
 
   const id = selectedParametersObj.forecastingParametersRootId;

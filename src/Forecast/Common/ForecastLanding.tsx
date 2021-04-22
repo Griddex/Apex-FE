@@ -54,6 +54,10 @@ const ForecastLanding = () => {
   const { loadForecastResultsWorkflow } = useSelector(
     (state: RootState) => state.forecastReducer
   );
+  console.log(
+    "Logged output --> ~ file: ForecastLanding.tsx ~ line 55 ~ ForecastLanding ~ loadForecastResultsWorkflow",
+    loadForecastResultsWorkflow
+  );
 
   const forecastLandingData: ILandingData[] = [
     {
@@ -183,8 +187,10 @@ const ForecastLanding = () => {
                 key={name}
                 isDispatched={false}
                 moduleAction={() => {
-                  loadForecastResultsWorkflowAction(
-                    "loadForecastResultsWorkflow"
+                  dispatch(
+                    loadForecastResultsWorkflowAction(
+                      "loadForecastResultsWorkflow"
+                    )
                   );
                 }}
                 title={name}

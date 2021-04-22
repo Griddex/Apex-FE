@@ -60,9 +60,10 @@ function* saveNetworkSaga(
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
-  const { facilitiesInputDeckId, forecastInputDeckId } = yield select(
-    (state) => state.inputReducer
-  );
+  const {
+    selectedFacilitiesInputDeckId,
+    selectedForecastInputDeckId,
+  } = yield select((state) => state.inputReducer);
   const {
     networkTitle,
     networkDescription,
@@ -75,8 +76,8 @@ function* saveNetworkSaga(
     projectId,
     title: networkTitle,
     description: networkDescription,
-    facilitiesInputDeckId,
-    forecastInputDeckId,
+    facilitiesInputDeckId: selectedFacilitiesInputDeckId,
+    forecastInputDeckId: selectedForecastInputDeckId,
     nodes: nodeElements,
     edges: edgeElements,
   };

@@ -56,7 +56,7 @@ export default function CostsAndRevenueManual({
   wrkflwPrcss,
   finalAction,
   idTitleArr,
-  persistIdTitleAction,
+  persistSelectedIdTitleAction,
 }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();

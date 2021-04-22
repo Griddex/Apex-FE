@@ -78,7 +78,7 @@ export interface IAllWorkflowProcesses {
     | INetworkWorkflowProcess["wkCy"]
     | IEconomicsWorkflowProcess["wkCy"];
   finalAction?: () => void;
-  persistIdTitleAction?: (
+  persistSelectedIdTitleAction?: (
     reducer: IAllWorkflowProcesses["reducer"],
     idTitleObj: Record<string, string>
   ) => IAction;

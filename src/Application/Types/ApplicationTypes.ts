@@ -46,16 +46,7 @@ export interface IExistingDataProps {
   finalIcon?: JSX.Element;
   finalText?: string;
   name?: keyof Pick<IExistingDataRow, "id" | "title">;
-  persistIdTitleAction?: (
-    name: IExistingDataProps["name"],
-    value: any
-  ) => {
-    type: string;
-    payload: {
-      name: IExistingDataProps["name"];
-      value: any;
-    };
-  };
+  handleCheckboxChange?: (row: any, event?: React.ChangeEvent<any>) => void;
 }
 
 export interface IApplicationExistingData {

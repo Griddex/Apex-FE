@@ -95,8 +95,8 @@ export interface IExistingForecastResultsRow {
   title?: string;
   forecastResultsId?: string;
   forecastParametersGroupId?: string;
-  forecastInputDeckId?: string;
-  forecastInputDeckTitle?: string;
+  selectedForecastInputDeckId?: string;
+  selectedForecastInputDeckTitle?: string;
   forecastParametersTitle?: string;
   description?: string;
   author: IUserDetails | string;

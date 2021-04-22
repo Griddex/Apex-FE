@@ -51,17 +51,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getExistingTitle = (wp: NonNullable<IExistingDataProps["wkPs"]>) => {
-  if (wp.includes("facilities")) return "facilitiesInputDeckTitle";
-  else if (wp.includes("forecast")) return "forecastInputDeckTitle";
-  else return "";
-};
-const getExistingId = (wp: NonNullable<IExistingDataProps["wkPs"]>) => {
-  if (wp.includes("facilities")) return "facilitiesInputDeckId";
-  else if (wp.includes("forecast")) return "forecastInputDeckId";
-  else return "";
-};
-
 export default function ExistingDataRoute<
   TRow extends IExistingDataRow = IExistingDataRow
 >({
@@ -73,8 +62,7 @@ export default function ExistingDataRoute<
   wkPs,
   showChart,
   containerStyle,
-  persistIdTitleAction,
-  name,
+  handleCheckboxChange,
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -83,38 +71,12 @@ export default function ExistingDataRoute<
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const handleCheckboxChange = (row: TRow) => {
-    const nameDefined = name as NonNullable<IExistingDataProps["name"]>;
-
-    persistIdTitleAction &&
-      dispatch(persistIdTitleAction(nameDefined, row[nameDefined]));
-  };
-  // const handleCheckboxChange = (row: TRow) => {
-  //   if (wp.includes("facilities") || wp.includes("forecast")) {
-  //     const existingTitle = getExistingTitle(wp);
-  //     const existingId = getExistingId(wp);
-
-  //     dispatch(updateInputParameterAction(existingTitle, row.title as string));
-  //     dispatch(updateInputParameterAction(existingId, row.id as string));
-  //   } else {
-  //     dispatch(
-  //       updateNetworkParameterAction(
-  //         "selectedNetworkTitle",
-  //         row.title as string
-  //       )
-  //     );
-  //     dispatch(
-  //       updateNetworkParameterAction("selectedNetworkId", row.id as string)
-  //     );
-  //   }
-
-  //   setSelectedRows((prev) => prev.add(row.sn as number));
-  // };
-
   const ApexCheckboxColumn = apexCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxFxn: handleCheckboxChange,
+    apexCheckboxFxn: handleCheckboxChange as NonNullable<
+      IExistingDataProps["handleCheckboxChange"]
+    >,
   });
 
   const generateColumns = () => {

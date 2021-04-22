@@ -66,17 +66,6 @@ const chartData = [
   { name: "Group C", value: 1398 },
 ];
 
-const getExistingTitle = (wp: NonNullable<IExistingDataProps["wkPs"]>) => {
-  if (wp.includes("facilities")) return "facilitiesInputDeckTitle";
-  else if (wp.includes("forecast")) return "forecastInputDeckTitle";
-  else return "";
-};
-const getExistingId = (wp: NonNullable<IExistingDataProps["wkPs"]>) => {
-  if (wp.includes("facilities")) return "facilitiesInputDeckId";
-  else if (wp.includes("forecast")) return "forecastInputDeckId";
-  else return "";
-};
-
 export default function ForecastData({
   wrkflwCtgry,
   wrkflwPrcss,

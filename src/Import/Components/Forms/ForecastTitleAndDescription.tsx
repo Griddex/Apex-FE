@@ -6,7 +6,7 @@ import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
 const ForecastTitleAndDescription = ({
-  forecastInputDeckTitle,
+  selectedForecastInputDeckTitle,
   forecastInputDeckDescription,
   errors,
   touched,
@@ -15,8 +15,8 @@ const ForecastTitleAndDescription = ({
   const dispatch = useDispatch();
 
   const helperText =
-    touched && touched.forecastInputDeckTitle
-      ? errors && errors.forecastInputDeckTitle
+    touched && touched.selectedForecastInputDeckTitle
+      ? errors && errors.selectedForecastInputDeckTitle
       : "";
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
@@ -33,12 +33,12 @@ const ForecastTitleAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="forecastInputDeckTitle"
+            name="selectedForecastInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={forecastInputDeckTitle}
+            value={selectedForecastInputDeckTitle}
             onChange={handleTitleDescChange}
             required
             autoFocus

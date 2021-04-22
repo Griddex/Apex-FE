@@ -1,6 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
+import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
@@ -22,6 +23,8 @@ export default function ExistingFacilitiesDecks({
   finalAction,
   showChart,
 }: IExistingInputDeck) {
+  const dispatch = useDispatch();
+
   const wc = "existingDataWorkflows";
   const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "facilitiesInputDeckExisting";
@@ -51,6 +54,22 @@ export default function ExistingFacilitiesDecks({
   const dataKey = "title";
   const dataTitle = "FACILITIES DECK TITLE";
 
+  const handleCheckboxChange = (row: any) => {
+    const { id, title } = row;
+    console.log(
+      "Logged output --> ~ file: ExistingFacilitiesDecks.tsx ~ line 59 ~ handleCheckboxChange ~ row",
+      row
+    );
+
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("inputReducer", {
+          selectedFacilitiesInputDeckId: id,
+          selectedFacilitiesInputDeckTitle: title,
+        })
+      );
+  };
+
   const props: IExistingDataProps = {
     wkPs: wp,
     snExistingData,
@@ -60,6 +79,7 @@ export default function ExistingFacilitiesDecks({
     chartData,
     showChart,
     containerStyle,
+    handleCheckboxChange,
   };
 
   return <ExistingDataRoute {...props} />;

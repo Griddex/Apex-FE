@@ -225,7 +225,8 @@ const MainDrawer = () => {
                 style={
                   name === selectedName
                     ? {
-                        color: theme.palette.primary.main,
+                        color: theme.palette.primary.dark,
+                        backgroundColor: theme.palette.primary.light,
                       }
                     : {}
                 }

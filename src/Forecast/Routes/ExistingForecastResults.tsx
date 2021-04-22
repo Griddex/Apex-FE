@@ -211,7 +211,7 @@ export default function ExistingForecastResults({
         width: 300,
       },
       {
-        key: "forecastInputDeckTitle",
+        key: "selectedForecastInputDeckTitle",
         name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,

@@ -1,6 +1,8 @@
 import { UserMatchObjectType } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
+import { ReducersType } from "../../Components/Workflows/WorkflowTypes";
 
+export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const SET_MAINDRAWERMENU = "SET_MAINDRAWERMENU";
 export const SET_SUBNAVBARMENU = "SET_SUBNAVBARMENU";
 export const SET_WORKFLOWMENU = "SET_WORKFLOWMENU";
@@ -11,6 +13,19 @@ export const FETCH_MATCHOBJECT_REQUEST = "FETCH_MATCHOBJECT_REQUEST";
 export const FETCH_MATCHOBJECT_SUCCESS = "FETCH_MATCHOBJECT_SUCCESS";
 export const FETCH_MATCHOBJECT_FAILURE = "FETCH_MATCHOBJECT_FAILURE";
 export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
+
+export const persistSelectedIdTitleAction = (
+  reducer: ReducersType,
+  idTitleObj: Record<string, string>
+) => {
+  return {
+    type: UPDATE_SELECTEDIDTITLE,
+    payload: {
+      reducer,
+      idTitleObj,
+    },
+  };
+};
 
 export const mainDrawerSetMenuAction = (moduleName: string) => {
   return {

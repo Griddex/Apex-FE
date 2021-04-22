@@ -86,10 +86,10 @@ export function* saveInputDeckSaga(
   );
 
   const {
-    facilitiesInputDeckId,
-    facilitiesInputDeckTitle,
+    selectedFacilitiesInputDeckId,
+    selectedFacilitiesInputDeckTitle,
     facilitiesInputDeckDescription,
-    forecastInputDeckTitle,
+    selectedForecastInputDeckTitle,
     forecastInputDeckDescription,
   } = yield select((state) => state.inputReducer);
 
@@ -98,10 +98,10 @@ export function* saveInputDeckSaga(
   const data = {
     projectId,
     userId: "Gideon",
-    facilitiesInputDeckId,
+    selectedFacilitiesInputDeckId,
     title: wp.includes("facilities")
-      ? facilitiesInputDeckTitle
-      : forecastInputDeckTitle,
+      ? selectedFacilitiesInputDeckTitle
+      : selectedForecastInputDeckTitle,
     description: wp.includes("facilities")
       ? facilitiesInputDeckDescription
       : forecastInputDeckDescription,
