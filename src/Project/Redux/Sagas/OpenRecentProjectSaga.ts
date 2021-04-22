@@ -19,7 +19,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -63,7 +63,7 @@ function* openRecentProjectSaga(
 
     const result = yield call(
       openRecentProjectAPI,
-      `${getBaseUrl()}/project/${projectId}`
+      `${getBaseForecastUrl()}/project/${projectId}`
     );
 
     const {

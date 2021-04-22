@@ -2,12 +2,12 @@ import { Theme } from "@material-ui/core/styles";
 import { Styles } from "react-select";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 
-const getRSStyles = (theme: Theme) => {
+const getRSStyles = (theme: Theme, containerWidth?: number) => {
   const apexSelectStyles: Styles<ISelectOption, boolean> = {
     container: (styles) => ({
       ...styles,
       height: "100%",
-      width: "100%",
+      width: containerWidth ? containerWidth : "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",

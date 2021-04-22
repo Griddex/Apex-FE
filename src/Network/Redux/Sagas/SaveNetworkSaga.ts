@@ -20,7 +20,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -88,7 +88,10 @@ function* saveNetworkSaga(
   try {
     yield put(showSpinnerAction("Saving network..."));
 
-    const result = yield call(saveNetworkAPI, `${getBaseUrl()}/network`);
+    const result = yield call(
+      saveNetworkAPI,
+      `${getBaseForecastUrl()}/network`
+    );
 
     const {
       data: { data: selectedNetworkId }, //prevent 2nd trip to server

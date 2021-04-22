@@ -18,7 +18,7 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { fetchExistingForecastingParametersRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
   failureDialogParameters,
@@ -123,7 +123,7 @@ export function* saveInputDeckSaga(
 
     const result = yield call(
       saveinputDeckAPI,
-      `${getBaseUrl()}/${getInputDeckRouteParam(wp)}`
+      `${getBaseForecastUrl()}/${getInputDeckRouteParam(wp)}`
     );
 
     const {

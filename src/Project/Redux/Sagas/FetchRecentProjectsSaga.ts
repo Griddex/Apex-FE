@@ -22,7 +22,7 @@ import {
   fetchRecentProjectsSuccessAction,
   FETCHRECENTPROJECTS_REQUEST,
 } from "../Actions/ProjectActions";
-import getBaseUrl from "./../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchRecentProjectsSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -55,7 +55,7 @@ function* fetchRecentProjectsSaga(
   try {
     const result = yield call(
       fetchRecentProjectsAPI,
-      `${getBaseUrl()}/project/recents/6`
+      `${getBaseForecastUrl()}/project/recents/6`
     );
 
     const {

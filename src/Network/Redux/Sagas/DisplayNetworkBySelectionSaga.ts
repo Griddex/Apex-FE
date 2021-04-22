@@ -22,7 +22,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
   displayNetworkBySelectionFailureAction,
@@ -64,7 +64,7 @@ export function* displayNetworkBySelectionSaga(
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
   const { selectedNetworkId } = yield select((state) => state.networkReducer);
-  const url = `${getBaseUrl()}/network/${selectedNetworkId}`;
+  const url = `${getBaseForecastUrl()}/network/${selectedNetworkId}`;
 
   try {
     yield put(showSpinnerAction(message));

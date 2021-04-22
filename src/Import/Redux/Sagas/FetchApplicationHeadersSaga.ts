@@ -22,7 +22,7 @@ import {
   fetchApplicationHeadersSuccessAction,
   FETCHAPPLICATIONHEADERS_REQUEST,
 } from "../Actions/InputActions";
-import getBaseUrl from "./../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchApplicationHeadersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -46,10 +46,10 @@ function getHeadersType(workflowProcess: IInputWorkflowProcess["wkPs"]) {
 
 const config = { withCredentials: false };
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
-const facilitiesUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
+const facilitiesUrl = `${getBaseForecastUrl()}/global-variableunit/${getHeadersType(
   "facilitiesInputDeckExcel"
 )}`;
-const forecastUrl = `${getBaseUrl()}/global-variableunit/${getHeadersType(
+const forecastUrl = `${getBaseForecastUrl()}/global-variableunit/${getHeadersType(
   "forecastInputDeckExcel"
 )}`;
 

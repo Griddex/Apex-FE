@@ -20,6 +20,7 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
+import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
 import ApexLogo from "../../Images/ApexLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
@@ -217,6 +218,14 @@ const MainDrawer = () => {
                 onClick={(e: any) => {
                   handleSelectedName(name, e);
                   dispatch(mainDrawerSetMenuAction(name));
+                  if (name === "Forecast") {
+                    dispatch(
+                      loadForecastResultsWorkflowAction(
+                        "loadForecastResultsWorkflow",
+                        false
+                      )
+                    );
+                  }
 
                   if (name !== "Project") history.push(route);
                   else return null;

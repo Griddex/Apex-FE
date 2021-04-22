@@ -12,7 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
-import getBaseUrl from "../../Services/BaseUrlService";
+import getBaseForecastUrl from "../../Services/BaseUrlService";
 import { IAction } from "../Actions/ActionTypes";
 import {
   fetchMatchObjectFailureAction,
@@ -51,7 +51,7 @@ function* fetchMatchObjectSaga(
   try {
     const result = yield call(
       fetchMatchObjectAPI,
-      `${getBaseUrl()}/header-matching`
+      `${getBaseForecastUrl()}/header-matching`
     );
 
     const { data: savedMatchObjectAll } = result;

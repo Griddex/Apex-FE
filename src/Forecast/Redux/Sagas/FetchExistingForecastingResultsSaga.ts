@@ -14,7 +14,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
 import {
   EXISTINGFORECASTINGRESULTS_REQUEST,
@@ -54,7 +54,7 @@ function* fetchExistingForecastingResultsSaga(
 > {
   const { payload } = action;
   const { projectId } = payload;
-  const forecastResultsUrl = `${getBaseUrl()}/forecastResults/light/${projectId}`;
+  const forecastResultsUrl = `${getBaseForecastUrl()}/forecastResults/light/${projectId}`;
 
   try {
     const forecastResults = yield call(

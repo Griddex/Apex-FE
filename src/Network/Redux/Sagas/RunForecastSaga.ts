@@ -23,7 +23,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
   runForecastFailureAction,
   runForecastSuccessAction,
@@ -64,7 +64,7 @@ function* runForecastSaga(
   );
 
   const userId = "Gideon";
-  const url = `${getBaseUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersGroupId=${selectedForecastingParametersId}/userId=${userId}`;
+  const url = `${getBaseForecastUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersGroupId=${selectedForecastingParametersId}/userId=${userId}`;
 
   yield put(showSpinnerAction("Running forecast..."));
 

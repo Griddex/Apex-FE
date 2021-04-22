@@ -82,6 +82,7 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   };
 
   loadForecastResultsWorkflow: boolean;
+  selectedForecastData: any[];
 }
 
 export type colorGradient = typeof initialColorGradient;

@@ -18,7 +18,7 @@ import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
   createNewProjectFailureAction,
   createNewProjectSuccessAction,
@@ -78,7 +78,10 @@ function* createNewProjectSaga(
     authService.post(url, data, config);
 
   try {
-    const result = yield call(createNewProjectAPI, `${getBaseUrl()}/project`);
+    const result = yield call(
+      createNewProjectAPI,
+      `${getBaseForecastUrl()}/project`
+    );
 
     const {
       data: {

@@ -17,7 +17,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
   fetchExistingForecastingResultsRequestAction,
   saveForecastFailureAction,
@@ -80,7 +80,7 @@ function* saveForecastSaga(
   try {
     yield put(showSpinnerAction("Saving forecast results..."));
 
-    const result = yield call(saveForecastAPI, `${getBaseUrl()}/save`);
+    const result = yield call(saveForecastAPI, `${getBaseForecastUrl()}/save`);
 
     const {
       data: { data: selectedForecastingResultsId },

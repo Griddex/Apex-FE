@@ -21,7 +21,7 @@ import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
   autoGenerateNetworkFailureAction,
@@ -72,7 +72,7 @@ export function* autoGenerateNetworkSaga(
     showWellheadSummaryEdges,
   };
 
-  const url = `${getBaseUrl()}/network/generate`;
+  const url = `${getBaseForecastUrl()}/network/generate`;
 
   try {
     yield put(showSpinnerAction(message));

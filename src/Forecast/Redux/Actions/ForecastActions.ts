@@ -26,6 +26,9 @@ export const EXISTINGFORECASTINGRESULTS_FAILURE =
 export const TREEVIEWKEYS_REQUEST = "TREEVIEWKEYS_REQUEST";
 export const TREEVIEWKEYS_SUCCESS = "TREEVIEWKEYS_SUCCESS";
 export const TREEVIEWKEYS_FAILURE = "TREEVIEWKEYS_FAILURE";
+export const GET_FORECASTRESULTBYID_REQUEST = "GET_FORECASTRESULTBYID_REQUEST";
+export const GET_FORECASTRESULTBYID_SUCCESS = "GET_FORECASTRESULTBYID_SUCCESS";
+export const GET_FORECASTRESULTBYID_FAILURE = "GET_FORECASTRESULTBYID_FAILURE";
 
 export const updateForecastResultsParameterAction = (
   name: string,
@@ -37,11 +40,15 @@ export const updateForecastResultsParameterAction = (
   };
 };
 
-export const loadForecastResultsWorkflowAction = (name: string) => {
+export const loadForecastResultsWorkflowAction = (
+  name: string,
+  trueOrFalse: boolean
+) => {
   return {
     type: LOAD_FORECASTRESULTS_WORKFLOW,
     payload: {
       name,
+      trueOrFalse,
     },
   };
 };
@@ -231,6 +238,32 @@ export const fetchTreeviewKeysSuccessAction = () => {
 export const fetchTreeviewKeysFailureAction = () => {
   return {
     type: TREEVIEWKEYS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const getForecastResultByIdRequestAction = () => {
+  return {
+    type: GET_FORECASTRESULTBYID_REQUEST,
+    payload: {},
+  };
+};
+
+export const getForecastResultByIdSuccessAction = () => {
+  return {
+    type: GET_FORECASTRESULTBYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getForecastResultByIdFailureAction = () => {
+  return {
+    type: GET_FORECASTRESULTBYID_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

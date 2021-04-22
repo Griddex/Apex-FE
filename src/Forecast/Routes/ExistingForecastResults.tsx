@@ -23,7 +23,10 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
-import { updateForecastResultsParameterAction } from "../Redux/Actions/ForecastActions";
+import {
+  getForecastResultByIdRequestAction,
+  updateForecastResultsParameterAction,
+} from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { SizeMe } from "react-sizeme";
@@ -31,6 +34,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -104,6 +108,7 @@ export default function ExistingForecastResults({
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const wc = "existingDataWorkflows";
   const wp = "forecastResultsExisting";
@@ -336,7 +341,10 @@ export default function ExistingForecastResults({
             shouldExecute={[true, true]}
             shouldDispatch={[false, false]}
             finalActions={[
-              () => alert("View Table"),
+              () => {
+                dispatch(getForecastResultByIdRequestAction());
+                history.push("/apex/forecast/forecastdata");
+              },
               () => alert("Plot Chart"),
             ]}
           />

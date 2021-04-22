@@ -15,7 +15,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
 import {
   fetchTreeviewKeysFailureAction,
@@ -51,7 +51,7 @@ function* fetchTreeviewKeysSaga(
   const { selectedForecastingResultsId: forecastId } = yield select(
     (state) => state.forecastReducer
   );
-  const forecastResultsUrl = `${getBaseUrl()}/treeview/${forecastId}`;
+  const forecastResultsUrl = `${getBaseForecastUrl()}/treeview/${forecastId}`;
 
   try {
     const forecastResults = yield call(

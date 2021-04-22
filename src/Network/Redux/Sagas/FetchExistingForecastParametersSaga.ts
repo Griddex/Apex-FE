@@ -19,7 +19,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/FetchForecastingParametersFailureDialogParameters";
 import {
   EXISTINGFORECASTPARAMETERS_REQUEST,
@@ -60,7 +60,7 @@ function* fetchExistingForecastParametersSaga(
 > {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
-  const forecastParametersUrl = `${getBaseUrl()}/forecast-parameters/project/${projectId}`;
+  const forecastParametersUrl = `${getBaseForecastUrl()}/forecast-parameters/project/${projectId}`;
 
   try {
     yield put(showSpinnerAction("Loading Network Data..."));

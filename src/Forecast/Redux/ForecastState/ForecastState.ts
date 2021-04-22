@@ -71,6 +71,7 @@ const forcastResultState: IForecastResultState = {
     forecastResultsExisting: [],
   },
 
+  selectedForecastData: [],
   loadForecastResultsWorkflow: false,
 };
 

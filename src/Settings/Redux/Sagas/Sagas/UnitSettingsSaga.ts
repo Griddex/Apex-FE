@@ -15,7 +15,7 @@ import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../../Application/Services/AuthService";
-import getBaseUrl from "../../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../../Components/DialogActions/UnitSettingsSuccessFailureDialogParameters";
 import {
   fetchUnitSettingsFailureAction,
@@ -51,7 +51,7 @@ function* fetchUnitSettingsSaga(
   try {
     const result = yield call(
       fetchUnitSettingsAPI,
-      `${getBaseUrl()}/global-variableunit/detail`
+      `${getBaseForecastUrl()}/global-variableunit/detail`
     );
 
     const {

@@ -15,7 +15,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingDataDialogParameters";
 import {
@@ -49,8 +49,8 @@ function* fetchExistingDataSaga(
 > {
   const { payload } = action;
   const { projectId } = payload;
-  const facilitiesUrl = `${getBaseUrl()}/facilities-inputdeck/light/${projectId}`;
-  const forecastUrl = `${getBaseUrl()}/forecast-inputdeck/light/${projectId}`;
+  const facilitiesUrl = `${getBaseForecastUrl()}/facilities-inputdeck/light/${projectId}`;
+  const forecastUrl = `${getBaseForecastUrl()}/forecast-inputdeck/light/${projectId}`;
 
   try {
     const [facilitiesResult, forecastResults] = yield all([

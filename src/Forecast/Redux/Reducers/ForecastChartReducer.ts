@@ -18,6 +18,8 @@ import {
   EXISTINGFORECASTINGRESULTS_FAILURE,
   TREEVIEWKEYS_SUCCESS,
   TREEVIEWKEYS_FAILURE,
+  GET_FORECASTRESULTBYID_FAILURE,
+  GET_FORECASTRESULTBYID_SUCCESS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -36,10 +38,10 @@ const forecastReducer = (
     }
 
     case LOAD_FORECASTRESULTS_WORKFLOW: {
-      const { name } = action.payload;
+      const { name, trueOrFalse } = action.payload;
       return {
         ...state,
-        [name]: true,
+        [name]: trueOrFalse,
       };
     }
 
@@ -196,6 +198,24 @@ const forecastReducer = (
     }
 
     case TREEVIEWKEYS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
+    }
+
+    case GET_FORECASTRESULTBYID_SUCCESS: {
+      const { selectedForecastData } = action.payload;
+
+      return {
+        ...state,
+        selectedForecastData,
+      };
+    }
+
+    case GET_FORECASTRESULTBYID_FAILURE: {
       const { errors } = action.payload;
 
       return {

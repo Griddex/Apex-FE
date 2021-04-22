@@ -17,7 +17,7 @@ import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
   UPDATE_FORECASTPARAMETERS_REQUEST,
@@ -93,7 +93,7 @@ function* updateForecastParametersSaga(
   try {
     const result = yield call(
       updateForecastParametersAPI,
-      `${getBaseUrl()}/forecast-parameters` //This is the URL endpoint you should change
+      `${getBaseForecastUrl()}/forecast-parameters` //This is the URL endpoint you should change
     );
 
     const {

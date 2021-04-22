@@ -16,7 +16,7 @@ import {
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import { IForecastingParametersRow } from "../../Components/Dialogs/ExistingNetworksDialogTypes";
 import {
@@ -103,7 +103,7 @@ function* saveForecastParametersSaga(
   try {
     const result = yield call(
       saveForecastParametersAPI,
-      `${getBaseUrl()}/forecast-parameters` //This is the URL endpoint you should change
+      `${getBaseForecastUrl()}/forecast-parameters` //This is the URL endpoint you should change
     );
 
     const {

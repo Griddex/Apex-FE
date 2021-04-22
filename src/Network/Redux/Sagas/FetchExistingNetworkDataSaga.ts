@@ -16,7 +16,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/FetchExistingNetworkFailureDialogParameters";
 import {
   EXISTINGNETWORKDATA_REQUEST,
@@ -53,7 +53,7 @@ function* fetchExistingNetworkDataSaga(
 > {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
-  const networkUrl = `${getBaseUrl()}/network/light/${projectId}`;
+  const networkUrl = `${getBaseForecastUrl()}/network/light/${projectId}`;
 
   try {
     const networkResult = yield call<(url: string) => AxiosPromise>(

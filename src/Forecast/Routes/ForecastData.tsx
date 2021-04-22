@@ -58,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "20%",
   },
+  apexSelectRS: {
+    display: "flex",
+    justifyContent: "flex-start",
+    height: 30,
+    width: "100%",
+  },
 }));
 
 const chartData = [
@@ -260,7 +266,7 @@ export default function ForecastData({
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
+  const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme, 300);
   const forecastResultTitles = ["Result1", "Result2", "Result3", "Result4"];
 
   const handleSelect = (value: ValueType<ISelectOption, false>) => {
@@ -276,23 +282,25 @@ export default function ForecastData({
 
   return (
     <div className={classes.rootExistingData} style={containerStyle}>
-      <Select
-        value={titleOption}
-        options={forecastResultTitlesOptions}
-        styles={RSStyles}
-        onChange={handleSelect}
-        menuPortalTarget={document.body}
-        theme={(thm) => ({
-          ...thm,
-          borderRadius: 0,
-          colors: {
-            ...thm.colors,
-            primary50: theme.palette.primary.light,
-            primary25: theme.palette.primary.main,
-            primary: theme.palette.grey[700],
-          },
-        })}
-      />
+      <div className={classes.apexSelectRS}>
+        <Select
+          value={titleOption}
+          options={forecastResultTitlesOptions}
+          styles={RSStyles}
+          onChange={handleSelect}
+          menuPortalTarget={document.body}
+          theme={(thm) => ({
+            ...thm,
+            borderRadius: 0,
+            colors: {
+              ...thm.colors,
+              primary50: theme.palette.primary.light,
+              primary25: theme.palette.primary.main,
+              primary: theme.palette.grey[700],
+            },
+          })}
+        />
+      </div>
       <label style={{ width: 400 }}>
         <b>Group by</b> (drag to sort)
         <SortableSelect

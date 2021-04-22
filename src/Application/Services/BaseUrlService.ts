@@ -1,4 +1,4 @@
-const getBaseUrl = () => {
+const getBaseForecastUrl = () => {
   // return "https://apex.syncware.io/forecast";
   // return "http://0ed11b49334b.ngrok.io/api/forecast";
   // return "https://dev.syncware.io/forecast";
@@ -14,4 +14,12 @@ export const getBaseAuthUrl = () => {
   return "http://localhost:5015/api/forecast";
 };
 
-export default getBaseUrl;
+export const getBaseEconomicsUrl = () => {
+  // return "https://apex.syncware.io/auth";
+  // return "http://0ed11b49334b.ngrok.io/api/forecast";
+  // return "https://dev.syncware.io/auth";
+
+  return "http://localhost:5015/api/forecast";
+};
+
+export default getBaseForecastUrl;

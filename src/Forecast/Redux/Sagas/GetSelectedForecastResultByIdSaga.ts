@@ -1,6 +1,4 @@
 import { ActionType } from "@redux-saga/types";
-import jsonpipe from "jsonpipe";
-import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -12,7 +10,6 @@ import {
   PutEffect,
   select,
   SelectEffect,
-  take,
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -20,29 +17,32 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseUrl from "../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
 import {
-  getForecastResultsFailureAction,
-  getForecastResultsSuccessAction,
-  GET_FORECASTRESULTS_REQUEST,
+  getForecastResultByIdFailureAction,
+  getForecastResultByIdSuccessAction,
+  GET_FORECASTRESULTBYID_REQUEST,
 } from "../Actions/ForecastActions";
 
-export default function* watchGetForecastWholeResultsSaga(): Generator<
+export default function* watchGetSelectedForecastResultByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const getForecastResultsChan = yield actionChannel(
-    GET_FORECASTRESULTS_REQUEST
+  const getSelectedForecastResultsChan = yield actionChannel(
+    GET_FORECASTRESULTBYID_REQUEST
   );
-  yield takeLeading<ActionType>(getForecastResultsChan, getForecastResultsSaga);
+  yield takeLeading<ActionType>(
+    getSelectedForecastResultsChan,
+    getSelectedForecastResultByIdSaga
+  );
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* getForecastResultsSaga(
+function* getSelectedForecastResultByIdSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -54,37 +54,20 @@ function* getForecastResultsSaga(
   any
 > {
   const { payload } = action;
-  const { selectedNetworkId } = yield select((state) => state.networkReducer);
-  const {
-    selectedIds,
-    selectedModuleNames,
-    selectedModulePaths,
-    selectedForecastChartVariable,
-  } = payload;
-  const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
+  const { selectedForecastingResultsId } = yield select(
     (state) => state.forecastReducer
+  );
+  console.log(
+    "Logged output --> ~ file: GetSelectedForecastResultByIdSaga.ts ~ line 65 ~ selectedForecastingResultsId",
+    selectedForecastingResultsId
   );
 
   const config = {};
   const userId = "Gideon";
-  const url = `${getBaseUrl()}/chartData`;
-
-  //if former selected variable is different form current one
-  //please replace chart data in store
-  const data = {
-    userId: userId,
-    networkId: selectedNetworkId,
-    selectedVariable: selectedForecastChartVariable,
-    selectedModuleIds: selectedIds,
-    selectedModuleNames: selectedModuleNames,
-    selectedModulePaths: selectedModulePaths,
-    isSaved: isForecastResultsSaved,
-    forecastId: selectedForecastingResultsId,
-  };
+  const url = `${getBaseForecastUrl()}/forecastResultData/${selectedForecastingResultsId}`;
 
   try {
-    const forecastResultsAPI = (url: string) =>
-      authService.post(url, data, config);
+    const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
     console.log(
       "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 89 ~ result",
@@ -93,32 +76,25 @@ function* getForecastResultsSaga(
 
     const {
       status,
-      data: forecastResults,
+      data: selectedForecastData,
       succcess, //prevent 2nd trip to server
     } = result;
     console.log(
-      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 93 ~ forecastResults",
-      forecastResults
+      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 93 ~ selectedForecastData",
+      selectedForecastData
     );
 
-    const successAction = getForecastResultsSuccessAction();
+    const successAction = getForecastResultByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
-        forecastResults,
-      },
-    });
-
-    yield put({
-      type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
-      payload: {
-        selectedModuleIds: selectedIds,
+        selectedForecastData,
       },
     });
 
     // yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
-    const failureAction = getForecastResultsFailureAction();
+    const failureAction = getForecastResultByIdFailureAction();
 
     yield put({
       ...failureAction,

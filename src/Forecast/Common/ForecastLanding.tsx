@@ -189,7 +189,8 @@ const ForecastLanding = () => {
                 moduleAction={() => {
                   dispatch(
                     loadForecastResultsWorkflowAction(
-                      "loadForecastResultsWorkflow"
+                      "loadForecastResultsWorkflow",
+                      true
                     )
                   );
                 }}
