@@ -3,12 +3,16 @@ import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
 export const PERSIST_FIRSTLEVELFORECASTPROPERTY =
   "PERSIST_FIRSTLEVELFORECASTPROPERTY";
+export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const LOAD_FORECASTRESULTS_WORKFLOW = "LOAD_FORECASTRESULTS_WORKFLOW";
 export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
 export const RUN_FORECAST_FAILURE = "RUN_FORECAST_FAILURE";
-export const GET_FORECASTRESULTS_REQUEST = "GET_FORECASTRESULTS_REQUEST";
-export const GET_FORECASTRESULTS_SUCCESS = "GET_FORECASTRESULTS_SUCCESS";
-export const GET_FORECASTRESULTS_FAILURE = "GET_FORECASTRESULTS_FAILURE";
+export const GET_FORECASTRESULTS_CHARTDATA_REQUEST =
+  "GET_FORECASTRESULTS_CHARTDATA_REQUEST";
+export const GET_FORECASTRESULTS_CHARTDATA_SUCCESS =
+  "GET_FORECASTRESULTS_CHARTDATA_SUCCESS";
+export const GET_FORECASTRESULTS_CHARTDATA_FAILURE =
+  "GET_FORECASTRESULTS_CHARTDATA_FAILURE";
 export const SAVE_FORECAST_SUCCESS = "SAVE_FORECAST_SUCCESS";
 export const SAVE_FORECAST_FAILURE = "SAVE_FORECAST_FAILURE";
 export const PERSIST_FORECASTCHARTINDEX = "PERSIST_FORECASTCHARTINDEX";
@@ -26,9 +30,9 @@ export const EXISTINGFORECASTINGRESULTS_FAILURE =
 export const TREEVIEWKEYS_REQUEST = "TREEVIEWKEYS_REQUEST";
 export const TREEVIEWKEYS_SUCCESS = "TREEVIEWKEYS_SUCCESS";
 export const TREEVIEWKEYS_FAILURE = "TREEVIEWKEYS_FAILURE";
-export const GET_FORECASTRESULTBYID_REQUEST = "GET_FORECASTRESULTBYID_REQUEST";
-export const GET_FORECASTRESULTBYID_SUCCESS = "GET_FORECASTRESULTBYID_SUCCESS";
-export const GET_FORECASTRESULTBYID_FAILURE = "GET_FORECASTRESULTBYID_FAILURE";
+export const GET_FORECASTDATABYID_REQUEST = "GET_FORECASTDATABYID_REQUEST";
+export const GET_FORECASTDATABYID_SUCCESS = "GET_FORECASTDATABYID_SUCCESS";
+export const GET_FORECASTDATABYID_FAILURE = "GET_FORECASTDATABYID_FAILURE";
 
 export const updateForecastResultsParameterAction = (
   name: string,
@@ -73,19 +77,38 @@ export const runForecastFailureAction = () => {
   };
 };
 
-export const getForecastResultsRequestAction = (
+export const getForecastResultsChartDataRequestAction = (
   selectedIds: string[],
   selectedModuleNames: string[],
   selectedModulePaths: string[],
   selectedForecastChartVariable: string
 ) => {
   return {
-    type: GET_FORECASTRESULTS_REQUEST,
+    type: GET_FORECASTRESULTS_CHARTDATA_REQUEST,
     payload: {
       selectedIds,
       selectedModuleNames,
       selectedModulePaths,
       selectedForecastChartVariable,
+    },
+  };
+};
+
+export const getForecastResultsChartDataSuccessAction = () => {
+  return {
+    type: GET_FORECASTRESULTS_CHARTDATA_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getForecastResultsChartDataFailureAction = () => {
+  return {
+    type: GET_FORECASTRESULTS_CHARTDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
     },
   };
 };
@@ -102,25 +125,6 @@ export const saveForecastSuccessAction = () => {
 export const saveForecastFailureAction = () => {
   return {
     type: SAVE_FORECAST_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
-    },
-  };
-};
-
-export const getForecastResultsSuccessAction = () => {
-  return {
-    type: GET_FORECASTRESULTS_SUCCESS,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const getForecastResultsFailureAction = () => {
-  return {
-    type: GET_FORECASTRESULTS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -245,25 +249,25 @@ export const fetchTreeviewKeysFailureAction = () => {
   };
 };
 
-export const getForecastResultByIdRequestAction = () => {
+export const getForecastDataByIdRequestAction = () => {
   return {
-    type: GET_FORECASTRESULTBYID_REQUEST,
+    type: GET_FORECASTDATABYID_REQUEST,
     payload: {},
   };
 };
 
-export const getForecastResultByIdSuccessAction = () => {
+export const getForecastDataByIdSuccessAction = () => {
   return {
-    type: GET_FORECASTRESULTBYID_SUCCESS,
+    type: GET_FORECASTDATABYID_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const getForecastResultByIdFailureAction = () => {
+export const getForecastDataByIdFailureAction = () => {
   return {
-    type: GET_FORECASTRESULTBYID_FAILURE,
+    type: GET_FORECASTDATABYID_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

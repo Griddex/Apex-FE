@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ItemTypes from "../../Visualytics/Utils/DragAndDropItemTypes";
-import { getForecastResultsRequestAction } from "../Redux/Actions/ForecastActions";
+import { getForecastResultsChartDataRequestAction } from "../Redux/Actions/ForecastActions";
 import { RenderTree } from "./ForecastTreeViewTypes";
 
 function MinusSquare(props: any) {
@@ -282,7 +282,7 @@ export default function ForecastTreeView() {
 
     if (selectedIds.length > 0) {
       dispatch(
-        getForecastResultsRequestAction(
+        getForecastResultsChartDataRequestAction(
           selectedIds,
           selectedModuleNames,
           selectedModulePaths,

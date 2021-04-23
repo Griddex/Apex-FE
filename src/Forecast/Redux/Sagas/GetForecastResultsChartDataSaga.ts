@@ -18,31 +18,39 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
 import {
-  getForecastResultsFailureAction,
-  getForecastResultsSuccessAction,
-  GET_FORECASTRESULTS_REQUEST,
+  getForecastResultsChartDataFailureAction,
+  getForecastResultsChartDataSuccessAction,
+  GET_FORECASTRESULTS_CHARTDATA_REQUEST,
 } from "../Actions/ForecastActions";
 
-export default function* watchGetForecastWholeResultsSaga(): Generator<
+export default function* watchGetForecastResultsChartDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
   const getForecastResultsChan = yield actionChannel(
-    GET_FORECASTRESULTS_REQUEST
+    GET_FORECASTRESULTS_CHARTDATA_REQUEST
   );
-  yield takeLeading<ActionType>(getForecastResultsChan, getForecastResultsSaga);
+  yield takeLeading<ActionType>(
+    getForecastResultsChan,
+    getForecastResultsChartDataSaga
+  );
+
+  console.log("Im in watch forecast");
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* getForecastResultsSaga(
+function* getForecastResultsChartDataSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -54,13 +62,14 @@ function* getForecastResultsSaga(
   any
 > {
   const { payload } = action;
-  const { selectedNetworkId } = yield select((state) => state.networkReducer);
   const {
     selectedIds,
     selectedModuleNames,
     selectedModulePaths,
     selectedForecastChartVariable,
   } = payload;
+
+  const { selectedNetworkId } = yield select((state) => state.networkReducer);
   const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
     (state) => state.forecastReducer
   );
@@ -82,7 +91,11 @@ function* getForecastResultsSaga(
     forecastId: selectedForecastingResultsId,
   };
 
+  const message = "Loading forecast chart data...";
+
   try {
+    yield put(showSpinnerAction(message));
+
     const forecastResultsAPI = (url: string) =>
       authService.post(url, data, config);
     const result = yield call(forecastResultsAPI, url);
@@ -101,7 +114,7 @@ function* getForecastResultsSaga(
       forecastResults
     );
 
-    const successAction = getForecastResultsSuccessAction();
+    const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -118,7 +131,7 @@ function* getForecastResultsSaga(
 
     // yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
-    const failureAction = getForecastResultsFailureAction();
+    const failureAction = getForecastResultsChartDataFailureAction();
 
     yield put({
       ...failureAction,

@@ -74,6 +74,7 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   forecastResultsId: string;
 
   selectedForecastingResultsId: string;
+  selectedForecastingResultsTitle: string;
   isForecastResultsLoading: boolean;
   isForecastResultsSaved: boolean;
 
@@ -93,8 +94,9 @@ export interface IExistingForecastResultsRow {
   userId?: string;
   status: "Approved" | "Pending" | "Returned" | "Not Started";
   saved: "Saved" | "Not Saved" | string;
-  title?: string;
   forecastResultsId?: string;
+  forecastResultsTitle?: string;
+  networkId?: string;
   forecastParametersGroupId?: string;
   selectedForecastInputDeckId?: string;
   selectedForecastInputDeckTitle?: string;

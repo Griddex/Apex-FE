@@ -15,34 +15,38 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
 import {
-  getForecastResultByIdFailureAction,
-  getForecastResultByIdSuccessAction,
-  GET_FORECASTRESULTBYID_REQUEST,
+  getForecastDataByIdFailureAction,
+  getForecastDataByIdSuccessAction,
+  GET_FORECASTDATABYID_REQUEST,
 } from "../Actions/ForecastActions";
+import history from "../../../Application/Services/HistoryService";
 
-export default function* watchGetSelectedForecastResultByIdSaga(): Generator<
+export default function* watchGetSelectedForecastDataByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
   const getSelectedForecastResultsChan = yield actionChannel(
-    GET_FORECASTRESULTBYID_REQUEST
+    GET_FORECASTDATABYID_REQUEST
   );
   yield takeLeading<ActionType>(
     getSelectedForecastResultsChan,
-    getSelectedForecastResultByIdSaga
+    getSelectedForecastDataByIdSaga
   );
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* getSelectedForecastResultByIdSaga(
+function* getSelectedForecastDataByIdSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -57,34 +61,25 @@ function* getSelectedForecastResultByIdSaga(
   const { selectedForecastingResultsId } = yield select(
     (state) => state.forecastReducer
   );
-  console.log(
-    "Logged output --> ~ file: GetSelectedForecastResultByIdSaga.ts ~ line 65 ~ selectedForecastingResultsId",
-    selectedForecastingResultsId
-  );
 
   const config = {};
   const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/forecastResultData/${selectedForecastingResultsId}`;
+  const message = "Loading forecast data...";
 
   try {
+    yield put(showSpinnerAction(message));
+
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
-    console.log(
-      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 89 ~ result",
-      result
-    );
 
     const {
       status,
       data: selectedForecastData,
       succcess, //prevent 2nd trip to server
     } = result;
-    console.log(
-      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 93 ~ selectedForecastData",
-      selectedForecastData
-    );
 
-    const successAction = getForecastResultByIdSuccessAction();
+    const successAction = getForecastDataByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -92,9 +87,9 @@ function* getSelectedForecastResultByIdSaga(
       },
     });
 
-    // yield put(showDialogAction(successDialogParameters()));
+    yield call(forwardTo, "/apex/forecast/forecastdata");
   } catch (errors) {
-    const failureAction = getForecastResultByIdFailureAction();
+    const failureAction = getForecastDataByIdFailureAction();
 
     yield put({
       ...failureAction,
@@ -105,4 +100,8 @@ function* getSelectedForecastResultByIdSaga(
   } finally {
     yield put(hideSpinnerAction());
   }
+}
+
+function forwardTo(routeUrl: string) {
+  history.push(routeUrl);
 }

@@ -1,8 +1,9 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   LOAD_FORECASTRESULTS_WORKFLOW,
-  GET_FORECASTRESULTS_FAILURE,
-  GET_FORECASTRESULTS_SUCCESS,
+  UPDATE_SELECTEDIDTITLE,
+  GET_FORECASTRESULTS_CHARTDATA_FAILURE,
+  GET_FORECASTRESULTS_CHARTDATA_SUCCESS,
   PERSIST_FIRSTLEVELFORECASTPROPERTY,
   PERSIST_FORECASTCHARTELEMENTID,
   PERSIST_FORECASTCHARTINDEX,
@@ -18,8 +19,8 @@ import {
   EXISTINGFORECASTINGRESULTS_FAILURE,
   TREEVIEWKEYS_SUCCESS,
   TREEVIEWKEYS_FAILURE,
-  GET_FORECASTRESULTBYID_FAILURE,
-  GET_FORECASTRESULTBYID_SUCCESS,
+  GET_FORECASTDATABYID_FAILURE,
+  GET_FORECASTDATABYID_SUCCESS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -35,6 +36,19 @@ const forecastReducer = (
         ...state,
         [name]: value,
       };
+    }
+
+    case UPDATE_SELECTEDIDTITLE: {
+      const { reducer, idTitleObj } = action.payload;
+
+      if (reducer === "forecastReducer") {
+        return {
+          ...state,
+          ...idTitleObj,
+        };
+      } else {
+        return state;
+      }
     }
 
     case LOAD_FORECASTRESULTS_WORKFLOW: {
@@ -88,7 +102,7 @@ const forecastReducer = (
         ...action.payload,
       };
 
-    case GET_FORECASTRESULTS_SUCCESS: {
+    case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
       const { forecastResults } = action.payload;
 
       return {
@@ -97,7 +111,7 @@ const forecastReducer = (
       };
     }
 
-    case GET_FORECASTRESULTS_FAILURE: {
+    case GET_FORECASTRESULTS_CHARTDATA_FAILURE: {
       return {
         ...state,
         ...action.payload,
@@ -188,13 +202,22 @@ const forecastReducer = (
     }
 
     case TREEVIEWKEYS_SUCCESS: {
-      const { forecastTree, forecastKeys } = action.payload;
+      const { keyVar } = action.payload;
 
-      return {
-        ...state,
-        forecastTree,
-        forecastKeys,
-      };
+      if (keyVar === "forecastKeys") {
+        const { forecastKeys } = action.payload;
+        return {
+          ...state,
+          forecastKeys,
+        };
+      } else {
+        const { forecastTree } = action.payload;
+
+        return {
+          ...state,
+          forecastTree,
+        };
+      }
     }
 
     case TREEVIEWKEYS_FAILURE: {
@@ -206,7 +229,7 @@ const forecastReducer = (
       };
     }
 
-    case GET_FORECASTRESULTBYID_SUCCESS: {
+    case GET_FORECASTDATABYID_SUCCESS: {
       const { selectedForecastData } = action.payload;
 
       return {
@@ -215,7 +238,7 @@ const forecastReducer = (
       };
     }
 
-    case GET_FORECASTRESULTBYID_FAILURE: {
+    case GET_FORECASTDATABYID_FAILURE: {
       const { errors } = action.payload;
 
       return {

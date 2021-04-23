@@ -5,6 +5,7 @@ import { IAction } from "../Actions/ActionTypes";
 const authMiddleware = ({ getState }: MiddlewareAPI) => (
   next: Dispatch<IAction>
 ) => (action: IAction) => {
+  console.log("Im in auth middleware");
   const falsies = [null, undefined, false, ""];
   if (falsies.some((value) => value === action.meta)) return next(action);
 

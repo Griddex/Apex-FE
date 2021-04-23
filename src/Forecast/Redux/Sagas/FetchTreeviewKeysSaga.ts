@@ -1,4 +1,6 @@
 import { AxiosResponse } from "axios";
+import jsonpipe from "jsonpipe";
+import { END, eventChannel } from "redux-saga";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -9,11 +11,16 @@ import {
   PutEffect,
   select,
   SelectEffect,
+  take,
+  TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
@@ -22,6 +29,7 @@ import {
   fetchTreeviewKeysSuccessAction,
   TREEVIEWKEYS_REQUEST,
 } from "../Actions/ForecastActions";
+import history from "../../../Application/Services/HistoryService";
 
 export default function* watchFetchTreeviewKeysSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -33,12 +41,12 @@ export default function* watchFetchTreeviewKeysSaga(): Generator<
 }
 
 const config = { withCredentials: false };
-const fetchTreeviewKeysAPI = (url: string) => authService.get(url, config);
 
 function* fetchTreeviewKeysSaga(
   action: IAction
 ): Generator<
-  | CallEffect<AxiosResponse>
+  | CallEffect<any>
+  | TakeEffect
   | PutEffect<{
       payload: any;
       type: string;
@@ -51,28 +59,41 @@ function* fetchTreeviewKeysSaga(
   const { selectedForecastingResultsId: forecastId } = yield select(
     (state) => state.forecastReducer
   );
-  const forecastResultsUrl = `${getBaseForecastUrl()}/treeview/${forecastId}`;
+  const url = `${getBaseForecastUrl()}/forecastResults/treeview/${forecastId}`;
+
+  const message = "Loading forecast chart data...";
 
   try {
-    const forecastResults = yield call(
-      fetchTreeviewKeysAPI,
-      forecastResultsUrl
-    );
-    const {
-      data: {
-        data: { tree: forecastTree, keys: forecastKeys },
-      }, //prevent 2nd trip to server
-    } = forecastResults;
+    yield put(showSpinnerAction(message));
 
-    const successAction = fetchTreeviewKeysSuccessAction();
-    yield put({
-      ...successAction,
-      payload: {
-        ...payload,
-        forecastTree,
-        forecastKeys,
-      },
-    });
+    const chan = yield call(updateTreeAndKeys, url);
+
+    while (true) {
+      const treeOrKeys = yield take(chan);
+
+      const successAction = fetchTreeviewKeysSuccessAction();
+      if (Object.keys(treeOrKeys)[0] === "tree") {
+        const forecastTree = treeOrKeys["tree"];
+        yield put({
+          ...successAction,
+          payload: {
+            ...payload,
+            keyVar: "forecastTree",
+            forecastTree,
+          },
+        });
+      } else if (Object.keys(treeOrKeys)[0] === "keys") {
+        const forecastKeys = treeOrKeys["keys"];
+        yield put({
+          ...successAction,
+          payload: {
+            ...payload,
+            keyVar: "forecastKeys",
+            forecastKeys,
+          },
+        });
+      }
+    }
   } catch (errors) {
     const failureAction = fetchTreeviewKeysFailureAction();
 
@@ -84,5 +105,35 @@ function* fetchTreeviewKeysSaga(
     yield put(showDialogAction(failureDialogParameters("")));
   } finally {
     yield put(hideSpinnerAction());
+    yield call(forwardTo, "/apex/forecast/forecastvisualytics");
   }
+}
+
+function updateTreeAndKeys(url: string) {
+  return eventChannel((emitter) => {
+    jsonpipe.flow(url, {
+      method: "GET",
+      // data: JSON.stringify(reqPayload),
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      disableContentType: true,
+      withCredentials: false,
+      success: function (chunk) {
+        emitter(chunk);
+      },
+      error: function (chunk) {
+        emitter(END);
+      },
+      complete: function (chunk) {
+        emitter(END);
+      },
+    });
+
+    return () => {
+      emitter(END);
+    };
+  });
+}
+
+function forwardTo(routeUrl: string) {
+  history.push(routeUrl);
 }

@@ -234,7 +234,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Forecast/Images/Forecast.svg](/src/Forecast/Images/Forecast.svg) | XML | 105 | 1 | 1 | 107 |
 | [src/Forecast/Images/ForecastCharts.svg](/src/Forecast/Images/ForecastCharts.svg) | XML | 14 | 1 | 1 | 16 |
 | [src/Forecast/Redux/ForecastActions/ForecastActions.ts](/src/Forecast/Redux/ForecastActions/ForecastActions.ts) | TypeScript | 81 | 0 | 10 | 91 |
-| [src/Forecast/Redux/ForecastChartReducer/ForecastChartReducer.ts](/src/Forecast/Redux/ForecastChartReducer/ForecastChartReducer.ts) | TypeScript | 85 | 3 | 14 | 102 |
+| [src/Forecast/Redux/ForecastReducer/ForecastReducer.ts](/src/Forecast/Redux/ForecastReducer/ForecastReducer.ts) | TypeScript | 85 | 3 | 14 | 102 |
 | [src/Forecast/Redux/ForecastState/ForecastState.ts](/src/Forecast/Redux/ForecastState/ForecastState.ts) | TypeScript | 359 | 1 | 7 | 367 |
 | [src/Forecast/Redux/ForecastState/ForecastStateTypes.ts](/src/Forecast/Redux/ForecastState/ForecastStateTypes.ts) | TypeScript | 49 | 0 | 7 | 56 |
 | [src/Forecast/Routes/ExistingForecastResults.tsx](/src/Forecast/Routes/ExistingForecastResults.tsx) | TypeScript React | 56 | 1 | 9 | 66 |

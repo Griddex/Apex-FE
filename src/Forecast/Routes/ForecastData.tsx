@@ -7,7 +7,7 @@ import {
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -29,6 +29,9 @@ import groupBy from "lodash.groupby";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../Import/Utils/GetRSStyles";
 import faker from "faker";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import CenteredStyle from "./../../Application/Components/Styles/CenteredStyle";
+import { getForecastDataByIdRequestAction } from "../Redux/Actions/ForecastActions";
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({
@@ -61,16 +64,11 @@ const useStyles = makeStyles((theme) => ({
   apexSelectRS: {
     display: "flex",
     justifyContent: "flex-start",
+    flexDirection: "column",
     height: 30,
     width: "100%",
   },
 }));
-
-const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
 
 export default function ForecastData({
   wrkflwCtgry,
@@ -80,16 +78,36 @@ export default function ForecastData({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   const wp = wrkflwPrcss as NonNullable<IExistingDataProps["wkPs"]>;
+  const { selectedForecastData } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
+
+  const snSelectedForecastData = selectedForecastData.map((row, i) => ({
+    sn: i + 1,
+    ...row,
+  }));
+
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
   };
+
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
   const generateColumns = () => {
-    const forecastDataWithTimeColumns = [{ name: "", key: "" }];
+    const forecastDataWithTimeKeys = Object.keys(
+      snSelectedForecastData[0]
+    ).filter((key) => key.trim().toLowerCase().startsWith("y"));
+    const forecastDataWithTimeColumns = forecastDataWithTimeKeys.map((k) => ({
+      key: k,
+      name: k,
+      editable: false,
+      resizable: true,
+      width: 100,
+    }));
 
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -98,81 +116,122 @@ export default function ForecastData({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
-          <div>
+          <CenteredStyle>
             <VisibilityOutlinedIcon
               onClick={() => alert(`View Row is:${row}`)}
             />
-          </div>
+          </CenteredStyle>
         ),
         width: 100,
       },
       {
-        key: "field",
+        // key: "scenario",
+        key: "Scenario",
+        name: "SCENARIO",
+        editable: false,
+        resizable: true,
+        width: 100,
+      },
+      {
+        // key: "field",
+        key: "Feld",
         name: "FIELD",
         editable: false,
         resizable: true,
         width: 100,
       },
       {
-        key: "reservoir",
+        // key: "reservoir",
+        key: "Reservoir",
         name: "RESERVOIR",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 100,
       },
       {
-        key: "module",
+        // key: "drainagePoint",
+        key: "Drainage Point",
+        name: "DRAINAGE POINT",
+        editable: false,
+        resizable: true,
+        width: 200,
+      },
+      {
+        // key: "module",
+        key: "Module",
         name: "MODULE",
         editable: false,
         resizable: true,
         width: 300,
       },
       {
-        key: "hydrocarbonStream",
+        // key: "hydrocarbonStream",
+        key: "Hydrocarbon Stream",
         name: "HYDROCARBON STREAM",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 200,
       },
       {
-        key: "flowstation",
+        // key: "hydrocarbonType",
+        key: "Hydrocarbon Type",
+        name: "HYDROCARBON TYPE",
+        editable: false,
+        resizable: true,
+        width: 200,
+      },
+      {
+        // key: "flowstation",
+        key: "FlowStation",
         name: "FLOWSTATION",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 200,
       },
       {
-        key: "profileType",
-        name: "PROFILETYPE",
+        // key: "profileType",
+        key: "Profile Type",
+        name: "PROFILE TYPE",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 150,
       },
       {
-        key: "npgp",
-        name: "Np/Gp",
+        // key: "np",
+        key: "Np",
+        name: "Np",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 100,
       },
       {
-        key: "reserves",
-        name: "Reserves",
+        // key: "gp",
+        key: "Gp",
+        name: "Gp",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 100,
       },
+      // {
+      //   key: "reserves",
+      //   name: "Reserves",
+      //   editable: false,
+      //   resizable: true,
+      //   width: 300,
+      // },
       ...forecastDataWithTimeColumns,
       {
-        key: "projectcode",
-        name: "PROJECTCODE",
+        // key: "projectcode",
+        key: "Project Code",
+        name: "PROJECT CODE",
         editable: false,
         resizable: true,
         width: 300,
       },
       {
-        key: "projectname",
-        name: "PROJECTNAME",
+        // key: "projectname",
+        key: "Project Name",
+        name: "PROJECT NAME",
         editable: false,
         resizable: true,
         width: 300,
@@ -181,28 +240,9 @@ export default function ForecastData({
 
     return columns;
   };
-  function createRows(): readonly IRawRow[] {
-    const rows: IRawRow[] = [];
-    for (let i = 1; i < 10000; i++) {
-      rows.push({
-        sn: i,
-        field: faker.name.middleName(),
-        reservoir: faker.name.firstName(),
-        module: faker.name.firstName(),
-        hydrocarbonStream: "oil",
-        flowstation: "Agbada",
-        profileType: "oil/AG",
-        npgp: 56,
-        reserves: 50000,
-        projectcode: "W01_AGBADA",
-        projectname: "ARPR",
-      });
-    }
 
-    return rows;
-  }
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
-  const tableRows = React.useRef<any>(createRows());
+  const tableRows = React.useRef<any>(snSelectedForecastData);
   const currentRows = tableRows.current;
   const [rows, setRows] = React.useState(currentRows);
 
@@ -220,21 +260,22 @@ export default function ForecastData({
     // @ts-expect-error typescript quirkiness
     Select
   );
+  // const options: OptionsType<ISelectOption> = [];
   const options: OptionsType<ISelectOption> = [
-    { value: "country", label: "Country" },
-    { value: "year", label: "Year" },
-    { value: "sport", label: "Sport" },
-    { value: "athlete", label: "athlete" },
+    // { value: "Scenario", label: "Scenario" },
+    // { value: "Feld", label: "Field" },
+    // { value: "FlowStation", label: "Flowstation" },
+    // { value: "Hydrocarbon Type", label: "Hydrocarbon Type" },
   ];
   const [selectedOptions, setSelectedOptions] = React.useState<
     ValueType<ISelectOption, true>
-  >([options[0], options[1]]);
+  >([]);
+  // const [selectedOptions, setSelectedOptions] = React.useState<
+  //   ValueType<ISelectOption, true>
+  // >([options[0]]);
+
   const [expandedGroupIds, setExpandedGroupIds] = React.useState(
-    () =>
-      new Set<unknown>([
-        "United States of America",
-        "United States of America__2015",
-      ])
+    () => new Set<unknown>([])
   );
 
   const groupBy = React.useMemo(
@@ -245,13 +286,13 @@ export default function ForecastData({
     [selectedOptions]
   );
 
-  function onSortEnd({
+  const onSortEnd = ({
     oldIndex,
     newIndex,
   }: {
     oldIndex: number;
     newIndex: number;
-  }) {
+  }) => {
     if (!Array.isArray(selectedOptions)) return;
     const newOptions: ISelectOption[] = [...selectedOptions];
     newOptions.splice(
@@ -261,69 +302,105 @@ export default function ForecastData({
     );
     setSelectedOptions(newOptions);
     setExpandedGroupIds(new Set());
-  }
+  };
+
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme, 300);
-  const forecastResultTitles = ["Result1", "Result2", "Result3", "Result4"];
-
-  const handleSelect = (value: ValueType<ISelectOption, false>) => {
-    if (value) setTitleOption(value);
-  };
-  const forecastResultTitlesOptions = generateSelectOptions(
-    forecastResultTitles
+  const wc = "existingDataWorkflows";
+  const { forecastResultsExisting } = useSelector(
+    (state: RootState) => state.forecastReducer[wc]
   );
-  const initialTitleOption = generateSelectOptions([
-    forecastResultTitles[0],
-  ])[0];
-  const [titleOption, setTitleOption] = React.useState(initialTitleOption);
+  const { selectedForecastingResultsTitle } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
+
+  const forecastRuns = forecastResultsExisting.map(
+    (row) => row.title
+  ) as string[];
+  const forecastRunTitleOptions = generateSelectOptions(forecastRuns);
+  const selectedForecastTitle =
+    selectedForecastingResultsTitle !== ""
+      ? selectedForecastingResultsTitle
+      : forecastRuns[0];
+
+  const [forecastRun, setForecastRun] = React.useState(selectedForecastTitle);
+
+  const handleSelectForecastRunChange = (
+    row: ValueType<ISelectOption, false>
+  ) => {
+    const forecastRunName = row?.value as string;
+    setForecastRun(forecastRunName);
+
+    dispatch(getForecastDataByIdRequestAction());
+  };
+
+  const SelectForecastRun = () => {
+    const valueOption = generateSelectOptions([forecastRun])[0];
+    const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme, 300);
+
+    return (
+      <Select
+        value={valueOption}
+        options={forecastRunTitleOptions}
+        styles={RSStyles}
+        onChange={handleSelectForecastRunChange}
+        menuPortalTarget={document.body}
+        theme={(thm) => ({
+          ...thm,
+          borderRadius: 0,
+          colors: {
+            ...thm.colors,
+            primary50: theme.palette.primary.light,
+            primary25: theme.palette.primary.main,
+            primary: theme.palette.grey[700],
+          },
+        })}
+      />
+    );
+  };
 
   return (
     <div className={classes.rootExistingData} style={containerStyle}>
-      <div className={classes.apexSelectRS}>
-        <Select
-          value={titleOption}
-          options={forecastResultTitlesOptions}
-          styles={RSStyles}
-          onChange={handleSelect}
-          menuPortalTarget={document.body}
-          theme={(thm) => ({
-            ...thm,
-            borderRadius: 0,
-            colors: {
-              ...thm.colors,
-              primary50: theme.palette.primary.light,
-              primary25: theme.palette.primary.main,
-              primary: theme.palette.grey[700],
-            },
-          })}
-        />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          marginBottom: 20,
+          paddingLeft: 20,
+          paddingRight: 20,
+        }}
+      >
+        <label className={classes.apexSelectRS}>
+          <b>Select Forecast Run</b>
+          <SelectForecastRun />
+        </label>
+        <label style={{ width: 400 }}>
+          <b>Group by</b> (drag to sort)
+          <SortableSelect
+            // react-sortable-hoc props
+            axis="xy"
+            onSortEnd={onSortEnd}
+            distance={4}
+            getHelperDimensions={({ node }) => node.getBoundingClientRect()}
+            // react-select props
+            isMulti
+            value={selectedOptions}
+            onChange={(options) => {
+              setSelectedOptions(options);
+              setExpandedGroupIds(new Set());
+            }}
+            options={options}
+            components={{
+              MultiValue: SortableMultiValue,
+            }}
+            closeMenuOnSelect={false}
+          />
+        </label>
       </div>
-      <label style={{ width: 400 }}>
-        <b>Group by</b> (drag to sort)
-        <SortableSelect
-          // react-sortable-hoc props
-          axis="xy"
-          onSortEnd={onSortEnd}
-          distance={4}
-          getHelperDimensions={({ node }) => node.getBoundingClientRect()}
-          // react-select props
-          isMulti
-          value={selectedOptions}
-          onChange={(options) => {
-            setSelectedOptions(options);
-            setExpandedGroupIds(new Set());
-          }}
-          options={options}
-          components={{
-            MultiValue: SortableMultiValue,
-          }}
-          closeMenuOnSelect={false}
-        />
-      </label>
-
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.workflowBody}>
           <SizeMe monitorHeight refreshRate={32}>

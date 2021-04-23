@@ -66,9 +66,8 @@ function* runForecastSaga(
   const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersGroupId=${selectedForecastingParametersId}/userId=${userId}`;
 
-  yield put(showSpinnerAction("Running forecast..."));
-
   try {
+    yield put(showSpinnerAction("Running forecast..."));
     const chan = yield call(updateForecastKeysAndTrees, url);
 
     while (true) {
@@ -85,12 +84,6 @@ function* runForecastSaga(
           },
         });
       } else if (Object.keys(data)[0] === "tree") {
-        const { forecastTree } = yield select((state) => state.forecastReducer);
-        // const newData =
-        //   forecastTree.length > 0
-        //     ? [...forecastTree, data["tree"]]
-        //     : [data["tree"]];
-
         const newData = data["tree"];
 
         yield put({
@@ -105,10 +98,6 @@ function* runForecastSaga(
       yield put(showDialogAction(successDialogParameters()));
     }
   } catch (errors) {
-    console.log(
-      "Logged output --> ~ file: RunForecastSaga.ts ~ line 97 ~ errors",
-      errors
-    );
     const failureAction = runForecastFailureAction();
 
     yield put({

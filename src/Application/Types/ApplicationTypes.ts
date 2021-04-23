@@ -65,6 +65,7 @@ export interface IApplicationExistingForecastResultsRow
   saved: "Saved" | "Not Saved";
   forecastResultsId: string;
   networkTitle: string;
+  networkId: string;
   forecastInputDeckTitle: string;
   forecastingParametersGroupTitle: string;
 }

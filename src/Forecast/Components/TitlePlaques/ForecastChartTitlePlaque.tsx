@@ -7,29 +7,31 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 const ForecastChartTitlePlaque = () => {
   const theme = useTheme();
 
-  const { forecastResultsTitle, selectedForecastingResultsId } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
-
-  const isNetworkSaved = !(selectedForecastingResultsId === "");
+  const {
+    selectedForecastingResultsTitle,
+    selectedForecastingResultsId,
+    isForecastResultsSaved,
+  } = useSelector((state: RootState) => state.forecastReducer);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <InsertPhotoOutlinedIcon />
       <Box style={{ display: "flex", alignItems: "center", marginLeft: 5 }}>
-        {forecastResultsTitle ? forecastResultsTitle : "---"}
+        {selectedForecastingResultsTitle
+          ? selectedForecastingResultsTitle
+          : "---"}
       </Box>
       {selectedForecastingResultsId && (
         <Chip
           style={{
-            backgroundColor: isNetworkSaved
+            backgroundColor: isForecastResultsSaved
               ? theme.palette.success.main
               : theme.palette.secondary.main,
             marginLeft: 5,
             color: "white",
           }}
           size="small"
-          label={isNetworkSaved ? "Saved" : "Not Saved"}
+          label={isForecastResultsSaved ? "Saved" : "Not Saved"}
         />
       )}
     </div>

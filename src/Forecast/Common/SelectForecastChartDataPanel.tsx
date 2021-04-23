@@ -4,15 +4,22 @@ import {
   AccordionSummary,
   Typography,
 } from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Select, { Styles, ValueType } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
+import getRSStyles from "../../Import/Utils/GetRSStyles";
 import ForecastTreeView from "../Components/ForecastTreeView";
+import {
+  fetchTreeviewKeysRequestAction,
+  getForecastDataByIdRequestAction,
+} from "../Redux/Actions/ForecastActions";
 import ForecastChartCategories from "./ForecastChartCategories";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,25 +58,37 @@ const useStyles = makeStyles((theme) => ({
 const SelectForecastChartDataPanel = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
-  const forecastRuns = [
-    "ARPR Forecast Run 1",
-    "ARPR Forecast Run 2",
-    "ARPR Forecast Run 3",
-    "ARPR Forecast Run 4",
-  ];
-  const [forecastRun, setForecastRun] = React.useState(forecastRuns[0]);
+  const wc = "existingDataWorkflows";
+  const { forecastResultsExisting } = useSelector(
+    (state: RootState) => state.forecastReducer[wc]
+  );
+  const { selectedForecastingResultsTitle } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
+
+  const forecastRuns = forecastResultsExisting.map(
+    (row) => row.title
+  ) as string[];
+  const forecastRunTitleOptions = generateSelectOptions(forecastRuns);
+  const selectedForecastTitle =
+    selectedForecastingResultsTitle !== ""
+      ? selectedForecastingResultsTitle
+      : forecastRuns[0];
+
+  const [forecastRun, setForecastRun] = React.useState(selectedForecastTitle);
   const firstRender = React.useRef(true);
-
-  const handleSelectChange = (event: ChangeEvent<any>) => {
-    const forcastRunName = event.target.value;
-    setForecastRun(forcastRunName);
-
-    const chartIndex = forecastRuns.indexOf(forcastRunName);
-    // dispatch(persistForecastChartIndexAction(chartIndex));
-  };
-
   const [expanded, setExpanded] = React.useState<string | false>(false);
+
+  const handleSelectForecastRunChange = (
+    row: ValueType<ISelectOption, false>
+  ) => {
+    const forecastRunName = row?.value as string;
+    setForecastRun(forecastRunName);
+
+    dispatch(fetchTreeviewKeysRequestAction());
+  };
 
   const handleChange = (panel: string) => (
     event: React.ChangeEvent<any>,
@@ -78,23 +97,29 @@ const SelectForecastChartDataPanel = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const SelectItem = () => {
+  const SelectForecastRun = () => {
+    const valueOption = generateSelectOptions([forecastRun])[0];
+
+    const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
+
     return (
-      <TextField
-        id="outlined-select-forecastRun"
-        select
-        label=""
-        value={forecastRun}
-        onChange={handleSelectChange}
-        variant="outlined"
-        fullWidth
-      >
-        {forecastRuns.map((forecastRun) => (
-          <MenuItem key={forecastRun} value={forecastRun}>
-            {forecastRun}
-          </MenuItem>
-        ))}
-      </TextField>
+      <Select
+        value={valueOption}
+        options={forecastRunTitleOptions}
+        styles={RSStyles}
+        onChange={handleSelectForecastRunChange}
+        menuPortalTarget={document.body}
+        theme={(thm) => ({
+          ...thm,
+          borderRadius: 0,
+          colors: {
+            ...thm.colors,
+            primary50: theme.palette.primary.light,
+            primary25: theme.palette.primary.main,
+            primary: theme.palette.grey[700],
+          },
+        })}
+      />
     );
   };
 
@@ -113,7 +138,7 @@ const SelectForecastChartDataPanel = () => {
         title="Select Forecast Run"
         content={
           <div style={{ display: "flex", alignItems: "center" }}>
-            <SelectItem />
+            <SelectForecastRun />
             <CallMadeOutlinedIcon />
           </div>
         }

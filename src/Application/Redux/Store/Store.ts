@@ -27,15 +27,14 @@ import watchFetchExistingForecastParametersSaga from "../../../Network/Redux/Sag
 import watchFetchExistingNetworkDataSaga from "../../../Network/Redux/Sagas/FetchExistingNetworkDataSaga";
 import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/UpdateForecastParametersSaga";
 import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
-import watchGetForecastResultsSaga from "../../../Forecast/Redux/Sagas/GetForecastResultsSaga";
 import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
 import watchFetchExistingForecastingResultsSaga from "../../../Forecast/Redux/Sagas/FetchExistingForecastingResultsSaga";
 import watchFetchTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchTreeviewKeysSaga";
 import watchFetchExistingProjectsSaga from "../../../Project/Redux/Sagas/FetchExistingProjectsSaga";
 import watchDisplayNetworkBySelectionSaga from "../../../Network/Redux/Sagas/DisplayNetworkBySelectionSaga";
-import watchGetForecastWholeResultsSaga from "../../../Forecast/Redux/Sagas/GetSelectedForecastResultByIdSaga";
 import watchFetchMatchObjectSaga from "../Sagas/FetchMatchObjectSaga";
-import watchGetSelectedForecastResultByIdSaga from "../../../Forecast/Redux/Sagas/GetSelectedForecastResultByIdSaga";
+import watchGetSelectedForecastDataByIdSaga from "../../../Forecast/Redux/Sagas/GetSelectedForecastDataByIdSaga";
+import watchGetForecastResultsChartDataSaga from "../../../Forecast/Redux/Sagas/GetForecastResultsChartDataSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -59,13 +58,12 @@ function* rootSaga() {
   yield spawn(watchFetchExistingForecastParametersSaga);
   yield spawn(watchDisplayNetworkBySelectionSaga);
   yield spawn(watchSaveForecastSaga);
-  yield spawn(watchGetForecastResultsSaga);
   yield spawn(watchFetchUserDetailsSaga);
   yield spawn(watchFetchExistingForecastingResultsSaga);
   yield spawn(watchFetchTreeviewKeysSaga);
-  yield spawn(watchGetForecastWholeResultsSaga);
+  yield spawn(watchGetForecastResultsChartDataSaga);
   yield spawn(watchFetchMatchObjectSaga);
-  yield spawn(watchGetSelectedForecastResultByIdSaga);
+  yield spawn(watchGetSelectedForecastDataByIdSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -81,7 +79,8 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(
     // applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
-    applyMiddleware(authMiddleware, sagaMiddleware)
+    // applyMiddleware(authMiddleware, sagaMiddleware)
+    applyMiddleware(sagaMiddleware)
   )
 );
 

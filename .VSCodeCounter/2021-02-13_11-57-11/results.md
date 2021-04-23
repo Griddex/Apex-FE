@@ -102,7 +102,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | Forecast\Images | 3 | 126 | 3 | 3 | 132 |
 | Forecast\Redux | 4 | 574 | 4 | 38 | 616 |
 | Forecast\Redux\ForecastActions | 1 | 81 | 0 | 10 | 91 |
-| Forecast\Redux\ForecastChartReducer | 1 | 85 | 3 | 14 | 102 |
+| Forecast\Redux\ForecastReducer | 1 | 85 | 3 | 14 | 102 |
 | Forecast\Redux\ForecastState | 2 | 408 | 1 | 14 | 423 |
 | Forecast\Routes | 3 | 134 | 1 | 18 | 153 |
 | Forecast\Utils | 3 | 99 | 4 | 29 | 132 |

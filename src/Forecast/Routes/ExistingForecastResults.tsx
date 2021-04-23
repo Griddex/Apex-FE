@@ -1,40 +1,37 @@
-import {
-  Button,
-  Checkbox,
-  ClickAwayListener,
-  makeStyles,
-} from "@material-ui/core";
+import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
+import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import React from "react";
-import { Column, SelectCellFormatter, SelectColumn } from "react-data-griddex";
+import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import Author from "../../Application/Components/Author/Author";
+import { useHistory } from "react-router-dom";
+import { SizeMe } from "react-sizeme";
 import Approval from "../../Application/Components/Approval/Approval";
+import Author from "../../Application/Components/Author/Author";
+import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
+import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import Saved from "../../Application/Components/Saved/Saved";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import Saved from "../../Application/Components/Saved/Saved";
 import {
-  IExistingDataProps,
   IApplicationExistingForecastResultsRow,
+  IExistingDataProps,
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
+import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import {
-  getForecastResultByIdRequestAction,
+  fetchTreeviewKeysRequestAction,
+  getForecastDataByIdRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
-import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
-import { SizeMe } from "react-sizeme";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
-import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
-import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -124,14 +121,28 @@ export default function ExistingForecastResults({
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IExistingForecastResultsRow) => {
-    const name = "selectedForecastingResultsId";
-    const value = row.forecastResultsId;
+    const id = row.forecastResultsId as string;
+    const title = row.forecastResultsTitle as string;
+    const saved = row.saved as string;
+    const isSaved = saved === "Saved" ? true : false;
+    const networkId = row.networkId as string;
 
-    dispatch(updateForecastResultsParameterAction(name, value));
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("forecastReducer", {
+          selectedForecastingResultsId: id,
+          selectedForecastingResultsTitle: title,
+        })
+      );
+
+    dispatch(
+      updateForecastResultsParameterAction("isForecastResultsSaved", isSaved)
+    );
+    dispatch(updateNetworkParameterAction("selectedNetworkId", networkId));
+
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const [, setRerender] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState(
     () => new Set<React.Key>()
   );
@@ -209,14 +220,14 @@ export default function ExistingForecastResults({
         width: 100,
       },
       {
-        key: "title",
+        key: "forecastResultsTitle",
         name: "FORECAST RESULTS TITLE",
         editable: false,
         resizable: true,
         width: 300,
       },
       {
-        key: "selectedForecastInputDeckTitle",
+        key: "forecastInputDeckTitle",
         name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,
@@ -269,11 +280,11 @@ export default function ExistingForecastResults({
     (row: IApplicationExistingForecastResultsRow, i: number) => ({
       sn: i + 1,
       forecastResultsId: row.id,
-      title: row.title,
+      forecastResultsTitle: row.title,
       description: row.description,
       saved: row.saved,
       status: "Not Started",
-      networkTitle: row.networkTitle,
+      networkId: row.networkId,
       forecastInputDeckTitle: row.forecastInputDeckTitle,
       forecastParametersTitle: row.forecastingParametersGroupTitle,
       author: "---",
@@ -342,10 +353,9 @@ export default function ExistingForecastResults({
             shouldDispatch={[false, false]}
             finalActions={[
               () => {
-                dispatch(getForecastResultByIdRequestAction());
-                history.push("/apex/forecast/forecastdata");
+                dispatch(getForecastDataByIdRequestAction());
               },
-              () => alert("Plot Chart"),
+              () => dispatch(fetchTreeviewKeysRequestAction()),
             ]}
           />
         </div>

@@ -110,7 +110,12 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
         ) : (
           <div className={classes.chartContent}>
             <div
-              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                marginTop: 2,
+              }}
             >
               <ForecastChartTitlePlaque />
               <ChartButtons {...chartButtons} />

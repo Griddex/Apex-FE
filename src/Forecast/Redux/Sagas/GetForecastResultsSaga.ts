@@ -26,9 +26,9 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
 import {
-  getForecastResultsFailureAction,
-  getForecastResultsSuccessAction,
-  GET_FORECASTRESULTS_REQUEST,
+  getForecastResultsChartDataFailureAction,
+  getForecastResultsChartDataSuccessAction,
+  GET_FORECASTRESULTS_CHARTDATA_REQUEST,
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastResultsSaga(): Generator<
@@ -102,7 +102,7 @@ function* getForecastResultsSaga(
       );
       const newForecastResults = [...forecastResults, forecastResultsChunk];
 
-      const successAction = getForecastResultsSuccessAction();
+      const successAction = getForecastResultsChartDataSuccessAction();
       yield put({
         ...successAction,
         payload: {
@@ -118,7 +118,7 @@ function* getForecastResultsSaga(
       });
     }
   } catch (errors) {
-    const failureAction = getForecastResultsFailureAction();
+    const failureAction = getForecastResultsChartDataFailureAction();
 
     yield put({
       ...failureAction,

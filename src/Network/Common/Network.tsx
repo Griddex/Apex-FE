@@ -268,7 +268,12 @@ const Network = () => {
             className={classes.networkContent}
           >
             <div
-              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                marginTop: 2,
+              }}
             >
               <NetworkTitlePlaque />
               <NetworkDiagramButtons {...NetworkDiagramIconsProps} />
