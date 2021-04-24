@@ -109,10 +109,6 @@ export function* saveInputDeckSaga(
     matchObject,
     variableUnits,
   };
-  console.log(
-    "Logged output --> ~ file: SaveInputDeckSaga.ts ~ line 99 ~ data",
-    data
-  );
 
   const config = { withCredentials: false };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
@@ -147,7 +143,9 @@ export function* saveInputDeckSaga(
     yield put(fetchExistingDataRequestAction(projectId));
     yield put(fetchExistingForecastingParametersRequestAction());
     yield put(workflowResetAction(0, wp, wc));
-    yield put(showDialogAction(successDialogParameters(inputDeckType, wp)));
+    yield put(
+      showDialogAction(successDialogParameters(reducer, inputDeckType, wp))
+    );
   } catch (errors) {
     const failureAction = saveInputDeckFailureAction();
 

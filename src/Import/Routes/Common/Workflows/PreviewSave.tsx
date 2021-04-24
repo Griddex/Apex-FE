@@ -66,16 +66,16 @@ export default function PreviewSave({
 
   //TODO: Need to generalize for other workflow processes
   const {
-    facilitiesInputHeaders,
-    forecastInputHeaders,
+    facilitiesAppHeaders,
+    forecastAppHeaders,
     noneColumnIndices,
     fileHeadersChosenAppHeaderWithNone,
   } = useSelector((state: RootState) => state[reducer]);
   const isFacilitiesWorkflow = wp.includes("facilities");
   let applicationHeaderNameTitleCollection = [];
   if (isFacilitiesWorkflow)
-    applicationHeaderNameTitleCollection = facilitiesInputHeaders;
-  else applicationHeaderNameTitleCollection = forecastInputHeaders;
+    applicationHeaderNameTitleCollection = facilitiesAppHeaders;
+  else applicationHeaderNameTitleCollection = forecastAppHeaders;
 
   //TODO: Gift should do this and store in Redis - Application units
   const { applicationUnitsCollection } = useSelector(
@@ -227,8 +227,8 @@ export default function PreviewSave({
   }
 
   React.useEffect(() => {
-    dispatch(persistTableDataAction(tableData, wp));
-    dispatch(persistVariableUnitsAction(variableUnits, wp));
+    dispatch(persistTableDataAction(reducer, tableData, wp));
+    dispatch(persistVariableUnitsAction(reducer, variableUnits, wp));
 
     dispatch(hideSpinnerAction());
   }, []);

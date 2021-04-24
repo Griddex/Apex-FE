@@ -22,6 +22,7 @@ import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
+import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -44,6 +45,7 @@ const applicationDialogs: IApplicationDialogs = {
   runForecastDialog: RunForecastDialog,
   saveForecastDialog: SaveForecastDialog,
   saveCostsRevenuesInputDeckDialog: SaveCostsRevenuesInputDeckDialog,
+  saveEconomicsParametersInputDeckDialog: SaveEconomicsParametersInputDeckDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

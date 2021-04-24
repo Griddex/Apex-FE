@@ -265,21 +265,26 @@ export default function SelectHeaderUnitData({
   ]);
 
   React.useEffect(() => {
-    dispatch(persistTableHeadersAction(columnNameTableHeaders, wp));
+    dispatch(persistTableHeadersAction(reducer, columnNameTableHeaders, wp));
   }, []);
 
   React.useEffect(() => {
-    dispatch(persistFileHeadersAction(selectedHeaderRowIndex, fileHeaders, wp));
+    dispatch(
+      persistFileHeadersAction(reducer, selectedHeaderRowIndex, fileHeaders, wp)
+    );
     dispatch(
       persistFileUnitsAndUniqueUnitsAction(
+        reducer,
         selectedUnitRowIndex,
         fileUnits,
         fileUniqueUnits,
         wp
       )
     );
-    dispatch(persistColumnNameTableDataAction(columnNameTableData, wp));
-    dispatch(persistTableRoleNamesAction(chosenTableRoleNames, wp));
+    dispatch(
+      persistColumnNameTableDataAction(reducer, columnNameTableData, wp)
+    );
+    dispatch(persistTableRoleNamesAction(reducer, chosenTableRoleNames, wp));
 
     dispatch(hideSpinnerAction());
   }, [rows]);

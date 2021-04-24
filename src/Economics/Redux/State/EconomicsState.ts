@@ -19,8 +19,53 @@ const generateEconomicsState = () => {
     return {
       ...acc,
       [workflowProcess]: {
-        existingData: [], //change this
+        fileLastModified: "",
+        filePath: "",
+        fileType: "",
+        fileName: "",
+        fileSize: "",
+        fileAuthor: "",
+        fileCreated: "",
 
+        fileAccepted: false,
+        dnDDisabled: false,
+        inputFile: null,
+
+        workSheetNames: [],
+        selectedWorksheetName: "",
+        selectedWorksheetData: [],
+
+        tableHeaders: [],
+        fileHeaders: [],
+        fileHeadersMatch: [],
+        selectedHeaderRowIndex: 0,
+        selectedHeaderOptionIndex: 0,
+        chosenApplicationHeadersIndices: [],
+        headerRowOptionsIndices: [],
+        fileUnits: [],
+        fileUniqueUnits: [],
+        fileUnitsMatch: [],
+        fileUnitsMatchUnique: [],
+        selectedUnitRowIndex: 0,
+        selectedUnitOptionIndex: 0,
+        unitRowOptionsIndices: [],
+        tableRoleNames: [],
+        optionIndices: [],
+        tableData: [],
+        columnNameTableData: [],
+        inputDeckData: [],
+        selectedRow: null,
+
+        chosenApplicationHeadersWithNone: [],
+        chosenApplicationHeadersWithoutNone: [],
+
+        chosenApplicationUnitsWithoutNone: [],
+        fileUnitsWithoutNone: [],
+
+        savedMatchObjectAll: {},
+        variableUnits: {},
+
+        inputDeckId: "",
         status: 0,
         message: "",
         errors: { message: "" },
@@ -57,10 +102,9 @@ const EconomicsState: EconomicsStateType = {
   forecastRun: "",
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
-  loadParametersWorkflow: false,
+  loadEconomicsParametersWorkflow: false,
 
-  costsRevenuesInputHeaders: [],
-
+  costsRevenuesAppHeaders: [],
   costsRevenuesInputDeckId: "",
   costsRevenuesInputDeckTitle: "",
   costsRevenuesInputDeckDescription: "",
@@ -68,10 +112,13 @@ const EconomicsState: EconomicsStateType = {
   selectedCostsRevenuesInputDeckId: "",
   selectedCostsRevenuesInputDeckTitle: "",
 
-  parametersInputDeckId: "",
-  parametersInputHeaders: [],
-  selectedParametersInputDeckId: "",
-  selectedParametersInputDeckTitle: "",
+  economicsParametersAppHeaders: [],
+  economicsParametersInputDeckId: "",
+  economicsParametersInputDeckTitle: "",
+  economicsParametersInputDeckDescription: "",
+
+  selectedEconomicsParametersInputDeckId: "",
+  selectedEconomicsParametersInputDeckTitle: "",
 
   selectedEconomicsResultsId: "",
   selectedEconomicsResultsTitle: "",

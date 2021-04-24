@@ -33,7 +33,10 @@ import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
-import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  ReducersType,
+} from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 import TickIcon from "../../../Application/Components/Svg/TickIcon.svg";
 
@@ -170,16 +173,18 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     contentList,
     workflowProcess,
     workflowCategory,
+    reducer,
   } = props;
 
   const wc = workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"];
   const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+  const reducerDefined = reducer as NonNullable<ReducersType>;
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
   );
   const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
-    (state: RootState) => state.inputReducer["inputDataWorkflows"][wp]
+    (state: RootState) => state[reducerDefined]["inputDataWorkflows"][wp]
   );
 
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
@@ -204,7 +209,9 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                   button
                   onClick={() => {
                     setSelectedListItem(name);
-                    dispatch(persistWorksheetAction(name, [], wp));
+                    dispatch(
+                      persistWorksheetAction(reducerDefined, name, [], wp)
+                    );
                   }}
                   style={
                     name === selectedListItem
@@ -240,7 +247,12 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     }
 
     dispatch(
-      persistWorksheetAction(selectedWorksheetName, selectedWorksheetData, wp)
+      persistWorksheetAction(
+        reducerDefined,
+        selectedWorksheetName,
+        selectedWorksheetData,
+        wp
+      )
     );
     dispatch(
       workflowNextAction(

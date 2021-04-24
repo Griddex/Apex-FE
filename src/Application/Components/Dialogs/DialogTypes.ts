@@ -1,29 +1,34 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import { ReactNode } from "react";
 import { Column } from "react-data-griddex";
 import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
+import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
+import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
+import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
+import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
+import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
+import {
+  default as DeclineCurveParametersDialog,
+  default as SaveForecastingParametersWorkflowDialog,
+} from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
-import SaveForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
+import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
+import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
-import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  ReducersType,
+} from "../Workflows/WorkflowTypes";
 import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
-import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
-import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
-import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
-import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
-import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
-import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
-import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -46,6 +51,7 @@ export interface IApplicationDialogs {
   runForecastDialog: typeof RunForecastDialog;
   saveForecastDialog: typeof SaveForecastDialog;
   saveCostsRevenuesInputDeckDialog: typeof SaveCostsRevenuesInputDeckDialog;
+  saveEconomicsParametersInputDeckDialog: typeof SaveEconomicsParametersInputDeckDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -88,7 +94,8 @@ export interface DialogStuff {
     | "existingForecastingParametersDialog"
     | "saveForecastingParametersWorkflowDialog"
     | "declineCurveParametersDialog"
-    | "saveCostsRevenuesInputDeckDialog";
+    | "saveCostsRevenuesInputDeckDialog"
+    | "saveEconomicsParametersInputDeckDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -106,6 +113,7 @@ export interface DialogStuff {
   selectedRowIndex?: number;
   workflowProcess?: IAllWorkflowProcesses["wrkflwPrcss"];
   workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];
+  reducer?: ReducersType;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

@@ -1,9 +1,9 @@
 import { FormikErrors, FormikTouched } from "formik";
+import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IExistingDataProps,
   IExistingDataRow,
 } from "../../../Application/Types/ApplicationTypes";
-import { UserMatchObjectType } from "../../Routes/Common/Workflows/MatchHeadersTypes";
 
 export interface IInputState {
   fileLastModified: string;
@@ -21,10 +21,6 @@ export interface IInputState {
   workSheetNames: string[];
   selectedWorksheetName: string;
   selectedWorksheetData: Record<string, React.Key>[];
-  selectedWorksheetDataForTable: Record<string, React.Key>[];
-  tableHeaderData: Record<string, React.Key>[];
-  tableBodyData: Record<string, React.Key>[];
-  extrudeParseTable: false;
 
   tableHeaders: string[];
   fileHeaders: string[];
@@ -72,8 +68,8 @@ export interface InputStateType
   headerType: string;
   selectedFacilitiesInputDeckId: string;
   selectedForecastInputDeckId: string;
-  facilitiesInputHeaders: Record<string, string>[];
-  forecastInputHeaders: Record<string, string>[];
+  facilitiesAppHeaders: Record<string, string>[];
+  forecastAppHeaders: Record<string, string>[];
 
   inputDataWorkflows: Record<string, IInputState>;
   existingDataWorkflows: Record<
@@ -101,6 +97,7 @@ export interface INewFacilitiesInputDeckWorkflowProps
   children?: (
     props: INewFacilitiesInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
+  reducer?: ReducersType;
 }
 export interface INewForecastInputDeckFormValues {
   selectedForecastInputDeckTitle: string;
@@ -117,4 +114,5 @@ export interface INewForecastInputDeckWorkflowProps
   children?: (
     props: INewForecastInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
+  reducer?: ReducersType;
 }

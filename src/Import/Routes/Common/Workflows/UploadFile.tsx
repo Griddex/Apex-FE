@@ -112,7 +112,11 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
               type: "array",
             });
 
-            dispatch(persistFileAction(inputWorkbook, wp));
+            dispatch(persistFileAction(reducer, inputWorkbook, wp));
+            console.log(
+              "Logged output --> ~ file: UploadFile.tsx ~ line 118 ~ UploadFile ~ inputWorkbook",
+              inputWorkbook
+            );
 
             const {
               Author: fileAuthor,
@@ -121,6 +125,7 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
 
             dispatch(
               importFileInitAction(
+                reducer,
                 fileLastModified,
                 filePath as string,
                 fileType,
@@ -136,7 +141,7 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
             );
 
             const workSheetNames = inputWorkbook.SheetNames;
-            dispatch(persistWorksheetNamesAction(workSheetNames, wp));
+            dispatch(persistWorksheetNamesAction(reducer, workSheetNames, wp));
 
             if (workSheetNames.length > 1) {
               const dialogParameters: DialogStuff = {
@@ -150,6 +155,7 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
                 contentList: workSheetNames,
                 workflowProcess: wp,
                 workflowCategory: wc,
+                reducer,
               };
               dispatch(showDialogAction(dialogParameters));
             } else {
@@ -162,6 +168,7 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
 
               dispatch(
                 persistWorksheetAction(
+                  reducer,
                   selectedWorksheetName,
                   selectedWorksheetData,
                   wp

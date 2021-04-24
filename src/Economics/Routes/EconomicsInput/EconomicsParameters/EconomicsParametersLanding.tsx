@@ -21,7 +21,10 @@ import ExistingDeck from "../../../../Import/Images/ExistingDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import { IdType } from "./EconomicsParametersTypes";
 import ExistingEconomicsParametersDecks from "./ExistingEconomicsParametersDecks";
-import { loadEconomicsWorkflowAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  loadEconomicsWorkflowAction,
+  saveEconomicsParametersRequestAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import Manual from "../../../Images/Manual.svg";
 import EconomicsParametersManual from "./EconomicsParametersManual";
 
@@ -54,15 +57,8 @@ const EconomicsParametersLanding = () => {
 
   const reducer = "economicsReducer";
   const { url, path } = useRouteMatch();
-  console.log(
-    "Logged output --> ~ file: EconomicsParametersLanding.tsx ~ line 56 ~ EconomicsParametersLanding ~ path",
-    path
-  );
-  console.log(
-    "Logged output --> ~ file: EconomicsParametersLanding.tsx ~ line 56 ~ EconomicsParametersLanding ~ url",
-    url
-  );
-  const { loadParametersWorkflow } = useSelector(
+
+  const { loadEconomicsParametersWorkflow } = useSelector(
     (state: RootState) => state.economicsReducer
   );
 
@@ -130,25 +126,33 @@ const EconomicsParametersLanding = () => {
   //CSS using overlap and z-index
 
   //Paying it back
-  const parametersExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
-  ) => {
-    const saveFacilitiesInputdeckConfirmation = () => {
-      const dps = confirmationDialogParameters(
-        "FacilitiesDeck_Save_Confirmation",
-        "Facilities Deck Save Confirmation",
-        `Do you want to save the current economics parameters Inputdeck?`,
-        true,
-        () => ({ type: "HELLO", payload: "yeah" })
-      );
+  const economicsParametersWorkflowFinalAction = () => {
+    const saveEconomicsParametersInputdeckConfirmation = () => {
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Save_EconomicsParametersDeck_Confirmation",
+        title: "Save EconomicsParameters Confirmation",
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to save the current economics parameters Inputdeck?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogSaveCancelButtons(
+            [true, true],
+            [true, true],
+            [unloadDialogsAction, saveEconomicsParametersRequestAction]
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
 
-      dispatch(showDialogAction(dps));
+      dispatch(showDialogAction(confirmationDialogParameters));
     };
 
     const dialogParameters: DialogStuff = {
-      name: "Save_Facilities_Input_Deck_Dialog",
-      title: "Save Facilities InputDeck",
-      type: "saveFacilitiesInputDeckDialog",
+      name: "Save_EconomicsParameters_Input_Deck_Dialog",
+      title: "Save EconomicsParameters InputDeck",
+      type: "saveEconomicsParametersInputDeckDialog",
       show: true,
       exclusive: true,
       maxWidth: "sm",
@@ -157,7 +161,7 @@ const EconomicsParametersLanding = () => {
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveFacilitiesInputdeckConfirmation]
+          [unloadDialogsAction, saveEconomicsParametersInputdeckConfirmation]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -168,7 +172,7 @@ const EconomicsParametersLanding = () => {
   const existingDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
-      title: `Manage Facilities Deck`,
+      title: `Manage EconomicsParameters Deck`,
       type: "textDialog",
       show: true,
       exclusive: true,
@@ -180,15 +184,12 @@ const EconomicsParametersLanding = () => {
 
   return (
     <>
-      {loadParametersWorkflow ? (
+      {loadEconomicsParametersWorkflow ? (
         <div className={classes.importWorkflow}>
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
               const { match } = props;
-              console.log(
-                "Logged output --> ~ file: EconomicsParametersLanding.tsx ~ line 179 ~ EconomicsParametersLanding ~ props",
-                props
-              );
+
               const {
                 params: { dataInputId },
               } = match;
@@ -199,11 +200,7 @@ const EconomicsParametersLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckExcel"}
-                    finalAction={() =>
-                      parametersExcelandDbWorkflowFinalAction(
-                        "economicsParametersDeckExcel"
-                      )
-                    }
+                    finalAction={() => economicsParametersWorkflowFinalAction()}
                   />
                 ),
                 database: (
@@ -211,11 +208,7 @@ const EconomicsParametersLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckDatabase"}
-                    finalAction={() =>
-                      parametersExcelandDbWorkflowFinalAction(
-                        "economicsParametersDeckExcel"
-                      )
-                    }
+                    finalAction={() => economicsParametersWorkflowFinalAction()}
                   />
                 ),
                 manual: (
@@ -223,11 +216,7 @@ const EconomicsParametersLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckExcel"}
-                    finalAction={() =>
-                      parametersExcelandDbWorkflowFinalAction(
-                        "economicsParametersDeckExcel"
-                      )
-                    }
+                    finalAction={() => economicsParametersWorkflowFinalAction()}
                   />
                 ),
                 approveddeck: (
@@ -259,7 +248,7 @@ const EconomicsParametersLanding = () => {
                 key={name}
                 isDispatched={true}
                 moduleAction={() =>
-                  loadEconomicsWorkflowAction("loadParametersWorkflow")
+                  loadEconomicsWorkflowAction("loadEconomicsParametersWorkflow")
                 }
                 title={name}
                 description={description}

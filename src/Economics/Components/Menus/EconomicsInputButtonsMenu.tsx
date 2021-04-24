@@ -13,6 +13,7 @@ import VerticalSplitOutlinedIcon from "@material-ui/icons/VerticalSplitOutlined"
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import { subNavbarSetMenuAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IEconomicsInputButton } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 
@@ -52,7 +53,7 @@ const EconomicsInputButtonsMenu = ({
     icon: JSX.Element;
   }[] = [
     {
-      title: "Economics Costs",
+      title: "Economics Costs & Revenue",
       action: () => {
         dispatch(
           updateEconomicsParameterAction("loadCostsRevenueWorkflow", false)
@@ -107,6 +108,7 @@ const EconomicsInputButtonsMenu = ({
               key={i}
               onClick={() => {
                 action();
+                dispatch(subNavbarSetMenuAction(title));
                 handleClose();
               }}
             >

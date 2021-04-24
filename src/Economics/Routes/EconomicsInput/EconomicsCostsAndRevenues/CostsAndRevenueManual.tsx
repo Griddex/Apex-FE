@@ -62,10 +62,6 @@ export default function CostsAndRevenueManual({
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
-  console.log(
-    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 61 ~ wp",
-    wp
-  );
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
@@ -75,6 +71,7 @@ export default function CostsAndRevenueManual({
     extraButtons: () => <div></div>,
   };
 
+  //TODO: initialize from Gift
   const initialAppHeaderChosenAppUnitObj: Record<string, string> = {
     oilRate: "bopd",
     gasRate: "MMScf/d",
@@ -114,7 +111,7 @@ export default function CostsAndRevenueManual({
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          if (row.sn === 0) return <div> </div>;
+          if (row.sn === 0) return <div></div>;
           else return <div> {row.sn}</div>;
         },
         width: 50,
@@ -158,7 +155,7 @@ export default function CostsAndRevenueManual({
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: (props: EditorProps<IRawRow>) => {
           const { rowIdx } = props;
-          if (rowIdx === 0) return <div></div>;
+          if (rowIdx === 0) return null;
           else return <TextEditor {...props} />;
         },
         resizable: true,
@@ -171,6 +168,33 @@ export default function CostsAndRevenueManual({
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "oilRate")
+                }
+                menuPortalTarget={document.body}
+              />
+            );
+          else return <div> {row.oilRate}</div>;
+        },
+        width: 170,
+      },
+      {
+        key: "condensateRate",
+        name: `CONDENSATE RATE`,
+        editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
+        editor: (props: EditorProps<IRawRow>) => {
+          const { rowIdx } = props;
+          if (rowIdx === 0) return null;
+          else return <TextEditor {...props} />;
+        },
+        resizable: true,
+        formatter: ({ row }) => {
+          const data = ["bopd", "Mbopd"];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                data={data}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "condensateRate")
                 }
                 menuPortalTarget={document.body}
               />
@@ -421,6 +445,7 @@ export default function CostsAndRevenueManual({
         sn: i,
         year: faker.random.number({ min: 2000, max: 2020 }),
         oilRate: faker.random.number({ min: 600, max: 10000 }),
+        condensateRate: faker.random.number({ min: 600, max: 10000 }),
         gasRate: faker.random.number({ min: 30, max: 160 }),
         seismicCost: faker.random.number({ min: 10, max: 15 }),
         explApprCost: faker.random.number({ min: 5, max: 10 }),

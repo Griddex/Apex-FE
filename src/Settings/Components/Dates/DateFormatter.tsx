@@ -16,10 +16,6 @@ const DateFormatter = ({
 }: IDateFormatter) => {
   const date = new Date();
   const formatString = `${dayFormat} ${monthFormat} ${yearFormat}`;
-  console.log(
-    "Logged output --> ~ file: DateFormatter.tsx ~ line 19 ~ formatString",
-    formatString
-  );
 
   return <div style={dateFormatterStyle}>{format(date, formatString)}</div>;
 };

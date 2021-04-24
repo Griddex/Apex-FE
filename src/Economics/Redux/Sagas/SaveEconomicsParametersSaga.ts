@@ -25,26 +25,28 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
 import {
-  fetchExistingCostsRevenuesDataRequestAction,
-  saveCostsRevenuesFailureAction,
-  saveCostsRevenuesSuccessAction,
-  SAVECOSTSREVENUES_REQUEST,
+  fetchExistingEconomicsParametersDataRequestAction,
+  saveEconomicsParametersFailureAction,
+  saveEconomicsParametersSuccessAction,
+  SAVEECONOMICSPARAMETERS_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
-export default function* watchSaveCostsRevenuesSaga(): Generator<
+export default function* watchSaveEconomicsParametersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const saveCostsRevenuesChan = yield actionChannel(SAVECOSTSREVENUES_REQUEST);
-  yield takeLeading(saveCostsRevenuesChan, saveCostsRevenuesSaga);
+  const saveEconomicsParametersChan = yield actionChannel(
+    SAVEECONOMICSPARAMETERS_REQUEST
+  );
+  yield takeLeading(saveEconomicsParametersChan, saveEconomicsParametersSaga);
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* saveCostsRevenuesSaga(
+function* saveEconomicsParametersSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -60,52 +62,53 @@ function* saveCostsRevenuesSaga(
   const { projectId } = yield select((state) => state.projectReducer);
 
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
-  const { costsRevenueTitle, costsRevenueDescription } = yield select(
-    (state) => state.economicsReducer
-  );
+  const {
+    economicsParametersTitle,
+    economicsParametersDescription,
+  } = yield select((state) => state.economicsReducer);
 
   const data = {
     userId: "Gift",
     projectId,
-    title: costsRevenueTitle,
-    description: costsRevenueDescription,
+    title: economicsParametersTitle,
+    description: economicsParametersDescription,
     forecastResultsId,
   };
 
   const config = { withCredentials: false };
-  const saveCostsRevenuesAPI = (url: string) =>
+  const saveEconomicsParametersAPI = (url: string) =>
     authService.post(url, data, config);
 
   try {
-    yield put(showSpinnerAction("Saving costs and revenues data..."));
+    yield put(showSpinnerAction("Saving economics parameters data..."));
 
     const result = yield call(
-      saveCostsRevenuesAPI,
-      `${getBaseForecastUrl()}/costRevenue/save`
+      saveEconomicsParametersAPI,
+      `${getBaseForecastUrl()}/economicsparameter/save`
     );
 
     const {
-      data: { data: selectedCostsRevenuesId }, //prevent 2nd trip to server
+      data: { data: selectedEconomicsParametersId }, //prevent 2nd trip to server
       status,
       success,
     } = result;
 
-    const successAction = saveCostsRevenuesSuccessAction();
+    const successAction = saveEconomicsParametersSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, status, success, selectedCostsRevenuesId },
+      payload: { ...payload, status, success, selectedEconomicsParametersId },
     });
 
     yield put(
       updateEconomicsParameterAction(
-        "selectedCostsRevenuesTitle",
-        costsRevenueTitle
+        "selectedEconomicsParametersTitle",
+        economicsParametersTitle
       )
     );
-    yield put(fetchExistingCostsRevenuesDataRequestAction());
+    yield put(fetchExistingEconomicsParametersDataRequestAction());
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
-    const failureAction = saveCostsRevenuesFailureAction();
+    const failureAction = saveEconomicsParametersFailureAction();
 
     yield put({
       ...failureAction,

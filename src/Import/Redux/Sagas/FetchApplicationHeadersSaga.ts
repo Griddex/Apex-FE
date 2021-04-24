@@ -73,17 +73,17 @@ function* fetchApplicationHeadersSaga(
     ]);
 
     const {
-      data: { data: facilitiesInputHeaders }, //prevent 2nd trip to server
+      data: { data: facilitiesAppHeaders }, //prevent 2nd trip to server
     } = facilitiesResult;
     const {
-      data: { data: forecastInputHeaders }, //prevent 2nd trip to server
+      data: { data: forecastAppHeaders }, //prevent 2nd trip to server
     } = forecastResults;
 
     //Had to do this because Gift changed the data structure for
     // forecast input headers
-    const foreHeaders = Object.keys(forecastInputHeaders).map((k) => ({
+    const foreHeaders = Object.keys(forecastAppHeaders).map((k) => ({
       variableName: k,
-      variableTitle: forecastInputHeaders[k],
+      variableTitle: forecastAppHeaders[k],
     }));
 
     const successAction = fetchApplicationHeadersSuccessAction();
@@ -92,8 +92,8 @@ function* fetchApplicationHeadersSaga(
       ...successAction,
       payload: {
         ...payload,
-        facilitiesInputHeaders,
-        forecastInputHeaders: foreHeaders,
+        facilitiesAppHeaders,
+        forecastAppHeaders: foreHeaders,
       },
     });
   } catch (errors) {

@@ -15,13 +15,11 @@ import {
   PERSIST_CHOSENAPPLICATIONUNITINDICES,
   PERSIST_CHOSENAPPLICATIONUNITS,
   PERSIST_COLUMNNAMETABLEDATA,
-  PERSIST_DEFINEDTABLEDATA,
   PERSIST_FILE,
   PERSIST_FILEHEADERS,
   PERSIST_FILEHEADERSMATCH,
   PERSIST_FILEUNITSANDUNIQUEUNITS,
   PERSIST_FILEUNITSMATCH,
-  PERSIST_SELECTEDHEADERROWINDEX,
   PERSIST_TABLEDATA,
   PERSIST_TABLEHEADERS,
   PERSIST_TABLEROLENAMES,
@@ -37,10 +35,14 @@ import InputState from "../State/InputState";
 const inputReducer = (state = InputState, action: IAction) => {
   switch (action.type) {
     case UPDATE_INPUT: {
-      const { nameOrPath, value } = action.payload;
+      const { reducer, nameOrPath, value } = action.payload;
 
-      const updatedState = set(state, nameOrPath, value);
-      return updatedState;
+      if (reducer === "inputReducer") {
+        const updatedState = set(state, nameOrPath, value);
+        return updatedState;
+      } else {
+        return state;
+      }
     }
     case UPDATE_SELECTEDIDTITLE: {
       const { reducer, idTitleObj } = action.payload;
@@ -64,28 +66,30 @@ const inputReducer = (state = InputState, action: IAction) => {
     case PERSIST_CHOSENAPPLICATIONUNITS:
     case PERSIST_CHOSENAPPLICATIONUNITINDICES:
     case PERSIST_CHOSENAPPLICATIONHEADERS:
-    case PERSIST_SELECTEDHEADERROWINDEX:
     case PERSIST_FILEHEADERSMATCH:
     case PERSIST_FILEUNITSANDUNIQUEUNITS:
     case PERSIST_FILEUNITSMATCH:
     case PERSIST_TABLEROLENAMES:
     case PERSIST_TABLEDATA:
     case PERSIST_COLUMNNAMETABLEDATA:
-    case PERSIST_DEFINEDTABLEDATA:
     case PERSIST_TABLEHEADERS: {
-      const { workflowProcess } = action.payload;
+      const { reducer, workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
-      return {
-        ...state,
-        inputDataWorkflows: {
-          ...state.inputDataWorkflows,
-          [workflowProcessDefined]: {
-            ...state.inputDataWorkflows[workflowProcessDefined],
-            ...action.payload,
+      if (reducer === "inputReducer") {
+        return {
+          ...state,
+          inputDataWorkflows: {
+            ...state.inputDataWorkflows,
+            [workflowProcessDefined]: {
+              ...state.inputDataWorkflows[workflowProcessDefined],
+              ...action.payload,
+            },
           },
-        },
-      };
+        };
+      } else {
+        return state;
+      }
     }
     case EXISTINGDATA_SUCCESS: {
       const {
@@ -158,16 +162,16 @@ const inputReducer = (state = InputState, action: IAction) => {
       const {
         status,
         headerType,
-        facilitiesInputHeaders,
-        forecastInputHeaders,
+        facilitiesAppHeaders,
+        forecastAppHeaders,
       } = action.payload;
 
       return {
         ...state,
         status,
         headerType,
-        facilitiesInputHeaders,
-        forecastInputHeaders,
+        facilitiesAppHeaders,
+        forecastAppHeaders,
       };
     }
 

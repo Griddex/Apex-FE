@@ -5,9 +5,10 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
+import { SizeMe } from "react-sizeme";
+import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
-import Approval from "../../../../Application/Components/Approval/Approval";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -15,12 +16,9 @@ import {
   IExistingDataProps,
   IExistingDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
-import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
-import { updateInputParameterAction } from "../../../Redux/Actions/InputActions";
 import apexCheckbox from "./../../../../Application/Components/Checkboxes/ApexCheckbox";
-import { SizeMe } from "react-sizeme";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {

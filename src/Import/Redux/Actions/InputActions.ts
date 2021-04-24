@@ -2,7 +2,10 @@ import {
   IRawRow,
   IRawRowValueType,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  ReducersType,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
 export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
@@ -13,7 +16,6 @@ export const PERSIST_WORKSHEET = "PERSIST_WORKSHEET";
 export const PERSIST_SELECTEDWORKSHEET = "PERSIST_SELECTEDWORKSHEET";
 export const PERSIST_WORKSHEETFORTABLE = "PERSIST_WORKSHEETFORTABLE";
 export const PERSIST_FILEHEADERS = "PERSIST_FILEHEADERS";
-export const PERSIST_SELECTEDHEADERROWINDEX = "PERSIST_SELECTEDHEADERROWINDEX";
 export const PERSIST_FILEHEADERSMATCH = "PERSIST_FILEHEADERSMATCH";
 export const PERSIST_CHOSENAPPLICATIONHEADERSINDICES =
   "PERSIST_CHOSENAPPLICATIONHEADERSINDICES";
@@ -28,7 +30,6 @@ export const PERSIST_ROWOPTIONSINDICESMAP = "PERSIST_ROWOPTIONSINDICESMAP";
 export const PERSIST_FILEUNITSMATCH = "PERSIST_FILEUNITSMATCH";
 export const PERSIST_TABLEROLENAMES = "PERSIST_TABLEROLENAMES";
 export const PERSIST_TABLEDATA = "PERSIST_TABLEDATA";
-export const PERSIST_DEFINEDTABLEDATA = "PERSIST_DEFINEDTABLEDATA";
 export const PERSIST_COLUMNNAMETABLEDATA = "PERSIST_COLUMNNAMETABLEDATA";
 export const PERSIST_TABLEHEADERS = "PERSIST_TABLEHEADERS";
 export const PERSIST_OPTIONINDICES = "PERSIST_OPTIONINDICES";
@@ -47,22 +48,30 @@ export const FETCHAPPLICATIONHEADERS_FAILURE =
   "FETCHAPPLICATIONHEADERS_FAILURE";
 export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
 
-export const updateInputParameterAction = (nameOrPath: string, value: any) => {
+export const updateInputParameterAction = (
+  reducer: ReducersType,
+  nameOrPath: string,
+  value: any
+) => {
   return {
     type: UPDATE_INPUT,
     payload: {
+      reducer,
       nameOrPath,
       value,
     },
   };
 };
+
 export const persistVariableUnitsAction = (
+  reducer: ReducersType,
   variableUnits: Record<string, string>,
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_VARIABLEUNITS,
     payload: {
+      reducer,
       workflowProcess,
       variableUnits,
     },
@@ -70,6 +79,7 @@ export const persistVariableUnitsAction = (
 };
 
 export const importFileInitAction = (
+  reducer: ReducersType,
   fileLastModified: number,
   filePath: string,
   fileType: string,
@@ -85,6 +95,7 @@ export const importFileInitAction = (
   return {
     type: IMPORTFILE_INITIALIZATION,
     payload: {
+      reducer,
       fileLastModified,
       filePath,
       fileType,
@@ -101,76 +112,89 @@ export const importFileInitAction = (
 };
 
 export const persistFileAction = (
+  reducer: ReducersType,
   file: any,
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_FILE,
-    payload: { inputFile: file, workflowProcess },
+    payload: { reducer, inputFile: file, workflowProcess },
   };
 };
 
 export const persistWorksheetNamesAction = (
+  reducer: ReducersType,
   workSheetNames: string[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_WORKSHEETNAMES,
-    payload: { workSheetNames, workflowProcess },
+    payload: { reducer, workSheetNames, workflowProcess },
   };
 };
 
 export const persistWorksheetAction = (
+  reducer: ReducersType,
   selectedWorksheetName: string,
   selectedWorksheetData: Record<string, React.Key>[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_WORKSHEET,
-    payload: { selectedWorksheetName, selectedWorksheetData, workflowProcess },
+    payload: {
+      reducer,
+      selectedWorksheetName,
+      selectedWorksheetData,
+      workflowProcess,
+    },
   };
 };
 
 export const persistFileHeadersAction = (
+  reducer: ReducersType,
   selectedHeaderRowIndex: number,
   fileHeaders: string[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_FILEHEADERS,
-    payload: { selectedHeaderRowIndex, fileHeaders, workflowProcess },
+    payload: { reducer, selectedHeaderRowIndex, fileHeaders, workflowProcess },
   };
 };
 
 export const persistFileHeadersMatchAction = (
+  reducer: ReducersType,
   fileHeadersMatch: Record<string, number>[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_FILEHEADERSMATCH,
-    payload: { fileHeadersMatch, workflowProcess },
+    payload: { reducer, fileHeadersMatch, workflowProcess },
   };
 };
 export const persistChosenApplicationHeadersIndicesAction = (
+  reducer: ReducersType,
   chosenApplicationHeadersIndices: Record<string, number>,
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
-    payload: { chosenApplicationHeadersIndices, workflowProcess },
+    payload: { reducer, chosenApplicationHeadersIndices, workflowProcess },
   };
 };
 export const persistChosenApplicationUnitIndicesAction = (
+  reducer: ReducersType,
   chosenApplicationUnitIndices: Record<string, number | number[]>,
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITINDICES,
-    payload: { chosenApplicationUnitIndices, workflowProcess },
+    payload: { reducer, chosenApplicationUnitIndices, workflowProcess },
   };
 };
 
 export const persistFileUnitsAndUniqueUnitsAction = (
+  reducer: ReducersType,
   selectedUnitRowIndex: number,
   fileUnits: IRawRowValueType<IRawRow>[],
   fileUniqueUnits: IRawRowValueType<IRawRow>[],
@@ -179,6 +203,7 @@ export const persistFileUnitsAndUniqueUnitsAction = (
   return {
     type: PERSIST_FILEUNITSANDUNIQUEUNITS,
     payload: {
+      reducer,
       selectedUnitRowIndex,
       fileUnits,
       fileUniqueUnits,
@@ -188,80 +213,78 @@ export const persistFileUnitsAndUniqueUnitsAction = (
 };
 
 export const persistFileUnitsMatchAction = (
+  reducer: ReducersType,
   fileUnitsMatch: Record<string, number>[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_FILEUNITSMATCH,
-    payload: { fileUnitsMatch, workflowProcess },
+    payload: { reducer, fileUnitsMatch, workflowProcess },
   };
 };
 
 export const persistChosenApplicationHeadersAction = (
+  reducer: ReducersType,
   chosenApplicationHeaders: string[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERS,
-    payload: { chosenApplicationHeaders, workflowProcess },
+    payload: { reducer, chosenApplicationHeaders, workflowProcess },
   };
 };
 export const persistChosenApplicationUnitsAction = (
+  reducer: ReducersType,
   chosenApplicationUnitsWithoutNone: string[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITS,
-    payload: { chosenApplicationUnitsWithoutNone, workflowProcess },
+    payload: { reducer, chosenApplicationUnitsWithoutNone, workflowProcess },
   };
 };
 
 export const persistTableRoleNamesAction = (
+  reducer: ReducersType,
   tableRoleNames: string[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_TABLEROLENAMES,
-    payload: { tableRoleNames, workflowProcess },
+    payload: { reducer, tableRoleNames, workflowProcess },
   };
 };
 
 export const persistTableDataAction = (
+  reducer: ReducersType,
   tableData: Record<string, React.Key>[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_TABLEDATA,
-    payload: { tableData, workflowProcess },
+    payload: { reducer, tableData, workflowProcess },
   };
 };
 
 export const persistColumnNameTableDataAction = (
+  reducer: ReducersType,
   columnNameTableData: Record<string, React.Key>[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_COLUMNNAMETABLEDATA,
-    payload: { columnNameTableData, workflowProcess },
-  };
-};
-export const persistDefinedTableDataAction = (
-  inputDeckData: Record<string, React.Key>[],
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
-) => {
-  return {
-    type: PERSIST_DEFINEDTABLEDATA,
-    payload: { inputDeckData, workflowProcess },
+    payload: { reducer, columnNameTableData, workflowProcess },
   };
 };
 
 export const persistTableHeadersAction = (
+  reducer: ReducersType,
   tableHeaders: string[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {
     type: PERSIST_TABLEHEADERS,
-    payload: { tableHeaders, workflowProcess },
+    payload: { reducer, tableHeaders, workflowProcess },
   };
 };
 
@@ -314,8 +337,8 @@ export const fetchApplicationHeadersSuccessAction = () => {
     payload: {
       status: 0,
       headerType: "",
-      facilitiesInputHeaders: [],
-      forecastInputHeaders: [],
+      facilitiesAppHeaders: [],
+      forecastAppHeaders: [],
     },
   };
 };

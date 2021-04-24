@@ -2,31 +2,28 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
-import { INewFacilitiesInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import { INewEconomicsParametersInputDeckWorkflowProps } from "../../Redux/State/EconomicsStateTypes";
 
-const FacilitiesTitleAndDescription = ({
-  selectedFacilitiesInputDeckTitle,
-  facilitiesInputDeckDescription,
+const EconomicsParametersTitleAndDescription = ({
+  economicsParametersInputDeckTitle,
+  economicsParametersInputDeckDescription,
   errors,
   touched,
   handleChange,
-  reducer,
-}: INewFacilitiesInputDeckWorkflowProps) => {
+}: INewEconomicsParametersInputDeckWorkflowProps) => {
   const dispatch = useDispatch();
-  const reducerDefined = reducer as NonNullable<ReducersType>;
 
   const helperText =
-    touched && touched.selectedFacilitiesInputDeckTitle
-      ? errors && errors.selectedFacilitiesInputDeckTitle
+    touched && touched.economicsParametersInputDeckTitle
+      ? errors && errors.economicsParametersInputDeckTitle
       : "";
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
     handleChange && handleChange(event);
     const { name, value } = event.target;
 
-    dispatch(updateInputParameterAction(reducerDefined, name, value));
+    dispatch(updateEconomicsParameterAction(name, value));
   };
 
   return (
@@ -36,12 +33,12 @@ const FacilitiesTitleAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="selectedFacilitiesInputDeckTitle"
+            name="economicsParametersInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={selectedFacilitiesInputDeckTitle}
+            value={economicsParametersInputDeckTitle}
             onChange={handleTitleDescChange}
             required
             autoFocus
@@ -55,10 +52,10 @@ const FacilitiesTitleAndDescription = ({
         containerStyle={{ marginTop: 30 }}
         content={
           <TextareaAutosize
-            name="facilitiesInputDeckDescription"
+            name="economicsParametersInputDeckDescription"
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
-            value={facilitiesInputDeckDescription}
+            value={economicsParametersInputDeckDescription}
             onChange={handleChange}
           />
         }
@@ -67,4 +64,4 @@ const FacilitiesTitleAndDescription = ({
   );
 };
 
-export default FacilitiesTitleAndDescription;
+export default EconomicsParametersTitleAndDescription;

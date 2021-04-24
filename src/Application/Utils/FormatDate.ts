@@ -1,14 +1,19 @@
-const formatDate = (date: Date) => {
-  // Saturday, September 17, 2016
-  const options: Record<string, string> = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+import { format } from "date-fns";
 
-  // return date.toLocaleDateString("en-US", options);
-  return date.toLocaleString("en-US", options);
+const formatDate = (
+  date: Date,
+  dayFormat: string,
+  monthFormat: string,
+  yearFormat: string
+) => {
+  try {
+    if (date instanceof Date) {
+      const formatString = `${dayFormat} ${monthFormat} ${yearFormat}`;
+      return format(date, formatString);
+    } else return "";
+  } catch {
+    return "";
+  }
 };
 
 export default formatDate;

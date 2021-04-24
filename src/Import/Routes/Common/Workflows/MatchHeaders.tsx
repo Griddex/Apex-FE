@@ -44,6 +44,8 @@ import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHe
 import { IApplicationHeaders, UserMatchObjectType } from "./MatchHeadersTypes";
 import { IconButton, Tooltip } from "@material-ui/core";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
+import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
+import { nameTitle } from "../../../../TestModel";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -87,37 +89,64 @@ export default function MatchHeaders({
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
-  //TODO: Better way to recognize workflow process
-  const isFacilitiesWorkflow = wp.includes("facilities");
   const workflowClass = getWorkflowClass(wp);
 
-  const {
-    savedMatchObjectAll,
-  }: { savedMatchObjectAll: UserMatchObjectType } = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
+  //TODO: Gift to provide complete match object with
+  //object to store matched economics headers
+  // const {
+  //   savedMatchObjectAll,
+  // }: { savedMatchObjectAll: UserMatchObjectType } = useSelector(
+  //   (state: RootState) => state.applicationReducer
+  // );
+
+  const savedMatchObjectAll: UserMatchObjectType = {
+    facilities: {
+      headers: {
+        YQWITHNB: {
+          header: "sjdvsadikls",
+          acceptMatch: false,
+        },
+      },
+      units: { KHUTEWJB: { header: "ksjubdkjsd", acceptMatch: false } },
+    },
+    forecast: {
+      headers: {
+        JKSDHYR: { header: "gsdbsdffnf", acceptMatch: false },
+      },
+      units: { WLOCNGF: { header: "kutywefw", acceptMatch: false } },
+    },
+    economics: {
+      headers: {
+        JKSDHYR: { header: "gsdbsdffnf", acceptMatch: false },
+      },
+      units: { WLOCNGF: { header: "kutywefw", acceptMatch: false } },
+    },
+  };
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
   );
-  //TODO: File Headers - how to generalize for other input categories?
-  const { facilitiesInputHeaders, forecastInputHeaders } = useSelector(
-    (state: RootState) => state[reducer]
-  );
+
+  //TODO: Gift to provide the economics headers
+  const {
+    facilitiesAppHeaders,
+    forecastAppHeaders,
+    costsRevenuesAppHeaders,
+    economicsParametersAppHeaders,
+  } = useSelector((state: RootState) => state[reducer]);
+
+  const allAppHeadersArr = [
+    facilitiesAppHeaders,
+    forecastAppHeaders,
+    costsRevenuesAppHeaders,
+    economicsParametersAppHeaders,
+  ];
+  // const applicationHeaders = getCurrentApplicationHeaders(wp, allAppHeadersArr);
+  const applicationHeaders = nameTitle.map((o) => o.variableTitle);
 
   const { fileHeaders } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
   );
-
-  let applicationHeaders: string[] = [];
-  if (isFacilitiesWorkflow)
-    applicationHeaders = facilitiesInputHeaders.map(
-      (header: IApplicationHeaders) => header.variableTitle
-    );
-  else
-    applicationHeaders = forecastInputHeaders.map(
-      (header: IApplicationHeaders) => header.variableTitle
-    );
 
   const fileHeaderMatches = React.useMemo(
     () =>
@@ -208,7 +237,6 @@ export default function MatchHeaders({
     setFileHeaderChosenAppHeaderObj,
   ] = React.useState(initialFileHeaderChosenAppHeaderObj);
 
-  const [toggleAcceptAllMatch, setToggleAcceptAllMatch] = React.useState(false);
   const [
     userMatchObject,
     setUserMatchObject,
@@ -566,14 +594,15 @@ export default function MatchHeaders({
       (column) => column.name as string
     );
     const tableHeaders = omit(columnNames, ["SN", "NAMES"]) as string[];
-    dispatch(persistTableHeadersAction(tableHeaders, wp));
+    dispatch(persistTableHeadersAction(reducer, tableHeaders, wp));
   }, []);
 
   React.useEffect(() => {
     //Any need?
-    dispatch(persistFileHeadersMatchAction(fileHeaderMatches, wp));
+    dispatch(persistFileHeadersMatchAction(reducer, fileHeaderMatches, wp));
     dispatch(
       persistChosenApplicationHeadersIndicesAction(
+        reducer,
         chosenApplicationHeaderIndices,
         wp
       )
@@ -581,21 +610,28 @@ export default function MatchHeaders({
 
     dispatch(
       updateInputParameterAction(
+        reducer,
         `inputDataWorkflows.${wp}.chosenApplicationHeadersWithNone`,
         chosenApplicationHeadersWithNone
       )
     );
     dispatch(
       updateInputParameterAction(
+        reducer,
         `inputDataWorkflows.${wp}.chosenApplicationHeadersWithoutNone`,
         chosenApplicationHeadersWithoutNone
       )
     );
     dispatch(
-      updateInputParameterAction(`noneColumnIndices`, noneColumnIndices)
+      updateInputParameterAction(
+        reducer,
+        `noneColumnIndices`,
+        noneColumnIndices
+      )
     );
     dispatch(
       updateInputParameterAction(
+        reducer,
         `fileHeadersChosenAppHeaderWithNone`,
         fileHeadersChosenAppHeaderWithNone
       )

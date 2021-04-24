@@ -25,6 +25,7 @@ import {
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -77,6 +78,7 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
+
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
@@ -88,6 +90,10 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
     fileAuthor,
     fileCreated,
   } = useSelector((state: RootState) => state[reducer][wc][wp]);
+
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
 
   const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
@@ -114,10 +120,15 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
       enqueueSnackbar("Data worksheet...", { persist: false, variant: "info" });
     }
 
-    dispatch(persistWorksheetAction(sWN, selectedWorksheetData, wp));
+    dispatch(persistWorksheetAction(reducer, sWN, selectedWorksheetData, wp));
   };
 
   const SelectWorksheet = () => {
+    console.log(
+      "Logged output --> ~ file: SelectSheet.tsx ~ line 144 ~ SelectWorksheet ~ workSheetNames",
+      workSheetNames
+    );
+
     const worksheetNameOptions: SelectOptionsType = generateSelectOptions(
       workSheetNames
     );
@@ -221,14 +232,24 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
             <Grid item xs>
               <AnalyticsComp
                 title="File Created"
-                content={formatDate(fileCreated).toString()}
+                content={formatDate(
+                  new Date(fileCreated),
+                  dayFormat,
+                  monthFormat,
+                  yearFormat
+                ).toString()}
                 direction="Vertical"
               />
             </Grid>
             <Grid item xs>
               <AnalyticsComp
                 title="File Last Modified"
-                content={formatDate(new Date(fileLastModified)).toString()}
+                content={formatDate(
+                  new Date(fileLastModified),
+                  dayFormat,
+                  monthFormat,
+                  yearFormat
+                ).toString()}
                 direction="Vertical"
               />
             </Grid>

@@ -122,16 +122,16 @@ const ForecastRunDetail = () => {
         { avatarUrl: glenImg, name: "Glen Moore John III" },
         { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
       ],
-      createdOn: formatDate(new Date(2020, 12, 19)),
-      modifiedOn: formatDate(new Date(2020, 12, 23)),
+      createdOn: new Date(2020, 12, 19).toString(),
+      modifiedOn: new Date(2020, 12, 23).toString(),
     },
     ForecastRun_2: {
       titleName: "ForecastRun_2",
       approvalText: "Pending",
       author: { avatarUrl: glenImg, name: "Glen Moore John III" },
       approvers: [{ avatarUrl: anitaImg, name: "Anita Stragan" }],
-      createdOn: formatDate(new Date(2018, 2, 20)),
-      modifiedOn: formatDate(new Date(2019, 12, 23)),
+      createdOn: new Date(2018, 2, 20).toString(),
+      modifiedOn: new Date(2019, 12, 23).toString(),
     },
     ForecastRun_3: {
       titleName: "ForecastRun_1",
@@ -141,8 +141,8 @@ const ForecastRunDetail = () => {
         { avatarUrl: anitaImg, name: "Anita Stragan" },
         { avatarUrl: glenImg, name: "Glen Moore John III" },
       ],
-      createdOn: formatDate(new Date(2020, 6, 30)),
-      modifiedOn: formatDate(new Date(2020, 8, 15)),
+      createdOn: new Date(2020, 6, 30).toString(),
+      modifiedOn: new Date(2020, 8, 15).toString(),
     },
   };
 

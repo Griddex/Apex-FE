@@ -38,10 +38,6 @@ const generateInputState = () => {
         workSheetNames: [],
         selectedWorksheetName: "",
         selectedWorksheetData: [],
-        selectedWorksheetDataForTable: [],
-        tableHeaderData: [],
-        tableBodyData: [],
-        extrudeParseTable: false,
 
         tableHeaders: [],
         fileHeaders: [],
@@ -122,8 +118,8 @@ const existingDataState = generateExistingDataState();
 const InputState: InputStateType = {
   currentWorkflowProcess: "",
   headerType: "",
-  facilitiesInputHeaders: [],
-  forecastInputHeaders: [],
+  facilitiesAppHeaders: [],
+  forecastAppHeaders: [],
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
 

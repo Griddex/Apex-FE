@@ -15,6 +15,7 @@ import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction"
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
+import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
@@ -105,6 +106,10 @@ export default function ExistingForecastingParameters({
   const wc = "existingDataWorkflows";
   const wp = "forecastingParametersServer";
 
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
+
   const existingData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
   ) as IForecastParametersRoot[];
@@ -152,7 +157,12 @@ export default function ExistingForecastingParameters({
           // isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment", //Referred, Realtime not yet
           isDefered, //Referred, Realtime not yet
           realtimeResults: "Yes",
-          endForecast: formatDate(new Date(stopYear, stopMonth, stopDay)),
+          endForecast: formatDate(
+            new Date(stopYear, stopMonth, stopDay),
+            dayFormat,
+            monthFormat,
+            yearFormat
+          ),
           author: { avatarUrl: "", name: "" },
           createdOn: createdAt,
           modifiedOn: createdAt,
@@ -339,7 +349,16 @@ export default function ExistingForecastingParameters({
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{formatDate(new Date(row.createdOn))}</div>;
+          return (
+            <div>
+              {formatDate(
+                new Date(row.createdOn),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
         },
         width: 200,
       },
@@ -349,7 +368,16 @@ export default function ExistingForecastingParameters({
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{formatDate(new Date(row.modifiedOn))}</div>;
+          return (
+            <div>
+              {formatDate(
+                new Date(row.modifiedOn),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
         },
         width: 200,
       },

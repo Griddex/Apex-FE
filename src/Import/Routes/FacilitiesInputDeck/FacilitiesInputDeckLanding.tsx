@@ -136,6 +136,7 @@ const FacilitiesInputDeckLanding = () => {
           [unloadDialogsAction, saveFacilitiesInputdeckConfirmation]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      reducer,
     };
 
     dispatch(showDialogAction(dialogParameters));

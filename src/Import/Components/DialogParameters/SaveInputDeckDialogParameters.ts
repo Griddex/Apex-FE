@@ -2,9 +2,13 @@ import DialogOkayButton from "../../../Application/Components/DialogButtons/Dial
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IInputWorkflowProcess,
+  ReducersType,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const successDialogParameters = (
+  reducer: ReducersType,
   inputDeckType: string,
   wp: IInputWorkflowProcess["wkPs"]
 ): DialogStuff => ({
@@ -23,11 +27,13 @@ export const successDialogParameters = (
       [
         unloadDialogsAction,
         () =>
-          updateInputParameterAction(`inputDataWorkflows.${wp}.activeStep`, 0),
+          updateInputParameterAction(
+            reducer,
+            `inputDataWorkflows.${wp}.activeStep`,
+            0
+          ),
       ]
     ),
-
-  // DialogOkayButton([true], [true], [unloadDialogsAction]),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });
 

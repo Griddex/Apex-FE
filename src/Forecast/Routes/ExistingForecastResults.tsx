@@ -25,6 +25,7 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
+import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import {
   fetchTreeviewKeysRequestAction,
@@ -109,6 +110,10 @@ export default function ExistingForecastResults({
 
   const wc = "existingDataWorkflows";
   const wp = "forecastResultsExisting";
+
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
 
   const existingData = useSelector(
     (state: RootState) => state.forecastReducer[wc][wp]
@@ -256,7 +261,16 @@ export default function ExistingForecastResults({
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{formatDate(new Date(row.createdOn))}</div>;
+          return (
+            <div>
+              {formatDate(
+                new Date(row.createdOn),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
         },
         width: 200,
       },
@@ -266,7 +280,16 @@ export default function ExistingForecastResults({
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{formatDate(new Date(row.modifiedOn))}</div>;
+          return (
+            <div>
+              {formatDate(
+                new Date(row.modifiedOn),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
         },
         width: 200,
       },

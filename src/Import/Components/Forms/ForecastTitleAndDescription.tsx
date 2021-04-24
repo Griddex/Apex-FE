@@ -2,6 +2,7 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
@@ -11,8 +12,10 @@ const ForecastTitleAndDescription = ({
   errors,
   touched,
   handleChange,
+  reducer,
 }: INewForecastInputDeckWorkflowProps) => {
   const dispatch = useDispatch();
+  const reducerDefined = reducer as NonNullable<ReducersType>;
 
   const helperText =
     touched && touched.selectedForecastInputDeckTitle
@@ -23,7 +26,7 @@ const ForecastTitleAndDescription = ({
     handleChange && handleChange(event);
     const { name, value } = event.target;
 
-    dispatch(updateInputParameterAction(name, value));
+    dispatch(updateInputParameterAction(reducerDefined, name, value));
   };
 
   return (

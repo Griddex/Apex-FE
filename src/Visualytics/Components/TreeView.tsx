@@ -273,6 +273,7 @@ export default function CustomizedTreeView() {
               contentList: SheetNames,
               // workflowProcess: wp,
               // workflowCategory: wc,
+              reducer: "forecastReducer",
             };
             dispatch(showDialogAction(dialogParameters));
           } else {

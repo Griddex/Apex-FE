@@ -112,11 +112,9 @@ export default function MatchUnits({
     savedMatchObjectAll[workflowClass]["units"]
   );
 
-  const {
-    fileHeaders,
-    fileUnits,
-    chosenApplicationHeadersWithNone,
-  } = useSelector((state: RootState) => state[reducer][wc][wp]);
+  const { fileUnits, chosenApplicationHeadersWithNone } = useSelector(
+    (state: RootState) => state[reducer][wc][wp]
+  );
 
   //File units with "none" columns excluded
   const fileUnitsWithUnitless = fileUnits.map((u: string) =>
@@ -708,20 +706,29 @@ export default function MatchUnits({
         applicationUnitsUniqueCollection
       )
     );
-    dispatch(persistFileUnitsMatchAction(fileUnitMatches, wp));
+    dispatch(persistFileUnitsMatchAction(reducer, fileUnitMatches, wp));
     dispatch(
       persistChosenApplicationUnitIndicesAction(
+        reducer,
         chosenApplicationUnitIndicesAction,
         wp
       )
     );
 
     dispatch(
-      persistChosenApplicationUnitsAction(chosenApplicationUnitsWithoutNone, wp)
+      persistChosenApplicationUnitsAction(
+        reducer,
+        chosenApplicationUnitsWithoutNone,
+        wp
+      )
     );
 
     dispatch(
-      updateInputParameterAction(`fileUnitsWithoutNone`, fileUnitsWithoutNone)
+      updateInputParameterAction(
+        reducer,
+        `fileUnitsWithoutNone`,
+        fileUnitsWithoutNone
+      )
     );
 
     dispatch(saveUserMatchAction(userMatchObject));

@@ -113,10 +113,6 @@ const EconomicsLayout = () => {
                     params: { economicsId },
                   },
                 } = props;
-                console.log(
-                  "Logged output --> ~ file: EconomicsLayout.tsx ~ line 120 ~ EconomicsLayout ~ economicsId",
-                  economicsId
-                );
 
                 const Layouts: Record<string, JSX.Element> = {
                   background: <EconomicsBackground />,

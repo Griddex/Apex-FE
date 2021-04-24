@@ -61,8 +61,8 @@ export default function ExistingEconomicsParametersDecks({
     persistSelectedIdTitleAction &&
       dispatch(
         persistSelectedIdTitleAction("economicsReducer", {
-          selectedParametersInputDeckId: id,
-          selectedParametersInputDeckTitle: title,
+          selectedEconomicsParametersInputDeckId: id,
+          selectedEconomicsParametersInputDeckTitle: title,
         })
       );
   };
