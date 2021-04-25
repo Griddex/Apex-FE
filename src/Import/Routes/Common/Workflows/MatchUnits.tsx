@@ -312,7 +312,7 @@ export default function MatchUnits({
       unitOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
     ) => {
-      const { sn, fileUnit, applicationUnit } = row;
+      const { sn, applicationUnit } = row;
       const applicationUnitDefined = applicationUnit as string;
       const rowSN = sn as number;
 
@@ -528,7 +528,6 @@ export default function MatchUnits({
         name: "APPLICATION UNIT",
         resizable: true,
         formatter: ({ row }) => {
-          const rowSN = row.sn as number;
           const fileHeader = row.fileHeader as string;
           const unitType = row.unitType as "Single" | "Multiple";
 

@@ -16,7 +16,8 @@ const getCurrentApplicationHeaders = (
 
   if (wp.includes("facilities")) appHeaders = facilitiesAppHeaders;
   else if (wp.includes("forecast")) appHeaders = forecastAppHeaders;
-  else if (wp.includes("costsRevenue")) appHeaders = costsRevenuesAppHeaders;
+  else if (wp.includes("economicsCostsRevenues"))
+    appHeaders = costsRevenuesAppHeaders;
   else if (wp.includes("economicsParameters"))
     appHeaders = economicsParametersAppHeaders;
 

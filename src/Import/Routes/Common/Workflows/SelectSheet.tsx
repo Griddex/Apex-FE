@@ -124,11 +124,6 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
   };
 
   const SelectWorksheet = () => {
-    console.log(
-      "Logged output --> ~ file: SelectSheet.tsx ~ line 144 ~ SelectWorksheet ~ workSheetNames",
-      workSheetNames
-    );
-
     const worksheetNameOptions: SelectOptionsType = generateSelectOptions(
       workSheetNames
     );

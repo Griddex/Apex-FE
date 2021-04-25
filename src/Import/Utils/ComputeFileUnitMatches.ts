@@ -54,9 +54,6 @@ const computeFileUnitMatches = (
         cleanedMatchedScores.unshift(100);
       }
 
-      mtchdUnits.unshift("unitless");
-      cleanedMatchedScores.unshift(100);
-
       fileUnitMatches.push(zipObject(mtchdUnits, cleanedMatchedScores));
     } else {
       const appUnits = applicationUnits;
@@ -69,9 +66,6 @@ const computeFileUnitMatches = (
         appUnits.unshift(matchUnit.header);
         zeroScores.unshift(100);
       }
-
-      appUnits.push("unitless");
-      zeroScores.push(0);
 
       appUnits.push("Date");
       zeroScores.push(0);

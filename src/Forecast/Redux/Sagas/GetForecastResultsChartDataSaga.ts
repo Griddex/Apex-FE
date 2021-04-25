@@ -44,7 +44,6 @@ export default function* watchGetForecastResultsChartDataSaga(): Generator<
     getForecastResultsChartDataSaga
   );
 
-  console.log("Im in watch forecast");
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});

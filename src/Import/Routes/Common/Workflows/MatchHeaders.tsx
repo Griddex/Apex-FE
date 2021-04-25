@@ -45,7 +45,6 @@ import { IApplicationHeaders, UserMatchObjectType } from "./MatchHeadersTypes";
 import { IconButton, Tooltip } from "@material-ui/core";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
-import { nameTitle } from "../../../../TestModel";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -128,12 +127,13 @@ export default function MatchHeaders({
   );
 
   //TODO: Gift to provide the economics headers
+  const { facilitiesAppHeaders, forecastAppHeaders } = useSelector(
+    (state: RootState) => state[reducer]
+  );
   const {
-    facilitiesAppHeaders,
-    forecastAppHeaders,
     costsRevenuesAppHeaders,
     economicsParametersAppHeaders,
-  } = useSelector((state: RootState) => state[reducer]);
+  } = useSelector((state: RootState) => state.economicsReducer);
 
   const allAppHeadersArr = [
     facilitiesAppHeaders,
@@ -142,7 +142,6 @@ export default function MatchHeaders({
     economicsParametersAppHeaders,
   ];
   const applicationHeaders = getCurrentApplicationHeaders(wp, allAppHeadersArr);
-  // const applicationHeaders = nameTitle.map((o) => o.variableTitle);
 
   const { fileHeaders } = useSelector(
     (state: RootState) => state[reducer][wc][wp]

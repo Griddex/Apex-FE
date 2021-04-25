@@ -21,6 +21,18 @@ export const SAVEECONOMICSPARAMETERS_SUCCESS =
   "SAVEECONOMICSPARAMETERS_SUCCESS";
 export const SAVEECONOMICSPARAMETERS_FAILURE =
   "SAVEECONOMICSPARAMETERS_FAILURE";
+export const FETCHCOSTSREVENUESHEADERS_REQUEST =
+  "FETCHCOSTSREVENUESHEADERS_REQUEST";
+export const FETCHCOSTSREVENUESHEADERS_SUCCESS =
+  "FETCHCOSTSREVENUESHEADERS_SUCCESS";
+export const FETCHCOSTSREVENUESHEADERS_FAILURE =
+  "FETCHCOSTSREVENUESHEADERS_FAILURE";
+export const FETCHECONOMICSPARAMETERSHEADERS_REQUEST =
+  "FETCHECONOMICSPARAMETERSHEADERS_REQUEST";
+export const FETCHECONOMICSPARAMETERSHEADERS_SUCCESS =
+  "FETCHECONOMICSPARAMETERSHEADERS_SUCCESS";
+export const FETCHECONOMICSPARAMETERSHEADERS_FAILURE =
+  "FETCHECONOMICSPARAMETERSHEADERS_FAILURE";
 
 export const updateEconomicsParameterAction = (
   path: string,
@@ -46,13 +58,13 @@ export const loadEconomicsWorkflowAction = (name: string) => {
 
 export const fetchExistingCostsRevenuesDataRequestAction = () => {
   return {
-    type: EXISTINGCOSTSREVENUESDATA_REQUEST,
+    type: FETCHCOSTSREVENUESHEADERS_REQUEST,
   };
 };
 
 export const fetchExistingCostsRevenuesDataSuccessAction = () => {
   return {
-    type: EXISTINGCOSTSREVENUESDATA_SUCCESS,
+    type: FETCHCOSTSREVENUESHEADERS_SUCCESS,
     payload: {
       status: 0,
     },
@@ -61,7 +73,7 @@ export const fetchExistingCostsRevenuesDataSuccessAction = () => {
 
 export const fetchExistingCostsRevenuesDataFailureAction = () => {
   return {
-    type: EXISTINGCOSTSREVENUESDATA_FAILURE,
+    type: FETCHCOSTSREVENUESHEADERS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -97,13 +109,13 @@ export const saveCostsRevenuesFailureAction = () => {
 
 export const fetchExistingEconomicsParametersDataRequestAction = () => {
   return {
-    type: EXISTINGECONOMICSPARAMETERSDATA_REQUEST,
+    type: FETCHECONOMICSPARAMETERSHEADERS_REQUEST,
   };
 };
 
 export const fetchExistingEconomicsParametersDataSuccessAction = () => {
   return {
-    type: EXISTINGECONOMICSPARAMETERSDATA_SUCCESS,
+    type: FETCHECONOMICSPARAMETERSHEADERS_SUCCESS,
     payload: {
       status: 0,
     },
@@ -112,7 +124,7 @@ export const fetchExistingEconomicsParametersDataSuccessAction = () => {
 
 export const fetchExistingEconomicsParametersDataFailureAction = () => {
   return {
-    type: EXISTINGECONOMICSPARAMETERSDATA_FAILURE,
+    type: FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

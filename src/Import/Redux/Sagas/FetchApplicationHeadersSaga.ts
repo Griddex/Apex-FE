@@ -14,9 +14,18 @@ import {
 import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
+import {
+  fetchExistingCostsRevenuesDataFailureAction,
+  fetchExistingCostsRevenuesDataSuccessAction,
+  fetchExistingEconomicsParametersDataFailureAction,
+  fetchExistingEconomicsParametersDataSuccessAction,
+} from "../../../Economics/Redux/Actions/EconomicsActions";
 import { failureDialogParameters } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
+import {
+  costsRevenueHeaders,
+  economicsParameterHeaders,
+} from "../../../TestModel";
 import {
   fetchApplicationHeadersFailureAction,
   fetchApplicationHeadersSuccessAction,
@@ -86,21 +95,54 @@ function* fetchApplicationHeadersSaga(
       variableTitle: forecastAppHeaders[k],
     }));
 
-    const successAction = fetchApplicationHeadersSuccessAction();
-    // const headerType = getHeadersType(workflowProcess) as string;
+    const successAction1 = fetchApplicationHeadersSuccessAction();
+    const successAction2 = fetchExistingCostsRevenuesDataSuccessAction();
+    const successAction3 = fetchExistingEconomicsParametersDataSuccessAction();
+
+    // const costsRevenuesAppHeaders = costsRevenueHeaders.map(
+    //   (h) => h.variableTitle
+    // );
+    // const economicsParametersAppHeaders = economicsParameterHeaders.map(
+    //   (h) => h.variableTitle
+    // );
+
     yield put({
-      ...successAction,
+      ...successAction1,
       payload: {
         ...payload,
         facilitiesAppHeaders,
         forecastAppHeaders: foreHeaders,
       },
     });
+    yield put({
+      ...successAction2,
+      payload: {
+        ...payload,
+        costsRevenuesAppHeaders: costsRevenueHeaders,
+      },
+    });
+    yield put({
+      ...successAction3,
+      payload: {
+        ...payload,
+        economicsParametersAppHeaders: economicsParameterHeaders,
+      },
+    });
   } catch (errors) {
-    const failureAction = fetchApplicationHeadersFailureAction();
+    const failureAction1 = fetchApplicationHeadersFailureAction();
+    const failureAction2 = fetchExistingCostsRevenuesDataFailureAction();
+    const failureAction3 = fetchExistingEconomicsParametersDataFailureAction();
 
     yield put({
-      ...failureAction,
+      ...failureAction1,
+      payload: { ...payload, errors },
+    });
+    yield put({
+      ...failureAction2,
+      payload: { ...payload, errors },
+    });
+    yield put({
+      ...failureAction3,
       payload: { ...payload, errors },
     });
 

@@ -113,10 +113,6 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
             });
 
             dispatch(persistFileAction(reducer, inputWorkbook, wp));
-            console.log(
-              "Logged output --> ~ file: UploadFile.tsx ~ line 118 ~ UploadFile ~ inputWorkbook",
-              inputWorkbook
-            );
 
             const {
               Author: fileAuthor,

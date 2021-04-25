@@ -6,7 +6,7 @@ import faker from "faker";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
@@ -20,6 +20,7 @@ import {
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -66,6 +67,10 @@ export default function CostsAndRevenueManual({
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
+  const { costsRevenuesAppHeaders } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
+
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
@@ -77,7 +82,7 @@ export default function CostsAndRevenueManual({
     gasRate: "MMScf/d",
     seismicCost: "$m",
     explApprCost: "$m",
-    facilitiesCost: "$m",
+    facilitiesCapex: "$m",
     tangWellCost: "$m",
     intangWellCost: "$m",
     abandCost: "$m",
@@ -273,7 +278,7 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
-        key: "facilitiesCost",
+        key: "facilitiesCapex",
         name: "FACILITIES CAPEX",
         editable: true,
         editor: TextEditor,
@@ -286,12 +291,12 @@ export default function CostsAndRevenueManual({
               <ApexSelectRS
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "facilitiesCost")
+                  handleApplicationUnitChange(value, "facilitiesCapex")
                 }
                 menuPortalTarget={document.body}
               />
             );
-          else return <div> {row.facilitiesCost}</div>;
+          else return <div> {row.facilitiesCapex}</div>;
         },
         width: 170,
       },
@@ -449,7 +454,7 @@ export default function CostsAndRevenueManual({
         gasRate: faker.random.number({ min: 30, max: 160 }),
         seismicCost: faker.random.number({ min: 10, max: 15 }),
         explApprCost: faker.random.number({ min: 5, max: 10 }),
-        facilitiesCost: faker.random.number({ min: 50, max: 250 }),
+        facilitiesCapex: faker.random.number({ min: 50, max: 250 }),
         tangWellCost: faker.random.number({ min: 20, max: 80 }),
         intangWellCost: faker.random.number({ min: 10, max: 50 }),
         abandCost: faker.random.number({ min: 10, max: 50 }),

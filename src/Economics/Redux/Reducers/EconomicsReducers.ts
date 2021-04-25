@@ -1,5 +1,9 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
+  FETCHCOSTSREVENUESHEADERS_FAILURE,
+  FETCHCOSTSREVENUESHEADERS_SUCCESS,
+  FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
+  FETCHECONOMICSPARAMETERSHEADERS_SUCCESS,
   LOAD_ECONOMICS_WORKFLOW,
   UPDATE_ECONOMICS,
 } from "../Actions/EconomicsActions";
@@ -102,6 +106,42 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       } else {
         return state;
       }
+    }
+
+    case FETCHCOSTSREVENUESHEADERS_SUCCESS: {
+      const { costsRevenuesAppHeaders } = action.payload;
+
+      return {
+        ...state,
+        costsRevenuesAppHeaders,
+      };
+    }
+
+    case FETCHCOSTSREVENUESHEADERS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
+    }
+
+    case FETCHECONOMICSPARAMETERSHEADERS_SUCCESS: {
+      const { economicsParametersAppHeaders } = action.payload;
+
+      return {
+        ...state,
+        economicsParametersAppHeaders,
+      };
+    }
+
+    case FETCHECONOMICSPARAMETERSHEADERS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
     }
 
     default:

@@ -6,7 +6,7 @@ import faker from "faker";
 import uniqBy from "lodash.uniqby";
 import React from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
@@ -19,6 +19,9 @@ import {
 import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { economicsParameterHeaders } from "../../../../TestModel";
+import economicsReducer from "./../../../Redux/Reducers/EconomicsReducers";
 
 const useStyles = makeStyles((theme) => ({
   rootEconomicsParametersManual: {
@@ -40,43 +43,23 @@ const EconomicsParametersManual = ({
   const wc = wrkflwCtgry as IAllWorkflowProcesses["wrkflwCtgry"];
   const wp = wrkflwPrcss as IAllWorkflowProcesses["wrkflwPrcss"];
 
+  const { economicsParametersAppHeaders } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
+
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
   };
 
-  const ecoparameters = [
-    "Reference Year for Discounting",
-    "First Oil Date",
-    "Oil price",
-    "Gas price",
-    "LPG Price",
-    "Lean Gas/WH Gas Ratio",
-    "LPG Prod/WH Gas Prod Ratio",
-    "Farm-in Signature Bonus",
-    "G&A Cost (Pre-Prod) ",
-    "G&A Cost (Post-Prod) ",
-    "Var Oil Opex (CHA)",
-    "Var Oil Opex (Terminaling Fee)",
-    "Gas Var Opex",
-    "Operation Days/annum",
-    "Self Utilized Gas Volume",
-    "Inflation Rate",
-    "Recoverable Reserves",
-    "Abandonment Cost",
-    "Abandonment Cost per bbl",
-    "Production Terrain",
-    "Gas Development Concept",
-  ];
-
   const createRawTableData = (
-    numberOfRows: number = ecoparameters.length
+    numberOfRows: number = economicsParametersAppHeaders.length
   ): IRawTable => {
     const fakeRows = [];
     for (let i = 0; i < numberOfRows; i++) {
       const fakeRow = {
         sn: i + 1,
-        parameter: ecoparameters[i],
+        parameter: economicsParametersAppHeaders[i],
         type: faker.random.number(100000),
         value: faker.random.number(100000),
         unit: faker.random.word(),
@@ -88,7 +71,7 @@ const EconomicsParametersManual = ({
     return fakeRows;
   };
 
-  const rawTableData = createRawTableData(ecoparameters.length);
+  const rawTableData = createRawTableData(economicsParametersAppHeaders.length);
   const options = rawTableData.map((row: IRawRow, i: number) => ({
     value: row.unit,
     label: row.unit,
@@ -131,7 +114,7 @@ const EconomicsParametersManual = ({
       editable: false,
       resizable: true,
       formatter: ({ row }) => {
-        const data = ["Single", "Custom"];
+        const data = ["Single", "Multiple", "Equation"];
 
         return (
           <ApexSelectRS
