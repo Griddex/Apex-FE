@@ -141,8 +141,8 @@ export default function MatchHeaders({
     costsRevenuesAppHeaders,
     economicsParametersAppHeaders,
   ];
-  // const applicationHeaders = getCurrentApplicationHeaders(wp, allAppHeadersArr);
-  const applicationHeaders = nameTitle.map((o) => o.variableTitle);
+  const applicationHeaders = getCurrentApplicationHeaders(wp, allAppHeadersArr);
+  // const applicationHeaders = nameTitle.map((o) => o.variableTitle);
 
   const { fileHeaders } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
