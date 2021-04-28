@@ -76,12 +76,6 @@ const generateEconomicsState = () => {
 };
 
 const existingWorkflowProcesses = [
-  "economicsAnalyses",
-  "economicsParameterImportWorkflow",
-  "economicsParameters",
-  "netCashAnalysisWorkflow",
-  "saveForecastingParametersWorkflowDialog",
-
   "economicsCostsRevenuesDeckExisting",
   "economicsParametersDeckExisting",
   "economicsResultsExisting",
@@ -122,6 +116,9 @@ const EconomicsState: EconomicsStateType = {
 
   selectedEconomicsResultsId: "",
   selectedEconomicsResultsTitle: "",
+
+  noneColumnIndices: {},
+  fileHeadersChosenAppHeadersWithNone: [],
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,

@@ -1,4 +1,4 @@
-import { UserMatchObjectType } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
+import { TUserMatchObject } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
 import { ReducersType } from "../../Components/Workflows/WorkflowTypes";
 
@@ -96,9 +96,7 @@ export const fetchMatchObjectFailureAction = () => {
   };
 };
 
-export const saveUserMatchAction = (
-  savedMatchObjectAll: UserMatchObjectType
-) => {
+export const saveUserMatchAction = (savedMatchObjectAll: TUserMatchObject) => {
   return {
     type: SAVE_USERMATCH_ALL,
     payload: { savedMatchObjectAll },

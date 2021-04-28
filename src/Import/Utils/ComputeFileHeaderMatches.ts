@@ -1,12 +1,12 @@
 import Fuse from "fuse.js";
 import pullAll from "lodash.pullall";
-import { UserMatchObjectType } from "../Routes/Common/Workflows/MatchHeadersTypes";
+import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
 import zipObject from "lodash.zipobject";
 
 const computeFileHeaderMatches = (
   fileHeaders: string[],
   applicationHeaders: string[],
-  savedMatchObjectAll: UserMatchObjectType,
+  savedMatchObjectAll: TUserMatchObject,
   workflowClass: string
 ) => {
   const specificSavedMatchObject =

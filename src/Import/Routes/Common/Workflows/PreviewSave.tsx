@@ -13,6 +13,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import getCurrentApplicationHeadersNameTitleObj from "../../../../Application/Utils/GetCurrentApplicationHeadersNameTitleObj";
 import {
   IUnit,
   IUnitSettingsData,
@@ -24,6 +25,7 @@ import {
 import getUnitIdByUnitTitle from "../../../Utils/GetUnitIdByUnitTitle";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
+import { IApplicationHeaders } from "./MatchHeadersTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -68,19 +70,28 @@ export default function PreviewSave({
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
-    noneColumnIndices,
-    fileHeadersChosenAppHeaderWithNone,
+    costsRevenuesAppHeaders,
+    economicsParametersAppHeaders,
+    fileHeadersChosenAppHeadersWithNone,
   } = useSelector((state: RootState) => state[reducer]);
-  const isFacilitiesWorkflow = wp.includes("facilities");
-  let applicationHeaderNameTitleCollection = [];
-  if (isFacilitiesWorkflow)
-    applicationHeaderNameTitleCollection = facilitiesAppHeaders;
-  else applicationHeaderNameTitleCollection = forecastAppHeaders;
+
+  const allAppHeadersArr = [
+    facilitiesAppHeaders,
+    forecastAppHeaders,
+    costsRevenuesAppHeaders,
+    economicsParametersAppHeaders,
+  ];
+
+  const applicationHeaderNameTitleCollection = getCurrentApplicationHeadersNameTitleObj(
+    wp,
+    allAppHeadersArr
+  );
 
   //TODO: Gift should do this and store in Redis - Application units
   const { applicationUnitsCollection } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
+
   const applicationUnitsCollectionDefined = applicationUnitsCollection as IUnit[];
   const unitTitles = applicationUnitsCollectionDefined.map((u) => u.title);
   const unitIds = applicationUnitsCollectionDefined.map((u) => u.unitId);
@@ -106,7 +117,7 @@ export default function PreviewSave({
   );
 
   const appHeaderTitleNameObj = applicationHeaderNameTitleCollection.reduce(
-    (acc: Record<string, string>, row: Record<string, string>) => {
+    (acc: Record<string, string>, row: IApplicationHeaders) => {
       return { ...acc, [row.variableTitle]: row.variableName };
     },
     {}
@@ -114,7 +125,7 @@ export default function PreviewSave({
 
   const applicationHeadertableData = swapToChosenTableHeaders(
     columnNameTableData,
-    fileHeadersChosenAppHeaderWithNone,
+    fileHeadersChosenAppHeadersWithNone,
     appHeaderTitleNameObj
   );
 
@@ -167,6 +178,7 @@ export default function PreviewSave({
         key: "role",
         name: "ROLE",
         resizable: true,
+        headerRenderer: () => <div>{"HEYYYY"}</div>,
         formatter: ({ row }) => {
           const rowSN = row.sn as number;
           const slicedTableRoleNames = tableRoleNames.slice(

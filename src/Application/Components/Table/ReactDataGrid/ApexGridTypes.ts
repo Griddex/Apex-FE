@@ -10,16 +10,20 @@ export type IRawRow = {
     | boolean;
 };
 
-export type IRawRowValueType<T> = T[keyof T];
+export type TRawRowValue<T> = T[keyof T];
+export type TRawTable = IRawRow[];
 
-export type IRawTable = IRawRow[];
-
+export interface IPosition {
+  idx: number;
+  rowIdx: number;
+}
 export interface IApexGrid<R, O> {
   columns: readonly Column<R, unknown>[];
   rows: R[];
-  tableButtons: ITableButtonsProps;
+  tableButtons?: ITableButtonsProps;
   setRowsChange?: React.SetStateAction<any>;
   newTableRowHeight?: number;
+  onSelectedCellChange?: (position: IPosition) => void;
   selectedRows?: Set<React.Key>;
   setSelectedRows?: React.Dispatch<React.SetStateAction<Set<React.Key>>>;
   onSelectedRowsChange?: (selectedRows: Set<React.Key>) => void | undefined;

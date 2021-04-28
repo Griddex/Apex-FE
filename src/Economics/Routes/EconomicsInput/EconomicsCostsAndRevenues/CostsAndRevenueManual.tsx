@@ -15,7 +15,7 @@ import { ISelectOption } from "../../../../Application/Components/Selects/Select
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
-  IRawTable,
+  TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -443,7 +443,7 @@ export default function CostsAndRevenueManual({
   };
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
 
-  const createTableRows = (numberOfRows: number): IRawTable => {
+  const createTableRows = (numberOfRows: number): TRawTable => {
     const fakeRows = [];
     for (let i = 0; i < numberOfRows; i++) {
       const fakeRow = {

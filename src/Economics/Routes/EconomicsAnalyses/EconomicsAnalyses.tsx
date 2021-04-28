@@ -2,10 +2,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ItemTypes from "../../Utils/DragAndDropItemTypes";
-import EconomicsCalculationsPanel from "../../Components/Panels/EconomicsCalculationsPanel";
+import EconomicsAnalysesPanel from "../../Components/Panels/EconomicsAnalysesPanel";
 import IRR from "./EconomicsIRR/IRR";
 import NCF from "./EconomicsNCF/NCF";
 import NPV from "./EconomicsNPV/NPV";
+import NetPresentValue from "../../Images/NetPresentValue.svg";
+import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
+import NetCashflow from "../../Images/NetCashflow.svg";
+import { TEconomicsAnalyses } from "./EconomicsAnalysesTypes";
+import EconomicsAnalysis from "./EconomicsAnalysis";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "97%",
     border: "1px solid #E7E7E7",
-    backgroundColor: "#FFF",
+    backgroundColor: theme.palette.common.white,
   },
   workflowPanel: {
     display: "flex",
@@ -30,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
     minWidth: 250,
     border: "1px solid #E7E7E7",
-    backgroundColor: "#FFF",
+    backgroundColor: theme.palette.common.white,
     padding: 5,
   },
   workflowContent: {
@@ -38,24 +43,71 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     border: "1px solid #E7E7E7",
-    backgroundColor: "#FFF",
+    backgroundColor: theme.palette.common.white,
   },
 }));
 
-export default function EconomicsCalculations() {
+export const economicsAnalyses: TEconomicsAnalyses = [
+  {
+    name: "netcashFlow",
+    title: "Net Cashflow",
+    icon: (
+      <img
+        src={NetCashflow}
+        alt="Net Cashflow"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+  {
+    name: "netpresentvalue",
+    title: "Net Present Value",
+    icon: (
+      <img
+        src={NetPresentValue}
+        alt="Net Present Value"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+  {
+    name: "internalRateOfReturn",
+    title: "Internal Rate of Return",
+    icon: (
+      <img
+        src={InternalRateOfReturn}
+        alt="Internal Rate of Return"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+  {
+    name: "mulitpleAnalyses",
+    title: "Multiple Analyses",
+    icon: (
+      <img
+        src={InternalRateOfReturn}
+        alt="All Economics Analyses"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+];
+
+export default function EconomicsAnalyses() {
   const classes = useStyles();
-  const [calculationName, setCalculationName] = React.useState("");
-  console.log(
-    "Logged output --> ~ file: EconomicsCalculations.tsx ~ line 48 ~ EconomicsCalculations ~ calculationName",
-    calculationName
-  );
+  const [calculationName, setAnalysisName] = React.useState("");
 
   const handleWidgetDrop = (
     item: DragObjectWithType,
     monitor: DropTargetMonitor
   ) => {
-    const { calculationName } = monitor.getItem();
-    setCalculationName(calculationName);
+    const { calculation } = monitor.getItem();
+    setAnalysisName(calculation.name);
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -81,7 +133,7 @@ export default function EconomicsCalculations() {
     };
   }
 
-  function renderEconomicsCalculation() {
+  function renderEconomicsAnalysis() {
     switch (calculationName) {
       case "ncf":
         return <NCF />;
@@ -97,10 +149,10 @@ export default function EconomicsCalculations() {
   return (
     <div className={classes.root}>
       <div className={classes.workflowPanel}>
-        <EconomicsCalculationsPanel />
+        <EconomicsAnalysesPanel economicsAnalyses={economicsAnalyses} />
       </div>
       <div className={classes.workflowBody} ref={drop} style={dndCanvasStyle}>
-        {renderEconomicsCalculation()}
+        <EconomicsAnalysis economicsAnalyses={economicsAnalyses} />
       </div>
     </div>
   );

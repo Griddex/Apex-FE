@@ -132,7 +132,7 @@ const InputState: InputStateType = {
   forecastInputDeckDescription: "",
 
   noneColumnIndices: {},
-  fileHeadersChosenAppHeaderWithNone: [],
+  fileHeadersChosenAppHeadersWithNone: [],
 };
 
 export default InputState;

@@ -36,7 +36,7 @@ import {
 } from "./UnitSettingsTypes";
 import Select, { ValueType } from "react-select";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import getRSStyles from "../../Import/Utils/GetRSStyles";
+import getRSStyles from "../../Application/Utils/GetRSStyles";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {

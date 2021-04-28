@@ -27,11 +27,12 @@ import Select, {
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import groupBy from "lodash.groupby";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
-import getRSStyles from "../../Import/Utils/GetRSStyles";
+import getRSStyles from "../../Application/Utils/GetRSStyles";
 import faker from "faker";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import CenteredStyle from "./../../Application/Components/Styles/CenteredStyle";
 import { getForecastDataByIdRequestAction } from "../Redux/Actions/ForecastActions";
+import getRSTheme from "../../Application/Utils/GetRSTheme";
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({
@@ -347,16 +348,7 @@ export default function ForecastData({
         styles={RSStyles}
         onChange={handleSelectForecastRunChange}
         menuPortalTarget={document.body}
-        theme={(thm) => ({
-          ...thm,
-          borderRadius: 0,
-          colors: {
-            ...thm.colors,
-            primary50: theme.palette.primary.light,
-            primary25: theme.palette.primary.main,
-            primary: theme.palette.grey[700],
-          },
-        })}
+        theme={(thm) => getRSTheme(thm, theme)}
       />
     );
   };

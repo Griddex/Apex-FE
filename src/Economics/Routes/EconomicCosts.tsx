@@ -11,7 +11,7 @@ import { SizeMe } from "react-sizeme";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
-  IRawTable,
+  TRawTable,
 } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { SelectEditor } from "../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -36,7 +36,7 @@ export default function EconomicCosts() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const createRawTableData = (numberOfRows: number): IRawTable => {
+  const createRawTableData = (numberOfRows: number): TRawTable => {
     const fakeRows = [];
     for (let i = 0; i < numberOfRows; i++) {
       const fakeRow = {

@@ -1,3 +1,5 @@
+import zipObject from "lodash.zipobject";
+
 interface CostRevenueProperties {
   projectId: string;
   economicsDataId: string;
@@ -104,3 +106,19 @@ export const economicsParameterHeaders = [
   { variableName: "oilRoyalty", variableTitle: "Oil Royalty" },
   { variableName: "gasRoyalty", variableTitle: "Gas Royalty" },
 ];
+
+export const getVariableTitlesNamesObj = () => {
+  const titles = economicsParameterHeaders.map((v) => v.variableTitle);
+  const names = economicsParameterHeaders.map((v) => v.variableName);
+
+  return zipObject(titles, names);
+};
+
+export const economicsParametersSensitivities = [
+  { variableName: "firstOilYear", variableTitle: "First Oil Date" },
+  { variableName: "oilPrice", variableTitle: "Oil price" },
+  { variableName: "gasPrice", variableTitle: "Gas price" },
+  { variableName: "lPGPrice", variableTitle: "LPG Price" },
+  { variableName: "farmInBonus", variableTitle: "Farm-in Signature Bonus" },
+  { variableName: "inflationRate", variableTitle: "Inflation Rate" },
+] as const;

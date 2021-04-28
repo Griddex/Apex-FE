@@ -80,6 +80,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     rows: rawRows,
     tableButtons,
     newTableRowHeight,
+    onSelectedCellChange,
     selectedRows,
     setSelectedRows,
     selectedRow,
@@ -391,6 +392,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             style={{ height: "100%" }}
             rows={sortedRows}
             rowKeyGetter={rowKeyGetter}
+            onSelectedCellChange={onSelectedCellChange}
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
             onRowsChange={onRowsChange}

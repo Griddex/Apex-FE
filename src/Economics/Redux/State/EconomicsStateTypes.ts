@@ -130,6 +130,9 @@ export interface EconomicsStateType
   selectedEconomicsResultsId: string;
   selectedEconomicsResultsTitle: string;
 
+  noneColumnIndices: Record<number, boolean>;
+  fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
+
   inputDataWorkflows: Record<string, IEconomicsState>;
   existingDataWorkflows: Record<string, IApplicationExistingData[]>;
 }

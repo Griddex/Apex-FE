@@ -29,9 +29,9 @@ export default function EconomicsAssumptions() {
   const dispatch = useDispatch();
 
   type IRawRow = Record<string, React.Key>;
-  type IRawTable = IRawRow[];
+  type TRawTable = IRawRow[];
 
-  const createTableRows = (numberOfRows: number): IRawTable => {
+  const createTableRows = (numberOfRows: number): TRawTable => {
     const fakeRows = [];
     for (let i = 0; i < numberOfRows; i++) {
       const fakeRow = {

@@ -1,7 +1,7 @@
 import uniq from "lodash.uniq";
-import { IRawTable } from "../Components/Table/ReactDataGrid/ApexGridTypes";
+import { TRawTable } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 
-const getTableUnits = (tableData: IRawTable) => {
+const getTableUnits = (tableData: TRawTable) => {
   if (tableData.length === 0) return [];
 
   const units = Object.values(tableData[0]);

@@ -78,7 +78,7 @@ export interface InputStateType
   >;
 
   noneColumnIndices: Record<number, boolean>;
-  fileHeadersChosenAppHeaderWithNone: Record<string, string>[];
+  fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
 }
 
 export interface INewFacilitiesInputDeckFormValues {

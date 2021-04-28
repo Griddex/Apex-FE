@@ -1,5 +1,5 @@
 import { ISubNavbarData } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
-import { UserMatchObjectType } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
+import { TUserMatchObject } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 
 export interface IApplicationState {
   moduleName: string;
@@ -20,5 +20,5 @@ export interface IApplicationState {
   subContextTabPanels: [];
   currentSubContextTabValue: number;
 
-  savedMatchObjectAll: UserMatchObjectType;
+  savedMatchObjectAll: TUserMatchObject;
 }

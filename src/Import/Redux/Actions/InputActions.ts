@@ -1,6 +1,6 @@
 import {
   IRawRow,
-  IRawRowValueType,
+  TRawRowValue,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
   IAllWorkflowProcesses,
@@ -196,8 +196,8 @@ export const persistChosenApplicationUnitIndicesAction = (
 export const persistFileUnitsAndUniqueUnitsAction = (
   reducer: ReducersType,
   selectedUnitRowIndex: number,
-  fileUnits: IRawRowValueType<IRawRow>[],
-  fileUniqueUnits: IRawRowValueType<IRawRow>[],
+  fileUnits: TRawRowValue<IRawRow>[],
+  fileUniqueUnits: TRawRowValue<IRawRow>[],
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
 ) => {
   return {

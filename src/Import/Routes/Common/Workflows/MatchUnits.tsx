@@ -22,7 +22,7 @@ import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSw
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
-  IRawTable,
+  TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -45,12 +45,14 @@ import {
 } from "../../../Redux/Actions/InputActions";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationUnits from "../../../Utils/GetChosenApplicationUnits";
-import getRSStyles from "../../../Utils/GetRSStyles";
-import { UserMatchObjectType } from "./MatchHeadersTypes";
+import getRSStyles from "../../../../Application/Utils/GetRSStyles";
+import { TUnit, TUserMatchObject } from "./MatchHeadersTypes";
 import getWorkflowClass from "./../../../../Application/Utils/GetWorkflowClass";
 import computeFileUnitMatches from "../../../Utils/ComputeFileUnitMatches";
 import { IconButton, Tooltip } from "@material-ui/core";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
+import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
+import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -104,7 +106,7 @@ export default function MatchUnits({
 
   const {
     savedMatchObjectAll,
-  }: { savedMatchObjectAll: UserMatchObjectType } = useSelector(
+  }: { savedMatchObjectAll: TUserMatchObject } = useSelector(
     (state: RootState) => state.applicationReducer
   );
 
@@ -217,17 +219,26 @@ export default function MatchUnits({
 
   //TODO: Saga Api to select unit family the current selected
   //unit belongs to. lookup data should be a dictionary
+  const matchObjectHeaders = specificSavedMatchObjectValues.map(
+    (h) => h.header
+  );
   const initialTableRows = fileHeadersWithoutNone.map(
     (fileHeader: string, i: number) => {
       const unitOptions = keyedApplicationUnitOptions[fileHeader];
       const selectedApplicationUnit = unitOptions[0];
+      const initialUnitType = getInitialRowValueOrDefault<TUnit>(
+        selectedApplicationUnit.label,
+        "type",
+        specificSavedMatchObjectValues,
+        "Single"
+      );
       const selectedUnitClassification =
         applicationUnitsUniqueCollectionFinal[selectedApplicationUnit.label];
       const scoreOpts = keyedScoreOptions[fileHeader];
       const score = scoreOpts[0];
-      const acceptMatch = specificSavedMatchObjectValues
-        .map((h) => h.header)
-        .includes(selectedApplicationUnit.label)
+      const acceptMatch = matchObjectHeaders.includes(
+        selectedApplicationUnit.label
+      )
         ? true
         : false;
 
@@ -235,7 +246,7 @@ export default function MatchUnits({
         sn: i + 1,
         fileHeader: fileHeader,
         fileUnit: fileHeadersUnitsWithoutNoneObj[fileHeader],
-        unitType: "Single",
+        type: initialUnitType,
         applicationUnit: selectedApplicationUnit.value,
         unitClassification: selectedUnitClassification,
         match: score.value,
@@ -244,7 +255,7 @@ export default function MatchUnits({
     }
   );
 
-  const tableRows = React.useRef<IRawTable>(initialTableRows);
+  const tableRows = React.useRef<TRawTable>(initialTableRows);
   const rerenderRef = React.useRef<boolean>(false);
   const [rerender, setRerender] = React.useState(rerenderRef.current);
 
@@ -275,27 +286,51 @@ export default function MatchUnits({
     setFileUnitChosenAppUnitObj,
   ] = React.useState(initialFileUnitChosenAppUnitObj);
 
+  const initialFileUnitChosenUnitTypeObj = initialTableRows.reduce(
+    (
+      acc: Record<string, React.Key | boolean | TUnit>,
+      row: Record<string, React.Key | boolean | TUnit>
+    ) => {
+      const fileUnitDefined = row.fileUnit as string;
+      return { ...acc, [fileUnitDefined]: row.type };
+    },
+    {}
+  );
+  const [
+    fileUnitChosenUnitTypeObj,
+    setFileUnitChosenUnitTypeObj,
+  ] = React.useState(initialFileUnitChosenUnitTypeObj);
+
   const [
     userMatchObject,
     setUserMatchObject,
-  ] = React.useState<UserMatchObjectType>(savedMatchObjectAll);
+  ] = React.useState<TUserMatchObject>(savedMatchObjectAll);
 
   const generateColumns = (keyedApplicationUnitOptions: {
     [index: string]: SelectOptionsType;
   }) => {
     const handleUnitTypeChange = (
       value: ValueType<ISelectOption, false>,
-      rowSN: number
+      row: IRawRow
     ) => {
+      const { sn, fileUnit } = row;
+      const rowSN = sn as number;
+      const fileUnitDefined = fileUnit as string;
+
       const selectedValue = value && value.label;
-      const selectedUnitType = selectedValue as string;
+      const selectedUnitType = selectedValue as TUnit;
+
+      setFileUnitChosenUnitTypeObj((prev) => ({
+        ...prev,
+        [fileUnitDefined]: selectedUnitType,
+      }));
 
       //TODO: From Gift Need an object with unit:group pairs
       const currentRows = tableRows.current;
       const selectedRow = currentRows[rowSN - 1];
       currentRows[rowSN - 1] = {
         ...selectedRow,
-        unitType: selectedUnitType,
+        type: selectedUnitType,
       };
 
       tableRows.current = currentRows;
@@ -308,7 +343,7 @@ export default function MatchUnits({
       value: NonNullable<ValueType<ISelectOption, T>>,
       row: IRawRow,
       fileHeader: string,
-      unitType: "Single" | "Multiple",
+      type: TUnit,
       unitOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
     ) => {
@@ -316,7 +351,7 @@ export default function MatchUnits({
       const applicationUnitDefined = applicationUnit as string;
       const rowSN = sn as number;
 
-      if (unitType === "Multiple") {
+      if (type === "Multiple") {
         const selectedAppUnitsOptions = value
           ? (value as OptionsType<ISelectOption>)
           : [];
@@ -415,9 +450,10 @@ export default function MatchUnits({
     ) => {
       const isChecked = event.target.checked;
 
-      const { fileUnit, applicationUnit } = row;
+      const { fileUnit, type, applicationUnit } = row;
       const strFileUnit = fileUnit as string;
       const strApplicationUnit = applicationUnit as string;
+      const strUnitType = type as TUnit;
 
       const selectedRowSN = row.sn as number;
       const currentRows = tableRows.current;
@@ -439,6 +475,7 @@ export default function MatchUnits({
               ...prev[workflowClass]["units"],
               [strFileUnit]: {
                 header: strApplicationUnit,
+                type: strUnitType,
                 acceptMatch: true,
               },
             },
@@ -487,14 +524,14 @@ export default function MatchUnits({
         width: 200,
       },
       {
-        key: "unitType",
+        key: "type",
         name: "TYPE",
         resizable: true,
         formatter: ({ row }) => {
           const rowSN = row.sn as number;
-          const unitType = row.unitType as string;
-          const unitTypeOptions = generateSelectOptions(["Single", "Multiple"]);
-          const valueOption = generateSelectOptions([unitType])[0];
+          const type = row.type as string;
+          const typeOptions = generateSelectOptions(["Single", "Multiple"]);
+          const valueOption = generateSelectOptions([type])[0];
 
           const RSStyles = getRSStyles(theme);
           type IsMulti = false;
@@ -502,22 +539,13 @@ export default function MatchUnits({
           return (
             <Select<ISelectOption, IsMulti>
               value={valueOption}
-              options={unitTypeOptions}
+              options={typeOptions}
               styles={RSStyles}
               onChange={(value: ValueType<ISelectOption, IsMulti>) => {
-                handleUnitTypeChange(value, rowSN);
+                handleUnitTypeChange(value, row);
               }}
               menuPortalTarget={document.body}
-              theme={(thm) => ({
-                ...thm,
-                borderRadius: 0,
-                colors: {
-                  ...thm.colors,
-                  primary50: theme.palette.primary.light,
-                  primary25: theme.palette.primary.main,
-                  primary: theme.palette.grey[700],
-                },
-              })}
+              theme={(thm) => getRSTheme(thm, theme)}
             />
           );
         },
@@ -529,7 +557,7 @@ export default function MatchUnits({
         resizable: true,
         formatter: ({ row }) => {
           const fileHeader = row.fileHeader as string;
-          const unitType = row.unitType as "Single" | "Multiple";
+          const type = row.type as TUnit;
 
           const unitOptions = keyedApplicationUnitOptions[fileHeader];
           const scoreOptions = keyedScoreOptions[fileHeader];
@@ -537,7 +565,7 @@ export default function MatchUnits({
           let appUnit: string | string[];
           let valueOption: ISelectOption | ISelectOption[];
           let IsMulti: boolean;
-          if (unitType === "Single") {
+          if (type === "Single") {
             appUnit = row.applicationUnit as string;
             valueOption = generateSelectOptions([appUnit])[0];
             IsMulti = false;
@@ -566,22 +594,13 @@ export default function MatchUnits({
                   value as NonNullable<ValueType<ISelectOption, IsMultiType>>,
                   row,
                   fileHeader,
-                  unitType,
+                  type,
                   unitOptions,
                   scoreOptions
                 )
               }
               menuPortalTarget={document.body}
-              theme={(thm) => ({
-                ...thm,
-                borderRadius: 0,
-                colors: {
-                  ...thm.colors,
-                  primary50: theme.palette.primary.light,
-                  primary25: theme.palette.primary.main,
-                  primary: theme.palette.grey[700],
-                },
-              })}
+              theme={(thm) => getRSTheme(thm, theme)}
               isMulti={IsMulti}
             />
           );
@@ -682,8 +701,11 @@ export default function MatchUnits({
             const fileHeaderKeys = Object.keys(fileUnitChosenAppUnitObj);
             for (const header of fileHeaderKeys) {
               const chosenAppUnit = fileUnitChosenAppUnitObj[header];
+              const chosenUnitType = fileUnitChosenUnitTypeObj[header] as TUnit;
+
               userMatchObject[workflowClass]["units"][header] = {
                 header: chosenAppUnit as string,
+                type: chosenUnitType,
                 acceptMatch: true,
               };
             }

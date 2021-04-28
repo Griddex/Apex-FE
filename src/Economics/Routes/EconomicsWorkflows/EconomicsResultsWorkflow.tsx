@@ -9,7 +9,7 @@ import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBa
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import EconomicsCalculations from "../EconomicsCalculations/EconomicsCalculations";
+import EconomicsCalculations from "../EconomicsAnalyses/EconomicsAnalyses";
 import EconomicsTablesCharts from "../EconomicsResults/EconomicsTablesCharts";
 import ExistingEconomicsResults from "../EconomicsResults/ExistingEconomicsResults";
 

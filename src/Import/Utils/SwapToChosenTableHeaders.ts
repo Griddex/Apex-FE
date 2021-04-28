@@ -1,9 +1,9 @@
 import zipObject from "lodash.zipobject";
-import { IRawTable } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { TRawTable } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 const swapToChosenTableHeaders = (
-  tableData: IRawTable,
-  fileHeadersChosenAppHeaderWithNone: Record<string, Record<string, string>>,
+  tableData: TRawTable,
+  fileHeadersChosenAppHeadersWithNone: Record<string, Record<string, string>>,
   appHeaderTitleNameObj: Record<string, string>
 ) => {
   const headerRow = tableData[0];
@@ -22,7 +22,7 @@ const swapToChosenTableHeaders = (
     const headerNames = [];
     const rowValues = [];
     for (const fileHeader of Object.keys(row)) {
-      const { chosenAppHeader, exclude } = fileHeadersChosenAppHeaderWithNone[
+      const { chosenAppHeader, exclude } = fileHeadersChosenAppHeadersWithNone[
         fileHeader
       ];
       const chosenHeaderName = appHeaderTitleNameObj[chosenAppHeader];

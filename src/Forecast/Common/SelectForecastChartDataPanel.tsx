@@ -14,7 +14,8 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
-import getRSStyles from "../../Import/Utils/GetRSStyles";
+import getRSStyles from "../../Application/Utils/GetRSStyles";
+import getRSTheme from "../../Application/Utils/GetRSTheme";
 import ForecastTreeView from "../Components/ForecastTreeView";
 import {
   fetchTreeviewKeysRequestAction,
@@ -109,16 +110,7 @@ const SelectForecastChartDataPanel = () => {
         styles={RSStyles}
         onChange={handleSelectForecastRunChange}
         menuPortalTarget={document.body}
-        theme={(thm) => ({
-          ...thm,
-          borderRadius: 0,
-          colors: {
-            ...thm.colors,
-            primary50: theme.palette.primary.light,
-            primary25: theme.palette.primary.main,
-            primary: theme.palette.grey[700],
-          },
-        })}
+        theme={(thm) => getRSTheme(thm, theme)}
       />
     );
   };

@@ -14,7 +14,7 @@ import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowA
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Import/Components/SelectDatabase";
 import EconomicCosts from "../EconomicCosts";
-import EconomicsCalculations from "../EconomicsCalculations/EconomicsCalculations";
+import EconomicsCalculations from "../EconomicsAnalyses/EconomicsAnalyses";
 import EconomicsParameters from "../EconomicsInput/EconomicsParameters/EconomicsParametersManual";
 import SelectForecast from "../SelectForecast";
 

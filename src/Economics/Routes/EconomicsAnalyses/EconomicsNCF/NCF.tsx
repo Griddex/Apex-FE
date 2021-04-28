@@ -22,6 +22,7 @@ import {
   showDialogAction,
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import ParameterGrid from "../../../Components/ParameterGrid";
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -228,16 +229,7 @@ const NCF = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-      }}
-    >
+    <CenteredStyle flexDirection="column">
       <div className={classes.npvImage}>
         <AccountBalanceTwoToneIcon fontSize="large" />
         <Typography>NCF</Typography>
@@ -283,7 +275,7 @@ const NCF = () => {
           Calculate
         </Button>
       </div>
-    </div>
+    </CenteredStyle>
   );
 };
 

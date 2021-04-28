@@ -1,9 +1,10 @@
 import React from "react";
 import Select from "react-select";
 import { IApexSelectRS } from "./SelectItemsType";
-import getRSStyles from "./../../../Import/Utils/GetRSStyles";
+import getRSStyles from "../../Utils/GetRSStyles";
 import { useTheme } from "@material-ui/core";
 import generateSelectOptions from "../../Utils/GenerateSelectOptions";
+import getRSTheme from "../../Utils/GetRSTheme";
 
 const ApexSelectRS = ({
   data,
@@ -20,16 +21,7 @@ const ApexSelectRS = ({
       styles={RSStyles}
       onChange={handleSelect}
       menuPortalTarget={menuPortalTarget}
-      theme={(thm) => ({
-        ...thm,
-        borderRadius: 0,
-        colors: {
-          ...thm.colors,
-          primary50: theme.palette.primary.light,
-          primary25: theme.palette.primary.main,
-          primary: theme.palette.grey[700],
-        },
-      })}
+      theme={(thm) => getRSTheme(thm, theme)}
     />
   );
 };

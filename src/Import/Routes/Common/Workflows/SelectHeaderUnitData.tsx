@@ -15,7 +15,7 @@ import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid
 import { ApexGridRolesState } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridState";
 import {
   IRawRow,
-  IRawTable,
+  TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -35,9 +35,10 @@ import {
   persistTableHeadersAction,
   persistTableRoleNamesAction,
 } from "../../../Redux/Actions/InputActions";
-import getRSStyles from "./../../../Utils/GetRSStyles";
+import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 
 const useStyles = makeStyles(() => ({
   rootParseTable: {
@@ -118,7 +119,7 @@ export default function SelectHeaderUnitData({
   }));
   const initialTableRows = AddSerialNumberToTable(roleNameTableRows);
 
-  const tableRows = React.useRef<IRawTable>(initialTableRows);
+  const tableRows = React.useRef<TRawTable>(initialTableRows);
   const [, setRerender] = React.useState(false);
   const guardRolesIntegrity = (value: string, selectedSN: number) => {
     const modifiedRows = [];
@@ -232,16 +233,7 @@ export default function SelectHeaderUnitData({
               styles={RSStyles}
               onChange={handleSelect}
               menuPortalTarget={document.body}
-              theme={(thm) => ({
-                ...thm,
-                borderRadius: 0,
-                colors: {
-                  ...thm.colors,
-                  primary50: theme.palette.primary.light,
-                  primary25: theme.palette.primary.main,
-                  primary: theme.palette.grey[700],
-                },
-              })}
+              theme={(thm) => getRSTheme(thm, theme)}
             />
           );
         },
