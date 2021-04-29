@@ -164,6 +164,9 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
                   rows={rows}
                   tableButtons={tableButtons}
                   size={size}
+                  adjustTableDimAuto={true}
+                  showTableHeader={true}
+                  showTablePagination={true}
                 />
               )}
             </SizeMe>

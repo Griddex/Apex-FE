@@ -23,7 +23,8 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TableMappingErrors from "../../Errors/TableMappingErrors";
 import TableButtons from "../TableButtons";
-import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
+import { ITableButtonsProps } from "../TableButtonsTypes";
+import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 import { SelectEditor } from "./SelectEditor";
 
@@ -68,12 +69,15 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 100,
   },
   tableHeightStyle: {
-    height: `calc(100% - 70px)`,
+    height: (props: any) => {
+      if (props.adjustTableDimAuto) return `calc(100% - 70px)`;
+      else return 77; //Chosen for best fit
+    },
   },
 }));
 
 export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
-  const classes = useStyles();
+  const classes = useStyles(props);
 
   const {
     columns: rawColumns,
@@ -92,6 +96,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     rowGrouper,
     expandedGroupIds,
     onExpandedGroupIdsChange,
+    showTableHeader,
+    showTablePagination,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
@@ -324,67 +330,50 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Grid
-        className={classes.tableHeadBanner}
-        container
-        justify="space-between"
-        alignItems="center"
-        wrap="nowrap"
-      >
-        <Grid className={classes.tableFilter} item xs>
-          <FormControl variant="outlined">
-            <OutlinedInput
-              id="outlined-adornment-filter"
-              value={tableFilter}
-              onChange={handleFilterChange}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    edge="end"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+      {showTableHeader && (
+        <Grid
+          className={classes.tableHeadBanner}
+          container
+          justify="space-between"
+          alignItems="center"
+          wrap="nowrap"
+        >
+          <Grid className={classes.tableFilter} item xs>
+            <FormControl variant="outlined">
+              <OutlinedInput
+                id="outlined-adornment-filter"
+                value={tableFilter}
+                onChange={handleFilterChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      edge="end"
+                    >
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          {mappingErrors && mappingErrors?.length > 0 && (
+            <Box
+              fontSize={12}
+              component="div"
+              overflow="hidden"
+              whiteSpace="pre-line"
+              textOverflow="ellipsis"
+              className={classes.mappingErrors}
+            >
+              {`Duplicates: ${mappingErrors.join(", ")}`}
+            </Box>
+          )}
+          <Grid className={classes.tableButtons} item xs container>
+            <TableButtons {...tableButtons} />
+          </Grid>
         </Grid>
-        {mappingErrors && mappingErrors?.length > 0 && (
-          <Box
-            fontSize={12}
-            component="div"
-            overflow="hidden"
-            whiteSpace="pre-line"
-            textOverflow="ellipsis"
-            className={classes.mappingErrors}
-          >
-            {`Duplicates: ${mappingErrors.join(", ")}`}
-          </Box>
-          // <Tooltip
-          //   title={<TableMappingErrors errors={mappingErrors} />}
-          //   placement="left"
-          //   arrow
-          //   interactive
-          //   leaveDelay={10000}
-          //   leaveTouchDelay={0}
-          // >
-          //   <Box
-          //     fontSize={12}
-          //     component="div"
-          //     overflow="hidden"
-          //     whiteSpace="pre-line"
-          //     textOverflow="ellipsis"
-          //     className={classes.mappingErrors}
-          //   >
-          //     {`Duplicates: ${mappingErrors.join(", ")}`}
-          //   </Box>
-          // </Tooltip>
-        )}
-        <Grid className={classes.tableButtons} item xs container>
-          <TableButtons {...tableButtons} />
-        </Grid>
-      </Grid>
+      )}
       <DndProvider backend={HTML5Backend}>
         <div ref={tableRef} className={classes.tableHeightStyle}>
           <ReactDataGrid
@@ -411,23 +400,25 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           />
         </div>
       </DndProvider>
-      <div className={classes.tablePagination}>
-        <div>Pages</div>
-        <SelectEditor
-          className={classes.formControl}
-          value={pageSelect || "All"}
-          onChange={(value) => handlePageSelectChange(value)}
-          options={uniquePageOptions}
-          rowHeight={pagesHeight}
-        />
-        <Pagination
-          style={{ marginLeft: 10 }}
-          count={tablePagination + 1}
-          variant="outlined"
-          shape="rounded"
-          onChange={handlePaginationChange}
-        />
-      </div>
+      {showTablePagination && (
+        <div className={classes.tablePagination}>
+          <div>Pages</div>
+          <SelectEditor
+            className={classes.formControl}
+            value={pageSelect || "All"}
+            onChange={(value) => handlePageSelectChange(value)}
+            options={uniquePageOptions}
+            rowHeight={pagesHeight}
+          />
+          <Pagination
+            style={{ marginLeft: 10 }}
+            count={tablePagination + 1}
+            variant="outlined"
+            shape="rounded"
+            onChange={handlePaginationChange}
+          />
+        </div>
+      )}
     </div>
   );
 }

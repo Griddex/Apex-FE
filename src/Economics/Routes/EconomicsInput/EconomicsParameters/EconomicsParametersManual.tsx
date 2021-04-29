@@ -20,8 +20,6 @@ import { SelectEditor } from "../../../../Application/Components/Table/ReactData
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { economicsParameterHeaders } from "../../../../TestModel";
-import economicsReducer from "./../../../Redux/Reducers/EconomicsReducers";
 
 const useStyles = makeStyles((theme) => ({
   rootEconomicsParametersManual: {
@@ -160,6 +158,9 @@ const EconomicsParametersManual = ({
               rows={rawTableData}
               tableButtons={tableButtons}
               size={size}
+              adjustTableDimAuto={true}
+              showTableHeader={true}
+              showTablePagination={true}
             />
           )}
         </SizeMe>

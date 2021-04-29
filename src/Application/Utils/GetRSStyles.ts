@@ -64,7 +64,7 @@ const getRSStyles = (theme: Theme, containerWidth?: number) => {
         //   currentValueLabel = theme.palette.primary.main;
         //   break;
         default:
-          currentValueLabel = theme.palette.grey[900];
+          currentValueLabel = theme.palette.grey[400];
           break;
       }
       return {

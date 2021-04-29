@@ -42,6 +42,9 @@ export interface IApexGrid<R, O> {
   ) => Record<string, readonly R[]>;
   expandedGroupIds?: ReadonlySet<unknown>;
   onExpandedGroupIdsChange?: (expandedGroupIds: Set<unknown>) => void;
+  showTableHeader?: boolean;
+  showTablePagination?: boolean;
+  adjustTableDimAuto?: boolean;
 }
 
 export interface ITableMetaData<R> {

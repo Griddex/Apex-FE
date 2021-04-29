@@ -16,22 +16,25 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import * as authService from "../../../Application/Services/AuthService";
 import {
+  costsRevenueHeaders,
+  economicsParameterHeaders,
+} from "../../../Economics/Data/EconomicsData";
+import {
   fetchExistingCostsRevenuesDataFailureAction,
   fetchExistingCostsRevenuesDataSuccessAction,
   fetchExistingEconomicsParametersDataFailureAction,
   fetchExistingEconomicsParametersDataSuccessAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { failureDialogParameters } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
-import {
-  costsRevenueHeaders,
-  economicsParameterHeaders,
-} from "../../../TestModel";
+
 import {
   fetchApplicationHeadersFailureAction,
   fetchApplicationHeadersSuccessAction,
   FETCHAPPLICATIONHEADERS_REQUEST,
 } from "../Actions/InputActions";
-import getBaseForecastUrl from "./../../../Application/Services/BaseUrlService";
+import getBaseForecastUrl, {
+  getBaseEconomicsUrl,
+} from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchFetchApplicationHeadersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -55,12 +58,10 @@ function getHeadersType(workflowProcess: IInputWorkflowProcess["wkPs"]) {
 
 const config = { withCredentials: false };
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
-const facilitiesUrl = `${getBaseForecastUrl()}/global-variableunit/${getHeadersType(
-  "facilitiesInputDeckExcel"
-)}`;
-const forecastUrl = `${getBaseForecastUrl()}/global-variableunit/${getHeadersType(
-  "forecastInputDeckExcel"
-)}`;
+const facilitiesUrl = `${getBaseForecastUrl()}/global-variableunit/facilitiesInputHeaders`;
+const forecastUrl = `${getBaseForecastUrl()}/global-variableunit/forecastInputHeaders`;
+const economicsParametersUrl = `${getBaseEconomicsUrl()}/variables/parameterHeaders`;
+const costsRevenueUrl = `${getBaseEconomicsUrl()}/variables/costsRevenueHeaders`;
 
 function* fetchApplicationHeadersSaga(
   action: IAction
@@ -88,13 +89,6 @@ function* fetchApplicationHeadersSaga(
       data: { data: forecastAppHeaders }, //prevent 2nd trip to server
     } = forecastResults;
 
-    //Had to do this because Gift changed the data structure for
-    // forecast input headers
-    const foreHeaders = Object.keys(forecastAppHeaders).map((k) => ({
-      variableName: k,
-      variableTitle: forecastAppHeaders[k],
-    }));
-
     const successAction1 = fetchApplicationHeadersSuccessAction();
     const successAction2 = fetchExistingCostsRevenuesDataSuccessAction();
     const successAction3 = fetchExistingEconomicsParametersDataSuccessAction();
@@ -111,7 +105,7 @@ function* fetchApplicationHeadersSaga(
       payload: {
         ...payload,
         facilitiesAppHeaders,
-        forecastAppHeaders: foreHeaders,
+        forecastAppHeaders: forecastAppHeaders,
       },
     });
     yield put({

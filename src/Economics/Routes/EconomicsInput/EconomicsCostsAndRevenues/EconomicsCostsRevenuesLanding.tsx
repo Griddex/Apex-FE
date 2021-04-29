@@ -6,6 +6,7 @@ import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -141,7 +142,9 @@ const EconomicsCostsRevenuesLanding = () => {
   //CSS using overlap and z-index
 
   //Paying it back
-  const costsRevenueWorkflowFinalAction = () => {
+  const costsRevenueWorkflowFinalAction = (
+    wp: IAllWorkflowProcesses["wrkflwPrcss"]
+  ) => {
     const saveCostsRevenuesInputdeckConfirmation = () => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Save_CostsRevenue_Dialog_Confirmation",
@@ -156,7 +159,11 @@ const EconomicsCostsRevenuesLanding = () => {
           DialogSaveCancelButtons(
             [true, true],
             [true, true],
-            [unloadDialogsAction, saveCostsRevenuesRequestAction]
+            [
+              unloadDialogsAction,
+              // () => ({ type: "Hello" }),
+              () => saveCostsRevenuesRequestAction(wp, reducer),
+            ]
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -214,7 +221,11 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
-                    finalAction={() => costsRevenueWorkflowFinalAction()}
+                    finalAction={() =>
+                      costsRevenueWorkflowFinalAction(
+                        "economicsCostsRevenuesDeckExcel"
+                      )
+                    }
                   />
                 ),
                 database: (
@@ -222,7 +233,11 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckDatabase"}
-                    finalAction={() => costsRevenueWorkflowFinalAction()}
+                    finalAction={() =>
+                      costsRevenueWorkflowFinalAction(
+                        "economicsCostsRevenuesDeckDatabase"
+                      )
+                    }
                   />
                 ),
                 manual: (
@@ -230,7 +245,11 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckManual"}
-                    finalAction={() => costsRevenueWorkflowFinalAction()}
+                    finalAction={() =>
+                      costsRevenueWorkflowFinalAction(
+                        "economicsCostsRevenuesDeckManual"
+                      )
+                    }
                   />
                 ),
                 apexforecast: (
@@ -238,7 +257,11 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckApexForecast"}
-                    finalAction={() => costsRevenueWorkflowFinalAction()}
+                    finalAction={() =>
+                      costsRevenueWorkflowFinalAction(
+                        "economicsCostsRevenuesDeckApexForecast"
+                      )
+                    }
                   />
                 ),
                 approveddeck: (

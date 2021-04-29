@@ -19,7 +19,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -56,6 +56,10 @@ function* saveCostsRevenuesSaga(
   any
 > {
   const { payload } = action;
+  const { workflowProcess, reducer } = payload;
+  const wp = workflowProcess;
+  const wc = "inputDataWorkflows";
+
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
@@ -64,12 +68,23 @@ function* saveCostsRevenuesSaga(
     (state) => state.economicsReducer
   );
 
+  const { tableData: costRevenues, variableUnits } = yield select(
+    (state) => state[reducer][wc][wp]
+  );
+
+  const { savedMatchObjectAll: matchObject } = yield select(
+    (state) => state.applicationReducer
+  );
+
   const data = {
     userId: "Gift",
     projectId,
+    forecastId: forecastResultsId,
     title: costsRevenueTitle,
     description: costsRevenueDescription,
-    forecastResultsId,
+    costRevenues,
+    variableUnits,
+    matchObject,
   };
 
   const config = { withCredentials: false };
@@ -81,7 +96,7 @@ function* saveCostsRevenuesSaga(
 
     const result = yield call(
       saveCostsRevenuesAPI,
-      `${getBaseForecastUrl()}/costRevenue/save`
+      `${getBaseEconomicsUrl()}/data/costRevenue/save`
     );
 
     const {

@@ -290,6 +290,9 @@ export default function SelectHeaderUnitData({
             rows={rows}
             tableButtons={tableButtons}
             size={size}
+            adjustTableDimAuto={true}
+            showTableHeader={true}
+            showTablePagination={true}
           />
         )}
       </SizeMe>

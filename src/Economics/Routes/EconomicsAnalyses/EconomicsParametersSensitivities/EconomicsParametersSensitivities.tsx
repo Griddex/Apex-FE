@@ -16,6 +16,7 @@ import {
   economicsParameterHeaders,
   getVariableTitlesNamesObj,
 } from "../../../Data/EconomicsData";
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 
 const EconomicsParametersSensitivities = ({
   economicsAnalyses,
@@ -42,9 +43,6 @@ const EconomicsParametersSensitivities = ({
   const handleSelectControlVariableChange = (
     row: ValueType<ISelectOption, false>
   ) => {
-    // const selectedTargetVariableName = row?.value as string;
-    // const selectedTargetVariableTitle = row?.label as string;
-
     setSelectedTargetVariable(row as ISelectOption);
   };
   const RSStyles = getRSStyles(theme);
@@ -65,10 +63,11 @@ const EconomicsParametersSensitivities = ({
   ] = React.useState(initialSensitivitiesObjRef.current);
 
   return (
-    <div>
+    <CenteredStyle flexDirection="column" justifyContent="space-around">
       <AnalyticsComp
         title="Target Variable"
         direction="Vertical"
+        containerStyle={{ width: 250 }}
         content={
           <Select<ISelectOption, IsMulti>
             value={valueOption}
@@ -82,19 +81,27 @@ const EconomicsParametersSensitivities = ({
           />
         }
       />
-      {Object.keys(initialSensitivitiesObj).map((p, i) => {
-        return (
-          <ParameterSensitivity
-            key={i}
-            sensitivitiesIndex={i}
-            sensitivitiesTitle={p}
-            parameterSensitivitiesObj={parameterSensitivitiesObj}
-            setParameterSensitivitiesObj={setParameterSensitivitiesObj}
-            variableTitlesNamesObj={variableTitlesNamesObj}
-          />
-        );
-      })}
-    </div>
+
+      <CenteredStyle
+        width={"90%"}
+        height={500}
+        flexDirection="column"
+        justifyContent="space-around"
+      >
+        {Object.keys(initialSensitivitiesObj).map((p, i) => {
+          return (
+            <ParameterSensitivity
+              key={i}
+              sensitivitiesIndex={i}
+              sensitivitiesTitle={p}
+              parameterSensitivitiesObj={parameterSensitivitiesObj}
+              setParameterSensitivitiesObj={setParameterSensitivitiesObj}
+              variableTitlesNamesObj={variableTitlesNamesObj}
+            />
+          );
+        })}
+      </CenteredStyle>
+    </CenteredStyle>
   );
 };
 

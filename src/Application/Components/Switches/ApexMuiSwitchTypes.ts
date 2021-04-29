@@ -4,4 +4,7 @@ export interface IApexMuiSwitch {
   checked: boolean;
   checkedColor: string;
   notCheckedColor: string;
+  hasLabels?: boolean;
+  leftLabel?: string;
+  rightLabel?: string;
 }

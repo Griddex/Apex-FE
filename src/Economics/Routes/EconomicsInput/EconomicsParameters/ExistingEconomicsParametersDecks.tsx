@@ -5,7 +5,7 @@ import { persistSelectedIdTitleAction } from "../../../../Application/Redux/Acti
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IApplicationExistingData,
+  IApplicationExistingDataRow,
   IExistingDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
@@ -40,7 +40,7 @@ export default function ExistingEconomicsParametersDecks({
 
   const snExistingData: IExistingDataRow[] =
     existingData &&
-    existingData.map((row: IApplicationExistingData, i: number) => ({
+    existingData.map((row: IApplicationExistingDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
       status: "Not Started",

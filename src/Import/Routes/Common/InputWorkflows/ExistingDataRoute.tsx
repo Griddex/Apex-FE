@@ -185,6 +185,9 @@ export default function ExistingDataRoute<
                 onSelectedRowChange={setSRow}
                 onRowsChange={setRows}
                 size={size}
+                adjustTableDimAuto={true}
+                showTableHeader={true}
+                showTablePagination={true}
               />
             )}
           </SizeMe>

@@ -3,6 +3,7 @@ import Switch from "@material-ui/core/Switch";
 import React from "react";
 import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 import clsx from "clsx";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -47,26 +48,48 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function ApexMuiSwitch(props: IApexMuiSwitch) {
-  const { name, handleChange, checked } = props;
+  const {
+    name,
+    handleChange,
+    checked,
+    hasLabels,
+    leftLabel,
+    rightLabel,
+  } = props;
   const classes = useStyles(props);
 
-  return (
-    <Switch
-      name={name}
-      // className={clsx(
-      //   classes.root,
-      //   classes.switchBase,
-      //   classes.thumb,
-      //   classes.track
-      // )}
-      classes={{
-        root: classes.root,
-        switchBase: classes.switchBase,
-        thumb: classes.thumb,
-        track: classes.track,
-      }}
-      checked={checked}
-      onChange={handleChange}
-    />
-  );
+  if (hasLabels)
+    return (
+      <Switch
+        name={name}
+        classes={{
+          root: classes.root,
+          switchBase: classes.switchBase,
+          thumb: classes.thumb,
+          track: classes.track,
+        }}
+        checked={checked}
+        onChange={handleChange}
+      />
+    );
+  else
+    return (
+      <Grid component="label" container alignItems="center" spacing={1}>
+        {leftLabel && <Grid item>Off</Grid>}
+        <Grid item>
+          <Switch
+            name={name}
+            classes={{
+              root: classes.root,
+              switchBase: classes.switchBase,
+              thumb: classes.thumb,
+              track: classes.track,
+            }}
+            checked={checked}
+            onChange={handleChange}
+          />
+        </Grid>
+        {rightLabel && <Grid item>On</Grid>}
+      </Grid>
+    );
 }

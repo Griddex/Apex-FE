@@ -349,6 +349,9 @@ export default function ExistingForecastResults({
                 onSelectedRowChange={setSRow}
                 onRowsChange={setRows}
                 size={size}
+                adjustTableDimAuto={true}
+                showTableHeader={true}
+                showTablePagination={true}
               />
             )}
           </SizeMe>

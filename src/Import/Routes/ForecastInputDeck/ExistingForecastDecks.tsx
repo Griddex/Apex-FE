@@ -5,7 +5,7 @@ import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IApplicationExistingData,
+  IApplicationExistingDataRow,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../Common/InputWorkflows/ExistingDataRoute";
 import { IExistingInputDeck } from "../InputDeckTypes";
@@ -39,7 +39,7 @@ export default function ExistingForecastDecks({
   };
 
   const snExistingData = existingData.map(
-    (row: IApplicationExistingData, i: number) => ({
+    (row: IApplicationExistingDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
       status: "Not Started",

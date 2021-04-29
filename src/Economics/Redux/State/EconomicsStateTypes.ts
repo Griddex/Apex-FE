@@ -1,6 +1,6 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IApplicationExistingData } from "../../../Application/Types/ApplicationTypes";
+import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
 
 export interface IEconomicsState {
   fileLastModified: string;
@@ -134,5 +134,5 @@ export interface EconomicsStateType
   fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
 
   inputDataWorkflows: Record<string, IEconomicsState>;
-  existingDataWorkflows: Record<string, IApplicationExistingData[]>;
+  existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;
 }

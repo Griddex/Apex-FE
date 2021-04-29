@@ -254,6 +254,9 @@ export default function PreviewSave({
             rows={tableData}
             tableButtons={tableButtons}
             size={size}
+            adjustTableDimAuto={true}
+            showTableHeader={true}
+            showTablePagination={true}
           />
         )}
       </SizeMe>

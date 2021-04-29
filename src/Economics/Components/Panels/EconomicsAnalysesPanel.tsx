@@ -62,11 +62,12 @@ const EconomicsAnalysesPanel = ({
     <div>
       <AnalyticsTitle title="Analyses Panel" />
       <div className={classes.economicsAnalysisPanel}>
-        {economicsAnalyses.map((analysis) => {
+        {economicsAnalyses.map((analysis, i) => {
           const { title, icon } = analysis;
 
           return (
             <div
+              key={i}
               className={classes.economicsIconTitle}
               onClick={() => setSelectedAnalysis(analysis)}
             >

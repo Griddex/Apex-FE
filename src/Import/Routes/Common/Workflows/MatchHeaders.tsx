@@ -750,6 +750,9 @@ export default function MatchHeaders({
               onRowsChange={setRows}
               mappingErrors={getDuplicates(chosenApplicationHeadersWithoutNone)}
               size={size}
+              adjustTableDimAuto={true}
+              showTableHeader={true}
+              showTablePagination={true}
             />
           )}
         </SizeMe>

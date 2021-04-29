@@ -19,7 +19,7 @@ export const getBaseEconomicsUrl = () => {
   // return "http://0ed11b49334b.ngrok.io/api/forecast";
   // return "https://dev.syncware.io/auth";
 
-  return "http://localhost:5015/api/forecast";
+  return "http://localhost:5016/api/economics";
 };
 
 export default getBaseForecastUrl;

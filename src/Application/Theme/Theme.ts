@@ -9,7 +9,7 @@ const theme = createMuiTheme({
     warning: { light: "#FFFAEB", main: "#F5B400", dark: "#A37800" },
   },
   typography: {
-    fontFamily: ["Open Sans", "serif"].join(","),
+    fontFamily: ["Segoe UI", "system-ui", "-webkit-pictograph"].join(","),
   },
 });
 

@@ -1,41 +1,41 @@
 import {
   Button,
+  FormControlLabel,
   makeStyles,
-  MenuItem,
-  TextField,
+  Radio,
+  RadioGroup,
   Typography,
   useTheme,
 } from "@material-ui/core";
 import AccountBalanceTwoToneIcon from "@material-ui/icons/AccountBalanceTwoTone";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
-import React, { useState } from "react";
+import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import Select, { Styles, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
 import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
-import getRSStyles from "../../../Application/Utils/GetRSStyles";
-import EconomicsParametersSensitivities from "./EconomicsParametersSensitivities/EconomicsParametersSensitivities";
-import { Styles, ValueType } from "react-select";
-import Select from "react-select";
-import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
-import getRSTheme from "../../../Application/Utils/GetRSTheme";
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationExistingData } from "../../../Application/Types/ApplicationTypes";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
+import getRSStyles from "../../../Application/Utils/GetRSStyles";
+import getRSTheme from "../../../Application/Utils/GetRSTheme";
 import {
   IEconomicsParametersSensitivites,
   TEconomicsAnalysesTitles,
 } from "./EconomicsAnalysesTypes";
+import EconomicsParametersSensitivities from "./EconomicsParametersSensitivities/EconomicsParametersSensitivities";
+import LockTwoToneIcon from "@material-ui/icons/LockTwoTone";
+import LockOpenTwoToneIcon from "@material-ui/icons/LockOpenTwoTone";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -123,136 +123,26 @@ const EconomicsAnalysis = ({
   const {
     economicsCostsRevenuesDeckExisting,
     economicsParametersDeckExisting,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  } = useSelector((state: RootState) => state.economicsReducer[wc]);
 
   const {
     selectedCostsRevenuesInputDeckTitle,
-    economicsParametersInputDeckTitle,
-  } = useSelector((state: RootState) => state.economicsReducer[wc]);
-
-  const economicsDeckTypesOptions = [
-    { value: "economicsCostsRevenues", label: "Economics Costs & Revenues" },
-    { value: "economicsParameters", label: "Economics Parameters" },
-  ];
-  const economicsDeckTypes = economicsDeckTypesOptions.map((e) => e.label);
+    selectedEconomicsParametersInputDeckTitle,
+  } = useSelector((state: RootState) => state.economicsReducer);
 
   //TODO: Candidate for memoization
+  const economicsCostsRevenuesDeckTitles = economicsCostsRevenuesDeckExisting.map(
+    (t: IApplicationExistingDataRow) => t.title
+  );
+  const economicsParametersDeckTitles = economicsParametersDeckExisting.map(
+    (t: IApplicationExistingDataRow) => t.title
+  );
   const costRevDeckTitle = selectedCostsRevenuesInputDeckTitle
     ? selectedCostsRevenuesInputDeckTitle
-    : economicsCostsRevenuesDeckExisting[0].title;
-  const ecoParDeckTitle = economicsParametersInputDeckTitle
-    ? economicsParametersInputDeckTitle
-    : economicsParametersInputDeckTitle[0].title;
-  const initialRows = economicsDeckTypes.map((type, i) => {
-    return {
-      sn: i + 1,
-      type,
-      deck: i === 0 ? costRevDeckTitle : ecoParDeckTitle,
-    };
-  });
-  const [rows, setRows] = React.useState(initialRows);
-
-  const generateColumns = () => {
-    const handleEconomicsDeckTitleChange = (
-      value: ValueType<ISelectOption, false>,
-      row: IRawRow
-    ) => {
-      const type = row.type as string;
-
-      const selectedValue = value && value.label;
-      const selectedTitle = selectedValue as string;
-
-      if (type === "economicsCostsRevenues") {
-        const selectedDeck = economicsCostsRevenuesDeckExisting.filter(
-          (row: IApplicationExistingData) => row.title === selectedTitle
-        )[0];
-
-        if (selectedDeck) {
-          const { id, title } = selectedDeck;
-
-          persistSelectedIdTitleAction &&
-            dispatch(
-              persistSelectedIdTitleAction("economicsReducer", {
-                selectedCostsRevenuesInputDeckId: id,
-                selectedCostsRevenuesInputDeckTitle: title,
-              })
-            );
-        }
-      } else {
-        const selectedDeck = economicsParametersDeckExisting.filter(
-          (row: IApplicationExistingData) => row.title === selectedTitle
-        )[0];
-
-        if (selectedDeck) {
-          const { id, title } = selectedDeck;
-
-          persistSelectedIdTitleAction &&
-            dispatch(
-              persistSelectedIdTitleAction("economicsReducer", {
-                selectedEconomicsParametersInputDeckId: id,
-                selectedEconomicsParametersInputDeckTitle: title,
-              })
-            );
-        }
-      }
-    };
-    const columns: Column<IRawRow>[] = [
-      {
-        key: "sn",
-        name: "SN",
-        resizable: true,
-        width: 70,
-      },
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        formatter: ({ row }) => (
-          <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-          </div>
-        ),
-        width: 100,
-      },
-      {
-        key: "type",
-        name: "TYPE",
-        resizable: true,
-        width: 150,
-      },
-      {
-        key: "deck",
-        name: "SELECTED DECK",
-        resizable: true,
-        formatter: ({ row }) => {
-          const deck = row.deck as string;
-          const valueOption = generateSelectOptions([deck])[0];
-
-          const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
-
-          return (
-            <Select
-              value={valueOption}
-              options={economicsDeckTypesOptions}
-              styles={RSStyles}
-              onChange={(value: ValueType<ISelectOption, false>) =>
-                handleEconomicsDeckTitleChange(value, row)
-              }
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-            />
-          );
-        },
-        width: 200,
-      },
-    ];
-
-    return columns;
-  };
-
-  const columns = generateColumns();
+    : economicsCostsRevenuesDeckTitles;
+  const ecoParDeckTitle = selectedEconomicsParametersInputDeckTitle
+    ? selectedEconomicsParametersInputDeckTitle
+    : economicsParametersDeckTitles[0];
 
   type obj = {
     analysisIcon: JSX.Element;
@@ -260,40 +150,127 @@ const EconomicsAnalysis = ({
     targetVariables: TEconomicsAnalysesTitles | TEconomicsAnalysesTitles[];
   };
 
+  const valueOptionCR = generateSelectOptions([costRevDeckTitle])[0];
+  const economicsCostsRevenuesOptions = generateSelectOptions(
+    economicsCostsRevenuesDeckTitles
+  );
+  const valueOptionEP = generateSelectOptions([ecoParDeckTitle])[0];
+  const economicsParametersOptions = generateSelectOptions(
+    economicsParametersDeckTitles
+  );
+  const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
+
+  const [analysisPerspective, setAnalysisPerspective] = React.useState(
+    "noSensitivity"
+  );
+
   return (
-    <CenteredStyle flexDirection="column">
-      <div className={classes.npvImage}>
-        <AccountBalanceTwoToneIcon fontSize="large" />
-        <Typography>Net Cashflow</Typography>
-      </div>
-      <div style={{ width: 500, height: 80 }}>
-        <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid<IRawRow, ITableButtonsProps>
-              columns={columns}
-              rows={rows}
-              newTableRowHeight={35}
-              onRowsChange={setRows}
-              size={size}
+    <CenteredStyle
+      flexDirection="column"
+      justifyContent="space-around"
+      height={"95%"}
+    >
+      <CenteredStyle justifyContent="space-between" width={"80%"} height={50}>
+        <AnalyticsComp
+          title="Select Costs and Revenue Deck"
+          direction="Vertical"
+          content={
+            <Select<ISelectOption, false>
+              value={valueOptionCR}
+              options={economicsCostsRevenuesOptions}
+              styles={RSStyles}
+              onChange={(value: ValueType<ISelectOption, false>) => {
+                const selectedeCR = economicsCostsRevenuesDeckExisting.filter(
+                  (row: IApplicationExistingDataRow) =>
+                    row.title === value?.label
+                );
+                const { id, title } = selectedeCR;
+
+                persistSelectedIdTitleAction &&
+                  dispatch(
+                    persistSelectedIdTitleAction("economicsReducer", {
+                      selectedCostsRevenuesInputDeckId: id,
+                      selectedCostsRevenuesInputDeckTitle: title,
+                    })
+                  );
+              }}
+              menuPortalTarget={document.body}
+              theme={(thm) => getRSTheme(thm, theme)}
             />
-          )}
-        </SizeMe>
-      </div>
-      <EconomicsParametersSensitivities economicsAnalyses={economicsAnalyses} />
-      <Button
-        className={classes.primaryButton}
-        startIcon={<ViewDayTwoToneIcon />}
-        onClick={() => alert("sensitivities")}
+          }
+        />
+        <AnalyticsComp
+          title="Select Economics Parameters Deck"
+          direction="Vertical"
+          content={
+            <Select<ISelectOption, false>
+              value={valueOptionEP}
+              options={economicsParametersOptions}
+              styles={RSStyles}
+              onChange={(value: ValueType<ISelectOption, false>) => {
+                const selectedeP = economicsParametersDeckExisting.filter(
+                  (row: IApplicationExistingDataRow) =>
+                    row.title === value?.label
+                );
+                const { id, title } = selectedeP;
+
+                persistSelectedIdTitleAction &&
+                  dispatch(
+                    persistSelectedIdTitleAction("economicsReducer", {
+                      selectedEconomicsParametersInputDeckId: id,
+                      selectedEconomicsParametersInputDeckTitle: title,
+                    })
+                  );
+              }}
+              menuPortalTarget={document.body}
+              theme={(thm) => getRSTheme(thm, theme)}
+            />
+          }
+        />
+      </CenteredStyle>
+
+      <RadioGroup
+        value={analysisPerspective}
+        onChange={(event: React.ChangeEvent<any>) => {
+          const { value } = event.target;
+
+          setAnalysisPerspective(value);
+        }}
+        style={{ flexDirection: "row" }}
       >
-        Save Sensitivities
-      </Button>
-      <Button
-        className={classes.primaryButton}
-        startIcon={<ViewDayTwoToneIcon />}
-        onClick={() => alert("calculate")}
-      >
-        Calculate
-      </Button>
+        <FormControlLabel
+          value="noSensitivity"
+          control={<Radio />}
+          label="No Sensitivity Analysis"
+        />
+        <FormControlLabel
+          value="sensitivity"
+          control={<Radio />}
+          label="Sensitivity Analysis"
+        />
+      </RadioGroup>
+      {analysisPerspective === "sensitivity" && (
+        <EconomicsParametersSensitivities
+          economicsAnalyses={economicsAnalyses}
+        />
+      )}
+
+      <CenteredStyle width={400} height={40} justifyContent="space-between">
+        <Button
+          className={classes.primaryButton}
+          startIcon={<ViewDayTwoToneIcon />}
+          onClick={() => alert("sensitivities")}
+        >
+          Save Sensitivities
+        </Button>
+        <Button
+          className={classes.primaryButton}
+          startIcon={<ViewDayTwoToneIcon />}
+          onClick={() => alert("calculate")}
+        >
+          Calculate
+        </Button>
+      </CenteredStyle>
     </CenteredStyle>
   );
 };

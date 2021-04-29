@@ -6,7 +6,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IExistingDataProps,
-  IApplicationExistingData,
+  IApplicationExistingDataRow,
 } from "../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
 import { IExistingDataRow } from "./../../../Application/Types/ApplicationTypes";
@@ -37,7 +37,7 @@ export default function ExistingEconomicsResults({
   };
 
   const snExistingData: IExistingDataRow[] = existingData.map(
-    (row: IApplicationExistingData, i: number) => ({
+    (row: IApplicationExistingDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
       status: "Not Started",

@@ -194,6 +194,9 @@ export default function EconomicsAssumptions() {
               rows={tableRows}
               tableButtons={tableButtons}
               size={size}
+              adjustTableDimAuto={true}
+              showTableHeader={true}
+              showTablePagination={true}
             />
           )}
         </SizeMe>

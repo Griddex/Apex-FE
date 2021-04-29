@@ -412,6 +412,9 @@ export default function ForecastData({
                 rowGrouper={rowGrouper}
                 expandedGroupIds={expandedGroupIds}
                 onExpandedGroupIdsChange={setExpandedGroupIds}
+                adjustTableDimAuto={true}
+                showTableHeader={true}
+                showTablePagination={true}
               />
             )}
           </SizeMe>

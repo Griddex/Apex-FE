@@ -23,6 +23,7 @@ const RegistrationScenarios = () => {
   );
   const handleRegistrationScenarioChange = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
+
     setRegistrationScenario(value);
     updateRegistrationFormAction &&
       dispatch(updateRegistrationFormAction(name, value));

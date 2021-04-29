@@ -6,6 +6,7 @@ import Select, { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -17,13 +18,13 @@ import { IParameterSensitivity } from "./EconomicsParametersSensitivitiesTypes";
 
 const initialRows = [
   {
-    p1: "",
-    p2: "",
-    p3: "",
-    p4: "",
-    p5: "",
-    p6: "",
-    p7: "",
+    p1: 0,
+    p2: 0,
+    p3: 0,
+    p4: 0,
+    p5: 0,
+    p6: 0,
+    p7: 0,
   },
 ];
 
@@ -77,10 +78,6 @@ const ParameterSensitivity = ({
       `${sensitivitiesTitle}.parameters`,
       nonSelectedParametersTitles
     );
-    // setParSensitivity(prev =>
-    //   {
-
-    //   });
 
     setParameterSensitivitiesObj(updatedOthers);
   };
@@ -92,7 +89,7 @@ const ParameterSensitivity = ({
       editable: true,
       editor: TextEditor,
       resizable: true,
-      width: 100,
+      width: 50,
     },
     {
       key: "p2",
@@ -100,7 +97,7 @@ const ParameterSensitivity = ({
       editable: true,
       editor: TextEditor,
       resizable: true,
-      width: 100,
+      width: 50,
     },
     {
       key: "p3",
@@ -108,7 +105,7 @@ const ParameterSensitivity = ({
       editable: true,
       editor: TextEditor,
       resizable: true,
-      width: 100,
+      width: 50,
     },
     {
       key: "p4",
@@ -116,7 +113,7 @@ const ParameterSensitivity = ({
       editable: true,
       editor: TextEditor,
       resizable: true,
-      width: 200,
+      width: 50,
     },
     {
       key: "p5",
@@ -124,7 +121,7 @@ const ParameterSensitivity = ({
       editable: true,
       editor: TextEditor,
       resizable: true,
-      width: 300,
+      width: 50,
     },
     {
       key: "p6",
@@ -132,7 +129,7 @@ const ParameterSensitivity = ({
       editable: true,
       editor: TextEditor,
       resizable: true,
-      width: 200,
+      width: 50,
     },
     {
       key: "p7",
@@ -140,15 +137,16 @@ const ParameterSensitivity = ({
       editable: true,
       editor: TextEditor,
       resizable: true,
-      width: 200,
+      width: 50,
     },
   ];
 
   return (
-    <div>
+    <CenteredStyle flexDirection="column">
       <AnalyticsComp
         title={sensitivitiesTitle}
         direction="Horizontal"
+        contentStyle={{ width: 300 }}
         content={
           <Select<ISelectOption, IsMulti>
             value={valueOption}
@@ -162,20 +160,32 @@ const ParameterSensitivity = ({
           />
         }
       />
-      <div style={{ width: 500, height: 80 }}>
+
+      {/*width chosen to fit properly*/}
+      <div style={{ width: 562, height: 80, marginTop: 2 }}>
         <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid<IRawRow, ITableButtonsProps>
-              columns={columns}
-              rows={rows}
-              newTableRowHeight={35}
-              onRowsChange={setRows}
-              size={size}
-            />
-          )}
+          {({ size }) => {
+            console.log(
+              "Logged output --> ~ file: ParameterSensitivity.tsx ~ line 172 ~ size",
+              size
+            );
+
+            return (
+              <ApexGrid<IRawRow, ITableButtonsProps>
+                columns={columns}
+                rows={rows}
+                newTableRowHeight={35}
+                onRowsChange={setRows}
+                size={size}
+                adjustTableDimAuto={false}
+                showTableHeader={false}
+                showTablePagination={false}
+              />
+            );
+          }}
         </SizeMe>
       </div>
-    </div>
+    </CenteredStyle>
   );
 };
 

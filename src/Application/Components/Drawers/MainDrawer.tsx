@@ -247,7 +247,7 @@ const MainDrawer = () => {
                       <div
                         style={
                           name === selectedName
-                            ? { color: theme.palette.primary.main }
+                            ? { color: theme.palette.primary.dark }
                             : {}
                         }
                       >
@@ -257,7 +257,7 @@ const MainDrawer = () => {
                         <Typography
                           style={
                             name === selectedName
-                              ? { color: theme.palette.primary.main }
+                              ? { color: theme.palette.primary.dark }
                               : {}
                           }
                           variant="caption"
@@ -274,7 +274,7 @@ const MainDrawer = () => {
                       <Typography
                         style={
                           name === selectedName
-                            ? { color: theme.palette.primary.main }
+                            ? { color: theme.palette.primary.dark }
                             : {}
                         }
                         variant="caption"

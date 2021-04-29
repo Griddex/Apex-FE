@@ -9,7 +9,7 @@ import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBa
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import EconomicsCalculations from "../EconomicsAnalyses/EconomicsAnalyses";
+import EconomicsAnalyses from "../EconomicsAnalyses/EconomicsAnalyses";
 import ExistingCostsAndRevenuesDecks from "../EconomicsInput/EconomicsCostsAndRevenues/ExistingCostsAndRevenuesDecks";
 import ExistingEconomicsParametersDecks from "../EconomicsInput/EconomicsParameters/ExistingEconomicsParametersDecks";
 
@@ -168,7 +168,7 @@ const EconomicsAnalysisWorkflow = () => {
           />
         );
       case 2:
-        return <EconomicsCalculations />;
+        return <EconomicsAnalyses />;
       default:
         return <h1>No view</h1>;
     }

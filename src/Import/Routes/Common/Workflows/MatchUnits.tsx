@@ -772,6 +772,9 @@ export default function MatchUnits({
               onRowsChange={setRows}
               // mappingErrors={getDuplicates(chosenApplicationUnitsUniqueSingle)}
               size={size}
+              adjustTableDimAuto={true}
+              showTableHeader={true}
+              showTablePagination={true}
             />
           )}
         </SizeMe>

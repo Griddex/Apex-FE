@@ -1,3 +1,8 @@
+import {
+  IAllWorkflowProcesses,
+  ReducersType,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
+
 export const LOAD_ECONOMICS_WORKFLOW = "LOAD_ECONOMICS_WORKFLOW";
 export const UPDATE_ECONOMICS = "UPDATE_ECONOMICS";
 export const EXISTINGCOSTSREVENUESDATA_REQUEST =
@@ -81,9 +86,13 @@ export const fetchExistingCostsRevenuesDataFailureAction = () => {
   };
 };
 
-export const saveCostsRevenuesRequestAction = () => {
+export const saveCostsRevenuesRequestAction = (
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  reducer: ReducersType
+) => {
   return {
     type: SAVECOSTSREVENUES_REQUEST,
+    payload: { workflowProcess, reducer },
     meta: { showSpinner: true, message: "Saving costs & revenues..." },
   };
 };

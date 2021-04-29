@@ -490,6 +490,9 @@ export default function UnitSettings({
             rows={rows}
             tableButtons={tableButtons}
             size={size}
+            adjustTableDimAuto={true}
+            showTableHeader={true}
+            showTablePagination={true}
           />
         )}
       </SizeMe>

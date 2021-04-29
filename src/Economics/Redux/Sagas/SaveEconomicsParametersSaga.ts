@@ -19,7 +19,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -84,7 +84,7 @@ function* saveEconomicsParametersSaga(
 
     const result = yield call(
       saveEconomicsParametersAPI,
-      `${getBaseForecastUrl()}/economicsparameter/save`
+      `${getBaseEconomicsUrl()}/parameter/save`
     );
 
     const {

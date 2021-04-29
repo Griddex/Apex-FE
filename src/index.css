@@ -4,13 +4,6 @@
 
 app {
   margin: 0;
-  /* font-family: "Quicksand", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
-  /* font-family: 'Quicksand', sans-serif; */
-  /* font-family: 'Ranchers', cursive; */
 }
 
 code {
@@ -18,6 +11,34 @@ code {
     monospace;
 }
 
-/* input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset;
-} */
+
+@font-face {
+  font-family: 'Segoe UI Regular',system-ui,-webkit-pictograph;
+  font-style: normal;
+  font-weight: normal;
+  src: local('Segoe UI Regular'), url('./Fonts/Segoe\ UI.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Segoe UI Italic',system-ui,-webkit-pictograph;
+  font-style: normal;
+  font-weight: normal;
+  src: local('Segoe UI Italic'), url('./Fonts/Segoe\ UI\ Italic.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Segoe UI Bold',system-ui,-webkit-pictograph;
+  font-style: normal;
+  font-weight: normal;
+  src: local('Segoe UI Bold'), url('./Fonts/Segoe\ UI\ Bold.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Segoe UI Bold Italic',system-ui,-webkit-pictograph;
+  font-style: normal;
+  font-weight: normal;
+  src: local('Segoe UI Bold Italic'), url('./Fonts/Segoe\ UI\ Bold\ Italic.woff') format('woff');
+  }

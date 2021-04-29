@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   workflowBody: {
-    marginLeft: 5,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     height: "100%",
     width: "97%",
     border: "1px solid #E7E7E7",

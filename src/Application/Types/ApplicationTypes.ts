@@ -49,7 +49,7 @@ export interface IExistingDataProps {
   handleCheckboxChange?: (row: any, event?: React.ChangeEvent<any>) => void;
 }
 
-export interface IApplicationExistingData {
+export interface IApplicationExistingDataRow {
   sn?: number;
   id?: string;
   userId?: string;
@@ -61,7 +61,7 @@ export interface IApplicationExistingData {
   createdAt?: string;
 }
 export interface IApplicationExistingForecastResultsRow
-  extends IApplicationExistingData {
+  extends IApplicationExistingDataRow {
   saved: "Saved" | "Not Saved";
   forecastResultsId: string;
   networkTitle: string;

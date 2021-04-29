@@ -167,6 +167,9 @@ export default function EconomicCosts() {
               rows={rawTableData}
               tableButtons={tableButtons}
               size={size}
+              adjustTableDimAuto={true}
+              showTableHeader={true}
+              showTablePagination={true}
             />
           )}
         </SizeMe>
