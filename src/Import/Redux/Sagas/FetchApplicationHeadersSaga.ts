@@ -11,14 +11,9 @@ import {
   PutEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import * as authService from "../../../Application/Services/AuthService";
-import {
-  costsRevenueHeaders,
-  economicsParameterHeaders,
-} from "../../../Economics/Data/EconomicsData";
 import {
   fetchExistingCostsRevenuesDataFailureAction,
   fetchExistingCostsRevenuesDataSuccessAction,
@@ -26,7 +21,6 @@ import {
   fetchExistingEconomicsParametersDataSuccessAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { failureDialogParameters } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
-
 import {
   fetchApplicationHeadersFailureAction,
   fetchApplicationHeadersSuccessAction,
@@ -45,17 +39,6 @@ export default function* watchFetchApplicationHeadersSaga(): Generator<
   yield takeLeading(appHeadersChan, fetchApplicationHeadersSaga);
 }
 
-function getHeadersType(workflowProcess: IInputWorkflowProcess["wkPs"]) {
-  switch (workflowProcess) {
-    case "facilitiesInputDeckExcel":
-      return "facilitiesInputHeaders";
-    case "forecastInputDeckExcel":
-      return "forecastInputHeaders";
-    default:
-      break;
-  }
-}
-
 const config = { withCredentials: false };
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
 const facilitiesUrl = `${getBaseForecastUrl()}/global-variableunit/facilitiesInputHeaders`;
@@ -72,14 +55,21 @@ function* fetchApplicationHeadersSaga(
       type: string;
     }>,
   void,
-  [any, any]
+  [any, any, any, any]
 > {
   const { payload } = action;
 
   try {
-    const [facilitiesResult, forecastResults] = yield all([
+    const [
+      facilitiesResult,
+      forecastResults,
+      costsRevenueResults,
+      economicsParametersResults,
+    ] = yield all([
       call(fetchHeadersAPI, facilitiesUrl),
       call(fetchHeadersAPI, forecastUrl),
+      call(fetchHeadersAPI, costsRevenueUrl),
+      call(fetchHeadersAPI, economicsParametersUrl),
     ]);
 
     const {
@@ -88,17 +78,16 @@ function* fetchApplicationHeadersSaga(
     const {
       data: { data: forecastAppHeaders }, //prevent 2nd trip to server
     } = forecastResults;
+    const {
+      data: { data: costsRevenuesAppHeaders }, //prevent 2nd trip to server
+    } = costsRevenueResults;
+    const {
+      data: { data: economicsParametersAppHeaders }, //prevent 2nd trip to server
+    } = economicsParametersResults;
 
     const successAction1 = fetchApplicationHeadersSuccessAction();
     const successAction2 = fetchExistingCostsRevenuesDataSuccessAction();
     const successAction3 = fetchExistingEconomicsParametersDataSuccessAction();
-
-    // const costsRevenuesAppHeaders = costsRevenueHeaders.map(
-    //   (h) => h.variableTitle
-    // );
-    // const economicsParametersAppHeaders = economicsParameterHeaders.map(
-    //   (h) => h.variableTitle
-    // );
 
     yield put({
       ...successAction1,
@@ -112,14 +101,14 @@ function* fetchApplicationHeadersSaga(
       ...successAction2,
       payload: {
         ...payload,
-        costsRevenuesAppHeaders: costsRevenueHeaders,
+        costsRevenuesAppHeaders,
       },
     });
     yield put({
       ...successAction3,
       payload: {
         ...payload,
-        economicsParametersAppHeaders: economicsParameterHeaders,
+        economicsParametersAppHeaders,
       },
     });
   } catch (errors) {

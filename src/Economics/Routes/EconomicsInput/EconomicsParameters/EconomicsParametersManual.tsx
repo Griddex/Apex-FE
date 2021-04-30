@@ -57,7 +57,7 @@ const EconomicsParametersManual = ({
     for (let i = 0; i < numberOfRows; i++) {
       const fakeRow = {
         sn: i + 1,
-        parameter: economicsParametersAppHeaders[i],
+        parameter: economicsParametersAppHeaders[i].variableTitle,
         type: faker.random.number(100000),
         value: faker.random.number(100000),
         unit: faker.random.word(),

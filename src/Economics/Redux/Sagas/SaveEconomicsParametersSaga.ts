@@ -58,21 +58,33 @@ function* saveEconomicsParametersSaga(
   any
 > {
   const { payload } = action;
+  const { workflowProcess, reducer } = payload;
+  const wp = workflowProcess;
+  const wc = "inputDataWorkflows";
+
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
-  const { forecastResultsId } = yield select((state) => state.forecastReducer);
   const {
     economicsParametersTitle,
     economicsParametersDescription,
   } = yield select((state) => state.economicsReducer);
+
+  const { tableData: costRevenues, variableUnits } = yield select(
+    (state) => state[reducer][wc][wp]
+  );
+
+  const { savedMatchObjectAll: matchObject } = yield select(
+    (state) => state.applicationReducer
+  );
 
   const data = {
     userId: "Gift",
     projectId,
     title: economicsParametersTitle,
     description: economicsParametersDescription,
-    forecastResultsId,
+    matchObject,
+    variableUnits,
   };
 
   const config = { withCredentials: false };

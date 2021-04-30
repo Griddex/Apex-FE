@@ -60,15 +60,14 @@ function* saveCostsRevenuesSaga(
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
 
-  const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
-
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
-  const { costsRevenueTitle, costsRevenueDescription } = yield select(
-    (state) => state.economicsReducer
-  );
+  const {
+    costsRevenuesInputDeckTitle,
+    economicsParametersInputDeckDescription,
+  } = yield select((state) => state.economicsReducer);
 
-  const { tableData: costRevenues, variableUnits } = yield select(
+  const { tableData: inputDeck, variableUnits } = yield select(
     (state) => state[reducer][wc][wp]
   );
 
@@ -76,12 +75,14 @@ function* saveCostsRevenuesSaga(
     (state) => state.applicationReducer
   );
 
+  const costRevenues = [...inputDeck];
+  costRevenues.shift();
   const data = {
-    userId: "Gift",
     projectId,
     forecastId: forecastResultsId,
-    title: costsRevenueTitle,
-    description: costsRevenueDescription,
+    title: costsRevenuesInputDeckTitle,
+    description: economicsParametersInputDeckDescription,
+    source: forecastResultsId ? "Apex" : "External",
     costRevenues,
     variableUnits,
     matchObject,
@@ -114,7 +115,7 @@ function* saveCostsRevenuesSaga(
     yield put(
       updateEconomicsParameterAction(
         "selectedCostsRevenuesTitle",
-        costsRevenueTitle
+        costsRevenuesInputDeckTitle
       )
     );
     yield put(fetchExistingCostsRevenuesDataRequestAction());
