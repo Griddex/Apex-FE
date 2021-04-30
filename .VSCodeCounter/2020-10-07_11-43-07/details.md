@@ -44,7 +44,7 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Application/Components/Visuals/Spinners.js](/src/Application/Components/Visuals/Spinners.js) | JavaScript | 62 | 0 | 7 | 69 |
 | [src/Application/Components/Workflows/VerticalWorkflowStepper.jsx](/src/Application/Components/Workflows/VerticalWorkflowStepper.jsx) | JavaScript React | 51 | 0 | 10 | 61 |
 | [src/Application/ContextMenus/TableRowContextMenu.js](/src/Application/ContextMenus/TableRowContextMenu.js) | JavaScript | 6 | 0 | 4 | 10 |
-| [src/Application/Images/CompanyLogo.svg](/src/Application/Images/CompanyLogo.svg) | XML | 10 | 0 | 0 | 10 |
+| [src/Application/Images/SyncwareLogoWithName.svg](/src/Application/Images/SyncwareLogoWithName.svg) | XML | 10 | 0 | 0 | 10 |
 | [src/Application/Layout/Layout.js](/src/Application/Layout/Layout.js) | JavaScript | 62 | 0 | 8 | 70 |
 | [src/Application/Redux/Actions/ApplicationActions.js](/src/Application/Redux/Actions/ApplicationActions.js) | JavaScript | 52 | 0 | 8 | 60 |
 | [src/Application/Redux/Actions/DialogsAction.js](/src/Application/Redux/Actions/DialogsAction.js) | JavaScript | 27 | 0 | 4 | 31 |

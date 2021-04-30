@@ -30,7 +30,7 @@ Total : 76 files, 23285 codes, 149 comments, 419 blanks, all 23853 lines
 | [src/Application/Components/MaterialUITable.js](/src/Application/Components/MaterialUITable.js)                                                 | JavaScript       |    352 |       1 |    27 |    380 |
 | [src/Application/Components/Navbar.jsx](/src/Application/Components/Navbar.jsx)                                                                 | JavaScript React |    112 |       0 |     6 |    118 |
 | [src/Application/Components/SubNavbar.jsx](/src/Application/Components/SubNavbar.jsx)                                                           | JavaScript React |     80 |       1 |     8 |     89 |
-| [src/Application/Images/CompanyLogo.svg](/src/Application/Images/CompanyLogo.svg)                                                               | XML              |     10 |       0 |     0 |     10 |
+| [src/Application/Images/SyncwareLogoWithName.svg](/src/Application/Images/SyncwareLogoWithName.svg)                                                               | XML              |     10 |       0 |     0 |     10 |
 | [src/Application/Layout/Layout.js](/src/Application/Layout/Layout.js)                                                                           | JavaScript       |     90 |       0 |    11 |    101 |
 | [src/Application/Redux/Actions/UILayoutActions.js](/src/Application/Redux/Actions/UILayoutActions.js)                                           | JavaScript       |    193 |       5 |     9 |    207 |
 | [src/Application/Redux/Actions/UserAction.js](/src/Application/Redux/Actions/UserAction.js)                                                     | JavaScript       |    110 |       0 |    13 |    123 |

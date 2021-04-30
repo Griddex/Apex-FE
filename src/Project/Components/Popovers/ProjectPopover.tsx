@@ -17,6 +17,7 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { fetchExistingEconomicsDataRequestAction } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
 import {
@@ -191,6 +192,9 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                 handleClick={() => {
                   //TODO:Economics table, production etc
                   dispatch(fetchExistingDataRequestAction(projectId as string));
+                  dispatch(
+                    fetchExistingEconomicsDataRequestAction(projectId as string)
+                  );
                   dispatch(
                     openRecentProjectAction(
                       "Gideon",

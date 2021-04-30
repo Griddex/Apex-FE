@@ -104,7 +104,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Application/Components/Workflows/VerticalWorkflowStepper.tsx](/src/Application/Components/Workflows/VerticalWorkflowStepper.tsx) | TypeScript React | 52 | 0 | 9 | 61 |
 | [src/Application/Components/Workflows/WorkflowBanner.tsx](/src/Application/Components/Workflows/WorkflowBanner.tsx) | TypeScript React | 65 | 1 | 5 | 71 |
 | [src/Application/Components/Workflows/WorkflowTypes.ts](/src/Application/Components/Workflows/WorkflowTypes.ts) | TypeScript | 64 | 0 | 5 | 69 |
-| [src/Application/Images/CompanyLogo.svg](/src/Application/Images/CompanyLogo.svg) | XML | 1 | 0 | 0 | 1 |
+| [src/Application/Images/SyncwareLogoWithName.svg](/src/Application/Images/SyncwareLogoWithName.svg) | XML | 1 | 0 | 0 | 1 |
 | [src/Application/Images/CompanyLogo1.svg](/src/Application/Images/CompanyLogo1.svg) | XML | 11 | 0 | 1 | 12 |
 | [src/Application/Images/CompanyLogo2.svg](/src/Application/Images/CompanyLogo2.svg) | XML | 10 | 0 | 0 | 10 |
 | [src/Application/Layout/Layout.tsx](/src/Application/Layout/Layout.tsx) | TypeScript React | 89 | 3 | 12 | 104 |

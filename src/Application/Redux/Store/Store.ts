@@ -37,6 +37,7 @@ import watchGetSelectedForecastDataByIdSaga from "../../../Forecast/Redux/Sagas/
 import watchGetForecastResultsChartDataSaga from "../../../Forecast/Redux/Sagas/GetForecastResultsChartDataSaga";
 import watchSaveEconomicsParametersSaga from "../../../Economics/Redux/Sagas/SaveEconomicsParametersSaga";
 import watchSaveCostsRevenuesSaga from "../../../Economics/Redux/Sagas/SaveCostsRevenuesSaga";
+import watchFetchExistingEconomicsDataSaga from "../../../Economics/Redux/Sagas/FetchExistingEconomicsDataSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -68,6 +69,7 @@ function* rootSaga() {
   yield spawn(watchGetSelectedForecastDataByIdSaga);
   yield spawn(watchSaveCostsRevenuesSaga);
   yield spawn(watchSaveEconomicsParametersSaga);
+  yield spawn(watchFetchExistingEconomicsDataSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

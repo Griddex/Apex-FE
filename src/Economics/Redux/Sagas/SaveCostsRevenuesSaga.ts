@@ -25,7 +25,7 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
 import {
-  fetchExistingCostsRevenuesDataRequestAction,
+  fetchExistingCostsRevenuesHeadersRequestAction,
   saveCostsRevenuesFailureAction,
   saveCostsRevenuesSuccessAction,
   SAVECOSTSREVENUES_REQUEST,
@@ -118,7 +118,7 @@ function* saveCostsRevenuesSaga(
         costsRevenuesInputDeckTitle
       )
     );
-    yield put(fetchExistingCostsRevenuesDataRequestAction());
+    yield put(fetchExistingCostsRevenuesHeadersRequestAction());
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveCostsRevenuesFailureAction();

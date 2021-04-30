@@ -1,5 +1,6 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
+  EXISTINGECONOMICSDATA_SUCCESS,
   FETCHCOSTSREVENUESHEADERS_FAILURE,
   FETCHCOSTSREVENUESHEADERS_SUCCESS,
   FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
@@ -141,6 +142,22 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       return {
         ...state,
         errors,
+      };
+    }
+
+    case EXISTINGECONOMICSDATA_SUCCESS: {
+      const {
+        economicsCostsRevenuesDeckExisting,
+        economicsParametersDeckExisting,
+      } = action.payload;
+
+      return {
+        ...state,
+        existingDataWorkflows: {
+          ...state.existingDataWorkflows,
+          economicsCostsRevenuesDeckExisting,
+          economicsParametersDeckExisting,
+        },
       };
     }
 

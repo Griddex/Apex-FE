@@ -38,6 +38,9 @@ export const FETCHECONOMICSPARAMETERSHEADERS_SUCCESS =
   "FETCHECONOMICSPARAMETERSHEADERS_SUCCESS";
 export const FETCHECONOMICSPARAMETERSHEADERS_FAILURE =
   "FETCHECONOMICSPARAMETERSHEADERS_FAILURE";
+export const EXISTINGECONOMICSDATA_REQUEST = "EXISTINGECONOMICSDATA_REQUEST";
+export const EXISTINGECONOMICSDATA_SUCCESS = "EXISTINGECONOMICSDATA_SUCCESS";
+export const EXISTINGECONOMICSDATA_FAILURE = "EXISTINGECONOMICSDATA_FAILURE";
 
 export const updateEconomicsParameterAction = (
   path: string,
@@ -61,13 +64,13 @@ export const loadEconomicsWorkflowAction = (name: string) => {
   };
 };
 
-export const fetchExistingCostsRevenuesDataRequestAction = () => {
+export const fetchExistingCostsRevenuesHeadersRequestAction = () => {
   return {
     type: FETCHCOSTSREVENUESHEADERS_REQUEST,
   };
 };
 
-export const fetchExistingCostsRevenuesDataSuccessAction = () => {
+export const fetchExistingCostsRevenuesHeadersSuccessAction = () => {
   return {
     type: FETCHCOSTSREVENUESHEADERS_SUCCESS,
     payload: {
@@ -122,7 +125,7 @@ export const fetchExistingEconomicsParametersDataRequestAction = () => {
   };
 };
 
-export const fetchExistingEconomicsParametersDataSuccessAction = () => {
+export const fetchExistingEconomicsParametersHeadersSuccessAction = () => {
   return {
     type: FETCHECONOMICSPARAMETERSHEADERS_SUCCESS,
     payload: {
@@ -160,6 +163,31 @@ export const saveEconomicsParametersSuccessAction = () => {
 export const saveEconomicsParametersFailureAction = () => {
   return {
     type: SAVEECONOMICSPARAMETERS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchExistingEconomicsDataRequestAction = (projectId: string) => {
+  return {
+    type: EXISTINGECONOMICSDATA_REQUEST,
+    payload: { projectId },
+    meta: { showSpinner: true, message: "Loading economics data..." },
+  };
+};
+
+export const fetchExistingEconomicsDataSuccessAction = () => {
+  return {
+    type: EXISTINGECONOMICSDATA_SUCCESS,
+    payload: { facilitiesInputDeckExisting: [], forecastInputDeckExisting: [] },
+  };
+};
+
+export const fetchExistingEconomicsDataFailureAction = () => {
+  return {
+    type: EXISTINGECONOMICSDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

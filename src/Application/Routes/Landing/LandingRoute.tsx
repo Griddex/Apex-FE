@@ -2,11 +2,10 @@ import { Button, Divider, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import Image from "../../Components/Visuals/Image";
-import CompanyLogo from "../../Images/CompanyLogo.svg";
-import ApexLogo from "../../Images/ApexLogo.svg";
+import SyncwareLogoWithName from "../../Images/SyncwareLogoWithName.svg";
+import ApexLogoFull from "../../Images/ApexLogoFull.svg";
 import history from "../../Services/HistoryService";
 
-//Please change font type!!!
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "grid",
@@ -67,32 +66,29 @@ const LandingRoute = () => {
     <div className={classes.root}>
       <div className={classes.header}>Header</div>
       <div className={classes.company}>
-        <Image
-          className={classes.image}
-          src={CompanyLogo}
-          alt="Apex Hydrocarbon Forecasting Platform Logo"
-        />
-        {/* <Typography variant="h5">Hydrocarbon Forecasting Platform</Typography> */}
-        <Typography className={classes.typography} variant="h6">
-          Integrated technology for business growth...
-        </Typography>
-        <Divider className={classes.divider} />
+        <div>
+          <Image
+            src={SyncwareLogoWithName}
+            alt="Apex Hydrocarbon Forecasting Platform Logo"
+          />
+          <Typography className={classes.typography} variant="h6">
+            ...Integrated technology for business growth
+          </Typography>
+        </div>
       </div>
       <div className={classes.apex}>
         <Image
           className={classes.image}
-          src={ApexLogo}
+          src={ApexLogoFull}
           alt="Apex Hydrocarbon Forecasting Platform Logo"
         />
-        <Typography variant="h5">
-          Apex Hydrocarbon Forecasting Platform
-        </Typography>
         <Typography className={classes.typography} variant="h6">
-          Our platform delivers the best hydrocarbon business forecasting
-          services globally!
+          {
+            "-Syncware's flagship Hydrocarbon Forecasting and Economics Platform"
+          }
         </Typography>
-        <Divider className={classes.divider} />
-
+      </div>
+      <div className={classes.footer}>
         <Button
           className={classes.button}
           variant="contained"
@@ -102,7 +98,6 @@ const LandingRoute = () => {
           Proceed
         </Button>
       </div>
-      <div className={classes.footer}>Footer</div>
     </div>
   );
 };

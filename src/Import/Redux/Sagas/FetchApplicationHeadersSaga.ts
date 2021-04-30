@@ -16,9 +16,9 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import * as authService from "../../../Application/Services/AuthService";
 import {
   fetchExistingCostsRevenuesDataFailureAction,
-  fetchExistingCostsRevenuesDataSuccessAction,
+  fetchExistingCostsRevenuesHeadersSuccessAction,
   fetchExistingEconomicsParametersDataFailureAction,
-  fetchExistingEconomicsParametersDataSuccessAction,
+  fetchExistingEconomicsParametersHeadersSuccessAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { failureDialogParameters } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
 import {
@@ -86,8 +86,8 @@ function* fetchApplicationHeadersSaga(
     } = economicsParametersResults;
 
     const successAction1 = fetchApplicationHeadersSuccessAction();
-    const successAction2 = fetchExistingCostsRevenuesDataSuccessAction();
-    const successAction3 = fetchExistingEconomicsParametersDataSuccessAction();
+    const successAction2 = fetchExistingCostsRevenuesHeadersSuccessAction();
+    const successAction3 = fetchExistingEconomicsParametersHeadersSuccessAction();
 
     yield put({
       ...successAction1,

@@ -22,7 +22,6 @@ const useStyles = makeStyles(() => ({
   typography: {
     color: "#808080",
     margin: "20px 20px 30px 20px",
-    width: 500,
   },
 }));
 
@@ -43,7 +42,7 @@ const LoginRoute = () => {
           src={ApexLogoFull}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
-        <Typography className={classes.typography} variant="h5">
+        <Typography className={classes.typography} variant="h6">
           - Robust Hydrocarbon Forecasting and Economics Evaluation Platform
         </Typography>
         <LoginForm />
