@@ -66,7 +66,10 @@ const EconomicsInputButtonsMenu = ({
       title: "Economics Parameters",
       action: () => {
         dispatch(
-          updateEconomicsParameterAction("loadCostsRevenueWorkflow", false)
+          updateEconomicsParameterAction(
+            "loadEconomicsParametersWorkflow",
+            false
+          )
         );
         history.push(`${url}/parameters`);
       },

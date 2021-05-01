@@ -7,6 +7,7 @@ import generateSelectOptions from "../../Utils/GenerateSelectOptions";
 import getRSTheme from "../../Utils/GetRSTheme";
 
 const ApexSelectRS = ({
+  valueOption,
   data,
   handleSelect,
   menuPortalTarget,
@@ -17,6 +18,7 @@ const ApexSelectRS = ({
 
   return (
     <Select
+      value={valueOption}
       options={dataOptions}
       styles={RSStyles}
       onChange={handleSelect}

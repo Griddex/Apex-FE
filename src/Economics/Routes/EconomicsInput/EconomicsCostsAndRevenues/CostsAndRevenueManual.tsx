@@ -21,6 +21,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -166,10 +167,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["bopd", "Mbopd"];
+          const oilRate = row.oilRate as string;
+          const valueOption = generateSelectOptions([oilRate])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "oilRate")
@@ -193,10 +197,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["bopd", "Mbopd"];
+          const condensateRate = row.condensateRate as string;
+          const valueOption = generateSelectOptions([condensateRate])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "condensateRate")
@@ -216,10 +223,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["MMScf/d", "MScf/d"];
+          const gasRate = row.gasRate as string;
+          const valueOption = generateSelectOptions([gasRate])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "gasRate")
@@ -239,10 +249,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const seismicCost = row.seismicCost as string;
+          const valueOption = generateSelectOptions([seismicCost])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "seismicCost")
@@ -262,10 +275,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const explApprCost = row.explApprCost as string;
+          const valueOption = generateSelectOptions([explApprCost])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "explApprCost")
@@ -285,10 +301,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const facilitiesCapex = row.facilitiesCapex as string;
+          const valueOption = generateSelectOptions([facilitiesCapex])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "facilitiesCapex")
@@ -308,10 +327,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const tangWellCost = row.tangWellCost as string;
+          const valueOption = generateSelectOptions([tangWellCost])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "tangWellCost")
@@ -331,10 +353,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const intangWellCost = row.intangWellCost as string;
+          const valueOption = generateSelectOptions([intangWellCost])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "intangWellCost")
@@ -354,10 +379,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const abandCost = row.abandCost as string;
+          const valueOption = generateSelectOptions([abandCost])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "abandCost")
@@ -377,10 +405,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const directCost = row.directCost as string;
+          const valueOption = generateSelectOptions([directCost])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "directCost")
@@ -400,10 +431,13 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const cha = row.cha as string;
+          const valueOption = generateSelectOptions([cha])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "cha")
@@ -422,10 +456,13 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
+          const terminalCost = row.terminalCost as string;
+          const valueOption = generateSelectOptions([terminalCost])[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
+                valueOption={valueOption}
                 data={data}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "terminalCost")

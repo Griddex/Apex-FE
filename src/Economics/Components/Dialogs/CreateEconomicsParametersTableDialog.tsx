@@ -15,6 +15,8 @@ import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import EconomicsParametersTitleAndDescription from "../Forms/EconomicsParametersTitleAndDescription";
 import EconomicsParametersTitleAndDescriptionForm from "../Forms/EconomicsParametersTitleAndDescriptionForm";
+import EconomicsParametersTable from "../Parameters/EconomicsParametersTable";
+import { IEconomicsParametersTable } from "../Parameters/IParametersType";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -94,9 +96,18 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const SaveEconomicsParametersInputDeckDialog = (props: DialogStuff) => {
+const CreateEconomicsParametersTableDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList } = props;
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    actionsList,
+    economicsTableData,
+  } = props;
+
+  const economicsTableDataDefined = economicsTableData as IEconomicsParametersTable;
 
   return (
     <Dialog
@@ -115,13 +126,11 @@ const SaveEconomicsParametersInputDeckDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <EconomicsParametersTitleAndDescriptionForm>
-          {(props) => <EconomicsParametersTitleAndDescription {...props} />}
-        </EconomicsParametersTitleAndDescriptionForm>
+        <EconomicsParametersTable {...economicsTableDataDefined} />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default SaveEconomicsParametersInputDeckDialog;
+export default CreateEconomicsParametersTableDialog;

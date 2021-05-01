@@ -26,6 +26,7 @@ import {
 } from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
 import {
   fetchExistingCostsRevenuesHeadersRequestAction,
+  fetchExistingEconomicsDataRequestAction,
   saveCostsRevenuesFailureAction,
   saveCostsRevenuesSuccessAction,
   SAVECOSTSREVENUES_REQUEST,
@@ -64,7 +65,7 @@ function* saveCostsRevenuesSaga(
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
   const {
     costsRevenuesInputDeckTitle,
-    economicsParametersInputDeckDescription,
+    costsRevenuesInputDeckDescription,
   } = yield select((state) => state.economicsReducer);
 
   const { tableData: inputDeck, variableUnits } = yield select(
@@ -81,7 +82,7 @@ function* saveCostsRevenuesSaga(
     projectId,
     forecastId: forecastResultsId,
     title: costsRevenuesInputDeckTitle,
-    description: economicsParametersInputDeckDescription,
+    description: costsRevenuesInputDeckDescription,
     source: forecastResultsId ? "Apex" : "External",
     costRevenues,
     variableUnits,
@@ -118,7 +119,7 @@ function* saveCostsRevenuesSaga(
         costsRevenuesInputDeckTitle
       )
     );
-    yield put(fetchExistingCostsRevenuesHeadersRequestAction());
+    yield put(fetchExistingEconomicsDataRequestAction(projectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveCostsRevenuesFailureAction();

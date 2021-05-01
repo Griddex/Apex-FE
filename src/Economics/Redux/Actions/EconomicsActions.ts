@@ -119,7 +119,7 @@ export const saveCostsRevenuesFailureAction = () => {
   };
 };
 
-export const fetchExistingEconomicsParametersDataRequestAction = () => {
+export const fetchExistingEconomicsParametersHeadersRequestAction = () => {
   return {
     type: FETCHECONOMICSPARAMETERSHEADERS_REQUEST,
   };
@@ -144,9 +144,13 @@ export const fetchExistingEconomicsParametersDataFailureAction = () => {
   };
 };
 
-export const saveEconomicsParametersRequestAction = () => {
+export const saveEconomicsParametersRequestAction = (
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  reducer: ReducersType
+) => {
   return {
     type: SAVEECONOMICSPARAMETERS_REQUEST,
+    payload: { workflowProcess, reducer },
     meta: { showSpinner: true, message: "Saving economics parameters..." },
   };
 };

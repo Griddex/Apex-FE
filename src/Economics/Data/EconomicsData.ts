@@ -75,6 +75,7 @@ export const economicsParameterHeaders = [
   { variableName: "preProd", variableTitle: "G&A Cost (Pre-Prod) " },
   { variableName: "postProd", variableTitle: "G&A Cost (Post-Prod) " },
   { variableName: "CHAOpex", variableTitle: "Var Oil Opex (CHA)" },
+
   {
     variableName: "terminalFee",
     variableTitle: "Var Oil Opex (Terminaling Fee)",
@@ -91,6 +92,10 @@ export const economicsParameterHeaders = [
   { variableName: "inflationRate", variableTitle: "Inflation Rate" },
   { variableName: "recReserves", variableTitle: "Recoverable Reserves" },
   { variableName: "abandCost", variableTitle: "Abandonment Cost" },
+  {
+    variableName: "recoverableReserves",
+    variableTitle: "Recoverable Reserves",
+  },
   {
     variableName: "abandCoostPerBbl",
     variableTitle: "Abandonment Cost per bbl",

@@ -2,10 +2,8 @@ import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
-import faker from "faker";
-import uniqBy from "lodash.uniqby";
 import React from "react";
-import { Column } from "react-data-griddex";
+import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
@@ -16,10 +14,11 @@ import {
   IRawRow,
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { SelectEditor } from "../../../../Application/Components/Table/ReactDataGrid/SelectEditor";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
 
 const useStyles = makeStyles((theme) => ({
   rootEconomicsParametersManual: {
@@ -38,6 +37,9 @@ const EconomicsParametersManual = ({
   const dispatch = useDispatch();
   const theme = useTheme();
 
+  const typeData = ["Single", "Table", "Equation"];
+  const unitData = ["$m", "bopd", "$", "days", "frac", "$/bbl"];
+
   const wc = wrkflwCtgry as IAllWorkflowProcesses["wrkflwCtgry"];
   const wp = wrkflwPrcss as IAllWorkflowProcesses["wrkflwPrcss"];
 
@@ -50,7 +52,7 @@ const EconomicsParametersManual = ({
     extraButtons: () => <div></div>,
   };
 
-  const createRawTableData = (
+  const createInitialRows = (
     numberOfRows: number = economicsParametersAppHeaders.length
   ): TRawTable => {
     const fakeRows = [];
@@ -58,10 +60,10 @@ const EconomicsParametersManual = ({
       const fakeRow = {
         sn: i + 1,
         parameter: economicsParametersAppHeaders[i].variableTitle,
-        type: faker.random.number(100000),
-        value: faker.random.number(100000),
-        unit: faker.random.word(),
-        remark: faker.random.words(),
+        type: "Single",
+        value: "",
+        unit: unitData[0],
+        remark: "",
       };
 
       fakeRows.push(fakeRow);
@@ -69,25 +71,32 @@ const EconomicsParametersManual = ({
     return fakeRows;
   };
 
-  const rawTableData = createRawTableData(economicsParametersAppHeaders.length);
-  const options = rawTableData.map((row: IRawRow, i: number) => ({
-    value: row.unit,
-    label: row.unit,
-  }));
-
-  const uniqueOptions = uniqBy(options, (v) => v.label);
+  const initialRows = createInitialRows(economicsParametersAppHeaders.length);
+  const [rows, setRows] = React.useState(initialRows);
 
   const handleParameterTypeChange = (
-    value: ValueType<ISelectOption, false>,
-    headerName: string
+    row: IRawRow,
+    value: ValueType<ISelectOption, false>
+  ) => {
+    const selectedValue = value && value.label;
+    const selectedType = selectedValue as string;
+
+    const selectedRowSN = row.sn as number;
+    const selectedRow = rows[selectedRowSN - 1];
+
+    rows[selectedRowSN - 1] = {
+      ...selectedRow,
+      type: selectedType,
+    };
+
+    setRows(rows);
+  };
+  const handleParameterUnitChange = (
+    row: IRawRow,
+    value: ValueType<ISelectOption, false>
   ) => {
     const selectedValue = value && value.label;
     const selectedAppUnit = selectedValue as string;
-
-    // setAppHeaderChosenAppUnitObj((prev) => ({
-    //   ...prev,
-    //   [headerName]: selectedAppUnit,
-    // }));
   };
 
   const columns: Column<IRawRow>[] = [
@@ -105,43 +114,85 @@ const EconomicsParametersManual = ({
       ),
       width: 100,
     },
-    { key: "parameter", name: "PARAMETER", editable: false, resizable: true },
+    {
+      key: "parameter",
+      name: "PARAMETER",
+      editable: false,
+      resizable: true,
+      width: 250,
+    },
     {
       key: "type",
       name: "TYPE",
       editable: false,
       resizable: true,
       formatter: ({ row }) => {
-        const data = ["Single", "Multiple", "Equation"];
+        const type = row.type as string;
+        const valueOption = generateSelectOptions([type])[0];
 
         return (
           <ApexSelectRS
-            data={data}
+            valueOption={valueOption}
+            data={typeData}
             handleSelect={(value: ValueType<ISelectOption, false>) =>
-              handleParameterTypeChange(value, row.type as string)
+              handleParameterTypeChange(row, value)
             }
             menuPortalTarget={document.body}
           />
         );
       },
+      width: 150,
     },
-    { key: "value", name: "VALUE", editable: false, resizable: true },
+    {
+      key: "value",
+      name: "VALUE",
+      editable: true,
+      editor: TextEditor,
+      resizable: true,
+      formatter: ({ row }) => {
+        const type = row.type as string;
+
+        if (type === "Table")
+          return (
+            <EconomicsParametersValue
+              valueTitle="Table"
+              row={row}
+              additionalColumnsObj={{ value: "VALUE" }}
+            />
+          );
+        else if (type === "Equation")
+          return (
+            <EconomicsParametersValue
+              valueTitle="Equation"
+              row={row}
+              additionalColumnsObj={{ value: "VALUE" }}
+            />
+          );
+        else return null;
+      },
+      width: 150,
+    },
     {
       key: "unit",
-      name: "Unit",
+      name: "UNIT",
       editable: true,
       resizable: true,
-      editor: (p) => (
-        <SelectEditor
-          value={p.row.year as string}
-          onChange={(value) =>
-            p.onRowChange({ ...p.row, country: value }, true)
-          }
-          options={uniqueOptions}
-          rowHeight={p.rowHeight}
-          menuPortalTarget={p.editorPortalTarget}
-        />
-      ),
+      formatter: ({ row }) => {
+        const unit = row.unit as string;
+        const valueOption = generateSelectOptions([unit])[0];
+
+        return (
+          <ApexSelectRS
+            valueOption={valueOption}
+            data={unitData}
+            handleSelect={(value: ValueType<ISelectOption, false>) =>
+              handleParameterUnitChange(row, value)
+            }
+            menuPortalTarget={document.body}
+          />
+        );
+      },
+      width: 150,
     },
     { key: "remark", name: "REMARK", editable: true, resizable: true },
   ];
@@ -155,7 +206,7 @@ const EconomicsParametersManual = ({
           {({ size }) => (
             <ApexGrid<IRawRow, ITableButtonsProps>
               columns={columns}
-              rows={rawTableData}
+              rows={rows}
               tableButtons={tableButtons}
               size={size}
               adjustTableDimAuto={true}

@@ -161,7 +161,6 @@ const EconomicsCostsRevenuesLanding = () => {
             [true, true],
             [
               unloadDialogsAction,
-              // () => ({ type: "Hello" }),
               () => saveCostsRevenuesRequestAction(wp, reducer),
             ]
           ),

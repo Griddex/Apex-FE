@@ -165,11 +165,6 @@ const ParameterSensitivity = ({
       <div style={{ width: 562, height: 80, marginTop: 2 }}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => {
-            console.log(
-              "Logged output --> ~ file: ParameterSensitivity.tsx ~ line 172 ~ size",
-              size
-            );
-
             return (
               <ApexGrid<IRawRow, ITableButtonsProps>
                 columns={columns}

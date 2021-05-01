@@ -107,7 +107,7 @@ const EconomicsParametersLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: `Existing Costs & Revenue Data`,
+      name: `Existing Economics Parameters Data`,
       description: `Select a pre-exisiting and approved economics parameters data stored in the Apex\u2122 database`,
       icon: (
         <Image
@@ -126,7 +126,9 @@ const EconomicsParametersLanding = () => {
   //CSS using overlap and z-index
 
   //Paying it back
-  const economicsParametersWorkflowFinalAction = () => {
+  const economicsParametersWorkflowFinalAction = (
+    wp: IAllWorkflowProcesses["wrkflwPrcss"]
+  ) => {
     const saveEconomicsParametersInputdeckConfirmation = () => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Save_EconomicsParametersDeck_Confirmation",
@@ -141,7 +143,10 @@ const EconomicsParametersLanding = () => {
           DialogSaveCancelButtons(
             [true, true],
             [true, true],
-            [unloadDialogsAction, saveEconomicsParametersRequestAction]
+            [
+              unloadDialogsAction,
+              () => saveEconomicsParametersRequestAction(wp, reducer),
+            ]
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -200,7 +205,11 @@ const EconomicsParametersLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckExcel"}
-                    finalAction={() => economicsParametersWorkflowFinalAction()}
+                    finalAction={() =>
+                      economicsParametersWorkflowFinalAction(
+                        "economicsParametersDeckExcel"
+                      )
+                    }
                   />
                 ),
                 database: (
@@ -208,7 +217,11 @@ const EconomicsParametersLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckDatabase"}
-                    finalAction={() => economicsParametersWorkflowFinalAction()}
+                    finalAction={() =>
+                      economicsParametersWorkflowFinalAction(
+                        "economicsParametersDeckDatabase"
+                      )
+                    }
                   />
                 ),
                 manual: (
@@ -216,7 +229,11 @@ const EconomicsParametersLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsParametersDeckExcel"}
-                    finalAction={() => economicsParametersWorkflowFinalAction()}
+                    finalAction={() =>
+                      economicsParametersWorkflowFinalAction(
+                        "economicsParametersDeckExcel"
+                      )
+                    }
                   />
                 ),
                 approveddeck: (

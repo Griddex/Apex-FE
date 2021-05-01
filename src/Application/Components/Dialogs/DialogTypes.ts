@@ -1,8 +1,10 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { Column } from "react-data-griddex";
+import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
 import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
+import { IEconomicsParametersTable } from "../../../Economics/Components/Parameters/IParametersType";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
@@ -52,6 +54,7 @@ export interface IApplicationDialogs {
   saveForecastDialog: typeof SaveForecastDialog;
   saveCostsRevenuesInputDeckDialog: typeof SaveCostsRevenuesInputDeckDialog;
   saveEconomicsParametersInputDeckDialog: typeof SaveEconomicsParametersInputDeckDialog;
+  createEconomicsParametersTableDialog: typeof CreateEconomicsParametersTableDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -95,7 +98,8 @@ export interface DialogStuff {
     | "saveForecastingParametersWorkflowDialog"
     | "declineCurveParametersDialog"
     | "saveCostsRevenuesInputDeckDialog"
-    | "saveEconomicsParametersInputDeckDialog";
+    | "saveEconomicsParametersInputDeckDialog"
+    | "createEconomicsParametersTableDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -114,6 +118,7 @@ export interface DialogStuff {
   workflowProcess?: IAllWorkflowProcesses["wrkflwPrcss"];
   workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];
   reducer?: ReducersType;
+  economicsTableData?: IEconomicsParametersTable;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

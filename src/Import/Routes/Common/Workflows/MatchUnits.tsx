@@ -528,7 +528,6 @@ export default function MatchUnits({
         name: "TYPE",
         resizable: true,
         formatter: ({ row }) => {
-          const rowSN = row.sn as number;
           const type = row.type as string;
           const typeOptions = generateSelectOptions(["Single", "Multiple"]);
           const valueOption = generateSelectOptions([type])[0];
