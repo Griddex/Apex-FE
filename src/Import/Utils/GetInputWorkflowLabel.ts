@@ -27,6 +27,7 @@ export const getInputWorkflowlabel: {
   economicsParametersDeckDatabase: "Economics Data",
   economicsParametersDeckManual: "Economics Data",
   economicsParametersDeckExisting: "Economics Data",
+  economicsSensitivitiesExisting: "Economics Data",
 };
 
 export const getExistingWorkflowlabel: {
@@ -41,5 +42,6 @@ export const getExistingWorkflowlabel: {
   networkExisting: "Existing Network Data",
   economicsCostsRevenuesDeckExisting: "Economics Data",
   economicsParametersDeckExisting: "Economics Data",
+  economicsSensitivitiesExisting: "Economics Data",
   economicsResultsExisting: "Economics Data",
 };

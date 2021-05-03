@@ -4,6 +4,7 @@ import React from "react";
 import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 import clsx from "clsx";
 import { Grid } from "@material-ui/core";
+import CenteredStyle from "../Styles/CenteredStyle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -60,23 +61,9 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
 
   if (hasLabels)
     return (
-      <Switch
-        name={name}
-        classes={{
-          root: classes.root,
-          switchBase: classes.switchBase,
-          thumb: classes.thumb,
-          track: classes.track,
-        }}
-        checked={checked}
-        onChange={handleChange}
-      />
-    );
-  else
-    return (
-      <Grid component="label" container alignItems="center" spacing={1}>
-        {leftLabel && <Grid item>Off</Grid>}
-        <Grid item>
+      <CenteredStyle justifyContent="flex-start" width={"95%"} height={30}>
+        {leftLabel && <Grid item>{leftLabel}</Grid>}
+        <Grid item style={{ marginLeft: 5, marginRight: 5 }}>
           <Switch
             name={name}
             classes={{
@@ -89,7 +76,21 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
             onChange={handleChange}
           />
         </Grid>
-        {rightLabel && <Grid item>On</Grid>}
-      </Grid>
+        {rightLabel && <Grid item>{rightLabel}</Grid>}
+      </CenteredStyle>
+    );
+  else
+    return (
+      <Switch
+        name={name}
+        classes={{
+          root: classes.root,
+          switchBase: classes.switchBase,
+          thumb: classes.thumb,
+          track: classes.track,
+        }}
+        checked={checked}
+        onChange={handleChange}
+      />
     );
 }

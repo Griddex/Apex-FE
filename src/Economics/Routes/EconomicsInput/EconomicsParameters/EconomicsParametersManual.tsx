@@ -138,6 +138,7 @@ const EconomicsParametersManual = ({
               handleParameterTypeChange(row, value)
             }
             menuPortalTarget={document.body}
+            isSelectOptionType={false}
           />
         );
       },
@@ -189,6 +190,7 @@ const EconomicsParametersManual = ({
               handleParameterUnitChange(row, value)
             }
             menuPortalTarget={document.body}
+            isSelectOptionType={false}
           />
         );
       },

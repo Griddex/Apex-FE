@@ -23,4 +23,5 @@ export interface IWorkflowState {
   inputDataWorkflows: Record<string, IWorkflowProcessState>;
   networkDataWorkflows: Record<string, IWorkflowProcessState>;
   economicsDataWorkflows: Record<string, IWorkflowProcessState>;
+  economicsAnalysisWorkflows: Record<string, IWorkflowProcessState>;
 }

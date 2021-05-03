@@ -1,5 +1,6 @@
 import {
   IAllWorkflowProcesses,
+  IEconomicsWorkflowProcess,
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 
@@ -41,11 +42,14 @@ export const FETCHECONOMICSPARAMETERSHEADERS_FAILURE =
 export const EXISTINGECONOMICSDATA_REQUEST = "EXISTINGECONOMICSDATA_REQUEST";
 export const EXISTINGECONOMICSDATA_SUCCESS = "EXISTINGECONOMICSDATA_SUCCESS";
 export const EXISTINGECONOMICSDATA_FAILURE = "EXISTINGECONOMICSDATA_FAILURE";
+export const SAVEECONOMICSSENSITIVITIES_REQUEST =
+  "SAVEECONOMICSSENSITIVITIES_REQUEST";
+export const SAVEECONOMICSSENSITIVITIES_SUCCESS =
+  "SAVEECONOMICSSENSITIVITIES_SUCCESS";
+export const SAVEECONOMICSSENSITIVITIES_FAILURE =
+  "SAVEECONOMICSSENSITIVITIES_FAILURE";
 
-export const updateEconomicsParameterAction = (
-  path: string,
-  value: React.Key | boolean
-) => {
+export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_ECONOMICS,
     payload: {
@@ -192,6 +196,36 @@ export const fetchExistingEconomicsDataSuccessAction = () => {
 export const fetchExistingEconomicsDataFailureAction = () => {
   return {
     type: EXISTINGECONOMICSDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const saveEconomicsSensitivitiesRequestAction = (
+  workflowProcess: IEconomicsWorkflowProcess["wkPs"],
+  reducer: ReducersType
+) => {
+  return {
+    type: SAVEECONOMICSSENSITIVITIES_REQUEST,
+    payload: { workflowProcess, reducer },
+    meta: { showSpinner: true, message: "Saving economics sensitivities..." },
+  };
+};
+
+export const saveEconomicsSensitivitiesSuccessAction = () => {
+  return {
+    type: SAVEECONOMICSSENSITIVITIES_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const saveEconomicsSensitivitiesFailureAction = () => {
+  return {
+    type: SAVEECONOMICSSENSITIVITIES_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

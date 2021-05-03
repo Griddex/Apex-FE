@@ -21,7 +21,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import AddSerialNumberToTable from "../../../../Application/Utils/AddSerialNumberToTable";
+import addSerialNumberToTable from "../../../../Application/Utils/AddSerialNumberToTable";
 import cleanTableData from "../../../../Application/Utils/CleanTableData";
 import generateColumnNameInfo from "../../../../Application/Utils/GenerateColumnNameInfo";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
@@ -117,7 +117,7 @@ export default function SelectHeaderUnitData({
     role: tableRoleNames[i],
     ...row,
   }));
-  const initialTableRows = AddSerialNumberToTable(roleNameTableRows);
+  const initialTableRows = addSerialNumberToTable(roleNameTableRows);
 
   const tableRows = React.useRef<TRawTable>(initialTableRows);
   const [, setRerender] = React.useState(false);

@@ -1,3 +1,5 @@
+import { NumberInputTranslationKey } from "carbon-components-react";
+import { NumberInput } from "carbon-components-react/lib/components/NumberInput";
 import { Column } from "react-data-griddex";
 import { ITableButtonsProps } from "../TableButtonsTypes";
 
@@ -45,6 +47,7 @@ export interface IApexGrid<R, O> {
   showTableHeader?: boolean;
   showTablePagination?: boolean;
   adjustTableDimAuto?: boolean;
+  staticTableHeight?: number;
 }
 
 export interface ITableMetaData<R> {

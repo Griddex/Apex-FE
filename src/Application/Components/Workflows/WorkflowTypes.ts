@@ -42,6 +42,7 @@ export interface IInputWorkflowProcess {
     | "economicsParametersDeckExcel"
     | "economicsParametersDeckDatabase"
     | "economicsParametersDeckManual"
+    | "economicsSensitivitiesExisting"
     | "economicsParametersDeckExisting";
   wkCy: "inputDataWorkflows";
 }
@@ -57,9 +58,16 @@ export interface IEconomicsWorkflowProcess {
     | "economicsAnalyses"
     | "economicsParameterImportWorkflow"
     | "economicsParameters"
-    | "netCashAnalysisWorkflow"
-    | "economicsResultsExisting";
-  wkCy: "economicsDataWorkflows";
+    | "economicsResultsExisting"
+    | "netcashFlow"
+    | "payout"
+    | "minimumCapitalRatio"
+    | "netpresentvalue"
+    | "presentValueRatio"
+    | "unitTechnicalCost"
+    | "internalRateOfReturn"
+    | "mulitpleAnalyses";
+  wkCy: "economicsDataWorkflows" | "economicsAnalysisWorkflows";
 }
 
 export type ReducersType = keyof {

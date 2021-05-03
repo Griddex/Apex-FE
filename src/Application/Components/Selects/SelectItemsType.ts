@@ -27,8 +27,9 @@ export interface IApexSelect {
 
 export interface IApexSelectRS {
   valueOption: ISelectOption;
-  data: string[];
+  data: string[] | ISelectOption[];
   handleSelect: (value: ValueType<ISelectOption, false>) => void;
   RSStyles?: Styles<ISelectOption, false>;
   menuPortalTarget: HTMLElement;
+  isSelectOptionType: boolean;
 }

@@ -1,27 +1,27 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
-import { ValueType } from "react-select";
-import Select from "react-select";
+import { useDispatch } from "react-redux";
+import Select, { ValueType } from "react-select";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import getRSTheme from "../../../../Application/Utils/GetRSTheme";
-import {
-  IEconomicsParametersSensitivites,
-  TEconomicsAnalyses,
-} from "../EconomicsAnalysesTypes";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
-import ParameterSensitivity from "./ParameterSensitivity";
+import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import {
   economicsParameterHeaders,
   getVariableTitlesNamesObj,
 } from "../../../Data/EconomicsData";
-import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import { IEconomicsParametersSensitivitiesProps } from "../EconomicsAnalysesTypes";
+import ParameterSensitivity from "./ParameterSensitivity";
 
 const EconomicsParametersSensitivities = ({
+  workflowProcess,
   economicsAnalyses,
-}: IEconomicsParametersSensitivites) => {
+}: IEconomicsParametersSensitivitiesProps) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const wc = "economicsAnalysisWorkflows";
 
   const variableTitlesNamesObj = getVariableTitlesNamesObj();
   const targetVariableNames = economicsAnalyses.map((e) => e.name);
@@ -63,7 +63,11 @@ const EconomicsParametersSensitivities = ({
   ] = React.useState(initialSensitivitiesObjRef.current);
 
   return (
-    <CenteredStyle flexDirection="column" justifyContent="space-around">
+    <CenteredStyle
+      flexDirection="column"
+      justifyContent="space-around"
+      height={700}
+    >
       <AnalyticsComp
         title="Target Variable"
         direction="Vertical"

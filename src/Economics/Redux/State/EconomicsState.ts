@@ -1,3 +1,8 @@
+import {
+  TEconomicsAnalysisWorkflows,
+  IEconomicsAnalysis,
+  TEconomicsAnalysesNames,
+} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { EconomicsStateType, IEconomicsState } from "./EconomicsStateTypes";
 
 const inputWorkflowProcesses = [
@@ -11,6 +16,8 @@ const inputWorkflowProcesses = [
   "economicsParametersDeckDatabase",
   "economicsParametersDeckManual",
   "economicsParametersDeckExisting",
+
+  "economicsSensitivitiesExisting",
 
   "economicsResultsExisting",
 ];
@@ -78,6 +85,7 @@ const generateEconomicsState = () => {
 const existingWorkflowProcesses = [
   "economicsCostsRevenuesDeckExisting",
   "economicsParametersDeckExisting",
+  "economicsSensitivitiesExisting",
   "economicsResultsExisting",
 ];
 const generateExistingDataState = () => {
@@ -89,8 +97,28 @@ const generateExistingDataState = () => {
   }, {});
 };
 
+const analysesWorkflowProcesses = [
+  "netcashFlow",
+  "payout",
+  "minimumCapitalRatio",
+  "netpresentvalue",
+  "presentValueRatio",
+  "unitTechnicalCost",
+  "internalRateOfReturn",
+  "mulitpleAnalyses",
+];
+const generateAnalysesState = () => {
+  return analysesWorkflowProcesses.reduce((acc, workflowProcess) => {
+    return {
+      ...acc,
+      [workflowProcess]: {},
+    };
+  }, {}) as Record<TEconomicsAnalysesNames, IEconomicsAnalysis>;
+};
+
 const inputDataState = generateEconomicsState();
 const existingDataState = generateExistingDataState();
+const analysesDataState = generateAnalysesState();
 const EconomicsState: EconomicsStateType = {
   //Remove from here
   forecastRun: "",
@@ -117,11 +145,18 @@ const EconomicsState: EconomicsStateType = {
   selectedEconomicsResultsId: "",
   selectedEconomicsResultsTitle: "",
 
+  economicsSensitivitiesId: "",
+  economicsSensitivitiesTitle: "",
+  economicsSensitivitiesDescription: "",
+  selectedEconomicsSensitivitiesId: "",
+  selectedEconomicsSensitivitiesTitle: "",
+
   noneColumnIndices: {},
   fileHeadersChosenAppHeadersWithNone: [],
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
+  economicsAnalysisWorkflows: analysesDataState,
 };
 
 export default EconomicsState;

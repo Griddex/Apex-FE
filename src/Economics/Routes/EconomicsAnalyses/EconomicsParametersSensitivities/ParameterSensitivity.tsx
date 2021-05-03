@@ -175,6 +175,7 @@ const ParameterSensitivity = ({
                 adjustTableDimAuto={false}
                 showTableHeader={false}
                 showTablePagination={false}
+                staticTableHeight={77}
               />
             );
           }}

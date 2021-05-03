@@ -2,9 +2,13 @@ import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { Column } from "react-data-griddex";
 import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
 import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
+import EconomicsParametersSensitivitiesDialog from "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog";
+import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog";
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
+import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
 import { IEconomicsParametersTable } from "../../../Economics/Components/Parameters/IParametersType";
+import { TEconomicsAnalyses } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
@@ -55,6 +59,9 @@ export interface IApplicationDialogs {
   saveCostsRevenuesInputDeckDialog: typeof SaveCostsRevenuesInputDeckDialog;
   saveEconomicsParametersInputDeckDialog: typeof SaveEconomicsParametersInputDeckDialog;
   createEconomicsParametersTableDialog: typeof CreateEconomicsParametersTableDialog;
+  economicsParametersSensitivitiesDialog: typeof EconomicsParametersSensitivitiesDialog;
+  saveEconomicsSensitivitiesDialog: typeof SaveEconomicsSensitivitiesDialog;
+  existingEconomicsSensitivitiesDialog: typeof ExistingEconomicsSensitivitiesDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -99,7 +106,10 @@ export interface DialogStuff {
     | "declineCurveParametersDialog"
     | "saveCostsRevenuesInputDeckDialog"
     | "saveEconomicsParametersInputDeckDialog"
-    | "createEconomicsParametersTableDialog";
+    | "createEconomicsParametersTableDialog"
+    | "economicsParametersSensitivitiesDialog"
+    | "saveEconomicsSensitivitiesDialog"
+    | "existingEconomicsSensitivitiesDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -119,6 +129,7 @@ export interface DialogStuff {
   workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];
   reducer?: ReducersType;
   economicsTableData?: IEconomicsParametersTable;
+  economicsAnalyses?: TEconomicsAnalyses;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   tableHeightStyle: {
     height: (props: any) => {
       if (props.adjustTableDimAuto) return `calc(100% - 70px)`;
-      else return 77; //Chosen for best fit
+      else return props.staticTableHeight; //Chosen for best fit
     },
   },
 }));

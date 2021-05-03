@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 
 const useStyles = makeStyles((theme) => ({
   analyticsContainer: {
@@ -38,21 +39,27 @@ export interface IAnalyticsTitleProps {
   title: string;
   text: string;
   direction: "Vertical" | "Horizontal";
+  containerStyle?: CSSProperties;
+  textStyle?: CSSProperties;
 }
 
 const AnalyticsText: React.FC<IAnalyticsTitleProps> = (props) => {
   const classes = useStyles(props);
-  const { title, text } = props;
+  const { title, text, textStyle, containerStyle } = props;
 
   const flexStyle = (): React.CSSProperties => {
     if (props.direction === "Horizontal") return { flexDirection: "row" };
     else return { flexDirection: "column" };
   };
 
+  const finalStyle = { ...flexStyle(), ...containerStyle };
+
   return (
-    <div className={classes.analyticsContainer} style={flexStyle()}>
+    <div className={classes.analyticsContainer} style={finalStyle}>
       <Typography className={classes.analyticsText}>{title}</Typography>
-      <Typography className={classes.textContainer}>{text}</Typography>
+      <Typography className={classes.textContainer} style={textStyle}>
+        {text}
+      </Typography>
     </div>
   );
 };

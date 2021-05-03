@@ -35,6 +35,7 @@ export interface IExistingDataProps {
     | "productionInputDataExisting"
     | "economicsCostsRevenuesDeckExisting"
     | "economicsParametersDeckExisting"
+    | "economicsSensitivitiesExisting"
     | "networkExisting"
     | "forecastResultsData"
     | "forecastResultsVisualytics"
@@ -83,3 +84,10 @@ export interface ILandingData {
     | IAllWorkflowProcesses["wrkflwCtgry"]
     | IExistingDataProps["wkCy"];
 }
+
+export interface IVariableNameTitle {
+  variableName: string;
+  variableTitle: string;
+}
+
+export type TVariableNameTitleData = IVariableNameTitle[];

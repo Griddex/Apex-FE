@@ -179,6 +179,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "oilRate")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.oilRate}</div>;
@@ -209,6 +210,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "condensateRate")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.oilRate}</div>;
@@ -235,6 +237,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "gasRate")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.gasRate}</div>;
@@ -261,6 +264,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "seismicCost")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.seismicCost}</div>;
@@ -287,6 +291,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "explApprCost")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.explApprCost}</div>;
@@ -313,6 +318,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "facilitiesCapex")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.facilitiesCapex}</div>;
@@ -339,6 +345,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "tangWellCost")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.tangWellCost}</div>;
@@ -365,6 +372,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "intangWellCost")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.intangWellCost}</div>;
@@ -391,6 +399,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "abandCost")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.abandCost}</div>;
@@ -417,6 +426,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "directCost")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.directCost}</div>;
@@ -443,6 +453,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "cha")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.cha}</div>;
@@ -468,6 +479,7 @@ export default function CostsAndRevenueManual({
                   handleApplicationUnitChange(value, "terminalCost")
                 }
                 menuPortalTarget={document.body}
+                isSelectOptionType={false}
               />
             );
           else return <div> {row.terminalCost}</div>;

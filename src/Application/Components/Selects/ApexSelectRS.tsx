@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import { IApexSelectRS } from "./SelectItemsType";
+import { IApexSelectRS, ISelectOption } from "./SelectItemsType";
 import getRSStyles from "../../Utils/GetRSStyles";
 import { useTheme } from "@material-ui/core";
 import generateSelectOptions from "../../Utils/GenerateSelectOptions";
@@ -11,10 +11,16 @@ const ApexSelectRS = ({
   data,
   handleSelect,
   menuPortalTarget,
+  isSelectOptionType,
+  ...rest
 }: IApexSelectRS) => {
   const theme = useTheme();
   const RSStyles = getRSStyles(theme);
-  const dataOptions = generateSelectOptions(data);
+
+  let dataOptions: ISelectOption[];
+
+  if (isSelectOptionType) dataOptions = data as ISelectOption[];
+  else dataOptions = generateSelectOptions(data);
 
   return (
     <Select
@@ -24,6 +30,7 @@ const ApexSelectRS = ({
       onChange={handleSelect}
       menuPortalTarget={menuPortalTarget}
       theme={(thm) => getRSTheme(thm, theme)}
+      {...rest}
     />
   );
 };

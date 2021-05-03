@@ -23,13 +23,23 @@ import { IEconomicsParametersTable } from "./IParametersType";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import omit from "lodash.omit";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
+import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
+import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
+import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { useSelector } from "react-redux";
+import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
+import { TVariableNameTitleData } from "../../../Application/Types/ApplicationTypes";
+import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
 
 const useStyles = makeStyles((theme) => ({
-  rootEconomicsParametersTable: {
+  economicsParametersTable: {
     display: "flex",
     flexDirection: "column",
     width: "95%",
     height: "90%",
+    marginTop: 40,
   },
 }));
 
@@ -39,6 +49,17 @@ const EconomicsParametersTable = ({
 }: IEconomicsParametersTable) => {
   const classes = useStyles();
   const theme = useTheme();
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const reducer = "economicsReducer";
+
+  const {
+    costsRevenuesAppHeaders,
+    economicsParametersAppHeaders,
+  } = useSelector((state: RootState) => state[reducer]);
+  console.log(
+    "Logged output --> ~ file: EconomicsParametersTable.tsx ~ line 55 ~ costsRevenuesAppHeaders",
+    costsRevenuesAppHeaders
+  );
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
@@ -132,19 +153,6 @@ const EconomicsParametersTable = ({
   }));
   const columns: Column<IRawRow>[] = [
     { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
-    // {
-    //   key: "actions",
-    //   name: "ACTIONS",
-    //   editable: false,
-    //   formatter: ({ row }) => (
-    //     <div>
-    //       <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-    //       <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-    //       <LaunchOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-    //     </div>
-    //   ),
-    //   width: 100,
-    // },
     {
       key: "from",
       name: "FROM",
@@ -164,24 +172,75 @@ const EconomicsParametersTable = ({
     ...additionalColumns,
   ];
 
+  const dataOptions = swapVariableNameTitleForISelectOption(
+    costsRevenuesAppHeaders as TVariableNameTitleData
+  );
+  const valueOption = dataOptions[0];
+
+  const handleBasedOnVariableChange = (
+    value: ValueType<ISelectOption, false>,
+    headerName: string
+  ) => {
+    const selectedValue = value && value.label;
+    const selectedAppUnit = selectedValue as string;
+
+    // setAppHeaderChosenAppUnitObj((prev) => ({
+    //   ...prev,
+    //   [headerName]: selectedAppUnit,
+    // }));
+  };
+
   return (
-    <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-      <div className={classes.rootEconomicsParametersTable}>
-        <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid<IRawRow, ITableButtonsProps>
-              columns={columns}
-              rows={rows}
-              tableButtons={tableButtons}
-              size={size}
-              adjustTableDimAuto={true}
-              showTableHeader={true}
-              showTablePagination={true}
+    <CenteredStyle ref={rootRef} flexDirection="column" alignItems="flex-start">
+      <CenteredStyle
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        height={60}
+      >
+        <AnalyticsText
+          title="Current Variable"
+          text={row.parameter as string}
+          direction="Vertical"
+          containerStyle={{ alignItems: "flex-start" }}
+          textStyle={{ color: theme.palette.primary.main, fontWeight: "bold" }}
+        />
+        <AnalyticsComp
+          title="Select Base Variable"
+          direction="Vertical"
+          content={
+            <ApexSelectRS
+              valueOption={valueOption}
+              data={dataOptions}
+              handleSelect={(value: ValueType<ISelectOption, false>) =>
+                handleBasedOnVariableChange(value, "oilRate")
+              }
+              menuPortalTarget={rootRef.current as HTMLDivElement}
+              isSelectOptionType={true}
             />
-          )}
-        </SizeMe>
-      </div>
-    </ClickAwayListener>
+          }
+          containerStyle={{ width: 400 }}
+        />
+      </CenteredStyle>
+      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+        <div className={classes.economicsParametersTable}>
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => (
+              <ApexGrid<IRawRow, ITableButtonsProps>
+                columns={columns}
+                rows={rows}
+                onRowsChange={setRows}
+                tableButtons={tableButtons}
+                size={size}
+                adjustTableDimAuto={true}
+                showTableHeader={true}
+                showTablePagination={true}
+              />
+            )}
+          </SizeMe>
+        </div>
+      </ClickAwayListener>
+    </CenteredStyle>
   );
 };
 

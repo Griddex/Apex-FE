@@ -156,7 +156,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Application/Theme/Theme.ts](/src/Application/Theme/Theme.ts) | TypeScript | 128 | 63 | 11 | 202 |
 | [src/Application/Types/ApplicationTypes.ts](/src/Application/Types/ApplicationTypes.ts) | TypeScript | 44 | 1 | 4 | 49 |
 | [src/Application/Utils/AddSerialNumberToActualTable.js](/src/Application/Utils/AddSerialNumberToActualTable.js) | JavaScript | 10 | 0 | 3 | 13 |
-| [src/Application/Utils/AddSerialNumberToTable.js](/src/Application/Utils/AddSerialNumberToTable.js) | JavaScript | 5 | 0 | 3 | 8 |
+| [src/Application/Utils/addSerialNumberToTable.js](/src/Application/Utils/addSerialNumberToTable.js) | JavaScript | 5 | 0 | 3 | 8 |
 | [src/Application/Utils/CircularArray.js](/src/Application/Utils/CircularArray.js) | JavaScript | 19 | 0 | 4 | 23 |
 | [src/Application/Utils/CleanTableData.js](/src/Application/Utils/CleanTableData.js) | JavaScript | 11 | 2 | 5 | 18 |
 | [src/Application/Utils/ComposeRefs.js](/src/Application/Utils/ComposeRefs.js) | JavaScript | 15 | 0 | 4 | 19 |

@@ -1,95 +1,50 @@
-import {
-  Button,
-  FormControlLabel,
-  makeStyles,
-  Radio,
-  RadioGroup,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
-import AccountBalanceTwoToneIcon from "@material-ui/icons/AccountBalanceTwoTone";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
+import { Button, makeStyles, Typography, useTheme } from "@material-ui/core";
+import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
+import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React from "react";
-import { Column } from "react-data-griddex";
-import { useDispatch, useSelector } from "react-redux";
-import Select, { Styles, ValueType } from "react-select";
-import { SizeMe } from "react-sizeme";
+import { useDispatch } from "react-redux";
+import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
-import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
-import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
-import getRSStyles from "../../../Application/Utils/GetRSStyles";
-import getRSTheme from "../../../Application/Utils/GetRSTheme";
+import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import {
-  IEconomicsParametersSensitivites,
-  TEconomicsAnalysesTitles,
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
+import { developmentScenarios } from "../../Data/EconomicsData";
+import {
+  saveEconomicsSensitivitiesRequestAction,
+  updateEconomicsParameterAction,
+} from "../../Redux/Actions/EconomicsActions";
+import swapVariableNameTitleForISelectOption from "./../../../Application/Utils/SwapVariableNameTitleForISelectOption";
+import {
+  IEconomicsAnalysis,
+  IEconomicsParametersSensitivitiesProps,
+  TEconomicsAnalysesNames,
 } from "./EconomicsAnalysesTypes";
-import EconomicsParametersSensitivities from "./EconomicsParametersSensitivities/EconomicsParametersSensitivities";
-import LockTwoToneIcon from "@material-ui/icons/LockTwoTone";
-import LockOpenTwoToneIcon from "@material-ui/icons/LockOpenTwoTone";
+import EconomicsDecksSelectionTable from "./EconomicsDecksSelectionTable";
+import EconomicsSensitivitiesTable from "./EconomicsParametersSensitivities/EconomicsSensitivitiesTable";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-    height: "100%",
-    padding: 0,
-  },
   npvImage: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
-    width: 150,
-    height: 100,
+    width: 200,
+    height: 90,
     padding: 5,
     border: "1px solid #A8A8A8",
   },
-  selectItem: { minWidth: 250, marginRight: 20 },
   button: {
     color: theme.palette.primary.main,
     border: `2px solid ${theme.palette.primary.main}`,
     fontWeight: "bold",
-  },
-  parameterSensitivity: {
-    display: "flex",
-    flexDirection: "row",
-    //   justifyContent: "flex-start",
-    //   alignItems: "center",
-  },
-  parameterSensitivityList: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-    "& div:first-child": {
-      height: "auto",
-    },
-    "& div:nth-child(2)": {
-      height: "auto",
-    },
-    marginTop: 20,
-  },
-  parameterSensitivityContainer: {
-    display: "flex",
-    flexDirection: "column",
-    width: 600,
-    height: "60%",
-    alignItems: "center",
-    overflow: "auto",
-    marginTop: 20,
-    border: "1px solid #F7F7F7",
-    backgroundColor: "#F7F7F7",
-    padding: 20,
   },
   primaryButton: {
     color: theme.palette.primary.main,
@@ -108,61 +63,91 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface IParameterGrid {
-  rowCount: number;
-}
-
 const EconomicsAnalysis = ({
-  economicsAnalyses,
-}: IEconomicsParametersSensitivites) => {
+  workflowProcess,
+  selectedAnalysis,
+}: IEconomicsParametersSensitivitiesProps) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const wc = "existingDataWorkflows";
+  const wc = "economicsAnalysisWorkflows";
+  const wp = workflowProcess as NonNullable<
+    IEconomicsParametersSensitivitiesProps["workflowProcess"]
+  >;
+  const reducer = "economicsReducer";
 
   const {
-    economicsCostsRevenuesDeckExisting,
-    economicsParametersDeckExisting,
-  } = useSelector((state: RootState) => state.economicsReducer[wc]);
+    name,
+    title,
+    icon,
+  } = selectedAnalysis as NonNullable<IEconomicsAnalysis>;
 
-  const {
-    selectedCostsRevenuesInputDeckTitle,
-    selectedEconomicsParametersInputDeckTitle,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  const targetVariable = selectedAnalysis?.sensitivities?.targetVariable;
+  const targetVariableDefined = targetVariable as TEconomicsAnalysesNames;
 
-  //TODO: Candidate for memoization
-  const economicsCostsRevenuesDeckTitles = economicsCostsRevenuesDeckExisting.map(
-    (t: IApplicationExistingDataRow) => t.title
+  //TODO: filter devoptions based on costs/revenue data input
+  //Send all filtered dev options to backend
+  const devOptions = swapVariableNameTitleForISelectOption(
+    developmentScenarios
   );
-  const economicsParametersDeckTitles = economicsParametersDeckExisting.map(
-    (t: IApplicationExistingDataRow) => t.title
-  );
-  const costRevDeckTitle = selectedCostsRevenuesInputDeckTitle
-    ? selectedCostsRevenuesInputDeckTitle
-    : economicsCostsRevenuesDeckTitles;
-  const ecoParDeckTitle = selectedEconomicsParametersInputDeckTitle
-    ? selectedEconomicsParametersInputDeckTitle
-    : economicsParametersDeckTitles[0];
+  const devValueOption = devOptions[0];
 
-  type obj = {
-    analysisIcon: JSX.Element;
-    analysisTitle: string;
-    targetVariables: TEconomicsAnalysesTitles | TEconomicsAnalysesTitles[];
+  const [analysisPerspective, setAnalysisPerspective] = React.useState(false);
+  const handleExcludeSwitchChange = (event: React.ChangeEvent<any>) => {
+    const { checked } = event.target;
+
+    setAnalysisPerspective(checked);
   };
 
-  const valueOptionCR = generateSelectOptions([costRevDeckTitle])[0];
-  const economicsCostsRevenuesOptions = generateSelectOptions(
-    economicsCostsRevenuesDeckTitles
-  );
-  const valueOptionEP = generateSelectOptions([ecoParDeckTitle])[0];
-  const economicsParametersOptions = generateSelectOptions(
-    economicsParametersDeckTitles
-  );
-  const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
+  const createSensitivities = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Create_Economics_Sensitivities_Dialog",
+      title: "Create Economics Sensitivities",
+      type: "economicsParametersSensitivitiesDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+      workflowProcess,
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () => saveEconomicsSensitivitiesRequestAction(wp, reducer),
+          ]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
 
-  const [analysisPerspective, setAnalysisPerspective] = React.useState(
-    "noSensitivity"
-  );
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const loadSensitivities = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Create_Economics_Sensitivities_Dialog",
+      title: "Create Economics Sensitivities",
+      type: "existingEconomicsSensitivitiesDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+      workflowProcess,
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () => saveEconomicsSensitivitiesRequestAction(wp, reducer),
+          ]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   return (
     <CenteredStyle
@@ -170,90 +155,75 @@ const EconomicsAnalysis = ({
       justifyContent="space-around"
       height={"95%"}
     >
-      <CenteredStyle justifyContent="space-between" width={"80%"} height={50}>
-        <AnalyticsComp
-          title="Select Costs and Revenue Deck"
-          direction="Vertical"
-          content={
-            <Select<ISelectOption, false>
-              value={valueOptionCR}
-              options={economicsCostsRevenuesOptions}
-              styles={RSStyles}
-              onChange={(value: ValueType<ISelectOption, false>) => {
-                const selectedeCR = economicsCostsRevenuesDeckExisting.filter(
-                  (row: IApplicationExistingDataRow) =>
-                    row.title === value?.label
-                );
-                const { id, title } = selectedeCR;
+      <div className={classes.npvImage}>
+        <div style={{ width: 40, height: 40 }}>{icon}</div>
+        <Typography>{title}</Typography>
+      </div>
 
-                persistSelectedIdTitleAction &&
-                  dispatch(
-                    persistSelectedIdTitleAction("economicsReducer", {
-                      selectedCostsRevenuesInputDeckId: id,
-                      selectedCostsRevenuesInputDeckTitle: title,
-                    })
-                  );
-              }}
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-            />
-          }
-        />
-        <AnalyticsComp
-          title="Select Economics Parameters Deck"
-          direction="Vertical"
-          content={
-            <Select<ISelectOption, false>
-              value={valueOptionEP}
-              options={economicsParametersOptions}
-              styles={RSStyles}
-              onChange={(value: ValueType<ISelectOption, false>) => {
-                const selectedeP = economicsParametersDeckExisting.filter(
-                  (row: IApplicationExistingDataRow) =>
-                    row.title === value?.label
-                );
-                const { id, title } = selectedeP;
+      <EconomicsDecksSelectionTable />
 
-                persistSelectedIdTitleAction &&
-                  dispatch(
-                    persistSelectedIdTitleAction("economicsReducer", {
-                      selectedEconomicsParametersInputDeckId: id,
-                      selectedEconomicsParametersInputDeckTitle: title,
-                    })
-                  );
-              }}
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-            />
-          }
+      <AnalyticsComp
+        title="Development Scenario"
+        direction="Vertical"
+        containerStyle={{ width: 250 }}
+        content={
+          <ApexSelectRS
+            valueOption={devValueOption}
+            data={devOptions}
+            handleSelect={(row: ValueType<ISelectOption, false>) => {
+              const path = `economicsAnalysisWorkflows.${name}.devScenario`;
+              const value = row?.value as string;
+              dispatch(updateEconomicsParameterAction(path, value));
+            }}
+            menuPortalTarget={document.body}
+            isSelectOptionType={false}
+          />
+        }
+      />
+
+      <CenteredStyle justifyContent="space-between" width={"95%"}>
+        <ApexMuiSwitch
+          name="sensitivitiesSwitch"
+          handleChange={handleExcludeSwitchChange}
+          checked={analysisPerspective}
+          checkedColor={theme.palette.success.main}
+          notCheckedColor={theme.palette.common.white}
+          hasLabels={true}
+          leftLabel="No Sensitivities Input"
+          rightLabel="Sensitivities input"
         />
+        <CenteredStyle width={"100%"}>
+          {analysisPerspective && (
+            <Button
+              className={classes.button}
+              startIcon={<AddBoxTwoToneIcon />}
+              onClick={createSensitivities}
+            >
+              Create
+            </Button>
+          )}
+          {analysisPerspective && (
+            <Button
+              className={classes.button}
+              startIcon={<HourglassFullTwoToneIcon />}
+              onClick={loadSensitivities}
+            >
+              Load
+            </Button>
+          )}
+        </CenteredStyle>
       </CenteredStyle>
 
-      <RadioGroup
-        value={analysisPerspective}
-        onChange={(event: React.ChangeEvent<any>) => {
-          const { value } = event.target;
-
-          setAnalysisPerspective(value);
+      <div
+        style={{
+          height: 200,
+          width: "95%",
+          overflow: "auto",
+          border: `1px solid ${theme.palette.grey[400]}`,
         }}
-        style={{ flexDirection: "row" }}
       >
-        <FormControlLabel
-          value="noSensitivity"
-          control={<Radio />}
-          label="No Sensitivity Analysis"
-        />
-        <FormControlLabel
-          value="sensitivity"
-          control={<Radio />}
-          label="Sensitivity Analysis"
-        />
-      </RadioGroup>
-      {analysisPerspective === "sensitivity" && (
-        <EconomicsParametersSensitivities
-          economicsAnalyses={economicsAnalyses}
-        />
-      )}
+        <EconomicsSensitivitiesTable targetVariable={targetVariableDefined} />
+      </div>
 
       <CenteredStyle width={400} height={40} justifyContent="space-between">
         <Button

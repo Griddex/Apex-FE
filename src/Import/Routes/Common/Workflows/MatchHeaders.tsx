@@ -746,8 +746,8 @@ export default function MatchHeaders({
             <ApexGrid<IRawRow, ITableButtonsProps>
               columns={columns}
               rows={rows}
-              tableButtons={tableButtons}
               onRowsChange={setRows}
+              tableButtons={tableButtons}
               mappingErrors={getDuplicates(chosenApplicationHeadersWithoutNone)}
               size={size}
               adjustTableDimAuto={true}

@@ -127,3 +127,18 @@ export const economicsParametersSensitivities = [
   { variableName: "farmInBonus", variableTitle: "Farm-in Signature Bonus" },
   { variableName: "inflationRate", variableTitle: "Inflation Rate" },
 ] as const;
+
+export const developmentScenarios = [
+  {
+    variableName: "oilDevelopment",
+    variableTitle: "Oil Development",
+  },
+  {
+    variableName: "nagDevelopment",
+    variableTitle: "NAG Development",
+  },
+  {
+    variableName: "oilNAGDevelopment",
+    variableTitle: "Oil + NAG Development",
+  },
+];

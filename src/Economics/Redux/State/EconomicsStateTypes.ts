@@ -1,6 +1,11 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import {
+  TEconomicsAnalysesNames,
+  IEconomicsAnalysis,
+  TEconomicsAnalysisWorkflows,
+} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 export interface IEconomicsState {
   fileLastModified: string;
@@ -101,6 +106,24 @@ export interface INewEconomicsParametersInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
   reducer?: ReducersType;
 }
+export interface INewEconomicsSensitivitiesFormValues {
+  economicsSensitivitiesTitle: string;
+  economicsSensitivitiesDescription: string;
+}
+
+export interface INewEconomicsSensitivitiesWorkflowProps
+  extends Partial<INewEconomicsSensitivitiesFormValues> {
+  activeStep?: number;
+  errors?: FormikErrors<INewEconomicsSensitivitiesFormValues>;
+  touched?: FormikTouched<INewEconomicsSensitivitiesFormValues>;
+  isValid?: boolean;
+  handleChange?: (event: React.ChangeEvent<any>) => void;
+  handleBlur?: (event: React.ChangeEvent<any>) => void;
+  children?: (
+    props: INewEconomicsSensitivitiesWorkflowProps
+  ) => JSX.Element | JSX.Element[];
+  reducer?: ReducersType;
+}
 
 export interface EconomicsStateType
   extends INewCostsRevenuesInputDeckFormValues,
@@ -127,6 +150,12 @@ export interface EconomicsStateType
   selectedEconomicsParametersInputDeckId: string;
   selectedEconomicsParametersInputDeckTitle: string;
 
+  economicsSensitivitiesId: string;
+  economicsSensitivitiesTitle: string;
+  economicsSensitivitiesDescription: string;
+  selectedEconomicsSensitivitiesId: string;
+  selectedEconomicsSensitivitiesTitle: string;
+
   selectedEconomicsResultsId: string;
   selectedEconomicsResultsTitle: string;
 
@@ -135,4 +164,8 @@ export interface EconomicsStateType
 
   inputDataWorkflows: Record<string, IEconomicsState>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;
+  economicsAnalysisWorkflows: Record<
+    TEconomicsAnalysesNames,
+    IEconomicsAnalysis
+  >;
 }

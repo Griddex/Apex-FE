@@ -113,10 +113,39 @@ const economicsWorkflowNames = [
   "economicsAnalyses",
   "economicsParameterImportWorkflow",
   "economicsGenerationWorkflow",
+  "economicsSensitivitiesExisting",
   "economicsResultsExisting",
 ];
 const generateEconomicsWorkflowState = () => {
   return economicsWorkflowNames.reduce((acc, workflowProcess) => {
+    const initialSkipped = new Set<number>();
+    initialSkipped.add(50);
+
+    return {
+      ...acc,
+      [workflowProcess]: {
+        steps: [],
+        activeStep: 0,
+        skipped: initialSkipped,
+        errorSteps: [],
+        optionalSteps: [],
+        isNavButtonDisabled: {
+          reset: false,
+          skip: false,
+          back: false,
+          next: true,
+        },
+
+        isStepOptional: () => false,
+        isStepFailed: () => false,
+        isStepSkipped: () => false,
+      },
+    };
+  }, {});
+};
+const economicsAnalysesWorkflowNames = ["economicsSensitivitiesExisting"];
+const generateEconomicsAnalysesWorkflowState = () => {
+  return economicsAnalysesWorkflowNames.reduce((acc, workflowProcess) => {
     const initialSkipped = new Set<number>();
     initialSkipped.add(50);
 
@@ -147,12 +176,14 @@ const projectState = generateProjectWorkflowState();
 const inputState = generateInputWorkflowState();
 const networkState = generateNetworkWorkflowState();
 const economicsState = generateEconomicsWorkflowState();
+const economicsAnalysesState = generateEconomicsAnalysesWorkflowState();
 const workflowState: IWorkflowState = {
   currentWorkflowProcess: "",
   projectDataWorkflows: projectState,
   inputDataWorkflows: inputState,
   networkDataWorkflows: networkState,
   economicsDataWorkflows: economicsState,
+  economicsAnalysisWorkflows: economicsAnalysesState,
 };
 
 export default workflowState;

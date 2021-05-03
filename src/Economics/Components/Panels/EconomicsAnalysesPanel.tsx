@@ -1,12 +1,9 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { useDrag } from "react-dnd";
-import ItemTypes from "../../Utils/DragAndDropItemTypes";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
-import {
-  IEconomicsAnalysis,
-  TEconomicsAnalyses,
-} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { IEconomicsParametersSensitivitiesProps } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import ItemTypes from "../../Utils/DragAndDropItemTypes";
 
 const useStyles = makeStyles(() => ({
   economicsAnalysisPanel: {
@@ -21,6 +18,7 @@ const useStyles = makeStyles(() => ({
     padding: 10,
     display: "flex",
     flexDirection: "row",
+    cursor: "pointer",
   },
   economicsIcon: {
     opacity: (props: any) => props.opacity,
@@ -40,12 +38,10 @@ const useStyles = makeStyles(() => ({
 
 const EconomicsAnalysesPanel = ({
   economicsAnalyses,
-}: {
-  economicsAnalyses: TEconomicsAnalyses;
-}) => {
-  const [selectedAnalysis, setSelectedAnalysis] = React.useState(
-    {} as IEconomicsAnalysis
-  );
+  selectedAnalysis,
+  setSelectedAnalysis,
+}: IEconomicsParametersSensitivitiesProps) => {
+  const theme = useTheme();
 
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -64,12 +60,23 @@ const EconomicsAnalysesPanel = ({
       <div className={classes.economicsAnalysisPanel}>
         {economicsAnalyses.map((analysis, i) => {
           const { title, icon } = analysis;
+          const isSelected = title === selectedAnalysis?.title;
 
           return (
             <div
               key={i}
               className={classes.economicsIconTitle}
-              onClick={() => setSelectedAnalysis(analysis)}
+              style={
+                isSelected
+                  ? {
+                      border: `1px solid ${theme.palette.primary.main}`,
+                      backgroundColor: theme.palette.primary.light,
+                    }
+                  : {}
+              }
+              onClick={() =>
+                setSelectedAnalysis && setSelectedAnalysis(analysis)
+              }
             >
               <div ref={drag} className={classes.economicsIcon}>
                 {icon}

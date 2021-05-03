@@ -24,6 +24,9 @@ import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TextDialog from "./TextDialog";
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
 import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
+import EconomicsParametersSensitivitiesDialog from "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog";
+import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
+import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -48,6 +51,9 @@ const applicationDialogs: IApplicationDialogs = {
   saveCostsRevenuesInputDeckDialog: SaveCostsRevenuesInputDeckDialog,
   saveEconomicsParametersInputDeckDialog: SaveEconomicsParametersInputDeckDialog,
   createEconomicsParametersTableDialog: CreateEconomicsParametersTableDialog,
+  economicsParametersSensitivitiesDialog: EconomicsParametersSensitivitiesDialog,
+  saveEconomicsSensitivitiesDialog: SaveEconomicsSensitivitiesDialog,
+  existingEconomicsSensitivitiesDialog: ExistingEconomicsSensitivitiesDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

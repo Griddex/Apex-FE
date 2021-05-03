@@ -1,15 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React from "react";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
-import ItemTypes from "../../Utils/DragAndDropItemTypes";
 import EconomicsAnalysesPanel from "../../Components/Panels/EconomicsAnalysesPanel";
-import IRR from "./EconomicsIRR/IRR";
-import NCF from "./EconomicsNCF/NCF";
-import NPV from "./EconomicsNPV/NPV";
-import NetPresentValue from "../../Images/NetPresentValue.svg";
 import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
-import { TEconomicsAnalyses } from "./EconomicsAnalysesTypes";
+import NetPresentValue from "../../Images/NetPresentValue.svg";
+import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import {
+  IEconomicsAnalysis,
+  TEconomicsAnalyses,
+} from "./EconomicsAnalysesTypes";
 import EconomicsAnalysis from "./EconomicsAnalysis";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +49,22 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #E7E7E7",
     backgroundColor: theme.palette.common.white,
   },
+  dndArea: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "1px dashed #707070",
+    backgroundColor: "#F7F7F7",
+    borderRadius: 2,
+    height: "100%",
+    width: "100%",
+  },
+  imageDnD: {
+    width: 95,
+    height: 80,
+    color: theme.palette.primary.main,
+  },
 }));
 
 export const economicsAnalyses: TEconomicsAnalyses = [
@@ -64,12 +81,60 @@ export const economicsAnalyses: TEconomicsAnalyses = [
     ),
   },
   {
+    name: "payout",
+    title: "Payout",
+    icon: (
+      <img
+        src={NetCashflow}
+        alt="Net Cashflow"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+  {
+    name: "minimumCapitalRatio",
+    title: "Minimum Capital Ratio",
+    icon: (
+      <img
+        src={NetCashflow}
+        alt="Net Cashflow"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+  {
     name: "netpresentvalue",
     title: "Net Present Value",
     icon: (
       <img
         src={NetPresentValue}
         alt="Net Present Value"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+  {
+    name: "presentValueRatio",
+    title: "Present Value Ratio",
+    icon: (
+      <img
+        src={NetPresentValue}
+        alt="Net Present Value"
+        height={"100%"}
+        width={"100%"}
+      />
+    ),
+  },
+  {
+    name: "unitTechnicalCost",
+    title: "Unit Technical Cost",
+    icon: (
+      <img
+        src={InternalRateOfReturn}
+        alt="Internal Rate of Return"
         height={"100%"}
         width={"100%"}
       />
@@ -103,14 +168,15 @@ export const economicsAnalyses: TEconomicsAnalyses = [
 
 export default function EconomicsAnalyses() {
   const classes = useStyles();
-  const [calculationName, setAnalysisName] = React.useState("");
-
+  const [selectedAnalysis, setSelectedAnalysis] = React.useState(
+    {} as IEconomicsAnalysis
+  );
   const handleWidgetDrop = (
     item: DragObjectWithType,
     monitor: DropTargetMonitor
   ) => {
     const { calculation } = monitor.getItem();
-    setAnalysisName(calculation.name);
+    setSelectedAnalysis(calculation.name);
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -136,26 +202,27 @@ export default function EconomicsAnalyses() {
     };
   }
 
-  function renderEconomicsAnalysis() {
-    switch (calculationName) {
-      case "ncf":
-        return <NCF />;
-      case "npv":
-        return <NPV />;
-      case "irr":
-        return <IRR />;
-      default:
-        return <h1>Click or Drag and Drop to View</h1>;
-    }
-  }
-
   return (
     <div className={classes.root}>
       <div className={classes.workflowPanel}>
-        <EconomicsAnalysesPanel economicsAnalyses={economicsAnalyses} />
+        <EconomicsAnalysesPanel
+          economicsAnalyses={economicsAnalyses}
+          selectedAnalysis={selectedAnalysis}
+          setSelectedAnalysis={setSelectedAnalysis}
+        />
       </div>
       <div className={classes.workflowBody} ref={drop} style={dndCanvasStyle}>
-        <EconomicsAnalysis economicsAnalyses={economicsAnalyses} />
+        {Object.entries(selectedAnalysis).length === 0 ? (
+          <div className={classes.dndArea}>
+            <CloudUploadIcon className={classes.imageDnD} />
+            <p>Drag and Drop analysis here</p>
+          </div>
+        ) : (
+          <EconomicsAnalysis
+            economicsAnalyses={economicsAnalyses}
+            selectedAnalysis={selectedAnalysis}
+          />
+        )}
       </div>
     </div>
   );

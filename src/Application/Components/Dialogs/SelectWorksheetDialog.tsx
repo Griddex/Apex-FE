@@ -35,6 +35,7 @@ import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import {
   IAllWorkflowProcesses,
+  IInputWorkflowProcess,
   ReducersType,
 } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
@@ -176,8 +177,8 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     reducer,
   } = props;
 
-  const wc = workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"];
-  const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+  const wc = workflowCategory as IInputWorkflowProcess["wkCy"];
+  const wp = workflowProcess as IInputWorkflowProcess["wkPs"];
   const reducerDefined = reducer as NonNullable<ReducersType>;
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
@@ -216,7 +217,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                   style={
                     name === selectedListItem
                       ? {
-                          border: `2px solid ${theme.palette.primary.main}`,
+                          border: `1px solid ${theme.palette.primary.main}`,
                           backgroundColor: theme.palette.primary.light,
                         }
                       : {}

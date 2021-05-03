@@ -81,11 +81,12 @@ const EconomicsParametersValue = ({
         style={{
           display: "flex",
           justifyContent: "space-evenly",
+          alignItems: "center",
           width: "100%",
-          height: "100%",
+          height: "90%",
           ...finalStyle,
         }}
-        {...noEventPropgation}
+        {...noEventPropgation()}
       >
         <ListItemIcon style={{ minWidth: 20, ...letterIconStyle }}>
           {letterIcon}
