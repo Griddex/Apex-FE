@@ -60,7 +60,7 @@ const EconomicsParametersValue = ({
       type: "createEconomicsParametersTableDialog",
       show: true,
       exclusive: true,
-      maxWidth: "sm",
+      maxWidth: "md",
       iconType: "information",
       economicsTableData: economicsTableDataDefined,
       actionsList: () =>

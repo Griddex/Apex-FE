@@ -58,7 +58,6 @@ export interface IEconomicsWorkflowProcess {
     | "economicsAnalyses"
     | "economicsParameterImportWorkflow"
     | "economicsParameters"
-    | "economicsResultsExisting"
     | "netcashFlow"
     | "payout"
     | "minimumCapitalRatio"
@@ -66,7 +65,12 @@ export interface IEconomicsWorkflowProcess {
     | "presentValueRatio"
     | "unitTechnicalCost"
     | "internalRateOfReturn"
-    | "mulitpleAnalyses";
+    | "mulitpleAnalyses"
+    | "economicsSensitivitiesCreate"
+    | "economicsSensitivitiesExisting"
+    | "economicsTemplateResultsData"
+    | "economicsResultsChartsTables"
+    | "economicsResultsExisting";
   wkCy: "economicsDataWorkflows" | "economicsAnalysisWorkflows";
 }
 

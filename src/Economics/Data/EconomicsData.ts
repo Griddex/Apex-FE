@@ -142,3 +142,30 @@ export const developmentScenarios = [
     variableTitle: "Oil + NAG Development",
   },
 ];
+
+const EconomicsAnalysesNames = [
+  "netcashFlow",
+  "payout",
+  "minimumCapitalRatio",
+  "netpresentvalue",
+  "presentValueRatio",
+  "unitTechnicalCost",
+  "internalRateOfReturn",
+  "mulitpleAnalyses",
+];
+
+const EconomicsAnalysesTitles = [
+  "Net Cashflow",
+  "Payout",
+  "Minimum Capital Ratio",
+  "Net Present Value",
+  "Present Value Ratio",
+  "Unit Technical Cost",
+  "Internal Rate of Return",
+  "Multiple Analyses",
+];
+
+export const economicsAnalysesTitleNamesObj = zipObject(
+  EconomicsAnalysesTitles,
+  EconomicsAnalysesNames
+);

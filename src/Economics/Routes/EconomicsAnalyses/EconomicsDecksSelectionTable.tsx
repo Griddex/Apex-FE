@@ -13,6 +13,10 @@ import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+// import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 
 const EconomicsDecksSelectionTable = () => {
   const dispatch = useDispatch();
@@ -118,6 +122,20 @@ const EconomicsDecksSelectionTable = () => {
         name: "SN",
         resizable: true,
         width: 70,
+      },
+      {
+        key: "actions",
+        name: "ACTIONS",
+        editable: false,
+        formatter: ({ row }) => (
+          <CenteredStyle>
+            <VisibilityOutlinedIcon
+              onClick={() => alert(`View Row is:${row}`)}
+            />
+            <LockOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
+          </CenteredStyle>
+        ),
+        width: 100,
       },
       {
         key: "type",

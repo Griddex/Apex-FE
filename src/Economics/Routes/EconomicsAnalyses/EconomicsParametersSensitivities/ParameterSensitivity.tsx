@@ -2,6 +2,7 @@ import { useTheme } from "@material-ui/core";
 import set from "lodash.set";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
+import { useDispatch } from "react-redux";
 import Select, { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
@@ -14,72 +15,74 @@ import generateSelectOptions from "../../../../Application/Utils/GenerateSelectO
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import { TParametersSensitivitiesObj } from "../../../Data/EconomicsDataTypes";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
+import { TParametersId } from "../EconomicsAnalysesTypes";
 import { IParameterSensitivity } from "./EconomicsParametersSensitivitiesTypes";
 
 const initialRows = [
   {
-    p1: 0,
-    p2: 0,
-    p3: 0,
-    p4: 0,
-    p5: 0,
-    p6: 0,
-    p7: 0,
+    p1: "",
+    p2: "",
+    p3: "",
+    p4: "",
+    p5: "",
+    p6: "",
+    p7: "",
   },
 ];
 
 const ParameterSensitivity = ({
-  sensitivitiesIndex,
-  sensitivitiesTitle,
+  parIndex,
+  parId,
   parameterSensitivitiesObj,
   setParameterSensitivitiesObj,
-  variableTitlesNamesObj,
 }: IParameterSensitivity) => {
+  console.log(
+    "Logged output --> ~ file: ParameterSensitivity.tsx ~ line 38 ~ parameterSensitivitiesObj",
+    parameterSensitivitiesObj
+  );
+  const dispatch = useDispatch();
   const theme = useTheme();
+  const sensitivityRef = React.useRef<HTMLDivElement>(null);
 
-  const allSensitivitiesTitles = Object.keys(parameterSensitivitiesObj);
-  const parametersTitles =
-    parameterSensitivitiesObj[sensitivitiesTitle].parameters;
-  const parametersNames = parametersTitles.map(
-    (title) => variableTitlesNamesObj[title]
-  );
-  const parameterOptions = generateSelectOptions(
-    parametersTitles,
-    true,
-    parametersNames
-  );
-  const valueOption = generateSelectOptions([parametersTitles[0]], true, [
-    parametersNames[0],
-  ])[0];
+  const {
+    analysisName,
+    targetParameterOptions,
+    selectedTargetParameterOption,
+    sensitivityValues,
+  } = parameterSensitivitiesObj[parId];
 
-  const [parSensitivity, setParSensitivity] = React.useState(
-    {} as TParametersSensitivitiesObj
-  );
+  const targetValueOption = selectedTargetParameterOption
+    ? selectedTargetParameterOption
+    : targetParameterOptions[0];
+  const [valueOption, setValueOption] = React.useState(targetValueOption);
 
-  const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState(
+    sensitivityValues ? sensitivityValues : initialRows
+  );
 
   const RSStyles = getRSStyles(theme);
-  type IsMulti = false;
 
-  const handleSelectParameterSensitivityChange = (
-    row: ValueType<ISelectOption, false>,
-    sensitivitiesTitle: string
+  const handleSelectTargetParameterChange = (
+    selectedOption: ValueType<ISelectOption, false>,
+    parId: TParametersId
   ) => {
-    const selectedParameterTitle = row?.label as string;
-    const otherSensitivitiesArr = allSensitivitiesTitles.filter(
-      (s) => s !== sensitivitiesTitle
-    );
+    // const updatedOthers = set(
+    //   parameterSensitivitiesObj,
+    //   `${parId}.selectedTargetParameterOption`,
+    //   selectedOption
+    // );
 
-    const nonSelectedParametersTitles = parametersTitles.filter(
-      (p) => p !== selectedParameterTitle
-    );
-    const updatedOthers = set(
-      parameterSensitivitiesObj,
-      `${sensitivitiesTitle}.parameters`,
-      nonSelectedParametersTitles
-    );
+    const selectedTargetParameterOption = selectedOption as ISelectOption;
 
-    setParameterSensitivitiesObj(updatedOthers);
+    const parSenObj = parameterSensitivitiesObj[parId];
+    parameterSensitivitiesObj[parId] = {
+      ...parSenObj,
+      selectedTargetParameterOption,
+    };
+    //Update list for other sensitivities
+    setParameterSensitivitiesObj(parameterSensitivitiesObj);
+    setValueOption(selectedTargetParameterOption);
   };
 
   const columns: Column<IRawRow>[] = [
@@ -140,22 +143,59 @@ const ParameterSensitivity = ({
       width: 50,
     },
   ];
+  React.useEffect(() => {
+    console.log("hey");
+
+    const parSenObj = parameterSensitivitiesObj[parId];
+    parameterSensitivitiesObj[parId] = {
+      ...parSenObj,
+      sensitivityValues: rows,
+    };
+
+    //transform and store in sensitivitiestable
+    const parameters = Object.keys(parameterSensitivitiesObj);
+    const selectedParameterTitles = parameters.map((p) => {
+      const selectedOption =
+        parameterSensitivitiesObj[p as TParametersId]
+          .selectedTargetParameterOption;
+      return selectedOption.label;
+    });
+    const parameterValues = parameters.map((p) => {
+      const sensitivityValues =
+        parameterSensitivitiesObj[p as TParametersId].sensitivityValues;
+      const onlySensitivityValues = Object.values(sensitivityValues[0]).filter(
+        (p) => p != ""
+      );
+
+      return onlySensitivityValues.join(", ");
+    });
+
+    const sensitivitiesTable = parameters.map((p, i) => ({
+      sn: i + 1,
+      parameter: p,
+      parameterTitle: selectedParameterTitles[i],
+      prameterValues: parameterValues[i],
+    }));
+
+    const path = `economicsAnalysisWorkflows.${analysisName}.sensitivitiesTable`;
+    dispatch(updateEconomicsParameterAction(path, sensitivitiesTable));
+  }, [rows]);
 
   return (
     <CenteredStyle flexDirection="column">
       <AnalyticsComp
-        title={sensitivitiesTitle}
+        title={parId}
         direction="Horizontal"
         contentStyle={{ width: 300 }}
         content={
-          <Select<ISelectOption, IsMulti>
+          <Select<ISelectOption, false>
             value={valueOption}
-            options={parameterOptions}
+            options={targetParameterOptions}
             styles={RSStyles}
-            onChange={(value: ValueType<ISelectOption, IsMulti>) => {
-              handleSelectParameterSensitivityChange(value, sensitivitiesTitle);
+            onChange={(value: ValueType<ISelectOption, false>) => {
+              handleSelectTargetParameterChange(value, parId);
             }}
-            menuPortalTarget={document.body}
+            menuPortalTarget={sensitivityRef.current as HTMLDivElement}
             theme={(thm) => getRSTheme(thm, theme)}
           />
         }

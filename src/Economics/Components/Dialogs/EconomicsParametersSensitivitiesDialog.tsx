@@ -14,13 +14,8 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import { IEconomicsWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import {
-  IEconomicsParametersSensitivitiesProps,
-  TEconomicsAnalyses,
-} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { IEconomicsAnalysis } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsParametersSensitivities from "../../Routes/EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivities";
-import CostsRevenuesTitleAndDescription from "../Forms/CostsRevenuesTitleAndDescription";
-import CostsRevenuesTitleAndDescriptionForm from "../Forms/CostsRevenuesTitleAndDescriptionForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -109,14 +104,14 @@ const EconomicsParametersSensitivitiesDialog = (props: DialogStuff) => {
     iconType,
     actionsList,
     workflowProcess,
-    economicsAnalyses,
+    selectedAnalysis,
   } = props;
 
   const workflowProcessDefined = workflowProcess as NonNullable<
     IEconomicsWorkflowProcess["wkPs"]
   >;
-  // const economicsAnalysesDefined = economicsAnalyses as NonNullable<TEconomicsAnalyses>
-  const economicsAnalysesDefined = economicsAnalyses as TEconomicsAnalyses;
+
+  const selectedAnalysisDefined = selectedAnalysis as IEconomicsAnalysis;
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
@@ -136,7 +131,7 @@ const EconomicsParametersSensitivitiesDialog = (props: DialogStuff) => {
       >
         <EconomicsParametersSensitivities
           workflowProcess={workflowProcessDefined}
-          economicsAnalyses={economicsAnalysesDefined}
+          selectedAnalysis={selectedAnalysisDefined}
         />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>

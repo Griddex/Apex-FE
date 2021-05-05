@@ -94,7 +94,7 @@ const steps = [
   // "Calculate Indices [and Define Sensitivities]",
 ];
 
-const EconomicsAnalysisWorkflow = () => {
+const EconomicsAnalysesWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const reducer = "economicsReducer";
@@ -204,4 +204,4 @@ const EconomicsAnalysisWorkflow = () => {
   );
 };
 
-export default EconomicsAnalysisWorkflow;
+export default EconomicsAnalysesWorkflow;

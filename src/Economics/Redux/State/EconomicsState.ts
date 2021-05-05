@@ -125,8 +125,12 @@ const EconomicsState: EconomicsStateType = {
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
   loadEconomicsParametersWorkflow: false,
+  loadEconomicsAnalysesWorkflow: false,
+  loadEconomicsSensitivitiesWorkflow: false,
+  loadEconomicsResultsWorkflow: false,
 
   costsRevenuesAppHeaders: [],
+  cstRevAppHeadersSelectOptions: [],
   costsRevenuesInputDeckId: "",
   costsRevenuesInputDeckTitle: "",
   costsRevenuesInputDeckDescription: "",
@@ -135,6 +139,7 @@ const EconomicsState: EconomicsStateType = {
   selectedCostsRevenuesInputDeckTitle: "",
 
   economicsParametersAppHeaders: [],
+  ecoParAppHeadersSelectOptions: [],
   economicsParametersInputDeckId: "",
   economicsParametersInputDeckTitle: "",
   economicsParametersInputDeckDescription: "",
@@ -151,8 +156,13 @@ const EconomicsState: EconomicsStateType = {
   selectedEconomicsSensitivitiesId: "",
   selectedEconomicsSensitivitiesTitle: "",
 
+  selectedSensitivitiesTable: [],
+  createSensitivitiesIsDialog: true,
+
   noneColumnIndices: {},
   fileHeadersChosenAppHeadersWithNone: [],
+  selectedAnalysis: {},
+  selectedAnalysesNames: [],
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,

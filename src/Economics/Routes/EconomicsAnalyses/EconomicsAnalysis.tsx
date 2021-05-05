@@ -16,12 +16,12 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
+import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { developmentScenarios } from "../../Data/EconomicsData";
 import {
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
-import swapVariableNameTitleForISelectOption from "./../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import {
   IEconomicsAnalysis,
   IEconomicsParametersSensitivitiesProps,
@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 90,
     padding: 5,
-    border: "1px solid #A8A8A8",
+    border: `1px solid ${theme.palette.grey[400]}`,
+    marginBottom: 20,
   },
   button: {
     color: theme.palette.primary.main,
@@ -76,14 +77,11 @@ const EconomicsAnalysis = ({
   >;
   const reducer = "economicsReducer";
 
-  const {
-    name,
-    title,
-    icon,
-  } = selectedAnalysis as NonNullable<IEconomicsAnalysis>;
+  const selectedAnalysisDefined = selectedAnalysis as NonNullable<IEconomicsAnalysis>;
+  const { name, title, icon, showSensitivitiesTable } = selectedAnalysisDefined;
 
-  const targetVariable = selectedAnalysis?.sensitivities?.targetVariable;
-  const targetVariableDefined = targetVariable as TEconomicsAnalysesNames;
+  const analysisName = selectedAnalysis?.sensitivities?.analysisName;
+  const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
 
   //TODO: filter devoptions based on costs/revenue data input
   //Send all filtered dev options to backend
@@ -91,6 +89,7 @@ const EconomicsAnalysis = ({
     developmentScenarios
   );
   const devValueOption = devOptions[0];
+  const [devValue, setDevValue] = React.useState(devValueOption);
 
   const [analysisPerspective, setAnalysisPerspective] = React.useState(false);
   const handleExcludeSwitchChange = (event: React.ChangeEvent<any>) => {
@@ -115,10 +114,16 @@ const EconomicsAnalysis = ({
           [true, true],
           [
             unloadDialogsAction,
-            () => saveEconomicsSensitivitiesRequestAction(wp, reducer),
+            () =>
+              saveEconomicsSensitivitiesRequestAction(
+                wp,
+                reducer,
+                selectedAnalysisDefined
+              ),
           ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      selectedAnalysis,
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -126,12 +131,12 @@ const EconomicsAnalysis = ({
 
   const loadSensitivities = () => {
     const dialogParameters: DialogStuff = {
-      name: "Create_Economics_Sensitivities_Dialog",
-      title: "Create Economics Sensitivities",
+      name: "Existing_Economics_Sensitivities_Dialog",
+      title: "Existing Economics Sensitivities",
       type: "existingEconomicsSensitivitiesDialog",
       show: true,
       exclusive: true,
-      maxWidth: "sm",
+      maxWidth: "md",
       iconType: "information",
       workflowProcess,
       actionsList: () =>
@@ -140,7 +145,13 @@ const EconomicsAnalysis = ({
           [true, true],
           [
             unloadDialogsAction,
-            () => saveEconomicsSensitivitiesRequestAction(wp, reducer),
+            //TODO: Change it
+            () =>
+              saveEconomicsSensitivitiesRequestAction(
+                wp,
+                reducer,
+                selectedAnalysisDefined
+              ),
           ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
@@ -148,6 +159,12 @@ const EconomicsAnalysis = ({
 
     dispatch(showDialogAction(dialogParameters));
   };
+
+  React.useEffect(() => {
+    const path = `economicsAnalysisWorkflows.${name}.sensitivities.analysisName`;
+    const value = selectedAnalysis?.name;
+    dispatch(updateEconomicsParameterAction(path, value));
+  }, []);
 
   return (
     <CenteredStyle
@@ -165,23 +182,30 @@ const EconomicsAnalysis = ({
       <AnalyticsComp
         title="Development Scenario"
         direction="Vertical"
-        containerStyle={{ width: 250 }}
+        containerStyle={{
+          display: "flex",
+          flexDirection: "row",
+          width: "95%",
+          marginTop: 20,
+        }}
         content={
           <ApexSelectRS
-            valueOption={devValueOption}
+            valueOption={devValue}
             data={devOptions}
             handleSelect={(row: ValueType<ISelectOption, false>) => {
               const path = `economicsAnalysisWorkflows.${name}.devScenario`;
               const value = row?.value as string;
+
+              setDevValue(row as ISelectOption);
               dispatch(updateEconomicsParameterAction(path, value));
             }}
             menuPortalTarget={document.body}
-            isSelectOptionType={false}
+            isSelectOptionType={true}
           />
         }
       />
 
-      <CenteredStyle justifyContent="space-between" width={"95%"}>
+      <CenteredStyle justifyContent="space-between" width={"95%"} height={40}>
         <ApexMuiSwitch
           name="sensitivitiesSwitch"
           handleChange={handleExcludeSwitchChange}
@@ -192,7 +216,7 @@ const EconomicsAnalysis = ({
           leftLabel="No Sensitivities Input"
           rightLabel="Sensitivities input"
         />
-        <CenteredStyle width={"100%"}>
+        <CenteredStyle width={"100%"} justifyContent="flex-end">
           {analysisPerspective && (
             <Button
               className={classes.button}
@@ -204,6 +228,7 @@ const EconomicsAnalysis = ({
           )}
           {analysisPerspective && (
             <Button
+              style={{ marginLeft: 10 }}
               className={classes.button}
               startIcon={<HourglassFullTwoToneIcon />}
               onClick={loadSensitivities}
@@ -219,20 +244,15 @@ const EconomicsAnalysis = ({
           height: 200,
           width: "95%",
           overflow: "auto",
-          border: `1px solid ${theme.palette.grey[400]}`,
+          borderTop: `1px solid ${theme.palette.grey[400]}`,
         }}
       >
-        <EconomicsSensitivitiesTable targetVariable={targetVariableDefined} />
+        {showSensitivitiesTable && (
+          <EconomicsSensitivitiesTable analysisName={analysisNameDefined} />
+        )}
       </div>
 
-      <CenteredStyle width={400} height={40} justifyContent="space-between">
-        <Button
-          className={classes.primaryButton}
-          startIcon={<ViewDayTwoToneIcon />}
-          onClick={() => alert("sensitivities")}
-        >
-          Save Sensitivities
-        </Button>
+      <CenteredStyle width={400} height={40} justifyContent="center">
         <Button
           className={classes.primaryButton}
           startIcon={<ViewDayTwoToneIcon />}

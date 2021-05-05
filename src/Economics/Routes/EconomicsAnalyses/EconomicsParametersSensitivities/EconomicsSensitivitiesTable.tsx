@@ -17,57 +17,23 @@ import {
 } from "../EconomicsAnalysesTypes";
 
 const EconomicsSensitivitiesTable = ({
-  targetVariable,
+  analysisName,
 }: {
-  targetVariable: TEconomicsAnalysesNames;
+  analysisName: TEconomicsAnalysesNames;
 }) => {
-  const dispatch = useDispatch();
   const theme = useTheme();
-  const wc = "existingDataWorkflows";
+  const wc = "economicsAnalysisWorkflows";
 
-  const {
-    economicsCostsRevenuesDeckExisting,
-    economicsParametersDeckExisting,
-  } = useSelector((state: RootState) => state.economicsReducer[wc]);
+  const economicsAnalyses = useSelector(
+    (state: RootState) => state.economicsReducer[wc]
+  );
 
-  const {
-    selectedCostsRevenuesInputDeckTitle,
-    selectedEconomicsParametersInputDeckTitle,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  const { selectedAnalysis } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
 
-  const economicsDeckTypes = [
-    "Economics Costs & Revenues",
-    "Economics Parameters",
-  ];
-
-  const economicsSelectedDeckOptions = {
-    "Economics Costs & Revenues": generateSelectOptions(
-      economicsCostsRevenuesDeckExisting.map(
-        (e: IApplicationExistingDataRow) => e.title
-      )
-    ),
-    "Economics Parameters": generateSelectOptions(
-      economicsParametersDeckExisting.map(
-        (e: IApplicationExistingDataRow) => e.title
-      )
-    ),
-  };
-
-  const costRevDeckTitle = selectedCostsRevenuesInputDeckTitle
-    ? selectedCostsRevenuesInputDeckTitle
-    : economicsCostsRevenuesDeckExisting[0]?.title;
-  const ecoParDeckTitle = selectedEconomicsParametersInputDeckTitle
-    ? selectedEconomicsParametersInputDeckTitle
-    : selectedEconomicsParametersInputDeckTitle[0]?.title;
-
-  const initialRows = economicsDeckTypes.map((type, i) => {
-    return {
-      sn: i + 1,
-      type,
-      deck: i === 0 ? costRevDeckTitle : ecoParDeckTitle,
-    };
-  });
-
+  const selectedAnalysisName = (selectedAnalysis as IEconomicsAnalysis).name;
+  const initialRows = economicsAnalyses[selectedAnalysisName];
   const [rows, setRows] = React.useState(initialRows);
 
   const columns: Column<IRawRow>[] = [
@@ -84,13 +50,13 @@ const EconomicsSensitivitiesTable = ({
       width: 100,
     },
     {
-      key: "title",
+      key: "parameterTitle",
       name: "PARAMETER TITLE",
       resizable: true,
       width: 220,
     },
     {
-      key: "values",
+      key: "parameterValues",
       name: "PARAMETER VALUES",
       resizable: true,
     },
@@ -98,19 +64,19 @@ const EconomicsSensitivitiesTable = ({
 
   return (
     <CenteredStyle
-      flexDirection="row"
-      justifyContent="space-between"
+      flexDirection="column"
+      justifyContent="space-evenly"
       alignItems="center"
-      height={60}
+      height={"100%"}
     >
       <AnalyticsText
         title="Target Variable"
-        text={targetVariable}
+        text={analysisName}
         direction="Vertical"
-        containerStyle={{ alignItems: "flex-start" }}
+        containerStyle={{ alignItems: "flex-start", width: "100%" }}
         textStyle={{ color: theme.palette.primary.main, fontWeight: "bold" }}
       />
-      <div style={{ width: "95%", height: 120 }}>
+      <div style={{ width: "100%", height: 150 }}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
             <ApexGrid<IRawRow, ITableButtonsProps>
@@ -120,7 +86,7 @@ const EconomicsSensitivitiesTable = ({
               onRowsChange={setRows}
               size={size}
               adjustTableDimAuto={false}
-              staticTableHeight={112}
+              staticTableHeight={150}
             />
           )}
         </SizeMe>

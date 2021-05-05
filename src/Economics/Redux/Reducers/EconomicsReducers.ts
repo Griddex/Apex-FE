@@ -6,6 +6,10 @@ import {
   FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
   FETCHECONOMICSPARAMETERSHEADERS_SUCCESS,
   LOAD_ECONOMICS_WORKFLOW,
+  PERSISTCOSTSREVENUESHEADERSSELECTOPTION_FAILURE,
+  PERSISTCOSTSREVENUESHEADERSSELECTOPTION_SUCCESS,
+  PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE,
+  PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS,
   UPDATE_ECONOMICS,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
@@ -127,6 +131,24 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
+    case PERSISTCOSTSREVENUESHEADERSSELECTOPTION_SUCCESS: {
+      const { cstRevAppHeadersSelectOptions } = action.payload;
+
+      return {
+        ...state,
+        cstRevAppHeadersSelectOptions,
+      };
+    }
+
+    case PERSISTCOSTSREVENUESHEADERSSELECTOPTION_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
+    }
+
     case FETCHECONOMICSPARAMETERSHEADERS_SUCCESS: {
       const { economicsParametersAppHeaders } = action.payload;
 
@@ -137,6 +159,23 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case FETCHECONOMICSPARAMETERSHEADERS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
+    }
+    case PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS: {
+      const { ecoParAppHeadersSelectOptions } = action.payload;
+
+      return {
+        ...state,
+        ecoParAppHeadersSelectOptions,
+      };
+    }
+
+    case PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE: {
       const { errors } = action.payload;
 
       return {

@@ -14,11 +14,18 @@ import {
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import * as authService from "../../../Application/Services/AuthService";
+import getBaseForecastUrl, {
+  getBaseEconomicsUrl,
+} from "../../../Application/Services/BaseUrlService";
 import {
   fetchExistingCostsRevenuesDataFailureAction,
   fetchExistingCostsRevenuesHeadersSuccessAction,
   fetchExistingEconomicsParametersDataFailureAction,
   fetchExistingEconomicsParametersHeadersSuccessAction,
+  persistCostsRevDataFaiSelectOptionFailureAction,
+  persistCostsRevHeadersSelectOptionSuccessAction,
+  persistEconomicsParDataFaiSelectOptionFailureAction,
+  persistEconomicsParHeadersSelectOptionSuccessAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { failureDialogParameters } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
 import {
@@ -26,9 +33,7 @@ import {
   fetchApplicationHeadersSuccessAction,
   FETCHAPPLICATIONHEADERS_REQUEST,
 } from "../Actions/InputActions";
-import getBaseForecastUrl, {
-  getBaseEconomicsUrl,
-} from "./../../../Application/Services/BaseUrlService";
+import swapVariableNameTitleForISelectOption from "./../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 
 export default function* watchFetchApplicationHeadersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -88,13 +93,22 @@ function* fetchApplicationHeadersSaga(
     const successAction1 = fetchApplicationHeadersSuccessAction();
     const successAction2 = fetchExistingCostsRevenuesHeadersSuccessAction();
     const successAction3 = fetchExistingEconomicsParametersHeadersSuccessAction();
+    const successAction4 = persistCostsRevHeadersSelectOptionSuccessAction();
+    const successAction5 = persistEconomicsParHeadersSelectOptionSuccessAction();
+
+    const cstRevAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
+      costsRevenuesAppHeaders
+    );
+    const ecoParAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
+      economicsParametersAppHeaders
+    );
 
     yield put({
       ...successAction1,
       payload: {
         ...payload,
         facilitiesAppHeaders,
-        forecastAppHeaders: forecastAppHeaders,
+        forecastAppHeaders,
       },
     });
     yield put({
@@ -111,10 +125,26 @@ function* fetchApplicationHeadersSaga(
         economicsParametersAppHeaders,
       },
     });
+    yield put({
+      ...successAction4,
+      payload: {
+        ...payload,
+        cstRevAppHeadersSelectOptions,
+      },
+    });
+    yield put({
+      ...successAction5,
+      payload: {
+        ...payload,
+        ecoParAppHeadersSelectOptions,
+      },
+    });
   } catch (errors) {
     const failureAction1 = fetchApplicationHeadersFailureAction();
     const failureAction2 = fetchExistingCostsRevenuesDataFailureAction();
     const failureAction3 = fetchExistingEconomicsParametersDataFailureAction();
+    const failureAction4 = persistCostsRevDataFaiSelectOptionFailureAction();
+    const failureAction5 = persistEconomicsParDataFaiSelectOptionFailureAction();
 
     yield put({
       ...failureAction1,
@@ -126,6 +156,14 @@ function* fetchApplicationHeadersSaga(
     });
     yield put({
       ...failureAction3,
+      payload: { ...payload, errors },
+    });
+    yield put({
+      ...failureAction4,
+      payload: { ...payload, errors },
+    });
+    yield put({
+      ...failureAction5,
       payload: { ...payload, errors },
     });
 

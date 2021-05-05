@@ -1,14 +1,15 @@
 import { IUserDetails } from "../../../../Application/Components/User/UserTypes";
+import {
+  IEconomicsSensitivities,
+  TParametersId,
+} from "../EconomicsAnalysesTypes";
+import { ISelectOption } from "./../../../../Application/Components/Selects/SelectItemsType";
 
 export interface IParameterSensitivity {
-  sensitivitiesIndex: number;
-  sensitivitiesTitle: string;
-  parameterSensitivitiesObj: Record<
-    string,
-    { parameters: string[]; selectedParameter: string }
-  >;
+  parIndex: number;
+  parId: TParametersId;
+  parameterSensitivitiesObj: Record<TParametersId, IEconomicsSensitivities>;
   setParameterSensitivitiesObj: React.Dispatch<React.SetStateAction<any>>;
-  variableTitlesNamesObj: Record<string, string>;
 }
 
 export interface ISensitivityColumn {
@@ -26,8 +27,8 @@ export interface IExistingEconomicsSensitivitiesRow {
   economicsSensitivitiesId: string;
   economicsSensitivitiesTitle: string;
   economicsSensitivitiesDescription: string;
-  targetVariable: string;
-  sensitivityParameters: ISensitivityColumn[];
+  analysisName: string;
+  sensitivityValues: ISensitivityColumn[];
   author: IUserDetails;
   createdOn: string;
   modifiedOn: string;

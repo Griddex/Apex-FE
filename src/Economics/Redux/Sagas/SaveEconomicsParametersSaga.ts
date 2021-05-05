@@ -21,10 +21,6 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import {
-  failureDialogParameters,
-  successDialogParameters,
-} from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
-import {
   fetchExistingEconomicsDataRequestAction,
   fetchExistingEconomicsParametersHeadersRequestAction,
   saveEconomicsParametersFailureAction,
@@ -33,6 +29,10 @@ import {
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 import pick from "lodash.pick";
+import {
+  failureDialogParameters,
+  successDialogParameters,
+} from "../../Components/DialogParameters/EconomicsParameterSuccessFailureDialogParameters";
 
 export default function* watchSaveEconomicsParametersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -80,10 +80,7 @@ function* saveEconomicsParametersSaga(
   );
 
   const economicsParameters = [...inputDeck];
-  console.log(
-    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 82 ~ economicsParameters",
-    economicsParameters
-  );
+
   economicsParameters.shift();
   const economicsParametersObj = economicsParameters[0];
 
@@ -136,10 +133,6 @@ function* saveEconomicsParametersSaga(
     variableUnits,
     matchObject,
   };
-  console.log(
-    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 120 ~ data",
-    data
-  );
 
   const config = { withCredentials: false };
   const saveEconomicsParametersAPI = (url: string) =>

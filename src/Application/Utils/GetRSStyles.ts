@@ -41,7 +41,14 @@ const getRSStyles = (theme: Theme, containerWidth?: number) => {
           break;
       }
 
-      return { ...styles, color: label, width: "100%", height: "100%" };
+      return {
+        ...styles,
+        color: label,
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+      };
     },
     menu: (styles) => ({ ...styles, marginTop: 0 }),
     control: (styles, { getValue }) => {

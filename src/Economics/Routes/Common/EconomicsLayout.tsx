@@ -1,13 +1,13 @@
 import { Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AssessmentOutlinedIcon from "@material-ui/icons/AssessmentOutlined";
+import DialpadOutlinedIcon from "@material-ui/icons/DialpadOutlined";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
 import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import Loading from "../../../Application/Components/Visuals/Loading";
@@ -17,10 +17,12 @@ import {
   ISubNavbarData,
 } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
-import Economics from "../../Economics";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import EconomicsAnalysesLanding from "../EconomicsAnalyses/EconomicsAnalysesLanding";
 import EconomicsCostsRevenuesLanding from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
 import EconomicsParametersLanding from "../EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
-import EconomicsAnalysisWorkflow from "../EconomicsWorkflows/EconomicsAnalysisWorkflow";
+import EconomicsResultsLanding from "../EconomicsResults/EconomicsResultsLanding";
+import EconomicsSensitivitiesLanding from "../EconomicsSensitivities/EconomicsSensitivitiesLanding";
 import EconomicsResultsWorkflow from "../EconomicsWorkflows/EconomicsResultsWorkflow";
 import EconomicsBackground from "./EconomicsBackground";
 
@@ -46,6 +48,7 @@ const EconomicsLayout = () => {
   const { path, url } = useRouteMatch();
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const { showSubNavbar } = layoutProps;
+  const dispatch = useDispatch();
 
   const subNavbarData: ISubNavbarData = [
     {
@@ -83,11 +86,29 @@ const EconomicsLayout = () => {
       ),
     },
     {
-      name: "Economic Analysis",
-      route: `${url}/economicanalysis`,
+      name: "Economic Analyses",
+      route: `${url}/analyseslanding`,
       startIcon: <WidgetsOutlinedIcon fontSize="default" />,
       hasWrapper: false,
       component: () => <div></div>,
+      action: () =>
+        dispatch(
+          updateEconomicsParameterAction("loadEconomicsAnalysesWorkflow", false)
+        ),
+    },
+    {
+      name: "Parameter Sensitivities",
+      route: `${url}/sensitivities`,
+      startIcon: <DialpadOutlinedIcon fontSize="default" />,
+      hasWrapper: false,
+      component: () => <div></div>,
+      action: () =>
+        dispatch(
+          updateEconomicsParameterAction(
+            "loadEconomicsSensitivitiesWorkflow",
+            false
+          )
+        ),
     },
     {
       name: "View Results",
@@ -118,8 +139,9 @@ const EconomicsLayout = () => {
                   background: <EconomicsBackground />,
                   costsrevenue: <EconomicsCostsRevenuesLanding />,
                   parameters: <EconomicsParametersLanding />,
-                  economicanalysis: <EconomicsAnalysisWorkflow />,
-                  viewresults: <EconomicsResultsWorkflow />,
+                  analyseslanding: <EconomicsAnalysesLanding />,
+                  sensitivities: <EconomicsSensitivitiesLanding />,
+                  viewresults: <EconomicsResultsLanding />,
                 };
 
                 return Layouts[economicsId];

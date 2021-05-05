@@ -7,10 +7,7 @@ import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
 import NetPresentValue from "../../Images/NetPresentValue.svg";
 import ItemTypes from "../../Utils/DragAndDropItemTypes";
-import {
-  IEconomicsAnalysis,
-  TEconomicsAnalyses,
-} from "./EconomicsAnalysesTypes";
+import { IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 import EconomicsAnalysis from "./EconomicsAnalysis";
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const economicsAnalyses: TEconomicsAnalyses = [
+export const economicsAnalyses: IEconomicsAnalysis[] = [
   {
     name: "netcashFlow",
     title: "Net Cashflow",
@@ -175,8 +172,8 @@ export default function EconomicsAnalyses() {
     item: DragObjectWithType,
     monitor: DropTargetMonitor
   ) => {
-    const { calculation } = monitor.getItem();
-    setSelectedAnalysis(calculation.name);
+    const { analysis } = monitor.getItem();
+    setSelectedAnalysis(analysis.name);
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({

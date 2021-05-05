@@ -5,14 +5,11 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { saveForecastRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
   hideDialogAction,
   showDialogAction,
-  unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
-import DialogSaveCancelButtons from "./DialogSaveCancelButtons";
 
 const DialogViewSaveForecastCancelButtons = () => {
   const dispatch = useDispatch();

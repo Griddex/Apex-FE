@@ -163,7 +163,7 @@ export default function ExistingEconomicsSensitivities() {
         width: 150,
       },
       {
-        key: "targetVariable",
+        key: "analysisName",
         name: "TARGET VARIABLE",
         editable: false,
         resizable: true,

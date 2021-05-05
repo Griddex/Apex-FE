@@ -8,7 +8,10 @@ import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dial
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
 import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
 import { IEconomicsParametersTable } from "../../../Economics/Components/Parameters/IParametersType";
-import { TEconomicsAnalyses } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import {
+  IEconomicsAnalysis,
+  TEconomicsAnalyses,
+} from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
@@ -130,6 +133,7 @@ export interface DialogStuff {
   reducer?: ReducersType;
   economicsTableData?: IEconomicsParametersTable;
   economicsAnalyses?: TEconomicsAnalyses;
+  selectedAnalysis?: IEconomicsAnalysis;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

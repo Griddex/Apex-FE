@@ -7,21 +7,17 @@ import { IExistingDataProps } from "../../Types/ApplicationTypes";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
-  root: (props: IMiniCardProps) => {
+  cardActionArea: (props: IMiniCardProps) => {
     const { cardWidth } = props;
     const cw = cardWidth ? cardWidth : 150;
 
     return {
       width: cw,
       height: cw * 1.3,
+      cursor: "pointer ",
+      border: `1px solid ${theme.palette.primary.main}`,
+      backgroundColor: theme.palette.primary.light,
     };
-  },
-  cardActionArea: {
-    height: "100%",
-    width: "100%",
-    cursor: "pointer ",
-    border: `1px solid ${theme.palette.primary.main}`,
-    backgroundColor: theme.palette.primary.light,
   },
   title: {
     display: "flex",

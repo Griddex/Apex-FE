@@ -1,6 +1,7 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 import {
   TEconomicsAnalysesNames,
   IEconomicsAnalysis,
@@ -133,8 +134,12 @@ export interface EconomicsStateType
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   loadCostsRevenueWorkflow: boolean;
   loadEconomicsParametersWorkflow: boolean;
+  loadEconomicsAnalysesWorkflow: boolean;
+  loadEconomicsSensitivitiesWorkflow: boolean;
+  loadEconomicsResultsWorkflow: boolean;
 
   costsRevenuesAppHeaders: Record<string, string>[];
+  cstRevAppHeadersSelectOptions: ISelectOption[];
   costsRevenuesInputDeckId: string;
   costsRevenuesInputDeckTitle: string;
   costsRevenuesInputDeckDescription: string;
@@ -143,6 +148,7 @@ export interface EconomicsStateType
   selectedCostsRevenuesInputDeckTitle: string;
 
   economicsParametersAppHeaders: Record<string, string>[];
+  ecoParAppHeadersSelectOptions: ISelectOption[];
   economicsParametersInputDeckId: string;
   economicsParametersInputDeckTitle: string;
   economicsParametersInputDeckDescription: string;
@@ -161,6 +167,12 @@ export interface EconomicsStateType
 
   noneColumnIndices: Record<number, boolean>;
   fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
+
+  selectedAnalysis: any; //type it properly?
+  selectedAnalysesNames: TEconomicsAnalysesNames[];
+
+  selectedSensitivitiesTable: any; //type it properly
+  createSensitivitiesIsDialog: boolean;
 
   inputDataWorkflows: Record<string, IEconomicsState>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;

@@ -80,6 +80,7 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
               route,
               startIcon,
               hasWrapper,
+              action,
               component: Component,
             } = navbarData;
 
@@ -94,6 +95,7 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
                     dispatch(subNavbarSetMenuAction(name));
                     dispatch(navigateResetWorkflowAction());
                     setMainMenuSelected(name);
+                    action && action();
                     history.push(route);
                   }}
                   startIcon={startIcon}

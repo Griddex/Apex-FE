@@ -2,8 +2,16 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { useDrag } from "react-dnd";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
-import { IEconomicsParametersSensitivitiesProps } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import {
+  IEconomicsParametersSensitivitiesProps,
+  TEconomicsAnalyses,
+  TEconomicsAnalysesNames,
+} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import pick from "lodash.pick";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles(() => ({
   economicsAnalysisPanel: {
@@ -42,6 +50,11 @@ const EconomicsAnalysesPanel = ({
   setSelectedAnalysis,
 }: IEconomicsParametersSensitivitiesProps) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const { selectedAnalysesNames } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
 
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -58,33 +71,51 @@ const EconomicsAnalysesPanel = ({
     <div>
       <AnalyticsTitle title="Analyses Panel" />
       <div className={classes.economicsAnalysisPanel}>
-        {economicsAnalyses.map((analysis, i) => {
-          const { title, icon } = analysis;
-          const isSelected = title === selectedAnalysis?.title;
+        {economicsAnalyses &&
+          economicsAnalyses.map((analysis, i) => {
+            const { name, title, icon } = analysis;
+            const isSelected = title === selectedAnalysis?.title;
+            const isActivated = selectedAnalysesNames.indexOf(name) !== -1;
 
-          return (
-            <div
-              key={i}
-              className={classes.economicsIconTitle}
-              style={
-                isSelected
-                  ? {
-                      border: `1px solid ${theme.palette.primary.main}`,
-                      backgroundColor: theme.palette.primary.light,
-                    }
-                  : {}
-              }
-              onClick={() =>
-                setSelectedAnalysis && setSelectedAnalysis(analysis)
-              }
-            >
-              <div ref={drag} className={classes.economicsIcon}>
-                {icon}
+            let style = {};
+            if (isActivated) {
+              if (isSelected)
+                style = {
+                  border: `1px solid ${theme.palette.primary.main}`,
+                  backgroundColor: theme.palette.primary.light,
+                };
+              else style = {};
+            } else {
+              style = {
+                pointerEvents: "none",
+                backgroundColor: `1px solid ${theme.palette.grey[500]}`,
+              };
+            }
+
+            return (
+              <div
+                key={i}
+                className={classes.economicsIconTitle}
+                style={style}
+                onClick={() => {
+                  setSelectedAnalysis && setSelectedAnalysis(analysis);
+                  const path = `economicsAnalysisWorkflows.selectedAnalysis`;
+                  const pickedSelectedAnalysis = pick(selectedAnalysis, [
+                    "name",
+                    "title",
+                  ]);
+                  dispatch(
+                    updateEconomicsParameterAction(path, pickedSelectedAnalysis)
+                  );
+                }}
+              >
+                <div ref={drag} className={classes.economicsIcon}>
+                  {icon}
+                </div>
+                <div className={classes.economicsTitle}>{title}</div>
               </div>
-              <div className={classes.economicsTitle}>{title}</div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

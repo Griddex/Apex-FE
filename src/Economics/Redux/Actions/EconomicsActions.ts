@@ -1,3 +1,4 @@
+import { IEconomicsAnalysis } from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   IAllWorkflowProcesses,
   IEconomicsWorkflowProcess,
@@ -12,12 +13,14 @@ export const EXISTINGCOSTSREVENUESDATA_SUCCESS =
   "EXISTINGCOSTSREVENUESDATA_SUCCESS";
 export const EXISTINGCOSTSREVENUESDATA_FAILURE =
   "EXISTINGCOSTSREVENUESDATA_FAILURE";
+
 export const EXISTINGECONOMICSPARAMETERSDATA_REQUEST =
   "EXISTINGECONOMICSPARAMETERSDATA_REQUEST";
 export const EXISTINGECONOMICSPARAMETERSDATA_SUCCESS =
   "EXISTINGECONOMICSPARAMETERSDATA_SUCCESS";
 export const EXISTINGECONOMICSPARAMETERSDATA_FAILURE =
   "EXISTINGECONOMICSPARAMETERSDATA_FAILURE";
+
 export const SAVECOSTSREVENUES_REQUEST = "SAVECOSTSREVENUES_REQUEST";
 export const SAVECOSTSREVENUES_SUCCESS = "SAVECOSTSREVENUES_SUCCESS";
 export const SAVECOSTSREVENUES_FAILURE = "SAVECOSTSREVENUES_FAILURE";
@@ -33,21 +36,54 @@ export const FETCHCOSTSREVENUESHEADERS_SUCCESS =
   "FETCHCOSTSREVENUESHEADERS_SUCCESS";
 export const FETCHCOSTSREVENUESHEADERS_FAILURE =
   "FETCHCOSTSREVENUESHEADERS_FAILURE";
+export const PERSISTCOSTSREVENUESHEADERSSELECTOPTION_SUCCESS =
+  "PERSISTCOSTSREVENUESHEADERSSELECTOPTION_SUCCESS";
+export const PERSISTCOSTSREVENUESHEADERSSELECTOPTION_FAILURE =
+  "PERSISTCOSTSREVENUESHEADERSSELECTOPTION_FAILURE";
+
 export const FETCHECONOMICSPARAMETERSHEADERS_REQUEST =
   "FETCHECONOMICSPARAMETERSHEADERS_REQUEST";
 export const FETCHECONOMICSPARAMETERSHEADERS_SUCCESS =
   "FETCHECONOMICSPARAMETERSHEADERS_SUCCESS";
 export const FETCHECONOMICSPARAMETERSHEADERS_FAILURE =
   "FETCHECONOMICSPARAMETERSHEADERS_FAILURE";
+
+export const PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS =
+  "PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS";
+export const PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE =
+  "PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE";
+
 export const EXISTINGECONOMICSDATA_REQUEST = "EXISTINGECONOMICSDATA_REQUEST";
 export const EXISTINGECONOMICSDATA_SUCCESS = "EXISTINGECONOMICSDATA_SUCCESS";
 export const EXISTINGECONOMICSDATA_FAILURE = "EXISTINGECONOMICSDATA_FAILURE";
+
+export const EXISTINGECONOMICSSENSITIVITIES_REQUEST =
+  "EXISTINGECONOMICSSENSITIVITIES_REQUEST";
+export const EXISTINGECONOMICSSENSITIVITIES_SUCCESS =
+  "EXISTINGECONOMICSSENSITIVITIES_SUCCESS";
+export const EXISTINGECONOMICSSENSITIVITIES_FAILURE =
+  "EXISTINGECONOMICSSENSITIVITIES_FAILURE";
+
 export const SAVEECONOMICSSENSITIVITIES_REQUEST =
   "SAVEECONOMICSSENSITIVITIES_REQUEST";
 export const SAVEECONOMICSSENSITIVITIES_SUCCESS =
   "SAVEECONOMICSSENSITIVITIES_SUCCESS";
 export const SAVEECONOMICSSENSITIVITIES_FAILURE =
   "SAVEECONOMICSSENSITIVITIES_FAILURE";
+
+export const GETECONOMICSSENSITIVITIESBYID_REQUEST =
+  "GETECONOMICSSENSITIVITIESBYID_REQUEST";
+export const GETECONOMICSSENSITIVITIESBYID_SUCCESS =
+  "GETECONOMICSSENSITIVITIESBYID_SUCCESS";
+export const GETECONOMICSSENSITIVITIESBYID_FAILURE =
+  "GETECONOMICSSENSITIVITIESBYID_FAILURE";
+
+export const EXECUTEECONOMICSANALYSIS_REQUEST =
+  "EXECUTEECONOMICSANALYSIS_REQUEST";
+export const EXECUTEECONOMICSANALYSIS_SUCCESS =
+  "EXECUTEECONOMICSANALYSIS_SUCCESS";
+export const EXECUTEECONOMICSANALYSIS_FAILURE =
+  "EXECUTEECONOMICSANALYSIS_FAILURE";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -86,6 +122,25 @@ export const fetchExistingCostsRevenuesHeadersSuccessAction = () => {
 export const fetchExistingCostsRevenuesDataFailureAction = () => {
   return {
     type: FETCHCOSTSREVENUESHEADERS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const persistCostsRevHeadersSelectOptionSuccessAction = () => {
+  return {
+    type: PERSISTCOSTSREVENUESHEADERSSELECTOPTION_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const persistCostsRevDataFaiSelectOptionFailureAction = () => {
+  return {
+    type: PERSISTCOSTSREVENUESHEADERSSELECTOPTION_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -148,6 +203,25 @@ export const fetchExistingEconomicsParametersDataFailureAction = () => {
   };
 };
 
+export const persistEconomicsParHeadersSelectOptionSuccessAction = () => {
+  return {
+    type: PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const persistEconomicsParDataFaiSelectOptionFailureAction = () => {
+  return {
+    type: PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
 export const saveEconomicsParametersRequestAction = (
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
   reducer: ReducersType
@@ -203,9 +277,39 @@ export const fetchExistingEconomicsDataFailureAction = () => {
   };
 };
 
+export const fetchExistingEconomicsSensitivitiesRequestAction = (
+  projectId: string
+) => {
+  return {
+    type: EXISTINGECONOMICSSENSITIVITIES_REQUEST,
+    payload: { projectId },
+    meta: { showSpinner: true, message: "Loading economics sensitivities..." },
+  };
+};
+
+export const fetchExistingEconomicsSensitivitiesSuccessAction = () => {
+  return {
+    type: EXISTINGECONOMICSSENSITIVITIES_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchExistingEconomicsSensitivitiesFailureAction = () => {
+  return {
+    type: EXISTINGECONOMICSSENSITIVITIES_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
 export const saveEconomicsSensitivitiesRequestAction = (
   workflowProcess: IEconomicsWorkflowProcess["wkPs"],
-  reducer: ReducersType
+  reducer: ReducersType,
+  selectedAnalysis: IEconomicsAnalysis
 ) => {
   return {
     type: SAVEECONOMICSSENSITIVITIES_REQUEST,
@@ -226,6 +330,68 @@ export const saveEconomicsSensitivitiesSuccessAction = () => {
 export const saveEconomicsSensitivitiesFailureAction = () => {
   return {
     type: SAVEECONOMICSSENSITIVITIES_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const getEconomicsSensitivitiesByIdRequestAction = (
+  workflowProcess: IEconomicsWorkflowProcess["wkPs"],
+  reducer: ReducersType,
+  selectedAnalysis: IEconomicsAnalysis
+) => {
+  return {
+    type: GETECONOMICSSENSITIVITIESBYID_REQUEST,
+    payload: { workflowProcess, reducer },
+    meta: { showSpinner: true, message: "Saving economics sensitivities..." },
+  };
+};
+
+export const getEconomicsSensitivitiesByIdSuccessAction = () => {
+  return {
+    type: GETECONOMICSSENSITIVITIESBYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getEconomicsSensitivitiesByIdFailureAction = () => {
+  return {
+    type: GETECONOMICSSENSITIVITIESBYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const executeEconomicsAnalysisRequestAction = (
+  workflowProcess: IEconomicsWorkflowProcess["wkPs"],
+  reducer: ReducersType,
+  selectedAnalysis: IEconomicsAnalysis
+) => {
+  return {
+    type: EXECUTEECONOMICSANALYSIS_REQUEST,
+    payload: { workflowProcess, reducer },
+    meta: { showSpinner: true, message: "Saving economics sensitivities..." },
+  };
+};
+
+export const executeEconomicsAnalysisSuccessAction = () => {
+  return {
+    type: EXECUTEECONOMICSANALYSIS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const executeEconomicsAnalysisFailureAction = () => {
+  return {
+    type: EXECUTEECONOMICSANALYSIS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
