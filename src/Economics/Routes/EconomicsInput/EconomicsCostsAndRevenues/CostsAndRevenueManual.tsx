@@ -1,9 +1,9 @@
 import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import faker from "faker";
-import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,9 +19,10 @@ import {
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "98%",
-    height: "90%",
+    height: "95%",
     backgroundColor: "#FFF",
     boxShadow: theme.shadows[3],
     padding: 10,
@@ -53,23 +54,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CostsAndRevenueManual({
-  reducer,
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
-  idTitleArr,
-  persistSelectedIdTitleAction,
 }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const { costsRevenuesAppHeaders } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const { uniqUnitOptions } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
   );
 
   const tableButtons: ITableButtonsProps = {
@@ -160,26 +157,29 @@ export default function CostsAndRevenueManual({
         name: `OIL RATE`,
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: (props: EditorProps<IRawRow>) => {
+          console.log(
+            "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 168 ~ generateColumns ~ props",
+            props
+          );
           const { rowIdx } = props;
-          if (rowIdx === 0) return null;
+          if (rowIdx === 0) return <div></div>;
           else return <TextEditor {...props} />;
         },
         resizable: true,
         formatter: ({ row }) => {
           const data = ["bopd", "Mbopd"];
           const oilRate = row.oilRate as string;
-          const valueOption = generateSelectOptions([oilRate])[0];
-
+          const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "oilRate")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.oilRate}</div>;
@@ -199,18 +199,18 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["bopd", "Mbopd"];
           const condensateRate = row.condensateRate as string;
-          const valueOption = generateSelectOptions([condensateRate])[0];
+          const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "condensateRate")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.oilRate}</div>;
@@ -226,18 +226,17 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["MMScf/d", "MScf/d"];
           const gasRate = row.gasRate as string;
-          const valueOption = generateSelectOptions([gasRate])[0];
-
+          const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "gasRate")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.gasRate}</div>;
@@ -253,18 +252,17 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const seismicCost = row.seismicCost as string;
-          const valueOption = generateSelectOptions([seismicCost])[0];
-
+          const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "seismicCost")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.seismicCost}</div>;
@@ -280,18 +278,18 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const explApprCost = row.explApprCost as string;
-          const valueOption = generateSelectOptions([explApprCost])[0];
+          const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "explApprCost")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.explApprCost}</div>;
@@ -307,18 +305,18 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const facilitiesCapex = row.facilitiesCapex as string;
-          const valueOption = generateSelectOptions([facilitiesCapex])[0];
+          const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "facilitiesCapex")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.facilitiesCapex}</div>;
@@ -334,18 +332,18 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const tangWellCost = row.tangWellCost as string;
-          const valueOption = generateSelectOptions([tangWellCost])[0];
+          const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "tangWellCost")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.tangWellCost}</div>;
@@ -361,18 +359,18 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const intangWellCost = row.intangWellCost as string;
-          const valueOption = generateSelectOptions([intangWellCost])[0];
+          const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "intangWellCost")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.intangWellCost}</div>;
@@ -388,18 +386,17 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const abandCost = row.abandCost as string;
-          const valueOption = generateSelectOptions([abandCost])[0];
-
+          const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "abandCost")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.abandCost}</div>;
@@ -415,18 +412,17 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const directCost = row.directCost as string;
-          const valueOption = generateSelectOptions([directCost])[0];
-
+          const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "directCost")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.directCost}</div>;
@@ -442,18 +438,17 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const cha = row.cha as string;
-          const valueOption = generateSelectOptions([cha])[0];
-
+          const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "cha")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.cha}</div>;
@@ -468,18 +463,18 @@ export default function CostsAndRevenueManual({
         formatter: ({ row }) => {
           const data = ["$m", "Nm"];
           const terminalCost = row.terminalCost as string;
-          const valueOption = generateSelectOptions([terminalCost])[0];
+          const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
             return (
               <ApexSelectRS
                 valueOption={valueOption}
-                data={data}
+                data={uniqUnitOptions}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleApplicationUnitChange(value, "terminalCost")
                 }
                 menuPortalTarget={document.body}
-                isSelectOptionType={false}
+                isSelectOptionType={true}
               />
             );
           else return <div> {row.terminalCost}</div>;
@@ -497,29 +492,33 @@ export default function CostsAndRevenueManual({
     for (let i = 0; i < numberOfRows; i++) {
       const fakeRow = {
         sn: i,
-        year: faker.random.number({ min: 2000, max: 2020 }),
-        oilRate: faker.random.number({ min: 600, max: 10000 }),
-        condensateRate: faker.random.number({ min: 600, max: 10000 }),
-        gasRate: faker.random.number({ min: 30, max: 160 }),
-        seismicCost: faker.random.number({ min: 10, max: 15 }),
-        explApprCost: faker.random.number({ min: 5, max: 10 }),
-        facilitiesCapex: faker.random.number({ min: 50, max: 250 }),
-        tangWellCost: faker.random.number({ min: 20, max: 80 }),
-        intangWellCost: faker.random.number({ min: 10, max: 50 }),
-        abandCost: faker.random.number({ min: 10, max: 50 }),
-        directCost: faker.random.number({ min: 5, max: 20 }),
-        cha: faker.random.number({ min: 5, max: 50 }),
-        terminalCost: faker.random.number({ min: 10, max: 20 }),
+        year: "",
+        oilRate: "",
+        condensateRate: "",
+        gasRate: "",
+        seismicCost: "",
+        explApprCost: "",
+        facilitiesCapex: "",
+        tangWellCost: "",
+        intangWellCost: "",
+        abandCost: "",
+        directCost: "",
+        cha: "",
+        terminalCost: "",
       };
 
       fakeRows.push(fakeRow);
     }
     return fakeRows;
   };
-  const faketableRows = createTableRows(100);
+  const faketableRows = createTableRows(50);
   const tableRows = React.useRef<any>(faketableRows);
   const currentRows = tableRows.current;
   const [rows, setRows] = React.useState(currentRows);
+  console.log(
+    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 518 ~ rows",
+    rows
+  );
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -550,6 +549,44 @@ export default function CostsAndRevenueManual({
           </SizeMe>
         </div>
       </ClickAwayListener>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: 10,
+          marginBottom: 2,
+          width: 200,
+        }}
+      >
+        <BaseButtons
+          buttonTexts={["Reset", "Save"]}
+          variants={["contained", "contained"]}
+          colors={["secondary", "primary"]}
+          startIcons={[
+            <RotateLeftIcon key={1} />,
+            <SaveOutlinedIcon key={2} />,
+          ]}
+          disableds={[false, false]}
+          shouldExecute={[true, true]}
+          shouldDispatch={[false, false]}
+          finalActions={[
+            () => {
+              const dialogParameters = confirmationDialogParameters(
+                "CostsRevenueManual_Reset_Confirmation",
+                "Reset Confirmation",
+                `Do you want to reset this table?. 
+                  You will lose all data up to current step.`,
+                true,
+                false,
+                () => console.log("Hi")
+              );
+
+              dispatch(showDialogAction(dialogParameters));
+            },
+            () => finalAction && finalAction(),
+          ]}
+        />
+      </div>
     </div>
   );
 }

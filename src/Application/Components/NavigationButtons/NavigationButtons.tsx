@@ -87,6 +87,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
               `Do you want to reset this workflow?. 
               You will lose all data up to current step.`,
               true,
+              true,
               () => workflowResetAction(0, wp, wc)
             );
 

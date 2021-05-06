@@ -1,6 +1,6 @@
 import React from "react";
 
-const noEventPropgation = (action?: () => void) => {
+const noEventPropagation = (action?: () => void) => {
   return {
     onClick: (event: React.ChangeEvent<any>) => {
       event.persist();
@@ -14,4 +14,4 @@ const noEventPropgation = (action?: () => void) => {
   };
 };
 
-export default noEventPropgation;
+export default noEventPropagation;

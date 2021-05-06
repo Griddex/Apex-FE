@@ -1,4 +1,8 @@
-import { IEconomicsAnalysis } from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import {
+  IEconomicsAnalysis,
+  TEconomicsAnalysesNames,
+  TEconomicsAnalysesTitles,
+} from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   IAllWorkflowProcesses,
   IEconomicsWorkflowProcess,
@@ -370,13 +374,13 @@ export const getEconomicsSensitivitiesByIdFailureAction = () => {
 
 export const executeEconomicsAnalysisRequestAction = (
   workflowProcess: IEconomicsWorkflowProcess["wkPs"],
-  reducer: ReducersType,
-  selectedAnalysis: IEconomicsAnalysis
+  analysisName: TEconomicsAnalysesNames,
+  analysisTitle: TEconomicsAnalysesTitles
 ) => {
   return {
     type: EXECUTEECONOMICSANALYSIS_REQUEST,
-    payload: { workflowProcess, reducer },
-    meta: { showSpinner: true, message: "Saving economics sensitivities..." },
+    payload: { workflowProcess, analysisName, analysisTitle },
+    meta: { showSpinner: true, message: `Calculating ${analysisTitle}...` },
   };
 };
 

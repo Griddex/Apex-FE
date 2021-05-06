@@ -19,6 +19,7 @@ import {
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { developmentScenarios } from "../../Data/EconomicsData";
 import {
+  executeEconomicsAnalysisRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
@@ -26,6 +27,7 @@ import {
   IEconomicsAnalysis,
   IEconomicsParametersSensitivitiesProps,
   TEconomicsAnalysesNames,
+  TEconomicsAnalysesTitles,
 } from "./EconomicsAnalysesTypes";
 import EconomicsDecksSelectionTable from "./EconomicsDecksSelectionTable";
 import EconomicsSensitivitiesTable from "./EconomicsParametersSensitivities/EconomicsSensitivitiesTable";
@@ -160,6 +162,34 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const calculateEconomicsAnalysisConfirmation = (
+    name: TEconomicsAnalysesNames,
+    title: TEconomicsAnalysesTitles
+  ) => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: `Calculate_${title}_Confirmation`,
+      title: `Calculate ${title} Confirmation`,
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: `Do you want to calculate ${title} with the current parameters?`,
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () => executeEconomicsAnalysisRequestAction(wp, name, title),
+          ]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(confirmationDialogParameters));
+  };
+
   React.useEffect(() => {
     const path = `economicsAnalysisWorkflows.${name}.sensitivities.analysisName`;
     const value = selectedAnalysis?.name;
@@ -256,7 +286,7 @@ const EconomicsAnalysis = ({
         <Button
           className={classes.primaryButton}
           startIcon={<ViewDayTwoToneIcon />}
-          onClick={() => alert("calculate")}
+          onClick={() => calculateEconomicsAnalysisConfirmation(name, title)}
         >
           Calculate
         </Button>

@@ -72,7 +72,7 @@ const LandingRoute = () => {
             alt="Apex Hydrocarbon Forecasting Platform Logo"
           />
           <Typography className={classes.typography} variant="h6">
-            ...Integrated technology for business growth
+            ...inspired technologies for business growth
           </Typography>
         </div>
       </div>

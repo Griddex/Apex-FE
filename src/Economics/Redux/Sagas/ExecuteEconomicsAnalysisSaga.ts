@@ -24,7 +24,6 @@ import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
-import { economicsAnalysesTitleNamesObj } from "../../Data/EconomicsData";
 import {
   executeEconomicsAnalysisFailureAction,
   executeEconomicsAnalysisSuccessAction,
@@ -57,7 +56,7 @@ function* executeEconomicsAnalysisSaga(
   any
 > {
   const { payload } = action;
-  const { workflowProcess, analysisName } = payload;
+  const { workflowProcess, analysisName, analysisTitle } = payload;
   const wp = workflowProcess;
   const wc = "economicsAnalysisWorkflows";
 
@@ -74,20 +73,24 @@ function* executeEconomicsAnalysisSaga(
     selectedCostsRevenuesInputDeckId,
     selectedEconomicsParametersInputDeckId,
     selectedEconomicsSensitivitiesId,
+    analysisName,
   };
 
   const config = { withCredentials: false };
   const executeEconomicsAnalysisAPI = (url: string) =>
     authService.post(url, data, config);
 
-  const analysisTitle = economicsAnalysesTitleNamesObj[analysisName];
-
   try {
     yield put(showSpinnerAction(`Calculating ${analysisTitle}...`));
 
     const result = yield call(
       executeEconomicsAnalysisAPI,
-      `${getBaseEconomicsUrl()}/${analysisName}/run`
+      // `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
+      `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
+    );
+    console.log(
+      "Logged output --> ~ file: ExecuteEconomicsAnalysisSaga.ts ~ line 93 ~ result",
+      result
     );
 
     const {

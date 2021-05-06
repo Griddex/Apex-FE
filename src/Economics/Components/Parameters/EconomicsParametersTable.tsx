@@ -5,39 +5,35 @@ import {
   Tooltip,
   useTheme,
 } from "@material-ui/core";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
+import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
+import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
+import omit from "lodash.omit";
+import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
+import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
-import React from "react";
+import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
+import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
+import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   TRawTable,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IEconomicsParametersTable } from "./IParametersType";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-import omit from "lodash.omit";
-import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
-import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { useSelector } from "react-redux";
-import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { TVariableNameTitleData } from "../../../Application/Types/ApplicationTypes";
-import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
+import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
+import { IEconomicsParametersTable } from "./IParametersType";
 
 const useStyles = makeStyles((theme) => ({
   economicsParametersTable: {
     display: "flex",
     flexDirection: "column",
-    width: "95%",
+    width: "100%",
     height: "90%",
     marginTop: 40,
   },
@@ -56,10 +52,6 @@ const EconomicsParametersTable = ({
     costsRevenuesAppHeaders,
     economicsParametersAppHeaders,
   } = useSelector((state: RootState) => state[reducer]);
-  console.log(
-    "Logged output --> ~ file: EconomicsParametersTable.tsx ~ line 55 ~ costsRevenuesAppHeaders",
-    costsRevenuesAppHeaders
-  );
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,

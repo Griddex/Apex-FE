@@ -5,6 +5,8 @@ import getRSStyles from "../../Utils/GetRSStyles";
 import { useTheme } from "@material-ui/core";
 import generateSelectOptions from "../../Utils/GenerateSelectOptions";
 import getRSTheme from "../../Utils/GetRSTheme";
+import noEventPropagation from "../../Events/NoEventPropagation";
+import NoImmediateEventPropgation from "../../Events/NoImmediateEventPropagation";
 
 const ApexSelectRS = ({
   valueOption,
@@ -30,6 +32,8 @@ const ApexSelectRS = ({
       onChange={handleSelect}
       menuPortalTarget={menuPortalTarget}
       theme={(thm) => getRSTheme(thm, theme)}
+      {...noEventPropagation()}
+      // {...NoImmediateEventPropgation}
       {...rest}
     />
   );

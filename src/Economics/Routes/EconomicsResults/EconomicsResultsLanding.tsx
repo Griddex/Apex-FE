@@ -15,6 +15,7 @@ import EconomicsTablesCharts from "./EconomicsTablesCharts";
 import ExistingEconomicsResults from "./ExistingEconomicsResults";
 import Spreadsheet from "../../../Application/Images/Spreadsheet.svg";
 import ForecastCharts from "../../../Forecast/Images/ForecastCharts.svg";
+import HeatMap from "../../Images/HeatMap.svg";
 import ExistingDeck from "../../../Import/Images/ExistingDeck.svg";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
@@ -67,8 +68,8 @@ const EconomicsResultsLanding = () => {
       workflowCategory: "existingDataWorkflows",
     },
     {
-      name: "Plot Charts & Tables",
-      description: `Plot economics results in highly interactive charts and tables`,
+      name: "Plot Charts",
+      description: `Plot economics results in highly interactive charts`,
       icon: (
         <Image
           className={classes.image}
@@ -80,7 +81,14 @@ const EconomicsResultsLanding = () => {
       workflowProcess: "economicsResultsChartsTables",
       workflowCategory: "existingDataWorkflows",
     },
-
+    {
+      name: "Sensitivities Heatmap",
+      description: `View key economic indicators as defined by parameter sensitivities`,
+      icon: <Image className={classes.image} src={HeatMap} alt="Chart Logo" />,
+      route: `${url}/sensitivitiesHeatmap`,
+      workflowProcess: "economicsResultsSensitivitiesHeatmap",
+      workflowCategory: "existingDataWorkflows",
+    },
     {
       name: `Existing Economics Results`,
       description: `Select a pre-exisiting and approved economics results data stored in the Apex\u2122 database`,

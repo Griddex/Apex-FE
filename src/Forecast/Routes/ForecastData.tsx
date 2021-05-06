@@ -367,7 +367,7 @@ export default function ForecastData({
         }}
       >
         <label className={classes.apexSelectRS}>
-          <b>Select Forecast Run</b>
+          <b>Forecast Run</b>
           <SelectForecastRun />
         </label>
         <label style={{ width: 400 }}>

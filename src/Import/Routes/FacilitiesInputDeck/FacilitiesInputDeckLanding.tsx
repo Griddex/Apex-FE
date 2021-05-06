@@ -115,6 +115,7 @@ const FacilitiesInputDeckLanding = () => {
         "Facilities Deck Save Confirmation",
         `Do you want to save the current facilities Inputdeck?`,
         true,
+        true,
         () => saveInputDeckRequestAction(workflowProcess)
       );
 

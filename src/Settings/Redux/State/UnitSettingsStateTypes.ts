@@ -1,3 +1,4 @@
+import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 export interface IUnit {
   title: string;
   group: string;
@@ -26,5 +27,6 @@ export interface IUnitSettingsData {
   pressureAddend?: number;
   selectedVariableUnits: SelectedVariablesType[];
   variableUnits: IUnitsRow[];
+  uniqUnitOptions: ISelectOption[];
   applicationUnitsCollection?: IUnitsRow["units"];
 }

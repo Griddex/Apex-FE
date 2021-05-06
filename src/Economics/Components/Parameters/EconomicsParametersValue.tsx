@@ -2,7 +2,7 @@ import React from "react";
 import { Button, ListItemIcon, Typography, useTheme } from "@material-ui/core";
 import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
 import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
-import noEventPropgation from "../../../Application/Events/NoEventPropgation";
+import noEventPropagation from "../../../Application/Events/NoEventPropagation";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { useDispatch } from "react-redux";
@@ -86,14 +86,14 @@ const EconomicsParametersValue = ({
           height: "90%",
           ...finalStyle,
         }}
-        {...noEventPropgation()}
+        {...noEventPropagation()}
       >
         <ListItemIcon style={{ minWidth: 20, ...letterIconStyle }}>
           {letterIcon}
         </ListItemIcon>
         <Typography variant="inherit">{valueText}</Typography>
       </div>
-      <LaunchOutlinedIcon {...noEventPropgation(handleAction)} />
+      <LaunchOutlinedIcon {...noEventPropagation(handleAction)} />
     </CenteredStyle>
   );
 };

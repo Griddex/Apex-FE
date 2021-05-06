@@ -11,6 +11,8 @@ const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   selectedVariableUnits: [],
   applicationUnitsCollection: [],
 
+  uniqUnitOptions: [],
+
   status: 200,
   errors: { message: "" },
 };

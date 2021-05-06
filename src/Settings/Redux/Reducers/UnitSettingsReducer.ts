@@ -1,15 +1,14 @@
+import set from "lodash.set";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
-  UPDATE_UNITSETTINGS,
   FETCH_UNITSETTINGS_FAILURE,
   FETCH_UNITSETTINGS_SUCCESS,
-  UPDATE_SELECTEDVARIABLEUNITS,
   UPDATE_FIRSTLEVELUNITSETTINGS,
+  UPDATE_SELECTEDVARIABLEUNITS,
   UPDATE_UNITGROUPS,
+  UPDATE_UNITSETTINGS,
 } from "../Actions/UnitSettingsActions";
 import unitSettingsState from "../State/UnitSettingsState";
-import { IUnit } from "../State/UnitSettingsStateTypes";
-import set from "lodash.set";
 
 const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
   switch (action.type) {

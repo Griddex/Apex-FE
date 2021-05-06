@@ -1,3 +1,4 @@
+import uniqBy from "lodash.uniqby";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -11,6 +12,7 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
+import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -21,7 +23,9 @@ import {
   fetchUnitSettingsFailureAction,
   fetchUnitSettingsSuccessAction,
   FETCH_UNITSETTINGS_REQUEST,
+  updateUnitsSettingsParameterAction,
 } from "../../Actions/UnitSettingsActions";
+import { IUnitsRow } from "../../State/UnitSettingsStateTypes";
 
 export default function* watchFetchUnitSettingsSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -63,6 +67,24 @@ function* fetchUnitSettingsSaga(
       ...successAction,
       payload: { ...payload, status, unitsData },
     });
+
+    const { variableUnits } = unitsData;
+    const unitOptions: ISelectOption[] = variableUnits.reduce(
+      (acc: ISelectOption[], row: IUnitsRow) => {
+        const units = row.units.map((u) => ({
+          value: u.unitId,
+          label: u.title,
+        }));
+        return [...acc, ...units];
+      },
+      []
+    );
+    const uniqUnitOptions = uniqBy(unitOptions, (o) => o.label);
+
+    const path = "uniqUnitOptions";
+    const value = uniqUnitOptions;
+    const updateAction = updateUnitsSettingsParameterAction(path, value);
+    yield put(updateAction);
   } catch (errors) {
     const failureAction = fetchUnitSettingsFailureAction();
 

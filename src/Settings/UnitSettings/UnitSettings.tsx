@@ -37,6 +37,7 @@ import {
 import Select, { ValueType } from "react-select";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import getRSStyles from "../../Application/Utils/GetRSStyles";
+import uniqBy from "lodash.uniqby";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -142,13 +143,13 @@ export default function UnitSettings({
     dispatch(updateFirstLevelUnitSettingsAction(name, value));
   };
 
-  const snUnits = variableUnits.map((row, i: number) => ({
+  const snVariableUnits = variableUnits.map((row, i: number) => ({
     sn: i + 1,
     ...row,
   }));
 
   //Application Units
-  const unitOptions: SelectOptionsType = snUnits.reduce(
+  const unitOptions: SelectOptionsType = snVariableUnits.reduce(
     (acc, row: IUnitsRow) => {
       const fieldOptions = row.units.filter(
         (v) => v.group.toLowerCase() === "field"
@@ -179,7 +180,7 @@ export default function UnitSettings({
   ); //{oilRate:[fieldOptions,metricOptions], gasRate:[fieldOptions,metricOptions]}
 
   const initVariableUnitsGroupObj = () =>
-    snUnits.reduce((acc: Record<string, any>, row: IUnitsRow) => {
+    snVariableUnits.reduce((acc: Record<string, any>, row: IUnitsRow) => {
       const { variableName, units, displayUnitId } = row;
       const selectedUnitObj = units.filter((u) => u.unitId === displayUnitId);
       const selectedUnitGroup = selectedUnitObj[0].group;
@@ -191,7 +192,7 @@ export default function UnitSettings({
   );
 
   const initSelectedVariableUnits = () =>
-    snUnits.reduce(
+    snVariableUnits.reduce(
       (acc: Record<string, SelectedVariablesType>, row: IUnitsRow) => {
         const { variableId, variableName, displayUnitId, databaseUnitId } = row;
 
@@ -339,7 +340,7 @@ export default function UnitSettings({
     return columns;
   };
   const columns = React.useMemo(() => generateColumns(), []);
-  const tableRows = React.useRef<IUnitsRow[]>(snUnits);
+  const tableRows = React.useRef<IUnitsRow[]>(snVariableUnits);
 
   const [, setRerender] = React.useState(false);
   const modifyTableRows = (

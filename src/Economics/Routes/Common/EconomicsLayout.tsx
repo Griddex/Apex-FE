@@ -116,6 +116,10 @@ const EconomicsLayout = () => {
       startIcon: <TableChartOutlinedIcon fontSize="default" />,
       hasWrapper: false,
       component: () => <div></div>,
+      action: () =>
+        dispatch(
+          updateEconomicsParameterAction("loadEconomicsResultsWorkflow", false)
+        ),
     },
   ];
 
