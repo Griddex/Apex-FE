@@ -7,12 +7,10 @@ import ContextDrawer from "../../../../Application/Components/Drawers/ContextDra
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IForecastRoutes } from "../../../../Forecast/Routes/ForecastRoutesTypes";
 import FormatAggregator from "../../../../Visualytics/Components/FormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
 

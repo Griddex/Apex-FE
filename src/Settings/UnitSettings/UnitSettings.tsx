@@ -149,32 +149,55 @@ export default function UnitSettings({
   }));
 
   //Application Units
-  const unitOptions: SelectOptionsType = snVariableUnits.reduce(
+  const unitOptions: Record<string, any[]> = snVariableUnits.reduce(
     (acc, row: IUnitsRow) => {
-      const fieldOptions = row.units.filter(
-        (v) => v.group.toLowerCase() === "field"
-      );
-      const metricOptions = row.units.filter(
-        (v) => v.group.toLowerCase() === "metric"
-      );
+      // let appGeneralUnits
+      // let appFieldUnits
+      // let appMetricUnits
 
-      const appFieldUnits = fieldOptions.map((unit) => {
-        return {
-          value: unit.unitId,
-          label: unit.title,
-          group: unit.group,
-        };
-      });
+      if (row.units[0].group.toLowerCase() === "general") {
+        const generalOptions = row.units.filter(
+          (v) => v.group.toLowerCase() === "general"
+        );
+        console.log(
+          "Logged output --> ~ file: UnitSettings.tsx ~ line 195 ~ row",
+          row
+        );
 
-      const appMetricUnits = metricOptions.map((unit) => {
-        return {
-          value: unit.unitId,
-          label: unit.title,
-          group: unit.group,
-        };
-      });
+        const appGeneralUnits = generalOptions.map((unit) => {
+          return {
+            value: unit.unitId,
+            label: unit.title,
+            group: unit.group,
+          };
+        });
+        return { ...acc, [row.variableName]: [appGeneralUnits] };
+      } else {
+        const fieldOptions = row.units.filter(
+          (v) => v.group.toLowerCase() === "field"
+        );
+        const metricOptions = row.units.filter(
+          (v) => v.group.toLowerCase() === "metric"
+        );
 
-      return { ...acc, [row.variableName]: [appFieldUnits, appMetricUnits] };
+        const appFieldUnits = fieldOptions.map((unit) => {
+          return {
+            value: unit.unitId,
+            label: unit.title,
+            group: unit.group,
+          };
+        });
+
+        const appMetricUnits = metricOptions.map((unit) => {
+          return {
+            value: unit.unitId,
+            label: unit.title,
+            group: unit.group,
+          };
+        });
+
+        return { ...acc, [row.variableName]: [appFieldUnits, appMetricUnits] };
+      }
     },
     {}
   ); //{oilRate:[fieldOptions,metricOptions], gasRate:[fieldOptions,metricOptions]}
@@ -231,87 +254,167 @@ export default function UnitSettings({
           const variableName = row.variableName as string;
           const variableId = row.variableId as string;
           const databaseUnitId = row.databaseUnitId as string;
-          const [fieldOptions, metricOptions] = unitOptions[variableName];
           const displayUnitIdValue = row.displayUnitId;
 
-          return (
-            <select
-              style={{ width: "100%", height: "95%" }}
-              value={displayUnitIdValue}
-              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                event.stopPropagation();
+          const isGeneral = row.units[0].group.toLowerCase() === "general";
 
-                const selecteddisplayUnitId = event.target.value;
-                const selectedUnitOptionIndex = findIndex(
-                  [...fieldOptions, ...metricOptions],
-                  (option) => option.value === selecteddisplayUnitId
-                );
+          if (isGeneral) {
+            const [generalOptions] = unitOptions[variableName];
 
-                onRowChange({
-                  ...row,
-                  displayUnitId: selecteddisplayUnitId,
-                });
+            return (
+              <select
+                style={{ width: "100%", height: "95%" }}
+                value={displayUnitIdValue}
+                onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                  event.stopPropagation();
 
-                setVariableUnitsGroup((prev) => {
-                  const allAppUnits = [...fieldOptions, ...metricOptions];
-                  const selectedAppUnit = allAppUnits[selectedUnitOptionIndex];
-
-                  const newAllAppUnits = {
-                    ...prev,
-                    [variableName]: selectedAppUnit.group,
-                  };
-
-                  const newUnitGroup = getGlobalUnitGroup(
-                    Object.values(newAllAppUnits)
-                  );
-                  setGlobalUnitGroupName(newUnitGroup);
-
-                  return newAllAppUnits;
-                });
-
-                setSelectedVariableUnits((prev) => {
-                  const newSelectedVariablesDict = {
-                    ...prev,
-                    [variableId]: {
-                      variableName,
-                      displayUnitId: selecteddisplayUnitId,
-                      databaseUnitId,
-                    },
-                  };
-
-                  const newSelectedVariables = Object.values(
-                    newSelectedVariablesDict
-                  );
-                  dispatch(
-                    updateSelectedVariableUnitsAction(newSelectedVariables)
+                  const selecteddisplayUnitId = event.target.value;
+                  const selectedUnitOptionIndex = findIndex(
+                    [...generalOptions],
+                    (option) => option.value === selecteddisplayUnitId
                   );
 
-                  return newSelectedVariablesDict;
-                });
+                  onRowChange({
+                    ...row,
+                    displayUnitId: selecteddisplayUnitId,
+                  });
 
-                modifyTableRows(variableName, selecteddisplayUnitId);
-                setRerender((rerender) => !rerender);
-              }}
-            >
-              <optgroup label="Field Units">
-                {fieldOptions.map((option, i: number) => (
-                  <option key={i} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Metric Units">
-                {metricOptions.map((option, i: number) => (
-                  <option
-                    key={i + fieldOptions.length + 1}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </optgroup>
-            </select>
-          );
+                  setVariableUnitsGroup((prev) => {
+                    const allAppUnits = [...generalOptions];
+                    const selectedAppUnit =
+                      allAppUnits[selectedUnitOptionIndex];
+
+                    const newAllAppUnits = {
+                      ...prev,
+                      [variableName]: selectedAppUnit.group,
+                    };
+
+                    const newUnitGroup = getGlobalUnitGroup(
+                      Object.values(newAllAppUnits)
+                    );
+                    setGlobalUnitGroupName(newUnitGroup);
+
+                    return newAllAppUnits;
+                  });
+
+                  setSelectedVariableUnits((prev) => {
+                    const newSelectedVariablesDict = {
+                      ...prev,
+                      [variableId]: {
+                        variableName,
+                        displayUnitId: selecteddisplayUnitId,
+                        databaseUnitId,
+                      },
+                    };
+
+                    const newSelectedVariables = Object.values(
+                      newSelectedVariablesDict
+                    );
+                    dispatch(
+                      updateSelectedVariableUnitsAction(newSelectedVariables)
+                    );
+
+                    return newSelectedVariablesDict;
+                  });
+
+                  modifyTableRows(variableName, selecteddisplayUnitId);
+                  setRerender((rerender) => !rerender);
+                }}
+              >
+                <optgroup label="General Units">
+                  {generalOptions.map((option: ISelectOption, i: number) => (
+                    <option
+                      key={i + generalOptions.length + 1}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            );
+          } else {
+            const [fieldOptions, metricOptions] = unitOptions[variableName];
+            return (
+              <select
+                style={{ width: "100%", height: "95%" }}
+                value={displayUnitIdValue}
+                onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                  event.stopPropagation();
+
+                  const selecteddisplayUnitId = event.target.value;
+                  const selectedUnitOptionIndex = findIndex(
+                    [...fieldOptions, ...metricOptions],
+                    (option) => option.value === selecteddisplayUnitId
+                  );
+
+                  onRowChange({
+                    ...row,
+                    displayUnitId: selecteddisplayUnitId,
+                  });
+
+                  setVariableUnitsGroup((prev) => {
+                    const allAppUnits = [...fieldOptions, ...metricOptions];
+                    const selectedAppUnit =
+                      allAppUnits[selectedUnitOptionIndex];
+
+                    const newAllAppUnits = {
+                      ...prev,
+                      [variableName]: selectedAppUnit.group,
+                    };
+
+                    const newUnitGroup = getGlobalUnitGroup(
+                      Object.values(newAllAppUnits)
+                    );
+                    setGlobalUnitGroupName(newUnitGroup);
+
+                    return newAllAppUnits;
+                  });
+
+                  setSelectedVariableUnits((prev) => {
+                    const newSelectedVariablesDict = {
+                      ...prev,
+                      [variableId]: {
+                        variableName,
+                        displayUnitId: selecteddisplayUnitId,
+                        databaseUnitId,
+                      },
+                    };
+
+                    const newSelectedVariables = Object.values(
+                      newSelectedVariablesDict
+                    );
+                    dispatch(
+                      updateSelectedVariableUnitsAction(newSelectedVariables)
+                    );
+
+                    return newSelectedVariablesDict;
+                  });
+
+                  modifyTableRows(variableName, selecteddisplayUnitId);
+                  setRerender((rerender) => !rerender);
+                }}
+              >
+                <optgroup label="Field Units">
+                  {fieldOptions.map((option: ISelectOption, i: number) => (
+                    <option key={i} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </optgroup>
+                <optgroup label="Metric Units">
+                  {metricOptions.map((option: ISelectOption, i: number) => (
+                    <option
+                      key={i + fieldOptions.length + 1}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            );
+          }
         },
         width: 300,
       },
