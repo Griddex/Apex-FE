@@ -118,18 +118,27 @@ const existingDataState = generateExistingDataState();
 const InputState: InputStateType = {
   currentWorkflowProcess: "",
   headerType: "",
+
+  facilitiesInputDeckId: "",
+  facilitiesInputDeckTitle: "",
+  facilitiesInputDeckDescription: "",
+
+  selectedFacilitiesInputDeckId: "",
+  selectedFacilitiesInputDeckTitle: "",
+  selectedFacilitiesInputDeckDescription: "",
+
+  selectedForecastInputDeckId: "",
+  selectedForecastInputDeckTitle: "",
+  selectedForecastInputDeckDescription: "",
+
+  forecastInputDeckId: "",
+  forecastInputDeckTitle: "",
+  forecastInputDeckDescription: "",
+
   facilitiesAppHeaders: [],
   forecastAppHeaders: [],
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
-
-  selectedFacilitiesInputDeckId: "",
-  selectedFacilitiesInputDeckTitle: "",
-  facilitiesInputDeckDescription: "",
-
-  selectedForecastInputDeckId: "",
-  selectedForecastInputDeckTitle: "",
-  forecastInputDeckDescription: "",
 
   noneColumnIndices: {},
   fileHeadersChosenAppHeadersWithNone: [],

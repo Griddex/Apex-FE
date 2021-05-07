@@ -22,3 +22,7 @@ export interface ISelectItem {
   label?: string;
   selectItemStyle?: CSSProperties;
 }
+
+export type TDayFormatValues = "d" | "do" | "dd" | "ddd";
+export type TMonthFormatValues = "M" | "Mo" | "MM" | "MMM" | "MMMM";
+export type TYearFormatValues = "y" | "yo" | "yy" | "yyyy";

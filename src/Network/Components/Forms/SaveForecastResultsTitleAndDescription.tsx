@@ -21,10 +21,28 @@ const SaveForecastResultsTitleAndDescription = ({
       ? errors && errors.forecastResultsTitle
       : "";
 
-  const handleBlur = (event: ChangeEvent<any>) => {
+  type TTitleDesc = "forecastResultsTitle" | "forecastResultsDescription";
+  const [TitleDesc, setTitleDesc] = React.useState({
+    forecastResultsTitle: "",
+    forecastResultsDescription: "",
+  });
+
+  const handleTitleDescBlur = (event: ChangeEvent<any>) => {
+    handleChange && handleChange(event);
     const { name, value } = event.target;
-    dispatch(updateForecastResultsParameterAction(name, value));
+    setTitleDesc((prev) => ({ ...prev, [name]: value }));
   };
+
+  React.useEffect(() => {
+    for (const name of Object.keys(TitleDesc)) {
+      dispatch(
+        updateForecastResultsParameterAction(
+          name,
+          TitleDesc[name as TTitleDesc]
+        )
+      );
+    }
+  }, [TitleDesc]);
 
   return (
     <div>
@@ -52,7 +70,7 @@ const SaveForecastResultsTitleAndDescription = ({
                   setIsSaveForecastResultsValid(true);
               }
             }}
-            onBlur={handleBlur}
+            onBlur={handleTitleDescBlur}
             required
             autoFocus
             fullWidth
@@ -70,7 +88,7 @@ const SaveForecastResultsTitleAndDescription = ({
             rowsMin={20}
             value={forecastResultsDescription}
             onChange={handleChange}
-            onBlur={handleBlur}
+            onBlur={handleTitleDescBlur}
           />
         }
       />

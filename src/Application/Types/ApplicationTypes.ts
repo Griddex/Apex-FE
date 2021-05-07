@@ -5,6 +5,7 @@ import {
   IAllWorkflowProcesses,
   ReducersType,
 } from "../Components/Workflows/WorkflowTypes";
+import { TEconomicsAnalysesTitles } from "../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 export interface IExistingDataRow {
   sn?: number;
@@ -60,6 +61,8 @@ export interface IApplicationExistingDataRow {
   author?: IUserDetails | string;
   approvers?: IUserDetails[] | string;
   createdAt?: string;
+  sensitivities?: "Yes" | "None";
+  analysisTitle?: TEconomicsAnalysesTitles | "Multiple";
 }
 export interface IApplicationExistingForecastResultsRow
   extends IApplicationExistingDataRow {

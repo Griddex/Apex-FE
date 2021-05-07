@@ -1,4 +1,5 @@
-import { makeStyles, useTheme } from "@material-ui/core";
+import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
@@ -8,9 +9,15 @@ import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import Select, { Styles } from "react-select";
-import { ValueType } from "react-select";
+import Select, { Styles, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { dateFormatData } from "../../../../Application/Components/DateFormatPicker/DateFormatData";
+import {
+  TDayOnlyRows,
+  TMonthOnlyRows,
+  TYearOnlyRows,
+} from "../../../../Application/Components/DateFormatPicker/DateFormatPickerTypes";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   ISelectOption,
   SelectOptionsType,
@@ -27,7 +34,10 @@ import { saveUserMatchAction } from "../../../../Application/Redux/Actions/Appli
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
 import getDuplicates from "../../../../Application/Utils/GetDuplicates";
+import getRSStyles from "../../../../Application/Utils/GetRSStyles";
+import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
 import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
@@ -38,19 +48,10 @@ import {
 } from "../../../Redux/Actions/InputActions";
 import computeFileHeaderMatches from "../../../Utils/ComputeFileHeaderMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
-import getRSStyles from "../../../../Application/Utils/GetRSStyles";
+import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
 import CenteredStyle from "./../../../../Application/Components/Styles/CenteredStyle";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
-import {
-  IApplicationHeaders,
-  THeader,
-  TUserMatchObject,
-} from "./MatchHeadersTypes";
-import { IconButton, Tooltip } from "@material-ui/core";
-import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
-import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
-import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
-import getRSTheme from "../../../../Application/Utils/GetRSTheme";
+import { THeader, TUserMatchObject } from "./MatchHeadersTypes";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -96,44 +97,47 @@ export default function MatchHeaders({
 
   const workflowClass = getWorkflowClass(wp);
 
+  //TODO: Put elsewhere
+  const dateFormatOptions = generateSelectOptions(dateFormatData);
+
   //TODO: Gift to provide complete match object with
   //object to store matched economics headers
-  // const {
-  //   savedMatchObjectAll,
-  // }: { savedMatchObjectAll: TUserMatchObject } = useSelector(
-  //   (state: RootState) => state.applicationReducer
-  // );
+  const {
+    savedMatchObjectAll,
+  }: { savedMatchObjectAll: TUserMatchObject } = useSelector(
+    (state: RootState) => state.applicationReducer
+  );
 
-  const savedMatchObjectAll: TUserMatchObject = {
-    facilities: {
-      headers: {
-        YQWITHNB: {
-          header: "sjdvsadikls",
-          type: "Text",
-          acceptMatch: false,
-        },
-      },
-      units: {
-        KHUTEWJB: { header: "ksjubdkjsd", type: "Text", acceptMatch: false },
-      },
-    },
-    forecast: {
-      headers: {
-        JKSDHYR: { header: "gsdbsdffnf", type: "Text", acceptMatch: false },
-      },
-      units: {
-        WLOCNGF: { header: "kutywefw", type: "Text", acceptMatch: false },
-      },
-    },
-    economics: {
-      headers: {
-        JKSDHYR: { header: "gsdbsdffnf", type: "Text", acceptMatch: false },
-      },
-      units: {
-        WLOCNGF: { header: "kutywefw", type: "Text", acceptMatch: false },
-      },
-    },
-  };
+  // const savedMatchObjectAll: TUserMatchObject = {
+  //   facilities: {
+  //     headers: {
+  //       YQWITHNB: {
+  //         header: "sjdvsadikls",
+  //         type: "Text",
+  //         acceptMatch: false,
+  //       },
+  //     },
+  //     units: {
+  //       KHUTEWJB: { header: "ksjubdkjsd", type: "Text", acceptMatch: false },
+  //     },
+  //   },
+  //   forecast: {
+  //     headers: {
+  //       JKSDHYR: { header: "gsdbsdffnf", type: "Text", acceptMatch: false },
+  //     },
+  //     units: {
+  //       WLOCNGF: { header: "kutywefw", type: "Text", acceptMatch: false },
+  //     },
+  //   },
+  //   economics: {
+  //     headers: {
+  //       JKSDHYR: { header: "gsdbsdffnf", type: "Text", acceptMatch: false },
+  //     },
+  //     units: {
+  //       WLOCNGF: { header: "kutywefw", type: "Text", acceptMatch: false },
+  //     },
+  //   },
+  // };
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
@@ -146,10 +150,6 @@ export default function MatchHeaders({
     costsRevenuesAppHeaders,
     economicsParametersAppHeaders,
   } = useSelector((state: RootState) => state[reducer]);
-  // const {
-  //   costsRevenuesAppHeaders,
-  //   economicsParametersAppHeaders,
-  // } = useSelector((state: RootState) => state.economicsReducer);
 
   const allAppHeadersArr = [
     facilitiesAppHeaders,
@@ -278,6 +278,12 @@ export default function MatchHeaders({
     userMatchObject,
     setUserMatchObject,
   ] = React.useState<TUserMatchObject>(savedMatchObjectAll);
+
+  const [DayOnlyRows, setDayOnlyRows] = React.useState({} as TDayOnlyRows);
+  const [MonthOnlyRows, setMonthOnlyRows] = React.useState(
+    {} as TMonthOnlyRows
+  );
+  const [YearOnlyRows, setYearOnlyRows] = React.useState({} as TYearOnlyRows);
 
   const generateColumns = (keyedApplicationHeaderOptions: {
     [index: string]: { value: string; label: string }[];
@@ -449,6 +455,35 @@ export default function MatchHeaders({
       setRerender(rerenderRef.current);
     };
 
+    const handleDateFormatChange = (
+      value: ValueType<ISelectOption, false>,
+      row: IRawRow
+    ) => {
+      const { sn, fileHeader } = row;
+      const rowSN = sn as number;
+      const fileHeaderDefined = fileHeader as string;
+
+      const selectedValue = value && value.label;
+      const selectedDateFormat = selectedValue as string;
+
+      // setFileHeaderChosenHeaderTypeObj((prev) => ({
+      //   ...prev,
+      //   [fileHeaderDefined]: selectedHeaderType,
+      // }));
+
+      //TODO: From Gift Need an object with unit:group pairs
+      const currentRows = tableRows.current;
+      const selectedRow = currentRows[rowSN - 1];
+      currentRows[rowSN - 1] = {
+        ...selectedRow,
+        applicationHeader: selectedDateFormat,
+      };
+
+      tableRows.current = currentRows;
+
+      rerenderRef.current = !rerenderRef.current;
+      setRerender(rerenderRef.current);
+    };
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 20 },
       {
@@ -502,31 +537,47 @@ export default function MatchHeaders({
         name: "APPLICATION HEADER",
         resizable: true,
         formatter: ({ row }) => {
+          const sn = row.sn as string;
+          const type = row.type as string;
           const fileHeader = row.fileHeader as string;
           const headerOptions = keyedApplicationHeaderOptions[fileHeader];
           const scoreOptions = keyedScoreOptions[fileHeader];
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
+          const dateOption = dateFormatOptions[0];
 
           const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
 
-          return (
-            <Select
-              value={valueOption}
-              options={headerOptions}
-              styles={RSStyles}
-              onChange={(value: ValueType<ISelectOption, false>) =>
-                handleApplicationHeaderChange(
-                  value,
-                  row,
-                  headerOptions,
-                  scoreOptions
-                )
-              }
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-            />
-          );
+          if (type === "Date")
+            return (
+              <ApexSelectRS
+                valueOption={dateOption}
+                data={dateFormatOptions}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleDateFormatChange(value, row)
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          else
+            return (
+              <Select
+                value={valueOption}
+                options={headerOptions}
+                styles={RSStyles}
+                onChange={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationHeaderChange(
+                    value,
+                    row,
+                    headerOptions,
+                    scoreOptions
+                  )
+                }
+                menuPortalTarget={document.body}
+                theme={(thm) => getRSTheme(thm, theme)}
+              />
+            );
         },
       },
 

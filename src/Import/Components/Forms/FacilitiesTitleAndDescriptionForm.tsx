@@ -21,7 +21,7 @@ const FacilitiesTitleAndDescriptionForm = ({
     <Formik
       initialValues={InputState}
       validationSchema={Yup.object().shape({
-        selectedFacilitiesInputDeckTitle: Yup.string().required(
+        facilitiesInputDeckTitle: Yup.string().required(
           "projectTitle is required"
         ),
       })}
@@ -29,10 +29,7 @@ const FacilitiesTitleAndDescriptionForm = ({
     >
       {(props: FormikProps<INewFacilitiesInputDeckFormValues>) => {
         const {
-          values: {
-            selectedFacilitiesInputDeckTitle,
-            facilitiesInputDeckDescription,
-          },
+          values: { facilitiesInputDeckTitle, facilitiesInputDeckDescription },
           errors,
           touched,
           handleChange,
@@ -48,7 +45,7 @@ const FacilitiesTitleAndDescriptionForm = ({
           >
             {children &&
               children({
-                selectedFacilitiesInputDeckTitle,
+                facilitiesInputDeckTitle,
                 facilitiesInputDeckDescription,
                 errors,
                 touched,

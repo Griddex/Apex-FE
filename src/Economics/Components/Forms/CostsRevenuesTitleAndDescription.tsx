@@ -19,12 +19,27 @@ const CostsRevenuesTitleAndDescription = ({
       ? errors && errors.costsRevenuesInputDeckTitle
       : "";
 
+  type TTitleDesc =
+    | "costsRevenuesInputDeckTitle"
+    | "costsRevenuesInputDeckDescription";
+  const [TitleDesc, setTitleDesc] = React.useState({
+    costsRevenuesInputDeckTitle: "",
+    costsRevenuesInputDeckDescription: "",
+  });
+
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
     handleChange && handleChange(event);
     const { name, value } = event.target;
-
-    dispatch(updateEconomicsParameterAction(name, value));
+    setTitleDesc((prev) => ({ ...prev, [name]: value }));
   };
+
+  React.useEffect(() => {
+    for (const name of Object.keys(TitleDesc)) {
+      dispatch(
+        updateEconomicsParameterAction(name, TitleDesc[name as TTitleDesc])
+      );
+    }
+  }, [TitleDesc]);
 
   return (
     <div>

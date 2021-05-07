@@ -608,7 +608,7 @@ export default function MatchUnits({
       },
       {
         key: "unitClassification", //appUnit match selection will define this using units package
-        name: "UNIT CLASSIFICATION",
+        name: "UNIT GROUP",
         resizable: true,
         formatter: ({ row }) => {
           const unitClassification = row.unitClassification as number;

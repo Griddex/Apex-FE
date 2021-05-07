@@ -7,27 +7,45 @@ import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { INewFacilitiesInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
 
 const FacilitiesTitleAndDescription = ({
-  selectedFacilitiesInputDeckTitle,
+  facilitiesInputDeckTitle,
   facilitiesInputDeckDescription,
   errors,
   touched,
   handleChange,
-  reducer,
 }: INewFacilitiesInputDeckWorkflowProps) => {
   const dispatch = useDispatch();
-  const reducerDefined = reducer as NonNullable<ReducersType>;
+  const reducerDefined = "inputReducer";
 
   const helperText =
-    touched && touched.selectedFacilitiesInputDeckTitle
-      ? errors && errors.selectedFacilitiesInputDeckTitle
+    touched && touched.facilitiesInputDeckTitle
+      ? errors && errors.facilitiesInputDeckTitle
       : "";
+
+  type TTitleDesc =
+    | "facilitiesInputDeckTitle"
+    | "facilitiesInputDeckDescription";
+  const [TitleDesc, setTitleDesc] = React.useState({
+    facilitiesInputDeckTitle: "",
+    facilitiesInputDeckDescription: "",
+  });
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
     handleChange && handleChange(event);
     const { name, value } = event.target;
-
-    dispatch(updateInputParameterAction(reducerDefined, name, value));
+    setTitleDesc((prev) => ({ ...prev, [name]: value }));
   };
+
+  React.useEffect(() => {
+    for (const name of Object.keys(TitleDesc)) {
+      dispatch(
+        updateInputParameterAction(
+          reducerDefined,
+          name,
+          TitleDesc[name as TTitleDesc]
+        )
+      );
+    }
+  }, [TitleDesc]);
 
   return (
     <div>
@@ -36,12 +54,12 @@ const FacilitiesTitleAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="selectedFacilitiesInputDeckTitle"
+            name="facilitiesInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={selectedFacilitiesInputDeckTitle}
+            value={facilitiesInputDeckTitle}
             onChange={handleTitleDescChange}
             required
             autoFocus
@@ -59,7 +77,7 @@ const FacilitiesTitleAndDescription = ({
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
             value={facilitiesInputDeckDescription}
-            onChange={handleChange}
+            onChange={handleTitleDescChange}
           />
         }
       />

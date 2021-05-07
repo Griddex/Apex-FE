@@ -5,29 +5,46 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
+import PreviewSave from "../../Routes/Common/Workflows/PreviewSave";
 
 const ForecastTitleAndDescription = ({
-  selectedForecastInputDeckTitle,
+  forecastInputDeckTitle,
   forecastInputDeckDescription,
   errors,
   touched,
   handleChange,
-  reducer,
 }: INewForecastInputDeckWorkflowProps) => {
   const dispatch = useDispatch();
-  const reducerDefined = reducer as NonNullable<ReducersType>;
+  const reducerDefined = "inputReducer";
 
   const helperText =
-    touched && touched.selectedForecastInputDeckTitle
-      ? errors && errors.selectedForecastInputDeckTitle
+    touched && touched.forecastInputDeckTitle
+      ? errors && errors.forecastInputDeckTitle
       : "";
+
+  type TTitleDesc = "forecastInputDeckTitle" | "forecastInputDeckDescription";
+  const [TitleDesc, setTitleDesc] = React.useState({
+    forecastInputDeckTitle: "",
+    forecastInputDeckDescription: "",
+  });
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
     handleChange && handleChange(event);
     const { name, value } = event.target;
-
-    dispatch(updateInputParameterAction(reducerDefined, name, value));
+    setTitleDesc((prev) => ({ ...prev, [name]: value }));
   };
+
+  React.useEffect(() => {
+    for (const name of Object.keys(TitleDesc)) {
+      dispatch(
+        updateInputParameterAction(
+          reducerDefined,
+          name,
+          TitleDesc[name as TTitleDesc]
+        )
+      );
+    }
+  }, [TitleDesc]);
 
   return (
     <div>
@@ -36,12 +53,12 @@ const ForecastTitleAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="selectedForecastInputDeckTitle"
+            name="forecastInputDeckTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={selectedForecastInputDeckTitle}
+            value={forecastInputDeckTitle}
             onChange={handleTitleDescChange}
             required
             autoFocus
@@ -59,7 +76,7 @@ const ForecastTitleAndDescription = ({
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
             value={forecastInputDeckDescription}
-            onChange={handleChange}
+            onChange={handleTitleDescChange}
           />
         }
       />

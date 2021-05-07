@@ -147,9 +147,6 @@ const EconomicsState: EconomicsStateType = {
   selectedEconomicsParametersInputDeckId: "",
   selectedEconomicsParametersInputDeckTitle: "",
 
-  selectedEconomicsResultsId: "",
-  selectedEconomicsResultsTitle: "",
-
   economicsSensitivitiesId: "",
   economicsSensitivitiesTitle: "",
   economicsSensitivitiesDescription: "",
@@ -158,6 +155,12 @@ const EconomicsState: EconomicsStateType = {
 
   selectedSensitivitiesTable: [],
   createSensitivitiesIsDialog: true,
+
+  economicsResultsId: "",
+  economicsResultsTitle: "",
+  economicsResultsDescription: "",
+  selectedEconomicsResultsId: "",
+  selectedEconomicsResultsTitle: "",
 
   noneColumnIndices: {},
   fileHeadersChosenAppHeadersWithNone: [],

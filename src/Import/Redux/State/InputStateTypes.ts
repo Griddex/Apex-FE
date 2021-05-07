@@ -66,8 +66,22 @@ export interface InputStateType
     INewForecastInputDeckFormValues {
   currentWorkflowProcess: string;
   headerType: string;
+  facilitiesInputDeckId: string;
+  facilitiesInputDeckTitle: string;
+  facilitiesInputDeckDescription: string;
+
   selectedFacilitiesInputDeckId: string;
+  selectedFacilitiesInputDeckTitle: string;
+  selectedFacilitiesInputDeckDescription: string;
+
   selectedForecastInputDeckId: string;
+  selectedForecastInputDeckTitle: string;
+  selectedForecastInputDeckDescription: string;
+
+  forecastInputDeckId: string;
+  forecastInputDeckTitle: string;
+  forecastInputDeckDescription: string;
+
   facilitiesAppHeaders: Record<string, string>[];
   forecastAppHeaders: Record<string, string>[];
 
@@ -82,7 +96,7 @@ export interface InputStateType
 }
 
 export interface INewFacilitiesInputDeckFormValues {
-  selectedFacilitiesInputDeckTitle: string;
+  facilitiesInputDeckTitle: string;
   facilitiesInputDeckDescription: string;
 }
 
@@ -100,7 +114,7 @@ export interface INewFacilitiesInputDeckWorkflowProps
   reducer?: ReducersType;
 }
 export interface INewForecastInputDeckFormValues {
-  selectedForecastInputDeckTitle: string;
+  forecastInputDeckTitle: string;
   forecastInputDeckDescription: string;
 }
 export interface INewForecastInputDeckWorkflowProps

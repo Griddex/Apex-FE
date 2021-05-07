@@ -103,8 +103,8 @@ export default function UnitSettings({
 
   const dialogRef = React.useRef(null);
   const [unitGroupName, setGlobalUnitGroupName] = React.useState(unitGroup);
-  const [day, setDay] = React.useState("dd"); //Gift to change to DD
-  const [month, setMonth] = React.useState("MM"); //Gif to change to MM
+  const [day, setDay] = React.useState("do"); //Gift to change to DD
+  const [month, setMonth] = React.useState("MMM"); //Gif to change to MM
   const [year, setYear] = React.useState(yearFormat);
   const [pressAddend, setPressAddend] = React.useState(pressureAddend);
 

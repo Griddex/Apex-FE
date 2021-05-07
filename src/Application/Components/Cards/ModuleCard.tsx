@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     display: "flex",
     justifyContent: "center",
-    width: "95%",
+    width: "90%",
   },
   cardIconTitle: {
     display: "flex",

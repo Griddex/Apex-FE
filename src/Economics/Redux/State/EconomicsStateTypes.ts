@@ -162,9 +162,6 @@ export interface EconomicsStateType
   selectedEconomicsSensitivitiesId: string;
   selectedEconomicsSensitivitiesTitle: string;
 
-  selectedEconomicsResultsId: string;
-  selectedEconomicsResultsTitle: string;
-
   noneColumnIndices: Record<number, boolean>;
   fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
 
@@ -173,6 +170,12 @@ export interface EconomicsStateType
 
   selectedSensitivitiesTable: any; //type it properly
   createSensitivitiesIsDialog: boolean;
+
+  economicsResultsId: string;
+  economicsResultsTitle: string;
+  economicsResultsDescription: string;
+  selectedEconomicsResultsId: string;
+  selectedEconomicsResultsTitle: string;
 
   inputDataWorkflows: Record<string, IEconomicsState>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;

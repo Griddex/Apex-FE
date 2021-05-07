@@ -19,12 +19,27 @@ const EconomicsSensitivitiesTitleAndDescription = ({
       ? errors && errors.economicsSensitivitiesTitle
       : "";
 
+  type TTitleDesc =
+    | "economicsSensitivitiesTitle"
+    | "economicsSensitivitiesDescription";
+  const [TitleDesc, setTitleDesc] = React.useState({
+    economicsSensitivitiesTitle: "",
+    economicsSensitivitiesDescription: "",
+  });
+
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
     handleChange && handleChange(event);
     const { name, value } = event.target;
-
-    dispatch(updateEconomicsParameterAction(name, value));
+    setTitleDesc((prev) => ({ ...prev, [name]: value }));
   };
+
+  React.useEffect(() => {
+    for (const name of Object.keys(TitleDesc)) {
+      dispatch(
+        updateEconomicsParameterAction(name, TitleDesc[name as TTitleDesc])
+      );
+    }
+  }, [TitleDesc]);
 
   return (
     <div>

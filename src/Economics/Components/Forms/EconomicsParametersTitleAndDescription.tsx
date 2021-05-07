@@ -19,12 +19,27 @@ const EconomicsParametersTitleAndDescription = ({
       ? errors && errors.economicsParametersInputDeckTitle
       : "";
 
+  type TTitleDesc =
+    | "economicsParametersInputDeckTitle"
+    | "economicsParametersInputDeckDescription";
+  const [TitleDesc, setTitleDesc] = React.useState({
+    economicsParametersInputDeckTitle: "",
+    economicsParametersInputDeckDescription: "",
+  });
+
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
     handleChange && handleChange(event);
     const { name, value } = event.target;
-
-    dispatch(updateEconomicsParameterAction(name, value));
+    setTitleDesc((prev) => ({ ...prev, [name]: value }));
   };
+
+  React.useEffect(() => {
+    for (const name of Object.keys(TitleDesc)) {
+      dispatch(
+        updateEconomicsParameterAction(name, TitleDesc[name as TTitleDesc])
+      );
+    }
+  }, [TitleDesc]);
 
   return (
     <div>
