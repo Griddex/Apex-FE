@@ -16,7 +16,7 @@ export type TEconomicsAnalysesNames =
   | "netcashFlow"
   | "payout"
   | "minimumCapitalRatio"
-  | "netpresentvalue"
+  | "netPresentValue"
   | "presentValueRatio"
   | "unitTechnicalCost"
   | "internalRateOfReturn"

@@ -39,10 +39,6 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       if (reducer === "inputReducer") {
         const updatedState = set(state, nameOrPath, value);
-        console.log(
-          "Logged output --> ~ file: InputReducer.ts ~ line 46 ~ inputReducer ~ updatedState",
-          updatedState
-        );
         return updatedState;
       } else {
         return state;

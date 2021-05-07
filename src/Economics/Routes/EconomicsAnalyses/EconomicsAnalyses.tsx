@@ -102,7 +102,7 @@ export const economicsAnalyses: IEconomicsAnalysis[] = [
     ),
   },
   {
-    name: "netpresentvalue",
+    name: "netPresentValue",
     title: "Net Present Value",
     icon: (
       <img

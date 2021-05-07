@@ -20,7 +20,7 @@ const ForecastStackedAreaChart = () => {
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        orient: "bottom",
+        // orient: "bottom",
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
@@ -28,7 +28,7 @@ const ForecastStackedAreaChart = () => {
         legendOffset: 36,
       }}
       axisLeft={{
-        orient: "left",
+        // orient: "left",
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,

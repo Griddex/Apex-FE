@@ -61,7 +61,7 @@ export interface IEconomicsWorkflowProcess {
     | "netcashFlow"
     | "payout"
     | "minimumCapitalRatio"
-    | "netpresentvalue"
+    | "netPresentValue"
     | "presentValueRatio"
     | "unitTechnicalCost"
     | "internalRateOfReturn"

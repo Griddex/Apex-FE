@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IChartDataPanel {
+  selectLabel: string;
   selectedOption: ISelectOption;
   titleOptions: ISelectOption[];
   selectedTitle: string;
@@ -58,6 +59,7 @@ export interface IChartDataPanel {
 }
 
 const ChartDataPanel = ({
+  selectLabel,
   selectedOption,
   titleOptions,
   handleSelectChange,
@@ -106,7 +108,7 @@ const ChartDataPanel = ({
   return (
     <>
       <AnalyticsComp
-        title="Forecast Run"
+        title={selectLabel}
         content={
           <div style={{ display: "flex", alignItems: "center" }}>
             <SelectTitle />

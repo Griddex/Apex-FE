@@ -19,6 +19,7 @@ import HeatMap from "../../Images/HeatMap.svg";
 import ExistingDeck from "../../../Import/Images/ExistingDeck.svg";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import SensitivitiesHeatMapVisualytics from "./EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
 const useStyles = makeStyles((theme) => ({
   economicsResultsLanding: {
     display: "flex",
@@ -137,6 +138,7 @@ const EconomicsResultsLanding = () => {
                 const economicsResultsWorkflows = {
                   templateResults: <EconomicsTablesCharts />,
                   plotchartsTables: <EconomicsTablesCharts />,
+                  sensitivitiesHeatmap: <SensitivitiesHeatMapVisualytics />,
                   existingResults: (
                     <ExistingEconomicsResults
                       reducer={"economicsReducer"}

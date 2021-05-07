@@ -60,6 +60,8 @@ function TransitionComponent(props: { in?: boolean }) {
   );
 }
 
+type TStyledItemLabel = string;
+
 const StyledTreeItem = withStyles((theme) => ({
   iconContainer: {
     "& .close": {
@@ -72,14 +74,14 @@ const StyledTreeItem = withStyles((theme) => ({
     borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
   },
 }))((props: TreeItemProps) => {
-  const { label } = props;
+  const { nodeId } = props;
 
   const [{ isDragging }, drag] = useDrag({
-    item: { label, type: ItemTypes.ECONOMICS_TABLE_COLUMNDATA },
+    item: { nodeId, type: ItemTypes.ECONOMICS_SENSITIVITIES_XAXIS },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
-        alert(`You dropped ${item.label} into ${dropResult.name}`);
+        alert(`You dropped ${item.nodeId} into ${dropResult.name}`);
       }
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
@@ -127,9 +129,50 @@ export default function SensitivitiesHeatMapTreeView() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { sensitivitiesHeatMap, selectedAnalysisName } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  // const { sensitivitiesHeatMap, selectedAnalysisName } = useSelector(
+  //   (state: RootState) => state.economicsReducer
+  // );
+  const selectedAnalysisName = "netcashFlow";
+  const sensitivitiesParams = [
+    {
+      id: "5yuighc74-4b81-4652-8a46-4564565",
+      name: "Gas Price",
+      path: "",
+      children: [],
+    },
+    {
+      id: "aleofeofbwobowe-4b81-4652-8a46-4564565",
+      name: "Oil Price",
+      path: "",
+      children: [],
+    },
+    {
+      id: "5yuighc74-4b81-7865764735438-8a46-4564565",
+      name: "Royalty",
+      path: "",
+      children: [],
+    },
+  ];
+  const sensitivitiesHeatMap = [
+    {
+      id: "5yuighc74-4b81-4652-8a46-dfgdfgdf",
+      name: "Oil Development",
+      path: "",
+      children: [...sensitivitiesParams],
+    },
+    {
+      id: "5yuighc74-4b81-6757-8a46-a58b6bea0157",
+      name: "NAG Development",
+      path: "",
+      children: [...sensitivitiesParams],
+    },
+    {
+      id: "asdfvdfgdgd-4b81-4652-8a46-a58b6bea0157",
+      name: "Oil + NAG Development",
+      path: "",
+      children: [...sensitivitiesParams],
+    },
+  ];
 
   const updatedSensitivitiesHeatMapTree = [
     {
@@ -275,6 +318,7 @@ export default function SensitivitiesHeatMapTreeView() {
             key={scenarioNodes.id}
           />
         }
+        // styledItemLabel={scenarioNodes.name}
       >
         {Array.isArray(scenarioNodes.children)
           ? scenarioNodes.children.map((node) => renderTree(node))

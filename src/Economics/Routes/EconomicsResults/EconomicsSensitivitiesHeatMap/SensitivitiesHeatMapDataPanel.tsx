@@ -88,6 +88,7 @@ const SensitivitiesHeatMapDataPanel = () => {
 
   return (
     <ChartDataPanel
+      selectLabel={"Economics Results"}
       selectedOption={economicsResultTitleOption}
       titleOptions={economicsResultsTitleOptions}
       handleSelectChange={handleSelectEconomicsResultsChange}

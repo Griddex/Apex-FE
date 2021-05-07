@@ -147,7 +147,7 @@ const EconomicsAnalysesNames = [
   "netcashFlow",
   "payout",
   "minimumCapitalRatio",
-  "netpresentvalue",
+  "netPresentValue",
   "presentValueRatio",
   "unitTechnicalCost",
   "internalRateOfReturn",
@@ -169,3 +169,73 @@ export const economicsAnalysesTitleNamesObj = zipObject(
   EconomicsAnalysesTitles,
   EconomicsAnalysesNames
 );
+
+export const economicsAnalysesNameTitle = [
+  {
+    variableName: "netcashFlow",
+    variableTitle: "Net Cashflow",
+  },
+  {
+    variableName: "payout",
+    variableTitle: "Payout",
+  },
+  {
+    variableName: "minimumCapitalRatio",
+    variableTitle: "Minimum Capital Ratio",
+  },
+  {
+    variableName: "netPresentValue",
+    variableTitle: "Net Present Value",
+  },
+  {
+    variableName: "presentValueRatio",
+    variableTitle: "Present Value Ratio",
+  },
+  {
+    variableName: "unitTechnicalCost",
+    variableTitle: "Unit Technical Cost",
+  },
+  {
+    variableName: "internalRateOfReturn",
+    variableTitle: "Internal Rate of Return",
+  },
+  {
+    variableName: "mulitpleAnalyses",
+    variableTitle: "Multiple Analyses",
+  },
+];
+
+export const economicsAnalysesOptions = [
+  {
+    value: "netcashFlow",
+    label: "Net Cashflow",
+  },
+  {
+    value: "payout",
+    label: "Payout",
+  },
+  {
+    value: "minimumCapitalRatio",
+    label: "Minimum Capital Ratio",
+  },
+  {
+    value: "netPresentValue",
+    label: "Net Present Value",
+  },
+  {
+    value: "presentValueRatio",
+    label: "Present Value Ratio",
+  },
+  {
+    value: "unitTechnicalCost",
+    label: "Unit Technical Cost",
+  },
+  {
+    value: "internalRateOfReturn",
+    label: "Internal Rate of Return",
+  },
+  {
+    value: "mulitpleAnalyses",
+    label: "Multiple Analyses",
+  },
+];
