@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    height: "95%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
     border: "1px solid #707070",
@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
   dndSection: {
     display: "flex",
     flexDirection: "column",
-    height: "80%",
-    width: "80%",
+    height: "100%",
+    width: "100%",
     alignItems: "center",
     justifyContent: "space-evenly",
     cursor: "pointer",
   },
   dndInput: {
-    height: "80%",
+    height: "100%",
     width: "100%",
   },
   dndArea: {
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 2,
     height: "100%",
     width: "100%",
+    "&:hover": { backgroundColor: theme.palette.primary.light },
   },
   imageDnD: {
     width: 95,

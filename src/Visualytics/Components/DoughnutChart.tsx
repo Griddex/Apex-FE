@@ -1,12 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import {
-  Cell,
-  Pie,
-  PieChart,
-  PieLabelRenderProps,
-  ResponsiveContainer,
-} from "recharts";
+import { ResponsivePie } from "@nivo/pie";
 import { ChartType } from "./ChartTypes";
 import { useTheme } from "@material-ui/core/styles";
 
@@ -17,85 +11,93 @@ const useStyles = makeStyles(() => ({
 }));
 
 const DoughnutChart = ({ data }: { data: ChartType }) => {
-  const classes = useStyles();
-
   const theme = useTheme();
-  const COLORS = [
-    theme.palette.primary.main,
-    theme.palette.success.main,
-    theme.palette.secondary.main,
-  ];
-  // const onPieEnter = (data: ChartType, index: number) => {
-  //   console.log(data, index);
-  // };
-
-  const RADIAN = Math.PI / 180;
-  const renderLabel = ({
-    name,
-    cx,
-    cy,
-    midAngle,
-    outerRadius,
-    percent,
-    fill,
-  }: PieLabelRenderProps) => {
-    const midAngleDef = midAngle as number;
-    const outerRadiusDef = outerRadius as number;
-    const cxDef = cx as number;
-    const cyDef = cy as number;
-    const percentDef = percent as number;
-
-    const sin = Math.sin(-RADIAN * midAngleDef);
-    const cos = Math.cos(-RADIAN * midAngleDef);
-    const mx = cxDef + (outerRadiusDef + 30) * cos;
-    const my = cyDef + (outerRadiusDef + 30) * sin;
-    const ex = mx + (cos >= 0 ? 1 : -1) * 4;
-    const ey = my;
-    const textAnchor = cos >= 0 ? "start" : "end";
-
-    return (
-      <g>
-        <text
-          x={ex + (cos >= 0 ? 1 : -1) * 6}
-          y={ey}
-          textAnchor={textAnchor}
-          // fill="#333"
-          fill={fill}
-        >
-          {name}
-        </text>
-        <text
-          x={ex + (cos >= 0 ? 1 : -1) * 6}
-          y={ey}
-          dy={18}
-          textAnchor={textAnchor}
-          fill="#333"
-        >
-          {`[${(percentDef * 100).toFixed(0)}%]`}
-        </text>
-      </g>
-    );
-  };
-
+  console.log(
+    "Logged output --> ~ file: DoughnutChart.tsx ~ line 14 ~ DoughnutChart ~ data",
+    data
+  );
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart className={classes.rootDoughnutChart}>
-        <Pie
-          data={data}
-          dataKey="value"
-          nameKey="name"
-          innerRadius={"60%"}
-          outerRadius={"80%"}
-          paddingAngle={3}
-          // onMouseEnter={onPieEnter}
-          label={renderLabel}
-        >
-          {data.map((entry, index) => (
-            <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <ResponsivePie
+      data={data}
+      margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
+      // colors={{ scheme: "category10" }}
+      innerRadius={0.8}
+      padAngle={0.7}
+      cornerRadius={0}
+      activeOuterRadiusOffset={8}
+      borderWidth={1}
+      borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
+      arcLinkLabelsSkipAngle={10}
+      arcLinkLabelsTextColor="#333333"
+      arcLinkLabelsThickness={2}
+      arcLinkLabelsColor={{ from: "color" }}
+      arcLabelsSkipAngle={10}
+      arcLabelsTextColor={{ from: "color", modifiers: [["darker", 2]] }}
+      defs={[
+        {
+          id: "full",
+          type: "",
+          background: "inherit",
+          color: theme.palette.success.main,
+          size: 4,
+          padding: 1,
+          stagger: true,
+        },
+        {
+          id: "partial",
+          color: theme.palette.primary.main,
+        },
+        {
+          id: "none",
+          color: theme.palette.secondary.main,
+        },
+      ]}
+      fill={[
+        {
+          match: {
+            id: "fullMatch",
+          },
+          id: "full",
+        },
+        {
+          match: {
+            id: "Partial Match",
+          },
+          id: "partial",
+        },
+        {
+          match: {
+            id: "noMatch",
+          },
+          id: "none",
+        },
+      ]}
+      // legends={[
+      //   {
+      //     anchor: "bottom",
+      //     direction: "row",
+      //     justify: false,
+      //     translateX: 0,
+      //     translateY: 56,
+      //     itemsSpacing: 0,
+      //     itemWidth: 100,
+      //     itemHeight: 18,
+      //     itemTextColor: "#999",
+      //     itemDirection: "left-to-right",
+      //     itemOpacity: 1,
+      //     symbolSize: 18,
+      //     symbolShape: "circle",
+      //     effects: [
+      //       {
+      //         on: "hover",
+      //         style: {
+      //           itemTextColor: "#000",
+      //         },
+      //       },
+      //     ],
+      //   },
+      // ]}
+    />
   );
 };
 

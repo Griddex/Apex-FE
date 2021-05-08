@@ -11,8 +11,8 @@ import FormatAggregator from "../../../../Visualytics/Components/FormatAggregato
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
-import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
+import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
+import EconomicsPlotChartsSelectCharts from "./EconomicsPlotChartsSelectCharts";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-start",
     height: "100%",
     width: 300,
+    minWidth: 300,
     border: `1px solid ${theme.palette.grey[200]}`,
     backgroundColor: "#FFF",
     padding: 5,
@@ -45,14 +46,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
     marginRight: 45,
     height: "100%",
-    width: "calc(100% - 300px)",
+    width: "90%",
     backgroundColor: "#FFF",
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
   },
 }));
 
-const SensitivitiesHeatMapVisualytics = () => {
+const EconomicsPlotChartsVisualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -93,7 +94,7 @@ const SensitivitiesHeatMapVisualytics = () => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
-          <SensitivitiesHeatMapDataPanel />
+          <EconomicsPlotChartsDataPanel />
         </div>
         {isForecastResultsLoading ? (
           <div>Forecast results loading</div>
@@ -112,7 +113,7 @@ const SensitivitiesHeatMapVisualytics = () => {
               <EconomicsChartTitlePlaque />
               <ChartButtons {...chartButtons} />
             </div>
-            <SensitivitiesHeatMapChart />
+            <EconomicsPlotChartsSelectCharts />
           </div>
         )}
       </div>
@@ -123,4 +124,4 @@ const SensitivitiesHeatMapVisualytics = () => {
   );
 };
 
-export default SensitivitiesHeatMapVisualytics;
+export default EconomicsPlotChartsVisualytics;

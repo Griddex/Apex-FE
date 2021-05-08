@@ -3,16 +3,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { ResponsiveStream } from "@nivo/stream";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
@@ -44,14 +35,78 @@ const useStyles = makeStyles(() => ({
 }));
 
 const data = [
-  { date: "Page A", amt: 2400 },
-  // { date: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-  { date: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-  { date: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-  { date: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-  { date: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-  { date: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-  { date: "Page G", uv: 3490, pv: 4300, amt: 2100 },
+  {
+    Raoul: 200,
+    Josiane: 96,
+    Marcel: 25,
+    René: 89,
+    Paul: 123,
+    Jacques: 103,
+  },
+  {
+    Raoul: 196,
+    Josiane: 14,
+    Marcel: 39,
+    René: 53,
+    Paul: 53,
+    Jacques: 124,
+  },
+  {
+    Raoul: 152,
+    Josiane: 136,
+    Marcel: 10,
+    René: 74,
+    Paul: 101,
+    Jacques: 39,
+  },
+  {
+    Raoul: 36,
+    Josiane: 138,
+    Marcel: 79,
+    René: 134,
+    Paul: 81,
+    Jacques: 199,
+  },
+  {
+    Raoul: 14,
+    Josiane: 156,
+    Marcel: 108,
+    René: 62,
+    Paul: 178,
+    Jacques: 59,
+  },
+  {
+    Raoul: 92,
+    Josiane: 198,
+    Marcel: 83,
+    René: 179,
+    Paul: 71,
+    Jacques: 19,
+  },
+  {
+    Raoul: 196,
+    Josiane: 157,
+    Marcel: 155,
+    René: 51,
+    Paul: 93,
+    Jacques: 15,
+  },
+  {
+    Raoul: 168,
+    Josiane: 128,
+    Marcel: 59,
+    René: 156,
+    Paul: 114,
+    Jacques: 58,
+  },
+  {
+    Raoul: 200,
+    Josiane: 187,
+    Marcel: 59,
+    René: 139,
+    Paul: 199,
+    Jacques: 85,
+  },
 ];
 
 const StackedAreaChart = (props: any) => {
@@ -209,129 +264,98 @@ const StackedAreaChart = (props: any) => {
       );
   }, [again]);
 
+  let keys: string[] = [];
+  if (Array.isArray(data) && data.length > 0) keys = Object.keys(data[0]);
+  else keys = [];
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart
-          ref={chartRef}
-          syncId="chartId1"
-          className={classes.rootStackedAreaChart}
-          data={data}
-          margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
-          // strokeWidth={chartAreaBorder}
-          onClick={(chartEventObj, event) => {
-            dispatch(
-              setSelectedChartObjIdAction(
-                chartRef.current.uniqueChartId,
-                "chartLayout"
-              )
-            );
-            localDispatch({
-              type: "SET_CHARTAREABORDER",
-              payload: { chartAreaBorder: 1 },
-            });
-            event.stopPropagation();
-          }}
-        >
-          <defs>
-            {data.map((dataPoint, i) => {
-              const name = removeAllSpaces(dataPoint.date);
-
-              return (
-                <linearGradient key={i} id={name} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={colors[i]} stopOpacity={0.8} />
-                  <stop offset="95%" stopColor={colors[i]} stopOpacity={0} />
-                </linearGradient>
-              );
-            })}
-          </defs>
-          <foreignObject height={400}>
-            <div>Hello</div>
-          </foreignObject>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          {/* {yAxes &&
-            yAxes.map((axis, i) => <YAxis yAxisId={i} orientation="left" />)} */}
-          <div ref={drop}>
-            <YAxis
-              // id="yAxes1"
-              // className={classes.yAxis}
-              yAxisId="left1"
-              orientation="left"
-              scale="auto"
-              dataKey="amt"
-              type="number"
-              // domain={["dataMin", "dataMax"]}
-              // onMouseOver={(obj, index, event) => {
-              //   console.log(obj, index, event);
-              //   event.nativeEvent.stopPropagation();
-              // }}
-              onClick={(obj, index, event) => console.log(obj, index, event)}
-              // onMouseEnter={(o, e, a) => setyAxisStyleOnHover(true)}
-              // onMouseLeave={(o, e, a) => setyAxisStyleOnHover(false)}
-              // style={yAxisStyle()}
-              // style={dndYAxisStyle}
-              name="1"
-            />
-          </div>
-          <YAxis
-            yAxisId="left2"
-            orientation="left"
-            scale="auto"
-            dataKey="amt"
-            type="number"
-            // domain={["dataMin", "dataMax"]}
-            // onMouseOver={(o, e, a) => console.log(o, e, a)}
-          />
-          <YAxis
-            // yAxisId="right"
-            orientation="right"
-            scale="auto"
-            dataKey="pv"
-            type="number"
-            // domain={["dataMin", "dataMax"]}
-            // onMouseOver={(o, e) => console.log(o, e)}
-          />
-          <Tooltip />
-          <Legend verticalAlign="middle" align="right" height={36} />
-          {data.map((dataPoint, i) => {
-            const name = removeAllSpaces(dataPoint.date);
-
-            return (
-              <Area
-                key={i}
-                type="monotone"
-                dataKey={dataKeys && dataKeys[i + 1]}
-                stackId="1" //Create a unique id and store one time - useRef
-                stroke={activeIndex === i ? "black" : colors[i]}
-                fillOpacity={1}
-                strokeWidth={activeIndex === i ? 3 : 1}
-                fill={`url(#${name})`}
-                // fill={colors[i]}
-                legendType="wye"
-                isAnimationActive={false}
-                // dot={{ stroke: "red", strokeWidth: 4 }}
-                // activeDot={{ stroke: "red", strokeWidth: 4 }}
-                // label={{ fill: "red", fontSize: 20 }}
-                // layout="vertical"
-                // baseLine={[{ x: 12, y: 15 }]}
-                // points={[{ x: 12, y: 12, value: 240 }]}
-                onClick={(event) => {
-                  localDispatch({
-                    type: "SET_ACTIVEINDEX",
-                    payload: { activeIndex: i },
-                  });
-                  localDispatch({
-                    type: "SET_ACTIVEDATAKEY",
-                    payload: { activeDataKey: event.dataKey },
-                  });
-                }}
-                className={classes.area}
-              />
-            );
-          })}
-        </AreaChart>
-      </ResponsiveContainer>
+      <ResponsiveStream
+        data={data}
+        keys={keys}
+        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        axisTop={null}
+        axisRight={null}
+        axisBottom={{
+          // orient: "bottom",
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "",
+          legendOffset: 36,
+        }}
+        axisLeft={{
+          // orient: "left",
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "",
+          legendOffset: -40,
+        }}
+        curve="linear"
+        offsetType="diverging"
+        colors={{ scheme: "paired" }}
+        fillOpacity={0.85}
+        borderColor={{ theme: "background" }}
+        // defs={[
+        //   {
+        //     id: "dots",
+        //     type: "patternDots",
+        //     background: "inherit",
+        //     color: "#2c998f",
+        //     size: 4,
+        //     padding: 2,
+        //     stagger: true,
+        //   },
+        //   {
+        //     id: "squares",
+        //     type: "patternSquares",
+        //     background: "inherit",
+        //     color: "#e4c912",
+        //     size: 6,
+        //     padding: 2,
+        //     stagger: true,
+        //   },
+        // ]}
+        // fill={[
+        //   {
+        //     match: {
+        //       id: "G01_E8500X_ABASE80E85W05",
+        //     },
+        //     id: "dots",
+        //   },
+        //   {
+        //     match: {
+        //       id: "G01_E8000X_ABASE80E85W02",
+        //     },
+        //     id: "squares",
+        //   },
+        // ]}
+        dotSize={8}
+        dotColor={{ from: "color" }}
+        dotBorderWidth={2}
+        dotBorderColor={{ from: "color", modifiers: [["darker", 0.7]] }}
+        legends={[
+          {
+            anchor: "bottom-right",
+            direction: "column",
+            translateX: 100,
+            itemWidth: 80,
+            itemHeight: 20,
+            itemTextColor: "#999999",
+            symbolSize: 12,
+            symbolShape: "circle",
+            effects: [
+              {
+                on: "hover",
+                style: {
+                  itemTextColor: "#000000",
+                },
+              },
+            ],
+          },
+        ]}
+      />
     </ClickAwayListener>
   );
 };

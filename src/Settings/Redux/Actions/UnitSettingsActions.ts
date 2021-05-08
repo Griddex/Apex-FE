@@ -62,16 +62,6 @@ export const fetchUnitSettingsFailureAction = () => {
   };
 };
 
-export const updateFirstLevelUnitSettingsAction = (
-  propertyName: string,
-  propertyValue: React.Key
-) => {
-  return {
-    type: UPDATE_FIRSTLEVELUNITSETTINGS,
-    payload: { propertyName, propertyValue },
-  };
-};
-
 export const updateSelectedVariableUnitsAction = (
   selectedVariableUnits: SelectedVariablesType[]
 ) => {

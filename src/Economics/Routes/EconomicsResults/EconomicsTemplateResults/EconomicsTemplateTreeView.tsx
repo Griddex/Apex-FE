@@ -77,9 +77,12 @@ const StyledTreeItem = withStyles((theme) => ({
   const { nodeId } = props;
 
   const [{ isDragging }, drag] = useDrag({
-    item: { nodeId, type: ItemTypes.ECONOMICS_SENSITIVITIES },
+    item: { nodeId, type: ItemTypes.ECONOMICS_SENSITIVITIES_XAXIS },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
+      if (item && dropResult) {
+        alert(`You dropped ${item.nodeId} into ${dropResult.name}`);
+      }
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
@@ -122,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SensitivitiesHeatMapTreeView() {
+export default function EconomicsTemplateTreeView() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -171,7 +174,7 @@ export default function SensitivitiesHeatMapTreeView() {
     },
   ];
 
-  const updatedSensitivitiesHeatMapTree = [
+  const updatedEconomicsTemplateTree = [
     {
       ...sensitivitiesHeatMap?.[0],
       id: "5749dc74-4b81-4652-8a46-a58b6bea0157",
@@ -189,7 +192,7 @@ export default function SensitivitiesHeatMapTreeView() {
   const scenarioTree = {
     id: "6e611ee3-4133-496b-a7cc-43cea89686bc",
     name: "Scenarios",
-    children: [...(updatedSensitivitiesHeatMapTree as RenderTree[])],
+    children: [...(updatedEconomicsTemplateTree as RenderTree[])],
   };
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
@@ -203,6 +206,10 @@ export default function SensitivitiesHeatMapTreeView() {
 
   const initExpanded = scenarioTree.children.map(
     (scenarioNodes) => scenarioNodes.id
+  );
+  console.log(
+    "Logged output --> ~ file: EconomicsTemplateTreeView.tsx ~ line 157 ~ EconomicsTemplateTreeView ~ initExpanded",
+    initExpanded
   );
 
   const getChildById = (node: RenderTree, id: string) => {

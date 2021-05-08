@@ -190,7 +190,7 @@ export default function MatchUnits({
     fileHeadersWithoutNone,
     fileUnitMatches
   );
-  const unitsMatchChartData = generateMatchData(fileUnitMatches);
+  const unitsMatchChartData = generateMatchData(fileUnitMatches, theme);
 
   //Application Unit
   const appUnitOptions: SelectOptionsType[] = fileHeadersWithoutNone.map(

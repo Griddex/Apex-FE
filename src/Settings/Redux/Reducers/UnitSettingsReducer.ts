@@ -3,7 +3,6 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   FETCH_UNITSETTINGS_FAILURE,
   FETCH_UNITSETTINGS_SUCCESS,
-  UPDATE_FIRSTLEVELUNITSETTINGS,
   UPDATE_SELECTEDVARIABLEUNITS,
   UPDATE_UNITGROUPS,
   UPDATE_UNITSETTINGS,
@@ -49,15 +48,6 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
         ...state,
         status,
         errors,
-      };
-    }
-
-    case UPDATE_FIRSTLEVELUNITSETTINGS: {
-      const { propertyName, propertyValue } = action.payload;
-
-      return {
-        ...state,
-        [propertyName]: propertyValue,
       };
     }
 

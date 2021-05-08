@@ -21,63 +21,70 @@ const SensitivitiesHeatMapChart = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { selectedChartIndex } = useSelector(
-    (state: RootState) => state.chartReducer
-  );
+  const {
+    ECONOMICS_SENSITIVITIES_XAXIS,
+    ECONOMICS_SENSITIVITIES_YAXIS,
+    ECONOMICS_SENSITIVITIES_ZAXIS,
+  } = ItemTypes;
+
+  const [accepts, setAccepts] = React.useState([
+    ECONOMICS_SENSITIVITIES_XAXIS,
+    ECONOMICS_SENSITIVITIES_YAXIS,
+    ECONOMICS_SENSITIVITIES_ZAXIS,
+  ]);
 
   const [analysisOption, setAnalysisOption] = React.useState(
     economicsAnalysesOptions[0]
   );
+  const [isDroppedOnZ, setIsDroppedOnZ] = React.useState(false);
   const [parameter3, setParameter3] = React.useState("Z");
 
-  const [{ isOverY, canDropY }, dropY] = useDrop({
-    accept: ItemTypes.ECONOMICS_SENSITIVITIES_YAXIS,
-    drop: (item, monitor) => alert(`You dropped ${item}`),
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: ItemTypes.ECONOMICS_SENSITIVITIES,
+    drop: (item, monitor) => {
+      console.log(
+        "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 45 ~ SensitivitiesHeatMapChart ~ monitor",
+        monitor.getDropResult()
+      );
+      // const index = accepts.findIndex(
+      //   (v) => v === ItemTypes.ECONOMICS_SENSITIVITIES
+      // );
+      // accepts.splice(index + 1);
+      // setAccepts(accepts);
+      // setIsDroppedOnZ(true);
+      alert(`You dropped ${item}`);
+      console.log(
+        "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 59 ~ SensitivitiesHeatMapChart ~ item",
+        item
+      );
+    },
     collect: (monitor) => {
       return {
-        isOverY: !!monitor.isOver(),
-        canDropY: !!monitor.canDrop(),
+        isOver: !!monitor.isOver(),
+        canDrop: !!monitor.canDrop(),
       };
     },
   });
 
-  const isActiveY = canDropY && isOverY;
-  let dndCanvasStyleY = {};
-  if (isActiveY) {
-    dndCanvasStyleY = {
-      border: "1px solid green",
+  const isActive = canDrop && isOver;
+  let dndCanvasStyle = {};
+  if (isActive) {
+    dndCanvasStyle = {
+      border: `1px solid ${theme.palette.primary.main}`,
+      backgroundColor: theme.palette.primary.light,
     };
-  } else if (canDropY) {
-    dndCanvasStyleY = {
-      border: "1px solid grey",
-    };
-  }
-
-  const [{ isOverX, canDropX }, dropX] = useDrop({
-    accept: ItemTypes.ECONOMICS_SENSITIVITIES_XAXIS,
-    drop: (item, monitor) => console.log(item, monitor),
-    collect: (monitor) => {
-      return {
-        isOverX: !!monitor.isOver(),
-        canDropX: !!monitor.canDrop(),
-      };
-    },
-  });
-
-  const isActiveX = canDropX && isOverX;
-  let dndCanvasStyleX = {};
-  if (isActiveX) {
-    dndCanvasStyleX = {
-      border: "1px solid green",
-    };
-  } else if (canDropX) {
-    dndCanvasStyleX = {
-      border: "1px solid grey",
+  } else if (canDrop) {
+    dndCanvasStyle = {
+      border: `1px solid ${theme.palette.primary.main}`,
     };
   }
 
   return (
-    <CenteredStyle flexDirection="column" height={"calc(100% - 50px)"}>
+    <CenteredStyle
+      ref={drop}
+      flexDirection="column"
+      height={"calc(100% - 50px)"}
+    >
       <CenteredStyle width={300} height={50} moreStyles={{ marginBottom: 40 }}>
         <ApexSelectRS
           valueOption={analysisOption}
@@ -91,12 +98,12 @@ const SensitivitiesHeatMapChart = () => {
       </CenteredStyle>
       <CenteredStyle flexDirection="column">
         <div
-          ref={dropX}
+          // ref={drop}
           style={{
             width: 500,
             height: 40,
             backgroundColor: theme.palette.grey["100"],
-            ...dndCanvasStyleX,
+            ...dndCanvasStyle,
           }}
         >
           <Typography variant="h6" align="center">
@@ -105,13 +112,13 @@ const SensitivitiesHeatMapChart = () => {
         </div>
         <CenteredStyle justifyContent="space-around">
           <div
-            ref={dropY}
+            // ref={drop}
             style={{
               width: 500,
               height: 40,
               backgroundColor: theme.palette.grey["100"],
               transform: `rotate(90deg)`,
-              ...dndCanvasStyleY,
+              ...dndCanvasStyle,
             }}
           >
             <Typography variant="h6" align="center">
@@ -121,30 +128,45 @@ const SensitivitiesHeatMapChart = () => {
           <div style={{ height: "calc(100% - 100px)", width: "100%" }}>
             <EconomicsSensitivitiesHeatMap />
           </div>
-          <RadioGroup
-            value={parameter3}
-            onChange={(
-              event: React.ChangeEvent<HTMLInputElement>,
-              value: string
-            ) => setParameter3(value)}
-            style={{ flexDirection: "row" }}
+          <div
+            // ref={drop}
+            style={{
+              width: 300,
+              height: 400,
+              backgroundColor: theme.palette.grey["100"],
+              ...dndCanvasStyle,
+            }}
           >
-            <FormControlLabel
-              value="value1"
-              control={<Radio />}
-              label="Value 1"
-            />
-            <FormControlLabel
-              value="value2"
-              control={<Radio />}
-              label="Value 2"
-            />
-            <FormControlLabel
-              value="value3"
-              control={<Radio />}
-              label="Value 3"
-            />
-          </RadioGroup>
+            <Typography variant="h6" align="center">
+              {"Z Axis"}
+            </Typography>
+            {isDroppedOnZ && (
+              <RadioGroup
+                value={parameter3}
+                onChange={(
+                  event: React.ChangeEvent<HTMLInputElement>,
+                  value: string
+                ) => setParameter3(value)}
+                style={{ flexDirection: "row" }}
+              >
+                <FormControlLabel
+                  value="value1"
+                  control={<Radio />}
+                  label="Value 1"
+                />
+                <FormControlLabel
+                  value="value2"
+                  control={<Radio />}
+                  label="Value 2"
+                />
+                <FormControlLabel
+                  value="value3"
+                  control={<Radio />}
+                  label="Value 3"
+                />
+              </RadioGroup>
+            )}
+          </div>
         </CenteredStyle>
       </CenteredStyle>
     </CenteredStyle>

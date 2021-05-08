@@ -175,7 +175,7 @@ export default function MatchHeaders({
   );
 
   const keyedFileHeaderMatches = zipObject(fileHeaders, fileHeaderMatches);
-  const headerMatchChartData = generateMatchData(fileHeaderMatches);
+  const headerMatchChartData = generateMatchData(fileHeaderMatches, theme);
 
   const applicationHeaderOptions: SelectOptionsType[] = fileHeaders.map(
     (fileHeader: string) => {

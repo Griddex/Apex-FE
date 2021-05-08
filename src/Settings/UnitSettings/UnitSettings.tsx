@@ -19,7 +19,7 @@ import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions
 import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
-  updateFirstLevelUnitSettingsAction,
+  updateUnitsSettingsParameterAction,
   updateSelectedVariableUnitsAction,
 } from "../Redux/Actions/UnitSettingsActions";
 import {
@@ -103,17 +103,10 @@ export default function UnitSettings({
 
   const dialogRef = React.useRef(null);
   const [unitGroupName, setGlobalUnitGroupName] = React.useState(unitGroup);
-  const [day, setDay] = React.useState("do"); //Gift to change to DD
-  const [month, setMonth] = React.useState("MMM"); //Gif to change to MM
+  const [day, setDay] = React.useState(dayFormat);
+  const [month, setMonth] = React.useState(monthFormat);
   const [year, setYear] = React.useState(yearFormat);
   const [pressAddend, setPressAddend] = React.useState(pressureAddend);
-
-  const dateOptions: RSOptionsType[] = generateSelectOptions([
-    day,
-    month,
-    year,
-  ]);
-  const dayOption = generateSelectOptions([day])[0];
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -137,10 +130,10 @@ export default function UnitSettings({
     //   }
     // } else {
     //   handleChange && handleChange(event);
-    //   dispatch(updateFirstLevelUnitSettingsAction(name, value));
+    //   dispatch(updateUnitsSettingsParameterAction(name, value));
     // }
     handleChange && handleChange(event);
-    dispatch(updateFirstLevelUnitSettingsAction(name, value));
+    dispatch(updateUnitsSettingsParameterAction(name, value));
   };
 
   const snVariableUnits = variableUnits.map((row, i: number) => ({
@@ -151,17 +144,9 @@ export default function UnitSettings({
   //Application Units
   const unitOptions: Record<string, any[]> = snVariableUnits.reduce(
     (acc, row: IUnitsRow) => {
-      // let appGeneralUnits
-      // let appFieldUnits
-      // let appMetricUnits
-
       if (row.units[0].group.toLowerCase() === "general") {
         const generalOptions = row.units.filter(
           (v) => v.group.toLowerCase() === "general"
-        );
-        console.log(
-          "Logged output --> ~ file: UnitSettings.tsx ~ line 195 ~ row",
-          row
         );
 
         const appGeneralUnits = generalOptions.map((unit) => {
@@ -210,6 +195,7 @@ export default function UnitSettings({
 
       return { ...acc, [variableName]: selectedUnitGroup };
     }, {}); //{oilRate: "Field",gasRate: "Metric"}
+
   const [variableUnitsGroup, setVariableUnitsGroup] = React.useState(
     initVariableUnitsGroupObj
   );
@@ -218,7 +204,6 @@ export default function UnitSettings({
     snVariableUnits.reduce(
       (acc: Record<string, SelectedVariablesType>, row: IUnitsRow) => {
         const { variableId, variableName, displayUnitId, databaseUnitId } = row;
-
         const variableIdStr = variableId as string;
 
         return {

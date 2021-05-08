@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
 import getRSStyles from "../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../Application/Utils/GetRSTheme";
 import ChartCategories from "../ChartCategories/ChartCategories";
@@ -106,7 +107,7 @@ const ChartDataPanel = ({
   }, []);
 
   return (
-    <>
+    <CenteredStyle flexDirection="column">
       <AnalyticsComp
         title={selectLabel}
         content={
@@ -116,6 +117,7 @@ const ChartDataPanel = ({
           </div>
         }
         direction="Vertical"
+        containerStyle={{ width: "100%", marginBottom: 20 }}
       />
       <div style={{ width: "100%", height: "100%" }}>
         <Accordion
@@ -162,7 +164,7 @@ const ChartDataPanel = ({
           </AccordionDetails>
         </Accordion>
       </div>
-    </>
+    </CenteredStyle>
   );
 };
 

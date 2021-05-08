@@ -1,4 +1,9 @@
-const generateMatchData = (fileHeaderMatches: Record<string, number>[]) => {
+import { Theme } from "@material-ui/core/styles";
+
+const generateMatchData = (
+  fileHeaderMatches: Record<string, number>[],
+  theme: Theme
+) => {
   const fullMatch = fileHeaderMatches.reduce((acc: number, match) => {
     const bestMatch = Object.values(match)[0];
 
@@ -24,9 +29,24 @@ const generateMatchData = (fileHeaderMatches: Record<string, number>[]) => {
   }, 0);
 
   const headerMatchChartData = [
-    { name: "Full Match", value: fullMatch },
-    { name: "Partial Match", value: partialMatch },
-    { name: "No Match", value: NoMatch },
+    {
+      id: "fullMatch",
+      label: "Full Match",
+      value: fullMatch,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Partial Match",
+      label: "Partial Match",
+      value: partialMatch,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "noMatch",
+      label: "No Match",
+      value: NoMatch,
+      color: theme.palette.secondary.main,
+    },
   ];
 
   return headerMatchChartData;

@@ -20,6 +20,8 @@ import ExistingDeck from "../../../Import/Images/ExistingDeck.svg";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapVisualytics from "./EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
+import EconomicsTemplateVisualytics from "./EconomicsTemplateResults/EconomicsTemplateVisualytics";
+import EconomicsPlotChartsVisualytics from "./EconomicsPlotCharts/EconomicsPlotChartsVisualytics";
 const useStyles = makeStyles((theme) => ({
   economicsResultsLanding: {
     display: "flex",
@@ -136,8 +138,8 @@ const EconomicsResultsLanding = () => {
                 } = match;
 
                 const economicsResultsWorkflows = {
-                  templateResults: <EconomicsTablesCharts />,
-                  plotchartsTables: <EconomicsTablesCharts />,
+                  templateResults: <EconomicsTemplateVisualytics />,
+                  plotchartsTables: <EconomicsPlotChartsVisualytics />,
                   sensitivitiesHeatmap: <SensitivitiesHeatMapVisualytics />,
                   existingResults: (
                     <ExistingEconomicsResults
