@@ -31,7 +31,11 @@ const SettingsLayout = () => {
   return (
     <main className={classes.settingsLayoutRoot}>
       <div className={clsx(classes.settingsLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route exact path={path} render={() => <Settings />} />
             <Route

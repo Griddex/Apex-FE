@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
+import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import PerpetualSpinner from "./../../Application/Components/Visuals/PerpetualSpinner";
 import ForecastLanding from "./ForecastLanding";
 
@@ -30,7 +31,11 @@ const ForecastLayout = () => {
   return (
     <main className={classes.forecastLayoutRoot}>
       <div className={clsx(classes.forecastLayoutContainer)}>
-        <Suspense fallback={<PerpetualSpinner />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           {/* <Route exact path={path}> */}
           <ForecastLanding />
           {/* </Route> */}

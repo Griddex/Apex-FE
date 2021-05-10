@@ -8,6 +8,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
+import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import { IdType } from "../../../Corporate/Routes/Common/CorporateLayoutTypes";
 import DeclineCurveAnalysis from "../../DeclineCurveAnalysis";
 import DeclineCurveAnalysisBackground from "./DeclineCurveAnalysisBackground";
@@ -38,7 +39,11 @@ const DeclineCurveAnalysisLayout = () => {
   return (
     <main className={classes.declineCurveAnalysisLayoutRoot}>
       <div className={clsx(classes.declineCurveAnalysisLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route
               exact

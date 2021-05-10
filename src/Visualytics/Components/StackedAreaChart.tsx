@@ -118,10 +118,6 @@ const StackedAreaChart = (props: any) => {
   // const { transForecastResult: data } = useSelector(
   //   (state: RootState) => state.forecastReducer
   // );
-  console.log(
-    "Logged output --> ~ file: StackedAreaChart.tsx ~ line 63 ~ StackedAreaChart ~ data",
-    data
-  );
 
   const { chartObjects } = useSelector(
     (state: RootState) => state.chartReducer

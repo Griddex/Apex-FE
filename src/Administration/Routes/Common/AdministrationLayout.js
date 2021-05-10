@@ -31,7 +31,11 @@ const AdministrationLayout = () => {
   return (
     <main className={classes.administrationLayoutRoot}>
       <div className={clsx(classes.administrationLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route
               exact

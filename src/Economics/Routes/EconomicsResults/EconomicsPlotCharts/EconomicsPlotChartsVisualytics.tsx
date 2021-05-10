@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React, { useEffect } from "react";
@@ -18,6 +18,7 @@ import Draggable, {
   DraggableData,
   DraggableEvent,
 } from "react-draggable";
+import { callbackify } from "util";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +40,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignSelf: "flex-start",
     height: "100%",
-    width: 300,
+    width: (props: ControlPosition) => {
+      return props.x;
+    },
     minWidth: 300,
     border: `1px solid ${theme.palette.grey[200]}`,
     backgroundColor: "#FFF",
@@ -50,7 +53,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     marginRight: 45,
     height: "100%",
-    width: "90%",
+    width: (props: ControlPosition) => {
+      return `calc(100% - ${props.x}px)`;
+    },
     backgroundColor: "#FFF",
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
@@ -58,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EconomicsPlotChartsVisualytics = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -90,91 +95,66 @@ const EconomicsPlotChartsVisualytics = () => {
     ),
   };
 
-  useEffect(() => {
-    dispatch(showContextDrawerAction());
-  }, [dispatch]);
+  const panelRef = React.useRef<HTMLDivElement>(null);
+  const moveDivRef = React.useRef<HTMLDivElement>(null);
 
-  const handleStop = (event: DraggableEvent, data: DraggableData) => {
-    console.log(
-      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 94 ~ handleStop ~ data",
-      data
-    );
-  };
-  const handleStart = (event: DraggableEvent, data: DraggableData) => {
-    console.log(
-      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 94 ~ handleStop ~ data",
-      data
-    );
-  };
-  const handleDrag = (event: DraggableEvent, data: DraggableData) => {
-    console.log(
-      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 94 ~ handleStop ~ data",
-      data
-    );
-  };
-
-  const [MousePosition, setMousePosition] = React.useState<ControlPosition>({
-    x: 0,
+  const [mousePosition, setMousePosition] = React.useState<ControlPosition>({
+    // x: panelRef.current?.offsetWidth as number,
+    x: 300,
     y: 0,
   });
-  const handleMouseDown = (event: MouseEvent) => {
-    setMousePosition({ x: event.clientX, y: event.clientY });
-  };
-  const handleMouseMove = (event: MouseEvent) => {
-    setMousePosition({ x: event.clientX, y: event.clientY });
-  };
-  const handleMouseUp = (event: MouseEvent) => {
-    console.log(
-      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 114 ~ handleMouseMove ~ event",
-      event
-    );
-    setMousePosition({ x: event.clientX, y: event.clientY });
-  };
 
-  React.useEffect(() => {
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+  const classes = useStyles(mousePosition);
 
-    return () => {
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
+  useEffect(() => {
+    dispatch(showContextDrawerAction());
+    setMousePosition({ x: panelRef.current?.offsetWidth as number, y: 0 });
+  }, [dispatch]);
+
+  const handler = React.useCallback(() => {
+    function onMouseMove(e: MouseEvent) {
+      console.log(
+        "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 120 ~ onMouseMove ~ e",
+        e
+      );
+      setMousePosition((currentSize) => {
+        return {
+          x: currentSize.x + e.movementX,
+          y: currentSize.y,
+        };
+      });
+    }
+
+    function onMouseUp() {
+      moveDivRef?.current?.removeEventListener("mousemove", onMouseMove);
+      moveDivRef?.current?.removeEventListener("mouseup", onMouseUp);
+    }
+
+    moveDivRef?.current?.addEventListener("mousemove", onMouseMove);
+    moveDivRef?.current?.addEventListener("mouseup", onMouseUp);
   }, []);
 
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
-        <div className={classes.chartPanel}>
+        <div
+          className={classes.chartPanel}
+          // style={{ width: mousePosition.x, left: mousePosition.x }}
+          ref={panelRef}
+        >
           <EconomicsPlotChartsDataPanel />
         </div>
         <div
+          ref={moveDivRef}
           style={{
             width: 5,
             height: "100%",
             cursor: "ew-resize",
+            backgroundColor: theme.palette.grey[200],
           }}
-        ></div>
-        {/* <Draggable
-          axis="x"
-          // handle=".handle"
-          defaultPosition={{ x: 0, y: 0 }}
-          position={MousePosition}
-          grid={[5, 5]}
-          scale={1}
-          onStart={handleStart}
-          onDrag={handleDrag}
-          onStop={handleStop}
-        >
-          <div
-            style={{
-              width: 5,
-              height: "100%",
-              cursor: "ew-resize",
-            }}
-          ></div>
-        </Draggable> */}
+          onMouseDown={handler}
+          draggable={true}
+        />
         {isForecastResultsLoading ? (
           <div>Forecast results loading</div>
         ) : (
@@ -183,7 +163,6 @@ const EconomicsPlotChartsVisualytics = () => {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                width: "100%",
                 height: 50,
                 marginTop: 2,
                 marginRight: 40,

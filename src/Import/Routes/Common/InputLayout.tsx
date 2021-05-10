@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import PerpetualSpinner from "../../../Application/Components/Visuals/PerpetualSpinner";
+import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
 import EconomicsCostsRevenuesLanding from "../../../Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
@@ -112,7 +113,11 @@ const InputLayout = () => {
     <main className={classes.importLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.importLayoutContainer)}>
-        <Suspense fallback={<PerpetualSpinner />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route exact path={path} component={InputBackground} />
             <Route

@@ -22,6 +22,7 @@ import MainDrawer from "../Components/Drawers/MainDrawer";
 import Navbar from "../Components/Navbars/Navbar";
 import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import Spinners from "../Components/Visuals/Spinners";
+import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
 import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
@@ -69,7 +70,11 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
-        <Suspense fallback={<PerpetualSpinner />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route exact path={url} component={ProductBackground} />
             <Route

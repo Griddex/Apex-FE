@@ -18,6 +18,7 @@ import {
   fetchExistingNetworkDataRequestAction,
 } from "../Redux/Actions/NetworkActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
 
 const navbarHeight = 43;
 // const subNavBarHeight = 25;
@@ -65,7 +66,11 @@ const NetworkLayout = () => {
   return (
     <main className={classes.networkLayoutRoot}>
       <div className={clsx(classes.networkLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route
               exact

@@ -7,6 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
 import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
 import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
+import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
 import ProtectedRoute from "../Routes/ProtectedRoute";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
@@ -47,7 +48,11 @@ const App: React.FC<JSX.Element> = () => {
       }}
     >
       <DndProvider backend={HTML5Backend}>
-        <Suspense fallback={<PerpetualSpinner />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route exact path="/" component={LandingRoute} />
             <Route path="/login" component={LoginRoute} />

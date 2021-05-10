@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import Loading from "../../../Application/Components/Visuals/Loading";
+import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IEconomicsInputButton,
@@ -134,7 +135,11 @@ const EconomicsLayout = () => {
     <main className={classes.economicsLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.economicsLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route exact path={path} render={() => <EconomicsBackground />} />
             <Route

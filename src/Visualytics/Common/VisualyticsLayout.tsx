@@ -8,6 +8,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import Loading from "../../Application/Components/Visuals/Loading";
+import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import Visualytics from "./Visualytics";
 import VisualyticsBackground from "./VisualyticsBackground";
 import { IdType, IVisualyticsLayouts } from "./VisualyticsLayoutTypes";
@@ -36,7 +37,11 @@ const VisualyticsLayout = () => {
   return (
     <main className={classes.visualyticsLayoutRoot}>
       <div className={clsx(classes.visualyticsLayoutContainer)}>
-        <Suspense fallback={<Loading />}>
+        <Suspense
+          fallback={
+            <SuspensePerpetualSpinner pending={true} message="Loading..." />
+          }
+        >
           <Switch>
             <Route exact path={path} component={Visualytics} />
             <Route

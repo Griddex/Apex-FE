@@ -40,12 +40,17 @@ const override = css`
   left: 0;
 `;
 
-const SuspensePerpetualSpinner = () => {
+export interface ISuspensePerpetualSpinner {
+  pending: boolean;
+  message: string;
+}
+
+const SuspensePerpetualSpinner = ({
+  pending,
+  message,
+}: ISuspensePerpetualSpinner) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { pending, message } = useSelector(
-    (state: RootState) => state.uiSpinnerReducer
-  );
 
   const handleClose = () => {
     dispatch(hideSpinnerAction());
