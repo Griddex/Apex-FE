@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     borderBottomWidth: 0,
     paddingLeft: 5,
     lineHeight: "100%",
-    marginBottom: theme.spacing(1),
     textTransform: "uppercase",
     // color: theme.palette.primary.dark,
     color: theme.palette.grey[900],
@@ -41,11 +40,12 @@ export interface IAnalyticsTitleProps {
   direction: "Vertical" | "Horizontal";
   containerStyle?: CSSProperties;
   textStyle?: CSSProperties;
+  titleStyle?: CSSProperties;
 }
 
 const AnalyticsText: React.FC<IAnalyticsTitleProps> = (props) => {
   const classes = useStyles(props);
-  const { title, text, textStyle, containerStyle } = props;
+  const { title, text, titleStyle, textStyle, containerStyle } = props;
 
   const flexStyle = (): React.CSSProperties => {
     if (props.direction === "Horizontal") return { flexDirection: "row" };
@@ -56,7 +56,9 @@ const AnalyticsText: React.FC<IAnalyticsTitleProps> = (props) => {
 
   return (
     <div className={classes.analyticsContainer} style={finalStyle}>
-      <Typography className={classes.analyticsText}>{title}</Typography>
+      <Typography className={classes.analyticsText} style={titleStyle}>
+        {title}
+      </Typography>
       <Typography className={classes.textContainer} style={textStyle}>
         {text}
       </Typography>

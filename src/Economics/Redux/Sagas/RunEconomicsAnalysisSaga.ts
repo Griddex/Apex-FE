@@ -94,13 +94,19 @@ function* runEconomicsAnalysisSaga(
 
     const {
       data: {
-        heatMapTree: sensitivitiesHeatMapTree,
-        plotChartsTree: economicsPlotChartsTree,
-        templatesTree: economicsTemplatesTree,
+        data: {
+          heatMapTree: sensitivitiesHeatMapTree,
+          plotChartsTree: economicsPlotChartsTree,
+          templatesTree: economicsTemplatesTree,
+        },
       }, //prevent 2nd trip to server
       status,
       success,
     } = result;
+    console.log(
+      "Logged output --> ~ file: RunEconomicsAnalysisSaga.ts ~ line 102 ~ sensitivitiesHeatMapTree",
+      sensitivitiesHeatMapTree
+    );
 
     const successAction = runEconomicsAnalysisSuccessAction();
     yield put({

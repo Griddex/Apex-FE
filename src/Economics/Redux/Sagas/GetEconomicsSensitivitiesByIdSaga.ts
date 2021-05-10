@@ -2,8 +2,6 @@ import { AxiosResponse } from "axios";
 import {
   actionChannel,
   ActionChannelEffect,
-  all,
-  AllEffect,
   call,
   CallEffect,
   ForkEffect,
@@ -20,9 +18,10 @@ import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/ExistingEconomicsSensitivitiesDialogParameters";
 import {
-  GETECONOMICSSENSITIVITIESBYID_REQUEST,
   getEconomicsSensitivitiesByIdFailureAction,
   getEconomicsSensitivitiesByIdSuccessAction,
+  GETECONOMICSSENSITIVITIESBYID_REQUEST,
+  updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
 export default function* watchGetEconomicsSensitivitiesByIdSaga(): Generator<
@@ -56,10 +55,10 @@ function* getEconomicsSensitivitiesByIdSaga(
   any
 > {
   const { payload } = action;
-  const { economicsSensitivitiesId } = yield select(
+  const { selectedEconomicsSensitivitiesId } = yield select(
     (state) => state.economicsReducer
   );
-  const economicsSensitivitiesUrl = `${getBaseEconomicsUrl()}/sensitivities/${economicsSensitivitiesId}`;
+  const economicsSensitivitiesUrl = `${getBaseEconomicsUrl()}/sensitivities/${selectedEconomicsSensitivitiesId}`;
 
   try {
     const economicsSensitivitiesResults = yield call(
@@ -68,17 +67,35 @@ function* getEconomicsSensitivitiesByIdSaga(
     );
 
     const {
-      data: { data: selectedSensitivitiesTable }, //prevent 2nd trip to server
+      data: { data: selectedSensitivitiesData }, //prevent 2nd trip to server
     } = economicsSensitivitiesResults;
+
+    const {
+      analysisName,
+      title: analysisTableTitle,
+      sensitivitiesTable,
+    } = selectedSensitivitiesData;
+
+    const sensitivitiesTableStr = sensitivitiesTable.map(
+      (row: any, i: number) => ({
+        ...row,
+        sn: i + 1,
+        parameterValues: row.parameterValues.join(", "),
+      })
+    );
 
     const successAction = getEconomicsSensitivitiesByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        selectedSensitivitiesTable,
+        analysisName,
+        analysisTableTitle,
+        sensitivitiesTable: sensitivitiesTableStr,
       },
     });
+
+    yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
   } catch (errors) {
     const failureAction = getEconomicsSensitivitiesByIdFailureAction();
 

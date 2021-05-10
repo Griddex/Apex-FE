@@ -180,9 +180,9 @@ export interface EconomicsStateType
 
   showSensitivitiesTable: boolean;
 
-  sensitivitiesHeatMapTree: RenderTree["children"];
-  economicsPlotChartsTree: RenderTree["children"];
-  economicsTemplatesTree: RenderTree["children"];
+  sensitivitiesHeatMapTree: RenderTree;
+  economicsPlotChartsTree: RenderTree;
+  economicsTemplatesTree: RenderTree;
 
   inputDataWorkflows: Record<string, IEconomicsState>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;

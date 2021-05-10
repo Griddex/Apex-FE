@@ -13,6 +13,10 @@ import {
   UPDATE_ECONOMICS,
   RUNECONOMICSANALYSIS_SUCCESS,
   RUNECONOMICSANALYSIS_FAILURE,
+  EXISTINGECONOMICSSENSITIVITIES_SUCCESS,
+  EXISTINGECONOMICSSENSITIVITIES_FAILURE,
+  GETECONOMICSSENSITIVITIESBYID_SUCCESS,
+  GETECONOMICSSENSITIVITIESBYID_FAILURE,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 import set from "lodash.set";
@@ -202,11 +206,38 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
+    case EXISTINGECONOMICSSENSITIVITIES_FAILURE:
+    case EXISTINGECONOMICSSENSITIVITIES_SUCCESS: {
+      return {
+        ...state,
+        existingDataWorkflows: {
+          ...state.existingDataWorkflows,
+          ...action.payload,
+        },
+      };
+    }
+
     case RUNECONOMICSANALYSIS_FAILURE:
     case RUNECONOMICSANALYSIS_SUCCESS: {
       return {
         ...state,
         ...action.payload,
+      };
+    }
+
+    case GETECONOMICSSENSITIVITIESBYID_FAILURE:
+    case GETECONOMICSSENSITIVITIESBYID_SUCCESS: {
+      const {
+        analysisName,
+        analysisTableTitle,
+        sensitivitiesTable,
+      } = action.payload;
+      return {
+        ...state,
+        economicsAnalysisWorkflows: {
+          ...state.economicsAnalysisWorkflows,
+          [analysisName]: { sensitivitiesTable, analysisTableTitle },
+        },
       };
     }
 

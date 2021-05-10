@@ -17,7 +17,10 @@ import {
   ISubNavbarData,
 } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
-import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import {
+  fetchExistingEconomicsSensitivitiesRequestAction,
+  updateEconomicsParameterAction,
+} from "../../Redux/Actions/EconomicsActions";
 import EconomicsAnalysesLanding from "../EconomicsAnalyses/EconomicsAnalysesLanding";
 import EconomicsCostsRevenuesLanding from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
 import EconomicsParametersLanding from "../EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
@@ -46,6 +49,7 @@ const EconomicsLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
+  const { projectId } = useSelector((state: RootState) => state.projectReducer);
   const { showSubNavbar } = layoutProps;
   const dispatch = useDispatch();
 
@@ -121,6 +125,10 @@ const EconomicsLayout = () => {
         ),
     },
   ];
+
+  React.useEffect(() => {
+    dispatch(fetchExistingEconomicsSensitivitiesRequestAction(projectId));
+  }, []);
 
   return (
     <main className={classes.economicsLayoutRoot}>

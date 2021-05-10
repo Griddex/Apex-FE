@@ -13,6 +13,11 @@ import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/Cha
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
 import EconomicsPlotChartsSelectCharts from "./EconomicsPlotChartsSelectCharts";
+import Draggable, {
+  ControlPosition,
+  DraggableData,
+  DraggableEvent,
+} from "react-draggable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
   chartContent: {
     display: "flex",
     flexDirection: "column",
-    marginLeft: 5,
     marginRight: 45,
     height: "100%",
     width: "90%",
@@ -90,12 +94,87 @@ const EconomicsPlotChartsVisualytics = () => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
 
+  const handleStop = (event: DraggableEvent, data: DraggableData) => {
+    console.log(
+      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 94 ~ handleStop ~ data",
+      data
+    );
+  };
+  const handleStart = (event: DraggableEvent, data: DraggableData) => {
+    console.log(
+      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 94 ~ handleStop ~ data",
+      data
+    );
+  };
+  const handleDrag = (event: DraggableEvent, data: DraggableData) => {
+    console.log(
+      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 94 ~ handleStop ~ data",
+      data
+    );
+  };
+
+  const [MousePosition, setMousePosition] = React.useState<ControlPosition>({
+    x: 0,
+    y: 0,
+  });
+  const handleMouseDown = (event: MouseEvent) => {
+    setMousePosition({ x: event.clientX, y: event.clientY });
+  };
+  const handleMouseMove = (event: MouseEvent) => {
+    setMousePosition({ x: event.clientX, y: event.clientY });
+  };
+  const handleMouseUp = (event: MouseEvent) => {
+    console.log(
+      "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 114 ~ handleMouseMove ~ event",
+      event
+    );
+    setMousePosition({ x: event.clientX, y: event.clientY });
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
           <EconomicsPlotChartsDataPanel />
         </div>
+        <div
+          style={{
+            width: 5,
+            height: "100%",
+            cursor: "ew-resize",
+          }}
+        ></div>
+        {/* <Draggable
+          axis="x"
+          // handle=".handle"
+          defaultPosition={{ x: 0, y: 0 }}
+          position={MousePosition}
+          grid={[5, 5]}
+          scale={1}
+          onStart={handleStart}
+          onDrag={handleDrag}
+          onStop={handleStop}
+        >
+          <div
+            style={{
+              width: 5,
+              height: "100%",
+              cursor: "ew-resize",
+            }}
+          ></div>
+        </Draggable> */}
         {isForecastResultsLoading ? (
           <div>Forecast results loading</div>
         ) : (

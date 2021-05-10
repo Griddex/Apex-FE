@@ -63,7 +63,7 @@ function* fetchExistingEconomicsSensitivitiesSaga(
     );
 
     const {
-      data: { data: economicsSensitivitiesDeckExisting }, //prevent 2nd trip to server
+      data: { data: economicsSensitivitiesExisting }, //prevent 2nd trip to server
     } = economicsSensitivitiesResults;
 
     const successAction = fetchExistingEconomicsSensitivitiesSuccessAction();
@@ -71,7 +71,7 @@ function* fetchExistingEconomicsSensitivitiesSaga(
       ...successAction,
       payload: {
         ...payload,
-        economicsSensitivitiesDeckExisting,
+        economicsSensitivitiesExisting,
       },
     });
   } catch (errors) {

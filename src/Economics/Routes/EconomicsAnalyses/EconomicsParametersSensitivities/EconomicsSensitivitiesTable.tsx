@@ -8,34 +8,26 @@ import CenteredStyle from "../../../../Application/Components/Styles/CenteredSty
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationExistingDataRow } from "../../../../Application/Types/ApplicationTypes";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import {
-  IEconomicsAnalysis,
-  TEconomicsAnalysesNames,
-} from "../EconomicsAnalysesTypes";
+import { TEconomicsAnalysesNames } from "../EconomicsAnalysesTypes";
 
 const EconomicsSensitivitiesTable = ({
   analysisName,
 }: {
   analysisName: TEconomicsAnalysesNames;
 }) => {
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 24 ~ analysisName",
-    analysisName
-  );
   const theme = useTheme();
+  const dispatch = useDispatch();
   const wc = "economicsAnalysisWorkflows";
 
   const economicsAnalyses = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 31 ~ economicsAnalyses",
-    economicsAnalyses
-  );
-  const initialRows = economicsAnalyses[analysisName]["sensitivitiesTable"];
+
+  const currentAnalysisObj = economicsAnalyses[analysisName];
+  const sensitivitiesTableTitle = currentAnalysisObj["analysisTableTitle"];
+  const initialRows = currentAnalysisObj["sensitivitiesTable"];
   const [rows, setRows] = React.useState(initialRows);
 
   const columns: Column<IRawRow>[] = [
@@ -64,19 +56,24 @@ const EconomicsSensitivitiesTable = ({
     },
   ];
 
+  React.useEffect(() => {
+    dispatch(hideSpinnerAction());
+  }, []);
+
   return (
     <CenteredStyle
       flexDirection="column"
       justifyContent="space-evenly"
-      alignItems="center"
+      alignItems="flex-start"
       height={"100%"}
     >
       <AnalyticsText
-        title="Target Variable:"
-        text={analysisName}
+        title="Sensitivities Table Title:"
+        text={sensitivitiesTableTitle}
         direction="Horizontal"
-        containerStyle={{ alignItems: "flex-start", width: "100%" }}
+        containerStyle={{ alignItems: "flex-start", width: "80%" }}
         textStyle={{ color: theme.palette.primary.main, fontWeight: "bold" }}
+        titleStyle={{ lineHeight: 2, minWidth: 200 }}
       />
       <div style={{ width: "100%", height: 150 }}>
         <SizeMe monitorHeight refreshRate={32}>

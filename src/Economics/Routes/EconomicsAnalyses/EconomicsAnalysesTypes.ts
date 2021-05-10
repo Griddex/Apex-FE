@@ -59,13 +59,13 @@ export interface IEconomicsAnalysis {
   name: TEconomicsAnalysesNames;
   title: TEconomicsAnalysesTitles;
   icon: JSX.Element;
-  // icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
   workflowProcess?: IEconomicsWorkflowProcess["wkPs"];
   devScenario?: "Oil Development" | "NAG Development" | "Oil + NAG Development";
   economicsDecks?: Record<TEconomicsDecks, IDecksObj>;
   sensitivities?: IEconomicsSensitivities;
   showSensitivitiesTable?: boolean;
   sensitivitiesTable?: ISensitivitiesRow[];
+  analysisTableTitle?: string;
 }
 export type TEconomicsAnalysisWorkflows = `${TEconomicsAnalysesNames}WorkflowProcess`;
 

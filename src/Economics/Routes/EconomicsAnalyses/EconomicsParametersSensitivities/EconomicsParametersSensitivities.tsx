@@ -1,27 +1,18 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Select, { ValueType } from "react-select";
+import { useSelector } from "react-redux";
+import Select from "react-select";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import {
-  economicsParameterHeaders,
-  getVariableTitlesNamesObj,
-} from "../../../Data/EconomicsData";
-import {
-  IEconomicsAnalysis,
   IEconomicsParametersSensitivitiesProps,
   IEconomicsSensitivities,
-  TEconomicsAnalyses,
-  TEconomicsAnalysesNames,
   TParametersId,
 } from "../EconomicsAnalysesTypes";
-import { IParameterSensitivity } from "./EconomicsParametersSensitivitiesTypes";
 import ParameterSensitivity from "./ParameterSensitivity";
 
 const initialSensitivityValues = [
@@ -87,10 +78,6 @@ const EconomicsParametersSensitivities = ({
     parameterSensitivitiesObj,
     setParameterSensitivitiesObj,
   ] = React.useState(initialSensitivitiesObjRef.current);
-  console.log(
-    "Logged output --> ~ file: EconomicsParametersSensitivities.tsx ~ line 138 ~ parameterSensitivitiesObj",
-    parameterSensitivitiesObj
-  );
 
   const RSStyles = getRSStyles(theme);
 

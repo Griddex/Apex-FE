@@ -169,9 +169,9 @@ const EconomicsState: EconomicsStateType = {
   selectedAnalysis: {},
   selectedAnalysesNames: [],
 
-  sensitivitiesHeatMapTree: [],
-  economicsPlotChartsTree: [],
-  economicsTemplatesTree: [],
+  sensitivitiesHeatMapTree: { id: "", name: "" },
+  economicsPlotChartsTree: { id: "", name: "" },
+  economicsTemplatesTree: { id: "", name: "" },
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,

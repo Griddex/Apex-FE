@@ -165,9 +165,9 @@ const EconomicsAnalysesTitles = [
   "Multiple Analyses",
 ];
 
-export const economicsAnalysesTitleNamesObj = zipObject(
-  EconomicsAnalysesTitles,
-  EconomicsAnalysesNames
+export const economicsAnalysesNameTitlesObj = zipObject(
+  EconomicsAnalysesNames,
+  EconomicsAnalysesTitles
 );
 
 export const economicsAnalysesNameTitle = [

@@ -6,6 +6,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
@@ -20,6 +21,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { developmentScenarios } from "../../Data/EconomicsData";
 import {
+  getEconomicsSensitivitiesByIdRequestAction,
   runEconomicsAnalysisRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
@@ -191,18 +193,15 @@ const EconomicsAnalysis = ({
       iconType: "information",
       workflowProcess,
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
             unloadDialogsAction,
-            () =>
-              saveEconomicsSensitivitiesRequestAction(
-                wp,
-                reducer,
-                analysisName as NonNullable<TEconomicsAnalysesNames>
-              ),
-          ]
+            () => getEconomicsSensitivitiesByIdRequestAction(wp, reducer),
+          ],
+          "Load",
+          "loadOutlined"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -224,13 +223,15 @@ const EconomicsAnalysis = ({
       dialogText: `Do you want to calculate ${title} with the current parameters?`,
       iconType: "confirmation",
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
             unloadDialogsAction,
             () => runEconomicsAnalysisRequestAction(wp, name, title),
-          ]
+          ],
+          "Calculate",
+          "viewDayTwoTone"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

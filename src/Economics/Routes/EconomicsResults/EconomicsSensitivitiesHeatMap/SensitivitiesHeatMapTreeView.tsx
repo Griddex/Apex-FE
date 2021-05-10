@@ -126,72 +126,13 @@ export default function SensitivitiesHeatMapTreeView() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // const { sensitivitiesHeatMap, selectedAnalysisName } = useSelector(
-  //   (state: RootState) => state.economicsReducer
-  // );
-  const selectedAnalysisName = "netcashFlow";
-  const sensitivitiesParams = [
-    {
-      id: "5yuighc74-4b81-4652-8a46-4564565",
-      name: "Gas Price",
-      path: "",
-      children: [],
-    },
-    {
-      id: "aleofeofbwobowe-4b81-4652-8a46-4564565",
-      name: "Oil Price",
-      path: "",
-      children: [],
-    },
-    {
-      id: "5yuighc74-4b81-7865764735438-8a46-4564565",
-      name: "Royalty",
-      path: "",
-      children: [],
-    },
-  ];
-  const sensitivitiesHeatMap = [
-    {
-      id: "5yuighc74-4b81-4652-8a46-dfgdfgdf",
-      name: "Oil Development",
-      path: "",
-      children: [...sensitivitiesParams],
-    },
-    {
-      id: "5yuighc74-4b81-6757-8a46-a58b6bea0157",
-      name: "NAG Development",
-      path: "",
-      children: [...sensitivitiesParams],
-    },
-    {
-      id: "asdfvdfgdgd-4b81-4652-8a46-a58b6bea0157",
-      name: "Oil + NAG Development",
-      path: "",
-      children: [...sensitivitiesParams],
-    },
-  ];
+  const { sensitivitiesHeatMapTree, selectedAnalysesNames } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
+  const scenarioTree = sensitivitiesHeatMapTree as RenderTree;
 
-  const updatedSensitivitiesHeatMapTree = [
-    {
-      ...sensitivitiesHeatMap?.[0],
-      id: "5749dc74-4b81-4652-8a46-a58b6bea0157",
-    },
-    {
-      ...sensitivitiesHeatMap?.[1],
-      id: "ac430726-1b97-45f6-8b09-0c2ac347cc6e",
-    },
-    {
-      ...sensitivitiesHeatMap?.[2],
-      id: "3d515091-8d7e-4650-8345-9fa953a23418",
-    },
-  ];
-
-  const scenarioTree = {
-    id: "6e611ee3-4133-496b-a7cc-43cea89686bc",
-    name: "Scenarios",
-    children: [...(updatedSensitivitiesHeatMapTree as RenderTree[])],
-  };
-
+  //TODO: Ability to handle multiple analyses
+  const selectedAnalysisName = selectedAnalysesNames[0];
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
     string[]
@@ -201,7 +142,7 @@ export default function SensitivitiesHeatMapTreeView() {
     setSelectedModulePathsUnfiltered,
   ] = React.useState<string[]>([]);
 
-  const initExpanded = scenarioTree.children.map(
+  const initExpanded = scenarioTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id
   );
 

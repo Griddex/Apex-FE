@@ -6,13 +6,22 @@ import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
+import HourglassFullOutlinedIcon from "@material-ui/icons/HourglassFullOutlined";
+import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
   shouldDispatch: IButtonsConfigProps["shouldDispatch"],
   finalActions: IButtonsConfigProps["finalActions"],
-  oneButtonName:string
+  oneButtonName: string,
+  oneButtonIconName = "saveOutlined"
 ) => {
+  const icons: Record<string, JSX.Element> = {
+    saveOutlined: <SaveOutlinedIcon />,
+    loadOutlined: <HourglassFullOutlinedIcon />,
+    viewDayTwoTone: <ViewDayTwoToneIcon />,
+  };
+
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [
     {
@@ -26,7 +35,7 @@ const DialogOneCancelButtons = (
       title: oneButtonName,
       variant: "contained",
       color: "primary",
-      startIcon: <SaveOutlinedIcon />,
+      startIcon: icons[oneButtonIconName],
       handleAction: () => {
         let i = 0;
         for (const execute of shouldExecute) {

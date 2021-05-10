@@ -7,7 +7,11 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import Approval from "../../../../Application/Components/Approval/Approval";
+import Approvers from "../../../../Application/Components/Approvers/Approvers";
+import Author from "../../../../Application/Components/Author/Author";
 import apexCheckbox from "../../../../Application/Components/Checkboxes/ApexCheckbox";
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -15,6 +19,9 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import addSerialNumberToTable from "../../../../Application/Utils/AddSerialNumberToTable";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import { IExistingEconomicsSensitivitiesRow } from "./EconomicsParametersSensitivitiesTypes";
+import { IApplicationExistingDataRow } from "./../../../../Application/Types/ApplicationTypes";
+import { economicsAnalysesNameTitlesObj } from "../../../Data/EconomicsData";
+import { TEconomicsAnalysesNames } from "../EconomicsAnalysesTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -89,6 +96,20 @@ export default function ExistingEconomicsSensitivities() {
     (state: RootState) => state.economicsReducer[wc][wp]
   ) as IExistingEconomicsSensitivitiesRow[];
 
+  const transExistingSensitivitiesData = (existingSensitivitiesData as IApplicationExistingDataRow[]).map(
+    (row, i) => ({
+      sn: i + 1,
+      economicsSensitivitiesId: row.id,
+      status: "Not Started",
+      title: row.title,
+      analysisName: row.analysisName,
+      description: row.description,
+      author: "---",
+      createdOn: row.createdAt,
+      modifiedOn: row.createdAt,
+    })
+  ) as IExistingEconomicsSensitivitiesRow[];
+
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
@@ -122,15 +143,7 @@ export default function ExistingEconomicsSensitivities() {
           const selectedRowIndex = (sn as number) - 1;
 
           return (
-            <div
-              style={{
-                display: "flex",
-                height: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <CenteredStyle>
               <EditOutlinedIcon
                 onClick={() => {
                   alert(`Edit Row is:${row}`);
@@ -150,24 +163,69 @@ export default function ExistingEconomicsSensitivities() {
               <MenuOpenOutlinedIcon
                 onClick={() => alert(`Menu Row is:${row}`)}
               />
-            </div>
+            </CenteredStyle>
           );
         },
         width: 120,
       },
       {
-        key: "sensitivityTitle",
+        key: "title",
         name: "SENSITIVITY TITLE",
         editable: false,
         resizable: true,
-        width: 150,
+        width: 250,
       },
       {
         key: "analysisName",
-        name: "TARGET VARIABLE",
+        name: "ANALYSIS TITLE",
         editable: false,
         resizable: true,
+        formatter: ({ row }) => {
+          const analysisName = row.analysisName as TEconomicsAnalysesNames;
+          console.log(
+            "Logged output --> ~ file: ExistingEconomicsSensitivities.tsx ~ line 184 ~ generateColumns ~ analysisName",
+            analysisName
+          );
+          const analysisTitle = economicsAnalysesNameTitlesObj[analysisName];
+          console.log(
+            "Logged output --> ~ file: ExistingEconomicsSensitivities.tsx ~ line 186 ~ generateColumns ~ economicsAnalysesNameTitlesObj",
+            economicsAnalysesNameTitlesObj
+          );
+          console.log(
+            "Logged output --> ~ file: ExistingEconomicsSensitivities.tsx ~ line 186 ~ generateColumns ~ analysisTitle",
+            analysisTitle
+          );
+
+          return <CenteredStyle>{analysisTitle}</CenteredStyle>;
+        },
         width: 150,
+      },
+      {
+        key: "author",
+        name: "AUTHOR",
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Author author={row.author} />;
+        },
+        width: 200,
+      },
+      {
+        key: "createdOn",
+        name: "CREATED",
+        resizable: true,
+        formatter: ({ row }) => {
+          return <div>{row.createdOn}</div>;
+        },
+        // width: 200,
+      },
+      {
+        key: "modifiedOn",
+        name: "MODIFIED",
+        resizable: true,
+        formatter: ({ row }) => {
+          return <div>{row.modifiedOn}</div>;
+        },
+        // width: 200,
       },
     ];
 
@@ -175,22 +233,11 @@ export default function ExistingEconomicsSensitivities() {
   };
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
-  const snExistingSensitivitiesDataData = existingSensitivitiesData.map(
-    (row, i) => ({ sn: i + 1, ...row })
-  );
-
   const tableRows = React.useRef<IExistingEconomicsSensitivitiesRow[]>(
-    snExistingSensitivitiesDataData
+    transExistingSensitivitiesData
   );
   const currentRows = tableRows.current;
   const [rows, setRows] = React.useState(currentRows);
-
-  React.useEffect(() => {
-    dispatch(
-      updateEconomicsParameterAction("economicsSensitivitiesExisting", rows)
-    );
-    dispatch(hideSpinnerAction());
-  }, [dispatch, rows]);
 
   return (
     <div className={classes.rootExistingData}>

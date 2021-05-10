@@ -37,10 +37,6 @@ const ParameterSensitivity = ({
   parameterSensitivitiesObj,
   setParameterSensitivitiesObj,
 }: IParameterSensitivity) => {
-  console.log(
-    "Logged output --> ~ file: ParameterSensitivity.tsx ~ line 38 ~ parameterSensitivitiesObj",
-    parameterSensitivitiesObj
-  );
   const dispatch = useDispatch();
   const theme = useTheme();
   const sensitivityRef = React.useRef<HTMLDivElement>(null);
@@ -144,8 +140,6 @@ const ParameterSensitivity = ({
     },
   ];
   React.useEffect(() => {
-    console.log("hey");
-
     const parSenObj = parameterSensitivitiesObj[parId];
     parameterSensitivitiesObj[parId] = {
       ...parSenObj,

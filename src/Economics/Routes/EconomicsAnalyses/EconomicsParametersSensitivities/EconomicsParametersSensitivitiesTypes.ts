@@ -1,4 +1,5 @@
 import { IUserDetails } from "../../../../Application/Components/User/UserTypes";
+import { IExistingDataRow } from "../../../../Application/Types/ApplicationTypes";
 import {
   IEconomicsSensitivities,
   TParametersId,
@@ -22,14 +23,16 @@ export interface ISensitivityColumn {
 //Gift's and define mine??
 export interface IExistingEconomicsSensitivitiesRow {
   sn?: number;
+  id?: string;
   title?: string;
+  status?: IExistingDataRow["status"];
   description?: string;
-  economicsSensitivitiesId: string;
-  economicsSensitivitiesTitle: string;
-  economicsSensitivitiesDescription: string;
-  analysisName: string;
-  sensitivityValues: ISensitivityColumn[];
-  author: IUserDetails;
-  createdOn: string;
-  modifiedOn: string;
+  economicsSensitivitiesId?: string;
+  economicsSensitivitiesTitle?: string;
+  economicsSensitivitiesDescription?: string;
+  analysisName?: string;
+  sensitivityValues?: ISensitivityColumn[];
+  author?: IUserDetails | string;
+  createdOn?: string;
+  modifiedOn?: string;
 }
