@@ -88,7 +88,7 @@ const EconomicsAnalysesPanel = ({
             } else {
               style = {
                 pointerEvents: "none",
-                backgroundColor: `1px solid ${theme.palette.grey[500]}`,
+                backgroundColor: theme.palette.grey[200],
               };
             }
 

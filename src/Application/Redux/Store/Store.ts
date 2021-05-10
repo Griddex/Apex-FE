@@ -38,7 +38,7 @@ import watchGetForecastResultsChartDataSaga from "../../../Forecast/Redux/Sagas/
 import watchSaveEconomicsParametersSaga from "../../../Economics/Redux/Sagas/SaveEconomicsParametersSaga";
 import watchSaveCostsRevenuesSaga from "../../../Economics/Redux/Sagas/SaveCostsRevenuesSaga";
 import watchFetchExistingEconomicsDataSaga from "../../../Economics/Redux/Sagas/FetchExistingEconomicsDataSaga";
-import watchExecuteEconomicsAnalysisSaga from "../../../Economics/Redux/Sagas/ExecuteEconomicsAnalysisSaga";
+import watchRunEconomicsAnalysisSaga from "../../../Economics/Redux/Sagas/RunEconomicsAnalysisSaga";
 import watchFetchExistingEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/FetchExistingEconomicsSensitivitiesSaga";
 import watchGetEconomicsSensitivitiesByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsSensitivitiesByIdSaga";
 import watchSaveEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/SaveEconomicsSensitivitiesSaga";
@@ -77,7 +77,7 @@ function* rootSaga() {
   yield spawn(watchSaveEconomicsSensitivitiesSaga);
   yield spawn(watchFetchExistingEconomicsSensitivitiesSaga);
   yield spawn(watchGetEconomicsSensitivitiesByIdSaga);
-  yield spawn(watchExecuteEconomicsAnalysisSaga);
+  yield spawn(watchRunEconomicsAnalysisSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

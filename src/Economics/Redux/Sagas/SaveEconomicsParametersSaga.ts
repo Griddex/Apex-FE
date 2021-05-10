@@ -74,6 +74,10 @@ function* saveEconomicsParametersSaga(
   const { tableData: inputDeck, variableUnits } = yield select(
     (state) => state[reducer][wc][wp]
   );
+  console.log(
+    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 75 ~ inputDeck",
+    inputDeck
+  );
 
   const { savedMatchObjectAll: matchObject } = yield select(
     (state) => state.applicationReducer
@@ -83,19 +87,24 @@ function* saveEconomicsParametersSaga(
 
   economicsParameters.shift();
   const economicsParametersObj = economicsParameters[0];
+  console.log(
+    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 86 ~ economicsParametersObj",
+    economicsParametersObj
+  );
 
   const commercialTechnical = pick(economicsParametersObj, [
     "yearDiscounting",
+    "percentageDiscount",
     "firstOilYear",
     "oilPrice",
     "gasPrice",
     "lPGPrice",
     "leanWHGasRatio",
-    "LPGWHGasRatio",
-    "farmInBonus",
+    "lPGWHGasRatio",
+    "farmInSigBonus",
     "preProd",
     "postProd",
-    "CHAOpex",
+    "cHAOpex",
     "terminalFee",
     "gasVarOpex",
     "operationDaysPerAnnum",
@@ -107,11 +116,16 @@ function* saveEconomicsParametersSaga(
     "prodTerrain",
     "gasDevConcept",
   ]);
+  console.log(
+    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 119 ~ commercialTechnical",
+    commercialTechnical
+  );
   const fiscal = pick(economicsParametersObj, [
-    "pia",
-    "citaOnGas",
-    "nddcLevy",
-    "pptOption",
+    "pIA",
+    "cITAGasSales",
+    "nDDCLevy",
+    "pPTOption",
+    "eduTax",
   ]);
   const flarePenalty = pick(economicsParametersObj, "flarePenalty");
   const ppt = pick(economicsParametersObj, "ppt");

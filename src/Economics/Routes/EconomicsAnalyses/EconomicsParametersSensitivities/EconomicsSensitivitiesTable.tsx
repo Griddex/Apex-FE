@@ -21,19 +21,21 @@ const EconomicsSensitivitiesTable = ({
 }: {
   analysisName: TEconomicsAnalysesNames;
 }) => {
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 24 ~ analysisName",
+    analysisName
+  );
   const theme = useTheme();
   const wc = "economicsAnalysisWorkflows";
 
   const economicsAnalyses = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-
-  const { selectedAnalysis } = useSelector(
-    (state: RootState) => state.economicsReducer
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 31 ~ economicsAnalyses",
+    economicsAnalyses
   );
-
-  const selectedAnalysisName = (selectedAnalysis as IEconomicsAnalysis).name;
-  const initialRows = economicsAnalyses[selectedAnalysisName];
+  const initialRows = economicsAnalyses[analysisName]["sensitivitiesTable"];
   const [rows, setRows] = React.useState(initialRows);
 
   const columns: Column<IRawRow>[] = [
@@ -70,9 +72,9 @@ const EconomicsSensitivitiesTable = ({
       height={"100%"}
     >
       <AnalyticsText
-        title="Target Variable"
+        title="Target Variable:"
         text={analysisName}
-        direction="Vertical"
+        direction="Horizontal"
         containerStyle={{ alignItems: "flex-start", width: "100%" }}
         textStyle={{ color: theme.palette.primary.main, fontWeight: "bold" }}
       />

@@ -11,6 +11,8 @@ import {
   PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE,
   PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS,
   UPDATE_ECONOMICS,
+  RUNECONOMICSANALYSIS_SUCCESS,
+  RUNECONOMICSANALYSIS_FAILURE,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 import set from "lodash.set";
@@ -197,6 +199,14 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
           economicsCostsRevenuesDeckExisting,
           economicsParametersDeckExisting,
         },
+      };
+    }
+
+    case RUNECONOMICSANALYSIS_FAILURE:
+    case RUNECONOMICSANALYSIS_SUCCESS: {
+      return {
+        ...state,
+        ...action.payload,
       };
     }
 

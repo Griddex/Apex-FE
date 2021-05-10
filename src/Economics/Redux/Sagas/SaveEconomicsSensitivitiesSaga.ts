@@ -95,28 +95,34 @@ function* saveEconomicsSensitivitiesSaga(
     );
 
     const {
-      data: { data: selectedEconomicsSensitivitiesId }, //prevent 2nd trip to server
-      status,
-      success,
+      data: { data: economicsSensitivitiesId }, //prevent 2nd trip to server
     } = result;
 
     const successAction = saveEconomicsSensitivitiesSuccessAction();
-    yield put({
-      ...successAction,
-      payload: {
-        ...payload,
-        status,
-        success,
-        selectedEconomicsSensitivitiesId,
-      },
-    });
+    // yield put({
+    //   ...successAction,
+    //   payload: {
+    //     ...payload,
+    //     status,
+    //     success,
+    //     selectedEconomicsSensitivitiesId,
+    //   },
+    // });
 
+    yield put(
+      updateEconomicsParameterAction(
+        "selectedEconomicsSensitivitiesId",
+        economicsSensitivitiesId
+      )
+    );
     yield put(
       updateEconomicsParameterAction(
         "selectedEconomicsSensitivitiesTitle",
         economicsSensitivitiesTitle
       )
     );
+
+    yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
     yield put(fetchExistingEconomicsSensitivitiesRequestAction(projectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {

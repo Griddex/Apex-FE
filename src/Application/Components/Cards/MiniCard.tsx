@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
+import CenteredStyle from "../Styles/CenteredStyle";
 import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     display: "flex",
     justifyContent: "center",
-    width: "100%",
+    width: "90%",
   },
   cardIconTitle: {
     display: "flex",
@@ -52,7 +53,9 @@ const MiniCard: React.FC<IMiniCardProps> = (props) => {
   return (
     <CardActionArea className={classes.cardActionArea} onClick={moduleAction}>
       <div className={classes.cardIconTitle}>
-        {icon}
+        <CenteredStyle width={50} height={50}>
+          {icon}
+        </CenteredStyle>
         <div className={classes.title}>
           <Typography variant="h6" align="center">
             {title}

@@ -82,12 +82,9 @@ export const GETECONOMICSSENSITIVITIESBYID_SUCCESS =
 export const GETECONOMICSSENSITIVITIESBYID_FAILURE =
   "GETECONOMICSSENSITIVITIESBYID_FAILURE";
 
-export const EXECUTEECONOMICSANALYSIS_REQUEST =
-  "EXECUTEECONOMICSANALYSIS_REQUEST";
-export const EXECUTEECONOMICSANALYSIS_SUCCESS =
-  "EXECUTEECONOMICSANALYSIS_SUCCESS";
-export const EXECUTEECONOMICSANALYSIS_FAILURE =
-  "EXECUTEECONOMICSANALYSIS_FAILURE";
+export const RUNECONOMICSANALYSIS_REQUEST = "RUNECONOMICSANALYSIS_REQUEST";
+export const RUNECONOMICSANALYSIS_SUCCESS = "RUNECONOMICSANALYSIS_SUCCESS";
+export const RUNECONOMICSANALYSIS_FAILURE = "RUNECONOMICSANALYSIS_FAILURE";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -313,11 +310,11 @@ export const fetchExistingEconomicsSensitivitiesFailureAction = () => {
 export const saveEconomicsSensitivitiesRequestAction = (
   workflowProcess: IEconomicsWorkflowProcess["wkPs"],
   reducer: ReducersType,
-  selectedAnalysis: IEconomicsAnalysis
+  analysisName: TEconomicsAnalysesNames
 ) => {
   return {
     type: SAVEECONOMICSSENSITIVITIES_REQUEST,
-    payload: { workflowProcess, reducer },
+    payload: { workflowProcess, reducer, analysisName },
     meta: { showSpinner: true, message: "Saving economics sensitivities..." },
   };
 };
@@ -372,30 +369,30 @@ export const getEconomicsSensitivitiesByIdFailureAction = () => {
   };
 };
 
-export const executeEconomicsAnalysisRequestAction = (
+export const runEconomicsAnalysisRequestAction = (
   workflowProcess: IEconomicsWorkflowProcess["wkPs"],
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles
 ) => {
   return {
-    type: EXECUTEECONOMICSANALYSIS_REQUEST,
+    type: RUNECONOMICSANALYSIS_REQUEST,
     payload: { workflowProcess, analysisName, analysisTitle },
     meta: { showSpinner: true, message: `Calculating ${analysisTitle}...` },
   };
 };
 
-export const executeEconomicsAnalysisSuccessAction = () => {
+export const runEconomicsAnalysisSuccessAction = () => {
   return {
-    type: EXECUTEECONOMICSANALYSIS_SUCCESS,
+    type: RUNECONOMICSANALYSIS_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const executeEconomicsAnalysisFailureAction = () => {
+export const runEconomicsAnalysisFailureAction = () => {
   return {
-    type: EXECUTEECONOMICSANALYSIS_FAILURE,
+    type: RUNECONOMICSANALYSIS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

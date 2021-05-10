@@ -51,8 +51,10 @@ export interface ISensitivitiesRow {
   sn?: number;
   parameter: TParametersId;
   parameterTitle: string;
-  prameterValues: string;
+  parameterValues: string;
 }
+
+export type TSensitivitiesTable = ISensitivitiesRow[];
 export interface IEconomicsAnalysis {
   name: TEconomicsAnalysesNames;
   title: TEconomicsAnalysesTitles;

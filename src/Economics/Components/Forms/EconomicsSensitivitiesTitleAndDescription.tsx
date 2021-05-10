@@ -39,6 +39,11 @@ const EconomicsSensitivitiesTitleAndDescription = ({
         updateEconomicsParameterAction(name, TitleDesc[name as TTitleDesc])
       );
     }
+
+    console.log(
+      "Logged output --> ~ file: EconomicsSensitivitiesTitleAndDescription.tsx ~ line 29 ~ TitleDesc",
+      TitleDesc
+    );
   }, [TitleDesc]);
 
   return (

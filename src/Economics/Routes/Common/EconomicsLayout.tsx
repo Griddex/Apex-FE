@@ -23,7 +23,6 @@ import EconomicsCostsRevenuesLanding from "../EconomicsInput/EconomicsCostsAndRe
 import EconomicsParametersLanding from "../EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
 import EconomicsResultsLanding from "../EconomicsResults/EconomicsResultsLanding";
 import EconomicsSensitivitiesLanding from "../EconomicsSensitivities/EconomicsSensitivitiesLanding";
-import EconomicsResultsWorkflow from "../EconomicsWorkflows/EconomicsResultsWorkflow";
 import EconomicsBackground from "./EconomicsBackground";
 
 const navbarHeight = 43;

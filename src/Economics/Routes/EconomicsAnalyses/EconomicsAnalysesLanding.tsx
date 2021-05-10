@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     "& > *": {
       height: 200,
-      width: 150,
+      width: 185,
       margin: 10,
     },
     padding: 40,

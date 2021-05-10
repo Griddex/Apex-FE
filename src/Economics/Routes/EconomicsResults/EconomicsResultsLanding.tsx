@@ -7,21 +7,21 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
+import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
+import Spreadsheet from "../../../Application/Images/Spreadsheet.svg";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
-import { IdType } from "./EconomicsResultsTypes";
-import EconomicsTablesCharts from "./EconomicsTablesCharts";
-import ExistingEconomicsResults from "./ExistingEconomicsResults";
-import Spreadsheet from "../../../Application/Images/Spreadsheet.svg";
 import ForecastCharts from "../../../Forecast/Images/ForecastCharts.svg";
-import HeatMap from "../../Images/HeatMap.svg";
 import ExistingDeck from "../../../Import/Images/ExistingDeck.svg";
-import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import HeatMap from "../../Images/HeatMap.svg";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import EconomicsPlotChartsVisualytics from "./EconomicsPlotCharts/EconomicsPlotChartsVisualytics";
+import { IdType } from "./EconomicsResultsTypes";
 import SensitivitiesHeatMapVisualytics from "./EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
 import EconomicsTemplateVisualytics from "./EconomicsTemplateResults/EconomicsTemplateVisualytics";
-import EconomicsPlotChartsVisualytics from "./EconomicsPlotCharts/EconomicsPlotChartsVisualytics";
+import ExistingEconomicsResults from "./ExistingEconomicsResults";
+
 const useStyles = makeStyles((theme) => ({
   economicsResultsLanding: {
     display: "flex",

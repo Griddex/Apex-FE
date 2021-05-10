@@ -25,26 +25,26 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
 import {
-  executeEconomicsAnalysisFailureAction,
-  executeEconomicsAnalysisSuccessAction,
-  EXECUTEECONOMICSANALYSIS_REQUEST,
+  runEconomicsAnalysisFailureAction,
+  runEconomicsAnalysisSuccessAction,
+  RUNECONOMICSANALYSIS_REQUEST,
 } from "../Actions/EconomicsActions";
 
-export default function* watchExecuteEconomicsAnalysisSaga(): Generator<
+export default function* watchRunEconomicsAnalysisSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const executeEconomicsAnalysisChan = yield actionChannel(
-    EXECUTEECONOMICSANALYSIS_REQUEST
+  const runEconomicsAnalysisChan = yield actionChannel(
+    RUNECONOMICSANALYSIS_REQUEST
   );
-  yield takeLeading(executeEconomicsAnalysisChan, executeEconomicsAnalysisSaga);
+  yield takeLeading(runEconomicsAnalysisChan, runEconomicsAnalysisSaga);
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* executeEconomicsAnalysisSaga(
+function* runEconomicsAnalysisSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -70,50 +70,54 @@ function* executeEconomicsAnalysisSaga(
 
   const data = {
     projectId,
-    selectedCostsRevenuesInputDeckId,
-    selectedEconomicsParametersInputDeckId,
-    selectedEconomicsSensitivitiesId,
     analysisName,
+    economicsdataId: selectedCostsRevenuesInputDeckId,
+    economicsParameterId: selectedEconomicsParametersInputDeckId,
+    economicsSensitivitiesId: selectedEconomicsSensitivitiesId,
   };
 
   const config = { withCredentials: false };
-  const executeEconomicsAnalysisAPI = (url: string) =>
+  const runEconomicsAnalysisAPI = (url: string) =>
     authService.post(url, data, config);
 
   try {
     yield put(showSpinnerAction(`Calculating ${analysisTitle}...`));
 
     const result = yield call(
-      executeEconomicsAnalysisAPI,
-      // `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
+      runEconomicsAnalysisAPI,
       `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
     );
     console.log(
-      "Logged output --> ~ file: ExecuteEconomicsAnalysisSaga.ts ~ line 93 ~ result",
+      "Logged output --> ~ file: RunEconomicsAnalysisSaga.ts ~ line 93 ~ result",
       result
     );
 
     const {
-      data: { data }, //prevent 2nd trip to server
+      data: {
+        heatMapTree: sensitivitiesHeatMapTree,
+        plotChartsTree: economicsPlotChartsTree,
+        templatesTree: economicsTemplatesTree,
+      }, //prevent 2nd trip to server
       status,
       success,
     } = result;
 
-    const successAction = executeEconomicsAnalysisSuccessAction();
+    const successAction = runEconomicsAnalysisSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, status, success, data },
+      payload: {
+        ...payload,
+        status,
+        success,
+        sensitivitiesHeatMapTree,
+        economicsPlotChartsTree,
+        economicsTemplatesTree,
+      },
     });
 
-    // yield put(
-    //   updateEconomicsParameterAction(
-    //     "selectedCostsRevenuesTitle",
-    //     costsRevenuesInputDeckTitle
-    //   )
-    // );
     yield put(showDialogAction(successDialogParameters(analysisTitle)));
   } catch (errors) {
-    const failureAction = executeEconomicsAnalysisFailureAction();
+    const failureAction = runEconomicsAnalysisFailureAction();
 
     yield put({
       ...failureAction,

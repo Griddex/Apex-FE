@@ -12,7 +12,6 @@ import {
   IEconomicsAnalysis,
   TEconomicsAnalyses,
 } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import EconomicsParameterImportWorkflowDialog from "../../../Economics/Routes/EconomicsWorkflows/EconomicsParameterImportWorkflow";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
 import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
@@ -49,7 +48,6 @@ export interface IApplicationDialogs {
   saveForecastInputDeckDialog: typeof SaveForecastInputDeckDialog;
   saveInputDeckGenerateNetworkWorkflowDialog: typeof SaveInputDeckGenerateNetworkWorkflowDialog;
   economicsParametersDialog: typeof EconomicsParametersDialog;
-  economicsParameterImportWorkflowDialog: typeof EconomicsParameterImportWorkflowDialog;
   newProjectWorkflowDialog: typeof NewProjectWorkflowDialog;
   saveNetworkDialog: typeof SaveNetworkDialog;
   existingNetworksDialog: typeof ExistingNetworksDialog;
@@ -99,7 +97,6 @@ export interface DialogStuff {
     | "runForecastDialog"
     | "saveForecastDialog"
     | "economicsParametersDialog"
-    | "economicsParameterImportWorkflowDialog"
     | "newProjectWorkflowDialog"
     | "saveNetworkDialog"
     | "existingNetworksDialog"

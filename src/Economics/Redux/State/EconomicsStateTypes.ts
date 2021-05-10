@@ -7,6 +7,7 @@ import {
   IEconomicsAnalysis,
   TEconomicsAnalysisWorkflows,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { RenderTree } from "../../../Forecast/Components/ForecastTreeViewTypes";
 
 export interface IEconomicsState {
   fileLastModified: string;
@@ -176,6 +177,12 @@ export interface EconomicsStateType
   economicsResultsDescription: string;
   selectedEconomicsResultsId: string;
   selectedEconomicsResultsTitle: string;
+
+  showSensitivitiesTable: boolean;
+
+  sensitivitiesHeatMapTree: RenderTree["children"];
+  economicsPlotChartsTree: RenderTree["children"];
+  economicsTemplatesTree: RenderTree["children"];
 
   inputDataWorkflows: Record<string, IEconomicsState>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;

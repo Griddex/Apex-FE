@@ -3,7 +3,7 @@ import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
@@ -16,10 +16,11 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { developmentScenarios } from "../../Data/EconomicsData";
 import {
-  executeEconomicsAnalysisRequestAction,
+  runEconomicsAnalysisRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
@@ -78,11 +79,13 @@ const EconomicsAnalysis = ({
     IEconomicsParametersSensitivitiesProps["workflowProcess"]
   >;
   const reducer = "economicsReducer";
+  const { showSensitivitiesTable } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
 
   const selectedAnalysisDefined = selectedAnalysis as NonNullable<IEconomicsAnalysis>;
-  const { name, title, icon, showSensitivitiesTable } = selectedAnalysisDefined;
-
-  const analysisName = selectedAnalysis?.sensitivities?.analysisName;
+  const { name, title, icon } = selectedAnalysisDefined;
+  const analysisName = selectedAnalysis?.name;
   const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
 
   //TODO: filter devoptions based on costs/revenue data input
@@ -113,6 +116,52 @@ const EconomicsAnalysis = ({
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],
+          [true, false],
+          [unloadDialogsAction, saveSensitivitiesAction]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      selectedAnalysis,
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const saveSensitivitiesAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Create_Economics_Sensitivities_Dialog",
+      title: "Create Economics Sensitivities",
+      type: "saveEconomicsSensitivitiesDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+      workflowProcess,
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, false],
+          [unloadDialogsAction, economicsSensitivitiesConfirmation]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      selectedAnalysis,
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const economicsSensitivitiesConfirmation = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Economics_Sensitivities_Save_Confirmation",
+      title: "Economics Sensitivities Save Confirmation",
+      type: "textDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the current economics sensitivities?",
+      iconType: "information",
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
           [true, true],
           [
             unloadDialogsAction,
@@ -120,12 +169,12 @@ const EconomicsAnalysis = ({
               saveEconomicsSensitivitiesRequestAction(
                 wp,
                 reducer,
-                selectedAnalysisDefined
+                analysisName as NonNullable<TEconomicsAnalysesNames>
               ),
           ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      selectedAnalysis,
+      reducer,
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -147,12 +196,11 @@ const EconomicsAnalysis = ({
           [true, true],
           [
             unloadDialogsAction,
-            //TODO: Change it
             () =>
               saveEconomicsSensitivitiesRequestAction(
                 wp,
                 reducer,
-                selectedAnalysisDefined
+                analysisName as NonNullable<TEconomicsAnalysesNames>
               ),
           ]
         ),
@@ -181,7 +229,7 @@ const EconomicsAnalysis = ({
           [true, true],
           [
             unloadDialogsAction,
-            () => executeEconomicsAnalysisRequestAction(wp, name, title),
+            () => runEconomicsAnalysisRequestAction(wp, name, title),
           ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

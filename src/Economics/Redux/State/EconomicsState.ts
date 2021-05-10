@@ -162,10 +162,16 @@ const EconomicsState: EconomicsStateType = {
   selectedEconomicsResultsId: "",
   selectedEconomicsResultsTitle: "",
 
+  showSensitivitiesTable: false,
+
   noneColumnIndices: {},
   fileHeadersChosenAppHeadersWithNone: [],
   selectedAnalysis: {},
   selectedAnalysesNames: [],
+
+  sensitivitiesHeatMapTree: [],
+  economicsPlotChartsTree: [],
+  economicsTemplatesTree: [],
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,

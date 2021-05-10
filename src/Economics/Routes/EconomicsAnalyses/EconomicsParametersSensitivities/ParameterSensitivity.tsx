@@ -174,7 +174,7 @@ const ParameterSensitivity = ({
       sn: i + 1,
       parameter: p,
       parameterTitle: selectedParameterTitles[i],
-      prameterValues: parameterValues[i],
+      parameterValues: parameterValues[i],
     }));
 
     const path = `economicsAnalysisWorkflows.${analysisName}.sensitivitiesTable`;
