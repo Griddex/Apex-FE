@@ -22,6 +22,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import swapVariableNameTitleForISelectOption from "../../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
@@ -68,6 +69,7 @@ export default function CostsAndRevenueManual({
 }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
   const { uniqUnitOptions } = useSelector(
     (state: RootState) => state.unitSettingsReducer
@@ -194,7 +196,8 @@ export default function CostsAndRevenueManual({
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: (props: EditorProps<IRawRow>) => {
           const { rowIdx } = props;
-          if (rowIdx === 0) return <div></div>;
+          if (rowIdx === 0)
+            return <div style={{ backgroundColor: "blue" }}></div>;
           else return <TextEditor {...props} />;
         },
         resizable: true,
@@ -418,6 +421,31 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
+        key: "taxDepreciation",
+        name: "TAX DEPRECIATION",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        formatter: ({ row }) => {
+          const valueOption = uniqUnitOptions[0];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={uniqUnitOptions}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "taxDepreciation")
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          else return <div> {row.taxDepreciation}</div>;
+        },
+        width: 170,
+      },
+      {
         key: "abandCost",
         name: "ABANDONMENT COST",
         editable: true,
@@ -528,6 +556,7 @@ export default function CostsAndRevenueManual({
           "facilitiesCapex",
           "tangWellCost",
           "intangWellCost",
+          "taxDepreciation",
           "abandCost",
           "directCost",
           "cha",
@@ -547,6 +576,7 @@ export default function CostsAndRevenueManual({
           "facilitiesCapex",
           "tangWellCost",
           "intangWellCost",
+          "taxDepreciation",
           "abandCost",
           "directCost",
           "cha",
@@ -688,7 +718,9 @@ export default function CostsAndRevenueManual({
                   You will lose all data up to current step.`,
                 true,
                 false,
-                () => console.log("Hi")
+                () => workflowResetAction(0, wp, wc),
+                "Reset",
+                "reset"
               );
 
               dispatch(showDialogAction(dialogParameters));

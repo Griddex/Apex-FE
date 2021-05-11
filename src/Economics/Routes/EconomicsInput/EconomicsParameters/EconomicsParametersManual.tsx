@@ -24,6 +24,7 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 
 const useStyles = makeStyles((theme) => ({
   rootEconomicsParametersManual: {
@@ -265,7 +266,9 @@ const EconomicsParametersManual = ({
                 You will lose all data up to current step.`,
                 true,
                 false,
-                () => console.log("Hi")
+                () => workflowResetAction(0, wp, wc),
+                "Reset",
+                "reset"
               );
 
               dispatch(showDialogAction(dialogParameters));

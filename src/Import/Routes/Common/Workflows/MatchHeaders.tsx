@@ -96,6 +96,10 @@ export default function MatchHeaders({
   const wp = wrkflwPrcss;
 
   const workflowClass = getWorkflowClass(wp);
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 99 ~ workflowClass",
+    workflowClass
+  );
 
   //TODO: Put elsewhere
   const dateFormatOptions = generateSelectOptions(dateFormatData);
@@ -104,6 +108,10 @@ export default function MatchHeaders({
   //object to store matched economics headers
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 106 ~ savedMatchObjectAll",
+    savedMatchObjectAll
+  );
 
   // const savedMatchObjectAll: TUserMatchObject = {
   //   facilities: {

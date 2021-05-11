@@ -48,6 +48,7 @@ export const costsRevenueHeaders = [
     variableName: "intangibleDrillingCost",
     variableTitle: "Intangible Drilling Cost",
   },
+  { variableName: "taxDepreciation", variableTitle: "Tax Depreciation" },
   { variableName: "directCost", variableTitle: "Direct Cost" },
   { variableName: "projectCost", variableTitle: "Project Cost" },
   { variableName: "abandonmentCost", variableTitle: "Abandonment Cost" },

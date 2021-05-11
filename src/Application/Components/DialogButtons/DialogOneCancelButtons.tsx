@@ -8,6 +8,7 @@ import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 import HourglassFullOutlinedIcon from "@material-ui/icons/HourglassFullOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
@@ -20,6 +21,7 @@ const DialogOneCancelButtons = (
     saveOutlined: <SaveOutlinedIcon />,
     loadOutlined: <HourglassFullOutlinedIcon />,
     viewDayTwoTone: <ViewDayTwoToneIcon />,
+    reset: <RotateLeftIcon />,
   };
 
   const dispatch = useDispatch();
