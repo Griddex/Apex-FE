@@ -60,7 +60,7 @@ const NetworkButtonsMenu = () => {
       type: "saveNetworkDialog",
       show: true,
       exclusive: true,
-      maxWidth: "md",
+      maxWidth: "sm",
       iconType: "select",
     };
 

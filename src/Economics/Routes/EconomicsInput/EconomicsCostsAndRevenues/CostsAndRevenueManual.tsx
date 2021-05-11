@@ -8,8 +8,9 @@ import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import { SizeMe } from "react-sizeme";
+import { SizeMe, SizeMeProps } from "react-sizeme";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
+import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -22,7 +23,14 @@ import { IAllWorkflowProcesses } from "../../../../Application/Components/Workfl
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import swapVariableNameTitleForISelectOption from "../../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { developmentScenarios } from "../../../Data/EconomicsData";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  IEconomicsAnalysis,
+  TDevScenarioNames,
+} from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -61,13 +69,26 @@ export default function CostsAndRevenueManual({
   const classes = useStyles();
   const dispatch = useDispatch();
   const wp = wrkflwPrcss;
-
-  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
-  const [sRow, setSRow] = React.useState(-1);
-
   const { uniqUnitOptions } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   );
+
+  const devOptions =
+    swapVariableNameTitleForISelectOption(developmentScenarios);
+  const devValueOption = devOptions[0];
+  const [devValue, setDevValue] = React.useState(devValueOption);
+  const devVal = devValue.value as TDevScenarioNames;
+
+  const [selectedRows, setSelectedRows] = React.useState({
+    oilDevelopment: new Set<React.Key>(),
+    nagDevelopment: new Set<React.Key>(),
+    oilNAGDevelopment: new Set<React.Key>(),
+  });
+  const [sRow, setSRow] = React.useState({
+    oilDevelopment: -1,
+    nagDevelopment: -1,
+    oilNAGDevelopment: -1,
+  });
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -75,9 +96,11 @@ export default function CostsAndRevenueManual({
   };
 
   //TODO: initialize from Gift
-  const initialAppHeaderChosenAppUnitObj: Record<string, string> = {
+  const initUnitOj = {
     oilRate: "bopd",
-    gasRate: "MMScf/d",
+    agRate: "MMScf/d",
+    naGRate: "MMScf/d",
+    condensateRate: "bopd",
     seismicCost: "$m",
     explApprCost: "$m",
     facilitiesCapex: "$m",
@@ -88,25 +111,38 @@ export default function CostsAndRevenueManual({
     cha: "$m",
     terminalCost: "$m",
   };
-  const [
-    appHeaderChosenAppUnitObj,
-    setAppHeaderChosenAppUnitObj,
-  ] = React.useState(initialAppHeaderChosenAppUnitObj);
+  const initialAppHeaderChosenAppUnitObj = {
+    oilDevelopment: initUnitOj,
+    nagDevelopment: initUnitOj,
+    oilNAGDevelopment: initUnitOj,
+  } as Record<TDevScenarioNames, Record<string, string>>;
+
+  const [appHeaderChosenAppUnitObj, setAppHeaderChosenAppUnitObj] =
+    React.useState(initialAppHeaderChosenAppUnitObj);
 
   const handleApplicationUnitChange = (
-    value: ValueType<ISelectOption, false>,
+    option: ValueType<ISelectOption, false>,
     headerName: string
   ) => {
-    const selectedValue = value && value.label;
-    const selectedAppUnit = selectedValue as string;
+    const selectedOption = option && option.label;
+    const selectedAppUnit = selectedOption as string;
 
-    setAppHeaderChosenAppUnitObj((prev) => ({
-      ...prev,
-      [headerName]: selectedAppUnit,
-    }));
+    setAppHeaderChosenAppUnitObj((prev) => {
+      return {
+        ...prev,
+        [devVal]: { ...prev[devVal], [headerName]: selectedAppUnit },
+      };
+    });
+
+    const selectedRow = rows[devVal][0];
+    rows[devVal][0] = {
+      ...selectedRow,
+      headerName: selectedAppUnit,
+    };
+    setRows(rows);
   };
 
-  const generateColumns = () => {
+  const generateColumns = (dval: TDevScenarioNames) => {
     const columns: Column<IRawRow>[] = [
       {
         key: "sn",
@@ -157,18 +193,12 @@ export default function CostsAndRevenueManual({
         name: `OIL RATE`,
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: (props: EditorProps<IRawRow>) => {
-          console.log(
-            "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 168 ~ generateColumns ~ props",
-            props
-          );
           const { rowIdx } = props;
           if (rowIdx === 0) return <div></div>;
           else return <TextEditor {...props} />;
         },
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["bopd", "Mbopd"];
-          const oilRate = row.oilRate as string;
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
@@ -197,8 +227,6 @@ export default function CostsAndRevenueManual({
         },
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["bopd", "Mbopd"];
-          const condensateRate = row.condensateRate as string;
           const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
@@ -218,14 +246,36 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
-        key: "gasRate",
-        name: "GAS RATE",
+        key: "agRate",
+        name: "ASSOC. GAS RATE",
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["MMScf/d", "MScf/d"];
-          const gasRate = row.gasRate as string;
+          const valueOption = uniqUnitOptions[0];
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={uniqUnitOptions}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "gasRate")
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          else return <div> {row.gasRate}</div>;
+        },
+        width: 170,
+      },
+      {
+        key: "naGRate",
+        name: "NON ASSOC. GAS RATE",
+        editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
+        editor: TextEditor,
+        resizable: true,
+        formatter: ({ row }) => {
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
@@ -250,8 +300,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const seismicCost = row.seismicCost as string;
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
@@ -276,8 +324,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const explApprCost = row.explApprCost as string;
           const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
@@ -303,8 +349,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const facilitiesCapex = row.facilitiesCapex as string;
           const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
@@ -330,8 +374,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const tangWellCost = row.tangWellCost as string;
           const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
@@ -357,8 +399,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const intangWellCost = row.intangWellCost as string;
           const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
@@ -384,8 +424,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const abandCost = row.abandCost as string;
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
@@ -410,8 +448,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const directCost = row.directCost as string;
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
@@ -436,8 +472,6 @@ export default function CostsAndRevenueManual({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const cha = row.cha as string;
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
@@ -461,8 +495,6 @@ export default function CostsAndRevenueManual({
         editable: true,
         editor: TextEditor,
         formatter: ({ row }) => {
-          const data = ["$m", "Nm"];
-          const terminalCost = row.terminalCost as string;
           const valueOption = uniqUnitOptions[0];
 
           if (row.sn === 0)
@@ -483,9 +515,51 @@ export default function CostsAndRevenueManual({
       },
     ];
 
-    return columns;
+    if (dval === "oilDevelopment")
+      return columns.filter((column) =>
+        [
+          "sn",
+          "actions",
+          "year",
+          "oilRate",
+          "agRate",
+          "seismicCost",
+          "explApprCost",
+          "facilitiesCapex",
+          "tangWellCost",
+          "intangWellCost",
+          "abandCost",
+          "directCost",
+          "cha",
+          "terminalCost",
+        ].includes(column.key)
+      );
+    else if (dval === "nagDevelopment")
+      return columns.filter((column) =>
+        [
+          "sn",
+          "actions",
+          "year",
+          "condensateRate",
+          "naGRate",
+          "seismicCost",
+          "explApprCost",
+          "facilitiesCapex",
+          "tangWellCost",
+          "intangWellCost",
+          "abandCost",
+          "directCost",
+          "cha",
+          "terminalCost",
+        ].includes(column.key)
+      );
+    else return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [selectedRows]);
+
+  const columns = React.useMemo(
+    () => generateColumns(devValue.value as TDevScenarioNames),
+    [devValue.value as TDevScenarioNames]
+  );
 
   const createTableRows = (numberOfRows: number): TRawTable => {
     const fakeRows = [];
@@ -511,14 +585,43 @@ export default function CostsAndRevenueManual({
     }
     return fakeRows;
   };
+
+  const renderTable = (
+    dval: TDevScenarioNames,
+    columns: Column<IRawRow>[],
+    size: SizeMeProps["size"]
+  ) => {
+    return (
+      <ApexGrid<IRawRow, ITableButtonsProps>
+        columns={columns}
+        rows={rows[devVal]}
+        tableButtons={tableButtons as ITableButtonsProps}
+        newTableRowHeight={35}
+        selectedRows={selectedRows[devVal]}
+        // setSelectedRows={setSelectedRows}
+        selectedRow={sRow[devVal]}
+        onSelectedRowChange={setSRow}
+        onRowsChange={setRows}
+        size={size}
+        adjustTableDimAuto={true}
+        showTableHeader={true}
+        showTablePagination={true}
+      />
+    );
+  };
+
   const faketableRows = createTableRows(50);
-  const tableRows = React.useRef<any>(faketableRows);
+  const tableRows = React.useRef<any>({
+    oilDevelopment: faketableRows,
+    nagDevelopment: faketableRows,
+    oilNAGDevelopment: faketableRows,
+  });
   const currentRows = tableRows.current;
-  const [rows, setRows] = React.useState(currentRows);
-  console.log(
-    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 518 ~ rows",
-    rows
-  );
+  const [rows, setRows] = React.useState({
+    oilDevelopment: currentRows,
+    nagDevelopment: currentRows,
+    oilNAGDevelopment: currentRows,
+  });
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -526,29 +629,36 @@ export default function CostsAndRevenueManual({
 
   return (
     <div className={classes.rootExistingData}>
-      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-        <div className={classes.workflowBody}>
-          <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
-                columns={columns}
-                rows={rows}
-                tableButtons={tableButtons as ITableButtonsProps}
-                newTableRowHeight={35}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                selectedRow={sRow}
-                onSelectedRowChange={setSRow}
-                onRowsChange={setRows}
-                size={size}
-                adjustTableDimAuto={true}
-                showTableHeader={true}
-                showTablePagination={true}
-              />
-            )}
-          </SizeMe>
-        </div>
-      </ClickAwayListener>
+      <AnalyticsComp
+        title="Development Scenario"
+        direction="Horizontal"
+        containerStyle={{
+          display: "flex",
+          flexDirection: "row",
+          width: "50%",
+          marginBottom: 10,
+        }}
+        content={
+          <ApexSelectRS
+            valueOption={devValue}
+            data={devOptions}
+            handleSelect={(row: ValueType<ISelectOption, false>) => {
+              const path = `economicsAnalysisWorkflows.${name}.devScenario`;
+              const value = row?.value as string;
+
+              setDevValue(row as ISelectOption);
+              dispatch(updateEconomicsParameterAction(path, value));
+            }}
+            menuPortalTarget={document.body}
+            isSelectOptionType={true}
+          />
+        }
+      />
+
+      {renderTable(devValue.value as TDevScenarioNames, columns, {
+        height: 700,
+        width: 900,
+      })}
       <div
         style={{
           display: "flex",

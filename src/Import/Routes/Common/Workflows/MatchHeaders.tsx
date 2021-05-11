@@ -102,11 +102,8 @@ export default function MatchHeaders({
 
   //TODO: Gift to provide complete match object with
   //object to store matched economics headers
-  const {
-    savedMatchObjectAll,
-  }: { savedMatchObjectAll: TUserMatchObject } = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
+  const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
+    useSelector((state: RootState) => state.applicationReducer);
 
   // const savedMatchObjectAll: TUserMatchObject = {
   //   facilities: {
@@ -157,127 +154,125 @@ export default function MatchHeaders({
     costsRevenuesAppHeaders,
     economicsParametersAppHeaders,
   ];
-  const applicationHeaders = getCurrentApplicationHeaders(wp, allAppHeadersArr);
+  const applicationHeaders = React.useRef(
+    getCurrentApplicationHeaders(wp, allAppHeadersArr)
+  );
 
   const { fileHeaders } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
   );
 
-  const fileHeaderMatches = React.useMemo(
-    () =>
-      computeFileHeaderMatches(
-        fileHeaders,
-        applicationHeaders,
-        savedMatchObjectAll,
-        workflowClass
-      ),
-    []
+  const fileHeaderMatches = React.useRef(
+    computeFileHeaderMatches(
+      fileHeaders,
+      applicationHeaders.current,
+      savedMatchObjectAll,
+      workflowClass
+    )
   );
 
-  const keyedFileHeaderMatches = zipObject(fileHeaders, fileHeaderMatches);
-  const headerMatchChartData = generateMatchData(fileHeaderMatches, theme);
+  const keyedFileHeaderMatches = React.useRef(
+    zipObject(fileHeaders, fileHeaderMatches.current)
+  );
+  const headerMatchChartData = React.useRef(
+    generateMatchData(fileHeaderMatches.current, theme)
+  );
 
-  const applicationHeaderOptions: SelectOptionsType[] = fileHeaders.map(
-    (fileHeader: string) => {
-      const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
+  const applicationHeaderOptions = React.useRef(
+    fileHeaders.map((fileHeader: string) => {
+      const fileHeaderMatch = keyedFileHeaderMatches.current[fileHeader];
 
       return generateSelectOptions(Object.keys(fileHeaderMatch));
-    }
-  );
-  const keyedApplicationHeaderOptions = zipObject(
-    fileHeaders,
-    applicationHeaderOptions
+    })
+  ) as React.MutableRefObject<SelectOptionsType[]>;
+
+  const keyedApplicationHeaderOptions = React.useRef(
+    zipObject(fileHeaders, applicationHeaderOptions.current)
   );
 
-  const scoreOptions: SelectOptionsType[] = fileHeaders.map(
-    (fileHeader: string) => {
-      const fileHeaderMatch = keyedFileHeaderMatches[fileHeader];
+  const scoreOptions = React.useRef(
+    fileHeaders.map((fileHeader: string) => {
+      const fileHeaderMatch = keyedFileHeaderMatches.current[fileHeader];
 
       return generateSelectOptions(
         Object.values(fileHeaderMatch).map((h) => h.toString())
       );
-    }
-  );
-  const keyedScoreOptions = zipObject(fileHeaders, scoreOptions);
-
-  const snChosenApplicationHeaderIndices = fileHeaderMatches.reduce(
-    (acc: Record<string, number>, _, i: number) => {
-      return { ...acc, [`${i + 1}`]: 0 };
-    },
-    {}
+    })
+  ) as React.MutableRefObject<SelectOptionsType[]>;
+  const keyedScoreOptions = React.useRef(
+    zipObject(fileHeaders, scoreOptions.current)
   );
 
-  const initialTableRows = fileHeaders.map((fileHeader: string, i: number) => {
-    const headerOptions = keyedApplicationHeaderOptions[fileHeader];
-    const selectedApplicationHeader = headerOptions[0];
-    const initialHeaderType = getInitialRowValueOrDefault<THeader>(
-      selectedApplicationHeader.label,
-      "type",
-      specificSavedMatchObjectValues,
-      "Text"
-    );
-    const scoreOpts = keyedScoreOptions[fileHeader];
-    const score = scoreOpts[0];
-    const exclude = false; //TODO: Can enforce columns that must be used in the forecast here
-    const acceptMatch = specificSavedMatchObjectValues
-      .map((h) => h.header)
-      .includes(selectedApplicationHeader.label)
-      ? true
-      : false;
+  const snChosenApplicationHeaderIndices = React.useRef(
+    fileHeaderMatches.current.reduce(
+      (acc: Record<string, number>, _, i: number) => {
+        return { ...acc, [`${i + 1}`]: 0 };
+      },
+      {}
+    )
+  );
 
-    return {
-      sn: i + 1,
-      fileHeader: fileHeader,
-      applicationHeader: selectedApplicationHeader.value,
-      type: initialHeaderType,
-      match: score.value,
-      exclude,
-      acceptMatch,
-    };
-  });
+  const initialTableRows = React.useRef(
+    fileHeaders.map((fileHeader: string, i: number) => {
+      const headerOptions = keyedApplicationHeaderOptions.current[fileHeader];
+      const selectedApplicationHeader = headerOptions[0];
+      const initialHeaderType = getInitialRowValueOrDefault<THeader>(
+        selectedApplicationHeader.label,
+        "type",
+        specificSavedMatchObjectValues,
+        "Text"
+      );
+      const scoreOpts = keyedScoreOptions.current[fileHeader];
+      const score = scoreOpts[0];
+      const exclude = false; //TODO: Can enforce columns that must be used in the forecast here
+      const acceptMatch = specificSavedMatchObjectValues
+        .map((h) => h.header)
+        .includes(selectedApplicationHeader.label)
+        ? true
+        : false;
 
-  const tableRows = React.useRef<TRawTable>(initialTableRows);
+      return {
+        sn: i + 1,
+        fileHeader: fileHeader,
+        applicationHeader: selectedApplicationHeader.value,
+        type: initialHeaderType,
+        match: score.value,
+        exclude,
+        acceptMatch,
+      };
+    })
+  );
+
+  const tableRows = React.useRef<TRawTable>(initialTableRows.current);
   const rerenderRef = React.useRef<boolean>(false);
   const [rerender, setRerender] = React.useState(rerenderRef.current);
 
-  const [
-    chosenApplicationHeaderIndices,
-    setChosenApplicationHeaderIndices,
-  ] = React.useState(snChosenApplicationHeaderIndices);
+  const [chosenApplicationHeaderIndices, setChosenApplicationHeaderIndices] =
+    React.useState(snChosenApplicationHeaderIndices.current);
 
-  const initialFileHeaderChosenAppHeaderObj: Record<
-    string,
-    string
-  > = initialTableRows.reduce(
-    (acc: Record<string, string>, row: Record<string, string>) => {
-      return { ...acc, [row.fileHeader]: row.applicationHeader };
-    },
-    {}
-  );
+  const initialFileHeaderChosenAppHeaderObj: Record<string, string> =
+    initialTableRows.current.reduce(
+      (acc: Record<string, string>, row: Record<string, string>) => {
+        return { ...acc, [row.fileHeader]: row.applicationHeader };
+      },
+      {}
+    );
 
-  const [
-    fileHeaderChosenAppHeaderObj,
-    setFileHeaderChosenAppHeaderObj,
-  ] = React.useState(initialFileHeaderChosenAppHeaderObj);
+  const [fileHeaderChosenAppHeaderObj, setFileHeaderChosenAppHeaderObj] =
+    React.useState(initialFileHeaderChosenAppHeaderObj);
 
-  const initialFileHeaderChosenHeaderTypeObj: Record<
-    string,
-    string
-  > = initialTableRows.reduce(
-    (acc: Record<string, string>, row: Record<string, string>) => {
-      return { ...acc, [row.fileHeader]: row.type };
-    },
-    {}
-  );
-  const [
-    fileHeaderChosenHeaderTypeObj,
-    setFileHeaderChosenHeaderTypeObj,
-  ] = React.useState(initialFileHeaderChosenHeaderTypeObj);
+  const initialFileHeaderChosenHeaderTypeObj: Record<string, string> =
+    initialTableRows.current.reduce(
+      (acc: Record<string, string>, row: Record<string, string>) => {
+        return { ...acc, [row.fileHeader]: row.type };
+      },
+      {}
+    );
+  const [fileHeaderChosenHeaderTypeObj, setFileHeaderChosenHeaderTypeObj] =
+    React.useState(initialFileHeaderChosenHeaderTypeObj);
 
-  const [
-    userMatchObject,
-    setUserMatchObject,
-  ] = React.useState<TUserMatchObject>(savedMatchObjectAll);
+  const [userMatchObject, setUserMatchObject] =
+    React.useState<TUserMatchObject>(savedMatchObjectAll);
 
   const [DayOnlyRows, setDayOnlyRows] = React.useState({} as TDayOnlyRows);
   const [MonthOnlyRows, setMonthOnlyRows] = React.useState(
@@ -377,7 +372,7 @@ export default function MatchHeaders({
       const currentOptionIndex = chosenApplicationHeaderIndices[selectedRowSN];
       const headerOptions = keyedApplicationHeaderOptions[fileHeader];
       const formerHeader = headerOptions[currentOptionIndex];
-      const scoreOptions = keyedScoreOptions[fileHeader];
+      const scoreOptions = keyedScoreOptions.current[fileHeader];
       const formerScore = scoreOptions[currentOptionIndex];
 
       currentRows[selectedRowSN - 1] = {
@@ -541,7 +536,7 @@ export default function MatchHeaders({
           const type = row.type as string;
           const fileHeader = row.fileHeader as string;
           const headerOptions = keyedApplicationHeaderOptions[fileHeader];
-          const scoreOptions = keyedScoreOptions[fileHeader];
+          const scoreOptions = keyedScoreOptions.current[fileHeader];
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
           const dateOption = dateFormatOptions[0];
@@ -643,27 +638,27 @@ export default function MatchHeaders({
   };
 
   const columns = React.useMemo(
-    () => generateColumns(keyedApplicationHeaderOptions),
+    () => generateColumns(keyedApplicationHeaderOptions.current),
     [keyedApplicationHeaderOptions]
   );
 
   const [rows, setRows] = React.useState(tableRows.current);
 
   const chosenApplicationHeadersWithNone = getChosenApplicationHeaders(
-    fileHeaderMatches,
+    fileHeaderMatches.current,
     chosenApplicationHeaderIndices
   );
 
-  const chosenApplicationHeadersWithoutNone = chosenApplicationHeadersWithNone.filter(
-    (h: string) => h.toLowerCase() !== "none"
-  );
+  const chosenApplicationHeadersWithoutNone =
+    chosenApplicationHeadersWithNone.filter(
+      (h: string) => h.toLowerCase() !== "none"
+    );
 
-  const initialNoneColumnIndices = (chosenApplicationHeadersWithNone as string[]).reduce(
-    (acc, _, i) => {
-      return { ...acc, [i]: false };
-    },
-    {}
-  );
+  const initialNoneColumnIndices = (
+    chosenApplicationHeadersWithNone as string[]
+  ).reduce((acc, _, i) => {
+    return { ...acc, [i]: false };
+  }, {});
   const [noneColumnIndices, setNoneColumnIndices] = React.useState(
     initialNoneColumnIndices
   );
@@ -743,7 +738,9 @@ export default function MatchHeaders({
 
   React.useEffect(() => {
     //Any need?
-    dispatch(persistFileHeadersMatchAction(reducer, fileHeaderMatches, wp));
+    dispatch(
+      persistFileHeadersMatchAction(reducer, fileHeaderMatches.current, wp)
+    );
     dispatch(
       persistChosenApplicationHeadersIndicesAction(
         reducer,
@@ -789,7 +786,7 @@ export default function MatchHeaders({
   return (
     <div className={classes.rootMatchHeaders}>
       <div className={classes.chart}>
-        <DoughnutChart data={headerMatchChartData} />
+        <DoughnutChart data={headerMatchChartData.current} />
       </div>
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>

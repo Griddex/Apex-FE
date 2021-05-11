@@ -104,11 +104,8 @@ export default function MatchUnits({
 
   const workflowClass = getWorkflowClass(wp);
 
-  const {
-    savedMatchObjectAll,
-  }: { savedMatchObjectAll: TUserMatchObject } = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
+  const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
+    useSelector((state: RootState) => state.applicationReducer);
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["units"]
@@ -119,27 +116,26 @@ export default function MatchUnits({
   );
 
   //File units with "none" columns excluded
-  const fileUnitsWithUnitless = fileUnits.map((u: string) =>
-    u == "" ? "unitless" : u
+  const fileUnitsWithUnitless = React.useRef(
+    fileUnits.map((u: string) => (u == "" ? "unitless" : u))
   );
 
-  const fileUnitsWithoutNone = (fileUnitsWithUnitless as string[]).filter(
-    (u: string, i) => {
+  const fileUnitsWithoutNone = React.useRef(
+    (fileUnitsWithUnitless.current as string[]).filter((u: string, i) => {
       const header = chosenApplicationHeadersWithNone[i];
       if (header.toLowerCase() !== "none") return u;
-    }
+    })
   );
 
   //File headers with "none" columns excluded
-  const fileHeadersWithoutNone = (chosenApplicationHeadersWithNone as string[]).filter(
-    (u: string, i) => {
+  const fileHeadersWithoutNone = React.useRef(
+    (chosenApplicationHeadersWithNone as string[]).filter((u: string, i) => {
       if (u.toLowerCase() !== "none") return u;
-    }
+    })
   );
 
-  const fileHeadersUnitsWithoutNoneObj = zipObject(
-    fileHeadersWithoutNone,
-    fileUnitsWithoutNone
+  const fileHeadersUnitsWithoutNoneObj = React.useRef(
+    zipObject(fileHeadersWithoutNone.current, fileUnitsWithoutNone.current)
   );
 
   //Application units
@@ -150,8 +146,8 @@ export default function MatchUnits({
   //Get units list from Gift
   //[{unitTitle:"bbl/D", group:"Field"}, {unitTitle:"psi", group:"Field"}]
   //TODO: Memoize for performance boost or tell Gift to provide object
-  const applicationUnitsCollection = variableUnits.reduce(
-    (acc: IUnit[], row) => {
+  const applicationUnitsCollection = React.useRef(
+    variableUnits.reduce((acc: IUnit[], row) => {
       const units = row.units.map((u) => ({
         title: u.title,
         group: u.group,
@@ -159,72 +155,74 @@ export default function MatchUnits({
       }));
 
       return [...acc, ...units];
-    },
-    []
+    }, [])
   );
-  const applicationUnitsUniqueCollection = uniqBy(
-    applicationUnitsCollection,
-    (o) => o.title
-  );
-  const applicationUnitsUniqueCollectionFinal: Record<
-    string,
-    string
-  > = applicationUnitsUniqueCollection.reduce(
-    (acc, u) => ({ ...acc, [u.title]: u.group }),
-    {}
-  );
-  const applicationUnits = Object.keys(applicationUnitsUniqueCollectionFinal);
-
-  const fileUnitMatches = React.useMemo(
-    () =>
-      computeFileUnitMatches(
-        fileUnitsWithoutNone,
-        applicationUnits,
-        savedMatchObjectAll,
-        workflowClass
-      ),
-    []
+  const applicationUnitsUniqueCollection = React.useRef(
+    uniqBy(applicationUnitsCollection.current, (o) => o.title)
   );
 
-  const keyedFileUnitMatches = zipObject(
-    fileHeadersWithoutNone,
-    fileUnitMatches
+  const applicationUnitsUniqueCollectionFinal = React.useRef(
+    applicationUnitsUniqueCollection.current.reduce(
+      (acc, u) => ({ ...acc, [u.title]: u.group }),
+      {} as Record<IUnit["title"], IUnit["group"]>
+    )
   );
-  const unitsMatchChartData = generateMatchData(fileUnitMatches, theme);
+  const applicationUnits = React.useRef(
+    Object.keys(applicationUnitsUniqueCollectionFinal.current)
+  );
+
+  const fileUnitMatches = React.useRef(
+    computeFileUnitMatches(
+      fileUnitsWithoutNone.current,
+      applicationUnits.current,
+      savedMatchObjectAll,
+      workflowClass
+    )
+  );
+
+  const keyedFileUnitMatches = React.useRef(
+    zipObject(fileHeadersWithoutNone.current, fileUnitMatches.current)
+  );
+  const unitsMatchChartData = React.useRef(
+    generateMatchData(fileUnitMatches.current, theme)
+  );
 
   //Application Unit
-  const appUnitOptions: SelectOptionsType[] = fileHeadersWithoutNone.map(
-    (fileHeader: string) => {
-      const unitMatch = keyedFileUnitMatches[fileHeader];
+  const appUnitOptions = React.useRef(
+    fileHeadersWithoutNone.current.map((fileHeader: string) => {
+      const unitMatch = keyedFileUnitMatches.current[fileHeader];
 
       return generateSelectOptions(Object.keys(unitMatch));
-    }
-  );
-  const keyedApplicationUnitOptions = zipObject(
-    fileHeadersWithoutNone,
-    appUnitOptions
+    })
+  ) as React.MutableRefObject<SelectOptionsType[]>;
+
+  const keyedApplicationUnitOptions = React.useRef(
+    zipObject(fileHeadersWithoutNone.current, appUnitOptions.current)
   );
 
   //Score match
-  const scoreOptions: SelectOptionsType[] = fileHeadersWithoutNone.map(
-    (fileHeader: string) => {
-      const fileUnitMatch = keyedFileUnitMatches[fileHeader];
+  const scoreOptions = React.useRef(
+    fileHeadersWithoutNone.current.map((fileHeader: string) => {
+      const fileUnitMatch = keyedFileUnitMatches.current[fileHeader];
 
       return generateSelectOptions(
         Object.values(fileUnitMatch).map((u) => u.toString())
       );
-    }
+    })
+  ) as React.MutableRefObject<SelectOptionsType[]>;
+
+  const keyedScoreOptions = React.useRef(
+    zipObject(fileHeadersWithoutNone.current, scoreOptions.current)
   );
-  const keyedScoreOptions = zipObject(fileHeadersWithoutNone, scoreOptions);
 
   //TODO: Saga Api to select unit family the current selected
   //unit belongs to. lookup data should be a dictionary
-  const matchObjectHeaders = specificSavedMatchObjectValues.map(
-    (h) => h.header
+  const matchObjectHeaders = React.useRef(
+    specificSavedMatchObjectValues.map((h) => h.header)
   );
-  const initialTableRows = fileHeadersWithoutNone.map(
-    (fileHeader: string, i: number) => {
-      const unitOptions = keyedApplicationUnitOptions[fileHeader];
+  const initialTableRows = React.useRef(
+    fileHeadersWithoutNone.current.map((fileHeader: string, i: number) => {
+      const unitOptions = keyedApplicationUnitOptions.current[fileHeader];
       const selectedApplicationUnit = unitOptions[0];
       const initialUnitType = getInitialRowValueOrDefault<TUnit>(
         selectedApplicationUnit.label,
@@ -233,10 +231,12 @@ export default function MatchUnits({
         "Single"
       );
       const selectedUnitClassification =
-        applicationUnitsUniqueCollectionFinal[selectedApplicationUnit.label];
-      const scoreOpts = keyedScoreOptions[fileHeader];
+        applicationUnitsUniqueCollectionFinal.current[
+          selectedApplicationUnit.label
+        ];
+      const scoreOpts = keyedScoreOptions.current[fileHeader];
       const score = scoreOpts[0];
-      const acceptMatch = matchObjectHeaders.includes(
+      const acceptMatch = matchObjectHeaders.current.includes(
         selectedApplicationUnit.label
       )
         ? true
@@ -245,66 +245,60 @@ export default function MatchUnits({
       return {
         sn: i + 1,
         fileHeader: fileHeader,
-        fileUnit: fileHeadersUnitsWithoutNoneObj[fileHeader],
+        fileUnit: fileHeadersUnitsWithoutNoneObj.current[fileHeader],
         type: initialUnitType,
         applicationUnit: selectedApplicationUnit.value,
         unitClassification: selectedUnitClassification,
         match: score.value,
         acceptMatch,
       };
-    }
+    })
   );
 
-  const tableRows = React.useRef<TRawTable>(initialTableRows);
+  const tableRows = React.useRef<TRawTable>(initialTableRows.current);
   const rerenderRef = React.useRef<boolean>(false);
   const [rerender, setRerender] = React.useState(rerenderRef.current);
 
   //{"MMstb":0,...}
-  const snChosenApplicationUnitIndices = fileHeadersWithoutNone.reduce(
+  const snChosenApplicationUnitIndices = fileHeadersWithoutNone.current.reduce(
     (acc: Record<string, number>, header: string) => {
       return { ...acc, [header]: 0 };
     },
     {}
   );
 
-  const [
-    chosenApplicationUnitIndicesAction,
-    setChosenApplicationUnitIndices,
-  ] = React.useState<Record<string, number | number[]>>(
-    snChosenApplicationUnitIndices
-  );
+  const [chosenApplicationUnitIndicesAction, setChosenApplicationUnitIndices] =
+    React.useState<Record<string, number | number[]>>(
+      snChosenApplicationUnitIndices
+    );
 
   type fileAppUnitType = Record<string, React.Key | boolean>;
-  const initialFileUnitChosenAppUnitObj: fileAppUnitType = initialTableRows.reduce(
-    (acc: fileAppUnitType, row) => {
+  const initialFileUnitChosenAppUnitObj = React.useRef(
+    initialTableRows.current.reduce((acc: fileAppUnitType, row) => {
       return { ...acc, [row.fileUnit]: row.applicationUnit };
-    },
-    {}
-  );
-  const [
-    fileUnitChosenAppUnitObj,
-    setFileUnitChosenAppUnitObj,
-  ] = React.useState(initialFileUnitChosenAppUnitObj);
+    }, {})
+  ) as React.MutableRefObject<fileAppUnitType>;
 
-  const initialFileUnitChosenUnitTypeObj = initialTableRows.reduce(
-    (
-      acc: Record<string, React.Key | boolean | TUnit>,
-      row: Record<string, React.Key | boolean | TUnit>
-    ) => {
-      const fileUnitDefined = row.fileUnit as string;
-      return { ...acc, [fileUnitDefined]: row.type };
-    },
-    {}
-  );
-  const [
-    fileUnitChosenUnitTypeObj,
-    setFileUnitChosenUnitTypeObj,
-  ] = React.useState(initialFileUnitChosenUnitTypeObj);
+  const [fileUnitChosenAppUnitObj, setFileUnitChosenAppUnitObj] =
+    React.useState(initialFileUnitChosenAppUnitObj.current);
 
-  const [
-    userMatchObject,
-    setUserMatchObject,
-  ] = React.useState<TUserMatchObject>(savedMatchObjectAll);
+  const initialFileUnitChosenUnitTypeObj = React.useRef(
+    initialTableRows.current.reduce(
+      (
+        acc: Record<string, React.Key | boolean | TUnit>,
+        row: Record<string, React.Key | boolean | TUnit>
+      ) => {
+        const fileUnitDefined = row.fileUnit as string;
+        return { ...acc, [fileUnitDefined]: row.type };
+      },
+      {}
+    )
+  );
+  const [fileUnitChosenUnitTypeObj, setFileUnitChosenUnitTypeObj] =
+    React.useState(initialFileUnitChosenUnitTypeObj.current);
+
+  const [userMatchObject, setUserMatchObject] =
+    React.useState<TUserMatchObject>(savedMatchObjectAll);
 
   const generateColumns = (keyedApplicationUnitOptions: {
     [index: string]: SelectOptionsType;
@@ -357,7 +351,7 @@ export default function MatchUnits({
           : [];
         const selectedAppUnits = selectedAppUnitsOptions.map((u) => u.label);
         const selectedUnitGroupArr = selectedAppUnits.map(
-          (u) => applicationUnitsUniqueCollectionFinal[u]
+          (u) => applicationUnitsUniqueCollectionFinal.current[u]
         );
         const selectedUnitGroupUniqueArr = uniq(selectedUnitGroupArr);
 
@@ -411,7 +405,7 @@ export default function MatchUnits({
         const selectedAppUnit = selectedValue as string;
 
         const selectedUnitGroup =
-          applicationUnitsUniqueCollectionFinal[selectedAppUnit];
+          applicationUnitsUniqueCollectionFinal.current[selectedAppUnit];
         const selectedUnitOptionIndex = findIndex(
           unitOptions,
           (option) => option.value === selectedValue
@@ -559,7 +553,7 @@ export default function MatchUnits({
           const type = row.type as TUnit;
 
           const unitOptions = keyedApplicationUnitOptions[fileHeader];
-          const scoreOptions = keyedScoreOptions[fileHeader];
+          const scoreOptions = keyedScoreOptions.current[fileHeader];
 
           let appUnit: string | string[];
           let valueOption: ISelectOption | ISelectOption[];
@@ -663,16 +657,15 @@ export default function MatchUnits({
     return columns;
   };
 
-  const columns = React.useMemo(
-    () => generateColumns(keyedApplicationUnitOptions),
-    [keyedApplicationUnitOptions]
-  );
+  const columns = generateColumns(keyedApplicationUnitOptions.current);
 
   const [rows, setRows] = React.useState(tableRows.current);
-  const chosenApplicationUnitsWithoutNone = getChosenApplicationUnits(
-    fileHeadersWithoutNone,
-    keyedFileUnitMatches,
-    chosenApplicationUnitIndicesAction
+  const chosenApplicationUnitsWithoutNone = React.useRef(
+    getChosenApplicationUnits(
+      fileHeadersWithoutNone.current,
+      keyedFileUnitMatches.current,
+      chosenApplicationUnitIndicesAction
+    )
   );
 
   const tableButtons: ITableButtonsProps = {
@@ -723,10 +716,10 @@ export default function MatchUnits({
     dispatch(
       updateUnitsSettingsParameterAction(
         "applicationUnitsCollection",
-        applicationUnitsUniqueCollection
+        applicationUnitsUniqueCollection.current
       )
     );
-    dispatch(persistFileUnitsMatchAction(reducer, fileUnitMatches, wp));
+    dispatch(persistFileUnitsMatchAction(reducer, fileUnitMatches.current, wp));
     dispatch(
       persistChosenApplicationUnitIndicesAction(
         reducer,
@@ -738,7 +731,7 @@ export default function MatchUnits({
     dispatch(
       persistChosenApplicationUnitsAction(
         reducer,
-        chosenApplicationUnitsWithoutNone,
+        chosenApplicationUnitsWithoutNone.current,
         wp
       )
     );
@@ -747,7 +740,7 @@ export default function MatchUnits({
       updateInputParameterAction(
         reducer,
         `fileUnitsWithoutNone`,
-        fileUnitsWithoutNone
+        fileUnitsWithoutNone.current
       )
     );
 
@@ -759,7 +752,7 @@ export default function MatchUnits({
   return (
     <div className={classes.rootMatchUnits}>
       <div className={classes.chart}>
-        <DoughnutChart data={unitsMatchChartData} />
+        <DoughnutChart data={unitsMatchChartData.current} />
       </div>
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>

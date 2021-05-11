@@ -54,20 +54,30 @@ export interface ISensitivitiesRow {
   parameterValues: string;
 }
 
+export type TDevScenarioNames =
+  | "oilDevelopment"
+  | "nagDevelopment"
+  | "oilNAGDevelopment";
+export type TDevScenarioTitles =
+  | "Oil Development"
+  | "NAG Development"
+  | "Oil + NAG Development";
+
 export type TSensitivitiesTable = ISensitivitiesRow[];
 export interface IEconomicsAnalysis {
   name: TEconomicsAnalysesNames;
   title: TEconomicsAnalysesTitles;
   icon: JSX.Element;
   workflowProcess?: IEconomicsWorkflowProcess["wkPs"];
-  devScenario?: "Oil Development" | "NAG Development" | "Oil + NAG Development";
+  devScenario?: TDevScenarioTitles;
   economicsDecks?: Record<TEconomicsDecks, IDecksObj>;
   sensitivities?: IEconomicsSensitivities;
   showSensitivitiesTable?: boolean;
   sensitivitiesTable?: ISensitivitiesRow[];
   analysisTableTitle?: string;
 }
-export type TEconomicsAnalysisWorkflows = `${TEconomicsAnalysesNames}WorkflowProcess`;
+export type TEconomicsAnalysisWorkflows =
+  `${TEconomicsAnalysesNames}WorkflowProcess`;
 
 export type TEconomicsAnalyses = Record<
   TEconomicsAnalysesNames,

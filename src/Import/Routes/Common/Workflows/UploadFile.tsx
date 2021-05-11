@@ -17,6 +17,7 @@ import {
   persistWorksheetNamesAction,
 } from "../../../Redux/Actions/InputActions";
 import { DialogStuff } from "./../../../../Application/Components/Dialogs/DialogTypes";
+import { showSpinnerAction } from "./../../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -91,6 +92,8 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
       <Dropzone
         accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         onDropAccepted={(acceptedFiles: FileWithPath[]) => {
+          dispatch(showSpinnerAction("Uploading file..."));
+
           const file: FileWithPath = acceptedFiles[0];
 
           const {
@@ -114,10 +117,8 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
 
             dispatch(persistFileAction(reducer, inputWorkbook, wp));
 
-            const {
-              Author: fileAuthor,
-              CreatedDate: fileCreated,
-            } = inputWorkbook.Props as xlsx.FullProperties;
+            const { Author: fileAuthor, CreatedDate: fileCreated } =
+              inputWorkbook.Props as xlsx.FullProperties;
 
             dispatch(
               importFileInitAction(

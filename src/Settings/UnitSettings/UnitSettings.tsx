@@ -95,16 +95,24 @@ export default function UnitSettings({
   } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
+  console.log(
+    "Logged output --> ~ file: UnitSettings.tsx ~ line 96 ~ monthFormat",
+    monthFormat
+  );
 
   const unitGroups = ["Field", "Metric", "Mixed"];
   const dayDateFormats = ["d", "do", "dd", "ddd"];
-  const monthDateFormats = ["M", "Mo", "MM", "MMM", "MMMM"];
+  const monthDateFormats = ["M", "Mo", "MM", "MMM"];
   const yearDateFormats = ["y", "yo", "yy", "yyyy"];
 
   const dialogRef = React.useRef(null);
   const [unitGroupName, setGlobalUnitGroupName] = React.useState(unitGroup);
   const [day, setDay] = React.useState(dayFormat);
   const [month, setMonth] = React.useState(monthFormat);
+  console.log(
+    "Logged output --> ~ file: UnitSettings.tsx ~ line 109 ~ month",
+    month
+  );
   const [year, setYear] = React.useState(yearFormat);
   const [pressAddend, setPressAddend] = React.useState(pressureAddend);
 

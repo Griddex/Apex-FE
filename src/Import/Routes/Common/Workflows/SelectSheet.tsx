@@ -124,9 +124,8 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
   };
 
   const SelectWorksheet = () => {
-    const worksheetNameOptions: SelectOptionsType = generateSelectOptions(
-      workSheetNames
-    );
+    const worksheetNameOptions: SelectOptionsType =
+      generateSelectOptions(workSheetNames);
 
     const worksheetNameOption = generateSelectOptions([worksheetName])[0];
 
@@ -159,7 +158,6 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
   };
 
   React.useEffect(() => {
-    // setTimeout(() => dispatch(hideSpinnerAction()), 4000);
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 

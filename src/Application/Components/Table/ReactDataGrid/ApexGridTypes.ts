@@ -1,5 +1,3 @@
-import { NumberInputTranslationKey } from "carbon-components-react";
-import { NumberInput } from "carbon-components-react/lib/components/NumberInput";
 import { Column } from "react-data-griddex";
 import { ITableButtonsProps } from "../TableButtonsTypes";
 
@@ -27,10 +25,10 @@ export interface IApexGrid<R, O> {
   newTableRowHeight?: number;
   onSelectedCellChange?: (position: IPosition) => void;
   selectedRows?: Set<React.Key>;
-  setSelectedRows?: React.Dispatch<React.SetStateAction<Set<React.Key>>>;
+  setSelectedRows?: React.Dispatch<React.SetStateAction<Set<any>>>;
   onSelectedRowsChange?: (selectedRows: Set<React.Key>) => void | undefined;
   selectedRow?: number;
-  onSelectedRowChange?: React.Dispatch<React.SetStateAction<number>>;
+  onSelectedRowChange?: React.Dispatch<React.SetStateAction<any>>;
   onRowsChange?: React.Dispatch<any>;
   mappingErrors?: React.Key[];
   size?: {

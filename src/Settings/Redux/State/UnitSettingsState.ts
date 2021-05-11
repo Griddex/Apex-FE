@@ -4,7 +4,7 @@ import { IUnitSettingsData } from "./UnitSettingsStateTypes";
 const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   pressureAddend: 14.7,
   dayFormat: "DD",
-  monthFormat: "MM",
+  monthFormat: "MMM",
   yearFormat: "yyyy",
   unitGroup: "Field",
   variableUnits: [],

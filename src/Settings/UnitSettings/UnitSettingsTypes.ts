@@ -24,5 +24,5 @@ export interface ISelectItem {
 }
 
 export type TDayFormatValues = "d" | "do" | "dd" | "ddd";
-export type TMonthFormatValues = "M" | "Mo" | "MM" | "MMM" | "MMMM";
+export type TMonthFormatValues = "M" | "Mo" | "MM" | "MMM";
 export type TYearFormatValues = "y" | "yo" | "yy" | "yyyy";

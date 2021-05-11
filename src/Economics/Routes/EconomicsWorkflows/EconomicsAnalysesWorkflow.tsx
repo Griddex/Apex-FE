@@ -148,7 +148,6 @@ const EconomicsAnalysesWorkflow = () => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
 
-  //ExistingEconomicsParametersDecks
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:

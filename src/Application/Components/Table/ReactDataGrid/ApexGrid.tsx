@@ -80,7 +80,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const classes = useStyles(props);
 
   const {
-    columns: rawColumns,
+    columns,
     rows: rawRows,
     tableButtons,
     newTableRowHeight,
@@ -99,7 +99,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     showTableHeader,
     showTablePagination,
   } = props;
-
   const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
 
@@ -114,7 +113,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const pagesHeight = 35;
   const noOfTableRows = rawTableRows.current.length;
 
-  const [columns, setColumns] = useState(rawColumns);
+  const [inComingColumns, setIncomingColumns] = useState(columns);
+
   const [[sortColumn, sortDirection], setSort] = useState<
     [string, SortDirection]
   >(["", "NONE"]);
@@ -197,9 +197,13 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     }
 
     function handleColumnsReorder(sourceKey: string, targetKey: string) {
-      const sourceColumnIndex = columns.findIndex((c) => c.key === sourceKey);
-      const targetColumnIndex = columns.findIndex((c) => c.key === targetKey);
-      const reorderedColumns = [...columns];
+      const sourceColumnIndex = inComingColumns.findIndex(
+        (c) => c.key === sourceKey
+      );
+      const targetColumnIndex = inComingColumns.findIndex(
+        (c) => c.key === targetKey
+      );
+      const reorderedColumns = [...inComingColumns];
 
       reorderedColumns.splice(
         targetColumnIndex,
@@ -207,14 +211,14 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         reorderedColumns.splice(sourceColumnIndex, 1)[0]
       );
 
-      setColumns(reorderedColumns);
+      setIncomingColumns(reorderedColumns);
     }
 
-    return columns.map((c) => {
+    return inComingColumns.map((c) => {
       if (c.key === "id") return c;
       return { ...c, headerRenderer: HeaderRenderer };
     });
-  }, [columns]);
+  }, [inComingColumns]);
 
   const sortedRows = useMemo((): R[] => {
     if (sortDirection === "NONE") return filteredTableRows;
@@ -324,7 +328,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
     setTablePagination(pagination);
     setFilteredTableRows(rawRows);
-  }, [tableHeight, rawRows]);
+    setIncomingColumns(columns);
+  }, [tableHeight, rawRows, columns]);
 
   const { pageSelect, tableFilter } = tableMetaData;
 
@@ -380,6 +385,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             ref={gridRef}
             style={{ height: "100%" }}
             rows={sortedRows}
+            columns={draggableColumns}
             rowKeyGetter={rowKeyGetter}
             onSelectedCellChange={onSelectedCellChange}
             selectedRows={selectedRows}
@@ -387,7 +393,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             onRowsChange={onRowsChange}
             selectedRow={selectedRow}
             onSelectedRowChange={onSelectedRowChange}
-            columns={draggableColumns}
             sortColumn={sortColumn}
             sortDirection={sortDirection}
             onSort={handleSort}

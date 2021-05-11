@@ -3,19 +3,20 @@ import clsx from "clsx";
 import React, { Suspense } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
-import Administration from "../../Administration";
-import AdministrationBackground from "./AdministrationBackground";
+import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
+import Settings from "../../Settings";
+import SettingsBackground from "./SettingsBackground";
 
 const navbarHeight = 43;
 // const subNavBarHeight = 25;
 const addedHeight = 10;
 const useStyles = makeStyles(() => {
   return {
-    administrationLayoutRoot: {
+    settingsLayoutRoot: {
       display: "flex",
       width: "100%",
     },
-    administrationLayoutContainer: {
+    settingsLayoutContainer: {
       display: "flex",
       width: "100%",
       marginTop: navbarHeight + addedHeight,
@@ -24,39 +25,35 @@ const useStyles = makeStyles(() => {
   };
 });
 
-const AdministrationLayout = () => {
+const SettingsLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
 
   return (
-    <main className={classes.administrationLayoutRoot}>
-      <div className={clsx(classes.administrationLayoutContainer)}>
+    <main className={classes.settingsLayoutRoot}>
+      <div className={clsx(classes.settingsLayoutContainer)}>
         <Suspense
           fallback={
             <SuspensePerpetualSpinner pending={true} message="Loading..." />
           }
         >
           <Switch>
+            <Route exact path={path} render={() => <Settings />} />
             <Route
-              exact
-              path={path}
-              render={() => <AdministrationBackground />}
-            />
-            <Route
-              path={`${url}/:administrationId`}
+              path={`${url}/:settingsId`}
               render={(props) => {
                 const {
                   match: {
-                    params: { administrationId },
+                    params: { settingsId },
                   },
                 } = props;
 
-                const Layouts = {
-                  background: <AdministrationBackground />,
-                  administration: <Administration />,
+                const Layouts: Record<string, JSX.Element> = {
+                  background: <SettingsBackground />,
+                  settings: <Settings />,
                 };
 
-                return Layouts[administrationId];
+                return Layouts[settingsId];
               }}
             />
             <Route path="*" render={() => <h1>Not Available</h1>} />
@@ -67,4 +64,4 @@ const AdministrationLayout = () => {
   );
 };
 
-export default AdministrationLayout;
+export default SettingsLayout;
