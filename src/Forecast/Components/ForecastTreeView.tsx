@@ -148,14 +148,13 @@ export default function ForecastTreeView() {
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
     string[]
   >([]);
-  const [
-    selectedModulePathsUnfiltered,
-    setSelectedModulePathsUnfiltered,
-  ] = React.useState<string[]>([]);
+  const [selectedModulePathsUnfiltered, setSelectedModulePathsUnfiltered] =
+    React.useState<string[]>([]);
 
-  const initExpanded = scenarioTree.children.map(
-    (scenarioNodes) => scenarioNodes.id
-  );
+  const initExpanded = [
+    scenarioTree.id,
+    ...scenarioTree.children.map((scenarioNodes) => scenarioNodes.id),
+  ];
   console.log(
     "Logged output --> ~ file: ForecastTreeView.tsx ~ line 157 ~ ForecastTreeView ~ initExpanded",
     initExpanded

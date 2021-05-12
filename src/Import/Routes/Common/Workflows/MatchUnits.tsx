@@ -267,7 +267,7 @@ export default function MatchUnits({
     {}
   );
 
-  const [chosenApplicationUnitIndicesAction, setChosenApplicationUnitIndices] =
+  const [chosenApplicationUnitIndices, setChosenApplicationUnitIndices] =
     React.useState<Record<string, number | number[]>>(
       snChosenApplicationUnitIndices
     );
@@ -664,7 +664,7 @@ export default function MatchUnits({
     getChosenApplicationUnits(
       fileHeadersWithoutNone.current,
       keyedFileUnitMatches.current,
-      chosenApplicationUnitIndicesAction
+      chosenApplicationUnitIndices
     )
   );
 
@@ -723,7 +723,7 @@ export default function MatchUnits({
     dispatch(
       persistChosenApplicationUnitIndicesAction(
         reducer,
-        chosenApplicationUnitIndicesAction,
+        chosenApplicationUnitIndices,
         wp
       )
     );

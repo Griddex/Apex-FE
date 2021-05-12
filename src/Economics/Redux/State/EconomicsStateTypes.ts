@@ -6,6 +6,7 @@ import {
   TEconomicsAnalysesNames,
   IEconomicsAnalysis,
   TEconomicsAnalysisWorkflows,
+  TDevScenarioNames,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { RenderTree } from "../../../Forecast/Components/ForecastTreeViewTypes";
 
@@ -55,6 +56,9 @@ export interface IEconomicsState {
   fileUnitsWithoutNone: string[];
 
   variableUnits: Record<string, string>;
+
+  developmentScenarios: TDevScenarioNames[];
+  forecastCases: string;
 
   title: string;
   description: string;

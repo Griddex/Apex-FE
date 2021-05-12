@@ -143,4 +143,5 @@ export interface ButtonProps {
   color?: "inherit" | "primary" | "secondary" | "default";
   startIcon?: JSX.Element;
   handleAction?: () => { type: string } | void;
+  handleRemove?: () => void;
 }

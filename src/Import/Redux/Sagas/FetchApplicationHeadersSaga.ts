@@ -46,14 +46,12 @@ export default function* watchFetchApplicationHeadersSaga(): Generator<
 
 const config = { withCredentials: false };
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
-const facilitiesUrl = `${getBaseForecastUrl()}/global-variableunit/facilitiesInputHeaders`;
-const forecastUrl = `${getBaseForecastUrl()}/global-variableunit/forecastInputHeaders`;
+const facilitiesUrl = `${getBaseForecastUrl()}/facilities-inputdeck/facilitiesInputHeaders`;
+const forecastUrl = `${getBaseForecastUrl()}/forecast-inputdeck/forecastInputHeaders`;
 const economicsParametersUrl = `${getBaseEconomicsUrl()}/variables/parameterHeaders`;
 const costsRevenueUrl = `${getBaseEconomicsUrl()}/variables/costsRevenueHeaders`;
 
-function* fetchApplicationHeadersSaga(
-  action: IAction
-): Generator<
+function* fetchApplicationHeadersSaga(action: IAction): Generator<
   | AllEffect<CallEffect<AxiosResponse<any>>>
   | PutEffect<{
       payload: any;
@@ -92,9 +90,11 @@ function* fetchApplicationHeadersSaga(
 
     const successAction1 = fetchApplicationHeadersSuccessAction();
     const successAction2 = fetchExistingCostsRevenuesHeadersSuccessAction();
-    const successAction3 = fetchExistingEconomicsParametersHeadersSuccessAction();
+    const successAction3 =
+      fetchExistingEconomicsParametersHeadersSuccessAction();
     const successAction4 = persistCostsRevHeadersSelectOptionSuccessAction();
-    const successAction5 = persistEconomicsParHeadersSelectOptionSuccessAction();
+    const successAction5 =
+      persistEconomicsParHeadersSelectOptionSuccessAction();
 
     const cstRevAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
       costsRevenuesAppHeaders
@@ -144,7 +144,8 @@ function* fetchApplicationHeadersSaga(
     const failureAction2 = fetchExistingCostsRevenuesDataFailureAction();
     const failureAction3 = fetchExistingEconomicsParametersDataFailureAction();
     const failureAction4 = persistCostsRevDataFaiSelectOptionFailureAction();
-    const failureAction5 = persistEconomicsParDataFaiSelectOptionFailureAction();
+    const failureAction5 =
+      persistEconomicsParDataFaiSelectOptionFailureAction();
 
     yield put({
       ...failureAction1,

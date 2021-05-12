@@ -20,6 +20,7 @@ export interface ICenteredStyle {
     | "flex-start"
     | "flex-end"
     | "center";
+  className?: string;
   moreStyles?: CSSProperties;
 }
 
@@ -32,6 +33,7 @@ const CenteredStyle = React.forwardRef<HTMLDivElement, ICenteredStyle>(
       width,
       justifyContent,
       alignItems,
+      className,
       moreStyles,
       ...rest
     },
@@ -40,6 +42,7 @@ const CenteredStyle = React.forwardRef<HTMLDivElement, ICenteredStyle>(
     return (
       <div
         ref={ref}
+        className={className}
         style={{
           display: "flex",
           flexDirection: flexDirection ? flexDirection : "row",

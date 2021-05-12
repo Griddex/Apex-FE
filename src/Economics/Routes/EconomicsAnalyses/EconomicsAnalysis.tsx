@@ -85,16 +85,16 @@ const EconomicsAnalysis = ({
     (state: RootState) => state.economicsReducer
   );
 
-  const selectedAnalysisDefined = selectedAnalysis as NonNullable<IEconomicsAnalysis>;
+  const selectedAnalysisDefined =
+    selectedAnalysis as NonNullable<IEconomicsAnalysis>;
   const { name, title, icon } = selectedAnalysisDefined;
   const analysisName = selectedAnalysis?.name;
   const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
 
   //TODO: filter devoptions based on costs/revenue data input
   //Send all filtered dev options to backend
-  const devOptions = swapVariableNameTitleForISelectOption(
-    developmentScenarios
-  );
+  const devOptions =
+    swapVariableNameTitleForISelectOption(developmentScenarios);
   const devValueOption = devOptions[0];
   const [devValue, setDevValue] = React.useState(devValueOption);
 

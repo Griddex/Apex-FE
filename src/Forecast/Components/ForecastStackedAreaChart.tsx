@@ -12,6 +12,12 @@ const ForecastStackedAreaChart = () => {
   if (Array.isArray(data) && data.length > 0) keys = Object.keys(data[0]);
   else keys = [];
 
+  //TODO To be sent by Gift, send this instead of keys
+  const bottomAxisValues = data.map((_, i) => 2020 + i);
+
+  //TODO Check algorithm in backend that reverses the array
+  data.reverse();
+
   return (
     <ResponsiveStream
       data={data}
@@ -20,15 +26,38 @@ const ForecastStackedAreaChart = () => {
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        // orient: "bottom",
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: 0,
-        legend: "",
+        tickRotation: 90,
+        legend: <text>Year</text>,
         legendOffset: 36,
+        renderTick: ({
+          tickIndex,
+          opacity,
+          textAnchor,
+          textBaseline,
+          textX,
+          textY,
+          value,
+          x,
+          y,
+        }) => {
+          return (
+            <g transform={`translate(${x},${y})`}>
+              <text
+                alignmentBaseline={"central"}
+                textAnchor={textAnchor}
+                transform={`translate(${textX},${textY})`}
+                fontSize={11}
+                // fontFamily={""}
+              >
+                {tickIndex % 4 === 0 ? bottomAxisValues[tickIndex] : ""}
+              </text>
+            </g>
+          );
+        },
       }}
       axisLeft={{
-        // orient: "left",
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
@@ -37,8 +66,8 @@ const ForecastStackedAreaChart = () => {
       }}
       curve="linear"
       offsetType="diverging"
-      colors={{ scheme: "paired" }}
-      fillOpacity={0.85}
+      colors={{ scheme: "category10" }}
+      fillOpacity={1}
       borderColor={{ theme: "background" }}
       // defs={[
       //   {
@@ -74,10 +103,7 @@ const ForecastStackedAreaChart = () => {
       //     id: "squares",
       //   },
       // ]}
-      dotSize={8}
-      dotColor={{ from: "color" }}
-      dotBorderWidth={2}
-      dotBorderColor={{ from: "color", modifiers: [["darker", 0.7]] }}
+
       legends={[
         {
           anchor: "bottom-right",

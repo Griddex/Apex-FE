@@ -1,4 +1,4 @@
-import { ClickAwayListener, makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
@@ -11,8 +11,10 @@ import { ValueType } from "react-select";
 import { SizeMe, SizeMeProps } from "react-sizeme";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import { ButtonProps } from "../../../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -26,7 +28,12 @@ import { workflowResetAction } from "../../../../Application/Redux/Actions/Workf
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import swapVariableNameTitleForISelectOption from "../../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { developmentScenarios } from "../../../Data/EconomicsData";
+import AggregatedButtons from "../../../Components/AggregatedButtons/AggregatedButtons";
+import {
+  developmentScenarioOptions,
+  developmentScenarios,
+  forecastCaseOptions,
+} from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import {
   IEconomicsAnalysis,
@@ -69,18 +76,30 @@ export default function CostsAndRevenueManual({
 }: IAllWorkflowProcesses) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
   const { uniqUnitOptions } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   );
 
-  const devOptions =
-    swapVariableNameTitleForISelectOption(developmentScenarios);
-  const devValueOption = devOptions[0];
-  const [devValue, setDevValue] = React.useState(devValueOption);
-  const devVal = devValue.value as TDevScenarioNames;
+  const [devOption, setDevOption] = React.useState(
+    developmentScenarioOptions[0]
+  );
+  const devVal = devOption.value as TDevScenarioNames;
 
+  const [forecastCaseOption, setForecastCaseOption] = React.useState(
+    forecastCaseOptions[1]
+  );
+  const [buttonsData, setButtonsData] = React.useState([] as ButtonProps[]);
+  const buttonDataLabels = buttonsData.map((obj) =>
+    obj.title?.replace(" Development", "")
+  );
+  console.log(
+    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 711 ~ setButtonsData ~ buttonDataLabels",
+    buttonDataLabels
+  );
   const [selectedRows, setSelectedRows] = React.useState({
     oilDevelopment: new Set<React.Key>(),
     nagDevelopment: new Set<React.Key>(),
@@ -587,8 +606,8 @@ export default function CostsAndRevenueManual({
   };
 
   const columns = React.useMemo(
-    () => generateColumns(devValue.value as TDevScenarioNames),
-    [devValue.value as TDevScenarioNames]
+    () => generateColumns(devOption.value as TDevScenarioNames),
+    [devOption.value as TDevScenarioNames]
   );
 
   const createTableRows = (numberOfRows: number): TRawTable => {
@@ -605,6 +624,7 @@ export default function CostsAndRevenueManual({
         facilitiesCapex: "",
         tangWellCost: "",
         intangWellCost: "",
+        taxDepreciation: "",
         abandCost: "",
         directCost: "",
         cha: "",
@@ -659,33 +679,87 @@ export default function CostsAndRevenueManual({
 
   return (
     <div className={classes.rootExistingData}>
-      <AnalyticsComp
-        title="Development Scenario"
-        direction="Horizontal"
-        containerStyle={{
-          display: "flex",
-          flexDirection: "row",
-          width: "50%",
+      <CenteredStyle
+        justifyContent="space-between"
+        moreStyles={{
           marginBottom: 10,
+          height: 50,
+          borderBottom: `1px solid ${theme.palette.grey[200]}`,
+          paddingBottom: 10,
         }}
-        content={
-          <ApexSelectRS
-            valueOption={devValue}
-            data={devOptions}
-            handleSelect={(row: ValueType<ISelectOption, false>) => {
-              const path = `economicsAnalysisWorkflows.${name}.devScenario`;
-              const value = row?.value as string;
-
-              setDevValue(row as ISelectOption);
-              dispatch(updateEconomicsParameterAction(path, value));
+      >
+        <CenteredStyle width={"70%"} justifyContent="flex-start">
+          <AnalyticsComp
+            title="Development Scenario"
+            direction="Horizontal"
+            containerStyle={{
+              display: "flex",
+              flexDirection: "row",
+              width: 300,
             }}
-            menuPortalTarget={document.body}
-            isSelectOptionType={true}
-          />
-        }
-      />
+            content={
+              <ApexSelectRS
+                valueOption={devOption}
+                data={developmentScenarioOptions}
+                handleSelect={(row: ValueType<ISelectOption, false>) => {
+                  const path = `inputDataWorkflows.developmentScenarios`;
+                  const value = row?.value as string;
+                  const label = row?.label as string;
+                  dispatch(updateEconomicsParameterAction(path, value));
 
-      {renderTable(devValue.value as TDevScenarioNames, columns, {
+                  setButtonsData((prev) => {
+                    const abridgedlabel = label.replace(" Development", "");
+
+                    if (buttonDataLabels.includes(abridgedlabel)) return prev;
+                    else {
+                      const btnData = {
+                        title: abridgedlabel,
+                        variant: "outlined",
+                        color: "primary",
+                        handleAction: () => setDevOption(row as ISelectOption),
+                        handleRemove: () => console.log("Remove"),
+                      } as ButtonProps;
+
+                      return [...prev, btnData];
+                    }
+                  });
+                }}
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            }
+          />
+          <AggregatedButtons
+            buttonsData={buttonsData}
+            setButtonsData={setButtonsData}
+          />
+        </CenteredStyle>
+        <AnalyticsComp
+          title="Forecast Case"
+          direction="Vertical"
+          containerStyle={{
+            display: "flex",
+            flexDirection: "row",
+            width: 300,
+          }}
+          content={
+            <ApexSelectRS
+              valueOption={forecastCaseOption}
+              data={forecastCaseOptions}
+              handleSelect={(option: ValueType<ISelectOption, false>) => {
+                const path = `inputDataWorkflows.forecastCases`;
+                const value = option?.value as string;
+                dispatch(updateEconomicsParameterAction(path, value));
+
+                setForecastCaseOption(option as ISelectOption);
+              }}
+              menuPortalTarget={document.body}
+              isSelectOptionType={true}
+            />
+          }
+        />
+      </CenteredStyle>
+      {renderTable(devOption.value as TDevScenarioNames, columns, {
         height: 700,
         width: 900,
       })}
@@ -695,7 +769,7 @@ export default function CostsAndRevenueManual({
           justifyContent: "space-between",
           marginTop: 10,
           marginBottom: 2,
-          width: 200,
+          width: 300,
         }}
       >
         <BaseButtons

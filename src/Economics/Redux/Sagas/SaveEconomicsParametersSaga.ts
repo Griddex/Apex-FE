@@ -74,10 +74,6 @@ function* saveEconomicsParametersSaga(
   const { tableData: inputDeck, variableUnits } = yield select(
     (state) => state[reducer][wc][wp]
   );
-  console.log(
-    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 75 ~ inputDeck",
-    inputDeck
-  );
 
   const { savedMatchObjectAll: matchObject } = yield select(
     (state) => state.applicationReducer
@@ -87,10 +83,6 @@ function* saveEconomicsParametersSaga(
 
   economicsParameters.shift();
   const economicsParametersObj = economicsParameters[0];
-  console.log(
-    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 86 ~ economicsParametersObj",
-    economicsParametersObj
-  );
 
   const commercialTechnical = pick(economicsParametersObj, [
     "yearDiscounting",
@@ -116,10 +108,7 @@ function* saveEconomicsParametersSaga(
     "prodTerrain",
     "gasDevConcept",
   ]);
-  console.log(
-    "Logged output --> ~ file: SaveEconomicsParametersSaga.ts ~ line 119 ~ commercialTechnical",
-    commercialTechnical
-  );
+
   const fiscal = pick(economicsParametersObj, [
     "pIA",
     "cITAGasSales",

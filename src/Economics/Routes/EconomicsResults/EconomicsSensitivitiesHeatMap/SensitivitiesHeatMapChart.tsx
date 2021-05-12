@@ -12,14 +12,18 @@ import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectR
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { economicsAnalysesOptions } from "../../../Data/EconomicsData";
+import { economicsAnalysesOptions, mapData } from "../../../Data/EconomicsData";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ItemTypes from "../../../Utils/DragAndDropItemTypes";
+import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 
 const SensitivitiesHeatMapChart = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+
+  const [sensitivitiesMapData, setSensitivitiesMapData] =
+    React.useState(mapData);
 
   const {
     ECONOMICS_SENSITIVITIES_XAXIS,
@@ -169,6 +173,7 @@ const SensitivitiesHeatMapChart = () => {
           </div>
         </CenteredStyle>
       </CenteredStyle>
+      <MapStyleFormatters />
     </CenteredStyle>
   );
 };

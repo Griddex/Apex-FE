@@ -72,6 +72,9 @@ const generateEconomicsState = () => {
         savedMatchObjectAll: {},
         variableUnits: {},
 
+        developmentScenarios: [],
+        forecastCases: "",
+
         inputDeckId: "",
         status: 0,
         message: "",
