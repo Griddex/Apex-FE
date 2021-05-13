@@ -28,6 +28,7 @@ import {
   autoGenerateNetworkSuccessAction,
   AUTOGENERATENETWORK_REQUEST,
   removeCurrentNetworkAction,
+  updateNetworkParameterAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchAutogenerateNetworkSaga(): Generator<
@@ -56,10 +57,8 @@ export function* autoGenerateNetworkSaga(
   const message = meta && meta.message ? meta.message : "";
 
   const { userId } = yield select((state) => state.loginReducer);
-  const {
-    selectedForecastInputDeckId,
-    selectedFacilitiesInputDeckId,
-  } = yield select((state) => state.inputReducer);
+  const { selectedForecastInputDeckId, selectedFacilitiesInputDeckId } =
+    yield select((state) => state.inputReducer);
   const { showWellheadSummaryNodes, showWellheadSummaryEdges } = yield select(
     (state) => state.networkReducer
   );
@@ -115,8 +114,13 @@ export function* autoGenerateNetworkSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters()));
-  } finally {
     yield put(hideSpinnerAction());
+  } finally {
+    //TODO: Remove from here.
+    //Should be in success case only
+    const path = "isNetworkDisplayed";
+    const value = true;
+    yield put(updateNetworkParameterAction(path, value));
   }
 }
 

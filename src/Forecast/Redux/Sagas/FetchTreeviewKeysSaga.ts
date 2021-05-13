@@ -42,9 +42,7 @@ export default function* watchFetchTreeviewKeysSaga(): Generator<
 
 const config = { withCredentials: false };
 
-function* fetchTreeviewKeysSaga(
-  action: IAction
-): Generator<
+function* fetchTreeviewKeysSaga(action: IAction): Generator<
   | CallEffect<any>
   | TakeEffect
   | PutEffect<{
@@ -103,8 +101,8 @@ function* fetchTreeviewKeysSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters("")));
-  } finally {
     yield put(hideSpinnerAction());
+  } finally {
     yield call(forwardTo, "/apex/forecast/forecastvisualytics");
   }
 }

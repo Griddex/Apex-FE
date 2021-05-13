@@ -96,10 +96,8 @@ export default function MatchHeaders({
   const wp = wrkflwPrcss;
 
   const workflowClass = getWorkflowClass(wp);
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 99 ~ workflowClass",
-    workflowClass
-  );
+
+  const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
   //TODO: Put elsewhere
   const dateFormatOptions = generateSelectOptions(dateFormatData);
@@ -108,41 +106,6 @@ export default function MatchHeaders({
   //object to store matched economics headers
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 106 ~ savedMatchObjectAll",
-    savedMatchObjectAll
-  );
-
-  // const savedMatchObjectAll: TUserMatchObject = {
-  //   facilities: {
-  //     headers: {
-  //       YQWITHNB: {
-  //         header: "sjdvsadikls",
-  //         type: "Text",
-  //         acceptMatch: false,
-  //       },
-  //     },
-  //     units: {
-  //       KHUTEWJB: { header: "ksjubdkjsd", type: "Text", acceptMatch: false },
-  //     },
-  //   },
-  //   forecast: {
-  //     headers: {
-  //       JKSDHYR: { header: "gsdbsdffnf", type: "Text", acceptMatch: false },
-  //     },
-  //     units: {
-  //       WLOCNGF: { header: "kutywefw", type: "Text", acceptMatch: false },
-  //     },
-  //   },
-  //   economics: {
-  //     headers: {
-  //       JKSDHYR: { header: "gsdbsdffnf", type: "Text", acceptMatch: false },
-  //     },
-  //     units: {
-  //       WLOCNGF: { header: "kutywefw", type: "Text", acceptMatch: false },
-  //     },
-  //   },
-  // };
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
@@ -156,6 +119,10 @@ export default function MatchHeaders({
     economicsParametersAppHeaders,
   } = useSelector((state: RootState) => state[reducer]);
 
+  const { fileHeaders } = useSelector(
+    (state: RootState) => state[reducer][wc][wp]
+  );
+
   const allAppHeadersArr = [
     facilitiesAppHeaders,
     forecastAppHeaders,
@@ -164,10 +131,6 @@ export default function MatchHeaders({
   ];
   const applicationHeaders = React.useRef(
     getCurrentApplicationHeaders(wp, allAppHeadersArr)
-  );
-
-  const { fileHeaders } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
   );
 
   const fileHeaderMatches = React.useRef(
@@ -182,6 +145,7 @@ export default function MatchHeaders({
   const keyedFileHeaderMatches = React.useRef(
     zipObject(fileHeaders, fileHeaderMatches.current)
   );
+
   const headerMatchChartData = React.useRef(
     generateMatchData(fileHeaderMatches.current, theme)
   );
@@ -207,6 +171,7 @@ export default function MatchHeaders({
       );
     })
   ) as React.MutableRefObject<SelectOptionsType[]>;
+
   const keyedScoreOptions = React.useRef(
     zipObject(fileHeaders, scoreOptions.current)
   );
@@ -223,9 +188,9 @@ export default function MatchHeaders({
   const initialTableRows = React.useRef(
     fileHeaders.map((fileHeader: string, i: number) => {
       const headerOptions = keyedApplicationHeaderOptions.current[fileHeader];
-      const selectedApplicationHeader = headerOptions[0];
+      const initialAppHeader = headerOptions[0];
       const initialHeaderType = getInitialRowValueOrDefault<THeader>(
-        selectedApplicationHeader.label,
+        initialAppHeader.label,
         "type",
         specificSavedMatchObjectValues,
         "Text"
@@ -235,14 +200,14 @@ export default function MatchHeaders({
       const exclude = false; //TODO: Can enforce columns that must be used in the forecast here
       const acceptMatch = specificSavedMatchObjectValues
         .map((h) => h.header)
-        .includes(selectedApplicationHeader.label)
+        .includes(initialAppHeader.label)
         ? true
         : false;
 
       return {
         sn: i + 1,
         fileHeader: fileHeader,
-        applicationHeader: selectedApplicationHeader.value,
+        applicationHeader: initialAppHeader.value,
         type: initialHeaderType,
         match: score.value,
         exclude,
@@ -258,7 +223,7 @@ export default function MatchHeaders({
   const [chosenApplicationHeaderIndices, setChosenApplicationHeaderIndices] =
     React.useState(snChosenApplicationHeaderIndices.current);
 
-  const initialFileHeaderChosenAppHeaderObj: Record<string, string> =
+  const initialFileHeaderChosenAppHeaderMap: Record<string, string> =
     initialTableRows.current.reduce(
       (acc: Record<string, string>, row: Record<string, string>) => {
         return { ...acc, [row.fileHeader]: row.applicationHeader };
@@ -266,18 +231,18 @@ export default function MatchHeaders({
       {}
     );
 
-  const [fileHeaderChosenAppHeaderObj, setFileHeaderChosenAppHeaderObj] =
-    React.useState(initialFileHeaderChosenAppHeaderObj);
+  const [fileHeaderChosenAppHeaderMap, setFileHeaderChosenAppHeaderMap] =
+    React.useState(initialFileHeaderChosenAppHeaderMap);
 
-  const initialFileHeaderChosenHeaderTypeObj: Record<string, string> =
+  const initialFileHeaderChosenHeaderTypeMap: Record<string, string> =
     initialTableRows.current.reduce(
       (acc: Record<string, string>, row: Record<string, string>) => {
         return { ...acc, [row.fileHeader]: row.type };
       },
       {}
     );
-  const [fileHeaderChosenHeaderTypeObj, setFileHeaderChosenHeaderTypeObj] =
-    React.useState(initialFileHeaderChosenHeaderTypeObj);
+  const [fileHeaderChosenHeaderTypeMap, setFileHeaderChosenHeaderTypeMap] =
+    React.useState(initialFileHeaderChosenHeaderTypeMap);
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
@@ -291,6 +256,36 @@ export default function MatchHeaders({
   const generateColumns = (keyedApplicationHeaderOptions: {
     [index: string]: { value: string; label: string }[];
   }) => {
+    const handleHeaderTypeChange = (
+      value: ValueType<ISelectOption, false>,
+      row: IRawRow
+    ) => {
+      const { sn, fileHeader } = row;
+      const rowSN = sn as number;
+      const fileHeaderDefined = fileHeader as string;
+
+      const selectedValue = value && value.label;
+      const selectedHeaderType = selectedValue as THeader;
+
+      setFileHeaderChosenHeaderTypeMap((prev) => ({
+        ...prev,
+        [fileHeaderDefined]: selectedHeaderType,
+      }));
+
+      //TODO: From Gift Need an object with unit:group pairs
+      const currentRows = tableRows.current;
+      const selectedRow = currentRows[rowSN - 1];
+      currentRows[rowSN - 1] = {
+        ...selectedRow,
+        type: selectedHeaderType,
+      };
+
+      tableRows.current = currentRows;
+
+      rerenderRef.current = !rerenderRef.current;
+      setRerender(rerenderRef.current);
+    };
+
     const handleApplicationHeaderChange = (
       value: ValueType<ISelectOption, false>,
       row: IRawRow,
@@ -316,7 +311,7 @@ export default function MatchHeaders({
         [`${rowSN}`]: selectedHeaderOptionIndex,
       }));
 
-      setFileHeaderChosenAppHeaderObj((prev) => ({
+      setFileHeaderChosenAppHeaderMap((prev) => ({
         ...prev,
         [fileHeaderDefined]: applicationHeaderDefined,
       }));
@@ -328,36 +323,6 @@ export default function MatchHeaders({
         applicationHeader: selectedAppHeader,
         match: selectedScore.value,
         exclude: selectedAppHeader === "None" ? true : false,
-      };
-
-      tableRows.current = currentRows;
-
-      rerenderRef.current = !rerenderRef.current;
-      setRerender(rerenderRef.current);
-    };
-
-    const handleHeaderTypeChange = (
-      value: ValueType<ISelectOption, false>,
-      row: IRawRow
-    ) => {
-      const { sn, fileHeader } = row;
-      const rowSN = sn as number;
-      const fileHeaderDefined = fileHeader as string;
-
-      const selectedValue = value && value.label;
-      const selectedHeaderType = selectedValue as THeader;
-
-      setFileHeaderChosenHeaderTypeObj((prev) => ({
-        ...prev,
-        [fileHeaderDefined]: selectedHeaderType,
-      }));
-
-      //TODO: From Gift Need an object with unit:group pairs
-      const currentRows = tableRows.current;
-      const selectedRow = currentRows[rowSN - 1];
-      currentRows[rowSN - 1] = {
-        ...selectedRow,
-        type: selectedHeaderType,
       };
 
       tableRows.current = currentRows;
@@ -469,7 +434,7 @@ export default function MatchHeaders({
       const selectedValue = value && value.label;
       const selectedDateFormat = selectedValue as string;
 
-      // setFileHeaderChosenHeaderTypeObj((prev) => ({
+      // setFileHeaderChosenHeaderTypeMap((prev) => ({
       //   ...prev,
       //   [fileHeaderDefined]: selectedHeaderType,
       // }));
@@ -695,7 +660,7 @@ export default function MatchHeaders({
     extraButtons: () => (
       <Tooltip
         key={"acceptAllToolTip"}
-        title={"Accept All"}
+        title={"Toggle Accept All Matches"}
         placement="bottom-end"
         arrow
       >
@@ -707,26 +672,31 @@ export default function MatchHeaders({
             borderRadius: 2,
           }}
           onClick={() => {
+            const currentAcceptMatchValue = !acceptmatchToggle;
             const rowsAllAcceptMatch = rows.map((row) => {
-              const rowAccept = { ...row, acceptMatch: true };
+              const rowAccept = {
+                ...row,
+                acceptMatch: currentAcceptMatchValue,
+              };
               return rowAccept;
             });
 
-            const fileHeaderKeys = Object.keys(fileHeaderChosenAppHeaderObj);
+            const fileHeaderKeys = Object.keys(fileHeaderChosenAppHeaderMap);
             for (const header of fileHeaderKeys) {
-              const chosenAppHeader = fileHeaderChosenAppHeaderObj[header];
-              const chosenHeaderType = fileHeaderChosenHeaderTypeObj[
+              const chosenAppHeader = fileHeaderChosenAppHeaderMap[header];
+              const chosenHeaderType = fileHeaderChosenHeaderTypeMap[
                 header
               ] as THeader;
 
               userMatchObject[workflowClass]["headers"][header] = {
                 header: chosenAppHeader,
                 type: chosenHeaderType,
-                acceptMatch: true,
+                acceptMatch: currentAcceptMatchValue,
               };
             }
             setRows(rowsAllAcceptMatch);
             setUserMatchObject(userMatchObject);
+            setAcceptmatchToggle(currentAcceptMatchValue);
           }}
         >
           <AllInclusiveOutlinedIcon />

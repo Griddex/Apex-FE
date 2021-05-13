@@ -101,6 +101,8 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   isNetworkSaved: boolean;
   isNetworkChanged: boolean;
+  isNetworkDisplayed: boolean;
+
   networkId: string;
   status: number;
   message: string;
@@ -119,7 +121,7 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   existingDataWorkflows: {
     networkExisting: IExistingDataRow[];
-    forecastingParametersServer: IForecastParametersRoot[];
+    forecastingParametersRoot: IForecastParametersRoot[];
   };
 
   selectedForecastingParametersRootId: string;

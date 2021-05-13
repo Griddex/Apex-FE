@@ -68,7 +68,6 @@ function* fetchMatchObjectSaga(
       ...failureAction,
       payload: { ...payload, errors },
     });
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

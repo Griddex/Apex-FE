@@ -63,10 +63,8 @@ function* saveCostsRevenuesSaga(
 
   const { projectId } = yield select((state) => state.projectReducer);
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
-  const {
-    costsRevenuesInputDeckTitle,
-    costsRevenuesInputDeckDescription,
-  } = yield select((state) => state.economicsReducer);
+  const { costsRevenuesInputDeckTitle, costsRevenuesInputDeckDescription } =
+    yield select((state) => state.economicsReducer);
 
   const { tableData: inputDeck, variableUnits } = yield select(
     (state) => state[reducer][wc][wp]
@@ -133,7 +131,6 @@ function* saveCostsRevenuesSaga(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message))
     );
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

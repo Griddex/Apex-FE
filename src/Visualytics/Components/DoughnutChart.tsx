@@ -12,16 +12,13 @@ const useStyles = makeStyles(() => ({
 
 const DoughnutChart = ({ data }: { data: ChartType }) => {
   const theme = useTheme();
-  console.log(
-    "Logged output --> ~ file: DoughnutChart.tsx ~ line 14 ~ DoughnutChart ~ data",
-    data
-  );
+
   return (
     <ResponsivePie
       data={data}
       margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
       // colors={{ scheme: "category10" }}
-      innerRadius={0.8}
+      innerRadius={0.7}
       padAngle={0.7}
       cornerRadius={0}
       activeOuterRadiusOffset={8}
@@ -55,7 +52,7 @@ const DoughnutChart = ({ data }: { data: ChartType }) => {
       fill={[
         {
           match: {
-            id: "fullMatch",
+            id: "Full Match",
           },
           id: "full",
         },
@@ -67,7 +64,7 @@ const DoughnutChart = ({ data }: { data: ChartType }) => {
         },
         {
           match: {
-            id: "noMatch",
+            id: "No Match",
           },
           id: "none",
         },

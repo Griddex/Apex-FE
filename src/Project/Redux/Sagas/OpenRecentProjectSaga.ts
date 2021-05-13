@@ -51,7 +51,7 @@ function* openRecentProjectSaga(
   any
 > {
   const { payload } = action;
-  const { userId, projectId, projectTitle, projectDescription } = payload; //grab from own dps
+  const { projectId, projectTitle, projectDescription } = payload; //grab from own dps
 
   const config = { withCredentials: false };
   const openRecentProjectAPI = (url: string) => authService.get(url, config);

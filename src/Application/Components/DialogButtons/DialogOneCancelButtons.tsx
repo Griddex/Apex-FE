@@ -15,7 +15,7 @@ const DialogOneCancelButtons = (
   shouldDispatch: IButtonsConfigProps["shouldDispatch"],
   finalActions: IButtonsConfigProps["finalActions"],
   oneButtonName: string,
-  oneButtonIconName = "saveOutlined"
+  oneButtonIconName: string
 ) => {
   const icons: Record<string, JSX.Element> = {
     saveOutlined: <SaveOutlinedIcon />,

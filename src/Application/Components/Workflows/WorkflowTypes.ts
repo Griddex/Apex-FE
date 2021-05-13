@@ -49,8 +49,9 @@ export interface IInputWorkflowProcess {
 export interface INetworkWorkflowProcess {
   wkPs:
     | "networkGeneration"
-    | "saveForecastingParametersWorkflowDialog"
-    | "declineCurveParametersDialog";
+    | "runForecastWorkflow"
+    | "saveForecastingParametersWorkflow"
+    | "declineCurveParametersWorkflow";
   wkCy: "networkDataWorkflows";
 }
 export interface IEconomicsWorkflowProcess {

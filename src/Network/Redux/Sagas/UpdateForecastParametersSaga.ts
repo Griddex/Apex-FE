@@ -118,7 +118,6 @@ function* updateForecastParametersSaga(
       ...failureAction,
       payload: { ...payload, status, errors },
     });
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

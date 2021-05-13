@@ -7,7 +7,7 @@ import noEventPropagation from "./../../../Application/Events/NoEventPropagation
 const useStyles = makeStyles(() => ({
   rootButtons: {
     "& > *": {
-      marginLeft: 5,
+      marginLeft: 8,
     },
   },
 }));
@@ -55,6 +55,8 @@ const AggregatedButtons = ({
             color={button.color}
             startIcon={button.startIcon}
             {...noEventPropagation(button.handleAction)}
+            //Posibility to include a settimeout here to delay
+            //remove of cancel badge
             onMouseEnter={() =>
               setShowBadge((prev) => ({ ...prev, [i]: false }))
             }

@@ -108,18 +108,12 @@ const steps = [
   "Title and Description",
 ];
 const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "declineCurveParametersDialog";
+const workflowProcess = "declineCurveParametersWorkflow";
 
 const DeclineCurveParametersDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    actionsList,
-    selectedRowIndex,
-  } = props;
+  const { title, show, maxWidth, iconType, actionsList, selectedRowIndex } =
+    props;
 
   return (
     <Dialog

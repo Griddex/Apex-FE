@@ -79,7 +79,7 @@ const generateInputWorkflowState = () => {
 
 const networkWorkflowProcesses = [
   "networkGeneration",
-  "saveForecastingParametersWorkflowDialog",
+  "saveForecastingParametersWorkflow",
 ];
 const generateNetworkWorkflowState = () => {
   return networkWorkflowProcesses.reduce((acc, workflowProcess) => {

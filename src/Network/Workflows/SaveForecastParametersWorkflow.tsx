@@ -45,7 +45,7 @@ const SaveForecastParametersWorkflow = ({
         return (
           <DeclineCurveParameters
             selectedRowIndex={index} //Provide default DCA parameters
-            workflowProcess="saveForecastingParametersWorkflowDialog"
+            workflowProcess="saveForecastingParametersWorkflow"
           />
         );
       case 2:

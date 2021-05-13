@@ -25,6 +25,7 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
+  removeCurrentForecastAction,
   runForecastFailureAction,
   runForecastSuccessAction,
 } from "../../../Forecast/Redux/Actions/ForecastActions";
@@ -52,7 +53,7 @@ function* runForecastSaga(
   | AllEffect<CallEffect<AxiosPromise>>
   | CallEffect<EventChannel<any>>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<IAction>
   | SelectEffect,
   void,
   { selectedNetworkId: any } & { selectedForecastingParametersId: any } & any
@@ -67,7 +68,9 @@ function* runForecastSaga(
   const url = `${getBaseForecastUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersGroupId=${selectedForecastingParametersId}/userId=${userId}`;
 
   try {
+    yield put(removeCurrentForecastAction());
     yield put(showSpinnerAction("Running forecast..."));
+
     const chan = yield call(updateForecastKeysAndTrees, url);
 
     while (true) {

@@ -134,7 +134,6 @@ function* runEconomicsAnalysisSaga(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message, analysisTitle))
     );
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

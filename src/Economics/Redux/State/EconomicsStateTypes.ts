@@ -74,7 +74,7 @@ export type IEconomicsWorkflowProcessesType =
   | "economicsParameterImportWorkflow"
   | "economicsParameters"
   | "netCashAnalysisWorkflow"
-  | "saveForecastingParametersWorkflowDialog";
+  | "saveForecastingParametersWorkflow";
 
 export interface INewCostsRevenuesInputDeckFormValues {
   costsRevenuesInputDeckTitle: string;

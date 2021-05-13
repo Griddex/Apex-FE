@@ -41,9 +41,7 @@ const config = { withCredentials: false };
 const fetchExistingEconomicsSensitivitiesAPI = (url: string) =>
   authService.get(url, config);
 
-function* fetchExistingEconomicsSensitivitiesSaga(
-  action: IAction
-): Generator<
+function* fetchExistingEconomicsSensitivitiesSaga(action: IAction): Generator<
   | CallEffect<AxiosResponse>
   | PutEffect<{
       payload: any;
@@ -83,7 +81,6 @@ function* fetchExistingEconomicsSensitivitiesSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

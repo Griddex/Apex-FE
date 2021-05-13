@@ -11,8 +11,8 @@ export const confirmationDialogParameters = (
   exclusive: boolean,
   shouldDispatch: boolean,
   action: () => IAction | void,
-  oneButtonName = "Save",
-  oneButtonIconName = "saveOutlined"
+  oneButtonName: string,
+  oneButtonIconName: string
 ): DialogStuff => {
   return {
     name,

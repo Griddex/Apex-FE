@@ -1,27 +1,29 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
+import { ReactFlowProvider } from "react-flow-renderer";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import Loading from "../../Application/Components/Visuals/Loading";
-import Network from "./Network";
-import NetworkBackground from "./NetworkBackground";
-import { ReactFlowProvider } from "react-flow-renderer";
-import { IdType, INetworkLayouts } from "./NetworkLayoutTypes";
-import { useDispatch, useSelector } from "react-redux";
+import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
   fetchExistingForecastingParametersRequestAction,
   fetchExistingNetworkDataRequestAction,
 } from "../Redux/Actions/NetworkActions";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
+import Network from "./Network";
+import NetworkBackground from "./NetworkBackground";
+import { IdType, INetworkLayouts } from "./NetworkLayoutTypes";
 
 const navbarHeight = 43;
-// const subNavBarHeight = 25;
 const addedHeight = 10;
 const useStyles = makeStyles(() => {
   return {
@@ -44,24 +46,27 @@ const NetworkLayout = () => {
   const { path, url } = useRouteMatch();
 
   const {
-    success,
-    existingDataWorkflows: { networkExisting, forecastingParametersServer },
+    existingDataWorkflows: { networkExisting, forecastingParametersRoot },
   } = useSelector((state: RootState) => state.networkReducer);
 
   const existingNetworksPresent =
     Array.isArray(networkExisting) && networkExisting.length > 0;
 
   const existingForecastParametersPresent =
-    Array.isArray(forecastingParametersServer) &&
-    forecastingParametersServer.length > 0;
+    Array.isArray(forecastingParametersRoot) &&
+    forecastingParametersRoot.length > 0;
 
   React.useEffect(() => {
-    if (!existingForecastParametersPresent)
-      dispatch(fetchExistingForecastingParametersRequestAction());
+    dispatch(showSpinnerAction("Loading Network Data..."));
 
     if (!existingNetworksPresent)
       dispatch(fetchExistingNetworkDataRequestAction());
-  }, [success]);
+
+    if (!existingForecastParametersPresent)
+      dispatch(fetchExistingForecastingParametersRequestAction());
+
+    dispatch(hideSpinnerAction());
+  }, []);
 
   return (
     <main className={classes.networkLayoutRoot}>

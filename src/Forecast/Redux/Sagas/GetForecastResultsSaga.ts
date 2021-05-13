@@ -127,7 +127,6 @@ function* getForecastResultsSaga(
 
     yield put(showDialogAction(failureDialogParameters("")));
   } finally {
-    // yield put(hideSpinnerAction());
     yield put({
       type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
       payload: {

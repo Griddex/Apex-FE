@@ -96,10 +96,10 @@ export default function CostsAndRevenueManual({
   const buttonDataLabels = buttonsData.map((obj) =>
     obj.title?.replace(" Development", "")
   );
-  console.log(
-    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 711 ~ setButtonsData ~ buttonDataLabels",
-    buttonDataLabels
-  );
+
+  let rows = [] as IRawRow[];
+  let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
+
   const [selectedRows, setSelectedRows] = React.useState({
     oilDevelopment: new Set<React.Key>(),
     nagDevelopment: new Set<React.Key>(),
@@ -155,8 +155,8 @@ export default function CostsAndRevenueManual({
       };
     });
 
-    const selectedRow = rows[devVal][0];
-    rows[devVal][0] = {
+    const selectedRow = rows[0];
+    rows[0] = {
       ...selectedRow,
       headerName: selectedAppUnit,
     };
@@ -605,10 +605,7 @@ export default function CostsAndRevenueManual({
     else return columns;
   };
 
-  const columns = React.useMemo(
-    () => generateColumns(devOption.value as TDevScenarioNames),
-    [devOption.value as TDevScenarioNames]
-  );
+  const columns = React.useMemo(() => generateColumns(devVal), [devVal]);
 
   const createTableRows = (numberOfRows: number): TRawTable => {
     const fakeRows = [];
@@ -644,10 +641,10 @@ export default function CostsAndRevenueManual({
     return (
       <ApexGrid<IRawRow, ITableButtonsProps>
         columns={columns}
-        rows={rows[devVal]}
+        rows={rows}
         tableButtons={tableButtons as ITableButtonsProps}
         newTableRowHeight={35}
-        selectedRows={selectedRows[devVal]}
+        // selectedRows={selectedRows}
         // setSelectedRows={setSelectedRows}
         selectedRow={sRow[devVal]}
         onSelectedRowChange={setSRow}
@@ -661,17 +658,34 @@ export default function CostsAndRevenueManual({
   };
 
   const faketableRows = createTableRows(50);
-  const tableRows = React.useRef<any>({
-    oilDevelopment: faketableRows,
-    nagDevelopment: faketableRows,
-    oilNAGDevelopment: faketableRows,
-  });
-  const currentRows = tableRows.current;
-  const [rows, setRows] = React.useState({
-    oilDevelopment: currentRows,
-    nagDevelopment: currentRows,
-    oilNAGDevelopment: currentRows,
-  });
+  const oilDevelopmentTableRows = React.useRef(faketableRows);
+  const nagDevelopmentTableRows = React.useRef(faketableRows);
+  const oilNAGDevelopmentTableRows = React.useRef(faketableRows);
+
+  const oilDevelopmentCurrentRows = oilDevelopmentTableRows.current;
+  const nagDevelopmentCurrentRows = nagDevelopmentTableRows.current;
+  const oilNAGDevelopmentCurrentRows = oilNAGDevelopmentTableRows.current;
+
+  const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
+    oilDevelopmentCurrentRows
+  );
+  const [nagDevelopmentRows, setNAGDevelopmentRows] = React.useState(
+    nagDevelopmentCurrentRows
+  );
+  const [oilNAGDevelopmentRows, setOilNAGDevelopmentRows] = React.useState(
+    oilNAGDevelopmentCurrentRows
+  );
+
+  if (devVal === "oilDevelopment") {
+    rows = oilDevelopmentRows;
+    setRows = setOilDevelopmentRows;
+  } else if (devVal === "nagDevelopment") {
+    rows = nagDevelopmentRows;
+    setRows = setNAGDevelopmentRows;
+  } else {
+    rows = oilNAGDevelopmentRows;
+    setRows = setOilNAGDevelopmentRows;
+  }
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -684,7 +698,7 @@ export default function CostsAndRevenueManual({
         moreStyles={{
           marginBottom: 10,
           height: 50,
-          borderBottom: `1px solid ${theme.palette.grey[200]}`,
+          borderBottom: `1px solid ${theme.palette.grey[400]}`,
           paddingBottom: 10,
         }}
       >
@@ -759,7 +773,7 @@ export default function CostsAndRevenueManual({
           }
         />
       </CenteredStyle>
-      {renderTable(devOption.value as TDevScenarioNames, columns, {
+      {renderTable(devVal, columns, {
         height: 700,
         width: 900,
       })}
@@ -769,7 +783,7 @@ export default function CostsAndRevenueManual({
           justifyContent: "space-between",
           marginTop: 10,
           marginBottom: 2,
-          width: 300,
+          width: 200,
         }}
       >
         <BaseButtons

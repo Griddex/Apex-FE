@@ -104,6 +104,8 @@ export default function MatchUnits({
 
   const workflowClass = getWorkflowClass(wp);
 
+  const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
+
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
 
@@ -660,12 +662,14 @@ export default function MatchUnits({
   const columns = generateColumns(keyedApplicationUnitOptions.current);
 
   const [rows, setRows] = React.useState(tableRows.current);
-  const chosenApplicationUnitsWithoutNone = React.useRef(
-    getChosenApplicationUnits(
-      fileHeadersWithoutNone.current,
-      keyedFileUnitMatches.current,
-      chosenApplicationUnitIndices
-    )
+  const chosenApplicationUnitsWithoutNone = React.useMemo(
+    () =>
+      getChosenApplicationUnits(
+        fileHeadersWithoutNone.current,
+        keyedFileUnitMatches.current,
+        chosenApplicationUnitIndices
+      ),
+    [chosenApplicationUnitIndices]
   );
 
   const tableButtons: ITableButtonsProps = {
@@ -673,7 +677,7 @@ export default function MatchUnits({
     extraButtons: () => (
       <Tooltip
         key={"acceptAllToolTip"}
-        title={"Accept All"}
+        title={"Toggle Accept All Matches"}
         placement="bottom-end"
         arrow
       >
@@ -685,8 +689,12 @@ export default function MatchUnits({
             borderRadius: 2,
           }}
           onClick={() => {
+            const currentAcceptMatchValue = !acceptmatchToggle;
             const rowsAllAcceptMatch = rows.map((row) => {
-              const rowAccept = { ...row, acceptMatch: true };
+              const rowAccept = {
+                ...row,
+                acceptMatch: currentAcceptMatchValue,
+              };
               return rowAccept;
             });
 
@@ -698,12 +706,13 @@ export default function MatchUnits({
               userMatchObject[workflowClass]["units"][header] = {
                 header: chosenAppUnit as string,
                 type: chosenUnitType,
-                acceptMatch: true,
+                acceptMatch: currentAcceptMatchValue,
               };
             }
 
             setRows(rowsAllAcceptMatch);
             setUserMatchObject(userMatchObject);
+            setAcceptmatchToggle(currentAcceptMatchValue);
           }}
         >
           <AllInclusiveOutlinedIcon />
@@ -731,7 +740,7 @@ export default function MatchUnits({
     dispatch(
       persistChosenApplicationUnitsAction(
         reducer,
-        chosenApplicationUnitsWithoutNone.current,
+        chosenApplicationUnitsWithoutNone,
         wp
       )
     );

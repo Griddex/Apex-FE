@@ -63,15 +63,13 @@ function* fetchExistingForecastParametersSaga(
   const forecastParametersUrl = `${getBaseForecastUrl()}/forecast-parameters/project/${projectId}`;
 
   try {
-    yield put(showSpinnerAction("Loading Network Data..."));
-
     const result = yield call<(url: string) => AxiosPromise>(
       fetchExistingForecastParametersAPI,
       forecastParametersUrl
     );
 
     const {
-      data: { data: forecastingParametersServer }, //prevent 2nd trip to server
+      data: { data: forecastingParametersRoot }, //prevent 2nd trip to server
     } = result;
 
     const successAction = fetchExistingForecastingParametersSuccessAction();
@@ -79,7 +77,7 @@ function* fetchExistingForecastParametersSaga(
       ...successAction,
       payload: {
         ...payload,
-        forecastingParametersServer,
+        forecastingParametersRoot,
       },
     });
   } catch (errors) {
@@ -91,7 +89,6 @@ function* fetchExistingForecastParametersSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters()));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

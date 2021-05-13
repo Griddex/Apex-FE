@@ -82,7 +82,6 @@ function* connectDatabaseSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

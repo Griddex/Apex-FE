@@ -82,17 +82,16 @@ export default function PreviewSave({
     economicsParametersAppHeaders,
   ];
 
-  const applicationHeaderNameTitleCollection = getCurrentApplicationHeadersNameTitleObj(
-    wp,
-    allAppHeadersArr
-  );
+  const applicationHeaderNameTitleCollection =
+    getCurrentApplicationHeadersNameTitleObj(wp, allAppHeadersArr);
 
   //TODO: Gift should do this and store in Redis - Application units
   const { applicationUnitsCollection } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const applicationUnitsCollectionDefined = applicationUnitsCollection as IUnit[];
+  const applicationUnitsCollectionDefined =
+    applicationUnitsCollection as IUnit[];
   const unitTitles = applicationUnitsCollectionDefined.map((u) => u.title);
   const unitIds = applicationUnitsCollectionDefined.map((u) => u.unitId);
   const titleUnitIdObj = zipObject(unitTitles, unitIds);
@@ -202,7 +201,7 @@ export default function PreviewSave({
       key: columnName,
       name: columnName.toLocaleUpperCase(),
       resizable: true,
-      width: 180,
+      width: 220,
     }));
 
     const allColumns = [...snActionRoleColumns, ...otherColumns];
@@ -237,6 +236,10 @@ export default function PreviewSave({
       variableUnits[name] = unitId;
     }
   }
+  console.log(
+    "Logged output --> ~ file: PreviewSave.tsx ~ line 222 ~ variableUnits",
+    variableUnits
+  );
 
   React.useEffect(() => {
     dispatch(persistTableDataAction(reducer, tableData, wp));

@@ -21,6 +21,7 @@ import {
   TREEVIEWKEYS_FAILURE,
   GET_FORECASTDATABYID_FAILURE,
   GET_FORECASTDATABYID_SUCCESS,
+  REMOVE_FORECAST,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -244,6 +245,18 @@ const forecastReducer = (
       return {
         ...state,
         errors,
+      };
+    }
+
+    case REMOVE_FORECAST: {
+      return {
+        ...state,
+        forecastResults: [],
+        forecastTree: [],
+        forecastKeys: [],
+        transForecastResult: [],
+        selectedForecastingResultsId: "",
+        selectedForecastingResultsTitle: "",
       };
     }
 

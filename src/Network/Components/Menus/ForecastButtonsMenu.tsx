@@ -27,7 +27,7 @@ const ForecastButtonsMenu = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const { selectedNetworkId } = useSelector(
+  const { selectedNetworkId, isNetworkDisplayed } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
@@ -42,6 +42,24 @@ const ForecastButtonsMenu = () => {
   };
 
   const runForecast = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Run_Forecast_Dialog",
+      title: "Run Forecast",
+      type: "runForecastDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "lg",
+      iconType: "information",
+      actionsList: () =>
+        DialogRunForecastCancelButtons(
+          [true, true],
+          [true, false],
+          [unloadDialogsAction, confirmRunForecast]
+        ),
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+
     const confirmRunForecast = () => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Run_Forecast_Dialog",
@@ -63,21 +81,17 @@ const ForecastButtonsMenu = () => {
 
       dispatch(showDialogAction(confirmationDialogParameters));
     };
+  };
 
+  const runForecastWorkflow = () => {
     const dialogParameters: DialogStuff = {
       name: "Run_Forecast_Dialog",
-      title: "Run Forecast",
-      type: "runForecastDialog",
+      title: "Run Forecast Workflow",
+      type: "runForecastWorkflowDialog",
       show: true,
       exclusive: false,
       maxWidth: "lg",
       iconType: "information",
-      actionsList: () =>
-        DialogRunForecastCancelButtons(
-          [true, true],
-          [true, false],
-          [unloadDialogsAction, confirmRunForecast]
-        ),
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -110,7 +124,7 @@ const ForecastButtonsMenu = () => {
   }[] = [
     {
       title: "Run Forecast",
-      action: runForecast,
+      action: isNetworkDisplayed ? runForecast : runForecastWorkflow,
       icon: <PlayArrowIcon color="primary" fontSize="small" />,
       disable: selectedNetworkId === "" ? true : false,
     },

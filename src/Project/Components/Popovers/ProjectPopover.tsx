@@ -20,11 +20,9 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { fetchExistingEconomicsDataRequestAction } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
-import {
-  fetchExistingProjectsAction,
-  openRecentProjectAction,
-} from "../../Redux/Actions/ProjectActions";
+import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IProject } from "../../Redux/State/ProjectStateTypes";
+import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -190,6 +188,9 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                 key={i}
                 projectTitle={projectTitle as string}
                 handleClick={() => {
+                  dispatch(
+                    showSpinnerAction(`Loading ${project.projectTitle}...`)
+                  );
                   //TODO:Economics table, production etc
                   dispatch(fetchExistingDataRequestAction(projectId as string));
                   dispatch(

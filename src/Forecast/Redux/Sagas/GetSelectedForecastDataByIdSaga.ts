@@ -97,7 +97,6 @@ function* getSelectedForecastDataByIdSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters("")));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

@@ -65,13 +65,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
   const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
   const wc = workflowCategory as IAllWorkflowProcesses["wrkflwCtgry"];
 
-  const {
-    activeStep,
-    steps,
-    isStepOptional,
-    skipped,
-    isStepSkipped,
-  } = workflowProps as IWorkflowProcessState;
+  const { activeStep, steps, isStepOptional, skipped, isStepSkipped } =
+    workflowProps as IWorkflowProcessState;
 
   return (
     <div className={classes.navigationbuttons}>
@@ -88,7 +83,9 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
               You will lose all data up to current step.`,
               true,
               true,
-              () => workflowResetAction(0, wp, wc)
+              () => workflowResetAction(0, wp, wc),
+              "Reset",
+              "reset"
             );
 
             dispatch(showDialogAction(dialogParameters));

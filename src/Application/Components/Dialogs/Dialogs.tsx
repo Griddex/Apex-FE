@@ -26,6 +26,7 @@ import CreateEconomicsParametersTableDialog from "../../../Economics/Components/
 import EconomicsParametersSensitivitiesDialog from "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog";
 import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
 import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog";
+import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -35,21 +36,26 @@ const applicationDialogs: IApplicationDialogs = {
   finalizeForecastInputDeckDialog: FinalizeForecastInputDeckDialog,
   saveFacilitiesInputDeckDialog: SaveFacilitiesInputDeckDialog,
   saveForecastInputDeckDialog: SaveForecastInputDeckDialog,
-  saveInputDeckGenerateNetworkWorkflowDialog: SaveInputDeckGenerateNetworkWorkflowDialog,
+  saveInputDeckGenerateNetworkWorkflowDialog:
+    SaveInputDeckGenerateNetworkWorkflowDialog,
   economicsParametersDialog: EconomicsParametersDialog,
   newProjectWorkflowDialog: NewProjectWorkflowDialog,
   saveNetworkDialog: SaveNetworkDialog,
   existingNetworksDialog: ExistingNetworksDialog,
   generateNetworkWorkflowDialog: GenerateNetworkWorkflowDialog,
   existingForecastingParametersDialog: ExistingForecastingParametersDialog,
-  saveForecastingParametersWorkflowDialog: SaveForecastingParametersWorkflowDialog,
+  saveForecastingParametersWorkflowDialog:
+    SaveForecastingParametersWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
   runForecastDialog: RunForecastDialog,
+  runForecastWorkflowDialog: RunForecastWorkflowDialog,
   saveForecastDialog: SaveForecastDialog,
   saveCostsRevenuesInputDeckDialog: SaveCostsRevenuesInputDeckDialog,
-  saveEconomicsParametersInputDeckDialog: SaveEconomicsParametersInputDeckDialog,
+  saveEconomicsParametersInputDeckDialog:
+    SaveEconomicsParametersInputDeckDialog,
   createEconomicsParametersTableDialog: CreateEconomicsParametersTableDialog,
-  economicsParametersSensitivitiesDialog: EconomicsParametersSensitivitiesDialog,
+  economicsParametersSensitivitiesDialog:
+    EconomicsParametersSensitivitiesDialog,
   saveEconomicsSensitivitiesDialog: SaveEconomicsSensitivitiesDialog,
   existingEconomicsSensitivitiesDialog: ExistingEconomicsSensitivitiesDialog,
 };

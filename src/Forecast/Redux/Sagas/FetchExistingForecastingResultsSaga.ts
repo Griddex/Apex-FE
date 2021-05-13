@@ -40,9 +40,7 @@ const config = { withCredentials: false };
 const fetchExistingForecastingResultsAPI = (url: string) =>
   authService.get(url, config);
 
-function* fetchExistingForecastingResultsSaga(
-  action: IAction
-): Generator<
+function* fetchExistingForecastingResultsSaga(action: IAction): Generator<
   | CallEffect<AxiosResponse>
   | PutEffect<{
       payload: any;
@@ -83,7 +81,6 @@ function* fetchExistingForecastingResultsSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters("")));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

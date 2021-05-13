@@ -219,14 +219,14 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case EXISTINGFORECASTPARAMETERS_SUCCESS: {
-      const { status, success, forecastingParametersServer } = action.payload;
+      const { status, success, forecastingParametersRoot } = action.payload;
       const wc = "existingDataWorkflows";
 
       return {
         ...state,
         status,
         success,
-        [wc]: { ...state[wc], forecastingParametersServer },
+        [wc]: { ...state[wc], forecastingParametersRoot },
       };
     }
 

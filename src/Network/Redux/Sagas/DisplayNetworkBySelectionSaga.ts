@@ -29,6 +29,7 @@ import {
   displayNetworkBySelectionSuccessAction,
   DISPLAYNETWORKBYSELECTION_REQUEST,
   removeCurrentNetworkAction,
+  updateNetworkParameterAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchDisplayNetworkBySelectionSaga(): Generator<
@@ -127,6 +128,12 @@ export function* displayNetworkBySelectionSaga(
 
     yield put(showDialogAction(failureDialogParameters()));
   } finally {
+    //TODO: Remove from here.
+    //Should be in success case only
+    const path = "isNetworkDisplayed";
+    const value = true;
+
+    yield put(updateNetworkParameterAction(path, value));
     yield put(hideSpinnerAction());
   }
 }

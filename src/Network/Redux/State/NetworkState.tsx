@@ -29,6 +29,7 @@ const networkState: INetworkState = {
 
   isNetworkSaved: false,
   isNetworkChanged: false,
+  isNetworkDisplayed: false,
   networkId: "",
   networkTitle: "",
   networkDescription: "",
@@ -44,7 +45,7 @@ const networkState: INetworkState = {
   selectedNetworkTitle: "",
   existingDataWorkflows: {
     networkExisting: [],
-    forecastingParametersServer: [],
+    forecastingParametersRoot: [],
   },
 
   selectedForecastingParametersRootId: "",

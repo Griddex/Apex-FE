@@ -104,7 +104,7 @@ export default function ExistingForecastingParameters({
   const [sRow, setSRow] = React.useState(-1);
 
   const wc = "existingDataWorkflows";
-  const wp = "forecastingParametersServer";
+  const wp = "forecastingParametersRoot";
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
@@ -432,9 +432,8 @@ export default function ExistingForecastingParameters({
     }
   }
 
-  const tableRows = React.useRef<IForecastingParametersRow[]>(
-    snTransExistingData
-  );
+  const tableRows =
+    React.useRef<IForecastingParametersRow[]>(snTransExistingData);
   const currentRows = tableRows.current;
   const [rows, setRows] = React.useState(currentRows);
 

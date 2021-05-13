@@ -82,7 +82,6 @@ function* fetchExistingNetworkDataSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters()));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

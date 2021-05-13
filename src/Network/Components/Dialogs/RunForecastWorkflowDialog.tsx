@@ -1,13 +1,15 @@
-import { DialogActions, IconButton } from "@material-ui/core";
+import { DialogActions, Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
+import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
+import DialogRunForecastCancelButtons from "../../../Application/Components/DialogButtons/DialogRunForecastCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
@@ -23,8 +25,12 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
-import SaveForecastParametersWorkflow from "../../Workflows/SaveForecastParametersWorkflow";
+import {
+  autoGenerateNetworkRequestAction,
+  runForecastRequestAction,
+} from "../../Redux/Actions/NetworkActions";
+import GenerateNetworkWorkflow from "../../Workflows/GenerateNetworkWorkflow";
+import RunForecastWorkflow from "../../Workflows/RunForecastWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
+    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
@@ -114,18 +121,13 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = [
-  "Select Forecast InputDeck",
-  "DCA Parameters",
-  "Other Forecast Parameters",
-  "Title and Description",
-];
+const steps = ["Select Network", "Select Forecast Parameters"];
 const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "saveForecastingParametersWorkflow";
+const workflowProcess = "networkGeneration";
 
-const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
+const RunForecastWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, children } = props;
+  const { title, show, maxWidth, iconType } = props;
 
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
@@ -150,26 +152,26 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const saveForecastingParametersConfirmation = () => {
-    const dialogParameters: DialogStuff = {
-      name: "Existing_Network_Dialog",
-      title: "Confirm Parameters Save",
+  const finalAction = () => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: "Run_Forecast_Dialog",
+      title: "Confirm Run Forecast",
       type: "textDialog",
       show: true,
       exclusive: false,
       maxWidth: "xs",
+      dialogText: `Do you want to run the forecast using the current parameters?`,
       iconType: "confirmation",
-      dialogText: "Do you want to save the current forecasting parameters?",
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogRunForecastCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, saveForecastParametersRequestAction]
+          [unloadDialogsAction, runForecastRequestAction]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
 
-    dispatch(showDialogAction(dialogParameters));
+    dispatch(showDialogAction(confirmationDialogParameters));
   };
 
   const navigationButtonProps: INavigationButtonsProp = {
@@ -178,13 +180,13 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction: saveForecastingParametersConfirmation,
+    finalAction,
     workflowProps,
     workflowProcess,
     workflowCategory,
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(
       workflowInitAction(
         steps,
@@ -211,7 +213,12 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
       </DialogTitle>
       <DialogContent
         dividers
-        style={{ display: "flex", flexDirection: "column", height: 650 }}
+        style={{
+          display: "flex",
+          flexWrap: "nowrap",
+          flexDirection: "row",
+          height: 650,
+        }}
       >
         <div
           style={{
@@ -221,7 +228,7 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
             width: "100%",
           }}
         >
-          <SaveForecastParametersWorkflow activeStep={activeStep} />
+          <RunForecastWorkflow {...workflowProps} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>
@@ -234,4 +241,4 @@ const SaveForecastingParametersWorkflowDialog = (props: DialogStuff) => {
   );
 };
 
-export default SaveForecastingParametersWorkflowDialog;
+export default RunForecastWorkflowDialog;

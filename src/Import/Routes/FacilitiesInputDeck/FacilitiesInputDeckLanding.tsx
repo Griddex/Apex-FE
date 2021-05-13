@@ -116,7 +116,9 @@ const FacilitiesInputDeckLanding = () => {
         `Do you want to save the current facilities Inputdeck?`,
         true,
         true,
-        () => saveInputDeckRequestAction(workflowProcess)
+        () => saveInputDeckRequestAction(workflowProcess),
+        "Save",
+        "saveOutlined"
       );
 
       dispatch(showDialogAction(dps));

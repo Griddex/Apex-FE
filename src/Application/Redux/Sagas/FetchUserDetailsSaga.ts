@@ -71,7 +71,6 @@ function* fetchUserDetailsSaga(
       ...failureAction,
       payload: { ...payload, errors },
     });
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

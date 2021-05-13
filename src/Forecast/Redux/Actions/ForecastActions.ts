@@ -33,6 +33,7 @@ export const TREEVIEWKEYS_FAILURE = "TREEVIEWKEYS_FAILURE";
 export const GET_FORECASTDATABYID_REQUEST = "GET_FORECASTDATABYID_REQUEST";
 export const GET_FORECASTDATABYID_SUCCESS = "GET_FORECASTDATABYID_SUCCESS";
 export const GET_FORECASTDATABYID_FAILURE = "GET_FORECASTDATABYID_FAILURE";
+export const REMOVE_FORECAST = "REMOVE_FORECAST";
 
 export const updateForecastResultsParameterAction = (
   name: string,
@@ -272,5 +273,11 @@ export const getForecastDataByIdFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const removeCurrentForecastAction = () => {
+  return {
+    type: REMOVE_FORECAST,
   };
 };

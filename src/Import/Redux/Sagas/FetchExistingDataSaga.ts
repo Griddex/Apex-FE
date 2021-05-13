@@ -36,9 +36,7 @@ export default function* watchFetchExistingDataSaga(): Generator<
 const config = { withCredentials: false };
 const fetchExistingDataAPI = (url: string) => authService.get(url, config);
 
-function* fetchExistingDataSaga(
-  action: IAction
-): Generator<
+function* fetchExistingDataSaga(action: IAction): Generator<
   | AllEffect<CallEffect<AxiosResponse>>
   | PutEffect<{
       payload: any;
@@ -84,7 +82,6 @@ function* fetchExistingDataSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

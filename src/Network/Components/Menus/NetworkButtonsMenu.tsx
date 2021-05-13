@@ -24,6 +24,7 @@ import {
 import {
   displayNetworkBySelectionRequestAction,
   removeCurrentNetworkAction,
+  updateNetworkParameterAction,
 } from "../../Redux/Actions/NetworkActions";
 
 const NetworkButtonsMenu = () => {
@@ -124,8 +125,17 @@ const NetworkButtonsMenu = () => {
       actionsList: () =>
         DialogRemoveNetworkCancelButtons(
           [true, true],
-          [true, true],
-          [unloadDialogsAction, removeCurrentNetworkAction]
+          [true, false],
+          [
+            unloadDialogsAction,
+            () => {
+              const path = "isNetworkDisplayed";
+              const value = true;
+
+              dispatch(updateNetworkParameterAction(path, value));
+              dispatch(removeCurrentNetworkAction());
+            },
+          ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

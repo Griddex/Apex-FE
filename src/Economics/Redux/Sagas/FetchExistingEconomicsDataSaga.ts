@@ -38,9 +38,7 @@ const config = { withCredentials: false };
 const fetchExistingEconomicsDataAPI = (url: string) =>
   authService.get(url, config);
 
-function* fetchExistingEconomicsDataSaga(
-  action: IAction
-): Generator<
+function* fetchExistingEconomicsDataSaga(action: IAction): Generator<
   | AllEffect<CallEffect<AxiosResponse>>
   | PutEffect<{
       payload: any;
@@ -86,7 +84,6 @@ function* fetchExistingEconomicsDataSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

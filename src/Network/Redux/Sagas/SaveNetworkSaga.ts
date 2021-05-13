@@ -60,16 +60,10 @@ function* saveNetworkSaga(
   const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
-  const {
-    selectedFacilitiesInputDeckId,
-    selectedForecastInputDeckId,
-  } = yield select((state) => state.inputReducer);
-  const {
-    networkTitle,
-    networkDescription,
-    nodeElements,
-    edgeElements,
-  } = yield select((state) => state.networkReducer);
+  const { selectedFacilitiesInputDeckId, selectedForecastInputDeckId } =
+    yield select((state) => state.inputReducer);
+  const { networkTitle, networkDescription, nodeElements, edgeElements } =
+    yield select((state) => state.networkReducer);
 
   const data = {
     userId: "Gift",
@@ -122,7 +116,6 @@ function* saveNetworkSaga(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message))
     );
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

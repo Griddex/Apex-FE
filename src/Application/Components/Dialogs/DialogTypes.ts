@@ -24,6 +24,7 @@ import ExistingForecastingParametersDialog from "../../../Network/Components/Dia
 import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
+import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
@@ -56,6 +57,7 @@ export interface IApplicationDialogs {
   saveForecastingParametersWorkflowDialog: typeof SaveForecastingParametersWorkflowDialog;
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
   runForecastDialog: typeof RunForecastDialog;
+  runForecastWorkflowDialog: typeof RunForecastWorkflowDialog;
   saveForecastDialog: typeof SaveForecastDialog;
   saveCostsRevenuesInputDeckDialog: typeof SaveCostsRevenuesInputDeckDialog;
   saveEconomicsParametersInputDeckDialog: typeof SaveEconomicsParametersInputDeckDialog;
@@ -95,6 +97,7 @@ export interface DialogStuff {
     | "saveForecastInputDeckDialog"
     | "saveInputDeckGenerateNetworkWorkflowDialog"
     | "runForecastDialog"
+    | "runForecastWorkflowDialog"
     | "saveForecastDialog"
     | "economicsParametersDialog"
     | "newProjectWorkflowDialog"

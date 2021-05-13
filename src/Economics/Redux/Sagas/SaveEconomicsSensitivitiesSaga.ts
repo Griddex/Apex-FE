@@ -65,10 +65,8 @@ function* saveEconomicsSensitivitiesSaga(
   const aN = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
-  const {
-    economicsSensitivitiesTitle,
-    economicsSensitivitiesDescription,
-  } = yield select((state) => state.economicsReducer);
+  const { economicsSensitivitiesTitle, economicsSensitivitiesDescription } =
+    yield select((state) => state.economicsReducer);
   const { sensitivitiesTable } = yield select(
     (state) => state.economicsReducer[wc][aN]
   );
@@ -137,7 +135,6 @@ function* saveEconomicsSensitivitiesSaga(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message))
     );
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

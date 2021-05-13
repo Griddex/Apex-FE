@@ -30,7 +30,7 @@ const generateMatchData = (
 
   const headerMatchChartData = [
     {
-      id: "fullMatch",
+      id: "Full Match",
       label: "Full Match",
       value: fullMatch,
       color: theme.palette.success.main,
@@ -42,7 +42,7 @@ const generateMatchData = (
       color: theme.palette.primary.main,
     },
     {
-      id: "noMatch",
+      id: "No Match",
       label: "No Match",
       value: NoMatch,
       color: theme.palette.secondary.main,

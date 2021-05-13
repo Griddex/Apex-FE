@@ -83,7 +83,6 @@ function* registerSaga(
       ...failureAction,
       payload: { ...payload, errors },
     });
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

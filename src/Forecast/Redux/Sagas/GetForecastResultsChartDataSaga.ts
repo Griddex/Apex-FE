@@ -43,7 +43,6 @@ export default function* watchGetForecastResultsChartDataSaga(): Generator<
     getForecastResultsChan,
     getForecastResultsChartDataSaga
   );
-
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
@@ -138,7 +137,6 @@ function* getForecastResultsChartDataSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters("")));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

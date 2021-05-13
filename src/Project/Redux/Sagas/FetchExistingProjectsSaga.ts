@@ -77,7 +77,6 @@ function* fetchExistingProjectsSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
-  } finally {
     yield put(hideSpinnerAction());
   }
 }

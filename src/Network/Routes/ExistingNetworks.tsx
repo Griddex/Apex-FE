@@ -4,10 +4,7 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import {
-  IExistingDataProps,
-  IApplicationExistingDataRow,
-} from "../../Application/Types/ApplicationTypes";
+import { IApplicationExistingDataRow } from "../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
 import { IExistingNetworks } from "./ExistingNetworkTypes";
 
