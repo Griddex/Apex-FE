@@ -76,13 +76,14 @@ const StyledTreeItem = withStyles((theme) => ({
 }))((props: TreeItemProps) => {
   const { nodeId } = props;
 
-  const [{ isDragging }, drag] = useDrag({
-    item: { nodeId, type: ItemTypes.ECONOMICS_SENSITIVITIES },
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.ECONOMICS_SENSITIVITIES,
+    item: { nodeId },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  });
+  }));
   const opacity = isDragging ? 0.4 : 1;
 
   return (
@@ -137,10 +138,8 @@ export default function SensitivitiesHeatMapTreeView() {
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
     string[]
   >([]);
-  const [
-    selectedModulePathsUnfiltered,
-    setSelectedModulePathsUnfiltered,
-  ] = React.useState<string[]>([]);
+  const [selectedModulePathsUnfiltered, setSelectedModulePathsUnfiltered] =
+    React.useState<string[]>([]);
 
   const initExpanded = scenarioTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id

@@ -1,11 +1,10 @@
 import React from "react";
 import { useDrag, useDrop } from "react-dnd";
-import type { DragObjectWithType } from "react-dnd";
 import { useCombinedRefs } from "./useCombinedRefs";
 import SortableHeaderCell from "./SortableHeaderCell";
 import { HeaderRendererProps } from "react-data-griddex";
 
-interface ColumnDragObject extends DragObjectWithType {
+interface ColumnDragObject {
   key: string;
 }
 
@@ -20,19 +19,21 @@ export function DraggableHeaderRenderer<R>({
   sortDirection,
   onSort,
 }: DraggableHeaderRendererProps<R>) {
-  const [{ isDragging }, drag] = useDrag({
-    item: { key: column.key, type: "COLUMN_DRAG" },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: "COLUMN_DRAG",
+      item: { key: column.key },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging(),
+      }),
     }),
-  });
+    []
+  );
 
   const [{ isOver }, drop] = useDrop({
     accept: "COLUMN_DRAG",
-    drop({ key, type }: ColumnDragObject) {
-      if (type === "COLUMN_DRAG") {
-        onColumnsReorder(key, column.key);
-      }
+    drop({ key }: ColumnDragObject) {
+      onColumnsReorder(key, column.key);
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

@@ -76,16 +76,14 @@ const StyledTreeItem = withStyles((theme) => ({
 }))((props: TreeItemProps) => {
   const { nodeId } = props;
 
-  const [{ isDragging }, drag] = useDrag({
-    item: { nodeId, type: ItemTypes.ECONOMICS_SENSITIVITIES_XAXIS },
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.ECONOMICS_SENSITIVITIES_XAXIS,
+    item: { nodeId },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
-      if (item && dropResult) {
-        alert(`You dropped ${item.nodeId} into ${dropResult.name}`);
-      }
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  });
+  }));
   const opacity = isDragging ? 0.4 : 1;
 
   return (
@@ -141,10 +139,8 @@ export default function EconomicsPlotChartsTreeView() {
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
     string[]
   >([]);
-  const [
-    selectedModulePathsUnfiltered,
-    setSelectedModulePathsUnfiltered,
-  ] = React.useState<string[]>([]);
+  const [selectedModulePathsUnfiltered, setSelectedModulePathsUnfiltered] =
+    React.useState<string[]>([]);
 
   const initExpanded = scenarioTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id

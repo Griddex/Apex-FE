@@ -75,16 +75,14 @@ const StyledTreeItem = withStyles((theme) => ({
 }))((props: TreeItemProps) => {
   const { label } = props;
 
-  const [{ isDragging }, drag] = useDrag({
-    item: { label, type: ItemTypes.TABLE_COLUMNDATA },
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.TABLE_COLUMNDATA,
+    item: { label },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
-      if (item && dropResult) {
-        alert(`You dropped ${item.label} into ${dropResult.name}`);
-      }
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  });
+  }));
   const opacity = isDragging ? 0.4 : 1;
 
   return (

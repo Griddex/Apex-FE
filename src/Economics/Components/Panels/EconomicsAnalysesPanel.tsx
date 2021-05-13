@@ -56,13 +56,13 @@ const EconomicsAnalysesPanel = ({
     (state: RootState) => state.economicsReducer
   );
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.ECONOMICS_CALCULATION_TYPE,
     item: {
-      type: ItemTypes.ECONOMICS_CALCULATION_TYPE,
       analysis: selectedAnalysis,
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  });
+  }));
   const opacity = isDragging ? 0.4 : 1;
   const props = { opacity };
   const classes = useStyles(props);

@@ -12,6 +12,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import Loading from "../../../Application/Components/Visuals/Loading";
 import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IEconomicsInputButton,
@@ -129,6 +130,9 @@ const EconomicsLayout = () => {
 
   React.useEffect(() => {
     dispatch(fetchExistingEconomicsSensitivitiesRequestAction(projectId));
+
+    //TODO Find more appropriate location
+    dispatch(hideSpinnerAction());
   }, []);
 
   return (

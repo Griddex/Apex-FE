@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React from "react";
-import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
+import { DropTargetMonitor, useDrop } from "react-dnd";
 import EconomicsAnalysesPanel from "../../Components/Panels/EconomicsAnalysesPanel";
 import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
@@ -168,17 +168,14 @@ export default function EconomicsAnalyses() {
   const [selectedAnalysis, setSelectedAnalysis] = React.useState(
     {} as IEconomicsAnalysis
   );
-  const handleWidgetDrop = (
-    item: DragObjectWithType,
-    monitor: DropTargetMonitor
-  ) => {
-    const { analysis } = monitor.getItem();
-    setSelectedAnalysis(analysis.name);
+  const handleWidgetDrop = (monitor: DropTargetMonitor) => {
+    const analysis = monitor.getItem() as IEconomicsAnalysis;
+    setSelectedAnalysis(analysis);
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.ECONOMICS_CALCULATION_TYPE,
-    drop: (item, monitor) => handleWidgetDrop(item, monitor),
+    drop: (item, monitor) => handleWidgetDrop(monitor),
     collect: (monitor) => {
       return {
         isOver: !!monitor.isOver(),

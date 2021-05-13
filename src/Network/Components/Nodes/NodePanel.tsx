@@ -28,13 +28,13 @@ const NodePanel: React.FC<nodeProps> = ({ name }) => {
   // const { updateNodePosDiff } = useStoreActions((actions) => actions);
   // const allNodes = useStoreState((store) => store.nodes);
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.NETWORK_ELEMENT,
     item: {
-      type: ItemTypes.NETWORK_ELEMENT,
       nodeType: name,
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  });
+  }));
 
   const nodes = [
     {

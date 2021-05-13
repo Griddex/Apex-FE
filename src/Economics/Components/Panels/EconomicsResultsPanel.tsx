@@ -29,8 +29,8 @@ interface IEconomicsResult {
 
 const EconomicsResultsType: React.FC<IEconomicsProps> = ({ title }) => {
   const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.ECONOMICS_RESULTS_TYPE,
     item: {
-      type: ItemTypes.ECONOMICS_RESULTS_TYPE,
       calculationName: title,
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),

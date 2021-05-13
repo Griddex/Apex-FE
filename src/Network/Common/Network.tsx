@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import React from "react";
-import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
+import { DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
   addEdge,
   Background,
@@ -42,11 +42,7 @@ import WellheadNode from "../Components/Widgets/WellheadWidget";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
 import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
-import {
-  setCurrentElementAction,
-  setCurrentPopoverDataAction,
-  setCurrentPopoverIdAction,
-} from "./../Redux/Actions/NetworkActions";
+import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import GenerateNodeService from "./../Services/GenerateNodeService";
 import NetworkPanel from "./NetworkPanel";
 
@@ -138,7 +134,7 @@ const Network = () => {
   //Drag and Drop
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.NETWORK_ELEMENT,
-    drop: (item, monitor) => handleWidgetDrop(item, monitor),
+    drop: (_, monitor) => handleWidgetDrop(monitor),
     collect: (monitor) => {
       return {
         isOver: !!monitor.isOver(),
@@ -158,11 +154,8 @@ const Network = () => {
       border: "1px solid grey",
     };
   }
-  const handleWidgetDrop = (
-    item: DragObjectWithType,
-    monitor: DropTargetMonitor
-  ) => {
-    const { nodeType } = monitor.getItem();
+  const handleWidgetDrop = (monitor: DropTargetMonitor) => {
+    const nodeType = monitor.getItem() as string;
     const mouseCoord = monitor.getClientOffset() as XYPosition;
 
     const mouseCoordUpdated = {

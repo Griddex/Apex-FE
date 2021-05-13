@@ -1,24 +1,14 @@
-import {
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
+import map from "lodash.map";
+import random from "lodash.random";
+import range from "lodash.range";
 import React from "react";
+import { useDrop } from "react-dnd";
+import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
-import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
-import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { economicsAnalysesOptions } from "../../../Data/EconomicsData";
-import { DragObjectWithType, DropTargetMonitor, useDrop } from "react-dnd";
 import ItemTypes from "../../../Utils/DragAndDropItemTypes";
-import { Layout, Responsive, WidthProvider } from "react-grid-layout";
-import map from "lodash.map";
-import range from "lodash.range";
-import random from "lodash.random";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -38,16 +28,14 @@ const EconomicsTemplateChart = () => {
     (state: RootState) => state.chartReducer
   );
 
-  const [
-    layoutConfig,
-    setConfigLayout,
-  ] = React.useState<IEconomicsTemplateChart>({
-    layout: [],
-    currentBreakpoint: "lg",
-    compactType: "vertical",
-    mounted: false,
-    layouts: { lg: generateLayout() },
-  });
+  const [layoutConfig, setConfigLayout] =
+    React.useState<IEconomicsTemplateChart>({
+      layout: [],
+      currentBreakpoint: "lg",
+      compactType: "vertical",
+      mounted: false,
+      layouts: { lg: generateLayout() },
+    });
   const [parameter3, setParameter3] = React.useState("Z");
 
   const [{ isOverY, canDropY }, dropY] = useDrop({

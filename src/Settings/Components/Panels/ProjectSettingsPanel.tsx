@@ -28,13 +28,13 @@ interface IProjectSettings {
 }
 
 const ProjectSettingsType: React.FC<IProjectSettingsProps> = ({ title }) => {
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.PROJECT_SETTINGS_TYPE,
     item: {
-      type: ItemTypes.PROJECT_SETTINGS_TYPE,
       calculationName: title,
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  });
+  }));
 
   const settings = [
     {
