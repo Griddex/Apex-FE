@@ -42,7 +42,8 @@ const AggregatedButtons = ({
           color="secondary"
           onClick={() =>
             setButtonsData((prev: ButtonProps[]) => {
-              return prev.splice(i + 1);
+              prev.splice(i, 1);
+              return prev;
             })
           }
           invisible={showBadge[i]}
@@ -53,14 +54,14 @@ const AggregatedButtons = ({
             color={button.color}
             startIcon={button.startIcon}
             {...noEventPropagation(button.handleAction)}
-            //TODO Posibility to include a settimeout here to delay
-            //remove of cancel badge
             onMouseEnter={() =>
               setShowBadge((prev) => ({ ...prev, [i]: false }))
             }
-            onMouseLeave={() =>
-              setShowBadge((prev) => ({ ...prev, [i]: true }))
-            }
+            //TODO Posibility to include a settimeout here to delay
+            //remove of cancel badge
+            // onMouseLeave={() =>
+            //   setShowBadge((prev) => ({ ...prev, [i]: true }))
+            // }
           >
             {button.title}
           </Button>

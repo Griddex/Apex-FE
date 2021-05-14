@@ -37,6 +37,13 @@ const ForecastChartCategories = () => {
       </div>
       <div className={classes.chartProps}>
         <AnalyticsComp
+          title="Z Category"
+          content={<div>Chart</div>}
+          direction="Vertical"
+        />
+      </div>
+      <div className={classes.chartProps}>
+        <AnalyticsComp
           title="Filter"
           content={<div>Chart</div>}
           direction="Vertical"

@@ -27,6 +27,7 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
 import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
   fetchExistingCostsRevenuesHeadersRequestAction,
   fetchExistingEconomicsDataRequestAction,
@@ -61,6 +62,14 @@ function* saveCostsRevenuesSaga(
 > {
   const { payload } = action;
   const { workflowProcess, reducer } = payload;
+  console.log(
+    "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 64 ~ reducer",
+    reducer
+  );
+  console.log(
+    "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 64 ~ workflowProcess",
+    workflowProcess
+  );
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
 
@@ -69,18 +78,19 @@ function* saveCostsRevenuesSaga(
   const { costsRevenuesInputDeckTitle, costsRevenuesInputDeckDescription } =
     yield select((state) => state.economicsReducer);
 
-  const { costsRevenues, variableUnits } = yield select(
+  const { costsRevenues, costRevenuesButtons } = yield select(
     (state) => state[reducer][wc][wp]
   );
 
-  const { savedMatchObjectAll: matchObject } = yield select(
-    (state) => state.applicationReducer
-  );
-
-  const shiftedCostRevenues = Object.keys(costsRevenues).reduce(
-    (acc, name) => ({ ...acc, [name]: costsRevenues[name].shift() }),
-    {} as Record<TDevScenarioNames, IRawRow[]>
-  );
+  const shiftedCostRevenues = costRevenuesButtons
+    .map((b: IAggregateButtonProps) => b.scenarioName)
+    .reduce(
+      (acc: Record<TDevScenarioNames, IRawRow[]>, name: TDevScenarioNames) => {
+        costsRevenues[name].shift();
+        return { ...acc, [name]: costsRevenues[name] };
+      },
+      {} as Record<TDevScenarioNames, IRawRow[]>
+    );
 
   const data = {
     projectId,
@@ -90,8 +100,6 @@ function* saveCostsRevenuesSaga(
     source: forecastResultsId ? "Apex" : "External",
     costRevenues: shiftedCostRevenues,
     developmentScenarios: Object.keys(shiftedCostRevenues),
-    variableUnits,
-    matchObject,
   };
   console.log(
     "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 83 ~ data",

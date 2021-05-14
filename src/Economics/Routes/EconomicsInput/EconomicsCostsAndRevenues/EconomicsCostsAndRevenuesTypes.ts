@@ -1,3 +1,6 @@
+import { ButtonProps } from "../../../../Application/Components/Dialogs/DialogTypes";
+import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
+
 export interface IEconomicsCostsAndRevenuesLayouts {
   excel: JSX.Element;
   database: JSX.Element;
@@ -9,3 +12,7 @@ export interface IEconomicsCostsAndRevenuesLayouts {
 export type IdType = {
   dataInputId: keyof IEconomicsCostsAndRevenuesLayouts;
 };
+
+export interface IAggregateButtonProps extends ButtonProps {
+  scenarioName: TDevScenarioNames;
+}

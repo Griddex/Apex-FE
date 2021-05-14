@@ -1,4 +1,4 @@
-import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
@@ -8,7 +8,6 @@ import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import { SizeMe, SizeMeProps } from "react-sizeme";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ButtonProps } from "../../../../Application/Components/Dialogs/DialogTypes";
@@ -26,19 +25,15 @@ import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsA
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import swapVariableNameTitleForISelectOption from "../../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import AggregatedButtons from "../../../Components/AggregatedButtons/AggregatedButtons";
 import {
   developmentScenarioOptions,
-  developmentScenarios,
   forecastCaseOptions,
 } from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
-import {
-  IEconomicsAnalysis,
-  TDevScenarioNames,
-} from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
+import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
+import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -69,10 +64,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IAggregateButtonProps extends ButtonProps {
-  name: TDevScenarioNames;
-}
-
 export default function CostsAndRevenueManual({
   wrkflwCtgry,
   wrkflwPrcss,
@@ -96,8 +87,18 @@ export default function CostsAndRevenueManual({
   const [forecastCaseOption, setForecastCaseOption] = React.useState(
     forecastCaseOptions[1]
   );
-  const [buttonsData, setButtonsData] = React.useState(
-    [] as IAggregateButtonProps[]
+  const [buttonsData, setButtonsData] = React.useState([
+    {
+      title: devOption.label.replace(" Development", ""),
+      scenarioName: devOption.value,
+      variant: "outlined",
+      color: "primary",
+      handleAction: () => setDevOption(devOption as ISelectOption),
+    },
+  ] as IAggregateButtonProps[]);
+  console.log(
+    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 102 ~ buttonsData",
+    buttonsData
   );
   const buttonDataLabels = buttonsData.map((obj) =>
     obj.title?.replace(" Development", "")
@@ -677,12 +678,20 @@ export default function CostsAndRevenueManual({
   React.useEffect(() => {
     dispatch(
       updateEconomicsParameterAction(
-        `inputDataWorkflows.costsRevenues.${devVal}`,
+        `inputDataWorkflows.economicsCostsRevenuesDeckManual.costsRevenues.${devVal}`,
         rows
       )
     );
+
+    dispatch(
+      updateEconomicsParameterAction(
+        `inputDataWorkflows.economicsCostsRevenuesDeckManual.costRevenuesButtons`,
+        buttonsData
+      )
+    );
+
     dispatch(hideSpinnerAction());
-  }, [devVal]);
+  }, [devVal, rows]);
 
   return (
     <div className={classes.rootExistingData}>
@@ -709,7 +718,7 @@ export default function CostsAndRevenueManual({
                 valueOption={devOption}
                 data={developmentScenarioOptions}
                 handleSelect={(row: ValueType<ISelectOption, false>) => {
-                  const path = `inputDataWorkflows.developmentScenarios`;
+                  const path = `inputDataWorkflows.economicsCostsRevenuesDeckManual.developmentScenarios`;
                   const value = row?.value as string;
                   const label = row?.label as string;
                   dispatch(updateEconomicsParameterAction(path, value));
@@ -721,11 +730,10 @@ export default function CostsAndRevenueManual({
                     else {
                       const btnData = {
                         title: abridgedlabel,
-                        name: value,
+                        scenarioName: value,
                         variant: "outlined",
                         color: "primary",
                         handleAction: () => setDevOption(row as ISelectOption),
-                        handleRemove: () => console.log("Remove"),
                       } as IAggregateButtonProps;
 
                       return [...prev, btnData];
@@ -755,7 +763,7 @@ export default function CostsAndRevenueManual({
               valueOption={forecastCaseOption}
               data={forecastCaseOptions}
               handleSelect={(option: ValueType<ISelectOption, false>) => {
-                const path = `inputDataWorkflows.forecastCases`;
+                const path = `inputDataWorkflows.economicsCostsRevenuesDeckManual.forecastCases`;
                 const value = option?.value as string;
                 dispatch(updateEconomicsParameterAction(path, value));
 
