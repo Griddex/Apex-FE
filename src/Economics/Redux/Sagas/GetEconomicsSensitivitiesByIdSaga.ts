@@ -103,6 +103,7 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
     });
 
     yield put(showDialogAction(failureDialogParameters));
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

@@ -139,6 +139,7 @@ const ParameterSensitivity = ({
       width: 50,
     },
   ];
+
   React.useEffect(() => {
     const parSenObj = parameterSensitivitiesObj[parId];
     parameterSensitivitiesObj[parId] = {

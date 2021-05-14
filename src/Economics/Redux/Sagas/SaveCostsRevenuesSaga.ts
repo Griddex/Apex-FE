@@ -1,3 +1,4 @@
+import { access } from "fs";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -12,6 +13,7 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -24,6 +26,7 @@ import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
+import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   fetchExistingCostsRevenuesHeadersRequestAction,
   fetchExistingEconomicsDataRequestAction,
@@ -66,7 +69,7 @@ function* saveCostsRevenuesSaga(
   const { costsRevenuesInputDeckTitle, costsRevenuesInputDeckDescription } =
     yield select((state) => state.economicsReducer);
 
-  const { tableData: inputDeck, variableUnits } = yield select(
+  const { costsRevenues, variableUnits } = yield select(
     (state) => state[reducer][wc][wp]
   );
 
@@ -74,18 +77,26 @@ function* saveCostsRevenuesSaga(
     (state) => state.applicationReducer
   );
 
-  const costRevenues = [...inputDeck];
-  costRevenues.shift();
+  const shiftedCostRevenues = Object.keys(costsRevenues).reduce(
+    (acc, name) => ({ ...acc, [name]: costsRevenues[name].shift() }),
+    {} as Record<TDevScenarioNames, IRawRow[]>
+  );
+
   const data = {
     projectId,
     forecastId: forecastResultsId,
     title: costsRevenuesInputDeckTitle,
     description: costsRevenuesInputDeckDescription,
     source: forecastResultsId ? "Apex" : "External",
-    costRevenues,
+    costRevenues: shiftedCostRevenues,
+    developmentScenarios: Object.keys(shiftedCostRevenues),
     variableUnits,
     matchObject,
   };
+  console.log(
+    "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 83 ~ data",
+    data
+  );
 
   const config = { withCredentials: false };
   const saveCostsRevenuesAPI = (url: string) =>
@@ -100,7 +111,7 @@ function* saveCostsRevenuesSaga(
     );
 
     const {
-      data: { data: selectedCostsRevenuesId }, //prevent 2nd trip to server
+      data: { data: selectedCostsRevenuesId },
       status,
       success,
     } = result;
@@ -131,6 +142,7 @@ function* saveCostsRevenuesSaga(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message))
     );
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

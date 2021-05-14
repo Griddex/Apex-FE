@@ -99,7 +99,7 @@ function* runEconomicsAnalysisSaga(
           plotChartsTree: economicsPlotChartsTree,
           templatesTree: economicsTemplatesTree,
         },
-      }, //prevent 2nd trip to server
+      },
       status,
       success,
     } = result;
@@ -134,6 +134,7 @@ function* runEconomicsAnalysisSaga(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message, analysisTitle))
     );
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

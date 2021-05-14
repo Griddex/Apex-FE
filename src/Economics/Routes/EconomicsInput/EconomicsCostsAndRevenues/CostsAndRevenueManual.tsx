@@ -69,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface IAggregateButtonProps extends ButtonProps {
+  name: TDevScenarioNames;
+}
+
 export default function CostsAndRevenueManual({
   wrkflwCtgry,
   wrkflwPrcss,
@@ -92,24 +96,31 @@ export default function CostsAndRevenueManual({
   const [forecastCaseOption, setForecastCaseOption] = React.useState(
     forecastCaseOptions[1]
   );
-  const [buttonsData, setButtonsData] = React.useState([] as ButtonProps[]);
+  const [buttonsData, setButtonsData] = React.useState(
+    [] as IAggregateButtonProps[]
+  );
   const buttonDataLabels = buttonsData.map((obj) =>
     obj.title?.replace(" Development", "")
   );
 
   let rows = [] as IRawRow[];
   let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
+  let sRow = -1;
+  let setSRow: React.Dispatch<React.SetStateAction<number>>;
 
-  const [selectedRows, setSelectedRows] = React.useState({
-    oilDevelopment: new Set<React.Key>(),
-    nagDevelopment: new Set<React.Key>(),
-    oilNAGDevelopment: new Set<React.Key>(),
-  });
-  const [sRow, setSRow] = React.useState({
-    oilDevelopment: -1,
-    nagDevelopment: -1,
-    oilNAGDevelopment: -1,
-  });
+  const [oilDevelopmentSRow, setOilDevelopmentSRow] = React.useState(-1);
+  const [nagDevelopmentSRow, setNAGDevelopmentSRow] = React.useState(-1);
+  const [oilNAGDevelopmentSRow, setOilNAGDevelopmentSRow] = React.useState(-1);
+  if (devVal === "oilDevelopment") {
+    sRow = oilDevelopmentSRow;
+    setSRow = setOilDevelopmentSRow;
+  } else if (devVal === "nagDevelopment") {
+    sRow = nagDevelopmentSRow;
+    setSRow = setNAGDevelopmentSRow;
+  } else {
+    sRow = oilNAGDevelopmentSRow;
+    setSRow = setOilNAGDevelopmentSRow;
+  }
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -633,30 +644,6 @@ export default function CostsAndRevenueManual({
     return fakeRows;
   };
 
-  const renderTable = (
-    dval: TDevScenarioNames,
-    columns: Column<IRawRow>[],
-    size: SizeMeProps["size"]
-  ) => {
-    return (
-      <ApexGrid<IRawRow, ITableButtonsProps>
-        columns={columns}
-        rows={rows}
-        tableButtons={tableButtons as ITableButtonsProps}
-        newTableRowHeight={35}
-        // selectedRows={selectedRows}
-        // setSelectedRows={setSelectedRows}
-        selectedRow={sRow[devVal]}
-        onSelectedRowChange={setSRow}
-        onRowsChange={setRows}
-        size={size}
-        adjustTableDimAuto={true}
-        showTableHeader={true}
-        showTablePagination={true}
-      />
-    );
-  };
-
   const faketableRows = createTableRows(50);
   const oilDevelopmentTableRows = React.useRef(faketableRows);
   const nagDevelopmentTableRows = React.useRef(faketableRows);
@@ -688,8 +675,14 @@ export default function CostsAndRevenueManual({
   }
 
   React.useEffect(() => {
+    dispatch(
+      updateEconomicsParameterAction(
+        `inputDataWorkflows.costsRevenues.${devVal}`,
+        rows
+      )
+    );
     dispatch(hideSpinnerAction());
-  }, [dispatch]);
+  }, [devVal]);
 
   return (
     <div className={classes.rootExistingData}>
@@ -728,11 +721,12 @@ export default function CostsAndRevenueManual({
                     else {
                       const btnData = {
                         title: abridgedlabel,
+                        name: value,
                         variant: "outlined",
                         color: "primary",
                         handleAction: () => setDevOption(row as ISelectOption),
                         handleRemove: () => console.log("Remove"),
-                      } as ButtonProps;
+                      } as IAggregateButtonProps;
 
                       return [...prev, btnData];
                     }
@@ -773,10 +767,19 @@ export default function CostsAndRevenueManual({
           }
         />
       </CenteredStyle>
-      {renderTable(devVal, columns, {
-        height: 700,
-        width: 900,
-      })}
+      <ApexGrid<IRawRow, ITableButtonsProps>
+        columns={columns}
+        rows={rows}
+        tableButtons={tableButtons as ITableButtonsProps}
+        newTableRowHeight={35}
+        selectedRow={sRow}
+        onSelectedRowChange={setSRow}
+        onRowsChange={setRows}
+        size={{ height: 700, width: 900 }}
+        adjustTableDimAuto={true}
+        showTableHeader={true}
+        showTablePagination={true}
+      />
       <div
         style={{
           display: "flex",

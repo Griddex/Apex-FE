@@ -60,6 +60,8 @@ export interface IEconomicsState {
   developmentScenarios: TDevScenarioNames[];
   forecastCases: string;
 
+  costsRevenues: Record<TDevScenarioNames, []>;
+
   title: string;
   description: string;
   inputDeckId: string;
