@@ -1,5 +1,5 @@
 import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React from "react";
 import Dropzone, { FileWithPath } from "react-dropzone";
@@ -69,11 +69,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
+const UploadFile = ({
+  wrkflwPrcss,
+  reducer,
+  hasExtraComponent,
+  extraComponent,
+}: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
+
+  const ExtraComponent = extraComponent as NonNullable<
+    IAllWorkflowProcesses["extraComponent"]
+  >;
 
   const { dnDDisabled } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
@@ -198,6 +208,19 @@ const UploadFile = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
           const ref = getRootProps();
           return (
             <section className={classes.dndSection}>
+              {hasExtraComponent && hasExtraComponent ? (
+                <ExtraComponent
+                  height={70}
+                  width={"95%"}
+                  moreStyles={{
+                    borderBottom: `1px solid ${theme.palette.grey[200]}`,
+                  }}
+                  workflowProcess={wp}
+                  workflowCategory={wc}
+                />
+              ) : (
+                <div />
+              )}
               <div {...getRootProps()} className={classes.dndInput}>
                 <input {...getInputProps()} />
                 <div className={classes.dndArea}>

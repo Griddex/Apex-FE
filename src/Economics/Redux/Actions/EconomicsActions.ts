@@ -1,13 +1,16 @@
 import {
   IEconomicsAnalysis,
+  TDevScenarioNames,
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   IAllWorkflowProcesses,
   IEconomicsWorkflowProcess,
+  IInputWorkflowProcess,
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 export const LOAD_ECONOMICS_WORKFLOW = "LOAD_ECONOMICS_WORKFLOW";
 export const UPDATE_ECONOMICS = "UPDATE_ECONOMICS";
@@ -85,6 +88,7 @@ export const GETECONOMICSSENSITIVITIESBYID_FAILURE =
 export const RUNECONOMICSANALYSIS_REQUEST = "RUNECONOMICSANALYSIS_REQUEST";
 export const RUNECONOMICSANALYSIS_SUCCESS = "RUNECONOMICSANALYSIS_SUCCESS";
 export const RUNECONOMICSANALYSIS_FAILURE = "RUNECONOMICSANALYSIS_FAILURE";
+export const PERSIST_ECONOMICSDECK = "PERSIST_ECONOMICSDECK";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -396,5 +400,18 @@ export const runEconomicsAnalysisFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const persistEconomicsDeckRequestAction = (
+  workflowProcess: IInputWorkflowProcess["wkPs"],
+  devValue: TDevScenarioNames,
+  rows: IRawRow[],
+  isRowsInPayload: boolean
+) => {
+  return {
+    type: PERSIST_ECONOMICSDECK,
+    payload: { workflowProcess, devValue, rows },
+    meta: { isRowsInPayload },
   };
 };

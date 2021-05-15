@@ -69,14 +69,14 @@ const generateEconomicsState = () => {
         chosenApplicationUnitsWithoutNone: [],
         fileUnitsWithoutNone: [],
 
-        savedMatchObjectAll: {},
         variableUnits: {},
 
-        forecastCases: "",
-
-        costsRevenues: {},
+        currentDevOption: {},
         developmentScenarios: [],
+        developmentScenariosCompleted: [],
+        costsRevenues: {},
         costRevenuesButtons: [],
+        forecastCase: "",
 
         inputDeckId: "",
         status: 0,
@@ -126,7 +126,7 @@ const inputDataState = generateEconomicsState();
 const existingDataState = generateExistingDataState();
 const analysesDataState = generateAnalysesState();
 const EconomicsState: EconomicsStateType = {
-  //Remove from here
+  //TODO Remove from here
   forecastRun: "",
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
@@ -178,6 +178,10 @@ const EconomicsState: EconomicsStateType = {
   sensitivitiesHeatMapTree: { id: "", name: "" },
   economicsPlotChartsTree: { id: "", name: "" },
   economicsTemplatesTree: { id: "", name: "" },
+
+  heatMapThresholdValue: 0,
+  heatMapThresholdColor: "",
+  heatMapBackgroundColor: "",
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,

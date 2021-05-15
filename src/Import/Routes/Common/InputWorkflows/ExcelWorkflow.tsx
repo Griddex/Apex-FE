@@ -10,6 +10,7 @@ import VerticalWorkflowStepper from "../../../../Application/Components/Workflow
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
 
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
@@ -54,6 +55,8 @@ const ExcelWorkflow = ({
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
+  hasExtraComponent,
+  extraComponent,
 }: IAllWorkflowProcesses) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -66,6 +69,9 @@ const ExcelWorkflow = ({
   );
   const { activeStep } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
+  );
+  const { currentDevOption, developmentScenariosCompleted } = useSelector(
+    (state: RootState) => state[reducer][wc][wp]
   );
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
@@ -115,7 +121,13 @@ const ExcelWorkflow = ({
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <UploadFile {...props} />;
+        return (
+          <UploadFile
+            {...props}
+            hasExtraComponent={hasExtraComponent}
+            extraComponent={extraComponent}
+          />
+        );
       case 1:
         return <SelectSheet {...props} />;
       case 2:
@@ -153,7 +165,15 @@ const ExcelWorkflow = ({
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction,
+    finalAction: () => {
+      dispatch(
+        updateEconomicsParameterAction(
+          `inputDataWorkflows.${wp}.developmentScenariosCompleted`,
+          [...developmentScenariosCompleted, currentDevOption.value]
+        )
+      );
+      finalAction && finalAction();
+    },
     workflowProps,
     workflowProcess: wp,
     workflowCategory: wc,

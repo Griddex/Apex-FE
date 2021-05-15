@@ -10,8 +10,13 @@ import { ButtonProps } from "../Dialogs/DialogTypes";
 const DialogSaveCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
   shouldDispatch: IButtonsConfigProps["shouldDispatch"],
-  finalActions: IButtonsConfigProps["finalActions"]
+  finalActions: IButtonsConfigProps["finalActions"],
+  isFinalButtonDisabled?: boolean
 ) => {
+  console.log(
+    "Logged output --> ~ file: DialogSaveCancelButtons.tsx ~ line 16 ~ isFinalButtonDisabled",
+    isFinalButtonDisabled
+  );
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [
     {
@@ -49,6 +54,7 @@ const DialogSaveCancelButtons = (
           color={button.color}
           onClick={button.handleAction}
           startIcon={button.startIcon}
+          disabled={button.title === "Save" && isFinalButtonDisabled}
         >
           {button.title}
         </Button>

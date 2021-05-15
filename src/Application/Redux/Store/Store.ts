@@ -42,6 +42,7 @@ import watchFetchExistingEconomicsSensitivitiesSaga from "../../../Economics/Red
 import watchGetEconomicsSensitivitiesByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsSensitivitiesByIdSaga";
 import watchSaveEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/SaveEconomicsSensitivitiesSaga";
 import watchRunEconomicsAnalysisSaga from "../../../Economics/Redux/Sagas/RunEconomicsAnalysisSaga";
+import economicsMiddleware from "../../../Economics/Redux/Middleware/EconomicsMiddleware";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -94,7 +95,7 @@ const store = createStore(
   composeWithDevTools(
     // applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
     // applyMiddleware(authMiddleware, sagaMiddleware)
-    applyMiddleware(uiSpinnerMiddleware, sagaMiddleware)
+    applyMiddleware(uiSpinnerMiddleware, economicsMiddleware, sagaMiddleware)
   )
 );
 

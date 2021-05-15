@@ -7,6 +7,7 @@ import {
   IEconomicsAnalysis,
   TEconomicsAnalysisWorkflows,
   TDevScenarioNames,
+  TDevScenarioTitles,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { RenderTree } from "../../../Forecast/Components/ForecastTreeViewTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
@@ -58,11 +59,12 @@ export interface IEconomicsState {
 
   variableUnits: Record<string, string>;
 
-  forecastCases: string;
-
+  currentDevOption: { value: TDevScenarioNames; label: TDevScenarioTitles };
   developmentScenarios: TDevScenarioNames[];
+  developmentScenariosCompleted: TDevScenarioNames[];
   costsRevenues: Record<TDevScenarioNames, []>;
   costRevenuesButtons: IAggregateButtonProps[];
+  forecastCase: string;
 
   title: string;
   description: string;
@@ -191,6 +193,10 @@ export interface EconomicsStateType
   sensitivitiesHeatMapTree: RenderTree;
   economicsPlotChartsTree: RenderTree;
   economicsTemplatesTree: RenderTree;
+
+  heatMapThresholdValue: number;
+  heatMapThresholdColor: string;
+  heatMapBackgroundColor: string;
 
   inputDataWorkflows: Record<string, IEconomicsState>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;

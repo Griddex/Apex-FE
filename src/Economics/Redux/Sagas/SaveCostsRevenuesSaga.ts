@@ -74,11 +74,14 @@ function* saveCostsRevenuesSaga(
   const wc = "inputDataWorkflows";
 
   const { projectId } = yield select((state) => state.projectReducer);
+  const { savedMatchObjectAll: matchObject } = yield select(
+    (state) => state.applicationReducer
+  );
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
   const { costsRevenuesInputDeckTitle, costsRevenuesInputDeckDescription } =
     yield select((state) => state.economicsReducer);
 
-  const { costsRevenues, costRevenuesButtons } = yield select(
+  const { costsRevenues, costRevenuesButtons, variableUnits } = yield select(
     (state) => state[reducer][wc][wp]
   );
 
@@ -100,6 +103,8 @@ function* saveCostsRevenuesSaga(
     source: forecastResultsId ? "Apex" : "External",
     costRevenues: shiftedCostRevenues,
     developmentScenarios: Object.keys(shiftedCostRevenues),
+    matchObject,
+    variableUnits,
   };
   console.log(
     "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 83 ~ data",

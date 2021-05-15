@@ -26,7 +26,7 @@ export const successDialogParameters = (): DialogStuff => ({
 
 export const failureDialogParameters = (errorMessage: string): DialogStuff => ({
   name: "Economics_Parameters_Failure_Dialog",
-  title: "Costs Revenue Save Failure",
+  title: "Costs Revenues Save Failure",
   type: "textDialog",
   show: true,
   exclusive: true,

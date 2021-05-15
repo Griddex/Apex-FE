@@ -14,6 +14,7 @@ import { IAllWorkflowProcesses } from "../../../../Application/Components/Workfl
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import getCurrentApplicationHeadersNameTitleObj from "../../../../Application/Utils/GetCurrentApplicationHeadersNameTitleObj";
+import { persistEconomicsDeckRequestAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
 import {
   IUnit,
   IUnitSettingsData,
@@ -236,10 +237,6 @@ export default function PreviewSave({
       variableUnits[name] = unitId;
     }
   }
-  console.log(
-    "Logged output --> ~ file: PreviewSave.tsx ~ line 222 ~ variableUnits",
-    variableUnits
-  );
 
   React.useEffect(() => {
     dispatch(persistTableDataAction(reducer, tableData, wp));

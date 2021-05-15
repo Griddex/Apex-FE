@@ -11,38 +11,26 @@ const EconomicsSensitivitiesHeatMap = () => {
   return (
     <ResponsiveHeatMap
       data={mapData}
-      keys={[
-        "hot dog",
-        "burger",
-        "sandwich",
-        "kebab",
-        "fries",
-        "donut",
-        "junk",
-        "sushi",
-        "ramen",
-        "curry",
-        "udon",
-      ]}
-      indexBy="country"
+      // keys={["Gas Price1", "Gas Price2", "Gas Price3", "Gas Price4"]}
+      keys={["4.5", "3.4", "1.9", "2.7"]}
+      indexBy="Oil Price"
       margin={{ top: 100, right: 60, bottom: 60, left: 60 }}
       forceSquare={true}
       axisTop={{
-        // orient: 'top',
         tickSize: 5,
         tickPadding: 5,
         tickRotation: -90,
-        legend: "",
-        legendOffset: 36,
+        legend: "Gas Price",
+        legendPosition: "middle",
+        legendOffset: -36,
       }}
       axisRight={null}
       axisBottom={null}
       axisLeft={{
-        // orient: 'left',
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "country",
+        legend: "Oil Price",
         legendPosition: "middle",
         legendOffset: -40,
       }}

@@ -20,7 +20,10 @@ import {
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflowProcesses,
+  IInputWorkflowProcess,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
@@ -31,7 +34,10 @@ import {
   developmentScenarioOptions,
   forecastCaseOptions,
 } from "../../../Data/EconomicsData";
-import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  persistEconomicsDeckRequestAction,
+  updateEconomicsParameterAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 
@@ -65,16 +71,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CostsAndRevenueManual({
-  wrkflwCtgry,
-  wrkflwPrcss,
+  wkCy,
+  wkPs,
   finalAction,
-}: IAllWorkflowProcesses) {
+}: IInputWorkflowProcess) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const wc = wrkflwCtgry;
-  const wp = wrkflwPrcss;
+  const wc = wkCy;
+  const wp = wkPs;
   const { uniqUnitOptions } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   );
@@ -89,20 +95,13 @@ export default function CostsAndRevenueManual({
   );
   const [buttonsData, setButtonsData] = React.useState([
     {
-      title: devOption.label.replace(" Development", ""),
+      title: devOption.label,
       scenarioName: devOption.value,
       variant: "outlined",
       color: "primary",
       handleAction: () => setDevOption(devOption as ISelectOption),
     },
   ] as IAggregateButtonProps[]);
-  console.log(
-    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 102 ~ buttonsData",
-    buttonsData
-  );
-  const buttonDataLabels = buttonsData.map((obj) =>
-    obj.title?.replace(" Development", "")
-  );
 
   let rows = [] as IRawRow[];
   let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
@@ -676,13 +675,16 @@ export default function CostsAndRevenueManual({
   }
 
   React.useEffect(() => {
-    dispatch(
-      updateEconomicsParameterAction(
-        `inputDataWorkflows.economicsCostsRevenuesDeckManual.costsRevenues.${devVal}`,
-        rows
-      )
-    );
+    dispatch(hideSpinnerAction());
+  }, []);
 
+  React.useEffect(() => {
+    dispatch(persistEconomicsDeckRequestAction(wp, devVal, rows, true));
+
+    dispatch(hideSpinnerAction());
+  }, [rows]);
+
+  React.useEffect(() => {
     dispatch(
       updateEconomicsParameterAction(
         `inputDataWorkflows.economicsCostsRevenuesDeckManual.costRevenuesButtons`,
@@ -691,7 +693,7 @@ export default function CostsAndRevenueManual({
     );
 
     dispatch(hideSpinnerAction());
-  }, [devVal, rows]);
+  }, [devVal]);
 
   return (
     <div className={classes.rootExistingData}>
@@ -724,12 +726,11 @@ export default function CostsAndRevenueManual({
                   dispatch(updateEconomicsParameterAction(path, value));
 
                   setButtonsData((prev) => {
-                    const abridgedlabel = label.replace(" Development", "");
-
-                    if (buttonDataLabels.includes(abridgedlabel)) return prev;
+                    if (buttonsData.map((obj) => obj.title).includes(label))
+                      return prev;
                     else {
                       const btnData = {
-                        title: abridgedlabel,
+                        title: label,
                         scenarioName: value,
                         variant: "outlined",
                         color: "primary",
@@ -750,6 +751,7 @@ export default function CostsAndRevenueManual({
             setButtonsData={setButtonsData}
           />
         </CenteredStyle>
+
         <AnalyticsComp
           title="Forecast Case"
           direction="Vertical"
@@ -763,7 +765,7 @@ export default function CostsAndRevenueManual({
               valueOption={forecastCaseOption}
               data={forecastCaseOptions}
               handleSelect={(option: ValueType<ISelectOption, false>) => {
-                const path = `inputDataWorkflows.economicsCostsRevenuesDeckManual.forecastCases`;
+                const path = `inputDataWorkflows.economicsCostsRevenuesDeckManual.forecastCase`;
                 const value = option?.value as string;
                 dispatch(updateEconomicsParameterAction(path, value));
 

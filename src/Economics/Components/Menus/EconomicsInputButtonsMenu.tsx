@@ -53,7 +53,7 @@ const EconomicsInputButtonsMenu = ({
     icon: JSX.Element;
   }[] = [
     {
-      title: "Economics Costs & Revenue",
+      title: "Economics Costs & Revenues",
       action: () => {
         dispatch(
           updateEconomicsParameterAction("loadCostsRevenueWorkflow", false)

@@ -8,12 +8,12 @@ import {
 
 export const successDialogParameters = (): DialogStuff => ({
   name: "Save_CostsRevenue_Success_Dialog",
-  title: "Costs & Revenue Save Success",
+  title: "Costs & Revenues Save Success",
   type: "textDialog",
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Costs & Revenue save was successfully completed!`,
+  dialogText: `Costs & Revenues save was successfully completed!`,
   iconType: "success",
   actionsList: () =>
     DialogOkayCancelButtons(
@@ -26,12 +26,12 @@ export const successDialogParameters = (): DialogStuff => ({
 
 export const failureDialogParameters = (errorMessage: string): DialogStuff => ({
   name: "Save_CostsRevenue_Failure_Dialog",
-  title: "Costs Revenue Save Failure",
+  title: "Costs Revenues Save Failure",
   type: "textDialog",
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Something unexpected happened and costs & revenue data could not be saved.
+  dialogText: `Something unexpected happened and costs & revenues data could not be saved.
   Please try again
   
   ${errorMessage}

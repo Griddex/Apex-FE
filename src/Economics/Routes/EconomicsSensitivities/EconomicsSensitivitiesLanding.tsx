@@ -89,7 +89,7 @@ const EconomicsSensitivitiesLanding = () => {
   //   const saveSensitivitiesInputdeckConfirmation = () => {
   //     const confirmationDialogParameters: DialogStuff = {
   //       name: "Save_CostsRevenue_Dialog_Confirmation",
-  //       title: "Save Costs & Revenue Confirmation",
+  //       title: "Save Costs & Revenues Confirmation",
   //       type: "textDialog",
   //       show: true,
   //       exclusive: false,
@@ -113,7 +113,7 @@ const EconomicsSensitivitiesLanding = () => {
 
   //   const dialogParameters: DialogStuff = {
   //     name: "Save_CostsRevenue_Dialog",
-  //     title: "Save Costs & Revenue",
+  //     title: "Save Costs & Revenues",
   //     type: "saveSensitivitiesInputDeckDialog",
   //     show: true,
   //     exclusive: false,

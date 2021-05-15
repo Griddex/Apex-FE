@@ -25,6 +25,7 @@ export interface IProjectWorkflowProcess {
   finalText?: string;
 }
 export interface IInputWorkflowProcess {
+  reducer: ReducersType;
   wkPs:
     | "facilitiesInputDeckExcel"
     | "facilitiesInputDeckDatabase"
@@ -45,6 +46,7 @@ export interface IInputWorkflowProcess {
     | "economicsSensitivitiesExisting"
     | "economicsParametersDeckExisting";
   wkCy: "inputDataWorkflows";
+  finalAction?: () => void;
 }
 export interface INetworkWorkflowProcess {
   wkPs:
@@ -99,4 +101,6 @@ export interface IAllWorkflowProcesses {
   idTitleArr?: string[];
   finalIcon?: JSX.Element;
   finalText?: string;
+  extraComponent?: React.FC<any>;
+  hasExtraComponent?: boolean;
 }

@@ -119,9 +119,10 @@ const CostsRevenueForecastInputWorkflow = ({
     (activeStep: number) => activeStep === 50,
     [activeStep]
   );
-  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
-    skipped,
-  ]);
+  const isStepSkipped = useCallback(
+    (step: number) => skipped.has(step),
+    [skipped]
+  );
 
   const WorkflowBannerProps = {
     activeStep,
@@ -184,8 +185,8 @@ const CostsRevenueForecastInputWorkflow = ({
         return (
           <CostsAndRevenueManual
             reducer={reducer}
-            wrkflwCtgry={"inputDataWorkflows"}
-            wrkflwPrcss={"economicsCostsRevenuesDeckApexForecast"}
+            wkCy={"inputDataWorkflows"}
+            wkPs={"economicsCostsRevenuesDeckApexForecast"}
             finalAction={finalAction}
           />
         );

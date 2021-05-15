@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -7,6 +8,7 @@ import DialogSaveCancelButtons from "../../../../Application/Components/DialogBu
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { subNavbarSetMenuAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -18,11 +20,14 @@ import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
+import SelectScenariosByButtonsWithForecastCase from "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase";
 import ForecastResults from "../../../Images/ForecastResults.svg";
 import Manual from "../../../Images/Manual.svg";
 import {
   loadEconomicsWorkflowAction,
+  persistEconomicsDeckRequestAction,
   saveCostsRevenuesRequestAction,
+  updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import CostsRevenueForecastInputWorkflow from "../../../Workflows/CostsRevenueForecastInputWorkflow";
 import CostsAndRevenueManual from "./CostsAndRevenueManual";
@@ -55,18 +60,24 @@ const useStyles = makeStyles((theme) => ({
 const EconomicsCostsRevenuesLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const reducer = "economicsReducer";
+  const wc = "inputDataWorkflows";
 
   const { url, path } = useRouteMatch();
-  const { loadCostsRevenueWorkflow } = useSelector(
+  const { loadCostsRevenueWorkflow, currentWorkflowProcess } = useSelector(
     (state: RootState) => state.economicsReducer
+  );
+  //
+  const allEconomicsInputWorkflows = useSelector(
+    (state: RootState) => state.economicsReducer[wc]
   );
 
   const economicsCostsRevenuesLandingData: ILandingData[] = [
     {
       name: "Excel | Text",
-      description: `Import costs & revenue data from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
+      description: `Import costs & revenues data from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
       icon: (
         <Image
           className={classes.image}
@@ -80,7 +91,7 @@ const EconomicsCostsRevenuesLanding = () => {
     },
     {
       name: "Database",
-      description: `Import costs & revenue data from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      description: `Import costs & revenues data from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
@@ -95,7 +106,7 @@ const EconomicsCostsRevenuesLanding = () => {
     {
       name: "Manual",
       description: `Manually input hydrocarbon forecast data, development 
-      costs & revenue data from any source`,
+      costs & revenues data from any source`,
       icon: (
         <Image
           className={classes.image}
@@ -110,7 +121,7 @@ const EconomicsCostsRevenuesLanding = () => {
     {
       name: "Apex Forecast Results",
       description: `Initialize your workflow from Apex forecast results store and then
-       manually input costs & revenue data from any source`,
+       manually input costs & revenues data from any source`,
       icon: (
         <Image
           className={classes.image}
@@ -123,8 +134,8 @@ const EconomicsCostsRevenuesLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: `Existing Costs & Revenue Data`,
-      description: `Select a pre-exisiting and approved costs & revenue data stored in the Apex\u2122 database`,
+      name: `Existing Costs & Revenues Data`,
+      description: `Select a pre-exisiting and approved costs & revenues data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
@@ -141,14 +152,13 @@ const EconomicsCostsRevenuesLanding = () => {
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
 
-  //Paying it back
-  const costsRevenueWorkflowFinalAction = (
+  const costsRevenueWorkflowSaveAction = (
     wp: IAllWorkflowProcesses["wrkflwPrcss"]
   ) => {
     const saveCostsRevenuesInputdeckConfirmation = () => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Save_CostsRevenue_Dialog_Confirmation",
-        title: "Save Costs & Revenue Confirmation",
+        title: "Save Costs & Revenues Confirmation",
         type: "textDialog",
         show: true,
         exclusive: false,
@@ -172,7 +182,7 @@ const EconomicsCostsRevenuesLanding = () => {
 
     const dialogParameters: DialogStuff = {
       name: "Save_CostsRevenue_Dialog",
-      title: "Save Costs & Revenue",
+      title: "Save Costs & Revenues",
       type: "saveCostsRevenuesInputDeckDialog",
       show: true,
       exclusive: false,
@@ -183,6 +193,31 @@ const EconomicsCostsRevenuesLanding = () => {
           [true, true],
           [true, false],
           [unloadDialogsAction, saveCostsRevenuesInputdeckConfirmation]
+        ),
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const costsRevenueWorkflowFinalAction = (
+    wp: IAllWorkflowProcesses["wrkflwPrcss"]
+  ) => {
+    const dialogParameters: DialogStuff = {
+      name: "Select_DevelopmentScenarios_Dialog",
+      title: "Select Development Scenarios",
+      type: "selectDevelopmentScenariosDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "sm",
+      iconType: "information",
+      workflowProcess: wp,
+      workflowCategory: wc,
+      actionsList: (isFinalButtonDisabled) =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, false],
+          [unloadDialogsAction, () => costsRevenueWorkflowSaveAction(wp)],
+          isFinalButtonDisabled
         ),
     };
 
@@ -220,11 +255,27 @@ const EconomicsCostsRevenuesLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
-                    finalAction={() =>
+                    finalAction={() => {
                       costsRevenueWorkflowFinalAction(
                         "economicsCostsRevenuesDeckExcel"
-                      )
-                    }
+                      );
+
+                      dispatch(
+                        persistEconomicsDeckRequestAction(
+                          "economicsCostsRevenuesDeckExcel",
+                          "oilDevelopment",
+                          [],
+                          false
+                        )
+                      );
+
+                      enqueueSnackbar(
+                        `${allEconomicsInputWorkflows["economicsCostsRevenuesDeckExcel"]?.currentDevOption?.label} is stored successfully`,
+                        { persist: false, variant: "success" }
+                      );
+                    }}
+                    hasExtraComponent={true}
+                    extraComponent={SelectScenariosByButtonsWithForecastCase}
                   />
                 ),
                 database: (
@@ -242,8 +293,8 @@ const EconomicsCostsRevenuesLanding = () => {
                 manual: (
                   <CostsAndRevenueManual
                     reducer={reducer}
-                    wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsCostsRevenuesDeckManual"}
+                    wkCy={"inputDataWorkflows"}
+                    wkPs={"economicsCostsRevenuesDeckManual"}
                     finalAction={() =>
                       costsRevenueWorkflowFinalAction(
                         "economicsCostsRevenuesDeckManual"
@@ -290,10 +341,26 @@ const EconomicsCostsRevenuesLanding = () => {
             return (
               <ModuleCard
                 key={name}
-                isDispatched={true}
-                moduleAction={() =>
-                  loadEconomicsWorkflowAction("loadCostsRevenueWorkflow")
-                }
+                isDispatched={false}
+                moduleAction={() => {
+                  dispatch(
+                    loadEconomicsWorkflowAction("loadCostsRevenueWorkflow")
+                  );
+
+                  dispatch(
+                    updateEconomicsParameterAction(
+                      `currentWorkflowProcess`,
+                      workflowProcess
+                    )
+                  );
+
+                  if (workflowProcess === "economicsCostsRevenuesDeckExcel")
+                    dispatch(
+                      subNavbarSetMenuAction(
+                        "Economics Costs & Revenues [Oil Development]"
+                      )
+                    );
+                }}
                 title={name}
                 description={description}
                 icon={icon}

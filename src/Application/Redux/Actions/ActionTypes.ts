@@ -6,5 +6,6 @@ export interface IAction {
     message?: string;
     addAuth?: boolean;
     exclusive?: boolean;
+    isRowsInPayload?: boolean;
   };
 }

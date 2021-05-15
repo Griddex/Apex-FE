@@ -91,7 +91,7 @@ const EconomicsAnalysis = ({
   const analysisName = selectedAnalysis?.name;
   const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
 
-  //TODO: filter devoptions based on costs/revenue data input
+  //TODO: filter devoptions based on costs/revenues data input
   //Send all filtered dev options to backend
   const devOptions =
     swapVariableNameTitleForISelectOption(developmentScenarios);

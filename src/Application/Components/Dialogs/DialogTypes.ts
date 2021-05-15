@@ -7,9 +7,11 @@ import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
 import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
+import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog";
 import { IEconomicsParametersTable } from "../../../Economics/Components/Parameters/IParametersType";
 import {
   IEconomicsAnalysis,
+  TDevScenarioNames,
   TEconomicsAnalyses,
 } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
@@ -65,6 +67,7 @@ export interface IApplicationDialogs {
   economicsParametersSensitivitiesDialog: typeof EconomicsParametersSensitivitiesDialog;
   saveEconomicsSensitivitiesDialog: typeof SaveEconomicsSensitivitiesDialog;
   existingEconomicsSensitivitiesDialog: typeof ExistingEconomicsSensitivitiesDialog;
+  selectDevelopmentScenariosDialog: typeof SelectDevelopmentScenariosDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -112,7 +115,8 @@ export interface DialogStuff {
     | "createEconomicsParametersTableDialog"
     | "economicsParametersSensitivitiesDialog"
     | "saveEconomicsSensitivitiesDialog"
-    | "existingEconomicsSensitivitiesDialog";
+    | "existingEconomicsSensitivitiesDialog"
+    | "selectDevelopmentScenariosDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -120,7 +124,7 @@ export interface DialogStuff {
   iconType?: IconNameType;
   contentText?: string;
   contentList?: Record<string, any>;
-  actionsList?: (() => JSX.Element) | (() => JSX.Element[]);
+  actionsList?: (par?: any) => JSX.Element | JSX.Element[];
   onClose?: () => void;
   classes?: Record<string, string>;
   dialogData?: IDialogData<IRawRow>;
@@ -141,6 +145,7 @@ export interface IDialogState<T> {
 
 export interface ButtonProps {
   title?: string;
+  name?: TDevScenarioNames | string;
   type?: "button" | "submit" | "reset" | undefined;
   variant?: "text" | "outlined" | "contained";
   color?: "inherit" | "primary" | "secondary" | "default";
