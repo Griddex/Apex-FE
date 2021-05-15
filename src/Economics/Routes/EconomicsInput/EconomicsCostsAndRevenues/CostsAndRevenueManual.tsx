@@ -765,7 +765,7 @@ export default function CostsAndRevenueManual({
               valueOption={forecastCaseOption}
               data={forecastCaseOptions}
               handleSelect={(option: ValueType<ISelectOption, false>) => {
-                const path = `inputDataWorkflows.economicsCostsRevenuesDeckManual.forecastCase`;
+                const path = `inputDataWorkflows.economicsCostsRevenuesDeckManual.forecastScenario`;
                 const value = option?.value as string;
                 dispatch(updateEconomicsParameterAction(path, value));
 

@@ -14,7 +14,6 @@ import {
   forecastCaseOptions,
 } from "../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
-import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import AggregatedButtons from "../AggregatedButtons/AggregatedButtons";
 
@@ -101,7 +100,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
           containerStyle={{
             display: "flex",
             flexDirection: "row",
-            width: 400,
+            width: 500,
           }}
           content={
             <ApexSelectRS
@@ -164,7 +163,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
             valueOption={forecastCaseOption}
             data={forecastCaseOptions}
             handleSelect={(option: ValueType<ISelectOption, false>) => {
-              const path = `inputDataWorkflows.${workflowProcess}.forecastCase`;
+              const path = `inputDataWorkflows.${workflowProcess}.forecastScenario`;
               const value = option?.value as string;
               dispatch(updateEconomicsParameterAction(path, value));
 

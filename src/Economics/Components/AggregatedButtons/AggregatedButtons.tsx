@@ -71,6 +71,14 @@ const AggregatedButtons = ({
           button.scenarioName as NonNullable<ButtonProps["name"]>
         );
 
+        const disabledStyle: CSSProperties = isDisabled
+          ? {
+              pointerEvents: "none",
+              backgroundColor: theme.palette.grey[200],
+              border: `1px solid ${theme.palette.primary.main}`,
+            }
+          : {};
+
         return (
           <Badge
             key={i}
@@ -83,17 +91,10 @@ const AggregatedButtons = ({
               })
             }
             invisible={showBadge[i]}
-            style={
-              isDisabled
-                ? {
-                    pointerEvents: "none",
-                    backgroundColor: theme.palette.grey[200],
-                  }
-                : { cursor: "pointer" }
-            }
           >
             <Button
-              style={{ width: "100%", height: buttonHeight }}
+              disabled={isDisabled}
+              style={{ width: "100%", height: buttonHeight, ...disabledStyle }}
               variant={button.variant}
               color={button.color}
               startIcon={button.startIcon}

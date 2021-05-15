@@ -8,6 +8,7 @@ import {
   TEconomicsAnalysisWorkflows,
   TDevScenarioNames,
   TDevScenarioTitles,
+  TForecastScenario,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { RenderTree } from "../../../Forecast/Components/ForecastTreeViewTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
@@ -64,7 +65,7 @@ export interface IEconomicsState {
   developmentScenariosCompleted: TDevScenarioNames[];
   costsRevenues: Record<TDevScenarioNames, []>;
   costRevenuesButtons: IAggregateButtonProps[];
-  forecastCase: string;
+  forecastScenario: TForecastScenario;
 
   title: string;
   description: string;

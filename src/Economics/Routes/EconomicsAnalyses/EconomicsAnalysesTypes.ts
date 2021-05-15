@@ -62,7 +62,7 @@ export type TDevScenarioTitles =
   | "Oil Development"
   | "NAG Development"
   | "Oil + NAG Development";
-export type TForecastCases = "1P_1C" | "2P_2C" | "3P_3C";
+export type TForecastScenario = "1P_1C" | "2P_2C" | "3P_3C";
 
 export type TSensitivitiesTable = ISensitivitiesRow[];
 export interface IEconomicsAnalysis {

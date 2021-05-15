@@ -370,3 +370,9 @@ export const mapData3D = {
     },
   ],
 };
+
+export const devScenarios = {
+  oilDevelopment: "OIL/AG",
+  nagDevelopment: "NAG",
+  oilNAGDevelopment: "OIL + NAG",
+};

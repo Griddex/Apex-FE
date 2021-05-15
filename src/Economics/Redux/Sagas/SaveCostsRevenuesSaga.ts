@@ -26,6 +26,7 @@ import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
+import { devScenarios } from "../../Data/EconomicsData";
 import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
@@ -81,9 +82,12 @@ function* saveCostsRevenuesSaga(
   const { costsRevenuesInputDeckTitle, costsRevenuesInputDeckDescription } =
     yield select((state) => state.economicsReducer);
 
-  const { costsRevenues, costRevenuesButtons, variableUnits } = yield select(
-    (state) => state[reducer][wc][wp]
-  );
+  const {
+    costsRevenues,
+    costRevenuesButtons,
+    forecastScenario,
+    variableUnits,
+  } = yield select((state) => state[reducer][wc][wp]);
 
   const shiftedCostRevenues = costRevenuesButtons
     .map((b: IAggregateButtonProps) => b.scenarioName)
@@ -102,7 +106,10 @@ function* saveCostsRevenuesSaga(
     description: costsRevenuesInputDeckDescription,
     source: forecastResultsId ? "Apex" : "External",
     costRevenues: shiftedCostRevenues,
-    developmentScenarios: Object.keys(shiftedCostRevenues),
+    developmentScenarios: Object.keys(shiftedCostRevenues).map(
+      (k) => devScenarios[k as TDevScenarioNames]
+    ),
+    forecastScenario,
     matchObject,
     variableUnits,
   };

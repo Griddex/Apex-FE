@@ -76,7 +76,7 @@ const generateEconomicsState = () => {
         developmentScenariosCompleted: [],
         costsRevenues: {},
         costRevenuesButtons: [],
-        forecastCase: "",
+        forecastScenario: "2P_2C",
 
         inputDeckId: "",
         status: 0,
