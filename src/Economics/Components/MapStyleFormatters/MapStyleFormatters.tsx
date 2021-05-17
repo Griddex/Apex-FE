@@ -39,8 +39,10 @@ const MapStyleFormatters = ({
   const theme = useTheme();
   const wp = workflowProcess;
 
+  const mapRef = React.useRef<HTMLDivElement>(null);
+
   const [solidThresholdColor, setSolidThresholdColor] = React.useState(
-    theme.palette.primary.main
+    theme.palette.primary.light
   );
 
   const [presetThresholdColors, setPresetThresholdColors] = React.useState([
@@ -123,7 +125,7 @@ const MapStyleFormatters = ({
             handleSelect={(option: ValueType<ISelectOption, false>) => {
               setOperatorOption(option as ISelectOption);
             }}
-            menuPortalTarget={document.body}
+            menuPortalTarget={mapRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />
           <TextField

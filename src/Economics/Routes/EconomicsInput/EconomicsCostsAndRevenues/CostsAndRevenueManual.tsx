@@ -270,15 +270,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "condensateRate")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "condensateRate")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.oilRate}</div>;
         },
@@ -294,15 +299,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "gasRate")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "gasRate")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.gasRate}</div>;
         },
@@ -318,15 +328,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "gasRate")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "gasRate")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.gasRate}</div>;
         },
@@ -342,15 +357,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "seismicCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "seismicCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.seismicCost}</div>;
         },
@@ -367,15 +387,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "explApprCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "explApprCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.explApprCost}</div>;
         },
@@ -392,15 +417,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "facilitiesCapex")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "facilitiesCapex")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.facilitiesCapex}</div>;
         },
@@ -417,15 +447,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "tangWellCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "tangWellCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.tangWellCost}</div>;
         },
@@ -442,15 +477,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "intangWellCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "intangWellCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.intangWellCost}</div>;
         },
@@ -467,15 +507,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "taxDepreciation")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "taxDepreciation")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.taxDepreciation}</div>;
         },
@@ -491,15 +536,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "abandCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "abandCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.abandCost}</div>;
         },
@@ -515,15 +565,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "directCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "directCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.directCost}</div>;
         },
@@ -539,15 +594,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "projectCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "projectCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.projectCost}</div>;
         },
@@ -563,15 +623,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "cha")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "cha")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.cha}</div>;
         },
@@ -587,15 +652,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "cha")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "cha")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.cha}</div>;
         },
@@ -611,15 +681,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "gasProcessingFee")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "gasProcessingFee")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.gasProcessingFee}</div>;
         },
@@ -635,15 +710,20 @@ export default function CostsAndRevenueManual({
 
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "terminalCost")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "terminalCost")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.terminalCost}</div>;
         },

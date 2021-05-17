@@ -3,7 +3,7 @@ import {
   IEconomicsAnalysis,
   TEconomicsAnalysesNames,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import { EconomicsStateType, IEconomicsState } from "./EconomicsStateTypes";
+import { IEconomicsState, IEconomicsImport } from "./EconomicsStateTypes";
 import { mapData } from "./../../Data/EconomicsData";
 
 const inputWorkflowProcesses = [
@@ -142,7 +142,7 @@ const existingDataState = generateExistingDataState();
 const analysesDataState = generateAnalysesState();
 const chartsDataState = generateChartsState();
 
-const EconomicsState: EconomicsStateType = {
+const EconomicsState: IEconomicsState = {
   //TODO Remove from here
   forecastRun: "",
   currentWorkflowProcess: "economicsAnalyses",
@@ -152,8 +152,16 @@ const EconomicsState: EconomicsStateType = {
   loadEconomicsSensitivitiesWorkflow: false,
   loadEconomicsResultsWorkflow: false,
 
-  costsRevenuesAppHeaders: [],
-  cstRevAppHeadersSelectOptions: [],
+  costsRevenuesAppHeaders: {
+    oilDevelopment: [],
+    nagDevelopment: [],
+    oilNAGDevelopment: [],
+  },
+  cstRevAppHeadersSelectOptions: {
+    oilDevelopment: [],
+    nagDevelopment: [],
+    oilNAGDevelopment: [],
+  },
   costsRevenuesInputDeckId: "",
   costsRevenuesInputDeckTitle: "",
   costsRevenuesInputDeckDescription: "",

@@ -33,6 +33,7 @@ export interface IExistingDataProps {
   showChart?: boolean;
   showBaseButtons?: boolean;
   tableButtons?: ITableButtonsProps;
+  shouldRunAggregation?: boolean;
   wkPs?:
     | "facilitiesInputDeckExisting"
     | "forecastInputDeckExisting"

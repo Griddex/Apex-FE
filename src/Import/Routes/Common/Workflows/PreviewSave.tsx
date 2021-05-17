@@ -67,6 +67,10 @@ export default function PreviewSave({
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
+  const { currentDevOption } = useSelector(
+    (state: RootState) => state[reducer][wc][wp]
+  );
+
   //TODO: Need to generalize for other workflow processes
   const {
     facilitiesAppHeaders,
@@ -79,7 +83,7 @@ export default function PreviewSave({
   const allAppHeadersArr = [
     facilitiesAppHeaders,
     forecastAppHeaders,
-    costsRevenuesAppHeaders,
+    costsRevenuesAppHeaders[currentDevOption.value],
     economicsParametersAppHeaders,
   ];
 

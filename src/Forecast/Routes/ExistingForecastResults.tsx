@@ -30,6 +30,7 @@ import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
 import {
   fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,
+  runForecastAggregationRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IExistingForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
@@ -103,6 +104,7 @@ const chartData = [
 export default function ExistingForecastResults({
   showChart,
   showBaseButtons,
+  shouldRunAggregation,
 }: IExistingDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -144,6 +146,13 @@ export default function ExistingForecastResults({
       updateForecastResultsParameterAction("isForecastResultsSaved", isSaved)
     );
     dispatch(updateNetworkParameterAction("selectedNetworkId", networkId));
+
+    if (shouldRunAggregation)
+      dispatch(
+        runForecastAggregationRequestAction(
+          "economicsCostsRevenuesDeckApexForecast"
+        )
+      );
 
     setCheckboxSelected(!checkboxSelected);
   };

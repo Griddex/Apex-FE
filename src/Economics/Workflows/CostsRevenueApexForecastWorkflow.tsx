@@ -1,15 +1,22 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ValueType } from "react-select";
+import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import CenteredStyle from "../../Application/Components/Styles/CenteredStyle";
 import VerticalWorkflowStepper from "../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../Application/Components/Workflows/WorkflowBanner";
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ExistingForecastResults from "../../Forecast/Routes/ExistingForecastResults";
+import { forecastCaseOptions } from "../Data/EconomicsData";
+import { updateEconomicsParameterAction } from "../Redux/Actions/EconomicsActions";
 import CostsAndRevenueManual from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueManual";
 
 const useStyles = makeStyles((theme) => ({
@@ -90,7 +97,7 @@ const steps = ["Select Forecast Results", "Populate Costs"];
 const workflowCategory = "inputDataWorkflows";
 const workflowProcess = "economicsCostsRevenuesDeckApexForecast";
 
-const CostsRevenueForecastInputWorkflow = ({
+const CostsRevenueApexForecastWorkflow = ({
   reducer,
   wrkflwCtgry,
   wrkflwPrcss,
@@ -122,6 +129,10 @@ const CostsRevenueForecastInputWorkflow = ({
   const isStepSkipped = useCallback(
     (step: number) => skipped.has(step),
     [skipped]
+  );
+
+  const [forecastCaseOption, setForecastCaseOption] = React.useState(
+    forecastCaseOptions[1]
   );
 
   const WorkflowBannerProps = {
@@ -179,7 +190,37 @@ const CostsRevenueForecastInputWorkflow = ({
     switch (activeStep) {
       case 0:
         return (
-          <ExistingForecastResults showChart={false} showBaseButtons={false} />
+          <CenteredStyle flexDirection="column" moreStyles={{ marginTop: 20 }}>
+            <AnalyticsComp
+              title="Forecast Case"
+              direction="Vertical"
+              containerStyle={{
+                display: "flex",
+                flexDirection: "row",
+                width: 300,
+              }}
+              content={
+                <ApexSelectRS
+                  valueOption={forecastCaseOption}
+                  data={forecastCaseOptions}
+                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                    const path = `inputDataWorkflows.${workflowProcess}.forecastScenario`;
+                    const value = option?.value as string;
+                    dispatch(updateEconomicsParameterAction(path, value));
+
+                    setForecastCaseOption(option as ISelectOption);
+                  }}
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              }
+            />
+            <ExistingForecastResults
+              showChart={false}
+              showBaseButtons={false}
+              shouldRunAggregation={true}
+            />
+          </CenteredStyle>
         );
       case 1:
         return (
@@ -213,4 +254,4 @@ const CostsRevenueForecastInputWorkflow = ({
   );
 };
 
-export default CostsRevenueForecastInputWorkflow;
+export default CostsRevenueApexForecastWorkflow;

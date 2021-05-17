@@ -79,6 +79,15 @@ const SelectScenariosByButtonsWithForecastCase = ({
         devOption
       )
     );
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(
+      updateEconomicsParameterAction(
+        `inputDataWorkflows.${workflowProcess}.currentDevOption`,
+        devOption
+      )
+    );
     dispatch(
       updateEconomicsParameterAction(
         `inputDataWorkflows.${workflowProcess}.costRevenuesButtons`,

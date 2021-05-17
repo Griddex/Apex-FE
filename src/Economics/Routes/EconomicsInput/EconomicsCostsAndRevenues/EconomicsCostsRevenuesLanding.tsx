@@ -1,12 +1,13 @@
 import { makeStyles } from "@material-ui/core";
 import { useSnackbar } from "notistack";
-import React from "react";
+import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
+import SuspensePerpetualSpinner from "../../../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { subNavbarSetMenuAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
@@ -19,7 +20,7 @@ import ExistingDeck from "../../../../Import/Images/ExistingDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
+// import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
 import SelectScenariosByButtonsWithForecastCase from "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase";
 import ForecastResults from "../../../Images/ForecastResults.svg";
 import Manual from "../../../Images/Manual.svg";
@@ -29,10 +30,14 @@ import {
   saveCostsRevenuesRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import CostsRevenueForecastInputWorkflow from "../../../Workflows/CostsRevenueForecastInputWorkflow";
+import CostsRevenueApexForecastWorkflow from "../../../Workflows/CostsRevenueApexForecastWorkflow";
 import CostsAndRevenueManual from "./CostsAndRevenueManual";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
 import ExistingCostsAndRevenuesDecks from "./ExistingCostsAndRevenuesDecks";
+
+const ExcelWorkflow = React.lazy(
+  () => import("../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow")
+);
 
 const useStyles = makeStyles((theme) => ({
   economicsCostsRevenuesLanding: {
@@ -242,90 +247,99 @@ const EconomicsCostsRevenuesLanding = () => {
     <>
       {loadCostsRevenueWorkflow ? (
         <div className={classes.importWorkflow}>
-          <Route exact path={`${path}/:dataInputId`}>
-            {(props: RouteComponentProps<IdType>) => {
-              const { match } = props;
-              const {
-                params: { dataInputId },
-              } = match;
+          <Suspense
+            fallback={
+              <SuspensePerpetualSpinner
+                pending={true}
+                message="Loading workflow..."
+              />
+            }
+          >
+            <Route exact path={`${path}/:dataInputId`}>
+              {(props: RouteComponentProps<IdType>) => {
+                const { match } = props;
+                const {
+                  params: { dataInputId },
+                } = match;
 
-              const economicsCostsRevenuesDeckWorkflows = {
-                excel: (
-                  <ExcelWorkflow
-                    reducer={reducer}
-                    wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
-                    finalAction={() => {
-                      costsRevenueWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckExcel"
-                      );
+                const economicsCostsRevenuesDeckWorkflows = {
+                  excel: (
+                    <ExcelWorkflow
+                      reducer={reducer}
+                      wrkflwCtgry={"inputDataWorkflows"}
+                      wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
+                      finalAction={() => {
+                        costsRevenueWorkflowFinalAction(
+                          "economicsCostsRevenuesDeckExcel"
+                        );
 
-                      dispatch(
-                        persistEconomicsDeckRequestAction(
-                          "economicsCostsRevenuesDeckExcel",
-                          "oilDevelopment",
-                          [],
-                          false
+                        dispatch(
+                          persistEconomicsDeckRequestAction(
+                            "economicsCostsRevenuesDeckExcel",
+                            "oilDevelopment",
+                            [],
+                            false
+                          )
+                        );
+
+                        enqueueSnackbar(
+                          `${allEconomicsInputWorkflows["economicsCostsRevenuesDeckExcel"]?.currentDevOption?.label} is stored successfully`,
+                          { persist: false, variant: "success" }
+                        );
+                      }}
+                      hasExtraComponent={true}
+                      extraComponent={SelectScenariosByButtonsWithForecastCase}
+                    />
+                  ),
+                  database: (
+                    <DatabaseWorkflow
+                      reducer={reducer}
+                      wrkflwCtgry={"inputDataWorkflows"}
+                      wrkflwPrcss={"economicsCostsRevenuesDeckDatabase"}
+                      finalAction={() =>
+                        costsRevenueWorkflowFinalAction(
+                          "economicsCostsRevenuesDeckDatabase"
                         )
-                      );
+                      }
+                    />
+                  ),
+                  manual: (
+                    <CostsAndRevenueManual
+                      reducer={reducer}
+                      wkCy={"inputDataWorkflows"}
+                      wkPs={"economicsCostsRevenuesDeckManual"}
+                      finalAction={() =>
+                        costsRevenueWorkflowFinalAction(
+                          "economicsCostsRevenuesDeckManual"
+                        )
+                      }
+                    />
+                  ),
+                  apexforecast: (
+                    <CostsRevenueApexForecastWorkflow
+                      reducer={reducer}
+                      wrkflwCtgry={"inputDataWorkflows"}
+                      wrkflwPrcss={"economicsCostsRevenuesDeckApexForecast"}
+                      finalAction={() =>
+                        costsRevenueWorkflowFinalAction(
+                          "economicsCostsRevenuesDeckApexForecast"
+                        )
+                      }
+                    />
+                  ),
+                  approveddeck: (
+                    <ExistingCostsAndRevenuesDecks
+                      reducer={reducer}
+                      showChart={true}
+                      finalAction={existingDataFinalAction}
+                    />
+                  ),
+                };
 
-                      enqueueSnackbar(
-                        `${allEconomicsInputWorkflows["economicsCostsRevenuesDeckExcel"]?.currentDevOption?.label} is stored successfully`,
-                        { persist: false, variant: "success" }
-                      );
-                    }}
-                    hasExtraComponent={true}
-                    extraComponent={SelectScenariosByButtonsWithForecastCase}
-                  />
-                ),
-                database: (
-                  <DatabaseWorkflow
-                    reducer={reducer}
-                    wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsCostsRevenuesDeckDatabase"}
-                    finalAction={() =>
-                      costsRevenueWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckDatabase"
-                      )
-                    }
-                  />
-                ),
-                manual: (
-                  <CostsAndRevenueManual
-                    reducer={reducer}
-                    wkCy={"inputDataWorkflows"}
-                    wkPs={"economicsCostsRevenuesDeckManual"}
-                    finalAction={() =>
-                      costsRevenueWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckManual"
-                      )
-                    }
-                  />
-                ),
-                apexforecast: (
-                  <CostsRevenueForecastInputWorkflow
-                    reducer={reducer}
-                    wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsCostsRevenuesDeckApexForecast"}
-                    finalAction={() =>
-                      costsRevenueWorkflowFinalAction(
-                        "economicsCostsRevenuesDeckApexForecast"
-                      )
-                    }
-                  />
-                ),
-                approveddeck: (
-                  <ExistingCostsAndRevenuesDecks
-                    reducer={reducer}
-                    showChart={true}
-                    finalAction={existingDataFinalAction}
-                  />
-                ),
-              };
-
-              return economicsCostsRevenuesDeckWorkflows[dataInputId];
-            }}
-          </Route>
+                return economicsCostsRevenuesDeckWorkflows[dataInputId];
+              }}
+            </Route>
+          </Suspense>
         </div>
       ) : (
         <div className={classes.economicsCostsRevenuesLanding}>

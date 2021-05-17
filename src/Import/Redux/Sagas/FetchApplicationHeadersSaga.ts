@@ -27,7 +27,8 @@ import {
   persistEconomicsParDataFaiSelectOptionFailureAction,
   persistEconomicsParHeadersSelectOptionSuccessAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
-import { failureDialogParameters } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
+import { IEconomicsState } from "../../../Economics/Redux/State/EconomicsStateTypes";
+import { TDevScenarioNames } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   fetchApplicationHeadersFailureAction,
   fetchApplicationHeadersSuccessAction,
@@ -96,9 +97,15 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     const successAction5 =
       persistEconomicsParHeadersSelectOptionSuccessAction();
 
-    const cstRevAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
-      costsRevenuesAppHeaders
-    );
+    const cstRevAppHeadersSelectOptions = Object.keys(
+      costsRevenuesAppHeaders as IEconomicsState["costsRevenuesAppHeaders"]
+    ).reduce((acc: any, key) => {
+      const appHeadersByScenario = costsRevenuesAppHeaders[key];
+      const swappedHeaders =
+        swapVariableNameTitleForISelectOption(appHeadersByScenario);
+
+      return { ...acc, [key]: swappedHeaders };
+    }, {});
     const ecoParAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
       economicsParametersAppHeaders
     );
@@ -140,6 +147,10 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       },
     });
   } catch (errors) {
+    console.log(
+      "Logged output --> ~ file: FetchApplicationHeadersSaga.ts ~ line 150 ~ errors",
+      errors
+    );
     const failureAction1 = fetchApplicationHeadersFailureAction();
     const failureAction2 = fetchExistingCostsRevenuesDataFailureAction();
     const failureAction3 = fetchExistingEconomicsParametersDataFailureAction();
@@ -168,6 +179,6 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters));
+    // yield put(showDialogAction(failureDialogParameters));
   }
 }

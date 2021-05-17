@@ -119,14 +119,14 @@ export default function MatchHeaders({
     economicsParametersAppHeaders,
   } = useSelector((state: RootState) => state[reducer]);
 
-  const { fileHeaders } = useSelector(
+  const { fileHeaders, currentDevOption } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
   );
 
   const allAppHeadersArr = [
     facilitiesAppHeaders,
     forecastAppHeaders,
-    costsRevenuesAppHeaders,
+    costsRevenuesAppHeaders[currentDevOption.value],
     economicsParametersAppHeaders,
   ];
   const applicationHeaders = React.useRef(

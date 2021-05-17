@@ -1,3 +1,4 @@
+import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
@@ -34,6 +35,12 @@ export const GET_FORECASTDATABYID_REQUEST = "GET_FORECASTDATABYID_REQUEST";
 export const GET_FORECASTDATABYID_SUCCESS = "GET_FORECASTDATABYID_SUCCESS";
 export const GET_FORECASTDATABYID_FAILURE = "GET_FORECASTDATABYID_FAILURE";
 export const REMOVE_FORECAST = "REMOVE_FORECAST";
+export const RUN_FORECASTAGGREGATION_REQUEST =
+  "RUN_FORECASTAGGREGATION_REQUEST";
+export const RUN_FORECASTAGGREGATION_SUCCESS =
+  "RUN_FORECASTAGGREGATION_SUCCESS";
+export const RUN_FORECASTAGGREGATION_FAILURE =
+  "RUN_FORECASTAGGREGATION_FAILURE";
 
 export const updateForecastResultsParameterAction = (
   name: string,
@@ -279,5 +286,33 @@ export const getForecastDataByIdFailureAction = () => {
 export const removeCurrentForecastAction = () => {
   return {
     type: REMOVE_FORECAST,
+  };
+};
+
+export const runForecastAggregationRequestAction = (
+  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+) => {
+  return {
+    type: RUN_FORECASTAGGREGATION_REQUEST,
+    payload: { workflowProcess },
+  };
+};
+
+export const runForecastAggregationSuccessAction = () => {
+  return {
+    type: RUN_FORECASTAGGREGATION_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const runForecastAggregationFailureAction = () => {
+  return {
+    type: RUN_FORECASTAGGREGATION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
   };
 };

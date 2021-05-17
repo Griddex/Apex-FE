@@ -13,7 +13,7 @@ import {
 import { RenderTree } from "../../../Forecast/Components/ForecastTreeViewTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 
-export interface IEconomicsState {
+export interface IEconomicsImport {
   fileLastModified: string;
   filePath: string;
   fileType: string;
@@ -138,7 +138,7 @@ export interface INewEconomicsSensitivitiesWorkflowProps
   reducer?: ReducersType;
 }
 
-export interface EconomicsStateType
+export interface IEconomicsState
   extends INewCostsRevenuesInputDeckFormValues,
     INewEconomicsParametersInputDeckFormValues {
   //Remove from here
@@ -150,8 +150,8 @@ export interface EconomicsStateType
   loadEconomicsSensitivitiesWorkflow: boolean;
   loadEconomicsResultsWorkflow: boolean;
 
-  costsRevenuesAppHeaders: Record<string, string>[];
-  cstRevAppHeadersSelectOptions: ISelectOption[];
+  costsRevenuesAppHeaders: Record<TDevScenarioNames, unknown[]>;
+  cstRevAppHeadersSelectOptions: Record<TDevScenarioNames, ISelectOption[]>;
   costsRevenuesInputDeckId: string;
   costsRevenuesInputDeckTitle: string;
   costsRevenuesInputDeckDescription: string;
@@ -208,7 +208,7 @@ export interface EconomicsStateType
   heatMapThresholdColor: string;
   heatMapBackgroundColor: string;
 
-  inputDataWorkflows: Record<string, IEconomicsState>;
+  inputDataWorkflows: Record<string, IEconomicsImport>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;
   economicsAnalysisWorkflows: Record<
     TEconomicsAnalysesNames,
