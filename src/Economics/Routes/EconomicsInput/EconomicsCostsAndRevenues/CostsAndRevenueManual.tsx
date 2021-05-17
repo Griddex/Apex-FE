@@ -24,6 +24,7 @@ import {
   IAllWorkflowProcesses,
   IInputWorkflowProcess,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
@@ -235,15 +236,20 @@ export default function CostsAndRevenueManual({
           const valueOption = uniqUnitOptions[0];
           if (row.sn === 0)
             return (
-              <ApexSelectRS
-                valueOption={valueOption}
-                data={uniqUnitOptions}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
-                  handleApplicationUnitChange(value, "oilRate")
-                }
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-              />
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={valueOption}
+                  data={uniqUnitOptions}
+                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                    handleApplicationUnitChange(value, "oilRate")
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
             );
           else return <div> {row.oilRate}</div>;
         },
@@ -524,6 +530,30 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
+        key: "projectCost",
+        name: "PROJECT COST",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        formatter: ({ row }) => {
+          const valueOption = uniqUnitOptions[0];
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={uniqUnitOptions}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "projectCost")
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          else return <div> {row.projectCost}</div>;
+        },
+        width: 170,
+      },
+      {
         key: "cha",
         name: "CHA",
         editable: true,
@@ -546,6 +576,54 @@ export default function CostsAndRevenueManual({
           else return <div> {row.cha}</div>;
         },
         width: 170,
+      },
+      {
+        key: "tariffs",
+        name: "TARIFFS",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        formatter: ({ row }) => {
+          const valueOption = uniqUnitOptions[0];
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={uniqUnitOptions}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "cha")
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          else return <div> {row.cha}</div>;
+        },
+        width: 170,
+      },
+      {
+        key: "gasProcessingFee",
+        name: "GAS PROC. FEE",
+        editable: true,
+        editor: TextEditor,
+        formatter: ({ row }) => {
+          const valueOption = uniqUnitOptions[0];
+
+          if (row.sn === 0)
+            return (
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={uniqUnitOptions}
+                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleApplicationUnitChange(value, "gasProcessingFee")
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          else return <div> {row.gasProcessingFee}</div>;
+        },
+        resizable: true,
       },
       {
         key: "terminalCost",
@@ -586,11 +664,13 @@ export default function CostsAndRevenueManual({
           "facilitiesCapex",
           "tangWellCost",
           "intangWellCost",
-          "taxDepreciation",
           "abandCost",
           "directCost",
+          "projectCost",
           "cha",
           "terminalCost",
+          "tariffs",
+          "taxDepreciation",
         ].includes(column.key)
       );
     else if (dval === "nagDevelopment")
@@ -606,11 +686,14 @@ export default function CostsAndRevenueManual({
           "facilitiesCapex",
           "tangWellCost",
           "intangWellCost",
-          "taxDepreciation",
           "abandCost",
           "directCost",
+          "projectCost",
           "cha",
           "terminalCost",
+          "tariffs",
+          "gasProcessingFee",
+          "taxDepreciation",
         ].includes(column.key)
       );
     else return columns;

@@ -32,8 +32,6 @@ const ApexSelectRS = ({
       onChange={handleSelect}
       menuPortalTarget={menuPortalTarget}
       theme={(thm) => getRSTheme(thm, theme)}
-      {...noEventPropagation()}
-      // {...NoImmediateEventPropgation}
       {...rest}
     />
   );

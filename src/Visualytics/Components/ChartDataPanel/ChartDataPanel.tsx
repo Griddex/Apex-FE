@@ -16,6 +16,8 @@ import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle"
 import getRSStyles from "../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../Application/Utils/GetRSTheme";
 import ChartCategories from "../ChartCategories/ChartCategories";
+import CategoryOutlinedIcon from "@material-ui/icons/CategoryOutlined";
+import ChartCategoriesContextMenu from "../ContextMenus/ChartCategoriesContextMenu";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -75,12 +77,10 @@ const ChartDataPanel = ({
   const firstRender = React.useRef(true);
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
-  const handleAccordionChange = (panel: string) => (
-    event: React.ChangeEvent<any>,
-    isExpanded: boolean
-  ) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const handleAccordionChange =
+    (panel: string) => (event: React.ChangeEvent<any>, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   const SelectTitle = () => {
     const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
@@ -121,8 +121,9 @@ const ChartDataPanel = ({
       />
       <div style={{ width: "100%", height: "100%" }}>
         <Accordion
-          expanded={expandedRender()}
+          expanded={true}
           onChange={handleAccordionChange("panel1")}
+          style={{ height: "100%" }}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -141,29 +142,12 @@ const ChartDataPanel = ({
             <TreeViewComponent />
           </AccordionDetails>
         </Accordion>
-        <Accordion
-          expanded={expanded === "panel2"}
-          onChange={handleAccordionChange("panel2")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography className={classes.heading}>
-              Chart Categories
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails
-            style={{
-              // height: expanded === "panel2" ? `calc(100% - 48px)` : 48,
-              height: expanded === "panel2" ? 650 : 48,
-            }}
-          >
-            <ChartCategories />
-          </AccordionDetails>
-        </Accordion>
       </div>
+      <CenteredStyle height={50} justifyContent="flex-end">
+        <ChartCategoriesContextMenu component={ChartCategories}>
+          <CategoryOutlinedIcon />
+        </ChartCategoriesContextMenu>
+      </CenteredStyle>
     </CenteredStyle>
   );
 };

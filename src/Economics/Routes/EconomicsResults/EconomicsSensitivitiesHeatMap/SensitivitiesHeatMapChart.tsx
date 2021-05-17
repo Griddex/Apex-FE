@@ -7,11 +7,12 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import { economicsAnalysesOptions, mapData } from "../../../Data/EconomicsData";
 import ItemTypes from "../../../Utils/DragAndDropItemTypes";
@@ -21,8 +22,8 @@ const SensitivitiesHeatMapChart = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [sensitivitiesMapData, setSensitivitiesMapData] =
-    React.useState(mapData);
+  const { sensitivitiesHeatMapData, sensitivitiesHeatMapDataDisplayed } =
+    useSelector((state: RootState) => state.economicsReducer);
 
   const {
     ECONOMICS_SENSITIVITIES_XAXIS,
@@ -93,7 +94,7 @@ const SensitivitiesHeatMapChart = () => {
       flexDirection="column"
       height={"calc(100% - 50px)"}
     >
-      <CenteredStyle width={300} height={50} moreStyles={{ marginBottom: 40 }}>
+      <CenteredStyle width={300} height={50}>
         <ApexSelectRS
           valueOption={analysisOption}
           data={economicsAnalysesOptions}
@@ -104,80 +105,12 @@ const SensitivitiesHeatMapChart = () => {
           isSelectOptionType={true}
         />
       </CenteredStyle>
-      <CenteredStyle flexDirection="column">
-        <div
-          ref={drop}
-          style={{
-            width: 500,
-            height: 40,
-            backgroundColor: theme.palette.grey["100"],
-            ...dndCanvasStyle,
-          }}
-        >
-          <Typography variant="h6" align="center">
-            {"X Axis"}
-          </Typography>
-        </div>
-        <CenteredStyle justifyContent="space-around">
-          <div
-            ref={drop}
-            style={{
-              width: 500,
-              height: 40,
-              backgroundColor: theme.palette.grey["100"],
-              transform: `rotate(90deg)`,
-              ...dndCanvasStyle,
-            }}
-          >
-            <Typography variant="h6" align="center">
-              {"Y Axis"}
-            </Typography>
-          </div>
-          <div style={{ height: "calc(100% - 100px)", width: "100%" }}>
-            <EconomicsSensitivitiesHeatMap />
-          </div>
-          <div
-            ref={drop}
-            style={{
-              width: 300,
-              height: 400,
-              backgroundColor: theme.palette.grey["100"],
-              ...dndCanvasStyle,
-            }}
-          >
-            <Typography variant="h6" align="center">
-              {"Z Axis"}
-            </Typography>
-            {isDroppedOnZ && (
-              <RadioGroup
-                value={parameter3}
-                onChange={(
-                  event: React.ChangeEvent<HTMLInputElement>,
-                  value: string
-                ) => setParameter3(value)}
-                style={{ flexDirection: "row" }}
-              >
-                <FormControlLabel
-                  value="value1"
-                  control={<Radio />}
-                  label="Value 1"
-                />
-                <FormControlLabel
-                  value="value2"
-                  control={<Radio />}
-                  label="Value 2"
-                />
-                <FormControlLabel
-                  value="value3"
-                  control={<Radio />}
-                  label="Value 3"
-                />
-              </RadioGroup>
-            )}
-          </div>
-        </CenteredStyle>
-      </CenteredStyle>
-      <MapStyleFormatters />
+
+      <div style={{ height: "100%", width: "100%" }}>
+        <EconomicsSensitivitiesHeatMap
+          mapDataDisplayed={sensitivitiesHeatMapDataDisplayed}
+        />
+      </div>
     </CenteredStyle>
   );
 };

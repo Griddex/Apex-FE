@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "flex-start",
       justifyContent: "flex-start",
-      height: 200,
+      height: 150,
       border: "1px solid #C4C4C4",
       width: "100%",
     },
@@ -20,7 +21,7 @@ const ChartCategories = () => {
   const classes = useStyles();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+    <CenteredStyle flexDirection="column" width={300}>
       <div className={classes.chartProps}>
         <AnalyticsComp
           title="X Category"
@@ -56,7 +57,7 @@ const ChartCategories = () => {
           direction="Vertical"
         />
       </div>
-    </div>
+    </CenteredStyle>
   );
 };
 

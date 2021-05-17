@@ -10,7 +10,9 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import FormatAggregator from "../../../../Visualytics/Components/FormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
+import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
+import { mapData3D } from "../../../Data/EconomicsData";
 import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
 
@@ -55,8 +57,9 @@ const useStyles = makeStyles((theme) => ({
 const SensitivitiesHeatMapVisualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const workflowProcess = "economicsResultsSensitivitiesHeatmap";
 
-  const { showContextDrawer } = useSelector(
+  const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { isForecastResultsLoading } = useSelector(
@@ -117,7 +120,18 @@ const SensitivitiesHeatMapVisualytics = () => {
         )}
       </div>
       {showContextDrawer && (
-        <ContextDrawer>{() => <FormatAggregator />}</ContextDrawer>
+        <ContextDrawer>
+          {() =>
+            expandContextDrawer ? (
+              <MapStyleFormatters
+                mapData={mapData3D}
+                workflowProcess={workflowProcess}
+              />
+            ) : (
+              <div />
+            )
+          }
+        </ContextDrawer>
       )}
     </div>
   );

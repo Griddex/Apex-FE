@@ -4,6 +4,7 @@ import {
   TEconomicsAnalysesNames,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { EconomicsStateType, IEconomicsState } from "./EconomicsStateTypes";
+import { mapData } from "./../../Data/EconomicsData";
 
 const inputWorkflowProcesses = [
   "economicsCostsRevenuesDeckExcel",
@@ -122,9 +123,25 @@ const generateAnalysesState = () => {
   }, {}) as Record<TEconomicsAnalysesNames, IEconomicsAnalysis>;
 };
 
+const chartsWorkflowProcesses = [
+  "economicsTemplateResultsData",
+  "economicsResultsChartsTables",
+  "economicsResultsSensitivitiesHeatmap",
+];
+const generateChartsState = () => {
+  return chartsWorkflowProcesses.reduce((acc, workflowProcess) => {
+    return {
+      ...acc,
+      [workflowProcess]: {},
+    };
+  }, {});
+};
+
 const inputDataState = generateEconomicsState();
 const existingDataState = generateExistingDataState();
 const analysesDataState = generateAnalysesState();
+const chartsDataState = generateChartsState();
+
 const EconomicsState: EconomicsStateType = {
   //TODO Remove from here
   forecastRun: "",
@@ -175,6 +192,15 @@ const EconomicsState: EconomicsStateType = {
   selectedAnalysis: {},
   selectedAnalysesNames: [],
 
+  sensitivitiesHeatMapData: mapData,
+  sensitivitiesHeatMapDataDisplayed: [],
+  heatMapStylingData: {
+    heatMapThresholdValue: 0,
+    heatMapThresholdColor: "white",
+    heatMapBackgroundColor: "#F8F9FA",
+    relationalOperator: ">",
+  },
+
   sensitivitiesHeatMapTree: { id: "", name: "" },
   economicsPlotChartsTree: { id: "", name: "" },
   economicsTemplatesTree: { id: "", name: "" },
@@ -186,6 +212,7 @@ const EconomicsState: EconomicsStateType = {
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
   economicsAnalysisWorkflows: analysesDataState,
+  economicsChartsWorkflows: chartsDataState,
 };
 
 export default EconomicsState;

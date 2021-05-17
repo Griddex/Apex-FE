@@ -191,6 +191,15 @@ export interface EconomicsStateType
 
   showSensitivitiesTable: boolean;
 
+  sensitivitiesHeatMapData: any;
+  sensitivitiesHeatMapDataDisplayed: [];
+  heatMapStylingData: {
+    heatMapThresholdValue: null | number;
+    heatMapThresholdColor: string;
+    heatMapBackgroundColor: string;
+    relationalOperator: string;
+  };
+
   sensitivitiesHeatMapTree: RenderTree;
   economicsPlotChartsTree: RenderTree;
   economicsTemplatesTree: RenderTree;
@@ -205,4 +214,5 @@ export interface EconomicsStateType
     TEconomicsAnalysesNames,
     IEconomicsAnalysis
   >;
+  economicsChartsWorkflows: Record<string, any>;
 }

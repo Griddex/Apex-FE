@@ -1,20 +1,42 @@
 import React from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
-import { mapData } from "../../../Data/EconomicsData";
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
+import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import { useTheme } from "@material-ui/core";
+import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 
-const EconomicsSensitivitiesHeatMap = () => {
+export interface IEconomicsSensitivitiesHeatMap {
+  mapDataDisplayed: any[];
+}
+
+const EconomicsSensitivitiesHeatMap = ({
+  mapDataDisplayed,
+}: IEconomicsSensitivitiesHeatMap) => {
+  const theme = useTheme();
+
+  let keys: string[] = [];
+
+  if (mapDataDisplayed.length > 0) {
+    keys = Object?.keys(mapDataDisplayed[0])
+      ?.filter((key) => key.includes("Color"))
+      ?.map((e) => e.replace("Color", ""));
+  } else
+    return (
+      <CenteredStyle
+        moreStyles={{
+          border: `1px solid ${theme.palette.grey[400]}`,
+          backgroundColor: theme.palette.grey[200],
+        }}
+      >
+        {"No map"}
+      </CenteredStyle>
+    );
+
   return (
     <ResponsiveHeatMap
-      data={mapData}
-      // keys={["Gas Price1", "Gas Price2", "Gas Price3", "Gas Price4"]}
-      keys={["4.5", "3.4", "1.9", "2.7"]}
+      data={mapDataDisplayed}
+      keys={keys}
       indexBy="Oil Price"
-      margin={{ top: 100, right: 60, bottom: 60, left: 60 }}
+      margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
       forceSquare={true}
       axisTop={{
         tickSize: 5,
@@ -55,6 +77,7 @@ const EconomicsSensitivitiesHeatMap = () => {
       motionDamping={9}
       hoverTarget="cell"
       cellHoverOthersOpacity={0.25}
+      cellShape={HeatMapCustomCell}
     />
   );
 };

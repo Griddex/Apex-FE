@@ -9,6 +9,7 @@ import { ButtonProps } from "../Dialogs/DialogTypes";
 import HourglassFullOutlinedIcon from "@material-ui/icons/HourglassFullOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
@@ -20,6 +21,7 @@ const DialogOneCancelButtons = (
   const icons: Record<string, JSX.Element> = {
     saveOutlined: <SaveOutlinedIcon />,
     loadOutlined: <HourglassFullOutlinedIcon />,
+    doneOutlined: <DoneOutlinedIcon />,
     viewDayTwoTone: <ViewDayTwoToneIcon />,
     reset: <RotateLeftIcon />,
   };

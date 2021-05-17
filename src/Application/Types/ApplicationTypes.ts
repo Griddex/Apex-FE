@@ -98,3 +98,5 @@ export interface IVariableNameTitle {
 }
 
 export type TVariableNameTitleData = IVariableNameTitle[];
+
+export type TUseState<T> = React.Dispatch<React.SetStateAction<T>>;

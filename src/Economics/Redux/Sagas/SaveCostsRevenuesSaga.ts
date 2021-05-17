@@ -63,14 +63,7 @@ function* saveCostsRevenuesSaga(
 > {
   const { payload } = action;
   const { workflowProcess, reducer } = payload;
-  console.log(
-    "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 64 ~ reducer",
-    reducer
-  );
-  console.log(
-    "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 64 ~ workflowProcess",
-    workflowProcess
-  );
+
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
 
@@ -113,10 +106,6 @@ function* saveCostsRevenuesSaga(
     matchObject,
     variableUnits,
   };
-  console.log(
-    "Logged output --> ~ file: SaveCostsRevenuesSaga.ts ~ line 83 ~ data",
-    data
-  );
 
   const config = { withCredentials: false };
   const saveCostsRevenuesAPI = (url: string) =>
