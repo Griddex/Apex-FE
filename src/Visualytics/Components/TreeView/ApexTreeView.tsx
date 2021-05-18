@@ -222,6 +222,7 @@ export default function ApexTreeView({
           <FormControlLabel
             control={
               <Checkbox
+                //TODO check this box from dropresult above
                 checked={selectedIds.some((item) => item === scenarioNodes.id)}
                 onChange={(event) =>
                   getOnChange(event.currentTarget.checked, scenarioNodes)

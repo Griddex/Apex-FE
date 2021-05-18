@@ -48,7 +48,7 @@ const ChartCategory = ({ title }: IChartCategory) => {
 
   const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop(
     () => ({
-      accept: allItemTypes,
+      accept: hasDropped ? "" : allItemTypes,
       drop(item, monitor) {
         const { id, name, title } = item as IDragItem;
         setHasDropped(true);

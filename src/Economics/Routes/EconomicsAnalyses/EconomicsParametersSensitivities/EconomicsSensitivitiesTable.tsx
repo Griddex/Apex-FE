@@ -25,6 +25,9 @@ const EconomicsSensitivitiesTable = ({
     (state: RootState) => state.economicsReducer[wc]
   );
 
+  //TODO Rethink how to make sensitivities table usable by
+  //any current economics analysis
+
   const currentAnalysisObj = economicsAnalyses[analysisName];
   const sensitivitiesTableTitle = currentAnalysisObj["analysisTableTitle"];
   const initialRows = currentAnalysisObj["sensitivitiesTable"];

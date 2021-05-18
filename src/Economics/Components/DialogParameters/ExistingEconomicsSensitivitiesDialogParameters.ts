@@ -18,7 +18,7 @@ export const successDialogParameters: DialogStuff = {
 
 export const failureDialogParameters: DialogStuff = {
   name: "Existing_Economics_Sensitivities_Failure_Dialog",
-  title: "Existing Economics Sensitivities Retrieval Failure",
+  title: "Sensitivities Retrieval Failure",
   type: "textDialog",
   show: true,
   exclusive: true,

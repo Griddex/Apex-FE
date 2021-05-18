@@ -111,7 +111,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const tableHeaderHeight = 40;
   const tableRowHeight = newTableRowHeight ? newTableRowHeight : 35;
   const pagesHeight = 35;
-  const noOfTableRows = rawTableRows.current.length;
+  const noOfTableRows = rawTableRows.current?.length;
 
   const [inComingColumns, setIncomingColumns] = useState(columns);
 
