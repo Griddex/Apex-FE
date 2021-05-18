@@ -5,7 +5,6 @@ import React, { ChangeEvent } from "react";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { persistChartIndexAction } from "../Redux/ChartActions/ChartActions";
 import { useDispatch } from "react-redux";
-import StackedAreaChartPanel from "../Components/StackedAreaChartPanel";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -80,7 +79,8 @@ const SelectChartDataPanel = () => {
   const renderChartDataPanel = (chartName: string) => {
     switch (chartName) {
       case "StackedAreaChartPanel":
-        return <StackedAreaChartPanel />;
+        // return <StackedAreaChartPanel />;
+        return <h6>{"StackedAreaChartPanel"}</h6>;
 
       case "LineChartPanel":
         return <h6>{"LineChartPanel"}</h6>;

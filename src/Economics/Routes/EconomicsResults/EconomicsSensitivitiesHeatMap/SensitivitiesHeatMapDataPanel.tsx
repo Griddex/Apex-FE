@@ -8,52 +8,18 @@ import { IApplicationExistingDataRow } from "../../../../Application/Types/Appli
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-  chartSelect: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "10%",
-    border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-  treeViewPanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    height: "100%",
-    // border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
-
 const SensitivitiesHeatMapDataPanel = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const wc = "existingDataWorkflows";
   const { economicsResultsExisting } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  const { selectedEconomicsResultsTitle } = useSelector(
+  const { selectedEconomicsResultsTitle, showHeatMapCategories } = useSelector(
     (state: RootState) => state.economicsReducer
   );
 
@@ -68,11 +34,8 @@ const SensitivitiesHeatMapDataPanel = () => {
       ? selectedEconomicsResultsTitle
       : economicsResultsTitleOptions[0];
 
-  const [
-    economicsResultTitleOption,
-    setEconomicsResultTitleOption,
-  ] = React.useState(initialEconomicsResultsTitleOption);
-  const firstRender = React.useRef(true);
+  const [economicsResultTitleOption, setEconomicsResultTitleOption] =
+    React.useState(initialEconomicsResultsTitleOption);
 
   const handleSelectEconomicsResultsChange = (
     option: ValueType<ISelectOption, false>
@@ -82,10 +45,6 @@ const SensitivitiesHeatMapDataPanel = () => {
     dispatch(fetchTreeviewKeysRequestAction());
   };
 
-  React.useEffect(() => {
-    firstRender.current = false;
-  }, []);
-
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
@@ -94,6 +53,14 @@ const SensitivitiesHeatMapDataPanel = () => {
       handleSelectChange={handleSelectEconomicsResultsChange}
       selectedTitle={selectedEconomicsResultsTitle}
       treeViewComponent={SensitivitiesHeatMapTreeView}
+      categoriesAction={() =>
+        dispatch(
+          updateEconomicsParameterAction(
+            `showHeatMapCategories`,
+            !showHeatMapCategories
+          )
+        )
+      }
     />
   );
 };

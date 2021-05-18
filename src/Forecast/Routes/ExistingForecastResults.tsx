@@ -26,7 +26,7 @@ import {
 import formatDate from "../../Application/Utils/FormatDate";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
+import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,

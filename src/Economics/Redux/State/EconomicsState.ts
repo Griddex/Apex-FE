@@ -208,6 +208,10 @@ const EconomicsState: IEconomicsState = {
     heatMapBackgroundColor: "#F8F9FA",
     relationalOperator: ">",
   },
+  showHeatMapCategories: false,
+  heatMapVariableX: null,
+  heatMapVariableY: null,
+  heatMapVariableZ: null,
 
   sensitivitiesHeatMapTree: { id: "", name: "" },
   economicsPlotChartsTree: { id: "", name: "" },

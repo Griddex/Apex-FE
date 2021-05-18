@@ -2,10 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ForecastStackedAreaChart from "../../Forecast/Components/ForecastStackedAreaChart";
-import BarChart from "../Components/BarChart";
-import DoughnutChart from "../Components/DoughnutChart";
-import LineChart from "../Components/LineChart";
-import StackedAreaChart from "../Components/StackedAreaChart";
+import BarChart from "../Components/Charts/BarChart";
+import DoughnutChart from "../Components/Charts/DoughnutChart";
+import LineChart from "../Components/Charts/LineChart";
+import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 import { ICharts } from "../Redux/ChartState/ChartStateTypes";
 
 const tempData = [

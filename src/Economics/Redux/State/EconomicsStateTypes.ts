@@ -1,17 +1,16 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
-import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
+import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
-  TEconomicsAnalysesNames,
   IEconomicsAnalysis,
-  TEconomicsAnalysisWorkflows,
   TDevScenarioNames,
   TDevScenarioTitles,
+  TEconomicsAnalysesNames,
   TForecastScenario,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import { RenderTree } from "../../../Forecast/Components/ForecastTreeViewTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
+import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 
 export interface IEconomicsImport {
   fileLastModified: string;
@@ -199,6 +198,10 @@ export interface IEconomicsState
     heatMapBackgroundColor: string;
     relationalOperator: string;
   };
+  showHeatMapCategories: boolean;
+  heatMapVariableX: React.Key | null;
+  heatMapVariableY: React.Key | null;
+  heatMapVariableZ: React.Key | null;
 
   sensitivitiesHeatMapTree: RenderTree;
   economicsPlotChartsTree: RenderTree;

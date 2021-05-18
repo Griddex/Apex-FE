@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useDrag } from "react-dnd";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
-import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import Flowstation from "../../Images/Flowstation.svg";
 import Manifold from "../../Images/Manifold.svg";
 
@@ -29,7 +29,7 @@ interface IProjectSettings {
 
 const ProjectSettingsType: React.FC<IProjectSettingsProps> = ({ title }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.PROJECT_SETTINGS_TYPE,
+    type: itemTypes.PROJECT_SETTINGS_TYPE,
     item: {
       calculationName: title,
     },

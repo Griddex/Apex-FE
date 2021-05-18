@@ -12,41 +12,30 @@ import React, { ChangeEvent } from "react";
 import { ColorResult, SketchPicker } from "react-color";
 import { ColorPicker } from "react-color-gradient-picker";
 import "react-color-gradient-picker/dist/index.css";
-import { useDispatch, useSelector } from "react-redux";
-import { IAction } from "../../Application/Redux/Actions/ActionTypes";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { persistChartObjectAction } from "../Redux/ChartActions/ChartActions";
-import { initialColorGradient } from "../Redux/ChartState/ChartState";
-import { optionType } from "./FormatAggregatorTypes";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { optionType } from "../FormatAggregators/FormatAggregatorTypes";
 
 const useStyles = makeStyles((theme) => ({
-  rootFill: {
+  rootGradient: {
     width: "100%",
-    height: "auto",
+    height: "100%",
   },
   heading: {
-    fontSize: theme.typography.pxToRem(14),
+    fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
-    "&:hover": { color: theme.palette.primary.main },
   },
-  icon: {
-    "&:hover": { color: theme.palette.primary.main },
-  },
-  fillAccordionSummary: {
+  gradientAccordionSummary: {
     borderRadius: 0,
     margin: 0,
     height: 20,
     minHeight: 20,
     "&.Mui-expanded": { height: 20, minHeight: 20 },
   },
-  fillAccordionDetails: { padding: 5 },
-  colorPicker: { width: "91%", boxShadow: "none" },
-  fillFormControlLabel: { height: 20 },
+  gradientFormControlLabel: { height: 20 },
 }));
 
-export default function Fill() {
+export default function Border() {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const theme = useTheme();
 
   const options: optionType[] = ["None", "Solid", "Gradient"];
@@ -54,49 +43,42 @@ export default function Fill() {
   const [solidColor, setSolidColor] = React.useState(
     theme.palette.primary.main
   );
-
-  const { selectedChartObjId } = useSelector(
-    (state: RootState) => state.chartReducer
-  );
-
   // const [gradientColorStops, setGradientColorStops] = React.useState([
   //   { offset: 0.0, color: theme.palette.primary.light, opacity: 1.0 },
   //   { offset: 0.5, color: theme.palette.primary.main, opacity: 1.0 },
   //   { offset: 1.0, color: theme.palette.primary.dark, opacity: 1.0 },
   // ]);
 
-  //Ability to add and store user's own preset colors
-
-  const [presetColors, setPresetColors] = React.useState([
-    theme.palette.primary.main,
-    theme.palette.secondary.main,
-    // theme.palette.tertiary.main,
-    theme.palette.secondary.main,
-  ]);
-
   const handleFillOptionChange = (event: ChangeEvent<any>) => {
     setOption(event.target.value);
   };
-
   const handleSolidColorChangeComplete = (
     solidColor: ColorResult,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const hexColor = solidColor.hex;
     setSolidColor(hexColor);
+  };
 
-    dispatch(
-      persistChartObjectAction({
-        chartObjId: selectedChartObjId,
-        chartObjName: "none", //Pass obj here
-        formatObj: {
-          colorScheme: "solid",
-          color: solidColor.hex,
-        },
-      })
-    );
-
-    setPresetColors((prevState) => [...prevState, hexColor]);
+  const initialColorGradient = {
+    points: [
+      {
+        left: 0,
+        red: 0,
+        green: 0,
+        blue: 0,
+        alpha: 1,
+      },
+      {
+        left: 100,
+        red: 255,
+        green: 0,
+        blue: 0,
+        alpha: 1,
+      },
+    ],
+    degree: 0,
+    type: "linear",
   };
 
   const reducer = (state: typeof initialColorGradient, action: IAction) => {
@@ -118,18 +100,14 @@ export default function Fill() {
     gradientAttrs: typeof initialColorGradient
   ) => {
     localDispatch({ type: "UPDATE_GRADIENT", payload: { gradientAttrs } });
-
-    dispatch(
-      persistChartObjectAction({
-        chartObjId: selectedChartObjId,
-        chartObjName: "none",
-        formatObj: {
-          colorScheme: "gradient",
-          gradient: gradientAttrs,
-        },
-      })
-    );
   };
+
+  const presetColors = [
+    theme.palette.primary.main,
+    theme.palette.secondary.main,
+    // theme.palette.tertiary.main,
+    theme.palette.secondary.main,
+  ];
 
   const renderFillOption = (option: optionType) => {
     switch (option) {
@@ -139,7 +117,6 @@ export default function Fill() {
       case "Solid":
         return (
           <SketchPicker
-            className={classes.colorPicker}
             color={solidColor}
             onChangeComplete={handleSolidColorChangeComplete}
             presetColors={presetColors}
@@ -149,15 +126,13 @@ export default function Fill() {
 
       case "Gradient":
         return (
-          <div style={{ width: "190px" }}>
-            <ColorPicker
-              isGradient
-              onStartChange={handleGradientAttrsChange}
-              onChange={handleGradientAttrsChange}
-              onEndChange={handleGradientAttrsChange}
-              gradient={gradientAttrs}
-            />
-          </div>
+          <ColorPicker
+            isGradient
+            onStartChange={handleGradientAttrsChange}
+            onChange={handleGradientAttrsChange}
+            onEndChange={handleGradientAttrsChange}
+            gradient={gradientAttrs}
+          />
         );
 
       default:
@@ -166,17 +141,17 @@ export default function Fill() {
   };
 
   return (
-    <div className={classes.rootFill}>
-      <Accordion square>
+    <div className={classes.rootGradient}>
+      <Accordion>
         <AccordionSummary
-          className={classes.fillAccordionSummary}
-          expandIcon={<ExpandMoreIcon className={classes.icon} />}
+          className={classes.gradientAccordionSummary}
+          expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>Fill</Typography>
+          <Typography className={classes.heading}>Border</Typography>
         </AccordionSummary>
-        <AccordionDetails className={classes.fillAccordionDetails}>
+        <AccordionDetails>
           <div>
             <FormControl component="fieldset">
               <RadioGroup
@@ -185,12 +160,12 @@ export default function Fill() {
                 value={option}
                 onChange={handleFillOptionChange}
               >
-                {options.map((option, i) => {
+                {options.map((option: optionType, i) => {
                   return (
                     <FormControlLabel
-                      className={classes.fillFormControlLabel}
+                      className={classes.gradientFormControlLabel}
                       key={i}
-                      value={option.toLowerCase()}
+                      value={option}
                       control={<Radio />}
                       label={option}
                     />
@@ -198,7 +173,7 @@ export default function Fill() {
                 })}
               </RadioGroup>
             </FormControl>
-            {!(option === "None") && renderFillOption(option)}
+            {!(option === "None") && <div>{renderFillOption(option)}</div>}
           </div>
         </AccordionDetails>
       </Accordion>

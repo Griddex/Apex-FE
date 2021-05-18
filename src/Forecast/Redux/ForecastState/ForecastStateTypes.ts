@@ -1,13 +1,14 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
 import { IApplicationExistingForecastResultsRow } from "../../../Application/Types/ApplicationTypes";
-import { RenderTree } from "./../../Components/ForecastTreeViewTypes";
+import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
   initialColorGradient,
 } from "./ForecastState";
 
-export type forecastChartObjNameType = keyof typeof forecastChartObjectsNameTitleMap;
+export type forecastChartObjNameType =
+  keyof typeof forecastChartObjectsNameTitleMap;
 export interface IForecastChartObject {
   forecastChartObjId: string;
   forecastChartObjName: forecastChartObjNameType;

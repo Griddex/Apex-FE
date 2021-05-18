@@ -3,13 +3,13 @@ import Typography from "@material-ui/core/Typography";
 import FormatColorFillIcon from "@material-ui/icons/FormatColorFill";
 import ViewCarouselIcon from "@material-ui/icons/ViewCarousel";
 import React from "react";
-import ChartTabsWrapper from "./ChartTabsWrapper";
+import ChartTabsWrapper from "../TabsWrappers/ChartTabsWrapper";
 import FillBorderOptions from "./FillBorderOptions";
 import { useSelector } from "react-redux";
 import { IChartObjContent } from "./FormatAggregatorTypes";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { chartObjectsNameTitleMap } from "../Redux/ChartState/ChartState";
-import { IChartObject } from "../Redux/ChartState/ChartStateTypes";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { chartObjectsNameTitleMap } from "../../Redux/ChartState/ChartState";
+import { IChartObject } from "../../Redux/ChartState/ChartStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootFormatAggregator: {

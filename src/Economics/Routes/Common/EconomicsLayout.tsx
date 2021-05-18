@@ -129,8 +129,6 @@ const EconomicsLayout = () => {
   ];
 
   React.useEffect(() => {
-    dispatch(fetchExistingEconomicsSensitivitiesRequestAction(projectId));
-
     //TODO Find more appropriate location
     dispatch(hideSpinnerAction());
   }, []);

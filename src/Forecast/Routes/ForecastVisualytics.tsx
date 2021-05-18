@@ -5,7 +5,7 @@ import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import SelectChartDataPanel from "../Common/SelectForecastChartDataPanel";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import FormatAggregator from "../../Visualytics/Components/FormatAggregator";
+import FormatAggregator from "../../Visualytics/Components/FormatAggregators/FormatAggregator";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 import SelectChart from "../../Visualytics/Common/SelectChart";
 import SelectForecastChartDataPanel from "../Common/SelectForecastChartDataPanel";

@@ -4,7 +4,7 @@ import { useDrag } from "react-dnd";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import ResultCharts from "../../Images/ResultCharts.svg";
 import ResultTables from "../../Images/ResultTables.svg";
-import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 
 const useStyles = makeStyles(() => ({
   economicsResultPanel: {
@@ -29,7 +29,7 @@ interface IEconomicsResult {
 
 const EconomicsResultsType: React.FC<IEconomicsProps> = ({ title }) => {
   const [{ isDragging }, drag] = useDrag({
-    type: ItemTypes.ECONOMICS_RESULTS_TYPE,
+    type: itemTypes.ECONOMICS_RESULTS_TYPE,
     item: {
       calculationName: title,
     },

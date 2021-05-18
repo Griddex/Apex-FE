@@ -1,7 +1,7 @@
 import {
   ISubContextTabData,
   ISubContextTabPanel,
-} from "./ChartTabsWrapperTypes";
+} from "../TabsWrappers/ChartTabsWrapperTypes";
 
 export interface IChartObjContent {
   none?: null;

@@ -146,25 +146,29 @@ const MapStyleFormatters = ({
           height={50}
           moreStyles={{ marginTop: 10 }}
         >
-          <FormatColorFillIcon
+          {/* <FormatColorFillIcon
             onClick={() => setShowThresholdPicker(!showThresholdPicker)}
             color="primary"
             style={{ border: `1px solid ${theme.palette.grey[400]}` }}
-          />
+          /> */}
           <Box
             style={{
               width: "100%",
               marginLeft: 10,
               height: 36,
               backgroundColor: solidThresholdColor,
-              border: `1px solid ${theme.palette.grey[400]}`,
+              // border: `1px solid ${theme.palette.grey[400]}`,
+              // padding: `1px solid white`,
+              padding: 4,
             }}
+            onClick={() => setShowThresholdPicker(!showThresholdPicker)}
           />
           <Button
             onClick={() => setUpdateMap(!updateMap)}
             type="submit"
             variant="outlined"
             color="primary"
+            startIcon={<FormatColorFillIcon />}
             fullWidth
             style={{ marginLeft: 20 }}
           >
@@ -199,10 +203,10 @@ const MapStyleFormatters = ({
           {"Background Color"}
         </Typography>
         <CenteredStyle justifyContent="space-between" height={40}>
-          <FormatColorFillIcon
+          {/* <FormatColorFillIcon
             onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
             color="primary"
-          />
+          /> */}
           <Box
             style={{
               width: "100%",
@@ -211,12 +215,14 @@ const MapStyleFormatters = ({
               backgroundColor: solidBackgroundColor,
               border: `1px solid ${theme.palette.grey[400]}`,
             }}
+            onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
           />
           <Button
             onClick={() => setUpdateMap(!updateMap)}
             type="submit"
             variant="outlined"
             color="primary"
+            startIcon={<FormatColorFillIcon />}
             fullWidth
             style={{ marginLeft: 20 }}
           >

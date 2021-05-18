@@ -6,7 +6,7 @@ import EconomicsAnalysesPanel from "../../Components/Panels/EconomicsAnalysesPan
 import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
 import NetPresentValue from "../../Images/NetPresentValue.svg";
-import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import { IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 import EconomicsAnalysis from "./EconomicsAnalysis";
 
@@ -174,7 +174,7 @@ export default function EconomicsAnalyses() {
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ItemTypes.ECONOMICS_CALCULATION_TYPE,
+    accept: itemTypes.ECONOMICS_CALCULATION_TYPE,
     drop: (item, monitor) => handleWidgetDrop(monitor),
     collect: (monitor) => {
       return {
@@ -185,13 +185,13 @@ export default function EconomicsAnalyses() {
   });
 
   const isActive = canDrop && isOver;
-  let dndCanvasStyle = {};
+  let dropTargetStyle = {};
   if (isActive) {
-    dndCanvasStyle = {
+    dropTargetStyle = {
       border: "1px solid green",
     };
   } else if (canDrop) {
-    dndCanvasStyle = {
+    dropTargetStyle = {
       border: "1px solid grey",
     };
   }
@@ -205,7 +205,7 @@ export default function EconomicsAnalyses() {
           setSelectedAnalysis={setSelectedAnalysis}
         />
       </div>
-      <div className={classes.workflowBody} ref={drop} style={dndCanvasStyle}>
+      <div className={classes.workflowBody} ref={drop} style={dropTargetStyle}>
         {Object.entries(selectedAnalysis).length === 0 ? (
           <div className={classes.dndArea}>
             <CloudUploadIcon className={classes.imageDnD} />

@@ -7,7 +7,8 @@ import ContextDrawer from "../../../../Application/Components/Drawers/ContextDra
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import FormatAggregator from "../../../../Visualytics/Components/FormatAggregator";
+import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
+import FormatAggregator from "../../../../Visualytics/Components/FormatAggregators/FormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
@@ -62,8 +63,8 @@ const SensitivitiesHeatMapVisualytics = () => {
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { isForecastResultsLoading } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const { showHeatMapCategories } = useSelector(
+    (state: RootState) => state.economicsReducer
   );
 
   const chartButtons: IChartButtonsProps = {
@@ -98,41 +99,40 @@ const SensitivitiesHeatMapVisualytics = () => {
         <div className={classes.chartPanel}>
           <SensitivitiesHeatMapDataPanel />
         </div>
-        {isForecastResultsLoading ? (
-          <div>Forecast results loading</div>
-        ) : (
-          <div className={classes.chartContent}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                height: 50,
-                marginTop: 2,
-                marginRight: 40,
-              }}
-            >
-              <EconomicsChartTitlePlaque />
-              <ChartButtons {...chartButtons} />
-            </div>
-            <SensitivitiesHeatMapChart />
+
+        {showHeatMapCategories && <ChartCategories />}
+
+        <div className={classes.chartContent}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              height: 50,
+              marginTop: 2,
+              marginRight: 40,
+            }}
+          >
+            <EconomicsChartTitlePlaque />
+            <ChartButtons {...chartButtons} />
           </div>
+          <SensitivitiesHeatMapChart />
+        </div>
+        {showContextDrawer && (
+          <ContextDrawer>
+            {() =>
+              expandContextDrawer ? (
+                <MapStyleFormatters
+                  mapData={mapData3D}
+                  workflowProcess={workflowProcess}
+                />
+              ) : (
+                <div />
+              )
+            }
+          </ContextDrawer>
         )}
       </div>
-      {showContextDrawer && (
-        <ContextDrawer>
-          {() =>
-            expandContextDrawer ? (
-              <MapStyleFormatters
-                mapData={mapData3D}
-                workflowProcess={workflowProcess}
-              />
-            ) : (
-              <div />
-            )
-          }
-        </ContextDrawer>
-      )}
     </div>
   );
 };

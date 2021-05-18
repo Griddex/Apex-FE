@@ -68,7 +68,7 @@ const EconomicsSensitivitiesTable = ({
       height={"100%"}
     >
       <AnalyticsText
-        title="Sensitivities Table Title:"
+        title="Sensitivities Table:"
         text={sensitivitiesTableTitle}
         direction="Horizontal"
         containerStyle={{ alignItems: "flex-start", width: "80%" }}

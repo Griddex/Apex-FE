@@ -7,7 +7,7 @@ import ContextDrawer from "../../../../Application/Components/Drawers/ContextDra
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import FormatAggregator from "../../../../Visualytics/Components/FormatAggregator";
+import FormatAggregator from "../../../../Visualytics/Components/FormatAggregators/FormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";

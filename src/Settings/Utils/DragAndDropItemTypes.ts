@@ -1,4 +1,3 @@
-const ItemTypes = {
+export const itemTypes = {
   PROJECT_SETTINGS_TYPE: "PROJECT_SETTINGS_TYPE",
 };
-export default ItemTypes;

@@ -15,7 +15,7 @@ import CenteredStyle from "../../../../Application/Components/Styles/CenteredSty
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import { economicsAnalysesOptions, mapData } from "../../../Data/EconomicsData";
-import ItemTypes from "../../../Utils/DragAndDropItemTypes";
+import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 
 const SensitivitiesHeatMapChart = () => {
@@ -25,18 +25,6 @@ const SensitivitiesHeatMapChart = () => {
   const { sensitivitiesHeatMapData, sensitivitiesHeatMapDataDisplayed } =
     useSelector((state: RootState) => state.economicsReducer);
 
-  const {
-    ECONOMICS_SENSITIVITIES_XAXIS,
-    ECONOMICS_SENSITIVITIES_YAXIS,
-    ECONOMICS_SENSITIVITIES_ZAXIS,
-  } = ItemTypes;
-
-  const [accepts, setAccepts] = React.useState([
-    ECONOMICS_SENSITIVITIES_XAXIS,
-    ECONOMICS_SENSITIVITIES_YAXIS,
-    ECONOMICS_SENSITIVITIES_ZAXIS,
-  ]);
-
   const [analysisOption, setAnalysisOption] = React.useState(
     economicsAnalysesOptions[0]
   );
@@ -45,7 +33,7 @@ const SensitivitiesHeatMapChart = () => {
 
   const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop(
     () => ({
-      accept: ItemTypes.ECONOMICS_SENSITIVITIES,
+      accept: itemTypes.ECONOMICS_HEATMAP,
       drop: (item, monitor) => {
         const didDrop = monitor.didDrop();
         console.log(
@@ -53,7 +41,7 @@ const SensitivitiesHeatMapChart = () => {
           monitor.getDropResult()
         );
         // const index = accepts.findIndex(
-        //   (v) => v === ItemTypes.ECONOMICS_SENSITIVITIES
+        //   (v) => v === itemTypes.ECONOMICS_SENSITIVITIES
         // );
         // accepts.splice(index + 1);
         // setAccepts(accepts);
@@ -76,14 +64,14 @@ const SensitivitiesHeatMapChart = () => {
   );
 
   const isActive = canDrop && isOverCurrent;
-  let dndCanvasStyle = {};
+  let dropTargetStyle = {};
   if (isActive) {
-    dndCanvasStyle = {
+    dropTargetStyle = {
       border: `1px solid ${theme.palette.primary.main}`,
       backgroundColor: theme.palette.primary.light,
     };
   } else if (canDrop) {
-    dndCanvasStyle = {
+    dropTargetStyle = {
       border: `1px solid ${theme.palette.primary.main}`,
     };
   }

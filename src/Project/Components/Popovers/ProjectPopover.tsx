@@ -17,7 +17,10 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { fetchExistingEconomicsDataRequestAction } from "../../../Economics/Redux/Actions/EconomicsActions";
+import {
+  fetchExistingEconomicsDataRequestAction,
+  fetchExistingEconomicsSensitivitiesRequestAction,
+} from "../../../Economics/Redux/Actions/EconomicsActions";
 import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
@@ -207,6 +210,12 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                   dispatch(
                     fetchExistingForecastingResultsRequestAction(
                       projectId as string
+                    )
+                  );
+                  dispatch(
+                    fetchExistingEconomicsSensitivitiesRequestAction(
+                      projectId as string,
+                      false
                     )
                   );
                 }}

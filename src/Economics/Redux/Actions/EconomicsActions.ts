@@ -283,12 +283,16 @@ export const fetchExistingEconomicsDataFailureAction = () => {
 };
 
 export const fetchExistingEconomicsSensitivitiesRequestAction = (
-  projectId: string
+  projectId: string,
+  shouldShowSpinner: boolean
 ) => {
   return {
     type: EXISTINGECONOMICSSENSITIVITIES_REQUEST,
     payload: { projectId },
-    meta: { showSpinner: true, message: "Loading economics sensitivities..." },
+    meta: {
+      showSpinner: shouldShowSpinner,
+      message: "Loading economics sensitivities...",
+    },
   };
 };
 

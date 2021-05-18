@@ -1,12 +1,6 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CategoryOutlinedIcon from "@material-ui/icons/CategoryOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
@@ -15,9 +9,6 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
 import getRSStyles from "../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../Application/Utils/GetRSTheme";
-import ChartCategories from "../ChartCategories/ChartCategories";
-import CategoryOutlinedIcon from "@material-ui/icons/CategoryOutlined";
-import ChartCategoriesContextMenu from "../ContextMenus/ChartCategoriesContextMenu";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,29 +17,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     backgroundColor: "#FFF",
     padding: 20,
-  },
-  chartSelect: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "10%",
-    border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-  treeViewPanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    height: "100%",
-    // border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
   },
 }));
 
@@ -59,6 +27,7 @@ export interface IChartDataPanel {
   selectedTitle: string;
   handleSelectChange: (row: ValueType<ISelectOption, false>) => void;
   treeViewComponent: React.FC;
+  categoriesAction?: () => void;
 }
 
 const ChartDataPanel = ({
@@ -67,20 +36,11 @@ const ChartDataPanel = ({
   titleOptions,
   handleSelectChange,
   treeViewComponent: TreeViewComponent,
+  categoriesAction,
 }: IChartDataPanel) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-
-  const wc = "existingDataWorkflows";
-
-  const firstRender = React.useRef(true);
-  const [expanded, setExpanded] = React.useState<string | false>(false);
-
-  const handleAccordionChange =
-    (panel: string) => (event: React.ChangeEvent<any>, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
 
   const SelectTitle = () => {
     const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
@@ -97,15 +57,6 @@ const ChartDataPanel = ({
     );
   };
 
-  const expandedRender = () => {
-    if (firstRender.current) return true;
-    else return expanded === "panel1";
-  };
-
-  React.useEffect(() => {
-    firstRender.current = false;
-  }, []);
-
   return (
     <CenteredStyle flexDirection="column">
       <AnalyticsComp
@@ -119,34 +70,17 @@ const ChartDataPanel = ({
         direction="Vertical"
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
-      <div style={{ width: "100%", height: "100%" }}>
-        <Accordion
-          expanded={true}
-          onChange={handleAccordionChange("panel1")}
-          style={{ height: "100%" }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography className={classes.heading}>Tree View</Typography>
-          </AccordionSummary>
-          <AccordionDetails
-            style={{
-              // height: expanded === "panel1" ? `calc(100% - 48px)` : 48,
-              overflow: "auto",
-              height: expanded === "panel1" ? 650 : 48,
-            }}
-          >
-            <TreeViewComponent />
-          </AccordionDetails>
-        </Accordion>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          borderBottom: `1px solid ${theme.palette.grey[300]}`,
+        }}
+      >
+        <TreeViewComponent />
       </div>
       <CenteredStyle height={50} justifyContent="flex-end">
-        <ChartCategoriesContextMenu component={ChartCategories}>
-          <CategoryOutlinedIcon />
-        </ChartCategoriesContextMenu>
+        <CategoryOutlinedIcon onClick={categoriesAction} />
       </CenteredStyle>
     </CenteredStyle>
   );

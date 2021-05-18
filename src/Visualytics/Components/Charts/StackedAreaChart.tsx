@@ -4,18 +4,14 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { ResponsiveStream } from "@nivo/stream";
-import { IAction } from "../../Application/Redux/Actions/ActionTypes";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import {
-  setChartObjectAction,
-  setSelectedChartObjIdAction,
-} from "../Redux/ChartActions/ChartActions";
-import ItemTypes from "../Utils/DragAndDropItemTypes";
-import removeAllSpaces from "../Utils/RemoveAllSpaces";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { setChartObjectAction } from "../../Redux/ChartActions/ChartActions";
 import {
   IChartLayoutProps,
   IChartMetaData,
-} from "./../Redux/ChartState/ChartStateTypes";
+} from "../../Redux/ChartState/ChartStateTypes";
+import { itemTypesVisualytics } from "../../Utils/DragAndDropItemTypes";
 
 const useStyles = makeStyles(() => ({
   rootStackedAreaChart: {
@@ -133,7 +129,7 @@ const StackedAreaChart = (props: any) => {
   } = useSelector((state: RootState) => state.chartReducer);
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ItemTypes.TABLE_COLUMNDATA,
+    accept: itemTypesVisualytics.VISUALYTICS_PLOTCHARTS,
     drop: () => ({ name: "StackedAreaChart" }),
     collect: (monitor) => {
       return {

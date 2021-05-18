@@ -1,12 +1,12 @@
 import React from "react";
 import { useDrag } from "react-dnd";
-import ItemTypes from "../../../Visualytics/Utils/DragAndDropItemTypes";
 import Flowstation from "../../Images/Flowstation.svg";
 import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
 import Manifold from "../../Images/Manifold.svg";
 import Terminal from "../../Images/Terminal.svg";
 import Wellhead from "../../Images/Wellhead.svg";
+import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 
 interface nodeProps {
   name: string;
@@ -29,7 +29,7 @@ const NodePanel: React.FC<nodeProps> = ({ name }) => {
   // const allNodes = useStoreState((store) => store.nodes);
 
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.NETWORK_ELEMENT,
+    type: itemTypes.NETWORK_ELEMENT,
     item: {
       nodeType: name,
     },

@@ -8,7 +8,7 @@ import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { useDispatch, useSelector } from "react-redux";
 import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import ItemTypes from "../../../Utils/DragAndDropItemTypes";
+import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -39,7 +39,7 @@ const EconomicsTemplateChart = () => {
   const [parameter3, setParameter3] = React.useState("Z");
 
   const [{ isOverY, canDropY }, dropY] = useDrop({
-    accept: ItemTypes.ECONOMICS_SENSITIVITIES_YAXIS,
+    accept: itemTypes.ECONOMICS_TEMPLATECHARTS,
     drop: (item, monitor) => alert(`You dropped ${item}`),
     collect: (monitor) => {
       return {
@@ -62,7 +62,7 @@ const EconomicsTemplateChart = () => {
   }
 
   const [{ isOverX, canDropX }, dropX] = useDrop({
-    accept: ItemTypes.ECONOMICS_SENSITIVITIES_XAXIS,
+    accept: itemTypes.ECONOMICS_TEMPLATECHARTS,
     drop: (item, monitor) => console.log(item, monitor),
     collect: (monitor) => {
       return {

@@ -16,8 +16,8 @@ import {
   IExistingDataProps,
   IExistingDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
+import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
-import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import apexCheckbox from "./../../../../Application/Components/Checkboxes/ApexCheckbox";
 
 const useStyles = makeStyles((theme) => ({

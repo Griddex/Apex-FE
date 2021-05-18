@@ -50,7 +50,8 @@ function* fetchExistingEconomicsSensitivitiesSaga(action: IAction): Generator<
   void,
   any
 > {
-  const { payload } = action;
+  const { payload, meta } = action;
+  const { showSpinner } = meta as NonNullable<IAction["meta"]>;
 
   const economicsSensitivitiesUrl = `${getBaseEconomicsUrl()}/sensitivities/light`;
 

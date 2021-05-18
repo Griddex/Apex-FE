@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
-import { ChartType } from "./ChartTypes";
 import { useTheme } from "@material-ui/core/styles";
+import { ChartType } from "../ChartTypes";
 
 const useStyles = makeStyles(() => ({
   rootDoughnutChart: {

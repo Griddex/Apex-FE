@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import SelectChart from "./SelectChart";
 import SelectChartDataPanel from "./SelectChartDataPanel";
-import FormatAggregator from "../Components/FormatAggregator";
+import FormatAggregator from "../Components/FormatAggregators/FormatAggregator";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ChartButtons from "../Components/Menus/ChartButtons";

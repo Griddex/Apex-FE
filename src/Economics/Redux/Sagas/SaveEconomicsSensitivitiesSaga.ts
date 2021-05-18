@@ -62,6 +62,7 @@ function* saveEconomicsSensitivitiesSaga(
 > {
   const { payload } = action;
   const { analysisName } = payload;
+
   const aN = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
@@ -121,7 +122,9 @@ function* saveEconomicsSensitivitiesSaga(
     );
 
     yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
-    yield put(fetchExistingEconomicsSensitivitiesRequestAction(projectId));
+    yield put(
+      fetchExistingEconomicsSensitivitiesRequestAction(projectId, false)
+    );
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveEconomicsSensitivitiesFailureAction();

@@ -7,7 +7,7 @@ import {
   TEconomicsAnalyses,
   TEconomicsAnalysesNames,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import ItemTypes from "../../Utils/DragAndDropItemTypes";
+import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import pick from "lodash.pick";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +57,7 @@ const EconomicsAnalysesPanel = ({
   );
 
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.ECONOMICS_CALCULATION_TYPE,
+    type: itemTypes.ECONOMICS_CALCULATION_TYPE,
     item: {
       analysis: selectedAnalysis,
     },

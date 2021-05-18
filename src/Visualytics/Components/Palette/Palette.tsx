@@ -11,9 +11,9 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import getPredefinedPalettes from "../Utils/PredefinedPalettes";
-import { setChartCellColorsAction } from "../Redux/ChartActions/ChartActions";
-import generateRandomColors from "../Utils/GenerateRandomColors";
+import getPredefinedPalettes from "../../Utils/PredefinedPalettes";
+import { setChartCellColorsAction } from "../../Redux/ChartActions/ChartActions";
+import generateRandomColors from "../../Utils/GenerateRandomColors";
 import { IPaletteRidge, PaletteOptionsType } from "./PaletteTypes";
 
 const useStyles = makeStyles((theme) => ({

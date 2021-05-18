@@ -39,7 +39,7 @@ import getDuplicates from "../../../../Application/Utils/GetDuplicates";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
-import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
+import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   persistChosenApplicationHeadersIndicesAction,
   persistFileHeadersMatchAction,

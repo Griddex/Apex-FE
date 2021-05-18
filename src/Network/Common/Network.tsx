@@ -40,7 +40,7 @@ import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
 import WellheadNode from "../Components/Widgets/WellheadWidget";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
-import ItemTypes from "./../../Visualytics/Utils/DragAndDropItemTypes";
+import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
 import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import GenerateNodeService from "./../Services/GenerateNodeService";
@@ -132,25 +132,28 @@ const Network = () => {
   };
 
   //Drag and Drop
-  const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ItemTypes.NETWORK_ELEMENT,
-    drop: (_, monitor) => handleWidgetDrop(monitor),
-    collect: (monitor) => {
-      return {
-        isOver: !!monitor.isOver(),
-        canDrop: !!monitor.canDrop(),
-      };
-    },
-  });
+  const [{ isOver, canDrop }, drop] = useDrop(
+    () => ({
+      accept: itemTypes.NETWORK_ELEMENT,
+      drop: (_, monitor) => handleWidgetDrop(monitor),
+      collect: (monitor) => {
+        return {
+          isOver: !!monitor.isOver(),
+          canDrop: !!monitor.canDrop(),
+        };
+      },
+    }),
+    []
+  );
 
   const isActive = canDrop && isOver;
-  let dndCanvasStyle = {};
+  let dropTargetStyle = {};
   if (isActive) {
-    dndCanvasStyle = {
+    dropTargetStyle = {
       border: "1px solid green",
     };
   } else if (canDrop) {
-    dndCanvasStyle = {
+    dropTargetStyle = {
       border: "1px solid grey",
     };
   }
@@ -257,7 +260,7 @@ const Network = () => {
           </div>
           <div
             ref={composeRefs(drop)}
-            style={dndCanvasStyle}
+            style={dropTargetStyle}
             className={classes.networkContent}
           >
             <div

@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import Fill from "./Fill";
-import Border from "./Border";
-import Palette from "./Palette";
+import Fill from "../Fill/Fill";
+import Border from "../Border/Border";
+import Palette from "../Palette/Palette";
 
 const useStyles = makeStyles(() => ({
   root: {

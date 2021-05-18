@@ -2,9 +2,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import React, { ChangeEvent } from "react";
-import { chartObjNameType } from "../Redux/ChartState/ChartStateTypes";
+import { chartObjNameType } from "../../Redux/ChartState/ChartStateTypes";
+import { IChartObjContent } from "../FormatAggregators/FormatAggregatorTypes";
 import { IChartTabPanel, ISubContextTabData } from "./ChartTabsWrapperTypes";
-import { IChartObjContent } from "./FormatAggregatorTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootSubContextTabs: {
@@ -54,10 +54,8 @@ const ChartTabsWrapper = ({
   //   const nonNullableContent = chartObjsContent[chartObjName] as NonNullable<
   //   typeof content
   // >;
-  const [
-    currentSubContextTabValue,
-    setCurrentSubContextTabValue,
-  ] = React.useState(0);
+  const [currentSubContextTabValue, setCurrentSubContextTabValue] =
+    React.useState(0);
 
   const handleTabChange = (event: ChangeEvent<any>, newValue: number) => {
     setCurrentSubContextTabValue(newValue);

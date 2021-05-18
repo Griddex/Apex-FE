@@ -1,5 +1,8 @@
-const ItemTypes = {
-  TABLE_COLUMNDATA: "TABLE_COLUMNDATA",
-  NETWORK_ELEMENT: "NETWORK_ELEMENT",
+import { itemTypes as itemTypesForecast } from "./../../Forecast/Utils/DragAndDropItemTypes";
+import { itemTypes as itemTypesEconomics } from "./../../Economics/Utils/DragAndDropItemTypes";
+
+const itemTypesVisualytics = {
+  VISUALYTICS_PLOTCHARTS: "VISUALYTICS_PLOTCHARTS",
 };
-export default ItemTypes;
+
+export { itemTypesForecast, itemTypesEconomics, itemTypesVisualytics };

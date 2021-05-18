@@ -16,7 +16,7 @@ import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActi
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../Visualytics/Components/DoughnutChart";
+import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
 import {

@@ -36,7 +36,6 @@ import {
   IUnit,
   IUnitSettingsData,
 } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../../../Visualytics/Components/DoughnutChart";
 import {
   persistChosenApplicationUnitIndicesAction,
   persistChosenApplicationUnitsAction,
@@ -53,6 +52,7 @@ import { IconButton, Tooltip } from "@material-ui/core";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
+import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
