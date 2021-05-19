@@ -104,7 +104,7 @@ function* saveEconomicsParametersSaga(
     "inflationRate",
     "recReserves",
     "abandCost",
-    "abandCoostPerBbl",
+    "abandCostPerBbl",
     "prodTerrain",
     "gasDevConcept",
   ]);
