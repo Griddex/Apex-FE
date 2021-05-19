@@ -13,8 +13,8 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import getCurrentApplicationHeadersNameTitleObj from "../../../../Application/Utils/GetCurrentApplicationHeadersNameTitleObj";
-import { persistEconomicsDeckRequestAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
+import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
+import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   IUnit,
   IUnitSettingsData,
@@ -75,20 +75,29 @@ export default function PreviewSave({
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
-    costsRevenuesAppHeaders,
+    costsRevenuesAppHeaders: cRHeaders,
     economicsParametersAppHeaders,
     fileHeadersChosenAppHeadersWithNone,
   } = useSelector((state: RootState) => state[reducer]);
 
-  const allAppHeadersArr = [
-    facilitiesAppHeaders,
-    forecastAppHeaders,
-    costsRevenuesAppHeaders[currentDevOption.value],
-    economicsParametersAppHeaders,
-  ];
+  let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
+  if (reducer === "economicsReducer") {
+    const currentDevValue = currentDevOption.value as TDevScenarioNames;
+    const costsRevenuesAppHeaders = cRHeaders[currentDevValue];
 
-  const applicationHeaderNameTitleCollection =
-    getCurrentApplicationHeadersNameTitleObj(wp, allAppHeadersArr);
+    allAppHeadersObj = {
+      costsRevenuesAppHeaders,
+      economicsParametersAppHeaders,
+    };
+  } else {
+    allAppHeadersObj = { facilitiesAppHeaders, forecastAppHeaders };
+  }
+
+  const applicationHeaderNameTitleCollection = getCurrentApplicationHeaders(
+    wp,
+    allAppHeadersObj,
+    false
+  );
 
   //TODO: Gift should do this and store in Redis - Application units
   const { applicationUnitsCollection } = useSelector(
@@ -117,15 +126,14 @@ export default function PreviewSave({
 
   const appHeaderNames = swapTitleToNames(
     chosenApplicationHeadersWithoutNone,
-    applicationHeaderNameTitleCollection
+    applicationHeaderNameTitleCollection as IApplicationHeaders[]
   );
 
-  const appHeaderTitleNameObj = applicationHeaderNameTitleCollection.reduce(
-    (acc: Record<string, string>, row: IApplicationHeaders) => {
-      return { ...acc, [row.variableTitle]: row.variableName };
-    },
-    {}
-  );
+  const appHeaderTitleNameObj = (
+    applicationHeaderNameTitleCollection as IApplicationHeaders[]
+  ).reduce((acc: Record<string, string>, row: IApplicationHeaders) => {
+    return { ...acc, [row.variableTitle]: row.variableName };
+  }, {});
 
   const applicationHeadertableData = swapToChosenTableHeaders(
     columnNameTableData,

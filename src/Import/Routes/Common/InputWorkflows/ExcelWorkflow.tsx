@@ -166,12 +166,14 @@ const ExcelWorkflow = ({
     showSkip: true,
     showNext: true,
     finalAction: () => {
-      dispatch(
-        updateEconomicsParameterAction(
-          `inputDataWorkflows.${wp}.developmentScenariosCompleted`,
-          [...developmentScenariosCompleted, currentDevOption.value]
-        )
-      );
+      if (wp.includes("economicsCostsRevenues")) {
+        dispatch(
+          updateEconomicsParameterAction(
+            `inputDataWorkflows.${wp}.developmentScenariosCompleted`,
+            [...developmentScenariosCompleted, currentDevOption?.value]
+          )
+        );
+      }
       finalAction && finalAction();
     },
     workflowProps,

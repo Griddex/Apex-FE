@@ -95,8 +95,14 @@ function* calculateHeatMapDataSaga(
     zLength: variableZlength,
     isSaved: isEconomicsResultsSaved,
     developmentScenariosAnalysis: economicsAnalysisButtons.map(
-      (button: IAggregateButtonProps) => devScenarios[button.scenarioName]
-    )[0],
+      (button: IAggregateButtonProps) => {
+        const devScenarioName = button.scenarioName;
+        return {
+          backendName: devScenarios[devScenarioName],
+          frontendName: devScenarioName,
+        };
+      }
+    ),
     forecastScenarioAnalysis,
   };
 
@@ -109,7 +115,7 @@ function* calculateHeatMapDataSaga(
 
     const result = yield call(
       calculateHeatMapDataAPI,
-      `${getBaseEconomicsUrl()}/analyses/heatmap`
+      `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
     );
     console.log(
       "Logged output --> ~ file: CalculateHeatMapDataSaga.ts ~ line 93 ~ result",

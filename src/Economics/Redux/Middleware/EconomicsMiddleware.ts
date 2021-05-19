@@ -30,7 +30,7 @@ const economicsMiddleware =
 
           dispatch(
             updateEconomicsParameterAction(
-              `inputDataWorkflows.${workflowProcess}.costsRevenues.${currentDevOption.value}`,
+              `inputDataWorkflows.${workflowProcess}.costsRevenues.${currentDevOption?.value}`,
               currentDeck
             )
           );

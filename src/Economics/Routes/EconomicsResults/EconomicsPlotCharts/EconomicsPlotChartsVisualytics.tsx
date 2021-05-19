@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
   chartContent: {
     display: "flex",
     flexDirection: "column",
-    marginRight: 45,
     height: "100%",
     width: (props: ControlPosition) => {
       return `calc(100% - ${props.x}px)`;

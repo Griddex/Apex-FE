@@ -39,6 +39,7 @@ import getDuplicates from "../../../../Application/Utils/GetDuplicates";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
+import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   persistChosenApplicationHeadersIndicesAction,
@@ -51,7 +52,11 @@ import generateMatchData from "../../../Utils/GenerateMatchData";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
 import ApexFlexStyle from "./../../../../Application/Components/Styles/ApexFlexStyle";
 import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
-import { THeader, TUserMatchObject } from "./MatchHeadersTypes";
+import {
+  IApplicationHeaders,
+  THeader,
+  TUserMatchObject,
+} from "./MatchHeadersTypes";
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -115,7 +120,7 @@ export default function MatchHeaders({
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
-    costsRevenuesAppHeaders,
+    costsRevenuesAppHeaders: cRHeaders,
     economicsParametersAppHeaders,
   } = useSelector((state: RootState) => state[reducer]);
 
@@ -123,20 +128,27 @@ export default function MatchHeaders({
     (state: RootState) => state[reducer][wc][wp]
   );
 
-  const allAppHeadersArr = [
-    facilitiesAppHeaders,
-    forecastAppHeaders,
-    costsRevenuesAppHeaders[currentDevOption.value],
-    economicsParametersAppHeaders,
-  ];
+  let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
+  if (reducer === "economicsReducer") {
+    const currentDevValue = currentDevOption.value as TDevScenarioNames;
+    const costsRevenuesAppHeaders = cRHeaders[currentDevValue];
+
+    allAppHeadersObj = {
+      costsRevenuesAppHeaders,
+      economicsParametersAppHeaders,
+    };
+  } else {
+    allAppHeadersObj = { facilitiesAppHeaders, forecastAppHeaders };
+  }
+
   const applicationHeaders = React.useRef(
-    getCurrentApplicationHeaders(wp, allAppHeadersArr)
+    getCurrentApplicationHeaders(wp, allAppHeadersObj, true)
   );
 
   const fileHeaderMatches = React.useRef(
     computeFileHeaderMatches(
       fileHeaders,
-      applicationHeaders.current,
+      applicationHeaders.current as string[],
       savedMatchObjectAll,
       workflowClass
     )

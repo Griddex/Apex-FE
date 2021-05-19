@@ -1,19 +1,23 @@
-import React from "react";
 import { IApplicationHeaders } from "../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import { IAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
 
 const getCurrentApplicationHeaders = (
   wp: IAllWorkflowProcesses["wrkflwPrcss"],
-  allAppHeadersArr: IApplicationHeaders[][]
+  allAppHeadersObj: Record<string, IApplicationHeaders[]>,
+  returnIsStringArray: boolean
 ) => {
   let appHeaders: IApplicationHeaders[] = [];
-  const [
+  const {
     facilitiesAppHeaders,
     forecastAppHeaders,
     costsRevenuesAppHeaders,
     economicsParametersAppHeaders,
-  ] = allAppHeadersArr;
+  } = allAppHeadersObj;
 
+  console.log(
+    "Logged output --> ~ file: GetCurrentApplicationHeaders.ts ~ line 31 ~ costsRevenuesAppHeaders",
+    costsRevenuesAppHeaders
+  );
   if (wp.includes("facilities")) appHeaders = facilitiesAppHeaders;
   else if (wp.includes("forecast")) appHeaders = forecastAppHeaders;
   else if (wp.includes("economicsCostsRevenues"))
@@ -21,7 +25,8 @@ const getCurrentApplicationHeaders = (
   else if (wp.includes("economicsParameters"))
     appHeaders = economicsParametersAppHeaders;
 
-  return appHeaders.map((header: IApplicationHeaders) => header.variableTitle);
+  return appHeaders.map((header: IApplicationHeaders) =>
+    returnIsStringArray ? header.variableTitle : header
+  );
 };
-
 export default getCurrentApplicationHeaders;

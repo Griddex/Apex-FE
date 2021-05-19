@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     marginLeft: 5,
-    marginRight: 45,
     height: "100%",
     width: "calc(100% - 300px)",
     backgroundColor: "#FFF",
@@ -96,7 +95,7 @@ const SensitivitiesHeatMapVisualytics = () => {
     ),
   };
 
-  const ChartCategoriesData = [
+  const ChartCategoriesData = React.useRef([
     {
       title: "X Category",
       persistAction: (name: string, title: string) =>
@@ -170,7 +169,7 @@ const SensitivitiesHeatMapVisualytics = () => {
         );
       },
     },
-  ];
+  ]);
 
   useEffect(() => {
     dispatch(showContextDrawerAction());
@@ -184,7 +183,7 @@ const SensitivitiesHeatMapVisualytics = () => {
         </div>
 
         {showHeatMapCategories && (
-          <ChartCategories ChartCategoriesData={ChartCategoriesData} />
+          <ChartCategories ChartCategoriesData={ChartCategoriesData.current} />
         )}
 
         <div className={classes.chartContent}>
