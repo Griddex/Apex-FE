@@ -15,4 +15,5 @@ export type IdType = {
 
 export interface IAggregateButtonProps extends ButtonProps {
   scenarioName: TDevScenarioNames;
+  willAllowHover: boolean;
 }

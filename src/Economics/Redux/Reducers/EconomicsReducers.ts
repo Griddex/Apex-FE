@@ -17,6 +17,9 @@ import {
   EXISTINGECONOMICSSENSITIVITIES_FAILURE,
   GETECONOMICSSENSITIVITIESBYID_SUCCESS,
   GETECONOMICSSENSITIVITIESBYID_FAILURE,
+  CALCULATE_HEATMAPDATA_REQUEST,
+  CALCULATE_HEATMAPDATA_SUCCESS,
+  CALCULATE_HEATMAPDATA_FAILURE,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 import set from "lodash.set";
@@ -42,6 +45,7 @@ import {
   PERSIST_TABLEHEADERS,
   UPDATE_INPUT,
 } from "../../../Import/Redux/Actions/InputActions";
+import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 const economicsReducer = (state = EconomicsState, action: IAction) => {
   switch (action.type) {
@@ -101,7 +105,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case PERSIST_COLUMNNAMETABLEDATA:
     case PERSIST_TABLEHEADERS: {
       const { reducer, workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const workflowProcessDefined =
+        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
 
       if (reducer === "economicsReducer") {
         return {
@@ -227,16 +232,19 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
     case GETECONOMICSSENSITIVITIESBYID_FAILURE:
     case GETECONOMICSSENSITIVITIESBYID_SUCCESS: {
-      const {
-        analysisName,
-        analysisTableTitle,
-        sensitivitiesTable,
-      } = action.payload;
+      const { analysisName, analysisTableTitle, sensitivitiesTable } =
+        action.payload;
+
+      const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
       return {
         ...state,
         economicsAnalysisWorkflows: {
           ...state.economicsAnalysisWorkflows,
-          [analysisName]: { sensitivitiesTable, analysisTableTitle },
+          [analysisName]: {
+            ...state.economicsAnalysisWorkflows[analysisNameDefined],
+            analysisTableTitle,
+            sensitivitiesTable,
+          },
         },
       };
     }

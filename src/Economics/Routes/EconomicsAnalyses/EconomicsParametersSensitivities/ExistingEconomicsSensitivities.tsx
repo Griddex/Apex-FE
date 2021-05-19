@@ -10,8 +10,8 @@ import { SizeMe } from "react-sizeme";
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
-import apexCheckbox from "../../../../Application/Components/Checkboxes/ApexCheckbox";
-import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
+import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -96,19 +96,19 @@ export default function ExistingEconomicsSensitivities() {
     (state: RootState) => state.economicsReducer[wc][wp]
   ) as IExistingEconomicsSensitivitiesRow[];
 
-  const transExistingSensitivitiesData = (existingSensitivitiesData as IApplicationExistingDataRow[]).map(
-    (row, i) => ({
-      sn: i + 1,
-      economicsSensitivitiesId: row.id,
-      status: "Not Started",
-      title: row.title,
-      analysisName: row.analysisName,
-      description: row.description,
-      author: "---",
-      createdOn: row.createdAt,
-      modifiedOn: row.createdAt,
-    })
-  ) as IExistingEconomicsSensitivitiesRow[];
+  const transExistingSensitivitiesData = (
+    existingSensitivitiesData as IApplicationExistingDataRow[]
+  ).map((row, i) => ({
+    sn: i + 1,
+    economicsSensitivitiesId: row.id,
+    status: "Not Started",
+    title: row.title,
+    analysisName: row.analysisName,
+    description: row.description,
+    author: "---",
+    createdOn: row.createdAt,
+    modifiedOn: row.createdAt,
+  })) as IExistingEconomicsSensitivitiesRow[];
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -124,16 +124,16 @@ export default function ExistingEconomicsSensitivities() {
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const ApexCheckboxColumn = apexCheckbox({
+  const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxFxn: handleCheckboxChange,
+    apexGridCheckboxFxn: handleCheckboxChange,
   });
 
   const generateColumns = () => {
     const columns: Column<IExistingEconomicsSensitivitiesRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexCheckboxColumn,
+      ApexGridCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
@@ -143,7 +143,7 @@ export default function ExistingEconomicsSensitivities() {
           const selectedRowIndex = (sn as number) - 1;
 
           return (
-            <CenteredStyle>
+            <ApexFlexStyle>
               <EditOutlinedIcon
                 onClick={() => {
                   alert(`Edit Row is:${row}`);
@@ -163,7 +163,7 @@ export default function ExistingEconomicsSensitivities() {
               <MenuOpenOutlinedIcon
                 onClick={() => alert(`Menu Row is:${row}`)}
               />
-            </CenteredStyle>
+            </ApexFlexStyle>
           );
         },
         width: 120,
@@ -196,7 +196,7 @@ export default function ExistingEconomicsSensitivities() {
             analysisTitle
           );
 
-          return <CenteredStyle>{analysisTitle}</CenteredStyle>;
+          return <ApexFlexStyle>{analysisTitle}</ApexFlexStyle>;
         },
         width: 150,
       },

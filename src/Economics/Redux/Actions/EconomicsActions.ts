@@ -89,6 +89,9 @@ export const RUNECONOMICSANALYSIS_REQUEST = "RUNECONOMICSANALYSIS_REQUEST";
 export const RUNECONOMICSANALYSIS_SUCCESS = "RUNECONOMICSANALYSIS_SUCCESS";
 export const RUNECONOMICSANALYSIS_FAILURE = "RUNECONOMICSANALYSIS_FAILURE";
 export const PERSIST_ECONOMICSDECK = "PERSIST_ECONOMICSDECK";
+export const CALCULATE_HEATMAPDATA_REQUEST = "CALCULATE_HEATMAPDATA_REQUEST";
+export const CALCULATE_HEATMAPDATA_SUCCESS = "CALCULATE_HEATMAPDATA_SUCCESS";
+export const CALCULATE_HEATMAPDATA_FAILURE = "CALCULATE_HEATMAPDATA_FAILURE";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -417,5 +420,35 @@ export const persistEconomicsDeckRequestAction = (
     type: PERSIST_ECONOMICSDECK,
     payload: { workflowProcess, devValue, rows },
     meta: { isRowsInPayload },
+  };
+};
+
+export const calculateHeatMapDataRequestAction = (
+  analysisName: TEconomicsAnalysesNames,
+  analysisTitle: TEconomicsAnalysesTitles
+) => {
+  return {
+    type: CALCULATE_HEATMAPDATA_REQUEST,
+    payload: { analysisName, analysisTitle },
+    meta: { showSpinner: true, message: `Calculating map data...` },
+  };
+};
+
+export const calculateHeatMapDataSuccessAction = () => {
+  return {
+    type: CALCULATE_HEATMAPDATA_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const calculateHeatMapDataFailureAction = () => {
+  return {
+    type: CALCULATE_HEATMAPDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
   };
 };

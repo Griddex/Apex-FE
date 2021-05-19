@@ -115,7 +115,7 @@ const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
                   }
                 >
                   <ListItemAvatar className={classes.listItemAvatar}>
-                    {avatar}
+                    <>{avatar}</>
                   </ListItemAvatar>
                   <ListItemText>{header}</ListItemText>
                 </ListItem>

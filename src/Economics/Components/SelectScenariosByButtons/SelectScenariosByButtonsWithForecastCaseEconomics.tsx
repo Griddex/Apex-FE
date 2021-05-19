@@ -14,59 +14,45 @@ import {
   forecastCaseOptions,
 } from "../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import {
+  TDevScenarioNames,
+  TDevScenarioTitles,
+  TEconomicsAnalysesNames,
+} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import AggregatedButtons from "../AggregatedButtons/AggregatedButtons";
 
-export interface ISelectScenariosByButtonsWithForecastCase {
+export interface ISelectScenariosByButtonsWithForecastCaseEconomics {
   width?: number | string;
   height?: number | string;
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
+  analysisProcess: TEconomicsAnalysesNames;
   workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"];
+  devOptions: { value: TDevScenarioNames; label: TDevScenarioTitles }[];
 }
 
-const SelectScenariosByButtonsWithForecastCase = ({
+const SelectScenariosByButtonsWithForecastCaseEconomics = ({
   width,
   height,
-  workflowProcess,
+  analysisProcess,
   workflowCategory,
-}: ISelectScenariosByButtonsWithForecastCase) => {
+  devOptions,
+}: ISelectScenariosByButtonsWithForecastCaseEconomics) => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const wp = workflowProcess;
+  const ap = analysisProcess;
   const wc = workflowCategory;
 
-  const {
-    currentDevOption,
-    costRevenuesButtons,
-    developmentScenariosCompleted,
-  } = useSelector((state: RootState) => state.economicsReducer[wc][wp]);
+  const [devOption, setDevOption] = React.useState(devOptions[0]);
 
-  const [devOption, setDevOption] = React.useState(
-    Object.entries(currentDevOption).length > 0
-      ? currentDevOption
-      : developmentScenarioOptions[0]
-  );
-
-  const [buttonsData, setButtonsData] = React.useState(
-    Object.entries(costRevenuesButtons).length > 0
-      ? costRevenuesButtons
-      : ([
-          {
-            title: devOption.label,
-            scenarioName: devOption.value,
-            variant: "outlined",
-            color: "primary",
-            handleAction: () => {
-              dispatch(
-                subNavbarSetMenuAction(
-                  `Economics Costs & Revenues [${devOption.label}]`
-                )
-              );
-              setDevOption(devOption as ISelectOption);
-            },
-          },
-        ] as IAggregateButtonProps[])
-  );
+  const [buttonsData, setButtonsData] = React.useState([
+    {
+      title: devOption.label,
+      scenarioName: devOption.value,
+      variant: "outlined",
+      color: "primary",
+      willAllowHover: true,
+    },
+  ] as IAggregateButtonProps[]);
 
   const [forecastCaseOption, setForecastCaseOption] = React.useState(
     forecastCaseOptions[1]
@@ -75,26 +61,11 @@ const SelectScenariosByButtonsWithForecastCase = ({
   React.useEffect(() => {
     dispatch(
       updateEconomicsParameterAction(
-        `inputDataWorkflows.${workflowProcess}.currentDevOption`,
-        devOption
-      )
-    );
-  }, []);
-
-  React.useEffect(() => {
-    dispatch(
-      updateEconomicsParameterAction(
-        `inputDataWorkflows.${workflowProcess}.currentDevOption`,
-        devOption
-      )
-    );
-    dispatch(
-      updateEconomicsParameterAction(
-        `inputDataWorkflows.${workflowProcess}.costRevenuesButtons`,
+        `${wc}.${ap}.economicsAnalysisButtons`,
         buttonsData
       )
     );
-  }, [devOption, buttonsData]);
+  }, [buttonsData]);
 
   return (
     <ApexFlexStyle
@@ -116,10 +87,8 @@ const SelectScenariosByButtonsWithForecastCase = ({
               valueOption={devOption}
               data={developmentScenarioOptions}
               handleSelect={(row: ValueType<ISelectOption, false>) => {
-                const path = `inputDataWorkflows.${workflowProcess}.developmentScenarios`;
                 const value = row?.value as string;
                 const label = row?.label as string;
-                dispatch(updateEconomicsParameterAction(path, value));
 
                 setButtonsData((prev: IAggregateButtonProps[]) => {
                   if (
@@ -134,14 +103,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
                       scenarioName: value,
                       variant: "outlined",
                       color: "primary",
-                      handleAction: () => {
-                        dispatch(
-                          subNavbarSetMenuAction(
-                            `Economics Costs & Revenues [${label}]`
-                          )
-                        );
-                        setDevOption(row as ISelectOption);
-                      },
+                      willAllowHover: true,
                     } as IAggregateButtonProps;
 
                     return [...prev, btnData];
@@ -156,7 +118,6 @@ const SelectScenariosByButtonsWithForecastCase = ({
         <AggregatedButtons
           buttonsData={buttonsData}
           setButtonsData={setButtonsData}
-          developmentScenariosCompleted={developmentScenariosCompleted}
         />
       </ApexFlexStyle>
       <AnalyticsComp
@@ -172,7 +133,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
             valueOption={forecastCaseOption}
             data={forecastCaseOptions}
             handleSelect={(option: ValueType<ISelectOption, false>) => {
-              const path = `inputDataWorkflows.${workflowProcess}.forecastScenario`;
+              const path = `${wc}.${ap}.forecastScenarioAnalysis`;
               const value = option?.value as string;
               dispatch(updateEconomicsParameterAction(path, value));
 
@@ -187,4 +148,4 @@ const SelectScenariosByButtonsWithForecastCase = ({
   );
 };
 
-export default SelectScenariosByButtonsWithForecastCase;
+export default SelectScenariosByButtonsWithForecastCaseEconomics;

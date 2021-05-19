@@ -12,7 +12,7 @@ import { SizeMe } from "react-sizeme";
 import Approval from "../../Application/Components/Approval/Approval";
 import Author from "../../Application/Components/Author/Author";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
-import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import Saved from "../../Application/Components/Saved/Saved";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -161,16 +161,16 @@ export default function ExistingForecastResults({
     () => new Set<React.Key>()
   );
 
-  const ApexCheckboxColumn = apexCheckbox({
+  const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxFxn: handleCheckboxChange,
+    apexGridCheckboxFxn: handleCheckboxChange,
   });
 
   const generateColumns = () => {
     const columns: Column<IExistingForecastResultsRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexCheckboxColumn,
+      ApexGridCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",

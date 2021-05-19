@@ -8,12 +8,12 @@ import IconButtonWithTooltip from "../../../../Application/Components/IconButton
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
-import FormatAggregator from "../../../../Visualytics/Components/FormatAggregators/FormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import { mapData3D } from "../../../Data/EconomicsData";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
 
@@ -55,6 +55,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export interface IChartCategory {
+  title: string;
+  persistAction: (name: string, title: string) => void;
+  removeAction: () => void;
+}
+export type IChartCategoriesData = IChartCategory[];
+
 const SensitivitiesHeatMapVisualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -89,6 +96,82 @@ const SensitivitiesHeatMapVisualytics = () => {
     ),
   };
 
+  const ChartCategoriesData = [
+    {
+      title: "X Category",
+      persistAction: (name: string, title: string) =>
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableXOption", {
+            value: name,
+            label: title,
+          })
+        ),
+      removeAction: () => {
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableXOption", null)
+        );
+        //TODO before dispatching, check if is empty
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
+        );
+        dispatch(
+          updateEconomicsParameterAction(
+            "sensitivitiesHeatMapDataDisplayed",
+            []
+          )
+        );
+      },
+    },
+    {
+      title: "Y Category",
+      persistAction: (name: string, title: string) =>
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableYOption", {
+            value: name,
+            label: title,
+          })
+        ),
+      removeAction: () => {
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableYOption", null)
+        );
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
+        );
+        dispatch(
+          updateEconomicsParameterAction(
+            "sensitivitiesHeatMapDataDisplayed",
+            []
+          )
+        );
+      },
+    },
+    {
+      title: "Z Category",
+      persistAction: (name: string, title: string) =>
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableZOption", {
+            value: name,
+            label: title,
+          })
+        ),
+      removeAction: () => {
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableYOption", null)
+        );
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
+        );
+        dispatch(
+          updateEconomicsParameterAction(
+            "sensitivitiesHeatMapDataDisplayed",
+            []
+          )
+        );
+      },
+    },
+  ];
+
   useEffect(() => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
@@ -100,7 +183,9 @@ const SensitivitiesHeatMapVisualytics = () => {
           <SensitivitiesHeatMapDataPanel />
         </div>
 
-        {showHeatMapCategories && <ChartCategories />}
+        {showHeatMapCategories && (
+          <ChartCategories ChartCategoriesData={ChartCategoriesData} />
+        )}
 
         <div className={classes.chartContent}>
           <div

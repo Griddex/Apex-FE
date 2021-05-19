@@ -3,7 +3,7 @@ import React from "react";
 import { ColorResult, SketchPicker } from "react-color";
 import "react-color-gradient-picker/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { updateEconomicsParameterAction } from "../../../Economics/Redux/Actions/EconomicsActions";
@@ -58,7 +58,7 @@ export default function ApexSketchPicker({
         // onSwatchHover={(color, event) => console.log(color, event)}
       />
       {showButtons && (
-        <CenteredStyle>
+        <ApexFlexStyle>
           {DialogOneCancelButtons(
             [true, true],
             [true, false],
@@ -66,7 +66,7 @@ export default function ApexSketchPicker({
             "Select",
             "doneOutlined"
           )}
-        </CenteredStyle>
+        </ApexFlexStyle>
       )}
     </div>
   );

@@ -118,7 +118,7 @@ const generateAnalysesState = () => {
   return analysesWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
-      [workflowProcess]: {},
+      [workflowProcess]: { forecastScenarioAnalysis: "2P_2C" },
     };
   }, {}) as Record<TEconomicsAnalysesNames, IEconomicsAnalysis>;
 };
@@ -168,6 +168,7 @@ const EconomicsState: IEconomicsState = {
 
   selectedCostsRevenuesInputDeckId: "",
   selectedCostsRevenuesInputDeckTitle: "",
+  selectedDevScenarioNamesCostsRevenues: [],
 
   economicsParametersAppHeaders: [],
   ecoParAppHeadersSelectOptions: [],
@@ -192,6 +193,7 @@ const EconomicsState: IEconomicsState = {
   economicsResultsDescription: "",
   selectedEconomicsResultsId: "",
   selectedEconomicsResultsTitle: "",
+  isEconomicsResultsSaved: false,
 
   showSensitivitiesTable: false,
 
@@ -209,9 +211,9 @@ const EconomicsState: IEconomicsState = {
     relationalOperator: ">",
   },
   showHeatMapCategories: false,
-  heatMapVariableX: null,
-  heatMapVariableY: null,
-  heatMapVariableZ: null,
+  heatMapVariableXOption: null,
+  heatMapVariableYOption: null,
+  heatMapVariableZOption: null,
 
   sensitivitiesHeatMapTree: { id: "", name: "" },
   economicsPlotChartsTree: { id: "", name: "" },

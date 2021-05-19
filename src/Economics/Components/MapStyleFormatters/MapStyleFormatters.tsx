@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import ApexSketchPicker from "../../../Visualytics/Components/ColorPickers/ApexSketchPicker";
@@ -102,8 +102,8 @@ const MapStyleFormatters = ({
   }, [updateMap]);
 
   return (
-    <CenteredStyle flexDirection="column" alignItems="space-evenly">
-      <CenteredStyle
+    <ApexFlexStyle flexDirection="column" alignItems="space-evenly">
+      <ApexFlexStyle
         height={430}
         flexDirection="column"
         justifyContent="flex-start"
@@ -118,7 +118,7 @@ const MapStyleFormatters = ({
         >
           {"Threshold Format"}
         </Typography>
-        <CenteredStyle height={40} justifyContent="space-between">
+        <ApexFlexStyle height={40} justifyContent="space-between">
           <ApexSelectRS
             valueOption={operatorOption}
             data={opOptions}
@@ -140,8 +140,8 @@ const MapStyleFormatters = ({
             autoFocus
             fullWidth
           />
-        </CenteredStyle>
-        <CenteredStyle
+        </ApexFlexStyle>
+        <ApexFlexStyle
           justifyContent="space-between"
           height={50}
           moreStyles={{ marginTop: 10 }}
@@ -174,7 +174,7 @@ const MapStyleFormatters = ({
           >
             Apply
           </Button>
-        </CenteredStyle>
+        </ApexFlexStyle>
         {showThresholdPicker && (
           <ApexSketchPicker
             oneButtonAction={() => {}}
@@ -185,8 +185,8 @@ const MapStyleFormatters = ({
             showButtons={false}
           />
         )}
-      </CenteredStyle>
-      <CenteredStyle
+      </ApexFlexStyle>
+      <ApexFlexStyle
         height={350}
         flexDirection="column"
         justifyContent="flex-start"
@@ -202,7 +202,7 @@ const MapStyleFormatters = ({
         >
           {"Background Color"}
         </Typography>
-        <CenteredStyle justifyContent="space-between" height={40}>
+        <ApexFlexStyle justifyContent="space-between" height={40}>
           {/* <FormatColorFillIcon
             onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
             color="primary"
@@ -228,7 +228,7 @@ const MapStyleFormatters = ({
           >
             Apply
           </Button>
-        </CenteredStyle>
+        </ApexFlexStyle>
         {showBackgroundPicker && (
           <ApexSketchPicker
             oneButtonAction={() => {}}
@@ -239,8 +239,8 @@ const MapStyleFormatters = ({
             showButtons={false}
           />
         )}
-      </CenteredStyle>
-    </CenteredStyle>
+      </ApexFlexStyle>
+    </ApexFlexStyle>
   );
 };
 

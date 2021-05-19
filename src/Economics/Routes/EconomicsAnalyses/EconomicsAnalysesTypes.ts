@@ -2,6 +2,7 @@ import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { IEconomicsWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAggregateButtonProps } from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 
 export interface IEconomicsSensitivitiesViews {
   create: JSX.Element;
@@ -58,10 +59,12 @@ export type TDevScenarioNames =
   | "oilDevelopment"
   | "nagDevelopment"
   | "oilNAGDevelopment";
+
 export type TDevScenarioTitles =
   | "Oil Development"
   | "NAG Development"
   | "Oil + NAG Development";
+
 export type TForecastScenario = "1P_1C" | "2P_2C" | "3P_3C";
 
 export type TSensitivitiesTable = ISensitivitiesRow[];
@@ -76,7 +79,10 @@ export interface IEconomicsAnalysis {
   showSensitivitiesTable?: boolean;
   sensitivitiesTable?: ISensitivitiesRow[];
   analysisTableTitle?: string;
+  forecastScenarioAnalysis?: TForecastScenario;
+  economicsAnalysisButtons?: IAggregateButtonProps[];
 }
+
 export type TEconomicsAnalysisWorkflows =
   `${TEconomicsAnalysesNames}WorkflowProcess`;
 

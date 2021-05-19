@@ -5,7 +5,7 @@ import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { subNavbarSetMenuAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -79,7 +79,7 @@ const SelectScenariosByButtons = ({
   }, [devOption]);
 
   return (
-    <CenteredStyle
+    <ApexFlexStyle
       width={width && width}
       height={height && height}
       flexDirection="column"
@@ -147,7 +147,7 @@ const SelectScenariosByButtons = ({
         buttonWidth={"90%"}
         buttonHeight={70}
       />
-    </CenteredStyle>
+    </ApexFlexStyle>
   );
 };
 

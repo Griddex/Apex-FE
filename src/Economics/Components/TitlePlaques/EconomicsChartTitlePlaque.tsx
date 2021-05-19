@@ -8,30 +8,28 @@ const EconomicsChartTitlePlaque = () => {
   const theme = useTheme();
 
   const {
-    selectedForecastingResultsTitle,
-    selectedForecastingResultsId,
-    isForecastResultsSaved,
-  } = useSelector((state: RootState) => state.forecastReducer);
+    selectedEconomicsResultsTitle,
+    selectedEconomicsResultsId,
+    isEconomicsResultsSaved,
+  } = useSelector((state: RootState) => state.economicsReducer);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
       <InsertPhotoOutlinedIcon />
       <Box style={{ display: "flex", alignItems: "center", marginLeft: 5 }}>
-        {selectedForecastingResultsTitle
-          ? selectedForecastingResultsTitle
-          : "---"}
+        {selectedEconomicsResultsTitle ? selectedEconomicsResultsTitle : "---"}
       </Box>
-      {selectedForecastingResultsId && (
+      {selectedEconomicsResultsId && (
         <Chip
           style={{
-            backgroundColor: isForecastResultsSaved
+            backgroundColor: isEconomicsResultsSaved
               ? theme.palette.success.main
               : theme.palette.secondary.main,
             marginLeft: 5,
             color: "white",
           }}
           size="small"
-          label={isForecastResultsSaved ? "Saved" : "Not Saved"}
+          label={isEconomicsResultsSaved ? "Saved" : "Not Saved"}
         />
       )}
     </div>

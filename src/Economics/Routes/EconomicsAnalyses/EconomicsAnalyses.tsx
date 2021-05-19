@@ -1,14 +1,17 @@
 import { makeStyles } from "@material-ui/core/styles";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import pick from "lodash.pick";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import EconomicsAnalysesPanel from "../../Components/Panels/EconomicsAnalysesPanel";
 import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
 import NetPresentValue from "../../Images/NetPresentValue.svg";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import { IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 import EconomicsAnalysis from "./EconomicsAnalysis";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -165,6 +168,8 @@ export const economicsAnalyses: IEconomicsAnalysis[] = [
 
 export default function EconomicsAnalyses() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const [selectedAnalysis, setSelectedAnalysis] = React.useState(
     {} as IEconomicsAnalysis
   );
@@ -173,16 +178,19 @@ export default function EconomicsAnalyses() {
     setSelectedAnalysis(analysis);
   };
 
-  const [{ isOver, canDrop }, drop] = useDrop({
-    accept: itemTypes.ECONOMICS_CALCULATION_TYPE,
-    drop: (item, monitor) => handleWidgetDrop(monitor),
-    collect: (monitor) => {
-      return {
-        isOver: !!monitor.isOver(),
-        canDrop: !!monitor.canDrop(),
-      };
-    },
-  });
+  const [{ isOver, canDrop }, drop] = useDrop(
+    () => ({
+      accept: itemTypes.ECONOMICS_CALCULATION_TYPE,
+      drop: (item, monitor) => handleWidgetDrop(monitor),
+      collect: (monitor) => {
+        return {
+          isOver: !!monitor.isOver(),
+          canDrop: !!monitor.canDrop(),
+        };
+      },
+    }),
+    []
+  );
 
   const isActive = canDrop && isOver;
   let dropTargetStyle = {};
@@ -195,6 +203,13 @@ export default function EconomicsAnalyses() {
       border: "1px solid grey",
     };
   }
+
+  React.useEffect(() => {
+    const path = `economicsAnalysisWorkflows.selectedAnalysis`;
+    const pickedSelectedAnalysis = pick(selectedAnalysis, ["name", "title"]);
+
+    dispatch(updateEconomicsParameterAction(path, pickedSelectedAnalysis));
+  }, [selectedAnalysis]);
 
   return (
     <div className={classes.root}>

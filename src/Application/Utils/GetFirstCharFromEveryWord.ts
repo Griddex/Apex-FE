@@ -1,4 +1,4 @@
-const getFirstCharFromEveryWord = (sentence) => {
+const getFirstCharFromEveryWord = (sentence: string) => {
   const parts = sentence.split(" ");
 
   const abbreviation = parts.reduce((final, part) => {

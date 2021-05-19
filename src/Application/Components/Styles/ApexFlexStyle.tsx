@@ -1,7 +1,7 @@
 import React from "react";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 
-export interface ICenteredStyle {
+export interface IApexFlexStyle {
   children: React.ReactNode;
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
   height?: number | string;
@@ -24,7 +24,7 @@ export interface ICenteredStyle {
   moreStyles?: CSSProperties;
 }
 
-const CenteredStyle = React.forwardRef<HTMLDivElement, ICenteredStyle>(
+const ApexFlexStyle = React.forwardRef<HTMLDivElement, IApexFlexStyle>(
   (
     {
       children,
@@ -60,4 +60,4 @@ const CenteredStyle = React.forwardRef<HTMLDivElement, ICenteredStyle>(
   }
 );
 
-export default CenteredStyle;
+export default ApexFlexStyle;

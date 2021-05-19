@@ -63,6 +63,7 @@ const EconomicsAnalysesPanel = ({
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   }));
+
   const opacity = isDragging ? 0.4 : 1;
   const props = { opacity };
   const classes = useStyles(props);
@@ -99,11 +100,13 @@ const EconomicsAnalysesPanel = ({
                 style={style}
                 onClick={() => {
                   setSelectedAnalysis && setSelectedAnalysis(analysis);
+
                   const path = `economicsAnalysisWorkflows.selectedAnalysis`;
-                  const pickedSelectedAnalysis = pick(selectedAnalysis, [
+                  const pickedSelectedAnalysis = pick(analysis, [
                     "name",
                     "title",
                   ]);
+
                   dispatch(
                     updateEconomicsParameterAction(path, pickedSelectedAnalysis)
                   );

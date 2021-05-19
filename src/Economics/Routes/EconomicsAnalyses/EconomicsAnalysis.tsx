@@ -11,7 +11,7 @@ import DialogSaveCancelButtons from "../../../Application/Components/DialogButto
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import {
   showDialogAction,
@@ -19,7 +19,11 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
-import { developmentScenarios } from "../../Data/EconomicsData";
+import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics";
+import {
+  developmentScenarioOptions,
+  developmentScenarios,
+} from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
   runEconomicsAnalysisRequestAction,
@@ -29,6 +33,8 @@ import {
 import {
   IEconomicsAnalysis,
   IEconomicsParametersSensitivitiesProps,
+  TDevScenarioNames,
+  TDevScenarioTitles,
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "./EconomicsAnalysesTypes";
@@ -81,22 +87,26 @@ const EconomicsAnalysis = ({
     IEconomicsParametersSensitivitiesProps["workflowProcess"]
   >;
   const reducer = "economicsReducer";
-  const { showSensitivitiesTable } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const { showSensitivitiesTable, selectedDevScenarioNamesCostsRevenues } =
+    useSelector((state: RootState) => state.economicsReducer);
 
   const selectedAnalysisDefined =
     selectedAnalysis as NonNullable<IEconomicsAnalysis>;
-  const { name, title, icon } = selectedAnalysisDefined;
-  const analysisName = selectedAnalysis?.name;
-  const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
+  const {
+    name: analysisName,
+    title: analysisTitle,
+    icon,
+  } = selectedAnalysisDefined;
 
   //TODO: filter devoptions based on costs/revenues data input
   //Send all filtered dev options to backend
-  const devOptions =
-    swapVariableNameTitleForISelectOption(developmentScenarios);
-  const devValueOption = devOptions[0];
-  const [devValue, setDevValue] = React.useState(devValueOption);
+
+  //TODO Pick data from Gift
+  // const devOptions = developmentScenarioOptions.filter((opts) =>
+  // selectedDevScenarioNamesCostsRevenues.includes(opts.value)
+  // );
+
+  const devOptions = developmentScenarioOptions;
 
   const [analysisPerspective, setAnalysisPerspective] = React.useState(false);
   const handleExcludeSwitchChange = (event: React.ChangeEvent<any>) => {
@@ -209,18 +219,18 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const calculateEconomicsAnalysisConfirmation = (
-    name: TEconomicsAnalysesNames,
-    title: TEconomicsAnalysesTitles
+  const runEconomicsAnalysisConfirmation = (
+    analysisName: TEconomicsAnalysesNames,
+    analysisTitle: TEconomicsAnalysesTitles
   ) => {
     const confirmationDialogParameters: DialogStuff = {
-      name: `Calculate_${title}_Confirmation`,
-      title: `Calculate ${title} Confirmation`,
+      name: `Calculate_${analysisTitle}_Confirmation`,
+      title: `Calculate ${analysisTitle} Confirmation`,
       type: "textDialog",
       show: true,
       exclusive: false,
       maxWidth: "xs",
-      dialogText: `Do you want to calculate ${title} with the current parameters?`,
+      dialogText: `Do you want to calculate ${analysisTitle} with the current parameters?`,
       iconType: "confirmation",
       actionsList: () =>
         DialogOneCancelButtons(
@@ -228,7 +238,12 @@ const EconomicsAnalysis = ({
           [true, true],
           [
             unloadDialogsAction,
-            () => runEconomicsAnalysisRequestAction(wp, name, title),
+            () =>
+              runEconomicsAnalysisRequestAction(
+                wp,
+                analysisName,
+                analysisTitle
+              ),
           ],
           "Calculate",
           "viewDayTwoTone"
@@ -240,51 +255,35 @@ const EconomicsAnalysis = ({
   };
 
   React.useEffect(() => {
-    const path = `economicsAnalysisWorkflows.${name}.sensitivities.analysisName`;
-    const value = selectedAnalysis?.name;
-    dispatch(updateEconomicsParameterAction(path, value));
+    const path = `economicsAnalysisWorkflows.${analysisName}.sensitivities.analysisName`;
+
+    dispatch(updateEconomicsParameterAction(path, analysisName));
   }, []);
 
   return (
-    <CenteredStyle
+    <ApexFlexStyle
       flexDirection="column"
       justifyContent="space-around"
       height={"95%"}
     >
       <div className={classes.npvImage}>
         <div style={{ width: 40, height: 40 }}>{icon}</div>
-        <Typography>{title}</Typography>
+        <Typography>{analysisTitle}</Typography>
       </div>
 
       <EconomicsDecksSelectionTable />
 
-      <AnalyticsComp
-        title="Development Scenario"
-        direction="Vertical"
-        containerStyle={{
-          display: "flex",
-          flexDirection: "row",
-          width: "95%",
-          marginTop: 20,
-        }}
-        content={
-          <ApexSelectRS
-            valueOption={devValue}
-            data={devOptions}
-            handleSelect={(row: ValueType<ISelectOption, false>) => {
-              const path = `economicsAnalysisWorkflows.${name}.devScenario`;
-              const value = row?.value as string;
-
-              setDevValue(row as ISelectOption);
-              dispatch(updateEconomicsParameterAction(path, value));
-            }}
-            menuPortalTarget={document.body}
-            isSelectOptionType={true}
-          />
+      <SelectScenariosByButtonsWithForecastCaseEconomics
+        width={"95%"}
+        height={50}
+        analysisProcess={analysisName}
+        workflowCategory={wc}
+        devOptions={
+          devOptions as ISelectOption<TDevScenarioNames, TDevScenarioTitles>[]
         }
       />
 
-      <CenteredStyle justifyContent="space-between" width={"95%"} height={40}>
+      <ApexFlexStyle justifyContent="space-between" width={"95%"} height={40}>
         <ApexMuiSwitch
           name="sensitivitiesSwitch"
           handleChange={handleExcludeSwitchChange}
@@ -295,7 +294,7 @@ const EconomicsAnalysis = ({
           leftLabel="No Sensitivities Input"
           rightLabel="Sensitivities input"
         />
-        <CenteredStyle width={"100%"} justifyContent="flex-end">
+        <ApexFlexStyle width={"100%"} justifyContent="flex-end">
           {analysisPerspective && (
             <Button
               className={classes.button}
@@ -315,8 +314,8 @@ const EconomicsAnalysis = ({
               Load
             </Button>
           )}
-        </CenteredStyle>
-      </CenteredStyle>
+        </ApexFlexStyle>
+      </ApexFlexStyle>
 
       <div
         style={{
@@ -327,20 +326,22 @@ const EconomicsAnalysis = ({
         }}
       >
         {showSensitivitiesTable && (
-          <EconomicsSensitivitiesTable analysisName={analysisNameDefined} />
+          <EconomicsSensitivitiesTable analysisName={analysisName} />
         )}
       </div>
 
-      <CenteredStyle width={400} height={40} justifyContent="center">
+      <ApexFlexStyle width={400} height={40} justifyContent="center">
         <Button
           className={classes.primaryButton}
           startIcon={<ViewDayTwoToneIcon />}
-          onClick={() => calculateEconomicsAnalysisConfirmation(name, title)}
+          onClick={() =>
+            runEconomicsAnalysisConfirmation(analysisName, analysisTitle)
+          }
         >
           Calculate
         </Button>
-      </CenteredStyle>
-    </CenteredStyle>
+      </ApexFlexStyle>
+    </ApexFlexStyle>
   );
 };
 

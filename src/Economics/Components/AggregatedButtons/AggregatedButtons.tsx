@@ -1,7 +1,7 @@
 import { Badge, Button, makeStyles, useTheme } from "@material-ui/core";
 import React from "react";
 import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import noEventPropagation from "./../../../Application/Events/NoEventPropagation";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
@@ -60,13 +60,15 @@ const AggregatedButtons = ({
   });
 
   return (
-    <CenteredStyle
+    <ApexFlexStyle
       justifyContent="flex-start"
       width={"100%"}
       className={classes.rootButtons}
       moreStyles={moreStyles}
     >
       {buttonsData.map((button, i) => {
+        const { willAllowHover } = button;
+
         const isDisabled = developmentScenariosCompleted?.includes(
           button.scenarioName as NonNullable<ButtonProps["name"]>
         );
@@ -91,6 +93,7 @@ const AggregatedButtons = ({
               })
             }
             invisible={showBadge[i]}
+            style={{ cursor: "pointer" }}
           >
             <Button
               disabled={isDisabled}
@@ -100,6 +103,7 @@ const AggregatedButtons = ({
               startIcon={button.startIcon}
               {...noEventPropagation(button.handleAction)}
               onMouseEnter={() =>
+                willAllowHover &&
                 setShowBadge((prev) => ({ ...prev, [i]: false }))
               }
               //TODO Posibility to include a settimeout here to delay
@@ -113,7 +117,7 @@ const AggregatedButtons = ({
           </Badge>
         );
       })}
-    </CenteredStyle>
+    </ApexFlexStyle>
   );
 };
 

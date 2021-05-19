@@ -25,29 +25,32 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
 import { devScenarios } from "../../Data/EconomicsData";
-import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import {
+  ISensitivitiesRow,
+  TDevScenarioNames,
+} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
-  runEconomicsAnalysisFailureAction,
-  runEconomicsAnalysisSuccessAction,
-  RUNECONOMICSANALYSIS_REQUEST,
+  calculateHeatMapDataFailureAction,
+  calculateHeatMapDataSuccessAction,
+  CALCULATE_HEATMAPDATA_REQUEST,
 } from "../Actions/EconomicsActions";
 
-export default function* watchRunEconomicsAnalysisSaga(): Generator<
+export default function* watchCalculateHeatMapDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const runEconomicsAnalysisChan = yield actionChannel(
-    RUNECONOMICSANALYSIS_REQUEST
+  const calculateHeatMapDataChan = yield actionChannel(
+    CALCULATE_HEATMAPDATA_REQUEST
   );
-  yield takeLeading(runEconomicsAnalysisChan, runEconomicsAnalysisSaga);
+  yield takeLeading(calculateHeatMapDataChan, calculateHeatMapDataSaga);
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* runEconomicsAnalysisSaga(
+function* calculateHeatMapDataSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -63,78 +66,80 @@ function* runEconomicsAnalysisSaga(
   const ap = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
-  const { projectId } = yield select((state) => state.projectReducer);
-
   const {
-    selectedCostsRevenuesInputDeckId,
-    selectedEconomicsParametersInputDeckId,
-    selectedEconomicsSensitivitiesId,
+    selectedEconomicsResultsId,
+    heatMapVariableXOption,
+    heatMapVariableYOption,
+    heatMapVariableZOption,
+    isEconomicsResultsSaved,
   } = yield select((state) => state.economicsReducer);
 
-  const { economicsAnalysisButtons, forecastScenarioAnalysis } = yield select(
-    (state) => state.economicsReducer[wc][ap]
-  );
-  console.log(
-    "Logged output --> ~ file: RunEconomicsAnalysisSaga.ts ~ line 75 ~ economicsAnalysisButtons",
-    economicsAnalysisButtons
-  );
+  const {
+    economicsAnalysisButtons,
+    forecastScenarioAnalysis,
+    sensitivitiesTable,
+  } = yield select((state) => state.economicsReducer[wc][ap]);
+
+  //TODO Gift to give me this?
+  const sensitivitiesZRow = (sensitivitiesTable as ISensitivitiesRow[]).filter(
+    (row) => heatMapVariableZOption.label.startsWith(row.parameterTitle)
+  )[0];
+
+  const variableZlength = sensitivitiesZRow.parameterValues.split(", ").length;
 
   const data = {
-    projectId,
-    analysisName,
-    economicsdataId: selectedCostsRevenuesInputDeckId,
-    economicsParameterId: selectedEconomicsParametersInputDeckId,
-    economicsSensitivitiesId: selectedEconomicsSensitivitiesId,
+    analysisResultId: selectedEconomicsResultsId,
+    xName: heatMapVariableXOption.value,
+    yName: heatMapVariableYOption.value,
+    zName: heatMapVariableZOption.value,
+    zLength: variableZlength,
+    isSaved: isEconomicsResultsSaved,
     developmentScenariosAnalysis: economicsAnalysisButtons.map(
       (button: IAggregateButtonProps) => devScenarios[button.scenarioName]
-    ),
+    )[0],
     forecastScenarioAnalysis,
   };
 
   const config = { withCredentials: false };
-  const runEconomicsAnalysisAPI = (url: string) =>
+  const calculateHeatMapDataAPI = (url: string) =>
     authService.post(url, data, config);
 
   try {
-    yield put(showSpinnerAction(`Calculating ${analysisTitle}...`));
+    yield put(showSpinnerAction(`Calculating data...`));
 
     const result = yield call(
-      runEconomicsAnalysisAPI,
-      `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
+      calculateHeatMapDataAPI,
+      `${getBaseEconomicsUrl()}/analyses/heatmap`
     );
     console.log(
-      "Logged output --> ~ file: RunEconomicsAnalysisSaga.ts ~ line 93 ~ result",
+      "Logged output --> ~ file: CalculateHeatMapDataSaga.ts ~ line 93 ~ result",
       result
     );
 
     const {
       data: {
-        data: {
-          heatMapTree: sensitivitiesHeatMapTree,
-          plotChartsTree: economicsPlotChartsTree,
-          templatesTree: economicsTemplatesTree,
-        },
+        data: { matrix2D },
       },
       status,
       success,
     } = result;
 
-    const successAction = runEconomicsAnalysisSuccessAction();
-    yield put({
-      ...successAction,
-      payload: {
-        ...payload,
-        status,
-        success,
-        sensitivitiesHeatMapTree,
-        economicsPlotChartsTree,
-        economicsTemplatesTree,
-      },
-    });
+    const successAction = calculateHeatMapDataSuccessAction();
+    // yield put({
+    //   ...successAction,
+    //   payload: {
+    //     ...payload,
+    //     status,
+    //     success,
+    //     sensitivitiesHeatMapTree,
+    //     economicsPlotChartsTree,
+    //     economicsTemplatesTree,
+    //   },
+    // });
 
     yield put(showDialogAction(successDialogParameters(analysisTitle)));
   } catch (errors) {
-    const failureAction = runEconomicsAnalysisFailureAction();
+    const failureAction = calculateHeatMapDataFailureAction();
 
     yield put({
       ...failureAction,

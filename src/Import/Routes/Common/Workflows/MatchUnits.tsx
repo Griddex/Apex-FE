@@ -17,7 +17,7 @@ import {
   ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
-import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
@@ -609,7 +609,7 @@ export default function MatchUnits({
         formatter: ({ row }) => {
           const unitClassification = row.unitClassification as number;
 
-          return <CenteredStyle>{unitClassification}</CenteredStyle>;
+          return <ApexFlexStyle>{unitClassification}</ApexFlexStyle>;
         },
         width: 200,
       },
@@ -621,13 +621,13 @@ export default function MatchUnits({
         formatter: ({ row }) => {
           const match = row.match as number;
 
-          return <CenteredStyle>{match}</CenteredStyle>;
+          return <ApexFlexStyle>{match}</ApexFlexStyle>;
         },
         //Look at his a lot more
         headerRenderer: ({ column }) => {
           const header = column.name;
 
-          return <CenteredStyle>{header}</CenteredStyle>;
+          return <ApexFlexStyle>{header}</ApexFlexStyle>;
         },
         width: 150,
       },
@@ -639,7 +639,7 @@ export default function MatchUnits({
           const checked = row.acceptMatch as boolean;
 
           return (
-            <CenteredStyle>
+            <ApexFlexStyle>
               <ApexMuiSwitch
                 name="acceptMatch"
                 handleChange={(event) =>
@@ -649,7 +649,7 @@ export default function MatchUnits({
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.warning.main}
               />
-            </CenteredStyle>
+            </ApexFlexStyle>
           );
         },
         width: 150,

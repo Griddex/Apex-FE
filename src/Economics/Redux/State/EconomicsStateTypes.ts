@@ -166,12 +166,14 @@ export interface IEconomicsState
 
   selectedEconomicsParametersInputDeckId: string;
   selectedEconomicsParametersInputDeckTitle: string;
+  selectedDevScenarioNamesCostsRevenues: TDevScenarioNames[];
 
   economicsSensitivitiesId: string;
   economicsSensitivitiesTitle: string;
   economicsSensitivitiesDescription: string;
   selectedEconomicsSensitivitiesId: string;
   selectedEconomicsSensitivitiesTitle: string;
+  isEconomicsResultsSaved: boolean;
 
   noneColumnIndices: Record<number, boolean>;
   fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
@@ -199,9 +201,9 @@ export interface IEconomicsState
     relationalOperator: string;
   };
   showHeatMapCategories: boolean;
-  heatMapVariableX: React.Key | null;
-  heatMapVariableY: React.Key | null;
-  heatMapVariableZ: React.Key | null;
+  heatMapVariableXOption: ISelectOption | null;
+  heatMapVariableYOption: ISelectOption | null;
+  heatMapVariableZOption: ISelectOption | null;
 
   sensitivitiesHeatMapTree: RenderTree;
   economicsPlotChartsTree: RenderTree;

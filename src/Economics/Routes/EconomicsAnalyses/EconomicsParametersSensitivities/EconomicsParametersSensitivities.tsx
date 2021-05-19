@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Select from "react-select";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
@@ -32,12 +32,11 @@ const EconomicsParametersSensitivities = ({
 }: IEconomicsParametersSensitivitiesProps) => {
   const theme = useTheme();
 
-  const {
-    ecoParAppHeadersSelectOptions,
-    createSensitivitiesIsDialog,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  const { ecoParAppHeadersSelectOptions, createSensitivitiesIsDialog } =
+    useSelector((state: RootState) => state.economicsReducer);
 
-  const ePAppHeaderSelectOptions = ecoParAppHeadersSelectOptions as ISelectOption[];
+  const ePAppHeaderSelectOptions =
+    ecoParAppHeadersSelectOptions as ISelectOption[];
 
   let tgtVarOption = {} as ISelectOption;
   if (createSensitivitiesIsDialog)
@@ -74,15 +73,13 @@ const EconomicsParametersSensitivities = ({
   } as Record<TParametersId, IEconomicsSensitivities>;
 
   const initialSensitivitiesObjRef = React.useRef(initialSensitivitiesObj);
-  const [
-    parameterSensitivitiesObj,
-    setParameterSensitivitiesObj,
-  ] = React.useState(initialSensitivitiesObjRef.current);
+  const [parameterSensitivitiesObj, setParameterSensitivitiesObj] =
+    React.useState(initialSensitivitiesObjRef.current);
 
   const RSStyles = getRSStyles(theme);
 
   return (
-    <CenteredStyle
+    <ApexFlexStyle
       flexDirection="column"
       justifyContent="space-around"
       height={700}
@@ -102,7 +99,7 @@ const EconomicsParametersSensitivities = ({
         }
       />
 
-      <CenteredStyle
+      <ApexFlexStyle
         width={"90%"}
         height={500}
         flexDirection="column"
@@ -119,8 +116,8 @@ const EconomicsParametersSensitivities = ({
             />
           );
         })}
-      </CenteredStyle>
-    </CenteredStyle>
+      </ApexFlexStyle>
+    </ApexFlexStyle>
   );
 };
 

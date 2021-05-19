@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import getRSStyles from "../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../Application/Utils/GetRSTheme";
 
@@ -58,7 +58,7 @@ const ChartDataPanel = ({
   };
 
   return (
-    <CenteredStyle flexDirection="column">
+    <ApexFlexStyle flexDirection="column">
       <AnalyticsComp
         title={selectLabel}
         content={
@@ -79,10 +79,10 @@ const ChartDataPanel = ({
       >
         <TreeViewComponent />
       </div>
-      <CenteredStyle height={50} justifyContent="flex-end">
+      <ApexFlexStyle height={50} justifyContent="flex-end">
         <CategoryOutlinedIcon onClick={categoriesAction} />
-      </CenteredStyle>
-    </CenteredStyle>
+      </ApexFlexStyle>
+    </ApexFlexStyle>
   );
 };
 

@@ -1,64 +1,65 @@
 import {
-  Avatar,
   IconButton,
-  ListItem,
   ListItemAvatar,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
+  makeStyles,
   MenuItem,
   Typography,
   useTheme,
 } from "@material-ui/core";
-import React from "react";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import CheckBoxOutlineBlankOutlinedIcon from "@material-ui/icons/CheckBoxOutlineBlankOutlined";
+import React from "react";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { IDragItem } from "./ChartCategory";
+
+const useStyles = makeStyles((theme) => ({
+  listItemAvatar: {
+    textAlign: "center",
+    color: theme.palette.primary.main,
+    fontWeight: "bold",
+    width: 40,
+  },
+  label: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+}));
 
 export interface IChartCategoryVariable {
   dragItem: IDragItem;
   setHasDropped: TUseState<boolean>;
+  removeAction: () => void;
 }
 
 const ChartCategoryVariable = ({
   dragItem,
   setHasDropped,
+  removeAction,
 }: IChartCategoryVariable) => {
+  const classes = useStyles();
   const theme = useTheme();
   const { id, name, title } = dragItem;
-  // return (
-  //   <CenteredStyle>
-  //     <MenuItem onClick={() => {}}>
-  //       <ListItemIcon style={{ minWidth: 36 }}>{titleAbbrev}</ListItemIcon>
-  //       <Typography variant="inherit">{title}</Typography>
-  //       <ListItemIcon
-  //         style={{ minWidth: 36, color: theme.palette.secondary.main }}
-  //       >
-  //         {"X"}
-  //       </ListItemIcon>
-  //     </MenuItem>
-  //   </CenteredStyle>
-  // );
 
+  const avatar = getFirstCharFromEveryWord(title);
   return (
-    <ListItem>
-      <ListItemAvatar>
-        <Avatar>
-          <CheckBoxOutlineBlankOutlinedIcon />
-        </Avatar>
+    <MenuItem
+      style={{ display: "flex", justifyContent: "space-between", padding: 2 }}
+    >
+      <ListItemAvatar className={classes.listItemAvatar}>
+        <>{avatar}</>
       </ListItemAvatar>
-      <ListItemText
-        primary={title}
-        // secondary={secondary ? 'Secondary text' : null}
-      />
-      <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete">
-          <CloseOutlinedIcon onClick={() => setHasDropped(false)} />
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>
+      <Typography variant="inherit">{title}</Typography>
+      <IconButton
+        onClick={() => {
+          removeAction();
+          setHasDropped(false);
+        }}
+        edge="end"
+        aria-label="delete"
+      >
+        <CloseOutlinedIcon />
+      </IconButton>
+    </MenuItem>
   );
 };
 

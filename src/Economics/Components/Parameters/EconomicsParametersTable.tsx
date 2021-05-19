@@ -17,7 +17,7 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -48,10 +48,8 @@ const EconomicsParametersTable = ({
   const rootRef = React.useRef<HTMLDivElement>(null);
   const reducer = "economicsReducer";
 
-  const {
-    costsRevenuesAppHeaders,
-    economicsParametersAppHeaders,
-  } = useSelector((state: RootState) => state[reducer]);
+  const { costsRevenuesAppHeaders, economicsParametersAppHeaders } =
+    useSelector((state: RootState) => state[reducer]);
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
@@ -183,8 +181,8 @@ const EconomicsParametersTable = ({
   };
 
   return (
-    <CenteredStyle ref={rootRef} flexDirection="column" alignItems="flex-start">
-      <CenteredStyle
+    <ApexFlexStyle ref={rootRef} flexDirection="column" alignItems="flex-start">
+      <ApexFlexStyle
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
@@ -213,7 +211,7 @@ const EconomicsParametersTable = ({
           }
           containerStyle={{ width: 400 }}
         />
-      </CenteredStyle>
+      </ApexFlexStyle>
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.economicsParametersTable}>
           <SizeMe monitorHeight refreshRate={32}>
@@ -232,7 +230,7 @@ const EconomicsParametersTable = ({
           </SizeMe>
         </div>
       </ClickAwayListener>
-    </CenteredStyle>
+    </ApexFlexStyle>
   );
 };
 

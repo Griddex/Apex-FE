@@ -27,8 +27,8 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Basic\MainTitle.tsx", "TypeScript React", 0, 18, 0, 0, 0, 0, 0, 6, 24
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Cards\MiniCard.tsx", "TypeScript React", 0, 62, 0, 0, 0, 0, 0, 8, 70
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Cards\ModuleCard.tsx", "TypeScript React", 0, 124, 0, 0, 0, 0, 0, 10, 134
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Checkboxes\ApexCheckbox.tsx", "TypeScript React", 0, 38, 0, 0, 0, 0, 0, 4, 42
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Checkboxes\ApexCheckboxTypes.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 2, 2, 14
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Checkboxes\ApexGridCheckbox.tsx", "TypeScript React", 0, 38, 0, 0, 0, 0, 0, 4, 42
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Checkboxes\ApexGridCheckboxTypes.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 2, 2, 14
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\DateFormatPicker\DateFormatData.ts", "TypeScript", 0, 0, 258, 0, 0, 0, 0, 1, 259
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\DateFormatPicker\DateFormatPicker.tsx", "TypeScript React", 0, 75, 0, 0, 0, 0, 3, 5, 83
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\DateFormatPicker\DateFormatPickerTypes.ts", "TypeScript", 0, 0, 41, 0, 0, 0, 0, 6, 47
@@ -88,7 +88,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Selects\SelectItem.tsx", "TypeScript React", 0, 32, 0, 0, 0, 0, 0, 3, 35
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Selects\SelectItemsType.ts", "TypeScript", 0, 0, 32, 0, 0, 0, 0, 4, 36
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Streams\FromStream.tsx", "TypeScript React", 0, 3, 0, 0, 0, 0, 34, 2, 39
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Styles\CenteredStyle.tsx", "TypeScript React", 0, 57, 0, 0, 0, 0, 0, 4, 61
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Styles\ApexFlexStyle.tsx", "TypeScript React", 0, 57, 0, 0, 0, 0, 0, 4, 61
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Svg\TickIcon.svg", "XML", 0, 0, 0, 6, 0, 0, 0, 1, 7
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Switches\ApexMuiSwitch.tsx", "TypeScript React", 0, 84, 0, 0, 0, 0, 9, 4, 97
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Application\Components\Switches\ApexMuiSwitchTypes.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 1, 11

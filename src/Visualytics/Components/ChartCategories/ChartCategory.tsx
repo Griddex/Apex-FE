@@ -2,7 +2,8 @@ import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core";
 import React from "react";
 import { useDrop } from "react-dnd";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import CenteredStyle from "../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import { IChartCategory } from "../../../Economics/Routes/EconomicsResults/EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
 import {
   itemTypesForecast,
   itemTypesEconomics,
@@ -24,17 +25,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export interface IChartCategory {
-  title: string;
-}
-
 export interface IDragItem {
   id: string;
   name: string;
   title: string;
 }
 
-const ChartCategory = ({ title }: IChartCategory) => {
+const ChartCategory = ({
+  title,
+  persistAction,
+  removeAction,
+}: IChartCategory) => {
   const classes = useStyles();
   const theme = useTheme();
   const [hasDropped, setHasDropped] = React.useState(false);
@@ -51,8 +52,10 @@ const ChartCategory = ({ title }: IChartCategory) => {
       accept: hasDropped ? "" : allItemTypes,
       drop(item, monitor) {
         const { id, name, title } = item as IDragItem;
+
+        persistAction(name, title);
+        setDragItem(item as IDragItem);
         setHasDropped(true);
-        setDragItem({ id, name, title });
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -62,10 +65,6 @@ const ChartCategory = ({ title }: IChartCategory) => {
     }),
     []
   );
-
-  // React.useEffect(() => {
-  //   if (hasDropped) alert("It has dropped!!!!!!!!!");
-  // }, [setHasDropped]);
 
   const isActive = canDrop && isOverCurrent;
   let dropTargetStyle = {};
@@ -91,9 +90,10 @@ const ChartCategory = ({ title }: IChartCategory) => {
             <ChartCategoryVariable
               dragItem={dragItem}
               setHasDropped={setHasDropped}
+              removeAction={removeAction}
             />
           ) : (
-            <CenteredStyle>{"Drop here"}</CenteredStyle>
+            <ApexFlexStyle>{"Drop here"}</ApexFlexStyle>
           )
         }
       />

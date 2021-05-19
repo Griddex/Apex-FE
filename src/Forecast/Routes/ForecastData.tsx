@@ -9,7 +9,7 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -30,7 +30,7 @@ import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions
 import getRSStyles from "../../Application/Utils/GetRSStyles";
 import faker from "faker";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import CenteredStyle from "./../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "./../../Application/Components/Styles/ApexFlexStyle";
 import { getForecastDataByIdRequestAction } from "../Redux/Actions/ForecastActions";
 import getRSTheme from "../../Application/Utils/GetRSTheme";
 
@@ -117,11 +117,11 @@ export default function ForecastData({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
-          <CenteredStyle>
+          <ApexFlexStyle>
             <VisibilityOutlinedIcon
               onClick={() => alert(`View Row is:${row}`)}
             />
-          </CenteredStyle>
+          </ApexFlexStyle>
         ),
         width: 100,
       },

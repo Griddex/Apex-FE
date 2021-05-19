@@ -6,6 +6,7 @@ import {
   ReducersType,
 } from "../Components/Workflows/WorkflowTypes";
 import {
+  TDevScenarioNames,
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
@@ -68,6 +69,7 @@ export interface IApplicationExistingDataRow {
   sensitivities?: "Yes" | "None";
   analysisTitle?: TEconomicsAnalysesTitles | "Multiple";
   analysisName?: TEconomicsAnalysesNames;
+  developmentScenariosCostsRevenue?: TDevScenarioNames[];
 }
 export interface IApplicationExistingForecastResultsRow
   extends IApplicationExistingDataRow {

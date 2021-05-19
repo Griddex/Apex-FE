@@ -18,7 +18,7 @@ import {
 } from "../../../../Application/Types/ApplicationTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
-import apexCheckbox from "./../../../../Application/Components/Checkboxes/ApexCheckbox";
+import apexGridCheckbox from "./../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -69,10 +69,10 @@ export default function ExistingDataRoute<
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const ApexCheckboxColumn = apexCheckbox({
+  const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxFxn: handleCheckboxChange as NonNullable<
+    apexGridCheckboxFxn: handleCheckboxChange as NonNullable<
       IExistingDataProps["handleCheckboxChange"]
     >,
   });
@@ -80,7 +80,7 @@ export default function ExistingDataRoute<
   const generateColumns = () => {
     const columns: Column<TRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexCheckboxColumn,
+      ApexGridCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",

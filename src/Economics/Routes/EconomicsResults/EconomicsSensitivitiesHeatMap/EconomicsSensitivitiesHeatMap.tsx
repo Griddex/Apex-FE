@@ -1,6 +1,6 @@
 import React from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
-import CenteredStyle from "../../../../Application/Components/Styles/CenteredStyle";
+import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import { useTheme } from "@material-ui/core";
 import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 
@@ -21,14 +21,14 @@ const EconomicsSensitivitiesHeatMap = ({
       ?.map((e) => e.replace("Color", ""));
   } else
     return (
-      <CenteredStyle
+      <ApexFlexStyle
         moreStyles={{
           border: `1px solid ${theme.palette.grey[400]}`,
           backgroundColor: theme.palette.grey[200],
         }}
       >
         {"No map"}
-      </CenteredStyle>
+      </ApexFlexStyle>
     );
 
   return (

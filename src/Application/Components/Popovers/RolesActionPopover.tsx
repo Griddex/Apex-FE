@@ -87,7 +87,7 @@ const RolesActionPopover = React.forwardRef<HTMLDivElement, IPopover>(
                   onClick={handleYes}
                 >
                   <ListItemAvatar className={classes.listItemAvatar}>
-                    {avatar}
+                    <>{avatar}</>
                   </ListItemAvatar>
                   <ListItemText>{role}</ListItemText>
                 </ListItem>

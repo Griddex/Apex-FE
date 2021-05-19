@@ -39,8 +39,8 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Application/Components/Basic/MainTitle.tsx](/src/Application/Components/Basic/MainTitle.tsx) | TypeScript React | 18 | 0 | 6 | 24 |
 | [src/Application/Components/Cards/MiniCard.tsx](/src/Application/Components/Cards/MiniCard.tsx) | TypeScript React | 62 | 0 | 8 | 70 |
 | [src/Application/Components/Cards/ModuleCard.tsx](/src/Application/Components/Cards/ModuleCard.tsx) | TypeScript React | 124 | 0 | 10 | 134 |
-| [src/Application/Components/Checkboxes/ApexCheckbox.tsx](/src/Application/Components/Checkboxes/ApexCheckbox.tsx) | TypeScript React | 38 | 0 | 4 | 42 |
-| [src/Application/Components/Checkboxes/ApexCheckboxTypes.ts](/src/Application/Components/Checkboxes/ApexCheckboxTypes.ts) | TypeScript | 10 | 2 | 2 | 14 |
+| [src/Application/Components/Checkboxes/ApexGridCheckbox.tsx](/src/Application/Components/Checkboxes/ApexGridCheckbox.tsx) | TypeScript React | 38 | 0 | 4 | 42 |
+| [src/Application/Components/Checkboxes/ApexGridCheckboxTypes.ts](/src/Application/Components/Checkboxes/ApexGridCheckboxTypes.ts) | TypeScript | 10 | 2 | 2 | 14 |
 | [src/Application/Components/DateFormatPicker/DateFormatData.ts](/src/Application/Components/DateFormatPicker/DateFormatData.ts) | TypeScript | 258 | 0 | 1 | 259 |
 | [src/Application/Components/DateFormatPicker/DateFormatPicker.tsx](/src/Application/Components/DateFormatPicker/DateFormatPicker.tsx) | TypeScript React | 75 | 3 | 5 | 83 |
 | [src/Application/Components/DateFormatPicker/DateFormatPickerTypes.ts](/src/Application/Components/DateFormatPicker/DateFormatPickerTypes.ts) | TypeScript | 41 | 0 | 6 | 47 |
@@ -100,7 +100,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Application/Components/Selects/SelectItem.tsx](/src/Application/Components/Selects/SelectItem.tsx) | TypeScript React | 32 | 0 | 3 | 35 |
 | [src/Application/Components/Selects/SelectItemsType.ts](/src/Application/Components/Selects/SelectItemsType.ts) | TypeScript | 32 | 0 | 4 | 36 |
 | [src/Application/Components/Streams/FromStream.tsx](/src/Application/Components/Streams/FromStream.tsx) | TypeScript React | 3 | 34 | 2 | 39 |
-| [src/Application/Components/Styles/CenteredStyle.tsx](/src/Application/Components/Styles/CenteredStyle.tsx) | TypeScript React | 57 | 0 | 4 | 61 |
+| [src/Application/Components/Styles/ApexFlexStyle.tsx](/src/Application/Components/Styles/ApexFlexStyle.tsx) | TypeScript React | 57 | 0 | 4 | 61 |
 | [src/Application/Components/Svg/TickIcon.svg](/src/Application/Components/Svg/TickIcon.svg) | XML | 6 | 0 | 1 | 7 |
 | [src/Application/Components/Switches/ApexMuiSwitch.tsx](/src/Application/Components/Switches/ApexMuiSwitch.tsx) | TypeScript React | 84 | 9 | 4 | 97 |
 | [src/Application/Components/Switches/ApexMuiSwitchTypes.ts](/src/Application/Components/Switches/ApexMuiSwitchTypes.ts) | TypeScript | 10 | 0 | 1 | 11 |

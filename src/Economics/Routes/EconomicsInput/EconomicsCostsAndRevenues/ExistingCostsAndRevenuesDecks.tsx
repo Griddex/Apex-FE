@@ -10,6 +10,7 @@ import {
 } from "../../../../Application/Types/ApplicationTypes";
 import ExistingDataRoute from "../../../../Import/Routes/Common/InputWorkflows/ExistingDataRoute";
 import { IExistingInputDeck } from "../../../../Import/Routes/InputDeckTypes";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -28,6 +29,7 @@ export default function ExistingCostsAndRevenuesDecks({
   const wc = "existingDataWorkflows";
   const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "economicsCostsRevenuesDeckExisting";
+
   const existingData: IExistingDataRow[] = useSelector(
     (state: RootState) => state.economicsReducer[wc][wp]
   );
@@ -45,6 +47,7 @@ export default function ExistingCostsAndRevenuesDecks({
       status: "Not Started",
       title: row.title,
       description: row.description,
+      developmentScenarios: row?.developmentScenariosCostsRevenue?.join(", "),
       author: "---",
       approvers: '"--", "--"',
       createdOn: row.createdAt,
@@ -55,7 +58,7 @@ export default function ExistingCostsAndRevenuesDecks({
   const dataTitle = "COSTS & REVENUE TITLE";
 
   const handleCheckboxChange = (row: any) => {
-    const { id, title } = row;
+    const { id, title, developmentScenariosCostsRevenue } = row;
 
     persistSelectedIdTitleAction &&
       dispatch(
@@ -64,6 +67,13 @@ export default function ExistingCostsAndRevenuesDecks({
           selectedCostsRevenuesInputDeckTitle: title,
         })
       );
+
+    dispatch(
+      updateEconomicsParameterAction(
+        "selectedDevScenarioNamesCostsRevenues",
+        developmentScenariosCostsRevenue
+      )
+    );
   };
 
   const props: IExistingDataProps = {

@@ -4,7 +4,7 @@ import React from "react";
 import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 import clsx from "clsx";
 import { Grid } from "@material-ui/core";
-import CenteredStyle from "../Styles/CenteredStyle";
+import ApexFlexStyle from "../Styles/ApexFlexStyle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -49,19 +49,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function ApexMuiSwitch(props: IApexMuiSwitch) {
-  const {
-    name,
-    handleChange,
-    checked,
-    hasLabels,
-    leftLabel,
-    rightLabel,
-  } = props;
+  const { name, handleChange, checked, hasLabels, leftLabel, rightLabel } =
+    props;
   const classes = useStyles(props);
 
   if (hasLabels)
     return (
-      <CenteredStyle justifyContent="flex-start" width={"95%"} height={30}>
+      <ApexFlexStyle justifyContent="flex-start" width={"95%"} height={30}>
         {leftLabel && <Grid item>{leftLabel}</Grid>}
         <Grid item style={{ marginLeft: 5, marginRight: 5 }}>
           <Switch
@@ -77,7 +71,7 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
           />
         </Grid>
         {rightLabel && <Grid item>{rightLabel}</Grid>}
-      </CenteredStyle>
+      </ApexFlexStyle>
     );
   else
     return (

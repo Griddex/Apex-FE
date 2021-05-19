@@ -6,7 +6,7 @@ import React, { ChangeEvent } from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import apexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
@@ -98,16 +98,16 @@ export default function DeclineCurveParameters({
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const ApexCheckboxColumn = apexCheckbox({
+  const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexCheckboxFxn: handleCheckboxChange,
+    apexGridCheckboxFxn: handleCheckboxChange,
   });
 
   const generateColumns = () => {
     const columns: Column<IDeclineCurveParametersDetail>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexCheckboxColumn,
+      ApexGridCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
