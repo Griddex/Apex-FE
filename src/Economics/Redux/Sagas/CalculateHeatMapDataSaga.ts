@@ -24,7 +24,10 @@ import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
-import { devScenarios } from "../../Data/EconomicsData";
+import {
+  devScenarios,
+  mapDataResultFromGabriel,
+} from "../../Data/EconomicsData";
 import {
   ISensitivitiesRow,
   TDevScenarioNames,
@@ -34,6 +37,7 @@ import {
   calculateHeatMapDataFailureAction,
   calculateHeatMapDataSuccessAction,
   CALCULATE_HEATMAPDATA_REQUEST,
+  updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
 export default function* watchCalculateHeatMapDataSaga(): Generator<
@@ -62,7 +66,7 @@ function* calculateHeatMapDataSaga(
   any
 > {
   const { payload } = action;
-  const { analysisName, analysisTitle } = payload;
+  const { analysisName, analysisTitle, selectedZValue } = payload;
   const ap = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
@@ -117,31 +121,73 @@ function* calculateHeatMapDataSaga(
       calculateHeatMapDataAPI,
       `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
     );
-    console.log(
-      "Logged output --> ~ file: CalculateHeatMapDataSaga.ts ~ line 93 ~ result",
-      result
+
+    const { data, statusCode, success } = mapDataResultFromGabriel;
+
+    type devName = keyof typeof data;
+    const sensitivitiesHeatMapData = Object.keys(data).reduce(
+      (acc, devScenario) => {
+        const scenarioObj = data[devScenario as devName];
+
+        type TvZ = keyof typeof scenarioObj;
+        const scenarioData = Object.keys(scenarioObj).reduce(
+          (acc, variableZ) => {
+            const yZVariableArr = scenarioObj[variableZ as TvZ];
+
+            const updatedyZVariableArr = yZVariableArr.map(
+              (row: Record<string, React.Key>) => {
+                const xyVariables = Object.keys(row);
+                const xyVariableObj = xyVariables.reduce((acc, v) => {
+                  if (v.includes("Color"))
+                    return {
+                      ...acc,
+                      [v]: row[v],
+                      [v.replace("Color", "")]:
+                        Math.floor(Math.random() * 10) + 1,
+                    };
+                  else return { ...acc, [v]: row[v] };
+                }, {});
+
+                return xyVariableObj;
+              }
+            );
+
+            return { ...acc, [variableZ]: updatedyZVariableArr };
+          },
+          {}
+        );
+
+        return { ...acc, [devScenario]: scenarioData };
+      },
+      {}
+    ) as typeof data;
+
+    const devScenario = economicsAnalysisButtons[0].scenarioName as devName;
+    const variableZCamel = sensitivitiesZRow.parameterTitle;
+    const variableZKey = `${variableZCamel}${selectedZValue}`;
+
+    const sensitivitiesHeatMap1or2D = (sensitivitiesHeatMapData as any)[
+      devScenario
+    ][variableZKey];
+
+    yield put(
+      updateEconomicsParameterAction(
+        "sensitivitiesHeatMap1or2D",
+        sensitivitiesHeatMap1or2D
+      )
     );
 
-    const {
-      data: {
-        data: { matrix2D },
-      },
-      status,
-      success,
-    } = result;
-
     const successAction = calculateHeatMapDataSuccessAction();
-    // yield put({
-    //   ...successAction,
-    //   payload: {
-    //     ...payload,
-    //     status,
-    //     success,
-    //     sensitivitiesHeatMapTree,
-    //     economicsPlotChartsTree,
-    //     economicsTemplatesTree,
-    //   },
-    // });
+    yield put({
+      ...successAction,
+      payload: {
+        ...payload,
+        statusCode,
+        success,
+        sensitivitiesHeatMapData,
+        sensitivitiesHeatMap1or2D,
+      },
+    });
 
     yield put(showDialogAction(successDialogParameters(analysisTitle)));
   } catch (errors) {

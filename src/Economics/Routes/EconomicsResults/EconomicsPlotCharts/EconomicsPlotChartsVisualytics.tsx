@@ -19,6 +19,9 @@ import Draggable, {
   DraggableEvent,
 } from "react-draggable";
 import { callbackify } from "util";
+import EconomicsChartSelectionMenu from "../../../Components/Menus/EconomicsChartSelectionMenu";
+import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,14 +71,15 @@ const EconomicsPlotChartsVisualytics = () => {
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { isForecastResultsLoading } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const { showPlotChartsCategories } = useSelector(
+    (state: RootState) => state.economicsReducer
   );
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
       <div style={{ display: "flex" }}>
+        <EconomicsChartSelectionMenu />
         <IconButtonWithTooltip
           toolTipKey="printToolTip"
           toolTipTitle="Print table"
@@ -93,6 +97,74 @@ const EconomicsPlotChartsVisualytics = () => {
       </div>
     ),
   };
+
+  const ChartCategoriesData = React.useRef([
+    {
+      categoryTitle: "X Category",
+      persistAction: (name: string, title: string) =>
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableXOption", {
+            value: name,
+            label: title,
+          })
+        ),
+      removeAction: () => {
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableXOption", null)
+        );
+        //TODO before dispatching, check if is empty
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
+        );
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
+        );
+      },
+    },
+    {
+      categoryTitle: "Y Category [Primary]",
+      persistAction: (name: string, title: string) =>
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableYOption", {
+            value: name,
+            label: title,
+          })
+        ),
+      removeAction: () => {
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableYOption", null)
+        );
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
+        );
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
+        );
+      },
+    },
+    {
+      categoryTitle: "Y Category [Secondary]",
+      persistAction: (name: string, title: string) => {
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableZOption", {
+            value: name,
+            label: title,
+          })
+        );
+      },
+      removeAction: () => {
+        dispatch(
+          updateEconomicsParameterAction("heatMapVariableYOption", null)
+        );
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
+        );
+        dispatch(
+          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
+        );
+      },
+    },
+  ]);
 
   const panelRef = React.useRef<HTMLDivElement>(null);
   const moveDivRef = React.useRef<HTMLDivElement>(null);
@@ -143,6 +215,10 @@ const EconomicsPlotChartsVisualytics = () => {
         >
           <EconomicsPlotChartsDataPanel />
         </div>
+        {showPlotChartsCategories && (
+          <ChartCategories ChartCategoriesData={ChartCategoriesData.current} />
+        )}
+
         <div
           ref={moveDivRef}
           style={{
@@ -154,25 +230,22 @@ const EconomicsPlotChartsVisualytics = () => {
           onMouseDown={handler}
           draggable={true}
         />
-        {isForecastResultsLoading ? (
-          <div>Forecast results loading</div>
-        ) : (
-          <div className={classes.chartContent}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                height: 50,
-                marginTop: 2,
-                marginRight: 40,
-              }}
-            >
-              <EconomicsChartTitlePlaque />
-              <ChartButtons {...chartButtons} />
-            </div>
-            <EconomicsPlotChartsSelectCharts />
+
+        <div className={classes.chartContent}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              height: 50,
+              marginTop: 2,
+              marginRight: 40,
+            }}
+          >
+            <EconomicsChartTitlePlaque />
+            <ChartButtons {...chartButtons} />
           </div>
-        )}
+          <EconomicsPlotChartsSelectCharts />
+        </div>
       </div>
       {showContextDrawer && (
         <ContextDrawer>{() => <FormatAggregator />}</ContextDrawer>

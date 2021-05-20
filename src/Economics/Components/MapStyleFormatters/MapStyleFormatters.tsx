@@ -74,17 +74,14 @@ const MapStyleFormatters = ({
     if (!mapData) return;
     if (Array.isArray(mapData)) {
       dispatch(
-        updateEconomicsParameterAction(
-          `sensitivitiesHeatMapDataDisplayed`,
-          mapData
-        )
+        updateEconomicsParameterAction(`sensitivitiesHeatMap1or2D`, mapData)
       );
     } else {
       const mapDataKeys = Object.keys(mapData);
 
       dispatch(
         updateEconomicsParameterAction(
-          `sensitivitiesHeatMapDataDisplayed`,
+          `sensitivitiesHeatMap1or2D`,
           //TODO Dynamic Z value here instead of 0
           mapData[mapDataKeys[0]]
         )

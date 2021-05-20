@@ -1,11 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import BarChart from "../../../../Visualytics/Components/Charts/BarChart";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import LineChart from "../../../../Visualytics/Components/Charts/LineChart";
 import StackedAreaChart from "../../../../Visualytics/Components/Charts/StackedAreaChart";
-import { ICharts } from "../../../../Visualytics/Redux/ChartState/ChartStateTypes";
+import { TChartTypeNames } from "../../../Data/EconomicsData";
 
 const tempData = [
   { name: "Oil", value: 450 },
@@ -13,21 +14,21 @@ const tempData = [
   { name: "Condensate", value: 90 },
 ];
 
-const charts: ICharts = {
-  0: () => <StackedAreaChart />,
-  1: () => <LineChart />,
-  2: () => <DoughnutChart data={tempData} />,
-  3: () => <BarChart />,
-};
+const economicsPlotCharts = {
+  stackedArea: <StackedAreaChart />,
+  line: <LineChart />,
+  doughnut: <DoughnutChart data={tempData} />,
+  bar: <BarChart />,
+} as Record<TChartTypeNames, JSX.Element>;
 
 const EconomicsPlotChartsSelectCharts = () => {
-  const { selectedChartIndex } = useSelector(
-    (state: RootState) => state.chartReducer
+  const { selectedEconomicsPlotChartOption } = useSelector(
+    (state: RootState) => state.economicsReducer
   );
 
-  const chart = charts[selectedChartIndex || 0];
+  const chartValue = selectedEconomicsPlotChartOption.value as TChartTypeNames;
 
-  return <div style={{ height: "100%", width: "100%" }}>{chart()}</div>;
+  return <ApexFlexStyle>{economicsPlotCharts[chartValue]}</ApexFlexStyle>;
 };
 
 export default EconomicsPlotChartsSelectCharts;

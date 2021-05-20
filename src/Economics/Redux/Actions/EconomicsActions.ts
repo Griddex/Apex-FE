@@ -425,11 +425,12 @@ export const persistEconomicsDeckRequestAction = (
 
 export const calculateHeatMapDataRequestAction = (
   analysisName: TEconomicsAnalysesNames,
-  analysisTitle: TEconomicsAnalysesTitles
+  analysisTitle: TEconomicsAnalysesTitles,
+  selectedZValue: string
 ) => {
   return {
     type: CALCULATE_HEATMAPDATA_REQUEST,
-    payload: { analysisName, analysisTitle },
+    payload: { analysisName, analysisTitle, selectedZValue },
     meta: { showSpinner: true, message: `Calculating map data...` },
   };
 };

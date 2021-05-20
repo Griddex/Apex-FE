@@ -193,7 +193,7 @@ export interface IEconomicsState
   showSensitivitiesTable: boolean;
 
   sensitivitiesHeatMapData: any;
-  sensitivitiesHeatMapDataDisplayed: [];
+  sensitivitiesHeatMap1or2D: [];
   heatMapStylingData: {
     heatMapThresholdValue: null | number;
     heatMapThresholdColor: string;
@@ -204,14 +204,16 @@ export interface IEconomicsState
   heatMapVariableXOption: ISelectOption | null;
   heatMapVariableYOption: ISelectOption | null;
   heatMapVariableZOption: ISelectOption | null;
-
   sensitivitiesHeatMapTree: RenderTree;
-  economicsPlotChartsTree: RenderTree;
-  economicsTemplatesTree: RenderTree;
 
-  heatMapThresholdValue: number;
-  heatMapThresholdColor: string;
-  heatMapBackgroundColor: string;
+  economicsPlotChartsTree: RenderTree;
+  selectedEconomicsPlotChartOption: ISelectOption;
+  showPlotChartsCategories: boolean;
+  plotChartsVariableXOption: ISelectOption | null;
+  plotChartsVariableYPriOption: ISelectOption | null;
+  plotChartsVariableYSecOption: ISelectOption | null;
+
+  economicsTemplatesTree: RenderTree;
 
   inputDataWorkflows: Record<string, IEconomicsImport>;
   existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;
