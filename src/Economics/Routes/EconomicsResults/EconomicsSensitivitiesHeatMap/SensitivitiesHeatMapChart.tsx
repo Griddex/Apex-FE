@@ -8,7 +8,10 @@ import { ISelectOption } from "../../../../Application/Components/Selects/Select
 import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { economicsAnalysesOptions } from "../../../Data/EconomicsData";
-import { calculateHeatMapDataRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  calculateHeatMapDataRequestAction,
+  updateEconomicsParameterAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import { ISensitivitiesRow } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 
@@ -31,13 +34,13 @@ const SensitivitiesHeatMapChart = () => {
 
   const {
     sensitivitiesHeatMapData,
-    sensitivitiesHeatMapDataDisplayed,
+    sensitivitiesHeatMap1or2D,
     heatMapVariableXOption,
     heatMapVariableYOption,
     heatMapVariableZOption,
   } = useSelector((state: RootState) => state.economicsReducer);
 
-  const { sensitivitiesTable } = useSelector(
+  const { sensitivitiesTable, economicsAnalysisButtons } = useSelector(
     (state: RootState) => state.economicsReducer[wc][ap]
   );
 
@@ -48,7 +51,7 @@ const SensitivitiesHeatMapChart = () => {
   ].every((v) => v !== null);
 
   //TODO Gift to give me this everytime
-  let sensitivitiesZRow;
+  let sensitivitiesZRow: ISensitivitiesRow;
   let heatMapVariableZData: any;
 
   if (isAllVariablesDropped) {
@@ -61,10 +64,28 @@ const SensitivitiesHeatMapChart = () => {
       .map((v) => ({
         value: v,
         label: v,
-        handleCheck: () => dispatch(calculateHeatMapDataRequestAction(ap, tl)),
+        handleCheck: () => {
+          if (Object.entries(sensitivitiesHeatMapData).length > 0) {
+            const devScenario = economicsAnalysisButtons[0].scenarioName;
+            const variableZCamel = sensitivitiesZRow.parameterTitle;
+            const variableZKey = `${variableZCamel}${v}`;
+            //use current devscenario and current z value to get collection
+            //dispatch object to map1or2d
+            const sensitivitiesHeatMap1or2D =
+              sensitivitiesHeatMapData[devScenario][variableZKey];
+            dispatch(
+              updateEconomicsParameterAction(
+                "sensitivitiesHeatMap1or2D",
+                sensitivitiesHeatMap1or2D
+              )
+            );
+          } else {
+            dispatch(calculateHeatMapDataRequestAction(ap, tl, v));
+          }
+        },
       }));
   } else {
-    sensitivitiesZRow = {};
+    sensitivitiesZRow = {} as ISensitivitiesRow;
     heatMapVariableZData = [];
   }
 
@@ -84,7 +105,7 @@ const SensitivitiesHeatMapChart = () => {
 
       <ApexFlexStyle width={"90%"} height={"90%"}>
         <EconomicsSensitivitiesHeatMap
-          mapDataDisplayed={sensitivitiesHeatMapDataDisplayed}
+          mapDataDisplayed={sensitivitiesHeatMap1or2D}
         />
         <Box marginLeft={3} width={200} minWidth={200} height={"70%"}>
           {isAllVariablesDropped ? (

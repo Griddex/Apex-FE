@@ -3,12 +3,12 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
-import { IChartCategory } from "../../../Economics/Routes/EconomicsResults/EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
 import {
   itemTypesForecast,
   itemTypesEconomics,
   itemTypesVisualytics,
 } from "../../Utils/DragAndDropItemTypes";
+import { IChartCategory } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,7 +32,7 @@ export interface IDragItem {
 }
 
 const ChartCategory = ({
-  title,
+  categoryTitle,
   persistAction,
   removeAction,
 }: IChartCategory) => {
@@ -82,7 +82,7 @@ const ChartCategory = ({
   return (
     <div ref={drop} className={classes.chartProps} style={dropTargetStyle}>
       <AnalyticsComp
-        title={title}
+        title={categoryTitle}
         direction="Vertical"
         containerStyle={{ width: "100%" }}
         content={

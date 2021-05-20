@@ -202,8 +202,9 @@ const EconomicsState: IEconomicsState = {
   selectedAnalysis: {},
   selectedAnalysesNames: [],
 
-  sensitivitiesHeatMapData: mapData,
-  sensitivitiesHeatMapDataDisplayed: [],
+  //HeatMap
+  sensitivitiesHeatMapData: {},
+  sensitivitiesHeatMap1or2D: [],
   heatMapStylingData: {
     heatMapThresholdValue: 0,
     heatMapThresholdColor: "white",
@@ -214,14 +215,18 @@ const EconomicsState: IEconomicsState = {
   heatMapVariableXOption: null,
   heatMapVariableYOption: null,
   heatMapVariableZOption: null,
-
   sensitivitiesHeatMapTree: { id: "", name: "" },
-  economicsPlotChartsTree: { id: "", name: "" },
-  economicsTemplatesTree: { id: "", name: "" },
 
-  heatMapThresholdValue: 0,
-  heatMapThresholdColor: "",
-  heatMapBackgroundColor: "",
+  //Plot Charts
+  economicsPlotChartsTree: { id: "", name: "" },
+  selectedEconomicsPlotChartOption: { value: "", label: "" },
+  showPlotChartsCategories: false,
+  plotChartsVariableXOption: null,
+  plotChartsVariableYPriOption: null,
+  plotChartsVariableYSecOption: null,
+
+  //Template Results
+  economicsTemplatesTree: { id: "", name: "" },
 
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
