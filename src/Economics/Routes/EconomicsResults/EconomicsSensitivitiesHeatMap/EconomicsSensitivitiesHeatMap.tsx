@@ -3,20 +3,26 @@ import { ResponsiveHeatMap } from "@nivo/heatmap";
 import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import { useTheme } from "@material-ui/core";
 import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { useSelector } from "react-redux";
 
 export interface IEconomicsSensitivitiesHeatMap {
-  mapDataDisplayed: any[];
+  sensitivitiesHeatMap1or2D: any[];
 }
 
-const EconomicsSensitivitiesHeatMap = ({
-  mapDataDisplayed,
-}: IEconomicsSensitivitiesHeatMap) => {
+const EconomicsSensitivitiesHeatMap = () => {
   const theme = useTheme();
+  const {
+    sensitivitiesHeatMap1or2D,
+    heatMapVariableXOption,
+    heatMapVariableYOption,
+    heatMapVariableZOption,
+  } = useSelector((state: RootState) => state.economicsReducer);
 
   let keys: string[] = [];
 
-  if (mapDataDisplayed.length > 0) {
-    keys = Object?.keys(mapDataDisplayed[0])
+  if (sensitivitiesHeatMap1or2D.length > 0) {
+    keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
       ?.filter((key) => key.includes("Color"))
       ?.map((e) => e.replace("Color", ""));
   } else
@@ -33,16 +39,16 @@ const EconomicsSensitivitiesHeatMap = ({
 
   return (
     <ResponsiveHeatMap
-      data={mapDataDisplayed}
+      data={sensitivitiesHeatMap1or2D}
       keys={keys}
-      indexBy="Oil Price"
+      indexBy={heatMapVariableYOption.value}
       margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
       forceSquare={true}
       axisTop={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: -90,
-        legend: "Gas Price",
+        legend: heatMapVariableZOption.value,
         legendPosition: "middle",
         legendOffset: -36,
       }}
@@ -52,7 +58,7 @@ const EconomicsSensitivitiesHeatMap = ({
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "Oil Price",
+        legend: heatMapVariableYOption.value,
         legendPosition: "middle",
         legendOffset: -40,
       }}

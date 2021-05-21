@@ -1,3 +1,4 @@
+import camelCase from "lodash.camelcase";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -20,18 +21,9 @@ import {
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
-import {
-  failureDialogParameters,
-  successDialogParameters,
-} from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
-import {
-  devScenarios,
-  mapDataResultFromGabriel,
-} from "../../Data/EconomicsData";
-import {
-  ISensitivitiesRow,
-  TDevScenarioNames,
-} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { failureDialogParameters } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
+import { devScenarios } from "../../Data/EconomicsData";
+import { ISensitivitiesRow } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
   calculateHeatMapDataFailureAction,
@@ -76,17 +68,18 @@ function* calculateHeatMapDataSaga(
     heatMapVariableYOption,
     heatMapVariableZOption,
     isEconomicsResultsSaved,
+    selectedSensitivitiesTable,
   } = yield select((state) => state.economicsReducer);
 
-  const {
-    economicsAnalysisButtons,
-    forecastScenarioAnalysis,
-    sensitivitiesTable,
-  } = yield select((state) => state.economicsReducer[wc][ap]);
+  const { economicsAnalysisButtons, forecastScenarioAnalysis } = yield select(
+    (state) => state.economicsReducer[wc][ap]
+  );
 
   //TODO Gift to give me this?
-  const sensitivitiesZRow = (sensitivitiesTable as ISensitivitiesRow[]).filter(
-    (row) => heatMapVariableZOption.label.startsWith(row.parameterTitle)
+  const sensitivitiesZRow = (
+    selectedSensitivitiesTable as ISensitivitiesRow[]
+  ).filter((row) =>
+    heatMapVariableZOption.label.startsWith(row.parameterTitle)
   )[0];
 
   const variableZlength = sensitivitiesZRow.parameterValues.split(", ").length;
@@ -122,48 +115,16 @@ function* calculateHeatMapDataSaga(
       `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
     );
 
-    const { data, statusCode, success } = mapDataResultFromGabriel;
+    const {
+      data: { data: sensitivitiesHeatMapData },
+      statusCode,
+      success,
+    } = result;
 
     type devName = keyof typeof data;
-    const sensitivitiesHeatMapData = Object.keys(data).reduce(
-      (acc, devScenario) => {
-        const scenarioObj = data[devScenario as devName];
-
-        type TvZ = keyof typeof scenarioObj;
-        const scenarioData = Object.keys(scenarioObj).reduce(
-          (acc, variableZ) => {
-            const yZVariableArr = scenarioObj[variableZ as TvZ];
-
-            const updatedyZVariableArr = yZVariableArr.map(
-              (row: Record<string, React.Key>) => {
-                const xyVariables = Object.keys(row);
-                const xyVariableObj = xyVariables.reduce((acc, v) => {
-                  if (v.includes("Color"))
-                    return {
-                      ...acc,
-                      [v]: row[v],
-                      [v.replace("Color", "")]:
-                        Math.floor(Math.random() * 10) + 1,
-                    };
-                  else return { ...acc, [v]: row[v] };
-                }, {});
-
-                return xyVariableObj;
-              }
-            );
-
-            return { ...acc, [variableZ]: updatedyZVariableArr };
-          },
-          {}
-        );
-
-        return { ...acc, [devScenario]: scenarioData };
-      },
-      {}
-    ) as typeof data;
 
     const devScenario = economicsAnalysisButtons[0].scenarioName as devName;
-    const variableZCamel = sensitivitiesZRow.parameterTitle;
+    const variableZCamel = camelCase(sensitivitiesZRow.parameterTitle);
     const variableZKey = `${variableZCamel}${selectedZValue}`;
 
     const sensitivitiesHeatMap1or2D = (sensitivitiesHeatMapData as any)[
@@ -176,20 +137,12 @@ function* calculateHeatMapDataSaga(
         sensitivitiesHeatMap1or2D
       )
     );
-
-    const successAction = calculateHeatMapDataSuccessAction();
-    yield put({
-      ...successAction,
-      payload: {
-        ...payload,
-        statusCode,
-        success,
-        sensitivitiesHeatMapData,
-        sensitivitiesHeatMap1or2D,
-      },
-    });
-
-    yield put(showDialogAction(successDialogParameters(analysisTitle)));
+    yield put(
+      updateEconomicsParameterAction(
+        "sensitivitiesHeatMapData",
+        sensitivitiesHeatMapData
+      )
+    );
   } catch (errors) {
     const failureAction = calculateHeatMapDataFailureAction();
 

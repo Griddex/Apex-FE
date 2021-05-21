@@ -238,12 +238,12 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
       return {
         ...state,
+        selectedSensitivitiesTable: sensitivitiesTable,
         economicsAnalysisWorkflows: {
           ...state.economicsAnalysisWorkflows,
           [analysisName]: {
             ...state.economicsAnalysisWorkflows[analysisNameDefined],
             analysisTableTitle,
-            sensitivitiesTable,
           },
         },
       };

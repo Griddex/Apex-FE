@@ -68,8 +68,8 @@ function* saveEconomicsSensitivitiesSaga(
 
   const { economicsSensitivitiesTitle, economicsSensitivitiesDescription } =
     yield select((state) => state.economicsReducer);
-  const { sensitivitiesTable } = yield select(
-    (state) => state.economicsReducer[wc][aN]
+  const { selectedSensitivitiesTable } = yield select(
+    (state) => state.economicsReducer[wc]
   );
 
   //Should be user scoped?
@@ -78,7 +78,7 @@ function* saveEconomicsSensitivitiesSaga(
     title: economicsSensitivitiesTitle,
     description: economicsSensitivitiesDescription,
     analysisName,
-    sensitivitiesTable,
+    sensitivitiesTable: selectedSensitivitiesTable,
   };
 
   const config = { withCredentials: false };

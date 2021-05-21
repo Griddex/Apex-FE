@@ -21,17 +21,15 @@ const EconomicsSensitivitiesTable = ({
   const dispatch = useDispatch();
   const wc = "economicsAnalysisWorkflows";
 
-  const economicsAnalyses = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
-  );
+  const { selectedSensitivitiesTable, economicsAnalysisWorkflows } =
+    useSelector((state: RootState) => state.economicsReducer);
 
   //TODO Rethink how to make sensitivities table usable by
   //any current economics analysis
 
-  const currentAnalysisObj = economicsAnalyses[analysisName];
+  const currentAnalysisObj = economicsAnalysisWorkflows[analysisName];
   const sensitivitiesTableTitle = currentAnalysisObj["analysisTableTitle"];
-  const initialRows = currentAnalysisObj["sensitivitiesTable"];
-  const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState(selectedSensitivitiesTable);
 
   const columns: Column<IRawRow>[] = [
     {

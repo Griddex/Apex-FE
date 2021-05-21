@@ -111,7 +111,12 @@ const EconomicsAnalysis = ({
   const [analysisPerspective, setAnalysisPerspective] = React.useState(false);
   const handleExcludeSwitchChange = (event: React.ChangeEvent<any>) => {
     const { checked } = event.target;
-
+    if (!checked && showSensitivitiesTable) {
+      dispatch(
+        updateEconomicsParameterAction("selectedSensitivitiesTable", [])
+      );
+      dispatch(updateEconomicsParameterAction("showSensitivitiesTable", false));
+    }
     setAnalysisPerspective(checked);
   };
 
@@ -331,6 +336,13 @@ const EconomicsAnalysis = ({
       </div>
 
       <ApexFlexStyle width={400} height={40} justifyContent="center">
+        <Button
+          className={classes.primaryButton}
+          startIcon={<ViewDayTwoToneIcon />}
+          onClick={() => alert("implement me")}
+        >
+          Save Results
+        </Button>
         <Button
           className={classes.primaryButton}
           startIcon={<ViewDayTwoToneIcon />}

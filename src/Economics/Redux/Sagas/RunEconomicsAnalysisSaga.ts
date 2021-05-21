@@ -74,10 +74,6 @@ function* runEconomicsAnalysisSaga(
   const { economicsAnalysisButtons, forecastScenarioAnalysis } = yield select(
     (state) => state.economicsReducer[wc][ap]
   );
-  console.log(
-    "Logged output --> ~ file: RunEconomicsAnalysisSaga.ts ~ line 75 ~ economicsAnalysisButtons",
-    economicsAnalysisButtons
-  );
 
   const data = {
     projectId,
@@ -101,10 +97,6 @@ function* runEconomicsAnalysisSaga(
     const result = yield call(
       runEconomicsAnalysisAPI,
       `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
-    );
-    console.log(
-      "Logged output --> ~ file: RunEconomicsAnalysisSaga.ts ~ line 93 ~ result",
-      result
     );
 
     const {

@@ -1,15 +1,15 @@
 import React from "react";
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
-import { IChartCategoriesData } from "../../../Economics/Routes/EconomicsResults/EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
 import ChartCategory from "./ChartCategory";
+import { IChartCategoriesData } from "./ChartCategoryTypes";
 
 const ChartCategories = ({
+  categoriesTitle,
   ChartCategoriesData,
-}: {
-  ChartCategoriesData: IChartCategoriesData;
-}) => {
+}: IChartCategoriesData) => {
   return (
     <ApexFlexStyle flexDirection="column" width={300}>
+      <label>{categoriesTitle}</label>
       {ChartCategoriesData.map((props, i) => (
         <ChartCategory key={i} {...props} />
       ))}

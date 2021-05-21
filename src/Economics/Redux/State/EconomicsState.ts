@@ -203,22 +203,24 @@ const EconomicsState: IEconomicsState = {
   selectedAnalysesNames: [],
 
   //HeatMap
+  sensitivitiesHeatMapTree: { id: "", name: "" },
   sensitivitiesHeatMapData: {},
   sensitivitiesHeatMap1or2D: [],
   heatMapStylingData: {
     heatMapThresholdValue: 0,
     heatMapThresholdColor: "white",
     heatMapBackgroundColor: "#F8F9FA",
-    relationalOperator: ">",
+    relationalOperatorOption: { value: ">", label: ">" },
   },
   showHeatMapCategories: false,
   heatMapVariableXOption: null,
   heatMapVariableYOption: null,
   heatMapVariableZOption: null,
-  sensitivitiesHeatMapTree: { id: "", name: "" },
 
   //Plot Charts
   economicsPlotChartsTree: { id: "", name: "" },
+  plotChartsData: {},
+  plotChartsDataTrans: {},
   selectedEconomicsPlotChartOption: { value: "", label: "" },
   showPlotChartsCategories: false,
   plotChartsVariableXOption: null,

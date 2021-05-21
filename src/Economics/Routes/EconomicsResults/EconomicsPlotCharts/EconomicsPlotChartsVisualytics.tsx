@@ -71,9 +71,8 @@ const EconomicsPlotChartsVisualytics = () => {
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { showPlotChartsCategories } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const { showPlotChartsCategories, selectedEconomicsPlotChartOption } =
+    useSelector((state: RootState) => state.economicsReducer);
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -103,50 +102,42 @@ const EconomicsPlotChartsVisualytics = () => {
       categoryTitle: "X Category",
       persistAction: (name: string, title: string) =>
         dispatch(
-          updateEconomicsParameterAction("heatMapVariableXOption", {
+          updateEconomicsParameterAction("plotChartsVariableXOption", {
             value: name,
             label: title,
           })
         ),
       removeAction: () => {
         dispatch(
-          updateEconomicsParameterAction("heatMapVariableXOption", null)
+          updateEconomicsParameterAction("plotChartsVariableXOption", null)
         );
         //TODO before dispatching, check if is empty
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
-        );
+        dispatch(updateEconomicsParameterAction("plotChartsData", {}));
+        dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
       },
     },
     {
       categoryTitle: "Y Category [Primary]",
       persistAction: (name: string, title: string) =>
         dispatch(
-          updateEconomicsParameterAction("heatMapVariableYOption", {
+          updateEconomicsParameterAction("plotChartsVariableYPriOption", {
             value: name,
             label: title,
           })
         ),
       removeAction: () => {
         dispatch(
-          updateEconomicsParameterAction("heatMapVariableYOption", null)
+          updateEconomicsParameterAction("plotChartsVariableYPriOption", null)
         );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
-        );
+        dispatch(updateEconomicsParameterAction("plotChartsData", {}));
+        dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
       },
     },
     {
       categoryTitle: "Y Category [Secondary]",
       persistAction: (name: string, title: string) => {
         dispatch(
-          updateEconomicsParameterAction("heatMapVariableZOption", {
+          updateEconomicsParameterAction("plotChartsVariableZOption", {
             value: name,
             label: title,
           })
@@ -154,14 +145,10 @@ const EconomicsPlotChartsVisualytics = () => {
       },
       removeAction: () => {
         dispatch(
-          updateEconomicsParameterAction("heatMapVariableYOption", null)
+          updateEconomicsParameterAction("plotChartsVariableYOption", null)
         );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
-        );
+        dispatch(updateEconomicsParameterAction("plotChartsData", {}));
+        dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
       },
     },
   ]);
@@ -216,7 +203,10 @@ const EconomicsPlotChartsVisualytics = () => {
           <EconomicsPlotChartsDataPanel />
         </div>
         {showPlotChartsCategories && (
-          <ChartCategories ChartCategoriesData={ChartCategoriesData.current} />
+          <ChartCategories
+            categoriesTitle={selectedEconomicsPlotChartOption.label}
+            ChartCategoriesData={ChartCategoriesData.current}
+          />
         )}
 
         <div
