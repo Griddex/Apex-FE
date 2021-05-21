@@ -3,4 +3,9 @@ export interface IChartCategory {
   persistAction: (name: string, title: string) => void;
   removeAction: () => void;
 }
-export type IChartCategoriesData = IChartCategory[];
+
+export type TCategoriesTitle = string;
+export interface IChartCategoriesData {
+  ChartCategoriesData: IChartCategory[];
+  categoriesTitle: TCategoriesTitle;
+}

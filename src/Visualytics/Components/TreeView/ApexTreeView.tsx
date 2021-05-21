@@ -203,10 +203,6 @@ export default function ApexTreeView({
         item: { id, name, title },
         end: (item, monitor) => {
           const dropResult = monitor.getDropResult();
-          console.log(
-            "Logged output --> ~ file: ApexTreeView.tsx ~ line 207 ~ renderTree ~ dropResult",
-            dropResult
-          );
         },
         collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
       }),

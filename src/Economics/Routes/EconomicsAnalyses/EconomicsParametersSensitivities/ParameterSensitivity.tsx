@@ -172,7 +172,7 @@ const ParameterSensitivity = ({
       parameterValues: parameterValues[i],
     }));
 
-    const path = `economicsAnalysisWorkflows.${analysisName}.sensitivitiesTable`;
+    const path = `economicsAnalysisWorkflows.selectedSensitivitiesTable`;
     dispatch(updateEconomicsParameterAction(path, sensitivitiesTable));
   }, [rows]);
 

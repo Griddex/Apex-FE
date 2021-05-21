@@ -9,12 +9,13 @@ import {
 import FormatColorFillIcon from "@material-ui/icons/FormatColorFill";
 import React from "react";
 import "react-color-gradient-picker/dist/index.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import ApexSketchPicker from "../../../Visualytics/Components/ColorPickers/ApexSketchPicker";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
@@ -26,18 +27,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IMapStyleFormatters {
-  mapData: any;
   workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
 }
 
-const MapStyleFormatters = ({
-  mapData,
-  workflowProcess,
-}: IMapStyleFormatters) => {
+const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
   const wp = workflowProcess;
+
+  const { sensitivitiesHeatMap1or2D } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
 
   const mapRef = React.useRef<HTMLDivElement>(null);
 
@@ -71,31 +72,14 @@ const MapStyleFormatters = ({
   const [updateMap, setUpdateMap] = React.useState(false);
 
   React.useEffect(() => {
-    if (!mapData) return;
-    if (Array.isArray(mapData)) {
-      dispatch(
-        updateEconomicsParameterAction(`sensitivitiesHeatMap1or2D`, mapData)
-      );
-    } else {
-      const mapDataKeys = Object.keys(mapData);
-
-      dispatch(
-        updateEconomicsParameterAction(
-          `sensitivitiesHeatMap1or2D`,
-          //TODO Dynamic Z value here instead of 0
-          mapData[mapDataKeys[0]]
-        )
-      );
-
-      dispatch(
-        updateEconomicsParameterAction(`heatMapStylingData`, {
-          heatMapThresholdValue: thresholdValue,
-          heatMapThresholdColor: solidThresholdColor,
-          heatMapBackgroundColor: solidBackgroundColor,
-          relationalOperator: operatorOption,
-        })
-      );
-    }
+    dispatch(
+      updateEconomicsParameterAction(`heatMapStylingData`, {
+        heatMapThresholdValue: thresholdValue,
+        heatMapThresholdColor: solidThresholdColor,
+        heatMapBackgroundColor: solidBackgroundColor,
+        relationalOperatorOption: operatorOption,
+      })
+    );
   }, [updateMap]);
 
   return (

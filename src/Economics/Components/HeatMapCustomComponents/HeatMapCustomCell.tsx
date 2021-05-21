@@ -39,12 +39,11 @@ const HeatMapCustomCell = ({
     heatMapThresholdValue,
     heatMapThresholdColor,
     heatMapBackgroundColor,
-    relationalOperator,
+    relationalOperatorOption,
   } = heatMapStylingData;
 
-  const thresholdEval = compile(
-    `${value}${relationalOperator.label}${heatMapThresholdValue}`
-  ).evaluate();
+  const equationExpr = `${value}${relationalOperatorOption.value}${heatMapThresholdValue}`;
+  const thresholdEval = compile(equationExpr).evaluate();
 
   const appliedColor = thresholdEval
     ? heatMapThresholdColor

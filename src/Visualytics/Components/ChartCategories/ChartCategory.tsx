@@ -38,6 +38,7 @@ const ChartCategory = ({
 }: IChartCategory) => {
   const classes = useStyles();
   const theme = useTheme();
+
   const [hasDropped, setHasDropped] = React.useState(false);
   const [dragItem, setDragItem] = React.useState({} as IDragItem);
 

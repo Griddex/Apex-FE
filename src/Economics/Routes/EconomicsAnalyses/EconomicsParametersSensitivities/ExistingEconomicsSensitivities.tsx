@@ -182,19 +182,7 @@ export default function ExistingEconomicsSensitivities() {
         resizable: true,
         formatter: ({ row }) => {
           const analysisName = row.analysisName as TEconomicsAnalysesNames;
-          console.log(
-            "Logged output --> ~ file: ExistingEconomicsSensitivities.tsx ~ line 184 ~ generateColumns ~ analysisName",
-            analysisName
-          );
           const analysisTitle = economicsAnalysesNameTitlesObj[analysisName];
-          console.log(
-            "Logged output --> ~ file: ExistingEconomicsSensitivities.tsx ~ line 186 ~ generateColumns ~ economicsAnalysesNameTitlesObj",
-            economicsAnalysesNameTitlesObj
-          );
-          console.log(
-            "Logged output --> ~ file: ExistingEconomicsSensitivities.tsx ~ line 186 ~ generateColumns ~ analysisTitle",
-            analysisTitle
-          );
 
           return <ApexFlexStyle>{analysisTitle}</ApexFlexStyle>;
         },

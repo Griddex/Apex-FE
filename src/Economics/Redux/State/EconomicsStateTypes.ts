@@ -192,21 +192,23 @@ export interface IEconomicsState
 
   showSensitivitiesTable: boolean;
 
+  sensitivitiesHeatMapTree: RenderTree;
   sensitivitiesHeatMapData: any;
   sensitivitiesHeatMap1or2D: [];
   heatMapStylingData: {
     heatMapThresholdValue: null | number;
     heatMapThresholdColor: string;
     heatMapBackgroundColor: string;
-    relationalOperator: string;
+    relationalOperatorOption: ISelectOption;
   };
   showHeatMapCategories: boolean;
   heatMapVariableXOption: ISelectOption | null;
   heatMapVariableYOption: ISelectOption | null;
   heatMapVariableZOption: ISelectOption | null;
-  sensitivitiesHeatMapTree: RenderTree;
 
   economicsPlotChartsTree: RenderTree;
+  plotChartsData: {};
+  plotChartsDataTrans: {};
   selectedEconomicsPlotChartOption: ISelectOption;
   showPlotChartsCategories: boolean;
   plotChartsVariableXOption: ISelectOption | null;

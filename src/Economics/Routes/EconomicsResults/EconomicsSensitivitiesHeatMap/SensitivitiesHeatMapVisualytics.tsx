@@ -168,7 +168,10 @@ const SensitivitiesHeatMapVisualytics = () => {
         </div>
 
         {showHeatMapCategories && (
-          <ChartCategories ChartCategoriesData={ChartCategoriesData.current} />
+          <ChartCategories
+            categoriesTitle="Grid Map"
+            ChartCategoriesData={ChartCategoriesData.current}
+          />
         )}
 
         <div className={classes.chartContent}>
@@ -191,10 +194,7 @@ const SensitivitiesHeatMapVisualytics = () => {
           <ContextDrawer>
             {() =>
               expandContextDrawer ? (
-                <MapStyleFormatters
-                  mapData={mapData3D}
-                  workflowProcess={workflowProcess}
-                />
+                <MapStyleFormatters workflowProcess={workflowProcess} />
               ) : (
                 <div />
               )

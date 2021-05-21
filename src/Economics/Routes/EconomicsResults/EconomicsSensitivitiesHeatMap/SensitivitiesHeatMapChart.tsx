@@ -1,4 +1,5 @@
 import { Box, useTheme } from "@material-ui/core";
+import camelCase from "lodash.camelcase";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -14,6 +15,10 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { ISensitivitiesRow } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
+
+export interface IHeatMapVariableZData extends ISelectOption {
+  handleCheck: (obj: ISelectOption["value"]) => void;
+}
 
 const SensitivitiesHeatMapChart = () => {
   const theme = useTheme();
@@ -34,13 +39,13 @@ const SensitivitiesHeatMapChart = () => {
 
   const {
     sensitivitiesHeatMapData,
-    sensitivitiesHeatMap1or2D,
     heatMapVariableXOption,
     heatMapVariableYOption,
     heatMapVariableZOption,
+    selectedSensitivitiesTable,
   } = useSelector((state: RootState) => state.economicsReducer);
 
-  const { sensitivitiesTable, economicsAnalysisButtons } = useSelector(
+  const { economicsAnalysisButtons } = useSelector(
     (state: RootState) => state.economicsReducer[wc][ap]
   );
 
@@ -55,35 +60,48 @@ const SensitivitiesHeatMapChart = () => {
   let heatMapVariableZData: any;
 
   if (isAllVariablesDropped) {
-    sensitivitiesZRow = (sensitivitiesTable as ISensitivitiesRow[]).filter(
-      (row) => heatMapVariableZOption.label.startsWith(row.parameterTitle)
+    sensitivitiesZRow = (
+      selectedSensitivitiesTable as ISensitivitiesRow[]
+    ).filter((row) =>
+      heatMapVariableZOption.label.startsWith(row.parameterTitle)
     )[0];
 
-    heatMapVariableZData = sensitivitiesZRow.parameterValues
+    const heatMapVarZData = sensitivitiesZRow.parameterValues
       .split(", ")
       .map((v) => ({
         value: v,
         label: v,
-        handleCheck: () => {
-          if (Object.entries(sensitivitiesHeatMapData).length > 0) {
-            const devScenario = economicsAnalysisButtons[0].scenarioName;
-            const variableZCamel = sensitivitiesZRow.parameterTitle;
-            const variableZKey = `${variableZCamel}${v}`;
-            //use current devscenario and current z value to get collection
-            //dispatch object to map1or2d
-            const sensitivitiesHeatMap1or2D =
-              sensitivitiesHeatMapData[devScenario][variableZKey];
-            dispatch(
-              updateEconomicsParameterAction(
-                "sensitivitiesHeatMap1or2D",
-                sensitivitiesHeatMap1or2D
-              )
-            );
-          } else {
-            dispatch(calculateHeatMapDataRequestAction(ap, tl, v));
-          }
-        },
       }));
+
+    let handleCheck: IHeatMapVariableZData["handleCheck"];
+
+    if (Object.entries(sensitivitiesHeatMapData).length > 0) {
+      handleCheck = (v: any) => {
+        const devScenario = economicsAnalysisButtons[0].scenarioName;
+        const variableZCamel = camelCase(sensitivitiesZRow.parameterTitle);
+        const variableZKey = `${variableZCamel}${v}`;
+        //use current devscenario and current z value to get collection
+        //dispatch object to map1or2d
+        const sensitivitiesHeatMap1or2D =
+          sensitivitiesHeatMapData[devScenario][variableZKey];
+
+        dispatch(
+          updateEconomicsParameterAction(
+            "sensitivitiesHeatMap1or2D",
+            sensitivitiesHeatMap1or2D
+          )
+        );
+      };
+    } else {
+      handleCheck = (v: any) => {
+        dispatch(calculateHeatMapDataRequestAction(ap, tl, v));
+      };
+    }
+
+    heatMapVariableZData = heatMapVarZData.map((obj) => ({
+      ...obj,
+      handleCheck: () => handleCheck(obj.value),
+    }));
   } else {
     sensitivitiesZRow = {} as ISensitivitiesRow;
     heatMapVariableZData = [];
@@ -104,9 +122,7 @@ const SensitivitiesHeatMapChart = () => {
       </ApexFlexStyle>
 
       <ApexFlexStyle width={"90%"} height={"90%"}>
-        <EconomicsSensitivitiesHeatMap
-          mapDataDisplayed={sensitivitiesHeatMap1or2D}
-        />
+        <EconomicsSensitivitiesHeatMap />
         <Box marginLeft={3} width={200} minWidth={200} height={"70%"}>
           {isAllVariablesDropped ? (
             <ApexCheckbox

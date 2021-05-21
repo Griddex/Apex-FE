@@ -85,10 +85,6 @@ const ContextDrawer = ({ children }: { children: () => JSX.Element }) => {
   const { expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  console.log(
-    "Logged output --> ~ file: ContextDrawer.tsx ~ line 86 ~ ContextDrawer ~ expandContextDrawer",
-    expandContextDrawer
-  );
 
   return (
     <Drawer

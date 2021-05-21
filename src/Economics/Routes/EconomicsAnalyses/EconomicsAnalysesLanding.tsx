@@ -76,6 +76,12 @@ const EconomicsAnalysesLanding = () => {
           dispatch(
             updateEconomicsParameterAction("selectedAnalysesNames", [name])
           );
+          dispatch(
+            updateEconomicsParameterAction("selectedSensitivitiesTable", [])
+          );
+          dispatch(
+            updateEconomicsParameterAction("showSensitivitiesTable", false)
+          );
         },
       };
     }
