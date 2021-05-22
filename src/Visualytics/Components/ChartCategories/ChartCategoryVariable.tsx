@@ -23,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  closeButton: {
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      color: "white",
+      borderRadius: 0,
+    },
+  },
 }));
 
 export interface IChartCategoryVariable {
@@ -43,13 +50,20 @@ const ChartCategoryVariable = ({
   const avatar = getFirstCharFromEveryWord(title);
   return (
     <MenuItem
-      style={{ display: "flex", justifyContent: "space-between", padding: 2 }}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: 2,
+        border: `1px solid ${theme.palette.primary.main}`,
+        backgroundColor: theme.palette.primary.light,
+      }}
     >
       <ListItemAvatar className={classes.listItemAvatar}>
         <>{avatar}</>
       </ListItemAvatar>
       <Typography variant="inherit">{title}</Typography>
       <IconButton
+        // className={classes.closeButton}
         onClick={() => {
           removeAction();
           setHasDropped(false);
@@ -63,4 +77,4 @@ const ChartCategoryVariable = ({
   );
 };
 
-export default ChartCategoryVariable;
+export default React.memo(ChartCategoryVariable);

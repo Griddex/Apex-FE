@@ -761,7 +761,10 @@ export default function MatchUnits({
   return (
     <div className={classes.rootMatchUnits}>
       <div className={classes.chart}>
-        <DoughnutChart data={unitsMatchChartData.current} />
+        <DoughnutChart
+          data={unitsMatchChartData.current}
+          willUseThemeColor={false}
+        />
       </div>
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>

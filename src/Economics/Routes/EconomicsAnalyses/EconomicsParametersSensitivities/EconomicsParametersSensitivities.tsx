@@ -8,6 +8,7 @@ import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexSty
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
+import { economicsAnalysesOptions } from "../../../Data/EconomicsData";
 import {
   IEconomicsParametersSensitivitiesProps,
   IEconomicsSensitivities,
@@ -39,17 +40,24 @@ const EconomicsParametersSensitivities = ({
     ecoParAppHeadersSelectOptions as ISelectOption[];
 
   let tgtVarOption = {} as ISelectOption;
-  if (createSensitivitiesIsDialog)
+  let analysisNameOptions = [] as ISelectOption[];
+  console.log(
+    "Logged output --> ~ file: EconomicsParametersSensitivities.tsx ~ line 45 ~ createSensitivitiesIsDialog",
+    createSensitivitiesIsDialog
+  );
+  if (createSensitivitiesIsDialog) {
     tgtVarOption = {
       value: selectedAnalysis?.name,
       label: selectedAnalysis?.title,
     } as ISelectOption;
-  else
+    analysisNameOptions = [tgtVarOption];
+  } else {
     tgtVarOption = {
-      value: ecoParAppHeadersSelectOptions[0]?.name,
-      label: ecoParAppHeadersSelectOptions[0]?.title,
+      value: economicsAnalysesOptions[0]?.value,
+      label: economicsAnalysesOptions[0]?.label,
     } as ISelectOption;
-  const analysisNameOptions = [tgtVarOption];
+    analysisNameOptions = economicsAnalysesOptions;
+  }
 
   const initialSensitivitiesObj = {
     "Parameter 1": {

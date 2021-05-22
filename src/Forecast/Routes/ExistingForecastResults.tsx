@@ -1,4 +1,4 @@
-import { ClickAwayListener, makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
@@ -95,11 +95,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //TODO: Calculate classification data from collection
-const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
 
 export default function ExistingForecastResults({
   showChart,
@@ -109,9 +104,16 @@ export default function ExistingForecastResults({
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const theme = useTheme();
 
   const wc = "existingDataWorkflows";
   const wp = "forecastResultsExisting";
+
+  const chartData = [
+    { name: "Group A", value: 2400, color: theme.palette.primary.main },
+    { name: "Group B", value: 4567, color: theme.palette.success.main },
+    { name: "Group C", value: 1398, color: theme.palette.secondary.main },
+  ];
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
@@ -340,7 +342,7 @@ export default function ExistingForecastResults({
     <div className={classes.rootExistingData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} />
+          <DoughnutChart data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>

@@ -177,7 +177,7 @@ const ParameterSensitivity = ({
   }, [rows]);
 
   return (
-    <ApexFlexStyle flexDirection="column">
+    <ApexFlexStyle key={parIndex} flexDirection="column">
       <AnalyticsComp
         title={parId}
         direction="Horizontal"

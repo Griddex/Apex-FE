@@ -776,7 +776,10 @@ export default function MatchHeaders({
   return (
     <div className={classes.rootMatchHeaders}>
       <div className={classes.chart}>
-        <DoughnutChart data={headerMatchChartData.current} />
+        <DoughnutChart
+          data={headerMatchChartData.current}
+          willUseThemeColor={false}
+        />
       </div>
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>

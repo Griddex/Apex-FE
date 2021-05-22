@@ -14,10 +14,12 @@ const ApexSelectRS = ({
   handleSelect,
   menuPortalTarget,
   isSelectOptionType,
+  className,
+  containerWidth,
   ...rest
 }: IApexSelectRS) => {
   const theme = useTheme();
-  const RSStyles = getRSStyles(theme);
+  const RSStyles = getRSStyles(theme, containerWidth as React.Key);
 
   let dataOptions: ISelectOption[];
 
@@ -26,6 +28,7 @@ const ApexSelectRS = ({
 
   return (
     <Select
+      className={className}
       value={valueOption}
       options={dataOptions}
       styles={RSStyles}

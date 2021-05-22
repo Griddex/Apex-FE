@@ -17,7 +17,7 @@ const tempData = [
 const charts: ICharts = {
   0: () => <StackedAreaChart />,
   1: () => <LineChart />,
-  2: () => <DoughnutChart data={tempData} />,
+  2: () => <DoughnutChart data={tempData} willUseThemeColor={false} />,
   3: () => <BarChart />,
 };
 

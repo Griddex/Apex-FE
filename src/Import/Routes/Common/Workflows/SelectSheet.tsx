@@ -1,31 +1,30 @@
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
-import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles, useTheme, fade } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
+import { useSnackbar } from "notistack";
 import React from "react";
 import Progress from "react-circle-progress-bar_no-css";
 import { useDispatch, useSelector } from "react-redux";
+import { ValueType } from "react-select";
 import * as xlsx from "xlsx";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
-import sizeConversions from "../../../../Application/Utils/SizeConversions";
-import { persistWorksheetAction } from "../../../Redux/Actions/InputActions";
-import FileIconService from "../../../Services/FileIconService";
-import { useSnackbar } from "notistack";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
-import formatDate from "../../../../Application/Utils/FormatDate";
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
-import Select, { ValueType } from "react-select";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
+import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import formatDate from "../../../../Application/Utils/FormatDate";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import sizeConversions from "../../../../Application/Utils/SizeConversions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
+import { persistWorksheetAction } from "../../../Redux/Actions/InputActions";
+import FileIconService from "../../../Services/FileIconService";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -130,13 +129,14 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
     const worksheetNameOption = generateSelectOptions([worksheetName])[0];
 
     return (
-      <Select
+      <ApexSelectRS
         className={classes.selectWorksheet}
-        // value={valueOption}
-        defaultValue={worksheetNameOption}
-        options={worksheetNameOptions}
-        onChange={handleSelectChange}
-        // menuIsOpen={true}
+        containerWidth={400}
+        valueOption={worksheetNameOption}
+        data={worksheetNameOptions}
+        handleSelect={handleSelectChange}
+        isSelectOptionType={true}
+        menuPortalTarget={document.body}
       />
     );
   };

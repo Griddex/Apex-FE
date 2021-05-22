@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { useTheme } from "@material-ui/core/styles";
-import { ChartType } from "../ChartTypes";
+import { IChartProps } from "../ChartTypes";
 
 const useStyles = makeStyles(() => ({
   rootDoughnutChart: {
@@ -10,16 +10,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const DoughnutChart = ({ data }: { data: ChartType }) => {
+const DoughnutChart = ({ data, willUseThemeColor }: IChartProps) => {
   const theme = useTheme();
 
   return (
     <ResponsivePie
       data={data}
       margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
-      // colors={{ scheme: "category10" }}
+      colors={
+        willUseThemeColor ? { scheme: "category10" } : { datum: "data.color" }
+      }
       innerRadius={0.7}
-      padAngle={0.7}
+      padAngle={3}
       cornerRadius={0}
       activeOuterRadiusOffset={8}
       borderWidth={1}

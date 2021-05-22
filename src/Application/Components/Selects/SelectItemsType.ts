@@ -23,6 +23,7 @@ export interface IApexSelect {
   handleBlur: (event: React.ChangeEvent<any>) => void;
   label?: string;
   selectItemStyle?: CSSProperties;
+  className?: string;
 }
 
 export interface IApexSelectRS {
@@ -32,4 +33,6 @@ export interface IApexSelectRS {
   RSStyles?: Styles<ISelectOption, false>;
   menuPortalTarget: HTMLElement;
   isSelectOptionType: boolean;
+  className?: string;
+  containerWidth?: React.Key;
 }

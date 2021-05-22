@@ -178,13 +178,21 @@ const EconomicsSensitivitiesLanding = () => {
             return (
               <ModuleCard
                 key={name}
-                isDispatched={true}
-                moduleAction={() =>
-                  updateEconomicsParameterAction(
-                    "loadEconomicsSensitivitiesWorkflow",
-                    true
-                  )
-                }
+                isDispatched={false}
+                moduleAction={() => {
+                  dispatch(
+                    updateEconomicsParameterAction(
+                      "loadEconomicsSensitivitiesWorkflow",
+                      true
+                    )
+                  );
+                  dispatch(
+                    updateEconomicsParameterAction(
+                      "createSensitivitiesIsDialog",
+                      false
+                    )
+                  );
+                }}
                 title={name}
                 description={description}
                 icon={icon}

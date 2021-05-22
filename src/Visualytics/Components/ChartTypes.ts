@@ -1,2 +1,5 @@
-export type ChartType = Record<string, React.Key>[];
+export interface IChartProps {
+  data: Record<string, React.Key>[];
+  willUseThemeColor: boolean;
+}
 export type DoughnutChartType = Record<string, React.Key>[];
