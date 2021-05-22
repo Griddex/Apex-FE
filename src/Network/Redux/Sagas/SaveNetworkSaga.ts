@@ -116,6 +116,7 @@ function* saveNetworkSaga(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message))
     );
+  } finally {
     yield put(hideSpinnerAction());
   }
 }
