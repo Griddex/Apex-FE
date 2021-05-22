@@ -448,7 +448,7 @@ export default function ExistingForecastingParameters({
     <div className={classes.rootExistingData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} />
+          <DoughnutChart data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <div className={classes.table}>

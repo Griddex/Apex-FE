@@ -40,6 +40,10 @@ const ChartCategory = ({
   const theme = useTheme();
 
   const [hasDropped, setHasDropped] = React.useState(false);
+  console.log(
+    "Logged output --> ~ file: ChartCategory.tsx ~ line 43 ~ hasDropped",
+    hasDropped
+  );
   const [dragItem, setDragItem] = React.useState({} as IDragItem);
 
   const allItemTypes = [
@@ -48,10 +52,10 @@ const ChartCategory = ({
     ...Object.values(itemTypesVisualytics),
   ];
 
-  const [{ isOver, isOverCurrent, canDrop }, drop] = useDrop(
+  const [{ isOverCurrent, canDrop }, drop] = useDrop(
     () => ({
       accept: hasDropped ? "" : allItemTypes,
-      drop(item, monitor) {
+      drop(item) {
         const { id, name, title } = item as IDragItem;
 
         persistAction(name, title);
@@ -85,7 +89,7 @@ const ChartCategory = ({
       <AnalyticsComp
         title={categoryTitle}
         direction="Vertical"
-        containerStyle={{ width: "100%" }}
+        containerStyle={{ width: "100%", height: "100%" }}
         content={
           hasDropped ? (
             <ChartCategoryVariable
@@ -97,9 +101,10 @@ const ChartCategory = ({
             <ApexFlexStyle>{"Drop here"}</ApexFlexStyle>
           )
         }
+        contentStyle={{ height: "100%" }}
       />
     </div>
   );
 };
 
-export default ChartCategory;
+export default React.memo(ChartCategory);

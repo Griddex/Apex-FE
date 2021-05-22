@@ -12,7 +12,6 @@ import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons"
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import { mapData3D } from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   chartContent: {
     display: "flex",
     flexDirection: "column",
-    marginLeft: 5,
+    marginLeft: (props: any) => (props.showHeatMapCategories ? -295 : 5),
     height: "100%",
     width: "calc(100% - 300px)",
     backgroundColor: "#FFF",
@@ -55,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SensitivitiesHeatMapVisualytics = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const workflowProcess = "economicsResultsSensitivitiesHeatmap";
 
@@ -65,6 +63,7 @@ const SensitivitiesHeatMapVisualytics = () => {
   const { showHeatMapCategories } = useSelector(
     (state: RootState) => state.economicsReducer
   );
+  const classes = useStyles({ showHeatMapCategories });
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -91,14 +90,18 @@ const SensitivitiesHeatMapVisualytics = () => {
   const ChartCategoriesData = React.useRef([
     {
       categoryTitle: "X Category",
-      persistAction: (name: string, title: string) =>
-        dispatch(
-          updateEconomicsParameterAction("heatMapVariableXOption", {
-            value: name,
-            label: title,
-          })
-        ),
-      removeAction: () => {
+      persistAction: React.useCallback(
+        (name: string, title: string) => {
+          dispatch(
+            updateEconomicsParameterAction("heatMapVariableXOption", {
+              value: name,
+              label: title,
+            })
+          );
+        },
+        [dispatch]
+      ),
+      removeAction: React.useCallback(() => {
         dispatch(
           updateEconomicsParameterAction("heatMapVariableXOption", null)
         );
@@ -109,18 +112,22 @@ const SensitivitiesHeatMapVisualytics = () => {
         dispatch(
           updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
         );
-      },
+      }, [dispatch]),
     },
     {
       categoryTitle: "Y Category",
-      persistAction: (name: string, title: string) =>
-        dispatch(
-          updateEconomicsParameterAction("heatMapVariableYOption", {
-            value: name,
-            label: title,
-          })
-        ),
-      removeAction: () => {
+      persistAction: React.useCallback(
+        (name: string, title: string) => {
+          dispatch(
+            updateEconomicsParameterAction("heatMapVariableYOption", {
+              value: name,
+              label: title,
+            })
+          );
+        },
+        [dispatch]
+      ),
+      removeAction: React.useCallback(() => {
         dispatch(
           updateEconomicsParameterAction("heatMapVariableYOption", null)
         );
@@ -130,19 +137,19 @@ const SensitivitiesHeatMapVisualytics = () => {
         dispatch(
           updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
         );
-      },
+      }, [dispatch]),
     },
     {
       categoryTitle: "Z Category",
-      persistAction: (name: string, title: string) => {
+      persistAction: React.useCallback((name: string, title: string) => {
         dispatch(
           updateEconomicsParameterAction("heatMapVariableZOption", {
             value: name,
             label: title,
           })
         );
-      },
-      removeAction: () => {
+      }, []),
+      removeAction: React.useCallback(() => {
         dispatch(
           updateEconomicsParameterAction("heatMapVariableYOption", null)
         );
@@ -152,7 +159,7 @@ const SensitivitiesHeatMapVisualytics = () => {
         dispatch(
           updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
         );
-      },
+      }, [dispatch]),
     },
   ]);
 
@@ -171,6 +178,7 @@ const SensitivitiesHeatMapVisualytics = () => {
           <ChartCategories
             categoriesTitle="Grid Map"
             ChartCategoriesData={ChartCategoriesData.current}
+            showCategories={showHeatMapCategories}
           />
         )}
 

@@ -21,7 +21,10 @@ import ReactDataGrid, {
 } from "react-data-griddex";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { ValueType } from "react-select";
 import TableMappingErrors from "../../Errors/TableMappingErrors";
+import ApexSelectRS from "../../Selects/ApexSelectRS";
+import { ISelectOption } from "../../Selects/SelectItemsType";
 import TableButtons from "../TableButtons";
 import { ITableButtonsProps } from "../TableButtonsTypes";
 import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
@@ -67,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
     height: 30,
     marginLeft: 5,
     minWidth: 100,
+    width: 100,
   },
   tableHeightStyle: {
     height: (props: any) => {
@@ -125,7 +129,10 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     value: v,
     label: v,
   }));
-  const uniquePageOptions = uniqBy(pageOptions, (v) => v.label);
+  const uniquePageOptions = uniqBy(
+    pageOptions,
+    (v) => v.label
+  ) as ISelectOption[];
 
   const initializeTableMetaData = (): ITableMetaData<R> => {
     const scrollToIndex = 1;
@@ -240,10 +247,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     });
 
     if (filterValue === "") setFilteredTableRows(tableRows);
-    // localDispatch({
-    //   type: "FILTERROWS",
-    //   payload: { filteredTableRows: tableRows },
-    // });
 
     if (filterValue.length > 1) {
       const promise = new Promise<R[]>((resolve, reject) => {
@@ -408,12 +411,23 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       {showTablePagination && (
         <div className={classes.tablePagination}>
           <div>Pages</div>
-          <SelectEditor
+          <ApexSelectRS
             className={classes.formControl}
-            value={pageSelect || "All"}
-            onChange={(value) => handlePageSelectChange(value)}
-            options={uniquePageOptions}
-            rowHeight={pagesHeight}
+            containerWidth={100}
+            valueOption={
+              {
+                value: pageSelect,
+                label: pageSelect,
+              } as NonNullable<ISelectOption>
+            }
+            data={uniquePageOptions}
+            handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handlePageSelectChange(
+                (option as NonNullable<ISelectOption>).value
+              );
+            }}
+            isSelectOptionType={true}
+            menuPortalTarget={document.body}
           />
           <Pagination
             style={{ marginLeft: 10 }}

@@ -17,7 +17,7 @@ import {
   IExistingDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
-import { ChartType } from "../../../../Visualytics/Components/ChartTypes";
+import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import apexGridCheckbox from "./../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 
 const useStyles = makeStyles((theme) => ({
@@ -166,7 +166,10 @@ export default function ExistingDataRoute<
     <div className={classes.rootExistingData} style={containerStyle}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData as ChartType} />
+          <DoughnutChart
+            data={chartData as IChartProps["data"]}
+            willUseThemeColor={false}
+          />
         </div>
       )}
 

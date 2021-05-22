@@ -17,7 +17,7 @@ const tempData = [
 const economicsPlotCharts = {
   stackedArea: <StackedAreaChart />,
   line: <LineChart />,
-  doughnut: <DoughnutChart data={tempData} />,
+  doughnut: <DoughnutChart data={tempData} willUseThemeColor={true} />,
   bar: <BarChart />,
 } as Record<TChartTypeNames, JSX.Element>;
 

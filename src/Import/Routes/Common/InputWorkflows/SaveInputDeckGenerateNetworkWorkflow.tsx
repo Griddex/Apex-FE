@@ -18,9 +18,9 @@ const SaveInputDeckGenerateNetworkWorkflow = ({
 
   const renderImportStep = () => {
     switch (activeStep) {
-      case 1:
+      case 0:
         return <ExistingFacilitiesDecks {...props} />;
-      case 2:
+      case 1:
         return <ForecastTitleAndDescriptionForm />;
       default:
         return <h1>No view</h1>;

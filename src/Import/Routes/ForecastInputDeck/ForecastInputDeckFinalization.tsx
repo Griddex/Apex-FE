@@ -122,7 +122,7 @@ const ForecastInputDeckFinalization = ({
       type: "saveInputDeckGenerateNetworkWorkflowDialog",
       show: true,
       exclusive: false,
-      maxWidth: "sm",
+      maxWidth: "md",
       iconType: "select",
       workflowProcess,
       workflowCategory: "inputDataWorkflows",
