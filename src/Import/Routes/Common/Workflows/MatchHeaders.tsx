@@ -29,7 +29,7 @@ import {
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -89,10 +89,7 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-export default function MatchHeaders({
-  reducer,
-  wrkflwPrcss,
-}: IAllWorkflowProcesses) {
+export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();

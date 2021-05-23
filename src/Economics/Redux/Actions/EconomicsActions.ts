@@ -5,9 +5,9 @@ import {
   TEconomicsAnalysesTitles,
 } from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
-  IAllWorkflowProcesses,
-  IEconomicsWorkflowProcess,
-  IInputWorkflowProcess,
+  IAllWorkflows,
+  IEconomicsWorkflows,
+  IInputWorkflows,
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
@@ -157,7 +157,7 @@ export const persistCostsRevDataFaiSelectOptionFailureAction = () => {
 };
 
 export const saveCostsRevenuesRequestAction = (
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
   reducer: ReducersType
 ) => {
   return {
@@ -231,7 +231,7 @@ export const persistEconomicsParDataFaiSelectOptionFailureAction = () => {
 };
 
 export const saveEconomicsParametersRequestAction = (
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
   reducer: ReducersType
 ) => {
   return {
@@ -319,7 +319,7 @@ export const fetchExistingEconomicsSensitivitiesFailureAction = () => {
 };
 
 export const saveEconomicsSensitivitiesRequestAction = (
-  workflowProcess: IEconomicsWorkflowProcess["wkPs"],
+  workflowProcess: IEconomicsWorkflows["wkPs"],
   reducer: ReducersType,
   analysisName: TEconomicsAnalysesNames
 ) => {
@@ -350,7 +350,7 @@ export const saveEconomicsSensitivitiesFailureAction = () => {
 };
 
 export const getEconomicsSensitivitiesByIdRequestAction = (
-  workflowProcess: IEconomicsWorkflowProcess["wkPs"],
+  workflowProcess: IEconomicsWorkflows["wkPs"],
   reducer: ReducersType
 ) => {
   return {
@@ -380,7 +380,7 @@ export const getEconomicsSensitivitiesByIdFailureAction = () => {
 };
 
 export const runEconomicsAnalysisRequestAction = (
-  workflowProcess: IEconomicsWorkflowProcess["wkPs"],
+  workflowProcess: IEconomicsWorkflows["wkPs"],
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles
 ) => {
@@ -411,7 +411,7 @@ export const runEconomicsAnalysisFailureAction = () => {
 };
 
 export const persistEconomicsDeckRequestAction = (
-  workflowProcess: IInputWorkflowProcess["wkPs"],
+  workflowProcess: IInputWorkflows["wkPs"],
   devValue: TDevScenarioNames,
   rows: IRawRow[],
   isRowsInPayload: boolean

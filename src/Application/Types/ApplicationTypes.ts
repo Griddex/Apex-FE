@@ -2,7 +2,7 @@ import { IUserDetails } from "../Components/User/UserTypes";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
 import {
-  IAllWorkflowProcesses,
+  IAllWorkflows,
   ReducersType,
 } from "../Components/Workflows/WorkflowTypes";
 import {
@@ -87,12 +87,8 @@ export interface ILandingData {
   description: string;
   icon: JSX.Element;
   route: string;
-  workflowProcess:
-    | IAllWorkflowProcesses["wrkflwPrcss"]
-    | IExistingDataProps["wkPs"];
-  workflowCategory:
-    | IAllWorkflowProcesses["wrkflwCtgry"]
-    | IExistingDataProps["wkCy"];
+  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"];
+  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"];
 }
 
 export interface IVariableNameTitle {

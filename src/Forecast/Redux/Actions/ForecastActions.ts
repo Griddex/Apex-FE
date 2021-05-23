@@ -1,4 +1,4 @@
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
@@ -290,7 +290,7 @@ export const removeCurrentForecastAction = () => {
 };
 
 export const runForecastAggregationRequestAction = (
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"]
 ) => {
   return {
     type: RUN_FORECASTAGGREGATION_REQUEST,

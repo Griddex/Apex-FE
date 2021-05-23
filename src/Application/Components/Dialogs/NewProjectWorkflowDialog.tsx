@@ -6,11 +6,12 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React, { useCallback, useEffect } from "react";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  successDialogParameters,
   failureDialogParameters,
+  successDialogParameters,
 } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
 import { createNewProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
@@ -19,18 +20,17 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import DialogSaveCancelButtons from "../DialogButtons/DialogSaveCancelButtons";
+import DialogContextDrawer from "../Drawers/DialogContextDrawer";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowStepper";
 import { DialogStuff } from "./DialogTypes";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import DialogSaveCancelButtons from "../DialogButtons/DialogSaveCancelButtons";
-import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import DialogContextDrawer from "../Drawers/DialogContextDrawer";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -110,7 +110,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = ["New Project Details", "Choose Unit Settings"];
+const steps = ["Choose Unit Settings", "New Project Title & Description"];
 const workflowCategory = "projectDataWorkflows";
 const workflowProcess = "newProjectWorkflowDialog";
 
@@ -127,9 +127,10 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     (activeStep: number) => activeStep === 50,
     [activeStep]
   );
-  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
-    skipped,
-  ]);
+  const isStepSkipped = useCallback(
+    (step: number) => skipped.has(step),
+    [skipped]
+  );
 
   const workflowProps = {
     activeStep,
@@ -194,7 +195,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     workflowCategory,
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(
       workflowInitAction(
         steps,

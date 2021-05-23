@@ -8,7 +8,7 @@ import DialogSaveCancelButtons from "../../../../Application/Components/DialogBu
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
 import SuspensePerpetualSpinner from "../../../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { subNavbarSetMenuAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
@@ -157,9 +157,7 @@ const EconomicsCostsRevenuesLanding = () => {
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
 
-  const costsRevenueWorkflowSaveAction = (
-    wp: IAllWorkflowProcesses["wrkflwPrcss"]
-  ) => {
+  const costsRevenueWorkflowSaveAction = (wp: IAllWorkflows["wrkflwPrcss"]) => {
     const saveCostsRevenuesInputdeckConfirmation = () => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Save_CostsRevenue_Dialog_Confirmation",
@@ -205,7 +203,7 @@ const EconomicsCostsRevenuesLanding = () => {
   };
 
   const costsRevenueWorkflowFinalAction = (
-    wp: IAllWorkflowProcesses["wrkflwPrcss"]
+    wp: IAllWorkflows["wrkflwPrcss"]
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Select_DevelopmentScenarios_Dialog",

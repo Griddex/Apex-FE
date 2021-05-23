@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ServerLoginForm from "../../../../Application/Components/Forms/ServerLoginForm";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   selectItem: {},
 }));
 
-const ConnectDatabase = ({ wrkflwPrcss }: IAllWorkflowProcesses) => {
+const ConnectDatabase = ({ wrkflwPrcss }: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = "inputDataWorkflows";

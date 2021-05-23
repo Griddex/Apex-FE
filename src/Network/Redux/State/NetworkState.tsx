@@ -30,6 +30,8 @@ const networkState: INetworkState = {
   isNetworkSaved: false,
   isNetworkChanged: false,
   isNetworkDisplayed: false,
+  isNetworkAuto: false,
+
   networkId: "",
   networkTitle: "",
   networkDescription: "",
@@ -40,6 +42,7 @@ const networkState: INetworkState = {
   data: [],
 
   selectedForecastingParametersId: "",
+  loadNetworkGenerationWorkflow: false,
 
   selectedNetworkId: "",
   selectedNetworkTitle: "",
@@ -47,6 +50,10 @@ const networkState: INetworkState = {
     networkExisting: [],
     forecastingParametersRoot: [],
   },
+  // networkCreationWorkflows: {
+  //   networkManualBuild: {},
+  //   networkAutoGeneration: {},
+  // },
 
   selectedForecastingParametersRootId: "",
   selectedForecastingParametersGroupId: "",

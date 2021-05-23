@@ -11,7 +11,7 @@ import { ISelectOption } from "../../Application/Components/Selects/SelectItemsT
 import ApexFlexStyle from "../../Application/Components/Styles/ApexFlexStyle";
 import VerticalWorkflowStepper from "../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../Application/Components/Workflows/WorkflowBanner";
-import { IAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ExistingForecastResults from "../../Forecast/Routes/ExistingForecastResults";
@@ -104,7 +104,7 @@ const CostsRevenueApexForecastWorkflow = ({
   finalAction,
   idTitleArr,
   persistSelectedIdTitleAction,
-}: IAllWorkflowProcesses) => {
+}: IAllWorkflows) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 

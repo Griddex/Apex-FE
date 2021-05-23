@@ -13,7 +13,7 @@ export const OPENRECENTPROJECT_SUCCESS = "OPENRECENTPROJECT_SUCCESS";
 export const OPENRECENTPROJECT_FAILURE = "OPENRECENTPROJECT_FAILURE";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
-export const updateProjectAction = (name: string, value: string) => {
+export const updateProjectParameterAction = (name: string, value: string) => {
   return {
     type: UPDATE_NEWPROJECT,
     payload: {

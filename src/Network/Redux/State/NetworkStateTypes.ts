@@ -102,6 +102,7 @@ export interface INetworkState extends ISaveNetworkFormProps {
   isNetworkSaved: boolean;
   isNetworkChanged: boolean;
   isNetworkDisplayed: boolean;
+  isNetworkAuto: boolean;
 
   networkId: string;
   status: number;
@@ -119,10 +120,17 @@ export interface INetworkState extends ISaveNetworkFormProps {
   selectedNetworkId: string;
   selectedNetworkTitle: string;
 
+  loadNetworkGenerationWorkflow: boolean;
+
   existingDataWorkflows: {
     networkExisting: IExistingDataRow[];
     forecastingParametersRoot: IForecastParametersRoot[];
   };
+
+  // networkCreationWorkflows: {
+  //   networkManualBuild: {};
+  //   networkAutoGeneration: {};
+  // };
 
   selectedForecastingParametersRootId: string;
   selectedForecastingParametersGroupId: string;

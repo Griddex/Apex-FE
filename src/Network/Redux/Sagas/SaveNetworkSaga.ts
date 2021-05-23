@@ -57,17 +57,22 @@ function* saveNetworkSaga(
   any
 > {
   const { payload } = action;
-  const { userId } = yield select((state) => state.loginReducer);
   const { projectId } = yield select((state) => state.projectReducer);
 
   const { selectedFacilitiesInputDeckId, selectedForecastInputDeckId } =
     yield select((state) => state.inputReducer);
-  const { networkTitle, networkDescription, nodeElements, edgeElements } =
-    yield select((state) => state.networkReducer);
+  const {
+    isNetworkAuto,
+    networkTitle,
+    networkDescription,
+    nodeElements,
+    edgeElements,
+  } = yield select((state) => state.networkReducer);
 
   const data = {
     userId: "Gift",
     projectId,
+    build: isNetworkAuto ? "Manual" : "Auto",
     title: networkTitle,
     description: networkDescription,
     facilitiesInputDeckId: selectedFacilitiesInputDeckId,

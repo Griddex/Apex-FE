@@ -17,14 +17,14 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
   workflowData?: any;
 }
 
-export interface IProjectWorkflowProcess {
+export interface IProjectWorkflows {
   wkPs: "newProjectWorkflowDialog";
   wkCy: "projectDataWorkflows";
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;
 }
-export interface IInputWorkflowProcess {
+export interface IInputWorkflows {
   reducer: ReducersType;
   wkPs:
     | "facilitiesInputDeckExcel"
@@ -48,15 +48,20 @@ export interface IInputWorkflowProcess {
   wkCy: "inputDataWorkflows";
   finalAction?: () => void;
 }
-export interface INetworkWorkflowProcess {
+export interface INetworkWorkflows {
   wkPs:
     | "networkGeneration"
+    | "networkManualBuild"
+    | "networkAutoGeneration"
     | "runForecastWorkflow"
     | "saveForecastingParametersWorkflow"
     | "declineCurveParametersWorkflow";
-  wkCy: "networkDataWorkflows";
+  wkCy:
+    | "networkDataWorkflows"
+    | "existingDataWorkflows"
+    | "networkCreationWorkflows";
 }
-export interface IEconomicsWorkflowProcess {
+export interface IEconomicsWorkflows {
   wkPs:
     | "economicsAnalyses"
     | "economicsParameterImportWorkflow"
@@ -81,21 +86,45 @@ export interface IEconomicsWorkflowProcess {
 export type ReducersType = keyof {
   [P in NonNullable<keyof RootState> as Exclude<P, symbol>]: boolean;
 };
-export interface IAllWorkflowProcesses {
+export interface IAllWorkflows {
   reducer: ReducersType;
   wrkflwPrcss:
-    | IProjectWorkflowProcess["wkPs"]
-    | IInputWorkflowProcess["wkPs"]
-    | INetworkWorkflowProcess["wkPs"]
-    | IEconomicsWorkflowProcess["wkPs"];
+    | IProjectWorkflows["wkPs"]
+    | IInputWorkflows["wkPs"]
+    | INetworkWorkflows["wkPs"]
+    | IEconomicsWorkflows["wkPs"];
   wrkflwCtgry:
-    | IProjectWorkflowProcess["wkCy"]
-    | IInputWorkflowProcess["wkCy"]
-    | INetworkWorkflowProcess["wkCy"]
-    | IEconomicsWorkflowProcess["wkCy"];
+    | IProjectWorkflows["wkCy"]
+    | IInputWorkflows["wkCy"]
+    | INetworkWorkflows["wkCy"]
+    | IEconomicsWorkflows["wkCy"];
   finalAction?: () => void;
   persistSelectedIdTitleAction?: (
-    reducer: IAllWorkflowProcesses["reducer"],
+    reducer: IAllWorkflows["reducer"],
+    idTitleObj: Record<string, string>
+  ) => IAction;
+  idTitleArr?: string[];
+  finalIcon?: JSX.Element;
+  finalText?: string;
+  extraComponent?: React.FC<any>;
+  hasExtraComponent?: boolean;
+}
+
+export type TAllWorkflowProcesses = IAllWorkflows["wrkflwPrcss"];
+export type TOnlyWorkflowProcesses = Exclude<IAllWorkflows["wrkflwPrcss"], "">;
+export type TAllWorkflowCategories = IAllWorkflows["wrkflwCtgry"];
+export type TOnlyWorkflowCategories = Exclude<
+  IAllWorkflows["wrkflwCtgry"],
+  "existingDataWorkflows" | "networkCreationWorkflows"
+>;
+
+export interface IOnlyWorkflows {
+  reducer: ReducersType;
+  wrkflwPrcss: TOnlyWorkflowProcesses;
+  wrkflwCtgry: TOnlyWorkflowCategories;
+  finalAction?: () => void;
+  persistSelectedIdTitleAction?: (
+    reducer: IAllWorkflows["reducer"],
     idTitleObj: Record<string, string>
   ) => IAction;
   idTitleArr?: string[];

@@ -6,7 +6,7 @@ import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -104,7 +104,7 @@ const ForecastInputDeckLanding = () => {
   //CSS using overlap and z-index
 
   const forecastExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+    workflowProcess: IAllWorkflows["wrkflwPrcss"]
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",

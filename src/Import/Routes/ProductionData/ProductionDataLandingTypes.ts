@@ -1,4 +1,4 @@
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 
 export interface IProductionDataLandingWorkflows {
@@ -16,10 +16,6 @@ export interface IProductionLandingData {
   description: string;
   icon: JSX.Element;
   route: string;
-  workflowProcess:
-    | IAllWorkflowProcesses["wrkflwPrcss"]
-    | IExistingDataProps["wkPs"];
-  workflowCategory:
-    | IAllWorkflowProcesses["wrkflwCtgry"]
-    | IExistingDataProps["wkCy"];
+  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"];
+  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"];
 }

@@ -24,6 +24,7 @@ import {
   createNewProjectSuccessAction,
   CREATE_NEWPROJECT,
   fetchRecentProjectsAction,
+  updateProjectParameterAction,
 } from "../Actions/ProjectActions";
 
 export default function* watchCreateNewProjectSaga(): Generator<
@@ -101,6 +102,15 @@ function* createNewProjectSaga(
 
     yield put(activateDisabledMenusAction());
     yield put(fetchRecentProjectsAction());
+    yield put(
+      updateProjectParameterAction("selectedProjectTitle", projectTitle)
+    );
+    yield put(
+      updateProjectParameterAction(
+        "selectedProjectDescription",
+        projectDescription
+      )
+    );
     yield put(showDialogAction(successDialogParameters)); //put --> show snackbar, reset registration form
   } catch (errors) {
     const failureAction = createNewProjectFailureAction();

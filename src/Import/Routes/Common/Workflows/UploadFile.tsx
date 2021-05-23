@@ -5,7 +5,7 @@ import React from "react";
 import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     height: "100%",
     width: "100%",
+    minWidth: theme.breakpoints.values["sm"],
     alignItems: "center",
     justifyContent: "space-evenly",
     cursor: "pointer",
@@ -74,7 +75,7 @@ const UploadFile = ({
   reducer,
   hasExtraComponent,
   extraComponent,
-}: IAllWorkflowProcesses) => {
+}: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -82,7 +83,7 @@ const UploadFile = ({
   const wp = wrkflwPrcss;
 
   const ExtraComponent = extraComponent as NonNullable<
-    IAllWorkflowProcesses["extraComponent"]
+    IAllWorkflows["extraComponent"]
   >;
 
   const { dnDDisabled } = useSelector(
@@ -188,8 +189,8 @@ const UploadFile = ({
                   activeStep,
                   steps,
                   "Loading...",
-                  wp as IAllWorkflowProcesses["wrkflwPrcss"],
-                  wc as IAllWorkflowProcesses["wrkflwCtgry"]
+                  wp as IAllWorkflows["wrkflwPrcss"],
+                  wc as IAllWorkflows["wrkflwCtgry"]
                 )
               );
             }

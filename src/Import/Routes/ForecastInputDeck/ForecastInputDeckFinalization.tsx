@@ -20,8 +20,9 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
-import { IAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "./../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles(() => ({
   dialogButtons: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles(() => ({
 const ForecastInputDeckFinalization = ({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
+  workflowProcess: IAllWorkflows["wrkflwPrcss"];
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const ForecastInputDeckFinalization = ({
   }
 
   const saveForecastInputdeck = (
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+    workflowProcess: IAllWorkflows["wrkflwPrcss"]
   ) => {
     const saveForecastInputdeckConfirmation = () => {
       const dialogParameters: DialogStuff = {
@@ -114,7 +115,7 @@ const ForecastInputDeckFinalization = ({
   };
 
   const saveForecastInputdeckAndGenerateNetwork = (
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+    workflowProcess: IAllWorkflows["wrkflwPrcss"]
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Existing_Network_Dialog",
@@ -148,16 +149,18 @@ const ForecastInputDeckFinalization = ({
       variant: "contained",
       startIcon: <ControlCameraOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
+        dispatch(updateNetworkParameterAction("isNetworkAuto", false));
         dispatch(hideDialogAction());
         saveForecastInputdeckAndGenerateNetwork(workflowProcess);
       },
     },
     {
-      title: "Save and Manually Generate Network",
+      title: "Save and Manually Build Network",
       color: "primary",
       variant: "contained",
       startIcon: <DeviceHubOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
+        dispatch(updateNetworkParameterAction("isNetworkAuto", true));
         dispatch(hideDialogAction());
         enqueueSnackbar(`${subModuleName} saved`, {
           persist: false,

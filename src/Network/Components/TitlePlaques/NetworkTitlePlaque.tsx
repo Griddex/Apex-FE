@@ -7,7 +7,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 const NetworkTitlePlaque = () => {
   const theme = useTheme();
 
-  const { selectedNetworkTitle, nodeElements } = useSelector(
+  const { isNetworkAuto, selectedNetworkTitle, nodeElements } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
@@ -33,6 +33,15 @@ const NetworkTitlePlaque = () => {
           label={isNetworkSaved ? "Saved" : "Not Saved"}
         />
       )}
+      <Chip
+        style={{
+          backgroundColor: theme.palette.primary.main,
+          marginLeft: 5,
+          color: "white",
+        }}
+        size="small"
+        label={isNetworkAuto ? "Auto" : "Manual"}
+      />
     </div>
   );
 };

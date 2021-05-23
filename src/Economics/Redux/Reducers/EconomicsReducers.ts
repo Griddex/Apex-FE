@@ -24,7 +24,7 @@ import {
 import EconomicsState from "../State/EconomicsState";
 import set from "lodash.set";
 import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IMPORTFILE_INITIALIZATION,
   PERSIST_VARIABLEUNITS,
@@ -106,7 +106,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case PERSIST_TABLEHEADERS: {
       const { reducer, workflowProcess } = action.payload;
       const workflowProcessDefined =
-        workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+        workflowProcess as IAllWorkflows["wrkflwPrcss"];
 
       if (reducer === "economicsReducer") {
         return {

@@ -16,10 +16,15 @@ const ApexSelectRS = ({
   isSelectOptionType,
   className,
   containerWidth,
+  containerHeight,
   ...rest
 }: IApexSelectRS) => {
   const theme = useTheme();
-  const RSStyles = getRSStyles(theme, containerWidth as React.Key);
+  const RSStyles = getRSStyles(
+    theme,
+    containerWidth as React.Key,
+    containerHeight as React.Key
+  );
 
   let dataOptions: ISelectOption[];
 

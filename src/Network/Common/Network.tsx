@@ -22,6 +22,7 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
+import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import composeRefs from "../../Application/Utils/ComposeRefs";
 import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
@@ -44,6 +45,7 @@ import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
 import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
 import GenerateNodeService from "./../Services/GenerateNodeService";
+import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
 
 const useStyles = makeStyles(() => ({
@@ -68,8 +70,8 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignSelf: "flex-start",
     height: "100%",
-    width: 200,
-    minWidth: 200,
+    width: 300,
+    minWidth: 300,
     border: "1px solid #E7E7E7",
     backgroundColor: "#FFF",
     padding: 5,
@@ -102,7 +104,7 @@ const nodeTypes: NodeTypesType = {
   terminalNode: TerminalNode,
 };
 
-const Network = () => {
+const Network = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();

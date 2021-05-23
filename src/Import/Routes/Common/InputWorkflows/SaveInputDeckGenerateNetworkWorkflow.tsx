@@ -1,5 +1,5 @@
 import React from "react";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import ForecastTitleAndDescriptionForm from "../../../Components/Forms/ForecastTitleAndDescriptionForm";
 import ExistingFacilitiesDecks from "../../FacilitiesInputDeck/ExistingFacilitiesDecks";
 import { IExistingInputDeck } from "../../InputDeckTypes";

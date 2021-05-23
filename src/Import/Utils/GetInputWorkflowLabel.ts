@@ -1,9 +1,9 @@
-import { IInputWorkflowProcess } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
 
-// export const getInputWorkflowlabel: Record<IInputWorkflowProcess["wrkflwPrcss"],string> = {
+// export const getInputWorkflowlabel: Record<IInputWorkflows["wrkflwPrcss"],string> = {
 export const getInputWorkflowlabel: {
-  [P in IInputWorkflowProcess["wkPs"]]: string;
+  [P in IInputWorkflows["wkPs"]]: string;
 } = {
   facilitiesInputDeckExcel: "Facilities InputDeck",
   facilitiesInputDeckDatabase: "Facilities InputDeck",

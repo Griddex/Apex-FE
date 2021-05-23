@@ -3,7 +3,7 @@ import { IUnitSettingsData } from "./UnitSettingsStateTypes";
 
 const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   pressureAddend: 14.7,
-  dayFormat: "DD",
+  dayFormat: "dd",
   monthFormat: "MMM",
   yearFormat: "yyyy",
   unitGroup: "Field",
@@ -12,6 +12,9 @@ const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   applicationUnitsCollection: [],
 
   uniqUnitOptions: [],
+
+  numberFormat: "number",
+  numberFormatString: "0.0",
 
   status: 200,
   errors: { message: "" },

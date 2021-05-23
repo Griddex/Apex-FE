@@ -21,6 +21,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
+import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
 import ApexLogo from "../../Images/ApexLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
@@ -222,6 +223,14 @@ const MainDrawer = () => {
                     dispatch(
                       loadForecastResultsWorkflowAction(
                         "loadForecastResultsWorkflow",
+                        false
+                      )
+                    );
+                  }
+                  if (name === "Network") {
+                    dispatch(
+                      updateNetworkParameterAction(
+                        "loadNetworkGenerationWorkflow",
                         false
                       )
                     );

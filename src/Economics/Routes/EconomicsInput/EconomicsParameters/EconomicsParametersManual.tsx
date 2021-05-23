@@ -15,7 +15,7 @@ import {
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
@@ -49,7 +49,7 @@ const EconomicsParametersManual = ({
   wrkflwPrcss,
   wrkflwCtgry,
   finalAction,
-}: IAllWorkflowProcesses) => {
+}: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -57,8 +57,8 @@ const EconomicsParametersManual = ({
   const typeData = ["Single", "Table", "Equation"];
   const unitData = ["$m", "bopd", "$", "days", "frac", "$/bbl"];
 
-  const wc = wrkflwCtgry as IAllWorkflowProcesses["wrkflwCtgry"];
-  const wp = wrkflwPrcss as IAllWorkflowProcesses["wrkflwPrcss"];
+  const wc = wrkflwCtgry as IAllWorkflows["wrkflwCtgry"];
+  const wp = wrkflwPrcss as IAllWorkflows["wrkflwPrcss"];
 
   const { economicsParametersAppHeaders } = useSelector(
     (state: RootState) => state.economicsReducer

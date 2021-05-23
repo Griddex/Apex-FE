@@ -7,8 +7,9 @@ import { INavigationButtonsProp } from "../../../../Application/Components/Navig
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import {
-  IAllWorkflowProcesses,
-  IInputWorkflowProcess,
+  IAllWorkflows,
+  IInputWorkflows,
+  IOnlyWorkflows,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -64,7 +65,7 @@ const DatabaseWorkflow = ({
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
-}: IAllWorkflowProcesses) => {
+}: IOnlyWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;
@@ -86,9 +87,10 @@ const DatabaseWorkflow = ({
     (activeStep: number) => activeStep === 50,
     [activeStep]
   );
-  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
-    skipped,
-  ]);
+  const isStepSkipped = useCallback(
+    (step: number) => skipped.has(step),
+    [skipped]
+  );
 
   const WorkflowBannerProps = {
     activeStep,

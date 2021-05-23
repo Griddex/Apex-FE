@@ -32,10 +32,7 @@ import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDi
 import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
-import {
-  IAllWorkflowProcesses,
-  ReducersType,
-} from "../Workflows/WorkflowTypes";
+import { IAllWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
 import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
@@ -132,8 +129,8 @@ export interface DialogStuff {
   dialogContentStyle?: CSSProperties;
   dialogActionsStyle?: CSSProperties;
   selectedRowIndex?: number;
-  workflowProcess?: IAllWorkflowProcesses["wrkflwPrcss"];
-  workflowCategory?: IAllWorkflowProcesses["wrkflwCtgry"];
+  workflowProcess?: IAllWorkflows["wrkflwPrcss"];
+  workflowCategory?: IAllWorkflows["wrkflwCtgry"];
   reducer?: ReducersType;
   economicsTableData?: IEconomicsParametersTable;
   economicsAnalyses?: TEconomicsAnalyses;

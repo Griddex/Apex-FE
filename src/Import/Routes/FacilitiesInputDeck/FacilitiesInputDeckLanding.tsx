@@ -6,7 +6,7 @@ import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -107,7 +107,7 @@ const FacilitiesInputDeckLanding = () => {
 
   //Paying it back
   const facilitiesExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+    workflowProcess: IAllWorkflows["wrkflwPrcss"]
   ) => {
     const saveFacilitiesInputdeckConfirmation = () => {
       const dps = confirmationDialogParameters(

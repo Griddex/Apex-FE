@@ -11,7 +11,7 @@ import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import { IPopoverProps } from "./FilterPopover";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import SortIcon from "@material-ui/icons/Sort";
-import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -75,7 +75,7 @@ const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
     const { fileHeaders } = useSelector(
       (state: RootState) =>
         state.inputReducer["inputDataWorkflows"][
-          workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"]
+          workflowProcess as IAllWorkflows["wrkflwPrcss"]
         ]
     );
 

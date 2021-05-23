@@ -10,7 +10,7 @@ import {
 } from "../../Redux/State/ProjectStateTypes";
 
 const useStyles = makeStyles(() => ({
-  form: { height: "100%" },
+  form: { height: "100%", width: "100%" },
 }));
 
 const NewProjectForm = ({ children }: INewProjectFormProps) => {
@@ -18,7 +18,7 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
 
   return (
     <Formik
-      initialValues={{ ...projectState, pressureAddend: 14.7 }}
+      initialValues={projectState}
       validationSchema={Yup.object().shape({
         projectTitle: Yup.string().required("projectTitle is required"),
         projectDescription: Yup.string().required(
@@ -38,11 +38,7 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
         } = props;
 
         return (
-          <form
-            className={classes.form}
-            onSubmit={handleSubmit}
-            style={{ height: "100%", width: "100%" }}
-          >
+          <form className={classes.form} onSubmit={handleSubmit}>
             {children &&
               children({
                 projectTitle,

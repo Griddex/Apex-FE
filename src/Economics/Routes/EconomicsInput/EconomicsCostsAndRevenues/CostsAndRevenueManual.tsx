@@ -21,8 +21,8 @@ import {
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
-  IAllWorkflowProcesses,
-  IInputWorkflowProcess,
+  IAllWorkflows,
+  IInputWorkflows,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
@@ -75,7 +75,7 @@ export default function CostsAndRevenueManual({
   wkCy,
   wkPs,
   finalAction,
-}: IInputWorkflowProcess) {
+}: IInputWorkflows) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();

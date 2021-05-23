@@ -1,5 +1,5 @@
 import set from "lodash.set";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
@@ -74,7 +74,8 @@ const inputReducer = (state = InputState, action: IAction) => {
     case PERSIST_COLUMNNAMETABLEDATA:
     case PERSIST_TABLEHEADERS: {
       const { reducer, workflowProcess } = action.payload;
-      const workflowProcessDefined = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const workflowProcessDefined =
+        workflowProcess as IAllWorkflows["wrkflwPrcss"];
 
       if (reducer === "inputReducer") {
         return {
@@ -92,10 +93,8 @@ const inputReducer = (state = InputState, action: IAction) => {
       }
     }
     case EXISTINGDATA_SUCCESS: {
-      const {
-        facilitiesInputDeckExisting,
-        forecastInputDeckExisting,
-      } = action.payload;
+      const { facilitiesInputDeckExisting, forecastInputDeckExisting } =
+        action.payload;
 
       return {
         ...state,
@@ -122,13 +121,9 @@ const inputReducer = (state = InputState, action: IAction) => {
       };
     }
     case SAVEINPUTDECK_SUCCESS: {
-      const {
-        workflowProcess,
-        existingDataId,
-        status,
-        success,
-      } = action.payload;
-      const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const { workflowProcess, existingDataId, status, success } =
+        action.payload;
+      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
 
       return {
         ...state,
@@ -145,7 +140,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case SAVEINPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
-      const wp = workflowProcess as IAllWorkflowProcesses["wrkflwPrcss"];
+      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
 
       return {
         ...state,
@@ -159,12 +154,8 @@ const inputReducer = (state = InputState, action: IAction) => {
       };
     }
     case FETCHAPPLICATIONHEADERS_SUCCESS: {
-      const {
-        status,
-        headerType,
-        facilitiesAppHeaders,
-        forecastAppHeaders,
-      } = action.payload;
+      const { status, headerType, facilitiesAppHeaders, forecastAppHeaders } =
+        action.payload;
 
       return {
         ...state,

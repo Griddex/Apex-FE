@@ -18,7 +18,7 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import {
-  IAllWorkflowProcesses,
+  IAllWorkflows,
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
@@ -127,9 +127,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
 
   const reducer = "inputReducer" as ReducersType;
   const wc = "inputDataWorkflows";
-  const wp = workflowProcess as NonNullable<
-    IAllWorkflowProcesses["wrkflwPrcss"]
-  >;
+  const wp = workflowProcess as NonNullable<IAllWorkflows["wrkflwPrcss"]>;
 
   const { activeStep } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
@@ -138,9 +136,10 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
     (activeStep: number) => activeStep === 50,
     [activeStep]
   );
-  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
-    skipped,
-  ]);
+  const isStepSkipped = useCallback(
+    (step: number) => skipped.has(step),
+    [skipped]
+  );
 
   // if (success) {
   //   enqueueSnackbar(`${getInputWorkflowlabel[wp]} saved`, {

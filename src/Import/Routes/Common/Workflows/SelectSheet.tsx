@@ -16,7 +16,7 @@ import {
   ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import formatDate from "../../../../Application/Utils/FormatDate";
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     height: "95%",
+    minWidth: theme.breakpoints.values["sm"],
     alignItems: "center",
     justifyContent: "space-evenly",
     border: "1px solid #707070",
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflowProcesses) => {
+const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();

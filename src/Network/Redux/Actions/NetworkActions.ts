@@ -1,7 +1,7 @@
 import { FlowElement } from "react-flow-renderer";
 import {
-  IAllWorkflowProcesses,
-  IInputWorkflowProcess,
+  IAllWorkflows,
+  IInputWorkflows,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
@@ -245,7 +245,7 @@ export const autoGenerateNetworkFailureAction = () => {
 };
 
 export const saveAndAutoGenerateNetworkRequestAction = (
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"]
 ) => {
   let inputDeck;
 

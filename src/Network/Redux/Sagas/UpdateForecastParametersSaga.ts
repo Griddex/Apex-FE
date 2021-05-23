@@ -13,7 +13,7 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";

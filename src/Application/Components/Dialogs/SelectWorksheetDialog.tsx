@@ -34,8 +34,8 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import {
-  IAllWorkflowProcesses,
-  IInputWorkflowProcess,
+  IAllWorkflows,
+  IInputWorkflows,
   ReducersType,
 } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
@@ -177,8 +177,8 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     reducer,
   } = props;
 
-  const wc = workflowCategory as IInputWorkflowProcess["wkCy"];
-  const wp = workflowProcess as IInputWorkflowProcess["wkPs"];
+  const wc = workflowCategory as IInputWorkflows["wkCy"];
+  const wp = workflowProcess as IInputWorkflows["wkPs"];
   const reducerDefined = reducer as NonNullable<ReducersType>;
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(

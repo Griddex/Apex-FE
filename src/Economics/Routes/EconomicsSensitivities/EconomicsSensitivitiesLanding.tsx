@@ -84,7 +84,7 @@ const EconomicsSensitivitiesLanding = () => {
 
   // //Paying it back
   // const costsRevenueWorkflowFinalAction = (
-  //   wp: IAllWorkflowProcesses["wrkflwPrcss"]
+  //   wp: IAllWorkflows["wrkflwPrcss"]
   // ) => {
   //   const saveSensitivitiesInputdeckConfirmation = () => {
   //     const confirmationDialogParameters: DialogStuff = {

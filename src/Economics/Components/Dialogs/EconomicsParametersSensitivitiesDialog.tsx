@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
-import { IEconomicsWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IEconomicsWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { IEconomicsAnalysis } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
@@ -108,7 +108,7 @@ const EconomicsParametersSensitivitiesDialog = (props: DialogStuff) => {
   } = props;
 
   const workflowProcessDefined = workflowProcess as NonNullable<
-    IEconomicsWorkflowProcess["wkPs"]
+    IEconomicsWorkflows["wkPs"]
   >;
 
   const selectedAnalysisDefined = selectedAnalysis as IEconomicsAnalysis;

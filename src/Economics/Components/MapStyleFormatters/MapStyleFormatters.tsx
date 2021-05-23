@@ -14,7 +14,7 @@ import { ValueType } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import ApexSketchPicker from "../../../Visualytics/Components/ColorPickers/ApexSketchPicker";
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IMapStyleFormatters {
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
+  workflowProcess: IAllWorkflows["wrkflwPrcss"];
 }
 
 const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {

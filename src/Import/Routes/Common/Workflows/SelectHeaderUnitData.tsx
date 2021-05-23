@@ -18,7 +18,7 @@ import {
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import addSerialNumberToTable from "../../../../Application/Utils/AddSerialNumberToTable";
@@ -40,11 +40,12 @@ import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   rootParseTable: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    minWidth: theme.breakpoints.values["md"],
     height: "100%",
     backgroundColor: "#FFF",
     padding: 20,
@@ -54,7 +55,7 @@ const useStyles = makeStyles(() => ({
 export default function SelectHeaderUnitData({
   reducer,
   wrkflwPrcss,
-}: IAllWorkflowProcesses) {
+}: IAllWorkflows) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -110,9 +111,8 @@ export default function SelectHeaderUnitData({
 
   //Need to memoize initial table roles for reset???
   const tableRoleNames = initializeRoleNames();
-  const [chosenTableRoleNames, setChosenTableRoleNames] = React.useState(
-    tableRoleNames
-  );
+  const [chosenTableRoleNames, setChosenTableRoleNames] =
+    React.useState(tableRoleNames);
   const roleNameTableRows = columnNameTableData.map((row: any, i: number) => ({
     role: tableRoleNames[i],
     ...row,
@@ -251,10 +251,10 @@ export default function SelectHeaderUnitData({
 
     return allColumns;
   };
-  const columns = React.useMemo(() => generateColumns(roleOptions), [
-    roleOptions,
-    rows,
-  ]);
+  const columns = React.useMemo(
+    () => generateColumns(roleOptions),
+    [roleOptions, rows]
+  );
 
   React.useEffect(() => {
     dispatch(persistTableHeadersAction(reducer, columnNameTableHeaders, wp));

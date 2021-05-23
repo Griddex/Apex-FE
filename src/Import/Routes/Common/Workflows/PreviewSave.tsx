@@ -10,7 +10,7 @@ import { SizeMe } from "react-sizeme";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
@@ -58,10 +58,7 @@ const useStyles = makeStyles((theme) => ({
   score: { fontSize: 14 },
 }));
 
-export default function PreviewSave({
-  reducer,
-  wrkflwPrcss,
-}: IAllWorkflowProcesses) {
+export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = "inputDataWorkflows";

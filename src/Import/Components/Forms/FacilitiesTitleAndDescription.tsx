@@ -36,15 +36,18 @@ const FacilitiesTitleAndDescription = ({
   };
 
   React.useEffect(() => {
-    for (const name of Object.keys(TitleDesc)) {
-      dispatch(
-        updateInputParameterAction(
-          reducerDefined,
-          name,
-          TitleDesc[name as TTitleDesc]
-        )
-      );
-    }
+    const updateParameterAsync = async () => {
+      for (const name of Object.keys(TitleDesc)) {
+        dispatch(
+          updateInputParameterAction(
+            reducerDefined,
+            name,
+            TitleDesc[name as TTitleDesc]
+          )
+        );
+      }
+    };
+    updateParameterAsync();
   }, [TitleDesc]);
 
   return (

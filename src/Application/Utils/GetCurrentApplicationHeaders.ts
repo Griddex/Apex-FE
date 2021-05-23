@@ -1,8 +1,8 @@
 import { IApplicationHeaders } from "../../Import/Routes/Common/Workflows/MatchHeadersTypes";
-import { IAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../Components/Workflows/WorkflowTypes";
 
 const getCurrentApplicationHeaders = (
-  wp: IAllWorkflowProcesses["wrkflwPrcss"],
+  wp: IAllWorkflows["wrkflwPrcss"],
   allAppHeadersObj: Record<string, IApplicationHeaders[]>,
   returnIsStringArray: boolean
 ) => {

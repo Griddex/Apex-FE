@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     height: 40,
     margin: 5,
     justifyContent: "flex-end",
-    alignItems: "baseline",
+    alignItems: "center",
   },
   formControl: {
     height: 30,
@@ -428,6 +428,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             }}
             isSelectOptionType={true}
             menuPortalTarget={document.body}
+            containerHeight={35}
           />
           <Pagination
             style={{ marginLeft: 10 }}

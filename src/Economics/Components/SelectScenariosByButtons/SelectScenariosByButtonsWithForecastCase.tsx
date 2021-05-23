@@ -6,7 +6,7 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { subNavbarSetMenuAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
@@ -20,8 +20,8 @@ import AggregatedButtons from "../AggregatedButtons/AggregatedButtons";
 export interface ISelectScenariosByButtonsWithForecastCase {
   width?: number | string;
   height?: number | string;
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"];
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"];
+  workflowProcess: IAllWorkflows["wrkflwPrcss"];
+  workflowCategory: IAllWorkflows["wrkflwCtgry"];
 }
 
 const SelectScenariosByButtonsWithForecastCase = ({

@@ -35,4 +35,5 @@ export interface IApexSelectRS {
   isSelectOptionType: boolean;
   className?: string;
   containerWidth?: React.Key;
+  containerHeight?: React.Key;
 }

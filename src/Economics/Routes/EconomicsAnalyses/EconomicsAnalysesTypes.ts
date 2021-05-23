@@ -1,7 +1,7 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import { IEconomicsWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IEconomicsWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAggregateButtonProps } from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 
 export interface IEconomicsSensitivitiesViews {
@@ -72,7 +72,7 @@ export interface IEconomicsAnalysis {
   name: TEconomicsAnalysesNames;
   title: TEconomicsAnalysesTitles;
   icon: JSX.Element;
-  workflowProcess?: IEconomicsWorkflowProcess["wkPs"];
+  workflowProcess?: IEconomicsWorkflows["wkPs"];
   devScenario?: TDevScenarioTitles;
   economicsDecks?: Record<TEconomicsDecks, IDecksObj>;
   sensitivities?: IEconomicsSensitivities;
@@ -93,7 +93,7 @@ export type TEconomicsAnalyses = Record<
 
 export interface IEconomicsParametersSensitivitiesProps {
   economicsAnalyses?: IEconomicsAnalysis[];
-  workflowProcess?: IEconomicsWorkflowProcess["wkPs"];
+  workflowProcess?: IEconomicsWorkflows["wkPs"];
   selectedAnalysis?: IEconomicsAnalysis;
   setSelectedAnalysis?: React.Dispatch<any>;
 }

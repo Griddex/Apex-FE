@@ -550,7 +550,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Project/Components/Dialogs/ExistingProjectsDialog.tsx](/src/Project/Components/Dialogs/ExistingProjectsDialog.tsx) | TypeScript React | 127 | 0 | 8 | 135 |
 | [src/Project/Components/Forms/NewProjectForm.tsx](/src/Project/Components/Forms/NewProjectForm.tsx) | TypeScript React | 58 | 0 | 6 | 64 |
 | [src/Project/Components/Popovers/ProjectPopover.tsx](/src/Project/Components/Popovers/ProjectPopover.tsx) | TypeScript React | 234 | 1 | 12 | 247 |
-| [src/Project/NewProjectNameAndDescription.tsx](/src/Project/NewProjectNameAndDescription.tsx) | TypeScript React | 60 | 0 | 6 | 66 |
+| [src/Project/NewProjectTitleAndDescription.tsx](/src/Project/NewProjectTitleAndDescription.tsx) | TypeScript React | 60 | 0 | 6 | 66 |
 | [src/Project/Redux/Actions/ProjectActions.ts](/src/Project/Redux/Actions/ProjectActions.ts) | TypeScript | 148 | 0 | 14 | 162 |
 | [src/Project/Redux/Reducers/ProjectReducer.ts](/src/Project/Redux/Reducers/ProjectReducer.ts) | TypeScript | 105 | 0 | 21 | 126 |
 | [src/Project/Redux/Sagas/CreateNewProjectSaga.ts](/src/Project/Redux/Sagas/CreateNewProjectSaga.ts) | TypeScript | 104 | 2 | 12 | 118 |

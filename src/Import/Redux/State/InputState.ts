@@ -1,8 +1,8 @@
-import { IInputWorkflowProcess } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import { InputStateType } from "./InputStateTypes";
 
-const inputWorkflowProcesses: Array<IInputWorkflowProcess["wkPs"]> = [
+const inputWorkflowProcesses: Array<IInputWorkflows["wkPs"]> = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
 

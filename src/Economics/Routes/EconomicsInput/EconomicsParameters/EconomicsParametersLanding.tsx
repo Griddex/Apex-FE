@@ -6,7 +6,7 @@ import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -127,7 +127,7 @@ const EconomicsParametersLanding = () => {
 
   //Paying it back
   const economicsParametersWorkflowFinalAction = (
-    wp: IAllWorkflowProcesses["wrkflwPrcss"]
+    wp: IAllWorkflows["wrkflwPrcss"]
   ) => {
     const saveEconomicsParametersInputdeckConfirmation = () => {
       const confirmationDialogParameters: DialogStuff = {

@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import React from "react";
 import HorizontalWorkflowStepper from "../../Application/Components/Workflows/HorizontalWorkflowStepper";
 import {
-  INetworkWorkflowProcess,
+  INetworkWorkflows,
   IWorkflowDataProps,
   ReducersType,
 } from "../../Application/Components/Workflows/WorkflowTypes";

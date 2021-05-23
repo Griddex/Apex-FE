@@ -2,10 +2,10 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../Application/Components/Basic/AnalyticsComp";
-import { updateProjectAction } from "./Redux/Actions/ProjectActions";
+import { updateProjectParameterAction } from "./Redux/Actions/ProjectActions";
 import { INewProjectWorkflowProps } from "./Redux/State/ProjectStateTypes";
 
-const NewProjectNameAndDescription = ({
+const NewProjectTitleAndDescription = ({
   projectTitle,
   projectDescription,
   errors,
@@ -16,7 +16,7 @@ const NewProjectNameAndDescription = ({
 
   const handleBlur = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-    dispatch(updateProjectAction(name, value));
+    dispatch(updateProjectParameterAction(name, value));
   };
 
   const helperText =
@@ -62,4 +62,4 @@ const NewProjectNameAndDescription = ({
   );
 };
 
-export default NewProjectNameAndDescription;
+export default NewProjectTitleAndDescription;

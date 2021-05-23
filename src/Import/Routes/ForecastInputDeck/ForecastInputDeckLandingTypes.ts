@@ -1,4 +1,4 @@
-import { IAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IExistingDataProps,
   IExistingDataRow,

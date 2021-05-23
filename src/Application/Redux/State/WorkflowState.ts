@@ -1,4 +1,4 @@
-import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../Components/Workflows/WorkflowTypes";
 import { IWorkflowState } from "./WorkflowStateTypes";
 
 const projectWorkflowProcesses = ["newProjectWorkflowDialog"];

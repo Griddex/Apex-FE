@@ -5,7 +5,7 @@ import React from "react";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
 import ApexFlexStyle from "../Styles/ApexFlexStyle";
-import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   cardActionArea: (props: IMiniCardProps) => {
@@ -41,8 +41,8 @@ export interface IMiniCardProps {
   title: string;
   moduleAction: () => IAction | void;
   cardWidth?: number;
-  wP?: IAllWorkflowProcesses["wrkflwPrcss"] | IExistingDataProps["wkPs"];
-  wC?: IAllWorkflowProcesses["wrkflwCtgry"] | IExistingDataProps["wkCy"];
+  wP?: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"];
+  wC?: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"];
 }
 
 const MiniCard: React.FC<IMiniCardProps> = (props) => {

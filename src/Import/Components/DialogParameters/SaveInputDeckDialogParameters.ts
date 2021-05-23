@@ -3,14 +3,14 @@ import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsA
 import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
-  IInputWorkflowProcess,
+  IInputWorkflows,
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const successDialogParameters = (
   reducer: ReducersType,
   inputDeckType: string,
-  wp: IInputWorkflowProcess["wkPs"]
+  wp: IInputWorkflows["wkPs"]
 ): DialogStuff => ({
   name: "Save_InputDeck_Success_Dialog",
   title: `Save  ${inputDeckType} Success`,

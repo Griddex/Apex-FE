@@ -421,7 +421,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\DialogParameters\RecentProjectsFailureDialogParameters.ts", "TypeScript", 15, 0, 0, 0, 0, 0, 0, 0, 2, 17
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\Forms\NewProjectForm.tsx", "TypeScript React", 0, 0, 0, 0, 58, 0, 0, 0, 6, 64
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\Popovers\ProjectPopover.tsx", "TypeScript React", 0, 0, 0, 0, 173, 0, 0, 3, 9, 185
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\NewProjectNameAndDescription.tsx", "TypeScript React", 0, 0, 0, 0, 103, 0, 0, 0, 7, 110
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\NewProjectTitleAndDescription.tsx", "TypeScript React", 0, 0, 0, 0, 103, 0, 0, 0, 7, 110
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Actions\ProjectActions.ts", "TypeScript", 124, 0, 0, 0, 0, 0, 0, 0, 11, 135
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Reducers\ProjectReducer.ts", "TypeScript", 90, 0, 0, 0, 0, 0, 0, 0, 18, 108
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Sagas\CreateNewProjectSaga.ts", "TypeScript", 68, 0, 0, 0, 0, 0, 0, 2, 12, 82

@@ -9,7 +9,7 @@ import { workflowSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { showContextDrawerAction } from "../../Redux/Actions/LayoutActions";
 import { setWorkflowProcessAction } from "../../Redux/Actions/WorkflowActions";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
-import { IAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: (props: IModuleCardProps) => {
@@ -73,8 +73,8 @@ interface IModuleCardProps {
   isDispatched?: boolean;
   moduleAction: () => IAction | void;
   cardWidth?: number;
-  wP: IAllWorkflowProcesses["wrkflwPrcss"] | IExistingDataProps["wkPs"];
-  wC: IAllWorkflowProcesses["wrkflwCtgry"] | IExistingDataProps["wkCy"];
+  wP: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"];
+  wC: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"];
 }
 
 const ModuleCard: React.FC<IModuleCardProps> = (props) => {

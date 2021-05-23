@@ -1,9 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import { Route, useRouteMatch } from "react-router-dom";
 import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import PerpetualSpinner from "./../../Application/Components/Visuals/PerpetualSpinner";
 import ForecastLanding from "./ForecastLanding";
 
 const navbarHeight = 43;
@@ -26,7 +24,6 @@ const useStyles = makeStyles(() => {
 
 const ForecastLayout = () => {
   const classes = useStyles();
-  // const { path, url } = useRouteMatch();
 
   return (
     <main className={classes.forecastLayoutRoot}>
@@ -36,9 +33,7 @@ const ForecastLayout = () => {
             <SuspensePerpetualSpinner pending={true} message="Loading..." />
           }
         >
-          {/* <Route exact path={path}> */}
           <ForecastLanding />
-          {/* </Route> */}
         </Suspense>
       </div>
     </main>

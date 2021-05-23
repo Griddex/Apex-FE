@@ -39,13 +39,13 @@ function* saveAndAutoGenerateNetworkSaga(action: IAction) {
   const { workflowProcess } = payload;
 
   try {
-    // yield call(saveInputDeckSaga, action);
-    yield put(saveInputDeckRequestAction(workflowProcess));
+    yield call(saveInputDeckSaga, action);
+    // yield put(saveInputDeckRequestAction(workflowProcess));
 
     yield call(forwardTo, "/apex");
 
-    // yield call(autoGenerateNetworkSaga, action);
-    yield put(autoGenerateNetworkRequestAction());
+    yield call(autoGenerateNetworkSaga, action);
+    // yield put(autoGenerateNetworkRequestAction());
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
 

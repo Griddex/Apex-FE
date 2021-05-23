@@ -19,6 +19,8 @@ export type SelectedVariablesType = Pick<
   "variableName" | "displayUnitId" | "databaseUnitId"
 >;
 
+export type TNumberFormat = "number" | "exponential";
+
 export interface IUnitSettingsData {
   unitGroup: "Field" | "Metric" | "Mixed";
   dayFormat: string;
@@ -29,4 +31,6 @@ export interface IUnitSettingsData {
   variableUnits: IUnitsRow[];
   uniqUnitOptions: ISelectOption[];
   applicationUnitsCollection?: IUnitsRow["units"];
+  numberFormat: TNumberFormat;
+  numberFormatString: string;
 }

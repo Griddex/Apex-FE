@@ -1,5 +1,5 @@
 import { INavigationButtonsProp } from "../../Components/NavigationButtons/NavigationButtonTypes";
-import { IAllWorkflowProcesses } from "../../Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
 
 export const SET_WORKFLOWPROCESS = "SET_WORKFLOWPROCESS";
@@ -13,12 +13,8 @@ export const NAVBUTTON_DISABLED = "NAVBUTTON_DISABLED";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 
 export const setWorkflowProcessAction = (
-  workflowProcess:
-    | IAllWorkflowProcesses["wrkflwPrcss"]
-    | IExistingDataProps["wkPs"],
-  workflowCategory:
-    | IAllWorkflowProcesses["wrkflwCtgry"]
-    | IExistingDataProps["wkCy"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"]
 ) => {
   return {
     type: SET_WORKFLOWPROCESS,
@@ -43,8 +39,8 @@ export const workflowInitAction = (
   steps: string[],
   isStepOptional: (activeStep: number) => boolean,
   isStepSkipped: (step: number) => boolean,
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"]
 ) => {
   return {
     type: INITIALIZE_WORKFLOW,
@@ -60,8 +56,8 @@ export const workflowInitAction = (
 
 export const workflowResetAction = (
   activeStep: number,
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"]
 ) => {
   return {
     type: RESET_WORKFLOW,
@@ -79,8 +75,8 @@ export const workflowNextAction = (
   activeStep: number,
   steps: string[],
   message: string,
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"]
 ) => {
   return {
     type: NEXT_WORKFLOW,
@@ -98,8 +94,8 @@ export const workflowNextAction = (
 
 export const workflowBackAction = (
   activeStep: number,
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"]
 ) => {
   return {
     type: BACK_WORKFLOW,
@@ -114,8 +110,8 @@ export const workflowBackAction = (
 export const workflowSkipAction = (
   isStepOptional: (activeStep: number) => boolean,
   activeStep: number,
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"]
 ) => {
   return {
     type: SKIP_WORKFLOW,
@@ -131,8 +127,8 @@ export const workflowSkipAction = (
 export const updateNavButtonDisbledAction = (
   navButton: keyof INavigationButtonsProp["isNavButtonDisabled"],
   isDisabled: boolean,
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"]
 ) => {
   return {
     type: SKIP_WORKFLOW,
@@ -146,8 +142,8 @@ export const updateNavButtonDisbledAction = (
 };
 
 export const workflowSaveAction = (
-  workflowProcess: IAllWorkflowProcesses["wrkflwPrcss"],
-  workflowCategory: IAllWorkflowProcesses["wrkflwCtgry"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"]
 ) => {
   return {
     type: SAVE_WORKFLOW,

@@ -3,24 +3,29 @@ import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
-import SelectItem from "../../Application/Components/Selects/SelectItem";
+import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import ApexFlexStyle from "../../Application/Components/Styles/ApexFlexStyle";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import {
-  GenericObjectObjStrType,
-  GenericObjectSType,
-} from "../../Application/Layout/LayoutTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import theme from "../../Application/Theme/Theme";
-import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
-  updateUnitsSettingsParameterAction,
+  dayDateFormatOptions,
+  monthDateFormatOptions,
+  numberFormatOptions,
+  unitGroupOptions,
+  yearDateFormatOptions,
+} from "../Data/UnitSettingsData";
+import {
   updateSelectedVariableUnitsAction,
+  updateUnitsSettingsParameterAction,
 } from "../Redux/Actions/UnitSettingsActions";
 import {
   IUnit,
@@ -29,15 +34,6 @@ import {
   SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
-import {
-  RSOptionsType,
-  SelectOptionsType,
-  UnitOptionsType,
-} from "./UnitSettingsTypes";
-import Select, { ValueType } from "react-select";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import getRSStyles from "../../Application/Utils/GetRSStyles";
-import uniqBy from "lodash.uniqby";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -85,36 +81,22 @@ export default function UnitSettings({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const {
-    unitGroup,
-    dayFormat,
-    monthFormat,
-    yearFormat,
-    pressureAddend,
-    variableUnits,
-  } = useSelector(
+  const { variableUnits } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
-  console.log(
-    "Logged output --> ~ file: UnitSettings.tsx ~ line 96 ~ monthFormat",
-    monthFormat
-  );
 
-  const unitGroups = ["Field", "Metric", "Mixed"];
-  const dayDateFormats = ["d", "do", "dd", "ddd"];
-  const monthDateFormats = ["M", "Mo", "MM", "MMM"];
-  const yearDateFormats = ["y", "yo", "yy", "yyyy"];
-
-  const dialogRef = React.useRef(null);
-  const [unitGroupName, setGlobalUnitGroupName] = React.useState(unitGroup);
-  const [day, setDay] = React.useState(dayFormat);
-  const [month, setMonth] = React.useState(monthFormat);
-  console.log(
-    "Logged output --> ~ file: UnitSettings.tsx ~ line 109 ~ month",
-    month
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+  const [unitGroupOption, setUnitGroupOption] = React.useState(
+    unitGroupOptions[0]
   );
-  const [year, setYear] = React.useState(yearFormat);
-  const [pressAddend, setPressAddend] = React.useState(pressureAddend);
+  const [dayOption, setDayOption] = React.useState(dayDateFormatOptions[2]);
+  const [monthOption, setMonthOption] = React.useState(
+    monthDateFormatOptions[3]
+  );
+  const [yearOption, setYearOption] = React.useState(yearDateFormatOptions[3]);
+  const [numberFormatOption, String] = React.useState(numberFormatOptions[0]);
+  const [numberFormatStringValue, setNumberFormatStringValue] =
+    React.useState("0.0");
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -125,7 +107,7 @@ export default function UnitSettings({
   const handleFirstLevelSettingsChange = (event: ChangeEvent<any>) => {
     const name = event.target.name;
     const value = event.target.value;
-    // if (name === "unitGroupName") {
+    // if (name === "unitGroupOption") {
     //   switch (value) {
     //     case "Field":
     //       dispatch(updateUnitGroupAction("Metric"));
@@ -224,7 +206,7 @@ export default function UnitSettings({
         };
       },
       {}
-    ); //[{oilRate: "stb/day"},{gasRate: "m3/day"}]
+    ); //[{oilRate: "stb/dayOption"},{gasRate: "m3/dayOption"}]
   const [selectedVariableUnits, setSelectedVariableUnits] = React.useState(
     initSelectedVariableUnits
   );
@@ -285,7 +267,10 @@ export default function UnitSettings({
                     const newUnitGroup = getGlobalUnitGroup(
                       Object.values(newAllAppUnits)
                     );
-                    setGlobalUnitGroupName(newUnitGroup);
+                    setUnitGroupOption({
+                      value: newUnitGroup.toLowerCase(),
+                      label: newUnitGroup,
+                    });
 
                     return newAllAppUnits;
                   });
@@ -359,7 +344,10 @@ export default function UnitSettings({
                     const newUnitGroup = getGlobalUnitGroup(
                       Object.values(newAllAppUnits)
                     );
-                    setGlobalUnitGroupName(newUnitGroup);
+                    setUnitGroupOption({
+                      value: newUnitGroup.toLowerCase(),
+                      label: newUnitGroup,
+                    });
 
                     return newAllAppUnits;
                   });
@@ -412,7 +400,7 @@ export default function UnitSettings({
         width: 300,
       },
       {
-        key: "unitGroups",
+        key: "unitGroupOptions",
         name: "UNIT GROUP",
         resizable: true,
         formatter: ({ row }) => {
@@ -453,9 +441,6 @@ export default function UnitSettings({
   };
 
   const rows = tableRows.current;
-  const RSStyles = getRSStyles(theme);
-  // const helperText =
-  //   touched && touched.pressureAddend ? errors && errors.pressureAddend : "";
 
   return (
     <div ref={dialogRef} className={classes.rootUnitSettingsGrid}>
@@ -469,11 +454,20 @@ export default function UnitSettings({
       >
         <div>
           <AnalyticsTitle title="Global Units Group" />
-          <SelectItem
-            name="unitGroupName"
-            currentItem={unitGroupName}
-            itemData={unitGroups}
-            handleChange={handleFirstLevelSettingsChange}
+
+          <ApexSelectRS
+            valueOption={unitGroupOption}
+            data={unitGroupOptions}
+            handleSelect={(option: ValueType<ISelectOption, false>) => {
+              dispatch(
+                updateUnitsSettingsParameterAction("unitGroup", option?.label)
+              );
+
+              setUnitGroupOption(option as ISelectOption);
+            }}
+            menuPortalTarget={dialogRef.current as HTMLDivElement}
+            isSelectOptionType={true}
+            containerHeight={40}
           />
         </div>
         <div
@@ -496,55 +490,56 @@ export default function UnitSettings({
                   width: "100%",
                 }}
               >
-                <SelectItem
-                  name="dayFormat"
-                  currentItem={day}
-                  itemData={dayDateFormats}
-                  handleChange={(event) => {
-                    setDay(event.target.value);
-                    handleFirstLevelSettingsChange(event);
-                  }}
-                  selectItemStyle={{ minWidth: 80 }}
-                />
-                {/* <Select
-                  value={dayOption}
-                  options={dateOptions}
-                  styles={RSStyles}
-                  onChange={(value: ValueType<ISelectOption, false>) => {
-                    console.log(
-                      "Logged output --> ~ file: UnitSettings.tsx ~ line 462 ~ value",
-                      value
+                <ApexSelectRS
+                  valueOption={dayOption}
+                  data={dayDateFormatOptions}
+                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                    dispatch(
+                      updateUnitsSettingsParameterAction(
+                        "dayFormat",
+                        option?.label
+                      )
                     );
+                    setDayOption(option as ISelectOption);
                   }}
-                  // isClearable={false}
-                  // isSearchable={false}
-                  // menuPortalTarget={document.body}
-                  menuPortalTarget={dialogRef.current}
-                /> */}
-                <SelectItem
-                  name="monthFormat"
-                  currentItem={month}
-                  itemData={monthDateFormats}
-                  handleChange={(event) => {
-                    setMonth(event.target.value);
-                    handleFirstLevelSettingsChange(event);
-                  }}
-                  selectItemStyle={{ minWidth: 80 }}
+                  menuPortalTarget={dialogRef.current as HTMLDivElement}
+                  isSelectOptionType={true}
                 />
-                <SelectItem
-                  name="yearFormat"
-                  currentItem={year}
-                  itemData={yearDateFormats}
-                  handleChange={(event) => {
-                    setYear(event.target.value);
-                    handleFirstLevelSettingsChange(event);
+                <ApexSelectRS
+                  valueOption={monthOption}
+                  data={monthDateFormatOptions}
+                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                    dispatch(
+                      updateUnitsSettingsParameterAction(
+                        "monthFormat",
+                        option?.label
+                      )
+                    );
+                    setMonthOption(option as ISelectOption);
                   }}
-                  selectItemStyle={{ minWidth: 80 }}
+                  menuPortalTarget={dialogRef.current as HTMLDivElement}
+                  isSelectOptionType={true}
                 />
+                <ApexSelectRS
+                  valueOption={yearOption}
+                  data={yearDateFormatOptions}
+                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                    dispatch(
+                      updateUnitsSettingsParameterAction(
+                        "yearFormat",
+                        option?.label
+                      )
+                    );
+                    setYearOption(option as ISelectOption);
+                  }}
+                  menuPortalTarget={dialogRef.current as HTMLDivElement}
+                  isSelectOptionType={true}
+                />
+
                 <DateFormatter
-                  dayFormat={day}
-                  monthFormat={month}
-                  yearFormat={year}
+                  dayFormat={dayOption.label}
+                  monthFormat={monthOption.label}
+                  yearFormat={yearOption.label}
                   dateFormatterStyle={{
                     display: "flex",
                     alignItems: "center",
@@ -557,26 +552,48 @@ export default function UnitSettings({
               </div>
             }
           />
-          {/* <AnalyticsComp
-            title="Pressure Addend"
+          <AnalyticsComp
+            title="Number Format"
             direction="Vertical"
             content={
-                  console.log("Logged output --> ~ file: UnitSettings.tsx ~ line 462 ~ value", value);
-                  console.log("Logged output --> ~ file: UnitSettings.tsx ~ line 462 ~ value", value);
-              <TextField
-                name="pressureAddend"
-                variant="outlined"
-                style={{ width: "100%" }}
-                helperText={helperText}
-                error={Boolean(helperText)}
-                value={pressAddend}
-                onChange={handleFirstLevelSettingsChange}
-                required
-                autoFocus
-                fullWidth
-              />
+              <ApexFlexStyle>
+                <ApexSelectRS
+                  valueOption={numberFormatOption}
+                  data={numberFormatOptions}
+                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                    dispatch(
+                      updateUnitsSettingsParameterAction(
+                        "numberFormatString",
+                        option?.label
+                      )
+                    );
+                    String(option as ISelectOption);
+                  }}
+                  menuPortalTarget={dialogRef.current as HTMLDivElement}
+                  isSelectOptionType={true}
+                />
+                <TextField
+                  name="numberFormatString"
+                  variant="outlined"
+                  style={{ width: "100%" }}
+                  value={numberFormatStringValue}
+                  onChange={(event: React.ChangeEvent<any>) => {
+                    const { value } = event.target;
+                    dispatch(
+                      updateUnitsSettingsParameterAction(
+                        "numberFormatString",
+                        value
+                      )
+                    );
+                    setNumberFormatStringValue(value);
+                  }}
+                  required
+                  autoFocus
+                  fullWidth
+                />
+              </ApexFlexStyle>
             }
-          /> */}
+          />
         </div>
       </div>
 

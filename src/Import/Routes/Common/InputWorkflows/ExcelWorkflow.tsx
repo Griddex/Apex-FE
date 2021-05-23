@@ -7,7 +7,10 @@ import { INavigationButtonsProp } from "../../../../Application/Components/Navig
 import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
-import { IAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  IOnlyWorkflows,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
@@ -57,7 +60,7 @@ const ExcelWorkflow = ({
   finalAction,
   hasExtraComponent,
   extraComponent,
-}: IAllWorkflowProcesses) => {
+}: IOnlyWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;

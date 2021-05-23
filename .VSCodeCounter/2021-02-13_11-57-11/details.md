@@ -433,7 +433,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Project/Components/DialogParameters/RecentProjectsFailureDialogParameters.ts](/src/Project/Components/DialogParameters/RecentProjectsFailureDialogParameters.ts) | TypeScript | 15 | 0 | 2 | 17 |
 | [src/Project/Components/Forms/NewProjectForm.tsx](/src/Project/Components/Forms/NewProjectForm.tsx) | TypeScript React | 58 | 0 | 6 | 64 |
 | [src/Project/Components/Popovers/ProjectPopover.tsx](/src/Project/Components/Popovers/ProjectPopover.tsx) | TypeScript React | 173 | 3 | 9 | 185 |
-| [src/Project/NewProjectNameAndDescription.tsx](/src/Project/NewProjectNameAndDescription.tsx) | TypeScript React | 103 | 0 | 7 | 110 |
+| [src/Project/NewProjectTitleAndDescription.tsx](/src/Project/NewProjectTitleAndDescription.tsx) | TypeScript React | 103 | 0 | 7 | 110 |
 | [src/Project/Redux/Actions/ProjectActions.ts](/src/Project/Redux/Actions/ProjectActions.ts) | TypeScript | 124 | 0 | 11 | 135 |
 | [src/Project/Redux/Reducers/ProjectReducer.ts](/src/Project/Redux/Reducers/ProjectReducer.ts) | TypeScript | 90 | 0 | 18 | 108 |
 | [src/Project/Redux/Sagas/CreateNewProjectSaga.ts](/src/Project/Redux/Sagas/CreateNewProjectSaga.ts) | TypeScript | 68 | 2 | 12 | 82 |

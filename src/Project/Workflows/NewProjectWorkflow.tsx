@@ -1,7 +1,7 @@
 import React from "react";
 import UnitSettings from "../../Settings/UnitSettings/UnitSettings";
 import NewProjectForm from "../Components/Forms/NewProjectForm";
-import NewProjectNameAndDescription from "../NewProjectNameAndDescription";
+import NewProjectTitleAndDescription from "../NewProjectTitleAndDescription";
 import { INewProjectWorkflowProps } from "../Redux/State/ProjectStateTypes";
 
 const NewProjectWorkflow = ({ activeStep }: { activeStep: number }) => {
@@ -10,7 +10,7 @@ const NewProjectWorkflow = ({ activeStep }: { activeStep: number }) => {
       case 0: //prop filtering needed - pull out relevant props
         return <UnitSettings {...props} />;
       case 1:
-        return <NewProjectNameAndDescription {...props} />;
+        return <NewProjectTitleAndDescription {...props} />;
       default:
         return <h1>No view</h1>;
     }
