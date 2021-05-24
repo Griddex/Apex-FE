@@ -1,7 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import NavigationPrompt from "react-router-navigation-prompt";
 import AdministrationLayout from "../../Administration/Routes/Common/AdministrationLayout";
 import CorporateLayout from "../../Corporate/Routes/Common/CorporateLayout";
 import DeclineCurveAnalysisLayout from "../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout";
@@ -17,7 +18,9 @@ import {
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import SettingsLayout from "../../Settings/Routes/Common/SettingsLayout";
 import VisualyticsLayout from "../../Visualytics/Common/VisualyticsLayout";
+import DialogOneCancelButtons from "../Components/DialogButtons/DialogOneCancelButtons";
 import Dialogs from "../Components/Dialogs/Dialogs";
+import TextDialog from "../Components/Dialogs/TextDialog";
 import MainDrawer from "../Components/Drawers/MainDrawer";
 import Navbar from "../Components/Navbars/Navbar";
 import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
@@ -44,12 +47,15 @@ const useStyles = makeStyles(() => ({
 const Layout = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { url } = useRouteMatch();
   const { showMainDrawer, showNavbar } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { pending } = useSelector((state: RootState) => state.uiSpinnerReducer);
+
+  const [isPageRefreshed, setIsPageRefreshed] = React.useState(false);
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
@@ -63,6 +69,14 @@ const Layout = () => {
 
   React.useEffect(() => {
     if (pending) dispatch(hideSpinnerAction());
+
+    window.onbeforeunload = () => {
+      history.push(url);
+    };
+
+    // return () => {
+    //   window.onbeforeunload = null;
+    // };
   }, []);
 
   return (
@@ -70,12 +84,43 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
+        <div
+          onClick={() => setIsPageRefreshed(true)}
+          style={{ width: 50, height: 30, color: "black" }}
+        />
         <Suspense
           fallback={
             <SuspensePerpetualSpinner pending={true} message="Loading..." />
           }
         >
           <Switch>
+            <NavigationPrompt when={isPageRefreshed}>
+              {({ onConfirm, onCancel }) => (
+                <React.Fragment>
+                  <TextDialog
+                    name={"Refresh_Confirmation_Dialog"}
+                    title={"Refresh Confirmation"}
+                    type={"textDialog"}
+                    show={true}
+                    exclusive={true}
+                    maxWidth={"xs"}
+                    dialogText={`Do you confirm page refresh? 
+                You will lose all workflow progress to this point`}
+                    iconType={"success"}
+                    actionsList={() =>
+                      DialogOneCancelButtons(
+                        [true, true],
+                        [false, false],
+                        [onCancel, onConfirm],
+                        "Proceed",
+                        "doneOutlined"
+                      )
+                    }
+                    dialogContentStyle={{ paddingTop: 40, paddingBottom: 40 }}
+                  />
+                </React.Fragment>
+              )}
+            </NavigationPrompt>
             <Route exact path={url} component={ProductBackground} />
             <Route
               path={`${url}/:layoutId`}

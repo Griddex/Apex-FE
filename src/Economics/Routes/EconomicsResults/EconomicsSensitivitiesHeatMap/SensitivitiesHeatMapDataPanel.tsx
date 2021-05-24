@@ -31,7 +31,10 @@ const SensitivitiesHeatMapDataPanel = () => {
   );
   const initialEconomicsResultsTitleOption =
     selectedEconomicsResultsTitle !== ""
-      ? selectedEconomicsResultsTitle
+      ? {
+          value: selectedEconomicsResultsTitle,
+          label: selectedEconomicsResultsTitle,
+        }
       : economicsResultsTitleOptions[0];
 
   const [economicsResultTitleOption, setEconomicsResultTitleOption] =
@@ -40,7 +43,7 @@ const SensitivitiesHeatMapDataPanel = () => {
   const handleSelectEconomicsResultsChange = (
     option: ValueType<ISelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option);
+    setEconomicsResultTitleOption(option as ISelectOption);
 
     dispatch(fetchTreeviewKeysRequestAction());
   };

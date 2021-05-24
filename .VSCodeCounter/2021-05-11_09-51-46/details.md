@@ -330,7 +330,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Forecast/Common/ForecastLayout.tsx](/src/Forecast/Common/ForecastLayout.tsx) | TypeScript React | 43 | 1 | 5 | 49 |
 | [src/Forecast/Common/ForecastLayoutTypes.ts](/src/Forecast/Common/ForecastLayoutTypes.ts) | TypeScript | 7 | 0 | 2 | 9 |
 | [src/Forecast/Common/ForecastSelectChart.tsx](/src/Forecast/Common/ForecastSelectChart.tsx) | TypeScript React | 17 | 3 | 7 | 27 |
-| [src/Forecast/Common/SelectForecastChartDataPanel.tsx](/src/Forecast/Common/SelectForecastChartDataPanel.tsx) | TypeScript React | 169 | 3 | 17 | 189 |
+| [src/Forecast/Common/ForecastChartDataPanel.tsx](/src/Forecast/Common/ForecastChartDataPanel.tsx) | TypeScript React | 169 | 3 | 17 | 189 |
 | [src/Forecast/Components/BaseActions/GetTreeviewKeysByIdResetFetchButtons.tsx](/src/Forecast/Components/BaseActions/GetTreeviewKeysByIdResetFetchButtons.tsx) | TypeScript React | 74 | 0 | 7 | 81 |
 | [src/Forecast/Components/DialogActions/RunForecastSuccessFailureDialogParameters.ts](/src/Forecast/Components/DialogActions/RunForecastSuccessFailureDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
 | [src/Forecast/Components/DialogButtons/DialogCancelFetchButtons.tsx](/src/Forecast/Components/DialogButtons/DialogCancelFetchButtons.tsx) | TypeScript React | 57 | 0 | 4 | 61 |

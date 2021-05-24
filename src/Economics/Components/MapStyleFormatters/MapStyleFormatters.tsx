@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  darken,
   makeStyles,
   TextField,
   Typography,
@@ -9,13 +10,12 @@ import {
 import FormatColorFillIcon from "@material-ui/icons/FormatColorFill";
 import React from "react";
 import "react-color-gradient-picker/dist/index.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import ApexSketchPicker from "../../../Visualytics/Components/ColorPickers/ApexSketchPicker";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
@@ -34,16 +34,11 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
-  const wp = workflowProcess;
-
-  const { sensitivitiesHeatMap1or2D } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
 
   const mapRef = React.useRef<HTMLDivElement>(null);
 
   const [solidThresholdColor, setSolidThresholdColor] = React.useState(
-    theme.palette.primary.light
+    theme.palette.secondary.main
   );
 
   const [presetThresholdColors, setPresetThresholdColors] = React.useState([
@@ -53,8 +48,9 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
     theme.palette.warning.main,
   ]);
 
-  const [solidBackgroundColor, setSolidBackgroundColor] =
-    React.useState("#F8F9FA");
+  const [solidBackgroundColor, setSolidBackgroundColor] = React.useState(
+    theme.palette.grey["200"]
+  );
 
   const [presetBackgroundColors, setPresetBackgroundColors] = React.useState([
     theme.palette.primary.main,
@@ -94,7 +90,6 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           style={{
             width: "100%",
             color: theme.palette.primary.dark,
-            // fontWeight: "bold",
           }}
         >
           {"Threshold Format"}
@@ -127,23 +122,27 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           height={50}
           moreStyles={{ marginTop: 10 }}
         >
-          {/* <FormatColorFillIcon
-            onClick={() => setShowThresholdPicker(!showThresholdPicker)}
-            color="primary"
-            style={{ border: `1px solid ${theme.palette.grey[400]}` }}
-          /> */}
           <Box
             style={{
               width: "100%",
-              marginLeft: 10,
               height: 36,
-              backgroundColor: solidThresholdColor,
-              // border: `1px solid ${theme.palette.grey[400]}`,
-              // padding: `1px solid white`,
-              padding: 4,
+              backgroundColor: theme.palette.common.white,
+              border: `1px solid ${darken(solidThresholdColor, 0.5)}`,
+              padding: 8,
             }}
-            onClick={() => setShowThresholdPicker(!showThresholdPicker)}
-          />
+          >
+            <Box
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: solidThresholdColor,
+                borderStyle: "dashed",
+                border: `1px solid ${solidThresholdColor}`,
+                cursor: "pointer",
+              }}
+              onClick={() => setShowThresholdPicker(!showThresholdPicker)}
+            />
+          </Box>
           <Button
             onClick={() => setUpdateMap(!updateMap)}
             type="submit"
@@ -178,26 +177,32 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           style={{
             width: "100%",
             color: theme.palette.primary.dark,
-            // fontWeight: "bold",
           }}
         >
           {"Background Color"}
         </Typography>
         <ApexFlexStyle justifyContent="space-between" height={40}>
-          {/* <FormatColorFillIcon
-            onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
-            color="primary"
-          /> */}
           <Box
             style={{
               width: "100%",
-              marginLeft: 10,
               height: 36,
-              backgroundColor: solidBackgroundColor,
-              border: `1px solid ${theme.palette.grey[400]}`,
+              backgroundColor: theme.palette.common.white,
+              border: `1px solid ${darken(solidBackgroundColor, 0.5)}`,
+              padding: 8,
             }}
-            onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
-          />
+          >
+            <Box
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: solidBackgroundColor,
+                borderStyle: "dashed",
+                border: `1px solid ${solidBackgroundColor}`,
+                cursor: "pointer",
+              }}
+              onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
+            />
+          </Box>
           <Button
             onClick={() => setUpdateMap(!updateMap)}
             type="submit"

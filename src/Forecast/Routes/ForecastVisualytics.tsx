@@ -1,22 +1,20 @@
 import { makeStyles } from "@material-ui/core/styles";
+import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
-import SelectChartDataPanel from "../Common/SelectForecastChartDataPanel";
+import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import FormatAggregator from "../../Visualytics/Components/FormatAggregators/FormatAggregator";
-import { IForecastRoutes } from "./ForecastRoutesTypes";
-import SelectChart from "../../Visualytics/Common/SelectChart";
-import SelectForecastChartDataPanel from "../Common/SelectForecastChartDataPanel";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
-import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
-import ForecastSelectChart from "../Common/ForecastSelectChart";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
+import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
+import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
-import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
-import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
+import { IForecastRoutes } from "./ForecastRoutesTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,7 +100,7 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
-          <SelectForecastChartDataPanel />
+          <ForecastChartDataPanel />
         </div>
         {isForecastResultsLoading ? (
           <div>Forecast results loading</div>

@@ -5,6 +5,7 @@ import { useTheme } from "@material-ui/core";
 import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { useSelector } from "react-redux";
+import startCase from "lodash.startcase";
 
 export interface IEconomicsSensitivitiesHeatMap {
   sensitivitiesHeatMap1or2D: any[];
@@ -48,7 +49,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: -90,
-        legend: heatMapVariableXOption.value,
+        legend: startCase(heatMapVariableXOption.value),
         legendPosition: "middle",
         legendOffset: -36,
       }}
@@ -58,7 +59,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: heatMapVariableYOption.value,
+        legend: startCase(heatMapVariableYOption.value),
         legendPosition: "middle",
         legendOffset: -40,
       }}

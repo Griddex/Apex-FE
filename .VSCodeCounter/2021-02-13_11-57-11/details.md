@@ -225,7 +225,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Forecast/Common/ForecastLandingTypes.ts](/src/Forecast/Common/ForecastLandingTypes.ts) | TypeScript | 21 | 0 | 4 | 25 |
 | [src/Forecast/Common/ForecastLayout.tsx](/src/Forecast/Common/ForecastLayout.tsx) | TypeScript React | 39 | 2 | 5 | 46 |
 | [src/Forecast/Common/ForecastLayoutTypes.ts](/src/Forecast/Common/ForecastLayoutTypes.ts) | TypeScript | 7 | 0 | 2 | 9 |
-| [src/Forecast/Common/SelectForecastChartDataPanel.tsx](/src/Forecast/Common/SelectForecastChartDataPanel.tsx) | TypeScript React | 154 | 4 | 14 | 172 |
+| [src/Forecast/Common/ForecastChartDataPanel.tsx](/src/Forecast/Common/ForecastChartDataPanel.tsx) | TypeScript React | 154 | 4 | 14 | 172 |
 | [src/Forecast/Components/ForecastResults10Feb2021.json](/src/Forecast/Components/ForecastResults10Feb2021.json) | JSON | 19,616 | 0 | 1 | 19,617 |
 | [src/Forecast/Components/ForecastStackedAreaChart.tsx](/src/Forecast/Components/ForecastStackedAreaChart.tsx) | TypeScript React | 265 | 44 | 27 | 336 |
 | [src/Forecast/Components/ForecastTreeView.tsx](/src/Forecast/Components/ForecastTreeView.tsx) | TypeScript React | 243 | 9 | 33 | 285 |
