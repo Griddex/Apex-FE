@@ -207,8 +207,8 @@ export interface IEconomicsState
   heatMapVariableZOption: ISelectOption | null;
 
   economicsPlotChartsTree: RenderTree;
-  plotChartsData: {};
-  plotChartsDataTrans: {};
+  plotChartsData: null;
+  plotChartsDataTrans: null;
   selectedEconomicsPlotChartOption: ISelectOption;
   showPlotChartsCategories: boolean;
   plotChartsVariableXOption: ISelectOption | null;

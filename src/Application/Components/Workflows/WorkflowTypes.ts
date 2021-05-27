@@ -77,7 +77,7 @@ export interface IEconomicsWorkflows {
     | "economicsSensitivitiesCreate"
     | "economicsSensitivitiesExisting"
     | "economicsTemplateResultsData"
-    | "economicsResultsChartsTables"
+    | "economicsResultsPlotCharts"
     | "economicsResultsSensitivitiesHeatmap"
     | "economicsResultsExisting";
   wkCy: "economicsDataWorkflows" | "economicsAnalysisWorkflows";

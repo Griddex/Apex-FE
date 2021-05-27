@@ -81,7 +81,7 @@ const EconomicsResultsLanding = () => {
         />
       ),
       route: `${url}/plotchartsTables`,
-      workflowProcess: "economicsResultsChartsTables",
+      workflowProcess: "economicsResultsPlotCharts",
       workflowCategory: "existingDataWorkflows",
     },
     {

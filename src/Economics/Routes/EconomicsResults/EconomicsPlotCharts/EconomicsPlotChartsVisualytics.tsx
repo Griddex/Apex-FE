@@ -1,27 +1,28 @@
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import React, { useEffect } from "react";
+import React from "react";
+import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
+import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import FormatAggregator from "../../../../Visualytics/Components/FormatAggregators/FormatAggregator";
+import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
+import LineChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
+import {
+  axisNameTitlesObj,
+  TAxisType,
+} from "../../../../Visualytics/Data/VisualyticsData";
+import EconomicsChartSelectionMenu from "../../../Components/Menus/EconomicsChartSelectionMenu";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
+import { TChartTypeNames } from "../../../Data/EconomicsData";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
 import EconomicsPlotChartsSelectCharts from "./EconomicsPlotChartsSelectCharts";
-import Draggable, {
-  ControlPosition,
-  DraggableData,
-  DraggableEvent,
-} from "react-draggable";
-import { callbackify } from "util";
-import EconomicsChartSelectionMenu from "../../../Components/Menus/EconomicsChartSelectionMenu";
-import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
-import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,12 +69,21 @@ const useStyles = makeStyles((theme) => ({
 const EconomicsPlotChartsVisualytics = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const wc = "economicsChartsWorkflows";
+  const wp = "economicsResultsPlotCharts";
 
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
+
+  const allEconomicsPlotCharts = useSelector(
+    (state: RootState) => state.economicsReducer[wc][wp]
+  );
+
   const { showPlotChartsCategories, selectedEconomicsPlotChartOption } =
     useSelector((state: RootState) => state.economicsReducer);
+
+  const chartValue = selectedEconomicsPlotChartOption.value as TChartTypeNames;
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -165,7 +175,7 @@ const EconomicsPlotChartsVisualytics = () => {
 
   const classes = useStyles(mousePosition);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(showContextDrawerAction());
     setMousePosition({ x: panelRef.current?.offsetWidth as number, y: 0 });
   }, [dispatch]);
@@ -240,7 +250,117 @@ const EconomicsPlotChartsVisualytics = () => {
         </div>
       </div>
       {showContextDrawer && (
-        <ContextDrawer>{() => <FormatAggregator />}</ContextDrawer>
+        <ContextDrawer>
+          {() => {
+            if (chartValue === "stackedArea") {
+              return <div>StackedArea</div>;
+            } else if (chartValue === "line") {
+              const lineChart = allEconomicsPlotCharts["lineChart"];
+
+              //GRID DATA
+              const { enableGridX, enableGridY, gridXValues, gridYValues } =
+                lineChart;
+              const lineGridData = [
+                {
+                  gridName: "gridX",
+                  gridTitle: "Horizontal Grid",
+                  storeGridEnabled: enableGridX,
+                  gridValuesName: "gridXValues",
+                  storeGridValues: gridXValues,
+                },
+                {
+                  gridName: "gridY",
+                  gridTitle: "Vertical Grid",
+                  storeGridEnabled: enableGridY,
+                  gridValuesName: "gridYValues",
+                  storeGridValues: gridYValues,
+                },
+              ];
+
+              //AXES DATA
+              const apexAxesEnabled = lineChart["apexAxesEnabled"];
+              const lineAxesData = Object.keys(axisNameTitlesObj).reduce(
+                (acc: any, name) => {
+                  if (lineChart[name]) {
+                    const {
+                      tickSize,
+                      tickPadding,
+                      tickRotation,
+                      legend,
+                      legendOffset,
+                      legendPosition,
+                    } = lineChart[name];
+
+                    return [
+                      ...acc,
+                      {
+                        axisName: name,
+                        axisEnabled: apexAxesEnabled[name],
+                        axisCaption: "Chart Axes",
+                        enableName: `${name}Enable`,
+                        storeAxisTitle: legend,
+                        storeAxisTitleOffset: {
+                          value: legendOffset,
+                          step: 1,
+                          min: -60,
+                          max: 60,
+                        },
+                        storeAxisTickSize: {
+                          value: tickSize,
+                          step: 1,
+                          min: 0,
+                          max: 20,
+                        },
+                        storeAxisTickPadding: {
+                          value: tickPadding,
+                          step: 1,
+                          min: 0,
+                          max: 20,
+                        },
+                        storeAxisTickRotation: {
+                          value: tickRotation,
+                          step: 1,
+                          min: -90,
+                          max: 90,
+                        },
+                        storeTitlePosition: legendPosition,
+                      },
+                    ];
+                  } else return acc;
+                },
+                []
+              );
+              console.log(
+                "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 332 ~ EconomicsPlotChartsVisualytics ~ lineAxesData",
+                lineAxesData
+              );
+
+              const lineAccordionsData = Object.keys(axisNameTitlesObj).map(
+                (name) => ({
+                  name: `${name}Accordion`,
+                  title: axisNameTitlesObj[name as TAxisType],
+                  content: <ApexFlexStyle>No Content</ApexFlexStyle>,
+                })
+              );
+              console.log(
+                "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 341 ~ EconomicsPlotChartsVisualytics ~ lineAccordionsData",
+                lineAccordionsData
+              );
+
+              return (
+                <LineChartFormatAggregator
+                  workflowProcess={wp}
+                  updateParameterAction={updateEconomicsParameterAction}
+                  apexChartAxesData={lineAxesData}
+                  apexChartGridData={lineGridData}
+                  apexMultiAccordionsData={lineAccordionsData}
+                />
+              );
+            } else {
+              return <div>No Format</div>;
+            }
+          }}
+        </ContextDrawer>
       )}
     </div>
   );

@@ -13,7 +13,13 @@ import { PersistGate } from "redux-persist/integration/react";
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <Router history={history}>
+      <Router
+        history={history}
+        getUserConfirmation={(message, callback) => {
+          const allowTransition = window.confirm(message);
+          callback(allowTransition);
+        }}
+      >
         <CssBaseline />
         {/* <PersistGate loading={null} persistor={persistor}> */}
         <App />

@@ -14,6 +14,7 @@ import {
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
+import { Prompt } from "react-router-dom";
 
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
@@ -187,6 +188,10 @@ const ExcelWorkflow = ({
   return (
     <div className={classes.root}>
       <WorkflowBanner {...WorkflowBannerProps} />
+      <Prompt
+        when={activeStep < steps.length}
+        message="Are you sure you want to leave?"
+      />
       <div className={classes.workflowBody}>{renderImportStep(activeStep)}</div>
       {showContextDrawer && (
         <ContextDrawer>

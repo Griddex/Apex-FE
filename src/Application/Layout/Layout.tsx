@@ -18,6 +18,7 @@ import {
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import SettingsLayout from "../../Settings/Routes/Common/SettingsLayout";
 import VisualyticsLayout from "../../Visualytics/Common/VisualyticsLayout";
+import { ExitPromptContext } from "../App/App";
 import DialogOneCancelButtons from "../Components/DialogButtons/DialogOneCancelButtons";
 import Dialogs from "../Components/Dialogs/Dialogs";
 import TextDialog from "../Components/Dialogs/TextDialog";
@@ -49,13 +50,14 @@ const Layout = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { showExitPrompt, setShowExitPrompt } =
+    React.useContext(ExitPromptContext);
+
   const { url } = useRouteMatch();
   const { showMainDrawer, showNavbar } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { pending } = useSelector((state: RootState) => state.uiSpinnerReducer);
-
-  const [isPageRefreshed, setIsPageRefreshed] = React.useState(false);
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
@@ -65,18 +67,15 @@ const Layout = () => {
     dispatch(fetchRecentProjectsAction());
     dispatch(fetchUnitSettingsRequestAction());
     dispatch(fetchMatchObjectRequestAction());
+
+    if (pending) dispatch(hideSpinnerAction());
   }, []);
 
   React.useEffect(() => {
-    if (pending) dispatch(hideSpinnerAction());
-
-    window.onbeforeunload = () => {
-      history.push(url);
+    window.onbeforeunload = () => setShowExitPrompt(true);
+    return () => {
+      setShowExitPrompt(false);
     };
-
-    // return () => {
-    //   window.onbeforeunload = null;
-    // };
   }, []);
 
   return (
@@ -84,17 +83,13 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
-        <div
-          onClick={() => setIsPageRefreshed(true)}
-          style={{ width: 50, height: 30, color: "black" }}
-        />
         <Suspense
           fallback={
             <SuspensePerpetualSpinner pending={true} message="Loading..." />
           }
         >
           <Switch>
-            <NavigationPrompt when={isPageRefreshed}>
+            {/* <NavigationPrompt when={isPageRefreshed}>
               {({ onConfirm, onCancel }) => (
                 <React.Fragment>
                   <TextDialog
@@ -120,7 +115,7 @@ const Layout = () => {
                   />
                 </React.Fragment>
               )}
-            </NavigationPrompt>
+            </NavigationPrompt> */}
             <Route exact path={url} component={ProductBackground} />
             <Route
               path={`${url}/:layoutId`}

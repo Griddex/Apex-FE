@@ -8,6 +8,7 @@ import { Route, Switch } from "react-router-dom";
 import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
 import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
+import useExitPrompt from "../Hooks/UseExitPrompt";
 import ProtectedRoute from "../Routes/ProtectedRoute";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
@@ -21,52 +22,72 @@ const useStyles = makeStyles((theme) => ({
   warning: { backgroundColor: theme.palette.warning.main },
 }));
 
+interface IExitPromptContext {
+  showExitPrompt: boolean;
+  setShowExitPrompt: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const initExitPromptContext = {
+  showExitPrompt: false,
+  setShowExitPrompt: () => false,
+};
+
+export const ExitPromptContext = React.createContext<IExitPromptContext>(
+  initExitPromptContext
+);
+
 const App: React.FC<JSX.Element> = () => {
   const classes = useStyles();
+  const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false) as [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+  ];
   const notistackRef = React.useRef<SnackbarProvider>(null);
 
   return (
-    <SnackbarProvider
-      maxSnack={3}
-      ref={notistackRef}
-      action={(key) => (
-        <Button
-          style={{ color: "white" }}
-          onClick={() => {
-            if (notistackRef && notistackRef.current)
-              notistackRef.current.closeSnackbar(key);
-          }}
-        >
-          Dismiss
-        </Button>
-      )}
-      classes={{
-        variantSuccess: classes.success,
-        variantError: classes.error,
-        variantWarning: classes.warning,
-        variantInfo: classes.info,
-      }}
-    >
-      <DndProvider backend={HTML5Backend}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <Switch>
-            <Route exact path="/" component={LandingRoute} />
-            <Route path="/login" component={LoginRoute} />
-            <Route path="/register" component={RegisterRoute} />
-            <ProtectedRoute
-              path={"/apex"}
-              roles={["Officer", "Admin"]}
-              component={Layout}
-            />
-            <Route render={() => <h1>Not Found</h1>} />
-          </Switch>
-        </Suspense>
-      </DndProvider>
-    </SnackbarProvider>
+    <ExitPromptContext.Provider value={{ showExitPrompt, setShowExitPrompt }}>
+      <SnackbarProvider
+        maxSnack={3}
+        ref={notistackRef}
+        action={(key) => (
+          <Button
+            style={{ color: "white" }}
+            onClick={() => {
+              if (notistackRef && notistackRef.current)
+                notistackRef.current.closeSnackbar(key);
+            }}
+          >
+            Dismiss
+          </Button>
+        )}
+        classes={{
+          variantSuccess: classes.success,
+          variantError: classes.error,
+          variantWarning: classes.warning,
+          variantInfo: classes.info,
+        }}
+      >
+        <DndProvider backend={HTML5Backend}>
+          <Suspense
+            fallback={
+              <SuspensePerpetualSpinner pending={true} message="Loading..." />
+            }
+          >
+            <Switch>
+              <Route exact path="/" component={LandingRoute} />
+              <Route path="/login" component={LoginRoute} />
+              <Route path="/register" component={RegisterRoute} />
+              <ProtectedRoute
+                path={"/apex"}
+                roles={["Officer", "Admin"]}
+                component={Layout}
+              />
+              <Route render={() => <h1>Not Found</h1>} />
+            </Switch>
+          </Suspense>
+        </DndProvider>
+      </SnackbarProvider>
+    </ExitPromptContext.Provider>
   );
 };
 
