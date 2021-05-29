@@ -1,5 +1,8 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDrag } from "react-dnd";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Flowstation from "../../Images/Flowstation.svg";
 import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
@@ -21,9 +24,11 @@ interface currentNodeType {
 }
 
 const NodePanel: React.FC<nodeProps> = ({ name }) => {
-  // const { currentElement } = useSelector(
-  //   (state: RootState) => state.networkReducer
-  // );
+  const theme = useTheme();
+
+  const { isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
 
   // const { updateNodePosDiff } = useStoreActions((actions) => actions);
   // const allNodes = useStoreState((store) => store.nodes);
@@ -117,6 +122,14 @@ const NodePanel: React.FC<nodeProps> = ({ name }) => {
     (node) => node.name === name
   ) as currentNodeType;
 
+  let style = {};
+  if (isNetworkAuto) {
+    style = {
+      pointerEvents: "none",
+      backgroundColor: theme.palette.grey[200],
+    };
+  }
+
   return (
     <div
       style={{
@@ -125,6 +138,7 @@ const NodePanel: React.FC<nodeProps> = ({ name }) => {
         padding: "10px",
         display: "flex",
         flexDirection: "row",
+        ...style,
       }}
     >
       <div
