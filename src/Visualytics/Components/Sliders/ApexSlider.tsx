@@ -1,18 +1,17 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
 import Input from "@material-ui/core/Input";
-import VolumeUp from "@material-ui/icons/VolumeUp";
-import { actionChannel } from "@redux-saga/core/effects";
+import Slider from "@material-ui/core/Slider";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles({
   root: {
-    width: 250,
+    width: "100%",
   },
   input: {
-    width: 42,
+    width: 60,
+    fontSize: 14,
   },
 });
 
@@ -22,7 +21,9 @@ export interface IApexSlider {
   step: number;
   min: number;
   max: number;
-  action: () => void;
+  actionPath?: string;
+  action?: (path: string, value: any) => void;
+  setSliderValue?: TUseState<number>;
 }
 
 export default function ApexSlider({
@@ -31,7 +32,9 @@ export default function ApexSlider({
   step,
   min,
   max,
+  actionPath,
   action,
+  setSliderValue,
 }: IApexSlider) {
   const classes = useStyles();
   const [value, setValue] =
@@ -39,19 +42,24 @@ export default function ApexSlider({
 
   const handleSliderChange = (event: any, newValue: number | number[]) => {
     setValue(newValue);
-    action();
+    setSliderValue && setSliderValue(newValue as number);
+    action && action(actionPath as string, newValue);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value === "" ? "" : Number(event.target.value));
-    action();
+    const newValue =
+      event.target.value === "" ? "" : Number(event.target.value);
+
+    setValue(newValue);
+    setSliderValue && setSliderValue(newValue as number);
+    action && action(actionPath as string, newValue);
   };
 
   const handleBlur = () => {
-    if (value < 0) {
-      setValue(0);
-    } else if (value > 100) {
-      setValue(100);
+    if (value < min) {
+      setValue(min);
+    } else if (value > max) {
+      setValue(max);
     }
   };
 
@@ -60,7 +68,7 @@ export default function ApexSlider({
       <Grid item xs>
         <Slider
           name={name}
-          value={typeof value === "number" ? value : 0}
+          value={typeof value === "number" ? value : min}
           onChange={handleSliderChange}
           aria-labelledby="input-slider"
         />

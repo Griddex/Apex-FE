@@ -257,6 +257,51 @@ const EconomicsPlotChartsVisualytics = () => {
             } else if (chartValue === "line") {
               const lineChart = allEconomicsPlotCharts["lineChart"];
 
+              //GENERAL
+              const {
+                curve,
+                colors,
+                lineWidth,
+                enableArea,
+                areaBaselineValue,
+                areaOpacity,
+              } = lineChart;
+
+              const lineChartGeneralData = {
+                curve: curve ? curve : "linear",
+                colors: colors ? colors.scheme : { scheme: "category10" },
+                storeLineWidth: {
+                  currentValue: lineWidth ? lineWidth : 1,
+                  step: 1,
+                  min: 0,
+                  max: 20,
+                },
+                enableArea,
+                storeAreaBaselineValue: {
+                  currentValue: areaBaselineValue,
+                  step: 1,
+                  min: 0,
+                  max: 200,
+                },
+                storeAreaOpacity: {
+                  currentValue: areaOpacity,
+                  step: 1,
+                  min: 0,
+                  max: 1,
+                },
+              };
+
+              //PLOT
+              const { margin, xScale, xFormat, yScale, yFormat } = lineChart;
+              const lineChartPlotData = {
+                margin,
+                colors: colors ? colors.scheme : { scheme: "category10" },
+                xScale,
+                xFormat,
+                yScale,
+                yFormat,
+              };
+
               //GRID DATA
               const { enableGridX, enableGridY, gridXValues, gridYValues } =
                 lineChart;
@@ -300,25 +345,25 @@ const EconomicsPlotChartsVisualytics = () => {
                         enableName: `${name}Enable`,
                         storeAxisTitle: legend,
                         storeAxisTitleOffset: {
-                          value: legendOffset,
+                          currentValue: legendOffset,
                           step: 1,
                           min: -60,
                           max: 60,
                         },
                         storeAxisTickSize: {
-                          value: tickSize,
+                          currentValue: tickSize,
                           step: 1,
                           min: 0,
                           max: 20,
                         },
                         storeAxisTickPadding: {
-                          value: tickPadding,
+                          currentValue: tickPadding,
                           step: 1,
                           min: 0,
                           max: 20,
                         },
                         storeAxisTickRotation: {
-                          value: tickRotation,
+                          currentValue: tickRotation,
                           step: 1,
                           min: -90,
                           max: 90,
@@ -326,15 +371,45 @@ const EconomicsPlotChartsVisualytics = () => {
                         storeTitlePosition: legendPosition,
                       },
                     ];
-                  } else return acc;
+                  } else
+                    return [
+                      ...acc,
+                      {
+                        axisName: name,
+                        axisEnabled: apexAxesEnabled[name],
+                        axisCaption: "Chart Axes",
+                        enableName: `${name}Enable`,
+                        storeAxisTitle: "",
+                        storeAxisTitleOffset: {
+                          currentValue: -40,
+                          step: 1,
+                          min: -60,
+                          max: 60,
+                        },
+                        storeAxisTickSize: {
+                          currentValue: 5,
+                          step: 1,
+                          min: 0,
+                          max: 20,
+                        },
+                        storeAxisTickPadding: {
+                          currentValue: 5,
+                          step: 1,
+                          min: 0,
+                          max: 20,
+                        },
+                        storeAxisTickRotation: {
+                          currentValue: 0,
+                          step: 1,
+                          min: -90,
+                          max: 90,
+                        },
+                        storeTitlePosition: "middle",
+                      },
+                    ];
                 },
                 []
               );
-              console.log(
-                "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 332 ~ EconomicsPlotChartsVisualytics ~ lineAxesData",
-                lineAxesData
-              );
-
               const lineAccordionsData = Object.keys(axisNameTitlesObj).map(
                 (name) => ({
                   name: `${name}Accordion`,
@@ -342,18 +417,127 @@ const EconomicsPlotChartsVisualytics = () => {
                   content: <ApexFlexStyle>No Content</ApexFlexStyle>,
                 })
               );
-              console.log(
-                "Logged output --> ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 341 ~ EconomicsPlotChartsVisualytics ~ lineAccordionsData",
-                lineAccordionsData
-              );
+
+              //LEGENDS
+              const { enableLegend } = lineChart;
+              const {
+                anchor,
+                direction,
+                justify,
+                translateX,
+                translateY,
+                itemsSpacing,
+                itemDirection,
+                itemWidth,
+                itemHeight,
+                itemOpacity,
+                symbolSize,
+                symbolShape,
+                symbolBorderColor,
+              } = lineChart["legends"][0];
+
+              const lineLegendsData = {
+                enableLegend,
+                anchor,
+                direction,
+                justify,
+                storeTranslateX: {
+                  currentValue: translateX,
+                  step: 1,
+                  min: -200,
+                  max: 200,
+                },
+                storeTranslateY: {
+                  currentValue: translateY,
+                  step: 1,
+                  min: -200,
+                  max: 200,
+                },
+                storeItemsSpacing: {
+                  currentValue: itemsSpacing,
+                  step: 1,
+                  min: 0,
+                  max: 60,
+                },
+                itemDirection,
+                storeItemWidth: {
+                  currentValue: itemWidth,
+                  step: 1,
+                  min: 10,
+                  max: 200,
+                },
+                storeItemHeight: {
+                  currentValue: itemHeight,
+                  step: 1,
+                  min: 10,
+                  max: 200,
+                },
+                storeItemOpacity: {
+                  currentValue: itemOpacity,
+                  step: 1,
+                  min: 0,
+                  max: 10,
+                },
+                storeSymbolSize: {
+                  currentValue: symbolSize,
+                  step: 1,
+                  min: 2,
+                  max: 60,
+                },
+                symbolShape,
+                symbolBorderColor,
+              };
+
+              //POINTERS
+              const {
+                enablePoints,
+                enablePointLabel,
+                pointLabel,
+                pointColor,
+                pointSize,
+                pointBorderColor,
+                pointBorderWidth,
+                pointLabelYOffset,
+              } = lineChart;
+
+              const linePointersData = {
+                enablePointers: enablePoints,
+                enablePointLabel: enablePointLabel ? enablePointLabel : false,
+                pointLabel: pointLabel ? pointLabel : "yFormatted",
+                storePointColor: pointColor,
+                storePointSize: {
+                  currentValue: pointSize,
+                  step: 1,
+                  min: 2,
+                  max: 20,
+                },
+                storePointBorderWidth: {
+                  currentValue: pointBorderWidth,
+                  step: 1,
+                  min: 0,
+                  max: 20,
+                },
+                storePointBorderColor: pointBorderColor,
+                storePointLabelYOffset: {
+                  currentValue: pointLabelYOffset,
+                  step: 1,
+                  min: -24,
+                  max: 24,
+                },
+              };
 
               return (
                 <LineChartFormatAggregator
                   workflowProcess={wp}
                   updateParameterAction={updateEconomicsParameterAction}
+                  chartType={"lineChart"}
                   apexChartAxesData={lineAxesData}
                   apexChartGridData={lineGridData}
                   apexMultiAccordionsData={lineAccordionsData}
+                  apexLegendsData={lineLegendsData}
+                  apexPointersData={linePointersData}
+                  apexLineChartGeneralData={lineChartGeneralData}
+                  apexLineChartPlotData={lineChartPlotData}
                 />
               );
             } else {

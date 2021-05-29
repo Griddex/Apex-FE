@@ -9,6 +9,7 @@ import ApexChartGrid from "./ApexChartGrid";
 const ApexChartGridAxes = ({
   workflowProcess,
   updateParameterAction,
+  chartType,
   apexChartGridData,
   apexChartAxesData,
   apexMultiAccordionsData,
@@ -17,8 +18,9 @@ const ApexChartGridAxes = ({
     <ApexChartAxis
       key={i}
       {...obj}
-      updateParameterAction={updateParameterAction}
       workflowProcess={workflowProcess}
+      updateParameterAction={updateParameterAction}
+      chartType={chartType}
     />
   ));
 
@@ -34,15 +36,16 @@ const ApexChartGridAxes = ({
           <ApexChartGrid
             key={i}
             {...obj}
-            updateParameterAction={updateParameterAction}
             workflowProcess={workflowProcess}
+            updateParameterAction={updateParameterAction}
+            chartType={chartType}
           />
         );
       })}
       <AnalyticsComp
         title="Axes"
         direction="Vertical"
-        containerStyle={{ marginTop: 30 }}
+        containerStyle={{ marginTop: 30, width: "100%" }}
         content={
           <ApexMultiAccordions apexMultiAccordionsData={updatedAcordionsData} />
         }

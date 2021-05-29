@@ -1,15 +1,15 @@
-import { TextareaAutosize, TextField, useTheme } from "@material-ui/core";
+import { TextareaAutosize, useTheme } from "@material-ui/core";
 import React from "react";
+import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import { IApexChartAxis, IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexSlider from "../Sliders/ApexSlider";
-import { useDispatch } from "react-redux";
 
 const ApexChartAxis = ({
   workflowProcess,
   updateParameterAction,
+  chartType,
   axisCaption,
   axisEnabled,
   enableName,
@@ -25,34 +25,30 @@ const ApexChartAxis = ({
   const dispatch = useDispatch();
   const wp = workflowProcess;
 
-  const [enabled, setEnabled] = React.useState(axisEnabled);
-  const [axisTitle, setAxisTitle] = React.useState(storeAxisTitle);
-
   return (
     <div style={{ width: "100%" }}>
-      {/* <AnalyticsTitle title={axisCaption} /> */}
       <ApexMuiSwitch
         name={enableName}
         handleChange={(event) => {
           const { checked } = event.target;
-          setEnabled(checked);
           enableAction && enableAction();
+
           updateParameterAction &&
             dispatch(
               updateParameterAction(
-                `economicsChartsWorkflows.${wp}.lineChart.${enableName}`,
+                `economicsChartsWorkflows.${wp}.${chartType}.apexAxesEnabled.${axisName}`,
                 checked
               )
             );
         }}
-        checked={enabled}
+        checked={axisEnabled}
         checkedColor={theme.palette.success.main}
         notCheckedColor={theme.palette.common.white}
         hasLabels={true}
         leftLabel="Disable"
         rightLabel="Enable"
       />
-      {enabled && (
+      {axisEnabled && (
         <>
           <AnalyticsComp
             title="Axis Title"
@@ -63,14 +59,14 @@ const ApexChartAxis = ({
                 name={axisName}
                 style={{ height: 50, width: "100%" }}
                 rowsMin={4}
-                value={axisTitle}
+                value={storeAxisTitle}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setAxisTitle(value);
+
                   updateParameterAction &&
                     dispatch(
                       updateParameterAction(
-                        `economicsChartsWorkflows.${wp}.lineChart.${axisName}.legend`,
+                        `economicsChartsWorkflows.${wp}.${chartType}.${axisName}.legend`,
                         value
                       )
                     );
@@ -86,18 +82,14 @@ const ApexChartAxis = ({
             content={
               <ApexSlider
                 name="titleOffset"
-                currentValue={storeAxisTitleOffset.value}
-                step={storeAxisTitleOffset.step}
-                min={storeAxisTitleOffset.min}
-                max={storeAxisTitleOffset.max}
-                action={() =>
+                currentValue={storeAxisTitleOffset.currentValue as number}
+                step={storeAxisTitleOffset.step as number}
+                min={storeAxisTitleOffset.min as number}
+                max={storeAxisTitleOffset.max as number}
+                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.legendOffset`}
+                action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(
-                    updateParameterAction(
-                      `economicsChartsWorkflows.${wp}.lineChart.${axisName}.legendOffset`,
-                      storeAxisTitleOffset.value
-                    )
-                  )
+                  dispatch(updateParameterAction(path, value))
                 }
               />
             }
@@ -109,18 +101,14 @@ const ApexChartAxis = ({
             content={
               <ApexSlider
                 name="titlePosition"
-                currentValue={storeAxisTitleOffset.value}
-                step={storeAxisTitleOffset.step}
-                min={storeAxisTitleOffset.min}
-                max={storeAxisTitleOffset.max}
-                action={() =>
+                currentValue={storeAxisTitleOffset.currentValue as number}
+                step={storeAxisTitleOffset.step as number}
+                min={storeAxisTitleOffset.min as number}
+                max={storeAxisTitleOffset.max as number}
+                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.legendPosition`}
+                action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(
-                    updateParameterAction(
-                      `economicsChartsWorkflows.${wp}.lineChart.${axisName}.legendPosition`,
-                      storeAxisTitleOffset.value
-                    )
-                  )
+                  dispatch(updateParameterAction(path, value))
                 }
               />
             }
@@ -132,18 +120,14 @@ const ApexChartAxis = ({
             content={
               <ApexSlider
                 name="tickSize"
-                currentValue={storeAxisTickSize.value}
-                step={storeAxisTickSize.step}
-                min={storeAxisTickSize.min}
-                max={storeAxisTickSize.max}
-                action={() =>
+                currentValue={storeAxisTickSize.currentValue as number}
+                step={storeAxisTickSize.step as number}
+                min={storeAxisTickSize.min as number}
+                max={storeAxisTickSize.max as number}
+                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.tickSize`}
+                action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(
-                    updateParameterAction(
-                      `economicsChartsWorkflows.${wp}.lineChart.${axisName}.tickSize`,
-                      storeAxisTickSize.value
-                    )
-                  )
+                  dispatch(updateParameterAction(path, value))
                 }
               />
             }
@@ -155,18 +139,14 @@ const ApexChartAxis = ({
             content={
               <ApexSlider
                 name="tickPadding"
-                currentValue={storeAxisTickPadding.value}
-                step={storeAxisTickPadding.step}
-                min={storeAxisTickPadding.min}
-                max={storeAxisTickPadding.max}
-                action={() =>
+                currentValue={storeAxisTickPadding.currentValue as number}
+                step={storeAxisTickPadding.step as number}
+                min={storeAxisTickPadding.min as number}
+                max={storeAxisTickPadding.max as number}
+                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.tickPadding`}
+                action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(
-                    updateParameterAction(
-                      `economicsChartsWorkflows.${wp}.lineChart.${axisName}.tickPadding`,
-                      storeAxisTickPadding.value
-                    )
-                  )
+                  dispatch(updateParameterAction(path, value))
                 }
               />
             }
@@ -178,18 +158,14 @@ const ApexChartAxis = ({
             content={
               <ApexSlider
                 name="tickRotation"
-                currentValue={storeAxisTickRotation.value}
-                step={storeAxisTickRotation.step}
-                min={storeAxisTickRotation.min}
-                max={storeAxisTickRotation.max}
-                action={() =>
+                currentValue={storeAxisTickRotation.currentValue as number}
+                step={storeAxisTickRotation.step as number}
+                min={storeAxisTickRotation.min as number}
+                max={storeAxisTickRotation.max as number}
+                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.tickRotation`}
+                action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(
-                    updateParameterAction(
-                      `economicsChartsWorkflows.${wp}.lineChart.${axisName}.tickRotation`,
-                      storeAxisTickRotation.value
-                    )
-                  )
+                  dispatch(updateParameterAction(path, value))
                 }
               />
             }

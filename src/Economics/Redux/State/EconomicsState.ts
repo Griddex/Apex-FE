@@ -174,18 +174,22 @@ const generateChartsState = () => {
             legendPosition: "middle",
           },
           apexAxesEnabled: {
-            axisTop: false,
-            axisRight: true,
-            axisBottom: true,
             axisLeft: true,
+            axisBottom: true,
+            axisTop: false,
+            axisRight: false,
           },
+
+          //POINTS
           pointSize: 10,
-          pointColor: { theme: "background" },
+          pointColor: { from: "color", modifiers: [] },
           pointBorderWidth: 2,
-          pointBorderColor: { from: "serieColor" },
+          pointBorderColor: { from: "serieColor", modifiers: [] },
           pointLabelYOffset: -12,
           useMesh: true,
 
+          //LEGENDS
+          enableLegend: false,
           legends: [
             {
               anchor: "bottom-right",

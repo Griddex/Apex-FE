@@ -17,6 +17,7 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
+import ApexPickerExtruder from "../../../Visualytics/Components/ColorPickers/ApexPickerExtruder";
 import ApexSketchPicker from "../../../Visualytics/Components/ColorPickers/ApexSketchPicker";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 
@@ -122,27 +123,12 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           height={50}
           moreStyles={{ marginTop: 10 }}
         >
-          <Box
-            style={{
-              width: "100%",
-              height: 36,
-              backgroundColor: theme.palette.common.white,
-              border: `1px solid ${darken(solidThresholdColor, 0.5)}`,
-              padding: 8,
-            }}
-          >
-            <Box
-              style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: solidThresholdColor,
-                borderStyle: "dashed",
-                border: `1px solid ${solidThresholdColor}`,
-                cursor: "pointer",
-              }}
-              onClick={() => setShowThresholdPicker(!showThresholdPicker)}
-            />
-          </Box>
+          <ApexPickerExtruder
+            color={solidThresholdColor}
+            showPicker={showThresholdPicker}
+            setShowPicker={setShowThresholdPicker}
+          />
+
           <Button
             onClick={() => setUpdateMap(!updateMap)}
             type="submit"
@@ -182,27 +168,12 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           {"Background Color"}
         </Typography>
         <ApexFlexStyle justifyContent="space-between" height={40}>
-          <Box
-            style={{
-              width: "100%",
-              height: 36,
-              backgroundColor: theme.palette.common.white,
-              border: `1px solid ${darken(solidBackgroundColor, 0.5)}`,
-              padding: 8,
-            }}
-          >
-            <Box
-              style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: solidBackgroundColor,
-                borderStyle: "dashed",
-                border: `1px solid ${solidBackgroundColor}`,
-                cursor: "pointer",
-              }}
-              onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
-            />
-          </Box>
+          <ApexPickerExtruder
+            color={solidBackgroundColor}
+            showPicker={showBackgroundPicker}
+            setShowPicker={setShowBackgroundPicker}
+          />
+
           <Button
             onClick={() => setUpdateMap(!updateMap)}
             type="submit"
