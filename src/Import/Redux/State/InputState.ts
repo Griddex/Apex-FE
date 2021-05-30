@@ -137,6 +137,8 @@ const InputState: InputStateType = {
 
   facilitiesAppHeaders: [],
   forecastAppHeaders: [],
+  facilitiesAppHeadersNameTitleMap: {},
+  forecastAppHeadersNameTitleMap: {},
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
 

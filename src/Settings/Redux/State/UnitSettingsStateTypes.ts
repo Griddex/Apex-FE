@@ -14,6 +14,10 @@ export interface IUnitsRow {
   units: IUnit[];
 }
 
+export type TVariableTitle = NonNullable<IUnitsRow["variableTitle"]>;
+export type TVariableName = NonNullable<IUnitsRow["variableName"]>;
+export type TVariableTitleNameMap = Record<TVariableTitle, TVariableName>;
+
 export type SelectedVariablesType = Pick<
   IUnitsRow,
   "variableName" | "displayUnitId" | "databaseUnitId"
@@ -29,6 +33,8 @@ export interface IUnitSettingsData {
   pressureAddend?: number;
   selectedVariableUnits: SelectedVariablesType[];
   variableUnits: IUnitsRow[];
+  variableTitleNameMap: Record<TVariableTitle, TVariableName>;
+  variableNameUnitsMap: Record<string, IUnit[]>;
   uniqUnitOptions: ISelectOption[];
   applicationUnitsCollection?: IUnitsRow["units"];
   numberFormat: TNumberFormat;

@@ -84,6 +84,8 @@ export interface InputStateType
 
   facilitiesAppHeaders: Record<string, string>[];
   forecastAppHeaders: Record<string, string>[];
+  facilitiesAppHeadersNameTitleMap: Record<string, React.Key>;
+  forecastAppHeadersNameTitleMap: Record<string, React.Key>;
 
   inputDataWorkflows: Record<string, IInputState>;
   existingDataWorkflows: Record<

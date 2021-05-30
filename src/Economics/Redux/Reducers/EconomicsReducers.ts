@@ -1,51 +1,44 @@
+import set from "lodash.set";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
+import {
+  IMPORTFILE_INITIALIZATION,
+  PERSIST_CHOSENAPPLICATIONHEADERS,
+  PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
+  PERSIST_CHOSENAPPLICATIONUNITINDICES,
+  PERSIST_CHOSENAPPLICATIONUNITS,
+  PERSIST_COLUMNNAMETABLEDATA,
+  PERSIST_FILE,
+  PERSIST_FILEHEADERS,
+  PERSIST_FILEHEADERSMATCH,
+  PERSIST_FILEUNITSANDUNIQUEUNITS,
+  PERSIST_FILEUNITSMATCH,
+  PERSIST_TABLEDATA,
+  PERSIST_TABLEHEADERS,
+  PERSIST_TABLEROLENAMES,
+  PERSIST_VARIABLEUNITS,
+  PERSIST_WORKSHEET,
+  PERSIST_WORKSHEETNAMES,
+  UPDATE_INPUT,
+} from "../../../Import/Redux/Actions/InputActions";
+import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   EXISTINGECONOMICSDATA_SUCCESS,
+  EXISTINGECONOMICSSENSITIVITIES_FAILURE,
+  EXISTINGECONOMICSSENSITIVITIES_SUCCESS,
   FETCHCOSTSREVENUESHEADERS_FAILURE,
   FETCHCOSTSREVENUESHEADERS_SUCCESS,
   FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
   FETCHECONOMICSPARAMETERSHEADERS_SUCCESS,
-  LOAD_ECONOMICS_WORKFLOW,
-  PERSISTCOSTSREVENUESHEADERSSELECTOPTION_FAILURE,
-  PERSISTCOSTSREVENUESHEADERSSELECTOPTION_SUCCESS,
-  PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE,
-  PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS,
-  UPDATE_ECONOMICS,
-  RUNECONOMICSANALYSIS_SUCCESS,
-  RUNECONOMICSANALYSIS_FAILURE,
-  EXISTINGECONOMICSSENSITIVITIES_SUCCESS,
-  EXISTINGECONOMICSSENSITIVITIES_FAILURE,
-  GETECONOMICSSENSITIVITIESBYID_SUCCESS,
   GETECONOMICSSENSITIVITIESBYID_FAILURE,
-  CALCULATE_HEATMAPDATA_REQUEST,
-  CALCULATE_HEATMAPDATA_SUCCESS,
-  CALCULATE_HEATMAPDATA_FAILURE,
+  GETECONOMICSSENSITIVITIESBYID_SUCCESS,
+  LOAD_ECONOMICS_WORKFLOW,
+  RUNECONOMICSANALYSIS_FAILURE,
+  RUNECONOMICSANALYSIS_SUCCESS,
+  UPDATE_ECONOMICS,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
-import set from "lodash.set";
-import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
-import {
-  IMPORTFILE_INITIALIZATION,
-  PERSIST_VARIABLEUNITS,
-  PERSIST_FILE,
-  PERSIST_WORKSHEETNAMES,
-  PERSIST_WORKSHEET,
-  PERSIST_FILEHEADERS,
-  PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
-  PERSIST_CHOSENAPPLICATIONUNITS,
-  PERSIST_CHOSENAPPLICATIONUNITINDICES,
-  PERSIST_CHOSENAPPLICATIONHEADERS,
-  PERSIST_FILEHEADERSMATCH,
-  PERSIST_FILEUNITSANDUNIQUEUNITS,
-  PERSIST_FILEUNITSMATCH,
-  PERSIST_TABLEROLENAMES,
-  PERSIST_TABLEDATA,
-  PERSIST_COLUMNNAMETABLEDATA,
-  PERSIST_TABLEHEADERS,
-  UPDATE_INPUT,
-} from "../../../Import/Redux/Actions/InputActions";
-import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 const economicsReducer = (state = EconomicsState, action: IAction) => {
   switch (action.type) {
@@ -125,11 +118,13 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case FETCHCOSTSREVENUESHEADERS_SUCCESS: {
-      const { costsRevenuesAppHeaders } = action.payload;
+      const { costsRevenuesAppHeaders, cstRevAppHeadersSelectOptions } =
+        action.payload;
 
       return {
         ...state,
         costsRevenuesAppHeaders,
+        cstRevAppHeadersSelectOptions,
       };
     }
 
@@ -142,51 +137,18 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case PERSISTCOSTSREVENUESHEADERSSELECTOPTION_SUCCESS: {
-      const { cstRevAppHeadersSelectOptions } = action.payload;
-
-      return {
-        ...state,
-        cstRevAppHeadersSelectOptions,
-      };
-    }
-
-    case PERSISTCOSTSREVENUESHEADERSSELECTOPTION_FAILURE: {
-      const { errors } = action.payload;
-
-      return {
-        ...state,
-        errors,
-      };
-    }
-
     case FETCHECONOMICSPARAMETERSHEADERS_SUCCESS: {
-      const { economicsParametersAppHeaders } = action.payload;
+      const { economicsParametersAppHeaders, ecoParAppHeadersSelectOptions } =
+        action.payload;
 
       return {
         ...state,
         economicsParametersAppHeaders,
-      };
-    }
-
-    case FETCHECONOMICSPARAMETERSHEADERS_FAILURE: {
-      const { errors } = action.payload;
-
-      return {
-        ...state,
-        errors,
-      };
-    }
-    case PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS: {
-      const { ecoParAppHeadersSelectOptions } = action.payload;
-
-      return {
-        ...state,
         ecoParAppHeadersSelectOptions,
       };
     }
 
-    case PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE: {
+    case FETCHECONOMICSPARAMETERSHEADERS_FAILURE: {
       const { errors } = action.payload;
 
       return {

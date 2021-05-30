@@ -1,7 +1,8 @@
-import Fuse from "fuse.js";
 import pullAll from "lodash.pullall";
-import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
+import sortBy from "lodash.sortby";
 import zipObject from "lodash.zipobject";
+import stringSimilarity, { BestMatch } from "string-similarity";
+import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
 
 const computeFileUnitMatches = (
   fileUnitsWithoutNone: string[],
@@ -13,24 +14,23 @@ const computeFileUnitMatches = (
 
   const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
 
-  //Setup fuzzy logic matching
-  const options = {
-    isCaseSensitive: false,
-    includeScore: true,
-    shouldSort: true,
-    keys: [],
-  };
-  const fuse = new Fuse(applicationUnits, options);
-
   const fileUnitMatches: Record<string, number>[] = [];
   for (const fileUnit of fileUnitsWithoutNone) {
-    let searchResult = [] as Fuse.FuseResult<string>[];
+    let searchResult = {} as BestMatch["ratings"];
+    let sortedSearchResultDesc = {} as BestMatch["ratings"];
     if (fileUnit === "unitless")
-      searchResult = [{ item: "unitless", score: 0, refIndex: 1 }];
-    else searchResult = fuse.search(fileUnit);
+      searchResult = [{ target: "unitless", rating: 0 }];
+    else
+      searchResult = stringSimilarity.findBestMatch(fileUnit, applicationUnits)[
+        "ratings"
+      ];
 
-    const matchedUnits = searchResult.map((match) => match["item"]);
-    const matchedScores = searchResult.map((match) => match["score"]);
+    sortedSearchResultDesc = sortBy(searchResult, (o) => o.rating).reverse();
+
+    const matchedUnits = sortedSearchResultDesc.map((match) => match["target"]);
+    const matchedScores = sortedSearchResultDesc.map(
+      (match) => match["rating"]
+    );
 
     if (matchedUnits.length > 0) {
       const mtchdUnits = matchedUnits;
@@ -38,7 +38,7 @@ const computeFileUnitMatches = (
 
       const cleanedMatchedScores = mtchdScores.map(
         (score: number | undefined) =>
-          score !== undefined ? Math.round((1 - score) * 100) : 0
+          score !== undefined ? Math.round(score * 100) : 0
       );
 
       if (!mtchdUnits.includes("None")) {

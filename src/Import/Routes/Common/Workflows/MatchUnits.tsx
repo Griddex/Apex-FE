@@ -1,10 +1,9 @@
-import { makeStyles, useTheme } from "@material-ui/core";
+import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
+import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import Fuse from "fuse.js";
 import findIndex from "lodash.findindex";
-import pullAll from "lodash.pullall";
 import uniq from "lodash.uniq";
 import uniqBy from "lodash.uniqby";
 import zipObject from "lodash.zipobject";
@@ -30,29 +29,27 @@ import { saveUserMatchAction } from "../../../../Application/Redux/Actions/Appli
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import getDuplicates from "../../../../Application/Utils/GetDuplicates";
+import getCurrentAppHeaderTitleNameMap from "../../../../Application/Utils/GetCurrentAppHeaderTitleNameMap";
+import getRSStyles from "../../../../Application/Utils/GetRSStyles";
+import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import { updateUnitsSettingsParameterAction } from "../../../../Settings/Redux/Actions/UnitSettingsActions";
 import {
   IUnit,
   IUnitSettingsData,
 } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
+import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   persistChosenApplicationUnitIndicesAction,
   persistChosenApplicationUnitsAction,
   persistFileUnitsMatchAction,
   updateInputParameterAction,
 } from "../../../Redux/Actions/InputActions";
+import computeFileUnitMatches from "../../../Utils/ComputeFileUnitMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getChosenApplicationUnits from "../../../Utils/GetChosenApplicationUnits";
-import getRSStyles from "../../../../Application/Utils/GetRSStyles";
-import { TUnit, TUserMatchObject } from "./MatchHeadersTypes";
-import getWorkflowClass from "./../../../../Application/Utils/GetWorkflowClass";
-import computeFileUnitMatches from "../../../Utils/ComputeFileUnitMatches";
-import { IconButton, Tooltip } from "@material-ui/core";
-import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
-import getRSTheme from "../../../../Application/Utils/GetRSTheme";
-import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import getWorkflowClass from "./../../../../Application/Utils/GetWorkflowClass";
+import { TUnit, TUserMatchObject } from "./MatchHeadersTypes";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -103,6 +100,10 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
+  const { variableNameUnitsMap } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  );
+
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
 
@@ -110,9 +111,19 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     savedMatchObjectAll[workflowClass]["units"]
   );
 
-  const { fileUnits, chosenApplicationHeadersWithNone } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
-  );
+  const {
+    facilitiesAppHeadersNameTitleMap,
+    forecastAppHeadersNameTitleMap,
+    cstRevAppHeadersNameTitleMap,
+    ecoParAppHeadersNameTitleMap,
+  } = useSelector((state: RootState) => state[reducer]);
+
+  const {
+    currentDevOption,
+    fileUnits,
+    chosenApplicationHeadersWithNone,
+    chosenApplicationHeadersWithoutNone,
+  } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   //File units with "none" columns excluded
   const fileUnitsWithUnitless = React.useRef(

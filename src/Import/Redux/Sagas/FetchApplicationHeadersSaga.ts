@@ -12,23 +12,18 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl, {
   getBaseEconomicsUrl,
 } from "../../../Application/Services/BaseUrlService";
+import generateKeyValueMap from "../../../Application/Utils/GenerateKeyValueMap";
 import {
   fetchExistingCostsRevenuesDataFailureAction,
   fetchExistingCostsRevenuesHeadersSuccessAction,
   fetchExistingEconomicsParametersDataFailureAction,
   fetchExistingEconomicsParametersHeadersSuccessAction,
-  persistCostsRevDataFaiSelectOptionFailureAction,
-  persistCostsRevHeadersSelectOptionSuccessAction,
-  persistEconomicsParDataFaiSelectOptionFailureAction,
-  persistEconomicsParHeadersSelectOptionSuccessAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { IEconomicsState } from "../../../Economics/Redux/State/EconomicsStateTypes";
-import { TDevScenarioNames } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   fetchApplicationHeadersFailureAction,
   fetchApplicationHeadersSuccessAction,
@@ -93,9 +88,6 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     const successAction2 = fetchExistingCostsRevenuesHeadersSuccessAction();
     const successAction3 =
       fetchExistingEconomicsParametersHeadersSuccessAction();
-    const successAction4 = persistCostsRevHeadersSelectOptionSuccessAction();
-    const successAction5 =
-      persistEconomicsParHeadersSelectOptionSuccessAction();
 
     const cstRevAppHeadersSelectOptions = Object.keys(
       costsRevenuesAppHeaders as IEconomicsState["costsRevenuesAppHeaders"]
@@ -106,6 +98,7 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
 
       return { ...acc, [key]: swappedHeaders };
     }, {});
+
     const ecoParAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
       economicsParametersAppHeaders
     );
@@ -123,6 +116,7 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       payload: {
         ...payload,
         costsRevenuesAppHeaders,
+        cstRevAppHeadersSelectOptions,
       },
     });
     yield put({
@@ -130,33 +124,13 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       payload: {
         ...payload,
         economicsParametersAppHeaders,
-      },
-    });
-    yield put({
-      ...successAction4,
-      payload: {
-        ...payload,
-        cstRevAppHeadersSelectOptions,
-      },
-    });
-    yield put({
-      ...successAction5,
-      payload: {
-        ...payload,
         ecoParAppHeadersSelectOptions,
       },
     });
   } catch (errors) {
-    console.log(
-      "Logged output --> ~ file: FetchApplicationHeadersSaga.ts ~ line 150 ~ errors",
-      errors
-    );
     const failureAction1 = fetchApplicationHeadersFailureAction();
     const failureAction2 = fetchExistingCostsRevenuesDataFailureAction();
     const failureAction3 = fetchExistingEconomicsParametersDataFailureAction();
-    const failureAction4 = persistCostsRevDataFaiSelectOptionFailureAction();
-    const failureAction5 =
-      persistEconomicsParDataFaiSelectOptionFailureAction();
 
     yield put({
       ...failureAction1,
@@ -170,15 +144,5 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       ...failureAction3,
       payload: { ...payload, errors },
     });
-    yield put({
-      ...failureAction4,
-      payload: { ...payload, errors },
-    });
-    yield put({
-      ...failureAction5,
-      payload: { ...payload, errors },
-    });
-
-    // yield put(showDialogAction(failureDialogParameters));
   }
 }

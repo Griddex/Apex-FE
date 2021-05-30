@@ -1,6 +1,10 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import {
+  TVariableTitle,
+  TVariableName,
+} from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   IEconomicsAnalysis,
@@ -151,6 +155,10 @@ export interface IEconomicsState
 
   costsRevenuesAppHeaders: Record<TDevScenarioNames, unknown[]>;
   cstRevAppHeadersSelectOptions: Record<TDevScenarioNames, ISelectOption[]>;
+  cstRevAppHeadersNameTitleMaps: Record<
+    TDevScenarioNames,
+    Record<TVariableTitle, TVariableName>
+  >;
   costsRevenuesInputDeckId: string;
   costsRevenuesInputDeckTitle: string;
   costsRevenuesInputDeckDescription: string;

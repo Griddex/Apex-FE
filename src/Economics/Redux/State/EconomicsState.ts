@@ -250,6 +250,11 @@ const EconomicsState: IEconomicsState = {
     nagDevelopment: [],
     oilNAGDevelopment: [],
   },
+  cstRevAppHeadersNameTitleMaps: {
+    oilDevelopment: {},
+    nagDevelopment: {},
+    oilNAGDevelopment: {},
+  },
   costsRevenuesInputDeckId: "",
   costsRevenuesInputDeckTitle: "",
   costsRevenuesInputDeckDescription: "",

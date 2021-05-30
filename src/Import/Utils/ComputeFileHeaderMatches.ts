@@ -1,7 +1,8 @@
-import Fuse from "fuse.js";
 import pullAll from "lodash.pullall";
-import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
+import sortBy from "lodash.sortby";
 import zipObject from "lodash.zipobject";
+import stringSimilarity, { BestMatch } from "string-similarity";
+import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
 
 const computeFileHeaderMatches = (
   fileHeaders: string[],
@@ -14,20 +15,23 @@ const computeFileHeaderMatches = (
 
   const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
 
-  //Setup fuzzy logic matching
-  const options = {
-    isCaseSensitive: false,
-    includeScore: true,
-    shouldSort: true,
-    keys: [],
-  };
-  const fuse = new Fuse(applicationHeaders, options);
-
   const fileHeaderMatches: Record<string, number>[] = [];
   for (const fileHeader of fileHeaders) {
-    const searchResult = fuse.search(fileHeader);
-    const matchedHeaders = searchResult.map((match) => match["item"]);
-    const matchedScores = searchResult.map((match) => match["score"]);
+    let searchResult = {} as BestMatch["ratings"];
+    let sortedSearchResultDesc = {} as BestMatch["ratings"];
+    searchResult = stringSimilarity.findBestMatch(
+      fileHeader,
+      applicationHeaders
+    )["ratings"];
+
+    sortedSearchResultDesc = sortBy(searchResult, (o) => o.rating).reverse();
+
+    const matchedHeaders = sortedSearchResultDesc.map(
+      (match) => match["target"]
+    );
+    const matchedScores = sortedSearchResultDesc.map(
+      (match) => match["rating"]
+    );
 
     if (matchedHeaders.length > 0) {
       const mtchdHeaders = matchedHeaders;
@@ -35,7 +39,7 @@ const computeFileHeaderMatches = (
 
       const cleanedMatchedScores = mtchdScores.map(
         (score: number | undefined) =>
-          score !== undefined ? Math.round((1 - score) * 100) : 0
+          score !== undefined ? Math.round(score * 100) : 0
       );
 
       if (!mtchdHeaders.includes("None")) {

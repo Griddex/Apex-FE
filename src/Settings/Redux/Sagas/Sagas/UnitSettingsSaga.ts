@@ -27,7 +27,12 @@ import {
   FETCH_UNITSETTINGS_REQUEST,
   updateUnitsSettingsParameterAction,
 } from "../../Actions/UnitSettingsActions";
-import { IUnitsRow } from "../../State/UnitSettingsStateTypes";
+import {
+  IUnitsRow,
+  TVariableName,
+  TVariableTitle,
+  TVariableTitleNameMap,
+} from "../../State/UnitSettingsStateTypes";
 
 export default function* watchFetchUnitSettingsSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -70,7 +75,19 @@ function* fetchUnitSettingsSaga(
       payload: { ...payload, status, unitsData },
     });
 
-    const { variableUnits } = unitsData;
+    const { variableUnits, variableNameUnitsMap } = unitsData;
+
+    const variableTitleNameMap = variableUnits.reduce(
+      (acc: TVariableTitleNameMap, row: IUnitsRow) => {
+        return {
+          ...acc,
+          [row.variableTitle as TVariableTitle]:
+            row.variableName as TVariableName,
+        };
+      },
+      {} as TVariableTitleNameMap
+    );
+
     const unitOptions: ISelectOption[] = variableUnits.reduce(
       (acc: ISelectOption[], row: IUnitsRow) => {
         const units = row.units.map((u) => ({
@@ -87,6 +104,19 @@ function* fetchUnitSettingsSaga(
     const value = uniqUnitOptions;
     const updateAction = updateUnitsSettingsParameterAction(path, value);
     yield put(updateAction);
+
+    yield put(
+      updateUnitsSettingsParameterAction(
+        "variableTitleNameMap",
+        variableTitleNameMap
+      )
+    );
+    yield put(
+      updateUnitsSettingsParameterAction(
+        "variableNameUnitsMap",
+        variableNameUnitsMap
+      )
+    );
   } catch (errors) {
     const failureAction = fetchUnitSettingsFailureAction();
 
