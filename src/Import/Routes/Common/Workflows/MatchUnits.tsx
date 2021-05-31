@@ -100,10 +100,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
-  const { variableNameUnitsMap } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  );
-
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
 
@@ -111,15 +107,15 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     savedMatchObjectAll[workflowClass]["units"]
   );
 
-  const {
-    facilitiesAppHeadersNameTitleMap,
-    forecastAppHeadersNameTitleMap,
-    cstRevAppHeadersNameTitleMap,
-    ecoParAppHeadersNameTitleMap,
-  } = useSelector((state: RootState) => state[reducer]);
+  const { variableNameUnitsMap } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  );
+
+  const { currentApplicationHeaderOptions } = useSelector(
+    (state: RootState) => state[reducer]
+  );
 
   const {
-    currentDevOption,
     fileUnits,
     chosenApplicationHeadersWithNone,
     chosenApplicationHeadersWithoutNone,
@@ -183,6 +179,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const fileUnitMatches = React.useRef(
     computeFileUnitMatches(
+      variableNameUnitsMap,
+      currentApplicationHeaderOptions,
+      chosenApplicationHeadersWithoutNone,
       fileUnitsWithoutNone.current,
       applicationUnits.current,
       savedMatchObjectAll,

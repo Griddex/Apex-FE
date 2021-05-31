@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
 
 const NetworkPanel = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const wc = "existingDataWorkflows";
   const wp = "forecastResultsExisting";
@@ -55,6 +56,15 @@ const NetworkPanel = () => {
   const [forecastInputDeckOption, setForecastInputDeckOption] = React.useState(
     forecastInputDeckOptions[0]
   );
+
+  let style = {};
+  if (isNetworkAuto) {
+    style = {
+      pointerEvents: "none",
+      backgroundColor: theme.palette.grey[200],
+    };
+  }
+
   return (
     <>
       {!isNetworkAuto && (
@@ -79,7 +89,7 @@ const NetworkPanel = () => {
         />
       )}
       <AnalyticsTitle title="Network Nodes" />
-      <div className={classes.networkPanel}>
+      <div className={classes.networkPanel} style={style}>
         {nodeNames.map((nodeName, i) => (
           <NodePanel key={i} name={nodeName} />
         ))}

@@ -149,7 +149,7 @@ const ForecastInputDeckFinalization = ({
       variant: "contained",
       startIcon: <ControlCameraOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
-        dispatch(updateNetworkParameterAction("isNetworkAuto", false));
+        dispatch(updateNetworkParameterAction("isNetworkAuto", true));
         dispatch(hideDialogAction());
         saveForecastInputdeckAndGenerateNetwork(workflowProcess);
       },
@@ -160,14 +160,18 @@ const ForecastInputDeckFinalization = ({
       variant: "contained",
       startIcon: <DeviceHubOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
-        dispatch(updateNetworkParameterAction("isNetworkAuto", true));
+        dispatch(updateNetworkParameterAction("isNetworkAuto", false));
         dispatch(hideDialogAction());
         enqueueSnackbar(`${subModuleName} saved`, {
           persist: false,
           variant: "success",
         });
 
-        history.push("/apex/network");
+        dispatch(
+          updateNetworkParameterAction("loadNetworkGenerationWorkflow", true)
+        );
+
+        history.push("/apex/network/networkManual");
       },
     },
     // {

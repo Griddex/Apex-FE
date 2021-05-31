@@ -3,6 +3,7 @@ import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
+import camelCase from "lodash.camelcase";
 import findIndex from "lodash.findindex";
 import omit from "lodash.omit";
 import zipObject from "lodash.zipobject";
@@ -12,11 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { dateFormatData } from "../../../../Application/Components/DateFormatPicker/DateFormatData";
-import {
-  TDayOnlyRows,
-  TMonthOnlyRows,
-  TYearOnlyRows,
-} from "../../../../Application/Components/DateFormatPicker/DateFormatPickerTypes";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   ISelectOption,
@@ -33,7 +29,9 @@ import { IAllWorkflows } from "../../../../Application/Components/Workflows/Work
 import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import generateKeyValueMap from "../../../../Application/Utils/GenerateKeyValueMap";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import getCurrentApplicationHeaderOptions from "../../../../Application/Utils/GetCurrentApplicationHeaderOptions";
 import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
 import getDuplicates from "../../../../Application/Utils/GetDuplicates";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
@@ -104,6 +102,10 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   //TODO: Put elsewhere
   const dateFormatOptions = generateSelectOptions(dateFormatData);
 
+  const { variableTitleNameMap } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  );
+
   //TODO: Gift to provide complete match object with
   //object to store matched economics headers
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
@@ -117,14 +119,19 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
+    facilitiesHeadersSelectOptions,
+    forecastHeadersSelectOptions,
     costsRevenuesAppHeaders: cRHeaders,
     economicsParametersAppHeaders,
+    cstRevAppHeadersSelectOptions: cRHeaderOptions,
+    ecoParAppHeadersSelectOptions,
   } = useSelector((state: RootState) => state[reducer]);
 
   const { fileHeaders, currentDevOption } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
   );
 
+  //Get headers
   let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
   if (reducer === "economicsReducer") {
     const currentDevValue = currentDevOption.value as TDevScenarioNames;
@@ -140,6 +147,33 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const applicationHeaders = React.useRef(
     getCurrentApplicationHeaders(wp, allAppHeadersObj, true)
+  );
+
+  //Get header Options
+  let allAppHeadersObjOptions = {} as Record<string, ISelectOption[]>;
+  if (reducer === "economicsReducer") {
+    const currentDevValue = currentDevOption.value as TDevScenarioNames;
+    const cstRevAppHeadersSelectOptions = cRHeaderOptions[currentDevValue];
+
+    allAppHeadersObjOptions = {
+      cstRevAppHeadersSelectOptions,
+      ecoParAppHeadersSelectOptions,
+    };
+  } else {
+    allAppHeadersObjOptions = {
+      facilitiesHeadersSelectOptions,
+      forecastHeadersSelectOptions,
+    };
+  }
+
+  const currentApplicationHeaderOptions = React.useRef(
+    getCurrentApplicationHeaderOptions(wp, allAppHeadersObjOptions, false)
+  );
+
+  const currentAppHeaderTitleNameMap = generateKeyValueMap(
+    "label",
+    "value",
+    currentApplicationHeaderOptions.current
   );
 
   const fileHeaderMatches = React.useRef(
@@ -163,7 +197,14 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     fileHeaders.map((fileHeader: string) => {
       const fileHeaderMatch = keyedFileHeaderMatches.current[fileHeader];
 
-      return generateSelectOptions(Object.keys(fileHeaderMatch));
+      const appHeaderTitleMatches = Object.keys(fileHeaderMatch);
+      const appHeaderOption = appHeaderTitleMatches.map((t) => {
+        const appHeaderName = currentAppHeaderTitleNameMap[t];
+        if (appHeaderName) return { value: appHeaderName, label: t };
+        else return { value: camelCase(t), label: t };
+      });
+
+      return appHeaderOption;
     })
   ) as React.MutableRefObject<SelectOptionsType[]>;
 
@@ -216,7 +257,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       return {
         sn: i + 1,
         fileHeader: fileHeader,
-        applicationHeader: initialAppHeader.value,
+        applicationHeader: initialAppHeader.label,
         type: initialHeaderType,
         match: score.value,
         exclude,
@@ -256,12 +297,6 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
 
-  const [DayOnlyRows, setDayOnlyRows] = React.useState({} as TDayOnlyRows);
-  const [MonthOnlyRows, setMonthOnlyRows] = React.useState(
-    {} as TMonthOnlyRows
-  );
-  const [YearOnlyRows, setYearOnlyRows] = React.useState({} as TYearOnlyRows);
-
   const generateColumns = (keyedApplicationHeaderOptions: {
     [index: string]: { value: string; label: string }[];
   }) => {
@@ -296,7 +331,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     };
 
     const handleApplicationHeaderChange = (
-      value: ValueType<ISelectOption, false>,
+      option: ValueType<ISelectOption, false>,
       row: IRawRow,
       headerOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
@@ -306,12 +341,12 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       const fileHeaderDefined = fileHeader as string;
       const applicationHeaderDefined = applicationHeader as string;
 
-      const selectedValue = value && value.label;
+      const selectedValue = option && option.label;
       const selectedAppHeader = selectedValue as string;
 
       const selectedHeaderOptionIndex = findIndex(
         headerOptions,
-        (option) => option.value === selectedValue
+        (option) => option.label === selectedValue
       );
       const selectedScore = scoreOptions[selectedHeaderOptionIndex];
 
@@ -762,6 +797,13 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         reducer,
         `fileHeadersChosenAppHeadersWithNone`,
         fileHeadersChosenAppHeadersWithNone
+      )
+    );
+    dispatch(
+      updateInputParameterAction(
+        reducer,
+        `currentApplicationHeaderOptions`,
+        currentApplicationHeaderOptions.current
       )
     );
 

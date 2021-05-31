@@ -135,8 +135,12 @@ const InputState: InputStateType = {
   forecastInputDeckTitle: "",
   forecastInputDeckDescription: "",
 
+  currentApplicationHeaderOptions: [],
+
   facilitiesAppHeaders: [],
   forecastAppHeaders: [],
+  facilitiesHeadersSelectOptions: [],
+  forecastHeadersSelectOptions: [],
   facilitiesAppHeadersNameTitleMap: {},
   forecastAppHeadersNameTitleMap: {},
   inputDataWorkflows: inputDataState,

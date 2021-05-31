@@ -1,4 +1,5 @@
 import { FormikErrors, FormikTouched } from "formik";
+import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IExistingDataProps,
@@ -82,8 +83,12 @@ export interface InputStateType
   forecastInputDeckTitle: string;
   forecastInputDeckDescription: string;
 
+  currentApplicationHeaderOptions: ISelectOption[];
+
   facilitiesAppHeaders: Record<string, string>[];
   forecastAppHeaders: Record<string, string>[];
+  facilitiesHeadersSelectOptions: ISelectOption[];
+  forecastHeadersSelectOptions: ISelectOption[];
   facilitiesAppHeadersNameTitleMap: Record<string, React.Key>;
   forecastAppHeadersNameTitleMap: Record<string, React.Key>;
 

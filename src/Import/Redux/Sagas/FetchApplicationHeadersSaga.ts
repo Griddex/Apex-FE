@@ -89,6 +89,11 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     const successAction3 =
       fetchExistingEconomicsParametersHeadersSuccessAction();
 
+    const facilitiesHeadersSelectOptions =
+      swapVariableNameTitleForISelectOption(facilitiesAppHeaders);
+    const forecastHeadersSelectOptions =
+      swapVariableNameTitleForISelectOption(forecastAppHeaders);
+
     const cstRevAppHeadersSelectOptions = Object.keys(
       costsRevenuesAppHeaders as IEconomicsState["costsRevenuesAppHeaders"]
     ).reduce((acc: any, key) => {
@@ -109,6 +114,8 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
         ...payload,
         facilitiesAppHeaders,
         forecastAppHeaders,
+        facilitiesHeadersSelectOptions,
+        forecastHeadersSelectOptions,
       },
     });
     yield put({

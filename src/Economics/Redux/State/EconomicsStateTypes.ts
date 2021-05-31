@@ -153,6 +153,8 @@ export interface IEconomicsState
   loadEconomicsSensitivitiesWorkflow: boolean;
   loadEconomicsResultsWorkflow: boolean;
 
+  currentApplicationHeaderOptions: ISelectOption[];
+
   costsRevenuesAppHeaders: Record<TDevScenarioNames, unknown[]>;
   cstRevAppHeadersSelectOptions: Record<TDevScenarioNames, ISelectOption[]>;
   cstRevAppHeadersNameTitleMaps: Record<

@@ -13,6 +13,9 @@ export const FETCH_MATCHOBJECT_REQUEST = "FETCH_MATCHOBJECT_REQUEST";
 export const FETCH_MATCHOBJECT_SUCCESS = "FETCH_MATCHOBJECT_SUCCESS";
 export const FETCH_MATCHOBJECT_FAILURE = "FETCH_MATCHOBJECT_FAILURE";
 export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
+export const GET_TABLEDATABYID_REQUEST = "GET_TABLEDATABYID_REQUEST";
+export const GET_TABLEDATABYID_SUCCESS = "GET_TABLEDATABYID_SUCCESS";
+export const GET_TABLEDATABYID_FAILURE = "GET_TABLEDATABYID_FAILURE";
 
 export const persistSelectedIdTitleAction = (
   reducer: ReducersType,
@@ -100,5 +103,32 @@ export const saveUserMatchAction = (savedMatchObjectAll: TUserMatchObject) => {
   return {
     type: SAVE_USERMATCH_ALL,
     payload: { savedMatchObjectAll },
+  };
+};
+
+export const getTableDataByIdRequestAction = () => {
+  return {
+    type: GET_TABLEDATABYID_REQUEST,
+    payload: {},
+    meta: { showSpinner: true, message: "Fetching table data..." },
+  };
+};
+
+export const getTableDataByIdSuccessAction = () => {
+  return {
+    type: GET_TABLEDATABYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getTableDataByIdFailureAction = () => {
+  return {
+    type: GET_TABLEDATABYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
   };
 };

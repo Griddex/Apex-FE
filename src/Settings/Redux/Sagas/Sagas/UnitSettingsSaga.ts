@@ -76,6 +76,10 @@ function* fetchUnitSettingsSaga(
     });
 
     const { variableUnits, variableNameUnitsMap } = unitsData;
+    console.log(
+      "Logged output --> ~ file: UnitSettingsSaga.ts ~ line 79 ~ variableNameUnitsMap",
+      variableNameUnitsMap
+    );
 
     const variableTitleNameMap = variableUnits.reduce(
       (acc: TVariableTitleNameMap, row: IUnitsRow) => {
@@ -107,14 +111,14 @@ function* fetchUnitSettingsSaga(
 
     yield put(
       updateUnitsSettingsParameterAction(
-        "variableTitleNameMap",
-        variableTitleNameMap
+        "variableNameUnitsMap",
+        variableNameUnitsMap
       )
     );
     yield put(
       updateUnitsSettingsParameterAction(
-        "variableNameUnitsMap",
-        variableNameUnitsMap
+        "variableTitleNameMap",
+        variableTitleNameMap
       )
     );
   } catch (errors) {

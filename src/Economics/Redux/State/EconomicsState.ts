@@ -240,6 +240,8 @@ const EconomicsState: IEconomicsState = {
   loadEconomicsSensitivitiesWorkflow: false,
   loadEconomicsResultsWorkflow: false,
 
+  currentApplicationHeaderOptions: [],
+
   costsRevenuesAppHeaders: {
     oilDevelopment: [],
     nagDevelopment: [],
