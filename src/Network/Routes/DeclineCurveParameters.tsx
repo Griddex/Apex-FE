@@ -347,7 +347,7 @@ export default function DeclineCurveParameters({
               newTableRowHeight={35}
               selectedRow={sRow}
               size={size}
-              adjustTableDimAuto={true}
+              autoAdjustTableDim={true}
               showTableHeader={true}
               showTablePagination={true}
             />

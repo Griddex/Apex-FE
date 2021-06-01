@@ -1,7 +1,11 @@
 import set from "lodash.set";
 import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
+import {
+  GET_TABLEDATABYID_FAILURE,
+  GET_TABLEDATABYID_SUCCESS,
+  UPDATE_SELECTEDIDTITLE,
+} from "../../../Application/Redux/Actions/ApplicationActions";
 import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
 import {
   EXISTINGDATA_FAILURE,
@@ -21,7 +25,6 @@ import {
   PERSIST_FILEUNITSANDUNIQUEUNITS,
   PERSIST_FILEUNITSMATCH,
   PERSIST_TABLEDATA,
-  PERSIST_TABLEHEADERS,
   PERSIST_TABLEROLENAMES,
   PERSIST_VARIABLEUNITS,
   PERSIST_WORKSHEET,
@@ -71,8 +74,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     case PERSIST_FILEUNITSMATCH:
     case PERSIST_TABLEROLENAMES:
     case PERSIST_TABLEDATA:
-    case PERSIST_COLUMNNAMETABLEDATA:
-    case PERSIST_TABLEHEADERS: {
+    case PERSIST_COLUMNNAMETABLEDATA: {
       const { reducer, workflowProcess } = action.payload;
       const workflowProcessDefined =
         workflowProcess as IAllWorkflows["wrkflwPrcss"];
@@ -161,6 +163,8 @@ const inputReducer = (state = InputState, action: IAction) => {
         forecastAppHeaders,
         facilitiesHeadersSelectOptions,
         forecastHeadersSelectOptions,
+        facilitiesHeadersNameMap,
+        forecastHeadersNameMap,
       } = action.payload;
 
       return {
@@ -171,7 +175,25 @@ const inputReducer = (state = InputState, action: IAction) => {
         forecastAppHeaders,
         facilitiesHeadersSelectOptions,
         forecastHeadersSelectOptions,
+        facilitiesHeadersNameMap,
+        forecastHeadersNameMap,
       };
+    }
+
+    case GET_TABLEDATABYID_SUCCESS: {
+      const { reducer, selectedTableData } = action.payload;
+
+      if (reducer === "inputReducer") {
+        const updatedState = set(state, "selectedTableData", selectedTableData);
+        return updatedState;
+      } else {
+        return state;
+      }
+    }
+
+    case GET_TABLEDATABYID_FAILURE: {
+      const { errors } = action.payload;
+      return { ...state, errors };
     }
 
     default:

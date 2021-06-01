@@ -8,11 +8,11 @@ const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   yearFormat: "yyyy",
   unitGroup: "Field",
   variableUnits: [],
-  variableTitleNameMap: {},
   variableNameUnitsMap: {},
   selectedVariableUnits: [],
   applicationUnitsCollection: [],
 
+  appUnitsUnitGroupsMap: {},
   uniqUnitOptions: [],
 
   numberFormat: "number",

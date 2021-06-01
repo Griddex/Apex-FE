@@ -55,8 +55,8 @@ export interface IEconomicsImport {
   inputDeckData: Record<string, React.Key>[];
   selectedRow: Record<string, React.Key>;
 
-  chosenApplicationHeadersWithNone: string[];
-  chosenApplicationHeadersWithoutNone: string[];
+  chosenAppHeadersWithNone: string[];
+  chosenAppHeadersWithoutNone: string[];
 
   chosenApplicationUnitsWithoutNone: string[];
   fileUnitsWithoutNone: string[];
@@ -153,14 +153,15 @@ export interface IEconomicsState
   loadEconomicsSensitivitiesWorkflow: boolean;
   loadEconomicsResultsWorkflow: boolean;
 
-  currentApplicationHeaderOptions: ISelectOption[];
+  currentAppHeaderOptions: ISelectOption[];
 
   costsRevenuesAppHeaders: Record<TDevScenarioNames, unknown[]>;
   cstRevAppHeadersSelectOptions: Record<TDevScenarioNames, ISelectOption[]>;
-  cstRevAppHeadersNameTitleMaps: Record<
+  cstRevAppHeadersNameMaps: Record<
     TDevScenarioNames,
     Record<TVariableTitle, TVariableName>
   >;
+  ecoParAppHeadersNameMap: Record<TVariableTitle, TVariableName>;
   costsRevenuesInputDeckId: string;
   costsRevenuesInputDeckTitle: string;
   costsRevenuesInputDeckDescription: string;
@@ -186,7 +187,10 @@ export interface IEconomicsState
   isEconomicsResultsSaved: boolean;
 
   noneColumnIndices: Record<number, boolean>;
-  fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
+  fileAppHeaderExcludeWithNoneMap: Record<
+    string,
+    Record<string, React.Key | boolean>
+  >;
 
   selectedAnalysis: any; //type it properly?
   selectedAnalysesNames: TEconomicsAnalysesNames[];

@@ -91,8 +91,19 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
 
     const facilitiesHeadersSelectOptions =
       swapVariableNameTitleForISelectOption(facilitiesAppHeaders);
+    const facilitiesHeadersNameMap = generateKeyValueMap(
+      "variableTitle",
+      "variableName",
+      facilitiesAppHeaders
+    );
+
     const forecastHeadersSelectOptions =
       swapVariableNameTitleForISelectOption(forecastAppHeaders);
+    const forecastHeadersNameMap = generateKeyValueMap(
+      "variableTitle",
+      "variableName",
+      forecastAppHeaders
+    );
 
     const cstRevAppHeadersSelectOptions = Object.keys(
       costsRevenuesAppHeaders as IEconomicsState["costsRevenuesAppHeaders"]
@@ -104,7 +115,25 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       return { ...acc, [key]: swappedHeaders };
     }, {});
 
+    const cstRevAppHeadersNameMaps = Object.keys(
+      costsRevenuesAppHeaders as IEconomicsState["costsRevenuesAppHeaders"]
+    ).reduce((acc: any, key) => {
+      const appHeadersByScenario = costsRevenuesAppHeaders[key];
+      const swappedHeaders = generateKeyValueMap(
+        "variableTitle",
+        "variableName",
+        appHeadersByScenario
+      );
+
+      return { ...acc, [key]: swappedHeaders };
+    }, {});
+
     const ecoParAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
+      economicsParametersAppHeaders
+    );
+    const ecoParAppHeadersNameMap = generateKeyValueMap(
+      "variableTitle",
+      "variableName",
       economicsParametersAppHeaders
     );
 
@@ -116,6 +145,8 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
         forecastAppHeaders,
         facilitiesHeadersSelectOptions,
         forecastHeadersSelectOptions,
+        facilitiesHeadersNameMap,
+        forecastHeadersNameMap,
       },
     });
     yield put({
@@ -124,6 +155,7 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
         ...payload,
         costsRevenuesAppHeaders,
         cstRevAppHeadersSelectOptions,
+        cstRevAppHeadersNameMaps,
       },
     });
     yield put({
@@ -132,6 +164,7 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
         ...payload,
         economicsParametersAppHeaders,
         ecoParAppHeadersSelectOptions,
+        ecoParAppHeadersNameMap,
       },
     });
   } catch (errors) {

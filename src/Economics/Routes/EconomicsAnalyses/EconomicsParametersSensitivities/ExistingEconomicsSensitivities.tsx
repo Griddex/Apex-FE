@@ -243,7 +243,7 @@ export default function ExistingEconomicsSensitivities() {
               onSelectedRowChange={setSRow}
               onRowsChange={setRows}
               size={size}
-              adjustTableDimAuto={true}
+              autoAdjustTableDim={true}
               showTableHeader={true}
               showTablePagination={true}
             />

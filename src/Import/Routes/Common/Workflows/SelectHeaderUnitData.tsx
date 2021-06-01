@@ -3,10 +3,11 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import { omit } from "lodash";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
+import Select, { ValueType } from "react-select";
+import { SizeMe } from "react-sizeme";
 import {
   ISelectOption,
   SelectOptionsType,
@@ -25,6 +26,8 @@ import addSerialNumberToTable from "../../../../Application/Utils/AddSerialNumbe
 import cleanTableData from "../../../../Application/Utils/CleanTableData";
 import generateColumnNameInfo from "../../../../Application/Utils/GenerateColumnNameInfo";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
+import getRSStyles from "../../../../Application/Utils/GetRSStyles";
+import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getTableHeaders from "../../../../Application/Utils/GetTableHeaders";
 import getTableUnits from "../../../../Application/Utils/GetTableUnits";
 import ToTitleCase from "../../../../Application/Utils/ToTitleCase";
@@ -32,13 +35,8 @@ import {
   persistColumnNameTableDataAction,
   persistFileHeadersAction,
   persistFileUnitsAndUniqueUnitsAction,
-  persistTableHeadersAction,
   persistTableRoleNamesAction,
 } from "../../../Redux/Actions/InputActions";
-import getRSStyles from "../../../../Application/Utils/GetRSStyles";
-import { ValueType } from "react-select";
-import { SizeMe } from "react-sizeme";
-import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 
 const useStyles = makeStyles((theme) => ({
   rootParseTable: {
@@ -257,10 +255,6 @@ export default function SelectHeaderUnitData({
   );
 
   React.useEffect(() => {
-    dispatch(persistTableHeadersAction(reducer, columnNameTableHeaders, wp));
-  }, []);
-
-  React.useEffect(() => {
     dispatch(
       persistFileHeadersAction(reducer, selectedHeaderRowIndex, fileHeaders, wp)
     );
@@ -290,7 +284,7 @@ export default function SelectHeaderUnitData({
             rows={rows}
             tableButtons={tableButtons}
             size={size}
-            adjustTableDimAuto={true}
+            autoAdjustTableDim={true}
             showTableHeader={true}
             showTablePagination={true}
           />

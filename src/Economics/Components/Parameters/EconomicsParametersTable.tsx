@@ -222,7 +222,7 @@ const EconomicsParametersTable = ({
                 onRowsChange={setRows}
                 tableButtons={tableButtons}
                 size={size}
-                adjustTableDimAuto={true}
+                autoAdjustTableDim={true}
                 showTableHeader={true}
                 showTablePagination={true}
               />

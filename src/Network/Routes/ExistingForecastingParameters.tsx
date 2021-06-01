@@ -465,7 +465,7 @@ export default function ExistingForecastingParameters({
               onSelectedRowChange={setSRow}
               onRowsChange={setRows}
               size={size}
-              adjustTableDimAuto={true}
+              autoAdjustTableDim={true}
               showTableHeader={true}
               showTablePagination={true}
             />

@@ -22,6 +22,7 @@ const DialogOneCancelButtons = (
     saveOutlined: <SaveOutlinedIcon />,
     loadOutlined: <HourglassFullOutlinedIcon />,
     doneOutlined: <DoneOutlinedIcon />,
+    proceedOutlined: <DoneOutlinedIcon />,
     viewDayTwoTone: <ViewDayTwoToneIcon />,
     reset: <RotateLeftIcon />,
   };

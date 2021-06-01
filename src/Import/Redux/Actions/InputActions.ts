@@ -31,7 +31,6 @@ export const PERSIST_FILEUNITSMATCH = "PERSIST_FILEUNITSMATCH";
 export const PERSIST_TABLEROLENAMES = "PERSIST_TABLEROLENAMES";
 export const PERSIST_TABLEDATA = "PERSIST_TABLEDATA";
 export const PERSIST_COLUMNNAMETABLEDATA = "PERSIST_COLUMNNAMETABLEDATA";
-export const PERSIST_TABLEHEADERS = "PERSIST_TABLEHEADERS";
 export const PERSIST_OPTIONINDICES = "PERSIST_OPTIONINDICES";
 export const SELECTED_ROW = "SELECTED_ROW";
 export const PERSIST_CHOSENAPPLICATIONHEADERS =
@@ -274,17 +273,6 @@ export const persistColumnNameTableDataAction = (
   return {
     type: PERSIST_COLUMNNAMETABLEDATA,
     payload: { reducer, columnNameTableData, workflowProcess },
-  };
-};
-
-export const persistTableHeadersAction = (
-  reducer: ReducersType,
-  tableHeaders: string[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
-) => {
-  return {
-    type: PERSIST_TABLEHEADERS,
-    payload: { reducer, tableHeaders, workflowProcess },
   };
 };
 

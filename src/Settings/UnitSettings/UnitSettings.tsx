@@ -604,7 +604,7 @@ export default function UnitSettings({
             rows={rows}
             tableButtons={tableButtons}
             size={size}
-            adjustTableDimAuto={true}
+            autoAdjustTableDim={true}
             showTableHeader={true}
             showTablePagination={true}
           />

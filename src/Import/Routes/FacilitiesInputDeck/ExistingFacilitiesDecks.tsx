@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
   IExistingDataProps,
   IApplicationExistingDataRow,
@@ -25,6 +26,8 @@ export default function ExistingFacilitiesDecks({
 }: IExistingInputDeck) {
   const dispatch = useDispatch();
 
+  const tableTitle = "Facilities InputDeck Table";
+  const mainUrl = `${getBaseForecastUrl()}/facilities-inputdeck`;
   const wc = "existingDataWorkflows";
   const wp: NonNullable<IExistingDataProps["wkPs"]> =
     "facilitiesInputDeckExisting";
@@ -80,6 +83,9 @@ export default function ExistingFacilitiesDecks({
     showChart,
     containerStyle,
     handleCheckboxChange,
+    reducer,
+    mainUrl,
+    tableTitle,
   };
 
   return <ExistingDataRoute {...props} />;

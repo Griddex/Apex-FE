@@ -1,10 +1,15 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IExistingDataProps,
   IExistingDataRow,
 } from "../../../Application/Types/ApplicationTypes";
+import {
+  TVariableTitle,
+  TVariableName,
+} from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 
 export interface IInputState {
   fileLastModified: string;
@@ -45,13 +50,17 @@ export interface IInputState {
   inputDeckData: Record<string, React.Key>[];
   selectedRow: Record<string, React.Key>;
 
-  chosenApplicationHeadersWithNone: string[];
-  chosenApplicationHeadersWithoutNone: string[];
+  chosenAppHeadersWithNone: string[];
+  chosenAppHeadersWithoutNone: string[];
 
   chosenApplicationUnitsWithoutNone: string[];
   fileUnitsWithoutNone: string[];
 
   variableUnits: Record<string, string>;
+  fileAppHeaderExcludeWithNoneMap: Record<
+    string,
+    Record<string, React.Key | boolean>
+  >;
 
   title: string;
   description: string;
@@ -67,6 +76,9 @@ export interface InputStateType
     INewForecastInputDeckFormValues {
   currentWorkflowProcess: string;
   headerType: string;
+
+  selectedTableData: any;
+
   facilitiesInputDeckId: string;
   facilitiesInputDeckTitle: string;
   facilitiesInputDeckDescription: string;
@@ -83,14 +95,14 @@ export interface InputStateType
   forecastInputDeckTitle: string;
   forecastInputDeckDescription: string;
 
-  currentApplicationHeaderOptions: ISelectOption[];
+  currentAppHeaderOptions: ISelectOption[];
 
   facilitiesAppHeaders: Record<string, string>[];
   forecastAppHeaders: Record<string, string>[];
   facilitiesHeadersSelectOptions: ISelectOption[];
   forecastHeadersSelectOptions: ISelectOption[];
-  facilitiesAppHeadersNameTitleMap: Record<string, React.Key>;
-  forecastAppHeadersNameTitleMap: Record<string, React.Key>;
+  facilitiesHeadersNameMap: Record<TVariableTitle, TVariableName>;
+  forecastHeadersNameMap: Record<TVariableTitle, TVariableName>;
 
   inputDataWorkflows: Record<string, IInputState>;
   existingDataWorkflows: Record<
@@ -99,7 +111,9 @@ export interface InputStateType
   >;
 
   noneColumnIndices: Record<number, boolean>;
-  fileHeadersChosenAppHeadersWithNone: Record<string, string>[];
+
+  matchHeadersTable: IRawRow[];
+  matchUnitsTable: IRawRow[];
 }
 
 export interface INewFacilitiesInputDeckFormValues {

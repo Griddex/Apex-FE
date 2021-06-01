@@ -11,6 +11,9 @@ import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
+import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { getTableDataByIdRequestAction } from "../../../../Application/Redux/Actions/ApplicationActions";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import {
   IExistingDataProps,
@@ -18,6 +21,7 @@ import {
 } from "../../../../Application/Types/ApplicationTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
+import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
 import apexGridCheckbox from "./../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +65,14 @@ export default function ExistingDataRoute<
   showChart,
   containerStyle,
   handleCheckboxChange,
+  reducer,
+  mainUrl,
+  tableTitle,
 }: IExistingDataProps) {
+  console.log(
+    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 69 ~ reducer",
+    reducer
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
   const wp = wkPs as NonNullable<IExistingDataProps["wkPs"]>;
@@ -88,9 +99,50 @@ export default function ExistingDataRoute<
         formatter: ({ row }) => (
           <div>
             <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
+            <DeleteOutlinedIcon
+              onClick={() =>
+                dispatch(
+                  showDialogAction(
+                    confirmationDialogParameters(
+                      "Delete_Table",
+                      "Confirm Table Deletion",
+                      `This action will permanently delete this data item.
+  
+  Proceed?`,
+                      true,
+                      false,
+                      () => {
+                        const sn = row.sn as number;
+                        const remainingRows = rows.splice(sn - 1, 1);
+                        console.log(
+                          "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 117 ~ generateColumns ~ remainingRows",
+                          remainingRows
+                        );
+                        console.log(
+                          "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 117 ~ generateColumns ~ rows",
+                          rows
+                        );
+
+                        setRows(remainingRows);
+                        tableRows.current = remainingRows;
+                      },
+                      "Proceed",
+                      "proceedOutlined"
+                    )
+                  )
+                )
+              }
+            />
             <VisibilityOutlinedIcon
-              onClick={() => alert(`View Row is:${row}`)}
+              onClick={() =>
+                dispatch(
+                  getTableDataByIdRequestAction(
+                    reducer as ReducersType,
+                    `${mainUrl}/${row.id}`,
+                    row.title as string
+                  )
+                )
+              }
             />
           </div>
         ),
@@ -156,7 +208,15 @@ export default function ExistingDataRoute<
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snExistingData);
   const currentRows = tableRows.current;
+  console.log(
+    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 211 ~ currentRows",
+    currentRows
+  );
   const [rows, setRows] = React.useState(currentRows);
+  console.log(
+    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 213 ~ rows",
+    rows
+  );
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -188,7 +248,7 @@ export default function ExistingDataRoute<
                 onSelectedRowChange={setSRow}
                 onRowsChange={setRows}
                 size={size}
-                adjustTableDimAuto={true}
+                autoAdjustTableDim={true}
                 showTableHeader={true}
                 showTablePagination={true}
               />

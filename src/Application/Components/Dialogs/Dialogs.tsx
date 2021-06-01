@@ -28,6 +28,7 @@ import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dial
 import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog";
 import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog";
+import TableDataDialog from "./TableDataDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -60,6 +61,7 @@ const applicationDialogs: IApplicationDialogs = {
   saveEconomicsSensitivitiesDialog: SaveEconomicsSensitivitiesDialog,
   existingEconomicsSensitivitiesDialog: ExistingEconomicsSensitivitiesDialog,
   selectDevelopmentScenariosDialog: SelectDevelopmentScenariosDialog,
+  tableDataDialog: TableDataDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

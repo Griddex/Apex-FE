@@ -106,10 +106,14 @@ export const saveUserMatchAction = (savedMatchObjectAll: TUserMatchObject) => {
   };
 };
 
-export const getTableDataByIdRequestAction = () => {
+export const getTableDataByIdRequestAction = (
+  reducer: ReducersType,
+  tableDataUrl: string,
+  tableTitle: string
+) => {
   return {
     type: GET_TABLEDATABYID_REQUEST,
-    payload: {},
+    payload: { reducer, tableDataUrl, tableTitle },
     meta: { showSpinner: true, message: "Fetching table data..." },
   };
 };

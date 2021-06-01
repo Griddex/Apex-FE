@@ -1,4 +1,5 @@
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import React from "react";
 import { Column } from "react-data-griddex";
 import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
 import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
@@ -30,12 +31,14 @@ import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunFo
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
+import { TUseState } from "../../Types/ApplicationTypes";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import { IAllWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
 import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
+import TableDataDialog from "./TableDataDialog";
 import TextDialog from "./TextDialog";
 
 export interface IApplicationDialogs {
@@ -65,6 +68,7 @@ export interface IApplicationDialogs {
   saveEconomicsSensitivitiesDialog: typeof SaveEconomicsSensitivitiesDialog;
   existingEconomicsSensitivitiesDialog: typeof ExistingEconomicsSensitivitiesDialog;
   selectDevelopmentScenariosDialog: typeof SelectDevelopmentScenariosDialog;
+  tableDataDialog: typeof TableDataDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -113,7 +117,8 @@ export interface DialogStuff {
     | "economicsParametersSensitivitiesDialog"
     | "saveEconomicsSensitivitiesDialog"
     | "existingEconomicsSensitivitiesDialog"
-    | "selectDevelopmentScenariosDialog";
+    | "selectDevelopmentScenariosDialog"
+    | "tableDataDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -135,6 +140,9 @@ export interface DialogStuff {
   economicsTableData?: IEconomicsParametersTable;
   economicsAnalyses?: TEconomicsAnalyses;
   selectedAnalysis?: IEconomicsAnalysis;
+  rows?: IRawRow[];
+  columns?: Column<IRawRow>[];
+  setRows?: TUseState<any>;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

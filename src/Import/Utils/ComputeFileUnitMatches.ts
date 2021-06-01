@@ -1,50 +1,49 @@
 import pullAll from "lodash.pullall";
 import sortBy from "lodash.sortby";
 import zipObject from "lodash.zipobject";
+import React from "react";
 import stringSimilarity, { BestMatch } from "string-similarity";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { IUnit } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
 
 const computeFileUnitMatches = (
+  applicationHeadersMap: Record<string, string>,
   variableNameUnitsMap: Record<string, IUnit[]>,
-  currentApplicationHeaderOptions: ISelectOption[],
-  chosenApplicationHeadersWithoutNone: string[],
-  fileUnitsWithoutNone: string[],
-  applicationUnits: string[],
+  currentAppHeaderOptions: ISelectOption[],
+  fileHeadersUnitsAppHeadersWithoutNoneMap: Record<
+    string,
+    Record<string, string>
+  >,
   savedMatchObjectAll: TUserMatchObject,
   workflowClass: string
 ) => {
-  console.log(
-    "Logged output --> ~ file: ComputeFileUnitMatches.ts ~ line 18 ~ variableNameUnitsMap",
-    variableNameUnitsMap
+  const fileUnitsWithoutNone = Object.keys(
+    fileHeadersUnitsAppHeadersWithoutNoneMap
   );
-  console.log(
-    "Logged output --> ~ file: ComputeFileUnitMatches.ts ~ line 18 ~ currentApplicationHeaderOptions",
-    currentApplicationHeaderOptions
-  );
-  const specificSavedMatchObject = savedMatchObjectAll[workflowClass]["units"];
-  const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
+  const chosenAppHeadersWithoutNone = Object.values(
+    fileHeadersUnitsAppHeadersWithoutNoneMap
+  ).map((obj) => obj.chosenAppHeader);
 
   const chosenAppHeaderNamesWithoutNone = [];
-  for (const header of chosenApplicationHeadersWithoutNone) {
-    for (const option of currentApplicationHeaderOptions) {
+  for (const header of chosenAppHeadersWithoutNone) {
+    for (const option of currentAppHeaderOptions) {
       if (header === option.label) {
         chosenAppHeaderNamesWithoutNone.push(option.value);
         break;
       }
     }
   }
-  console.log(
-    "Logged output --> ~ file: ComputeFileUnitMatches.ts ~ line 22 ~ chosenAppHeaderNamesWithoutNone",
-    chosenAppHeaderNamesWithoutNone
-  );
+
+  const specificSavedMatchObject = savedMatchObjectAll[workflowClass]["units"];
+  const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
 
   let i = 0;
-  const fileUnitMatches: Record<string, number>[] = [];
+  const fileUnitMatches: Record<string, Record<string, React.Key>>[][] = [];
   for (const fileUnit of fileUnitsWithoutNone) {
     const appHeaderName = chosenAppHeaderNamesWithoutNone[i];
     const unitsCollection = variableNameUnitsMap[appHeaderName];
+
     const appUnitsByHeaderName = unitsCollection
       ? unitsCollection.map((u) => u.title)
       : ["unitless"];
@@ -65,47 +64,52 @@ const computeFileUnitMatches = (
     const matchedScores = sortedSearchResultDesc.map(
       (match) => match["rating"]
     );
-
-    if (matchedUnits.length > 0) {
-      const mtchdUnits = matchedUnits;
-      const mtchdScores = matchedScores;
-
-      const cleanedMatchedScores = mtchdScores.map(
-        (score: number | undefined) =>
-          score !== undefined ? Math.round(score * 100) : 0
-      );
-
-      if (specificSavedMatchObjectKeys.includes(fileUnit.trim())) {
-        const matchUnit = specificSavedMatchObject[fileUnit];
-
-        pullAll(mtchdUnits, [matchUnit.header]);
-        mtchdUnits.unshift(matchUnit.header);
-        cleanedMatchedScores.unshift(100);
+    const matchedUnitIds = [] as string[];
+    if (unitsCollection) {
+      for (const unit of matchedUnits) {
+        for (const unitObj of unitsCollection) {
+          if (unit === unitObj.title) {
+            matchedUnitIds.push(unitObj.unitId);
+            break;
+          }
+        }
       }
-
-      if (!mtchdUnits.includes("None")) {
-        mtchdUnits.push("None");
-        cleanedMatchedScores.push(0);
-      }
-
-      fileUnitMatches.push(zipObject(mtchdUnits, cleanedMatchedScores));
     } else {
-      const appUnits = applicationUnits;
-      const zeroScores: number[] = new Array(applicationUnits.length).fill(0);
-
-      if (specificSavedMatchObjectKeys.includes(fileUnit.trim())) {
-        const matchUnit = specificSavedMatchObject[fileUnit];
-        pullAll(appUnits, [matchUnit.header]);
-
-        appUnits.unshift(matchUnit.header);
-        zeroScores.unshift(100);
-      }
-
-      appUnits.push("Date");
-      zeroScores.push(0);
-
-      fileUnitMatches.push(zipObject(appUnits, zeroScores));
+      matchedUnitIds.push("NoId");
     }
+
+    const mtchdUnits = matchedUnits;
+    const mtchdScores = matchedScores;
+
+    const cleanedMatchedScores = mtchdScores.map((score: number | undefined) =>
+      score !== undefined ? Math.round(score * 100) : 0
+    );
+
+    if (specificSavedMatchObjectKeys.includes(fileUnit.trim())) {
+      const matchUnit = specificSavedMatchObject[fileUnit];
+
+      pullAll(mtchdUnits, [matchUnit.header]);
+      mtchdUnits.unshift(matchUnit.header);
+
+      cleanedMatchedScores.unshift(100);
+
+      const matchUnitIndex = matchedUnits.indexOf(matchUnit.header);
+      const matchUnitId = matchedUnitIds[matchUnitIndex];
+      pullAll(matchedUnitIds, [matchUnitId]);
+      matchedUnitIds.unshift(matchUnitId);
+    }
+
+    if (!mtchdUnits.includes("None")) {
+      mtchdUnits.push("None");
+      cleanedMatchedScores.push(0);
+    }
+
+    const unitMatchArr = mtchdUnits.map((u, i) => ({
+      [u]: { score: cleanedMatchedScores[i], unitId: matchedUnitIds[i] },
+    })) as Record<string, Record<string, React.Key>>[];
+
+    fileUnitMatches.push(unitMatchArr);
+
     i = i + 1;
   }
 

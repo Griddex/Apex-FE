@@ -60,11 +60,12 @@ const generateInputState = () => {
         inputDeckData: [],
         selectedRow: null,
 
-        chosenApplicationHeadersWithNone: [],
-        chosenApplicationHeadersWithoutNone: [],
+        chosenAppHeadersWithNone: [],
+        chosenAppHeadersWithoutNone: [],
 
         chosenApplicationUnitsWithoutNone: [],
         fileUnitsWithoutNone: [],
+        fileAppHeaderExcludeWithNoneMap: {},
 
         savedMatchObjectAll: {},
         variableUnits: {},
@@ -119,6 +120,8 @@ const InputState: InputStateType = {
   currentWorkflowProcess: "",
   headerType: "",
 
+  selectedTableData: [],
+
   facilitiesInputDeckId: "",
   facilitiesInputDeckTitle: "",
   facilitiesInputDeckDescription: "",
@@ -135,19 +138,20 @@ const InputState: InputStateType = {
   forecastInputDeckTitle: "",
   forecastInputDeckDescription: "",
 
-  currentApplicationHeaderOptions: [],
+  currentAppHeaderOptions: [],
 
   facilitiesAppHeaders: [],
   forecastAppHeaders: [],
   facilitiesHeadersSelectOptions: [],
   forecastHeadersSelectOptions: [],
-  facilitiesAppHeadersNameTitleMap: {},
-  forecastAppHeadersNameTitleMap: {},
+  facilitiesHeadersNameMap: {},
+  forecastHeadersNameMap: {},
   inputDataWorkflows: inputDataState,
   existingDataWorkflows: existingDataState,
 
   noneColumnIndices: {},
-  fileHeadersChosenAppHeadersWithNone: [],
+  matchHeadersTable: [],
+  matchUnitsTable: [],
 };
 
 export default InputState;

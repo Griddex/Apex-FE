@@ -5,7 +5,6 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import camelCase from "lodash.camelcase";
 import findIndex from "lodash.findindex";
-import omit from "lodash.omit";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -20,10 +19,7 @@ import {
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import {
-  IRawRow,
-  TRawTable,
-} from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
@@ -40,16 +36,13 @@ import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
-  persistChosenApplicationHeadersIndicesAction,
   persistFileHeadersMatchAction,
-  persistTableHeadersAction,
   updateInputParameterAction,
 } from "../../../Redux/Actions/InputActions";
 import computeFileHeaderMatches from "../../../Utils/ComputeFileHeaderMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
 import ApexFlexStyle from "./../../../../Application/Components/Styles/ApexFlexStyle";
-import getChosenApplicationHeaders from "./../../../Utils/GetChosenApplicationHeaders";
 import {
   IApplicationHeaders,
   THeader,
@@ -102,12 +95,6 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   //TODO: Put elsewhere
   const dateFormatOptions = generateSelectOptions(dateFormatData);
 
-  const { variableTitleNameMap } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  );
-
-  //TODO: Gift to provide complete match object with
-  //object to store matched economics headers
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
 
@@ -115,7 +102,6 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     savedMatchObjectAll[workflowClass]["headers"]
   );
 
-  //TODO: Gift to provide the economics headers
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
@@ -166,14 +152,14 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     };
   }
 
-  const currentApplicationHeaderOptions = React.useRef(
+  const currentAppHeaderOptions = React.useRef(
     getCurrentApplicationHeaderOptions(wp, allAppHeadersObjOptions, false)
   );
 
   const currentAppHeaderTitleNameMap = generateKeyValueMap(
     "label",
     "value",
-    currentApplicationHeaderOptions.current
+    currentAppHeaderOptions.current
   );
 
   const fileHeaderMatches = React.useRef(
@@ -208,7 +194,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     })
   ) as React.MutableRefObject<SelectOptionsType[]>;
 
-  const keyedApplicationHeaderOptions = React.useRef(
+  const keyedAppHeaderOptions = React.useRef(
     zipObject(fileHeaders, applicationHeaderOptions.current)
   );
 
@@ -226,18 +212,9 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     zipObject(fileHeaders, scoreOptions.current)
   );
 
-  const snChosenApplicationHeaderIndices = React.useRef(
-    fileHeaderMatches.current.reduce(
-      (acc: Record<string, number>, _, i: number) => {
-        return { ...acc, [`${i + 1}`]: 0 };
-      },
-      {}
-    )
-  );
-
   const initialTableRows = React.useRef(
     fileHeaders.map((fileHeader: string, i: number) => {
-      const headerOptions = keyedApplicationHeaderOptions.current[fileHeader];
+      const headerOptions = keyedAppHeaderOptions.current[fileHeader];
       const initialAppHeader = headerOptions[0];
       const initialHeaderType = getInitialRowValueOrDefault<THeader>(
         initialAppHeader.label,
@@ -256,7 +233,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
       return {
         sn: i + 1,
-        fileHeader: fileHeader,
+        fileHeader,
         applicationHeader: initialAppHeader.label,
         type: initialHeaderType,
         match: score.value,
@@ -266,68 +243,43 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     })
   );
 
-  const tableRows = React.useRef<TRawTable>(initialTableRows.current);
-  const rerenderRef = React.useRef<boolean>(false);
-  const [rerender, setRerender] = React.useState(rerenderRef.current);
+  const [rows, setRows] = React.useState<IRawRow[]>(initialTableRows.current);
 
-  const [chosenApplicationHeaderIndices, setChosenApplicationHeaderIndices] =
-    React.useState(snChosenApplicationHeaderIndices.current);
-
-  const initialFileHeaderChosenAppHeaderMap: Record<string, string> =
+  const snChosenAppHeaderIndices = React.useRef<Record<string, number>>(
     initialTableRows.current.reduce(
-      (acc: Record<string, string>, row: Record<string, string>) => {
-        return { ...acc, [row.fileHeader]: row.applicationHeader };
+      (acc: Record<string, number>, row: IRawRow, i: number) => {
+        return { ...acc, [row["fileHeader"] as string]: 0 };
       },
       {}
-    );
-
-  const [fileHeaderChosenAppHeaderMap, setFileHeaderChosenAppHeaderMap] =
-    React.useState(initialFileHeaderChosenAppHeaderMap);
-
-  const initialFileHeaderChosenHeaderTypeMap: Record<string, string> =
-    initialTableRows.current.reduce(
-      (acc: Record<string, string>, row: Record<string, string>) => {
-        return { ...acc, [row.fileHeader]: row.type };
-      },
-      {}
-    );
-  const [fileHeaderChosenHeaderTypeMap, setFileHeaderChosenHeaderTypeMap] =
-    React.useState(initialFileHeaderChosenHeaderTypeMap);
+    )
+  );
+  const [chosenAppHeaderIndices, setChosenAppHeaderIndices] = React.useState(
+    snChosenAppHeaderIndices.current
+  );
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
 
-  const generateColumns = (keyedApplicationHeaderOptions: {
+  const generateColumns = (keyedAppHeaderOptions: {
     [index: string]: { value: string; label: string }[];
   }) => {
     const handleHeaderTypeChange = (
-      value: ValueType<ISelectOption, false>,
+      option: ValueType<ISelectOption, false>,
       row: IRawRow
     ) => {
-      const { sn, fileHeader } = row;
+      const { sn } = row;
       const rowSN = sn as number;
-      const fileHeaderDefined = fileHeader as string;
 
-      const selectedValue = value && value.label;
-      const selectedHeaderType = selectedValue as THeader;
+      const selectedHeader = option && option.label;
+      const selectedHeaderType = selectedHeader as THeader;
 
-      setFileHeaderChosenHeaderTypeMap((prev) => ({
-        ...prev,
-        [fileHeaderDefined]: selectedHeaderType,
-      }));
-
-      //TODO: From Gift Need an object with unit:group pairs
-      const currentRows = tableRows.current;
-      const selectedRow = currentRows[rowSN - 1];
-      currentRows[rowSN - 1] = {
+      const selectedRow = rows[rowSN - 1];
+      rows[rowSN - 1] = {
         ...selectedRow,
         type: selectedHeaderType,
       };
 
-      tableRows.current = currentRows;
-
-      rerenderRef.current = !rerenderRef.current;
-      setRerender(rerenderRef.current);
+      setRows(rows);
     };
 
     const handleApplicationHeaderChange = (
@@ -336,43 +288,33 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       headerOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
     ) => {
-      const { sn, fileHeader, applicationHeader } = row;
+      const { sn, fileHeader } = row;
       const rowSN = sn as number;
       const fileHeaderDefined = fileHeader as string;
-      const applicationHeaderDefined = applicationHeader as string;
 
-      const selectedValue = option && option.label;
-      const selectedAppHeader = selectedValue as string;
+      const selectedHeader = option && option.label;
+      const selectedAppHeader = selectedHeader as string;
 
       const selectedHeaderOptionIndex = findIndex(
         headerOptions,
-        (option) => option.label === selectedValue
+        (option) => option.label === selectedHeader
       );
       const selectedScore = scoreOptions[selectedHeaderOptionIndex];
 
-      setChosenApplicationHeaderIndices((prev) => ({
+      setChosenAppHeaderIndices((prev) => ({
         ...prev,
-        [`${rowSN}`]: selectedHeaderOptionIndex,
+        [fileHeaderDefined]: selectedHeaderOptionIndex,
       }));
 
-      setFileHeaderChosenAppHeaderMap((prev) => ({
-        ...prev,
-        [fileHeaderDefined]: applicationHeaderDefined,
-      }));
-
-      const currentRows = tableRows.current;
-      const selectedRow = currentRows[rowSN - 1];
-      currentRows[rowSN - 1] = {
+      const selectedRow = rows[rowSN - 1];
+      rows[rowSN - 1] = {
         ...selectedRow,
         applicationHeader: selectedAppHeader,
         match: selectedScore.value,
         exclude: selectedAppHeader === "None" ? true : false,
       };
 
-      tableRows.current = currentRows;
-
-      rerenderRef.current = !rerenderRef.current;
-      setRerender(rerenderRef.current);
+      setRows(rows);
     };
 
     const handleExcludeSwitchChange = (
@@ -381,18 +323,18 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     ) => {
       const isChecked = event.target.checked;
 
+      const fileHeaderDefined = row.fileHeader as string;
       const selectedRowSN = row.sn as number;
-      const currentRows = tableRows.current;
-      const selectedRow = currentRows[selectedRowSN - 1];
+      const selectedRow = rows[selectedRowSN - 1];
 
       const fileHeader = row.fileHeader as string;
-      const currentOptionIndex = chosenApplicationHeaderIndices[selectedRowSN];
-      const headerOptions = keyedApplicationHeaderOptions[fileHeader];
+      const headerOptions = keyedAppHeaderOptions[fileHeader];
+      const currentOptionIndex = chosenAppHeaderIndices[fileHeader];
       const formerHeader = headerOptions[currentOptionIndex];
       const scoreOptions = keyedScoreOptions.current[fileHeader];
       const formerScore = scoreOptions[currentOptionIndex];
 
-      currentRows[selectedRowSN - 1] = {
+      rows[selectedRowSN - 1] = {
         ...selectedRow,
         applicationHeader: isChecked ? "None" : formerHeader.label,
         match: isChecked ? 0 : formerScore.label,
@@ -400,20 +342,15 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       };
 
       const noneOptionIndex = headerOptions.map((h) => h.label).indexOf("None");
-      setChosenApplicationHeaderIndices((prev) => ({
+      setChosenAppHeaderIndices((prev) => ({
         ...prev,
-        [`${selectedRowSN}`]: isChecked ? noneOptionIndex : currentOptionIndex,
+        [fileHeaderDefined]: isChecked ? noneOptionIndex : currentOptionIndex,
       }));
 
-      setNoneColumnIndices((prev) => ({
-        ...prev,
-        [`${selectedRowSN - 1}`]: isChecked ? true : false,
-      }));
-
-      tableRows.current = currentRows;
-
-      rerenderRef.current = !rerenderRef.current;
-      setRerender(rerenderRef.current);
+      // setNoneColumnIndices((prev) => ({
+      //   ...prev,
+      //   [`${selectedRowSN - 1}`]: isChecked ? true : false,
+      // }));
     };
 
     const handleAcceptMatchSwitchChange = (
@@ -428,15 +365,12 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       const strHeaderType = type as THeader;
 
       const selectedRowSN = row.sn as number;
-      const currentRows = tableRows.current;
-      const selectedRow = currentRows[selectedRowSN - 1];
+      const selectedRow = rows[selectedRowSN - 1];
 
-      currentRows[selectedRowSN - 1] = {
+      rows[selectedRowSN - 1] = {
         ...selectedRow,
         acceptMatch: isChecked,
       };
-
-      tableRows.current = currentRows;
 
       //Update usermatchobject
       if (isChecked) {
@@ -463,39 +397,28 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         });
       }
 
-      rerenderRef.current = !rerenderRef.current;
-      setRerender(rerenderRef.current);
+      setRows(rows);
     };
 
     const handleDateFormatChange = (
-      value: ValueType<ISelectOption, false>,
+      option: ValueType<ISelectOption, false>,
       row: IRawRow
     ) => {
       const { sn, fileHeader } = row;
       const rowSN = sn as number;
-      const fileHeaderDefined = fileHeader as string;
 
-      const selectedValue = value && value.label;
+      const selectedValue = option && option.label;
       const selectedDateFormat = selectedValue as string;
 
-      // setFileHeaderChosenHeaderTypeMap((prev) => ({
-      //   ...prev,
-      //   [fileHeaderDefined]: selectedHeaderType,
-      // }));
-
-      //TODO: From Gift Need an object with unit:group pairs
-      const currentRows = tableRows.current;
-      const selectedRow = currentRows[rowSN - 1];
-      currentRows[rowSN - 1] = {
+      const selectedRow = rows[rowSN - 1];
+      rows[rowSN - 1] = {
         ...selectedRow,
         applicationHeader: selectedDateFormat,
       };
 
-      tableRows.current = currentRows;
-
-      rerenderRef.current = !rerenderRef.current;
-      setRerender(rerenderRef.current);
+      setRows(rows);
     };
+
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 20 },
       {
@@ -516,6 +439,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         name: "FILE HEADER",
         editable: false,
         resizable: true,
+        minWidth: 250,
       },
       {
         key: "type",
@@ -549,10 +473,9 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         name: "APPLICATION HEADER",
         resizable: true,
         formatter: ({ row }) => {
-          const sn = row.sn as string;
           const type = row.type as string;
           const fileHeader = row.fileHeader as string;
-          const headerOptions = keyedApplicationHeaderOptions[fileHeader];
+          const headerOptions = keyedAppHeaderOptions[fileHeader];
           const scoreOptions = keyedScoreOptions.current[fileHeader];
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
@@ -591,6 +514,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
               />
             );
         },
+        minWidth: 300,
       },
 
       {
@@ -655,49 +579,23 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   };
 
   const columns = React.useMemo(
-    () => generateColumns(keyedApplicationHeaderOptions.current),
-    [keyedApplicationHeaderOptions]
+    () => generateColumns(keyedAppHeaderOptions.current),
+    [keyedAppHeaderOptions]
   );
 
-  const [rows, setRows] = React.useState(tableRows.current);
+  const chosenAppHeadersWithNone = rows.map((row) => row.applicationHeader);
+  const chosenAppHeadersWithoutNone = (
+    chosenAppHeadersWithNone as string[]
+  ).filter((h: string) => h.toLowerCase() !== "none");
 
-  const chosenApplicationHeadersWithNone = getChosenApplicationHeaders(
-    fileHeaderMatches.current,
-    chosenApplicationHeaderIndices
-  );
+  const fileAppHeaderExcludeWithNoneMap = rows.reduce((acc: any, row) => {
+    const { fileHeader, applicationHeader, exclude } = row;
 
-  const chosenApplicationHeadersWithoutNone =
-    chosenApplicationHeadersWithNone.filter(
-      (h: string) => h.toLowerCase() !== "none"
-    );
-
-  const initialNoneColumnIndices = (
-    chosenApplicationHeadersWithNone as string[]
-  ).reduce((acc, _, i) => {
-    return { ...acc, [i]: false };
-  }, {});
-  const [noneColumnIndices, setNoneColumnIndices] = React.useState(
-    initialNoneColumnIndices
-  );
-
-  //chosenApplicationHeadersWithNone
-  const noneColumnsBoolean = Object.values(noneColumnIndices);
-  const fileHeadersChosenAppHeadersWithNone = fileHeaders.reduce(
-    (
-      acc: Record<string, Record<string, string>>,
-      header: string,
-      i: number
-    ) => {
-      return {
-        ...acc,
-        [header]: {
-          chosenAppHeader: chosenApplicationHeadersWithNone[i],
-          exclude: noneColumnsBoolean[i],
-        },
-      };
-    },
-    {}
-  );
+    return {
+      ...acc,
+      [fileHeader as string]: { chosenAppHeader: applicationHeader, exclude },
+    };
+  }, {} as Record<string, Record<string, React.Key | boolean>>);
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
@@ -725,16 +623,17 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
               return rowAccept;
             });
 
-            const fileHeaderKeys = Object.keys(fileHeaderChosenAppHeaderMap);
+            const fileHeaderKeys = rows.map((row) => row.fileHeader);
             for (const header of fileHeaderKeys) {
-              const chosenAppHeader = fileHeaderChosenAppHeaderMap[header];
-              const chosenHeaderType = fileHeaderChosenHeaderTypeMap[
-                header
-              ] as THeader;
+              const chosenRow = rows.find(
+                (row) => row.fileHeader === header
+              ) as IRawRow;
+              const chosenAppHeader = chosenRow.applicationHeader as string;
+              const chosenType = chosenRow.type as THeader;
 
-              userMatchObject[workflowClass]["headers"][header] = {
+              userMatchObject[workflowClass]["headers"][header as string] = {
                 header: chosenAppHeader,
-                type: chosenHeaderType,
+                type: chosenType,
                 acceptMatch: currentAcceptMatchValue,
               };
             }
@@ -749,68 +648,34 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     ),
   };
 
-  //TODO: No longer needed
   React.useEffect(() => {
-    const columnNames: string[] = columns.map(
-      (column) => column.name as string
-    );
-    const tableHeaders = omit(columnNames, ["SN", "NAMES"]) as string[];
-    dispatch(persistTableHeadersAction(reducer, tableHeaders, wp));
-  }, []);
-
-  React.useEffect(() => {
-    //Any need?
     dispatch(
-      persistFileHeadersMatchAction(reducer, fileHeaderMatches.current, wp)
-    );
-    dispatch(
-      persistChosenApplicationHeadersIndicesAction(
+      updateInputParameterAction(
         reducer,
-        chosenApplicationHeaderIndices,
-        wp
+        `inputDataWorkflows.${wp}.matchHeadersTable`,
+        rows
       )
     );
 
     dispatch(
       updateInputParameterAction(
         reducer,
-        `inputDataWorkflows.${wp}.chosenApplicationHeadersWithNone`,
-        chosenApplicationHeadersWithNone
+        `inputDataWorkflows.${wp}.fileAppHeaderExcludeWithNoneMap`,
+        fileAppHeaderExcludeWithNoneMap
       )
     );
     dispatch(
       updateInputParameterAction(
         reducer,
-        `inputDataWorkflows.${wp}.chosenApplicationHeadersWithoutNone`,
-        chosenApplicationHeadersWithoutNone
-      )
-    );
-    dispatch(
-      updateInputParameterAction(
-        reducer,
-        `noneColumnIndices`,
-        noneColumnIndices
-      )
-    );
-    dispatch(
-      updateInputParameterAction(
-        reducer,
-        `fileHeadersChosenAppHeadersWithNone`,
-        fileHeadersChosenAppHeadersWithNone
-      )
-    );
-    dispatch(
-      updateInputParameterAction(
-        reducer,
-        `currentApplicationHeaderOptions`,
-        currentApplicationHeaderOptions.current
+        `currentAppHeaderOptions`,
+        currentAppHeaderOptions.current
       )
     );
 
     dispatch(saveUserMatchAction(userMatchObject));
 
     dispatch(hideSpinnerAction());
-  }, [rerender]);
+  }, [setRows]);
 
   return (
     <div className={classes.rootMatchHeaders}>
@@ -828,9 +693,9 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
               rows={rows}
               onRowsChange={setRows}
               tableButtons={tableButtons}
-              mappingErrors={getDuplicates(chosenApplicationHeadersWithoutNone)}
+              mappingErrors={getDuplicates(chosenAppHeadersWithoutNone)}
               size={size}
-              adjustTableDimAuto={true}
+              autoAdjustTableDim={true}
               showTableHeader={true}
               showTablePagination={true}
             />

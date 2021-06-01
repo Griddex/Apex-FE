@@ -22,6 +22,7 @@ export interface IExistingDataRow {
   approvers?: IUserDetails[] | string;
   createdOn?: string;
   modifiedOn?: string;
+  reducer?: ReducersType;
   // workflowProcess?:IExistingDataProps["wrkflwPrcss"]
 }
 
@@ -35,6 +36,8 @@ export interface IExistingDataProps {
   showBaseButtons?: boolean;
   tableButtons?: ITableButtonsProps;
   shouldRunAggregation?: boolean;
+  mainUrl?: string;
+  tableTitle?: string;
   wkPs?:
     | "facilitiesInputDeckExisting"
     | "forecastInputDeckExisting"

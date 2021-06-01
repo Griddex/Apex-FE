@@ -949,7 +949,7 @@ export default function CostsAndRevenueManual({
         onSelectedRowChange={setSRow}
         onRowsChange={setRows}
         size={{ height: 700, width: 900 }}
-        adjustTableDimAuto={true}
+        autoAdjustTableDim={true}
         showTableHeader={true}
         showTablePagination={true}
       />

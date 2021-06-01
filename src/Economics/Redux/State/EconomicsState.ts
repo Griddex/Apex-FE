@@ -63,8 +63,8 @@ const generateEconomicsState = () => {
         inputDeckData: [],
         selectedRow: null,
 
-        chosenApplicationHeadersWithNone: [],
-        chosenApplicationHeadersWithoutNone: [],
+        chosenAppHeadersWithNone: [],
+        chosenAppHeadersWithoutNone: [],
 
         chosenApplicationUnitsWithoutNone: [],
         fileUnitsWithoutNone: [],
@@ -240,7 +240,7 @@ const EconomicsState: IEconomicsState = {
   loadEconomicsSensitivitiesWorkflow: false,
   loadEconomicsResultsWorkflow: false,
 
-  currentApplicationHeaderOptions: [],
+  currentAppHeaderOptions: [],
 
   costsRevenuesAppHeaders: {
     oilDevelopment: [],
@@ -252,11 +252,14 @@ const EconomicsState: IEconomicsState = {
     nagDevelopment: [],
     oilNAGDevelopment: [],
   },
-  cstRevAppHeadersNameTitleMaps: {
+  cstRevAppHeadersNameMaps: {
     oilDevelopment: {},
     nagDevelopment: {},
     oilNAGDevelopment: {},
   },
+
+  ecoParAppHeadersNameMap: {},
+
   costsRevenuesInputDeckId: "",
   costsRevenuesInputDeckTitle: "",
   costsRevenuesInputDeckDescription: "",
@@ -293,7 +296,7 @@ const EconomicsState: IEconomicsState = {
   showSensitivitiesTable: false,
 
   noneColumnIndices: {},
-  fileHeadersChosenAppHeadersWithNone: [],
+  fileAppHeaderExcludeWithNoneMap: {},
   selectedAnalysis: {},
   selectedAnalysesNames: [],
 

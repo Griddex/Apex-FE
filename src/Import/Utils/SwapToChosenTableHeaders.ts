@@ -3,7 +3,7 @@ import { TRawTable } from "../../Application/Components/Table/ReactDataGrid/Apex
 
 const swapToChosenTableHeaders = (
   tableData: TRawTable,
-  fileHeadersChosenAppHeadersWithNone: Record<string, Record<string, string>>,
+  fileAppHeaderExcludeWithNoneMap: Record<string, Record<string, string>>,
   appHeaderTitleNameObj: Record<string, string>
 ) => {
   const headerRow = tableData[0];
@@ -22,9 +22,8 @@ const swapToChosenTableHeaders = (
     const headerNames = [];
     const rowValues = [];
     for (const fileHeader of Object.keys(row)) {
-      const { chosenAppHeader, exclude } = fileHeadersChosenAppHeadersWithNone[
-        fileHeader
-      ];
+      const { chosenAppHeader, exclude } =
+        fileAppHeaderExcludeWithNoneMap[fileHeader];
       const chosenHeaderName = appHeaderTitleNameObj[chosenAppHeader];
 
       if (!exclude) {

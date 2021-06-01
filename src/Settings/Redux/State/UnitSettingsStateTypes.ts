@@ -33,9 +33,9 @@ export interface IUnitSettingsData {
   pressureAddend?: number;
   selectedVariableUnits: SelectedVariablesType[];
   variableUnits: IUnitsRow[];
-  variableTitleNameMap: Record<TVariableTitle, TVariableName>;
   variableNameUnitsMap: Record<string, IUnit[]>;
   uniqUnitOptions: ISelectOption[];
+  appUnitsUnitGroupsMap: Record<string, string>;
   applicationUnitsCollection?: IUnitsRow["units"];
   numberFormat: TNumberFormat;
   numberFormatString: string;

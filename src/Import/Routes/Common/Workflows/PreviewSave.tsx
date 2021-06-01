@@ -74,7 +74,7 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     forecastAppHeaders,
     costsRevenuesAppHeaders: cRHeaders,
     economicsParametersAppHeaders,
-    fileHeadersChosenAppHeadersWithNone,
+    fileAppHeaderExcludeWithNoneMap,
   } = useSelector((state: RootState) => state[reducer]);
 
   let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
@@ -109,7 +109,7 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const {
     tableRoleNames,
-    chosenApplicationHeadersWithoutNone,
+    chosenAppHeadersWithoutNone,
     chosenApplicationUnitsWithoutNone,
     columnNameTableData,
     selectedHeaderRowIndex,
@@ -117,12 +117,12 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
   } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const unitsRow = zipObject(
-    chosenApplicationHeadersWithoutNone,
+    chosenAppHeadersWithoutNone,
     chosenApplicationUnitsWithoutNone
   ) as IRawRow;
 
   const appHeaderNames = swapTitleToNames(
-    chosenApplicationHeadersWithoutNone,
+    chosenAppHeadersWithoutNone,
     applicationHeaderNameTitleCollection as IApplicationHeaders[]
   );
 
@@ -134,7 +134,7 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const applicationHeadertableData = swapToChosenTableHeaders(
     columnNameTableData,
-    fileHeadersChosenAppHeadersWithNone,
+    fileAppHeaderExcludeWithNoneMap,
     appHeaderTitleNameObj
   );
 
@@ -263,7 +263,7 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
             rows={tableData}
             tableButtons={tableButtons}
             size={size}
-            adjustTableDimAuto={true}
+            autoAdjustTableDim={true}
             showTableHeader={true}
             showTablePagination={true}
           />

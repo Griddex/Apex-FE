@@ -76,20 +76,16 @@ function* fetchUnitSettingsSaga(
     });
 
     const { variableUnits, variableNameUnitsMap } = unitsData;
-    console.log(
-      "Logged output --> ~ file: UnitSettingsSaga.ts ~ line 79 ~ variableNameUnitsMap",
-      variableNameUnitsMap
-    );
 
-    const variableTitleNameMap = variableUnits.reduce(
-      (acc: TVariableTitleNameMap, row: IUnitsRow) => {
-        return {
-          ...acc,
-          [row.variableTitle as TVariableTitle]:
-            row.variableName as TVariableName,
-        };
+    const appUnitsUnitGroupsMap = variableUnits.reduce(
+      (acc: any, row: IUnitsRow) => {
+        const unitsObj = row.units.reduce((acd, u) => {
+          return { ...acd, [u.title]: u.group };
+        }, {});
+
+        return { ...acc, ...unitsObj };
       },
-      {} as TVariableTitleNameMap
+      {}
     );
 
     const unitOptions: ISelectOption[] = variableUnits.reduce(
@@ -111,14 +107,14 @@ function* fetchUnitSettingsSaga(
 
     yield put(
       updateUnitsSettingsParameterAction(
-        "variableNameUnitsMap",
-        variableNameUnitsMap
+        "appUnitsUnitGroupsMap",
+        appUnitsUnitGroupsMap
       )
     );
     yield put(
       updateUnitsSettingsParameterAction(
-        "variableTitleNameMap",
-        variableTitleNameMap
+        "variableNameUnitsMap",
+        variableNameUnitsMap
       )
     );
   } catch (errors) {

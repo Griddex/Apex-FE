@@ -183,7 +183,7 @@ const EconomicsDecksSelectionTable = () => {
             newTableRowHeight={35}
             onRowsChange={setRows}
             size={size}
-            adjustTableDimAuto={false}
+            autoAdjustTableDim={false}
             staticTableHeight={112}
           />
         )}

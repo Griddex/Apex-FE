@@ -44,7 +44,7 @@ export interface IApexGrid<R, O> {
   onExpandedGroupIdsChange?: (expandedGroupIds: Set<unknown>) => void;
   showTableHeader?: boolean;
   showTablePagination?: boolean;
-  adjustTableDimAuto?: boolean;
+  autoAdjustTableDim?: boolean;
   staticTableHeight?: number;
 }
 

@@ -1,4 +1,9 @@
+import set from "lodash.set";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import {
+  GET_TABLEDATABYID_SUCCESS,
+  GET_TABLEDATABYID_FAILURE,
+} from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   LOAD_FORECASTRESULTS_WORKFLOW,
   UPDATE_SELECTEDIDTITLE,
@@ -258,6 +263,22 @@ const forecastReducer = (
         selectedForecastingResultsId: "",
         selectedForecastingResultsTitle: "",
       };
+    }
+
+    case GET_TABLEDATABYID_SUCCESS: {
+      const { reducer, selectedTableData } = action.payload;
+
+      if (reducer === "inputReducer") {
+        const updatedState = set(state, "selectedTableData", selectedTableData);
+        return updatedState;
+      } else {
+        return state;
+      }
+    }
+
+    case GET_TABLEDATABYID_FAILURE: {
+      const { errors } = action.payload;
+      return { ...state, errors };
     }
 
     default:

@@ -11,11 +11,14 @@ import {
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
+import DialogCancelButton from "../../Components/DialogButtons/DialogCancelButton";
 import { failureDialogParameters } from "../../Components/DialogParameters/GetTableDataByIdFailureDialogParameters";
+import { DialogStuff } from "../../Components/Dialogs/DialogTypes";
 import * as authService from "../../Services/AuthService";
 import { IAction } from "../Actions/ActionTypes";
 import {
   getTableDataByIdFailureAction,
+  getTableDataByIdSuccessAction,
   GET_TABLEDATABYID_REQUEST,
 } from "../Actions/ApplicationActions";
 import { showDialogAction } from "../Actions/DialogsAction";
@@ -44,24 +47,53 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { reducer, tableDataUrl, getTableDataByIdSuccessAction } = payload;
+  const { reducer, tableDataUrl, tableTitle } = payload;
+  console.log(
+    "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 51 ~ reducer",
+    reducer
+  );
 
   try {
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
+    console.log(
+      "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 54 ~ tableDataResults",
+      tableDataResults
+    );
 
     const {
-      data: { data: tableData }, //prevent 2nd trip to server
+      data: { data },
     } = tableDataResults;
 
+    const selectedTableData = data["InputDeckEntities"];
+    console.log(
+      "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 60 ~ selectedTableData",
+      selectedTableData
+    );
     const successAction = getTableDataByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
         reducer,
-        tableData,
+        selectedTableData,
       },
     });
+
+    const dialogParameters: DialogStuff = {
+      name: "Display_Table_Data_Dialog",
+      title: tableTitle,
+      type: "tableDataDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "lg",
+      iconType: "information",
+      // workflowProcess,
+      actionsList: () => DialogCancelButton(),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      reducer,
+    };
+
+    yield put(showDialogAction(dialogParameters));
   } catch (errors) {
     const failureAction = getTableDataByIdFailureAction();
 
