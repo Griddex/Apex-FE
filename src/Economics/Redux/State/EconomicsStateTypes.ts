@@ -1,4 +1,5 @@
 import { FormikErrors, FormikTouched } from "formik";
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
 import {
@@ -61,7 +62,9 @@ export interface IEconomicsImport {
   chosenApplicationUnitsWithoutNone: string[];
   fileUnitsWithoutNone: string[];
 
-  variableUnits: Record<string, string>;
+  appHeaderNameUnitsMap: Record<string, string>;
+  matchHeadersTable: IRawRow[];
+  matchUnitsTable: IRawRow[];
 
   currentDevOption: { value: TDevScenarioNames; label: TDevScenarioTitles };
   developmentScenarios: TDevScenarioNames[];

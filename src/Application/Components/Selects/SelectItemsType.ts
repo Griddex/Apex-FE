@@ -6,6 +6,14 @@ export interface ISelectOption<T = string, U = string> {
   label: U;
 }
 export type SelectOptionsType = ISelectOption[];
+
+export interface IAppUnitSelectOption<T = string, U = string, V = string> {
+  value: T;
+  label: U;
+  unitId?: V;
+}
+export type AppUnitSelectOptionsType = IAppUnitSelectOption[];
+
 export interface ISelectItem {
   name: string;
   currentItem: string;
@@ -26,11 +34,11 @@ export interface IApexSelect {
   className?: string;
 }
 
-export interface IApexSelectRS {
-  valueOption: ISelectOption;
-  data: string[] | ISelectOption[];
-  handleSelect: (value: ValueType<ISelectOption, false>) => void;
-  RSStyles?: Styles<ISelectOption, false>;
+export interface IApexSelectRS<T extends ISelectOption> {
+  valueOption: T;
+  data: string[] | T[];
+  handleSelect: (value: ValueType<T, false>) => void;
+  RSStyles?: Styles<T, false>;
   menuPortalTarget: HTMLElement;
   isSelectOptionType: boolean;
   className?: string;

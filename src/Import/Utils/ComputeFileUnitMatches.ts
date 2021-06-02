@@ -1,6 +1,5 @@
 import pullAll from "lodash.pullall";
 import sortBy from "lodash.sortby";
-import zipObject from "lodash.zipobject";
 import React from "react";
 import stringSimilarity, { BestMatch } from "string-similarity";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
@@ -8,7 +7,6 @@ import { IUnit } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
 
 const computeFileUnitMatches = (
-  applicationHeadersMap: Record<string, string>,
   variableNameUnitsMap: Record<string, IUnit[]>,
   currentAppHeaderOptions: ISelectOption[],
   fileHeadersUnitsAppHeadersWithoutNoneMap: Record<
@@ -18,9 +16,10 @@ const computeFileUnitMatches = (
   savedMatchObjectAll: TUserMatchObject,
   workflowClass: string
 ) => {
-  const fileUnitsWithoutNone = Object.keys(
+  const fileUnitsWithoutNone = Object.values(
     fileHeadersUnitsAppHeadersWithoutNoneMap
-  );
+  ).map((o) => o.unit);
+
   const chosenAppHeadersWithoutNone = Object.values(
     fileHeadersUnitsAppHeadersWithoutNoneMap
   ).map((obj) => obj.chosenAppHeader);
@@ -39,7 +38,7 @@ const computeFileUnitMatches = (
   const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
 
   let i = 0;
-  const fileUnitMatches: Record<string, Record<string, React.Key>>[][] = [];
+  const fileUnitMatches: Record<string, Record<string, React.Key>>[] = [];
   for (const fileUnit of fileUnitsWithoutNone) {
     const appHeaderName = chosenAppHeaderNamesWithoutNone[i];
     const unitsCollection = variableNameUnitsMap[appHeaderName];
@@ -51,7 +50,7 @@ const computeFileUnitMatches = (
     let searchResult = {} as BestMatch["ratings"];
     let sortedSearchResultDesc = {} as BestMatch["ratings"];
     if (fileUnit === "unitless")
-      searchResult = [{ target: "unitless", rating: 0 }];
+      searchResult = [{ target: "unitless", rating: 1 }];
     else
       searchResult = stringSimilarity.findBestMatch(
         fileUnit,
@@ -104,11 +103,15 @@ const computeFileUnitMatches = (
       cleanedMatchedScores.push(0);
     }
 
-    const unitMatchArr = mtchdUnits.map((u, i) => ({
-      [u]: { score: cleanedMatchedScores[i], unitId: matchedUnitIds[i] },
-    })) as Record<string, Record<string, React.Key>>[];
+    const unitMatchObj = mtchdUnits.reduce(
+      (acc, u, i) => ({
+        ...acc,
+        [u]: { score: cleanedMatchedScores[i], unitId: matchedUnitIds[i] },
+      }),
+      {}
+    );
 
-    fileUnitMatches.push(unitMatchArr);
+    fileUnitMatches.push(unitMatchObj);
 
     i = i + 1;
   }

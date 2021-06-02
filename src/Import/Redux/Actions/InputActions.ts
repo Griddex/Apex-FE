@@ -64,7 +64,7 @@ export const updateInputParameterAction = (
 
 export const persistVariableUnitsAction = (
   reducer: ReducersType,
-  variableUnits: Record<string, string>,
+  appHeaderNameUnitsMap: Record<string, string>,
   workflowProcess: IAllWorkflows["wrkflwPrcss"]
 ) => {
   return {
@@ -72,7 +72,7 @@ export const persistVariableUnitsAction = (
     payload: {
       reducer,
       workflowProcess,
-      variableUnits,
+      appHeaderNameUnitsMap,
     },
   };
 };

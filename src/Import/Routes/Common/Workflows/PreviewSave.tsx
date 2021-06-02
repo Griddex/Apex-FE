@@ -15,15 +15,7 @@ import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinn
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import {
-  IUnit,
-  IUnitSettingsData,
-} from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import {
-  persistTableDataAction,
-  persistVariableUnitsAction,
-} from "../../../Redux/Actions/InputActions";
-import getUnitIdByUnitTitle from "../../../Utils/GetUnitIdByUnitTitle";
+import { persistTableDataAction } from "../../../Redux/Actions/InputActions";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
@@ -68,13 +60,11 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     (state: RootState) => state[reducer][wc][wp]
   );
 
-  //TODO: Need to generalize for other workflow processes
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
     costsRevenuesAppHeaders: cRHeaders,
     economicsParametersAppHeaders,
-    fileAppHeaderExcludeWithNoneMap,
   } = useSelector((state: RootState) => state[reducer]);
 
   let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
@@ -90,31 +80,32 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     allAppHeadersObj = { facilitiesAppHeaders, forecastAppHeaders };
   }
 
-  const applicationHeaderNameTitleCollection = getCurrentApplicationHeaders(
+  const appHeaderNameTitleCollection = getCurrentApplicationHeaders(
     wp,
     allAppHeadersObj,
     false
   );
 
-  //TODO: Gift should do this and store in Redis - Application units
-  const { applicationUnitsCollection } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  ) as IUnitSettingsData;
-
-  const applicationUnitsCollectionDefined =
-    applicationUnitsCollection as IUnit[];
-  const unitTitles = applicationUnitsCollectionDefined.map((u) => u.title);
-  const unitIds = applicationUnitsCollectionDefined.map((u) => u.unitId);
-  const titleUnitIdObj = zipObject(unitTitles, unitIds);
-
   const {
     tableRoleNames,
-    chosenAppHeadersWithoutNone,
-    chosenApplicationUnitsWithoutNone,
     columnNameTableData,
     selectedHeaderRowIndex,
     selectedUnitRowIndex,
+    matchHeadersTable,
+    matchUnitsTable,
+    fileAppHeaderExcludeWithNoneMap,
   } = useSelector((state: RootState) => state[reducer][wc][wp]);
+
+  const chosenAppHeadersWithNone = matchHeadersTable.map(
+    (row: IRawRow) => row.applicationHeader
+  );
+  const chosenAppHeadersWithoutNone = (
+    chosenAppHeadersWithNone as string[]
+  ).filter((h: string) => h.toLowerCase() !== "none");
+
+  const chosenApplicationUnitsWithoutNone = matchUnitsTable.map(
+    (row: IRawRow) => row.applicationUnit
+  );
 
   const unitsRow = zipObject(
     chosenAppHeadersWithoutNone,
@@ -123,11 +114,11 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const appHeaderNames = swapTitleToNames(
     chosenAppHeadersWithoutNone,
-    applicationHeaderNameTitleCollection as IApplicationHeaders[]
+    appHeaderNameTitleCollection as IApplicationHeaders[]
   );
 
   const appHeaderTitleNameObj = (
-    applicationHeaderNameTitleCollection as IApplicationHeaders[]
+    appHeaderNameTitleCollection as IApplicationHeaders[]
   ).reduce((acc: Record<string, string>, row: IApplicationHeaders) => {
     return { ...acc, [row.variableTitle]: row.variableName };
   }, {});
@@ -154,10 +145,12 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     ...row,
   }));
 
+  //TODO
   //Get chosen date format
   //assemble all columns that are date columns
   //use the new date format to carry out formatting
 
+  //TODO Gift you want array or joined?
   const newUnitsRow = zipObject(appHeaderNames, Object.values(unitsRow));
   const newUnitRowWithVariableName = { sn: 1, ...newUnitsRow };
   const tableData = [newUnitRowWithVariableName, ...orderedDataRows];
@@ -221,35 +214,8 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const columns = generateColumns();
 
-  //Generate unitLabel-unitId object
-  const appHeaderNamesUnitTitles = zipObject(
-    appHeaderNames,
-    chosenApplicationUnitsWithoutNone
-  ) as IRawRow;
-
-  const variableUnits: Record<string, string> = {};
-  for (const name of Object.keys(appHeaderNamesUnitTitles)) {
-    const unitTitle = appHeaderNamesUnitTitles[name] as string;
-
-    if (unitTitle.includes("&|&")) {
-      const unitTitles: string[] = unitTitle.split("&|&");
-
-      const unitIds = getUnitIdByUnitTitle(
-        unitTitles,
-        titleUnitIdObj
-      ) as string[];
-      const multipleIds = unitIds.join("&|&");
-
-      variableUnits[name] = multipleIds;
-    } else if (unitTitle) {
-      const unitId = getUnitIdByUnitTitle(unitTitle, titleUnitIdObj) as string;
-      variableUnits[name] = unitId;
-    }
-  }
-
   React.useEffect(() => {
     dispatch(persistTableDataAction(reducer, tableData, wp));
-    dispatch(persistVariableUnitsAction(reducer, variableUnits, wp));
 
     dispatch(hideSpinnerAction());
   }, []);

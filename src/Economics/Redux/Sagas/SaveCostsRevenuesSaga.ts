@@ -79,7 +79,7 @@ function* saveCostsRevenuesSaga(
     costsRevenues,
     costRevenuesButtons,
     forecastScenario,
-    variableUnits,
+    appHeaderNameUnitsMap,
   } = yield select((state) => state[reducer][wc][wp]);
 
   const shiftedCostRevenues = costRevenuesButtons
@@ -104,7 +104,7 @@ function* saveCostsRevenuesSaga(
     ),
     forecastScenario,
     matchObject,
-    variableUnits,
+    variableUnits: appHeaderNameUnitsMap,
   };
 
   const config = { withCredentials: false };

@@ -346,11 +346,6 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         ...prev,
         [fileHeaderDefined]: isChecked ? noneOptionIndex : currentOptionIndex,
       }));
-
-      // setNoneColumnIndices((prev) => ({
-      //   ...prev,
-      //   [`${selectedRowSN - 1}`]: isChecked ? true : false,
-      // }));
     };
 
     const handleAcceptMatchSwitchChange = (
@@ -404,7 +399,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       option: ValueType<ISelectOption, false>,
       row: IRawRow
     ) => {
-      const { sn, fileHeader } = row;
+      const { sn } = row;
       const rowSN = sn as number;
 
       const selectedValue = option && option.label;
@@ -675,7 +670,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     dispatch(saveUserMatchAction(userMatchObject));
 
     dispatch(hideSpinnerAction());
-  }, [setRows]);
+  }, [rows]);
 
   return (
     <div className={classes.rootMatchHeaders}>

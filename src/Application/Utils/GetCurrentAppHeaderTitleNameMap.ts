@@ -1,4 +1,3 @@
-import { IApplicationHeaders } from "../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import { IAllWorkflows } from "../Components/Workflows/WorkflowTypes";
 
 const getCurrentAppHeaderTitleNameMap = (
@@ -6,22 +5,22 @@ const getCurrentAppHeaderTitleNameMap = (
   allAppHeadersMap: Record<string, Record<string, React.Key>>
 ) => {
   let appHeadersMap: Record<string, React.Key> = {};
+
   const {
-    facilitiesAppHeadersNameTitleMap,
-    forecastAppHeadersNameTitleMap,
-    cstRevAppHeadersNameTitleMap,
-    ecoParAppHeadersNameTitleMap,
+    facilitiesHeadersNameMap,
+    forecastHeadersNameMap,
+    costsRevenuesAppHeadersMap,
+    ecoParHeadersNameMap,
   } = allAppHeadersMap;
 
-  if (wp.includes("facilities"))
-    appHeadersMap = facilitiesAppHeadersNameTitleMap;
-  else if (wp.includes("forecast"))
-    appHeadersMap = forecastAppHeadersNameTitleMap;
+  if (wp.includes("facilities")) appHeadersMap = facilitiesHeadersNameMap;
+  else if (wp.includes("forecast")) appHeadersMap = forecastHeadersNameMap;
   else if (wp.includes("economicsCostsRevenues"))
-    appHeadersMap = cstRevAppHeadersNameTitleMap;
+    appHeadersMap = costsRevenuesAppHeadersMap;
   else if (wp.includes("economicsParameters"))
-    appHeadersMap = ecoParAppHeadersNameTitleMap;
+    appHeadersMap = ecoParHeadersNameMap;
 
   return appHeadersMap;
 };
+
 export default getCurrentAppHeaderTitleNameMap;

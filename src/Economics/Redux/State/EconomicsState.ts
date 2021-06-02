@@ -69,7 +69,9 @@ const generateEconomicsState = () => {
         chosenApplicationUnitsWithoutNone: [],
         fileUnitsWithoutNone: [],
 
-        variableUnits: {},
+        appHeaderNameUnitsMap: {},
+        matchHeadersTable: [],
+        matchUnitsTable: [],
 
         currentDevOption: {},
         developmentScenarios: [],

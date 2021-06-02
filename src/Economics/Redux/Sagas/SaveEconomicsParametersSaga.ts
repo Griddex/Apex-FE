@@ -71,7 +71,7 @@ function* saveEconomicsParametersSaga(
     economicsParametersInputDeckDescription,
   } = yield select((state) => state.economicsReducer);
 
-  const { tableData: inputDeck, variableUnits } = yield select(
+  const { tableData: inputDeck, appHeaderNameUnitsMap } = yield select(
     (state) => state[reducer][wc][wp]
   );
 
@@ -133,7 +133,7 @@ function* saveEconomicsParametersSaga(
       oilRoyalty,
       gasRoyalty,
     },
-    variableUnits,
+    variableUnits: appHeaderNameUnitsMap,
     matchObject,
   };
 

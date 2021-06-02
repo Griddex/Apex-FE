@@ -2,12 +2,12 @@ import { Theme } from "@material-ui/core/styles";
 import { Styles } from "react-select";
 import { ISelectOption } from "../Components/Selects/SelectItemsType";
 
-const getRSStyles = (
+const getRSStyles = <T extends ISelectOption>(
   theme: Theme,
   containerWidth?: React.Key,
   containerHeight?: React.Key
 ) => {
-  const apexSelectStyles: Styles<ISelectOption, boolean> = {
+  const apexSelectStyles: Styles<T, boolean> = {
     container: (styles) => ({
       ...styles,
       height: containerHeight ? containerHeight : "100%",

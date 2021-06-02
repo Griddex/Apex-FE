@@ -68,7 +68,7 @@ const generateInputState = () => {
         fileAppHeaderExcludeWithNoneMap: {},
 
         savedMatchObjectAll: {},
-        variableUnits: {},
+        appHeaderNameUnitsMap: {},
 
         inputDeckId: "",
         status: 0,

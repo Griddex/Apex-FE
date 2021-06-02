@@ -8,7 +8,7 @@ import getRSTheme from "../../Utils/GetRSTheme";
 import noEventPropagation from "../../Events/NoEventPropagation";
 import NoImmediateEventPropgation from "../../Events/NoImmediateEventPropagation";
 
-const ApexSelectRS = ({
+const ApexSelectRS = <T extends ISelectOption>({
   valueOption,
   data,
   handleSelect,
@@ -18,18 +18,18 @@ const ApexSelectRS = ({
   containerWidth,
   containerHeight,
   ...rest
-}: IApexSelectRS) => {
+}: IApexSelectRS<T>) => {
   const theme = useTheme();
-  const RSStyles = getRSStyles(
+  const RSStyles = getRSStyles<T>(
     theme,
     containerWidth as React.Key,
     containerHeight as React.Key
   );
 
-  let dataOptions: ISelectOption[];
+  let dataOptions: T[];
 
-  if (isSelectOptionType) dataOptions = data as ISelectOption[];
-  else dataOptions = generateSelectOptions(data);
+  if (isSelectOptionType) dataOptions = data as T[];
+  else dataOptions = generateSelectOptions(data) as any;
 
   return (
     <Select
