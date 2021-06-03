@@ -17,7 +17,6 @@ import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurre
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { persistTableDataAction } from "../../../Redux/Actions/InputActions";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
-import swapToChosenTableHeaders from "../../../Utils/SwapToChosenTableHeaders";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -96,6 +95,27 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     fileAppHeaderExcludeWithNoneMap,
   } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
+  const excludedColumnIndices = matchHeadersTable.reduce(
+    (acc: number[], row: IRawRow, i: number) => {
+      if (row.applicationHeader.toString().toLowerCase() === "none")
+        return [...acc, i];
+      else return acc;
+    },
+    []
+  );
+
+  const columnNameTableDataWithoutNone = columnNameTableData.map(
+    (row: IRawRow) => {
+      const rowWithoutNone = Object.keys(row).reduce((acc, key, i) => {
+        if (excludedColumnIndices.includes(i)) return acc;
+        else return { ...acc, [key]: row[key] };
+      }, {});
+
+      return rowWithoutNone;
+    },
+    []
+  );
+
   const chosenAppHeadersWithNone = matchHeadersTable.map(
     (row: IRawRow) => row.applicationHeader
   );
@@ -123,10 +143,10 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     return { ...acc, [row.variableTitle]: row.variableName };
   }, {});
 
-  const applicationHeadertableData = swapToChosenTableHeaders(
-    columnNameTableData,
-    fileAppHeaderExcludeWithNoneMap,
-    appHeaderTitleNameObj
+  const applicationHeadertableData = columnNameTableDataWithoutNone.map(
+    (row: IRawRow) => {
+      return zipObject(appHeaderNames, Object.values(row));
+    }
   );
 
   const dataRows = applicationHeadertableData.filter(
@@ -180,7 +200,6 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
         key: "role",
         name: "ROLE",
         resizable: true,
-        headerRenderer: () => <div>{"HEYYYY"}</div>,
         formatter: ({ row }) => {
           const rowSN = row.sn as number;
           const slicedTableRoleNames = tableRoleNames.slice(

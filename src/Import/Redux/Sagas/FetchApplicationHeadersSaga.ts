@@ -96,10 +96,6 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       "variableName",
       facilitiesAppHeaders
     );
-    console.log(
-      "Logged output --> ~ file: FetchApplicationHeadersSaga.ts ~ line 99 ~ facilitiesHeadersNameMap",
-      facilitiesHeadersNameMap
-    );
 
     const forecastHeadersSelectOptions =
       swapVariableNameTitleForISelectOption(forecastAppHeaders);
@@ -107,10 +103,6 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       "variableTitle",
       "variableName",
       forecastAppHeaders
-    );
-    console.log(
-      "Logged output --> ~ file: FetchApplicationHeadersSaga.ts ~ line 108 ~ forecastHeadersNameMap",
-      forecastHeadersNameMap
     );
 
     const cstRevAppHeadersSelectOptions = Object.keys(
@@ -135,10 +127,6 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
 
       return { ...acc, [key]: swappedHeaders };
     }, {});
-    console.log(
-      "Logged output --> ~ file: FetchApplicationHeadersSaga.ts ~ line 143 ~ cstRevAppHeadersNameMaps",
-      cstRevAppHeadersNameMaps
-    );
 
     const ecoParAppHeadersSelectOptions = swapVariableNameTitleForISelectOption(
       economicsParametersAppHeaders
@@ -147,10 +135,6 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       "variableTitle",
       "variableName",
       economicsParametersAppHeaders
-    );
-    console.log(
-      "Logged output --> ~ file: FetchApplicationHeadersSaga.ts ~ line 142 ~ ecoParAppHeadersNameMap",
-      ecoParAppHeadersNameMap
     );
 
     yield put({

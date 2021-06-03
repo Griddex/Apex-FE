@@ -280,10 +280,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
   );
 
   const [rows, setRows] = React.useState(initialTableRows.current);
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 279 ~ MatchUnits ~ rows",
-    rows
-  );
 
   const [chosenApplicationUnitIndices, setChosenApplicationUnitIndices] =
     React.useState<Record<string, number | number[]>>(
@@ -303,10 +299,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       }),
       {}
     )
-  );
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 303 ~ MatchUnits ~ fileHeaderUnitIdMap",
-    fileHeaderUnitIdMap
   );
 
   const [userMatchObject, setUserMatchObject] =
@@ -349,10 +341,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         const selectedAppUnitsOptions = option
           ? (option as OptionsType<IAppUnitSelectOption>)
           : [];
-        console.log(
-          "Logged output --> ~ file: MatchUnits.tsx ~ line 367 ~ MatchUnits ~ selectedAppUnitsOptions",
-          selectedAppUnitsOptions
-        );
 
         const selectedAppUnits = selectedAppUnitsOptions.map((u) => u.label);
 
