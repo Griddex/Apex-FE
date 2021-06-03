@@ -410,7 +410,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -743,7 +743,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -1076,7 +1076,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -1416,7 +1416,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -1749,7 +1749,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -2082,7 +2082,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -2422,7 +2422,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -2755,7 +2755,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {
@@ -3088,7 +3088,7 @@
                         },
                         {
                           "id": "4f8ee81d-6ccd-4884-98b0-f698bf522c5a",
-                          "name": "terminalFee",
+                          "name": "terminalFeeOpex",
                           "title": "Var Oil Opex (Terminaling Fee)"
                         },
                         {

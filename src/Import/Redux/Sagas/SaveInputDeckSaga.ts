@@ -81,6 +81,18 @@ export function* saveInputDeckSaga(
     (state) => state.applicationReducer
   );
 
+  const appHeaderNameUnitsMapDefined = (
+    Object.keys(appHeaderNameUnitsMap) as string[]
+  ).reduce((acc: any, key) => {
+    const val = appHeaderNameUnitsMap[key];
+    if (val.toLowerCase() !== "noid") return { ...acc, [key]: val };
+    else return acc;
+  }, {});
+  console.log(
+    "Logged output --> ~ file: SaveInputDeckSaga.ts ~ line 92 ~ appHeaderNameUnitsMapDefined",
+    appHeaderNameUnitsMapDefined
+  );
+
   const {
     facilitiesInputDeckId,
     facilitiesInputDeckTitle,
@@ -103,7 +115,7 @@ export function* saveInputDeckSaga(
       : forecastInputDeckDescription,
     inputDeck: inputDeckData,
     matchObject,
-    variableUnits: appHeaderNameUnitsMap,
+    variableUnits: appHeaderNameUnitsMapDefined,
   };
 
   const config = { withCredentials: false };

@@ -7,4 +7,5 @@ export interface IContextMenuProps {
   setOpenTooltip?: SetStateAction<any>;
   component?: React.FC<any>;
   componentElement?: React.ReactElement;
+  data?: any;
 }

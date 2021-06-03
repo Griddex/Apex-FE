@@ -78,7 +78,7 @@ export const economicsParameterHeaders = [
   { variableName: "CHAOpex", variableTitle: "Var Oil Opex (CHA)" },
 
   {
-    variableName: "terminalFee",
+    variableName: "terminalFeeOpex",
     variableTitle: "Var Oil Opex (Terminaling Fee)",
   },
   { variableName: "gasVarOpex", variableTitle: "Gas Var Opex" },

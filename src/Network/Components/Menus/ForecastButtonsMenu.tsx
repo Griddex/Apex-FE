@@ -26,12 +26,11 @@ import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
 const ForecastButtonsMenu = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const { selectedNetworkId, isNetworkDisplayed } = useSelector(
     (state: RootState) => state.networkReducer
   );
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);

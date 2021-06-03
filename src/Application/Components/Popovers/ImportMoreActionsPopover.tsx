@@ -1,4 +1,4 @@
-import { ListItem } from "@material-ui/core";
+import { ListItem, Menu } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -11,6 +11,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import { IAllWorkflows } from "../Workflows/WorkflowTypes";
+import { MenuItem } from "@material-ui/core";
+import ChevronRightOutlinedIcon from "@material-ui/icons/ChevronRightOutlined";
+import NestedMenuItem from "material-ui-nested-menu-item";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,70 +70,76 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export interface IImportMoreActionsRow {
+  title?: string;
+  action?: () => void;
+}
+export type TImportMoreActionsData = IImportMoreActionsRow[];
+
 export interface IPopoverProps {
-  title: string;
-  action: () => void;
-  handleCancel: () => void;
-  localDispatch: React.Dispatch<{ type: string; payload: any }>;
+  anchorEl: any;
+  handleClose?: () => void;
   workflowProcess?: string;
+  importMoreActionsData: TImportMoreActionsData;
 }
 
-const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
-  ({ title, action, handleCancel, localDispatch, workflowProcess }, ref) => {
-    const classes = useStyles();
-    const { fileHeaders } = useSelector(
-      (state: RootState) =>
-        state.inputReducer["inputDataWorkflows"][
-          workflowProcess as IAllWorkflows["wrkflwPrcss"]
-        ]
-    );
+const ImportMoreActionsPopover = React.forwardRef<
+  HTMLDivElement,
+  IPopoverProps
+>(({ anchorEl, handleClose, importMoreActionsData, workflowProcess }, ref) => {
+  const classes = useStyles();
 
-    return (
-      <div className={classes.container} ref={ref}>
-        <div className={classes.header}>
-          <div className={classes.icon}>
-            <FilterListOutlinedIcon />
-          </div>
-          <div className={classes.title}>{title}</div>
-          <div className={classes.closeIcon}>
-            <CloseOutlinedIcon onClick={() => action()} />
-          </div>
+  return (
+    <div className={classes.container} ref={ref}>
+      <div className={classes.header}>
+        <div className={classes.icon}>
+          <FilterListOutlinedIcon />
         </div>
-        <div className={classes.body}>
-          <List dense>
-            {fileHeaders.map((header: string, listIndex: number) => {
-              const avatar = getFirstCharFromEveryWord(header);
+        <div className={classes.title}></div>
+        <div className={classes.closeIcon}>
+          <CloseOutlinedIcon onClick={handleClose} />
+        </div>
+      </div>
+      <div className={classes.body}>
+        <NestedMenuItem
+          parentMenuOpen={Boolean(anchorEl)}
+          rightIcon={ChevronRightOutlinedIcon}
+        >
+          <MenuItem />
+        </NestedMenuItem>
+        <List>
+          {importMoreActionsData.map(
+            (row: IImportMoreActionsRow, i: number) => {
+              const { title, action } = row;
+              const titleDefined = title as string;
+              const avatar = getFirstCharFromEveryWord(titleDefined);
               //TODO: Clear all
 
               return (
                 <ListItem
                   button
                   className={classes.listItem}
-                  key={listIndex}
-                  onClick={() =>
-                    localDispatch({
-                      type: "ACTIVECOLUMN_TABLE",
-                      payload: header,
-                    })
-                  }
+                  key={i}
+                  onClick={() => action && action()}
                 >
                   <ListItemAvatar className={classes.listItemAvatar}>
                     <>{avatar}</>
                   </ListItemAvatar>
-                  <ListItemText>{header}</ListItemText>
+                  <ListItemText>{titleDefined}</ListItemText>
                 </ListItem>
               );
-            })}
-          </List>
-        </div>
-        <div className={classes.footer}>
-          <Button className={classes.cancelButton} onClick={handleCancel}>
-            Cancel
-          </Button>
-        </div>
+            }
+          )}
+        </List>
       </div>
-    );
-  }
-);
+      <div className={classes.footer}>
+        <Button className={classes.cancelButton} onClick={handleClose}>
+          Cancel
+        </Button>
+        DialogCancelButton
+      </div>
+    </div>
+  );
+});
 
-export default FilterPopover;
+export default ImportMoreActionsPopover;

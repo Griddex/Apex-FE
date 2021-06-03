@@ -97,7 +97,7 @@ function* saveEconomicsParametersSaga(
     "preProd",
     "postProd",
     "cHAOpex",
-    "terminalFee",
+    "terminalFeeOpex",
     "gasVarOpex",
     "operationDaysPerAnnum",
     "utilizedGasVolume",
