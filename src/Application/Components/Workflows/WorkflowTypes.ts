@@ -44,7 +44,8 @@ export interface IInputWorkflows {
     | "economicsParametersDeckDatabase"
     | "economicsParametersDeckManual"
     | "economicsSensitivitiesExisting"
-    | "economicsParametersDeckExisting";
+    | "economicsParametersDeckExisting"
+    | "settings";
   wkCy: "inputDataWorkflows";
   finalAction?: () => void;
 }

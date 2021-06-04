@@ -1,12 +1,10 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import Select from "react-select";
-import { IApexSelectRS, ISelectOption } from "./SelectItemsType";
-import getRSStyles from "../../Utils/GetRSStyles";
-import { useTheme } from "@material-ui/core";
 import generateSelectOptions from "../../Utils/GenerateSelectOptions";
+import getRSStyles from "../../Utils/GetRSStyles";
 import getRSTheme from "../../Utils/GetRSTheme";
-import noEventPropagation from "../../Events/NoEventPropagation";
-import NoImmediateEventPropgation from "../../Events/NoImmediateEventPropagation";
+import { IApexSelectRS, ISelectOption } from "./SelectItemsType";
 
 const ApexSelectRS = <T extends ISelectOption>({
   valueOption,

@@ -1,36 +1,34 @@
+import { makeStyles } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import React from "react";
-import { XYPosition } from "react-flow-renderer";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
 import ImportMoreActionsPopover, {
   TImportMoreActionsData,
 } from "../Popovers/ImportMoreActionsPopover";
 
+const useStyles = makeStyles((theme) => ({
+  list: {
+    padding: 0,
+  },
+}));
+
 const ImportMoreActionsContextMenu = ({
   children,
   data,
+  moreActionsCtxOpen,
 }: IContextMenuProps) => {
-  const [open, setOpen] = React.useState(false);
-  const nodePosition = {
-    x: 334,
-    y: 152,
-  };
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setOpen(!open);
+  const handleClick = (event: React.ChangeEvent<any>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setAnchorEl(null);
   };
-
-  const pos = nodePosition as XYPosition;
-  const anchorPosition =
-    pos.y !== null && pos.x !== null ? { top: pos.y, left: pos.x } : undefined;
 
   const importMoreActionsData = data as TImportMoreActionsData;
 
@@ -42,8 +40,6 @@ const ImportMoreActionsContextMenu = ({
     >
       {children}
       <Menu
-        anchorReference="anchorPosition"
-        anchorPosition={anchorPosition}
         keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -55,8 +51,9 @@ const ImportMoreActionsContextMenu = ({
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "center",
+          horizontal: "left",
         }}
+        classes={{ list: classes.list }}
       >
         <ImportMoreActionsPopover
           anchorEl={anchorEl}

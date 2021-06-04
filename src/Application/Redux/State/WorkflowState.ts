@@ -1,4 +1,3 @@
-import { IAllWorkflows } from "../../Components/Workflows/WorkflowTypes";
 import { IWorkflowState } from "./WorkflowStateTypes";
 
 const projectWorkflowProcesses = ["newProjectWorkflowDialog"];
@@ -48,6 +47,7 @@ const inputWorkflowProcesses = [
   "economicsParametersDeckDatabase",
   "economicsParametersDeckManual",
   "economicsParametersDeckExisting",
+  "settings",
 ];
 const generateInputWorkflowState = () => {
   return inputWorkflowProcesses.reduce((acc, workflowProcess) => {
@@ -143,6 +143,7 @@ const generateEconomicsWorkflowState = () => {
     };
   }, {});
 };
+
 const economicsAnalysesWorkflowNames = ["economicsSensitivitiesExisting"];
 const generateEconomicsAnalysesWorkflowState = () => {
   return economicsAnalysesWorkflowNames.reduce((acc, workflowProcess) => {

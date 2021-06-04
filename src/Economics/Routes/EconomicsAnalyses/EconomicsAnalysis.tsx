@@ -4,12 +4,9 @@ import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
@@ -18,12 +15,8 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics";
-import {
-  developmentScenarioOptions,
-  developmentScenarios,
-} from "../../Data/EconomicsData";
+import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
   runEconomicsAnalysisRequestAction,

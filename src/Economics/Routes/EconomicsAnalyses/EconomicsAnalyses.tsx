@@ -3,6 +3,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import pick from "lodash.pick";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
+import { useDispatch } from "react-redux";
 import EconomicsAnalysesPanel from "../../Components/Panels/EconomicsAnalysesPanel";
 import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
@@ -11,7 +12,6 @@ import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsAct
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import { IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 import EconomicsAnalysis from "./EconomicsAnalysis";
-import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {

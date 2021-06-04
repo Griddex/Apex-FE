@@ -84,7 +84,6 @@ export interface IApplicationExistingForecastResultsRow
   forecastingParametersGroupTitle: string;
 }
 
-// export interface ILandingData {
 export interface ILandingData {
   name: string;
   description: string;

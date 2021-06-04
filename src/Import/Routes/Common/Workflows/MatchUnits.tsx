@@ -42,6 +42,10 @@ import generateMatchData from "../../../Utils/GenerateMatchData";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
 import getWorkflowClass from "./../../../../Application/Utils/GetWorkflowClass";
 import { TUnit, TUserMatchObject } from "./MatchHeadersTypes";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import ImportMoreActionsContextMenu from "../../../../Application/Components/Actions/ImportMoreActionsContextMenu";
+import FillPopoverComponent from "../../../../Application/Components/PopoverComponents/FillPopoverComponent";
+import range from "lodash.range";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -275,15 +279,12 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         match: score.value,
         acceptMatch,
         unitId: selectedApplicationUnit.unitId,
+        moreActionsCtxOpen: false,
       };
     })
   );
 
   const [rows, setRows] = React.useState(initialTableRows.current);
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 283 ~ MatchUnits ~ rows",
-    rows
-  );
 
   const [chosenApplicationUnitIndices, setChosenApplicationUnitIndices] =
     React.useState<Record<string, number | number[]>>(
@@ -303,10 +304,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       }),
       {}
     )
-  );
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 303 ~ MatchUnits ~ fileHeaderUnitIdMap",
-    fileHeaderUnitIdMap
   );
 
   const [userMatchObject, setUserMatchObject] =
@@ -512,13 +509,101 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         key: "actions",
         name: "ACTIONS",
         editable: false,
-        formatter: ({ row }) => (
-          <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-          </div>
-        ),
+        formatter: ({ row }) => {
+          const currentSN = row.sn as number;
+          const moreActionsCtxOpen = row.moreActionsCtxOpen as boolean;
+          const currentRow = row;
+          const columnTitleOptions = [
+            {
+              value: "type",
+              label: "Type",
+            },
+            {
+              value: "applicationUnit",
+              label: "Application Unit",
+            },
+            {
+              value: "acceptMatch",
+              label: "Accept Match",
+            },
+          ];
+
+          const upToOptions = range(0, currentSN).map((n: number) => ({
+            value: n.toString(),
+            label: n.toString(),
+          }));
+          const downToOptions = range(currentSN, rows.length).map(
+            (n: number) => ({ value: n.toString(), label: n.toString() })
+          );
+
+          const props = {
+            columnTitleOptions,
+            upToOptions,
+            downToOptions,
+            currentRow,
+            rows,
+            setRows,
+          };
+
+          const data = [
+            {
+              title: "Accept Match",
+              nestedData: [
+                {
+                  title: "Yes",
+                  action: () => {
+                    rows[currentSN - 1] = {
+                      ...currentRow,
+                      acceptMatch: true,
+                    };
+
+                    setRows(rows);
+                  },
+                },
+                {
+                  title: "No",
+                  action: () => {
+                    rows[currentSN - 1] = {
+                      ...currentRow,
+                      acceptMatch: false,
+                    };
+
+                    setRows(rows);
+                  },
+                },
+              ],
+            },
+            {
+              title: "Fill",
+              component: <FillPopoverComponent {...props} />,
+            },
+          ];
+
+          return (
+            <ApexFlexStyle>
+              <VisibilityOutlinedIcon
+                onClick={() => alert(`Delete Row is:${row}`)}
+              />
+              <ImportMoreActionsContextMenu
+                moreActionsCtxOpen={moreActionsCtxOpen}
+                data={data}
+              >
+                <MenuOpenOutlinedIcon
+                  onClick={() =>
+                    setRows((prev: IRawRow[]) => {
+                      prev[currentSN - 1] = {
+                        ...currentRow,
+                        moreActionsCtxOpen: !moreActionsCtxOpen,
+                      };
+
+                      setRows(prev);
+                    })
+                  }
+                />
+              </ImportMoreActionsContextMenu>
+            </ApexFlexStyle>
+          );
+        },
         width: 100,
       },
       {
@@ -777,10 +862,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           type === "Multiple" ? chosenAppUnitId.join("&|&") : chosenAppUnitId,
       };
     }, {});
-    console.log(
-      "Logged output --> ~ file: MatchUnits.tsx ~ line 780 ~ appHeaderNameUnitsMap ~ appHeaderNameUnitsMap",
-      appHeaderNameUnitsMap
-    );
 
     dispatch(persistVariableUnitsAction(reducer, appHeaderNameUnitsMap, wp));
 
@@ -795,7 +876,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     dispatch(saveUserMatchAction(userMatchObject));
 
     dispatch(hideSpinnerAction());
-  }, [rows, fileHeaderUnitIdMap]);
+  }, [rows]);
 
   return (
     <div className={classes.rootMatchUnits}>

@@ -1,7 +1,6 @@
 import { IInputWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
 
-// export const getInputWorkflowlabel: Record<IInputWorkflows["wrkflwPrcss"],string> = {
 export const getInputWorkflowlabel: {
   [P in IInputWorkflows["wkPs"]]: string;
 } = {
@@ -28,6 +27,8 @@ export const getInputWorkflowlabel: {
   economicsParametersDeckManual: "Economics Data",
   economicsParametersDeckExisting: "Economics Data",
   economicsSensitivitiesExisting: "Economics Data",
+
+  settings: "Settings Data",
 };
 
 export const getExistingWorkflowlabel: {
