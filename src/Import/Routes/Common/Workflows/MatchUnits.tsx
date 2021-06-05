@@ -136,6 +136,10 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         };
     }, {}) as Record<string, Record<string, string>>
   );
+  console.log(
+    "Logged output --> ~ file: MatchUnits.tsx ~ line 139 ~ MatchUnits ~ fileHeadersUnitsAppHeadersWithoutNoneMap",
+    fileHeadersUnitsAppHeadersWithoutNoneMap
+  );
 
   const fileHeadersWithoutNone = React.useRef(
     matchHeadersTable.reduce((acc: string[], row: IRawRow) => {
@@ -176,6 +180,10 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const currentAppHeaderNameMap = getCurrentAppHeaderTitleNameMap(
     wp,
     allAppHeadersNameMap
+  );
+  console.log(
+    "Logged output --> ~ file: MatchUnits.tsx ~ line 184 ~ MatchUnits ~ currentAppHeaderNameMap",
+    currentAppHeaderNameMap
   );
 
   const fileUnitMatches = React.useRef(
@@ -279,7 +287,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         match: score.value,
         acceptMatch,
         unitId: selectedApplicationUnit.unitId,
-        moreActionsCtxOpen: false,
       };
     })
   );
@@ -511,7 +518,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         editable: false,
         formatter: ({ row }) => {
           const currentSN = row.sn as number;
-          const moreActionsCtxOpen = row.moreActionsCtxOpen as boolean;
           const currentRow = row;
           const columnTitleOptions = [
             {
@@ -584,21 +590,18 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
               <VisibilityOutlinedIcon
                 onClick={() => alert(`Delete Row is:${row}`)}
               />
-              <ImportMoreActionsContextMenu
-                moreActionsCtxOpen={moreActionsCtxOpen}
-                data={data}
-              >
+              <ImportMoreActionsContextMenu data={data}>
                 <MenuOpenOutlinedIcon
-                  onClick={() =>
-                    setRows((prev: IRawRow[]) => {
-                      prev[currentSN - 1] = {
-                        ...currentRow,
-                        moreActionsCtxOpen: !moreActionsCtxOpen,
-                      };
+                // onClick={() =>
+                //   setRows((prev: IRawRow[]) => {
+                //     prev[currentSN - 1] = {
+                //       ...currentRow,
+                //       moreActionsCtxOpen: !moreActionsCtxOpen,
+                //     };
 
-                      setRows(prev);
-                    })
-                  }
+                //     setRows(prev);
+                //   })
+                // }
                 />
               </ImportMoreActionsContextMenu>
             </ApexFlexStyle>
@@ -607,19 +610,20 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         width: 100,
       },
       {
-        key: "fileUnit",
-        name: "FILE UNIT",
-        editable: false,
-        resizable: true,
-        width: 200,
-      },
-      {
         key: "fileHeader",
         name: "FILE HEADER",
         editable: false,
         resizable: true,
         width: 200,
       },
+      {
+        key: "fileUnit",
+        name: "FILE UNIT",
+        editable: false,
+        resizable: true,
+        width: 200,
+      },
+
       {
         key: "type",
         name: "TYPE",
@@ -645,7 +649,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
             />
           );
         },
-        width: 250,
+        width: 150,
       },
       {
         key: "applicationUnit",

@@ -18,6 +18,7 @@ const applicationState = {
   currentSubContextTabValue: 0,
 
   savedMatchObjectAll: {},
+  allHeadersNameTitleUniqueMap: [],
 };
 
 export default applicationState;

@@ -1,5 +1,5 @@
 import get from "lodash.get";
-import { variablesObj } from "./ForecastVariables";
+import { forecastVariablesMap } from "./ForecastVariables";
 
 const generateSelectedForecastData = (
   forecastData: any,
@@ -7,8 +7,8 @@ const generateSelectedForecastData = (
   modules: string[],
   selectedVariable: string
 ) => {
-  const variables = Object.values(variablesObj);
-  const selectedVariableValue = variablesObj[selectedVariable];
+  const variables = Object.values(forecastVariablesMap);
+  const selectedVariableValue = forecastVariablesMap[selectedVariable];
 
   const allData: Record<string, Record<string, React.Key>>[] = [];
 

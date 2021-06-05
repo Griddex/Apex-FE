@@ -134,6 +134,7 @@ function* getForecastResultsSaga(
         value: false,
       },
     });
+    yield put(hideSpinnerAction());
   }
 }
 

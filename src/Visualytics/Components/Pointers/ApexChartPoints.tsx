@@ -57,14 +57,6 @@ const ApexChartPointers = ({
     React.useState("inherit");
   const [borderColorPerspective, setBorderColorPerspective] =
     React.useState("inherit");
-  console.log(
-    "Logged output --> ~ file: ApexChartPoints.tsx ~ line 57 ~ pointColorPerspective",
-    pointColorPerspective
-  );
-  console.log(
-    "Logged output --> ~ file: ApexChartPoints.tsx ~ line 59 ~ borderColorPerspective",
-    borderColorPerspective
-  );
 
   const basePath = `economicsChartsWorkflows.${wp}.${chartType}`;
   const pointLabelOption = pointLabelOptions.find(

@@ -6,23 +6,15 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import startCase from "lodash.startcase";
 import React from "react";
-import { Column } from "react-data-griddex";
-import { useDispatch, useSelector } from "react-redux";
-import { SizeMe } from "react-sizeme";
+import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import { RootState } from "../../Redux/Reducers/AllReducers";
+import ApexEditor, { IApexEditor } from "../Editors/ApexEditor";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
-import { ApexGrid } from "../Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
-import { ITableButtonsProps } from "../Table/TableButtonsTypes";
-import { ReducersType } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
-import omit from "lodash.omit";
-import ApexEditor from "../Editors/ApexEditor";
+import { useDrag } from "react-dnd";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -111,8 +103,29 @@ const TableEditorDialog = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { title, show, maxWidth, iconType, actionsList, setRows, reducer } =
-    props;
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    actionsList,
+    reducer,
+    apexEditorProps,
+  } = props;
+
+  const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
+
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: "dragDialog",
+      item: null,
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult();
+      },
+      collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
+    }),
+    []
+  );
 
   return (
     <Dialog
@@ -120,6 +133,7 @@ const TableEditorDialog = (props: DialogStuff) => {
       open={show as boolean}
       maxWidth={maxWidth}
       fullWidth
+      ref={drag}
     >
       <DialogTitle
         onClose={() => dispatch(hideDialogAction())}
@@ -131,8 +145,7 @@ const TableEditorDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        {/* <ApexEditor/> */}
-        <div></div>
+        <ApexEditor {...apexEditorPropsDefined} />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>

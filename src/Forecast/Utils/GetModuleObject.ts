@@ -1,8 +1,8 @@
 import get from "lodash.get";
-import { variablesObj } from "./ForecastVariables";
+import { forecastVariablesMap } from "./ForecastVariables";
 
 const getModuleObject = (scenarioData: any, modulePath: string) => {
-  const variables = Object.values(variablesObj);
+  const variables = Object.values(forecastVariablesMap);
   const moduleData: Record<string, string> = {};
 
   const lastIndex = modulePath.lastIndexOf(".");

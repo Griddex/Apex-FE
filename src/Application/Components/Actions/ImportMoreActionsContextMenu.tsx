@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 const ImportMoreActionsContextMenu = ({
   children,
   data,
-  moreActionsCtxOpen,
 }: IContextMenuProps) => {
   const classes = useStyles();
 

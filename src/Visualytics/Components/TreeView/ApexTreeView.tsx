@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, useTheme } from "@material-ui/core";
+import { Checkbox, FormControlLabel } from "@material-ui/core";
 import Collapse from "@material-ui/core/Collapse";
 import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
 import SvgIcon from "@material-ui/core/SvgIcon";
@@ -6,7 +6,6 @@ import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
 import React from "react";
 import { useDrag } from "react-dnd";
-import { useDispatch } from "react-redux";
 import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
 import { IApexTreeView, RenderTree } from "./ApexTreeViewTypes";
 
@@ -111,8 +110,6 @@ export default function ApexTreeView({
   dragDropTypes,
 }: IApexTreeView) {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const theme = useTheme();
 
   const initExpanded = rootTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id

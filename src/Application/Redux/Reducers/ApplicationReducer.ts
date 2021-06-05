@@ -1,3 +1,4 @@
+import set from "lodash.set";
 import { IAction } from "../Actions/ActionTypes";
 import {
   ADD_TAB,
@@ -9,11 +10,19 @@ import {
   SET_SUBNAVBARDATA,
   SET_SUBNAVBARMENU,
   SET_WORKFLOWMENU,
+  UPDATE_APPLICATION,
 } from "../Actions/ApplicationActions";
 import applicationState from "../State/ApplicationState";
 
 const applicationReducer = (state = applicationState, action: IAction) => {
   switch (action.type) {
+    case UPDATE_APPLICATION: {
+      const { nameOrPath, value } = action.payload;
+
+      const updatedState = set(state, nameOrPath, value);
+      return updatedState;
+    }
+
     case SET_MAINDRAWERMENU:
       return {
         ...state,

@@ -137,6 +137,7 @@ function* getForecastResultsChartDataSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters("")));
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

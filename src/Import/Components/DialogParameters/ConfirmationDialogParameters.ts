@@ -11,8 +11,8 @@ export const confirmationDialogParameters = (
   exclusive: boolean,
   shouldDispatch: boolean,
   action: () => IAction | void,
-  oneButtonName: string,
-  oneButtonIconName: string
+  oneButtonTitle: string,
+  oneButtonIconTitle: string
 ): DialogStuff => {
   return {
     name,
@@ -28,8 +28,8 @@ export const confirmationDialogParameters = (
         [true, true],
         [true, shouldDispatch],
         [unloadDialogsAction, action],
-        oneButtonName,
-        oneButtonIconName
+        oneButtonTitle,
+        oneButtonIconTitle
       ),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };

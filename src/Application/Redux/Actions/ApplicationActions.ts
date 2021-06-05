@@ -2,6 +2,7 @@ import { TUserMatchObject } from "../../../Import/Routes/Common/Workflows/MatchH
 import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
 import { ReducersType } from "../../Components/Workflows/WorkflowTypes";
 
+export const UPDATE_APPLICATION = "UPDATE_APPLICATION";
 export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const SET_MAINDRAWERMENU = "SET_MAINDRAWERMENU";
 export const SET_SUBNAVBARMENU = "SET_SUBNAVBARMENU";
@@ -17,6 +18,18 @@ export const GET_TABLEDATABYID_REQUEST = "GET_TABLEDATABYID_REQUEST";
 export const GET_TABLEDATABYID_SUCCESS = "GET_TABLEDATABYID_SUCCESS";
 export const GET_TABLEDATABYID_FAILURE = "GET_TABLEDATABYID_FAILURE";
 
+export const updateApplicationParameterAction = (
+  nameOrPath: string,
+  value: any
+) => {
+  return {
+    type: UPDATE_APPLICATION,
+    payload: {
+      nameOrPath,
+      value,
+    },
+  };
+};
 export const persistSelectedIdTitleAction = (
   reducer: ReducersType,
   idTitleObj: Record<string, string>

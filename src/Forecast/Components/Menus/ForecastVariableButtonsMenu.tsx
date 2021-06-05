@@ -13,7 +13,7 @@ import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { updateForecastResultsParameterAction } from "../../Redux/Actions/ForecastActions";
-import { variablesObj } from "../../Utils/ForecastVariables";
+import { forecastVariablesMap } from "../../Utils/ForecastVariables";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -33,7 +33,8 @@ const ForecastVariableButtonsMenu = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [variable, setVariable] = React.useState("oilRate");
+  const [forecastVariableTitle, setForecastVariableTitle] =
+    React.useState("Oil Rate");
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);
@@ -43,7 +44,7 @@ const ForecastVariableButtonsMenu = () => {
     setAnchorEl(null);
   };
 
-  type VariableObjType = keyof typeof variablesObj;
+  type forecastVariableTitle = keyof typeof forecastVariablesMap;
 
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
@@ -59,7 +60,7 @@ const ForecastVariableButtonsMenu = () => {
         }}
         classes={{ label: classes.label }}
       >
-        {variable}
+        {forecastVariableTitle}
       </Button>
       <Menu
         keepMounted
@@ -76,16 +77,16 @@ const ForecastVariableButtonsMenu = () => {
           horizontal: "center",
         }}
       >
-        {(Object.keys(variablesObj) as VariableObjType[]).map(
-          (k: VariableObjType, i) => {
-            const avatar = getFirstCharFromEveryWord(k);
-            const selectedVar = variablesObj[k];
+        {(Object.keys(forecastVariablesMap) as forecastVariableTitle[]).map(
+          (title, i) => {
+            const avatar = getFirstCharFromEveryWord(title);
+            const selectedVar = forecastVariablesMap[title];
 
             return (
               <MenuItem
                 key={i}
                 onClick={() => {
-                  setVariable(k);
+                  setForecastVariableTitle(title);
                   dispatch(
                     updateForecastResultsParameterAction(
                       "selectedForecastChartVariable",
@@ -98,7 +99,7 @@ const ForecastVariableButtonsMenu = () => {
                 <ListItemAvatar className={classes.listItemAvatar}>
                   <>{avatar}</>
                 </ListItemAvatar>
-                <Typography variant="inherit">{k}</Typography>
+                <Typography variant="inherit">{title}</Typography>
               </MenuItem>
             );
           }

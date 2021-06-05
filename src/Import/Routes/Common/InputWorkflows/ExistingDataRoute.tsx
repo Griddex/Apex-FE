@@ -9,11 +9,18 @@ import { SizeMe } from "react-sizeme";
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
+import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
+import { IApexEditorRow } from "../../../../Application/Components/Editors/ApexEditor";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { getTableDataByIdRequestAction } from "../../../../Application/Redux/Actions/ApplicationActions";
-import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import {
   IExistingDataProps,
@@ -79,6 +86,15 @@ export default function ExistingDataRoute<
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
+  const [shouldUpdate, setShouldUpdate] = React.useState(false);
+
+  const currentRows = snExistingData as IExistingDataRow[];
+
+  const [rows, setRows] = React.useState(currentRows);
+  // console.log(
+  //   "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 96 ~ rows",
+  //   rows
+  // );
 
   const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
@@ -88,64 +104,112 @@ export default function ExistingDataRoute<
     >,
   });
 
+  const dividerPositions = [50];
+
   const generateColumns = () => {
-    const columns: Column<TRow>[] = [
+    const columns: Column<IExistingDataRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       ApexGridCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
         editable: false,
-        formatter: ({ row }) => (
-          <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon
-              onClick={() =>
-                dispatch(
-                  showDialogAction(
-                    confirmationDialogParameters(
-                      "Delete_Table",
-                      "Confirm Table Deletion",
-                      `This action will permanently delete this data item.
+        formatter: ({ row }) => {
+          const sn = row.sn as number;
+          const editedRow = rows[sn - 1];
+          const editorData = [
+            {
+              name: dataKey,
+              title: dataTitle,
+              value: (row as IExistingDataRow)[
+                dataKey as keyof IExistingDataRow
+              ],
+              editorType: "input",
+            },
+            {
+              name: "description",
+              title: "Description",
+              value: (row as IExistingDataRow)["description"],
+              editorType: "textArea",
+            },
+          ] as IApexEditorRow[];
+
+          return (
+            <div>
+              <EditOutlinedIcon
+                onClick={() => {
+                  const dialogParameters: DialogStuff = {
+                    name: "Edit_Table_Dialog",
+                    title: "Edit Table",
+                    type: "tableEditorDialog",
+                    show: true,
+                    exclusive: true,
+                    maxWidth: "xs",
+                    iconType: "edit",
+                    apexEditorProps: {
+                      editorData,
+                      editedRow,
+                      dividerPositions,
+                      rows,
+                      setRows,
+                      shouldUpdate,
+                    },
+                    actionsList: () =>
+                      DialogOneCancelButtons(
+                        [true, true],
+                        [true, false],
+                        [
+                          unloadDialogsAction,
+                          () => setShouldUpdate(!shouldUpdate),
+                        ],
+                        "Update",
+                        "updateOutlined"
+                      ),
+                  };
+
+                  dispatch(showDialogAction(dialogParameters));
+                }}
+              />
+              <DeleteOutlinedIcon
+                onClick={() =>
+                  dispatch(
+                    showDialogAction(
+                      confirmationDialogParameters(
+                        "Delete_Table",
+                        "Confirm Table Deletion",
+                        `This action will permanently delete this data item.
   
   Proceed?`,
-                      true,
-                      false,
-                      () => {
-                        const sn = row.sn as number;
-                        const remainingRows = rows.splice(sn - 1, 1);
-                        console.log(
-                          "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 117 ~ generateColumns ~ remainingRows",
-                          remainingRows
-                        );
-                        console.log(
-                          "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 117 ~ generateColumns ~ rows",
-                          rows
-                        );
+                        true,
+                        false,
+                        () => {
+                          const sn = row.sn as number;
+                          const remainingRows = rows.splice(sn - 1, 1);
 
-                        setRows(remainingRows);
-                        tableRows.current = remainingRows;
-                      },
-                      "Proceed",
-                      "proceedOutlined"
+                          setRows(remainingRows);
+                          // tableRows.current = remainingRows;
+                        },
+                        "Proceed",
+                        "proceedOutlined"
+                      )
                     )
                   )
-                )
-              }
-            />
-            <VisibilityOutlinedIcon
-              onClick={() =>
-                dispatch(
-                  getTableDataByIdRequestAction(
-                    reducer as ReducersType,
-                    `${mainUrl}/${row.id}`,
-                    row.title as string
+                }
+              />
+              <VisibilityOutlinedIcon
+                onClick={() =>
+                  dispatch(
+                    getTableDataByIdRequestAction(
+                      reducer as ReducersType,
+                      `${mainUrl}/${row.id}`,
+                      row.title as string
+                    )
                   )
-                )
-              }
-            />
-          </div>
-        ),
+                }
+              />
+            </div>
+          );
+        },
         width: 100,
       },
       {
@@ -206,17 +270,6 @@ export default function ExistingDataRoute<
     return columns;
   };
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
-  const tableRows = React.useRef<any>(snExistingData);
-  const currentRows = tableRows.current;
-  console.log(
-    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 211 ~ currentRows",
-    currentRows
-  );
-  const [rows, setRows] = React.useState(currentRows);
-  console.log(
-    "Logged output --> ~ file: ExistingDataRoute.tsx ~ line 213 ~ rows",
-    rows
-  );
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
@@ -237,7 +290,7 @@ export default function ExistingDataRoute<
         <div className={classes.workflowBody}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<TRow, ITableButtonsProps>
+              <ApexGrid<IExistingDataRow, ITableButtonsProps>
                 columns={columns}
                 rows={rows}
                 tableButtons={tableButtons as ITableButtonsProps}

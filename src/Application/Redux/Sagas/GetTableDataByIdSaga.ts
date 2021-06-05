@@ -56,7 +56,7 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   try {
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
     console.log(
-      "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 54 ~ tableDataResults",
+      "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 58 ~ tableDataResults",
       tableDataResults
     );
 
@@ -65,10 +65,7 @@ function* getTableDataByIdSaga(action: IAction): Generator<
     } = tableDataResults;
 
     const selectedTableData = data["InputDeckEntities"];
-    console.log(
-      "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 60 ~ selectedTableData",
-      selectedTableData
-    );
+
     const successAction = getTableDataByIdSuccessAction();
     yield put({
       ...successAction,
@@ -87,7 +84,6 @@ function* getTableDataByIdSaga(action: IAction): Generator<
       exclusive: true,
       maxWidth: "lg",
       iconType: "information",
-      // workflowProcess,
       actionsList: () => DialogCancelButton(),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,

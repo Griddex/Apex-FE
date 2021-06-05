@@ -32,11 +32,6 @@ export default function ForecastTreeView() {
   const [selectedModulePathsUnfiltered, setSelectedModulePathsUnfiltered] =
     React.useState<string[]>([]);
 
-  const initExpanded = [
-    rootTree.id,
-    ...rootTree.children.map((scenarioNodes) => scenarioNodes.id),
-  ];
-
   React.useEffect(() => {
     const selectedModulePaths = selectedModulePathsUnfiltered.filter(
       (p) => p?.match(/@#\$%/g)?.length === 2

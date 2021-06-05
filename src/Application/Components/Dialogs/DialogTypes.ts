@@ -32,6 +32,7 @@ import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecast
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
 import { TUseState } from "../../Types/ApplicationTypes";
+import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import { IAllWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
@@ -39,6 +40,7 @@ import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TableDataDialog from "./TableDataDialog";
+import TableEditorDialog from "./TableEditorDialog";
 import TextDialog from "./TextDialog";
 
 export interface IApplicationDialogs {
@@ -69,6 +71,7 @@ export interface IApplicationDialogs {
   existingEconomicsSensitivitiesDialog: typeof ExistingEconomicsSensitivitiesDialog;
   selectDevelopmentScenariosDialog: typeof SelectDevelopmentScenariosDialog;
   tableDataDialog: typeof TableDataDialog;
+  tableEditorDialog: typeof TableEditorDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -118,7 +121,8 @@ export interface DialogStuff {
     | "saveEconomicsSensitivitiesDialog"
     | "existingEconomicsSensitivitiesDialog"
     | "selectDevelopmentScenariosDialog"
-    | "tableDataDialog";
+    | "tableDataDialog"
+    | "tableEditorDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -143,6 +147,7 @@ export interface DialogStuff {
   rows?: IRawRow[];
   columns?: Column<IRawRow>[];
   setRows?: TUseState<any>;
+  apexEditorProps?: IApexEditor;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

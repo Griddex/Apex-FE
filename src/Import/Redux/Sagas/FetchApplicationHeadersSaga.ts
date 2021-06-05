@@ -30,6 +30,9 @@ import {
   FETCHAPPLICATIONHEADERS_REQUEST,
 } from "../Actions/InputActions";
 import swapVariableNameTitleForISelectOption from "./../../../Application/Utils/SwapVariableNameTitleForISelectOption";
+import uniqBy from "lodash.uniqby";
+import { IVariableNameTitle } from "../../../Application/Types/ApplicationTypes";
+import { updateApplicationParameterAction } from "../../../Application/Redux/Actions/ApplicationActions";
 
 export default function* watchFetchApplicationHeadersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -137,6 +140,24 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       economicsParametersAppHeaders
     );
 
+    const allHeadersNameTitleUniqueCollection = uniqBy(
+      [
+        ...facilitiesAppHeaders,
+        ...forecastAppHeaders,
+        ...costsRevenuesAppHeaders["oilDevelopment"],
+        ...costsRevenuesAppHeaders["nagDevelopment"],
+        ...costsRevenuesAppHeaders["oilNAGDevelopment"],
+        ...economicsParametersAppHeaders,
+      ],
+      (o: IVariableNameTitle) => o.variableName
+    );
+
+    const allHeadersNameTitleUniqueMap = generateKeyValueMap(
+      "variableName",
+      "variableTitle",
+      allHeadersNameTitleUniqueCollection
+    );
+
     yield put({
       ...successAction1,
       payload: {
@@ -167,6 +188,13 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
         ecoParAppHeadersNameMap,
       },
     });
+
+    yield put(
+      updateApplicationParameterAction(
+        "allHeadersNameTitleUniqueMap",
+        allHeadersNameTitleUniqueMap
+      )
+    );
   } catch (errors) {
     const failureAction1 = fetchApplicationHeadersFailureAction();
     const failureAction2 = fetchExistingCostsRevenuesDataFailureAction();

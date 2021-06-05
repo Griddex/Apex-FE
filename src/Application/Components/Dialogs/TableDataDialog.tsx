@@ -118,6 +118,10 @@ const TableDataDialog = (props: DialogStuff) => {
   const { title, show, maxWidth, iconType, actionsList, setRows, reducer } =
     props;
 
+  const { allHeadersNameTitleUniqueMap } = useSelector(
+    (state: RootState) => state.applicationReducer
+  );
+
   const { selectedTableData } = useSelector(
     (state: RootState) => state[reducer as ReducersType]
   );
@@ -131,13 +135,17 @@ const TableDataDialog = (props: DialogStuff) => {
   );
 
   const columnKeys = Object.keys(snSelectedTableData[1]);
-  const columns = columnKeys.map((k) => ({
-    key: k,
-    name: startCase(k),
-    editable: false,
-    resizable: true,
-    minWidth: 100,
-  }));
+  const columns = columnKeys.map((k) => {
+    const name = allHeadersNameTitleUniqueMap[k]?.toUpperCase();
+
+    return {
+      key: k,
+      name: name ? name : startCase(k).toUpperCase(),
+      editable: false,
+      resizable: true,
+      minWidth: k.toLowerCase().trim() === "sn" ? 50 : 150,
+    };
+  });
 
   return (
     <Dialog

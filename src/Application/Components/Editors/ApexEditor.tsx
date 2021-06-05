@@ -1,12 +1,24 @@
-import { Divider, Input, makeStyles } from "@material-ui/core";
+import {
+  Divider,
+  Input,
+  makeStyles,
+  TextareaAutosize,
+  useTheme,
+} from "@material-ui/core";
+import { DatePicker, DatePickerInput } from "carbon-components-react";
 import React from "react";
-import { TUseState } from "../../Types/ApplicationTypes";
+import { ValueType } from "react-select";
+import { IExistingDataRow, TUseState } from "../../Types/ApplicationTypes";
 import AnalyticsComp from "../Basic/AnalyticsComp";
+import ApexSelectRS from "../Selects/ApexSelectRS";
+import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexFlexStyle from "../Styles/ApexFlexStyle";
+import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
+import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 
 const useStyles = makeStyles({
   input: {
-    width: 60,
+    width: "100%",
     fontSize: 14,
   },
 });
@@ -14,70 +26,230 @@ const useStyles = makeStyles({
 export interface IApexEditorRow {
   name: string;
   title: string;
-  value: React.Key;
+  value?: any;
+  editorType: "input" | "textArea" | "date" | "switch" | "select";
+  currentOption?: ISelectOption;
+  Options?: ISelectOption[];
 }
 export interface IApexEditor {
-  setEditedTableData: TUseState<any>;
   editorData: IApexEditorRow[];
+  editedRow: IExistingDataRow;
   dividerPositions: number[];
+  rows: IExistingDataRow[];
+  setRows: TUseState<IExistingDataRow[]>;
+  shouldUpdate: boolean;
+  setShouldUpdate?: TUseState<boolean>;
 }
 
 const ApexEditor = ({
-  setEditedTableData,
   editorData,
+  editedRow,
   dividerPositions,
+  rows,
+  setRows,
+  shouldUpdate,
+  setShouldUpdate,
 }: IApexEditor) => {
+  console.log(
+    "Logged output --> ~ file: ApexEditor.tsx ~ line 52 ~ shouldUpdate",
+    shouldUpdate
+  );
+  const theme = useTheme();
   const classes = useStyles();
 
+  const editorRef = React.useRef<HTMLDivElement>(null);
   const indexRef = React.useRef(0);
-  const [formEditorData, setFormEditorData] = React.useState(editorData);
-  const [shouldSubmit, setShouldSubmit] = React.useState(false);
+  const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
+
+  const renderEditorComponent = (
+    i: number,
+    name: string,
+    title: string,
+    value?: any,
+    editorType?: "input" | "textArea" | "date" | "switch" | "select",
+    currentOption?: ISelectOption,
+    Options?: ISelectOption[]
+  ) => {
+    switch (editorType) {
+      case "input":
+        return (
+          <AnalyticsComp
+            key={i}
+            title={title}
+            direction="Vertical"
+            containerStyle={{ marginTop: 20, minWidth: 350 }}
+            content={
+              <Input
+                className={classes.input}
+                value={formEditorRow[name as keyof IExistingDataRow]}
+                margin="dense"
+                onChange={(event) => {
+                  const { value } = event.target;
+
+                  setFormEditorRow((prev) => {
+                    return { ...prev, [name]: value };
+                  });
+                }}
+              />
+            }
+            contentStyle={{ width: "100%" }}
+          />
+        );
+
+      case "textArea":
+        return (
+          <AnalyticsComp
+            key={i}
+            title={title}
+            direction="Vertical"
+            containerStyle={{ marginTop: 20, minWidth: 350, minHeight: 500 }}
+            content={
+              <TextareaAutosize
+                name={name}
+                style={{ height: "100%", width: "100%" }}
+                rowsMin={20}
+                value={formEditorRow[name as keyof IExistingDataRow] as string}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setFormEditorRow((prev) => {
+                    return { ...prev, [name]: value };
+                  });
+                }}
+              />
+            }
+          />
+        );
+
+      case "date":
+        return (
+          <AnalyticsComp
+            key={i}
+            title={title}
+            direction="Vertical"
+            content={
+              <DatePicker
+                datePickerType="single"
+                onChange={(_, currentDateString) => {
+                  setFormEditorRow((prev) => ({
+                    ...prev,
+                    [name]: currentDateString,
+                  }));
+                }}
+              >
+                <DatePickerInput
+                  id="date-picker-input-id-start"
+                  placeholder="DD/MM/yyyy"
+                  labelText=""
+                />
+              </DatePicker>
+            }
+          />
+        );
+
+      case "switch":
+        return (
+          <AnalyticsComp
+            key={i}
+            title={title}
+            direction="Vertical"
+            content={
+              <ApexMuiSwitch
+                name={name}
+                handleChange={(event) => {
+                  const { checked } = event.target;
+                  setFormEditorRow((prev) => {
+                    return { ...prev, [name]: checked };
+                  });
+                }}
+                checked={Boolean(formEditorRow[name as keyof IExistingDataRow])}
+                checkedColor={theme.palette.success.main}
+                notCheckedColor={theme.palette.common.white}
+                hasLabels={true}
+                leftLabel="Disable"
+                rightLabel="Enable"
+              />
+            }
+          />
+        );
+
+      case "select":
+        return (
+          <AnalyticsComp
+            key={i}
+            title={title}
+            direction="Vertical"
+            containerStyle={{ marginTop: 20 }}
+            content={
+              <ApexSelectRS
+                valueOption={currentOption as ISelectOption}
+                data={Options as ISelectOption[]}
+                handleSelect={(option: ValueType<ISelectOption, false>) => {
+                  setFormEditorRow((prev) => {
+                    return { ...prev, [name]: (option as ISelectOption).label };
+                  });
+                }}
+                menuPortalTarget={editorRef.current as HTMLDivElement}
+                isSelectOptionType={true}
+              />
+            }
+          />
+        );
+
+      default:
+        <div>No match</div>;
+    }
+  };
 
   React.useEffect(() => {
-    setEditedTableData(formEditorData);
-  }, [shouldSubmit]);
+    const sn = editedRow["sn"] as number;
+    rows[sn - 1] = formEditorRow;
+    console.log(
+      "Logged output --> ~ file: ApexEditor.tsx ~ line 201 ~ React.useEffect ~ formEditorRow",
+      formEditorRow
+    );
+
+    console.log(
+      "Logged output --> ~ file: ApexEditor.tsx ~ line 208 ~ React.useEffect ~ rows",
+      rows
+    );
+    setRows(rows);
+  }, [shouldUpdate, setShouldUpdate]);
 
   return (
-    <>
-      <ApexFlexStyle>
-        {editorData.map((row, i) => {
-          const { name, title, value } = row;
-          indexRef.current = i;
+    <ApexFlexStyle>
+      {dividerPositions.map((pos, i) => {
+        return (
+          <div key={i}>
+            <ApexFlexStyle flexDirection="column" justifyContent="flex-start">
+              {editorData.map((row, i) => {
+                const {
+                  name,
+                  title,
+                  value,
+                  editorType,
+                  currentOption,
+                  Options,
+                } = row;
+                indexRef.current = i;
 
-          return (
-            <AnalyticsComp
-              title={title}
-              direction="Vertical"
-              containerStyle={{ marginTop: 20 }}
-              content={
-                <Input
-                  className={classes.input}
-                  value={value}
-                  margin="dense"
-                  onChange={(event) => {
-                    const { value } = event.target;
-
-                    const editedRow = formEditorData[i];
-                    formEditorData[i] = { ...editedRow, [name]: value };
-
-                    setFormEditorData(formEditorData);
-                  }}
-                  // onBlur={handleBlur}
-                  // inputProps={{
-                  //   step: step,
-                  //   min: min,
-                  //   max: max,
-                  //   type: "number",
-                  //   "aria-labelledby": "input-slider",
-                  // }}
-                />
-              }
-            />
-          );
-        })}
-      </ApexFlexStyle>
-      {dividerPositions.includes(indexRef.current) && <Divider />}
-    </>
+                return renderEditorComponent(
+                  i,
+                  name,
+                  title,
+                  value,
+                  editorType,
+                  currentOption,
+                  Options
+                );
+              })}
+            </ApexFlexStyle>
+            <div>
+              {dividerPositions.includes(indexRef.current) && <Divider />}
+            </div>
+          </div>
+        );
+      })}
+    </ApexFlexStyle>
   );
 };
 

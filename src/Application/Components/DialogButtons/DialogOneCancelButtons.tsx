@@ -10,13 +10,14 @@ import HourglassFullOutlinedIcon from "@material-ui/icons/HourglassFullOutlined"
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import UpdateOutlinedIcon from "@material-ui/icons/UpdateOutlined";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
   shouldDispatch: IButtonsConfigProps["shouldDispatch"],
   finalActions: IButtonsConfigProps["finalActions"],
-  oneButtonName: string,
-  oneButtonIconName: string
+  oneButtonTitle: string,
+  oneButtonIconTitle: string
 ) => {
   const icons: Record<string, JSX.Element> = {
     saveOutlined: <SaveOutlinedIcon />,
@@ -25,6 +26,7 @@ const DialogOneCancelButtons = (
     proceedOutlined: <DoneOutlinedIcon />,
     viewDayTwoTone: <ViewDayTwoToneIcon />,
     reset: <RotateLeftIcon />,
+    updateOutlined: <UpdateOutlinedIcon />,
   };
 
   const dispatch = useDispatch();
@@ -37,10 +39,10 @@ const DialogOneCancelButtons = (
       handleAction: () => dispatch(hideDialogAction()),
     },
     {
-      title: oneButtonName,
+      title: oneButtonTitle,
       variant: "contained",
       color: "primary",
-      startIcon: icons[oneButtonIconName],
+      startIcon: icons[oneButtonIconTitle],
       handleAction: () => {
         let i = 0;
         for (const execute of shouldExecute) {

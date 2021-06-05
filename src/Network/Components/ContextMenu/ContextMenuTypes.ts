@@ -8,5 +8,5 @@ export interface IContextMenuProps {
   component?: React.FC<any>;
   componentElement?: React.ReactElement;
   data?: any;
-  moreActionsCtxOpen?: boolean;
+  // moreActionsCtxOpen?: boolean;
 }

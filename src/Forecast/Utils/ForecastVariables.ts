@@ -1,4 +1,4 @@
-export const variablesObj: Record<string, string> = {
+export const forecastVariablesMap: Record<string, string> = {
   "Oil Rate": "oilRate",
   "Gas Rate": "gasRate",
   "Water Rate": "waterRate",

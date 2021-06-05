@@ -7,6 +7,7 @@ import WarningIcon from "@material-ui/icons/Warning";
 import { DialogIconsType, IconNameType } from "./DialogIconsTypes";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import { useTheme } from "@material-ui/core/styles";
+import EditIcon from "@material-ui/icons/Edit";
 
 const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
   const theme = useTheme();
@@ -23,6 +24,7 @@ const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
     confirmation: (
       <HelpOutlineOutlinedIcon style={{ color: theme.palette.primary.main }} />
     ),
+    edit: <EditIcon style={{ color: theme.palette.primary.main }} />,
     network: <AccountTreeIcon style={{ color: theme.palette.primary.main }} />,
   };
 

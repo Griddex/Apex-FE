@@ -3,7 +3,7 @@ import zipWith from "lodash.zipwith";
 import objectScan from "object-scan";
 import React from "react";
 import getModuleObject from "./GetModuleObject";
-import { variablesObj } from "./ForecastVariables";
+import { forecastVariablesMap } from "./ForecastVariables";
 
 const getFilteredForecastData = (
   scenarios: string[],
@@ -11,7 +11,7 @@ const getFilteredForecastData = (
   forecastData: any,
   selectedVariable: string
 ) => {
-  const selectedVariableValue = variablesObj[selectedVariable];
+  const selectedVariableValue = forecastVariablesMap[selectedVariable];
 
   const moduleVariableArr = [];
   const moduleNameModuleObj: Record<string, Record<string, React.Key>[]> = {};
