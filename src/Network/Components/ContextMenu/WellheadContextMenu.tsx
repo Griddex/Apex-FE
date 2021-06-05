@@ -10,6 +10,10 @@ const WellheadContextMenu = ({ children, position }: IContextMenuProps) => {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
+  console.log(
+    "Logged output --> ~ file: WellheadContextMenu.tsx ~ line 13 ~ WellheadContextMenu ~ position",
+    position
+  );
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );

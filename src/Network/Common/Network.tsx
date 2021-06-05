@@ -62,8 +62,7 @@ const useStyles = makeStyles(() => ({
     height: "100%",
     width: "100%",
     alignItems: "center",
-    justifyContent: "center", //around, between
-    // justifyContent: "space-evenly", //around, between
+    justifyContent: "center",
   },
   networkPanel: {
     display: "flex",
@@ -82,6 +81,9 @@ const useStyles = makeStyles(() => ({
     width: "85%",
     border: "1px solid #E7E7E7",
     backgroundColor: "#FFF",
+  },
+  networkCanvas: {
+    height: `calc(100% - 30px)`,
   },
   networkContentIcons: {
     display: "flex",
@@ -159,20 +161,29 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
       border: "1px solid grey",
     };
   }
+
   const handleWidgetDrop = (monitor: DropTargetMonitor) => {
-    const nodeType = monitor.getItem() as string;
+    const { nodeType } = monitor.getItem() as any;
+    console.log(
+      "Logged output --> ~ file: Network.tsx ~ line 164 ~ handleWidgetDrop ~ nodeType",
+      nodeType
+    );
     const mouseCoord = monitor.getClientOffset() as XYPosition;
+    console.log(
+      "Logged output --> ~ file: Network.tsx ~ line 166 ~ handleWidgetDrop ~ mouseCoord",
+      mouseCoord
+    );
 
     const mouseCoordUpdated = {
       x: mouseCoord.x - 250,
       y: mouseCoord.y - 80,
     } as XYPosition;
-    const mouseCoordProjected = rfi.project(mouseCoordUpdated);
+    // const mouseCoordProjected = rfi.project(mouseCoordUpdated);
 
     const newElement: FlowElement = GenerateNodeService(nodeType);
     const updatedNewElement = {
       ...newElement,
-      position: { ...mouseCoordProjected } as XYPosition,
+      position: { ...mouseCoordUpdated } as XYPosition,
     };
 
     localDispatch({
@@ -187,10 +198,10 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     ...nodeElementsWithWidgets,
     ...(edgeElements as Edge[]),
   ];
-
-  const init = (allNetworkElements: FlowElement[]) => {
-    return allNetworkElements;
-  };
+  console.log(
+    "Logged output --> ~ file: Network.tsx ~ line 198 ~ Network ~ allNetworkElements",
+    allNetworkElements
+  );
 
   const reducer = (state: FlowElement[], action: any) => {
     switch (action.type) {
@@ -207,14 +218,13 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     }
   };
 
-  const [networkElements, localDispatch] = React.useReducer(
+  const [networkElents, localDispatch] = React.useReducer(
     reducer,
-    allNetworkElements,
-    init
+    [] as FlowElement[]
   );
-  console.log(
-    "Logged output --> ~ file: Network.tsx ~ line 190 ~ Network ~ networkElements",
-    networkElements
+
+  const [networkElements, setNetworkElements] = React.useState<FlowElement[]>(
+    [] as FlowElement[]
   );
 
   const onElementsRemove = (elementsToRemove: Elements) => {
@@ -239,10 +249,20 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     setCurrentElement(element);
   };
 
+  const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
   const onLoad = (reactFlowInstance: OnLoadParams) => {
-    reactFlowInstance.fitView();
-    setRfi(reactFlowInstance);
+    reactFlowInstanceRef.current = reactFlowInstance;
   };
+
+  // React.useEffect(() => {
+  //   setNetworkElements(allNetworkElements);
+  // }, [allNetworkElements]);
+
+  React.useEffect(() => {
+    if (reactFlowInstanceRef.current) {
+      reactFlowInstanceRef.current.fitView();
+    }
+  }, [reactFlowInstanceRef, networkElements]);
 
   React.useEffect(() => {
     if (success) {
@@ -277,9 +297,9 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
               <NetworkDiagramButtons {...NetworkDiagramIconsProps} />
             </div>
             <ReactFlow
-              elements={
-                renderCount.current === 1 ? allNetworkElements : networkElements
-              }
+              style={{ height: `calc(100% - 30px)` }}
+              // elements={isNetworkAuto ? allNetworkElements : networkElements}
+              elements={isNetworkAuto ? allNetworkElements : networkElements}
               onElementsRemove={onElementsRemove}
               onConnect={onConnect}
               onLoad={onLoad}

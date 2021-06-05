@@ -342,7 +342,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\ExistingNetworksDialogTypes.ts", "TypeScript", 46, 0, 0, 0, 0, 0, 0, 0, 4, 50
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\GenerateNetworkWorkflowDialog.tsx", "TypeScript React", 0, 0, 0, 0, 206, 0, 0, 1, 16, 223
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\RunForecastDialog.tsx", "TypeScript React", 0, 0, 0, 0, 121, 0, 0, 4, 8, 133
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\SaveForecastingParametersWorkflowDialog.tsx", "TypeScript React", 0, 0, 0, 0, 200, 0, 0, 0, 16, 216
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\CreateNewForecastingParametersWorkflowDialog.tsx", "TypeScript React", 0, 0, 0, 0, 200, 0, 0, 0, 16, 216
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\SaveNetworkDialog.tsx", "TypeScript React", 0, 0, 0, 0, 134, 0, 0, 0, 8, 142
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\SaveNetworkDialogTypes.ts", "TypeScript", 4, 0, 0, 0, 0, 0, 0, 0, 1, 5
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Forms\RunForecastForm.tsx", "TypeScript React", 0, 0, 0, 0, 71, 0, 0, 0, 6, 77
@@ -353,7 +353,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Indicators\DeclineParametersType.tsx", "TypeScript React", 0, 0, 0, 0, 49, 0, 0, 0, 9, 58
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Menus\ForecastButtonsMenu.tsx", "TypeScript React", 0, 0, 0, 0, 165, 0, 0, 1, 17, 183
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Menus\NetworkButtonsMenu.tsx", "TypeScript React", 0, 0, 0, 0, 193, 0, 0, 0, 18, 211
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Menus\NewForecastParametersButton.tsx", "TypeScript React", 0, 0, 0, 0, 44, 0, 0, 0, 6, 50
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Menus\CreateNewForecastParametersButton.tsx", "TypeScript React", 0, 0, 0, 0, 44, 0, 0, 0, 6, 50
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Nodes\NodePanel.tsx", "TypeScript React", 0, 0, 0, 0, 143, 0, 0, 5, 10, 158
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Popovers\TerminalPopover.jsx", "JavaScript React", 0, 0, 0, 0, 0, 54, 0, 0, 7, 61
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Popovers\WellheadPopover.jsx", "JavaScript React", 0, 0, 0, 0, 0, 111, 0, 0, 7, 118

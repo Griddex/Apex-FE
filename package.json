@@ -97,7 +97,7 @@
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
     "react-dropzone": "^11.3.2",
-    "react-flow-renderer": "^8.8.0",
+    "react-flow-renderer": "^9.6.0",
     "react-grid-layout": "^1.2.4",
     "react-images-upload": "^1.2.8",
     "react-modal": "^3.13.1",

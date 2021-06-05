@@ -56,7 +56,7 @@ const existingForecastingParametersExtrude = () => {
   const dialogParameters: DialogStuff = {
     name: "Existing_Forecast_Dialog",
     title: "Existing Forecast",
-    type: "saveForecastingParametersWorkflowDialog",
+    type: "createNewForecastingParametersWorkflowDialog",
     show: true,
     exclusive: true,
     maxWidth: "md",

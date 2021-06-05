@@ -25,7 +25,7 @@ import {
   IForecastParametersRoot,
 } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
-import NewForecastParametersButton from "../Components/Menus/NewForecastParametersButton";
+import CreateNewForecastParametersButton from "../Components/Menus/CreateNewForecastParametersButton";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import formatDate from "./../../Application/Utils/FormatDate";
 
@@ -175,7 +175,7 @@ export default function ExistingForecastingParameters({
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
-    extraButtons: () => <NewForecastParametersButton />,
+    extraButtons: () => <CreateNewForecastParametersButton />,
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
@@ -243,13 +243,14 @@ export default function ExistingForecastingParameters({
         name: "DCA TABLE",
         editable: false,
         resizable: true,
-        width: 150,
+        width: 100,
         formatter: ({ row }) => {
           const { sn } = row;
           const selectedRowIndex = (sn as number) - 1;
 
           return (
             <div className={classes.dcaTable}>
+              <Typography>View</Typography>
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
@@ -264,7 +265,6 @@ export default function ExistingForecastingParameters({
                   );
                 }}
               />
-              <Typography>View</Typography>
             </div>
           );
         },

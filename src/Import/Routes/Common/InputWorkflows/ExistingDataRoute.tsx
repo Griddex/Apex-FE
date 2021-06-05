@@ -160,6 +160,8 @@ export default function ExistingDataRoute<
                         [true, false],
                         [
                           unloadDialogsAction,
+                          //Captured variable
+                          //solve with ref
                           () => setShouldUpdate(!shouldUpdate),
                         ],
                         "Update",

@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
   company: {
     gridArea: "company",
-    height: "100%",
-    padding: 40,
+    height: 300,
+    // padding: 120,
   },
   apex: {
     gridArea: "apex",
-    height: "100%",
-    padding: 40,
+    height: 300,
+    // padding: 120,
   },
   image: {
     marginBottom: "40px",
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: "20px",
   },
+
   button: {
     padding: theme.spacing(2),
     textAlign: "center",
@@ -66,19 +67,18 @@ const LandingRoute = () => {
     <div className={classes.root}>
       <div className={classes.header}>Header</div>
       <div className={classes.company}>
-        <div>
-          <Image
-            src={SyncwareLogoWithName}
-            alt="Apex Hydrocarbon Forecasting Platform Logo"
-          />
-          <Typography className={classes.typography} variant="h6">
-            ...inspired technologies for business growth
-          </Typography>
-        </div>
+        <Image
+          height={50}
+          src={SyncwareLogoWithName}
+          alt="Apex Hydrocarbon Forecasting Platform Logo"
+        />
+        <Typography className={classes.typography} variant="h6">
+          ...inspired technologies for business growth
+        </Typography>
       </div>
       <div className={classes.apex}>
         <Image
-          className={classes.image}
+          height={150}
           src={ApexLogoFull}
           alt="Apex Hydrocarbon Forecasting Platform Logo"
         />
@@ -89,6 +89,7 @@ const LandingRoute = () => {
         </Typography>
       </div>
       <div className={classes.footer}>
+        <hr />
         <Button
           className={classes.button}
           variant="contained"

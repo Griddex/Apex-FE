@@ -482,7 +482,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx](/src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx) | TypeScript React | 223 | 1 | 16 | 240 |
 | [src/Network/Components/Dialogs/RunForecastDialog.tsx](/src/Network/Components/Dialogs/RunForecastDialog.tsx) | TypeScript React | 127 | 4 | 8 | 139 |
 | [src/Network/Components/Dialogs/SaveForecastDialog.tsx](/src/Network/Components/Dialogs/SaveForecastDialog.tsx) | TypeScript React | 144 | 0 | 8 | 152 |
-| [src/Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog.tsx](/src/Network/Components/Dialogs/SaveForecastingParametersWorkflowDialog.tsx) | TypeScript React | 221 | 0 | 16 | 237 |
+| [src/Network/Components/Dialogs/CreateNewForecastingParametersWorkflowDialog.tsx](/src/Network/Components/Dialogs/CreateNewForecastingParametersWorkflowDialog.tsx) | TypeScript React | 221 | 0 | 16 | 237 |
 | [src/Network/Components/Dialogs/SaveNetworkDialog.tsx](/src/Network/Components/Dialogs/SaveNetworkDialog.tsx) | TypeScript React | 139 | 0 | 8 | 147 |
 | [src/Network/Components/Dialogs/SaveNetworkDialogTypes.ts](/src/Network/Components/Dialogs/SaveNetworkDialogTypes.ts) | TypeScript | 8 | 0 | 1 | 9 |
 | [src/Network/Components/Forms/RunForecastForm.tsx](/src/Network/Components/Forms/RunForecastForm.tsx) | TypeScript React | 71 | 0 | 6 | 77 |
@@ -495,7 +495,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Network/Components/Indicators/DeclineParametersType.tsx](/src/Network/Components/Indicators/DeclineParametersType.tsx) | TypeScript React | 48 | 0 | 9 | 57 |
 | [src/Network/Components/Menus/ForecastButtonsMenu.tsx](/src/Network/Components/Menus/ForecastButtonsMenu.tsx) | TypeScript React | 165 | 1 | 17 | 183 |
 | [src/Network/Components/Menus/NetworkButtonsMenu.tsx](/src/Network/Components/Menus/NetworkButtonsMenu.tsx) | TypeScript React | 192 | 0 | 18 | 210 |
-| [src/Network/Components/Menus/NewForecastParametersButton.tsx](/src/Network/Components/Menus/NewForecastParametersButton.tsx) | TypeScript React | 44 | 0 | 6 | 50 |
+| [src/Network/Components/Menus/CreateNewForecastParametersButton.tsx](/src/Network/Components/Menus/CreateNewForecastParametersButton.tsx) | TypeScript React | 44 | 0 | 6 | 50 |
 | [src/Network/Components/Nodes/NodePanel.tsx](/src/Network/Components/Nodes/NodePanel.tsx) | TypeScript React | 143 | 5 | 10 | 158 |
 | [src/Network/Components/Popovers/TerminalPopover.jsx](/src/Network/Components/Popovers/TerminalPopover.jsx) | JavaScript React | 54 | 0 | 7 | 61 |
 | [src/Network/Components/Popovers/WellheadPopover.jsx](/src/Network/Components/Popovers/WellheadPopover.jsx) | JavaScript React | 111 | 0 | 7 | 118 |

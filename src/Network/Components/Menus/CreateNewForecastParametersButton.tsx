@@ -5,15 +5,15 @@ import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 
-const NewForecastParametersButton = () => {
+const CreateNewForecastParametersButton = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const saveForecastParametersWorkflow = () => {
+  const createNewForecastParametersWorkflow = () => {
     const dialogParameters: DialogStuff = {
       name: "Save_Forecast_Parameters_Dialog",
       title: "Manage Forecasting Parameters",
-      type: "saveForecastingParametersWorkflowDialog",
+      type: "createNewForecastingParametersWorkflowDialog",
       show: true,
       exclusive: false,
       maxWidth: "xl",
@@ -37,7 +37,7 @@ const NewForecastParametersButton = () => {
           border: `1px solid ${theme.palette.primary.main}`,
           borderRadius: 0,
         }}
-        onClick={saveForecastParametersWorkflow}
+        onClick={createNewForecastParametersWorkflow}
         startIcon={<AddOutlinedIcon />}
       >
         {"New"}
@@ -46,4 +46,4 @@ const NewForecastParametersButton = () => {
   );
 };
 
-export default NewForecastParametersButton;
+export default CreateNewForecastParametersButton;

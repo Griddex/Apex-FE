@@ -22,8 +22,11 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
+import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
+import { useHistory } from "react-router-dom";
 
 const ForecastButtonsMenu = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -97,7 +100,7 @@ const ForecastButtonsMenu = () => {
   };
 
   const viewResults = () => {
-    alert("View Results");
+    history.push("/apex/forecast");
   };
 
   const existingForecastParameters = () => {
@@ -105,6 +108,21 @@ const ForecastButtonsMenu = () => {
       name: "Existing_Forecast_Parameters_Dialog",
       title: "Forecasting Parameters Table",
       type: "existingForecastingParametersDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xl",
+      iconType: "information",
+      actionsList: () => DialogCancelButton(),
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const createForecastParameters = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Existing_Forecast_Parameters_Dialog",
+      title: "Create Forecast Parameters",
+      type: "createNewForecastingParametersWorkflowDialog",
       show: true,
       exclusive: false,
       maxWidth: "xl",
@@ -134,9 +152,15 @@ const ForecastButtonsMenu = () => {
       disable: false,
     },
     {
-      title: "Forecast Parameters",
+      title: "View Parameters",
       action: existingForecastParameters,
       icon: <ListOutlinedIcon color="primary" fontSize="small" />,
+      disable: false,
+    },
+    {
+      title: "Create Parameters",
+      action: createForecastParameters,
+      icon: <AddOutlinedIcon color="primary" fontSize="small" />,
       disable: false,
     },
   ];
