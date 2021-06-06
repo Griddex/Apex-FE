@@ -1,10 +1,11 @@
-import { Handle, Node, Position } from "react-flow-renderer";
+import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Wellhead from "../../Images/Wellhead.svg";
 import WellheadPopover from "./../Popovers/WellheadPopover";
 import WellheadContextMenu from "./../ContextMenu/WellheadContextMenu";
+import { IXYPos } from "./WidgetTypes";
 
 const WellheadWidget = () => {
   return (
@@ -37,12 +38,17 @@ const WellheadWidget = () => {
   );
 };
 
-const WellheadNode = React.memo((props: Node) => {
-  const { data } = props;
-  const { forecastData, position } = data;
+const WellheadNode = React.memo((props: Node & IXYPos) => {
+  const { data, xPos, yPos } = props;
+  const { forecastData } = data;
   const { showPopover, currentPopoverId } = useSelector(
     (state: RootState) => state.networkReducer
   );
+
+  const position: XYPosition = {
+    x: xPos,
+    y: yPos,
+  };
 
   return (
     <>

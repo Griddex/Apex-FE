@@ -38,7 +38,7 @@ export default function ExistingNetworks({
       status: "Not Started",
       title: row.title,
       description: row.description,
-      author: "---",
+      author: { avatarUrl: "", name: "None" },
       approvers: ["--", "--"],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
@@ -54,10 +54,6 @@ export default function ExistingNetworks({
 
   const handleCheckboxChange = (row: any) => {
     const { id, title } = row;
-    console.log(
-      "Logged output --> ~ file: ExistingNetworks.tsx ~ line 60 ~ handleCheckboxChange ~ row",
-      row
-    );
 
     persistSelectedIdTitleAction &&
       dispatch(

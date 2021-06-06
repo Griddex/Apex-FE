@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React, { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DialogDisplayNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogDisplayNetworkCancelButtons";
 import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -21,15 +21,22 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import {
   displayNetworkBySelectionRequestAction,
   removeCurrentNetworkAction,
   updateNetworkParameterAction,
 } from "../../Redux/Actions/NetworkActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const NetworkButtonsMenu = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+
+  const { isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: ChangeEvent<any>) => {
@@ -197,9 +204,18 @@ const NetworkButtonsMenu = () => {
       >
         {buttons.map((row, i) => {
           const { title, action, icon } = row;
+          const style =
+            !isNetworkAuto &&
+            ["Generate Network", "Network List"].includes(title)
+              ? {
+                  pointerEvents: "none",
+                  backgroundColor: theme.palette.grey[200],
+                }
+              : {};
 
           return (
             <MenuItem
+              style={style as CSSProperties}
               key={i}
               onClick={() => {
                 action();

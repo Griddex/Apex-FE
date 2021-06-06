@@ -43,7 +43,7 @@ const LoginRoute = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
         <Typography className={classes.typography} variant="h6">
-          - Robust Hydrocarbon Forecasting and Economics Evaluation Platform
+          - Versatile Hydrocarbon Forecasting and Economics Evaluation Platform
         </Typography>
         <LoginForm />
       </Grid>

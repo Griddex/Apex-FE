@@ -2,6 +2,7 @@ import React from "react";
 import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
 import Terminal from "../../Images/Terminal.svg";
 import TerminalContextMenu from "../ContextMenu/TerminalContextMenu";
+import { IXYPos } from "./WidgetTypes";
 
 const TerminalWidget = () => {
   return (
@@ -44,11 +45,6 @@ const TerminalWidget = () => {
     </div>
   );
 };
-
-interface IXYPos {
-  xPos: number;
-  yPos: number;
-}
 
 const TerminalNode = React.memo((props: Node & IXYPos) => {
   const { xPos, yPos } = props;

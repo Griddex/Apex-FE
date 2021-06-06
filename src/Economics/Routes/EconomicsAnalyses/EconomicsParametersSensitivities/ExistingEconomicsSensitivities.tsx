@@ -105,7 +105,7 @@ export default function ExistingEconomicsSensitivities() {
     title: row.title,
     analysisName: row.analysisName,
     description: row.description,
-    author: "---",
+    author: { avatarUrl: "", name: "None" },
     createdOn: row.createdAt,
     modifiedOn: row.createdAt,
   })) as IExistingEconomicsSensitivitiesRow[];

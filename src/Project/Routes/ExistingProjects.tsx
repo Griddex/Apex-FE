@@ -38,7 +38,7 @@ export default function ExistingProjects({
       title: row.title,
       description: row.description,
       approval: "Not Started",
-      author: "---",
+      author: { avatarUrl: "", name: "None" },
       approvers: "---",
       // createdOn: row.createdAt,
       createdOn: "11th February, 2021",

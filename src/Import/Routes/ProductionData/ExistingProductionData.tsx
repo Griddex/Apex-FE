@@ -54,7 +54,7 @@ export default function ExistingProductionData({
         status: "Not Started",
         title: row.title,
         description: row.description,
-        author: "---",
+        author: { avatarUrl: "", name: "None" },
         approvers: "None",
         createdOn: row.createdAt,
         modifiedOn: row.createdAt,

@@ -46,10 +46,6 @@ const NetworkPanel = () => {
   ];
 
   const forecastInputDeckTitles = existingData.map((row) => row.title);
-  console.log(
-    "Logged output --> ~ file: NetworkPanel.tsx ~ line 48 ~ NetworkPanel ~ forecastInputDeckTitles",
-    forecastInputDeckTitles
-  );
   const forecastInputDeckOptions = generateSelectOptions(
     forecastInputDeckTitles
   );

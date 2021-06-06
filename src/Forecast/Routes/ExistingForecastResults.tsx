@@ -321,7 +321,7 @@ export default function ExistingForecastResults({
       networkId: row.networkId,
       forecastInputDeckTitle: row.forecastInputDeckTitle,
       forecastParametersTitle: row.forecastingParametersGroupTitle,
-      author: "---",
+      author: { avatarUrl: "", name: "None" },
       approvers: "---",
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,

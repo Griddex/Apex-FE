@@ -42,9 +42,9 @@ import TerminalNode from "../Components/Widgets/TerminalWidget";
 import WellheadNode from "../Components/Widgets/WellheadWidget";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
-import WellheadSummaryNode from "./../Components/Widgets/WellheadSummaryWidget";
-import { setCurrentElementAction } from "./../Redux/Actions/NetworkActions";
-import GenerateNodeService from "./../Services/GenerateNodeService";
+import WellheadSummaryNode from "../Components/Widgets/WellheadSummaryWidget";
+import { setCurrentElementAction } from "../Redux/Actions/NetworkActions";
+import GenerateNodeService from "../Services/GenerateNodeService";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
 
@@ -109,18 +109,19 @@ const nodeTypes: NodeTypesType = {
 const Network = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
+
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { success, nodeElements, edgeElements } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
 
-  const renderCount = React.useRef<number>(1);
+  const networkRef = React.useRef<HTMLElement>(null);
+  const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
+
+  const [networkElements, setNetworkElements] = React.useState(
+    [] as FlowElement[]
+  );
   const [showMiniMap, setShowMiniMap] = React.useState(false);
   const [showControls, setShowControls] = React.useState(true);
-  const [rfi, setRfi] = React.useState<OnLoadParams>({} as OnLoadParams);
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
@@ -163,83 +164,56 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
   }
 
   const handleWidgetDrop = (monitor: DropTargetMonitor) => {
-    const { nodeType } = monitor.getItem() as any;
+    const networkBounds = (
+      networkRef.current as HTMLElement
+    ).getBoundingClientRect();
     console.log(
-      "Logged output --> ~ file: Network.tsx ~ line 164 ~ handleWidgetDrop ~ nodeType",
-      nodeType
+      "Logged output --> ~ file: NetworkManual.tsx ~ line 170 ~ handleWidgetDrop ~ networkBounds",
+      networkBounds
     );
+
+    const { nodeType } = monitor.getItem() as any;
     const mouseCoord = monitor.getClientOffset() as XYPosition;
+    const mouseCoord1 = monitor.getInitialClientOffset() as XYPosition;
     console.log(
-      "Logged output --> ~ file: Network.tsx ~ line 166 ~ handleWidgetDrop ~ mouseCoord",
+      "Logged output --> ~ file: NetworkManual.tsx ~ line 178 ~ handleWidgetDrop ~ mouseCoord1",
+      mouseCoord1
+    );
+    console.log(
+      "Logged output --> ~ file: NetworkManual.tsx ~ line 177 ~ handleWidgetDrop ~ mouseCoord",
       mouseCoord
     );
 
     const mouseCoordUpdated = {
-      x: mouseCoord.x - 250,
-      y: mouseCoord.y - 80,
+      x: mouseCoord.x - networkBounds.left,
+      y: mouseCoord.y - networkBounds.top + 31,
     } as XYPosition;
-    // const mouseCoordProjected = rfi.project(mouseCoordUpdated);
+
+    const mouseCoordProjected = (
+      reactFlowInstanceRef.current as OnLoadParams
+    ).project(mouseCoordUpdated);
+    console.log(
+      "Logged output --> ~ file: NetworkManual.tsx ~ line 182 ~ handleWidgetDrop ~ mouseCoordProjected",
+      mouseCoordProjected
+    );
 
     const newElement: FlowElement = GenerateNodeService(nodeType);
     const updatedNewElement = {
       ...newElement,
-      position: { ...mouseCoordUpdated } as XYPosition,
+      position: { ...mouseCoordProjected } as XYPosition,
     };
 
-    localDispatch({
-      type: "UPDATE_ELEMENTS",
-      payload: [...networkElements, updatedNewElement],
-    });
+    setNetworkElements((es) => es.concat(updatedNewElement));
   };
 
-  //Flow Elements
-  const nodeElementsWithWidgets = AddWidgetsToNodes(nodeElements as Node[]);
-  const allNetworkElements = [
-    ...nodeElementsWithWidgets,
-    ...(edgeElements as Edge[]),
-  ];
-  console.log(
-    "Logged output --> ~ file: Network.tsx ~ line 198 ~ Network ~ allNetworkElements",
-    allNetworkElements
-  );
+  const onLoad = (reactFlowInstance: OnLoadParams) =>
+    (reactFlowInstanceRef.current = reactFlowInstance);
 
-  const reducer = (state: FlowElement[], action: any) => {
-    switch (action.type) {
-      case "INITIALIZE_ELEMENTS":
-        return state;
-      case "UPDATE_ELEMENTS":
-      case "REMOVE_ELEMENTS":
-      case "CONNECT_ELEMENTS": {
-        const updatedElements = action.payload;
-        return updatedElements;
-      }
-      default:
-        break;
-    }
-  };
+  const onConnect = (params: Edge | Connection) =>
+    setNetworkElements((els) => addEdge(params, els));
 
-  const [networkElents, localDispatch] = React.useReducer(
-    reducer,
-    [] as FlowElement[]
-  );
-
-  const [networkElements, setNetworkElements] = React.useState<FlowElement[]>(
-    [] as FlowElement[]
-  );
-
-  const onElementsRemove = (elementsToRemove: Elements) => {
-    renderCount.current = renderCount.current + 1;
-
-    const updatedElements = removeElements(elementsToRemove, networkElements);
-    localDispatch({ type: "REMOVE_ELEMENTS", payload: updatedElements });
-  };
-
-  const onConnect = (params: Edge | Connection) => {
-    renderCount.current = renderCount.current + 1;
-
-    const updatedElements = addEdge(params, networkElements);
-    localDispatch({ type: "CONNECT_ELEMENTS", payload: updatedElements });
-  };
+  const onElementsRemove = (elementsToRemove: Elements) =>
+    setNetworkElements((els) => removeElements(elementsToRemove, els));
 
   const onElementClick = (
     event: React.MouseEvent<Element, MouseEvent>,
@@ -249,30 +223,6 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     setCurrentElement(element);
   };
 
-  const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
-  const onLoad = (reactFlowInstance: OnLoadParams) => {
-    reactFlowInstanceRef.current = reactFlowInstance;
-  };
-
-  // React.useEffect(() => {
-  //   setNetworkElements(allNetworkElements);
-  // }, [allNetworkElements]);
-
-  React.useEffect(() => {
-    if (reactFlowInstanceRef.current) {
-      reactFlowInstanceRef.current.fitView();
-    }
-  }, [reactFlowInstanceRef, networkElements]);
-
-  React.useEffect(() => {
-    if (success) {
-      enqueueSnackbar("Network Generated", {
-        persist: false,
-        variant: "success",
-      });
-    }
-  }, []);
-
   return (
     <div className={classes.root}>
       <ReactFlowProvider>
@@ -281,7 +231,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
             <NetworkPanel />
           </div>
           <div
-            ref={composeRefs(drop)}
+            ref={composeRefs(drop, networkRef)}
             style={dropTargetStyle}
             className={classes.networkContent}
           >
@@ -298,8 +248,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
             </div>
             <ReactFlow
               style={{ height: `calc(100% - 30px)` }}
-              // elements={isNetworkAuto ? allNetworkElements : networkElements}
-              elements={isNetworkAuto ? allNetworkElements : networkElements}
+              elements={networkElements}
               onElementsRemove={onElementsRemove}
               onConnect={onConnect}
               onLoad={onLoad}
@@ -309,7 +258,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
               connectionLineType={ConnectionLineType.Bezier}
               onElementClick={onElementClick}
               deleteKeyCode={46}
-              defaultZoom={1.5}
+              // defaultZoom={1.5}
               minZoom={0.2}
               maxZoom={4}
               // onNodeMouseEnter={(event, node) => {

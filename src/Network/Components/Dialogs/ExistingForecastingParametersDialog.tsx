@@ -125,7 +125,7 @@ const ExistingForecastingParametersDialog = (props: DialogStuff) => {
         style={{
           display: "flex",
           flexDirection: "column",
-          height: 640,
+          height: 650,
         }}
       >
         <ExistingForecastingParameters showChart={true} />

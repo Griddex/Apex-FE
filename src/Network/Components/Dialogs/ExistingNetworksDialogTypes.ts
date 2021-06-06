@@ -26,6 +26,9 @@ export interface IParametersEntity {
   timeFrequency: string;
   isDefered: number;
   endForecast: string;
+  startDay: number;
+  startMonth: number;
+  startYear: number;
   stopDay: number;
   stopMonth: number;
   stopYear: number;
@@ -54,7 +57,9 @@ export interface IForecastingParametersRow {
   declineParameters: IDeclineCurveParametersDetail[];
   targetFluid: string;
   timeFrequency: string;
-  isDefered: number;
+  isDefered: string;
+  realtimeResults: string;
+  startForecast: string;
   endForecast: string;
   type: "Default" | "User";
   author: IUserDetails;

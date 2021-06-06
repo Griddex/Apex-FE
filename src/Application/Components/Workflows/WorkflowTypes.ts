@@ -54,6 +54,7 @@ export interface INetworkWorkflows {
     | "networkGeneration"
     | "networkManualBuild"
     | "networkAutoGeneration"
+    | "networkExisting"
     | "runForecastWorkflow"
     | "saveForecastingParametersWorkflow"
     | "declineCurveParametersWorkflow";

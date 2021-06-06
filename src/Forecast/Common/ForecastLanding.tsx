@@ -15,6 +15,7 @@ import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction"
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import ExistingDeck from "../../Import/Images/ExistingDeck.svg";
+import ExistingForecastingParameters from "../../Network/Routes/ExistingForecastingParameters";
 import ForecastCharts from "../Images/ForecastCharts.svg";
 import { loadForecastResultsWorkflowAction } from "../Redux/Actions/ForecastActions";
 import ExistingForecastResults from "../Routes/ExistingForecastResults";
@@ -57,7 +58,7 @@ const ForecastLanding = () => {
 
   const forecastLandingData: ILandingData[] = [
     {
-      name: "View Data",
+      name: "Forecast Report Table",
       description: `View forecast results data in responsive and perfomant tables`,
       icon: (
         <Image
@@ -84,9 +85,8 @@ const ForecastLanding = () => {
       workflowProcess: "forecastResultsVisualytics",
       workflowCategory: "existingDataWorkflows",
     },
-
     {
-      name: `Existing Forecast Results`,
+      name: `Domiciled Forecast Results`,
       description: `Select a pre-exisiting and approved forecast results data stored in the Apex\u2122 database`,
       icon: (
         <Image
@@ -96,6 +96,20 @@ const ForecastLanding = () => {
         />
       ),
       route: `${url}/approvedforecastresults`,
+      workflowProcess: "forecastResultsExisting",
+      workflowCategory: "existingDataWorkflows",
+    },
+    {
+      name: `Domiciled Forecast Parameters`,
+      description: `View and create forecast parameters and store in the Apex\u2122 database`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ExistingDeck}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+      ),
+      route: `${url}/forecastParameters`,
       workflowProcess: "forecastResultsExisting",
       workflowCategory: "existingDataWorkflows",
     },
@@ -152,6 +166,9 @@ const ForecastLanding = () => {
                       showBaseButtons={true}
                       finalAction={existingDataFinalAction}
                     />
+                  ),
+                  forecastParameters: (
+                    <ExistingForecastingParameters showChart={true} />
                   ),
                 };
 

@@ -1,38 +1,31 @@
-import {
-  ClickAwayListener,
-  makeStyles,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import groupBy from "lodash.groupby";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
+import Select, {
+  components,
+  OptionsType,
+  Props as SelectProps,
+  Styles,
+  ValueType,
+} from "react-select";
 import { SizeMe } from "react-sizeme";
-import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
-import { IForecastRoutes } from "./ForecastRoutesTypes";
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import Select, {
-  components,
-  OptionsType,
-  ValueType,
-  Props as SelectProps,
-  Styles,
-} from "react-select";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import groupBy from "lodash.groupby";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../Application/Utils/GetRSStyles";
-import faker from "faker";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ApexFlexStyle from "./../../Application/Components/Styles/ApexFlexStyle";
-import { getForecastDataByIdRequestAction } from "../Redux/Actions/ForecastActions";
 import getRSTheme from "../../Application/Utils/GetRSTheme";
+import { getForecastDataByIdRequestAction } from "../Redux/Actions/ForecastActions";
+import ApexFlexStyle from "./../../Application/Components/Styles/ApexFlexStyle";
+import { IForecastRoutes } from "./ForecastRoutesTypes";
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({
@@ -98,18 +91,25 @@ export default function ForecastData({
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const generateColumns = () => {
-    const forecastDataWithTimeKeys = Object.keys(
-      snSelectedForecastData[0]
-    ).filter((key) => key.trim().toLowerCase().startsWith("y"));
-    const forecastDataWithTimeColumns = forecastDataWithTimeKeys.map((k) => ({
+  let forecastDataWithTimeKeys = [] as string[];
+  let forecastDataWithTimeColumns = [] as Column<IRawRow>[];
+  if (forecastDataWithTimeKeys.length > 0) {
+    forecastDataWithTimeKeys = Object.keys(snSelectedForecastData[0]).filter(
+      (key) => key.trim().toLowerCase().startsWith("y")
+    );
+
+    forecastDataWithTimeColumns = forecastDataWithTimeKeys.map((k) => ({
       key: k,
       name: k,
       editable: false,
       resizable: true,
       width: 100,
     }));
+  } else {
+    forecastDataWithTimeColumns = [];
+  }
 
+  const generateColumns = () => {
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {

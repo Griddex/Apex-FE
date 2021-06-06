@@ -138,6 +138,9 @@ export default function ExistingForecastingParameters({
           timeFrequency,
           targetFluid,
           isDefered,
+          startDay,
+          startMonth,
+          startYear,
           stopDay,
           stopMonth,
           stopYear,
@@ -154,16 +157,21 @@ export default function ExistingForecastingParameters({
           description,
           targetFluid,
           timeFrequency,
-          // isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment", //Referred, Realtime not yet
-          isDefered, //Referred, Realtime not yet
+          isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment",
           realtimeResults: "Yes",
+          startForecast: formatDate(
+            new Date(startYear, startMonth, startDay),
+            dayFormat,
+            monthFormat,
+            yearFormat
+          ),
           endForecast: formatDate(
             new Date(stopYear, stopMonth, stopDay),
             dayFormat,
             monthFormat,
             yearFormat
           ),
-          author: { avatarUrl: "", name: "" },
+          author: { avatarUrl: "", name: "None" },
           createdOn: createdAt,
           modifiedOn: createdAt,
         };
@@ -270,6 +278,13 @@ export default function ExistingForecastingParameters({
         },
       },
       {
+        key: "title",
+        name: "FORECAST PARAMETERS TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
         key: "type",
         name: "TYPE",
         editable: false,
@@ -285,22 +300,15 @@ export default function ExistingForecastingParameters({
         },
       },
       {
-        key: "selectedForecastInputDeckTitle",
+        key: "forecastInputDeckTitle",
         name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,
         width: 300,
       },
       {
-        key: "title",
-        name: "FORECAST PARAMETERS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
-      },
-      {
         key: "targetFluid",
-        name: "TARGET FLUID",
+        name: "HYDROCARBON PRIORITIZATION",
         editable: false,
         resizable: true,
         width: 150,
@@ -327,8 +335,15 @@ export default function ExistingForecastingParameters({
         width: 150,
       },
       {
+        key: "startForecast",
+        name: "START FORECAST",
+        editable: false,
+        resizable: true,
+        width: 200,
+      },
+      {
         key: "endForecast",
-        name: "END FORECAST DATE",
+        name: "END FORECAST",
         editable: false,
         resizable: true,
         width: 200,
@@ -402,6 +417,8 @@ export default function ExistingForecastingParameters({
         targetFluid,
         timeFrequency,
         isDefered,
+        realtimeResults,
+        startForecast,
         endForecast,
         type,
         author,
@@ -421,6 +438,8 @@ export default function ExistingForecastingParameters({
         targetFluid,
         timeFrequency,
         isDefered,
+        realtimeResults,
+        startForecast,
         endForecast,
         type,
         author,
@@ -432,10 +451,11 @@ export default function ExistingForecastingParameters({
     }
   }
 
-  const tableRows =
-    React.useRef<IForecastingParametersRow[]>(snTransExistingData);
-  const currentRows = tableRows.current;
-  const [rows, setRows] = React.useState(currentRows);
+  const [rows, setRows] = React.useState(snTransExistingData);
+  console.log(
+    "Logged output --> ~ file: ExistingForecastingParameters.tsx ~ line 459 ~ snTransExistingData",
+    snTransExistingData
+  );
 
   React.useEffect(() => {
     dispatch(

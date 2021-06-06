@@ -9,17 +9,26 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
+import DialogDisplayNetworkCancelButtons from "../../Application/Components/DialogButtons/DialogDisplayNetworkCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
-import Spreadsheet from "../../Application/Images/Spreadsheet.svg";
-import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import AutoNetwork from "../Images/AutoNetwork.svg";
+import ExistingDeck from "../Images/ExistingDeck.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
-import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
-import Network from "./Network";
+import {
+  displayNetworkBySelectionRequestAction,
+  updateNetworkParameterAction,
+} from "../Redux/Actions/NetworkActions";
+import ExistingNetworks from "../Routes/ExistingNetworks";
+import NetworkAuto from "./NetworkAuto";
 import { IdType } from "./NetworkLandingTypes";
+import NetworkManual from "./NetworkManual";
 
 const useStyles = makeStyles((theme) => ({
   networkLanding: {
@@ -79,21 +88,65 @@ const NetworkLanding = () => {
       workflowProcess: "networkAutoGeneration",
       workflowCategory: "existingDataWorkflows",
     },
+    {
+      name: "Domiciled Networks",
+      description: `Automatically generate production network from a forecast input deck`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ExistingDeck}
+          alt="Auto network"
+        />
+      ),
+      route: `${url}/networkExisting`,
+      workflowProcess: "networkExisting",
+      workflowCategory: "existingDataWorkflows",
+    },
   ];
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
 
-  const existingDataFinalAction = () => {
-    const dialogParameters: DialogStuff = {
-      name: "Manage_Deck_Dialog",
-      title: `Manage Network Results`,
-      type: "textDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "xl",
-      iconType: "information",
+  const existingNetworks = () => {
+    const networkDisplayConfirmation = () => {
+      const dialogParameters: DialogStuff = {
+        name: "Existing_Network_Dialog",
+        title: "Confirm Network Display",
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        iconType: "confirmation",
+        dialogText: `Do you want to display the 
+        currently selected  production network diagram?`,
+        actionsList: () =>
+          DialogDisplayNetworkCancelButtons(
+            [true, true],
+            [true, true],
+            [unloadDialogsAction, displayNetworkBySelectionRequestAction]
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(dialogParameters));
     };
+
+    const dialogParameters: DialogStuff = {
+      name: "Existing_Network_Dialog",
+      title: "Production Networks",
+      type: "existingNetworksDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "lg",
+      iconType: "select",
+      actionsList: () =>
+        DialogDisplayNetworkCancelButtons(
+          [true, true],
+          [true, false],
+          [unloadDialogsAction, networkDisplayConfirmation]
+        ),
+    };
+
     dispatch(showDialogAction(dialogParameters));
   };
 
@@ -113,13 +166,19 @@ const NetworkLanding = () => {
                 const networkWorkflows = {
                   networkManual: (
                     <ReactFlowProvider>
-                      <Network isNetworkAuto={true} />
+                      <NetworkManual isNetworkAuto={false} />
                     </ReactFlowProvider>
                   ),
                   networkAuto: (
                     <ReactFlowProvider>
-                      <Network isNetworkAuto={false} />,
+                      <NetworkAuto isNetworkAuto={true} />,
                     </ReactFlowProvider>
+                  ),
+                  networkExisting: (
+                    <ExistingNetworks
+                      workflowProcess={"networkExisting"}
+                      containerStyle={{ boxShadow: "none" }}
+                    />
                   ),
                 };
 

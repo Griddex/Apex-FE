@@ -49,7 +49,7 @@ export default function ExistingFacilitiesDecks({
       status: "Not Started",
       title: row.title,
       description: row.description,
-      author: "---",
+      author: { avatarUrl: "", name: "None" },
       approvers: ["--", "--"],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
