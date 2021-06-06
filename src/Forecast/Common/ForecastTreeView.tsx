@@ -22,6 +22,7 @@ export default function ForecastTreeView() {
   const rootTree = {
     id: "6e611ee3-4133-496b-a7cc-43cea89686bc",
     name: "Scenarios",
+    Title: "Scenarios",
     children: [...(updatedForecastTree as RenderTree[])],
   };
 

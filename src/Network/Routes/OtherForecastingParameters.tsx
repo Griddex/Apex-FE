@@ -165,7 +165,6 @@ const OtherForecastingParameters = () => {
         direction="Vertical"
         content={
           <DatePicker
-            // name="endForecastDate"
             datePickerType="single"
             onChange={handleStartForecastDateChange}
           >
@@ -182,7 +181,6 @@ const OtherForecastingParameters = () => {
         direction="Vertical"
         content={
           <DatePicker
-            // name="endForecastDate"
             datePickerType="single"
             onChange={handleEndForecastDateChange}
           >

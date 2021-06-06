@@ -50,6 +50,9 @@ const applicationDialogs: IApplicationDialogs = {
   createNewForecastingParametersWorkflowDialog:
     CreateNewForecastingParametersWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
+
+  productionStreamPrioritizationDialog: DeclineCurveParametersDialog,
+
   runForecastDialog: RunForecastDialog,
   runForecastWorkflowDialog: RunForecastWorkflowDialog,
   saveForecastDialog: SaveForecastDialog,

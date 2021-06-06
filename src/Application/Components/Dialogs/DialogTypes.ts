@@ -59,7 +59,10 @@ export interface IApplicationDialogs {
   generateNetworkWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   existingForecastingParametersDialog: typeof ExistingForecastingParametersDialog;
   createNewForecastingParametersWorkflowDialog: typeof CreateNewForecastingParametersWorkflowDialog;
+
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
+  productionStreamPrioritizationDialog: typeof DeclineCurveParametersDialog;
+
   runForecastDialog: typeof RunForecastDialog;
   runForecastWorkflowDialog: typeof RunForecastWorkflowDialog;
   saveForecastDialog: typeof SaveForecastDialog;
@@ -114,6 +117,7 @@ export interface DialogStuff {
     | "existingForecastingParametersDialog"
     | "createNewForecastingParametersWorkflowDialog"
     | "declineCurveParametersDialog"
+    | "productionStreamPrioritizationDialog"
     | "saveCostsRevenuesInputDeckDialog"
     | "saveEconomicsParametersInputDeckDialog"
     | "createEconomicsParametersTableDialog"

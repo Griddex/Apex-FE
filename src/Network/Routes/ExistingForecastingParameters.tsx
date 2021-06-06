@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
   },
-  dcaTable: {
+  dcaOrPrtznTable: {
     display: "flex",
     height: "100%",
     width: "100%",
@@ -225,7 +225,6 @@ export default function ExistingForecastingParameters({
             >
               <EditOutlinedIcon
                 onClick={() => {
-                  // alert(`Edit Row is:${row}`);
                   dispatch(
                     showDialogAction(extrudeDialogParameters(selectedRowIndex))
                   );
@@ -245,37 +244,6 @@ export default function ExistingForecastingParameters({
           );
         },
         width: 120,
-      },
-      {
-        key: "dcaParameters",
-        name: "DCA TABLE",
-        editable: false,
-        resizable: true,
-        width: 100,
-        formatter: ({ row }) => {
-          const { sn } = row;
-          const selectedRowIndex = (sn as number) - 1;
-
-          return (
-            <div className={classes.dcaTable}>
-              <Typography>View</Typography>
-              <VisibilityOutlinedIcon
-                className={classes.visibilityOutlinedIcon}
-                onClick={() => {
-                  dispatch(
-                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
-                  );
-                  dispatch(
-                    updateNetworkParameterAction(
-                      "selectedForecastingParametersRootId",
-                      row.forecastingParametersRootId
-                    )
-                  );
-                }}
-              />
-            </div>
-          );
-        },
       },
       {
         key: "title",
@@ -307,11 +275,66 @@ export default function ExistingForecastingParameters({
         width: 300,
       },
       {
-        key: "targetFluid",
-        name: "HYDROCARBON PRIORITIZATION",
+        key: "dcaParameters",
+        name: "DCA TABLE",
         editable: false,
         resizable: true,
-        width: 150,
+        width: 300,
+        formatter: ({ row }) => {
+          const { sn } = row;
+          const selectedRowIndex = (sn as number) - 1;
+
+          return (
+            <div className={classes.dcaOrPrtznTable}>
+              <Typography>DCA Table Title</Typography>
+              <VisibilityOutlinedIcon
+                className={classes.visibilityOutlinedIcon}
+                onClick={() => {
+                  dispatch(
+                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                  );
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedForecastingParametersRootId",
+                      row.forecastingParametersRootId
+                    )
+                  );
+                }}
+              />
+            </div>
+          );
+        },
+      },
+      {
+        key: "targetFluid",
+        name: "PRIORITIZATION",
+        editable: false,
+        resizable: true,
+        width: 300,
+        formatter: ({ row }) => {
+          const { sn } = row;
+          const selectedRowIndex = (sn as number) - 1;
+
+          return (
+            <div className={classes.dcaOrPrtznTable}>
+              <Typography>Prioritization Table Title</Typography>
+              <VisibilityOutlinedIcon
+                className={classes.visibilityOutlinedIcon}
+                onClick={() => {
+                  dispatch(
+                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                  );
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedForecastingParametersRootId",
+                      row.forecastingParametersRootId
+                    )
+                  );
+                }}
+              />
+            </div>
+          );
+        },
       },
       {
         key: "timeFrequency",
