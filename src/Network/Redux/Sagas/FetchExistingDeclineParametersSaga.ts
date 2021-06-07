@@ -17,34 +17,34 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/FetchForecastingParametersFailureDialogParameters";
+import { failureDialogParameters } from "../../Components/DialogParameters/ExistingDeclineParametersDialogParameters";
 import {
-  EXISTINGFORECASTPARAMETERS_REQUEST,
-  fetchExistingForecastingParametersFailureAction,
-  fetchExistingForecastingParametersSuccessAction,
+  EXISTING_DECLINEPARAMETERS_REQUEST,
+  fetchExistingDeclineParametersFailureAction,
+  fetchExistingDeclineParametersSuccessAction,
 } from "../Actions/NetworkActions";
 
-export default function* watchFetchExistingForecastParametersSaga(): Generator<
+export default function* watchFetchExistingDeclineParametersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const existingForecastParametersChan = yield actionChannel(
-    EXISTINGFORECASTPARAMETERS_REQUEST
+  const existingDeclineParametersChan = yield actionChannel(
+    EXISTING_DECLINEPARAMETERS_REQUEST
   );
   yield takeLeading(
-    existingForecastParametersChan,
-    fetchExistingForecastParametersSaga
+    existingDeclineParametersChan,
+    fetchExistingDeclineParametersSaga
   );
 }
 
-type AxiosPromise = ReturnType<typeof fetchExistingForecastParametersAPI>;
+type AxiosPromise = ReturnType<typeof fetchExistingDeclineParametersAPI>;
 
 const config = { withCredentials: false };
-const fetchExistingForecastParametersAPI = (url: string) =>
+const fetchExistingDeclineParametersAPI = (url: string) =>
   authService.get(url, config);
 
-function* fetchExistingForecastParametersSaga(
+function* fetchExistingDeclineParametersSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<any>>
@@ -57,35 +57,40 @@ function* fetchExistingForecastParametersSaga(
 > {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
-  const forecastParametersUrl = `${getBaseForecastUrl()}/project/${projectId}`;
+  const { selectedForecastingParametersId } = yield select(
+    (state) => state.networkReducer
+  );
+
+  //TODO Need light version for all decline parameters
+  const declineParametersUrl = `${getBaseForecastUrl()}/wellDeclineParameters/${selectedForecastingParametersId}`;
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(
-      fetchExistingForecastParametersAPI,
-      forecastParametersUrl
+      fetchExistingDeclineParametersAPI,
+      declineParametersUrl
     );
 
     const {
-      data: { data: forecastingParametersExisting },
+      data: { data: declineParameters },
     } = result;
 
-    const successAction = fetchExistingForecastingParametersSuccessAction();
+    const successAction = fetchExistingDeclineParametersSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        forecastingParametersExisting,
+        declineParameters,
       },
     });
   } catch (errors) {
-    const failureAction = fetchExistingForecastingParametersFailureAction();
+    const failureAction = fetchExistingDeclineParametersFailureAction();
 
     yield put({
       ...failureAction,
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters()));
+    yield put(showDialogAction(failureDialogParameters));
     yield put(hideSpinnerAction());
   }
 }

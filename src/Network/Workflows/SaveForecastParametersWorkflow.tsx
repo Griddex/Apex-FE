@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ExistingForecastDecks from "../../Import/Routes/ForecastInputDeck/ExistingForecastDecks";
-import { IForecastingParametersRow } from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import { IForecastParametersExistingRow } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
 import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
@@ -26,7 +26,7 @@ const SaveForecastParametersWorkflow = ({
   const reducer = "inputReducer" as ReducersType;
   const index = findIndex(
     forecastingParametersExisting,
-    (k: IForecastingParametersRow) =>
+    (k: IForecastParametersExistingRow) =>
       k.forecastInputDeckId === selectedForecastInputDeckId
   );
 

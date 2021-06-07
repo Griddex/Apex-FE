@@ -34,44 +34,39 @@ export interface IParametersEntity {
   stopYear: number;
 }
 
-export interface IForecastingParametersGroup {
-  _id: string;
+export interface IBackendForecastingParametersRow {
   sn?: number;
-  createdAt: string;
-  title: string;
-  description: string;
-  forecastInputDeckTitle: string;
-  declineParameters: IDeclineCurveParametersDetail[];
-  parametersEntity: IParametersEntity;
-  type: "Default" | "User";
-  author: IUserDetails;
-}
-export interface IForecastingParametersRow {
-  forecastingParametersRootId: string;
-  forecastingParametersGroupId: string;
-  sn?: number;
-  title: string;
-  description: string;
+  forecastingParametersId: string;
   forecastInputDeckId: string;
   forecastInputDeckTitle: string;
-  declineParameters: IDeclineCurveParametersDetail[];
+  title: string;
+  description: string;
+  type: "Default" | "User";
+  createdAt: string;
+  wellPrioritizationTitle: string;
+  wellDeclineParameterTitle: string;
+  parametersEntity: IParametersEntity;
+  author: IUserDetails;
+}
+export interface IForecastParametersExistingRow {
+  sn?: number;
+  forecastingParametersId: string;
+  forecastInputDeckId: string;
+  forecastInputDeckTitle: string;
+  title: string;
+  description: string;
+  type: "Default" | "User";
+  wellDeclineParameterTitle: string;
+  wellPrioritizationTitle: string;
   targetFluid: string;
   timeFrequency: string;
   isDefered: string;
   realtimeResults: string;
   startForecast: string;
   endForecast: string;
-  type: "Default" | "User";
   author: IUserDetails;
   createdOn: string;
   modifiedOn: string;
-}
-
-export interface IForecastParametersRoot {
-  id: string;
-  forecastInputDeckId: string;
-  forecastInputdeckTitle: string;
-  forecastingParametersGroupList: IForecastingParametersGroup[];
 }
 
 export interface INetworkDetail {

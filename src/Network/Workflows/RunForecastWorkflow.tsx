@@ -6,6 +6,7 @@ import {
   IWorkflowDataProps,
   ReducersType,
 } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
 import ExistingFacilitiesDecks from "../../Import/Routes/FacilitiesInputDeck/ExistingFacilitiesDecks";
 import ExistingForecastDecks from "../../Import/Routes/ForecastInputDeck/ExistingForecastDecks";
 import ExistingForecastingParameters from "../Routes/ExistingForecastingParameters";
@@ -25,7 +26,9 @@ const RunForecastWorkflow = (workflowProps: IWorkflowDataProps) => {
   const classes = useStyles();
   const { activeStep } = workflowProps;
   const reducer = "inputReducer" as ReducersType;
-  const workflowProcess = "networkExisting";
+  const workflowProcess = "networkExisting" as NonNullable<
+    IExistingDataProps["wkPs"]
+  >;
 
   const props = {
     reducer,

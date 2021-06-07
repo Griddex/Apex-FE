@@ -141,13 +141,6 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
     [skipped]
   );
 
-  // if (success) {
-  //   enqueueSnackbar(`${getInputWorkflowlabel[wp]} saved`, {
-  //     persist: false,
-  //     variant: "success",
-  //   });
-  // }
-
   const workflowProps = {
     activeStep,
     steps,

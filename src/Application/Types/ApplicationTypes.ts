@@ -3,6 +3,7 @@ import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
 import {
   IAllWorkflows,
+  INetworkWorkflows,
   ReducersType,
 } from "../Components/Workflows/WorkflowTypes";
 import {
@@ -38,6 +39,7 @@ export interface IExistingDataProps {
   shouldRunAggregation?: boolean;
   mainUrl?: string;
   tableTitle?: string;
+  workflowProcess?: IExistingDataProps["wkPs"];
   wkPs?:
     | "facilitiesInputDeckExisting"
     | "forecastInputDeckExisting"
@@ -46,6 +48,8 @@ export interface IExistingDataProps {
     | "economicsParametersDeckExisting"
     | "economicsSensitivitiesExisting"
     | "networkExisting"
+    | "declineParametersExisting"
+    | "productionPrioritizationExisting"
     | "forecastResultsData"
     | "forecastResultsVisualytics"
     | "forecastResultsExisting"

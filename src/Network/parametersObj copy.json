@@ -1,0 +1,40 @@
+{
+  "statusCode": 200,
+  "data": [
+    {
+      "projectId": "60b86bb3433ae9210035401e",
+      "forecastInputDeckId": "60ba86b5a8e02431d82b6878",
+      "forecastParametersId": "hsdgfshdsdskjskds",
+      "forecastParametersTitle": "Default",
+      "type": "Default",
+      "createdAt": "2021-06-04T19:10:35.471Z",
+      "declineParametersId": {
+        "createdAt": "2021-06-04T19:10:35.471Z",
+        "_id": "60ba86b8a8e02431d82b6941",
+        "title": "Default",
+        "description": ""
+      },
+      "prioritizationsId": {
+        "typeOfPrioritization": "No Prioritization",
+        "typeOfStream": "None",
+        "useSecondaryFacility": "Use Secondary Facility",
+        "createdAt": "2021-06-04T19:10:35.471Z",
+        "_id": "60ba86b8a8e02431d82b6941",
+        "title": "Default",
+        "description": ""
+      },
+      "parametersEntity": {
+        "stopDay": 2,
+        "stopMonth": 1,
+        "stopYear": 2028,
+        "startDay": 4,
+        "startMonth": 1,
+        "startYear": 2018,
+        "targetFluid": "Oil",
+        "timeFrequency": "Monthly",
+        "isDefered": 0
+      }
+    }
+  ],
+  "success": true
+}

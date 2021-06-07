@@ -1,8 +1,5 @@
 import { FlowElement } from "react-flow-renderer";
-import {
-  IAllWorkflows,
-  IInputWorkflows,
-} from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
 export const UPDATE_NETWORKPARAMETER = "UPDATE_NETWORKPARAMETER";
@@ -20,12 +17,9 @@ export const SAVENETWORK_ISVALID = "SAVENETWORK_ISVALID";
 export const AUTOGENERATENETWORK_REQUEST = "AUTOGENERATENETWORK_REQUEST";
 export const AUTOGENERATENETWORK_SUCCESS = "AUTOGENERATENETWORK_SUCCESS";
 export const AUTOGENERATENETWORK_FAILURE = "AUTOGENERATENETWORK_FAILURE";
-export const DISPLAYNETWORKBYSELECTION_REQUEST =
-  "DISPLAYNETWORKBYSELECTION_REQUEST";
-export const DISPLAYNETWORKBYSELECTION_SUCCESS =
-  "DISPLAYNETWORKBYSELECTION_SUCCESS";
-export const DISPLAYNETWORKBYSELECTION_FAILURE =
-  "DISPLAYNETWORKBYSELECTION_FAILURE";
+export const DISPLAY_NETWORKBYID_REQUEST = "DISPLAY_NETWORKBYID_REQUEST";
+export const DISPLAY_NETWORKBYID_SUCCESS = "DISPLAY_NETWORKBYID_SUCCESS";
+export const DISPLAY_NETWORKBYID_FAILURE = "DISPLAY_NETWORKBYID_FAILURE";
 export const SAVEAUTOGENERATENETWORK_REQUEST =
   "SAVEAUTOGENERATENETWORK_REQUEST";
 export const SAVEAUTOGENERATENETWORK_SUCCESS =
@@ -60,7 +54,32 @@ export const UPDATE_FORECASTPARAMETERS_FAILURE =
   "UPDATE_FORECASTPARAMETERS_FAILURE";
 export const PERSIST_FORECASTPARAMETERS = "PERSIST_FORECASTPARAMETERS";
 export const REMOVE_NETWORK = "REMOVE_NETWORK";
+export const GET_DECLINEPARAMETERSBYID_REQUEST =
+  "GET_DECLINEPARAMETERSBYID_REQUEST";
+export const GET_DECLINEPARAMETERSBYID_SUCCESS =
+  "GET_DECLINEPARAMETERSBYID_SUCCESS";
+export const GET_DECLINEPARAMETERSBYID_FAILURE =
+  "GET_DECLINEPARAMETERSBYID_FAILURE";
+export const GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST =
+  "GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST";
+export const GET_PRODUCTIONPRIORITIZATIONBYID_SUCCESS =
+  "GET_PRODUCTIONPRIORITIZATIONBYID_SUCCESS";
+export const GET_PRODUCTIONPRIORITIZATIONBYID_FAILURE =
+  "GET_PRODUCTIONPRIORITIZATIONBYID_FAILURE";
+export const EXISTING_DECLINEPARAMETERS_REQUEST =
+  "EXISTING_DECLINEPARAMETERS_REQUEST";
+export const EXISTING_DECLINEPARAMETERS_SUCCESS =
+  "EXISTING_DECLINEPARAMETERS_SUCCESS";
+export const EXISTING_DECLINEPARAMETERS_FAILURE =
+  "EXISTING_DECLINEPARAMETERS_FAILURE";
+export const EXISTING_PRODUCTIONPRIORITIZATION_REQUEST =
+  "EXISTING_PRODUCTIONPRIORITIZATION_REQUEST";
+export const EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS =
+  "EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS";
+export const EXISTING_PRODUCTIONPRIORITIZATION_FAILURE =
+  "EXISTING_PRODUCTIONPRIORITIZATION_FAILURE";
 
+//EXISTING_PRODUCTIONPRIORITIZATION_REQUEST
 export const runForecastRequestAction = () => {
   return {
     type: RUN_FORECAST_REQUEST,
@@ -192,25 +211,25 @@ export const saveNetworkExtrudeIsValidAction = (
   };
 };
 
-export const displayNetworkBySelectionRequestAction = () => {
+export const displayNetworkByIdRequestAction = () => {
   return {
-    type: DISPLAYNETWORKBYSELECTION_REQUEST,
+    type: DISPLAY_NETWORKBYID_REQUEST,
     meta: { showSpinner: true, message: "Displaying network..." },
   };
 };
 
-export const displayNetworkBySelectionSuccessAction = () => {
+export const displayNetworkByIdSuccessAction = () => {
   return {
-    type: DISPLAYNETWORKBYSELECTION_SUCCESS,
+    type: DISPLAY_NETWORKBYID_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const displayNetworkBySelectionFailureAction = () => {
+export const displayNetworkByIdFailureAction = () => {
   return {
-    type: DISPLAYNETWORKBYSELECTION_FAILURE,
+    type: DISPLAY_NETWORKBYID_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -434,5 +453,109 @@ export const persistForecastParametersAction = (
 export const removeCurrentNetworkAction = () => {
   return {
     type: REMOVE_NETWORK,
+  };
+};
+
+export const getDeclineParametersByIdRequestAction = () => {
+  return {
+    type: GET_DECLINEPARAMETERSBYID_REQUEST,
+    meta: { showSpinner: true, message: "fetching decline parameters..." },
+  };
+};
+
+export const getDeclineParametersByIdSuccessAction = () => {
+  return {
+    type: GET_DECLINEPARAMETERSBYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getDeclineParametersByIdFailureAction = () => {
+  return {
+    type: GET_DECLINEPARAMETERSBYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const getProductionPrioritizationByIdRequestAction = () => {
+  return {
+    type: GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
+    meta: { showSpinner: true, message: "fetching prioritization data..." },
+  };
+};
+
+export const getProductionPrioritizationByIdSuccessAction = () => {
+  return {
+    type: GET_PRODUCTIONPRIORITIZATIONBYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getProductionPrioritizationByIdFailureAction = () => {
+  return {
+    type: GET_PRODUCTIONPRIORITIZATIONBYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchExistingDeclineParametersRequestAction = () => {
+  return {
+    type: EXISTING_DECLINEPARAMETERS_REQUEST,
+    meta: { showSpinner: true, message: "fetching decline parameters data..." },
+  };
+};
+
+export const fetchExistingDeclineParametersSuccessAction = () => {
+  return {
+    type: EXISTING_DECLINEPARAMETERS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchExistingDeclineParametersFailureAction = () => {
+  return {
+    type: EXISTING_DECLINEPARAMETERS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchExistingProductionPrioritizationRequestAction = () => {
+  return {
+    type: EXISTING_PRODUCTIONPRIORITIZATION_REQUEST,
+    meta: { showSpinner: true, message: "fetching decline parameters data..." },
+  };
+};
+
+export const fetchExistingProductionPrioritizationSuccessAction = () => {
+  return {
+    type: EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchExistingProductionPrioritizationFailureAction = () => {
+  return {
+    type: EXISTING_PRODUCTIONPRIORITIZATION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
   };
 };

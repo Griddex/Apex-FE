@@ -42,22 +42,22 @@ const networkState: INetworkState = {
   data: [],
 
   selectedForecastingParametersId: "",
+  selectedForecastingParametersTitle: "",
+  selectedDeclineParametersId: "",
+  selectedDeclineParametersTitle: "",
+  selectedProductionPrioritizationId: "",
+  selectedProductionPrioritizationTitle: "",
+
   loadNetworkGenerationWorkflow: false,
 
   selectedNetworkId: "",
   selectedNetworkTitle: "",
   existingDataWorkflows: {
     networkExisting: [],
-    forecastingParametersRoot: [],
+    forecastingParametersExisting: [],
+    declineParametersExisting: [],
+    productionPrioritizationExisting: [],
   },
-  // networkCreationWorkflows: {
-  //   networkManualBuild: {},
-  //   networkAutoGeneration: {},
-  // },
-
-  selectedForecastingParametersRootId: "",
-  selectedForecastingParametersGroupId: "",
-  forecastingParametersExisting: [],
 };
 
 export default networkState;

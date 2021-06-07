@@ -68,7 +68,7 @@ function* saveForecastSaga(
     userId: "Gideon",
     projectId,
     networkId: selectedNetworkId,
-    forecastingParametersGroupId: selectedForecastingParametersId,
+    forecastingParametersId: selectedForecastingParametersId,
     title: forecastResultsTitle,
     description: forecastResultsDescription,
     forecastResultsKey: selectedForecastingResultsId,

@@ -18,7 +18,7 @@ export interface IWorkflowDataProps extends IWorkflowProcessState {
 }
 
 export interface IProjectWorkflows {
-  wkPs: "newProjectWorkflowDialog";
+  wkPs: "newProjectWorkflow";
   wkCy: "projectDataWorkflows";
   finalAction?: () => void;
   finalIcon?: JSX.Element;
@@ -55,6 +55,8 @@ export interface INetworkWorkflows {
     | "networkManualBuild"
     | "networkAutoGeneration"
     | "networkExisting"
+    | "declineParametersExisting"
+    | "productionPrioritizationExisting"
     | "runForecastWorkflow"
     | "saveForecastingParametersWorkflow"
     | "declineCurveParametersWorkflow";

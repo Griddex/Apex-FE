@@ -3,8 +3,7 @@ import { Edge, Node } from "react-flow-renderer";
 import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
 import {
   IDeclineCurveParametersDetail,
-  IForecastingParametersRow,
-  IForecastParametersRoot,
+  IForecastParametersExistingRow,
 } from "../../Components/Dialogs/ExistingNetworksDialogTypes";
 
 //NetworkModel
@@ -115,7 +114,13 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   parameterEntries: ISaveForecastParametersFormValues;
   declineParameters: IDeclineCurveParametersDetail[];
+
   selectedForecastingParametersId: string;
+  selectedForecastingParametersTitle: string;
+  selectedDeclineParametersId: string;
+  selectedDeclineParametersTitle: string;
+  selectedProductionPrioritizationId: string;
+  selectedProductionPrioritizationTitle: string;
 
   selectedNetworkId: string;
   selectedNetworkTitle: string;
@@ -124,15 +129,8 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   existingDataWorkflows: {
     networkExisting: IExistingDataRow[];
-    forecastingParametersRoot: IForecastParametersRoot[];
+    forecastingParametersExisting: IForecastParametersExistingRow[];
+    declineParametersExisting: IForecastParametersExistingRow[];
+    productionPrioritizationExisting: IForecastParametersExistingRow[];
   };
-
-  // networkCreationWorkflows: {
-  //   networkManualBuild: {};
-  //   networkAutoGeneration: {};
-  // };
-
-  selectedForecastingParametersRootId: string;
-  selectedForecastingParametersGroupId: string;
-  forecastingParametersExisting: IForecastingParametersRow[];
 }

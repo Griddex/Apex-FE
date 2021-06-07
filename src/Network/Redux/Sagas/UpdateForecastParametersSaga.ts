@@ -55,7 +55,7 @@ function* updateForecastParametersSaga(
   const {
     forecastParametersTitle,
     forecastParametersDescription,
-    selectedForecastingParametersGroupId,
+    selectedForecastingParametersId,
     declineParameters,
     parameterEntries: {
       targetFluid,
@@ -72,7 +72,7 @@ function* updateForecastParametersSaga(
     description: forecastParametersDescription,
     type: "User",
     userId: "Gideon",
-    forecastingParametersId: selectedForecastingParametersGroupId,
+    forecastingParametersId: selectedForecastingParametersId,
     declineParameters,
     parameterEntries: {
       targetFluid,

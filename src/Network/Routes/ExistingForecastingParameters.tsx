@@ -20,9 +20,8 @@ import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
 import {
-  IForecastingParametersGroup,
-  IForecastingParametersRow,
-  IForecastParametersRoot,
+  IBackendForecastingParametersRow,
+  IForecastParametersExistingRow,
 } from "../Components/Dialogs/ExistingNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
 import CreateNewForecastParametersButton from "../Components/Menus/CreateNewForecastParametersButton";
@@ -104,7 +103,7 @@ export default function ExistingForecastingParameters({
   const [sRow, setSRow] = React.useState(-1);
 
   const wc = "existingDataWorkflows";
-  const wp = "forecastingParametersRoot";
+  const wp = "forecastingParametersExisting";
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
@@ -112,74 +111,66 @@ export default function ExistingForecastingParameters({
 
   const existingData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
-  ) as IForecastParametersRoot[];
+  ) as IBackendForecastingParametersRow[];
 
-  const transExistingData = existingData.map((row: IForecastParametersRoot) => {
-    const {
-      id,
-      forecastInputDeckId,
-      forecastInputdeckTitle,
-      forecastingParametersGroupList,
-    } = row;
+  const transExistingData = existingData.map(
+    (row: IBackendForecastingParametersRow) => {
+      const {
+        forecastingParametersId,
+        forecastInputDeckId,
+        forecastInputDeckTitle,
+        title,
+        description,
+        type,
+        createdAt,
+        wellPrioritizationTitle,
+        wellDeclineParameterTitle,
+        parametersEntity,
+      } = row;
 
-    const arrExistingData = forecastingParametersGroupList.map(
-      (row: IForecastingParametersGroup) => {
-        const {
-          _id,
-          title,
-          description,
-          type,
-          createdAt,
-          declineParameters,
-          parametersEntity,
-        } = row;
+      const {
+        timeFrequency,
+        targetFluid,
+        isDefered,
+        startDay,
+        startMonth,
+        startYear,
+        stopDay,
+        stopMonth,
+        stopYear,
+      } = parametersEntity;
 
-        const {
-          timeFrequency,
-          targetFluid,
-          isDefered,
-          startDay,
-          startMonth,
-          startYear,
-          stopDay,
-          stopMonth,
-          stopYear,
-        } = parametersEntity;
-
-        return {
-          forecastingParametersRootId: id,
-          forecastingParametersGroupId: _id,
-          forecastInputDeckId,
-          forecastInputDeckTitle: forecastInputdeckTitle,
-          declineParameters,
-          type,
-          title,
-          description,
-          targetFluid,
-          timeFrequency,
-          isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment",
-          realtimeResults: "Yes",
-          startForecast: formatDate(
-            new Date(startYear, startMonth, startDay),
-            dayFormat,
-            monthFormat,
-            yearFormat
-          ),
-          endForecast: formatDate(
-            new Date(stopYear, stopMonth, stopDay),
-            dayFormat,
-            monthFormat,
-            yearFormat
-          ),
-          author: { avatarUrl: "", name: "None" },
-          createdOn: createdAt,
-          modifiedOn: createdAt,
-        };
-      }
-    );
-
-    return arrExistingData;
-  });
+      return {
+        forecastingParametersId,
+        forecastInputDeckId,
+        forecastInputDeckTitle,
+        title,
+        description,
+        type,
+        wellDeclineParameterTitle,
+        wellPrioritizationTitle,
+        targetFluid,
+        timeFrequency,
+        isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment",
+        realtimeResults: "Yes",
+        startForecast: formatDate(
+          new Date(startYear, startMonth, startDay),
+          dayFormat,
+          monthFormat,
+          yearFormat
+        ),
+        endForecast: formatDate(
+          new Date(stopYear, stopMonth, stopDay),
+          dayFormat,
+          monthFormat,
+          yearFormat
+        ),
+        author: { avatarUrl: "", name: "None" },
+        createdOn: createdAt,
+        modifiedOn: createdAt,
+      };
+    }
+  ) as IForecastParametersExistingRow[];
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
@@ -187,9 +178,9 @@ export default function ExistingForecastingParameters({
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (row: IForecastingParametersRow) => {
+  const handleCheckboxChange = (row: IForecastParametersExistingRow) => {
     const name = "selectedForecastingParametersId";
-    const value = row.forecastingParametersGroupId;
+    const value = row.forecastingParametersId;
 
     dispatch(updateNetworkParameterAction(name, value));
     setCheckboxSelected(!checkboxSelected);
@@ -202,7 +193,7 @@ export default function ExistingForecastingParameters({
   });
 
   const generateColumns = () => {
-    const columns: Column<IForecastingParametersRow>[] = [
+    const columns: Column<IForecastParametersExistingRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       ApexGridCheckboxColumn,
       {
@@ -281,12 +272,12 @@ export default function ExistingForecastingParameters({
         resizable: true,
         width: 300,
         formatter: ({ row }) => {
-          const { sn } = row;
+          const { sn, wellDeclineParameterTitle } = row;
           const selectedRowIndex = (sn as number) - 1;
 
           return (
             <div className={classes.dcaOrPrtznTable}>
-              <Typography>DCA Table Title</Typography>
+              <Typography>{wellDeclineParameterTitle}</Typography>
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
@@ -295,8 +286,8 @@ export default function ExistingForecastingParameters({
                   );
                   dispatch(
                     updateNetworkParameterAction(
-                      "selectedForecastingParametersRootId",
-                      row.forecastingParametersRootId
+                      "selectedForecastingParametersId",
+                      row.forecastingParametersId
                     )
                   );
                 }}
@@ -312,12 +303,12 @@ export default function ExistingForecastingParameters({
         resizable: true,
         width: 300,
         formatter: ({ row }) => {
-          const { sn } = row;
+          const { sn, wellPrioritizationTitle } = row;
           const selectedRowIndex = (sn as number) - 1;
 
           return (
             <div className={classes.dcaOrPrtznTable}>
-              <Typography>Prioritization Table Title</Typography>
+              <Typography>{wellPrioritizationTitle}</Typography>
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
@@ -326,8 +317,8 @@ export default function ExistingForecastingParameters({
                   );
                   dispatch(
                     updateNetworkParameterAction(
-                      "selectedForecastingParametersRootId",
-                      row.forecastingParametersRootId
+                      "selectedForecastingParametersId",
+                      row.forecastingParametersId
                     )
                   );
                 }}
@@ -425,60 +416,12 @@ export default function ExistingForecastingParameters({
   };
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
-  const snTransExistingData: IForecastingParametersRow[] = [];
-  let i = 0;
-  for (const forecastParametersTable of transExistingData) {
-    for (const row of forecastParametersTable) {
-      const {
-        title,
-        description,
-        forecastingParametersRootId,
-        forecastingParametersGroupId,
-        forecastInputDeckId,
-        forecastInputDeckTitle,
-        declineParameters,
-        targetFluid,
-        timeFrequency,
-        isDefered,
-        realtimeResults,
-        startForecast,
-        endForecast,
-        type,
-        author,
-        createdOn,
-        modifiedOn,
-      } = row;
-
-      snTransExistingData.push({
-        sn: i + 1,
-        title,
-        description,
-        forecastingParametersRootId,
-        forecastingParametersGroupId,
-        forecastInputDeckId,
-        forecastInputDeckTitle,
-        declineParameters,
-        targetFluid,
-        timeFrequency,
-        isDefered,
-        realtimeResults,
-        startForecast,
-        endForecast,
-        type,
-        author,
-        createdOn,
-        modifiedOn,
-      });
-
-      i = i + 1;
-    }
-  }
+  const snTransExistingData = transExistingData.map((row, i) => ({
+    sn: i + 1,
+    ...row,
+  })) as IForecastParametersExistingRow[];
 
   const [rows, setRows] = React.useState(snTransExistingData);
-  console.log(
-    "Logged output --> ~ file: ExistingForecastingParameters.tsx ~ line 459 ~ snTransExistingData",
-    snTransExistingData
-  );
 
   React.useEffect(() => {
     dispatch(
@@ -497,7 +440,7 @@ export default function ExistingForecastingParameters({
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IForecastingParametersRow, ITableButtonsProps>
+            <ApexGrid<IForecastParametersExistingRow, ITableButtonsProps>
               columns={columns}
               rows={rows}
               tableButtons={tableButtons}

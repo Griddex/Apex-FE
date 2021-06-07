@@ -65,7 +65,7 @@ function* runForecastSaga(
   );
 
   const userId = "Gideon";
-  const url = `${getBaseForecastUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersGroupId=${selectedForecastingParametersId}/userId=${userId}`;
+  const url = `${getBaseForecastUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersId=${selectedForecastingParametersId}/userId=${userId}`;
 
   try {
     yield put(removeCurrentForecastAction());

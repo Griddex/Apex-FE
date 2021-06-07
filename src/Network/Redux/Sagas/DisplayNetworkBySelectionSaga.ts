@@ -25,9 +25,9 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
-  displayNetworkBySelectionFailureAction,
-  displayNetworkBySelectionSuccessAction,
-  DISPLAYNETWORKBYSELECTION_REQUEST,
+  displayNetworkByIdFailureAction,
+  displayNetworkByIdSuccessAction,
+  DISPLAY_NETWORKBYID_REQUEST,
   removeCurrentNetworkAction,
   updateNetworkParameterAction,
 } from "../Actions/NetworkActions";
@@ -38,7 +38,7 @@ export default function* watchDisplayNetworkBySelectionSaga(): Generator<
   any
 > {
   const displayNetworkBySelectionChan = yield actionChannel(
-    DISPLAYNETWORKBYSELECTION_REQUEST
+    DISPLAY_NETWORKBYID_REQUEST
   );
   yield takeLeading(
     displayNetworkBySelectionChan,
@@ -77,7 +77,7 @@ export function* displayNetworkBySelectionSaga(
       const flowElement = yield take(chan);
 
       let categoryType;
-      const successAction = displayNetworkBySelectionSuccessAction();
+      const successAction = displayNetworkByIdSuccessAction();
 
       const category = Object.keys(flowElement)[0];
 
@@ -119,7 +119,7 @@ export function* displayNetworkBySelectionSaga(
       }
     }
   } catch (errors) {
-    const failureAction = displayNetworkBySelectionFailureAction();
+    const failureAction = displayNetworkByIdFailureAction();
 
     yield put({
       ...failureAction,

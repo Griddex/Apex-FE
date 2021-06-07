@@ -22,10 +22,12 @@ import AutoNetwork from "../Images/AutoNetwork.svg";
 import ExistingDeck from "../Images/ExistingDeck.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
 import {
-  displayNetworkBySelectionRequestAction,
+  displayNetworkByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
+import ExistingDeclineParameters from "../Routes/ExistingDeclineParameters";
 import ExistingNetworks from "../Routes/ExistingNetworks";
+import ExistingProductionPrioritization from "../Routes/ExistingProductionPrioritization";
 import NetworkAuto from "./NetworkAuto";
 import { IdType } from "./NetworkLandingTypes";
 import NetworkManual from "./NetworkManual";
@@ -123,7 +125,7 @@ const NetworkLanding = () => {
           DialogDisplayNetworkCancelButtons(
             [true, true],
             [true, true],
-            [unloadDialogsAction, displayNetworkBySelectionRequestAction]
+            [unloadDialogsAction, displayNetworkByIdRequestAction]
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -177,6 +179,18 @@ const NetworkLanding = () => {
                   networkExisting: (
                     <ExistingNetworks
                       workflowProcess={"networkExisting"}
+                      containerStyle={{ boxShadow: "none" }}
+                    />
+                  ),
+                  declineParametersExisting: (
+                    <ExistingDeclineParameters
+                      workflowProcess={"declineParametersExisting"}
+                      containerStyle={{ boxShadow: "none" }}
+                    />
+                  ),
+                  productionPrioritizationExisting: (
+                    <ExistingProductionPrioritization
+                      workflowProcess={"productionPrioritizationExisting"}
                       containerStyle={{ boxShadow: "none" }}
                     />
                   ),

@@ -23,7 +23,7 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import {
-  displayNetworkBySelectionRequestAction,
+  displayNetworkByIdRequestAction,
   removeCurrentNetworkAction,
   updateNetworkParameterAction,
 } from "../../Redux/Actions/NetworkActions";
@@ -91,7 +91,7 @@ const NetworkButtonsMenu = () => {
           DialogDisplayNetworkCancelButtons(
             [true, true],
             [true, true],
-            [unloadDialogsAction, displayNetworkBySelectionRequestAction]
+            [unloadDialogsAction, displayNetworkByIdRequestAction]
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };

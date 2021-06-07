@@ -8,8 +8,8 @@ import {
   EXISTINGFORECASTPARAMETERS_SUCCESS,
   EXISTINGNETWORKDATA_FAILURE,
   EXISTINGNETWORKDATA_SUCCESS,
-  DISPLAYNETWORKBYSELECTION_FAILURE,
-  DISPLAYNETWORKBYSELECTION_SUCCESS,
+  DISPLAY_NETWORKBYID_FAILURE,
+  DISPLAY_NETWORKBYID_SUCCESS,
   HIDE_NETWORKELEMENTDETAILS,
   HIDE_WELHEADSUMMARYEDGES,
   HIDE_WELHEADSUMMARYNODES,
@@ -26,6 +26,10 @@ import {
   SHOW_NETWORKELEMENTDETAILS,
   SHOW_POPOVER,
   UPDATE_NETWORKPARAMETER,
+  EXISTING_DECLINEPARAMETERS_FAILURE,
+  EXISTING_DECLINEPARAMETERS_SUCCESS,
+  EXISTING_PRODUCTIONPRIORITIZATION_FAILURE,
+  EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -155,7 +159,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case DISPLAYNETWORKBYSELECTION_SUCCESS: {
+    case DISPLAY_NETWORKBYID_SUCCESS: {
       const {
         success,
         status,
@@ -190,7 +194,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       } else return state;
     }
 
-    case DISPLAYNETWORKBYSELECTION_FAILURE: {
+    case DISPLAY_NETWORKBYID_FAILURE: {
       const { errors } = action.payload;
       return {
         ...state,
@@ -219,14 +223,14 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
 
     case EXISTINGFORECASTPARAMETERS_SUCCESS: {
-      const { status, success, forecastingParametersRoot } = action.payload;
+      const { status, success, forecastingParametersExisting } = action.payload;
       const wc = "existingDataWorkflows";
 
       return {
         ...state,
         status,
         success,
-        [wc]: { ...state[wc], forecastingParametersRoot },
+        [wc]: { ...state[wc], forecastingParametersExisting },
       };
     }
 
@@ -269,6 +273,51 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         edgeElements: [],
         selectedNetworkId: "",
         selectedNetworkTitle: "",
+      };
+    }
+
+    case EXISTING_DECLINEPARAMETERS_SUCCESS: {
+      const { status, success, declineParametersExisting } = action.payload;
+      const wc = "existingDataWorkflows";
+
+      return {
+        ...state,
+        status,
+        success,
+        [wc]: { ...state[wc], declineParametersExisting },
+      };
+    }
+
+    case EXISTING_DECLINEPARAMETERS_FAILURE: {
+      const { status, errors } = action.payload;
+
+      return {
+        ...state,
+        status,
+        errors,
+      };
+    }
+
+    case EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS: {
+      const { status, success, productionPrioritizationExisting } =
+        action.payload;
+      const wc = "existingDataWorkflows";
+
+      return {
+        ...state,
+        status,
+        success,
+        [wc]: { ...state[wc], productionPrioritizationExisting },
+      };
+    }
+
+    case EXISTING_PRODUCTIONPRIORITIZATION_FAILURE: {
+      const { status, errors } = action.payload;
+
+      return {
+        ...state,
+        status,
+        errors,
       };
     }
 

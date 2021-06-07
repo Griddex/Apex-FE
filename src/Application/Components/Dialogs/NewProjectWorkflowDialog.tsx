@@ -112,7 +112,7 @@ const DialogContent = withStyles((theme) => ({
 
 const steps = ["Choose Unit Settings", "New Project Title & Description"];
 const workflowCategory = "projectDataWorkflows";
-const workflowProcess = "newProjectWorkflowDialog";
+const workflowProcess = "newProjectWorkflow";
 
 const NewProjectWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();

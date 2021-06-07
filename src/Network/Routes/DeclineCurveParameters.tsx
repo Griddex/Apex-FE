@@ -75,7 +75,7 @@ export default function DeclineCurveParameters({
   const dispatch = useDispatch();
 
   const wc = "existingDataWorkflows";
-  const wp = "forecastingParametersRoot";
+  const wp = "forecastingParametersExisting";
 
   const { forecastingParametersExisting } = useSelector(
     (state: RootState) => state.networkReducer

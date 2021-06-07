@@ -18,7 +18,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
-import { IForecastingParametersRow } from "../../Components/Dialogs/ExistingNetworksDialogTypes";
+import { IForecastParametersExistingRow } from "../../Components/Dialogs/ExistingNetworksDialogTypes";
 import {
   fetchExistingForecastingParametersRequestAction,
   saveForecastParametersFailureAction,
@@ -61,6 +61,7 @@ function* saveForecastParametersSaga(
     forecastParametersTitle,
     forecastParametersDescription,
     declineParameters,
+    wellPrioritization,
     parameterEntries: {
       targetFluid,
       timeFrequency,
@@ -71,7 +72,7 @@ function* saveForecastParametersSaga(
   } = yield select((state) => state.networkReducer);
 
   const selectedParametersObj = forecastingParametersExisting.find(
-    (k: IForecastingParametersRow) =>
+    (k: IForecastParametersExistingRow) =>
       k.forecastInputDeckId === selectedForecastInputDeckId
   );
 
@@ -85,6 +86,7 @@ function* saveForecastParametersSaga(
     userId: "Gideon",
     forecastingParametersId: id,
     declineParameters,
+    wellPrioritization,
     parameterEntries: {
       targetFluid,
       timeFrequency,

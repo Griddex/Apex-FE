@@ -36,15 +36,15 @@ const NetworkLayout = () => {
   const dispatch = useDispatch();
 
   const {
-    existingDataWorkflows: { networkExisting, forecastingParametersRoot },
+    existingDataWorkflows: { networkExisting, forecastingParametersExisting },
   } = useSelector((state: RootState) => state.networkReducer);
 
   const existingNetworksPresent =
     Array.isArray(networkExisting) && networkExisting.length > 0;
 
   const existingForecastParametersPresent =
-    Array.isArray(forecastingParametersRoot) &&
-    forecastingParametersRoot.length > 0;
+    Array.isArray(forecastingParametersExisting) &&
+    forecastingParametersExisting.length > 0;
 
   React.useEffect(() => {
     dispatch(showSpinnerAction("Loading Network Data..."));

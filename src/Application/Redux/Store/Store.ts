@@ -23,7 +23,7 @@ import watchSaveNetworkSaga from "../../../Network/Redux/Sagas/SaveNetworkSaga";
 import watchFetchUnitSettingsSaga from "../../../Settings/Redux/Sagas/Sagas/UnitSettingsSaga";
 import watchFetchApplicationHeadersSaga from "../../../Import/Redux/Sagas/FetchApplicationHeadersSaga";
 import watchAndSaveAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/SaveAndAutogenerateNetworkSaga";
-import watchFetchExistingForecastParametersSaga from "../../../Network/Redux/Sagas/FetchExistingForecastParametersSaga";
+import watchFetchExistingForecastParametersSaga from "../../../Network/Redux/Sagas/FetchExistingDeclineParametersSaga";
 import watchFetchExistingNetworkDataSaga from "../../../Network/Redux/Sagas/FetchExistingNetworkDataSaga";
 import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/UpdateForecastParametersSaga";
 import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
@@ -46,6 +46,10 @@ import economicsMiddleware from "../../../Economics/Redux/Middleware/EconomicsMi
 import watchRunForecastResultAggregationSaga from "../../../Forecast/Redux/Sagas/RunForecastResultAggregationSaga";
 import watchCalculateHeatMapDataSaga from "../../../Economics/Redux/Sagas/CalculateHeatMapDataSaga";
 import watchGetTableDataByIdSaga from "../Sagas/GetTableDataByIdSaga";
+import watchFetchExistingDeclineParametersSaga from "../../../Network/Redux/Sagas/FetchExistingDeclineParametersSaga";
+import watchFetchExistingProductionPrioritizationSaga from "../../../Network/Redux/Sagas/FetchExistingProductionPrioritizationSaga";
+import watchGetDeclineParametersByIdSaga from "../../../Network/Redux/Sagas/GetDeclineParametersByIdSaga";
+import watchGetProductionPrioritizationByIdSaga from "../../../Network/Redux/Sagas/GetProductionPrioritizationByIdSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -85,6 +89,10 @@ function* rootSaga() {
   yield spawn(watchRunForecastResultAggregationSaga);
   yield spawn(watchCalculateHeatMapDataSaga);
   yield spawn(watchGetTableDataByIdSaga);
+  yield spawn(watchFetchExistingProductionPrioritizationSaga);
+  yield spawn(watchFetchExistingDeclineParametersSaga);
+  yield spawn(watchGetProductionPrioritizationByIdSaga);
+  yield spawn(watchGetDeclineParametersByIdSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();
