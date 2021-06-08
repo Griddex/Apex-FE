@@ -52,10 +52,10 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedForecastingParametersId } = yield select(
+  const { selectedProductionPrioritizationId } = yield select(
     (state) => state.networkReducer
   );
-  const productionPrioritizationUrl = `${getBaseForecastUrl()}/wellPrioritization/${selectedForecastingParametersId}`;
+  const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/${selectedProductionPrioritizationId}`;
 
   try {
     const productionPrioritizationResults = yield call(

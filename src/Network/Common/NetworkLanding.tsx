@@ -21,6 +21,8 @@ import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import AutoNetwork from "../Images/AutoNetwork.svg";
 import ExistingDeck from "../Images/ExistingDeck.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
+import DeclineParameters from "../Images/DeclineParameters.svg";
+import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import {
   displayNetworkByIdRequestAction,
   updateNetworkParameterAction,
@@ -67,7 +69,7 @@ const NetworkLanding = () => {
 
   const networkLandingData: ILandingData[] = [
     {
-      name: "Network Manual Build",
+      name: "Manual Network Build",
       description: `Manually build production network from a forecast input deck or direct input`,
       icon: (
         <Image
@@ -81,7 +83,7 @@ const NetworkLanding = () => {
       workflowCategory: "existingDataWorkflows",
     },
     {
-      name: "Network Auto Generation",
+      name: "Auto Network Generation",
       description: `Automatically generate production network from a forecast input deck`,
       icon: (
         <Image className={classes.image} src={AutoNetwork} alt="Auto network" />
@@ -102,6 +104,34 @@ const NetworkLanding = () => {
       ),
       route: `${url}/networkExisting`,
       workflowProcess: "networkExisting",
+      workflowCategory: "existingDataWorkflows",
+    },
+    {
+      name: "Domiciled Decline Parameters",
+      description: `Automatically generate production network from a forecast input deck`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={DeclineParameters}
+          alt="Decline parameters"
+        />
+      ),
+      route: `${url}/networkExisting`,
+      workflowProcess: "declineParametersExisting",
+      workflowCategory: "existingDataWorkflows",
+    },
+    {
+      name: "Domiciled Production Prioritization",
+      description: `Automatically generate production network from a forecast input deck`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ProductionPrioritization}
+          alt="Production prioritization"
+        />
+      ),
+      route: `${url}/networkExisting`,
+      workflowProcess: "productionPrioritizationExisting",
       workflowCategory: "existingDataWorkflows",
     },
   ];

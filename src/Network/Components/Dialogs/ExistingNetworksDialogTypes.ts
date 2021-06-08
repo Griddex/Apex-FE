@@ -12,12 +12,18 @@ export interface IDeclineCurveParametersDetail {
   initOilGasRate1P1C: number;
   initOilGasRate2P2C: number;
   initOilGasRate3P3C: number;
-  rateofChangeRate1P1C: number;
-  rateofChangeRate2P2C: number;
-  rateofChangeRate3P3C: number;
+  rateofChangeRate1P1C?: number;
+  rateofChangeRate2P2C?: number;
+  rateofChangeRate3P3C?: number;
   declineExponent1P1C: number;
   declineExponent2P2C: number;
   declineExponent3P3C: number;
+  rateOfChangeGORCGR1P1C?: number;
+  rateOfChangeGORCGR2P2C?: number;
+  rateOfChangeGORCGR3P3C?: number;
+  rateOfChangeBSWWGR1P1C?: number;
+  rateOfChangeBSWWGR2P2C?: number;
+  rateOfChangeBSWWGR3P3C?: number;
   declineMethod: string;
 }
 

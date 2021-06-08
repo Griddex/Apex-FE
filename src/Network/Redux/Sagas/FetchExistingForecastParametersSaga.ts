@@ -57,7 +57,7 @@ function* fetchExistingForecastParametersSaga(
 > {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
-  const forecastParametersUrl = `${getBaseForecastUrl()}/project/${projectId}`;
+  const forecastParametersUrl = `${getBaseForecastUrl()}/light/${projectId}`;
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(

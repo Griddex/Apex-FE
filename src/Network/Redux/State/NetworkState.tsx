@@ -43,10 +43,13 @@ const networkState: INetworkState = {
 
   selectedForecastingParametersId: "",
   selectedForecastingParametersTitle: "",
+  selectedForecastingParametersDescription: "",
   selectedDeclineParametersId: "",
   selectedDeclineParametersTitle: "",
+  selectedDeclineParametersDescription: "",
   selectedProductionPrioritizationId: "",
   selectedProductionPrioritizationTitle: "",
+  selectedProductionPrioritizationDescription: "",
 
   loadNetworkGenerationWorkflow: false,
 
@@ -58,6 +61,13 @@ const networkState: INetworkState = {
     declineParametersExisting: [],
     productionPrioritizationExisting: [],
   },
+
+  currentDeclineParameters: [],
+  currentProductionPrioritization: [],
+
+  prioritizationPerspective: "",
+  selectedStreamPrioritization: "",
+  useSecondaryFacility: "",
 };
 
 export default networkState;

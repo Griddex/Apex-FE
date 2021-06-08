@@ -49,10 +49,10 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedForecastingParametersId } = yield select(
+  const { selectedDeclineParametersId } = yield select(
     (state) => state.networkReducer
   );
-  const declineParametersUrl = `${getBaseForecastUrl()}/wellDeclineParameters/${selectedForecastingParametersId}`;
+  const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
   try {
     const declineParametersResults = yield call(

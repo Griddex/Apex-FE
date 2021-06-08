@@ -60,8 +60,8 @@ function* saveForecastParametersSaga(
     forecastingParametersExisting,
     forecastParametersTitle,
     forecastParametersDescription,
-    declineParameters,
-    wellPrioritization,
+    selectedDeclineParametersId,
+    selectedProductionPrioritizationId,
     parameterEntries: {
       targetFluid,
       timeFrequency,
@@ -84,9 +84,8 @@ function* saveForecastParametersSaga(
     description: forecastParametersDescription,
     type: "User",
     userId: "Gideon",
-    forecastingParametersId: id,
-    declineParameters,
-    wellPrioritization,
+    declineParametersId: selectedDeclineParametersId,
+    wellPrioritizationId: selectedProductionPrioritizationId,
     parameterEntries: {
       targetFluid,
       timeFrequency,

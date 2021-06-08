@@ -117,10 +117,13 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   selectedForecastingParametersId: string;
   selectedForecastingParametersTitle: string;
+  selectedForecastingParametersDescription: string;
   selectedDeclineParametersId: string;
   selectedDeclineParametersTitle: string;
+  selectedDeclineParametersDescription: string;
   selectedProductionPrioritizationId: string;
   selectedProductionPrioritizationTitle: string;
+  selectedProductionPrioritizationDescription: string;
 
   selectedNetworkId: string;
   selectedNetworkTitle: string;
@@ -133,4 +136,11 @@ export interface INetworkState extends ISaveNetworkFormProps {
     declineParametersExisting: IForecastParametersExistingRow[];
     productionPrioritizationExisting: IForecastParametersExistingRow[];
   };
+
+  currentDeclineParameters: IDeclineCurveParametersDetail[];
+  currentProductionPrioritization: any[];
+
+  prioritizationPerspective: string;
+  selectedStreamPrioritization: string;
+  useSecondaryFacility: string;
 }

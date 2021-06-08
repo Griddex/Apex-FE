@@ -80,7 +80,7 @@ function* saveForecastSaga(
   try {
     yield put(showSpinnerAction("Saving forecast results..."));
 
-    const result = yield call(saveForecastAPI, `${getBaseForecastUrl()}/save`);
+    const result = yield call(saveForecastAPI, `${getBaseForecastUrl()}`);
 
     const {
       data: { data: selectedForecastingResultsId },

@@ -5,7 +5,7 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import { IApexChartFormatProps, IApexChartGrid } from "../Charts/ChartTypes";
 
-const ApexGrid = ({
+const ApexChartGrid = ({
   workflowProcess,
   updateParameterAction,
   chartType,
@@ -80,4 +80,4 @@ const ApexGrid = ({
   );
 };
 
-export default ApexGrid;
+export default ApexChartGrid;

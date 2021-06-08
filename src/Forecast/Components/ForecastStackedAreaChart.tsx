@@ -51,7 +51,7 @@ const ForecastStackedAreaChart = () => {
                 fontSize={11}
                 // fontFamily={""}
               >
-                {tickIndex % 4 === 0 ? bottomAxisValues[tickIndex] : ""}
+                {tickIndex % 1 === 0 ? bottomAxisValues[tickIndex] : ""}
               </text>
             </g>
           );

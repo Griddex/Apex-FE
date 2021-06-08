@@ -62,7 +62,7 @@ function* fetchExistingDeclineParametersSaga(
   );
 
   //TODO Need light version for all decline parameters
-  const declineParametersUrl = `${getBaseForecastUrl()}/wellDeclineParameters/${selectedForecastingParametersId}`;
+  const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/light/${projectId}`;
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(

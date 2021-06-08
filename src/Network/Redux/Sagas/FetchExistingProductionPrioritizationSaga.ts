@@ -62,7 +62,7 @@ function* fetchExistingProductionPrioritizationSaga(
   );
 
   //TODO Need light version for all decline parameters
-  const productionPrioritizationUrl = `${getBaseForecastUrl()}/wellPrioritization/${selectedForecastingParametersId}`;
+  const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/light/${projectId}`;
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(

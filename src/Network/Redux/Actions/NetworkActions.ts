@@ -78,6 +78,15 @@ export const EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS =
   "EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS";
 export const EXISTING_PRODUCTIONPRIORITIZATION_FAILURE =
   "EXISTING_PRODUCTIONPRIORITIZATION_FAILURE";
+export const SAVE_DECLINEPARAMETERS_REQUEST = "SAVE_DECLINEPARAMETERS_REQUEST";
+export const SAVE_DECLINEPARAMETERS_SUCCESS = "SAVE_DECLINEPARAMETERS_SUCCESS";
+export const SAVE_DECLINEPARAMETERS_FAILURE = "SAVE_DECLINEPARAMETERS_FAILURE";
+export const SAVE_PRODUCTIONPRIORITIZATION_REQUEST =
+  "SAVE_PRODUCTIONPRIORITIZATION_REQUEST";
+export const SAVE_PRODUCTIONPRIORITIZATION_SUCCESS =
+  "SAVE_PRODUCTIONPRIORITIZATION_SUCCESS";
+export const SAVE_PRODUCTIONPRIORITIZATION_FAILURE =
+  "SAVE_PRODUCTIONPRIORITIZATION_FAILURE";
 
 //EXISTING_PRODUCTIONPRIORITIZATION_REQUEST
 export const runForecastRequestAction = () => {
@@ -553,6 +562,59 @@ export const fetchExistingProductionPrioritizationSuccessAction = () => {
 export const fetchExistingProductionPrioritizationFailureAction = () => {
   return {
     type: EXISTING_PRODUCTIONPRIORITIZATION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+export const saveDeclineParametersRequestAction = () => {
+  return {
+    type: SAVE_DECLINEPARAMETERS_REQUEST,
+    meta: { showSpinner: true, message: "Saving decline parameters data..." },
+  };
+};
+
+export const saveDeclineParametersSuccessAction = () => {
+  return {
+    type: SAVE_DECLINEPARAMETERS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const saveDeclineParametersFailureAction = () => {
+  return {
+    type: SAVE_DECLINEPARAMETERS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+export const saveProductionPrioritizationRequestAction = () => {
+  return {
+    type: SAVE_PRODUCTIONPRIORITIZATION_REQUEST,
+    meta: {
+      showSpinner: true,
+      message: "Saving production prioritization data...",
+    },
+  };
+};
+
+export const saveProductionPrioritizationSuccessAction = () => {
+  return {
+    type: SAVE_PRODUCTIONPRIORITIZATION_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const saveProductionPrioritizationFailureAction = () => {
+  return {
+    type: SAVE_PRODUCTIONPRIORITIZATION_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
