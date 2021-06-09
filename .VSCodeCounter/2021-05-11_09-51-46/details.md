@@ -100,7 +100,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Application/Components/Selects/SelectItem.tsx](/src/Application/Components/Selects/SelectItem.tsx) | TypeScript React | 32 | 0 | 3 | 35 |
 | [src/Application/Components/Selects/SelectItemsType.ts](/src/Application/Components/Selects/SelectItemsType.ts) | TypeScript | 32 | 0 | 4 | 36 |
 | [src/Application/Components/Streams/FromStream.tsx](/src/Application/Components/Streams/FromStream.tsx) | TypeScript React | 3 | 34 | 2 | 39 |
-| [src/Application/Components/Styles/ApexFlexStyle.tsx](/src/Application/Components/Styles/ApexFlexStyle.tsx) | TypeScript React | 57 | 0 | 4 | 61 |
+| [src/Application/Components/Styles/ApexFlexContainer.tsx](/src/Application/Components/Styles/ApexFlexContainer.tsx) | TypeScript React | 57 | 0 | 4 | 61 |
 | [src/Application/Components/Svg/TickIcon.svg](/src/Application/Components/Svg/TickIcon.svg) | XML | 6 | 0 | 1 | 7 |
 | [src/Application/Components/Switches/ApexMuiSwitch.tsx](/src/Application/Components/Switches/ApexMuiSwitch.tsx) | TypeScript React | 84 | 9 | 4 | 97 |
 | [src/Application/Components/Switches/ApexMuiSwitchTypes.ts](/src/Application/Components/Switches/ApexMuiSwitchTypes.ts) | TypeScript | 10 | 0 | 1 | 11 |

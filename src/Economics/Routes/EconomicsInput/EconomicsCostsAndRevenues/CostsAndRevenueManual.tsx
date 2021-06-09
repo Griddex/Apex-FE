@@ -13,7 +13,7 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import { ButtonProps } from "../../../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -860,7 +860,7 @@ export default function CostsAndRevenueManual({
 
   return (
     <div className={classes.rootExistingData}>
-      <ApexFlexStyle
+      <ApexFlexContainer
         justifyContent="space-between"
         moreStyles={{
           marginBottom: 10,
@@ -869,7 +869,7 @@ export default function CostsAndRevenueManual({
           paddingBottom: 10,
         }}
       >
-        <ApexFlexStyle width={"70%"} justifyContent="flex-start">
+        <ApexFlexContainer width={"70%"} justifyContent="flex-start">
           <AnalyticsComp
             title="Development Scenario"
             direction="Horizontal"
@@ -913,7 +913,7 @@ export default function CostsAndRevenueManual({
             buttonsData={buttonsData}
             setButtonsData={setButtonsData}
           />
-        </ApexFlexStyle>
+        </ApexFlexContainer>
 
         <AnalyticsComp
           title="Forecast Case"
@@ -939,7 +939,7 @@ export default function CostsAndRevenueManual({
             />
           }
         />
-      </ApexFlexStyle>
+      </ApexFlexContainer>
       <ApexGrid<IRawRow, ITableButtonsProps>
         columns={columns}
         rows={rows}

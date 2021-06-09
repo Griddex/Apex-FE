@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import { IExistingDataProps } from "../../Types/ApplicationTypes";
-import ApexFlexStyle from "../Styles/ApexFlexStyle";
+import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { IAllWorkflows } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,9 +53,9 @@ const MiniCard: React.FC<IMiniCardProps> = (props) => {
   return (
     <CardActionArea className={classes.cardActionArea} onClick={moduleAction}>
       <div className={classes.cardIconTitle}>
-        <ApexFlexStyle width={50} height={50}>
+        <ApexFlexContainer width={50} height={50}>
           {icon}
-        </ApexFlexStyle>
+        </ApexFlexContainer>
         <div className={classes.title}>
           <Typography variant="h6" align="center">
             {title}

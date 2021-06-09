@@ -11,7 +11,7 @@ import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -143,7 +143,7 @@ export default function ExistingEconomicsSensitivities() {
           const selectedRowIndex = (sn as number) - 1;
 
           return (
-            <ApexFlexStyle>
+            <ApexFlexContainer>
               <EditOutlinedIcon
                 onClick={() => {
                   alert(`Edit Row is:${row}`);
@@ -163,7 +163,7 @@ export default function ExistingEconomicsSensitivities() {
               <MenuOpenOutlinedIcon
                 onClick={() => alert(`Menu Row is:${row}`)}
               />
-            </ApexFlexStyle>
+            </ApexFlexContainer>
           );
         },
         width: 120,
@@ -184,7 +184,7 @@ export default function ExistingEconomicsSensitivities() {
           const analysisName = row.analysisName as TEconomicsAnalysesNames;
           const analysisTitle = economicsAnalysesNameTitlesObj[analysisName];
 
-          return <ApexFlexStyle>{analysisTitle}</ApexFlexStyle>;
+          return <ApexFlexContainer>{analysisTitle}</ApexFlexContainer>;
         },
         width: 150,
       },

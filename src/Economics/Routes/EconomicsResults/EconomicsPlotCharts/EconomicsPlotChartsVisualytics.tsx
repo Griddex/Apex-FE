@@ -6,7 +6,7 @@ import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
@@ -82,6 +82,10 @@ const EconomicsPlotChartsVisualytics = () => {
 
   const { showPlotChartsCategories, selectedEconomicsPlotChartOption } =
     useSelector((state: RootState) => state.economicsReducer);
+
+  const [showCategories, setShowCategories] = React.useState(
+    showPlotChartsCategories
+  );
 
   const chartValue = selectedEconomicsPlotChartOption.value as TChartTypeNames;
 
@@ -213,11 +217,12 @@ const EconomicsPlotChartsVisualytics = () => {
         >
           <EconomicsPlotChartsDataPanel />
         </div>
-        {showPlotChartsCategories && (
+        {setShowCategories && (
           <ChartCategories
             categoriesTitle={selectedEconomicsPlotChartOption.label}
             ChartCategoriesData={ChartCategoriesData.current}
-            showCategories={showPlotChartsCategories}
+            showCategories={showCategories}
+            setShowCategories={setShowCategories}
           />
         )}
 
@@ -414,7 +419,7 @@ const EconomicsPlotChartsVisualytics = () => {
                 (name) => ({
                   name: `${name}Accordion`,
                   title: axisNameTitlesObj[name as TAxisType],
-                  content: <ApexFlexStyle>No Content</ApexFlexStyle>,
+                  content: <ApexFlexContainer>No Content</ApexFlexContainer>,
                 })
               );
 

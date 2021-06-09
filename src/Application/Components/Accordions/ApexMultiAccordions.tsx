@@ -4,7 +4,7 @@ import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
-import ApexFlexStyle from "../Styles/ApexFlexStyle";
+import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 export interface IApexMultiAccordion {
@@ -72,7 +72,7 @@ export default function ApexMultiAccordions({
     };
 
   return (
-    <ApexFlexStyle flexDirection="column" moreStyles={{ width: "100%" }}>
+    <ApexFlexContainer flexDirection="column" moreStyles={{ width: "100%" }}>
       {apexMultiAccordionsData &&
         apexMultiAccordionsData.map((obj, i) => {
           const { name, title, content } = obj;
@@ -96,6 +96,6 @@ export default function ApexMultiAccordions({
             </Accordion>
           );
         })}
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 }

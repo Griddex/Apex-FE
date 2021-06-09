@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Select from "react-select";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
@@ -87,7 +87,7 @@ const EconomicsParametersSensitivities = ({
   const RSStyles = getRSStyles(theme);
 
   return (
-    <ApexFlexStyle
+    <ApexFlexContainer
       flexDirection="column"
       justifyContent="space-around"
       height={700}
@@ -107,7 +107,7 @@ const EconomicsParametersSensitivities = ({
         }
       />
 
-      <ApexFlexStyle
+      <ApexFlexContainer
         width={"90%"}
         height={500}
         flexDirection="column"
@@ -124,8 +124,8 @@ const EconomicsParametersSensitivities = ({
             />
           );
         })}
-      </ApexFlexStyle>
-    </ApexFlexStyle>
+      </ApexFlexContainer>
+    </ApexFlexContainer>
   );
 };
 

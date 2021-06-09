@@ -1,3 +1,5 @@
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+
 export interface IChartCategory {
   categoryTitle: string;
   persistAction: (name: string, title: string) => void;
@@ -9,4 +11,5 @@ export interface IChartCategoriesData {
   ChartCategoriesData: IChartCategory[];
   categoriesTitle: TCategoriesTitle;
   showCategories: boolean;
+  setShowCategories: TUseState<boolean>;
 }

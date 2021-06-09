@@ -57,11 +57,7 @@ function* fetchExistingProductionPrioritizationSaga(
 > {
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
-  const { selectedForecastingParametersId } = yield select(
-    (state) => state.networkReducer
-  );
 
-  //TODO Need light version for all decline parameters
   const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/light/${projectId}`;
 
   try {

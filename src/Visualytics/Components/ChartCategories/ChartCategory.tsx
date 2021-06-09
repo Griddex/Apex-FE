@@ -2,7 +2,7 @@ import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core";
 import React from "react";
 import { useDrop } from "react-dnd";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import {
   itemTypesForecast,
   itemTypesEconomics,
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 150,
       border: `1px solid ${theme.palette.grey[300]}`,
       width: "100%",
+      paddingTop: 5,
     },
   })
 );
@@ -98,7 +99,7 @@ const ChartCategory = ({
               removeAction={removeAction}
             />
           ) : (
-            <ApexFlexStyle>{"Drop here"}</ApexFlexStyle>
+            <ApexFlexContainer>{"Drop here"}</ApexFlexContainer>
           )
         }
         contentStyle={{ height: "100%" }}

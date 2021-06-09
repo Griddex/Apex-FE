@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import ApexPickerExtruder from "../../../Visualytics/Components/ColorPickers/ApexPickerExtruder";
@@ -80,8 +80,8 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
   }, [updateMap]);
 
   return (
-    <ApexFlexStyle flexDirection="column" alignItems="space-evenly">
-      <ApexFlexStyle
+    <ApexFlexContainer flexDirection="column" alignItems="space-evenly">
+      <ApexFlexContainer
         height={430}
         flexDirection="column"
         justifyContent="flex-start"
@@ -95,7 +95,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
         >
           {"Threshold Format"}
         </Typography>
-        <ApexFlexStyle height={40} justifyContent="space-between">
+        <ApexFlexContainer height={40} justifyContent="space-between">
           <ApexSelectRS
             valueOption={operatorOption}
             data={opOptions}
@@ -117,8 +117,8 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
             autoFocus
             fullWidth
           />
-        </ApexFlexStyle>
-        <ApexFlexStyle
+        </ApexFlexContainer>
+        <ApexFlexContainer
           justifyContent="space-between"
           height={50}
           moreStyles={{ marginTop: 10 }}
@@ -140,7 +140,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           >
             Apply
           </Button>
-        </ApexFlexStyle>
+        </ApexFlexContainer>
         {showThresholdPicker && (
           <ApexSketchPicker
             oneButtonAction={() => {}}
@@ -151,8 +151,8 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
             showButtons={false}
           />
         )}
-      </ApexFlexStyle>
-      <ApexFlexStyle
+      </ApexFlexContainer>
+      <ApexFlexContainer
         height={350}
         flexDirection="column"
         justifyContent="flex-start"
@@ -167,7 +167,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
         >
           {"Background Color"}
         </Typography>
-        <ApexFlexStyle justifyContent="space-between" height={40}>
+        <ApexFlexContainer justifyContent="space-between" height={40}>
           <ApexPickerExtruder
             color={solidBackgroundColor}
             showPicker={showBackgroundPicker}
@@ -185,7 +185,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           >
             Apply
           </Button>
-        </ApexFlexStyle>
+        </ApexFlexContainer>
         {showBackgroundPicker && (
           <ApexSketchPicker
             oneButtonAction={() => {}}
@@ -196,8 +196,8 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
             showButtons={false}
           />
         )}
-      </ApexFlexStyle>
-    </ApexFlexStyle>
+      </ApexFlexContainer>
+    </ApexFlexContainer>
   );
 };
 

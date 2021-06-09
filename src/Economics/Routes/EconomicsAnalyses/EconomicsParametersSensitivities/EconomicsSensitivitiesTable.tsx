@@ -4,7 +4,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import AnalyticsText from "../../../../Application/Components/Basic/AnalyticsText";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -62,7 +62,7 @@ const EconomicsSensitivitiesTable = ({
   }, []);
 
   return (
-    <ApexFlexStyle
+    <ApexFlexContainer
       flexDirection="column"
       justifyContent="space-evenly"
       alignItems="flex-start"
@@ -91,7 +91,7 @@ const EconomicsSensitivitiesTable = ({
           )}
         </SizeMe>
       </div>
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import ApexMultiAccordions from "../../../Application/Components/Accordions/ApexMultiAccordions";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexChartAxis from "./ApexChartAxis";
 import ApexChartGrid from "./ApexChartGrid";
@@ -30,7 +30,7 @@ const ApexChartGridAxes = ({
   }));
 
   return (
-    <ApexFlexStyle flexDirection="column">
+    <ApexFlexContainer flexDirection="column">
       {apexChartGridData.map((obj, i) => {
         return (
           <ApexChartGrid
@@ -50,7 +50,7 @@ const ApexChartGridAxes = ({
           <ApexMultiAccordions apexMultiAccordionsData={updatedAcordionsData} />
         }
       />
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

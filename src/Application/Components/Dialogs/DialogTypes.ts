@@ -36,6 +36,7 @@ import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import { IAllWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
+import DraggableDialog from "./DraggableDialog";
 import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
@@ -75,6 +76,7 @@ export interface IApplicationDialogs {
   selectDevelopmentScenariosDialog: typeof SelectDevelopmentScenariosDialog;
   tableDataDialog: typeof TableDataDialog;
   tableEditorDialog: typeof TableEditorDialog;
+  draggableDialog: typeof DraggableDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -126,7 +128,8 @@ export interface DialogStuff {
     | "existingEconomicsSensitivitiesDialog"
     | "selectDevelopmentScenariosDialog"
     | "tableDataDialog"
-    | "tableEditorDialog";
+    | "tableEditorDialog"
+    | "draggableDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

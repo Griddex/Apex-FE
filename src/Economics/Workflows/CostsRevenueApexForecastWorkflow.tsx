@@ -8,7 +8,7 @@ import NavigationButtons from "../../Application/Components/NavigationButtons/Na
 import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import VerticalWorkflowStepper from "../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../Application/Components/Workflows/WorkflowBanner";
 import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
@@ -190,7 +190,10 @@ const CostsRevenueApexForecastWorkflow = ({
     switch (activeStep) {
       case 0:
         return (
-          <ApexFlexStyle flexDirection="column" moreStyles={{ marginTop: 20 }}>
+          <ApexFlexContainer
+            flexDirection="column"
+            moreStyles={{ marginTop: 20 }}
+          >
             <AnalyticsComp
               title="Forecast Case"
               direction="Vertical"
@@ -220,7 +223,7 @@ const CostsRevenueApexForecastWorkflow = ({
               showBaseButtons={false}
               shouldRunAggregation={true}
             />
-          </ApexFlexStyle>
+          </ApexFlexContainer>
         );
       case 1:
         return (

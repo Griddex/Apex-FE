@@ -1,6 +1,6 @@
 import React from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { useTheme } from "@material-ui/core";
 import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -28,14 +28,14 @@ const EconomicsSensitivitiesHeatMap = () => {
       ?.map((e) => e.replace("Color", ""));
   } else
     return (
-      <ApexFlexStyle
+      <ApexFlexContainer
         moreStyles={{
           border: `1px solid ${theme.palette.grey[400]}`,
           backgroundColor: theme.palette.grey[200],
         }}
       >
         {"No map"}
-      </ApexFlexStyle>
+      </ApexFlexContainer>
     );
 
   return (

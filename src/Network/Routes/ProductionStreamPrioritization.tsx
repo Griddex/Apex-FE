@@ -2,7 +2,7 @@ import React from "react";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import ApexFlexStyle from "../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import CancelPresentationOutlinedIcon from "@material-ui/icons/CancelPresentationOutlined";
 import { Typography } from "@material-ui/core";
 import ApexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
@@ -49,13 +49,13 @@ const ProductionStreamPrioritization = () => {
 
   const NoPrioritization = () => {
     return (
-      <ApexFlexStyle>
+      <ApexFlexContainer>
         <div style={{ width: 300, height: 300 }}>
           <CancelPresentationOutlinedIcon fontSize="large" />
           <Typography>{`No prioritization will be applied.
        Full facility capacity will be available to all streams`}</Typography>
         </div>
-      </ApexFlexStyle>
+      </ApexFlexContainer>
     );
   };
 
@@ -74,7 +74,7 @@ const ProductionStreamPrioritization = () => {
       };
     });
     return (
-      <ApexFlexStyle>
+      <ApexFlexContainer>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
             <ApexGrid<IRawRow, ITableButtonsProps>
@@ -89,7 +89,7 @@ const ProductionStreamPrioritization = () => {
             />
           )}
         </SizeMe>
-      </ApexFlexStyle>
+      </ApexFlexContainer>
     );
   };
 
@@ -127,12 +127,12 @@ const ProductionStreamPrioritization = () => {
       },
     ];
     return (
-      <ApexFlexStyle>
+      <ApexFlexContainer>
         <ApexCheckbox
           variableZOption={streamOption}
           apexCheckboxData={streamPrioritizationData}
         />
-      </ApexFlexStyle>
+      </ApexFlexContainer>
     );
   };
 
@@ -179,9 +179,9 @@ const ProductionStreamPrioritization = () => {
           </ToggleButtonGroup>
         }
       />
-      <ApexFlexStyle>
+      <ApexFlexContainer>
         {renderPrioritization(prioritizationPerspective)}
-      </ApexFlexStyle>
+      </ApexFlexContainer>
     </div>
   );
 };

@@ -17,7 +17,7 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -181,8 +181,12 @@ const EconomicsParametersTable = ({
   };
 
   return (
-    <ApexFlexStyle ref={rootRef} flexDirection="column" alignItems="flex-start">
-      <ApexFlexStyle
+    <ApexFlexContainer
+      ref={rootRef}
+      flexDirection="column"
+      alignItems="flex-start"
+    >
+      <ApexFlexContainer
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
@@ -211,7 +215,7 @@ const EconomicsParametersTable = ({
           }
           containerStyle={{ width: 400 }}
         />
-      </ApexFlexStyle>
+      </ApexFlexContainer>
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.economicsParametersTable}>
           <SizeMe monitorHeight refreshRate={32}>
@@ -230,7 +234,7 @@ const EconomicsParametersTable = ({
           </SizeMe>
         </div>
       </ClickAwayListener>
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

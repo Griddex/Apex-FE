@@ -6,7 +6,7 @@ import { ValueType } from "react-select";
 import ApexCheckbox from "../../../../Application/Components/Checkboxes/ApexCheckbox";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { economicsAnalysesOptions } from "../../../Data/EconomicsData";
 import {
@@ -108,8 +108,8 @@ const SensitivitiesHeatMapChart = () => {
   }
 
   return (
-    <ApexFlexStyle flexDirection="column" height={"calc(100% - 50px)"}>
-      <ApexFlexStyle width={300} height={50}>
+    <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
+      <ApexFlexContainer width={300} height={50}>
         <ApexSelectRS
           valueOption={analysisOption}
           data={economicsAnalysesOptions}
@@ -119,9 +119,9 @@ const SensitivitiesHeatMapChart = () => {
           menuPortalTarget={document.body}
           isSelectOptionType={true}
         />
-      </ApexFlexStyle>
+      </ApexFlexContainer>
 
-      <ApexFlexStyle width={"90%"} height={"90%"}>
+      <ApexFlexContainer width={"90%"} height={"90%"}>
         <EconomicsSensitivitiesHeatMap />
         <Box marginLeft={3} width={200} minWidth={200} height={"70%"}>
           {isAllVariablesDropped ? (
@@ -141,8 +141,8 @@ const SensitivitiesHeatMapChart = () => {
             />
           )}
         </Box>
-      </ApexFlexStyle>
-    </ApexFlexStyle>
+      </ApexFlexContainer>
+    </ApexFlexContainer>
   );
 };
 

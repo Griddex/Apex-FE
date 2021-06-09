@@ -1,7 +1,7 @@
 import { IconButton, Input, useTheme } from "@material-ui/core";
 import React from "react";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import Typography from "@material-ui/core/Typography";
 
 export interface IApexPlotMarginsOption extends ISelectOption<number, string> {
@@ -16,9 +16,9 @@ const ApexPlotMargins = ({ plotMarginData }: IApexPlotMargins) => {
   const theme = useTheme();
 
   return (
-    <ApexFlexStyle flexDirection="column">
+    <ApexFlexContainer flexDirection="column">
       {plotMarginData.map((row, i) => (
-        <ApexFlexStyle key={i}>
+        <ApexFlexContainer key={i}>
           {row.map((option, j) => (
             <div key={j}>
               <Typography>{option.label}</Typography>
@@ -31,9 +31,9 @@ const ApexPlotMargins = ({ plotMarginData }: IApexPlotMargins) => {
               ></Input>
             </div>
           ))}
-        </ApexFlexStyle>
+        </ApexFlexContainer>
       ))}
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

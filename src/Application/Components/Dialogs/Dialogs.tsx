@@ -30,6 +30,7 @@ import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunFo
 import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog";
 import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
+import DraggableDialog from "./DraggableDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -67,6 +68,7 @@ const applicationDialogs: IApplicationDialogs = {
   selectDevelopmentScenariosDialog: SelectDevelopmentScenariosDialog,
   tableDataDialog: TableDataDialog,
   tableEditorDialog: TableEditorDialog,
+  draggableDialog: DraggableDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

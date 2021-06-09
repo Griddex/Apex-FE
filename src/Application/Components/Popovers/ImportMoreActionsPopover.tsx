@@ -12,7 +12,7 @@ import NestedMenuItem from "material-ui-nested-menu-item";
 import React from "react";
 import { TUseState } from "../../Types/ApplicationTypes";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
-import ApexFlexStyle from "../Styles/ApexFlexStyle";
+import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import noEventPropagation from "./../../Events/NoEventPropagation";
 
 const useStyles = makeStyles((theme) => ({
@@ -121,12 +121,12 @@ const generateMoreActionsMenuItems = (
           parentMenuOpen={Boolean(anchorEl)}
           rightIcon={<ChevronRightOutlinedIcon />}
           label={
-            <ApexFlexStyle>
+            <ApexFlexContainer>
               <ListItemAvatar className={classes.listItemAvatar}>
                 <>{avatar}</>
               </ListItemAvatar>
               <ListItemText>{titleDefined}</ListItemText>
-            </ApexFlexStyle>
+            </ApexFlexContainer>
           }
         >
           {generateMoreActionsMenuItems(

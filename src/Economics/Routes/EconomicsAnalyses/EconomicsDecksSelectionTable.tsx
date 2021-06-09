@@ -15,7 +15,7 @@ import { IApplicationExistingDataRow } from "../../../Application/Types/Applicat
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 // import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 
 const EconomicsDecksSelectionTable = () => {
@@ -128,12 +128,12 @@ const EconomicsDecksSelectionTable = () => {
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
-          <ApexFlexStyle>
+          <ApexFlexContainer>
             <VisibilityOutlinedIcon
               onClick={() => alert(`View Row is:${row}`)}
             />
             <LockOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-          </ApexFlexStyle>
+          </ApexFlexContainer>
         ),
         width: 100,
       },

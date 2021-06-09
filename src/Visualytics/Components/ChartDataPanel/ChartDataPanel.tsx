@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import getRSStyles from "../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../Application/Utils/GetRSTheme";
 
@@ -58,7 +58,7 @@ const ChartDataPanel = ({
   };
 
   return (
-    <ApexFlexStyle flexDirection="column">
+    <ApexFlexContainer flexDirection="column">
       <AnalyticsComp
         title={selectLabel}
         content={
@@ -80,10 +80,10 @@ const ChartDataPanel = ({
       >
         <TreeViewComponent />
       </div>
-      <ApexFlexStyle height={50} justifyContent="flex-end">
+      <ApexFlexContainer height={50} justifyContent="flex-end">
         <CategoryOutlinedIcon onClick={categoriesAction} />
-      </ApexFlexStyle>
-    </ApexFlexStyle>
+      </ApexFlexContainer>
+    </ApexFlexContainer>
   );
 };
 

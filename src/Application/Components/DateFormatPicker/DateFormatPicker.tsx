@@ -3,7 +3,7 @@ import { ValueType } from "react-select";
 import generateSelectOptions from "../../Utils/GenerateSelectOptions";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import ApexSelectRS from "../Selects/ApexSelectRS";
-import ApexFlexStyle from "../Styles/ApexFlexStyle";
+import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { ISelectOption } from "./../Selects/SelectItemsType";
 import {
   dayOptions,
@@ -29,7 +29,11 @@ const DateFormatPicker = ({
   // const selectedYearOption = generateSelectOptions([year])[0]
 
   return (
-    <ApexFlexStyle justifyContent="space-between" width={"100%"} height={100}>
+    <ApexFlexContainer
+      justifyContent="space-between"
+      width={"100%"}
+      height={100}
+    >
       <AnalyticsComp
         title="Date Format"
         direction="Vertical"
@@ -75,7 +79,7 @@ const DateFormatPicker = ({
           </div>
         }
       />
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

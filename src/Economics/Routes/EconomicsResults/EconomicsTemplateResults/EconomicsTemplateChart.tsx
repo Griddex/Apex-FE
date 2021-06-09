@@ -6,7 +6,7 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { useDispatch, useSelector } from "react-redux";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
@@ -135,10 +135,10 @@ const EconomicsTemplateChart = () => {
   }, [layoutConfig.mounted]);
 
   return (
-    <ApexFlexStyle flexDirection="column" height={"calc(100% - 50px)"}>
+    <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
       <button onClick={onNewLayout}>Generate New Layout</button>
       <button onClick={onCompactTypeChange}>Change Compaction Type</button>
-      <ApexFlexStyle flexDirection="column" height={"calc(100% - 50px)"}>
+      <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
         <ResponsiveReactGridLayout
           layouts={layoutConfig.layouts}
           onBreakpointChange={onBreakpointChange}
@@ -153,8 +153,8 @@ const EconomicsTemplateChart = () => {
         >
           {generateDOM()}
         </ResponsiveReactGridLayout>
-      </ApexFlexStyle>
-    </ApexFlexStyle>
+      </ApexFlexContainer>
+    </ApexFlexContainer>
   );
 };
 

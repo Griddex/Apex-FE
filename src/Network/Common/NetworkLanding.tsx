@@ -116,7 +116,7 @@ const NetworkLanding = () => {
           alt="Decline parameters"
         />
       ),
-      route: `${url}/networkExisting`,
+      route: `${url}/declineParametersExisting`,
       workflowProcess: "declineParametersExisting",
       workflowCategory: "existingDataWorkflows",
     },
@@ -130,7 +130,7 @@ const NetworkLanding = () => {
           alt="Production prioritization"
         />
       ),
-      route: `${url}/networkExisting`,
+      route: `${url}/productionPrioritizationExisting`,
       workflowProcess: "productionPrioritizationExisting",
       workflowCategory: "existingDataWorkflows",
     },

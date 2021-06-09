@@ -60,8 +60,12 @@ const SensitivitiesHeatMapVisualytics = () => {
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
+
   const { showHeatMapCategories } = useSelector(
     (state: RootState) => state.economicsReducer
+  );
+  const [showCategories, setShowCategories] = React.useState(
+    showHeatMapCategories
   );
   const classes = useStyles({ showHeatMapCategories });
 
@@ -179,6 +183,7 @@ const SensitivitiesHeatMapVisualytics = () => {
             categoriesTitle="Grid Map"
             ChartCategoriesData={ChartCategoriesData.current}
             showCategories={showHeatMapCategories}
+            setShowCategories={setShowCategories}
           />
         )}
 

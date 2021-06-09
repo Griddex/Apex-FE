@@ -4,7 +4,7 @@ import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import ApexSlider from "../Sliders/ApexSlider";
 
@@ -44,7 +44,7 @@ const YScale = ({ yScaleOption, scaleOptions, action, ref }: IYScale) => {
   }, [yScaleState]);
 
   return (
-    <ApexFlexStyle>
+    <ApexFlexContainer>
       <ApexSelectRS
         valueOption={yScaleOption as ISelectOption}
         data={scaleOptions}
@@ -148,7 +148,7 @@ const YScale = ({ yScaleOption, scaleOptions, action, ref }: IYScale) => {
           setSliderValue={setMaxValue}
         />
       )}
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

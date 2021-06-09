@@ -12,7 +12,7 @@ import { IExistingDataRow, TUseState } from "../../Types/ApplicationTypes";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import ApexSelectRS from "../Selects/ApexSelectRS";
 import { ISelectOption } from "../Selects/SelectItemsType";
-import ApexFlexStyle from "../Styles/ApexFlexStyle";
+import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 
@@ -23,11 +23,19 @@ const useStyles = makeStyles({
   },
 });
 
+export type TApexEditorType =
+  | "input"
+  | "textArea"
+  | "date"
+  | "switch"
+  | "select"
+  | "custom";
+
 export interface IApexEditorRow {
   name: string;
   title: string;
   value?: any;
-  editorType: "input" | "textArea" | "date" | "switch" | "select";
+  editorType: TApexEditorType;
   currentOption?: ISelectOption;
   Options?: ISelectOption[];
 }
@@ -39,6 +47,7 @@ export interface IApexEditor {
   setRows: TUseState<IExistingDataRow[]>;
   shouldUpdate: boolean;
   setShouldUpdate?: TUseState<boolean>;
+  customComponent?: React.FC;
 }
 
 const ApexEditor = ({
@@ -49,6 +58,7 @@ const ApexEditor = ({
   setRows,
   shouldUpdate,
   setShouldUpdate,
+  customComponent,
 }: IApexEditor) => {
   console.log(
     "Logged output --> ~ file: ApexEditor.tsx ~ line 52 ~ shouldUpdate",
@@ -61,12 +71,16 @@ const ApexEditor = ({
   const indexRef = React.useRef(0);
   const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
 
+  const CustomComponent = customComponent as NonNullable<
+    IApexEditor["customComponent"]
+  >;
+
   const renderEditorComponent = (
     i: number,
     name: string,
     title: string,
     value?: any,
-    editorType?: "input" | "textArea" | "date" | "switch" | "select",
+    editorType?: TApexEditorType,
     currentOption?: ISelectOption,
     Options?: ISelectOption[]
   ) => {
@@ -194,6 +208,16 @@ const ApexEditor = ({
             }
           />
         );
+      case "custom":
+        return (
+          <AnalyticsComp
+            key={i}
+            title={title}
+            direction="Vertical"
+            containerStyle={{ marginTop: 20 }}
+            content={<CustomComponent />}
+          />
+        );
 
       default:
         <div>No match</div>;
@@ -216,11 +240,15 @@ const ApexEditor = ({
   }, [shouldUpdate, setShouldUpdate]);
 
   return (
-    <ApexFlexStyle>
+    <ApexFlexContainer>
       {dividerPositions.map((pos, i) => {
         return (
           <div key={i}>
-            <ApexFlexStyle flexDirection="column" justifyContent="flex-start">
+            <ApexFlexContainer
+              flexDirection="column"
+              justifyContent="flex-start"
+              height={400}
+            >
               {editorData.map((row, i) => {
                 const {
                   name,
@@ -242,14 +270,14 @@ const ApexEditor = ({
                   Options
                 );
               })}
-            </ApexFlexStyle>
+            </ApexFlexContainer>
             <div>
               {dividerPositions.includes(indexRef.current) && <Divider />}
             </div>
           </div>
         );
       })}
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

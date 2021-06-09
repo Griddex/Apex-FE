@@ -5,7 +5,7 @@ import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { subNavbarSetMenuAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -97,12 +97,12 @@ const SelectScenariosByButtonsWithForecastCase = ({
   }, [devOption, buttonsData]);
 
   return (
-    <ApexFlexStyle
+    <ApexFlexContainer
       justifyContent="space-evenly"
       width={width && width}
       height={height && height}
     >
-      <ApexFlexStyle width={"70%"}>
+      <ApexFlexContainer width={"70%"}>
         <AnalyticsComp
           title="Development Scenario"
           direction="Horizontal"
@@ -158,7 +158,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
           setButtonsData={setButtonsData}
           developmentScenariosCompleted={developmentScenariosCompleted}
         />
-      </ApexFlexStyle>
+      </ApexFlexContainer>
       <AnalyticsComp
         title="Forecast Case"
         direction="Vertical"
@@ -183,7 +183,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
           />
         }
       />
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

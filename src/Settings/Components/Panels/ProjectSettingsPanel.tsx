@@ -3,8 +3,8 @@ import React from "react";
 import { useDrag } from "react-dnd";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
-import Flowstation from "../../Images/Flowstation.svg";
-import Manifold from "../../Images/Manifold.svg";
+import DatabaseSettings from "../../Images/DatabaseSettings.svg";
+import UnitSettings from "../../Images/UnitSettings.svg";
 
 const useStyles = makeStyles(() => ({
   settingsPanel: {
@@ -41,7 +41,12 @@ const ProjectSettingsType: React.FC<IProjectSettingsProps> = ({ title }) => {
       name: "unitSettings",
       label: "Unit Settings",
       icon: (
-        <img src={Manifold} alt="Net Cashflow" height={"100%"} width={"100%"} />
+        <img
+          src={UnitSettings}
+          alt="Net Cashflow"
+          height={"100%"}
+          width={"100%"}
+        />
       ),
     },
     {
@@ -49,7 +54,7 @@ const ProjectSettingsType: React.FC<IProjectSettingsProps> = ({ title }) => {
       label: "Database Settings",
       icon: (
         <img
-          src={Flowstation}
+          src={DatabaseSettings}
           alt="Net Present Value"
           height={"100%"}
           width={"100%"}

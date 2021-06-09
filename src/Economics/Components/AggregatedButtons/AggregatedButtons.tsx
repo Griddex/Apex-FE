@@ -1,7 +1,7 @@
 import { Badge, Button, makeStyles, useTheme } from "@material-ui/core";
 import React from "react";
 import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import noEventPropagation from "./../../../Application/Events/NoEventPropagation";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
@@ -60,7 +60,7 @@ const AggregatedButtons = ({
   });
 
   return (
-    <ApexFlexStyle
+    <ApexFlexContainer
       justifyContent="flex-start"
       width={"100%"}
       className={classes.rootButtons}
@@ -117,7 +117,7 @@ const AggregatedButtons = ({
           </Badge>
         );
       })}
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

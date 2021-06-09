@@ -49,7 +49,8 @@ export default function ExistingCostsAndRevenuesDecks({
       description: row.description,
       developmentScenarios: row?.developmentScenariosCostsRevenue?.join(", "),
       author: { avatarUrl: "", name: "None" },
-      approvers: '"--", "--"',
+      // approvers: [{ avatarUrl: "", name: "" }],
+      approvers: "----",
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     }));

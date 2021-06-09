@@ -46,11 +46,13 @@ const Approvers = ({
             numberLeftColor={"white"}
           >
             {apprvrs.map((approver, i) => {
+              const { avatarUrl } = approver;
+
               return (
                 <Image
                   key={i}
                   className={classes.image}
-                  src={approver.avatarUrl}
+                  src={avatarUrl ? avatarUrl : ""}
                   alt={`Approver ${i}`}
                 />
               );

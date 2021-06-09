@@ -1,7 +1,7 @@
 import React from "react";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 
-export interface IApexFlexStyle {
+export interface IApexFlexContainer {
   children: React.ReactNode;
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
   height?: number | string;
@@ -24,7 +24,7 @@ export interface IApexFlexStyle {
   moreStyles?: CSSProperties;
 }
 
-const ApexFlexStyle = React.forwardRef<HTMLDivElement, IApexFlexStyle>(
+const ApexFlexContainer = React.forwardRef<HTMLDivElement, IApexFlexContainer>(
   (
     {
       children,
@@ -60,4 +60,4 @@ const ApexFlexStyle = React.forwardRef<HTMLDivElement, IApexFlexStyle>(
   }
 );
 
-export default ApexFlexStyle;
+export default ApexFlexContainer;

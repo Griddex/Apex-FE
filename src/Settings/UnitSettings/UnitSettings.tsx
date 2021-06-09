@@ -9,7 +9,7 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -84,6 +84,10 @@ export default function UnitSettings({
   const { variableUnits } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
+  console.log(
+    "Logged output --> ~ file: UnitSettings.tsx ~ line 85 ~ variableUnits",
+    variableUnits
+  );
 
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const [unitGroupOption, setUnitGroupOption] = React.useState(
@@ -556,7 +560,7 @@ export default function UnitSettings({
             title="Number Format"
             direction="Vertical"
             content={
-              <ApexFlexStyle>
+              <ApexFlexContainer>
                 <ApexSelectRS
                   valueOption={numberFormatOption}
                   data={numberFormatOptions}
@@ -591,7 +595,7 @@ export default function UnitSettings({
                   autoFocus
                   fullWidth
                 />
-              </ApexFlexStyle>
+              </ApexFlexContainer>
             }
           />
         </div>

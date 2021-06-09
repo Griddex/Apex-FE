@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, ListItemIcon, Typography, useTheme } from "@material-ui/core";
 import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import noEventPropagation from "../../../Application/Events/NoEventPropagation";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -76,7 +76,7 @@ const EconomicsParametersValue = ({
   };
 
   return (
-    <ApexFlexStyle justifyContent="space-between" height={"95%"}>
+    <ApexFlexContainer justifyContent="space-between" height={"95%"}>
       <div
         style={{
           display: "flex",
@@ -94,7 +94,7 @@ const EconomicsParametersValue = ({
         <Typography variant="inherit">{valueText}</Typography>
       </div>
       <LaunchOutlinedIcon {...noEventPropagation(handleAction)} />
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

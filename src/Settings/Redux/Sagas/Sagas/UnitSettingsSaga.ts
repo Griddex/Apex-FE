@@ -66,7 +66,7 @@ function* fetchUnitSettingsSaga(
     );
 
     const {
-      data: { status, data: unitsData, succcess }, //prevent 2nd trip to server
+      data: { status, data: unitsData, succcess },
     } = result;
 
     const successAction = fetchUnitSettingsSuccessAction();

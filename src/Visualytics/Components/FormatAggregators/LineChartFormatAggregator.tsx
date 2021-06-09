@@ -1,7 +1,7 @@
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import React from "react";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexChartGridAxes from "../ChartGridAxes/ApexChartGridAxes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexLineChartGeneral from "../General/ApexLineChartGeneral";
@@ -67,7 +67,7 @@ const LineChartFormatAggregator = ({
   };
 
   return (
-    <ApexFlexStyle flexDirection="column">
+    <ApexFlexContainer flexDirection="column">
       <ToggleButtonGroup
         size="small"
         value={perspective}
@@ -82,7 +82,7 @@ const LineChartFormatAggregator = ({
         <ToggleButton value="points">{"Points"}</ToggleButton>
       </ToggleButtonGroup>
       {renderFormatPerspective()}
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

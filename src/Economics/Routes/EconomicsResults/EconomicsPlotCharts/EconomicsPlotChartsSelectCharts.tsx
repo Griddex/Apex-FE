@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import BarChart from "../../../../Visualytics/Components/Charts/BarChart";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
@@ -28,7 +28,9 @@ const EconomicsPlotChartsSelectCharts = () => {
 
   const chartValue = selectedEconomicsPlotChartOption.value as TChartTypeNames;
 
-  return <ApexFlexStyle>{economicsPlotCharts[chartValue]}</ApexFlexStyle>;
+  return (
+    <ApexFlexContainer>{economicsPlotCharts[chartValue]}</ApexFlexContainer>
+  );
 };
 
 export default EconomicsPlotChartsSelectCharts;

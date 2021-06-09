@@ -1,8 +1,12 @@
-import { fade, makeStyles, Typography } from "@material-ui/core";
+import { fade, makeStyles, Typography, useTheme } from "@material-ui/core";
 import React from "react";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ChartCategory from "./ChartCategory";
 import { IChartCategoriesData } from "./ChartCategoryTypes";
+import Draggable from "react-draggable";
+import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
+import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     backgroundColor: theme.palette.common.white,
     border: `1px solid ${theme.palette.grey[300]}`,
-    zIndex: 10,
-    boxShadow: `${fade(theme.palette.grey[300], 0.25)} 0 0 0 2px`,
+    zIndex: 1300,
+    // boxShadow: `${fade(theme.palette.grey[300], 0.25)} 0 0 0 2px`,
   },
 }));
 
@@ -20,24 +24,37 @@ const ChartCategories = ({
   ChartCategoriesData,
   showCategories,
 }: IChartCategoriesData) => {
+  const theme = useTheme();
   const classes = useStyles({ showCategories });
 
-  console.log("Yello");
+  const props: DialogStuff = {
+    name: "Chart_Categories_Dialog",
+    title: `${categoriesTitle} Categories`,
+    type: "draggableDialog",
+    show: true,
+    exclusive: true,
+    maxWidth: "xs",
+    iconType: "information",
+    actionsList: () => DialogCancelButton(),
+  };
 
   return (
-    <ApexFlexStyle
-      className={classes.root}
-      flexDirection="column"
-      width={300}
-      height="fit-content"
-    >
-      <Typography variant="h6" color="primary">
-        {categoriesTitle}
-      </Typography>
-      {ChartCategoriesData.map((props, i) => (
-        <ChartCategory key={i} {...props} />
-      ))}
-    </ApexFlexStyle>
+    <Draggable>
+      <span style={{ backgroundColor: theme.palette.common.white }}>
+        <DraggableDialog {...props}>
+          <ApexFlexContainer
+            className={classes.root}
+            flexDirection="column"
+            width={300}
+            height="fit-content"
+          >
+            {ChartCategoriesData.map((props, i) => (
+              <ChartCategory key={i} {...props} />
+            ))}
+          </ApexFlexContainer>
+        </DraggableDialog>
+      </span>
+    </Draggable>
   );
 };
 

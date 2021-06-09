@@ -42,7 +42,7 @@ import {
 import computeFileHeaderMatches from "../../../Utils/ComputeFileHeaderMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
-import ApexFlexStyle from "./../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "./../../../../Application/Components/Styles/ApexFlexContainer";
 import {
   IApplicationHeaders,
   THeader,
@@ -520,7 +520,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         formatter: ({ row }) => {
           const match = row.match as number;
 
-          return <ApexFlexStyle>{match}</ApexFlexStyle>;
+          return <ApexFlexContainer>{match}</ApexFlexContainer>;
         },
         width: 100,
       },
@@ -532,7 +532,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
           const checked = row.exclude as boolean;
 
           return (
-            <ApexFlexStyle>
+            <ApexFlexContainer>
               <ApexMuiSwitch
                 name="exclude"
                 handleChange={(event) => handleExcludeSwitchChange(row, event)}
@@ -540,7 +540,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.common.white}
               />
-            </ApexFlexStyle>
+            </ApexFlexContainer>
           );
         },
         width: 100,
@@ -553,7 +553,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
           const checked = row.acceptMatch as boolean;
 
           return (
-            <ApexFlexStyle>
+            <ApexFlexContainer>
               <ApexMuiSwitch
                 name="acceptMatch"
                 handleChange={(event) =>
@@ -563,7 +563,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.common.white}
               />
-            </ApexFlexStyle>
+            </ApexFlexContainer>
           );
         },
         width: 150,

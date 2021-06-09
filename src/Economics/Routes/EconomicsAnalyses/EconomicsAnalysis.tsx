@@ -8,7 +8,7 @@ import DialogOneCancelButtons from "../../../Application/Components/DialogButton
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import {
   showDialogAction,
@@ -259,7 +259,7 @@ const EconomicsAnalysis = ({
   }, []);
 
   return (
-    <ApexFlexStyle
+    <ApexFlexContainer
       flexDirection="column"
       justifyContent="space-around"
       height={"95%"}
@@ -281,7 +281,11 @@ const EconomicsAnalysis = ({
         }
       />
 
-      <ApexFlexStyle justifyContent="space-between" width={"95%"} height={40}>
+      <ApexFlexContainer
+        justifyContent="space-between"
+        width={"95%"}
+        height={40}
+      >
         <ApexMuiSwitch
           name="sensitivitiesSwitch"
           handleChange={handleExcludeSwitchChange}
@@ -292,7 +296,7 @@ const EconomicsAnalysis = ({
           leftLabel="No Sensitivities Input"
           rightLabel="Sensitivities input"
         />
-        <ApexFlexStyle width={"100%"} justifyContent="flex-end">
+        <ApexFlexContainer width={"100%"} justifyContent="flex-end">
           {analysisPerspective && (
             <Button
               className={classes.button}
@@ -312,8 +316,8 @@ const EconomicsAnalysis = ({
               Load
             </Button>
           )}
-        </ApexFlexStyle>
-      </ApexFlexStyle>
+        </ApexFlexContainer>
+      </ApexFlexContainer>
 
       <div
         style={{
@@ -328,7 +332,7 @@ const EconomicsAnalysis = ({
         )}
       </div>
 
-      <ApexFlexStyle width={400} height={40} justifyContent="center">
+      <ApexFlexContainer width={400} height={40} justifyContent="center">
         <Button
           className={classes.primaryButton}
           startIcon={<ViewDayTwoToneIcon />}
@@ -345,8 +349,8 @@ const EconomicsAnalysis = ({
         >
           Calculate
         </Button>
-      </ApexFlexStyle>
-    </ApexFlexStyle>
+      </ApexFlexContainer>
+    </ApexFlexContainer>
   );
 };
 

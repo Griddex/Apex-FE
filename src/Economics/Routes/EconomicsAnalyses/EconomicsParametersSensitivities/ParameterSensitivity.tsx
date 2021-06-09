@@ -7,7 +7,7 @@ import Select, { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -177,7 +177,7 @@ const ParameterSensitivity = ({
   }, [rows]);
 
   return (
-    <ApexFlexStyle key={parIndex} flexDirection="column">
+    <ApexFlexContainer key={parIndex} flexDirection="column">
       <AnalyticsComp
         title={parId}
         direction="Horizontal"
@@ -216,7 +216,7 @@ const ParameterSensitivity = ({
           }}
         </SizeMe>
       </div>
-    </ApexFlexStyle>
+    </ApexFlexContainer>
   );
 };
 

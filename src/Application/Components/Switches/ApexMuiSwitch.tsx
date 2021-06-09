@@ -4,7 +4,7 @@ import React from "react";
 import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 import clsx from "clsx";
 import { Grid } from "@material-ui/core";
-import ApexFlexStyle from "../Styles/ApexFlexStyle";
+import ApexFlexContainer from "../Styles/ApexFlexContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -55,7 +55,7 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
 
   if (hasLabels)
     return (
-      <ApexFlexStyle justifyContent="flex-start" width={"95%"} height={30}>
+      <ApexFlexContainer justifyContent="flex-start" width={"95%"} height={30}>
         {leftLabel && <Grid item>{leftLabel}</Grid>}
         <Grid item style={{ marginLeft: 5, marginRight: 5 }}>
           <Switch
@@ -71,7 +71,7 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
           />
         </Grid>
         {rightLabel && <Grid item>{rightLabel}</Grid>}
-      </ApexFlexStyle>
+      </ApexFlexContainer>
     );
   else
     return (

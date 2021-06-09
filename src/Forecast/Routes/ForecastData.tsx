@@ -24,7 +24,7 @@ import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions
 import getRSStyles from "../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../Application/Utils/GetRSTheme";
 import { getForecastDataByIdRequestAction } from "../Redux/Actions/ForecastActions";
-import ApexFlexStyle from "./../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "./../../Application/Components/Styles/ApexFlexContainer";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 
 const rowGrouper = groupBy;
@@ -117,11 +117,11 @@ export default function ForecastData({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => (
-          <ApexFlexStyle>
+          <ApexFlexContainer>
             <VisibilityOutlinedIcon
               onClick={() => alert(`View Row is:${row}`)}
             />
-          </ApexFlexStyle>
+          </ApexFlexContainer>
         ),
         width: 100,
       },

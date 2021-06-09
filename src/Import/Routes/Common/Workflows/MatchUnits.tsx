@@ -17,7 +17,7 @@ import {
   ISelectOption,
   SelectOptionsType,
 } from "../../../../Application/Components/Selects/SelectItemsType";
-import ApexFlexStyle from "../../../../Application/Components/Styles/ApexFlexStyle";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
@@ -586,7 +586,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           ];
 
           return (
-            <ApexFlexStyle>
+            <ApexFlexContainer>
               <VisibilityOutlinedIcon
                 onClick={() => alert(`Delete Row is:${row}`)}
               />
@@ -604,7 +604,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
                 // }
                 />
               </ImportMoreActionsContextMenu>
-            </ApexFlexStyle>
+            </ApexFlexContainer>
           );
         },
         width: 100,
@@ -736,7 +736,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         formatter: ({ row }) => {
           const unitClassification = row.unitClassification as number;
 
-          return <ApexFlexStyle>{unitClassification}</ApexFlexStyle>;
+          return <ApexFlexContainer>{unitClassification}</ApexFlexContainer>;
         },
         width: 200,
       },
@@ -748,13 +748,13 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         formatter: ({ row }) => {
           const match = row.match as number;
 
-          return <ApexFlexStyle>{match}</ApexFlexStyle>;
+          return <ApexFlexContainer>{match}</ApexFlexContainer>;
         },
         //Look at his a lot more
         headerRenderer: ({ column }) => {
           const header = column.name;
 
-          return <ApexFlexStyle>{header}</ApexFlexStyle>;
+          return <ApexFlexContainer>{header}</ApexFlexContainer>;
         },
         width: 150,
       },
@@ -766,7 +766,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           const checked = row.acceptMatch as boolean;
 
           return (
-            <ApexFlexStyle>
+            <ApexFlexContainer>
               <ApexMuiSwitch
                 name="acceptMatch"
                 handleChange={(event) =>
@@ -776,7 +776,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.warning.main}
               />
-            </ApexFlexStyle>
+            </ApexFlexContainer>
           );
         },
         width: 150,
