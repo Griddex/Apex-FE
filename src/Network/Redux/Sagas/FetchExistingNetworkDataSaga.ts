@@ -52,7 +52,7 @@ function* fetchExistingNetworkDataSaga(
   any
 > {
   const { payload } = action;
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { projectId } = payload;
   const networkUrl = `${getBaseForecastUrl()}/network/light/${projectId}`;
 
   try {
@@ -62,7 +62,7 @@ function* fetchExistingNetworkDataSaga(
     );
 
     const {
-      data: { data: networkExisting }, //prevent 2nd trip to server
+      data: { data: networkExisting },
     } = networkResult;
 
     const successAction = fetchExistingNetworkDataSuccessAction();

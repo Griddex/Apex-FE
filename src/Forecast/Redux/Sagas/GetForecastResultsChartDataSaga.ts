@@ -102,11 +102,7 @@ function* getForecastResultsChartDataSaga(
       result
     );
 
-    const {
-      status,
-      data: forecastResults,
-      succcess, //prevent 2nd trip to server
-    } = result;
+    const { status, data: forecastResults, succcess } = result;
     console.log(
       "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 93 ~ forecastResults",
       forecastResults

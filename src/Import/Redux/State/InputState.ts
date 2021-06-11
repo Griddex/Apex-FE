@@ -135,7 +135,7 @@ const InputState: InputStateType = {
   selectedForecastInputDeckDescription: "",
 
   forecastInputDeckId: "",
-  forecastInputDeckTitle: "",
+  forecastInputdeckTitle: "",
   forecastInputDeckDescription: "",
 
   currentAppHeaderOptions: [],

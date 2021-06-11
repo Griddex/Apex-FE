@@ -3,6 +3,7 @@ import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
 import { ReducersType } from "../../Components/Workflows/WorkflowTypes";
 
 export const UPDATE_APPLICATION = "UPDATE_APPLICATION";
+export const PERSIST_TITLES = "PERSIST_TITLES";
 export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const SET_MAINDRAWERMENU = "SET_MAINDRAWERMENU";
 export const SET_SUBNAVBARMENU = "SET_SUBNAVBARMENU";
@@ -30,6 +31,20 @@ export const updateApplicationParameterAction = (
     },
   };
 };
+
+export const persistFormTitlesAction = (
+  formName: string,
+  formTitlesCollection: string[]
+) => {
+  return {
+    type: PERSIST_TITLES,
+    payload: {
+      formName,
+      formTitlesCollection,
+    },
+  };
+};
+
 export const persistSelectedIdTitleAction = (
   reducer: ReducersType,
   idTitleObj: Record<string, string>

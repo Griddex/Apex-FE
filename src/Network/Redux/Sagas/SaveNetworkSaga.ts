@@ -93,7 +93,7 @@ function* saveNetworkSaga(
     );
 
     const {
-      data: { data: selectedNetworkId }, //prevent 2nd trip to server
+      data: { data: selectedNetworkId },
       status,
       success,
     } = result;
@@ -107,7 +107,7 @@ function* saveNetworkSaga(
     yield put(
       updateNetworkParameterAction("selectedNetworkTitle", networkTitle)
     );
-    yield put(fetchExistingNetworkDataRequestAction());
+    yield put(fetchExistingNetworkDataRequestAction(projectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveNetworkFailureAction();

@@ -10,16 +10,15 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import NestedMenuItem from "material-ui-nested-menu-item";
 import React from "react";
-import { TUseState } from "../../Types/ApplicationTypes";
-import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
-import ApexFlexContainer from "../Styles/ApexFlexContainer";
-import noEventPropagation from "./../../Events/NoEventPropagation";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
+import noEventPropagation from "../../../Application/Events/NoEventPropagation";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    height: 500,
+    height: "auto",
     border: `1px solid ${theme.palette.grey[300]}`,
     padding: 5,
     width: 250,
@@ -87,7 +86,7 @@ export interface IPopoverProps {
   anchorEl: any;
   handleClose?: () => void;
   workflowProcess?: string;
-  importMoreActionsData: TImportMoreActionsData;
+  data: TImportMoreActionsData;
 }
 
 const generateMoreActionsMenuItems = (
@@ -159,10 +158,10 @@ const generateMoreActionsMenuItems = (
   });
 };
 
-const ImportMoreActionsPopover = React.forwardRef<
+const ForecastParametersMoreActionsPopover = React.forwardRef<
   HTMLDivElement,
   IPopoverProps
->(({ anchorEl, handleClose, importMoreActionsData }, ref) => {
+>(({ anchorEl, handleClose, data }, ref) => {
   const classes = useStyles();
 
   return (
@@ -180,12 +179,7 @@ const ImportMoreActionsPopover = React.forwardRef<
       </div>
       <div className={classes.body}>
         <List style={{ height: "100%", width: "100%", padding: 0 }}>
-          {generateMoreActionsMenuItems(
-            importMoreActionsData,
-            classes,
-            anchorEl,
-            handleClose
-          )}
+          {generateMoreActionsMenuItems(data, classes, anchorEl, handleClose)}
         </List>
       </div>
       <div className={classes.footer}>
@@ -200,4 +194,4 @@ const ImportMoreActionsPopover = React.forwardRef<
   );
 });
 
-export default ImportMoreActionsPopover;
+export default ForecastParametersMoreActionsPopover;

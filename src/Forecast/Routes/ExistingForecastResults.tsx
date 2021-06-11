@@ -243,7 +243,7 @@ export default function ExistingForecastResults({
         width: 300,
       },
       {
-        key: "forecastInputDeckTitle",
+        key: "forecastInputdeckTitle",
         name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,
@@ -319,7 +319,7 @@ export default function ExistingForecastResults({
       saved: row.saved,
       status: "Not Started",
       networkId: row.networkId,
-      forecastInputDeckTitle: row.forecastInputDeckTitle,
+      forecastInputdeckTitle: row.forecastInputdeckTitle,
       forecastParametersTitle: row.forecastingParametersGroupTitle,
       author: { avatarUrl: "", name: "None" },
       approvers: "---",

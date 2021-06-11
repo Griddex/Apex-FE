@@ -97,7 +97,7 @@ export function* saveInputDeckSaga(
     facilitiesInputDeckId,
     facilitiesInputDeckTitle,
     facilitiesInputDeckDescription,
-    forecastInputDeckTitle,
+    forecastInputdeckTitle,
     forecastInputDeckDescription,
   } = yield select((state) => state.inputReducer);
 
@@ -109,7 +109,7 @@ export function* saveInputDeckSaga(
     facilitiesInputDeckId,
     title: wp.includes("facilities")
       ? facilitiesInputDeckTitle
-      : forecastInputDeckTitle,
+      : forecastInputdeckTitle,
     description: wp.includes("facilities")
       ? facilitiesInputDeckDescription
       : forecastInputDeckDescription,
@@ -149,7 +149,7 @@ export function* saveInputDeckSaga(
     });
 
     yield put(fetchExistingDataRequestAction(projectId));
-    yield put(fetchExistingForecastingParametersRequestAction());
+    yield put(fetchExistingForecastingParametersRequestAction(projectId));
     yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(successDialogParameters(reducer, inputDeckType, wp))

@@ -19,15 +19,16 @@ import {
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import AutoNetwork from "../Images/AutoNetwork.svg";
+import DeclineParameters from "../Images/DeclineParameters.svg";
 import ExistingDeck from "../Images/ExistingDeck.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
-import DeclineParameters from "../Images/DeclineParameters.svg";
 import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import {
   displayNetworkByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
 import ExistingDeclineParameters from "../Routes/ExistingDeclineParameters";
+import ExistingForecastingParameters from "../Routes/ExistingForecastingParameters";
 import ExistingNetworks from "../Routes/ExistingNetworks";
 import ExistingProductionPrioritization from "../Routes/ExistingProductionPrioritization";
 import NetworkAuto from "./NetworkAuto";
@@ -67,7 +68,28 @@ const NetworkLanding = () => {
     (state: RootState) => state.networkReducer
   );
 
+  const {
+    existingDataWorkflows: { networkExisting, forecastingParametersExisting },
+  } = useSelector((state: RootState) => state.networkReducer);
+
+  const existingNetworksPresent =
+    Array.isArray(networkExisting) && networkExisting.length > 0;
+
+  const existingForecastParametersPresent =
+    Array.isArray(forecastingParametersExisting) &&
+    forecastingParametersExisting.length > 0;
+
   const networkLandingData: ILandingData[] = [
+    {
+      name: "Auto Network Generation",
+      description: `Automatically generate production network from a forecast input deck`,
+      icon: (
+        <Image className={classes.image} src={AutoNetwork} alt="Auto network" />
+      ),
+      route: `${url}/networkAuto`,
+      workflowProcess: "networkAutoGeneration",
+      workflowCategory: "existingDataWorkflows",
+    },
     {
       name: "Manual Network Build",
       description: `Manually build production network from a forecast input deck or direct input`,
@@ -83,16 +105,6 @@ const NetworkLanding = () => {
       workflowCategory: "existingDataWorkflows",
     },
     {
-      name: "Auto Network Generation",
-      description: `Automatically generate production network from a forecast input deck`,
-      icon: (
-        <Image className={classes.image} src={AutoNetwork} alt="Auto network" />
-      ),
-      route: `${url}/networkAuto`,
-      workflowProcess: "networkAutoGeneration",
-      workflowCategory: "existingDataWorkflows",
-    },
-    {
       name: "Domiciled Networks",
       description: `Automatically generate production network from a forecast input deck`,
       icon: (
@@ -104,6 +116,20 @@ const NetworkLanding = () => {
       ),
       route: `${url}/networkExisting`,
       workflowProcess: "networkExisting",
+      workflowCategory: "existingDataWorkflows",
+    },
+    {
+      name: `Domiciled Forecast Parameters`,
+      description: `View and create forecast parameters and store in the Apex\u2122 database`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ExistingDeck}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+      ),
+      route: `${url}/forecastParameters`,
+      workflowProcess: "forecastResultsExisting",
       workflowCategory: "existingDataWorkflows",
     },
     {
@@ -211,6 +237,9 @@ const NetworkLanding = () => {
                       workflowProcess={"networkExisting"}
                       containerStyle={{ boxShadow: "none" }}
                     />
+                  ),
+                  forecastParameters: (
+                    <ExistingForecastingParameters showChart={true} />
                   ),
                   declineParametersExisting: (
                     <ExistingDeclineParameters

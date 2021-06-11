@@ -75,16 +75,16 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     ]);
 
     const {
-      data: { data: facilitiesAppHeaders }, //prevent 2nd trip to server
+      data: { data: facilitiesAppHeaders },
     } = facilitiesResult;
     const {
-      data: { data: forecastAppHeaders }, //prevent 2nd trip to server
+      data: { data: forecastAppHeaders },
     } = forecastResults;
     const {
-      data: { data: costsRevenuesAppHeaders }, //prevent 2nd trip to server
+      data: { data: costsRevenuesAppHeaders },
     } = costsRevenueResults;
     const {
-      data: { data: economicsParametersAppHeaders }, //prevent 2nd trip to server
+      data: { data: economicsParametersAppHeaders },
     } = economicsParametersResults;
 
     const successAction1 = fetchApplicationHeadersSuccessAction();

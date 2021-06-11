@@ -16,33 +16,30 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/ExistingEconomicsSensitivitiesDialogParameters";
+import { failureDialogParameters } from "../../Components/DialogParameters/EconomicsSuccessFailureDialogParameters";
 import {
-  getEconomicsSensitivitiesByIdFailureAction,
-  getEconomicsSensitivitiesByIdSuccessAction,
-  GETECONOMICSSENSITIVITIESBYID_REQUEST,
+  getEconomicsResultsByIdFailureAction,
+  getEconomicsResultsByIdSuccessAction,
+  GET_ECONOMICSRESULTSBYID_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
-export default function* watchGetEconomicsSensitivitiesByIdSaga(): Generator<
+export default function* watchGetEconomicsResultsByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const getEconomicsSensitivitiesByIdChan = yield actionChannel(
-    GETECONOMICSSENSITIVITIESBYID_REQUEST
+  const getEconomicsResultsByIdChan = yield actionChannel(
+    GET_ECONOMICSRESULTSBYID_REQUEST
   );
-  yield takeLeading(
-    getEconomicsSensitivitiesByIdChan,
-    getEconomicsSensitivitiesByIdSaga
-  );
+  yield takeLeading(getEconomicsResultsByIdChan, getEconomicsResultsByIdSaga);
 }
 
 const config = { withCredentials: false };
-const getEconomicsSensitivitiesByIdAPI = (url: string) =>
+const getEconomicsResultsByIdAPI = (url: string) =>
   authService.get(url, config);
 
-function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
+function* getEconomicsResultsByIdSaga(action: IAction): Generator<
   | CallEffect<AxiosResponse>
   | PutEffect<{
       payload: any;
@@ -53,26 +50,26 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedEconomicsSensitivitiesId } = yield select(
+  const { selectedEconomicsResultsId } = yield select(
     (state) => state.economicsReducer
   );
-  const economicsSensitivitiesUrl = `${getBaseEconomicsUrl()}/sensitivities/${selectedEconomicsSensitivitiesId}`;
+  const economicsResultsUrl = `${getBaseEconomicsUrl()}/analyses/${selectedEconomicsResultsId}`;
 
   try {
-    const economicsSensitivitiesResults = yield call(
-      getEconomicsSensitivitiesByIdAPI,
-      economicsSensitivitiesUrl
+    const economicsResultsResults = yield call(
+      getEconomicsResultsByIdAPI,
+      economicsResultsUrl
     );
 
     const {
-      data: { data: selectedSensitivitiesData },
-    } = economicsSensitivitiesResults;
+      data: { data: selectedResultsData },
+    } = economicsResultsResults;
 
     const {
       analysisName,
       title: analysisTableTitle,
       sensitivitiesTable,
-    } = selectedSensitivitiesData;
+    } = selectedResultsData;
 
     const sensitivitiesTableStr = sensitivitiesTable.map(
       (row: any, i: number) => ({
@@ -82,7 +79,7 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
       })
     );
 
-    const successAction = getEconomicsSensitivitiesByIdSuccessAction();
+    const successAction = getEconomicsResultsByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -93,16 +90,26 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
       },
     });
 
-    yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
+    yield put(updateEconomicsParameterAction("showResultsTable", true));
   } catch (errors) {
-    const failureAction = getEconomicsSensitivitiesByIdFailureAction();
+    const failureAction = getEconomicsResultsByIdFailureAction();
 
     yield put({
       ...failureAction,
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters));
+    yield put(
+      showDialogAction(
+        failureDialogParameters(
+          "Economics_Results_Failure_Dialog",
+          "Economics Results Save Failure",
+          true,
+          "Economics Results",
+          errors.message
+        )
+      )
+    );
   } finally {
     yield put(hideSpinnerAction());
   }

@@ -79,11 +79,7 @@ function* runForecastResultAggregationSaga(
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const {
-      status,
-      data: forecastResultsAggregated,
-      succcess, //prevent 2nd trip to server
-    } = result;
+    const { status, data: forecastResultsAggregated, succcess } = result;
 
     const successAction = runForecastAggregationSuccessAction();
     yield put({

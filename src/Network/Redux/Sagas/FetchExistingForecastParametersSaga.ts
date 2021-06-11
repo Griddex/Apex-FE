@@ -32,6 +32,7 @@ export default function* watchFetchExistingForecastParametersSaga(): Generator<
   const existingForecastParametersChan = yield actionChannel(
     EXISTINGFORECASTPARAMETERS_REQUEST
   );
+  console.log("im in fetch forecast params");
   yield takeLeading(
     existingForecastParametersChan,
     fetchExistingForecastParametersSaga
@@ -56,13 +57,25 @@ function* fetchExistingForecastParametersSaga(
   any
 > {
   const { payload } = action;
-  const { projectId } = yield select((state) => state.projectReducer);
-  const forecastParametersUrl = `${getBaseForecastUrl()}/light/${projectId}`;
+  console.log(
+    "Logged output --> ~ file: FetchExistingForecastParametersSaga.ts ~ line 59 ~ action",
+    action
+  );
+  const { projectId } = payload;
+  const forecastParametersUrl = `${getBaseForecastUrl()}/forecast-parameters/light/${projectId}`;
+  console.log(
+    "Logged output --> ~ file: FetchExistingForecastParametersSaga.ts ~ line 62 ~ forecastParametersUrl",
+    forecastParametersUrl
+  );
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(
       fetchExistingForecastParametersAPI,
       forecastParametersUrl
+    );
+    console.log(
+      "Logged output --> ~ file: FetchExistingForecastParametersSaga.ts ~ line 75 ~ result",
+      result
     );
 
     const {

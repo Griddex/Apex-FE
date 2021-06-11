@@ -44,7 +44,7 @@ export interface IBackendForecastingParametersRow {
   sn?: number;
   forecastingParametersId: string;
   forecastInputDeckId: string;
-  forecastInputDeckTitle: string;
+  forecastInputdeckTitle: string;
   title: string;
   description: string;
   type: "Default" | "User";
@@ -58,7 +58,7 @@ export interface IForecastParametersExistingRow {
   sn?: number;
   forecastingParametersId: string;
   forecastInputDeckId: string;
-  forecastInputDeckTitle: string;
+  forecastInputdeckTitle: string;
   title: string;
   description: string;
   type: "Default" | "User";

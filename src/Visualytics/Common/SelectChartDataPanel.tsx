@@ -79,7 +79,6 @@ const SelectChartDataPanel = () => {
   const renderChartDataPanel = (chartName: string) => {
     switch (chartName) {
       case "StackedAreaChartPanel":
-        // return <StackedAreaChartPanel />;
         return <h6>{"StackedAreaChartPanel"}</h6>;
 
       case "LineChartPanel":

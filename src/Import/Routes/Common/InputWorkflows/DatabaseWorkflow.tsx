@@ -20,6 +20,7 @@ import MatchUnits from "../Workflows/MatchUnits";
 import PreviewSave from "../Workflows/PreviewSave";
 import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
 import UploadFile from "../Workflows/UploadFile";
+import { Prompt } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,6 +164,10 @@ const DatabaseWorkflow = ({
   return (
     <div className={classes.root}>
       <WorkflowBanner {...WorkflowBannerProps} />
+      <Prompt
+        when={activeStep < steps.length}
+        message="Are you sure you want to leave?"
+      />
       <div className={classes.workflowBody}>
         {activeStep === 2 && (
           <div className={classes.workflowDatabasePanel}>

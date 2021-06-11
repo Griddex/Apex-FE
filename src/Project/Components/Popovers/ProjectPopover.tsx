@@ -19,10 +19,15 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   fetchExistingEconomicsDataRequestAction,
+  fetchExistingEconomicsResultsRequestAction,
   fetchExistingEconomicsSensitivitiesRequestAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
+import {
+  fetchExistingForecastingParametersRequestAction,
+  fetchExistingNetworkDataRequestAction,
+} from "../../../Network/Redux/Actions/NetworkActions";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IProject } from "../../Redux/State/ProjectStateTypes";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
@@ -191,30 +196,45 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                 key={i}
                 projectTitle={projectTitle as string}
                 handleClick={() => {
+                  const projectIdDefined = projectId as string;
+
                   dispatch(
                     showSpinnerAction(`Loading ${project.projectTitle}...`)
                   );
-                  //TODO:Economics table, production etc
-                  dispatch(fetchExistingDataRequestAction(projectId as string));
                   dispatch(
-                    fetchExistingEconomicsDataRequestAction(projectId as string)
+                    fetchExistingForecastingParametersRequestAction(
+                      projectIdDefined
+                    )
+                  );
+                  dispatch(fetchExistingDataRequestAction(projectIdDefined));
+                  dispatch(
+                    fetchExistingEconomicsDataRequestAction(projectIdDefined)
                   );
                   dispatch(
                     openRecentProjectAction(
                       "Gideon",
-                      projectId as string,
+                      projectIdDefined,
                       projectTitle as string,
                       projectDescription as string
                     )
                   );
                   dispatch(
+                    fetchExistingNetworkDataRequestAction(projectIdDefined)
+                  );
+                  dispatch(
                     fetchExistingForecastingResultsRequestAction(
-                      projectId as string
+                      projectIdDefined
                     )
                   );
                   dispatch(
                     fetchExistingEconomicsSensitivitiesRequestAction(
-                      projectId as string,
+                      projectIdDefined,
+                      false
+                    )
+                  );
+                  dispatch(
+                    fetchExistingEconomicsResultsRequestAction(
+                      projectIdDefined,
                       false
                     )
                   );

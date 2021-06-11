@@ -2,30 +2,29 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
-import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
-import PreviewSave from "../../Routes/Common/Workflows/PreviewSave";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import { INewEconomicsResultsWorkflowProps } from "../../Redux/State/EconomicsStateTypes";
+import { IIsSaveEconomicsResultsValid } from "../Dialogs/SaveEconomicsResultsDialogTypes";
 
-const ForecastTitleAndDescription = ({
-  forecastInputdeckTitle,
-  forecastInputDeckDescription,
+const EconomicsResultsTitleAndDescription = ({
+  economicsResultsTitle,
+  economicsResultsDescription,
   errors,
   touched,
   handleChange,
-}: INewForecastInputDeckWorkflowProps) => {
+  setIsSaveEconomicsResultsValid,
+}: INewEconomicsResultsWorkflowProps & IIsSaveEconomicsResultsValid) => {
   const dispatch = useDispatch();
-  const reducerDefined = "inputReducer";
 
   const helperText =
-    touched && touched.forecastInputdeckTitle
-      ? errors && errors.forecastInputdeckTitle
+    touched && touched.economicsResultsTitle
+      ? errors && errors.economicsResultsTitle
       : "";
 
-  type TTitleDesc = "forecastInputdeckTitle" | "forecastInputDeckDescription";
+  type TTitleDesc = "economicsResultsTitle" | "economicsResultsDescription";
   const [TitleDesc, setTitleDesc] = React.useState({
-    forecastInputdeckTitle: "",
-    forecastInputDeckDescription: "",
+    economicsResultsTitle: "",
+    economicsResultsDescription: "",
   });
 
   const handleTitleDescChange = (event: ChangeEvent<any>) => {
@@ -37,13 +36,14 @@ const ForecastTitleAndDescription = ({
   React.useEffect(() => {
     for (const name of Object.keys(TitleDesc)) {
       dispatch(
-        updateInputParameterAction(
-          reducerDefined,
-          name,
-          TitleDesc[name as TTitleDesc]
-        )
+        updateEconomicsParameterAction(name, TitleDesc[name as TTitleDesc])
       );
     }
+
+    console.log(
+      "Logged output --> ~ file: EconomicsResultsTitleAndDescription.tsx ~ line 29 ~ TitleDesc",
+      TitleDesc
+    );
   }, [TitleDesc]);
 
   return (
@@ -53,12 +53,12 @@ const ForecastTitleAndDescription = ({
         direction="Vertical"
         content={
           <TextField
-            name="forecastInputdeckTitle"
+            name="economicsResultsTitle"
             variant="outlined"
             style={{ width: "100%" }}
             helperText={helperText}
             error={Boolean(helperText)}
-            value={forecastInputdeckTitle}
+            value={economicsResultsTitle}
             onChange={handleTitleDescChange}
             required
             autoFocus
@@ -72,11 +72,11 @@ const ForecastTitleAndDescription = ({
         containerStyle={{ marginTop: 30 }}
         content={
           <TextareaAutosize
-            name="forecastInputDeckDescription"
+            name="economicsResultsDescription"
             style={{ height: 400, width: "100%" }}
             rowsMin={20}
-            value={forecastInputDeckDescription}
-            onChange={handleTitleDescChange}
+            value={economicsResultsDescription}
+            onChange={handleChange}
           />
         }
       />
@@ -84,4 +84,4 @@ const ForecastTitleAndDescription = ({
   );
 };
 
-export default ForecastTitleAndDescription;
+export default EconomicsResultsTitleAndDescription;

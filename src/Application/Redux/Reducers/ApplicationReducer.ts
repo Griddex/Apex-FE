@@ -11,6 +11,7 @@ import {
   SET_SUBNAVBARMENU,
   SET_WORKFLOWMENU,
   UPDATE_APPLICATION,
+  PERSIST_TITLES,
 } from "../Actions/ApplicationActions";
 import applicationState from "../State/ApplicationState";
 
@@ -21,6 +22,18 @@ const applicationReducer = (state = applicationState, action: IAction) => {
 
       const updatedState = set(state, nameOrPath, value);
       return updatedState;
+    }
+
+    case PERSIST_TITLES: {
+      const { formName, formTitlesCollection } = action.payload;
+
+      return {
+        ...state,
+        ["allFormTitles"]: {
+          ...state.allFormTitles,
+          [formName]: formTitlesCollection,
+        },
+      };
     }
 
     case SET_MAINDRAWERMENU:

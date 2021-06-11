@@ -37,6 +37,10 @@ export default function ExistingForecastDecks({
     (state: RootState) => state[reducer][wc][wp]
   );
 
+  console.log(
+    "Logged output --> ~ file: ExistingForecastDecks.tsx ~ line 41 ~ reducer",
+    reducer
+  );
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,

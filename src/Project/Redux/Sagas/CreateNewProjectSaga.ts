@@ -89,7 +89,7 @@ function* createNewProjectSaga(
         status,
         data: { id },
         succcess,
-      }, //prevent 2nd trip to server
+      },
     } = result;
     //put default unitsettings data received into
     //unitsettings store

@@ -23,7 +23,6 @@ import watchSaveNetworkSaga from "../../../Network/Redux/Sagas/SaveNetworkSaga";
 import watchFetchUnitSettingsSaga from "../../../Settings/Redux/Sagas/Sagas/UnitSettingsSaga";
 import watchFetchApplicationHeadersSaga from "../../../Import/Redux/Sagas/FetchApplicationHeadersSaga";
 import watchAndSaveAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/SaveAndAutogenerateNetworkSaga";
-import watchFetchExistingForecastParametersSaga from "../../../Network/Redux/Sagas/FetchExistingDeclineParametersSaga";
 import watchFetchExistingNetworkDataSaga from "../../../Network/Redux/Sagas/FetchExistingNetworkDataSaga";
 import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/UpdateForecastParametersSaga";
 import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
@@ -50,6 +49,10 @@ import watchFetchExistingDeclineParametersSaga from "../../../Network/Redux/Saga
 import watchFetchExistingProductionPrioritizationSaga from "../../../Network/Redux/Sagas/FetchExistingProductionPrioritizationSaga";
 import watchGetDeclineParametersByIdSaga from "../../../Network/Redux/Sagas/GetDeclineParametersByIdSaga";
 import watchGetProductionPrioritizationByIdSaga from "../../../Network/Redux/Sagas/GetProductionPrioritizationByIdSaga";
+import watchFetchExistingForecastParametersSaga from "../../../Network/Redux/Sagas/FetchExistingForecastParametersSaga";
+import watchFetchExistingEconomicsResultsSaga from "../../../Economics/Redux/Sagas/FetchExistingEconomicsResultsSaga";
+import watchSaveEconomicsResultsSaga from "../../../Economics/Redux/Sagas/SaveEconomicsResultsSaga";
+import watchGetEconomicsResultsByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsResultsByIdSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -93,6 +96,9 @@ function* rootSaga() {
   yield spawn(watchFetchExistingDeclineParametersSaga);
   yield spawn(watchGetProductionPrioritizationByIdSaga);
   yield spawn(watchGetDeclineParametersByIdSaga);
+  yield spawn(watchFetchExistingEconomicsResultsSaga);
+  yield spawn(watchSaveEconomicsResultsSaga);
+  yield spawn(watchGetEconomicsResultsByIdSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

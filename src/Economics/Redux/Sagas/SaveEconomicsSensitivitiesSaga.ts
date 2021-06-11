@@ -94,7 +94,7 @@ function* saveEconomicsSensitivitiesSaga(
     );
 
     const {
-      data: { data: economicsSensitivitiesId }, //prevent 2nd trip to server
+      data: { data: economicsSensitivitiesId },
     } = result;
 
     const successAction = saveEconomicsSensitivitiesSuccessAction();

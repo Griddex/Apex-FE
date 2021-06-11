@@ -12,6 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -57,11 +58,11 @@ function* fetchExistingDataSaga(action: IAction): Generator<
     ]);
 
     const {
-      data: { data: facilitiesInputDeckExisting }, //prevent 2nd trip to server
+      data: { data: facilitiesInputDeckExisting },
     } = facilitiesResult;
 
     const {
-      data: { data: forecastInputDeckExisting }, //prevent 2nd trip to server
+      data: { data: forecastInputDeckExisting },
     } = forecastResults;
 
     const successAction = fetchExistingDataSuccessAction();
@@ -73,6 +74,19 @@ function* fetchExistingDataSaga(action: IAction): Generator<
         forecastInputDeckExisting,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "facilitiesTitles",
+        facilitiesInputDeckExisting.map((o: any) => o.title)
+      )
+    );
+    yield put(
+      persistFormTitlesAction(
+        "forecastTitles",
+        forecastInputDeckExisting.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchExistingDataFailureAction();
 

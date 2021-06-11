@@ -15,7 +15,6 @@ import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction"
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import ExistingDeck from "../../Import/Images/ExistingDeck.svg";
-import ExistingForecastingParameters from "../../Network/Routes/ExistingForecastingParameters";
 import ForecastCharts from "../Images/ForecastCharts.svg";
 import { loadForecastResultsWorkflowAction } from "../Redux/Actions/ForecastActions";
 import ExistingForecastResults from "../Routes/ExistingForecastResults";
@@ -99,20 +98,6 @@ const ForecastLanding = () => {
       workflowProcess: "forecastResultsExisting",
       workflowCategory: "existingDataWorkflows",
     },
-    {
-      name: `Domiciled Forecast Parameters`,
-      description: `View and create forecast parameters and store in the Apex\u2122 database`,
-      icon: (
-        <Image
-          className={classes.image}
-          src={ExistingDeck}
-          alt="Hydrocarbon Forecasting Platform Company Logo"
-        />
-      ),
-      route: `${url}/forecastParameters`,
-      workflowProcess: "forecastResultsExisting",
-      workflowCategory: "existingDataWorkflows",
-    },
   ];
 
   //Define a service that combines more than one icon or image into an overlapped one
@@ -166,9 +151,6 @@ const ForecastLanding = () => {
                       showBaseButtons={true}
                       finalAction={existingDataFinalAction}
                     />
-                  ),
-                  forecastParameters: (
-                    <ExistingForecastingParameters showChart={true} />
                   ),
                 };
 

@@ -31,6 +31,7 @@ import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dial
 import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
 import DraggableDialog from "./DraggableDialog";
+import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -69,6 +70,7 @@ const applicationDialogs: IApplicationDialogs = {
   tableDataDialog: TableDataDialog,
   tableEditorDialog: TableEditorDialog,
   draggableDialog: DraggableDialog,
+  saveEconomicsResultsDialog: SaveEconomicsResultsDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

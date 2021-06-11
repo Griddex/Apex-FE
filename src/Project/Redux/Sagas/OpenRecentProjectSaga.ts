@@ -67,7 +67,7 @@ function* openRecentProjectSaga(
     );
 
     const {
-      data: { status, data, succcess }, //prevent 2nd trip to server
+      data: { status },
     } = result;
 
     const successAction = openRecentProjectSuccessAction(); //this will do the bootstrap

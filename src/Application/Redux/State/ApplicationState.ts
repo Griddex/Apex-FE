@@ -19,6 +19,8 @@ const applicationState = {
 
   savedMatchObjectAll: {},
   allHeadersNameTitleUniqueMap: [],
+
+  allFormTitles: {},
 };
 
 export default applicationState;

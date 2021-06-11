@@ -92,7 +92,7 @@ export interface InputStateType
   selectedForecastInputDeckDescription: string;
 
   forecastInputDeckId: string;
-  forecastInputDeckTitle: string;
+  forecastInputdeckTitle: string;
   forecastInputDeckDescription: string;
 
   currentAppHeaderOptions: ISelectOption[];
@@ -135,7 +135,7 @@ export interface INewFacilitiesInputDeckWorkflowProps
   reducer?: ReducersType;
 }
 export interface INewForecastInputDeckFormValues {
-  forecastInputDeckTitle: string;
+  forecastInputdeckTitle: string;
   forecastInputDeckDescription: string;
 }
 export interface INewForecastInputDeckWorkflowProps

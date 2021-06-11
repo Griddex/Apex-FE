@@ -4,8 +4,8 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 
 export const deleteDialogParameters = (
-  selectedRowIndex: number
-  //dispatch action here to reach server to delete row
+  selectedRowIndex: number,
+  deleteAction: () => void
 ): DialogStuff => {
   return {
     name: "Delete_Forecast_Parameters_Dialog",
@@ -22,7 +22,7 @@ export const deleteDialogParameters = (
       DialogDeleteCancelButtons(
         [true, true],
         [true, false],
-        [unloadDialogsAction, () => alert("Deleted")]
+        [unloadDialogsAction, deleteAction]
       ),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };

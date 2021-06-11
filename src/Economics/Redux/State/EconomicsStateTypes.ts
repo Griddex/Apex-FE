@@ -143,6 +143,24 @@ export interface INewEconomicsSensitivitiesWorkflowProps
   ) => JSX.Element | JSX.Element[];
   reducer?: ReducersType;
 }
+export interface INewEconomicsResultsFormValues {
+  economicsResultsTitle: string;
+  economicsResultsDescription: string;
+}
+
+export interface INewEconomicsResultsWorkflowProps
+  extends Partial<INewEconomicsResultsFormValues> {
+  activeStep?: number;
+  errors?: FormikErrors<INewEconomicsResultsFormValues>;
+  touched?: FormikTouched<INewEconomicsResultsFormValues>;
+  isValid?: boolean;
+  handleChange?: (event: React.ChangeEvent<any>) => void;
+  handleBlur?: (event: React.ChangeEvent<any>) => void;
+  children?: (
+    props: INewEconomicsResultsWorkflowProps
+  ) => JSX.Element | JSX.Element[];
+  reducer?: ReducersType;
+}
 
 export interface IEconomicsState
   extends INewCostsRevenuesInputDeckFormValues,

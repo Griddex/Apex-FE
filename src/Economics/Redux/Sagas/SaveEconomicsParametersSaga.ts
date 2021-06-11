@@ -150,7 +150,7 @@ function* saveEconomicsParametersSaga(
     );
 
     const {
-      data: { data: selectedEconomicsParametersId }, //prevent 2nd trip to server
+      data: { data: selectedEconomicsParametersId },
       status,
       success,
     } = result;

@@ -3,19 +3,21 @@ import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import ApexEditor, { IApexEditor } from "../Editors/ApexEditor";
-import DialogIcons from "../Icons/DialogIcons";
-import { IconNameType } from "../Icons/DialogIconsTypes";
-import { DialogStuff } from "./DialogTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import SaveEconomicsResultsDialogButtons from "../DialogButtons/SaveEconomicsResultsDialogButtons";
+import EconomicsResultsTitleAndDescription from "../Forms/EconomicsResultsTitleAndDescription";
+import EconomicsResultsTitleAndDescriptionForm from "../Forms/EconomicsResultsTitleAndDescriptionForm";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -23,11 +25,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   dialogHeader: {
     display: "flex",
+    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
-    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: "5%",
@@ -37,11 +39,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "100%",
+    width: "90%",
     height: "100%",
   },
   closeButton: {
     color: theme.palette.grey[500],
+    width: "5%",
     height: "100%",
     padding: 0,
     "&:hover": {
@@ -50,10 +53,14 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderRadius: 0,
     },
   },
-  table: {
-    width: "100%",
-    height: "100%",
-    padding: 20,
+  listDialogContent: { display: "flex", flexDirection: "column" },
+  listBorder: {
+    height: 200,
+    overflow: "auto",
+    border: "1px solid #F7F7F7",
+  },
+  avatar: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -98,23 +105,11 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const TableEditorDialog = (props: DialogStuff) => {
+const SaveEconomicsResultsDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    actionsList,
-    apexEditorProps,
-    apexEditorComponent,
-  } = props;
-
-  // const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
-  const ApexEditorComponent = apexEditorComponent as NonNullable<
-    DialogStuff["apexEditorComponent"]
-  >;
+  const { title, show, maxWidth, iconType } = props;
+  const [isSaveEconomicsResultsValid, setIsSaveEconomicsResultsValid] =
+    React.useState(true);
 
   return (
     <Dialog
@@ -131,14 +126,24 @@ const TableEditorDialog = (props: DialogStuff) => {
       </DialogTitle>
       <DialogContent
         dividers
-        style={{ display: "flex", flexDirection: "column", height: 650 }}
+        style={{ display: "flex", flexDirection: "column" }}
       >
-        {/* <ApexEditor {...apexEditorPropsDefined} /> */}
-        <ApexEditorComponent />
+        <EconomicsResultsTitleAndDescriptionForm>
+          {(props) => (
+            <EconomicsResultsTitleAndDescription
+              {...props}
+              setIsSaveEconomicsResultsValid={setIsSaveEconomicsResultsValid}
+            />
+          )}
+        </EconomicsResultsTitleAndDescriptionForm>
       </DialogContent>
-      <DialogActions>{actionsList && actionsList()}</DialogActions>
+      <DialogActions>
+        <SaveEconomicsResultsDialogButtons
+          isSaveEconomicsResultsValid={isSaveEconomicsResultsValid}
+        />
+      </DialogActions>
     </Dialog>
   );
 };
 
-export default TableEditorDialog;
+export default SaveEconomicsResultsDialog;

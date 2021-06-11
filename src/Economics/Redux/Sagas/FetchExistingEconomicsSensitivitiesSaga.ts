@@ -62,7 +62,7 @@ function* fetchExistingEconomicsSensitivitiesSaga(action: IAction): Generator<
     );
 
     const {
-      data: { data: economicsSensitivitiesExisting }, //prevent 2nd trip to server
+      data: { data: economicsSensitivitiesExisting },
     } = economicsSensitivitiesResults;
 
     const successAction = fetchExistingEconomicsSensitivitiesSuccessAction();

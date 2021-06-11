@@ -70,7 +70,7 @@ function* registerSaga(
     const result = yield call(registerAPI, `${getBaseAuthUrl()}/signup`);
 
     const {
-      data: { status, data, succcess }, //prevent 2nd trip to server
+      data: { status, data, succcess },
     } = result;
     const successAction = registerSuccessAction();
     yield put({

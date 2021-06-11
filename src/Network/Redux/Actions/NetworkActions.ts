@@ -334,10 +334,12 @@ export const saveNetworkFailureAction = () => {
   };
 };
 
-export const fetchExistingForecastingParametersRequestAction = () => {
+export const fetchExistingForecastingParametersRequestAction = (
+  projectIdDefined: string
+) => {
   return {
     type: EXISTINGFORECASTPARAMETERS_REQUEST,
-    meta: { showSpinner: true },
+    payload: { projectId: projectIdDefined },
   };
 };
 
@@ -360,9 +362,12 @@ export const fetchExistingForecastingParametersFailureAction = () => {
   };
 };
 
-export const fetchExistingNetworkDataRequestAction = () => {
+export const fetchExistingNetworkDataRequestAction = (
+  projectIdDefined: string
+) => {
   return {
     type: EXISTINGNETWORKDATA_REQUEST,
+    payload: { projectId: projectIdDefined },
   };
 };
 

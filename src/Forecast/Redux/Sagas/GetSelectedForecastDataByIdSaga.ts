@@ -73,11 +73,7 @@ function* getSelectedForecastDataByIdSaga(
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const {
-      status,
-      data: selectedForecastData,
-      succcess, //prevent 2nd trip to server
-    } = result;
+    const { status, data: selectedForecastData, succcess } = result;
 
     const successAction = getForecastDataByIdSuccessAction();
     yield put({

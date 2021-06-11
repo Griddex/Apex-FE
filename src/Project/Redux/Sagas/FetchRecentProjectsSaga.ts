@@ -59,7 +59,7 @@ function* fetchRecentProjectsSaga(
     );
 
     const {
-      data: { status, data, succcess }, //prevent 2nd trip to server
+      data: { status, data, succcess },
     } = result;
 
     const recentProjects = data.map((row: any) => ({

@@ -61,7 +61,7 @@ function* fetchExistingForecastingResultsSaga(action: IAction): Generator<
     );
 
     const {
-      data: { data: forecastResultsExisting }, //prevent 2nd trip to server
+      data: { data: forecastResultsExisting },
     } = forecastResults;
 
     const successAction = fetchExistingForecastingResultsSuccessAction();

@@ -9,16 +9,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import Author from "../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
+import ApexGridMoreActionsContextMenu from "../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
+import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
+import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import {
   IBackendForecastingParametersRow,
   IForecastParametersExistingRow,
@@ -27,6 +31,7 @@ import DeclineParametersType from "../Components/Indicators/DeclineParametersTyp
 import CreateNewForecastParametersButton from "../Components/Menus/CreateNewForecastParametersButton";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import formatDate from "./../../Application/Utils/FormatDate";
+import OtherForecastingParameters from "./OtherForecastingParameters";
 
 const useStyles = makeStyles((theme) => ({
   rootExistingData: {
@@ -118,7 +123,7 @@ export default function ExistingForecastingParameters({
       const {
         forecastingParametersId,
         forecastInputDeckId,
-        forecastInputDeckTitle,
+        forecastInputdeckTitle,
         title,
         description,
         type,
@@ -143,7 +148,7 @@ export default function ExistingForecastingParameters({
       return {
         forecastingParametersId,
         forecastInputDeckId,
-        forecastInputDeckTitle,
+        forecastInputdeckTitle,
         title,
         description,
         type,
@@ -202,36 +207,56 @@ export default function ExistingForecastingParameters({
         editable: false,
         formatter: ({ row }) => {
           const { sn } = row;
-          const selectedRowIndex = (sn as number) - 1;
+          const currentSN = sn as number;
+
+          const importMoreActionsData = [
+            {
+              title: "Clone",
+              action: () => {
+                const currentRow = rows[currentSN - 1];
+                const clonedRow = {
+                  ...currentRow,
+                  title: "New Title",
+                  type: "User",
+                } as IForecastParametersExistingRow;
+
+                setRows(rows.concat(clonedRow));
+              },
+            },
+          ];
 
           return (
-            <div
-              style={{
-                display: "flex",
-                height: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <ApexFlexContainer>
               <EditOutlinedIcon
                 onClick={() => {
                   dispatch(
-                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                    showDialogAction(
+                      extrudeForecastParametersDPs(
+                        currentSN - 1,
+                        OtherForecastingParameters
+                      )
+                    )
                   );
                 }}
               />
               <DeleteOutlinedIcon
                 onClick={() => {
                   dispatch(
-                    showDialogAction(deleteDialogParameters(selectedRowIndex))
+                    showDialogAction(
+                      deleteDialogParameters(currentSN - 1, () =>
+                        alert("Deleted")
+                      )
+                    )
                   );
                 }}
               />
-              <MenuOpenOutlinedIcon
-                onClick={() => alert(`Menu Row is:${row}`)}
-              />
-            </div>
+              <ApexGridMoreActionsContextMenu
+                component={ForecastParametersMoreActionsPopover}
+                data={importMoreActionsData}
+              >
+                <MenuOpenOutlinedIcon />
+              </ApexGridMoreActionsContextMenu>
+            </ApexFlexContainer>
           );
         },
         width: 120,
@@ -259,7 +284,7 @@ export default function ExistingForecastingParameters({
         },
       },
       {
-        key: "forecastInputDeckTitle",
+        key: "forecastInputdeckTitle",
         name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,
@@ -270,7 +295,7 @@ export default function ExistingForecastingParameters({
         name: "DCA TABLE",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 120,
         formatter: ({ row }) => {
           const { sn, wellDeclineParameterTitle } = row;
           const selectedRowIndex = (sn as number) - 1;
@@ -301,7 +326,7 @@ export default function ExistingForecastingParameters({
         name: "PRIORITIZATION",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 150,
         formatter: ({ row }) => {
           const { sn, wellPrioritizationTitle } = row;
           const selectedRowIndex = (sn as number) - 1;

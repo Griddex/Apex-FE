@@ -1,16 +1,15 @@
-import {
-  IEconomicsAnalysis,
-  TDevScenarioNames,
-  TEconomicsAnalysesNames,
-  TEconomicsAnalysesTitles,
-} from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
   IAllWorkflows,
   IEconomicsWorkflows,
   IInputWorkflows,
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  TDevScenarioNames,
+  TEconomicsAnalysesNames,
+  TEconomicsAnalysesTitles,
+} from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 export const LOAD_ECONOMICS_WORKFLOW = "LOAD_ECONOMICS_WORKFLOW";
 export const UPDATE_ECONOMICS = "UPDATE_ECONOMICS";
@@ -92,6 +91,24 @@ export const PERSIST_ECONOMICSDECK = "PERSIST_ECONOMICSDECK";
 export const CALCULATE_HEATMAPDATA_REQUEST = "CALCULATE_HEATMAPDATA_REQUEST";
 export const CALCULATE_HEATMAPDATA_SUCCESS = "CALCULATE_HEATMAPDATA_SUCCESS";
 export const CALCULATE_HEATMAPDATA_FAILURE = "CALCULATE_HEATMAPDATA_FAILURE";
+
+export const SAVE_ECONOMICSRESULTS_REQUEST = "SAVE_ECONOMICSRESULTS_REQUEST";
+export const SAVE_ECONOMICSRESULTS_SUCCESS = "SAVE_ECONOMICSRESULTS_SUCCESS";
+export const SAVE_ECONOMICSRESULTS_FAILURE = "SAVE_ECONOMICSRESULTS_FAILURE";
+
+export const EXISTING_ECONOMICSRESULTS_REQUEST =
+  "EXISTING_ECONOMICSRESULTS_REQUEST";
+export const EXISTING_ECONOMICSRESULTS_SUCCESS =
+  "EXISTING_ECONOMICSRESULTS_SUCCESS";
+export const EXISTING_ECONOMICSRESULTS_FAILURE =
+  "EXISTING_ECONOMICSRESULTS_FAILURE";
+
+export const GET_ECONOMICSRESULTSBYID_REQUEST =
+  "GET_ECONOMICSRESULTSBYID_REQUEST";
+export const GET_ECONOMICSRESULTSBYID_SUCCESS =
+  "GET_ECONOMICSRESULTSBYID_SUCCESS";
+export const GET_ECONOMICSRESULTSBYID_FAILURE =
+  "GET_ECONOMICSRESULTSBYID_FAILURE";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -447,6 +464,92 @@ export const calculateHeatMapDataSuccessAction = () => {
 export const calculateHeatMapDataFailureAction = () => {
   return {
     type: CALCULATE_HEATMAPDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const saveEconomicsResultsRequestAction = () => {
+  return {
+    type: SAVE_ECONOMICSRESULTS_REQUEST,
+    meta: { showSpinner: true, message: "Saving economics results..." },
+  };
+};
+
+export const saveEconomicsResultsSuccessAction = () => {
+  return {
+    type: SAVE_ECONOMICSRESULTS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const saveEconomicsResultsFailureAction = () => {
+  return {
+    type: SAVE_ECONOMICSRESULTS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchExistingEconomicsResultsRequestAction = (
+  projectId: string,
+  showSpinner: boolean
+) => {
+  return {
+    type: EXISTING_ECONOMICSRESULTS_REQUEST,
+    payload: { projectId },
+    meta: { showSpinner, message: "Loading economics results..." },
+  };
+};
+
+export const fetchExistingEconomicsResultsSuccessAction = () => {
+  return {
+    type: EXISTING_ECONOMICSRESULTS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchExistingEconomicsResultsFailureAction = () => {
+  return {
+    type: EXISTING_ECONOMICSRESULTS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const getEconomicsResultsByIdRequestAction = (
+  workflowProcess: IEconomicsWorkflows["wkPs"],
+  reducer: ReducersType
+) => {
+  return {
+    type: GET_ECONOMICSRESULTSBYID_REQUEST,
+    payload: { workflowProcess, reducer },
+    meta: { showSpinner: true, message: "Loading economics result..." },
+  };
+};
+
+export const getEconomicsResultsByIdSuccessAction = () => {
+  return {
+    type: GET_ECONOMICSRESULTSBYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getEconomicsResultsByIdFailureAction = () => {
+  return {
+    type: GET_ECONOMICSRESULTSBYID_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

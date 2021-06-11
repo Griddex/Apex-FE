@@ -217,7 +217,7 @@ const EconomicsPlotChartsVisualytics = () => {
         >
           <EconomicsPlotChartsDataPanel />
         </div>
-        {setShowCategories && (
+        {showCategories && (
           <ChartCategories
             categoriesTitle={selectedEconomicsPlotChartOption.label}
             ChartCategoriesData={ChartCategoriesData.current}

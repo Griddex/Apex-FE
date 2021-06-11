@@ -60,7 +60,7 @@ function* fetchExistingProjectsSaga(
     );
 
     const {
-      data: { status, data: existingProjects, succcess }, //prevent 2nd trip to server
+      data: { status, data: existingProjects, succcess },
     } = result;
 
     const successAction = fetchExistingProjectsSuccessAction();

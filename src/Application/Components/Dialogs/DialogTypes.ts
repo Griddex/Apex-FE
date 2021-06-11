@@ -7,6 +7,7 @@ import EconomicsParametersSensitivitiesDialog from "../../../Economics/Component
 import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog";
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
+import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog";
 import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
 import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog";
 import { IEconomicsParametersTable } from "../../../Economics/Components/Parameters/IParametersType";
@@ -77,6 +78,7 @@ export interface IApplicationDialogs {
   tableDataDialog: typeof TableDataDialog;
   tableEditorDialog: typeof TableEditorDialog;
   draggableDialog: typeof DraggableDialog;
+  saveEconomicsResultsDialog: typeof SaveEconomicsResultsDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -129,7 +131,8 @@ export interface DialogStuff {
     | "selectDevelopmentScenariosDialog"
     | "tableDataDialog"
     | "tableEditorDialog"
-    | "draggableDialog";
+    | "draggableDialog"
+    | "saveEconomicsResultsDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -155,6 +158,7 @@ export interface DialogStuff {
   columns?: Column<IRawRow>[];
   setRows?: TUseState<any>;
   apexEditorProps?: IApexEditor;
+  apexEditorComponent?: React.FC<any>;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

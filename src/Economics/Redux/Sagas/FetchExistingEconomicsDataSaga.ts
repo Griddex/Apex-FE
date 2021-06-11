@@ -59,11 +59,11 @@ function* fetchExistingEconomicsDataSaga(action: IAction): Generator<
     ]);
 
     const {
-      data: { data: economicsCostsRevenuesDeckExisting }, //prevent 2nd trip to server
+      data: { data: economicsCostsRevenuesDeckExisting },
     } = costsRevenueResult;
 
     const {
-      data: { data: economicsParametersDeckExisting }, //prevent 2nd trip to server
+      data: { data: economicsParametersDeckExisting },
     } = economicsParametersResults;
 
     const successAction = fetchExistingEconomicsDataSuccessAction();

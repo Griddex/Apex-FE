@@ -18,13 +18,15 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
       return updatedState;
     }
 
+    //TODO Gift to ensure date format is saved
+    //properly for use when a project loads
     case FETCH_UNITSETTINGS_SUCCESS: {
       const {
         status,
         unitsData: {
-          dayFormat,
-          monthFormat,
-          yearFormat,
+          // dayFormat,
+          // monthFormat,
+          // yearFormat,
           unitGroup,
           variableUnits,
         },
@@ -32,9 +34,9 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
 
       return {
         ...state,
-        dayFormat,
-        monthFormat,
-        yearFormat,
+        // dayFormat,
+        // monthFormat,
+        // yearFormat,
         unitGroup,
         variableUnits,
         status,

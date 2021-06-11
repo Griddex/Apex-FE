@@ -15,11 +15,13 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics";
 import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
   runEconomicsAnalysisRequestAction,
+  saveEconomicsResultsRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
@@ -252,6 +254,43 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(confirmationDialogParameters));
   };
 
+  const saveeconomicsResultsFinalAction = () => {
+    const saveEconomicsInputdeckConfirmation = () => {
+      const dps = confirmationDialogParameters(
+        "EconomicsDeck_Save_Confirmation",
+        "Economics Deck Save Confirmation",
+        `Do you want to save the current facilities Inputdeck?`,
+        true,
+        true,
+        saveEconomicsResultsRequestAction,
+        "Save",
+        "saveOutlined"
+      );
+
+      dispatch(showDialogAction(dps));
+    };
+
+    const dialogParameters: DialogStuff = {
+      name: "Save_Economics_Results_Dialog",
+      title: "Save Economics Results",
+      type: "saveEconomicsResultsDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "information",
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, false],
+          [unloadDialogsAction, saveEconomicsInputdeckConfirmation]
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      reducer,
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
   React.useEffect(() => {
     const path = `economicsAnalysisWorkflows.${analysisName}.sensitivities.analysisName`;
 
@@ -336,7 +375,7 @@ const EconomicsAnalysis = ({
         <Button
           className={classes.primaryButton}
           startIcon={<ViewDayTwoToneIcon />}
-          onClick={() => alert("implement me")}
+          onClick={saveeconomicsResultsFinalAction}
         >
           Save Results
         </Button>
