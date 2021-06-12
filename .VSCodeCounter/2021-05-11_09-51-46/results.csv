@@ -221,13 +221,13 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\CostsRevenueSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 39, 0, 0, 0, 0, 4, 43
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\EconomicsAnalysisSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 44, 0, 0, 0, 0, 4, 48
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\EconomicsParameterSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 39, 0, 0, 0, 0, 4, 43
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\ExistingEconomicsDataDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 3, 31
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\ExistingEconomicsSensitivitiesDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 3, 31
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\StoredEconomicsDataDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 3, 31
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\StoredEconomicsSensitivitiesDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 3, 31
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\DialogParameters\SensitivitiesSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 39, 0, 0, 0, 0, 4, 43
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\CreateEconomicsParametersTableDialog.tsx", "TypeScript React", 0, 128, 0, 0, 0, 0, 0, 9, 137
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\EconomicsParametersDialog.tsx", "TypeScript React", 0, 212, 0, 0, 0, 0, 0, 13, 225
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\EconomicsParametersSensitivitiesDialog.tsx", "TypeScript React", 0, 134, 0, 0, 0, 0, 0, 9, 143
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\ExistingEconomicsSensitivitiesDialog.tsx", "TypeScript React", 0, 131, 0, 0, 0, 0, 0, 8, 139
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\StoredEconomicsSensitivitiesDialog.tsx", "TypeScript React", 0, 131, 0, 0, 0, 0, 0, 8, 139
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\SaveCostsRevenuesInputDeckDialog.tsx", "TypeScript React", 0, 120, 0, 0, 0, 0, 0, 8, 128
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\SaveEconomicsParametersInputDeckDialog.tsx", "TypeScript React", 0, 120, 0, 0, 0, 0, 0, 8, 128
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Components\Dialogs\SaveEconomicsSensitivitiesDialog.tsx", "TypeScript React", 0, 120, 0, 0, 0, 0, 0, 8, 128
@@ -258,8 +258,8 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Images\ResultTables.svg", "XML", 0, 0, 0, 24, 0, 0, 1, 1, 26
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Actions\EconomicsActions.ts", "TypeScript", 0, 0, 357, 0, 0, 0, 0, 44, 401
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Reducers\EconomicsReducers.ts", "TypeScript", 0, 0, 218, 0, 0, 0, 0, 32, 250
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Sagas\FetchExistingEconomicsDataSaga.ts", "TypeScript", 0, 0, 83, 0, 0, 0, 0, 10, 93
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Sagas\FetchExistingEconomicsSensitivitiesSaga.ts", "TypeScript", 0, 0, 80, 0, 0, 0, 0, 10, 90
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Sagas\FetchStoredEconomicsDataSaga.ts", "TypeScript", 0, 0, 83, 0, 0, 0, 0, 10, 93
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Sagas\FetchStoredEconomicsSensitivitiesSaga.ts", "TypeScript", 0, 0, 80, 0, 0, 0, 0, 10, 90
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Sagas\GetEconomicsSensitivitiesByIdSaga.ts", "TypeScript", 0, 0, 100, 0, 0, 0, 0, 12, 112
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Sagas\RunEconomicsAnalysisSaga.ts", "TypeScript", 0, 0, 125, 0, 0, 0, 1, 15, 141
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Redux\Sagas\SaveCostsRevenuesSaga.ts", "TypeScript", 0, 0, 123, 0, 0, 0, 1, 16, 140
@@ -277,17 +277,17 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsAnalyses\EconomicsParametersSensitivities\EconomicsParametersSensitivities.tsx", "TypeScript React", 0, 116, 0, 0, 0, 0, 0, 12, 128
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsAnalyses\EconomicsParametersSensitivities\EconomicsParametersSensitivitiesTypes.ts", "TypeScript", 0, 0, 33, 0, 0, 0, 2, 4, 39
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsAnalyses\EconomicsParametersSensitivities\EconomicsSensitivitiesTable.tsx", "TypeScript React", 0, 90, 0, 0, 0, 0, 0, 8, 98
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsAnalyses\EconomicsParametersSensitivities\ExistingEconomicsSensitivities.tsx", "TypeScript React", 0, 243, 0, 0, 0, 0, 9, 16, 268
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsAnalyses\EconomicsParametersSensitivities\StoredEconomicsSensitivities.tsx", "TypeScript React", 0, 243, 0, 0, 0, 0, 9, 16, 268
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsAnalyses\EconomicsParametersSensitivities\ParameterSensitivity.tsx", "TypeScript React", 0, 198, 0, 0, 0, 0, 7, 18, 223
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsCostsAndRevenues\CostsAndRevenueManual.tsx", "TypeScript React", 0, 672, 0, 0, 0, 0, 2, 29, 703
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsCostsAndRevenues\EconomicsCostsAndRevenuesTypes.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 2, 12
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsCostsAndRevenues\EconomicsCostsRevenuesLanding.tsx", "TypeScript React", 0, 293, 0, 0, 0, 0, 4, 16, 313
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsCostsAndRevenues\ExistingCostsAndRevenuesDecks.tsx", "TypeScript React", 0, 71, 0, 0, 0, 0, 1, 11, 83
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsCostsAndRevenues\StoredCostsAndRevenuesDecks.tsx", "TypeScript React", 0, 71, 0, 0, 0, 0, 1, 11, 83
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsParameters\EconomicsParametersLanding.tsx", "TypeScript React", 0, 266, 0, 0, 0, 0, 3, 17, 286
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsParameters\EconomicsParametersManual.tsx", "TypeScript React", 0, 260, 0, 0, 0, 0, 0, 22, 282
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsParameters\EconomicsParametersManualTypes.ts", "TypeScript", 0, 0, 23, 0, 0, 0, 0, 3, 26
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsParameters\EconomicsParametersTypes.ts", "TypeScript", 0, 0, 9, 0, 0, 0, 0, 2, 11
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsParameters\ExistingEconomicsParametersDecks.tsx", "TypeScript React", 0, 69, 0, 0, 0, 0, 1, 12, 82
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsInput\EconomicsParameters\StoredEconomicsParametersDecks.tsx", "TypeScript React", 0, 69, 0, 0, 0, 0, 1, 12, 82
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\EconomicsPlotCharts\EconomicsPlotChartsDataPanel.tsx", "TypeScript React", 0, 88, 0, 0, 0, 0, 1, 12, 101
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\EconomicsPlotCharts\EconomicsPlotChartsSelectChart.tsx", "TypeScript React", 0, 278, 0, 0, 0, 0, 20, 4, 302
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\EconomicsPlotCharts\EconomicsPlotChartsSelectCharts.tsx", "TypeScript React", 0, 27, 0, 0, 0, 0, 0, 7, 34
@@ -305,7 +305,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\EconomicsTemplateResults\EconomicsTemplateSelectChart.tsx", "TypeScript React", 0, 278, 0, 0, 0, 0, 20, 4, 302
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\EconomicsTemplateResults\EconomicsTemplateTreeView.tsx", "TypeScript React", 0, 245, 0, 0, 0, 0, 14, 37, 296
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\EconomicsTemplateResults\EconomicsTemplateVisualytics.tsx", "TypeScript React", 0, 120, 0, 0, 0, 0, 0, 8, 128
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\ExistingEconomicsResults.tsx", "TypeScript React", 0, 74, 0, 0, 0, 0, 0, 12, 86
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsResults\StoredEconomicsResults.tsx", "TypeScript React", 0, 74, 0, 0, 0, 0, 0, 12, 86
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsSensitivities\EconomicsSensitivitiesLanding.tsx", "TypeScript React", 0, 129, 0, 0, 0, 0, 59, 16, 204
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsSensitivities\EconomicsSensitivitiesTypes.ts", "TypeScript", 0, 0, 7, 0, 0, 0, 0, 2, 9
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Economics\Routes\EconomicsWorkflows\EconomicsAnalysesWorkflow.tsx", "TypeScript React", 0, 191, 0, 0, 0, 0, 2, 14, 207
@@ -323,7 +323,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\DialogActions\RunForecastSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 3, 31
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\DialogButtons\DialogCancelFetchButtons.tsx", "TypeScript React", 0, 57, 0, 0, 0, 0, 0, 4, 61
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\DialogButtons\SaveForecastResutlsDialogButtons.tsx", "TypeScript React", 0, 78, 0, 0, 0, 0, 0, 7, 85
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\DialogParameters\ExistingForecastResultsSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 30, 0, 0, 0, 0, 4, 34
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\DialogParameters\StoredForecastResultsSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 30, 0, 0, 0, 0, 4, 34
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\DialogParameters\GetForecastResultsSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 30, 0, 0, 0, 0, 4, 34
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\ForecastStackedAreaChart.tsx", "TypeScript React", 0, 65, 0, 0, 0, 0, 36, 5, 106
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Components\ForecastTreeView.tsx", "TypeScript React", 0, 267, 0, 0, 0, 0, 2, 38, 307
@@ -337,12 +337,12 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\ForecastState\ForecastState.ts", "TypeScript", 0, 0, 70, 0, 0, 0, 1, 11, 82
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\ForecastState\ForecastStateTypes.ts", "TypeScript", 0, 0, 100, 0, 0, 0, 0, 14, 114
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\Reducers\ForecastReducer.ts", "TypeScript", 0, 0, 211, 0, 0, 0, 5, 40, 256
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\Sagas\FetchExistingForecastingResultsSaga.ts", "TypeScript", 0, 0, 81, 0, 0, 0, 0, 9, 90
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\Sagas\FetchStoredForecastingResultsSaga.ts", "TypeScript", 0, 0, 81, 0, 0, 0, 0, 9, 90
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\Sagas\FetchTreeviewKeysSaga.ts", "TypeScript", 0, 0, 125, 0, 0, 0, 1, 14, 140
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\Sagas\GetForecastResultsChartDataSaga.ts", "TypeScript", 0, 0, 125, 0, 0, 0, 3, 17, 145
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\Sagas\GetForecastResultsSaga.ts", "TypeScript", 0, 0, 145, 0, 0, 0, 5, 15, 165
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Redux\Sagas\GetSelectedForecastDataByIdSaga.ts", "TypeScript", 0, 0, 95, 0, 0, 0, 0, 13, 108
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Routes\ExistingForecastResults.tsx", "TypeScript React", 0, 363, 0, 0, 0, 0, 7, 22, 392
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Routes\StoredForecastResults.tsx", "TypeScript React", 0, 363, 0, 0, 0, 0, 7, 22, 392
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Routes\ForecastData.tsx", "TypeScript React", 0, 369, 0, 0, 0, 0, 32, 25, 426
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Routes\ForecastRoutesTypes.ts", "TypeScript", 0, 0, 11, 0, 0, 0, 0, 2, 13
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Routes\ForecastVisualytics.tsx", "TypeScript React", 0, 127, 0, 0, 0, 0, 0, 8, 135
@@ -353,7 +353,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Utils\GetLastTwoDotPositions.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 4, 14
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Forecast\Utils\GetModuleObject.ts", "TypeScript", 0, 0, 14, 0, 0, 0, 0, 7, 21
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\DialogParameters\ConfirmationDialogParameters.ts", "TypeScript", 0, 0, 33, 0, 0, 0, 0, 2, 35
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\DialogParameters\ExistingDataDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 3, 31
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\DialogParameters\StoredDataDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 0, 3, 31
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\DialogParameters\SaveInputDeckDialogParameters.ts", "TypeScript", 0, 0, 51, 0, 0, 0, 0, 3, 54
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\Dialogs\FinalizeForecastInputDeckDialog.tsx", "TypeScript React", 0, 126, 0, 0, 0, 0, 0, 9, 135
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\Dialogs\SaveFacilitiesInputDeckDialog.tsx", "TypeScript React", 0, 120, 0, 0, 0, 0, 0, 8, 128
@@ -365,20 +365,20 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\Forms\ForecastTitleAndDescriptionForm.tsx", "TypeScript React", 0, 56, 0, 0, 0, 0, 0, 7, 63
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Components\SelectDatabase.tsx", "TypeScript React", 0, 127, 0, 0, 0, 0, 1, 9, 137
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\DragAndDrop.svg", "XML", 0, 0, 0, 79, 0, 0, 0, 1, 80
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\ExistingDeck.svg", "XML", 0, 0, 0, 17, 0, 0, 0, 0, 17
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\StoredDeck.svg", "XML", 0, 0, 0, 17, 0, 0, 0, 0, 17
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\Import.svg", "XML", 0, 0, 0, 43, 0, 0, 1, 1, 45
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\ImportDatabase.svg", "XML", 0, 0, 0, 52, 0, 0, 1, 2, 55
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\Input.svg", "XML", 0, 0, 0, 17, 0, 0, 1, 1, 19
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\MSExcel.svg", "XML", 0, 0, 0, 7, 0, 0, 0, 0, 7
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\Notepad.svg", "XML", 0, 0, 0, 50, 0, 0, 1, 1, 52
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\DatabaseServerActions.ts", "TypeScript", 0, 0, 41, 0, 0, 0, 0, 5, 46
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\ExistingDataActions.ts", "TypeScript", 0, 0, 25, 0, 0, 0, 0, 4, 29
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\StoredDataActions.ts", "TypeScript", 0, 0, 25, 0, 0, 0, 0, 4, 29
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\InputActions.ts", "TypeScript", 0, 0, 329, 0, 0, 0, 1, 23, 353
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Reducers\DatabaseServerReducers.ts", "TypeScript", 0, 0, 31, 0, 0, 0, 0, 4, 35
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Reducers\InputReducer.ts", "TypeScript", 0, 0, 172, 0, 0, 0, 0, 12, 184
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\ConnectDatabaseSaga.ts", "TypeScript", 0, 0, 74, 0, 0, 0, 5, 10, 89
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\FetchApplicationHeadersSaga.ts", "TypeScript", 0, 0, 162, 0, 0, 0, 0, 11, 173
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\FetchExistingDataSaga.ts", "TypeScript", 0, 0, 81, 0, 0, 0, 0, 10, 91
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\FetchStoredDataSaga.ts", "TypeScript", 0, 0, 81, 0, 0, 0, 0, 10, 91
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\SaveInputDeckSaga.ts", "TypeScript", 0, 0, 144, 0, 0, 0, 0, 18, 162
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\DatabaseServerState.ts", "TypeScript", 0, 0, 6, 0, 0, 0, 0, 2, 8
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\InputState.ts", "TypeScript", 0, 0, 121, 0, 0, 0, 3, 24, 148
@@ -388,7 +388,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputLayoutTypes.ts", "TypeScript", 0, 0, 18, 0, 0, 0, 0, 4, 22
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputWorkflows\DatabaseWorkflow.tsx", "TypeScript React", 0, 170, 0, 0, 0, 0, 0, 15, 185
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputWorkflows\ExcelWorkflow.tsx", "TypeScript React", 0, 151, 0, 0, 0, 0, 9, 17, 177
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputWorkflows\ExistingDataRoute.tsx", "TypeScript React", 0, 187, 0, 0, 0, 0, 2, 10, 199
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputWorkflows\StoredDataRoute.tsx", "TypeScript React", 0, 187, 0, 0, 0, 0, 2, 10, 199
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputWorkflows\SaveInputDeckGenerateNetworkWorkflow.tsx", "TypeScript React", 0, 29, 0, 0, 0, 0, 0, 5, 34
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\Workflows\ConnectDatabase.tsx", "TypeScript React", 0, 154, 0, 0, 0, 0, 1, 9, 164
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\Workflows\InputWorkflowsTypes.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 5, 2, 35
@@ -399,16 +399,16 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\Workflows\SelectHeaderUnitData.tsx", "TypeScript React", 0, 266, 0, 0, 0, 0, 5, 31, 302
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\Workflows\SelectSheet.tsx", "TypeScript React", 0, 233, 0, 0, 0, 0, 4, 20, 257
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\Workflows\UploadFile.tsx", "TypeScript React", 0, 196, 0, 0, 0, 0, 3, 18, 217
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\FacilitiesInputDeck\ExistingFacilitiesDecks.tsx", "TypeScript React", 0, 75, 0, 0, 0, 0, 1, 11, 87
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\FacilitiesInputDeck\StoredFacilitiesDecks.tsx", "TypeScript React", 0, 75, 0, 0, 0, 0, 1, 11, 87
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\FacilitiesInputDeck\FacilitiesInputDeckLanding.tsx", "TypeScript React", 0, 222, 0, 0, 0, 0, 3, 15, 240
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\FacilitiesInputDeck\FacilitiesInputDeckLandingTypes.ts", "TypeScript", 0, 0, 8, 0, 0, 0, 0, 2, 10
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ForecastInputDeck\ExistingForecastDecks.tsx", "TypeScript React", 0, 71, 0, 0, 0, 0, 1, 12, 84
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ForecastInputDeck\StoredForecastDecks.tsx", "TypeScript React", 0, 71, 0, 0, 0, 0, 1, 12, 84
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ForecastInputDeck\ForecastInputDeckFinalization.tsx", "TypeScript React", 0, 175, 0, 0, 0, 0, 13, 16, 204
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ForecastInputDeck\ForecastInputDeckLanding.tsx", "TypeScript React", 0, 204, 0, 0, 0, 0, 2, 12, 218
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ForecastInputDeck\ForecastInputDeckLandingTypes.ts", "TypeScript", 0, 0, 14, 0, 0, 0, 0, 4, 18
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ForecastInputDeck\ForecastInputDeckTypes.ts", "TypeScript", 0, 0, 8, 0, 0, 0, 0, 2, 10
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\InputDeckTypes.ts", "TypeScript", 0, 0, 11, 0, 0, 0, 0, 2, 13
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ProductionData\ExistingProductionData.tsx", "TypeScript React", 0, 71, 0, 0, 0, 0, 11, 13, 95
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ProductionData\StoredProductionData.tsx", "TypeScript React", 0, 71, 0, 0, 0, 0, 11, 13, 95
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ProductionData\ProductionDataLanding.tsx", "TypeScript React", 0, 178, 0, 0, 0, 0, 2, 10, 190
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\ProductionData\ProductionDataLandingTypes.ts", "TypeScript", 0, 0, 22, 0, 0, 0, 0, 4, 26
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Services\FileIconService.js", "JavaScript", 13, 0, 0, 0, 0, 0, 0, 4, 17
@@ -450,12 +450,12 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\ContextMenu\WellheadContextMenu.tsx", "TypeScript React", 0, 56, 0, 0, 0, 0, 1, 10, 67
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\ContextMenu\WellheadSummaryContextMenu.tsx", "TypeScript React", 0, 60, 0, 0, 0, 0, 1, 10, 71
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogBottons\SaveNetworkDialogButtons.tsx", "TypeScript React", 0, 76, 0, 0, 0, 0, 0, 7, 83
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogExtrusion\ExistingForecastingParametersExtrude.tsx", "TypeScript React", 0, 64, 0, 0, 0, 0, 0, 7, 71
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogExtrusion\ExistingNetworksExtrude.tsx", "TypeScript React", 0, 62, 0, 0, 0, 0, 0, 6, 68
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogExtrusion\StoredForecastingParametersExtrude.tsx", "TypeScript React", 0, 64, 0, 0, 0, 0, 0, 7, 71
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogExtrusion\StoredNetworksExtrude.tsx", "TypeScript React", 0, 62, 0, 0, 0, 0, 0, 6, 68
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogExtrusion\SaveForecastParametersExtrude.tsx", "TypeScript React", 0, 64, 0, 0, 0, 0, 0, 7, 71
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\AutoGenerateFailureDialogParameters.ts", "TypeScript", 0, 0, 16, 0, 0, 0, 0, 2, 18
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\DeleteForecastParametersDialogParameters.ts", "TypeScript", 0, 0, 27, 0, 0, 0, 1, 2, 30
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\FetchExistingNetworkFailureDialogParameters.ts", "TypeScript", 0, 0, 16, 0, 0, 0, 0, 2, 18
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\FetchStoredNetworkFailureDialogParameters.ts", "TypeScript", 0, 0, 16, 0, 0, 0, 0, 2, 18
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\FetchForecastingParametersFailureDialogParameters.ts", "TypeScript", 0, 0, 16, 0, 0, 0, 0, 2, 18
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\GenerateNetworkDialogParameters.ts", "TypeScript", 0, 0, 23, 0, 0, 0, 0, 2, 25
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\RunForecastDialogParameters.ts", "TypeScript", 0, 0, 28, 0, 0, 0, 1, 2, 31
@@ -464,9 +464,9 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\SaveNetworkSuccessFailureDialogParameters.ts", "TypeScript", 0, 0, 31, 0, 0, 0, 0, 4, 35
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\DialogParameters\ShowDeclineCurveDialogParameters.ts", "TypeScript", 0, 0, 18, 0, 0, 0, 0, 2, 20
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\DeclineCurveParametersDialog.tsx", "TypeScript React", 0, 143, 0, 0, 0, 0, 0, 9, 152
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\ExistingForecastingParametersDialog.tsx", "TypeScript React", 0, 131, 0, 0, 0, 0, 0, 8, 139
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\ExistingNetworksDialog.tsx", "TypeScript React", 0, 130, 0, 0, 0, 0, 0, 8, 138
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\ExistingNetworksDialogTypes.ts", "TypeScript", 0, 0, 76, 0, 0, 0, 0, 6, 82
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\StoredForecastingParametersDialog.tsx", "TypeScript React", 0, 131, 0, 0, 0, 0, 0, 8, 139
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\StoredNetworksDialog.tsx", "TypeScript React", 0, 130, 0, 0, 0, 0, 0, 8, 138
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\StoredNetworksDialogTypes.ts", "TypeScript", 0, 0, 76, 0, 0, 0, 0, 6, 82
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\GenerateNetworkWorkflowDialog.tsx", "TypeScript React", 0, 223, 0, 0, 0, 0, 1, 16, 240
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\RunForecastDialog.tsx", "TypeScript React", 0, 127, 0, 0, 0, 0, 4, 8, 139
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Components\Dialogs\SaveForecastDialog.tsx", "TypeScript React", 0, 144, 0, 0, 0, 0, 0, 8, 152
@@ -506,8 +506,8 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Reducers\NetworkReducers.ts", "TypeScript", 0, 0, 255, 0, 0, 0, 0, 26, 281
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\AutogenerateNetworkSaga.ts", "TypeScript", 0, 0, 130, 0, 0, 0, 0, 17, 147
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\DisplayNetworkBySelectionSaga.ts", "TypeScript", 0, 0, 138, 0, 0, 0, 0, 17, 155
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\FetchExistingForecastParametersSaga.ts", "TypeScript", 0, 0, 87, 0, 0, 0, 0, 11, 98
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\FetchExistingNetworkDataSaga.ts", "TypeScript", 0, 0, 79, 0, 0, 0, 0, 10, 89
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\FetchStoredForecastParametersSaga.ts", "TypeScript", 0, 0, 87, 0, 0, 0, 0, 11, 98
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\FetchStoredNetworkDataSaga.ts", "TypeScript", 0, 0, 79, 0, 0, 0, 0, 10, 89
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\RunForecastSaga.ts", "TypeScript", 0, 0, 122, 0, 0, 0, 0, 13, 135
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\SaveAndAutogenerateNetworkSaga.ts", "TypeScript", 0, 0, 55, 0, 0, 0, 2, 9, 66
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\Sagas\SaveForecastParametersSaga.ts", "TypeScript", 0, 0, 119, 0, 0, 0, 0, 12, 131
@@ -517,9 +517,9 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\State\NetworkState.tsx", "TypeScript React", 0, 46, 0, 0, 0, 0, 0, 10, 56
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Redux\State\NetworkStateTypes.ts", "TypeScript", 0, 0, 109, 0, 0, 0, 2, 18, 129
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\DeclineCurveParameters.tsx", "TypeScript React", 0, 296, 0, 0, 0, 0, 37, 27, 360
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\ExistingForecastingParameters.tsx", "TypeScript React", 0, 450, 0, 0, 0, 0, 3, 26, 479
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\ExistingNetworkTypes.ts", "TypeScript", 0, 0, 6, 0, 0, 0, 0, 2, 8
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\ExistingNetworks.tsx", "TypeScript React", 0, 75, 0, 0, 0, 0, 0, 12, 87
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\StoredForecastingParameters.tsx", "TypeScript React", 0, 450, 0, 0, 0, 0, 3, 26, 479
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\StoredNetworkTypes.ts", "TypeScript", 0, 0, 6, 0, 0, 0, 0, 2, 8
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\StoredNetworks.tsx", "TypeScript React", 0, 75, 0, 0, 0, 0, 0, 12, 87
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\ForecastParametersTitleAndDescription.tsx", "TypeScript React", 0, 62, 0, 0, 0, 0, 0, 7, 69
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\OtherForecastingParameters.tsx", "TypeScript React", 0, 186, 0, 0, 0, 0, 2, 14, 202
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Routes\SaveNetworkTitleAndDescription.tsx", "TypeScript React", 0, 73, 0, 0, 0, 0, 0, 6, 79
@@ -531,23 +531,23 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Workflows\GenerateNetworkWorkflow.tsx", "TypeScript React", 0, 47, 0, 0, 0, 0, 0, 7, 54
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Network\Workflows\SaveForecastParametersWorkflow.tsx", "TypeScript React", 0, 88, 0, 0, 0, 0, 0, 6, 94
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\ContextMenus\ProjectContextMenu.tsx", "TypeScript React", 0, 47, 0, 0, 0, 0, 0, 8, 55
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\DialogParameters\ExistingProjectsFailureDialogParameters.ts", "TypeScript", 0, 0, 15, 0, 0, 0, 0, 2, 17
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\DialogParameters\StoredProjectsFailureDialogParameters.ts", "TypeScript", 0, 0, 15, 0, 0, 0, 0, 2, 17
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\DialogParameters\OpenProjectFailureDialogParameters.ts", "TypeScript", 0, 0, 27, 0, 0, 0, 0, 3, 30
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\DialogParameters\ProjectSuccessFailureDialogsParameters.ts", "TypeScript", 0, 0, 29, 0, 0, 0, 0, 3, 32
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\DialogParameters\RecentProjectsFailureDialogParameters.ts", "TypeScript", 0, 0, 15, 0, 0, 0, 0, 2, 17
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\Dialogs\ExistingProjectsDialog.tsx", "TypeScript React", 0, 127, 0, 0, 0, 0, 0, 8, 135
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\Dialogs\StoredProjectsDialog.tsx", "TypeScript React", 0, 127, 0, 0, 0, 0, 0, 8, 135
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\Forms\NewProjectForm.tsx", "TypeScript React", 0, 58, 0, 0, 0, 0, 0, 6, 64
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Components\Popovers\ProjectPopover.tsx", "TypeScript React", 0, 234, 0, 0, 0, 0, 1, 12, 247
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\NewProjectTitleAndDescription.tsx", "TypeScript React", 0, 60, 0, 0, 0, 0, 0, 6, 66
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Actions\ProjectActions.ts", "TypeScript", 0, 0, 148, 0, 0, 0, 0, 14, 162
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Reducers\ProjectReducer.ts", "TypeScript", 0, 0, 105, 0, 0, 0, 0, 21, 126
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Sagas\CreateNewProjectSaga.ts", "TypeScript", 0, 0, 104, 0, 0, 0, 2, 12, 118
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Sagas\FetchExistingProjectsSaga.ts", "TypeScript", 0, 0, 75, 0, 0, 0, 0, 9, 84
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Sagas\FetchStoredProjectsSaga.ts", "TypeScript", 0, 0, 75, 0, 0, 0, 0, 9, 84
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Sagas\FetchRecentProjectsSaga.ts", "TypeScript", 0, 0, 78, 0, 0, 0, 0, 10, 88
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\Sagas\OpenRecentProjectSaga.ts", "TypeScript", 0, 0, 88, 0, 0, 0, 0, 12, 100
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\State\ProjectState.ts", "TypeScript", 0, 0, 13, 0, 0, 0, 0, 5, 18
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Redux\State\ProjectStateTypes.ts", "TypeScript", 0, 0, 53, 0, 0, 0, 0, 8, 61
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Routes\ExistingProjects.tsx", "TypeScript React", 0, 66, 0, 0, 0, 0, 3, 12, 81
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Routes\StoredProjects.tsx", "TypeScript React", 0, 66, 0, 0, 0, 0, 3, 12, 81
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Project\Workflows\NewProjectWorkflow.tsx", "TypeScript React", 0, 41, 0, 0, 0, 0, 0, 4, 45
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Settings\Components\Dates\DateFormatter.tsx", "TypeScript React", 0, 20, 0, 0, 0, 0, 0, 4, 24
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Settings\Components\DialogActions\ConfirmationDialogParameters.ts", "TypeScript", 0, 0, 20, 0, 0, 0, 0, 3, 23

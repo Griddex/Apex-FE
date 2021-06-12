@@ -1,14 +1,14 @@
 import React from "react";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import ForecastTitleAndDescriptionForm from "../../../Components/Forms/ForecastTitleAndDescriptionForm";
-import ExistingFacilitiesDecks from "../../FacilitiesInputDeck/ExistingFacilitiesDecks";
-import { IExistingInputDeck } from "../../InputDeckTypes";
+import StoredFacilitiesDecks from "../../FacilitiesInputDeck/StoredFacilitiesDecks";
+import { IStoredInputDeck } from "../../InputDeckTypes";
 
 const SaveInputDeckGenerateNetworkWorkflow = ({
   reducer,
   activeStep,
   finalAction,
-}: IExistingInputDeck) => {
+}: IStoredInputDeck) => {
   const props = {
     reducer,
     containerStyle: { boxShadow: "none" },
@@ -19,7 +19,7 @@ const SaveInputDeckGenerateNetworkWorkflow = ({
   const renderImportStep = () => {
     switch (activeStep) {
       case 0:
-        return <ExistingFacilitiesDecks {...props} />;
+        return <StoredFacilitiesDecks {...props} />;
       case 1:
         return <ForecastTitleAndDescriptionForm />;
       default:

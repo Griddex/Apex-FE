@@ -26,7 +26,7 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/SaveNetworkSuccessFailureDialogParameters";
 import {
-  fetchExistingNetworkDataRequestAction,
+  fetchStoredNetworkDataRequestAction,
   saveNetworkFailureAction,
   saveNetworkSuccessAction,
   SAVENETWORK_REQUEST,
@@ -107,7 +107,7 @@ function* saveNetworkSaga(
     yield put(
       updateNetworkParameterAction("selectedNetworkTitle", networkTitle)
     );
-    yield put(fetchExistingNetworkDataRequestAction(projectId));
+    yield put(fetchStoredNetworkDataRequestAction(projectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveNetworkFailureAction();

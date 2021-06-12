@@ -1,5 +1,5 @@
 import { IUserDetails } from "../../../../Application/Components/User/UserTypes";
-import { IExistingDataRow } from "../../../../Application/Types/ApplicationTypes";
+import { IStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
 import {
   IEconomicsSensitivities,
   TParametersId,
@@ -21,11 +21,11 @@ export interface ISensitivityColumn {
 
 //TODO: Maybe I can use same type to receive
 //Gift's and define mine??
-export interface IExistingEconomicsSensitivitiesRow {
+export interface IStoredEconomicsSensitivitiesRow {
   sn?: number;
   id?: string;
   title?: string;
-  status?: IExistingDataRow["status"];
+  status?: IStoredDataRow["status"];
   description?: string;
   economicsSensitivitiesId?: string;
   economicsSensitivitiesTitle?: string;

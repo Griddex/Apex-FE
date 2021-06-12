@@ -6,11 +6,11 @@ import {
   GET_TABLEDATABYID_SUCCESS,
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
-import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
+import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
 import {
-  EXISTINGDATA_FAILURE,
-  EXISTINGDATA_SUCCESS,
-} from "../Actions/ExistingDataActions";
+  STOREDDATA_FAILURE,
+  STOREDDATA_SUCCESS,
+} from "../Actions/StoredDataActions";
 import {
   FETCHAPPLICATIONHEADERS_SUCCESS,
   IMPORTFILE_INITIALIZATION,
@@ -94,37 +94,36 @@ const inputReducer = (state = InputState, action: IAction) => {
         return state;
       }
     }
-    case EXISTINGDATA_SUCCESS: {
-      const { facilitiesInputDeckExisting, forecastInputDeckExisting } =
+    case STOREDDATA_SUCCESS: {
+      const { facilitiesInputDeckStored, forecastInputDeckStored } =
         action.payload;
 
       return {
         ...state,
-        existingDataWorkflows: {
-          ...state.existingDataWorkflows,
-          facilitiesInputDeckExisting,
-          forecastInputDeckExisting,
+        storedDataWorkflows: {
+          ...state.storedDataWorkflows,
+          facilitiesInputDeckStored,
+          forecastInputDeckStored,
         },
       };
     }
-    case EXISTINGDATA_FAILURE: {
+    case STOREDDATA_FAILURE: {
       const { workflowProcess } = action.payload;
-      const wp = workflowProcess as NonNullable<IExistingDataProps["wkPs"]>;
+      const wp = workflowProcess as NonNullable<IStoredDataProps["wkPs"]>;
 
       return {
         ...state,
-        existingDataWorkflows: {
-          ...state.existingDataWorkflows,
+        storedDataWorkflows: {
+          ...state.storedDataWorkflows,
           [wp as string]: {
-            ...state.existingDataWorkflows[wp],
-            ...action.payload.existingData,
+            ...state.storedDataWorkflows[wp],
+            ...action.payload.storedData,
           },
         },
       };
     }
     case SAVEINPUTDECK_SUCCESS: {
-      const { workflowProcess, existingDataId, status, success } =
-        action.payload;
+      const { workflowProcess, storedDataId, status, success } = action.payload;
       const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
 
       return {
@@ -133,7 +132,7 @@ const inputReducer = (state = InputState, action: IAction) => {
           ...state.inputDataWorkflows,
           [wp]: {
             ...state.inputDataWorkflows[wp],
-            existingDataId,
+            storedDataId,
             status,
             success,
           },

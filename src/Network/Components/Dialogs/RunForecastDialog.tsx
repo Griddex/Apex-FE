@@ -13,7 +13,7 @@ import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import ExistingForecastingParameters from "../../Routes/ExistingForecastingParameters";
+import StoredForecastingParameters from "../../Routes/StoredForecastingParameters";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,7 +128,7 @@ const RunForecastDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <ExistingForecastingParameters showChart={false} />
+        <StoredForecastingParameters showChart={false} />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>

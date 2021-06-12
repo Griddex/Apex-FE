@@ -34,7 +34,7 @@ const ChartCategories = ({
     show: true,
     exclusive: true,
     maxWidth: "xs",
-    iconType: "information",
+    iconType: "category",
     actionsList: () => DialogCancelButton(),
   };
 

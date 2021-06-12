@@ -14,7 +14,7 @@ export const deleteDialogParameters = (
     show: true,
     exclusive: false,
     maxWidth: "xs",
-    iconType: "information",
+    iconType: "confirmation",
     dialogText:
       "Do you want to permanently delete the currently selected forecast parameters?",
     selectedRowIndex,

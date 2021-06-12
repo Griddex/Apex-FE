@@ -23,7 +23,7 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl, {
   getBaseEconomicsUrl,
 } from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters";
+import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
   runForecastAggregationFailureAction,
   runForecastAggregationSuccessAction,

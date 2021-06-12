@@ -17,7 +17,7 @@ const CreateNewForecastParametersButton = () => {
       show: true,
       exclusive: false,
       maxWidth: "xl",
-      iconType: "information",
+      iconType: "create",
     };
 
     dispatch(showDialogAction(dialogParameters));

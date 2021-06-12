@@ -19,7 +19,7 @@ import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGr
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
+import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../Application/Utils/GetRSTheme";
@@ -29,7 +29,7 @@ import { IForecastRoutes } from "./ForecastRoutesTypes";
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({
-  rootExistingData: {
+  rootStoredData: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -73,7 +73,7 @@ export default function ForecastData({
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const wp = wrkflwPrcss as NonNullable<IExistingDataProps["wkPs"]>;
+  const wp = wrkflwPrcss as NonNullable<IStoredDataProps["wkPs"]>;
   const { selectedForecastData } = useSelector(
     (state: RootState) => state.forecastReducer
   );
@@ -309,15 +309,15 @@ export default function ForecastData({
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  const wc = "existingDataWorkflows";
-  const { forecastResultsExisting } = useSelector(
+  const wc = "storedDataWorkflows";
+  const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   );
   const { selectedForecastingResultsTitle } = useSelector(
     (state: RootState) => state.forecastReducer
   );
 
-  const forecastRuns = forecastResultsExisting.map(
+  const forecastRuns = forecastResultsStored.map(
     (row) => row.title
   ) as string[];
   const forecastRunTitleOptions = generateSelectOptions(forecastRuns);
@@ -354,7 +354,7 @@ export default function ForecastData({
   };
 
   return (
-    <div className={classes.rootExistingData} style={containerStyle}>
+    <div className={classes.rootStoredData} style={containerStyle}>
       <div
         style={{
           display: "flex",

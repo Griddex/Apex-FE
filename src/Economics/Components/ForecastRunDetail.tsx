@@ -115,7 +115,7 @@ const ForecastRunDetail = () => {
   const forecastDetails: Record<string, IForecastDetail> = {
     ForecastRun_1: {
       titleName: "ForecastRun_1",
-      approvalText: "Existing",
+      approvalText: "Stored",
       author: { avatarUrl: shirleyImg, name: "Shirley Fraser" },
       approvers: [
         { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -135,7 +135,7 @@ const ForecastRunDetail = () => {
     },
     ForecastRun_3: {
       titleName: "ForecastRun_1",
-      approvalText: "Existing",
+      approvalText: "Stored",
       author: { avatarUrl: kerryImg, name: "Kerry Schwarzenegger" },
       approvers: [
         { avatarUrl: anitaImg, name: "Anita Stragan" },
@@ -146,14 +146,8 @@ const ForecastRunDetail = () => {
     },
   };
 
-  const {
-    titleName,
-    approvalText,
-    author,
-    approvers,
-    createdOn,
-    modifiedOn,
-  } = forecastDetails[forecastRun ? forecastRun : "ForecastRun_1"];
+  const { titleName, approvalText, author, approvers, createdOn, modifiedOn } =
+    forecastDetails[forecastRun ? forecastRun : "ForecastRun_1"];
 
   const [checked, setChecked] = React.useState(true);
 

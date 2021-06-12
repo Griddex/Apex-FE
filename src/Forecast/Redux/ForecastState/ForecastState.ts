@@ -70,8 +70,8 @@ const forcastResultState: IForecastResultState = {
   isForecastResultsLoading: false,
   isForecastResultsSaved: false,
 
-  existingDataWorkflows: {
-    forecastResultsExisting: [],
+  storedDataWorkflows: {
+    forecastResultsStored: [],
   },
 
   selectedForecastData: [],

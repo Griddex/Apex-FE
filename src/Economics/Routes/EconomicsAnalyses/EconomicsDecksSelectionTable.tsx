@@ -11,7 +11,7 @@ import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/Ape
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -21,12 +21,10 @@ import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexCo
 const EconomicsDecksSelectionTable = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const wc = "existingDataWorkflows";
+  const wc = "storedDataWorkflows";
 
-  const {
-    economicsCostsRevenuesDeckExisting,
-    economicsParametersDeckExisting,
-  } = useSelector((state: RootState) => state.economicsReducer[wc]);
+  const { economicsCostsRevenuesDeckStored, economicsParametersDeckStored } =
+    useSelector((state: RootState) => state.economicsReducer[wc]);
 
   const {
     selectedCostsRevenuesInputDeckTitle,
@@ -40,20 +38,20 @@ const EconomicsDecksSelectionTable = () => {
 
   const economicsSelectedDeckOptions = {
     "Economics Costs & Revenues": generateSelectOptions(
-      economicsCostsRevenuesDeckExisting.map(
-        (e: IApplicationExistingDataRow) => e.title
+      economicsCostsRevenuesDeckStored.map(
+        (e: IApplicationStoredDataRow) => e.title
       )
     ),
     "Economics Parameters": generateSelectOptions(
-      economicsParametersDeckExisting.map(
-        (e: IApplicationExistingDataRow) => e.title
+      economicsParametersDeckStored.map(
+        (e: IApplicationStoredDataRow) => e.title
       )
     ),
   };
 
   const costRevDeckTitle = selectedCostsRevenuesInputDeckTitle
     ? selectedCostsRevenuesInputDeckTitle
-    : economicsCostsRevenuesDeckExisting[0]?.title;
+    : economicsCostsRevenuesDeckStored[0]?.title;
   const ecoParDeckTitle = selectedEconomicsParametersInputDeckTitle
     ? selectedEconomicsParametersInputDeckTitle
     : selectedEconomicsParametersInputDeckTitle[0]?.title;
@@ -80,8 +78,8 @@ const EconomicsDecksSelectionTable = () => {
       const selectedTitle = selectedValue as string;
 
       if (type === "Economics Costs & Revenues") {
-        const selectedDeck = economicsCostsRevenuesDeckExisting.filter(
-          (row: IApplicationExistingDataRow) => row.title === selectedTitle
+        const selectedDeck = economicsCostsRevenuesDeckStored.filter(
+          (row: IApplicationStoredDataRow) => row.title === selectedTitle
         )[0];
 
         if (selectedDeck) {
@@ -96,8 +94,8 @@ const EconomicsDecksSelectionTable = () => {
             );
         }
       } else {
-        const selectedDeck = economicsParametersDeckExisting.filter(
-          (row: IApplicationExistingDataRow) => row.title === selectedTitle
+        const selectedDeck = economicsParametersDeckStored.filter(
+          (row: IApplicationStoredDataRow) => row.title === selectedTitle
         )[0];
 
         if (selectedDeck) {

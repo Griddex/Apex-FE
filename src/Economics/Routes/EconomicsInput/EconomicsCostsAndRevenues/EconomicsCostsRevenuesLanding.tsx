@@ -16,7 +16,7 @@ import {
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../../Application/Types/ApplicationTypes";
-import ExistingDeck from "../../../../Import/Images/ExistingDeck.svg";
+import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
@@ -33,7 +33,7 @@ import {
 import CostsRevenueApexForecastWorkflow from "../../../Workflows/CostsRevenueApexForecastWorkflow";
 import CostsAndRevenueManual from "./CostsAndRevenueManual";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
-import ExistingCostsAndRevenuesDecks from "./ExistingCostsAndRevenuesDecks";
+import StoredCostsAndRevenuesDecks from "./StoredCostsAndRevenuesDecks";
 
 const ExcelWorkflow = React.lazy(
   () => import("../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow")
@@ -139,18 +139,18 @@ const EconomicsCostsRevenuesLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: `Existing Costs & Revenues Data`,
+      name: `Stored Costs & Revenues Data`,
       description: `Select a pre-exisiting and approved costs & revenues data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
       route: `${url}/approveddeck`,
-      workflowProcess: "economicsCostsRevenuesDeckExisting",
-      workflowCategory: "existingDataWorkflows",
+      workflowProcess: "economicsCostsRevenuesDeckStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
@@ -190,7 +190,7 @@ const EconomicsCostsRevenuesLanding = () => {
       show: true,
       exclusive: false,
       maxWidth: "sm",
-      iconType: "information",
+      iconType: "save",
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],
@@ -212,7 +212,7 @@ const EconomicsCostsRevenuesLanding = () => {
       show: true,
       exclusive: false,
       maxWidth: "sm",
-      iconType: "information",
+      iconType: "select",
       workflowProcess: wp,
       workflowCategory: wc,
       actionsList: (isFinalButtonDisabled) =>
@@ -228,7 +228,7 @@ const EconomicsCostsRevenuesLanding = () => {
   };
 
   //TODO: Not doing anything here
-  const existingDataFinalAction = () => {
+  const storedDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage CostsRevenues Deck`,
@@ -326,10 +326,10 @@ const EconomicsCostsRevenuesLanding = () => {
                     />
                   ),
                   approveddeck: (
-                    <ExistingCostsAndRevenuesDecks
+                    <StoredCostsAndRevenuesDecks
                       reducer={reducer}
                       showChart={true}
-                      finalAction={existingDataFinalAction}
+                      finalAction={storedDataFinalAction}
                     />
                   ),
                 };

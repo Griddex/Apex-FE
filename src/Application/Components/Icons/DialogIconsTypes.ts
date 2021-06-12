@@ -5,6 +5,13 @@ export type IconNameType =
   | "information"
   | "confirmation"
   | "edit"
-  | "network";
+  | "network"
+  | "table"
+  | "save"
+  | "create"
+  | "delete"
+  | "run"
+  | "remove"
+  | "category";
 
 export type DialogIconsType = Record<IconNameType, JSX.Element>;

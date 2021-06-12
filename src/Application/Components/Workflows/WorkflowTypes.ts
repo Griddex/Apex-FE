@@ -39,12 +39,12 @@ export interface IInputWorkflows {
     | "economicsCostsRevenuesDeckDatabase"
     | "economicsCostsRevenuesDeckManual"
     | "economicsCostsRevenuesDeckApexForecast"
-    | "economicsCostsRevenuesDeckExisting"
+    | "economicsCostsRevenuesDeckStored"
     | "economicsParametersDeckExcel"
     | "economicsParametersDeckDatabase"
     | "economicsParametersDeckManual"
-    | "economicsSensitivitiesExisting"
-    | "economicsParametersDeckExisting"
+    | "economicsSensitivitiesStored"
+    | "economicsParametersDeckStored"
     | "settings";
   wkCy: "inputDataWorkflows";
   finalAction?: () => void;
@@ -54,15 +54,15 @@ export interface INetworkWorkflows {
     | "networkGeneration"
     | "networkManualBuild"
     | "networkAutoGeneration"
-    | "networkExisting"
-    | "declineParametersExisting"
-    | "productionPrioritizationExisting"
+    | "networkStored"
+    | "declineParametersStored"
+    | "productionPrioritizationStored"
     | "runForecastWorkflow"
     | "saveForecastingParametersWorkflow"
     | "declineCurveParametersWorkflow";
   wkCy:
     | "networkDataWorkflows"
-    | "existingDataWorkflows"
+    | "storedDataWorkflows"
     | "networkCreationWorkflows";
 }
 export interface IEconomicsWorkflows {
@@ -79,11 +79,11 @@ export interface IEconomicsWorkflows {
     | "internalRateOfReturn"
     | "mulitpleAnalyses"
     | "economicsSensitivitiesCreate"
-    | "economicsSensitivitiesExisting"
+    | "economicsSensitivitiesStored"
     | "economicsTemplateResultsData"
     | "economicsResultsPlotCharts"
     | "economicsResultsSensitivitiesHeatmap"
-    | "economicsResultsExisting";
+    | "economicsResultsStored";
   wkCy: "economicsDataWorkflows" | "economicsAnalysisWorkflows";
 }
 
@@ -119,7 +119,7 @@ export type TOnlyWorkflowProcesses = Exclude<IAllWorkflows["wrkflwPrcss"], "">;
 export type TAllWorkflowCategories = IAllWorkflows["wrkflwCtgry"];
 export type TOnlyWorkflowCategories = Exclude<
   IAllWorkflows["wrkflwCtgry"],
-  "existingDataWorkflows" | "networkCreationWorkflows"
+  "storedDataWorkflows" | "networkCreationWorkflows"
 >;
 
 export interface IOnlyWorkflows {

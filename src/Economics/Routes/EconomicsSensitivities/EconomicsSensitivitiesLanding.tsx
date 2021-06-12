@@ -7,7 +7,7 @@ import MSExcel from "../../../Import/Images/MSExcel.svg";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import EconomicsParametersSensitivities from "../EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivities";
-import ExistingEconomicsSensitivities from "../EconomicsAnalyses/EconomicsParametersSensitivities/ExistingEconomicsSensitivities";
+import StoredEconomicsSensitivities from "../EconomicsAnalyses/EconomicsParametersSensitivities/StoredEconomicsSensitivities";
 import { IdType } from "./EconomicsSensitivitiesTypes";
 import Image from "../../../Application/Components/Visuals/Image";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
@@ -64,7 +64,7 @@ const EconomicsSensitivitiesLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: "Existing Sensitivities",
+      name: "Stored Sensitivities",
       description: `Select a pre-exisiting and approved economics sensitivities data stored in the Apex\u2122 database`,
       icon: (
         <Image
@@ -73,8 +73,8 @@ const EconomicsSensitivitiesLanding = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/existing`,
-      workflowProcess: "economicsSensitivitiesExisting",
+      route: `${url}/stored`,
+      workflowProcess: "economicsSensitivitiesStored",
       workflowCategory: "inputDataWorkflows",
     },
   ];
@@ -131,7 +131,7 @@ const EconomicsSensitivitiesLanding = () => {
   // };
 
   // //TODO: Not doing anything here
-  // const existingDataFinalAction = () => {
+  // const storedDataFinalAction = () => {
   //   const dialogParameters: DialogStuff = {
   //     name: "Manage_Deck_Dialog",
   //     title: `Manage Sensitivities Deck`,
@@ -157,7 +157,7 @@ const EconomicsSensitivitiesLanding = () => {
 
               const economicsSensitivitiesDeckWorkflows = {
                 create: <EconomicsParametersSensitivities />,
-                existing: <ExistingEconomicsSensitivities />,
+                stored: <StoredEconomicsSensitivities />,
               };
 
               return economicsSensitivitiesDeckWorkflows[dataInputId];

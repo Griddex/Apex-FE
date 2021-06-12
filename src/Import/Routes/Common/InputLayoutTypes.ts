@@ -5,7 +5,7 @@ export interface ISubModuleData {
   economicsData: string;
 }
 
-export type existingDataId = string;
+export type storedDataId = string;
 export interface IInputLayoutData {
   facilitiesInputDeck: string;
   forecastInputDeck: string;

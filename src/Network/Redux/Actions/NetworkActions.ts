@@ -29,15 +29,15 @@ export const SAVEAUTOGENERATENETWORK_FAILURE =
 export const SAVENETWORK_REQUEST = "SAVENETWORK_REQUEST";
 export const SAVENETWORK_SUCCESS = "SAVENETWORK_SUCCESS";
 export const SAVENETWORK_FAILURE = "SAVENETWORK_FAILURE";
-export const EXISTINGFORECASTPARAMETERS_REQUEST =
-  "EXISTINGFORECASTPARAMETERS_REQUEST";
-export const EXISTINGFORECASTPARAMETERS_SUCCESS =
-  "EXISTINGFORECASTPARAMETERS_SUCCESS";
-export const EXISTINGFORECASTPARAMETERS_FAILURE =
-  "EXISTINGFORECASTPARAMETERS_FAILURE";
-export const EXISTINGNETWORKDATA_REQUEST = "EXISTINGNETWORKDATA_REQUEST";
-export const EXISTINGNETWORKDATA_SUCCESS = "EXISTINGNETWORKDATA_SUCCESS";
-export const EXISTINGNETWORKDATA_FAILURE = "EXISTINGNETWORKDATA_FAILURE";
+export const STOREDFORECASTPARAMETERS_REQUEST =
+  "STOREDFORECASTPARAMETERS_REQUEST";
+export const STOREDFORECASTPARAMETERS_SUCCESS =
+  "STOREDFORECASTPARAMETERS_SUCCESS";
+export const STOREDFORECASTPARAMETERS_FAILURE =
+  "STOREDFORECASTPARAMETERS_FAILURE";
+export const STOREDNETWORKDATA_REQUEST = "STOREDNETWORKDATA_REQUEST";
+export const STOREDNETWORKDATA_SUCCESS = "STOREDNETWORKDATA_SUCCESS";
+export const STOREDNETWORKDATA_FAILURE = "STOREDNETWORKDATA_FAILURE";
 export const RUN_FORECAST_REQUEST = "RUN_FORECAST_REQUEST";
 export const SAVE_FORECAST_REQUEST = "SAVE_FORECAST_REQUEST";
 export const SAVE_FORECASTPARAMETERS_REQUEST =
@@ -66,18 +66,18 @@ export const GET_PRODUCTIONPRIORITIZATIONBYID_SUCCESS =
   "GET_PRODUCTIONPRIORITIZATIONBYID_SUCCESS";
 export const GET_PRODUCTIONPRIORITIZATIONBYID_FAILURE =
   "GET_PRODUCTIONPRIORITIZATIONBYID_FAILURE";
-export const EXISTING_DECLINEPARAMETERS_REQUEST =
-  "EXISTING_DECLINEPARAMETERS_REQUEST";
-export const EXISTING_DECLINEPARAMETERS_SUCCESS =
-  "EXISTING_DECLINEPARAMETERS_SUCCESS";
-export const EXISTING_DECLINEPARAMETERS_FAILURE =
-  "EXISTING_DECLINEPARAMETERS_FAILURE";
-export const EXISTING_PRODUCTIONPRIORITIZATION_REQUEST =
-  "EXISTING_PRODUCTIONPRIORITIZATION_REQUEST";
-export const EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS =
-  "EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS";
-export const EXISTING_PRODUCTIONPRIORITIZATION_FAILURE =
-  "EXISTING_PRODUCTIONPRIORITIZATION_FAILURE";
+export const STORED_DECLINEPARAMETERS_REQUEST =
+  "STORED_DECLINEPARAMETERS_REQUEST";
+export const STORED_DECLINEPARAMETERS_SUCCESS =
+  "STORED_DECLINEPARAMETERS_SUCCESS";
+export const STORED_DECLINEPARAMETERS_FAILURE =
+  "STORED_DECLINEPARAMETERS_FAILURE";
+export const STORED_PRODUCTIONPRIORITIZATION_REQUEST =
+  "STORED_PRODUCTIONPRIORITIZATION_REQUEST";
+export const STORED_PRODUCTIONPRIORITIZATION_SUCCESS =
+  "STORED_PRODUCTIONPRIORITIZATION_SUCCESS";
+export const STORED_PRODUCTIONPRIORITIZATION_FAILURE =
+  "STORED_PRODUCTIONPRIORITIZATION_FAILURE";
 export const SAVE_DECLINEPARAMETERS_REQUEST = "SAVE_DECLINEPARAMETERS_REQUEST";
 export const SAVE_DECLINEPARAMETERS_SUCCESS = "SAVE_DECLINEPARAMETERS_SUCCESS";
 export const SAVE_DECLINEPARAMETERS_FAILURE = "SAVE_DECLINEPARAMETERS_FAILURE";
@@ -88,7 +88,7 @@ export const SAVE_PRODUCTIONPRIORITIZATION_SUCCESS =
 export const SAVE_PRODUCTIONPRIORITIZATION_FAILURE =
   "SAVE_PRODUCTIONPRIORITIZATION_FAILURE";
 
-//EXISTING_PRODUCTIONPRIORITIZATION_REQUEST
+//STORED_PRODUCTIONPRIORITIZATION_REQUEST
 export const runForecastRequestAction = () => {
   return {
     type: RUN_FORECAST_REQUEST,
@@ -334,27 +334,27 @@ export const saveNetworkFailureAction = () => {
   };
 };
 
-export const fetchExistingForecastingParametersRequestAction = (
+export const fetchStoredForecastingParametersRequestAction = (
   projectIdDefined: string
 ) => {
   return {
-    type: EXISTINGFORECASTPARAMETERS_REQUEST,
+    type: STOREDFORECASTPARAMETERS_REQUEST,
     payload: { projectId: projectIdDefined },
   };
 };
 
-export const fetchExistingForecastingParametersSuccessAction = () => {
+export const fetchStoredForecastingParametersSuccessAction = () => {
   return {
-    type: EXISTINGFORECASTPARAMETERS_SUCCESS,
+    type: STOREDFORECASTPARAMETERS_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const fetchExistingForecastingParametersFailureAction = () => {
+export const fetchStoredForecastingParametersFailureAction = () => {
   return {
-    type: EXISTINGFORECASTPARAMETERS_FAILURE,
+    type: STOREDFORECASTPARAMETERS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -362,27 +362,27 @@ export const fetchExistingForecastingParametersFailureAction = () => {
   };
 };
 
-export const fetchExistingNetworkDataRequestAction = (
+export const fetchStoredNetworkDataRequestAction = (
   projectIdDefined: string
 ) => {
   return {
-    type: EXISTINGNETWORKDATA_REQUEST,
+    type: STOREDNETWORKDATA_REQUEST,
     payload: { projectId: projectIdDefined },
   };
 };
 
-export const fetchExistingNetworkDataSuccessAction = () => {
+export const fetchStoredNetworkDataSuccessAction = () => {
   return {
-    type: EXISTINGNETWORKDATA_SUCCESS,
+    type: STOREDNETWORKDATA_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const fetchExistingNetworkDataFailureAction = () => {
+export const fetchStoredNetworkDataFailureAction = () => {
   return {
-    type: EXISTINGNETWORKDATA_FAILURE,
+    type: STOREDNETWORKDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -522,25 +522,25 @@ export const getProductionPrioritizationByIdFailureAction = () => {
   };
 };
 
-export const fetchExistingDeclineParametersRequestAction = () => {
+export const fetchStoredDeclineParametersRequestAction = () => {
   return {
-    type: EXISTING_DECLINEPARAMETERS_REQUEST,
+    type: STORED_DECLINEPARAMETERS_REQUEST,
     meta: { showSpinner: true, message: "fetching decline parameters data..." },
   };
 };
 
-export const fetchExistingDeclineParametersSuccessAction = () => {
+export const fetchStoredDeclineParametersSuccessAction = () => {
   return {
-    type: EXISTING_DECLINEPARAMETERS_SUCCESS,
+    type: STORED_DECLINEPARAMETERS_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const fetchExistingDeclineParametersFailureAction = () => {
+export const fetchStoredDeclineParametersFailureAction = () => {
   return {
-    type: EXISTING_DECLINEPARAMETERS_FAILURE,
+    type: STORED_DECLINEPARAMETERS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -548,25 +548,25 @@ export const fetchExistingDeclineParametersFailureAction = () => {
   };
 };
 
-export const fetchExistingProductionPrioritizationRequestAction = () => {
+export const fetchStoredProductionPrioritizationRequestAction = () => {
   return {
-    type: EXISTING_PRODUCTIONPRIORITIZATION_REQUEST,
+    type: STORED_PRODUCTIONPRIORITIZATION_REQUEST,
     meta: { showSpinner: true, message: "fetching decline parameters data..." },
   };
 };
 
-export const fetchExistingProductionPrioritizationSuccessAction = () => {
+export const fetchStoredProductionPrioritizationSuccessAction = () => {
   return {
-    type: EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS,
+    type: STORED_PRODUCTIONPRIORITIZATION_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const fetchExistingProductionPrioritizationFailureAction = () => {
+export const fetchStoredProductionPrioritizationFailureAction = () => {
   return {
-    type: EXISTING_PRODUCTIONPRIORITIZATION_FAILURE,
+    type: STORED_PRODUCTIONPRIORITIZATION_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

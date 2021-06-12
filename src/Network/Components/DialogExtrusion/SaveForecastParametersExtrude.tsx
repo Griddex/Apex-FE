@@ -60,7 +60,7 @@ const SaveForecastParametersExtrude = () => {
     show: true,
     exclusive: true,
     maxWidth: "md",
-    iconType: "select",
+    iconType: "create",
     actionsList: () => saveForecastingParametersActions(dispatch),
   };
 

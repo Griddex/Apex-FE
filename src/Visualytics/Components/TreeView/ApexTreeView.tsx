@@ -213,6 +213,7 @@ export default function ApexTreeView({
         nodeId={scenarioNodes.id}
         label={
           <FormControlLabel
+            style={{ width: "max-content" }}
             control={
               <Checkbox
                 //TODO check this box from dropresult above

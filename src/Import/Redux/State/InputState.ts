@@ -1,5 +1,5 @@
 import { IInputWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IExistingDataProps } from "../../../Application/Types/ApplicationTypes";
+import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
 import { InputStateType } from "./InputStateTypes";
 
 const inputWorkflowProcesses: Array<IInputWorkflows["wkPs"]> = [
@@ -80,20 +80,18 @@ const generateInputState = () => {
   }, {});
 };
 
-//This like existing network, DCA parameters, etc will be
+//This like stored network, DCA parameters, etc will be
 //created
-const existingDataWorkflowNames: Array<
-  NonNullable<IExistingDataProps["wkPs"]>
-> = [
-  "facilitiesInputDeckExisting",
-  "forecastInputDeckExisting",
-  "productionInputDataExisting",
-  "economicsCostsRevenuesDeckExisting",
-  "economicsParametersDeckExisting",
-  "networkExisting",
+const storedDataWorkflowNames: Array<NonNullable<IStoredDataProps["wkPs"]>> = [
+  "facilitiesInputDeckStored",
+  "forecastInputDeckStored",
+  "productionInputDataStored",
+  "economicsCostsRevenuesDeckStored",
+  "economicsParametersDeckStored",
+  "networkStored",
 ];
-const generateExistingDataState = () => {
-  const wf = existingDataWorkflowNames.reduce((acc, workflowName) => {
+const generateStoredDataState = () => {
+  const wf = storedDataWorkflowNames.reduce((acc, workflowName) => {
     return {
       ...acc,
       [workflowName]: {
@@ -111,11 +109,11 @@ const generateExistingDataState = () => {
     };
   }, {});
 
-  return wf as InputStateType["existingDataWorkflows"];
+  return wf as InputStateType["storedDataWorkflows"];
 };
 
 const inputDataState = generateInputState();
-const existingDataState = generateExistingDataState();
+const storedDataState = generateStoredDataState();
 const InputState: InputStateType = {
   currentWorkflowProcess: "",
   headerType: "",
@@ -147,7 +145,7 @@ const InputState: InputStateType = {
   facilitiesHeadersNameMap: {},
   forecastHeadersNameMap: {},
   inputDataWorkflows: inputDataState,
-  existingDataWorkflows: existingDataState,
+  storedDataWorkflows: storedDataState,
 
   noneColumnIndices: {},
   matchHeadersTable: [],

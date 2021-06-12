@@ -1,12 +1,12 @@
 import { IAction } from "../../Redux/Actions/ActionTypes";
-import { IExistingDataRow } from "../../Types/ApplicationTypes";
+import { IStoredDataRow } from "../../Types/ApplicationTypes";
 import { ISelectOption } from "../Selects/SelectItemsType";
 
 export interface IApexGridCheckbox {
   shouldExecute: boolean;
   shouldDispatch: boolean;
   apexGridCheckboxFxn: (
-    // row: IExistingDataRow,
+    // row: IStoredDataRow,
     //TODO: find a way to transfer type
     row?: any,
     event?: React.ChangeEvent<any>

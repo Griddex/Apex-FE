@@ -8,7 +8,7 @@ import {
 import { DatePicker, DatePickerInput } from "carbon-components-react";
 import React from "react";
 import { ValueType } from "react-select";
-import { IExistingDataRow, TUseState } from "../../Types/ApplicationTypes";
+import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import ApexSelectRS from "../Selects/ApexSelectRS";
 import { ISelectOption } from "../Selects/SelectItemsType";
@@ -41,10 +41,10 @@ export interface IApexEditorRow {
 }
 export interface IApexEditor {
   editorData: IApexEditorRow[];
-  editedRow: IExistingDataRow;
+  editedRow: IStoredDataRow;
   dividerPositions: number[];
-  rows: IExistingDataRow[];
-  setRows: TUseState<IExistingDataRow[]>;
+  rows: IStoredDataRow[];
+  setRows: TUseState<IStoredDataRow[]>;
   shouldUpdate: boolean;
   setShouldUpdate?: TUseState<boolean>;
   customComponent?: React.FC;
@@ -95,7 +95,7 @@ const ApexEditor = ({
             content={
               <Input
                 className={classes.input}
-                value={formEditorRow[name as keyof IExistingDataRow]}
+                value={formEditorRow[name as keyof IStoredDataRow]}
                 margin="dense"
                 onChange={(event) => {
                   const { value } = event.target;
@@ -122,7 +122,7 @@ const ApexEditor = ({
                 name={name}
                 style={{ height: "100%", width: "100%" }}
                 rowsMin={20}
-                value={formEditorRow[name as keyof IExistingDataRow] as string}
+                value={formEditorRow[name as keyof IStoredDataRow] as string}
                 onChange={(event) => {
                   const { value } = event.target;
                   setFormEditorRow((prev) => {
@@ -175,7 +175,7 @@ const ApexEditor = ({
                     return { ...prev, [name]: checked };
                   });
                 }}
-                checked={Boolean(formEditorRow[name as keyof IExistingDataRow])}
+                checked={Boolean(formEditorRow[name as keyof IStoredDataRow])}
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.common.white}
                 hasLabels={true}

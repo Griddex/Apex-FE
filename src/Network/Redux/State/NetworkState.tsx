@@ -55,11 +55,11 @@ const networkState: INetworkState = {
 
   selectedNetworkId: "",
   selectedNetworkTitle: "",
-  existingDataWorkflows: {
-    networkExisting: [],
-    forecastingParametersExisting: [],
-    declineParametersExisting: [],
-    productionPrioritizationExisting: [],
+  storedDataWorkflows: {
+    networkStored: [],
+    forecastingParametersStored: [],
+    declineParametersStored: [],
+    productionPrioritizationStored: [],
   },
 
   currentDeclineParameters: [],

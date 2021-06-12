@@ -6,7 +6,7 @@ import { IAggregateButtonProps } from "../EconomicsInput/EconomicsCostsAndRevenu
 
 export interface IEconomicsSensitivitiesViews {
   create: JSX.Element;
-  existingsensitivities: JSX.Element;
+  storedsensitivities: JSX.Element;
 }
 
 export type IdType = {

@@ -3,8 +3,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ExistingForecastDecks from "../../Import/Routes/ForecastInputDeck/ExistingForecastDecks";
-import { IForecastParametersExistingRow } from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
+import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
 import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
@@ -19,14 +19,14 @@ const SaveForecastParametersWorkflow = ({
   const { selectedForecastInputDeckId } = useSelector(
     (state: RootState) => state.inputReducer
   );
-  const { forecastingParametersExisting } = useSelector(
+  const { forecastingParametersStored } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
   const reducer = "inputReducer" as ReducersType;
   const index = findIndex(
-    forecastingParametersExisting,
-    (k: IForecastParametersExistingRow) =>
+    forecastingParametersStored,
+    (k: IForecastParametersStoredRow) =>
       k.forecastInputDeckId === selectedForecastInputDeckId
   );
 
@@ -34,7 +34,7 @@ const SaveForecastParametersWorkflow = ({
     switch (activeStep) {
       case 0:
         return (
-          <ExistingForecastDecks
+          <StoredForecastDecks
             reducer={reducer}
             showChart={false}
             finalAction={() => {}}

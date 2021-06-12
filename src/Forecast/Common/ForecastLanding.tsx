@@ -14,10 +14,10 @@ import Spreadsheet from "../../Application/Images/Spreadsheet.svg";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
-import ExistingDeck from "../../Import/Images/ExistingDeck.svg";
+import StoredDeck from "../../Import/Images/StoredDeck.svg";
 import ForecastCharts from "../Images/ForecastCharts.svg";
 import { loadForecastResultsWorkflowAction } from "../Redux/Actions/ForecastActions";
-import ExistingForecastResults from "../Routes/ExistingForecastResults";
+import StoredForecastResults from "../Routes/StoredForecastResults";
 import ForecastData from "../Routes/ForecastData";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
 import { IdType } from "./ForecastLandingTypes";
@@ -68,7 +68,7 @@ const ForecastLanding = () => {
       ),
       route: `${url}/forecastdata`,
       workflowProcess: "forecastResultsData",
-      workflowCategory: "existingDataWorkflows",
+      workflowCategory: "storedDataWorkflows",
     },
     {
       name: "Plot Charts",
@@ -82,28 +82,28 @@ const ForecastLanding = () => {
       ),
       route: `${url}/forecastvisualytics`,
       workflowProcess: "forecastResultsVisualytics",
-      workflowCategory: "existingDataWorkflows",
+      workflowCategory: "storedDataWorkflows",
     },
     {
-      name: `Domiciled Forecast Results`,
+      name: `Stored Forecast Results`,
       description: `Select a pre-exisiting and approved forecast results data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
       route: `${url}/approvedforecastresults`,
-      workflowProcess: "forecastResultsExisting",
-      workflowCategory: "existingDataWorkflows",
+      workflowProcess: "forecastResultsStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
 
-  const existingDataFinalAction = () => {
+  const storedDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Forecast Results`,
@@ -132,24 +132,24 @@ const ForecastLanding = () => {
                 const forecastWorkflows = {
                   forecastdata: (
                     <ForecastData
-                      wrkflwCtgry={"existingDataWorkflows"}
+                      wrkflwCtgry={"storedDataWorkflows"}
                       wrkflwPrcss={"forecastResultsData"}
                       showChart={false}
                     />
                   ),
                   forecastvisualytics: (
                     <ForecastVisualytics
-                      wrkflwCtgry={"existingDataWorkflows"}
+                      wrkflwCtgry={"storedDataWorkflows"}
                       wrkflwPrcss={"forecastResultsVisualytics"}
                     />
                   ),
                   approvedforecastresults: (
-                    <ExistingForecastResults
-                      wkCy={"existingDataWorkflows"}
-                      wkPs={"forecastResultsExisting"}
+                    <StoredForecastResults
+                      wkCy={"storedDataWorkflows"}
+                      wkPs={"forecastResultsStored"}
                       showChart={true}
                       showBaseButtons={true}
-                      finalAction={existingDataFinalAction}
+                      finalAction={storedDataFinalAction}
                     />
                   ),
                 };

@@ -97,7 +97,7 @@ const Navbar = () => {
   const username = faker.name.findName();
   const role = "Corporate Forecaster";
   const userinitials = GetInitials(username);
-  const { selectedProjectTitle } = useSelector(
+  const { projectTitle } = useSelector(
     (state: RootState) => state.projectReducer
   );
 
@@ -144,7 +144,7 @@ const Navbar = () => {
                 fontWeight: "bold",
               }}
             >
-              {selectedProjectTitle}
+              {projectTitle}
             </Typography>
           </Box>
           <Box className={classes.userToolBar}>

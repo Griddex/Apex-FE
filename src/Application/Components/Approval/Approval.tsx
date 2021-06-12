@@ -17,7 +17,7 @@ const approvalColor = (approvalText: ApprovalTextType) => {
   const theme = useTheme();
 
   switch (approvalText) {
-    case "Existing":
+    case "Stored":
       return {
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.primary.light,

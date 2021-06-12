@@ -18,10 +18,10 @@ import getBaseForecastUrl, {
 } from "../../../Application/Services/BaseUrlService";
 import generateKeyValueMap from "../../../Application/Utils/GenerateKeyValueMap";
 import {
-  fetchExistingCostsRevenuesDataFailureAction,
-  fetchExistingCostsRevenuesHeadersSuccessAction,
-  fetchExistingEconomicsParametersDataFailureAction,
-  fetchExistingEconomicsParametersHeadersSuccessAction,
+  fetchStoredCostsRevenuesDataFailureAction,
+  fetchStoredCostsRevenuesHeadersSuccessAction,
+  fetchStoredEconomicsParametersDataFailureAction,
+  fetchStoredEconomicsParametersHeadersSuccessAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { IEconomicsState } from "../../../Economics/Redux/State/EconomicsStateTypes";
 import {
@@ -88,9 +88,8 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     } = economicsParametersResults;
 
     const successAction1 = fetchApplicationHeadersSuccessAction();
-    const successAction2 = fetchExistingCostsRevenuesHeadersSuccessAction();
-    const successAction3 =
-      fetchExistingEconomicsParametersHeadersSuccessAction();
+    const successAction2 = fetchStoredCostsRevenuesHeadersSuccessAction();
+    const successAction3 = fetchStoredEconomicsParametersHeadersSuccessAction();
 
     const facilitiesHeadersSelectOptions =
       swapVariableNameTitleForISelectOption(facilitiesAppHeaders);
@@ -197,8 +196,8 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     );
   } catch (errors) {
     const failureAction1 = fetchApplicationHeadersFailureAction();
-    const failureAction2 = fetchExistingCostsRevenuesDataFailureAction();
-    const failureAction3 = fetchExistingEconomicsParametersDataFailureAction();
+    const failureAction2 = fetchStoredCostsRevenuesDataFailureAction();
+    const failureAction3 = fetchStoredEconomicsParametersDataFailureAction();
 
     yield put({
       ...failureAction1,

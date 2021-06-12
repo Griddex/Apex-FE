@@ -42,11 +42,11 @@ const inputWorkflowProcesses = [
   "economicsCostsRevenuesDeckDatabase",
   "economicsCostsRevenuesDeckManual",
   "economicsCostsRevenuesDeckApexForecast",
-  "economicsCostsRevenuesDeckExisting",
+  "economicsCostsRevenuesDeckStored",
   "economicsParametersDeckExcel",
   "economicsParametersDeckDatabase",
   "economicsParametersDeckManual",
-  "economicsParametersDeckExisting",
+  "economicsParametersDeckStored",
   "settings",
 ];
 const generateInputWorkflowState = () => {
@@ -113,8 +113,8 @@ const economicsWorkflowNames = [
   "economicsAnalyses",
   "economicsParameterImportWorkflow",
   "economicsGenerationWorkflow",
-  "economicsSensitivitiesExisting",
-  "economicsResultsExisting",
+  "economicsSensitivitiesStored",
+  "economicsResultsStored",
 ];
 const generateEconomicsWorkflowState = () => {
   return economicsWorkflowNames.reduce((acc, workflowProcess) => {
@@ -144,7 +144,7 @@ const generateEconomicsWorkflowState = () => {
   }, {});
 };
 
-const economicsAnalysesWorkflowNames = ["economicsSensitivitiesExisting"];
+const economicsAnalysesWorkflowNames = ["economicsSensitivitiesStored"];
 const generateEconomicsAnalysesWorkflowState = () => {
   return economicsAnalysesWorkflowNames.reduce((acc, workflowProcess) => {
     const initialSkipped = new Set<number>();

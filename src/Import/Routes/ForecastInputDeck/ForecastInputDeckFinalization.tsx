@@ -100,7 +100,7 @@ const ForecastInputDeckFinalization = ({
       show: true,
       exclusive: false,
       maxWidth: "sm",
-      iconType: "select",
+      iconType: "save",
       workflowProcess,
       workflowCategory: "inputDataWorkflows",
       actionsList: () =>
@@ -118,13 +118,13 @@ const ForecastInputDeckFinalization = ({
     workflowProcess: IAllWorkflows["wrkflwPrcss"]
   ) => {
     const dialogParameters: DialogStuff = {
-      name: "Existing_Network_Dialog",
+      name: "Stored_Network_Dialog",
       title: "Save Forecast Inputdeck | Generate Network",
       type: "saveInputDeckGenerateNetworkWorkflowDialog",
       show: true,
       exclusive: false,
       maxWidth: "md",
-      iconType: "select",
+      iconType: "save",
       workflowProcess,
       workflowCategory: "inputDataWorkflows",
     };
@@ -175,7 +175,7 @@ const ForecastInputDeckFinalization = ({
       },
     },
     // {
-    //   title: "Save and Link Deck to Existing Network",
+    //   title: "Save and Link Deck to Stored Network",
     //   color: "primary",
     //   variant: "contained",
     //   startIcon: <LinkOutlinedIcon />,

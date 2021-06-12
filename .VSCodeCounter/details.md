@@ -57,7 +57,7 @@ Total : 76 files, 23285 codes, 149 comments, 419 blanks, all 23853 lines
 | [src/Import/Components/NotificationDialog.jsx](/src/Import/Components/NotificationDialog.jsx)                                                   | JavaScript React |     50 |       7 |     6 |     63 |
 | [src/Import/Components/SimpleDialog.js](/src/Import/Components/SimpleDialog.js)                                                                 | JavaScript       |     86 |       3 |     6 |     95 |
 | [src/Import/Images/DragAndDrop.svg](/src/Import/Images/DragAndDrop.svg)                                                                         | XML              |     79 |       0 |     1 |     80 |
-| [src/Import/Images/ExistingDeck.svg](/src/Import/Images/ExistingDeck.svg)                                                                       | XML              |     17 |       0 |     0 |     17 |
+| [src/Import/Images/StoredDeck.svg](/src/Import/Images/StoredDeck.svg)                                                                       | XML              |     17 |       0 |     0 |     17 |
 | [src/Import/Images/Import.svg](/src/Import/Images/Import.svg)                                                                                   | XML              |     43 |       1 |     1 |     45 |
 | [src/Import/Images/ImportDatabase.svg](/src/Import/Images/ImportDatabase.svg)                                                                   | XML              |     52 |       1 |     2 |     55 |
 | [src/Import/Images/MSExcel.svg](/src/Import/Images/MSExcel.svg)                                                                                 | XML              |      7 |       0 |     0 |      7 |

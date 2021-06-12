@@ -4,10 +4,10 @@ import {
   ADD_NETWORKELEMENT,
   AUTOGENERATENETWORK_FAILURE,
   AUTOGENERATENETWORK_SUCCESS,
-  EXISTINGFORECASTPARAMETERS_FAILURE,
-  EXISTINGFORECASTPARAMETERS_SUCCESS,
-  EXISTINGNETWORKDATA_FAILURE,
-  EXISTINGNETWORKDATA_SUCCESS,
+  STOREDFORECASTPARAMETERS_FAILURE,
+  STOREDFORECASTPARAMETERS_SUCCESS,
+  STOREDNETWORKDATA_FAILURE,
+  STOREDNETWORKDATA_SUCCESS,
   DISPLAY_NETWORKBYID_FAILURE,
   DISPLAY_NETWORKBYID_SUCCESS,
   HIDE_NETWORKELEMENTDETAILS,
@@ -26,10 +26,10 @@ import {
   SHOW_NETWORKELEMENTDETAILS,
   SHOW_POPOVER,
   UPDATE_NETWORKPARAMETER,
-  EXISTING_DECLINEPARAMETERS_FAILURE,
-  EXISTING_DECLINEPARAMETERS_SUCCESS,
-  EXISTING_PRODUCTIONPRIORITIZATION_FAILURE,
-  EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS,
+  STORED_DECLINEPARAMETERS_FAILURE,
+  STORED_DECLINEPARAMETERS_SUCCESS,
+  STORED_PRODUCTIONPRIORITIZATION_FAILURE,
+  STORED_PRODUCTIONPRIORITIZATION_SUCCESS,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -222,19 +222,19 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case EXISTINGFORECASTPARAMETERS_SUCCESS: {
-      const { status, success, forecastingParametersExisting } = action.payload;
-      const wc = "existingDataWorkflows";
+    case STOREDFORECASTPARAMETERS_SUCCESS: {
+      const { status, success, forecastingParametersStored } = action.payload;
+      const wc = "storedDataWorkflows";
 
       return {
         ...state,
         status,
         success,
-        [wc]: { ...state[wc], forecastingParametersExisting },
+        [wc]: { ...state[wc], forecastingParametersStored },
       };
     }
 
-    case EXISTINGFORECASTPARAMETERS_FAILURE: {
+    case STOREDFORECASTPARAMETERS_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -244,19 +244,19 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case EXISTINGNETWORKDATA_SUCCESS: {
-      const { status, success, networkExisting } = action.payload;
-      const wc = "existingDataWorkflows";
+    case STOREDNETWORKDATA_SUCCESS: {
+      const { status, success, networkStored } = action.payload;
+      const wc = "storedDataWorkflows";
 
       return {
         ...state,
         status,
         success,
-        [wc]: { ...state[wc], networkExisting },
+        [wc]: { ...state[wc], networkStored },
       };
     }
 
-    case EXISTINGNETWORKDATA_FAILURE: {
+    case STOREDNETWORKDATA_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -276,19 +276,19 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case EXISTING_DECLINEPARAMETERS_SUCCESS: {
-      const { status, success, declineParametersExisting } = action.payload;
-      const wc = "existingDataWorkflows";
+    case STORED_DECLINEPARAMETERS_SUCCESS: {
+      const { status, success, declineParametersStored } = action.payload;
+      const wc = "storedDataWorkflows";
 
       return {
         ...state,
         status,
         success,
-        [wc]: { ...state[wc], declineParametersExisting },
+        [wc]: { ...state[wc], declineParametersStored },
       };
     }
 
-    case EXISTING_DECLINEPARAMETERS_FAILURE: {
+    case STORED_DECLINEPARAMETERS_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -298,20 +298,20 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case EXISTING_PRODUCTIONPRIORITIZATION_SUCCESS: {
-      const { status, success, productionPrioritizationExisting } =
+    case STORED_PRODUCTIONPRIORITIZATION_SUCCESS: {
+      const { status, success, productionPrioritizationStored } =
         action.payload;
-      const wc = "existingDataWorkflows";
+      const wc = "storedDataWorkflows";
 
       return {
         ...state,
         status,
         success,
-        [wc]: { ...state[wc], productionPrioritizationExisting },
+        [wc]: { ...state[wc], productionPrioritizationStored },
       };
     }
 
-    case EXISTING_PRODUCTIONPRIORITIZATION_FAILURE: {
+    case STORED_PRODUCTIONPRIORITIZATION_FAILURE: {
       const { status, errors } = action.payload;
 
       return {

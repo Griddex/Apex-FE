@@ -16,7 +16,7 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/ExistingEconomicsSensitivitiesDialogParameters";
+import { failureDialogParameters } from "../../Components/DialogParameters/StoredEconomicsSensitivitiesDialogParameters";
 import {
   getEconomicsSensitivitiesByIdFailureAction,
   getEconomicsSensitivitiesByIdSuccessAction,

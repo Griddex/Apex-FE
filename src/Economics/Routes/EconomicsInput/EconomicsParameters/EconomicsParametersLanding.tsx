@@ -17,10 +17,10 @@ import { confirmationDialogParameters } from "../../../../Import/Components/Dial
 import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
-import ExistingDeck from "../../../../Import/Images/ExistingDeck.svg";
+import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import { IdType } from "./EconomicsParametersTypes";
-import ExistingEconomicsParametersDecks from "./ExistingEconomicsParametersDecks";
+import StoredEconomicsParametersDecks from "./StoredEconomicsParametersDecks";
 import {
   loadEconomicsWorkflowAction,
   saveEconomicsParametersRequestAction,
@@ -107,18 +107,18 @@ const EconomicsParametersLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: `Existing Economics Parameters Data`,
+      name: `Stored Economics Parameters Data`,
       description: `Select a pre-exisiting and approved economics parameters data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
       route: `${url}/approveddeck`,
-      workflowProcess: "economicsParametersDeckExisting",
-      workflowCategory: "existingDataWorkflows",
+      workflowProcess: "economicsParametersDeckStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
@@ -161,7 +161,7 @@ const EconomicsParametersLanding = () => {
       show: true,
       exclusive: true,
       maxWidth: "sm",
-      iconType: "information",
+      iconType: "save",
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],
@@ -174,7 +174,7 @@ const EconomicsParametersLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const existingDataFinalAction = () => {
+  const storedDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage EconomicsParameters Deck`,
@@ -237,10 +237,10 @@ const EconomicsParametersLanding = () => {
                   />
                 ),
                 approveddeck: (
-                  <ExistingEconomicsParametersDecks
+                  <StoredEconomicsParametersDecks
                     reducer={reducer}
                     showChart={true}
-                    finalAction={existingDataFinalAction}
+                    finalAction={storedDataFinalAction}
                   />
                 ),
               };

@@ -10,8 +10,8 @@ import { showContextDrawerAction } from "../../../Application/Redux/Actions/Layo
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import EconomicsAnalyses from "../EconomicsAnalyses/EconomicsAnalyses";
-import ExistingCostsAndRevenuesDecks from "../EconomicsInput/EconomicsCostsAndRevenues/ExistingCostsAndRevenuesDecks";
-import ExistingEconomicsParametersDecks from "../EconomicsInput/EconomicsParameters/ExistingEconomicsParametersDecks";
+import StoredCostsAndRevenuesDecks from "../EconomicsInput/EconomicsCostsAndRevenues/StoredCostsAndRevenuesDecks";
+import StoredEconomicsParametersDecks from "../EconomicsInput/EconomicsParameters/StoredEconomicsParametersDecks";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -152,7 +152,7 @@ const EconomicsAnalysesWorkflow = () => {
     switch (activeStep) {
       case 0:
         return (
-          <ExistingEconomicsParametersDecks
+          <StoredEconomicsParametersDecks
             reducer={reducer}
             finalAction={() => console.log("Hi")}
             showChart={false}
@@ -160,7 +160,7 @@ const EconomicsAnalysesWorkflow = () => {
         );
       case 1:
         return (
-          <ExistingCostsAndRevenuesDecks
+          <StoredCostsAndRevenuesDecks
             reducer={reducer}
             finalAction={() => console.log("Hi")}
             showChart={false}

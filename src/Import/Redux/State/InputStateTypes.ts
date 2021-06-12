@@ -3,8 +3,8 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
-  IExistingDataProps,
-  IExistingDataRow,
+  IStoredDataProps,
+  IStoredDataRow,
 } from "../../../Application/Types/ApplicationTypes";
 import {
   TVariableTitle,
@@ -105,9 +105,9 @@ export interface InputStateType
   forecastHeadersNameMap: Record<TVariableTitle, TVariableName>;
 
   inputDataWorkflows: Record<string, IInputState>;
-  existingDataWorkflows: Record<
-    NonNullable<IExistingDataProps["wkPs"]>,
-    IExistingDataRow[]
+  storedDataWorkflows: Record<
+    NonNullable<IStoredDataProps["wkPs"]>,
+    IStoredDataRow[]
   >;
 
   noneColumnIndices: Record<number, boolean>;

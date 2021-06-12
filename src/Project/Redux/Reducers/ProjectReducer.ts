@@ -2,8 +2,8 @@ import {
   CREATE_NEWPROJECT,
   FETCHRECENTPROJECTS_FAILURE,
   FETCHRECENTPROJECTS_SUCCESS,
-  FETCHEXISTINGPROJECTS_FAILURE,
-  FETCHEXISTINGPROJECTS_SUCCESS,
+  FETCHSTOREDPROJECTS_FAILURE,
+  FETCHSTOREDPROJECTS_SUCCESS,
   NEWPROJECT_FAILURE,
   NEWPROJECT_SUCCESS,
   OPENRECENTPROJECT_SUCCESS,
@@ -51,17 +51,17 @@ const projectReducer = (
       };
     }
 
-    case FETCHEXISTINGPROJECTS_SUCCESS: {
-      const { status, existingProjects } = action.payload;
+    case FETCHSTOREDPROJECTS_SUCCESS: {
+      const { status, storedProjects } = action.payload;
 
       return {
         ...state,
         status,
-        existingProjects,
+        storedProjects,
       };
     }
 
-    case FETCHEXISTINGPROJECTS_FAILURE: {
+    case FETCHSTOREDPROJECTS_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -72,12 +72,8 @@ const projectReducer = (
     }
 
     case OPENRECENTPROJECT_SUCCESS: {
-      const {
-        status,
-        projectId,
-        projectTitle,
-        projectDescription,
-      } = action.payload;
+      const { status, projectId, projectTitle, projectDescription } =
+        action.payload;
 
       return {
         ...state,

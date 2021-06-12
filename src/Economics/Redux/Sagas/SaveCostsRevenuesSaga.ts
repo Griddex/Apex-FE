@@ -30,8 +30,8 @@ import { devScenarios } from "../../Data/EconomicsData";
 import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
-  fetchExistingCostsRevenuesHeadersRequestAction,
-  fetchExistingEconomicsDataRequestAction,
+  fetchStoredCostsRevenuesHeadersRequestAction,
+  fetchStoredEconomicsDataRequestAction,
   saveCostsRevenuesFailureAction,
   saveCostsRevenuesSuccessAction,
   SAVECOSTSREVENUES_REQUEST,
@@ -137,7 +137,7 @@ function* saveCostsRevenuesSaga(
         costsRevenuesInputDeckTitle
       )
     );
-    yield put(fetchExistingEconomicsDataRequestAction(projectId));
+    yield put(fetchStoredEconomicsDataRequestAction(projectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveCostsRevenuesFailureAction();

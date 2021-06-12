@@ -13,13 +13,13 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import ExistingDeck from "../../Images/ExistingDeck.svg";
+import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import ExistingFacilitiesDecks from "./ExistingFacilitiesDecks";
+import StoredFacilitiesDecks from "./StoredFacilitiesDecks";
 import { IdType } from "./FacilitiesInputDeckLandingTypes";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
@@ -87,18 +87,18 @@ const FacilitiesInputDeckLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: `Existing Facilities Data`,
+      name: `Stored Facilities Data`,
       description: `Select a pre-exisiting and approved facilities data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
       route: `${url}/approveddeck`,
-      workflowProcess: "facilitiesInputDeckExisting",
-      workflowCategory: "existingDataWorkflows",
+      workflowProcess: "facilitiesInputDeckStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
@@ -131,7 +131,7 @@ const FacilitiesInputDeckLanding = () => {
       show: true,
       exclusive: true,
       maxWidth: "sm",
-      iconType: "information",
+      iconType: "save",
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],
@@ -145,7 +145,7 @@ const FacilitiesInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const existingDataFinalAction = () => {
+  const storedDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Facilities Deck`,
@@ -195,10 +195,10 @@ const FacilitiesInputDeckLanding = () => {
                   />
                 ),
                 approveddeck: (
-                  <ExistingFacilitiesDecks
+                  <StoredFacilitiesDecks
                     reducer={reducer}
                     showChart={true}
-                    finalAction={existingDataFinalAction}
+                    finalAction={storedDataFinalAction}
                   />
                 ),
               };

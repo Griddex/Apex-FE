@@ -25,7 +25,7 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/EconomicsSuccessFailureDialogParameters";
 import {
-  fetchExistingEconomicsResultsRequestAction,
+  fetchStoredEconomicsResultsRequestAction,
   saveEconomicsResultsFailureAction,
   SAVE_ECONOMICSRESULTS_REQUEST,
   updateEconomicsParameterAction,
@@ -98,7 +98,7 @@ function* saveEconomicsResultsSaga(
     );
 
     yield put(updateEconomicsParameterAction("showResultsTable", true));
-    yield put(fetchExistingEconomicsResultsRequestAction(projectId, false));
+    yield put(fetchStoredEconomicsResultsRequestAction(projectId, false));
     yield put(
       showDialogAction(
         successDialogParameters(

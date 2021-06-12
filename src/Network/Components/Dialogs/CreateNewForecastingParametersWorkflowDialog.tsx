@@ -153,7 +153,7 @@ const CreateNewForecastingParametersWorkflowDialog = (props: DialogStuff) => {
 
   const saveForecastingParametersConfirmation = () => {
     const dialogParameters: DialogStuff = {
-      name: "Existing_Network_Dialog",
+      name: "Stored_Network_Dialog",
       title: "Confirm Parameters Save",
       type: "textDialog",
       show: true,

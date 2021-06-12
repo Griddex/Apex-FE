@@ -12,12 +12,12 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IDeclineCurveParametersDetail } from "../Components/Dialogs/ExistingNetworksDialogTypes";
+import { IDeclineCurveParametersDetail } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
 
 const useStyles = makeStyles(() => ({
-  rootExistingData: {
+  rootStoredData: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -74,15 +74,15 @@ export default function DeclineCurveParameters({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const wc = "existingDataWorkflows";
-  const wp = "forecastingParametersExisting";
+  const wc = "storedDataWorkflows";
+  const wp = "forecastingParametersStored";
 
-  const { forecastingParametersExisting } = useSelector(
+  const { forecastingParametersStored } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
   const declineCurveParametersList =
-    forecastingParametersExisting[selectedRowIndex]["declineParameters"];
+    forecastingParametersStored[selectedRowIndex]["declineParameters"];
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
@@ -339,7 +339,7 @@ export default function DeclineCurveParameters({
     <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <div className={classes.rootExistingData}>
+          <div className={classes.rootStoredData}>
             <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
               columns={columns}
               rows={rows}

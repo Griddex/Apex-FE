@@ -7,14 +7,14 @@ import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/Sa
 import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
 import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
 import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
-import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
-import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
+import StoredForecastingParametersDialog from "../../../Network/Components/Dialogs/StoredForecastingParametersDialog";
+import StoredNetworksDialog from "../../../Network/Components/Dialogs/StoredNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import CreateNewForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/CreateNewForecastingParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
-import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
+import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
 import ListDialog from "./ListDialog";
@@ -25,7 +25,7 @@ import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Component
 import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
 import EconomicsParametersSensitivitiesDialog from "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog";
 import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
-import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog";
+import StoredEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog";
 import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog";
 import TableDataDialog from "./TableDataDialog";
@@ -36,7 +36,7 @@ import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/Sa
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
-  existingProjectsDialog: ExistingProjectsDialog,
+  storedProjectsDialog: StoredProjectsDialog,
   selectWorksheetDialog: SelectWorksheetDialog,
   finalizeForecastInputDeckDialog: FinalizeForecastInputDeckDialog,
   saveFacilitiesInputDeckDialog: SaveFacilitiesInputDeckDialog,
@@ -46,9 +46,9 @@ const applicationDialogs: IApplicationDialogs = {
   economicsParametersDialog: EconomicsParametersDialog,
   newProjectWorkflowDialog: NewProjectWorkflowDialog,
   saveNetworkDialog: SaveNetworkDialog,
-  existingNetworksDialog: ExistingNetworksDialog,
+  storedNetworksDialog: StoredNetworksDialog,
   generateNetworkWorkflowDialog: GenerateNetworkWorkflowDialog,
-  existingForecastingParametersDialog: ExistingForecastingParametersDialog,
+  storedForecastingParametersDialog: StoredForecastingParametersDialog,
   createNewForecastingParametersWorkflowDialog:
     CreateNewForecastingParametersWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
@@ -65,7 +65,7 @@ const applicationDialogs: IApplicationDialogs = {
   economicsParametersSensitivitiesDialog:
     EconomicsParametersSensitivitiesDialog,
   saveEconomicsSensitivitiesDialog: SaveEconomicsSensitivitiesDialog,
-  existingEconomicsSensitivitiesDialog: ExistingEconomicsSensitivitiesDialog,
+  storedEconomicsSensitivitiesDialog: StoredEconomicsSensitivitiesDialog,
   selectDevelopmentScenariosDialog: SelectDevelopmentScenariosDialog,
   tableDataDialog: TableDataDialog,
   tableEditorDialog: TableEditorDialog,

@@ -13,19 +13,19 @@ import {
 
 export const LOAD_ECONOMICS_WORKFLOW = "LOAD_ECONOMICS_WORKFLOW";
 export const UPDATE_ECONOMICS = "UPDATE_ECONOMICS";
-export const EXISTINGCOSTSREVENUESDATA_REQUEST =
-  "EXISTINGCOSTSREVENUESDATA_REQUEST";
-export const EXISTINGCOSTSREVENUESDATA_SUCCESS =
-  "EXISTINGCOSTSREVENUESDATA_SUCCESS";
-export const EXISTINGCOSTSREVENUESDATA_FAILURE =
-  "EXISTINGCOSTSREVENUESDATA_FAILURE";
+export const STOREDCOSTSREVENUESDATA_REQUEST =
+  "STOREDCOSTSREVENUESDATA_REQUEST";
+export const STOREDCOSTSREVENUESDATA_SUCCESS =
+  "STOREDCOSTSREVENUESDATA_SUCCESS";
+export const STOREDCOSTSREVENUESDATA_FAILURE =
+  "STOREDCOSTSREVENUESDATA_FAILURE";
 
-export const EXISTINGECONOMICSPARAMETERSDATA_REQUEST =
-  "EXISTINGECONOMICSPARAMETERSDATA_REQUEST";
-export const EXISTINGECONOMICSPARAMETERSDATA_SUCCESS =
-  "EXISTINGECONOMICSPARAMETERSDATA_SUCCESS";
-export const EXISTINGECONOMICSPARAMETERSDATA_FAILURE =
-  "EXISTINGECONOMICSPARAMETERSDATA_FAILURE";
+export const STOREDECONOMICSPARAMETERSDATA_REQUEST =
+  "STOREDECONOMICSPARAMETERSDATA_REQUEST";
+export const STOREDECONOMICSPARAMETERSDATA_SUCCESS =
+  "STOREDECONOMICSPARAMETERSDATA_SUCCESS";
+export const STOREDECONOMICSPARAMETERSDATA_FAILURE =
+  "STOREDECONOMICSPARAMETERSDATA_FAILURE";
 
 export const SAVECOSTSREVENUES_REQUEST = "SAVECOSTSREVENUES_REQUEST";
 export const SAVECOSTSREVENUES_SUCCESS = "SAVECOSTSREVENUES_SUCCESS";
@@ -59,16 +59,16 @@ export const PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS =
 export const PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE =
   "PERSISTECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE";
 
-export const EXISTINGECONOMICSDATA_REQUEST = "EXISTINGECONOMICSDATA_REQUEST";
-export const EXISTINGECONOMICSDATA_SUCCESS = "EXISTINGECONOMICSDATA_SUCCESS";
-export const EXISTINGECONOMICSDATA_FAILURE = "EXISTINGECONOMICSDATA_FAILURE";
+export const STOREDECONOMICSDATA_REQUEST = "STOREDECONOMICSDATA_REQUEST";
+export const STOREDECONOMICSDATA_SUCCESS = "STOREDECONOMICSDATA_SUCCESS";
+export const STOREDECONOMICSDATA_FAILURE = "STOREDECONOMICSDATA_FAILURE";
 
-export const EXISTINGECONOMICSSENSITIVITIES_REQUEST =
-  "EXISTINGECONOMICSSENSITIVITIES_REQUEST";
-export const EXISTINGECONOMICSSENSITIVITIES_SUCCESS =
-  "EXISTINGECONOMICSSENSITIVITIES_SUCCESS";
-export const EXISTINGECONOMICSSENSITIVITIES_FAILURE =
-  "EXISTINGECONOMICSSENSITIVITIES_FAILURE";
+export const STOREDECONOMICSSENSITIVITIES_REQUEST =
+  "STOREDECONOMICSSENSITIVITIES_REQUEST";
+export const STOREDECONOMICSSENSITIVITIES_SUCCESS =
+  "STOREDECONOMICSSENSITIVITIES_SUCCESS";
+export const STOREDECONOMICSSENSITIVITIES_FAILURE =
+  "STOREDECONOMICSSENSITIVITIES_FAILURE";
 
 export const SAVEECONOMICSSENSITIVITIES_REQUEST =
   "SAVEECONOMICSSENSITIVITIES_REQUEST";
@@ -96,12 +96,12 @@ export const SAVE_ECONOMICSRESULTS_REQUEST = "SAVE_ECONOMICSRESULTS_REQUEST";
 export const SAVE_ECONOMICSRESULTS_SUCCESS = "SAVE_ECONOMICSRESULTS_SUCCESS";
 export const SAVE_ECONOMICSRESULTS_FAILURE = "SAVE_ECONOMICSRESULTS_FAILURE";
 
-export const EXISTING_ECONOMICSRESULTS_REQUEST =
-  "EXISTING_ECONOMICSRESULTS_REQUEST";
-export const EXISTING_ECONOMICSRESULTS_SUCCESS =
-  "EXISTING_ECONOMICSRESULTS_SUCCESS";
-export const EXISTING_ECONOMICSRESULTS_FAILURE =
-  "EXISTING_ECONOMICSRESULTS_FAILURE";
+export const STORED_ECONOMICSRESULTS_REQUEST =
+  "STORED_ECONOMICSRESULTS_REQUEST";
+export const STORED_ECONOMICSRESULTS_SUCCESS =
+  "STORED_ECONOMICSRESULTS_SUCCESS";
+export const STORED_ECONOMICSRESULTS_FAILURE =
+  "STORED_ECONOMICSRESULTS_FAILURE";
 
 export const GET_ECONOMICSRESULTSBYID_REQUEST =
   "GET_ECONOMICSRESULTSBYID_REQUEST";
@@ -129,13 +129,13 @@ export const loadEconomicsWorkflowAction = (name: string) => {
   };
 };
 
-export const fetchExistingCostsRevenuesHeadersRequestAction = () => {
+export const fetchStoredCostsRevenuesHeadersRequestAction = () => {
   return {
     type: FETCHCOSTSREVENUESHEADERS_REQUEST,
   };
 };
 
-export const fetchExistingCostsRevenuesHeadersSuccessAction = () => {
+export const fetchStoredCostsRevenuesHeadersSuccessAction = () => {
   return {
     type: FETCHCOSTSREVENUESHEADERS_SUCCESS,
     payload: {
@@ -144,7 +144,7 @@ export const fetchExistingCostsRevenuesHeadersSuccessAction = () => {
   };
 };
 
-export const fetchExistingCostsRevenuesDataFailureAction = () => {
+export const fetchStoredCostsRevenuesDataFailureAction = () => {
   return {
     type: FETCHCOSTSREVENUESHEADERS_FAILURE,
     payload: {
@@ -203,13 +203,13 @@ export const saveCostsRevenuesFailureAction = () => {
   };
 };
 
-export const fetchExistingEconomicsParametersHeadersRequestAction = () => {
+export const fetchStoredEconomicsParametersHeadersRequestAction = () => {
   return {
     type: FETCHECONOMICSPARAMETERSHEADERS_REQUEST,
   };
 };
 
-export const fetchExistingEconomicsParametersHeadersSuccessAction = () => {
+export const fetchStoredEconomicsParametersHeadersSuccessAction = () => {
   return {
     type: FETCHECONOMICSPARAMETERSHEADERS_SUCCESS,
     payload: {
@@ -218,7 +218,7 @@ export const fetchExistingEconomicsParametersHeadersSuccessAction = () => {
   };
 };
 
-export const fetchExistingEconomicsParametersDataFailureAction = () => {
+export const fetchStoredEconomicsParametersDataFailureAction = () => {
   return {
     type: FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
     payload: {
@@ -277,24 +277,24 @@ export const saveEconomicsParametersFailureAction = () => {
   };
 };
 
-export const fetchExistingEconomicsDataRequestAction = (projectId: string) => {
+export const fetchStoredEconomicsDataRequestAction = (projectId: string) => {
   return {
-    type: EXISTINGECONOMICSDATA_REQUEST,
+    type: STOREDECONOMICSDATA_REQUEST,
     payload: { projectId },
     meta: { showSpinner: true, message: "Loading economics data..." },
   };
 };
 
-export const fetchExistingEconomicsDataSuccessAction = () => {
+export const fetchStoredEconomicsDataSuccessAction = () => {
   return {
-    type: EXISTINGECONOMICSDATA_SUCCESS,
-    payload: { facilitiesInputDeckExisting: [], forecastInputDeckExisting: [] },
+    type: STOREDECONOMICSDATA_SUCCESS,
+    payload: { facilitiesInputDeckStored: [], forecastInputDeckStored: [] },
   };
 };
 
-export const fetchExistingEconomicsDataFailureAction = () => {
+export const fetchStoredEconomicsDataFailureAction = () => {
   return {
-    type: EXISTINGECONOMICSDATA_FAILURE,
+    type: STOREDECONOMICSDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -302,12 +302,12 @@ export const fetchExistingEconomicsDataFailureAction = () => {
   };
 };
 
-export const fetchExistingEconomicsSensitivitiesRequestAction = (
+export const fetchStoredEconomicsSensitivitiesRequestAction = (
   projectId: string,
   shouldShowSpinner: boolean
 ) => {
   return {
-    type: EXISTINGECONOMICSSENSITIVITIES_REQUEST,
+    type: STOREDECONOMICSSENSITIVITIES_REQUEST,
     payload: { projectId },
     meta: {
       showSpinner: shouldShowSpinner,
@@ -316,18 +316,18 @@ export const fetchExistingEconomicsSensitivitiesRequestAction = (
   };
 };
 
-export const fetchExistingEconomicsSensitivitiesSuccessAction = () => {
+export const fetchStoredEconomicsSensitivitiesSuccessAction = () => {
   return {
-    type: EXISTINGECONOMICSSENSITIVITIES_SUCCESS,
+    type: STOREDECONOMICSSENSITIVITIES_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const fetchExistingEconomicsSensitivitiesFailureAction = () => {
+export const fetchStoredEconomicsSensitivitiesFailureAction = () => {
   return {
-    type: EXISTINGECONOMICSSENSITIVITIES_FAILURE,
+    type: STOREDECONOMICSSENSITIVITIES_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -497,29 +497,29 @@ export const saveEconomicsResultsFailureAction = () => {
   };
 };
 
-export const fetchExistingEconomicsResultsRequestAction = (
+export const fetchStoredEconomicsResultsRequestAction = (
   projectId: string,
   showSpinner: boolean
 ) => {
   return {
-    type: EXISTING_ECONOMICSRESULTS_REQUEST,
+    type: STORED_ECONOMICSRESULTS_REQUEST,
     payload: { projectId },
     meta: { showSpinner, message: "Loading economics results..." },
   };
 };
 
-export const fetchExistingEconomicsResultsSuccessAction = () => {
+export const fetchStoredEconomicsResultsSuccessAction = () => {
   return {
-    type: EXISTING_ECONOMICSRESULTS_SUCCESS,
+    type: STORED_ECONOMICSRESULTS_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const fetchExistingEconomicsResultsFailureAction = () => {
+export const fetchStoredEconomicsResultsFailureAction = () => {
   return {
-    type: EXISTING_ECONOMICSRESULTS_FAILURE,
+    type: STORED_ECONOMICSRESULTS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

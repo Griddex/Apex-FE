@@ -18,7 +18,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
-  fetchExistingDeclineParametersRequestAction,
+  fetchStoredDeclineParametersRequestAction,
   saveDeclineParametersFailureAction,
   saveDeclineParametersSuccessAction,
   SAVE_DECLINEPARAMETERS_REQUEST,
@@ -91,7 +91,7 @@ function* saveDeclineParametersSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchExistingDeclineParametersRequestAction());
+    yield put(fetchStoredDeclineParametersRequestAction());
   } catch (errors) {
     const failureAction = saveDeclineParametersFailureAction();
 

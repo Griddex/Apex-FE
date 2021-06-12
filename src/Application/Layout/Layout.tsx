@@ -12,7 +12,7 @@ import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions
 import InputLayout from "../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "../../Network/Common/NetworkLayout";
 import {
-  fetchExistingProjectsAction,
+  fetchStoredProjectsAction,
   fetchRecentProjectsAction,
 } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
@@ -61,7 +61,7 @@ const Layout = () => {
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
-    dispatch(fetchExistingProjectsAction());
+    dispatch(fetchStoredProjectsAction());
     //TODO: Fetch first 20, then save most recent
     //6 to recent projects store. we may not need recent projects saga
     dispatch(fetchRecentProjectsAction());

@@ -21,8 +21,8 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import {
-  fetchExistingEconomicsDataRequestAction,
-  fetchExistingEconomicsParametersHeadersRequestAction,
+  fetchStoredEconomicsDataRequestAction,
+  fetchStoredEconomicsParametersHeadersRequestAction,
   saveEconomicsParametersFailureAction,
   saveEconomicsParametersSuccessAction,
   SAVEECONOMICSPARAMETERS_REQUEST,
@@ -167,7 +167,7 @@ function* saveEconomicsParametersSaga(
         economicsParametersInputDeckTitle
       )
     );
-    yield put(fetchExistingEconomicsDataRequestAction(projectId));
+    yield put(fetchStoredEconomicsDataRequestAction(projectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveEconomicsParametersFailureAction();

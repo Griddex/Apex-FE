@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationExistingDataRow } from "../../../../Application/Types/ApplicationTypes";
+import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
@@ -15,16 +15,16 @@ import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 const SensitivitiesHeatMapDataPanel = () => {
   const dispatch = useDispatch();
 
-  const wc = "existingDataWorkflows";
-  const { economicsResultsExisting } = useSelector(
+  const wc = "storedDataWorkflows";
+  const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
   const { selectedEconomicsResultsTitle, showHeatMapCategories } = useSelector(
     (state: RootState) => state.economicsReducer
   );
 
-  const economicsResultsTitles = economicsResultsExisting.map(
-    (row: IApplicationExistingDataRow) => row.title
+  const economicsResultsTitles = economicsResultsStored.map(
+    (row: IApplicationStoredDataRow) => row.title
   ) as string[];
   const economicsResultsTitleOptions = generateSelectOptions(
     economicsResultsTitles

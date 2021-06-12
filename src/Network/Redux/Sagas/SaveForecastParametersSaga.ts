@@ -18,9 +18,9 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
-import { IForecastParametersExistingRow } from "../../Components/Dialogs/ExistingNetworksDialogTypes";
+import { IForecastParametersStoredRow } from "../../Components/Dialogs/StoredNetworksDialogTypes";
 import {
-  fetchExistingForecastingParametersRequestAction,
+  fetchStoredForecastingParametersRequestAction,
   saveForecastParametersFailureAction,
   saveForecastParametersSuccessAction,
   SAVE_FORECASTPARAMETERS_REQUEST,
@@ -57,7 +57,7 @@ function* saveForecastParametersSaga(
     (state) => state.inputReducer
   );
   const {
-    forecastingParametersExisting,
+    forecastingParametersStored,
     forecastParametersTitle,
     forecastParametersDescription,
     selectedDeclineParametersId,
@@ -71,8 +71,8 @@ function* saveForecastParametersSaga(
     },
   } = yield select((state) => state.networkReducer);
 
-  const selectedParametersObj = forecastingParametersExisting.find(
-    (k: IForecastParametersExistingRow) =>
+  const selectedParametersObj = forecastingParametersStored.find(
+    (k: IForecastParametersStoredRow) =>
       k.forecastInputDeckId === selectedForecastInputDeckId
   );
 
@@ -117,7 +117,7 @@ function* saveForecastParametersSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchExistingForecastingParametersRequestAction(projectId));
+    yield put(fetchStoredForecastingParametersRequestAction(projectId));
   } catch (errors) {
     const failureAction = saveForecastParametersFailureAction();
 

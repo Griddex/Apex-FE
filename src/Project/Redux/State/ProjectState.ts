@@ -11,7 +11,7 @@ const projectState: IProjectState = {
 
   pressureAddend: 14.7,
   recentProjects: [],
-  existingProjects: [],
+  storedProjects: [],
 };
 
 export default projectState;

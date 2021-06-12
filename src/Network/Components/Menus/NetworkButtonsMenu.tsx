@@ -69,16 +69,16 @@ const NetworkButtonsMenu = () => {
       show: true,
       exclusive: true,
       maxWidth: "sm",
-      iconType: "select",
+      iconType: "save",
     };
 
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const existingNetworks = () => {
+  const storedNetworks = () => {
     const networkDisplayConfirmation = () => {
       const dialogParameters: DialogStuff = {
-        name: "Existing_Network_Dialog",
+        name: "Stored_Network_Dialog",
         title: "Confirm Network Display",
         type: "textDialog",
         show: true,
@@ -100,13 +100,13 @@ const NetworkButtonsMenu = () => {
     };
 
     const dialogParameters: DialogStuff = {
-      name: "Existing_Network_Dialog",
+      name: "Stored_Network_Dialog",
       title: "Production Networks",
-      type: "existingNetworksDialog",
+      type: "storedNetworksDialog",
       show: true,
       exclusive: false,
       maxWidth: "lg",
-      iconType: "select",
+      iconType: "table",
       actionsList: () =>
         DialogDisplayNetworkCancelButtons(
           [true, true],
@@ -126,7 +126,7 @@ const NetworkButtonsMenu = () => {
       show: true,
       exclusive: true,
       maxWidth: "xs",
-      iconType: "select",
+      iconType: "remove",
       dialogText:
         "Do you want to remove the currently displayed production network?",
       actionsList: () =>
@@ -163,7 +163,7 @@ const NetworkButtonsMenu = () => {
     },
     {
       title: "Network List",
-      action: existingNetworks,
+      action: storedNetworks,
       icon: <ListOutlinedIcon color="primary" fontSize="small" />,
     },
     {

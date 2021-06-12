@@ -8,6 +8,13 @@ import { DialogIconsType, IconNameType } from "./DialogIconsTypes";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import { useTheme } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
+import TocIcon from "@material-ui/icons/Toc";
+import SaveIcon from "@material-ui/icons/Save";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import DeleteIcon from "@material-ui/icons/Delete";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import CategoryIcon from "@material-ui/icons/Category";
 
 const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
   const theme = useTheme();
@@ -26,6 +33,13 @@ const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
     ),
     edit: <EditIcon style={{ color: theme.palette.primary.main }} />,
     network: <AccountTreeIcon style={{ color: theme.palette.primary.main }} />,
+    table: <TocIcon style={{ color: theme.palette.primary.main }} />,
+    save: <SaveIcon style={{ color: theme.palette.primary.main }} />,
+    create: <AddBoxIcon style={{ color: theme.palette.primary.main }} />,
+    delete: <DeleteIcon style={{ color: theme.palette.primary.main }} />,
+    run: <PlayArrowIcon style={{ color: theme.palette.primary.main }} />,
+    remove: <RemoveCircleIcon style={{ color: theme.palette.primary.main }} />,
+    category: <CategoryIcon style={{ color: theme.palette.primary.main }} />,
   };
 
   return icons[iconType];

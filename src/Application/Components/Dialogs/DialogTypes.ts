@@ -4,7 +4,7 @@ import { Column } from "react-data-griddex";
 import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
 import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
 import EconomicsParametersSensitivitiesDialog from "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog";
-import ExistingEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog";
+import StoredEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog";
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
 import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog";
@@ -24,14 +24,14 @@ import {
   default as DeclineCurveParametersDialog,
   default as CreateNewForecastingParametersWorkflowDialog,
 } from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
-import ExistingForecastingParametersDialog from "../../../Network/Components/Dialogs/ExistingForecastingParametersDialog";
-import ExistingNetworksDialog from "../../../Network/Components/Dialogs/ExistingNetworksDialog";
+import StoredForecastingParametersDialog from "../../../Network/Components/Dialogs/StoredForecastingParametersDialog";
+import StoredNetworksDialog from "../../../Network/Components/Dialogs/StoredNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
-import ExistingProjectsDialog from "../../../Project/Components/Dialogs/ExistingProjectsDialog";
+import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
 import { TUseState } from "../../Types/ApplicationTypes";
 import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
@@ -48,7 +48,7 @@ import TextDialog from "./TextDialog";
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
   textDialog: typeof TextDialog;
-  existingProjectsDialog: typeof ExistingProjectsDialog;
+  storedProjectsDialog: typeof StoredProjectsDialog;
   selectWorksheetDialog: typeof SelectWorksheetDialog;
   finalizeForecastInputDeckDialog: typeof FinalizeForecastInputDeckDialog;
   saveFacilitiesInputDeckDialog: typeof SaveFacilitiesInputDeckDialog;
@@ -57,9 +57,9 @@ export interface IApplicationDialogs {
   economicsParametersDialog: typeof EconomicsParametersDialog;
   newProjectWorkflowDialog: typeof NewProjectWorkflowDialog;
   saveNetworkDialog: typeof SaveNetworkDialog;
-  existingNetworksDialog: typeof ExistingNetworksDialog;
+  storedNetworksDialog: typeof StoredNetworksDialog;
   generateNetworkWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
-  existingForecastingParametersDialog: typeof ExistingForecastingParametersDialog;
+  storedForecastingParametersDialog: typeof StoredForecastingParametersDialog;
   createNewForecastingParametersWorkflowDialog: typeof CreateNewForecastingParametersWorkflowDialog;
 
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
@@ -73,7 +73,7 @@ export interface IApplicationDialogs {
   createEconomicsParametersTableDialog: typeof CreateEconomicsParametersTableDialog;
   economicsParametersSensitivitiesDialog: typeof EconomicsParametersSensitivitiesDialog;
   saveEconomicsSensitivitiesDialog: typeof SaveEconomicsSensitivitiesDialog;
-  existingEconomicsSensitivitiesDialog: typeof ExistingEconomicsSensitivitiesDialog;
+  storedEconomicsSensitivitiesDialog: typeof StoredEconomicsSensitivitiesDialog;
   selectDevelopmentScenariosDialog: typeof SelectDevelopmentScenariosDialog;
   tableDataDialog: typeof TableDataDialog;
   tableEditorDialog: typeof TableEditorDialog;
@@ -104,7 +104,7 @@ export interface DialogStuff {
   type?:
     | "listDialog"
     | "textDialog"
-    | "existingProjectsDialog"
+    | "storedProjectsDialog"
     | "selectWorksheetDialog"
     | "finalizeForecastInputDeckDialog"
     | "saveFacilitiesInputDeckDialog"
@@ -116,9 +116,9 @@ export interface DialogStuff {
     | "economicsParametersDialog"
     | "newProjectWorkflowDialog"
     | "saveNetworkDialog"
-    | "existingNetworksDialog"
+    | "storedNetworksDialog"
     | "generateNetworkWorkflowDialog"
-    | "existingForecastingParametersDialog"
+    | "storedForecastingParametersDialog"
     | "createNewForecastingParametersWorkflowDialog"
     | "declineCurveParametersDialog"
     | "productionStreamPrioritizationDialog"
@@ -127,7 +127,7 @@ export interface DialogStuff {
     | "createEconomicsParametersTableDialog"
     | "economicsParametersSensitivitiesDialog"
     | "saveEconomicsSensitivitiesDialog"
-    | "existingEconomicsSensitivitiesDialog"
+    | "storedEconomicsSensitivitiesDialog"
     | "selectDevelopmentScenariosDialog"
     | "tableDataDialog"
     | "tableEditorDialog"

@@ -20,17 +20,17 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import AutoNetwork from "../Images/AutoNetwork.svg";
 import DeclineParameters from "../Images/DeclineParameters.svg";
-import ExistingDeck from "../Images/ExistingDeck.svg";
+import StoredDeck from "../Images/StoredDeck.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
 import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import {
   displayNetworkByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
-import ExistingDeclineParameters from "../Routes/ExistingDeclineParameters";
-import ExistingForecastingParameters from "../Routes/ExistingForecastingParameters";
-import ExistingNetworks from "../Routes/ExistingNetworks";
-import ExistingProductionPrioritization from "../Routes/ExistingProductionPrioritization";
+import StoredDeclineParameters from "../Routes/StoredDeclineParameters";
+import StoredForecastingParameters from "../Routes/StoredForecastingParameters";
+import StoredNetworks from "../Routes/StoredNetworks";
+import StoredProductionPrioritization from "../Routes/StoredProductionPrioritization";
 import NetworkAuto from "./NetworkAuto";
 import { IdType } from "./NetworkLandingTypes";
 import NetworkManual from "./NetworkManual";
@@ -69,15 +69,15 @@ const NetworkLanding = () => {
   );
 
   const {
-    existingDataWorkflows: { networkExisting, forecastingParametersExisting },
+    storedDataWorkflows: { networkStored, forecastingParametersStored },
   } = useSelector((state: RootState) => state.networkReducer);
 
-  const existingNetworksPresent =
-    Array.isArray(networkExisting) && networkExisting.length > 0;
+  const storedNetworksPresent =
+    Array.isArray(networkStored) && networkStored.length > 0;
 
-  const existingForecastParametersPresent =
-    Array.isArray(forecastingParametersExisting) &&
-    forecastingParametersExisting.length > 0;
+  const storedForecastParametersPresent =
+    Array.isArray(forecastingParametersStored) &&
+    forecastingParametersStored.length > 0;
 
   const networkLandingData: ILandingData[] = [
     {
@@ -88,7 +88,7 @@ const NetworkLanding = () => {
       ),
       route: `${url}/networkAuto`,
       workflowProcess: "networkAutoGeneration",
-      workflowCategory: "existingDataWorkflows",
+      workflowCategory: "storedDataWorkflows",
     },
     {
       name: "Manual Network Build",
@@ -102,38 +102,34 @@ const NetworkLanding = () => {
       ),
       route: `${url}/networkManual`,
       workflowProcess: "networkManualBuild",
-      workflowCategory: "existingDataWorkflows",
+      workflowCategory: "storedDataWorkflows",
     },
     {
-      name: "Domiciled Networks",
+      name: "Stored Networks",
       description: `Automatically generate production network from a forecast input deck`,
       icon: (
-        <Image
-          className={classes.image}
-          src={ExistingDeck}
-          alt="Auto network"
-        />
+        <Image className={classes.image} src={StoredDeck} alt="Auto network" />
       ),
-      route: `${url}/networkExisting`,
-      workflowProcess: "networkExisting",
-      workflowCategory: "existingDataWorkflows",
+      route: `${url}/networkStored`,
+      workflowProcess: "networkStored",
+      workflowCategory: "storedDataWorkflows",
     },
     {
-      name: `Domiciled Forecast Parameters`,
+      name: `Stored Forecast Parameters`,
       description: `View and create forecast parameters and store in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
       route: `${url}/forecastParameters`,
-      workflowProcess: "forecastResultsExisting",
-      workflowCategory: "existingDataWorkflows",
+      workflowProcess: "forecastResultsStored",
+      workflowCategory: "storedDataWorkflows",
     },
     {
-      name: "Domiciled Decline Parameters",
+      name: "Stored Decline Parameters",
       description: `Automatically generate production network from a forecast input deck`,
       icon: (
         <Image
@@ -142,12 +138,12 @@ const NetworkLanding = () => {
           alt="Decline parameters"
         />
       ),
-      route: `${url}/declineParametersExisting`,
-      workflowProcess: "declineParametersExisting",
-      workflowCategory: "existingDataWorkflows",
+      route: `${url}/declineParametersStored`,
+      workflowProcess: "declineParametersStored",
+      workflowCategory: "storedDataWorkflows",
     },
     {
-      name: "Domiciled Production Prioritization",
+      name: "Stored Production Prioritization",
       description: `Automatically generate production network from a forecast input deck`,
       icon: (
         <Image
@@ -156,19 +152,19 @@ const NetworkLanding = () => {
           alt="Production prioritization"
         />
       ),
-      route: `${url}/productionPrioritizationExisting`,
-      workflowProcess: "productionPrioritizationExisting",
-      workflowCategory: "existingDataWorkflows",
+      route: `${url}/productionPrioritizationStored`,
+      workflowProcess: "productionPrioritizationStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
 
-  const existingNetworks = () => {
+  const storedNetworks = () => {
     const networkDisplayConfirmation = () => {
       const dialogParameters: DialogStuff = {
-        name: "Existing_Network_Dialog",
+        name: "Stored_Network_Dialog",
         title: "Confirm Network Display",
         type: "textDialog",
         show: true,
@@ -190,13 +186,13 @@ const NetworkLanding = () => {
     };
 
     const dialogParameters: DialogStuff = {
-      name: "Existing_Network_Dialog",
+      name: "Stored_Network_Dialog",
       title: "Production Networks",
-      type: "existingNetworksDialog",
+      type: "storedNetworksDialog",
       show: true,
       exclusive: false,
       maxWidth: "lg",
-      iconType: "select",
+      iconType: "table",
       actionsList: () =>
         DialogDisplayNetworkCancelButtons(
           [true, true],
@@ -232,24 +228,24 @@ const NetworkLanding = () => {
                       <NetworkAuto isNetworkAuto={true} />,
                     </ReactFlowProvider>
                   ),
-                  networkExisting: (
-                    <ExistingNetworks
-                      workflowProcess={"networkExisting"}
+                  networkStored: (
+                    <StoredNetworks
+                      workflowProcess={"networkStored"}
                       containerStyle={{ boxShadow: "none" }}
                     />
                   ),
                   forecastParameters: (
-                    <ExistingForecastingParameters showChart={true} />
+                    <StoredForecastingParameters showChart={true} />
                   ),
-                  declineParametersExisting: (
-                    <ExistingDeclineParameters
-                      workflowProcess={"declineParametersExisting"}
+                  declineParametersStored: (
+                    <StoredDeclineParameters
+                      workflowProcess={"declineParametersStored"}
                       containerStyle={{ boxShadow: "none" }}
                     />
                   ),
-                  productionPrioritizationExisting: (
-                    <ExistingProductionPrioritization
-                      workflowProcess={"productionPrioritizationExisting"}
+                  productionPrioritizationStored: (
+                    <StoredProductionPrioritization
+                      workflowProcess={"productionPrioritizationStored"}
                       containerStyle={{ boxShadow: "none" }}
                     />
                   ),

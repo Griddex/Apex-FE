@@ -13,14 +13,14 @@ import Spreadsheet from "../../../Application/Images/Spreadsheet.svg";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import ForecastCharts from "../../../Forecast/Images/ForecastCharts.svg";
-import ExistingDeck from "../../../Import/Images/ExistingDeck.svg";
+import StoredDeck from "../../../Import/Images/StoredDeck.svg";
 import HeatMap from "../../Images/HeatMap.svg";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsVisualytics from "./EconomicsPlotCharts/EconomicsPlotChartsVisualytics";
 import { IdType } from "./EconomicsResultsTypes";
 import SensitivitiesHeatMapVisualytics from "./EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
 import EconomicsTemplateVisualytics from "./EconomicsTemplateResults/EconomicsTemplateVisualytics";
-import ExistingEconomicsResults from "./ExistingEconomicsResults";
+import StoredEconomicsResults from "./StoredEconomicsResults";
 
 const useStyles = makeStyles((theme) => ({
   economicsResultsLanding: {
@@ -68,7 +68,7 @@ const EconomicsResultsLanding = () => {
       ),
       route: `${url}/templateResults`,
       workflowProcess: "economicsTemplateResultsData",
-      workflowCategory: "existingDataWorkflows",
+      workflowCategory: "storedDataWorkflows",
     },
     {
       name: "Plot Charts",
@@ -82,7 +82,7 @@ const EconomicsResultsLanding = () => {
       ),
       route: `${url}/plotchartsTables`,
       workflowProcess: "economicsResultsPlotCharts",
-      workflowCategory: "existingDataWorkflows",
+      workflowCategory: "storedDataWorkflows",
     },
     {
       name: "Sensitivities Heatmap",
@@ -90,28 +90,28 @@ const EconomicsResultsLanding = () => {
       icon: <Image className={classes.image} src={HeatMap} alt="Chart Logo" />,
       route: `${url}/sensitivitiesHeatmap`,
       workflowProcess: "economicsResultsSensitivitiesHeatmap",
-      workflowCategory: "existingDataWorkflows",
+      workflowCategory: "storedDataWorkflows",
     },
     {
-      name: `Existing Economics Results`,
+      name: `Stored Economics Results`,
       description: `Select a pre-exisiting and approved economics results data stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/existingResults`,
-      workflowProcess: "economicsResultsExisting",
-      workflowCategory: "existingDataWorkflows",
+      route: `${url}/storedResults`,
+      workflowProcess: "economicsResultsStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
   //Define a service that combines more than one icon or image into an overlapped one
   //CSS using overlap and z-index
 
-  // const existingDataFinalAction = () => {
+  // const storedDataFinalAction = () => {
   //   const dialogParameters: DialogStuff = {
   //     name: "Manage_Deck_Dialog",
   //     title: `Manage Forecast Results`,
@@ -141,8 +141,8 @@ const EconomicsResultsLanding = () => {
                   templateResults: <EconomicsTemplateVisualytics />,
                   plotchartsTables: <EconomicsPlotChartsVisualytics />,
                   sensitivitiesHeatmap: <SensitivitiesHeatMapVisualytics />,
-                  existingResults: (
-                    <ExistingEconomicsResults
+                  storedResults: (
+                    <StoredEconomicsResults
                       reducer={"economicsReducer"}
                       containerStyle={{ boxShadow: "none" }}
                     />

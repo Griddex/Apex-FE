@@ -1,10 +1,10 @@
 import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
-  IExistingDataProps,
-  IExistingDataRow,
+  IStoredDataProps,
+  IStoredDataRow,
 } from "../../../Application/Types/ApplicationTypes";
 
-export interface IForecastDeckRow extends IExistingDataRow {}
+export interface IForecastDeckRow extends IStoredDataRow {}
 
 export interface IForecastInputDeckLanding {
   excel: JSX.Element;

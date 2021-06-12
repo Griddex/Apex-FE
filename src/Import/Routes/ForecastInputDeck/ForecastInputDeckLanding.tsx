@@ -11,12 +11,12 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
-import ExistingDeck from "../../Images/ExistingDeck.svg";
+import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import ExistingForecastDecks from "./ExistingForecastDecks";
+import StoredForecastDecks from "./StoredForecastDecks";
 import { IdType } from "./ForecastInputDeckLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -82,18 +82,18 @@ const ForecastInputDeckLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: `Existing Forecast InputDeck`,
+      name: `Stored Forecast InputDeck`,
       description: `Select a pre-exisiting and approved forecast inputdeck stored in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
       route: `${url}/approveddeck`,
-      workflowProcess: "forecastInputDeckExisting",
-      workflowCategory: "existingDataWorkflows",
+      workflowProcess: "forecastInputDeckStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
@@ -118,7 +118,7 @@ const ForecastInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const existingDataFinalAction = () => {
+  const storedDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Forecast Inputdeck`,
@@ -168,10 +168,10 @@ const ForecastInputDeckLanding = () => {
                   />
                 ),
                 approveddeck: (
-                  <ExistingForecastDecks
+                  <StoredForecastDecks
                     reducer={reducer}
                     showChart={true}
-                    finalAction={existingDataFinalAction}
+                    finalAction={storedDataFinalAction}
                   />
                 ),
               };

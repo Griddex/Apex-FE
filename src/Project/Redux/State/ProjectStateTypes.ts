@@ -30,7 +30,7 @@ export interface IProject {
 export interface IProjectState extends INewProjectFormValues {
   projectId: string;
   recentProjects: IProject[];
-  existingProjects: IProject[];
+  storedProjects: IProject[];
 
   selectedProjectId: string;
   selectedProjectTitle: string;

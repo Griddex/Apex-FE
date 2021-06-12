@@ -17,7 +17,7 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import { Column } from "react-data-griddex";
 
 const ProductionStreamPrioritization = () => {
-  const wc = "existingDataWorkflows";
+  const wc = "storedDataWorkflows";
 
   const [prioritizationPerspective, setPrioritizationPerspective] =
     React.useState("Production Prioritization");
@@ -29,7 +29,7 @@ const ProductionStreamPrioritization = () => {
 
   const { selectedTableData } = useSelector(
     (state: RootState) =>
-      state.networkReducer[wc]["productionPrioritizationExisting"]
+      state.networkReducer[wc]["productionPrioritizationStored"]
   );
 
   const snSelectedTableData = selectedTableData.map(

@@ -12,7 +12,7 @@ import {
   TEconomicsAnalysesTitles,
 } from "../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
-export interface IExistingDataRow {
+export interface IStoredDataRow {
   sn?: number;
   id?: string;
   userId?: string;
@@ -24,11 +24,11 @@ export interface IExistingDataRow {
   createdOn?: string;
   modifiedOn?: string;
   reducer?: ReducersType;
-  // workflowProcess?:IExistingDataProps["wrkflwPrcss"]
+  // workflowProcess?:IStoredDataProps["wrkflwPrcss"]
 }
 
-export interface IExistingDataProps {
-  snExistingData?: IExistingDataRow[];
+export interface IStoredDataProps {
+  snStoredData?: IStoredDataRow[];
   reducer?: ReducersType;
   dataKey?: string;
   dataTitle?: string;
@@ -39,31 +39,31 @@ export interface IExistingDataProps {
   shouldRunAggregation?: boolean;
   mainUrl?: string;
   tableTitle?: string;
-  workflowProcess?: IExistingDataProps["wkPs"];
+  workflowProcess?: IStoredDataProps["wkPs"];
   wkPs?:
-    | "facilitiesInputDeckExisting"
-    | "forecastInputDeckExisting"
-    | "productionInputDataExisting"
-    | "economicsCostsRevenuesDeckExisting"
-    | "economicsParametersDeckExisting"
-    | "economicsSensitivitiesExisting"
-    | "networkExisting"
-    | "declineParametersExisting"
-    | "productionPrioritizationExisting"
+    | "facilitiesInputDeckStored"
+    | "forecastInputDeckStored"
+    | "productionInputDataStored"
+    | "economicsCostsRevenuesDeckStored"
+    | "economicsParametersDeckStored"
+    | "economicsSensitivitiesStored"
+    | "networkStored"
+    | "declineParametersStored"
+    | "productionPrioritizationStored"
     | "forecastResultsData"
     | "forecastResultsVisualytics"
-    | "forecastResultsExisting"
-    | "economicsResultsExisting";
-  wkCy?: "existingDataWorkflows";
+    | "forecastResultsStored"
+    | "economicsResultsStored";
+  wkCy?: "storedDataWorkflows";
   containerStyle?: CSSProperties;
   finalAction?: () => void;
   finalIcon?: JSX.Element;
   finalText?: string;
-  name?: keyof Pick<IExistingDataRow, "id" | "title">;
+  name?: keyof Pick<IStoredDataRow, "id" | "title">;
   handleCheckboxChange?: (row: any, event?: React.ChangeEvent<any>) => void;
 }
 
-export interface IApplicationExistingDataRow {
+export interface IApplicationStoredDataRow {
   sn?: number;
   id?: string;
   userId?: string;
@@ -78,8 +78,8 @@ export interface IApplicationExistingDataRow {
   analysisName?: TEconomicsAnalysesNames;
   developmentScenariosCostsRevenue?: TDevScenarioNames[];
 }
-export interface IApplicationExistingForecastResultsRow
-  extends IApplicationExistingDataRow {
+export interface IApplicationStoredForecastResultsRow
+  extends IApplicationStoredDataRow {
   saved: "Saved" | "Not Saved";
   forecastResultsId: string;
   networkTitle: string;
@@ -93,8 +93,8 @@ export interface ILandingData {
   description: string;
   icon: JSX.Element;
   route: string;
-  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"];
-  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"];
+  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IStoredDataProps["wkPs"];
+  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IStoredDataProps["wkCy"];
 }
 
 export interface IVariableNameTitle {

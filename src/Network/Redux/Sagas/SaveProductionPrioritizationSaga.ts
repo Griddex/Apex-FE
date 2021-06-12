@@ -18,7 +18,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
-  fetchExistingProductionPrioritizationRequestAction,
+  fetchStoredProductionPrioritizationRequestAction,
   saveProductionPrioritizationFailureAction,
   saveProductionPrioritizationSuccessAction,
   SAVE_PRODUCTIONPRIORITIZATION_REQUEST,
@@ -91,7 +91,7 @@ function* saveProductionPrioritizationSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchExistingProductionPrioritizationRequestAction());
+    yield put(fetchStoredProductionPrioritizationRequestAction());
   } catch (errors) {
     const failureAction = saveProductionPrioritizationFailureAction();
 

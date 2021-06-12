@@ -233,13 +233,13 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Economics/Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters.ts](/src/Economics/Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters.ts) | TypeScript | 39 | 0 | 4 | 43 |
 | [src/Economics/Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters.ts](/src/Economics/Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters.ts) | TypeScript | 44 | 0 | 4 | 48 |
 | [src/Economics/Components/DialogParameters/EconomicsParameterSuccessFailureDialogParameters.ts](/src/Economics/Components/DialogParameters/EconomicsParameterSuccessFailureDialogParameters.ts) | TypeScript | 39 | 0 | 4 | 43 |
-| [src/Economics/Components/DialogParameters/ExistingEconomicsDataDialogParameters.ts](/src/Economics/Components/DialogParameters/ExistingEconomicsDataDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
-| [src/Economics/Components/DialogParameters/ExistingEconomicsSensitivitiesDialogParameters.ts](/src/Economics/Components/DialogParameters/ExistingEconomicsSensitivitiesDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
+| [src/Economics/Components/DialogParameters/StoredEconomicsDataDialogParameters.ts](/src/Economics/Components/DialogParameters/StoredEconomicsDataDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
+| [src/Economics/Components/DialogParameters/StoredEconomicsSensitivitiesDialogParameters.ts](/src/Economics/Components/DialogParameters/StoredEconomicsSensitivitiesDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
 | [src/Economics/Components/DialogParameters/SensitivitiesSuccessFailureDialogParameters.ts](/src/Economics/Components/DialogParameters/SensitivitiesSuccessFailureDialogParameters.ts) | TypeScript | 39 | 0 | 4 | 43 |
 | [src/Economics/Components/Dialogs/CreateEconomicsParametersTableDialog.tsx](/src/Economics/Components/Dialogs/CreateEconomicsParametersTableDialog.tsx) | TypeScript React | 128 | 0 | 9 | 137 |
 | [src/Economics/Components/Dialogs/EconomicsParametersDialog.tsx](/src/Economics/Components/Dialogs/EconomicsParametersDialog.tsx) | TypeScript React | 212 | 0 | 13 | 225 |
 | [src/Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog.tsx](/src/Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog.tsx) | TypeScript React | 134 | 0 | 9 | 143 |
-| [src/Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog.tsx](/src/Economics/Components/Dialogs/ExistingEconomicsSensitivitiesDialog.tsx) | TypeScript React | 131 | 0 | 8 | 139 |
+| [src/Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog.tsx](/src/Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog.tsx) | TypeScript React | 131 | 0 | 8 | 139 |
 | [src/Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog.tsx](/src/Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog.tsx) | TypeScript React | 120 | 0 | 8 | 128 |
 | [src/Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog.tsx](/src/Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog.tsx) | TypeScript React | 120 | 0 | 8 | 128 |
 | [src/Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog.tsx](/src/Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog.tsx) | TypeScript React | 120 | 0 | 8 | 128 |
@@ -270,8 +270,8 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Economics/Images/ResultTables.svg](/src/Economics/Images/ResultTables.svg) | XML | 24 | 1 | 1 | 26 |
 | [src/Economics/Redux/Actions/EconomicsActions.ts](/src/Economics/Redux/Actions/EconomicsActions.ts) | TypeScript | 357 | 0 | 44 | 401 |
 | [src/Economics/Redux/Reducers/EconomicsReducers.ts](/src/Economics/Redux/Reducers/EconomicsReducers.ts) | TypeScript | 218 | 0 | 32 | 250 |
-| [src/Economics/Redux/Sagas/FetchExistingEconomicsDataSaga.ts](/src/Economics/Redux/Sagas/FetchExistingEconomicsDataSaga.ts) | TypeScript | 83 | 0 | 10 | 93 |
-| [src/Economics/Redux/Sagas/FetchExistingEconomicsSensitivitiesSaga.ts](/src/Economics/Redux/Sagas/FetchExistingEconomicsSensitivitiesSaga.ts) | TypeScript | 80 | 0 | 10 | 90 |
+| [src/Economics/Redux/Sagas/FetchStoredEconomicsDataSaga.ts](/src/Economics/Redux/Sagas/FetchStoredEconomicsDataSaga.ts) | TypeScript | 83 | 0 | 10 | 93 |
+| [src/Economics/Redux/Sagas/FetchStoredEconomicsSensitivitiesSaga.ts](/src/Economics/Redux/Sagas/FetchStoredEconomicsSensitivitiesSaga.ts) | TypeScript | 80 | 0 | 10 | 90 |
 | [src/Economics/Redux/Sagas/GetEconomicsSensitivitiesByIdSaga.ts](/src/Economics/Redux/Sagas/GetEconomicsSensitivitiesByIdSaga.ts) | TypeScript | 100 | 0 | 12 | 112 |
 | [src/Economics/Redux/Sagas/RunEconomicsAnalysisSaga.ts](/src/Economics/Redux/Sagas/RunEconomicsAnalysisSaga.ts) | TypeScript | 125 | 1 | 15 | 141 |
 | [src/Economics/Redux/Sagas/SaveCostsRevenuesSaga.ts](/src/Economics/Redux/Sagas/SaveCostsRevenuesSaga.ts) | TypeScript | 123 | 1 | 16 | 140 |
@@ -289,17 +289,17 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivities.tsx](/src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivities.tsx) | TypeScript React | 116 | 0 | 12 | 128 |
 | [src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivitiesTypes.ts](/src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivitiesTypes.ts) | TypeScript | 33 | 2 | 4 | 39 |
 | [src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsSensitivitiesTable.tsx](/src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsSensitivitiesTable.tsx) | TypeScript React | 90 | 0 | 8 | 98 |
-| [src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/ExistingEconomicsSensitivities.tsx](/src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/ExistingEconomicsSensitivities.tsx) | TypeScript React | 243 | 9 | 16 | 268 |
+| [src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/StoredEconomicsSensitivities.tsx](/src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/StoredEconomicsSensitivities.tsx) | TypeScript React | 243 | 9 | 16 | 268 |
 | [src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/ParameterSensitivity.tsx](/src/Economics/Routes/EconomicsAnalyses/EconomicsParametersSensitivities/ParameterSensitivity.tsx) | TypeScript React | 198 | 7 | 18 | 223 |
 | [src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueManual.tsx](/src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueManual.tsx) | TypeScript React | 672 | 2 | 29 | 703 |
 | [src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes.ts](/src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes.ts) | TypeScript | 10 | 0 | 2 | 12 |
 | [src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding.tsx](/src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding.tsx) | TypeScript React | 293 | 4 | 16 | 313 |
-| [src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/ExistingCostsAndRevenuesDecks.tsx](/src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/ExistingCostsAndRevenuesDecks.tsx) | TypeScript React | 71 | 1 | 11 | 83 |
+| [src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/StoredCostsAndRevenuesDecks.tsx](/src/Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/StoredCostsAndRevenuesDecks.tsx) | TypeScript React | 71 | 1 | 11 | 83 |
 | [src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersLanding.tsx](/src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersLanding.tsx) | TypeScript React | 266 | 3 | 17 | 286 |
 | [src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersManual.tsx](/src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersManual.tsx) | TypeScript React | 260 | 0 | 22 | 282 |
 | [src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersManualTypes.ts](/src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersManualTypes.ts) | TypeScript | 23 | 0 | 3 | 26 |
 | [src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersTypes.ts](/src/Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersTypes.ts) | TypeScript | 9 | 0 | 2 | 11 |
-| [src/Economics/Routes/EconomicsInput/EconomicsParameters/ExistingEconomicsParametersDecks.tsx](/src/Economics/Routes/EconomicsInput/EconomicsParameters/ExistingEconomicsParametersDecks.tsx) | TypeScript React | 69 | 1 | 12 | 82 |
+| [src/Economics/Routes/EconomicsInput/EconomicsParameters/StoredEconomicsParametersDecks.tsx](/src/Economics/Routes/EconomicsInput/EconomicsParameters/StoredEconomicsParametersDecks.tsx) | TypeScript React | 69 | 1 | 12 | 82 |
 | [src/Economics/Routes/EconomicsResults/EconomicsPlotCharts/EconomicsPlotChartsDataPanel.tsx](/src/Economics/Routes/EconomicsResults/EconomicsPlotCharts/EconomicsPlotChartsDataPanel.tsx) | TypeScript React | 88 | 1 | 12 | 101 |
 | [src/Economics/Routes/EconomicsResults/EconomicsPlotCharts/EconomicsPlotChartsSelectChart.tsx](/src/Economics/Routes/EconomicsResults/EconomicsPlotCharts/EconomicsPlotChartsSelectChart.tsx) | TypeScript React | 278 | 20 | 4 | 302 |
 | [src/Economics/Routes/EconomicsResults/EconomicsPlotCharts/EconomicsPlotChartsSelectCharts.tsx](/src/Economics/Routes/EconomicsResults/EconomicsPlotCharts/EconomicsPlotChartsSelectCharts.tsx) | TypeScript React | 27 | 0 | 7 | 34 |
@@ -317,7 +317,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Economics/Routes/EconomicsResults/EconomicsTemplateResults/EconomicsTemplateSelectChart.tsx](/src/Economics/Routes/EconomicsResults/EconomicsTemplateResults/EconomicsTemplateSelectChart.tsx) | TypeScript React | 278 | 20 | 4 | 302 |
 | [src/Economics/Routes/EconomicsResults/EconomicsTemplateResults/EconomicsTemplateTreeView.tsx](/src/Economics/Routes/EconomicsResults/EconomicsTemplateResults/EconomicsTemplateTreeView.tsx) | TypeScript React | 245 | 14 | 37 | 296 |
 | [src/Economics/Routes/EconomicsResults/EconomicsTemplateResults/EconomicsTemplateVisualytics.tsx](/src/Economics/Routes/EconomicsResults/EconomicsTemplateResults/EconomicsTemplateVisualytics.tsx) | TypeScript React | 120 | 0 | 8 | 128 |
-| [src/Economics/Routes/EconomicsResults/ExistingEconomicsResults.tsx](/src/Economics/Routes/EconomicsResults/ExistingEconomicsResults.tsx) | TypeScript React | 74 | 0 | 12 | 86 |
+| [src/Economics/Routes/EconomicsResults/StoredEconomicsResults.tsx](/src/Economics/Routes/EconomicsResults/StoredEconomicsResults.tsx) | TypeScript React | 74 | 0 | 12 | 86 |
 | [src/Economics/Routes/EconomicsSensitivities/EconomicsSensitivitiesLanding.tsx](/src/Economics/Routes/EconomicsSensitivities/EconomicsSensitivitiesLanding.tsx) | TypeScript React | 129 | 59 | 16 | 204 |
 | [src/Economics/Routes/EconomicsSensitivities/EconomicsSensitivitiesTypes.ts](/src/Economics/Routes/EconomicsSensitivities/EconomicsSensitivitiesTypes.ts) | TypeScript | 7 | 0 | 2 | 9 |
 | [src/Economics/Routes/EconomicsWorkflows/EconomicsAnalysesWorkflow.tsx](/src/Economics/Routes/EconomicsWorkflows/EconomicsAnalysesWorkflow.tsx) | TypeScript React | 191 | 2 | 14 | 207 |
@@ -335,7 +335,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Forecast/Components/DialogActions/RunForecastSuccessFailureDialogParameters.ts](/src/Forecast/Components/DialogActions/RunForecastSuccessFailureDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
 | [src/Forecast/Components/DialogButtons/DialogCancelFetchButtons.tsx](/src/Forecast/Components/DialogButtons/DialogCancelFetchButtons.tsx) | TypeScript React | 57 | 0 | 4 | 61 |
 | [src/Forecast/Components/DialogButtons/SaveForecastResutlsDialogButtons.tsx](/src/Forecast/Components/DialogButtons/SaveForecastResutlsDialogButtons.tsx) | TypeScript React | 78 | 0 | 7 | 85 |
-| [src/Forecast/Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters.ts](/src/Forecast/Components/DialogParameters/ExistingForecastResultsSuccessFailureDialogParameters.ts) | TypeScript | 30 | 0 | 4 | 34 |
+| [src/Forecast/Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters.ts](/src/Forecast/Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters.ts) | TypeScript | 30 | 0 | 4 | 34 |
 | [src/Forecast/Components/DialogParameters/GetForecastResultsSuccessFailureDialogParameters.ts](/src/Forecast/Components/DialogParameters/GetForecastResultsSuccessFailureDialogParameters.ts) | TypeScript | 30 | 0 | 4 | 34 |
 | [src/Forecast/Components/ForecastStackedAreaChart.tsx](/src/Forecast/Components/ForecastStackedAreaChart.tsx) | TypeScript React | 65 | 36 | 5 | 106 |
 | [src/Forecast/Components/ForecastTreeView.tsx](/src/Forecast/Components/ForecastTreeView.tsx) | TypeScript React | 267 | 2 | 38 | 307 |
@@ -349,12 +349,12 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Forecast/Redux/ForecastState/ForecastState.ts](/src/Forecast/Redux/ForecastState/ForecastState.ts) | TypeScript | 70 | 1 | 11 | 82 |
 | [src/Forecast/Redux/ForecastState/ForecastStateTypes.ts](/src/Forecast/Redux/ForecastState/ForecastStateTypes.ts) | TypeScript | 100 | 0 | 14 | 114 |
 | [src/Forecast/Redux/Reducers/ForecastReducer.ts](/src/Forecast/Redux/Reducers/ForecastReducer.ts) | TypeScript | 211 | 5 | 40 | 256 |
-| [src/Forecast/Redux/Sagas/FetchExistingForecastingResultsSaga.ts](/src/Forecast/Redux/Sagas/FetchExistingForecastingResultsSaga.ts) | TypeScript | 81 | 0 | 9 | 90 |
+| [src/Forecast/Redux/Sagas/FetchStoredForecastingResultsSaga.ts](/src/Forecast/Redux/Sagas/FetchStoredForecastingResultsSaga.ts) | TypeScript | 81 | 0 | 9 | 90 |
 | [src/Forecast/Redux/Sagas/FetchTreeviewKeysSaga.ts](/src/Forecast/Redux/Sagas/FetchTreeviewKeysSaga.ts) | TypeScript | 125 | 1 | 14 | 140 |
 | [src/Forecast/Redux/Sagas/GetForecastResultsChartDataSaga.ts](/src/Forecast/Redux/Sagas/GetForecastResultsChartDataSaga.ts) | TypeScript | 125 | 3 | 17 | 145 |
 | [src/Forecast/Redux/Sagas/GetForecastResultsSaga.ts](/src/Forecast/Redux/Sagas/GetForecastResultsSaga.ts) | TypeScript | 145 | 5 | 15 | 165 |
 | [src/Forecast/Redux/Sagas/GetSelectedForecastDataByIdSaga.ts](/src/Forecast/Redux/Sagas/GetSelectedForecastDataByIdSaga.ts) | TypeScript | 95 | 0 | 13 | 108 |
-| [src/Forecast/Routes/ExistingForecastResults.tsx](/src/Forecast/Routes/ExistingForecastResults.tsx) | TypeScript React | 363 | 7 | 22 | 392 |
+| [src/Forecast/Routes/StoredForecastResults.tsx](/src/Forecast/Routes/StoredForecastResults.tsx) | TypeScript React | 363 | 7 | 22 | 392 |
 | [src/Forecast/Routes/ForecastData.tsx](/src/Forecast/Routes/ForecastData.tsx) | TypeScript React | 369 | 32 | 25 | 426 |
 | [src/Forecast/Routes/ForecastRoutesTypes.ts](/src/Forecast/Routes/ForecastRoutesTypes.ts) | TypeScript | 11 | 0 | 2 | 13 |
 | [src/Forecast/Routes/ForecastVisualytics.tsx](/src/Forecast/Routes/ForecastVisualytics.tsx) | TypeScript React | 127 | 0 | 8 | 135 |
@@ -365,7 +365,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Forecast/Utils/GetLastTwoDotPositions.ts](/src/Forecast/Utils/GetLastTwoDotPositions.ts) | TypeScript | 10 | 0 | 4 | 14 |
 | [src/Forecast/Utils/GetModuleObject.ts](/src/Forecast/Utils/GetModuleObject.ts) | TypeScript | 14 | 0 | 7 | 21 |
 | [src/Import/Components/DialogParameters/ConfirmationDialogParameters.ts](/src/Import/Components/DialogParameters/ConfirmationDialogParameters.ts) | TypeScript | 33 | 0 | 2 | 35 |
-| [src/Import/Components/DialogParameters/ExistingDataDialogParameters.ts](/src/Import/Components/DialogParameters/ExistingDataDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
+| [src/Import/Components/DialogParameters/StoredDataDialogParameters.ts](/src/Import/Components/DialogParameters/StoredDataDialogParameters.ts) | TypeScript | 28 | 0 | 3 | 31 |
 | [src/Import/Components/DialogParameters/SaveInputDeckDialogParameters.ts](/src/Import/Components/DialogParameters/SaveInputDeckDialogParameters.ts) | TypeScript | 51 | 0 | 3 | 54 |
 | [src/Import/Components/Dialogs/FinalizeForecastInputDeckDialog.tsx](/src/Import/Components/Dialogs/FinalizeForecastInputDeckDialog.tsx) | TypeScript React | 126 | 0 | 9 | 135 |
 | [src/Import/Components/Dialogs/SaveFacilitiesInputDeckDialog.tsx](/src/Import/Components/Dialogs/SaveFacilitiesInputDeckDialog.tsx) | TypeScript React | 120 | 0 | 8 | 128 |
@@ -377,20 +377,20 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Import/Components/Forms/ForecastTitleAndDescriptionForm.tsx](/src/Import/Components/Forms/ForecastTitleAndDescriptionForm.tsx) | TypeScript React | 56 | 0 | 7 | 63 |
 | [src/Import/Components/SelectDatabase.tsx](/src/Import/Components/SelectDatabase.tsx) | TypeScript React | 127 | 1 | 9 | 137 |
 | [src/Import/Images/DragAndDrop.svg](/src/Import/Images/DragAndDrop.svg) | XML | 79 | 0 | 1 | 80 |
-| [src/Import/Images/ExistingDeck.svg](/src/Import/Images/ExistingDeck.svg) | XML | 17 | 0 | 0 | 17 |
+| [src/Import/Images/StoredDeck.svg](/src/Import/Images/StoredDeck.svg) | XML | 17 | 0 | 0 | 17 |
 | [src/Import/Images/Import.svg](/src/Import/Images/Import.svg) | XML | 43 | 1 | 1 | 45 |
 | [src/Import/Images/ImportDatabase.svg](/src/Import/Images/ImportDatabase.svg) | XML | 52 | 1 | 2 | 55 |
 | [src/Import/Images/Input.svg](/src/Import/Images/Input.svg) | XML | 17 | 1 | 1 | 19 |
 | [src/Import/Images/MSExcel.svg](/src/Import/Images/MSExcel.svg) | XML | 7 | 0 | 0 | 7 |
 | [src/Import/Images/Notepad.svg](/src/Import/Images/Notepad.svg) | XML | 50 | 1 | 1 | 52 |
 | [src/Import/Redux/Actions/DatabaseServerActions.ts](/src/Import/Redux/Actions/DatabaseServerActions.ts) | TypeScript | 41 | 0 | 5 | 46 |
-| [src/Import/Redux/Actions/ExistingDataActions.ts](/src/Import/Redux/Actions/ExistingDataActions.ts) | TypeScript | 25 | 0 | 4 | 29 |
+| [src/Import/Redux/Actions/StoredDataActions.ts](/src/Import/Redux/Actions/StoredDataActions.ts) | TypeScript | 25 | 0 | 4 | 29 |
 | [src/Import/Redux/Actions/InputActions.ts](/src/Import/Redux/Actions/InputActions.ts) | TypeScript | 329 | 1 | 23 | 353 |
 | [src/Import/Redux/Reducers/DatabaseServerReducers.ts](/src/Import/Redux/Reducers/DatabaseServerReducers.ts) | TypeScript | 31 | 0 | 4 | 35 |
 | [src/Import/Redux/Reducers/InputReducer.ts](/src/Import/Redux/Reducers/InputReducer.ts) | TypeScript | 172 | 0 | 12 | 184 |
 | [src/Import/Redux/Sagas/ConnectDatabaseSaga.ts](/src/Import/Redux/Sagas/ConnectDatabaseSaga.ts) | TypeScript | 74 | 5 | 10 | 89 |
 | [src/Import/Redux/Sagas/FetchApplicationHeadersSaga.ts](/src/Import/Redux/Sagas/FetchApplicationHeadersSaga.ts) | TypeScript | 162 | 0 | 11 | 173 |
-| [src/Import/Redux/Sagas/FetchExistingDataSaga.ts](/src/Import/Redux/Sagas/FetchExistingDataSaga.ts) | TypeScript | 81 | 0 | 10 | 91 |
+| [src/Import/Redux/Sagas/FetchStoredDataSaga.ts](/src/Import/Redux/Sagas/FetchStoredDataSaga.ts) | TypeScript | 81 | 0 | 10 | 91 |
 | [src/Import/Redux/Sagas/SaveInputDeckSaga.ts](/src/Import/Redux/Sagas/SaveInputDeckSaga.ts) | TypeScript | 144 | 0 | 18 | 162 |
 | [src/Import/Redux/State/DatabaseServerState.ts](/src/Import/Redux/State/DatabaseServerState.ts) | TypeScript | 6 | 0 | 2 | 8 |
 | [src/Import/Redux/State/InputState.ts](/src/Import/Redux/State/InputState.ts) | TypeScript | 121 | 3 | 24 | 148 |
@@ -400,7 +400,7 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Import/Routes/Common/InputLayoutTypes.ts](/src/Import/Routes/Common/InputLayoutTypes.ts) | TypeScript | 18 | 0 | 4 | 22 |
 | [src/Import/Routes/Common/InputWorkflows/DatabaseWorkflow.tsx](/src/Import/Routes/Common/InputWorkflows/DatabaseWorkflow.tsx) | TypeScript React | 170 | 0 | 15 | 185 |
 | [src/Import/Routes/Common/InputWorkflows/ExcelWorkflow.tsx](/src/Import/Routes/Common/InputWorkflows/ExcelWorkflow.tsx) | TypeScript React | 151 | 9 | 17 | 177 |
-| [src/Import/Routes/Common/InputWorkflows/ExistingDataRoute.tsx](/src/Import/Routes/Common/InputWorkflows/ExistingDataRoute.tsx) | TypeScript React | 187 | 2 | 10 | 199 |
+| [src/Import/Routes/Common/InputWorkflows/StoredDataRoute.tsx](/src/Import/Routes/Common/InputWorkflows/StoredDataRoute.tsx) | TypeScript React | 187 | 2 | 10 | 199 |
 | [src/Import/Routes/Common/InputWorkflows/SaveInputDeckGenerateNetworkWorkflow.tsx](/src/Import/Routes/Common/InputWorkflows/SaveInputDeckGenerateNetworkWorkflow.tsx) | TypeScript React | 29 | 0 | 5 | 34 |
 | [src/Import/Routes/Common/Workflows/ConnectDatabase.tsx](/src/Import/Routes/Common/Workflows/ConnectDatabase.tsx) | TypeScript React | 154 | 1 | 9 | 164 |
 | [src/Import/Routes/Common/Workflows/InputWorkflowsTypes.ts](/src/Import/Routes/Common/Workflows/InputWorkflowsTypes.ts) | TypeScript | 28 | 5 | 2 | 35 |
@@ -411,16 +411,16 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Import/Routes/Common/Workflows/SelectHeaderUnitData.tsx](/src/Import/Routes/Common/Workflows/SelectHeaderUnitData.tsx) | TypeScript React | 266 | 5 | 31 | 302 |
 | [src/Import/Routes/Common/Workflows/SelectSheet.tsx](/src/Import/Routes/Common/Workflows/SelectSheet.tsx) | TypeScript React | 233 | 4 | 20 | 257 |
 | [src/Import/Routes/Common/Workflows/UploadFile.tsx](/src/Import/Routes/Common/Workflows/UploadFile.tsx) | TypeScript React | 196 | 3 | 18 | 217 |
-| [src/Import/Routes/FacilitiesInputDeck/ExistingFacilitiesDecks.tsx](/src/Import/Routes/FacilitiesInputDeck/ExistingFacilitiesDecks.tsx) | TypeScript React | 75 | 1 | 11 | 87 |
+| [src/Import/Routes/FacilitiesInputDeck/StoredFacilitiesDecks.tsx](/src/Import/Routes/FacilitiesInputDeck/StoredFacilitiesDecks.tsx) | TypeScript React | 75 | 1 | 11 | 87 |
 | [src/Import/Routes/FacilitiesInputDeck/FacilitiesInputDeckLanding.tsx](/src/Import/Routes/FacilitiesInputDeck/FacilitiesInputDeckLanding.tsx) | TypeScript React | 222 | 3 | 15 | 240 |
 | [src/Import/Routes/FacilitiesInputDeck/FacilitiesInputDeckLandingTypes.ts](/src/Import/Routes/FacilitiesInputDeck/FacilitiesInputDeckLandingTypes.ts) | TypeScript | 8 | 0 | 2 | 10 |
-| [src/Import/Routes/ForecastInputDeck/ExistingForecastDecks.tsx](/src/Import/Routes/ForecastInputDeck/ExistingForecastDecks.tsx) | TypeScript React | 71 | 1 | 12 | 84 |
+| [src/Import/Routes/ForecastInputDeck/StoredForecastDecks.tsx](/src/Import/Routes/ForecastInputDeck/StoredForecastDecks.tsx) | TypeScript React | 71 | 1 | 12 | 84 |
 | [src/Import/Routes/ForecastInputDeck/ForecastInputDeckFinalization.tsx](/src/Import/Routes/ForecastInputDeck/ForecastInputDeckFinalization.tsx) | TypeScript React | 175 | 13 | 16 | 204 |
 | [src/Import/Routes/ForecastInputDeck/ForecastInputDeckLanding.tsx](/src/Import/Routes/ForecastInputDeck/ForecastInputDeckLanding.tsx) | TypeScript React | 204 | 2 | 12 | 218 |
 | [src/Import/Routes/ForecastInputDeck/ForecastInputDeckLandingTypes.ts](/src/Import/Routes/ForecastInputDeck/ForecastInputDeckLandingTypes.ts) | TypeScript | 14 | 0 | 4 | 18 |
 | [src/Import/Routes/ForecastInputDeck/ForecastInputDeckTypes.ts](/src/Import/Routes/ForecastInputDeck/ForecastInputDeckTypes.ts) | TypeScript | 8 | 0 | 2 | 10 |
 | [src/Import/Routes/InputDeckTypes.ts](/src/Import/Routes/InputDeckTypes.ts) | TypeScript | 11 | 0 | 2 | 13 |
-| [src/Import/Routes/ProductionData/ExistingProductionData.tsx](/src/Import/Routes/ProductionData/ExistingProductionData.tsx) | TypeScript React | 71 | 11 | 13 | 95 |
+| [src/Import/Routes/ProductionData/StoredProductionData.tsx](/src/Import/Routes/ProductionData/StoredProductionData.tsx) | TypeScript React | 71 | 11 | 13 | 95 |
 | [src/Import/Routes/ProductionData/ProductionDataLanding.tsx](/src/Import/Routes/ProductionData/ProductionDataLanding.tsx) | TypeScript React | 178 | 2 | 10 | 190 |
 | [src/Import/Routes/ProductionData/ProductionDataLandingTypes.ts](/src/Import/Routes/ProductionData/ProductionDataLandingTypes.ts) | TypeScript | 22 | 0 | 4 | 26 |
 | [src/Import/Services/FileIconService.js](/src/Import/Services/FileIconService.js) | JavaScript | 13 | 0 | 4 | 17 |
@@ -462,12 +462,12 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Network/Components/ContextMenu/WellheadContextMenu.tsx](/src/Network/Components/ContextMenu/WellheadContextMenu.tsx) | TypeScript React | 56 | 1 | 10 | 67 |
 | [src/Network/Components/ContextMenu/WellheadSummaryContextMenu.tsx](/src/Network/Components/ContextMenu/WellheadSummaryContextMenu.tsx) | TypeScript React | 60 | 1 | 10 | 71 |
 | [src/Network/Components/DialogBottons/SaveNetworkDialogButtons.tsx](/src/Network/Components/DialogBottons/SaveNetworkDialogButtons.tsx) | TypeScript React | 76 | 0 | 7 | 83 |
-| [src/Network/Components/DialogExtrusion/ExistingForecastingParametersExtrude.tsx](/src/Network/Components/DialogExtrusion/ExistingForecastingParametersExtrude.tsx) | TypeScript React | 64 | 0 | 7 | 71 |
-| [src/Network/Components/DialogExtrusion/ExistingNetworksExtrude.tsx](/src/Network/Components/DialogExtrusion/ExistingNetworksExtrude.tsx) | TypeScript React | 62 | 0 | 6 | 68 |
+| [src/Network/Components/DialogExtrusion/StoredForecastingParametersExtrude.tsx](/src/Network/Components/DialogExtrusion/StoredForecastingParametersExtrude.tsx) | TypeScript React | 64 | 0 | 7 | 71 |
+| [src/Network/Components/DialogExtrusion/StoredNetworksExtrude.tsx](/src/Network/Components/DialogExtrusion/StoredNetworksExtrude.tsx) | TypeScript React | 62 | 0 | 6 | 68 |
 | [src/Network/Components/DialogExtrusion/SaveForecastParametersExtrude.tsx](/src/Network/Components/DialogExtrusion/SaveForecastParametersExtrude.tsx) | TypeScript React | 64 | 0 | 7 | 71 |
 | [src/Network/Components/DialogParameters/AutoGenerateFailureDialogParameters.ts](/src/Network/Components/DialogParameters/AutoGenerateFailureDialogParameters.ts) | TypeScript | 16 | 0 | 2 | 18 |
 | [src/Network/Components/DialogParameters/DeleteForecastParametersDialogParameters.ts](/src/Network/Components/DialogParameters/DeleteForecastParametersDialogParameters.ts) | TypeScript | 27 | 1 | 2 | 30 |
-| [src/Network/Components/DialogParameters/FetchExistingNetworkFailureDialogParameters.ts](/src/Network/Components/DialogParameters/FetchExistingNetworkFailureDialogParameters.ts) | TypeScript | 16 | 0 | 2 | 18 |
+| [src/Network/Components/DialogParameters/FetchStoredNetworkFailureDialogParameters.ts](/src/Network/Components/DialogParameters/FetchStoredNetworkFailureDialogParameters.ts) | TypeScript | 16 | 0 | 2 | 18 |
 | [src/Network/Components/DialogParameters/FetchForecastingParametersFailureDialogParameters.ts](/src/Network/Components/DialogParameters/FetchForecastingParametersFailureDialogParameters.ts) | TypeScript | 16 | 0 | 2 | 18 |
 | [src/Network/Components/DialogParameters/GenerateNetworkDialogParameters.ts](/src/Network/Components/DialogParameters/GenerateNetworkDialogParameters.ts) | TypeScript | 23 | 0 | 2 | 25 |
 | [src/Network/Components/DialogParameters/RunForecastDialogParameters.ts](/src/Network/Components/DialogParameters/RunForecastDialogParameters.ts) | TypeScript | 28 | 1 | 2 | 31 |
@@ -476,9 +476,9 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Network/Components/DialogParameters/SaveNetworkSuccessFailureDialogParameters.ts](/src/Network/Components/DialogParameters/SaveNetworkSuccessFailureDialogParameters.ts) | TypeScript | 31 | 0 | 4 | 35 |
 | [src/Network/Components/DialogParameters/ShowDeclineCurveDialogParameters.ts](/src/Network/Components/DialogParameters/ShowDeclineCurveDialogParameters.ts) | TypeScript | 18 | 0 | 2 | 20 |
 | [src/Network/Components/Dialogs/DeclineCurveParametersDialog.tsx](/src/Network/Components/Dialogs/DeclineCurveParametersDialog.tsx) | TypeScript React | 143 | 0 | 9 | 152 |
-| [src/Network/Components/Dialogs/ExistingForecastingParametersDialog.tsx](/src/Network/Components/Dialogs/ExistingForecastingParametersDialog.tsx) | TypeScript React | 131 | 0 | 8 | 139 |
-| [src/Network/Components/Dialogs/ExistingNetworksDialog.tsx](/src/Network/Components/Dialogs/ExistingNetworksDialog.tsx) | TypeScript React | 130 | 0 | 8 | 138 |
-| [src/Network/Components/Dialogs/ExistingNetworksDialogTypes.ts](/src/Network/Components/Dialogs/ExistingNetworksDialogTypes.ts) | TypeScript | 76 | 0 | 6 | 82 |
+| [src/Network/Components/Dialogs/StoredForecastingParametersDialog.tsx](/src/Network/Components/Dialogs/StoredForecastingParametersDialog.tsx) | TypeScript React | 131 | 0 | 8 | 139 |
+| [src/Network/Components/Dialogs/StoredNetworksDialog.tsx](/src/Network/Components/Dialogs/StoredNetworksDialog.tsx) | TypeScript React | 130 | 0 | 8 | 138 |
+| [src/Network/Components/Dialogs/StoredNetworksDialogTypes.ts](/src/Network/Components/Dialogs/StoredNetworksDialogTypes.ts) | TypeScript | 76 | 0 | 6 | 82 |
 | [src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx](/src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx) | TypeScript React | 223 | 1 | 16 | 240 |
 | [src/Network/Components/Dialogs/RunForecastDialog.tsx](/src/Network/Components/Dialogs/RunForecastDialog.tsx) | TypeScript React | 127 | 4 | 8 | 139 |
 | [src/Network/Components/Dialogs/SaveForecastDialog.tsx](/src/Network/Components/Dialogs/SaveForecastDialog.tsx) | TypeScript React | 144 | 0 | 8 | 152 |
@@ -518,8 +518,8 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Network/Redux/Reducers/NetworkReducers.ts](/src/Network/Redux/Reducers/NetworkReducers.ts) | TypeScript | 255 | 0 | 26 | 281 |
 | [src/Network/Redux/Sagas/AutogenerateNetworkSaga.ts](/src/Network/Redux/Sagas/AutogenerateNetworkSaga.ts) | TypeScript | 130 | 0 | 17 | 147 |
 | [src/Network/Redux/Sagas/DisplayNetworkBySelectionSaga.ts](/src/Network/Redux/Sagas/DisplayNetworkBySelectionSaga.ts) | TypeScript | 138 | 0 | 17 | 155 |
-| [src/Network/Redux/Sagas/FetchExistingForecastParametersSaga.ts](/src/Network/Redux/Sagas/FetchExistingForecastParametersSaga.ts) | TypeScript | 87 | 0 | 11 | 98 |
-| [src/Network/Redux/Sagas/FetchExistingNetworkDataSaga.ts](/src/Network/Redux/Sagas/FetchExistingNetworkDataSaga.ts) | TypeScript | 79 | 0 | 10 | 89 |
+| [src/Network/Redux/Sagas/FetchStoredForecastParametersSaga.ts](/src/Network/Redux/Sagas/FetchStoredForecastParametersSaga.ts) | TypeScript | 87 | 0 | 11 | 98 |
+| [src/Network/Redux/Sagas/FetchStoredNetworkDataSaga.ts](/src/Network/Redux/Sagas/FetchStoredNetworkDataSaga.ts) | TypeScript | 79 | 0 | 10 | 89 |
 | [src/Network/Redux/Sagas/RunForecastSaga.ts](/src/Network/Redux/Sagas/RunForecastSaga.ts) | TypeScript | 122 | 0 | 13 | 135 |
 | [src/Network/Redux/Sagas/SaveAndAutogenerateNetworkSaga.ts](/src/Network/Redux/Sagas/SaveAndAutogenerateNetworkSaga.ts) | TypeScript | 55 | 2 | 9 | 66 |
 | [src/Network/Redux/Sagas/SaveForecastParametersSaga.ts](/src/Network/Redux/Sagas/SaveForecastParametersSaga.ts) | TypeScript | 119 | 0 | 12 | 131 |
@@ -529,9 +529,9 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Network/Redux/State/NetworkState.tsx](/src/Network/Redux/State/NetworkState.tsx) | TypeScript React | 46 | 0 | 10 | 56 |
 | [src/Network/Redux/State/NetworkStateTypes.ts](/src/Network/Redux/State/NetworkStateTypes.ts) | TypeScript | 109 | 2 | 18 | 129 |
 | [src/Network/Routes/DeclineCurveParameters.tsx](/src/Network/Routes/DeclineCurveParameters.tsx) | TypeScript React | 296 | 37 | 27 | 360 |
-| [src/Network/Routes/ExistingForecastingParameters.tsx](/src/Network/Routes/ExistingForecastingParameters.tsx) | TypeScript React | 450 | 3 | 26 | 479 |
-| [src/Network/Routes/ExistingNetworkTypes.ts](/src/Network/Routes/ExistingNetworkTypes.ts) | TypeScript | 6 | 0 | 2 | 8 |
-| [src/Network/Routes/ExistingNetworks.tsx](/src/Network/Routes/ExistingNetworks.tsx) | TypeScript React | 75 | 0 | 12 | 87 |
+| [src/Network/Routes/StoredForecastingParameters.tsx](/src/Network/Routes/StoredForecastingParameters.tsx) | TypeScript React | 450 | 3 | 26 | 479 |
+| [src/Network/Routes/StoredNetworkTypes.ts](/src/Network/Routes/StoredNetworkTypes.ts) | TypeScript | 6 | 0 | 2 | 8 |
+| [src/Network/Routes/StoredNetworks.tsx](/src/Network/Routes/StoredNetworks.tsx) | TypeScript React | 75 | 0 | 12 | 87 |
 | [src/Network/Routes/ForecastParametersTitleAndDescription.tsx](/src/Network/Routes/ForecastParametersTitleAndDescription.tsx) | TypeScript React | 62 | 0 | 7 | 69 |
 | [src/Network/Routes/OtherForecastingParameters.tsx](/src/Network/Routes/OtherForecastingParameters.tsx) | TypeScript React | 186 | 2 | 14 | 202 |
 | [src/Network/Routes/SaveNetworkTitleAndDescription.tsx](/src/Network/Routes/SaveNetworkTitleAndDescription.tsx) | TypeScript React | 73 | 0 | 6 | 79 |
@@ -543,23 +543,23 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Network/Workflows/GenerateNetworkWorkflow.tsx](/src/Network/Workflows/GenerateNetworkWorkflow.tsx) | TypeScript React | 47 | 0 | 7 | 54 |
 | [src/Network/Workflows/SaveForecastParametersWorkflow.tsx](/src/Network/Workflows/SaveForecastParametersWorkflow.tsx) | TypeScript React | 88 | 0 | 6 | 94 |
 | [src/Project/Components/ContextMenus/ProjectContextMenu.tsx](/src/Project/Components/ContextMenus/ProjectContextMenu.tsx) | TypeScript React | 47 | 0 | 8 | 55 |
-| [src/Project/Components/DialogParameters/ExistingProjectsFailureDialogParameters.ts](/src/Project/Components/DialogParameters/ExistingProjectsFailureDialogParameters.ts) | TypeScript | 15 | 0 | 2 | 17 |
+| [src/Project/Components/DialogParameters/StoredProjectsFailureDialogParameters.ts](/src/Project/Components/DialogParameters/StoredProjectsFailureDialogParameters.ts) | TypeScript | 15 | 0 | 2 | 17 |
 | [src/Project/Components/DialogParameters/OpenProjectFailureDialogParameters.ts](/src/Project/Components/DialogParameters/OpenProjectFailureDialogParameters.ts) | TypeScript | 27 | 0 | 3 | 30 |
 | [src/Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters.ts](/src/Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters.ts) | TypeScript | 29 | 0 | 3 | 32 |
 | [src/Project/Components/DialogParameters/RecentProjectsFailureDialogParameters.ts](/src/Project/Components/DialogParameters/RecentProjectsFailureDialogParameters.ts) | TypeScript | 15 | 0 | 2 | 17 |
-| [src/Project/Components/Dialogs/ExistingProjectsDialog.tsx](/src/Project/Components/Dialogs/ExistingProjectsDialog.tsx) | TypeScript React | 127 | 0 | 8 | 135 |
+| [src/Project/Components/Dialogs/StoredProjectsDialog.tsx](/src/Project/Components/Dialogs/StoredProjectsDialog.tsx) | TypeScript React | 127 | 0 | 8 | 135 |
 | [src/Project/Components/Forms/NewProjectForm.tsx](/src/Project/Components/Forms/NewProjectForm.tsx) | TypeScript React | 58 | 0 | 6 | 64 |
 | [src/Project/Components/Popovers/ProjectPopover.tsx](/src/Project/Components/Popovers/ProjectPopover.tsx) | TypeScript React | 234 | 1 | 12 | 247 |
 | [src/Project/NewProjectTitleAndDescription.tsx](/src/Project/NewProjectTitleAndDescription.tsx) | TypeScript React | 60 | 0 | 6 | 66 |
 | [src/Project/Redux/Actions/ProjectActions.ts](/src/Project/Redux/Actions/ProjectActions.ts) | TypeScript | 148 | 0 | 14 | 162 |
 | [src/Project/Redux/Reducers/ProjectReducer.ts](/src/Project/Redux/Reducers/ProjectReducer.ts) | TypeScript | 105 | 0 | 21 | 126 |
 | [src/Project/Redux/Sagas/CreateNewProjectSaga.ts](/src/Project/Redux/Sagas/CreateNewProjectSaga.ts) | TypeScript | 104 | 2 | 12 | 118 |
-| [src/Project/Redux/Sagas/FetchExistingProjectsSaga.ts](/src/Project/Redux/Sagas/FetchExistingProjectsSaga.ts) | TypeScript | 75 | 0 | 9 | 84 |
+| [src/Project/Redux/Sagas/FetchStoredProjectsSaga.ts](/src/Project/Redux/Sagas/FetchStoredProjectsSaga.ts) | TypeScript | 75 | 0 | 9 | 84 |
 | [src/Project/Redux/Sagas/FetchRecentProjectsSaga.ts](/src/Project/Redux/Sagas/FetchRecentProjectsSaga.ts) | TypeScript | 78 | 0 | 10 | 88 |
 | [src/Project/Redux/Sagas/OpenRecentProjectSaga.ts](/src/Project/Redux/Sagas/OpenRecentProjectSaga.ts) | TypeScript | 88 | 0 | 12 | 100 |
 | [src/Project/Redux/State/ProjectState.ts](/src/Project/Redux/State/ProjectState.ts) | TypeScript | 13 | 0 | 5 | 18 |
 | [src/Project/Redux/State/ProjectStateTypes.ts](/src/Project/Redux/State/ProjectStateTypes.ts) | TypeScript | 53 | 0 | 8 | 61 |
-| [src/Project/Routes/ExistingProjects.tsx](/src/Project/Routes/ExistingProjects.tsx) | TypeScript React | 66 | 3 | 12 | 81 |
+| [src/Project/Routes/StoredProjects.tsx](/src/Project/Routes/StoredProjects.tsx) | TypeScript React | 66 | 3 | 12 | 81 |
 | [src/Project/Workflows/NewProjectWorkflow.tsx](/src/Project/Workflows/NewProjectWorkflow.tsx) | TypeScript React | 41 | 0 | 4 | 45 |
 | [src/Settings/Components/Dates/DateFormatter.tsx](/src/Settings/Components/Dates/DateFormatter.tsx) | TypeScript React | 20 | 0 | 4 | 24 |
 | [src/Settings/Components/DialogActions/ConfirmationDialogParameters.ts](/src/Settings/Components/DialogActions/ConfirmationDialogParameters.ts) | TypeScript | 20 | 0 | 3 | 23 |

@@ -18,15 +18,15 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
-  fetchExistingEconomicsDataRequestAction,
-  fetchExistingEconomicsResultsRequestAction,
-  fetchExistingEconomicsSensitivitiesRequestAction,
+  fetchStoredEconomicsDataRequestAction,
+  fetchStoredEconomicsResultsRequestAction,
+  fetchStoredEconomicsSensitivitiesRequestAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
-import { fetchExistingForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
-import { fetchExistingDataRequestAction } from "../../../Import/Redux/Actions/ExistingDataActions";
+import { fetchStoredForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
+import { fetchStoredDataRequestAction } from "../../../Import/Redux/Actions/StoredDataActions";
 import {
-  fetchExistingForecastingParametersRequestAction,
-  fetchExistingNetworkDataRequestAction,
+  fetchStoredForecastingParametersRequestAction,
+  fetchStoredNetworkDataRequestAction,
 } from "../../../Network/Redux/Actions/NetworkActions";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IProject } from "../../Redux/State/ProjectStateTypes";
@@ -127,15 +127,15 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const extrudeMoreExistingProjects = () => {
+  const extrudeMoreStoredProjects = () => {
     const confirmationDialogParameters: DialogStuff = {
-      name: "Existing_Projects_Dialog",
-      title: "Existing Projects",
-      type: "existingProjectsDialog",
+      name: "Stored_Projects_Dialog",
+      title: "Stored Projects",
+      type: "storedProjectsDialog",
       show: true,
       exclusive: false,
-      maxWidth: "md",
-      iconType: "information",
+      maxWidth: "lg",
+      iconType: "table",
       actionsList: () =>
         DialogOpenCancelButtons(
           [true, true],
@@ -202,13 +202,13 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                     showSpinnerAction(`Loading ${project.projectTitle}...`)
                   );
                   dispatch(
-                    fetchExistingForecastingParametersRequestAction(
+                    fetchStoredForecastingParametersRequestAction(
                       projectIdDefined
                     )
                   );
-                  dispatch(fetchExistingDataRequestAction(projectIdDefined));
+                  dispatch(fetchStoredDataRequestAction(projectIdDefined));
                   dispatch(
-                    fetchExistingEconomicsDataRequestAction(projectIdDefined)
+                    fetchStoredEconomicsDataRequestAction(projectIdDefined)
                   );
                   dispatch(
                     openRecentProjectAction(
@@ -219,21 +219,19 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                     )
                   );
                   dispatch(
-                    fetchExistingNetworkDataRequestAction(projectIdDefined)
+                    fetchStoredNetworkDataRequestAction(projectIdDefined)
                   );
                   dispatch(
-                    fetchExistingForecastingResultsRequestAction(
-                      projectIdDefined
-                    )
+                    fetchStoredForecastingResultsRequestAction(projectIdDefined)
                   );
                   dispatch(
-                    fetchExistingEconomicsSensitivitiesRequestAction(
+                    fetchStoredEconomicsSensitivitiesRequestAction(
                       projectIdDefined,
                       false
                     )
                   );
                   dispatch(
-                    fetchExistingEconomicsResultsRequestAction(
+                    fetchStoredEconomicsResultsRequestAction(
                       projectIdDefined,
                       false
                     )
@@ -254,7 +252,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               className={classes.primaryIcon}
             />
           }
-          handleClick={extrudeMoreExistingProjects}
+          handleClick={extrudeMoreStoredProjects}
         />
       </div>
       <div>

@@ -43,7 +43,7 @@ import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesType
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 
 const useStyles = makeStyles((theme) => ({
-  rootExistingData: {
+  rootStoredData: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -859,7 +859,7 @@ export default function CostsAndRevenueManual({
   }, [devVal]);
 
   return (
-    <div className={classes.rootExistingData}>
+    <div className={classes.rootStoredData}>
       <ApexFlexContainer
         justifyContent="space-between"
         moreStyles={{

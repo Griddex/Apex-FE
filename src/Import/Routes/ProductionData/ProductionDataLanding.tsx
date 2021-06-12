@@ -8,12 +8,12 @@ import Image from "../../../Application/Components/Visuals/Image";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import ExistingDeck from "../../Images/ExistingDeck.svg";
+import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import ExistingProductionData from "./ExistingProductionData";
+import StoredProductionData from "./StoredProductionData";
 import { IdType, IProductionLandingData } from "./ProductionDataLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,18 +83,18 @@ const ProductionDataLanding = () => {
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Existing Production Data`,
+      name: `Stored Production Data`,
       description: `Select pre-exisiting and approved production data from your database`,
       icon: (
         <Image
           className={classes.image}
-          src={ExistingDeck}
+          src={StoredDeck}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
       route: `${url}/approveddata`,
-      workflowProcess: "productionInputDataExisting",
-      workflowCategory: "existingDataWorkflows",
+      workflowProcess: "productionInputDataStored",
+      workflowCategory: "storedDataWorkflows",
     },
   ];
 
@@ -143,7 +143,7 @@ const ProductionDataLanding = () => {
                   />
                 ),
                 approveddata: (
-                  <ExistingProductionData
+                  <StoredProductionData
                     reducer={reducer}
                     showChart={false}
                     finalAction={excelWorkflowFinalAction}

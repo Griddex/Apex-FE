@@ -1,7 +1,7 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IApplicationExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import {
   TVariableTitle,
   TVariableName,
@@ -253,7 +253,7 @@ export interface IEconomicsState
   economicsTemplatesTree: RenderTree;
 
   inputDataWorkflows: Record<string, IEconomicsImport>;
-  existingDataWorkflows: Record<string, IApplicationExistingDataRow[]>;
+  storedDataWorkflows: Record<string, IApplicationStoredDataRow[]>;
   economicsAnalysisWorkflows: Record<
     TEconomicsAnalysesNames,
     IEconomicsAnalysis

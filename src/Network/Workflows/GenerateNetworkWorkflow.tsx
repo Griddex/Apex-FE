@@ -5,8 +5,8 @@ import {
   IWorkflowDataProps,
   ReducersType,
 } from "../../Application/Components/Workflows/WorkflowTypes";
-import ExistingFacilitiesDecks from "../../Import/Routes/FacilitiesInputDeck/ExistingFacilitiesDecks";
-import ExistingForecastDecks from "../../Import/Routes/ForecastInputDeck/ExistingForecastDecks";
+import StoredFacilitiesDecks from "../../Import/Routes/FacilitiesInputDeck/StoredFacilitiesDecks";
+import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
 
 const useStyles = makeStyles((theme) => ({
   rootWorkflow: {
@@ -33,9 +33,9 @@ const GenerateNetworkWorkflow = (workflowProps: IWorkflowDataProps) => {
   const renderImportStep = () => {
     switch (activeStep) {
       case 0:
-        return <ExistingFacilitiesDecks {...props} />;
+        return <StoredFacilitiesDecks {...props} />;
       case 1:
-        return <ExistingForecastDecks {...props} />;
+        return <StoredForecastDecks {...props} />;
       default:
         return <h1>No view</h1>;
     }

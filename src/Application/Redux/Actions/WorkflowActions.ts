@@ -1,6 +1,6 @@
 import { INavigationButtonsProp } from "../../Components/NavigationButtons/NavigationButtonTypes";
 import { IAllWorkflows } from "../../Components/Workflows/WorkflowTypes";
-import { IExistingDataProps } from "../../Types/ApplicationTypes";
+import { IStoredDataProps } from "../../Types/ApplicationTypes";
 
 export const SET_WORKFLOWPROCESS = "SET_WORKFLOWPROCESS";
 export const REINITIALIZE_WORKFLOW = "REINITIALIZE_WORKFLOW";
@@ -13,8 +13,8 @@ export const NAVBUTTON_DISABLED = "NAVBUTTON_DISABLED";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
 
 export const setWorkflowProcessAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"],
-  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IStoredDataProps["wkPs"],
+  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IStoredDataProps["wkCy"]
 ) => {
   return {
     type: SET_WORKFLOWPROCESS,

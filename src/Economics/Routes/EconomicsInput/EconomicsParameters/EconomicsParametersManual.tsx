@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     height: "100%",
   },
-  rootExistingData: {
+  rootStoredData: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -219,7 +219,7 @@ const EconomicsParametersManual = ({
   const [sRow, setSRow] = React.useState(-1);
 
   return (
-    <div className={classes.rootExistingData}>
+    <div className={classes.rootStoredData}>
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.rootEconomicsParametersManual}>
           <SizeMe monitorHeight refreshRate={32}>

@@ -1,10 +1,10 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { Edge, Node } from "react-flow-renderer";
-import { IExistingDataRow } from "../../../Application/Types/ApplicationTypes";
+import { IStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import {
   IDeclineCurveParametersDetail,
-  IForecastParametersExistingRow,
-} from "../../Components/Dialogs/ExistingNetworksDialogTypes";
+  IForecastParametersStoredRow,
+} from "../../Components/Dialogs/StoredNetworksDialogTypes";
 
 //NetworkModel
 export interface ISaveNetworkFormValues {
@@ -81,7 +81,7 @@ export interface ICurrentPopoverData {
     | Record<string, React.Key>[];
 }
 
-export type NetworkWorkflowProcessesType = "networkExisting";
+export type NetworkWorkflowProcessesType = "networkStored";
 
 export interface INetworkState extends ISaveNetworkFormProps {
   currentElement: number | string | Record<string, React.Key>;
@@ -130,11 +130,11 @@ export interface INetworkState extends ISaveNetworkFormProps {
 
   loadNetworkGenerationWorkflow: boolean;
 
-  existingDataWorkflows: {
-    networkExisting: IExistingDataRow[];
-    forecastingParametersExisting: IForecastParametersExistingRow[];
-    declineParametersExisting: IForecastParametersExistingRow[];
-    productionPrioritizationExisting: IForecastParametersExistingRow[];
+  storedDataWorkflows: {
+    networkStored: IStoredDataRow[];
+    forecastingParametersStored: IForecastParametersStoredRow[];
+    declineParametersStored: IForecastParametersStoredRow[];
+    productionPrioritizationStored: IForecastParametersStoredRow[];
   };
 
   currentDeclineParameters: IDeclineCurveParametersDetail[];

@@ -7,7 +7,7 @@ import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import NodePanel from "../Components/Nodes/NodePanel";
 import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
-import { IApplicationExistingForecastResultsRow } from "../../Application/Types/ApplicationTypes";
+import { IApplicationStoredForecastResultsRow } from "../../Application/Types/ApplicationTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { useSelector } from "react-redux";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
@@ -25,16 +25,16 @@ const NetworkPanel = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const wc = "existingDataWorkflows";
-  const wp = "forecastResultsExisting";
+  const wc = "storedDataWorkflows";
+  const wp = "forecastResultsStored";
 
   const { isNetworkAuto } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
-  const existingData = useSelector(
+  const storedData = useSelector(
     (state: RootState) => state.forecastReducer[wc][wp]
-  ) as IApplicationExistingForecastResultsRow[];
+  ) as IApplicationStoredForecastResultsRow[];
 
   const nodeNames = [
     "wellhead",
@@ -45,7 +45,7 @@ const NetworkPanel = () => {
     "terminal",
   ];
 
-  const forecastInputDeckTitles = existingData.map((row) => row.title);
+  const forecastInputDeckTitles = storedData.map((row) => row.title);
   const forecastInputDeckOptions = generateSelectOptions(
     forecastInputDeckTitles
   );

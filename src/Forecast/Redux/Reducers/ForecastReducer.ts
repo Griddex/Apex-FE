@@ -20,8 +20,8 @@ import {
   SET_FORECASTCHARTCELLCOLORS,
   SET_FORECASTCHARTCOLOR,
   SET_FORECASTCHARTOBJECT,
-  EXISTINGFORECASTINGRESULTS_SUCCESS,
-  EXISTINGFORECASTINGRESULTS_FAILURE,
+  STOREDFORECASTINGRESULTS_SUCCESS,
+  STOREDFORECASTINGRESULTS_FAILURE,
   TREEVIEWKEYS_SUCCESS,
   TREEVIEWKEYS_FAILURE,
   GET_FORECASTDATABYID_FAILURE,
@@ -188,17 +188,17 @@ const forecastReducer = (
       };
     }
 
-    case EXISTINGFORECASTINGRESULTS_SUCCESS: {
-      const { forecastResultsExisting } = action.payload;
-      const wc = "existingDataWorkflows";
+    case STOREDFORECASTINGRESULTS_SUCCESS: {
+      const { forecastResultsStored } = action.payload;
+      const wc = "storedDataWorkflows";
 
       return {
         ...state,
-        [wc]: { ...state[wc], forecastResultsExisting },
+        [wc]: { ...state[wc], forecastResultsStored },
       };
     }
 
-    case EXISTINGFORECASTINGRESULTS_FAILURE: {
+    case STOREDFORECASTINGRESULTS_FAILURE: {
       const { errors } = action.payload;
 
       return {

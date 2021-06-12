@@ -123,7 +123,7 @@ const EconomicsAnalysis = ({
       show: true,
       exclusive: true,
       maxWidth: "sm",
-      iconType: "information",
+      iconType: "create",
       workflowProcess,
       actionsList: () =>
         DialogSaveCancelButtons(
@@ -146,7 +146,7 @@ const EconomicsAnalysis = ({
       show: true,
       exclusive: true,
       maxWidth: "sm",
-      iconType: "information",
+      iconType: "save",
       workflowProcess,
       actionsList: () =>
         DialogSaveCancelButtons(
@@ -170,7 +170,7 @@ const EconomicsAnalysis = ({
       exclusive: true,
       maxWidth: "xs",
       dialogText: "Do you want to save the current economics sensitivities?",
-      iconType: "information",
+      iconType: "confirmation",
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],
@@ -194,13 +194,13 @@ const EconomicsAnalysis = ({
 
   const loadSensitivities = () => {
     const dialogParameters: DialogStuff = {
-      name: "Existing_Economics_Sensitivities_Dialog",
-      title: "Existing Economics Sensitivities",
-      type: "existingEconomicsSensitivitiesDialog",
+      name: "Stored_Economics_Sensitivities_Dialog",
+      title: "Stored Economics Sensitivities",
+      type: "storedEconomicsSensitivitiesDialog",
       show: true,
       exclusive: true,
       maxWidth: "md",
-      iconType: "information",
+      iconType: "table",
       workflowProcess,
       actionsList: () =>
         DialogOneCancelButtons(
@@ -277,7 +277,7 @@ const EconomicsAnalysis = ({
       show: true,
       exclusive: true,
       maxWidth: "sm",
-      iconType: "information",
+      iconType: "save",
       actionsList: () =>
         DialogSaveCancelButtons(
           [true, true],

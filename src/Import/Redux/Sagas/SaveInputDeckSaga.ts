@@ -19,12 +19,12 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import { fetchExistingForecastingParametersRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
+import { fetchStoredForecastingParametersRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/SaveInputDeckDialogParameters";
-import { fetchExistingDataRequestAction } from "../Actions/ExistingDataActions";
+import { fetchStoredDataRequestAction } from "../Actions/StoredDataActions";
 import {
   saveInputDeckFailureAction,
   saveInputDeckSuccessAction,
@@ -133,7 +133,7 @@ export function* saveInputDeckSaga(
     const {
       status,
       success,
-      data: { data: existingDataId },
+      data: { data: storedDataId },
     } = result;
 
     const successAction = saveInputDeckSuccessAction();
@@ -144,12 +144,12 @@ export function* saveInputDeckSaga(
         workflowProcess: wp,
         status,
         success,
-        existingDataId,
+        storedDataId,
       },
     });
 
-    yield put(fetchExistingDataRequestAction(projectId));
-    yield put(fetchExistingForecastingParametersRequestAction(projectId));
+    yield put(fetchStoredDataRequestAction(projectId));
+    yield put(fetchStoredForecastingParametersRequestAction(projectId));
     yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(successDialogParameters(reducer, inputDeckType, wp))

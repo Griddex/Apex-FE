@@ -12,7 +12,7 @@ export const extrudeForecastParametersDPs = (
     show: true,
     exclusive: false,
     maxWidth: "xl",
-    iconType: "information",
+    iconType: "edit",
     selectedRowIndex,
     actionsList: () => DialogCancelButton(),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

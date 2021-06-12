@@ -25,7 +25,7 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/SensitivitiesSuccessFailureDialogParameters";
 import {
-  fetchExistingEconomicsSensitivitiesRequestAction,
+  fetchStoredEconomicsSensitivitiesRequestAction,
   saveEconomicsSensitivitiesFailureAction,
   saveEconomicsSensitivitiesSuccessAction,
   SAVEECONOMICSSENSITIVITIES_REQUEST,
@@ -122,9 +122,7 @@ function* saveEconomicsSensitivitiesSaga(
     );
 
     yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
-    yield put(
-      fetchExistingEconomicsSensitivitiesRequestAction(projectId, false)
-    );
+    yield put(fetchStoredEconomicsSensitivitiesRequestAction(projectId, false));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveEconomicsSensitivitiesFailureAction();

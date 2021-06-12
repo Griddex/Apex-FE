@@ -20,7 +20,7 @@ import {
 } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
 import {
-  fetchExistingEconomicsSensitivitiesRequestAction,
+  fetchStoredEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
 import EconomicsAnalysesLanding from "../EconomicsAnalyses/EconomicsAnalysesLanding";

@@ -14,7 +14,7 @@ import WorkflowBanner from "../../Application/Components/Workflows/WorkflowBanne
 import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ExistingForecastResults from "../../Forecast/Routes/ExistingForecastResults";
+import StoredForecastResults from "../../Forecast/Routes/StoredForecastResults";
 import { forecastCaseOptions } from "../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../Redux/Actions/EconomicsActions";
 import CostsAndRevenueManual from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueManual";
@@ -218,7 +218,7 @@ const CostsRevenueApexForecastWorkflow = ({
                 />
               }
             />
-            <ExistingForecastResults
+            <StoredForecastResults
               showChart={false}
               showBaseButtons={false}
               shouldRunAggregation={true}

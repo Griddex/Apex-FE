@@ -1,6 +1,6 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
-import { IApplicationExistingForecastResultsRow } from "../../../Application/Types/ApplicationTypes";
+import { IApplicationStoredForecastResultsRow } from "../../../Application/Types/ApplicationTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
@@ -81,8 +81,8 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   isForecastResultsLoading: boolean;
   isForecastResultsSaved: boolean;
 
-  existingDataWorkflows: {
-    forecastResultsExisting: IApplicationExistingForecastResultsRow[];
+  storedDataWorkflows: {
+    forecastResultsStored: IApplicationStoredForecastResultsRow[];
   };
 
   loadForecastResultsWorkflow: boolean;
@@ -91,7 +91,7 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
 
 export type colorGradient = typeof initialColorGradient;
 
-export interface IExistingForecastResultsRow {
+export interface IStoredForecastResultsRow {
   sn?: number;
   id?: string;
   userId?: string;

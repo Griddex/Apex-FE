@@ -27,9 +27,9 @@ import {
 } from "../../../Import/Redux/Actions/InputActions";
 import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
-  EXISTINGECONOMICSDATA_SUCCESS,
-  EXISTINGECONOMICSSENSITIVITIES_FAILURE,
-  EXISTINGECONOMICSSENSITIVITIES_SUCCESS,
+  STOREDECONOMICSDATA_SUCCESS,
+  STOREDECONOMICSSENSITIVITIES_FAILURE,
+  STOREDECONOMICSSENSITIVITIES_SUCCESS,
   FETCHCOSTSREVENUESHEADERS_FAILURE,
   FETCHCOSTSREVENUESHEADERS_SUCCESS,
   FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
@@ -167,28 +167,28 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case EXISTINGECONOMICSDATA_SUCCESS: {
+    case STOREDECONOMICSDATA_SUCCESS: {
       const {
-        economicsCostsRevenuesDeckExisting,
-        economicsParametersDeckExisting,
+        economicsCostsRevenuesDeckStored,
+        economicsParametersDeckStored,
       } = action.payload;
 
       return {
         ...state,
-        existingDataWorkflows: {
-          ...state.existingDataWorkflows,
-          economicsCostsRevenuesDeckExisting,
-          economicsParametersDeckExisting,
+        storedDataWorkflows: {
+          ...state.storedDataWorkflows,
+          economicsCostsRevenuesDeckStored,
+          economicsParametersDeckStored,
         },
       };
     }
 
-    case EXISTINGECONOMICSSENSITIVITIES_FAILURE:
-    case EXISTINGECONOMICSSENSITIVITIES_SUCCESS: {
+    case STOREDECONOMICSSENSITIVITIES_FAILURE:
+    case STOREDECONOMICSSENSITIVITIES_SUCCESS: {
       return {
         ...state,
-        existingDataWorkflows: {
-          ...state.existingDataWorkflows,
+        storedDataWorkflows: {
+          ...state.storedDataWorkflows,
           ...action.payload,
         },
       };

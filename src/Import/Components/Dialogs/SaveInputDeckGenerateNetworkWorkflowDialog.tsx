@@ -175,7 +175,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const existingProps = {
+  const storedProps = {
     reducer,
     showChart: false,
     activeStep,
@@ -221,7 +221,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
             width: "100%",
           }}
         >
-          <SaveInputDeckGenerateNetworkWorkflow {...existingProps} />
+          <SaveInputDeckGenerateNetworkWorkflow {...storedProps} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>{" "}

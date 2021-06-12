@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { IAction } from "../../Redux/Actions/ActionTypes";
-import { IExistingDataProps } from "../../Types/ApplicationTypes";
+import { IStoredDataProps } from "../../Types/ApplicationTypes";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { IAllWorkflows } from "../Workflows/WorkflowTypes";
 
@@ -41,8 +41,8 @@ export interface IMiniCardProps {
   title: string;
   moduleAction: () => IAction | void;
   cardWidth?: number;
-  wP?: IAllWorkflows["wrkflwPrcss"] | IExistingDataProps["wkPs"];
-  wC?: IAllWorkflows["wrkflwCtgry"] | IExistingDataProps["wkCy"];
+  wP?: IAllWorkflows["wrkflwPrcss"] | IStoredDataProps["wkPs"];
+  wC?: IAllWorkflows["wrkflwCtgry"] | IStoredDataProps["wkCy"];
 }
 
 const MiniCard: React.FC<IMiniCardProps> = (props) => {

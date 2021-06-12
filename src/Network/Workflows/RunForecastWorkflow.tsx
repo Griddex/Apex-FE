@@ -6,11 +6,11 @@ import {
   IWorkflowDataProps,
   ReducersType,
 } from "../../Application/Components/Workflows/WorkflowTypes";
-import { IExistingDataProps } from "../../Application/Types/ApplicationTypes";
-import ExistingFacilitiesDecks from "../../Import/Routes/FacilitiesInputDeck/ExistingFacilitiesDecks";
-import ExistingForecastDecks from "../../Import/Routes/ForecastInputDeck/ExistingForecastDecks";
-import ExistingForecastingParameters from "../Routes/ExistingForecastingParameters";
-import ExistingNetworks from "../Routes/ExistingNetworks";
+import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
+import StoredFacilitiesDecks from "../../Import/Routes/FacilitiesInputDeck/StoredFacilitiesDecks";
+import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
+import StoredForecastingParameters from "../Routes/StoredForecastingParameters";
+import StoredNetworks from "../Routes/StoredNetworks";
 
 const useStyles = makeStyles((theme) => ({
   rootWorkflow: {
@@ -26,8 +26,8 @@ const RunForecastWorkflow = (workflowProps: IWorkflowDataProps) => {
   const classes = useStyles();
   const { activeStep } = workflowProps;
   const reducer = "inputReducer" as ReducersType;
-  const workflowProcess = "networkExisting" as NonNullable<
-    IExistingDataProps["wkPs"]
+  const workflowProcess = "networkStored" as NonNullable<
+    IStoredDataProps["wkPs"]
   >;
 
   const props = {
@@ -42,13 +42,13 @@ const RunForecastWorkflow = (workflowProps: IWorkflowDataProps) => {
     switch (activeStep) {
       case 0:
         return (
-          <ExistingNetworks
+          <StoredNetworks
             workflowProcess={workflowProcess}
             containerStyle={props.containerStyle}
           />
         );
       case 1:
-        return <ExistingForecastingParameters {...props} />;
+        return <StoredForecastingParameters {...props} />;
       default:
         return <h1>No view</h1>;
     }

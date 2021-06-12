@@ -1,7 +1,7 @@
 export interface IEconomicsResultsLanding {
   templateResults: JSX.Element;
   plotchartsTables: JSX.Element;
-  existingResults: JSX.Element;
+  storedResults: JSX.Element;
 }
 
 export type IdType = {

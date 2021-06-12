@@ -62,15 +62,15 @@ const ForecastChartDataPanel = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const wc = "existingDataWorkflows";
-  const { forecastResultsExisting } = useSelector(
+  const wc = "storedDataWorkflows";
+  const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   );
   const { selectedForecastingResultsTitle } = useSelector(
     (state: RootState) => state.forecastReducer
   );
 
-  const forecastResults = forecastResultsExisting.map(
+  const forecastResults = forecastResultsStored.map(
     (row) => row.title
   ) as string[];
   const forecastResultsTitleOptions = generateSelectOptions(forecastResults);

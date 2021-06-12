@@ -1,5 +1,5 @@
 export type ApprovalTextType =
-  | "Existing"
+  | "Stored"
   | "Pending"
   | "Returned"
   | string

@@ -51,7 +51,7 @@ const ForecastButtonsMenu = () => {
       show: true,
       exclusive: false,
       maxWidth: "lg",
-      iconType: "information",
+      iconType: "run",
       actionsList: () =>
         DialogRunForecastCancelButtons(
           [true, true],
@@ -93,7 +93,7 @@ const ForecastButtonsMenu = () => {
       show: true,
       exclusive: false,
       maxWidth: "lg",
-      iconType: "information",
+      iconType: "run",
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -103,15 +103,15 @@ const ForecastButtonsMenu = () => {
     history.push("/apex/forecast");
   };
 
-  const existingForecastParameters = () => {
+  const storedForecastParameters = () => {
     const dialogParameters: DialogStuff = {
-      name: "Existing_Forecast_Parameters_Dialog",
+      name: "Stored_Forecast_Parameters_Dialog",
       title: "Forecasting Parameters Table",
-      type: "existingForecastingParametersDialog",
+      type: "storedForecastingParametersDialog",
       show: true,
       exclusive: false,
       maxWidth: "xl",
-      iconType: "information",
+      iconType: "table",
       actionsList: () => DialogCancelButton(),
     };
 
@@ -120,13 +120,13 @@ const ForecastButtonsMenu = () => {
 
   const createForecastParameters = () => {
     const dialogParameters: DialogStuff = {
-      name: "Existing_Forecast_Parameters_Dialog",
+      name: "Stored_Forecast_Parameters_Dialog",
       title: "Create Forecast Parameters",
       type: "createNewForecastingParametersWorkflowDialog",
       show: true,
       exclusive: false,
       maxWidth: "xl",
-      iconType: "information",
+      iconType: "create",
       actionsList: () => DialogCancelButton(),
     };
 
@@ -153,7 +153,7 @@ const ForecastButtonsMenu = () => {
     },
     {
       title: "View Parameters",
-      action: existingForecastParameters,
+      action: storedForecastParameters,
       icon: <ListOutlinedIcon color="primary" fontSize="small" />,
       disable: false,
     },

@@ -1,6 +1,6 @@
 export interface IEconomicsSensitivitiesLayouts {
   create: JSX.Element;
-  existing: JSX.Element;
+  stored: JSX.Element;
 }
 
 export type IdType = {

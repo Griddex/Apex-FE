@@ -9,16 +9,16 @@ const inputWorkflowProcesses = [
   "economicsCostsRevenuesDeckDatabase",
   "economicsCostsRevenuesDeckManual",
   "economicsCostsRevenuesDeckApexForecast",
-  "economicsCostsRevenuesDeckExisting",
+  "economicsCostsRevenuesDeckStored",
 
   "economicsParametersDeckExcel",
   "economicsParametersDeckDatabase",
   "economicsParametersDeckManual",
-  "economicsParametersDeckExisting",
+  "economicsParametersDeckStored",
 
-  "economicsSensitivitiesExisting",
+  "economicsSensitivitiesStored",
 
-  "economicsResultsExisting",
+  "economicsResultsStored",
 ];
 
 const generateEconomicsState = () => {
@@ -90,14 +90,14 @@ const generateEconomicsState = () => {
   }, {});
 };
 
-const existingWorkflowProcesses = [
-  "economicsCostsRevenuesDeckExisting",
-  "economicsParametersDeckExisting",
-  "economicsSensitivitiesExisting",
-  "economicsResultsExisting",
+const storedWorkflowProcesses = [
+  "economicsCostsRevenuesDeckStored",
+  "economicsParametersDeckStored",
+  "economicsSensitivitiesStored",
+  "economicsResultsStored",
 ];
-const generateExistingDataState = () => {
-  return existingWorkflowProcesses.reduce((acc, workflowProcess) => {
+const generateStoredDataState = () => {
+  return storedWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
       [workflowProcess]: [],
@@ -228,7 +228,7 @@ const generateChartsState = () => {
 };
 
 const inputDataState = generateEconomicsState();
-const existingDataState = generateExistingDataState();
+const storedDataState = generateStoredDataState();
 const analysesDataState = generateAnalysesState();
 const chartsDataState = generateChartsState();
 
@@ -331,7 +331,7 @@ const EconomicsState: IEconomicsState = {
   economicsTemplatesTree: { id: "", name: "" },
 
   inputDataWorkflows: inputDataState,
-  existingDataWorkflows: existingDataState,
+  storedDataWorkflows: storedDataState,
   economicsAnalysisWorkflows: analysesDataState,
   economicsChartsWorkflows: chartsDataState,
 };
