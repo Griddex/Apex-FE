@@ -30,6 +30,7 @@ import { IconNameType } from "../Icons/DialogIconsTypes";
 import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowStepper";
+import WorkflowDialogBanner from "../Workflows/WorkflowDialogBanner";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -224,6 +225,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
+        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <div
           style={{
             display: "flex",

@@ -17,6 +17,7 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
+import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
   hideDialogAction,
   showDialogAction,
@@ -216,10 +217,11 @@ const RunForecastWorkflowDialog = (props: DialogStuff) => {
         style={{
           display: "flex",
           flexWrap: "nowrap",
-          flexDirection: "row",
+          flexDirection: "column",
           height: 650,
         }}
       >
+        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <div
           style={{
             display: "flex",

@@ -16,6 +16,7 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
+import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
   hideDialogAction,
   showDialogAction,
@@ -134,9 +135,10 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
     (activeStep: number) => activeStep === 50,
     [activeStep]
   );
-  const isStepSkipped = useCallback((step: number) => skipped.has(step), [
-    skipped,
-  ]);
+  const isStepSkipped = useCallback(
+    (step: number) => skipped.has(step),
+    [skipped]
+  );
 
   const workflowProps = {
     activeStep,
@@ -211,10 +213,11 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
         style={{
           display: "flex",
           flexWrap: "nowrap",
-          flexDirection: "row",
+          flexDirection: "column",
           height: 650,
         }}
       >
+        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <div
           style={{
             display: "flex",

@@ -17,6 +17,7 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
+import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
   IAllWorkflows,
   ReducersType,
@@ -212,7 +213,11 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
       >
         <div>{title}</div>
       </DialogTitle>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{ display: "flex", flexDirection: "column", height: 650 }}
+      >
+        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <div
           style={{
             display: "flex",

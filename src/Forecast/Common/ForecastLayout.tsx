@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => {
       display: "flex",
       marginTop: navbarHeight + subNavBarHeight,
       width: "100%",
-      height: `calc(100% - ${navbarHeight + subNavBarHeight})`,
+      height: `calc(100% - ${navbarHeight + subNavBarHeight}px)`,
     },
   };
 });

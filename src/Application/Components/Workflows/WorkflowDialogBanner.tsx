@@ -12,7 +12,7 @@ import { IWorkflowBannerProps } from "./WorkflowTypes";
 const useStyles = makeStyles((theme) => ({
   workflowHeaderRow: {
     display: "flex",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     height: "5%",
     margin: 0,
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   workflowBannerHeader: {
     display: "flex",
-    width: "100%",
+    // width: "100%",
     marginLeft: 6,
   },
 }));
