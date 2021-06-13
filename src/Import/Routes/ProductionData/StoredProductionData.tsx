@@ -44,23 +44,21 @@ export default function StoredProductionData({
     extraButtons: () => <div></div>,
   };
 
-  const snStoredData: IStoredDataRow[] = storedData.map(
-    (row: any, i: number) => {
-      const data: IStoredDataRow = {
-        sn: i + 1,
-        id: row.id,
-        status: "Not Started",
-        title: row.title,
-        description: row.description,
-        author: { avatarUrl: "", name: "None" },
-        approvers: "None",
-        createdOn: row.createdAt,
-        modifiedOn: row.createdAt,
-      };
+  const snStoredData = storedData.map((row: any, i: number) => {
+    const data: IStoredDataRow = {
+      sn: i + 1,
+      id: row.id,
+      approval: "Not Started",
+      title: row.title,
+      description: row.description,
+      author: { avatarUrl: "", name: "None" },
+      approvers: "None",
+      createdOn: row.createdAt,
+      modifiedOn: row.createdAt,
+    };
 
-      return data;
-    }
-  );
+    return data;
+  }) as IStoredDataRow[];
 
   const dataKey = "title";
   const dataTitle = "PRODUCTION DATA TITLE";
@@ -68,7 +66,6 @@ export default function StoredProductionData({
   const handleCheckboxChange = (row: any) => {
     const { id, title } = row;
 
-    //TODO: Doesnt exist yet
     persistSelectedIdTitleAction &&
       dispatch(
         persistSelectedIdTitleAction("economicsReducer", {

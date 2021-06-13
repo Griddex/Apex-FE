@@ -1,4 +1,5 @@
 export const UPDATE_NEWPROJECT = "UPDATE_NEWPROJECT";
+export const UPDATES_NEWPROJECT = "UPDATES_NEWPROJECT";
 export const CREATE_NEWPROJECT = "CREATE_NEWPROJECT";
 export const NEWPROJECT_SUCCESS = "NEWPROJECT_SUCCESS";
 export const NEWPROJECT_FAILURE = "NEWPROJECT_FAILURE";
@@ -19,6 +20,16 @@ export const updateProjectParameterAction = (name: string, value: string) => {
     payload: {
       name,
       value,
+    },
+  };
+};
+export const updateProjectParametersAction = (
+  updateObj: Record<string, any>
+) => {
+  return {
+    type: UPDATES_NEWPROJECT,
+    payload: {
+      updateObj,
     },
   };
 };
@@ -115,28 +126,10 @@ export const openRecentProjectFailureAction = () => {
   };
 };
 
-export const createNewProjectAction = (
-  projectTitle: string,
-  projectDescription: string,
-  dayFormat: string,
-  monthFormat: string,
-  yearFormat: string,
-  pressureAddend: number,
-  successDialogParameters: DialogStuff,
-  failureDialogParameters: DialogStuff
-) => {
+export const createNewProjectAction = () => {
   return {
     type: CREATE_NEWPROJECT,
-    payload: {
-      projectTitle,
-      projectDescription,
-      dayFormat,
-      monthFormat,
-      yearFormat,
-      pressureAddend,
-      successDialogParameters,
-      failureDialogParameters,
-    },
+    payload: {},
   };
 };
 

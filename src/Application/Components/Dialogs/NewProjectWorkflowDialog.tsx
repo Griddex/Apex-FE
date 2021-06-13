@@ -141,13 +141,6 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const { projectTitle, projectDescription, pressureAddend } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  );
-
   const finalAction = () => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Create_New_Project_Dialog",
@@ -162,20 +155,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [
-            () =>
-              createNewProjectAction(
-                projectTitle,
-                projectDescription,
-                dayFormat,
-                monthFormat,
-                yearFormat,
-                pressureAddend,
-                successDialogParameters,
-                failureDialogParameters
-              ),
-            unloadDialogsAction,
-          ]
+          [() => createNewProjectAction(), unloadDialogsAction]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

@@ -136,10 +136,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         };
     }, {}) as Record<string, Record<string, string>>
   );
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 139 ~ MatchUnits ~ fileHeadersUnitsAppHeadersWithoutNoneMap",
-    fileHeadersUnitsAppHeadersWithoutNoneMap
-  );
 
   const fileHeadersWithoutNone = React.useRef(
     matchHeadersTable.reduce((acc: string[], row: IRawRow) => {
@@ -180,10 +176,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const currentAppHeaderNameMap = getCurrentAppHeaderTitleNameMap(
     wp,
     allAppHeadersNameMap
-  );
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 184 ~ MatchUnits ~ currentAppHeaderNameMap",
-    currentAppHeaderNameMap
   );
 
   const fileUnitMatches = React.useRef(
@@ -291,6 +283,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     })
   );
 
+  const [reRender, setReRender] = React.useState(false);
   const [rows, setRows] = React.useState(initialTableRows.current);
 
   const [chosenApplicationUnitIndices, setChosenApplicationUnitIndices] =
@@ -348,6 +341,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       }));
 
       setRows(rows);
+      setReRender(!reRender);
     };
 
     const handleApplicationUnitChange = <T extends boolean>(
@@ -408,10 +402,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
         const selectedRow = rows[rowSN - 1];
         const selectedUnitIds = selectedAppUnitsOptions.map((u) => u.unitId);
-        console.log(
-          "Logged output --> ~ file: MatchUnits.tsx ~ line 409 ~ MatchUnits ~ selectedUnitIds",
-          selectedUnitIds
-        );
 
         rows[rowSN - 1] = {
           ...selectedRow,
@@ -427,6 +417,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         }));
 
         setRows(rows);
+        setReRender(!reRender);
       } else {
         const selectedValue = option && (option as IAppUnitSelectOption).label;
         const selectedAppUnit = selectedValue as string;
@@ -462,6 +453,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         }));
 
         setRows(rows);
+        setReRender(!reRender);
       }
     };
 
@@ -819,6 +811,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
             }
 
             setRows(rowsAllAcceptMatch);
+            setReRender(!reRender);
             setUserMatchObject(userMatchObject);
             setAcceptmatchToggle(currentAcceptMatchValue);
           }}
@@ -855,6 +848,10 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           type === "Multiple" ? chosenAppUnitId.join("&|&") : chosenAppUnitId,
       };
     }, {});
+    console.log(
+      "Logged output --> ~ file: MatchUnits.tsx ~ line 858 ~ appHeaderNameUnitsMap ~ appHeaderNameUnitsMap",
+      appHeaderNameUnitsMap
+    );
 
     dispatch(persistVariableUnitsAction(reducer, appHeaderNameUnitsMap, wp));
 
@@ -869,7 +866,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     dispatch(saveUserMatchAction(userMatchObject));
 
     dispatch(hideSpinnerAction());
-  }, [rows]);
+  }, [reRender]);
 
   return (
     <div className={classes.rootMatchUnits}>

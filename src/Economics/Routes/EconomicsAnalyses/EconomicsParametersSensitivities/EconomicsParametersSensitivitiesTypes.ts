@@ -25,7 +25,7 @@ export interface IStoredEconomicsSensitivitiesRow {
   sn?: number;
   id?: string;
   title?: string;
-  status?: IStoredDataRow["status"];
+  approval?: IStoredDataRow["approval"];
   description?: string;
   economicsSensitivitiesId?: string;
   economicsSensitivitiesTitle?: string;

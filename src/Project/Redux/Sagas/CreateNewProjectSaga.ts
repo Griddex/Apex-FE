@@ -20,11 +20,14 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
+  failureDialogParameters,
+  successDialogParameters,
+} from "../../Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
+import {
   createNewProjectFailureAction,
   createNewProjectSuccessAction,
   CREATE_NEWPROJECT,
   fetchRecentProjectsAction,
-  updateProjectParameterAction,
 } from "../Actions/ProjectActions";
 
 export default function* watchCreateNewProjectSaga(): Generator<
@@ -48,7 +51,6 @@ function* createNewProjectSaga(
   any
 > {
   const { payload } = action;
-  const { successDialogParameters, failureDialogParameters } = payload;
 
   const { projectTitle, projectDescription } = yield select(
     (state: RootState) => state.projectReducer
@@ -88,30 +90,25 @@ function* createNewProjectSaga(
       data: {
         status,
         data: { id },
-        succcess,
       },
     } = result;
-    //put default unitsettings data received into
-    //unitsettings store
 
     const successAction = createNewProjectSuccessAction();
     yield put({
       ...successAction,
-      payload: { ...payload, status, id },
+      payload: {
+        ...payload,
+        status,
+        currentProjectTitle: projectTitle,
+        currentProjectDescription: projectDescription,
+        currentProjectId: id,
+      },
     });
 
     yield put(activateDisabledMenusAction());
     yield put(fetchRecentProjectsAction());
-    yield put(
-      updateProjectParameterAction("selectedProjectTitle", projectTitle)
-    );
-    yield put(
-      updateProjectParameterAction(
-        "selectedProjectDescription",
-        projectDescription
-      )
-    );
-    yield put(showDialogAction(successDialogParameters)); //put --> show snackbar, reset registration form
+
+    yield put(showDialogAction(successDialogParameters));
   } catch (errors) {
     const failureAction = createNewProjectFailureAction();
 

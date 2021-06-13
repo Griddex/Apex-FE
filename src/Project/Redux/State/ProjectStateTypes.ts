@@ -2,7 +2,7 @@ import { FormikErrors, FormikTouched } from "formik";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
 
-export interface IGiftProject {
+export interface IApplicationProject {
   sn?: number;
   id?: string;
   title?: string;
@@ -35,6 +35,10 @@ export interface IProjectState extends INewProjectFormValues {
   selectedProjectId: string;
   selectedProjectTitle: string;
   selectedProjectDescription: string;
+
+  currentProjectId: string;
+  currentProjectTitle: string;
+  currentProjectDescription: string;
 }
 
 export interface INewProjectFormValues {

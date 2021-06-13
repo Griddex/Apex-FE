@@ -5,8 +5,9 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { IStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
-import { IGiftProject } from "../Redux/State/ProjectStateTypes";
+import { IApplicationProject } from "../Redux/State/ProjectStateTypes";
 
 const chartData = [
   { name: "Group A", value: 2400 },
@@ -30,9 +31,8 @@ export default function StoredProjects({
     extraButtons: () => <div></div>,
   };
 
-  //TODO: Tell Gift to pass in createdAt
-  const snStoredData = (storedProjects as IGiftProject[]).map(
-    (row: IGiftProject, i: number) => ({
+  const snStoredData = (storedProjects as IApplicationProject[]).map(
+    (row, i: number) => ({
       sn: i + 1,
       id: row.id,
       title: row.title,
@@ -40,12 +40,10 @@ export default function StoredProjects({
       approval: "Not Started",
       author: { avatarUrl: "", name: "None" },
       approvers: "---",
-      // createdOn: row.createdAt,
-      createdOn: "11th February, 2021",
-      // modifiedOn: row.createdAt,
-      modifiedOn: "11th February, 2021",
+      createdOn: row.createdAt,
+      modifiedOn: row.createdAt,
     })
-  );
+  ) as IStoredDataRow[];
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());

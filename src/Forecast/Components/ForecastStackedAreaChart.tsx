@@ -47,7 +47,7 @@ const ForecastStackedAreaChart = () => {
               <text
                 alignmentBaseline={"central"}
                 textAnchor={textAnchor}
-                transform={`translate(${textX},${textY})`}
+                transform={`translate(${textX},${textY}) rotate(70)`}
                 fontSize={11}
                 // fontFamily={""}
               >

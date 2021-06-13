@@ -94,10 +94,11 @@ const Navbar = () => {
   const classes = useStyles(layoutProps);
 
   const { expandMainDrawer, showNavbar } = layoutProps;
-  const username = faker.name.findName();
+  // const username = faker.name.findName();
+  const username = "Gideon Sanni";
   const role = "Corporate Forecaster";
   const userinitials = GetInitials(username);
-  const { projectTitle } = useSelector(
+  const { currentProjectTitle } = useSelector(
     (state: RootState) => state.projectReducer
   );
 
@@ -144,7 +145,7 @@ const Navbar = () => {
                 fontWeight: "bold",
               }}
             >
-              {projectTitle}
+              {currentProjectTitle}
             </Typography>
           </Box>
           <Box className={classes.userToolBar}>

@@ -218,7 +218,7 @@ export default function StoredDataRoute<
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <Approval approvalText={row.status} />;
+          return <Approval approvalText={row.approval} />;
         },
         width: 100,
       },

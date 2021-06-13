@@ -47,7 +47,6 @@ function* fetchStoredProjectsSaga(
   any
 > {
   const { payload } = action;
-  const { userId } = yield select((state) => state.loginReducer);
 
   const config = { withCredentials: false };
   const fetchStoredProjectsAPI = (url: string) => authService.get(url, config);
@@ -55,7 +54,7 @@ function* fetchStoredProjectsSaga(
   try {
     const result = yield call(
       fetchStoredProjectsAPI,
-      `${getBaseForecastUrl()}/project/recents/${20}` //Put in actual URL
+      `${getBaseForecastUrl()}/project/recents/20`
     );
 
     const {

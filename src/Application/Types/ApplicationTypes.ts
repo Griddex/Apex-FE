@@ -16,7 +16,7 @@ export interface IStoredDataRow {
   sn?: number;
   id?: string;
   userId?: string;
-  status?: "Approved" | "Pending" | "Returned" | "Not Started";
+  approval?: "Approved" | "Pending" | "Returned" | "Not Started";
   title?: string;
   description?: string;
   author?: IUserDetails | string;

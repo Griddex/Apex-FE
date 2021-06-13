@@ -9,6 +9,10 @@ const projectState: IProjectState = {
   selectedProjectTitle: "",
   selectedProjectDescription: "",
 
+  currentProjectId: "",
+  currentProjectTitle: "",
+  currentProjectDescription: "",
+
   pressureAddend: 14.7,
   recentProjects: [],
   storedProjects: [],

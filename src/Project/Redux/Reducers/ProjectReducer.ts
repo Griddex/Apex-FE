@@ -1,3 +1,5 @@
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   CREATE_NEWPROJECT,
   FETCHRECENTPROJECTS_FAILURE,
@@ -8,19 +10,11 @@ import {
   NEWPROJECT_SUCCESS,
   OPENRECENTPROJECT_SUCCESS,
   UPDATE_NEWPROJECT,
+  UPDATES_NEWPROJECT,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
-const projectReducer = (
-  state = projectState,
-  action: {
-    type: string;
-    name: string;
-    value: unknown;
-    meta: { exclusive: boolean };
-    payload: Record<string, string>;
-  }
-) => {
+const projectReducer = (state = projectState, action: IAction) => {
   switch (action.type) {
     case UPDATE_NEWPROJECT: {
       const { name, value } = action.payload;
@@ -28,6 +22,15 @@ const projectReducer = (
       return {
         ...state,
         [name]: value,
+      };
+    }
+
+    case UPDATES_NEWPROJECT: {
+      const { updateObj } = action.payload;
+
+      return {
+        ...state,
+        ...updateObj,
       };
     }
 
@@ -78,28 +81,26 @@ const projectReducer = (
       return {
         ...state,
         status,
-        projectId,
-        projectTitle,
-        projectDescription,
-      };
-    }
-
-    case CREATE_NEWPROJECT: {
-      const { id } = action.payload;
-
-      return {
-        ...state,
-        projectId: id,
+        currentProjectId: projectId,
+        currentProjectTitle: projectTitle,
+        currentProjectDescription: projectDescription,
       };
     }
 
     case NEWPROJECT_SUCCESS: {
-      const { status, id } = action.payload;
+      const {
+        status,
+        currentProjectId,
+        currentProjectTitle,
+        currentProjectDescription,
+      } = action.payload;
 
       return {
         ...state,
         status,
-        projectId: id,
+        currentProjectId,
+        currentProjectTitle,
+        currentProjectDescription,
       };
     }
 
@@ -111,6 +112,19 @@ const projectReducer = (
         status,
         error,
       };
+    }
+
+    case UPDATE_SELECTEDIDTITLE: {
+      const { reducer, idTitleObj } = action.payload;
+
+      if (reducer === "projectReducer") {
+        return {
+          ...state,
+          ...idTitleObj,
+        };
+      } else {
+        return state;
+      }
     }
 
     default:

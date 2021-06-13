@@ -7,6 +7,7 @@ import {
   ForkEffect,
   put,
   PutEffect,
+  select,
   SelectEffect,
   TakeEffect,
   takeLeading,
@@ -52,6 +53,22 @@ function* openRecentProjectSaga(
 > {
   const { payload } = action;
   const { projectId, projectTitle, projectDescription } = payload; //grab from own dps
+  console.log(
+    "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 56 ~ projectId",
+    projectId
+  );
+  const { selectedProjectId, selectedProjectTitle } = yield select(
+    (state) => state.projectReducer
+  );
+  console.log(
+    "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 66 ~ selectedProjectId",
+    selectedProjectId
+  );
+
+  const projectIdDefined = projectId ? projectId : selectedProjectId;
+  const projectTitleDefined = projectTitle
+    ? projectTitle
+    : selectedProjectTitle;
 
   const config = { withCredentials: false };
   const openRecentProjectAPI = (url: string) => authService.get(url, config);
@@ -63,7 +80,7 @@ function* openRecentProjectSaga(
 
     const result = yield call(
       openRecentProjectAPI,
-      `${getBaseForecastUrl()}/project/${projectId}`
+      `${getBaseForecastUrl()}/project/${projectIdDefined}`
     );
 
     const {
@@ -76,8 +93,8 @@ function* openRecentProjectSaga(
       payload: {
         ...payload,
         status,
-        projectId,
-        projectTitle,
+        projectId: projectIdDefined,
+        projectTitle: projectTitleDefined,
         projectDescription,
       },
     });
