@@ -26,7 +26,7 @@ import {
 import {
   createNewProjectFailureAction,
   createNewProjectSuccessAction,
-  CREATE_NEWPROJECT,
+  CREATE_NEW_PROJECT,
   fetchRecentProjectsAction,
 } from "../Actions/ProjectActions";
 
@@ -35,7 +35,7 @@ export default function* watchCreateNewProjectSaga(): Generator<
   void,
   any
 > {
-  const createNewProjectChan = yield actionChannel(CREATE_NEWPROJECT);
+  const createNewProjectChan = yield actionChannel(CREATE_NEW_PROJECT);
   yield takeLeading(createNewProjectChan, createNewProjectSaga);
 }
 

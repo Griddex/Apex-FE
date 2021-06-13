@@ -4,12 +4,12 @@ import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsA
 
 export const failureDialogParameters = (): DialogStuff => ({
   name: "Fetch_Network_List_Failure_Dialog",
-  title: "Network List Failure",
+  title: "Stored Networks Failure",
   type: "textDialog",
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `List of Networks could not be retrieved.
+  dialogText: `Stored Networks could not be retrieved.
   Please try again`,
   iconType: "error",
   actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),

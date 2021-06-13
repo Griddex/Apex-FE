@@ -29,15 +29,15 @@ export const SAVEAUTOGENERATENETWORK_FAILURE =
 export const SAVENETWORK_REQUEST = "SAVENETWORK_REQUEST";
 export const SAVENETWORK_SUCCESS = "SAVENETWORK_SUCCESS";
 export const SAVENETWORK_FAILURE = "SAVENETWORK_FAILURE";
-export const STOREDFORECASTPARAMETERS_REQUEST =
-  "STOREDFORECASTPARAMETERS_REQUEST";
-export const STOREDFORECASTPARAMETERS_SUCCESS =
-  "STOREDFORECASTPARAMETERS_SUCCESS";
-export const STOREDFORECASTPARAMETERS_FAILURE =
-  "STOREDFORECASTPARAMETERS_FAILURE";
-export const STOREDNETWORKDATA_REQUEST = "STOREDNETWORKDATA_REQUEST";
-export const STOREDNETWORKDATA_SUCCESS = "STOREDNETWORKDATA_SUCCESS";
-export const STOREDNETWORKDATA_FAILURE = "STOREDNETWORKDATA_FAILURE";
+export const STORED_FORECASTPARAMETERS_REQUEST =
+  "STORED_FORECASTPARAMETERS_REQUEST";
+export const STORED_FORECASTPARAMETERS_SUCCESS =
+  "STORED_FORECASTPARAMETERS_SUCCESS";
+export const STORED_FORECASTPARAMETERS_FAILURE =
+  "STORED_FORECASTPARAMETERS_FAILURE";
+export const STORED_NETWORKDATA_REQUEST = "STORED_NETWORKDATA_REQUEST";
+export const STORED_NETWORKDATA_SUCCESS = "STORED_NETWORKDATA_SUCCESS";
+export const STORED_NETWORKDATA_FAILURE = "STORED_NETWORKDATA_FAILURE";
 export const RUN_FORECAST_REQUEST = "RUN_FORECAST_REQUEST";
 export const SAVE_FORECAST_REQUEST = "SAVE_FORECAST_REQUEST";
 export const SAVE_FORECASTPARAMETERS_REQUEST =
@@ -338,14 +338,14 @@ export const fetchStoredForecastingParametersRequestAction = (
   projectIdDefined: string
 ) => {
   return {
-    type: STOREDFORECASTPARAMETERS_REQUEST,
+    type: STORED_FORECASTPARAMETERS_REQUEST,
     payload: { projectId: projectIdDefined },
   };
 };
 
 export const fetchStoredForecastingParametersSuccessAction = () => {
   return {
-    type: STOREDFORECASTPARAMETERS_SUCCESS,
+    type: STORED_FORECASTPARAMETERS_SUCCESS,
     payload: {
       status: 0,
     },
@@ -354,7 +354,7 @@ export const fetchStoredForecastingParametersSuccessAction = () => {
 
 export const fetchStoredForecastingParametersFailureAction = () => {
   return {
-    type: STOREDFORECASTPARAMETERS_FAILURE,
+    type: STORED_FORECASTPARAMETERS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -366,14 +366,14 @@ export const fetchStoredNetworkDataRequestAction = (
   projectIdDefined: string
 ) => {
   return {
-    type: STOREDNETWORKDATA_REQUEST,
+    type: STORED_NETWORKDATA_REQUEST,
     payload: { projectId: projectIdDefined },
   };
 };
 
 export const fetchStoredNetworkDataSuccessAction = () => {
   return {
-    type: STOREDNETWORKDATA_SUCCESS,
+    type: STORED_NETWORKDATA_SUCCESS,
     payload: {
       status: 0,
     },
@@ -382,7 +382,7 @@ export const fetchStoredNetworkDataSuccessAction = () => {
 
 export const fetchStoredNetworkDataFailureAction = () => {
   return {
-    type: STOREDNETWORKDATA_FAILURE,
+    type: STORED_NETWORKDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

@@ -44,7 +44,7 @@ export default function StoredCostsAndRevenuesDecks({
     storedData.map((row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
-      status: "Not Started",
+      approval: "Not Started",
       title: row.title,
       description: row.description,
       developmentScenarios: row?.developmentScenariosCostsRevenue?.join(", "),

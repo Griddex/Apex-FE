@@ -162,7 +162,7 @@ const NetworkButtonsMenu = () => {
       icon: <SaveOutlinedIcon color="primary" fontSize="small" />,
     },
     {
-      title: "Network List",
+      title: "Stored Networks",
       action: storedNetworks,
       icon: <ListOutlinedIcon color="primary" fontSize="small" />,
     },
@@ -206,7 +206,7 @@ const NetworkButtonsMenu = () => {
           const { title, action, icon } = row;
           const style =
             !isNetworkAuto &&
-            ["Generate Network", "Network List"].includes(title)
+            ["Generate Network", "Stored Networks"].includes(title)
               ? {
                   pointerEvents: "none",
                   backgroundColor: theme.palette.grey[200],

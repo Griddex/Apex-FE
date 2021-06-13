@@ -20,7 +20,7 @@ import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredDataDialogParameters";
 import {
-  STOREDDATA_REQUEST,
+  STORED_DATA_REQUEST,
   fetchStoredDataFailureAction,
   fetchStoredDataSuccessAction,
 } from "../Actions/StoredDataActions";
@@ -30,7 +30,7 @@ export default function* watchFetchStoredDataSaga(): Generator<
   void,
   any
 > {
-  const storedDataChan = yield actionChannel(STOREDDATA_REQUEST);
+  const storedDataChan = yield actionChannel(STORED_DATA_REQUEST);
   yield takeLeading(storedDataChan, fetchStoredDataSaga);
 }
 

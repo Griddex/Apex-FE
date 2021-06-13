@@ -4,10 +4,10 @@ import {
   ADD_NETWORKELEMENT,
   AUTOGENERATENETWORK_FAILURE,
   AUTOGENERATENETWORK_SUCCESS,
-  STOREDFORECASTPARAMETERS_FAILURE,
-  STOREDFORECASTPARAMETERS_SUCCESS,
-  STOREDNETWORKDATA_FAILURE,
-  STOREDNETWORKDATA_SUCCESS,
+  STORED_FORECASTPARAMETERS_FAILURE,
+  STORED_FORECASTPARAMETERS_SUCCESS,
+  STORED_NETWORKDATA_FAILURE,
+  STORED_NETWORKDATA_SUCCESS,
   DISPLAY_NETWORKBYID_FAILURE,
   DISPLAY_NETWORKBYID_SUCCESS,
   HIDE_NETWORKELEMENTDETAILS,
@@ -222,7 +222,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case STOREDFORECASTPARAMETERS_SUCCESS: {
+    case STORED_FORECASTPARAMETERS_SUCCESS: {
       const { status, success, forecastingParametersStored } = action.payload;
       const wc = "storedDataWorkflows";
 
@@ -234,7 +234,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case STOREDFORECASTPARAMETERS_FAILURE: {
+    case STORED_FORECASTPARAMETERS_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -244,7 +244,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case STOREDNETWORKDATA_SUCCESS: {
+    case STORED_NETWORKDATA_SUCCESS: {
       const { status, success, networkStored } = action.payload;
       const wc = "storedDataWorkflows";
 
@@ -256,7 +256,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case STOREDNETWORKDATA_FAILURE: {
+    case STORED_NETWORKDATA_FAILURE: {
       const { status, errors } = action.payload;
 
       return {

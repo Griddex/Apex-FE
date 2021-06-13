@@ -13,6 +13,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -78,6 +79,13 @@ function* fetchStoredDeclineParametersSaga(
         declineParameters,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "declineParametersTitles",
+        declineParameters.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredDeclineParametersFailureAction();
 

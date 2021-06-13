@@ -12,6 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -74,6 +75,13 @@ function* fetchStoredEconomicsResultsSaga(action: IAction): Generator<
         economicsResultsStored,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "economicsResultTitles",
+        economicsResultsStored.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredEconomicsResultsFailureAction();
 

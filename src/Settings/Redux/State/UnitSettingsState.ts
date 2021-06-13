@@ -18,7 +18,6 @@ const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   numberFormat: "number",
   numberFormatString: "0.0",
 
-  status: 200,
   errors: { message: "" },
 };
 

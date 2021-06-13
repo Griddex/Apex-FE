@@ -221,7 +221,7 @@ export default function StoredForecastResults({
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
-          return <Approval approvalText={row.status} />;
+          return <Approval approvalText={row.approval} />;
         },
         width: 100,
       },
@@ -317,7 +317,7 @@ export default function StoredForecastResults({
       forecastResultsTitle: row.title,
       description: row.description,
       saved: row.saved,
-      status: "Not Started",
+      approval: "Not Started",
       networkId: row.networkId,
       forecastInputdeckTitle: row.forecastInputdeckTitle,
       forecastParametersTitle: row.forecastingParametersGroupTitle,

@@ -98,7 +98,7 @@ const generateStoredDataState = () => {
         sn: 0,
         id: "",
         userId: "",
-        status: "Not Started",
+        approval: "Not Started",
         title: "",
         description: "",
         author: "",

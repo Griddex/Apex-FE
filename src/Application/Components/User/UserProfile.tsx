@@ -47,9 +47,9 @@ const useStyles = makeStyles((theme) => ({
 //Put data in store and retrieve here using useSelector
 const userProfileData: IUserDetails = {
   avatarUrl: anitaImg,
-  name: "Anita Stragan",
-  callName: "Anita",
-  email: "anita.stragan@syncware.com",
+  name: "Gideon Sanni",
+  callName: "Gideon",
+  email: "gideon.sanni@syncware.com",
   jobTitle: "Senior Reservoir Engineer",
   role: "Corporate Forecaster",
 };

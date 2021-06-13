@@ -13,6 +13,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -21,7 +22,7 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Store
 import {
   fetchStoredProjectsFailureAction,
   fetchStoredProjectsSuccessAction,
-  FETCHSTOREDPROJECTS_REQUEST,
+  FETCH_STORED_PROJECTS_REQUEST,
 } from "../Actions/ProjectActions";
 
 export default function* watchFetchStoredProjectsSaga(): Generator<
@@ -30,7 +31,7 @@ export default function* watchFetchStoredProjectsSaga(): Generator<
   any
 > {
   const fetchStoredProjectsChan = yield actionChannel(
-    FETCHSTOREDPROJECTS_REQUEST
+    FETCH_STORED_PROJECTS_REQUEST
   );
   yield takeLeading(fetchStoredProjectsChan, fetchStoredProjectsSaga);
 }
@@ -51,6 +52,9 @@ function* fetchStoredProjectsSaga(
   const config = { withCredentials: false };
   const fetchStoredProjectsAPI = (url: string) => authService.get(url, config);
 
+  //TODO Gift needs to give me all project titles to
+  //check against
+
   try {
     const result = yield call(
       fetchStoredProjectsAPI,
@@ -58,7 +62,7 @@ function* fetchStoredProjectsSaga(
     );
 
     const {
-      data: { status, data: storedProjects, succcess },
+      data: { status, data: storedProjects },
     } = result;
 
     const successAction = fetchStoredProjectsSuccessAction();
@@ -66,6 +70,13 @@ function* fetchStoredProjectsSaga(
       ...successAction,
       payload: { ...payload, status, storedProjects },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "projectTitles",
+        storedProjects.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredProjectsFailureAction();
 

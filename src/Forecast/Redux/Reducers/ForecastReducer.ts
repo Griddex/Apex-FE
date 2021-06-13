@@ -20,8 +20,8 @@ import {
   SET_FORECASTCHARTCELLCOLORS,
   SET_FORECASTCHARTCOLOR,
   SET_FORECASTCHARTOBJECT,
-  STOREDFORECASTINGRESULTS_SUCCESS,
-  STOREDFORECASTINGRESULTS_FAILURE,
+  STORED_FORECASTINGRESULTS_SUCCESS,
+  STORED_FORECASTINGRESULTS_FAILURE,
   TREEVIEWKEYS_SUCCESS,
   TREEVIEWKEYS_FAILURE,
   GET_FORECASTDATABYID_FAILURE,
@@ -188,7 +188,7 @@ const forecastReducer = (
       };
     }
 
-    case STOREDFORECASTINGRESULTS_SUCCESS: {
+    case STORED_FORECASTINGRESULTS_SUCCESS: {
       const { forecastResultsStored } = action.payload;
       const wc = "storedDataWorkflows";
 
@@ -198,7 +198,7 @@ const forecastReducer = (
       };
     }
 
-    case STOREDFORECASTINGRESULTS_FAILURE: {
+    case STORED_FORECASTINGRESULTS_FAILURE: {
       const { errors } = action.payload;
 
       return {

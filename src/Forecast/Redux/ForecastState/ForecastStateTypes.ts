@@ -1,6 +1,9 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
-import { IApplicationStoredForecastResultsRow } from "../../../Application/Types/ApplicationTypes";
+import {
+  IApplicationStoredForecastResultsRow,
+  TApproval,
+} from "../../../Application/Types/ApplicationTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
@@ -95,7 +98,7 @@ export interface IStoredForecastResultsRow {
   sn?: number;
   id?: string;
   userId?: string;
-  status: "Approved" | "Pending" | "Returned" | "Not Started";
+  approval: TApproval;
   saved: "Saved" | "Not Saved" | string;
   forecastResultsId?: string;
   forecastResultsTitle?: string;

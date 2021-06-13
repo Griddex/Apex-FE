@@ -20,7 +20,7 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Recen
 import {
   fetchRecentProjectsFailureAction,
   fetchRecentProjectsSuccessAction,
-  FETCHRECENTPROJECTS_REQUEST,
+  FETCH_RECENTPROJECTS_REQUEST,
 } from "../Actions/ProjectActions";
 import getBaseForecastUrl from "./../../../Application/Services/BaseUrlService";
 
@@ -30,7 +30,7 @@ export default function* watchFetchRecentProjectsSaga(): Generator<
   any
 > {
   const fetchRecentProjectsChan = yield actionChannel(
-    FETCHRECENTPROJECTS_REQUEST
+    FETCH_RECENTPROJECTS_REQUEST
   );
   yield takeLeading(fetchRecentProjectsChan, fetchRecentProjectsSaga);
 }
@@ -59,7 +59,7 @@ function* fetchRecentProjectsSaga(
     );
 
     const {
-      data: { status, data, succcess },
+      data: { status, data },
     } = result;
 
     const recentProjects = data.map((row: any) => ({

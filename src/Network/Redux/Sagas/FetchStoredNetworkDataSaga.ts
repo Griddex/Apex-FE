@@ -13,13 +13,14 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/FetchStoredNetworkFailureDialogParameters";
 import {
-  STOREDNETWORKDATA_REQUEST,
+  STORED_NETWORKDATA_REQUEST,
   fetchStoredNetworkDataFailureAction,
   fetchStoredNetworkDataSuccessAction,
 } from "../Actions/NetworkActions";
@@ -29,7 +30,7 @@ export default function* watchFetchStoredNetworkDataSaga(): Generator<
   void,
   any
 > {
-  const storedNetworkDataChan = yield actionChannel(STOREDNETWORKDATA_REQUEST);
+  const storedNetworkDataChan = yield actionChannel(STORED_NETWORKDATA_REQUEST);
   yield takeLeading(storedNetworkDataChan, fetchStoredNetworkDataSaga);
 }
 
@@ -71,6 +72,13 @@ function* fetchStoredNetworkDataSaga(
         networkStored,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "networkTitles",
+        networkStored.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredNetworkDataFailureAction();
 

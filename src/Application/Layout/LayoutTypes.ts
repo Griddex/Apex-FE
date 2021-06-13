@@ -17,7 +17,7 @@ export type ILayouts = Record<LayoutNames, JSX.Element>;
 export interface IHTTPResponse {
   data?: any;
   success?: boolean;
-  status?: number;
+  approval?: number;
   message?: string;
   errors?: { message: "" };
 }

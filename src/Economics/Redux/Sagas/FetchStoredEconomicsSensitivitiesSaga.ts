@@ -12,13 +12,14 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredEconomicsSensitivitiesDialogParameters";
 import {
-  STOREDECONOMICSSENSITIVITIES_REQUEST,
+  STORED_ECONOMICSSENSITIVITIES_REQUEST,
   fetchStoredEconomicsSensitivitiesFailureAction,
   fetchStoredEconomicsSensitivitiesSuccessAction,
 } from "../Actions/EconomicsActions";
@@ -29,7 +30,7 @@ export default function* watchFetchStoredEconomicsSensitivitiesSaga(): Generator
   any
 > {
   const storedEconomicsSensitivitiesChan = yield actionChannel(
-    STOREDECONOMICSSENSITIVITIES_REQUEST
+    STORED_ECONOMICSSENSITIVITIES_REQUEST
   );
   yield takeLeading(
     storedEconomicsSensitivitiesChan,
@@ -73,6 +74,13 @@ function* fetchStoredEconomicsSensitivitiesSaga(action: IAction): Generator<
         economicsSensitivitiesStored,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "economicsSensitivitiesTitles",
+        economicsSensitivitiesStored.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredEconomicsSensitivitiesFailureAction();
 

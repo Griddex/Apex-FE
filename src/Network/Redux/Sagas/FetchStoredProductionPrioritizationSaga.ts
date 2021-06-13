@@ -13,6 +13,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -58,16 +59,16 @@ function* fetchStoredProductionPrioritizationSaga(
   const { payload } = action;
   const { projectId } = yield select((state) => state.projectReducer);
 
-  const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/light/${projectId}`;
+  const productionPrioritizationsUrl = `${getBaseForecastUrl()}/well-prioritization/light/${projectId}`;
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(
       fetchStoredProductionPrioritizationAPI,
-      productionPrioritizationUrl
+      productionPrioritizationsUrl
     );
 
     const {
-      data: { data: productionPrioritization },
+      data: { data: productionPrioritizations },
     } = result;
 
     const successAction = fetchStoredProductionPrioritizationSuccessAction();
@@ -75,9 +76,16 @@ function* fetchStoredProductionPrioritizationSaga(
       ...successAction,
       payload: {
         ...payload,
-        productionPrioritization,
+        productionPrioritizations,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "productionPrioritizationTitles",
+        productionPrioritizations.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredProductionPrioritizationFailureAction();
 

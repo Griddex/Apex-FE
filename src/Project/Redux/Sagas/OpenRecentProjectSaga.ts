@@ -28,7 +28,7 @@ import {
 import {
   openRecentProjectFailureAction,
   openRecentProjectSuccessAction,
-  OPENRECENTPROJECT_REQUEST,
+  OPEN_RECENTPROJECT_REQUEST,
 } from "../Actions/ProjectActions";
 
 export default function* watchOpenRecentProjectSaga(): Generator<
@@ -36,7 +36,7 @@ export default function* watchOpenRecentProjectSaga(): Generator<
   void,
   any
 > {
-  const openRecentProjectChan = yield actionChannel(OPENRECENTPROJECT_REQUEST);
+  const openRecentProjectChan = yield actionChannel(OPEN_RECENTPROJECT_REQUEST);
   yield takeLeading(openRecentProjectChan, openRecentProjectSaga);
 }
 

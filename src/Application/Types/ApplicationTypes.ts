@@ -12,11 +12,13 @@ import {
   TEconomicsAnalysesTitles,
 } from "../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
+export type TApproval = "Approved" | "Pending" | "Returned" | "Not Started";
+
 export interface IStoredDataRow {
   sn?: number;
   id?: string;
   userId?: string;
-  approval?: "Approved" | "Pending" | "Returned" | "Not Started";
+  approval?: TApproval;
   title?: string;
   description?: string;
   author?: IUserDetails | string;
@@ -67,7 +69,7 @@ export interface IApplicationStoredDataRow {
   sn?: number;
   id?: string;
   userId?: string;
-  status?: "Approved" | "Pending" | "Returned" | "Not Started";
+  approval?: TApproval;
   title?: string;
   description?: string;
   author?: IUserDetails | string;

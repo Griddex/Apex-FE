@@ -39,12 +39,12 @@ export const PERSIST_CHOSENAPPLICATIONUNITS = "PERSIST_CHOSENAPPLICATIONUNITS";
 export const SAVEINPUTDECK_REQUEST = "SAVEINPUTDECK_REQUEST";
 export const SAVEINPUTDECK_SUCCESS = "SAVEINPUTDECK_SUCCESS";
 export const SAVEINPUTDECK_FAILURE = "SAVEINPUTDECK_FAILURE";
-export const FETCHAPPLICATIONHEADERS_REQUEST =
-  "FETCHAPPLICATIONHEADERS_REQUEST";
-export const FETCHAPPLICATIONHEADERS_SUCCESS =
-  "FETCHAPPLICATIONHEADERS_SUCCESS";
-export const FETCHAPPLICATIONHEADERS_FAILURE =
-  "FETCHAPPLICATIONHEADERS_FAILURE";
+export const FETCH_APPLICATIONHEADERS_REQUEST =
+  "FETCH_APPLICATIONHEADERS_REQUEST";
+export const FETCH_APPLICATIONHEADERS_SUCCESS =
+  "FETCH_APPLICATIONHEADERS_SUCCESS";
+export const FETCH_APPLICATIONHEADERS_FAILURE =
+  "FETCH_APPLICATIONHEADERS_FAILURE";
 export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
 
 export const updateInputParameterAction = (
@@ -315,13 +315,13 @@ export const saveInputDeckFailureAction = () => {
 
 export const fetchApplicationHeadersRequestAction = () => {
   return {
-    type: FETCHAPPLICATIONHEADERS_REQUEST,
+    type: FETCH_APPLICATIONHEADERS_REQUEST,
     meta: { showSpinner: true, message: "Loading application..." },
   };
 };
 export const fetchApplicationHeadersSuccessAction = () => {
   return {
-    type: FETCHAPPLICATIONHEADERS_SUCCESS,
+    type: FETCH_APPLICATIONHEADERS_SUCCESS,
     payload: {
       status: 0,
       headerType: "",
@@ -332,7 +332,7 @@ export const fetchApplicationHeadersSuccessAction = () => {
 };
 export const fetchApplicationHeadersFailureAction = () => {
   return {
-    type: FETCHAPPLICATIONHEADERS_SUCCESS,
+    type: FETCH_APPLICATIONHEADERS_SUCCESS,
     payload: {
       status: 0,
     },

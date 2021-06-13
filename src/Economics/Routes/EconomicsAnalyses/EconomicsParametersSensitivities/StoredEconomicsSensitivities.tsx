@@ -96,7 +96,7 @@ export default function StoredEconomicsSensitivities() {
   ).map((row, i) => ({
     sn: i + 1,
     economicsSensitivitiesId: row.id,
-    status: "Not Started",
+    approval: "Not Started",
     title: row.title,
     analysisName: row.analysisName,
     description: row.description,

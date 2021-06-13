@@ -39,8 +39,8 @@ const WorkflowDialogBanner = ({
     <Container className={classes.workflowHeaderRow} fixed disableGutters>
       <Box className={classes.workflowBannerHeader}>
         <Typography
-          variant="button"
-          style={{ color: theme.palette.grey[900], letterSpacing: 1.2 }}
+          variant="subtitle1"
+          style={{ color: theme.palette.grey[700], letterSpacing: 1.2 }}
         >{`${stepsDefined[activeStepDefined as number]}`}</Typography>
         <span>&nbsp;</span>
         <Chip

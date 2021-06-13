@@ -22,12 +22,12 @@ export const SET_FORECASTCHARTCOLOR = "SET_FORECASTCHARTCOLOR";
 export const SET_FORECASTCHARTCELLCOLORS = "SET_FORECASTCHARTCELLCOLORS";
 export const SET_FORECASTCHARTOBJECT = "SET_FORECASTCHARTOBJECT";
 export const PERSIST_FORECASTCHARTOBJECT = "PERSIST_FORECASTCHARTOBJECT";
-export const STOREDFORECASTINGRESULTS_REQUEST =
-  "STOREDFORECASTINGRESULTS_REQUEST";
-export const STOREDFORECASTINGRESULTS_SUCCESS =
-  "STOREDFORECASTINGRESULTS_SUCCESS";
-export const STOREDFORECASTINGRESULTS_FAILURE =
-  "STOREDFORECASTINGRESULTS_FAILURE";
+export const STORED_FORECASTINGRESULTS_REQUEST =
+  "STORED_FORECASTINGRESULTS_REQUEST";
+export const STORED_FORECASTINGRESULTS_SUCCESS =
+  "STORED_FORECASTINGRESULTS_SUCCESS";
+export const STORED_FORECASTINGRESULTS_FAILURE =
+  "STORED_FORECASTINGRESULTS_FAILURE";
 export const TREEVIEWKEYS_REQUEST = "TREEVIEWKEYS_REQUEST";
 export const TREEVIEWKEYS_SUCCESS = "TREEVIEWKEYS_SUCCESS";
 export const TREEVIEWKEYS_FAILURE = "TREEVIEWKEYS_FAILURE";
@@ -203,7 +203,7 @@ export const fetchStoredForecastingResultsRequestAction = (
   projectId: string
 ) => {
   return {
-    type: STOREDFORECASTINGRESULTS_REQUEST,
+    type: STORED_FORECASTINGRESULTS_REQUEST,
     payload: {
       projectId,
     },
@@ -212,7 +212,7 @@ export const fetchStoredForecastingResultsRequestAction = (
 
 export const fetchStoredForecastingResultsSuccessAction = () => {
   return {
-    type: STOREDFORECASTINGRESULTS_SUCCESS,
+    type: STORED_FORECASTINGRESULTS_SUCCESS,
     payload: {
       status: 0,
     },
@@ -221,7 +221,7 @@ export const fetchStoredForecastingResultsSuccessAction = () => {
 
 export const fetchStoredForecastingResultsFailureAction = () => {
   return {
-    type: STOREDFORECASTINGRESULTS_FAILURE,
+    type: STORED_FORECASTINGRESULTS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

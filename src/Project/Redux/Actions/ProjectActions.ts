@@ -1,22 +1,22 @@
-export const UPDATE_NEWPROJECT = "UPDATE_NEWPROJECT";
-export const UPDATES_NEWPROJECT = "UPDATES_NEWPROJECT";
-export const CREATE_NEWPROJECT = "CREATE_NEWPROJECT";
-export const NEWPROJECT_SUCCESS = "NEWPROJECT_SUCCESS";
-export const NEWPROJECT_FAILURE = "NEWPROJECT_FAILURE";
-export const FETCHRECENTPROJECTS_REQUEST = "FETCHRECENTPROJECTS_REQUEST";
-export const FETCHRECENTPROJECTS_SUCCESS = "FETCHRECENTPROJECTS_SUCCESS";
-export const FETCHRECENTPROJECTS_FAILURE = "FETCHRECENTPROJECTS_FAILURE";
-export const FETCHSTOREDPROJECTS_REQUEST = "FETCHSTOREDPROJECTS_REQUEST";
-export const FETCHSTOREDPROJECTS_SUCCESS = "FETCHSTOREDPROJECTS_SUCCESS";
-export const FETCHSTOREDPROJECTS_FAILURE = "FETCHSTOREDPROJECTS_FAILURE";
-export const OPENRECENTPROJECT_REQUEST = "OPENRECENTPROJECT_REQUEST";
-export const OPENRECENTPROJECT_SUCCESS = "OPENRECENTPROJECT_SUCCESS";
-export const OPENRECENTPROJECT_FAILURE = "OPENRECENTPROJECT_FAILURE";
+export const UPDATE_NEW_PROJECT = "UPDATE_NEW_PROJECT";
+export const UPDATES_NEW_PROJECT = "UPDATES_NEW_PROJECT";
+export const CREATE_NEW_PROJECT = "CREATE_NEW_PROJECT";
+export const NEW_PROJECT_SUCCESS = "NEW_PROJECT_SUCCESS";
+export const NEW_PROJECT_FAILURE = "NEW_PROJECT_FAILURE";
+export const FETCH_RECENTPROJECTS_REQUEST = "FETCH_RECENTPROJECTS_REQUEST";
+export const FETCH_RECENTPROJECTS_SUCCESS = "FETCH_RECENTPROJECTS_SUCCESS";
+export const FETCH_RECENTPROJECTS_FAILURE = "FETCH_RECENTPROJECTS_FAILURE";
+export const FETCH_STORED_PROJECTS_REQUEST = "FETCH_STORED_PROJECTS_REQUEST";
+export const FETCH_STORED_PROJECTS_SUCCESS = "FETCH_STORED_PROJECTS_SUCCESS";
+export const FETCH_STORED_PROJECTS_FAILURE = "FETCH_STORED_PROJECTS_FAILURE";
+export const OPEN_RECENTPROJECT_REQUEST = "OPEN_RECENTPROJECT_REQUEST";
+export const OPEN_RECENTPROJECT_SUCCESS = "OPEN_RECENTPROJECT_SUCCESS";
+export const OPEN_RECENTPROJECT_FAILURE = "OPEN_RECENTPROJECT_FAILURE";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
 export const updateProjectParameterAction = (name: string, value: string) => {
   return {
-    type: UPDATE_NEWPROJECT,
+    type: UPDATE_NEW_PROJECT,
     payload: {
       name,
       value,
@@ -27,7 +27,7 @@ export const updateProjectParametersAction = (
   updateObj: Record<string, any>
 ) => {
   return {
-    type: UPDATES_NEWPROJECT,
+    type: UPDATES_NEW_PROJECT,
     payload: {
       updateObj,
     },
@@ -36,14 +36,14 @@ export const updateProjectParametersAction = (
 
 export const fetchRecentProjectsAction = () => {
   return {
-    type: FETCHRECENTPROJECTS_REQUEST,
+    type: FETCH_RECENTPROJECTS_REQUEST,
     payload: {},
   };
 };
 
 export const fetchRecentProjectsSuccessAction = () => {
   return {
-    type: FETCHRECENTPROJECTS_SUCCESS,
+    type: FETCH_RECENTPROJECTS_SUCCESS,
     payload: {
       status: 0,
       data: [],
@@ -53,7 +53,7 @@ export const fetchRecentProjectsSuccessAction = () => {
 
 export const fetchRecentProjectsFailureAction = () => {
   return {
-    type: FETCHRECENTPROJECTS_FAILURE,
+    type: FETCH_RECENTPROJECTS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -63,13 +63,13 @@ export const fetchRecentProjectsFailureAction = () => {
 
 export const fetchStoredProjectsAction = () => {
   return {
-    type: FETCHSTOREDPROJECTS_REQUEST,
+    type: FETCH_STORED_PROJECTS_REQUEST,
   };
 };
 
 export const fetchStoredProjectsSuccessAction = () => {
   return {
-    type: FETCHSTOREDPROJECTS_SUCCESS,
+    type: FETCH_STORED_PROJECTS_SUCCESS,
     payload: {
       status: 0,
       data: [],
@@ -79,7 +79,7 @@ export const fetchStoredProjectsSuccessAction = () => {
 
 export const fetchStoredProjectsFailureAction = () => {
   return {
-    type: FETCHSTOREDPROJECTS_FAILURE,
+    type: FETCH_STORED_PROJECTS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -94,7 +94,7 @@ export const openRecentProjectAction = (
   projectDescription: string
 ) => {
   return {
-    type: OPENRECENTPROJECT_REQUEST,
+    type: OPEN_RECENTPROJECT_REQUEST,
     payload: {
       userId,
       projectId,
@@ -106,7 +106,7 @@ export const openRecentProjectAction = (
 
 export const openRecentProjectSuccessAction = () => {
   return {
-    type: OPENRECENTPROJECT_SUCCESS,
+    type: OPEN_RECENTPROJECT_SUCCESS,
     payload: {
       status: 0,
       projectId: "",
@@ -118,7 +118,7 @@ export const openRecentProjectSuccessAction = () => {
 
 export const openRecentProjectFailureAction = () => {
   return {
-    type: OPENRECENTPROJECT_FAILURE,
+    type: OPEN_RECENTPROJECT_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -128,14 +128,14 @@ export const openRecentProjectFailureAction = () => {
 
 export const createNewProjectAction = () => {
   return {
-    type: CREATE_NEWPROJECT,
+    type: CREATE_NEW_PROJECT,
     payload: {},
   };
 };
 
 export const createNewProjectSuccessAction = () => {
   return {
-    type: NEWPROJECT_SUCCESS,
+    type: NEW_PROJECT_SUCCESS,
     payload: {
       status: 0,
       data: [],
@@ -145,7 +145,7 @@ export const createNewProjectSuccessAction = () => {
 
 export const createNewProjectFailureAction = () => {
   return {
-    type: NEWPROJECT_FAILURE,
+    type: NEW_PROJECT_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

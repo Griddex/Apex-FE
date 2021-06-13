@@ -27,13 +27,13 @@ import {
 } from "../../../Import/Redux/Actions/InputActions";
 import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
-  STOREDECONOMICSDATA_SUCCESS,
-  STOREDECONOMICSSENSITIVITIES_FAILURE,
-  STOREDECONOMICSSENSITIVITIES_SUCCESS,
-  FETCHCOSTSREVENUESHEADERS_FAILURE,
-  FETCHCOSTSREVENUESHEADERS_SUCCESS,
-  FETCHECONOMICSPARAMETERSHEADERS_FAILURE,
-  FETCHECONOMICSPARAMETERSHEADERS_SUCCESS,
+  STORED_ECONOMICSDATA_SUCCESS,
+  STORED_ECONOMICSSENSITIVITIES_FAILURE,
+  STORED_ECONOMICSSENSITIVITIES_SUCCESS,
+  FETCH_COSTSREVENUESHEADERS_FAILURE,
+  FETCH_COSTSREVENUESHEADERS_SUCCESS,
+  FETCH_ECONOMICSPARAMETERSHEADERS_FAILURE,
+  FETCH_ECONOMICSPARAMETERSHEADERS_SUCCESS,
   GETECONOMICSSENSITIVITIESBYID_FAILURE,
   GETECONOMICSSENSITIVITIESBYID_SUCCESS,
   LOAD_ECONOMICS_WORKFLOW,
@@ -119,7 +119,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       }
     }
 
-    case FETCHCOSTSREVENUESHEADERS_SUCCESS: {
+    case FETCH_COSTSREVENUESHEADERS_SUCCESS: {
       const {
         costsRevenuesAppHeaders,
         cstRevAppHeadersSelectOptions,
@@ -134,7 +134,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case FETCHCOSTSREVENUESHEADERS_FAILURE: {
+    case FETCH_COSTSREVENUESHEADERS_FAILURE: {
       const { errors } = action.payload;
 
       return {
@@ -143,7 +143,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case FETCHECONOMICSPARAMETERSHEADERS_SUCCESS: {
+    case FETCH_ECONOMICSPARAMETERSHEADERS_SUCCESS: {
       const {
         economicsParametersAppHeaders,
         ecoParAppHeadersSelectOptions,
@@ -158,7 +158,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case FETCHECONOMICSPARAMETERSHEADERS_FAILURE: {
+    case FETCH_ECONOMICSPARAMETERSHEADERS_FAILURE: {
       const { errors } = action.payload;
 
       return {
@@ -167,7 +167,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case STOREDECONOMICSDATA_SUCCESS: {
+    case STORED_ECONOMICSDATA_SUCCESS: {
       const {
         economicsCostsRevenuesDeckStored,
         economicsParametersDeckStored,
@@ -183,8 +183,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case STOREDECONOMICSSENSITIVITIES_FAILURE:
-    case STOREDECONOMICSSENSITIVITIES_SUCCESS: {
+    case STORED_ECONOMICSSENSITIVITIES_FAILURE:
+    case STORED_ECONOMICSSENSITIVITIES_SUCCESS: {
       return {
         ...state,
         storedDataWorkflows: {

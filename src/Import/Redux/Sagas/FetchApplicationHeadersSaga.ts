@@ -27,7 +27,7 @@ import { IEconomicsState } from "../../../Economics/Redux/State/EconomicsStateTy
 import {
   fetchApplicationHeadersFailureAction,
   fetchApplicationHeadersSuccessAction,
-  FETCHAPPLICATIONHEADERS_REQUEST,
+  FETCH_APPLICATIONHEADERS_REQUEST,
 } from "../Actions/InputActions";
 import swapVariableNameTitleForISelectOption from "./../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import uniqBy from "lodash.uniqby";
@@ -39,7 +39,7 @@ export default function* watchFetchApplicationHeadersSaga(): Generator<
   void,
   any
 > {
-  const appHeadersChan = yield actionChannel(FETCHAPPLICATIONHEADERS_REQUEST);
+  const appHeadersChan = yield actionChannel(FETCH_APPLICATIONHEADERS_REQUEST);
   yield takeLeading(appHeadersChan, fetchApplicationHeadersSaga);
 }
 

@@ -35,7 +35,7 @@ export default function StoredNetworks({
     (row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
-      status: "Not Started",
+      approval: "Not Started",
       title: row.title,
       description: row.description,
       author: { avatarUrl: "", name: "None" },

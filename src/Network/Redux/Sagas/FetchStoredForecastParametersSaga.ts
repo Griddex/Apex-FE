@@ -13,13 +13,14 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/FetchForecastingParametersFailureDialogParameters";
 import {
-  STOREDFORECASTPARAMETERS_REQUEST,
+  STORED_FORECASTPARAMETERS_REQUEST,
   fetchStoredForecastingParametersFailureAction,
   fetchStoredForecastingParametersSuccessAction,
 } from "../Actions/NetworkActions";
@@ -30,7 +31,7 @@ export default function* watchFetchStoredForecastParametersSaga(): Generator<
   any
 > {
   const storedForecastParametersChan = yield actionChannel(
-    STOREDFORECASTPARAMETERS_REQUEST
+    STORED_FORECASTPARAMETERS_REQUEST
   );
 
   yield takeLeading(
@@ -78,6 +79,13 @@ function* fetchStoredForecastParametersSaga(
         forecastingParametersStored,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "forecastingParametersTitles",
+        forecastingParametersStored.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredForecastingParametersFailureAction();
 

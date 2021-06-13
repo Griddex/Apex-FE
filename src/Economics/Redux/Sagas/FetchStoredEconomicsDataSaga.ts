@@ -12,13 +12,14 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { persistFormTitlesAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredEconomicsDataDialogParameters";
 import {
-  STOREDECONOMICSDATA_REQUEST,
+  STORED_ECONOMICSDATA_REQUEST,
   fetchStoredEconomicsDataFailureAction,
   fetchStoredEconomicsDataSuccessAction,
 } from "../Actions/EconomicsActions";
@@ -29,7 +30,7 @@ export default function* watchFetchStoredEconomicsDataSaga(): Generator<
   any
 > {
   const storedEconomicsDataChan = yield actionChannel(
-    STOREDECONOMICSDATA_REQUEST
+    STORED_ECONOMICSDATA_REQUEST
   );
   yield takeLeading(storedEconomicsDataChan, fetchStoredEconomicsDataSaga);
 }
@@ -75,6 +76,20 @@ function* fetchStoredEconomicsDataSaga(action: IAction): Generator<
         economicsParametersDeckStored,
       },
     });
+
+    yield put(
+      persistFormTitlesAction(
+        "economicsCostsRevenuesTitles",
+        economicsCostsRevenuesDeckStored.map((o: any) => o.title)
+      )
+    );
+
+    yield put(
+      persistFormTitlesAction(
+        "economicsParametersTitles",
+        economicsParametersDeckStored.map((o: any) => o.title)
+      )
+    );
   } catch (errors) {
     const failureAction = fetchStoredEconomicsDataFailureAction();
 

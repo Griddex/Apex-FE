@@ -1,22 +1,22 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
-  CREATE_NEWPROJECT,
-  FETCHRECENTPROJECTS_FAILURE,
-  FETCHRECENTPROJECTS_SUCCESS,
-  FETCHSTOREDPROJECTS_FAILURE,
-  FETCHSTOREDPROJECTS_SUCCESS,
-  NEWPROJECT_FAILURE,
-  NEWPROJECT_SUCCESS,
-  OPENRECENTPROJECT_SUCCESS,
-  UPDATE_NEWPROJECT,
-  UPDATES_NEWPROJECT,
+  CREATE_NEW_PROJECT,
+  FETCH_RECENTPROJECTS_FAILURE,
+  FETCH_RECENTPROJECTS_SUCCESS,
+  FETCH_STORED_PROJECTS_FAILURE,
+  FETCH_STORED_PROJECTS_SUCCESS,
+  NEW_PROJECT_FAILURE,
+  NEW_PROJECT_SUCCESS,
+  OPEN_RECENTPROJECT_SUCCESS,
+  UPDATE_NEW_PROJECT,
+  UPDATES_NEW_PROJECT,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
 const projectReducer = (state = projectState, action: IAction) => {
   switch (action.type) {
-    case UPDATE_NEWPROJECT: {
+    case UPDATE_NEW_PROJECT: {
       const { name, value } = action.payload;
 
       return {
@@ -25,7 +25,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case UPDATES_NEWPROJECT: {
+    case UPDATES_NEW_PROJECT: {
       const { updateObj } = action.payload;
 
       return {
@@ -34,7 +34,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case FETCHRECENTPROJECTS_SUCCESS: {
+    case FETCH_RECENTPROJECTS_SUCCESS: {
       const { status, recentProjects } = action.payload;
 
       return {
@@ -44,7 +44,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case FETCHRECENTPROJECTS_FAILURE: {
+    case FETCH_RECENTPROJECTS_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -54,7 +54,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case FETCHSTOREDPROJECTS_SUCCESS: {
+    case FETCH_STORED_PROJECTS_SUCCESS: {
       const { status, storedProjects } = action.payload;
 
       return {
@@ -64,7 +64,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case FETCHSTOREDPROJECTS_FAILURE: {
+    case FETCH_STORED_PROJECTS_FAILURE: {
       const { status, errors } = action.payload;
 
       return {
@@ -74,7 +74,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case OPENRECENTPROJECT_SUCCESS: {
+    case OPEN_RECENTPROJECT_SUCCESS: {
       const { status, projectId, projectTitle, projectDescription } =
         action.payload;
 
@@ -87,7 +87,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case NEWPROJECT_SUCCESS: {
+    case NEW_PROJECT_SUCCESS: {
       const {
         status,
         currentProjectId,
@@ -104,7 +104,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case NEWPROJECT_FAILURE: {
+    case NEW_PROJECT_FAILURE: {
       const { status, error } = action.payload;
 
       return {
