@@ -470,9 +470,12 @@ export const removeCurrentNetworkAction = () => {
   };
 };
 
-export const getDeclineParametersByIdRequestAction = () => {
+export const getDeclineParametersByIdRequestAction = (
+  selectedDeclineParametersId: string
+) => {
   return {
     type: GET_DECLINEPARAMETERSBYID_REQUEST,
+    payload: { selectedDeclineParametersId },
     meta: { showSpinner: true, message: "fetching decline parameters..." },
   };
 };
@@ -496,9 +499,12 @@ export const getDeclineParametersByIdFailureAction = () => {
   };
 };
 
-export const getProductionPrioritizationByIdRequestAction = () => {
+export const getProductionPrioritizationByIdRequestAction = (
+  selectedProductionPrioritizationId: string
+) => {
   return {
     type: GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
+    payload: { selectedProductionPrioritizationId },
     meta: { showSpinner: true, message: "fetching prioritization data..." },
   };
 };
@@ -522,14 +528,17 @@ export const getProductionPrioritizationByIdFailureAction = () => {
   };
 };
 
-export const fetchStoredDeclineParametersRequestAction = () => {
+export const fetchStoredDeclineCurveParametersRequestAction = (
+  projectId: string
+) => {
   return {
     type: STORED_DECLINEPARAMETERS_REQUEST,
+    payload: { projectId },
     meta: { showSpinner: true, message: "fetching decline parameters data..." },
   };
 };
 
-export const fetchStoredDeclineParametersSuccessAction = () => {
+export const fetchStoredDeclineCurveParametersSuccessAction = () => {
   return {
     type: STORED_DECLINEPARAMETERS_SUCCESS,
     payload: {
@@ -538,7 +547,7 @@ export const fetchStoredDeclineParametersSuccessAction = () => {
   };
 };
 
-export const fetchStoredDeclineParametersFailureAction = () => {
+export const fetchStoredDeclineCurveParametersFailureAction = () => {
   return {
     type: STORED_DECLINEPARAMETERS_FAILURE,
     payload: {
@@ -548,9 +557,12 @@ export const fetchStoredDeclineParametersFailureAction = () => {
   };
 };
 
-export const fetchStoredProductionPrioritizationRequestAction = () => {
+export const fetchStoredProductionPrioritizationRequestAction = (
+  projectId: string
+) => {
   return {
     type: STORED_PRODUCTIONPRIORITIZATION_REQUEST,
+    payload: { projectId },
     meta: { showSpinner: true, message: "fetching decline parameters data..." },
   };
 };

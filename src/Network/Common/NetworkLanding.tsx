@@ -27,7 +27,7 @@ import {
   displayNetworkByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
-import StoredDeclineParameters from "../Routes/StoredDeclineParameters";
+import StoredDeclineCurveParameters from "../Routes/StoredDeclineCurveParameters";
 import StoredForecastingParameters from "../Routes/StoredForecastingParameters";
 import StoredNetworks from "../Routes/StoredNetworks";
 import StoredProductionPrioritization from "../Routes/StoredProductionPrioritization";
@@ -238,7 +238,7 @@ const NetworkLanding = () => {
                     <StoredForecastingParameters showChart={true} />
                   ),
                   declineParametersStored: (
-                    <StoredDeclineParameters
+                    <StoredDeclineCurveParameters
                       workflowProcess={"declineParametersStored"}
                       containerStyle={{ boxShadow: "none" }}
                     />

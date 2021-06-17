@@ -57,7 +57,7 @@ function* fetchStoredProductionPrioritizationSaga(
   any
 > {
   const { payload } = action;
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { projectId } = payload;
 
   const productionPrioritizationsUrl = `${getBaseForecastUrl()}/well-prioritization/light/${projectId}`;
 
@@ -68,7 +68,7 @@ function* fetchStoredProductionPrioritizationSaga(
     );
 
     const {
-      data: { data: productionPrioritizations },
+      data: { data: productionPrioritizationStored },
     } = result;
 
     const successAction = fetchStoredProductionPrioritizationSuccessAction();
@@ -76,14 +76,14 @@ function* fetchStoredProductionPrioritizationSaga(
       ...successAction,
       payload: {
         ...payload,
-        productionPrioritizations,
+        productionPrioritizationStored,
       },
     });
 
     yield put(
       persistFormTitlesAction(
         "productionPrioritizationTitles",
-        productionPrioritizations.map((o: any) => o.title)
+        productionPrioritizationStored.map((o: any) => o.title)
       )
     );
   } catch (errors) {

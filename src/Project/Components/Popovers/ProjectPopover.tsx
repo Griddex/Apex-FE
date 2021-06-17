@@ -25,8 +25,10 @@ import {
 import { fetchStoredForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { fetchStoredDataRequestAction } from "../../../Import/Redux/Actions/StoredDataActions";
 import {
+  fetchStoredDeclineCurveParametersRequestAction,
   fetchStoredForecastingParametersRequestAction,
   fetchStoredNetworkDataRequestAction,
+  fetchStoredProductionPrioritizationRequestAction,
 } from "../../../Network/Redux/Actions/NetworkActions";
 import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
 import { IProject } from "../../Redux/State/ProjectStateTypes";
@@ -203,6 +205,16 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                   );
                   dispatch(
                     fetchStoredForecastingParametersRequestAction(
+                      projectIdDefined
+                    )
+                  );
+                  dispatch(
+                    fetchStoredDeclineCurveParametersRequestAction(
+                      projectIdDefined
+                    )
+                  );
+                  dispatch(
+                    fetchStoredProductionPrioritizationRequestAction(
                       projectIdDefined
                     )
                   );

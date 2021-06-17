@@ -18,7 +18,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
-  fetchStoredDeclineParametersRequestAction,
+  fetchStoredDeclineCurveParametersRequestAction,
   saveDeclineParametersFailureAction,
   saveDeclineParametersSuccessAction,
   SAVE_DECLINEPARAMETERS_REQUEST,
@@ -59,7 +59,7 @@ function* saveDeclineParametersSaga(
   const {
     selectedDeclineParametersTitle,
     selectedDeclineParametersDescription,
-    currentDeclineParameters,
+    selectedDeclineParametersData,
   } = yield select((state) => state.networkReducer);
 
   const data = {
@@ -67,7 +67,7 @@ function* saveDeclineParametersSaga(
     title: selectedDeclineParametersTitle,
     description: selectedDeclineParametersDescription,
     type: "User",
-    declineParameters: currentDeclineParameters,
+    declineParameters: selectedDeclineParametersData,
     forecastInputDeckId: selectedForecastInputDeckId,
   };
 
@@ -91,7 +91,7 @@ function* saveDeclineParametersSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchStoredDeclineParametersRequestAction());
+    yield put(fetchStoredDeclineCurveParametersRequestAction(projectId));
   } catch (errors) {
     const failureAction = saveDeclineParametersFailureAction();
 

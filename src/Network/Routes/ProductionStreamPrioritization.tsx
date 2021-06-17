@@ -27,14 +27,14 @@ const ProductionStreamPrioritization = () => {
     label: "Oil",
   });
 
-  const { selectedTableData } = useSelector(
+  const selectedTableData = useSelector(
     (state: RootState) =>
       state.networkReducer[wc]["productionPrioritizationStored"]
   );
 
   const snSelectedTableData = selectedTableData.map(
     (row: IRawRow, i: number) => {
-      const rowFiltered = omit(row, ["id", "_id"]);
+      const rowFiltered = omit(row, ["_id"]);
 
       return { sn: i + 1, ...rowFiltered };
     }

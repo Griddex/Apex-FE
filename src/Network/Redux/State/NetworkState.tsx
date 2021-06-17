@@ -47,6 +47,7 @@ const networkState: INetworkState = {
   selectedDeclineParametersId: "",
   selectedDeclineParametersTitle: "",
   selectedDeclineParametersDescription: "",
+
   selectedProductionPrioritizationId: "",
   selectedProductionPrioritizationTitle: "",
   selectedProductionPrioritizationDescription: "",
@@ -62,7 +63,7 @@ const networkState: INetworkState = {
     productionPrioritizationStored: [],
   },
 
-  currentDeclineParameters: [],
+  selectedDeclineParametersData: [],
   currentProductionPrioritization: [],
 
   prioritizationPerspective: "",

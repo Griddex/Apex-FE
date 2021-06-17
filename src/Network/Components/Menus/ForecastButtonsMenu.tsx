@@ -122,7 +122,7 @@ const ForecastButtonsMenu = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Forecast_Parameters_Dialog",
       title: "Create Forecast Parameters",
-      type: "createNewForecastingParametersWorkflowDialog",
+      type: "createForecastingParametersWorkflowDialog",
       show: true,
       exclusive: false,
       maxWidth: "xl",

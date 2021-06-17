@@ -18,14 +18,14 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineParametersDialogParameters";
+import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineCurveParametersDialogParameters";
 import {
   STORED_DECLINEPARAMETERS_REQUEST,
-  fetchStoredDeclineParametersFailureAction,
-  fetchStoredDeclineParametersSuccessAction,
+  fetchStoredDeclineCurveParametersFailureAction,
+  fetchStoredDeclineCurveParametersSuccessAction,
 } from "../Actions/NetworkActions";
 
-export default function* watchFetchStoredDeclineParametersSaga(): Generator<
+export default function* watchFetchStoredDeclineCurveParametersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
@@ -35,17 +35,17 @@ export default function* watchFetchStoredDeclineParametersSaga(): Generator<
   );
   yield takeLeading(
     storedDeclineParametersChan,
-    fetchStoredDeclineParametersSaga
+    fetchStoredDeclineCurveParametersSaga
   );
 }
 
-type AxiosPromise = ReturnType<typeof fetchStoredDeclineParametersAPI>;
+type AxiosPromise = ReturnType<typeof fetchStoredDeclineCurveParametersAPI>;
 
 const config = { withCredentials: false };
-const fetchStoredDeclineParametersAPI = (url: string) =>
+const fetchStoredDeclineCurveParametersAPI = (url: string) =>
   authService.get(url, config);
 
-function* fetchStoredDeclineParametersSaga(
+function* fetchStoredDeclineCurveParametersSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<any>>
@@ -57,37 +57,37 @@ function* fetchStoredDeclineParametersSaga(
   any
 > {
   const { payload } = action;
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { projectId } = payload;
 
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/light/${projectId}`;
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(
-      fetchStoredDeclineParametersAPI,
+      fetchStoredDeclineCurveParametersAPI,
       declineParametersUrl
     );
 
     const {
-      data: { data: declineParameters },
+      data: { data: declineParametersStored },
     } = result;
 
-    const successAction = fetchStoredDeclineParametersSuccessAction();
+    const successAction = fetchStoredDeclineCurveParametersSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        declineParameters,
+        declineParametersStored,
       },
     });
 
     yield put(
       persistFormTitlesAction(
         "declineParametersTitles",
-        declineParameters.map((o: any) => o.title)
+        declineParametersStored.map((o: any) => o.title)
       )
     );
   } catch (errors) {
-    const failureAction = fetchStoredDeclineParametersFailureAction();
+    const failureAction = fetchStoredDeclineCurveParametersFailureAction();
 
     yield put({
       ...failureAction,

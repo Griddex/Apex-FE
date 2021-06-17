@@ -1,19 +1,19 @@
 import { Button } from "@material-ui/core";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import React from "react";
+import { useDispatch } from "react-redux";
 import {
   ButtonProps,
   DialogStuff,
 } from "../../../Application/Components/Dialogs/DialogTypes";
-import { useDispatch } from "react-redux";
 import {
   hideDialogAction,
   showDialogAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import { Dispatch } from "redux";
 
-const saveForecastingParametersActions = (dispatch: Dispatch<any>) => {
+const saveForecastingParametersActions = () => {
+  const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [
     {
       title: "Cancel",
@@ -56,12 +56,12 @@ const SaveForecastParametersExtrude = () => {
   const dialogParameters: DialogStuff = {
     name: "Save_Forecast_Parameters_Dialog",
     title: "Save Forecast Parameters",
-    type: "createNewForecastingParametersWorkflowDialog",
+    type: "createForecastingParametersWorkflowDialog",
     show: true,
     exclusive: true,
     maxWidth: "md",
-    iconType: "create",
-    actionsList: () => saveForecastingParametersActions(dispatch),
+    iconType: "save",
+    actionsList: () => saveForecastingParametersActions(),
   };
 
   dispatch(showDialogAction(dialogParameters));

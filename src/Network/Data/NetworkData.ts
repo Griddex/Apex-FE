@@ -12,3 +12,36 @@ export const streamOptions = [
     label: "Condensate",
   },
 ];
+
+export const timeFrequencyOptions = [
+  {
+    value: "monthly",
+    label: "Monthly",
+  },
+  {
+    value: "yearly",
+    label: "Yearly",
+  },
+];
+
+export const defermentOptions = [
+  {
+    value: "useDeferment",
+    label: "Use Deferment",
+  },
+  {
+    value: "noDeferment",
+    label: "No Deferment",
+  },
+];
+
+export const realtimeOptions = [
+  {
+    value: "no",
+    label: "No",
+  },
+  {
+    value: "yes",
+    label: "Yes",
+  },
+];

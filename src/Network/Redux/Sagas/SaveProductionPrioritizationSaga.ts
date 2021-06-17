@@ -91,7 +91,7 @@ function* saveProductionPrioritizationSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchStoredProductionPrioritizationRequestAction());
+    yield put(fetchStoredProductionPrioritizationRequestAction(projectId));
   } catch (errors) {
     const failureAction = saveProductionPrioritizationFailureAction();
 

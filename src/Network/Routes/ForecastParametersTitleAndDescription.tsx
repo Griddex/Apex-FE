@@ -3,7 +3,7 @@ import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
-import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
+import { ICreateForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 
 const ForecastParametersTitleAndDescription = ({
   forecastParametersTitle,
@@ -11,7 +11,7 @@ const ForecastParametersTitleAndDescription = ({
   errors,
   touched,
   handleChange,
-}: ISaveForecastParametersFormProps) => {
+}: ICreateForecastParametersFormProps) => {
   const dispatch = useDispatch();
 
   const helperText =

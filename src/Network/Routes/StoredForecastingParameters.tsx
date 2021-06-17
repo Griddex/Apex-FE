@@ -1,4 +1,4 @@
-import { Checkbox, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
@@ -14,24 +14,25 @@ import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexConta
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
+import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
-import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
+import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
 import {
   IBackendForecastingParametersRow,
   IForecastParametersStoredRow,
 } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
-import CreateNewForecastParametersButton from "../Components/Menus/CreateNewForecastParametersButton";
-import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
-import formatDate from "../../Application/Utils/FormatDate";
-import OtherForecastingParameters from "./OtherForecastingParameters";
+import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
+import {
+  getDeclineParametersByIdRequestAction,
+  updateNetworkParameterAction,
+} from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -94,9 +95,9 @@ const useStyles = makeStyles((theme) => ({
 
 //TODO: Calculate classification data from collection
 const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
+  { id: "Group A", value: 5, color: "red" },
+  { id: "Group B", value: 8, color: "blue" },
+  { id: "Group C", value: 2, color: "green" },
 ];
 
 export default function StoredForecastingParameters({
@@ -128,6 +129,8 @@ export default function StoredForecastingParameters({
         description,
         type,
         createdAt,
+        wellPrioritizationId,
+        wellDeclineParameterId,
         wellPrioritizationTitle,
         wellDeclineParameterTitle,
         parametersEntity,
@@ -152,6 +155,8 @@ export default function StoredForecastingParameters({
         title,
         description,
         type,
+        wellDeclineParameterId,
+        wellPrioritizationId,
         wellDeclineParameterTitle,
         wellPrioritizationTitle,
         targetFluid,
@@ -177,9 +182,37 @@ export default function StoredForecastingParameters({
     }
   ) as IForecastParametersStoredRow[];
 
+  const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
+    useSelector((state: RootState) => state.inputReducer);
+
+  const newRow = {
+    forecastInputDeckId: selectedForecastInputDeckId,
+    forecastInputdeckTitle: selectedForecastInputDeckTitle,
+    title: "",
+    description: "",
+    type: "User",
+    wellDeclineParameterId: "",
+    wellPrioritizationId: "",
+    wellDeclineParameterTitle: "",
+    wellPrioritizationTitle: "",
+    targetFluid: "",
+    timeFrequency: "",
+    isDefered: "",
+    realtimeResults: "",
+    startForecast: "",
+    endForecast: "",
+  } as IForecastParametersStoredRow;
+
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
-    extraButtons: () => <CreateNewForecastParametersButton />,
+    extraButtons: () => (
+      <CreateForecastParametersButton
+        currentRow={newRow}
+        rows={rows}
+        setRows={setRows}
+        forecastParametersIndex={transStoredData.length}
+      />
+    ),
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
@@ -208,6 +241,7 @@ export default function StoredForecastingParameters({
         formatter: ({ row }) => {
           const { sn } = row;
           const currentSN = sn as number;
+          const currentRow = rows[currentSN - 1];
 
           const importMoreActionsData = [
             {
@@ -232,8 +266,12 @@ export default function StoredForecastingParameters({
                   dispatch(
                     showDialogAction(
                       extrudeForecastParametersDPs(
+                        "Edit Forecast Parameters",
+                        currentRow,
+                        rows,
+                        setRows,
                         currentSN - 1,
-                        OtherForecastingParameters
+                        "editForecastingParametersWorkflow"
                       )
                     )
                   );
@@ -297,8 +335,7 @@ export default function StoredForecastingParameters({
         resizable: true,
         width: 120,
         formatter: ({ row }) => {
-          const { sn, wellDeclineParameterTitle } = row;
-          const selectedRowIndex = (sn as number) - 1;
+          const { wellDeclineParameterTitle, wellDeclineParameterId } = row;
 
           return (
             <div className={classes.dcaOrPrtznTable}>
@@ -307,8 +344,11 @@ export default function StoredForecastingParameters({
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
                   dispatch(
-                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
+                    getDeclineParametersByIdRequestAction(
+                      wellDeclineParameterId
+                    )
                   );
+
                   dispatch(
                     updateNetworkParameterAction(
                       "selectedForecastingParametersId",
@@ -337,9 +377,7 @@ export default function StoredForecastingParameters({
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
-                  dispatch(
-                    showDialogAction(extrudeDialogParameters(selectedRowIndex))
-                  );
+                  dispatch(showDialogAction(extrudeDialogParameters()));
                   dispatch(
                     updateNetworkParameterAction(
                       "selectedForecastingParametersId",
@@ -447,11 +485,6 @@ export default function StoredForecastingParameters({
   })) as IForecastParametersStoredRow[];
 
   const [rows, setRows] = React.useState(snTransStoredData);
-
-  React.useEffect(() => {
-    dispatch(updateNetworkParameterAction("forecastingParametersStored", rows));
-    dispatch(hideSpinnerAction());
-  }, [dispatch, rows]);
 
   return (
     <div className={classes.rootStoredData}>

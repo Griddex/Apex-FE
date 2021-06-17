@@ -12,7 +12,7 @@ import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import DeclineCurveParameters from "../../Routes/DeclineCurveParameters";
+import ProductionStreamPrioritization from "../../Routes/ProductionStreamPrioritization";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,7 +110,7 @@ const steps = [
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "declineCurveParametersWorkflow";
 
-const DeclineCurveParametersDialog = (props: DialogStuff) => {
+const ProductionStreamPrioritizationDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList, selectedRowIndex } =
     props;
@@ -132,11 +132,11 @@ const DeclineCurveParametersDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <DeclineCurveParameters />
+        <ProductionStreamPrioritization />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default DeclineCurveParametersDialog;
+export default ProductionStreamPrioritizationDialog;

@@ -16,6 +16,7 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   hideDialogAction,
   showDialogAction,
@@ -24,8 +25,11 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
-import SaveForecastParametersWorkflow from "../../Workflows/SaveForecastParametersWorkflow";
+import { IEditOrCreateForecastingParameters } from "../../Routes/EditOrCreateForecastingParameters";
+import EditOrCreateForecastParametersWorkflow from "../../Workflows/EditOrCreateForecastParametersWorkflow";
+import { IForecastParametersStoredRow } from "./StoredNetworksDialogTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,29 +119,56 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = [
-  "Select Forecast InputDeck",
-  "DCA Parameters",
-  "Other Forecast Parameters",
-  "Title and Description",
-];
 const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "saveForecastingParametersWorkflow";
 
-const CreateNewForecastingParametersWorkflowDialog = (props: DialogStuff) => {
+const CreateForecastingParametersWorkflowDialog = (
+  props: DialogStuff<IForecastParametersStoredRow>
+) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, children } = props;
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    workflowProcess,
+    rows,
+    setRows,
+    currentRow,
+    forecastParametersIndex,
+  } = props;
+
+  const rowsDefined = rows as NonNullable<IForecastParametersStoredRow[]>;
+  const setRowsDefined = setRows as NonNullable<
+    TUseState<IForecastParametersStoredRow[]>
+  >;
+  const workflowProcessDefined =
+    workflowProcess as NonNullable<TAllWorkflowProcesses>;
+
+  const [shouldUpdate, setShouldUpdate] = React.useState(false);
+
+  let steps = [] as string[];
+
+  if (workflowProcessDefined === "createForecastingParametersWorkflow") {
+    steps = [
+      "Select Forecast InputDeck",
+      "Forecast Parameters",
+      "Title and Description",
+    ];
+  } else {
+    steps = ["Forecast Parameters", "Title and Description"];
+  }
 
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
     (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcessDefined]
   );
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
     [activeStep]
   );
+
   const isStepSkipped = useCallback(
     (step: number) => skipped.has(step),
     [skipped]
@@ -151,7 +182,18 @@ const CreateNewForecastingParametersWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const saveForecastingParametersConfirmation = () => {
+  const createProps = {
+    shouldUpdate,
+    setShouldUpdate,
+    currentRow,
+    setRows: setRowsDefined,
+    rows: rowsDefined,
+    activeStep,
+    workflowProcess: workflowProcessDefined,
+    forecastParametersIndex,
+  } as NonNullable<IEditOrCreateForecastingParameters>;
+
+  const createForecastingParametersConfirmation = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Network_Dialog",
       title: "Confirm Parameters Save",
@@ -179,7 +221,7 @@ const CreateNewForecastingParametersWorkflowDialog = (props: DialogStuff) => {
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction: saveForecastingParametersConfirmation,
+    finalAction: createForecastingParametersConfirmation,
     workflowProps,
     workflowProcess,
     workflowCategory,
@@ -191,7 +233,7 @@ const CreateNewForecastingParametersWorkflowDialog = (props: DialogStuff) => {
         steps,
         isStepOptional,
         isStepSkipped,
-        workflowProcess,
+        workflowProcessDefined,
         workflowCategory
       )
     );
@@ -223,7 +265,7 @@ const CreateNewForecastingParametersWorkflowDialog = (props: DialogStuff) => {
             width: "100%",
           }}
         >
-          <SaveForecastParametersWorkflow activeStep={activeStep} />
+          <EditOrCreateForecastParametersWorkflow {...createProps} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>
@@ -236,4 +278,4 @@ const CreateNewForecastingParametersWorkflowDialog = (props: DialogStuff) => {
   );
 };
 
-export default CreateNewForecastingParametersWorkflowDialog;
+export default CreateForecastingParametersWorkflowDialog;

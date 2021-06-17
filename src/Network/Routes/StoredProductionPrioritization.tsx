@@ -9,7 +9,6 @@ import {
   IStoredDataProps,
 } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
-import { IStoredNetworks } from "./StoredNetworkTypes";
 
 const chartData = [
   { name: "Group A", value: 2400 },

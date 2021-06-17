@@ -1,9 +1,7 @@
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
-export const extrudeDialogParameters = (
-  selectedRowIndex: number
-): DialogStuff => {
+export const extrudeDialogParameters = (): DialogStuff => {
   return {
     name: "Extrude_Decline_Curve_Parameters_Dialog",
     title: "Decline Curve Parameters",
@@ -12,7 +10,6 @@ export const extrudeDialogParameters = (
     exclusive: false,
     maxWidth: "xl",
     iconType: "information",
-    selectedRowIndex,
     actionsList: () => DialogCancelButton(),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };

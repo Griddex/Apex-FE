@@ -1,4 +1,5 @@
 export const PERSIST_STORE = "PERSIST_STORE";
+import { IRawRow } from "../../Components/Table/ReactDataGrid/ApexGridTypes";
 import { DialogStuff } from "./../../Components/Dialogs/DialogTypes";
 export const SHOW_DIALOG = "SHOW_DIALOG";
 export const HIDE_DIALOG = "HIDE_DIALOG";
@@ -14,7 +15,7 @@ export const persistToStoreAction = (name: string, value: string) => {
   };
 };
 
-export const showDialogAction = (dialog: DialogStuff) => {
+export const showDialogAction = <TRow = IRawRow>(dialog: DialogStuff<TRow>) => {
   return {
     type: SHOW_DIALOG,
     payload: dialog,

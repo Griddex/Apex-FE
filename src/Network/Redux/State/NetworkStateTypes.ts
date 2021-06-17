@@ -41,7 +41,7 @@ export interface ISaveForecastParametersFormValues {
   endForecastDate: Date;
 }
 
-export interface ISaveForecastParametersFormProps
+export interface ICreateForecastParametersFormProps
   extends ISaveForecastParametersFormValues {
   errors?: FormikErrors<ISaveForecastParametersFormValues>;
   touched?: FormikTouched<ISaveForecastParametersFormValues>;
@@ -50,7 +50,7 @@ export interface ISaveForecastParametersFormProps
 }
 
 export interface ISaveForecastParametersProps {
-  children?: (props: ISaveForecastParametersFormProps) => JSX.Element;
+  children?: (props: ICreateForecastParametersFormProps) => JSX.Element;
 }
 export interface IRunForecastParametersFormValues {
   forecastParametersTitle: string;
@@ -137,7 +137,7 @@ export interface INetworkState extends ISaveNetworkFormProps {
     productionPrioritizationStored: IForecastParametersStoredRow[];
   };
 
-  currentDeclineParameters: IDeclineCurveParametersDetail[];
+  selectedDeclineParametersData: IDeclineCurveParametersDetail[];
   currentProductionPrioritization: any[];
 
   prioritizationPerspective: string;

@@ -12,7 +12,7 @@ import StoredNetworksDialog from "../../../Network/Components/Dialogs/StoredNetw
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
-import CreateNewForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/CreateNewForecastingParametersWorkflowDialog";
+import CreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/CreateForecastingParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -32,6 +32,10 @@ import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
 import DraggableDialog from "./DraggableDialog";
 import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog";
+import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
+import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
+import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
+import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -49,11 +53,11 @@ const applicationDialogs: IApplicationDialogs = {
   storedNetworksDialog: StoredNetworksDialog,
   generateNetworkWorkflowDialog: GenerateNetworkWorkflowDialog,
   storedForecastingParametersDialog: StoredForecastingParametersDialog,
-  createNewForecastingParametersWorkflowDialog:
-    CreateNewForecastingParametersWorkflowDialog,
+  createForecastingParametersWorkflowDialog:
+    CreateForecastingParametersWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
 
-  productionStreamPrioritizationDialog: DeclineCurveParametersDialog,
+  productionStreamPrioritizationDialog: ProductionStreamPrioritizationDialog,
 
   runForecastDialog: RunForecastDialog,
   runForecastWorkflowDialog: RunForecastWorkflowDialog,
@@ -71,6 +75,10 @@ const applicationDialogs: IApplicationDialogs = {
   tableEditorDialog: TableEditorDialog,
   draggableDialog: DraggableDialog,
   saveEconomicsResultsDialog: SaveEconomicsResultsDialog,
+
+  storedDeclineCurveParametersDialog: StoredDeclineCurveParametersDialog,
+  storedProductionStreamPrioritizationDialog:
+    StoredProductionStreamPrioritizationDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {
@@ -80,14 +88,29 @@ const Dialogs: React.FC<DialogStuff> = () => {
 
   return (
     <div>
-      {(dialogs as any[]).map((dialog: DialogStuff, i: number) => {
-        const { type } = dialog;
+      {(dialogs as any[]).map(
+        (
+          dialog: DialogStuff | DialogStuff<IForecastParametersStoredRow>,
+          i: number
+        ) => {
+          const { type } = dialog;
 
-        if (dialog !== undefined && dialog.show === true && type) {
-          const SpecificDialog = applicationDialogs[type];
-          return <SpecificDialog key={i} {...dialog} />;
+          if (dialog !== undefined && dialog.show === true && type) {
+            if (type === "createForecastingParametersWorkflowDialog") {
+              const SpecificDialog = applicationDialogs[type];
+              const dialogDefined =
+                dialog as DialogStuff<IForecastParametersStoredRow>;
+
+              return <SpecificDialog key={i} {...dialogDefined} />;
+            } else {
+              const SpecificDialog = applicationDialogs[type];
+              const dialogDefined = dialog as DialogStuff;
+
+              return <SpecificDialog key={i} {...dialogDefined} />;
+            }
+          }
         }
-      })}
+      )}
     </div>
   );
 };

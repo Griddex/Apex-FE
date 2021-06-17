@@ -7,7 +7,6 @@ import {
   ForkEffect,
   put,
   PutEffect,
-  select,
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -16,7 +15,7 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineParametersDialogParameters";
+import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineCurveParametersDialogParameters";
 import {
   getDeclineParametersByIdFailureAction,
   getDeclineParametersByIdSuccessAction,
@@ -49,9 +48,8 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedDeclineParametersId } = yield select(
-    (state) => state.networkReducer
-  );
+  const { selectedDeclineParametersId } = payload;
+
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
   try {
@@ -72,8 +70,6 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
         selectedDeclineParametersData,
       },
     });
-
-    // yield put(updateNetworkParameterAction("showDeclineParametersTable", true));
   } catch (errors) {
     const failureAction = getDeclineParametersByIdFailureAction();
 

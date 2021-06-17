@@ -354,7 +354,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Network/Components/Dialogs/StoredNetworksDialogTypes.ts](/src/Network/Components/Dialogs/StoredNetworksDialogTypes.ts) | TypeScript | 46 | 0 | 4 | 50 |
 | [src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx](/src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx) | TypeScript React | 206 | 1 | 16 | 223 |
 | [src/Network/Components/Dialogs/RunForecastDialog.tsx](/src/Network/Components/Dialogs/RunForecastDialog.tsx) | TypeScript React | 121 | 4 | 8 | 133 |
-| [src/Network/Components/Dialogs/CreateNewForecastingParametersWorkflowDialog.tsx](/src/Network/Components/Dialogs/CreateNewForecastingParametersWorkflowDialog.tsx) | TypeScript React | 200 | 0 | 16 | 216 |
+| [src/Network/Components/Dialogs/CreateForecastingParametersWorkflowDialog.tsx](/src/Network/Components/Dialogs/CreateForecastingParametersWorkflowDialog.tsx) | TypeScript React | 200 | 0 | 16 | 216 |
 | [src/Network/Components/Dialogs/SaveNetworkDialog.tsx](/src/Network/Components/Dialogs/SaveNetworkDialog.tsx) | TypeScript React | 134 | 0 | 8 | 142 |
 | [src/Network/Components/Dialogs/SaveNetworkDialogTypes.ts](/src/Network/Components/Dialogs/SaveNetworkDialogTypes.ts) | TypeScript | 4 | 0 | 1 | 5 |
 | [src/Network/Components/Forms/RunForecastForm.tsx](/src/Network/Components/Forms/RunForecastForm.tsx) | TypeScript React | 71 | 0 | 6 | 77 |
@@ -365,7 +365,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Network/Components/Indicators/DeclineParametersType.tsx](/src/Network/Components/Indicators/DeclineParametersType.tsx) | TypeScript React | 49 | 0 | 9 | 58 |
 | [src/Network/Components/Menus/ForecastButtonsMenu.tsx](/src/Network/Components/Menus/ForecastButtonsMenu.tsx) | TypeScript React | 165 | 1 | 17 | 183 |
 | [src/Network/Components/Menus/NetworkButtonsMenu.tsx](/src/Network/Components/Menus/NetworkButtonsMenu.tsx) | TypeScript React | 193 | 0 | 18 | 211 |
-| [src/Network/Components/Menus/CreateNewForecastParametersButton.tsx](/src/Network/Components/Menus/CreateNewForecastParametersButton.tsx) | TypeScript React | 44 | 0 | 6 | 50 |
+| [src/Network/Components/Menus/CreateForecastParametersButton.tsx](/src/Network/Components/Menus/CreateForecastParametersButton.tsx) | TypeScript React | 44 | 0 | 6 | 50 |
 | [src/Network/Components/Nodes/NodePanel.tsx](/src/Network/Components/Nodes/NodePanel.tsx) | TypeScript React | 143 | 5 | 10 | 158 |
 | [src/Network/Components/Popovers/TerminalPopover.jsx](/src/Network/Components/Popovers/TerminalPopover.jsx) | JavaScript React | 54 | 0 | 7 | 61 |
 | [src/Network/Components/Popovers/WellheadPopover.jsx](/src/Network/Components/Popovers/WellheadPopover.jsx) | JavaScript React | 111 | 0 | 7 | 118 |
@@ -426,7 +426,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Network/Utils/SolveWellheadNodePositionsSquare.js](/src/Network/Utils/SolveWellheadNodePositionsSquare.js) | JavaScript | 37 | 0 | 6 | 43 |
 | [src/Network/Utils/SplitFlowstationsGasFacilities.js](/src/Network/Utils/SplitFlowstationsGasFacilities.js) | JavaScript | 13 | 0 | 5 | 18 |
 | [src/Network/Workflows/GenerateNetworkWorkflow.tsx](/src/Network/Workflows/GenerateNetworkWorkflow.tsx) | TypeScript React | 44 | 0 | 7 | 51 |
-| [src/Network/Workflows/SaveForecastParametersWorkflow.tsx](/src/Network/Workflows/SaveForecastParametersWorkflow.tsx) | TypeScript React | 61 | 0 | 4 | 65 |
+| [src/Network/Workflows/CreateForecastParametersWorkflow.tsx](/src/Network/Workflows/CreateForecastParametersWorkflow.tsx) | TypeScript React | 61 | 0 | 4 | 65 |
 | [src/Project/Components/ContextMenus/ProjectContextMenu.tsx](/src/Project/Components/ContextMenus/ProjectContextMenu.tsx) | TypeScript React | 47 | 0 | 8 | 55 |
 | [src/Project/Components/DialogParameters/OpenProjectFailureDialogParameters.ts](/src/Project/Components/DialogParameters/OpenProjectFailureDialogParameters.ts) | TypeScript | 15 | 0 | 2 | 17 |
 | [src/Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters.ts](/src/Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters.ts) | TypeScript | 29 | 0 | 3 | 32 |

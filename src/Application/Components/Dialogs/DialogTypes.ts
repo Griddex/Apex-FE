@@ -20,10 +20,6 @@ import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
 import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
 import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
-import {
-  default as DeclineCurveParametersDialog,
-  default as CreateNewForecastingParametersWorkflowDialog,
-} from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import StoredForecastingParametersDialog from "../../../Network/Components/Dialogs/StoredForecastingParametersDialog";
 import StoredNetworksDialog from "../../../Network/Components/Dialogs/StoredNetworksDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
@@ -44,6 +40,11 @@ import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
 import TextDialog from "./TextDialog";
+import CreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/CreateForecastingParametersWorkflowDialog";
+import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
+import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
+import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
+import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -60,10 +61,10 @@ export interface IApplicationDialogs {
   storedNetworksDialog: typeof StoredNetworksDialog;
   generateNetworkWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   storedForecastingParametersDialog: typeof StoredForecastingParametersDialog;
-  createNewForecastingParametersWorkflowDialog: typeof CreateNewForecastingParametersWorkflowDialog;
+  createForecastingParametersWorkflowDialog: typeof CreateForecastingParametersWorkflowDialog;
 
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
-  productionStreamPrioritizationDialog: typeof DeclineCurveParametersDialog;
+  productionStreamPrioritizationDialog: typeof ProductionStreamPrioritizationDialog;
 
   runForecastDialog: typeof RunForecastDialog;
   runForecastWorkflowDialog: typeof RunForecastWorkflowDialog;
@@ -79,6 +80,9 @@ export interface IApplicationDialogs {
   tableEditorDialog: typeof TableEditorDialog;
   draggableDialog: typeof DraggableDialog;
   saveEconomicsResultsDialog: typeof SaveEconomicsResultsDialog;
+
+  storedDeclineCurveParametersDialog: typeof StoredDeclineCurveParametersDialog;
+  storedProductionStreamPrioritizationDialog: typeof StoredProductionStreamPrioritizationDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -98,7 +102,7 @@ export interface IDialogData<T> {
   columns: Column<T>[];
   rows: T[];
 }
-export interface DialogStuff {
+export interface DialogStuff<TRow = IRawRow> {
   name?: string;
   title?: string;
   type?:
@@ -119,7 +123,7 @@ export interface DialogStuff {
     | "storedNetworksDialog"
     | "generateNetworkWorkflowDialog"
     | "storedForecastingParametersDialog"
-    | "createNewForecastingParametersWorkflowDialog"
+    | "createForecastingParametersWorkflowDialog"
     | "declineCurveParametersDialog"
     | "productionStreamPrioritizationDialog"
     | "saveCostsRevenuesInputDeckDialog"
@@ -132,7 +136,9 @@ export interface DialogStuff {
     | "tableDataDialog"
     | "tableEditorDialog"
     | "draggableDialog"
-    | "saveEconomicsResultsDialog";
+    | "saveEconomicsResultsDialog"
+    | "storedDeclineCurveParametersDialog"
+    | "storedProductionStreamPrioritizationDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -143,7 +149,7 @@ export interface DialogStuff {
   actionsList?: (par?: any) => JSX.Element | JSX.Element[];
   onClose?: () => void;
   classes?: Record<string, string>;
-  dialogData?: IDialogData<IRawRow>;
+  dialogData?: IDialogData<TRow>;
   children?: JSX.Element | JSX.Element[];
   dialogContentStyle?: CSSProperties;
   dialogActionsStyle?: CSSProperties;
@@ -154,11 +160,13 @@ export interface DialogStuff {
   economicsTableData?: IEconomicsParametersTable;
   economicsAnalyses?: TEconomicsAnalyses;
   selectedAnalysis?: IEconomicsAnalysis;
-  rows?: IRawRow[];
-  columns?: Column<IRawRow>[];
+  currentRow?: TRow;
+  rows?: TRow[];
+  columns?: Column<TRow>[];
   setRows?: TUseState<any>;
   apexEditorProps?: IApexEditor;
   apexEditorComponent?: React.FC<any>;
+  forecastParametersIndex?: number;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

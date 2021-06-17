@@ -15,6 +15,7 @@ import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
+import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles({
   input: {
@@ -48,6 +49,8 @@ export interface IApexEditor {
   shouldUpdate: boolean;
   setShouldUpdate?: TUseState<boolean>;
   customComponent?: React.FC;
+  workflowProcess?: TAllWorkflowProcesses;
+  activeStep?: number;
 }
 
 const ApexEditor = ({

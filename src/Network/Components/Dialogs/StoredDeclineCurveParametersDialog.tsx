@@ -1,7 +1,8 @@
-import { DialogActions, IconButton } from "@material-ui/core";
+import { DialogActions } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
+import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
@@ -12,7 +13,7 @@ import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import DeclineCurveParameters from "../../Routes/DeclineCurveParameters";
+import StoredDeclineCurveParameters from "../../Routes/StoredDeclineCurveParameters";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,18 +103,10 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = [
-  "DCA Parameters",
-  "Other Forecast Parameters",
-  "Title and Description",
-];
-const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "declineCurveParametersWorkflow";
-
-const DeclineCurveParametersDialog = (props: DialogStuff) => {
+const StoredDeclineCurveParametersDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, selectedRowIndex } =
-    props;
+  const { title, show, maxWidth, iconType, actionsList } = props;
+  const wp = "declineParametersStored";
 
   return (
     <Dialog
@@ -130,13 +123,21 @@ const DeclineCurveParametersDialog = (props: DialogStuff) => {
       </DialogTitle>
       <DialogContent
         dividers
-        style={{ display: "flex", flexDirection: "column", height: 650 }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: 650,
+        }}
       >
-        <DeclineCurveParameters />
+        <StoredDeclineCurveParameters
+          showChart={true}
+          workflowProcess={wp}
+          containerStyle={{ boxShadow: "none" }}
+        />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default DeclineCurveParametersDialog;
+export default StoredDeclineCurveParametersDialog;

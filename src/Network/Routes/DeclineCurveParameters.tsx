@@ -64,25 +64,16 @@ const useStyles = makeStyles(() => ({
 
 //TODO: Calculate classification data from collection
 
-export default function DeclineCurveParameters({
-  workflowProcess,
-  selectedRowIndex,
-}: {
-  workflowProcess: IAllWorkflows["wrkflwPrcss"];
-  selectedRowIndex: number;
-}) {
+export default function DeclineCurveParameters() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const wc = "storedDataWorkflows";
   const wp = "forecastingParametersStored";
 
-  const { forecastingParametersStored } = useSelector(
+  const { selectedDeclineParametersData } = useSelector(
     (state: RootState) => state.networkReducer
   );
-
-  const declineCurveParametersList =
-    forecastingParametersStored[selectedRowIndex]["declineParameters"];
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
@@ -226,21 +217,21 @@ export default function DeclineCurveParameters({
       },
       {
         key: "initOilGasRate1P1C",
-        name: "INITIAL RATE (1P1C)",
+        name: "INITIAL RATE (LOW)",
         editable: false,
         resizable: true,
         width: 200,
       },
       {
         key: "initOilGasRate2P2C",
-        name: "INITIAL RATE (2P2C)",
+        name: "INITIAL RATE (BASE)",
         editable: false,
         resizable: true,
         width: 200,
       },
       {
         key: "initOilGasRate3P3C",
-        name: "INITIAL RATE (3P3C)",
+        name: "INITIAL RATE (HIGH)",
         editable: false,
         resizable: true,
         width: 200,
@@ -248,7 +239,7 @@ export default function DeclineCurveParameters({
 
       {
         key: "rateofChangeRate1P1C",
-        name: "DECLINE RATE (1P1C)",
+        name: "DECLINE RATE (LOW)",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -256,7 +247,7 @@ export default function DeclineCurveParameters({
       },
       {
         key: "rateofChangeRate2P2C",
-        name: "DECLINE RATE (2P2C)",
+        name: "DECLINE RATE (BASE)",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -264,7 +255,7 @@ export default function DeclineCurveParameters({
       },
       {
         key: "rateofChangeRate3P3C",
-        name: "DECLINE RATE (3P3C)",
+        name: "DECLINE RATE (HIGH)",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -272,7 +263,7 @@ export default function DeclineCurveParameters({
       },
       {
         key: "declineExponent1P1C",
-        name: "DECLINE EXPONENT (1P1C)",
+        name: "DECLINE EXPONENT (LOW)",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -280,7 +271,7 @@ export default function DeclineCurveParameters({
       },
       {
         key: "declineExponent2P2C",
-        name: "DECLINE EXPONENT (2P2C)",
+        name: "DECLINE EXPONENT (BASE)",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -288,7 +279,7 @@ export default function DeclineCurveParameters({
       },
       {
         key: "declineExponent3P3C",
-        name: "DECLINE EXPONENT (3P3C)",
+        name: "DECLINE EXPONENT (HIGH)",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -300,16 +291,19 @@ export default function DeclineCurveParameters({
   };
   const columns = React.useMemo(() => generateColumns(), []);
 
-  const snDeclineCurveParametersList = declineCurveParametersList.map(
+  const snDeclineCurveParametersList = selectedDeclineParametersData.map(
     (row: any, i: number) => ({
       sn: i + 1,
       ...row,
     })
   );
+
   const tableRows = React.useRef<IDeclineCurveParametersDetail[]>(
     snDeclineCurveParametersList
   );
+
   const [, setRerender] = React.useState(false);
+
   const modifyTableRows = (
     selectedModule: string,
     selectedDeclineTypeOptionIndex: number

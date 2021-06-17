@@ -1,4 +1,4 @@
-import { TextareaAutosize, TextField } from "@material-ui/core";
+import { Input, TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
@@ -52,11 +52,11 @@ const ForecastTitleAndDescription = ({
         title="Title"
         direction="Vertical"
         content={
-          <TextField
+          <Input
             name="forecastInputdeckTitle"
-            variant="outlined"
+            // variant="outlined"
             style={{ width: "100%" }}
-            helperText={helperText}
+            // helperText={helperText}
             error={Boolean(helperText)}
             value={forecastInputdeckTitle}
             onChange={handleTitleDescChange}

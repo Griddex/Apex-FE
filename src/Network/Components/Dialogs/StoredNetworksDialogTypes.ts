@@ -1,3 +1,4 @@
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
 
 export interface IDeclineCurveParametersDetail {
@@ -49,6 +50,8 @@ export interface IBackendForecastingParametersRow {
   description: string;
   type: "Default" | "User";
   createdAt: string;
+  wellPrioritizationId: string;
+  wellDeclineParameterId: string;
   wellPrioritizationTitle: string;
   wellDeclineParameterTitle: string;
   parametersEntity: IParametersEntity;
@@ -62,6 +65,8 @@ export interface IForecastParametersStoredRow {
   title: string;
   description: string;
   type: "Default" | "User";
+  wellDeclineParameterId: string;
+  wellPrioritizationId: string;
   wellDeclineParameterTitle: string;
   wellPrioritizationTitle: string;
   targetFluid: string;

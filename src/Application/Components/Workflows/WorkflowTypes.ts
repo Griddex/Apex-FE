@@ -58,7 +58,8 @@ export interface INetworkWorkflows {
     | "declineParametersStored"
     | "productionPrioritizationStored"
     | "runForecastWorkflow"
-    | "saveForecastingParametersWorkflow"
+    | "createForecastingParametersWorkflow"
+    | "editForecastingParametersWorkflow"
     | "declineCurveParametersWorkflow";
   wkCy:
     | "networkDataWorkflows"

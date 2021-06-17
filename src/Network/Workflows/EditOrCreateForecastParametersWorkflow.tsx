@@ -1,37 +1,40 @@
-import findIndex from "lodash.findindex";
 import React from "react";
 import { useSelector } from "react-redux";
-import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
-import { ISaveForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
-import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
+import { ICreateForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
+import EditOrCreateForecastingParameters, {
+  IEditOrCreateForecastingParameters,
+} from "../Routes/EditOrCreateForecastingParameters";
 import ForecastParametersTitleAndDescription from "../Routes/ForecastParametersTitleAndDescription";
-import OtherForecastingParameters from "../Routes/OtherForecastingParameters";
 
-const SaveForecastParametersWorkflow = ({
+const EditOrCreateForecastParametersWorkflow = ({
+  setRows,
+  rows,
+  currentRow,
+  shouldUpdate,
+  workflowProcess,
   activeStep,
-}: {
-  activeStep: number;
-}) => {
-  const { selectedForecastInputDeckId } = useSelector(
-    (state: RootState) => state.inputReducer
-  );
-  const { forecastingParametersStored } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-
+  forecastParametersIndex,
+}: IEditOrCreateForecastingParameters) => {
   const reducer = "inputReducer" as ReducersType;
-  const index = findIndex(
-    forecastingParametersStored,
-    (k: IForecastParametersStoredRow) =>
-      k.forecastInputDeckId === selectedForecastInputDeckId
-  );
 
-  const renderImportStep = (props: ISaveForecastParametersFormProps) => {
-    switch (activeStep) {
+  const wc = "storedDataWorkflows";
+  const workflowProcessDefined =
+    workflowProcess as NonNullable<TAllWorkflowProcesses>;
+
+  const renderImportStep = (props: ICreateForecastParametersFormProps) => {
+    const n = workflowProcess === "createForecastingParametersWorkflow" ? 0 : 1;
+    const activeStepMod = (activeStep as number) + n;
+
+    switch (activeStepMod) {
       case 0:
         return (
           <StoredForecastDecks
@@ -43,14 +46,18 @@ const SaveForecastParametersWorkflow = ({
         );
       case 1:
         return (
-          <DeclineCurveParameters
-            selectedRowIndex={index} //Provide default DCA parameters
-            workflowProcess="saveForecastingParametersWorkflow"
-          />
+          <ApexFlexContainer>
+            <EditOrCreateForecastingParameters
+              currentRow={currentRow}
+              rows={rows}
+              setRows={setRows}
+              shouldUpdate={shouldUpdate}
+              workflowProcess={workflowProcessDefined}
+              forecastParametersIndex={forecastParametersIndex}
+            />
+          </ApexFlexContainer>
         );
       case 2:
-        return <OtherForecastingParameters />;
-      case 3:
         return <ForecastParametersTitleAndDescription {...props} />;
       default:
         return <h1>No view</h1>;
@@ -90,4 +97,4 @@ const SaveForecastParametersWorkflow = ({
   );
 };
 
-export default SaveForecastParametersWorkflow;
+export default EditOrCreateForecastParametersWorkflow;
