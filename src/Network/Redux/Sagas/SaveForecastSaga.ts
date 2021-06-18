@@ -52,8 +52,7 @@ function* saveForecastSaga(
   any
 > {
   const { payload } = action;
-  const { userId } = yield select((state) => state.loginReducer);
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const { selectedNetworkId, selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
@@ -66,7 +65,7 @@ function* saveForecastSaga(
 
   const data = {
     userId: "Gideon",
-    projectId,
+    projectId: currentProjectId,
     networkId: selectedNetworkId,
     forecastingParametersId: selectedForecastingParametersId,
     title: forecastResultsTitle,
@@ -102,7 +101,7 @@ function* saveForecastSaga(
         forecastResultsTitle
       )
     );
-    yield put(fetchStoredForecastingResultsRequestAction(projectId));
+    yield put(fetchStoredForecastingResultsRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveForecastFailureAction();

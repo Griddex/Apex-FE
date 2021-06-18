@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
-import { ButtonProps } from "../../../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
@@ -20,10 +19,7 @@ import {
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import {
-  IAllWorkflows,
-  IInputWorkflows,
-} from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IInputWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -82,6 +78,9 @@ export default function CostsAndRevenueManual({
 
   const wc = wkCy;
   const wp = wkPs;
+
+  const componentRef = React.useRef();
+
   const { uniqUnitOptions } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   );
@@ -126,6 +125,7 @@ export default function CostsAndRevenueManual({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   //TODO: initialize from Gift
@@ -843,8 +843,6 @@ export default function CostsAndRevenueManual({
 
   React.useEffect(() => {
     dispatch(persistEconomicsDeckRequestAction(wp, devVal, rows, true));
-
-    dispatch(hideSpinnerAction());
   }, [rows]);
 
   React.useEffect(() => {
@@ -854,8 +852,6 @@ export default function CostsAndRevenueManual({
         buttonsData
       )
     );
-
-    dispatch(hideSpinnerAction());
   }, [devVal]);
 
   return (

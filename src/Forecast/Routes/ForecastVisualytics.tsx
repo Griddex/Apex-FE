@@ -7,6 +7,7 @@ import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import FormatAggregator from "../../Visualytics/Components/FormatAggregators/FormatAggregator";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
@@ -14,6 +15,7 @@ import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
+import { removeCurrentForecastAction } from "../Redux/Actions/ForecastActions";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -58,15 +60,13 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const componentRef = React.useRef();
+
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
   const { isForecastResultsLoading } = useSelector(
     (state: RootState) => state.forecastReducer
-  );
-  console.log(
-    "Logged output --> ~ file: ForecastVisualytics.tsx ~ line 68 ~ ForecastVisualytics ~ isForecastResultsLoading",
-    isForecastResultsLoading
   );
 
   const chartButtons: IChartButtonsProps = {
@@ -75,21 +75,22 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
       <div style={{ display: "flex" }}>
         <ForecastVariableButtonsMenu />
         <IconButtonWithTooltip
-          toolTipKey="printToolTip"
-          toolTipTitle="Print table"
+          toolTipKey="saveToolTip"
+          toolTipTitle="Save Forecast"
           toolTipPlacement="bottom-end"
           icon={() => <SaveOutlinedIcon />}
-          action={() => alert("Print")}
+          action={() => dispatch(extrudeSaveForecastRun())}
         />
         <IconButtonWithTooltip
-          toolTipKey="printToolTip"
-          toolTipTitle="Print table"
+          toolTipKey="removeToolTip"
+          toolTipTitle="Remove Forecast"
           toolTipPlacement="bottom-end"
           icon={() => <RemoveOutlinedIcon />}
-          action={() => alert("Print")}
+          action={() => dispatch(removeCurrentForecastAction)}
         />
       </div>
     ),
+    componentRef,
   };
 
   useEffect(() => {

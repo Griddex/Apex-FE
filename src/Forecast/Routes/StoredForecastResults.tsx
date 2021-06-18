@@ -115,6 +115,8 @@ export default function StoredForecastResults({
     { name: "Group C", value: 1398, color: theme.palette.secondary.main },
   ];
 
+  const componentRef = React.useRef();
+
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
@@ -126,6 +128,7 @@ export default function StoredForecastResults({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);

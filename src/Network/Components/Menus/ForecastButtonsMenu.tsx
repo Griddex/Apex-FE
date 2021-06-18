@@ -24,6 +24,8 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import { useHistory } from "react-router-dom";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { extrudeSaveForecastRun } from "../DialogParameters/ExtrudeSaveForecastRun";
 
 const ForecastButtonsMenu = () => {
   const history = useHistory();
@@ -144,6 +146,12 @@ const ForecastButtonsMenu = () => {
       action: isNetworkDisplayed ? runForecast : runForecastWorkflow,
       icon: <PlayArrowIcon color="primary" fontSize="small" />,
       disable: selectedNetworkId === "" ? true : false,
+    },
+    {
+      title: "Save Results",
+      action: () => dispatch(extrudeSaveForecastRun()),
+      icon: <SaveOutlinedIcon color="primary" fontSize="small" />,
+      disable: false,
     },
     {
       title: "View Results",

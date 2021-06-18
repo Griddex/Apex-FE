@@ -57,6 +57,8 @@ const SensitivitiesHeatMapVisualytics = () => {
   const dispatch = useDispatch();
   const workflowProcess = "economicsResultsSensitivitiesHeatmap";
 
+  const componentRef = React.useRef();
+
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
@@ -78,17 +80,16 @@ const SensitivitiesHeatMapVisualytics = () => {
           toolTipTitle="Print table"
           toolTipPlacement="bottom-end"
           icon={() => <SaveOutlinedIcon />}
-          action={() => alert("Print")}
         />
         <IconButtonWithTooltip
           toolTipKey="printToolTip"
           toolTipTitle="Print table"
           toolTipPlacement="bottom-end"
           icon={() => <RemoveOutlinedIcon />}
-          action={() => alert("Print")}
         />
       </div>
     ),
+    componentRef,
   };
 
   const ChartCategoriesData = React.useRef([

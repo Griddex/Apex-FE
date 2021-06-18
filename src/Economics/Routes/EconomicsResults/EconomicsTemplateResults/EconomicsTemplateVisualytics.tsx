@@ -56,6 +56,8 @@ const EconomicsTemplateVisualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const componentRef = React.useRef();
+
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
@@ -72,17 +74,16 @@ const EconomicsTemplateVisualytics = () => {
           toolTipTitle="Print table"
           toolTipPlacement="bottom-end"
           icon={() => <SaveOutlinedIcon />}
-          action={() => alert("Print")}
         />
         <IconButtonWithTooltip
           toolTipKey="printToolTip"
           toolTipTitle="Print table"
           toolTipPlacement="bottom-end"
           icon={() => <RemoveOutlinedIcon />}
-          action={() => alert("Print")}
         />
       </div>
     ),
+    componentRef,
   };
 
   useEffect(() => {

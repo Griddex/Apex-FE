@@ -30,12 +30,17 @@ export default function ForecastTreeView() {
   const [selectedModuleNames, setSelectedModuleNames] = React.useState<
     string[]
   >([]);
+
   const [selectedModulePathsUnfiltered, setSelectedModulePathsUnfiltered] =
     React.useState<string[]>([]);
 
   React.useEffect(() => {
     const selectedModulePaths = selectedModulePathsUnfiltered.filter(
       (p) => p?.match(/@#\$%/g)?.length === 2
+    );
+
+    const selectedModuleNames = selectedModulePaths.map(
+      (path) => path.split("@#$%")[2]
     );
 
     if (selectedIds.length > 0) {

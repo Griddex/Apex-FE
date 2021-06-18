@@ -2,6 +2,7 @@ import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
 import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
 import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
 import React from "react";
+import ChartButtons from "../../../Visualytics/Components/Menus/ChartButtons";
 import ForecastButtonsMenu from "../Menus/ForecastButtonsMenu";
 import NetworkButtonsMenu from "../Menus/NetworkButtonsMenu";
 import { INetworkDiagramIcons } from "./NetworkDiagramIconsTypes";
@@ -10,7 +11,6 @@ const useStyles = makeStyles(() => ({
   networkContentIcons: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "flex-end",
     borderBottom: "1px solid #E7E7E7",
     height: 28,
@@ -24,7 +24,14 @@ const useStyles = makeStyles(() => ({
 const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
   const theme = useTheme();
   const classes = useStyles();
-  const { showMiniMap, setShowMiniMap, showControls, setShowControls } = props;
+
+  const {
+    showMiniMap,
+    setShowMiniMap,
+    showControls,
+    setShowControls,
+    componentRef,
+  } = props;
 
   return (
     <div className={classes.networkContentIcons}>
@@ -66,6 +73,10 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
           <ViewAgendaOutlinedIcon />
         </IconButton>
       </Tooltip>
+      <ChartButtons
+        showExtraButtons={false}
+        componentRef={componentRef as React.MutableRefObject<any>}
+      />
     </div>
   );
 };

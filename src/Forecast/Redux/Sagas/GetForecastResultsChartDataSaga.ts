@@ -97,16 +97,8 @@ function* getForecastResultsChartDataSaga(
     const forecastResultsAPI = (url: string) =>
       authService.post(url, data, config);
     const result = yield call(forecastResultsAPI, url);
-    console.log(
-      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 89 ~ result",
-      result
-    );
 
     const { status, data: forecastResults, succcess } = result;
-    console.log(
-      "Logged output --> ~ file: GetForecastResultsWholeSaga.ts ~ line 93 ~ forecastResults",
-      forecastResults
-    );
 
     const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
@@ -117,7 +109,7 @@ function* getForecastResultsChartDataSaga(
     });
 
     yield put({
-      type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
+      type: "UPDATE_FORECASTPARAMETER",
       payload: {
         selectedModuleIds: selectedIds,
       },

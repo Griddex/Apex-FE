@@ -32,6 +32,8 @@ export default function StoredForecastDecks({
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "forecastInputDeckStored";
 
+  const componentRef = React.useRef();
+
   const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   console.log(
@@ -41,6 +43,7 @@ export default function StoredForecastDecks({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const snStoredData = storedData.map(

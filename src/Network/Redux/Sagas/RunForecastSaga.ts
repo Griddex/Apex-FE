@@ -28,12 +28,16 @@ import {
   removeCurrentForecastAction,
   runForecastFailureAction,
   runForecastSuccessAction,
+  updateForecastResultsParameterAction,
 } from "../../../Forecast/Redux/Actions/ForecastActions";
 import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/RunForecastSuccessFailureDialogParameters";
-import { RUN_FORECAST_REQUEST } from "../Actions/NetworkActions";
+import {
+  RUN_FORECAST_REQUEST,
+  updateForecastParametersRequestAction,
+} from "../Actions/NetworkActions";
 
 export default function* watchRunForecastSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -59,7 +63,11 @@ function* runForecastSaga(
   { selectedNetworkId: any } & { selectedForecastingParametersId: any } & any
 > {
   const { payload } = action;
-  const { selectedNetworkId } = yield select((state) => state.networkReducer);
+  const {
+    selectedNetworkId,
+    forecastResultsTitle,
+    forecastResultsDescription,
+  } = yield select((state) => state.networkReducer);
   const { selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
   );
@@ -100,6 +108,19 @@ function* runForecastSaga(
       }
       yield put(showDialogAction(successDialogParameters()));
     }
+
+    yield put(
+      updateForecastResultsParameterAction(
+        "selectedForecastingResultsTitle",
+        forecastResultsTitle
+      )
+    );
+    yield put(
+      updateForecastResultsParameterAction(
+        "selectedForecastingResultsDescription",
+        forecastResultsDescription
+      )
+    );
   } catch (errors) {
     const failureAction = runForecastFailureAction();
 

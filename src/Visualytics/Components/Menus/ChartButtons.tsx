@@ -4,6 +4,7 @@ import PrintOutlinedIcon from "@material-ui/icons/PrintOutlined";
 import React from "react";
 import IconButtonWithTooltip from "../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { IChartButtonsProps } from "./ChartButtonsTypes";
+import ReactToPrint from "react-to-print";
 
 const useStyles = makeStyles((theme) => ({
   tableContentIcons: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 const ChartButtons: React.FC<IChartButtonsProps> = ({
   showExtraButtons,
   extraButtons,
+  componentRef,
 }) => {
   const classes = useStyles();
 
@@ -32,15 +34,18 @@ const ChartButtons: React.FC<IChartButtonsProps> = ({
         toolTipKey="printToolTip"
         toolTipTitle="Print table"
         toolTipPlacement="bottom-end"
-        icon={() => <PrintOutlinedIcon />}
-        action={() => alert("Print")}
+        icon={() => (
+          <ReactToPrint
+            trigger={() => <PrintOutlinedIcon />}
+            content={() => componentRef && componentRef.current}
+          />
+        )}
       />
       <IconButtonWithTooltip
         toolTipKey="copyToolTip"
         toolTipTitle="Copy entire table"
         toolTipPlacement="bottom-end"
         icon={() => <FileCopyOutlinedIcon />}
-        action={() => alert("Copy")}
       />
     </div>
   );

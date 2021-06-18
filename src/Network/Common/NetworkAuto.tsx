@@ -76,6 +76,7 @@ const useStyles = makeStyles(() => ({
   },
   networkContent: {
     marginLeft: 5,
+    marginRight: 40,
     height: "100%",
     width: "85%",
     border: "1px solid #E7E7E7",
@@ -108,6 +109,7 @@ const nodeTypes: NodeTypesType = {
 const Network = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+
   const { enqueueSnackbar } = useSnackbar();
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -116,7 +118,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     (state: RootState) => state.networkReducer
   );
 
-  const networkRef = React.useRef<HTMLElement>(null);
+  const networkRef = React.useRef<HTMLDivElement>(null);
   const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
 
   const [networkElements, setNetworkElements] = React.useState(
@@ -136,6 +138,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     setShowMiniMap,
     showControls,
     setShowControls,
+    componentRef: networkRef,
   };
 
   //Drag and Drop
@@ -167,7 +170,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
 
   const handleWidgetDrop = (monitor: DropTargetMonitor) => {
     const networkBounds = (
-      networkRef.current as HTMLElement
+      networkRef.current as HTMLDivElement
     ).getBoundingClientRect();
 
     const { nodeType } = monitor.getItem() as any;
@@ -254,6 +257,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
               <NetworkDiagramButtons {...NetworkDiagramIconsProps} />
             </div>
             <ReactFlow
+              ref={networkRef}
               style={{ height: `calc(100% - 30px)` }}
               elements={allNetworkElements}
               onElementsRemove={onElementsRemove}

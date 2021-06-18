@@ -105,11 +105,14 @@ export default function StoredForecastingParameters({
 }: IStoredDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
-  const [sRow, setSRow] = React.useState(-1);
 
   const wc = "storedDataWorkflows";
   const wp = "forecastingParametersStored";
+
+  const componentRef = React.useRef();
+
+  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
+  const [sRow, setSRow] = React.useState(-1);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
@@ -213,6 +216,7 @@ export default function StoredForecastingParameters({
         forecastParametersIndex={transStoredData.length}
       />
     ),
+    componentRef,
   };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);

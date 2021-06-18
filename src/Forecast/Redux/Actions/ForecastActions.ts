@@ -2,8 +2,7 @@ import { IAllWorkflows } from "../../../Application/Components/Workflows/Workflo
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
-export const PERSIST_FIRSTLEVELFORECASTPROPERTY =
-  "PERSIST_FIRSTLEVELFORECASTPROPERTY";
+export const UPDATE_FORECASTPARAMETER = "UPDATE_FORECASTPARAMETER";
 export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const LOAD_FORECASTRESULTS_WORKFLOW = "LOAD_FORECASTRESULTS_WORKFLOW";
 export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
@@ -43,12 +42,12 @@ export const RUN_FORECASTAGGREGATION_FAILURE =
   "RUN_FORECASTAGGREGATION_FAILURE";
 
 export const updateForecastResultsParameterAction = (
-  name: string,
+  path: string,
   value: any
 ) => {
   return {
-    type: PERSIST_FIRSTLEVELFORECASTPROPERTY,
-    payload: { name, value },
+    type: UPDATE_FORECASTPARAMETER,
+    payload: { path, value },
   };
 };
 

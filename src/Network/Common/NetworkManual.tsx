@@ -77,6 +77,7 @@ const useStyles = makeStyles(() => ({
   },
   networkContent: {
     marginLeft: 5,
+    marginRight: 40,
     height: "100%",
     width: "85%",
     border: "1px solid #E7E7E7",

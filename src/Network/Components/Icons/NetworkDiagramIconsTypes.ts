@@ -3,4 +3,5 @@ export interface INetworkDiagramIcons {
   setShowMiniMap: React.Dispatch<React.SetStateAction<boolean>>;
   showControls: boolean;
   setShowControls: React.Dispatch<React.SetStateAction<boolean>>;
+  componentRef?: React.MutableRefObject<any>;
 }

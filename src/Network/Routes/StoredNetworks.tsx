@@ -22,6 +22,8 @@ export default function StoredNetworks({
   const wc = "storedDataWorkflows";
   const wp = workflowProcess;
 
+  const componentRef = React.useRef();
+
   const storedData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
   );
@@ -29,6 +31,7 @@ export default function StoredNetworks({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const snStoredData = storedData.map(

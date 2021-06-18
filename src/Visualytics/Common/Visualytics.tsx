@@ -49,6 +49,8 @@ const Visualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const componentRef = React.useRef();
+
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
@@ -56,6 +58,7 @@ const Visualytics = () => {
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   useEffect(() => {

@@ -26,6 +26,8 @@ export default function StoredProductionPrioritization({
     IStoredDataProps["workflowProcess"]
   >;
 
+  const componentRef = React.useRef();
+
   const storedData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
   );
@@ -33,6 +35,7 @@ export default function StoredProductionPrioritization({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const snStoredData = storedData.map(

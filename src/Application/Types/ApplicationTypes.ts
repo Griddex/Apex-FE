@@ -63,6 +63,7 @@ export interface IStoredDataProps {
   finalText?: string;
   name?: keyof Pick<IStoredDataRow, "id" | "title">;
   handleCheckboxChange?: (row: any, event?: React.ChangeEvent<any>) => void;
+  componentRef?: React.MutableRefObject<any>;
 }
 
 export interface IApplicationStoredDataRow {

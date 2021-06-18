@@ -39,13 +39,13 @@ import {
   LOAD_ECONOMICS_WORKFLOW,
   RUNECONOMICSANALYSIS_FAILURE,
   RUNECONOMICSANALYSIS_SUCCESS,
-  UPDATE_ECONOMICS,
+  UPDATE_ECONOMICSPARAMETER,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
 const economicsReducer = (state = EconomicsState, action: IAction) => {
   switch (action.type) {
-    case UPDATE_ECONOMICS: {
+    case UPDATE_ECONOMICSPARAMETER: {
       const { path, value } = action.payload;
 
       const updatedState = set(state, path, value);

@@ -12,7 +12,7 @@ import {
 } from "./../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 export const LOAD_ECONOMICS_WORKFLOW = "LOAD_ECONOMICS_WORKFLOW";
-export const UPDATE_ECONOMICS = "UPDATE_ECONOMICS";
+export const UPDATE_ECONOMICSPARAMETER = "UPDATE_ECONOMICSPARAMETER";
 export const STORED_COSTSREVENUESDATA_REQUEST =
   "STORED_COSTSREVENUESDATA_REQUEST";
 export const STORED_COSTSREVENUESDATA_SUCCESS =
@@ -112,7 +112,7 @@ export const GET_ECONOMICSRESULTSBYID_FAILURE =
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
-    type: UPDATE_ECONOMICS,
+    type: UPDATE_ECONOMICSPARAMETER,
     payload: {
       path,
       value,

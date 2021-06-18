@@ -27,21 +27,16 @@ export default function StoredProductionData({
 
   const wc = "storedDataWorkflows";
   const wp: wpTypeNon = "productionInputDataStored";
-  // const wp = "productionInputDataStored" as wpType;
-  // const wp = "productionInputDataStored" as Omit<NonNullable<
-  //   IStoredDataProps["wkPs"]
-  // >,"">;
+
+  const componentRef = React.useRef();
 
   const stored = useSelector((state: RootState) => state.inputReducer);
-  //stored.storedDataWorkflows;
-  // const storedData = useSelector(
-  //   (state: RootState) => state.inputReducer[wc]
-  // );
   const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const snStoredData = storedData.map((row: any, i: number) => {

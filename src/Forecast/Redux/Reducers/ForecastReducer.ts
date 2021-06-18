@@ -9,7 +9,7 @@ import {
   UPDATE_SELECTEDIDTITLE,
   GET_FORECASTRESULTS_CHARTDATA_FAILURE,
   GET_FORECASTRESULTS_CHARTDATA_SUCCESS,
-  PERSIST_FIRSTLEVELFORECASTPROPERTY,
+  UPDATE_FORECASTPARAMETER,
   PERSIST_FORECASTCHARTELEMENTID,
   PERSIST_FORECASTCHARTINDEX,
   PERSIST_FORECASTCHARTOBJECT,
@@ -36,12 +36,11 @@ const forecastReducer = (
   action: IAction
 ): ForecastStateType => {
   switch (action.type) {
-    case PERSIST_FIRSTLEVELFORECASTPROPERTY: {
-      const { name, value } = action.payload;
-      return {
-        ...state,
-        [name]: value,
-      };
+    case UPDATE_FORECASTPARAMETER: {
+      const { path, value } = action.payload;
+
+      const updatedState = set(state, path, value);
+      return updatedState;
     }
 
     case UPDATE_SELECTEDIDTITLE: {

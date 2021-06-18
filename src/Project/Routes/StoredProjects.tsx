@@ -22,6 +22,8 @@ export default function StoredProjects({
 }) {
   const dispatch = useDispatch();
 
+  const componentRef = React.useRef();
+
   const { storedProjects } = useSelector(
     (state: RootState) => state.projectReducer
   );
@@ -29,6 +31,7 @@ export default function StoredProjects({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const snStoredData = (storedProjects as IApplicationProject[]).map(

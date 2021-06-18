@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "97%",
     alignItems: "center",
-    justifyContent: "center", //around, between
+    justifyContent: "center",
   },
   chart: {
     display: "flex",
@@ -60,255 +60,261 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StoredDataRoute<
-  TRow extends IStoredDataRow = IStoredDataRow
->({
-  snStoredData,
-  dataKey,
-  dataTitle,
-  chartData,
-  tableButtons,
-  wkPs,
-  showChart,
-  containerStyle,
-  handleCheckboxChange,
-  reducer,
-  mainUrl,
-  tableTitle,
-}: IStoredDataProps) {
-  console.log(
-    "Logged output --> ~ file: StoredDataRoute.tsx ~ line 69 ~ reducer",
-    reducer
-  );
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const wp = wkPs as NonNullable<IStoredDataProps["wkPs"]>;
+const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
+  (
+    {
+      snStoredData,
+      dataKey,
+      dataTitle,
+      chartData,
+      tableButtons,
+      wkPs,
+      showChart,
+      containerStyle,
+      handleCheckboxChange,
+      reducer,
+      mainUrl,
+    },
+    componentRef
+  ) => {
+    console.log(
+      "Logged output --> ~ file: StoredDataRoute.tsx ~ line 80 ~ componentRef",
+      componentRef
+    );
+    console.log(
+      "Logged output --> ~ file: StoredDataRoute.tsx ~ line 69 ~ reducer",
+      reducer
+    );
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const wp = wkPs as NonNullable<IStoredDataProps["wkPs"]>;
 
-  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
-  const [sRow, setSRow] = React.useState(-1);
-  const [shouldUpdate, setShouldUpdate] = React.useState(false);
+    const [selectedRows, setSelectedRows] = React.useState(
+      new Set<React.Key>()
+    );
+    const [sRow, setSRow] = React.useState(-1);
+    const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
-  const currentRows = snStoredData as IStoredDataRow[];
+    const currentRows = snStoredData as IStoredDataRow[];
+    const [rows, setRows] = React.useState(currentRows);
 
-  const [rows, setRows] = React.useState(currentRows);
-  // console.log(
-  //   "Logged output --> ~ file: StoredDataRoute.tsx ~ line 96 ~ rows",
-  //   rows
-  // );
+    const ApexGridCheckboxColumn = apexGridCheckbox({
+      shouldExecute: true,
+      shouldDispatch: false,
+      apexGridCheckboxFxn: handleCheckboxChange as NonNullable<
+        IStoredDataProps["handleCheckboxChange"]
+      >,
+    });
 
-  const ApexGridCheckboxColumn = apexGridCheckbox({
-    shouldExecute: true,
-    shouldDispatch: false,
-    apexGridCheckboxFxn: handleCheckboxChange as NonNullable<
-      IStoredDataProps["handleCheckboxChange"]
-    >,
-  });
+    const dividerPositions = [50];
 
-  const dividerPositions = [50];
+    const generateColumns = () => {
+      const columns: Column<IStoredDataRow>[] = [
+        { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+        ApexGridCheckboxColumn,
+        {
+          key: "actions",
+          name: "ACTIONS",
+          editable: false,
+          formatter: ({ row }) => {
+            const sn = row.sn as number;
+            const editedRow = rows[sn - 1];
+            const editorData = [
+              {
+                name: dataKey,
+                title: dataTitle,
+                value: (row as IStoredDataRow)[dataKey as keyof IStoredDataRow],
+                editorType: "input",
+              },
+              {
+                name: "description",
+                title: "Description",
+                value: (row as IStoredDataRow)["description"],
+                editorType: "textArea",
+              },
+            ] as IApexEditorRow[];
 
-  const generateColumns = () => {
-    const columns: Column<IStoredDataRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexGridCheckboxColumn,
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        formatter: ({ row }) => {
-          const sn = row.sn as number;
-          const editedRow = rows[sn - 1];
-          const editorData = [
-            {
-              name: dataKey,
-              title: dataTitle,
-              value: (row as IStoredDataRow)[dataKey as keyof IStoredDataRow],
-              editorType: "input",
-            },
-            {
-              name: "description",
-              title: "Description",
-              value: (row as IStoredDataRow)["description"],
-              editorType: "textArea",
-            },
-          ] as IApexEditorRow[];
+            return (
+              <div>
+                <EditOutlinedIcon
+                  onClick={() => {
+                    const dialogParameters: DialogStuff = {
+                      name: "Edit_Table_Dialog",
+                      title: "Edit Table",
+                      type: "tableEditorDialog",
+                      show: true,
+                      exclusive: true,
+                      maxWidth: "xs",
+                      iconType: "edit",
+                      apexEditorProps: {
+                        editorData,
+                        editedRow,
+                        dividerPositions,
+                        rows,
+                        setRows,
+                        shouldUpdate,
+                      },
+                      actionsList: () =>
+                        DialogOneCancelButtons(
+                          [true, true],
+                          [true, false],
+                          [
+                            unloadDialogsAction,
+                            //Captured variable
+                            //solve with componentRef
+                            () => setShouldUpdate(!shouldUpdate),
+                          ],
+                          "Update",
+                          "updateOutlined"
+                        ),
+                    };
 
-          return (
-            <div>
-              <EditOutlinedIcon
-                onClick={() => {
-                  const dialogParameters: DialogStuff = {
-                    name: "Edit_Table_Dialog",
-                    title: "Edit Table",
-                    type: "tableEditorDialog",
-                    show: true,
-                    exclusive: true,
-                    maxWidth: "xs",
-                    iconType: "edit",
-                    apexEditorProps: {
-                      editorData,
-                      editedRow,
-                      dividerPositions,
-                      rows,
-                      setRows,
-                      shouldUpdate,
-                    },
-                    actionsList: () =>
-                      DialogOneCancelButtons(
-                        [true, true],
-                        [true, false],
-                        [
-                          unloadDialogsAction,
-                          //Captured variable
-                          //solve with ref
-                          () => setShouldUpdate(!shouldUpdate),
-                        ],
-                        "Update",
-                        "updateOutlined"
-                      ),
-                  };
-
-                  dispatch(showDialogAction(dialogParameters));
-                }}
-              />
-              <DeleteOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table",
-                        "Confirm Table Deletion",
-                        `This action will permanently delete this data item.
+                    dispatch(showDialogAction(dialogParameters));
+                  }}
+                />
+                <DeleteOutlinedIcon
+                  onClick={() =>
+                    dispatch(
+                      showDialogAction(
+                        confirmationDialogParameters(
+                          "Delete_Table",
+                          "Confirm Table Deletion",
+                          `This action will permanently delete this data item.
   
   Proceed?`,
-                        true,
-                        false,
-                        () => {
-                          const sn = row.sn as number;
-                          const remainingRows = rows.splice(sn - 1, 1);
+                          true,
+                          false,
+                          () => {
+                            const sn = row.sn as number;
+                            const remainingRows = rows.splice(sn - 1, 1);
 
-                          setRows(remainingRows);
-                          // tableRows.current = remainingRows;
-                        },
-                        "Proceed",
-                        "proceedOutlined"
+                            setRows(remainingRows);
+                            // tableRows.current = remainingRows;
+                          },
+                          "Proceed",
+                          "proceedOutlined"
+                        )
                       )
                     )
-                  )
-                }
-              />
-              <VisibilityOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    getTableDataByIdRequestAction(
-                      reducer as ReducersType,
-                      `${mainUrl}/${row.id}`,
-                      row.title as string
+                  }
+                />
+                <VisibilityOutlinedIcon
+                  onClick={() =>
+                    dispatch(
+                      getTableDataByIdRequestAction(
+                        reducer as ReducersType,
+                        `${mainUrl}/${row.id}`,
+                        row.title as string
+                      )
                     )
-                  )
-                }
-              />
-            </div>
-          );
+                  }
+                />
+              </div>
+            );
+          },
+          width: 100,
         },
-        width: 100,
-      },
-      {
-        key: "approval",
-        name: "APPROVAL",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Approval approvalText={row.approval} />;
+        {
+          key: "approval",
+          name: "APPROVAL",
+          editable: false,
+          resizable: true,
+          formatter: ({ row }) => {
+            return <Approval approvalText={row.approval} />;
+          },
+          width: 100,
         },
-        width: 100,
-      },
-      {
-        key: `${dataKey}`,
-        name: `${dataTitle}`,
-        editable: false,
-        resizable: true,
-        width: 300,
-      },
-      {
-        key: "author",
-        name: "AUTHOR",
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Author author={row.author} />;
+        {
+          key: `${dataKey}`,
+          name: `${dataTitle}`,
+          editable: false,
+          resizable: true,
+          width: 300,
         },
-        width: 200,
-      },
-      {
-        key: "approvers",
-        name: "APPROVERS",
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Approvers approvers={row.approvers} />;
+        {
+          key: "author",
+          name: "AUTHOR",
+          resizable: true,
+          formatter: ({ row }) => {
+            return <Author author={row.author} />;
+          },
+          width: 200,
         },
-        width: 200,
-      },
-      {
-        key: "createdOn",
-        name: "CREATED",
-        resizable: true,
-        formatter: ({ row }) => {
-          return <div>{row.createdOn}</div>;
+        {
+          key: "approvers",
+          name: "APPROVERS",
+          resizable: true,
+          formatter: ({ row }) => {
+            return <Approvers approvers={row.approvers} />;
+          },
+          width: 200,
         },
-        // width: 200,
-      },
-      {
-        key: "modifiedOn",
-        name: "MODIFIED",
-        resizable: true,
-        formatter: ({ row }) => {
-          return <div>{row.modifiedOn}</div>;
+        {
+          key: "createdOn",
+          name: "CREATED",
+          resizable: true,
+          formatter: ({ row }) => {
+            return <div>{row.createdOn}</div>;
+          },
+          minWidth: 200,
         },
-        // width: 200,
-      },
-    ];
+        {
+          key: "modifiedOn",
+          name: "MODIFIED",
+          resizable: true,
+          formatter: ({ row }) => {
+            return <div>{row.modifiedOn}</div>;
+          },
+          minWidth: 200,
+        },
+      ];
 
-    return columns;
-  };
-  const columns = React.useMemo(() => generateColumns(), [selectedRows]);
+      return columns;
+    };
+    const columns = React.useMemo(() => generateColumns(), [selectedRows]);
 
-  React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
+    React.useEffect(() => {
+      dispatch(hideSpinnerAction());
+    }, [dispatch]);
 
-  return (
-    <div className={classes.rootStoredData} style={containerStyle}>
-      {showChart && (
-        <div className={classes.chart}>
-          <DoughnutChart
-            data={chartData as IChartProps["data"]}
-            willUseThemeColor={false}
-          />
-        </div>
-      )}
+    return (
+      <div className={classes.rootStoredData} style={containerStyle}>
+        {showChart && (
+          <div className={classes.chart}>
+            <DoughnutChart
+              data={chartData as IChartProps["data"]}
+              willUseThemeColor={false}
+            />
+          </div>
+        )}
 
-      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-        <div className={classes.workflowBody}>
-          <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => (
-              <ApexGrid<IStoredDataRow, ITableButtonsProps>
-                columns={columns}
-                rows={rows}
-                tableButtons={tableButtons as ITableButtonsProps}
-                newTableRowHeight={35}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                selectedRow={sRow}
-                onSelectedRowChange={setSRow}
-                onRowsChange={setRows}
-                size={size}
-                autoAdjustTableDim={true}
-                showTableHeader={true}
-                showTablePagination={true}
-              />
-            )}
-          </SizeMe>
-        </div>
-      </ClickAwayListener>
-    </div>
-  );
-}
+        <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+          <div className={classes.workflowBody} ref={componentRef}>
+            <SizeMe monitorHeight refreshRate={32}>
+              {({ size }) => (
+                <ApexGrid<IStoredDataRow, ITableButtonsProps>
+                  columns={columns}
+                  rows={rows}
+                  tableButtons={tableButtons as ITableButtonsProps}
+                  newTableRowHeight={35}
+                  selectedRows={selectedRows}
+                  setSelectedRows={setSelectedRows}
+                  selectedRow={sRow}
+                  onSelectedRowChange={setSRow}
+                  onRowsChange={setRows}
+                  size={size}
+                  autoAdjustTableDim={true}
+                  showTableHeader={true}
+                  showTablePagination={true}
+                  // componentRef={componentRef as React.MutableRefObject<any>}
+                />
+              )}
+            </SizeMe>
+          </div>
+        </ClickAwayListener>
+      </div>
+    );
+  }
+);
+
+export default StoredDataRoute;

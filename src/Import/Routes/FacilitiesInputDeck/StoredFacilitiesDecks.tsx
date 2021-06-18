@@ -33,9 +33,12 @@ export default function StoredFacilitiesDecks({
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "facilitiesInputDeckStored";
   const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
 
+  const componentRef = React.useRef();
+
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const snStoredData =
@@ -57,10 +60,6 @@ export default function StoredFacilitiesDecks({
 
   const handleCheckboxChange = (row: any) => {
     const { id, title } = row;
-    console.log(
-      "Logged output --> ~ file: StoredFacilitiesDecks.tsx ~ line 59 ~ handleCheckboxChange ~ row",
-      row
-    );
 
     persistSelectedIdTitleAction &&
       dispatch(
@@ -84,6 +83,7 @@ export default function StoredFacilitiesDecks({
     reducer,
     mainUrl,
     tableTitle,
+    componentRef,
   };
 
   return <StoredDataRoute {...props} />;

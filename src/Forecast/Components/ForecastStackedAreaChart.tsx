@@ -16,11 +16,11 @@ const ForecastStackedAreaChart = () => {
   const bottomAxisValues = data.map((_, i) => 2020 + i);
 
   //TODO Check algorithm in backend that reverses the array
-  // data.reverse();
+  const finalData = [...data].reverse();
 
   return (
     <ResponsiveStream
-      data={data}
+      data={finalData}
       keys={keys}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
       axisTop={null}

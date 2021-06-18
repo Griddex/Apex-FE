@@ -5,7 +5,6 @@ import {
   InputAdornment,
   makeStyles,
   OutlinedInput,
-  Tooltip,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
@@ -22,14 +21,12 @@ import ReactDataGrid, {
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { ValueType } from "react-select";
-import TableMappingErrors from "../../Errors/TableMappingErrors";
 import ApexSelectRS from "../../Selects/ApexSelectRS";
 import { ISelectOption } from "../../Selects/SelectItemsType";
 import TableButtons from "../TableButtons";
-import { ITableButtonsProps } from "../TableButtonsTypes";
-import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
+import composeRefs, { mergeRefs } from "./../../../Utils/ComposeRefs";
+import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
-import { SelectEditor } from "./SelectEditor";
 
 const useStyles = makeStyles((theme) => ({
   tableHeadBanner: {
@@ -102,8 +99,14 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     onExpandedGroupIdsChange,
     showTableHeader,
     showTablePagination,
+    componentRef,
   } = props;
-  const rawTableRows = React.useRef<R[]>(rawRows); //Memoize table data
+  console.log(
+    "Logged output --> ~ file: ApexGrid.tsx ~ line 104 ~ componentRef",
+    componentRef
+  );
+
+  const rawTableRows = React.useRef<R[]>(rawRows);
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
 
   const totaltableHeight = size?.height as number;
@@ -385,7 +388,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       <DndProvider backend={HTML5Backend}>
         <div ref={tableRef} className={classes.tableHeightStyle}>
           <ReactDataGrid
-            ref={gridRef}
+            ref={mergeRefs(gridRef, componentRef)}
             style={{ height: "100%" }}
             rows={sortedRows}
             columns={draggableColumns}

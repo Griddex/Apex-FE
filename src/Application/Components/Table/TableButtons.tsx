@@ -1,8 +1,9 @@
-import { IconButton, Tooltip } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
 import PrintOutlinedIcon from "@material-ui/icons/PrintOutlined";
 import React from "react";
+import ReactToPrint from "react-to-print";
+import IconButtonWithTooltip from "../IconButtons/IconButtonWithTooltip";
 import { ITableButtonsProps } from "./TableButtonsTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,49 +23,30 @@ const useStyles = makeStyles((theme) => ({
 const TableButtons: React.FC<ITableButtonsProps> = ({
   showExtraButtons,
   extraButtons,
+  componentRef,
 }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <div className={classes.tableContentIcons}>
       {showExtraButtons && extraButtons && extraButtons()}
-      <Tooltip
-        key={"printToolTip"}
-        title={"Print table"}
-        placement="bottom-end"
-        arrow
-      >
-        <IconButton
-          style={{
-            height: "28px",
-            backgroundColor: theme.palette.primary.light,
-            border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: 2,
-          }}
-          onClick={() => alert("Print")}
-        >
-          <PrintOutlinedIcon />
-        </IconButton>
-      </Tooltip>
-      <Tooltip
-        key={"copyToolTip"}
-        title={"Copy entire table"}
-        placement="bottom-end"
-        arrow
-      >
-        <IconButton
-          style={{
-            height: "28px",
-            backgroundColor: theme.palette.primary.light,
-            border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: 2,
-          }}
-          onClick={() => alert("Copy")}
-        >
-          <FileCopyOutlinedIcon />
-        </IconButton>
-      </Tooltip>
+      <IconButtonWithTooltip
+        toolTipKey="printToolTip"
+        toolTipTitle="Print table"
+        toolTipPlacement="bottom-end"
+        icon={() => (
+          <ReactToPrint
+            trigger={() => <PrintOutlinedIcon />}
+            content={() => componentRef && componentRef.current}
+          />
+        )}
+      />
+      <IconButtonWithTooltip
+        toolTipKey="copyToolTip"
+        toolTipTitle="Copy entire table"
+        toolTipPlacement="bottom-end"
+        icon={() => <FileCopyOutlinedIcon />}
+      />
     </div>
   );
 };

@@ -46,6 +46,7 @@ export interface IApexGrid<R, O> {
   showTablePagination?: boolean;
   autoAdjustTableDim?: boolean;
   staticTableHeight?: number;
+  componentRef?: React.MutableRefObject<any>;
 }
 
 export interface ITableMetaData<R> {

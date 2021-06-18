@@ -5,5 +5,5 @@ export interface IIconButtonWithTooltip {
   toolTipTitle: string;
   toolTipPlacement: TooltipProps["placement"];
   icon: () => JSX.Element;
-  action: () => void;
+  action?: () => void;
 }

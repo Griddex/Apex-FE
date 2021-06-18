@@ -86,7 +86,7 @@ function* getForecastResultsSaga(
   try {
     // yield put(showSpinnerAction("fetching data..."));
     yield put({
-      type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
+      type: "UPDATE_FORECASTPARAMETER",
       payload: {
         name: "isForecastResultsLoading",
         value: true,
@@ -111,7 +111,7 @@ function* getForecastResultsSaga(
       });
 
       yield put({
-        type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
+        type: "UPDATE_FORECASTPARAMETER",
         payload: {
           selectedModuleIds: selectedIds,
         },
@@ -128,7 +128,7 @@ function* getForecastResultsSaga(
     yield put(showDialogAction(failureDialogParameters("")));
   } finally {
     yield put({
-      type: "PERSIST_FIRSTLEVELFORECASTPROPERTY",
+      type: "UPDATE_FORECASTPARAMETER",
       payload: {
         name: "isForecastResultsLoading",
         value: false,

@@ -21,10 +21,13 @@ export default function StoredDeclineCurveParameters({
   containerStyle,
 }: IStoredDataProps) {
   const dispatch = useDispatch();
+
   const wc = "storedDataWorkflows";
   const wp = workflowProcess as NonNullable<
     IStoredDataProps["workflowProcess"]
   >;
+
+  const componentRef = React.useRef();
 
   const storedData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
@@ -33,6 +36,7 @@ export default function StoredDeclineCurveParameters({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
+    componentRef,
   };
 
   const snStoredData = storedData.map(

@@ -105,6 +105,10 @@ export function* autoGenerateNetworkSaga(
         });
       }
     }
+
+    const path = "isNetworkDisplayed";
+    const value = true;
+    yield put(updateNetworkParameterAction(path, value));
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
 
@@ -115,11 +119,6 @@ export function* autoGenerateNetworkSaga(
 
     yield put(showDialogAction(failureDialogParameters()));
   } finally {
-    //TODO: Remove from here.
-    //Should be in success case only
-    const path = "isNetworkDisplayed";
-    const value = true;
-    yield put(updateNetworkParameterAction(path, value));
     yield put(hideSpinnerAction());
   }
 }
