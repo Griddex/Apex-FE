@@ -16,6 +16,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { subNavbarSetMenuAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IEconomicsInputButton } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import { initialEconomicsWorkflowState } from "../../Redux/State/EconomicsState";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -58,6 +59,13 @@ const EconomicsInputButtonsMenu = ({
         dispatch(
           updateEconomicsParameterAction("loadCostsRevenueWorkflow", false)
         );
+        dispatch(
+          updateEconomicsParameterAction(
+            "inputDataWorkflows.economicsCostsRevenuesDeckExcel",
+            initialEconomicsWorkflowState
+          )
+        );
+
         history.push(`${url}/costsrevenue`);
       },
       icon: <AttachMoneyOutlinedIcon color="primary" fontSize="small" />,

@@ -97,7 +97,7 @@ function* saveForecastSaga(
 
     yield put(
       updateForecastResultsParameterAction(
-        "forecastResultsTitle",
+        "selectedForecastingResultsTitle",
         forecastResultsTitle
       )
     );

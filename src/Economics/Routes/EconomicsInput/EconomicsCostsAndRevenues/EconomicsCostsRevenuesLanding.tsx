@@ -199,6 +199,8 @@ const EconomicsCostsRevenuesLanding = () => {
         ),
     };
 
+    console.log("hellooo");
+
     dispatch(showDialogAction(dialogParameters));
   };
 

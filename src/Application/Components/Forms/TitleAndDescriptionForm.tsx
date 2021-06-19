@@ -27,7 +27,7 @@ const TitleAndDescriptionForm = ({
       validationSchema={Yup.object().shape({
         title: Yup.mixed()
           .required("title is required")
-          .notOneOf(storedTitles as string[], "Title already exists"),
+          //.notOneOf(storedTitles as string[], "Title already exists"),
       })}
       onSubmit={() => {}}
     >

@@ -4,6 +4,68 @@ import {
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IEconomicsState } from "./EconomicsStateTypes";
 
+export const initialEconomicsWorkflowState = {
+  fileLastModified: "",
+  filePath: "",
+  fileType: "",
+  fileName: "",
+  fileSize: "",
+  fileAuthor: "",
+  fileCreated: "",
+
+  fileAccepted: false,
+  dnDDisabled: false,
+  inputFile: null,
+
+  workSheetNames: [],
+  selectedWorksheetName: "",
+  selectedWorksheetData: [],
+
+  tableHeaders: [],
+  fileHeaders: [],
+  fileHeadersMatch: [],
+  selectedHeaderRowIndex: 0,
+  selectedHeaderOptionIndex: 0,
+  chosenApplicationHeadersIndices: [],
+  headerRowOptionsIndices: [],
+  fileUnits: [],
+  fileUniqueUnits: [],
+  fileUnitsMatch: [],
+  fileUnitsMatchUnique: [],
+  selectedUnitRowIndex: 0,
+  selectedUnitOptionIndex: 0,
+  unitRowOptionsIndices: [],
+  tableRoleNames: [],
+  optionIndices: [],
+  tableData: [],
+  columnNameTableData: [],
+  inputDeckData: [],
+  selectedRow: null,
+
+  chosenAppHeadersWithNone: [],
+  chosenAppHeadersWithoutNone: [],
+
+  chosenApplicationUnitsWithoutNone: [],
+  fileUnitsWithoutNone: [],
+
+  appHeaderNameUnitsMap: {},
+  matchHeadersTable: [],
+  matchUnitsTable: [],
+
+  currentDevOption: {},
+  developmentScenarios: [],
+  developmentScenariosCompleted: [],
+  costsRevenues: {},
+  costRevenuesButtons: [],
+  forecastScenario: "2P_2C",
+
+  inputDeckId: "",
+  status: 0,
+  message: "",
+  errors: { message: "" },
+  success: false,
+};
+
 const inputWorkflowProcesses = [
   "economicsCostsRevenuesDeckExcel",
   "economicsCostsRevenuesDeckDatabase",
@@ -25,67 +87,7 @@ const generateEconomicsState = () => {
   return inputWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
-      [workflowProcess]: {
-        fileLastModified: "",
-        filePath: "",
-        fileType: "",
-        fileName: "",
-        fileSize: "",
-        fileAuthor: "",
-        fileCreated: "",
-
-        fileAccepted: false,
-        dnDDisabled: false,
-        inputFile: null,
-
-        workSheetNames: [],
-        selectedWorksheetName: "",
-        selectedWorksheetData: [],
-
-        tableHeaders: [],
-        fileHeaders: [],
-        fileHeadersMatch: [],
-        selectedHeaderRowIndex: 0,
-        selectedHeaderOptionIndex: 0,
-        chosenApplicationHeadersIndices: [],
-        headerRowOptionsIndices: [],
-        fileUnits: [],
-        fileUniqueUnits: [],
-        fileUnitsMatch: [],
-        fileUnitsMatchUnique: [],
-        selectedUnitRowIndex: 0,
-        selectedUnitOptionIndex: 0,
-        unitRowOptionsIndices: [],
-        tableRoleNames: [],
-        optionIndices: [],
-        tableData: [],
-        columnNameTableData: [],
-        inputDeckData: [],
-        selectedRow: null,
-
-        chosenAppHeadersWithNone: [],
-        chosenAppHeadersWithoutNone: [],
-
-        chosenApplicationUnitsWithoutNone: [],
-        fileUnitsWithoutNone: [],
-
-        appHeaderNameUnitsMap: {},
-        matchHeadersTable: [],
-        matchUnitsTable: [],
-
-        currentDevOption: {},
-        developmentScenarios: [],
-        developmentScenariosCompleted: [],
-        costsRevenues: {},
-        costRevenuesButtons: [],
-        forecastScenario: "2P_2C",
-
-        inputDeckId: "",
-        status: 0,
-        message: "",
-        errors: { message: "" },
-        success: false,
-      },
+      [workflowProcess]: initialEconomicsWorkflowState,
     };
   }, {});
 };

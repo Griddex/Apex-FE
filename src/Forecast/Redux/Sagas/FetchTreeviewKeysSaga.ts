@@ -101,9 +101,9 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
     });
 
     yield put(showDialogAction(failureDialogParameters("")));
-    yield put(hideSpinnerAction());
   } finally {
     yield call(forwardTo, "/apex/forecast/forecastvisualytics");
+    yield put(hideSpinnerAction());
   }
 }
 

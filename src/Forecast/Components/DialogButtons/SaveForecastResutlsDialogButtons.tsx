@@ -36,7 +36,7 @@ const SaveForecastResultsDialogButtons = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [saveForecastRequestAction, unloadDialogsAction]
+          [unloadDialogsAction, saveForecastRequestAction]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
