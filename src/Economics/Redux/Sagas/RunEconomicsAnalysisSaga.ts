@@ -63,7 +63,7 @@ function* runEconomicsAnalysisSaga(
   const ap = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const {
     selectedCostsRevenuesInputDeckId,
@@ -76,7 +76,7 @@ function* runEconomicsAnalysisSaga(
   );
 
   const data = {
-    projectId,
+    projectId: currentProjectId,
     analysisName,
     economicsdataId: selectedCostsRevenuesInputDeckId,
     economicsParameterId: selectedEconomicsParametersInputDeckId,

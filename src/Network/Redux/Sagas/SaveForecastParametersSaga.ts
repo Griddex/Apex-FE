@@ -52,7 +52,7 @@ function* saveForecastParametersSaga(
   any
 > {
   const { payload } = action;
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
   const { selectedForecastInputDeckId } = yield select(
     (state) => state.inputReducer
   );
@@ -117,7 +117,7 @@ function* saveForecastParametersSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchStoredForecastingParametersRequestAction(projectId));
+    yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
   } catch (errors) {
     const failureAction = saveForecastParametersFailureAction();
 

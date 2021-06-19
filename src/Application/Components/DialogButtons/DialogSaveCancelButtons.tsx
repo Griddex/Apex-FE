@@ -14,7 +14,8 @@ const DialogSaveCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
   shouldDispatch: IButtonsConfigProps["shouldDispatch"],
   finalActions: IButtonsConfigProps["finalActions"],
-  isFinalButtonDisabled?: boolean
+  isFinalButtonDisabled?: boolean,
+  dialogPresence?: "All" | "Current" | "None"
 ) => {
   console.log(
     "Logged output --> ~ file: DialogSaveCancelButtons.tsx ~ line 16 ~ isFinalButtonDisabled",
@@ -44,7 +45,17 @@ const DialogSaveCancelButtons = (
           if (sDispatch) dispatch(action());
           else action();
 
-          dispatch(unloadDialogsAction());
+          switch (dialogPresence) {
+            case "All":
+              dispatch(unloadDialogsAction());
+              break;
+            case "Current":
+              dispatch(hideDialogAction());
+              break;
+            case "None":
+            default:
+              return;
+          }
         }
       },
     },

@@ -73,7 +73,7 @@ const SaveNetworkDialogButtons = ({
             button?.handleAction && button?.handleAction(i as number)
           }
           startIcon={button.startIcon}
-          disabled={button.title === "Save" ? isSaveNetworkValid : false}
+          // disabled={button.title === "Save" ? isSaveNetworkValid : false}
         >
           {button.title}
         </Button>

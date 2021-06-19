@@ -67,7 +67,7 @@ function* saveCostsRevenuesSaga(
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
 
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
   const { savedMatchObjectAll: matchObject } = yield select(
     (state) => state.applicationReducer
   );
@@ -93,7 +93,7 @@ function* saveCostsRevenuesSaga(
     );
 
   const data = {
-    projectId,
+    projectId: currentProjectId,
     forecastId: forecastResultsId,
     title: costsRevenuesInputDeckTitle,
     description: costsRevenuesInputDeckDescription,
@@ -137,7 +137,7 @@ function* saveCostsRevenuesSaga(
         costsRevenuesInputDeckTitle
       )
     );
-    yield put(fetchStoredEconomicsDataRequestAction(projectId));
+    yield put(fetchStoredEconomicsDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveCostsRevenuesFailureAction();

@@ -154,7 +154,8 @@ const SaveNetworkDialog = (props: DialogStuff) => {
       </DialogContent>
       <DialogActions>
         <SaveNetworkDialogButtons
-          isSaveNetworkValid={isSaveNetworkValid}
+          // isSaveNetworkValid={isSaveNetworkValid}
+          isSaveNetworkValid={true}
           titleDesc={titleDesc}
         />
       </DialogActions>

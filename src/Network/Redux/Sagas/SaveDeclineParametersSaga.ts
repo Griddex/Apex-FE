@@ -50,7 +50,7 @@ function* saveDeclineParametersSaga(
   any
 > {
   const { payload } = action;
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const { selectedForecastInputDeckId } = yield select(
     (state) => state.inputReducer
@@ -63,7 +63,7 @@ function* saveDeclineParametersSaga(
   } = yield select((state) => state.networkReducer);
 
   const data = {
-    projectId,
+    projectId: currentProjectId,
     title: selectedDeclineParametersTitle,
     description: selectedDeclineParametersDescription,
     type: "User",
@@ -91,7 +91,7 @@ function* saveDeclineParametersSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchStoredDeclineCurveParametersRequestAction(projectId));
+    yield put(fetchStoredDeclineCurveParametersRequestAction(currentProjectId));
   } catch (errors) {
     const failureAction = saveDeclineParametersFailureAction();
 

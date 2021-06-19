@@ -60,7 +60,7 @@ function* saveNetworkSaga(
   const {
     titleDesc: { title, description },
   } = payload;
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const { selectedFacilitiesInputDeckId, selectedForecastInputDeckId } =
     yield select((state) => state.inputReducer);
@@ -74,7 +74,7 @@ function* saveNetworkSaga(
 
   const data = {
     userId: "Gift",
-    projectId,
+    projectId: currentProjectId,
     build: isNetworkAuto ? "Manual" : "Auto",
     title,
     description,
@@ -110,7 +110,7 @@ function* saveNetworkSaga(
     yield put(
       updateNetworkParameterAction("selectedNetworkTitle", networkTitle)
     );
-    yield put(fetchStoredNetworkDataRequestAction(projectId));
+    yield put(fetchStoredNetworkDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveNetworkFailureAction();

@@ -73,7 +73,7 @@ function* saveEconomicsSensitivitiesSaga(
   );
 
   //Should be user scoped?
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
   const data = {
     title: economicsSensitivitiesTitle,
     description: economicsSensitivitiesDescription,
@@ -122,7 +122,9 @@ function* saveEconomicsSensitivitiesSaga(
     );
 
     yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
-    yield put(fetchStoredEconomicsSensitivitiesRequestAction(projectId, false));
+    yield put(
+      fetchStoredEconomicsSensitivitiesRequestAction(currentProjectId, false)
+    );
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveEconomicsSensitivitiesFailureAction();

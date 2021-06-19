@@ -50,7 +50,7 @@ function* saveProductionPrioritizationSaga(
   any
 > {
   const { payload } = action;
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const { selectedForecastInputDeckId } = yield select(
     (state) => state.inputReducer
@@ -63,7 +63,7 @@ function* saveProductionPrioritizationSaga(
   } = yield select((state) => state.networkReducer);
 
   const data = {
-    projectId,
+    projectId: currentProjectId,
     title: selectedProductionPrioritizationTitle,
     description: selectedProductionPrioritizationDescription,
     type: "User",
@@ -91,7 +91,9 @@ function* saveProductionPrioritizationSaga(
       payload: { ...payload, success, status, data },
     });
 
-    yield put(fetchStoredProductionPrioritizationRequestAction(projectId));
+    yield put(
+      fetchStoredProductionPrioritizationRequestAction(currentProjectId)
+    );
   } catch (errors) {
     const failureAction = saveProductionPrioritizationFailureAction();
 

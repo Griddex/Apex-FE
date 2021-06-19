@@ -64,7 +64,7 @@ function* saveEconomicsParametersSaga(
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
 
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const {
     economicsParametersInputDeckTitle,
@@ -122,7 +122,7 @@ function* saveEconomicsParametersSaga(
   const gasRoyalty = pick(economicsParametersObj, "gasRoyalty");
 
   const data = {
-    projectId,
+    projectId: currentProjectId,
     title: economicsParametersInputDeckTitle,
     description: economicsParametersInputDeckDescription,
     keyData: {
@@ -167,7 +167,7 @@ function* saveEconomicsParametersSaga(
         economicsParametersInputDeckTitle
       )
     );
-    yield put(fetchStoredEconomicsDataRequestAction(projectId));
+    yield put(fetchStoredEconomicsDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveEconomicsParametersFailureAction();

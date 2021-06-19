@@ -61,9 +61,9 @@ function* saveEconomicsResultsSaga(
     (state) => state.economicsReducer
   );
 
-  const { projectId } = yield select((state) => state.projectReducer);
+  const { currentProjectId } = yield select((state) => state.projectReducer);
   const data = {
-    projectId,
+    projectId: currentProjectId,
     title: economicsResultsTitle,
     description: economicsResultsDescription,
   };
@@ -98,7 +98,9 @@ function* saveEconomicsResultsSaga(
     );
 
     yield put(updateEconomicsParameterAction("showResultsTable", true));
-    yield put(fetchStoredEconomicsResultsRequestAction(projectId, false));
+    yield put(
+      fetchStoredEconomicsResultsRequestAction(currentProjectId, false)
+    );
     yield put(
       showDialogAction(
         successDialogParameters(
