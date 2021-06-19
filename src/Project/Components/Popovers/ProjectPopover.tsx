@@ -115,10 +115,10 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     );
   };
 
-  const createNewProject = () => {
+  const createProject = () => {
     const dialogParameters: DialogStuff = {
       name: "New_Project_Dialog",
-      title: "Create New Project",
+      title: "Create Project",
       type: "newProjectWorkflowDialog",
       show: true,
       exclusive: true,
@@ -175,7 +175,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
             />
           }
           handleClick={() => {
-            createNewProject();
+            createProject();
           }}
         />
       </div>

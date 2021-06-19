@@ -29,8 +29,8 @@ import {
   PERSIST_VARIABLEUNITS,
   PERSIST_WORKSHEET,
   PERSIST_WORKSHEETNAMES,
-  SAVEINPUTDECK_FAILURE,
-  SAVEINPUTDECK_SUCCESS,
+  SAVE_INPUTDECK_FAILURE,
+  SAVE_INPUTDECK_SUCCESS,
   UPDATE_INPUT,
 } from "../Actions/InputActions";
 import InputState from "../State/InputState";
@@ -122,7 +122,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         },
       };
     }
-    case SAVEINPUTDECK_SUCCESS: {
+    case SAVE_INPUTDECK_SUCCESS: {
       const { workflowProcess, storedDataId, status, success } = action.payload;
       const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
 
@@ -139,7 +139,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         },
       };
     }
-    case SAVEINPUTDECK_FAILURE: {
+    case SAVE_INPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
       const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
 

@@ -61,6 +61,12 @@ export interface IInputState {
     string,
     Record<string, React.Key | boolean>
   >;
+  fileHeaderUnitIdMap: Record<string, string>;
+  currentAppHeaderNameMap: Record<string, React.Key>;
+  fileHeadersUnitsAppHeadersWithoutNoneMap: Record<
+    string,
+    Record<string, string>
+  >;
 
   title: string;
   description: string;

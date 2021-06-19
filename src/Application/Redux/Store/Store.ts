@@ -3,7 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import allReducers from "../Reducers/AllReducers";
 import createSagaMiddleware from "redux-saga";
 import watchLoginSaga from "../Sagas/LoginSaga";
-import watchCreateNewProjectSaga from "../../../Project/Redux/Sagas/CreateNewProjectSaga";
+import watchCreateNewProjectSaga from "../../../Project/Redux/Sagas/CreateProjectSaga";
 import watchRegisterSaga from "../../../Administration/Redux/Sagas/RegisterSaga";
 import watchConnectDatabaseSaga from "../../../Import/Redux/Sagas/ConnectDatabaseSaga";
 import { spawn } from "redux-saga/effects";

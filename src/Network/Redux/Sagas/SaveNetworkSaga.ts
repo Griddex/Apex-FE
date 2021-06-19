@@ -29,7 +29,7 @@ import {
   fetchStoredNetworkDataRequestAction,
   saveNetworkFailureAction,
   saveNetworkSuccessAction,
-  SAVENETWORK_REQUEST,
+  SAVE_NETWORK_REQUEST,
   updateNetworkParameterAction,
 } from "../Actions/NetworkActions";
 
@@ -38,7 +38,7 @@ export default function* watchSaveNetworkSaga(): Generator<
   void,
   any
 > {
-  const saveNetworkChan = yield actionChannel(SAVENETWORK_REQUEST);
+  const saveNetworkChan = yield actionChannel(SAVE_NETWORK_REQUEST);
   yield takeLeading(saveNetworkChan, saveNetworkSaga);
 }
 
@@ -57,6 +57,9 @@ function* saveNetworkSaga(
   any
 > {
   const { payload } = action;
+  const {
+    titleDesc: { title, description },
+  } = payload;
   const { projectId } = yield select((state) => state.projectReducer);
 
   const { selectedFacilitiesInputDeckId, selectedForecastInputDeckId } =
@@ -73,8 +76,8 @@ function* saveNetworkSaga(
     userId: "Gift",
     projectId,
     build: isNetworkAuto ? "Manual" : "Auto",
-    title: networkTitle,
-    description: networkDescription,
+    title,
+    description,
     facilitiesInputDeckId: selectedFacilitiesInputDeckId,
     forecastInputDeckId: selectedForecastInputDeckId,
     nodes: nodeElements,

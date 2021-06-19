@@ -34,7 +34,7 @@ import {
   fetchStoredEconomicsDataRequestAction,
   saveCostsRevenuesFailureAction,
   saveCostsRevenuesSuccessAction,
-  SAVECOSTSREVENUES_REQUEST,
+  SAVE_COSTSREVENUES_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
@@ -43,7 +43,7 @@ export default function* watchSaveCostsRevenuesSaga(): Generator<
   void,
   any
 > {
-  const saveCostsRevenuesChan = yield actionChannel(SAVECOSTSREVENUES_REQUEST);
+  const saveCostsRevenuesChan = yield actionChannel(SAVE_COSTSREVENUES_REQUEST);
   yield takeLeading(saveCostsRevenuesChan, saveCostsRevenuesSaga);
 }
 

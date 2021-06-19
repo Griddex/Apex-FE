@@ -28,7 +28,7 @@ import {
   fetchStoredEconomicsSensitivitiesRequestAction,
   saveEconomicsSensitivitiesFailureAction,
   saveEconomicsSensitivitiesSuccessAction,
-  SAVEECONOMICSSENSITIVITIES_REQUEST,
+  SAVE_ECONOMICSSENSITIVITIES_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
@@ -38,7 +38,7 @@ export default function* watchSaveEconomicsSensitivitiesSaga(): Generator<
   any
 > {
   const saveEconomicsSensitivitiesChan = yield actionChannel(
-    SAVEECONOMICSSENSITIVITIES_REQUEST
+    SAVE_ECONOMICSSENSITIVITIES_REQUEST
   );
   yield takeLeading(
     saveEconomicsSensitivitiesChan,

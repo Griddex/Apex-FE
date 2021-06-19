@@ -68,7 +68,9 @@ const SaveForecastResultsDialogButtons = ({
           key={i}
           variant={button.variant}
           color={button.color}
-          onClick={button.handleAction}
+          onClick={() =>
+            button?.handleAction && button?.handleAction(i as number)
+          }
           startIcon={button.startIcon}
           disabled={
             button.title === "Save" ? isSaveForecastResultsValid : false

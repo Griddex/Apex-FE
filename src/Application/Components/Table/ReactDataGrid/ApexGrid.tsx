@@ -99,12 +99,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     onExpandedGroupIdsChange,
     showTableHeader,
     showTablePagination,
-    componentRef,
+    // componentRef,
   } = props;
-  console.log(
-    "Logged output --> ~ file: ApexGrid.tsx ~ line 104 ~ componentRef",
-    componentRef
-  );
 
   const rawTableRows = React.useRef<R[]>(rawRows);
   const [filteredTableRows, setFilteredTableRows] = React.useState(rawRows);
@@ -340,7 +336,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   const { pageSelect, tableFilter } = tableMetaData;
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <div style={{ width: "100%", height: "100%" }} ref={tableRef}>
       {showTableHeader && (
         <Grid
           className={classes.tableHeadBanner}
@@ -381,14 +377,15 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             </Box>
           )}
           <Grid className={classes.tableButtons} item xs container>
-            <TableButtons {...tableButtons} />
+            <TableButtons {...tableButtons} componentRef={tableRef} />
           </Grid>
         </Grid>
       )}
       <DndProvider backend={HTML5Backend}>
-        <div ref={tableRef} className={classes.tableHeightStyle}>
+        <div className={classes.tableHeightStyle}>
           <ReactDataGrid
-            ref={mergeRefs(gridRef, componentRef)}
+            // ref={mergeRefs(gridRef, componentRef)}
+            ref={gridRef}
             style={{ height: "100%" }}
             rows={sortedRows}
             columns={draggableColumns}

@@ -25,7 +25,7 @@ import {
   fetchStoredEconomicsParametersHeadersRequestAction,
   saveEconomicsParametersFailureAction,
   saveEconomicsParametersSuccessAction,
-  SAVEECONOMICSPARAMETERS_REQUEST,
+  SAVE_ECONOMICSPARAMETERS_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 import pick from "lodash.pick";
@@ -40,7 +40,7 @@ export default function* watchSaveEconomicsParametersSaga(): Generator<
   any
 > {
   const saveEconomicsParametersChan = yield actionChannel(
-    SAVEECONOMICSPARAMETERS_REQUEST
+    SAVE_ECONOMICSPARAMETERS_REQUEST
   );
   yield takeLeading(saveEconomicsParametersChan, saveEconomicsParametersSaga);
 }

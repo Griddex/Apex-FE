@@ -62,6 +62,10 @@ export default function StoredDeclineCurveParameters({
 
   const handleCheckboxChange = (row: any) => {
     const { id, title } = row;
+    console.log(
+      "Logged output --> ~ file: StoredDeclineCurveParameters.tsx ~ line 65 ~ handleCheckboxChange ~ row",
+      row
+    );
 
     persistSelectedIdTitleAction &&
       dispatch(

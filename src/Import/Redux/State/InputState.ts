@@ -66,6 +66,9 @@ const generateInputState = () => {
         chosenApplicationUnitsWithoutNone: [],
         fileUnitsWithoutNone: [],
         fileAppHeaderExcludeWithNoneMap: {},
+        fileHeaderUnitIdMap: {},
+        currentAppHeaderNameMap: {},
+        fileHeadersUnitsAppHeadersWithoutNoneMap: {},
 
         savedMatchObjectAll: {},
         appHeaderNameUnitsMap: {},

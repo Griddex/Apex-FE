@@ -9,6 +9,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -110,6 +111,14 @@ const SaveNetworkDialog = (props: DialogStuff) => {
   const { title, show, maxWidth, iconType } = props;
   const [isSaveNetworkValid, setIsSaveNetworkValid] = React.useState(true);
 
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
+
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
@@ -127,17 +136,27 @@ const SaveNetworkDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column" }}
       >
-        <SaveNetworkForm>
+        {/* <SaveNetworkForm>
           {(props) => (
             <SaveNetworkTitleAndDescription
               {...props}
               setIsSaveNetworkValid={setIsSaveNetworkValid}
             />
           )}
-        </SaveNetworkForm>
+        </SaveNetworkForm> */}
+
+        <TitleAndDescriptionForm
+          title={formTitle}
+          setTitle={setFormTitle}
+          description={formDescription}
+          setDescription={setFormDescription}
+        />
       </DialogContent>
       <DialogActions>
-        <SaveNetworkDialogButtons isSaveNetworkValid={isSaveNetworkValid} />
+        <SaveNetworkDialogButtons
+          isSaveNetworkValid={isSaveNetworkValid}
+          titleDesc={titleDesc}
+        />
       </DialogActions>
     </Dialog>
   );

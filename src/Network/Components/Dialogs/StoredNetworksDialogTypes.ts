@@ -52,6 +52,7 @@ export interface IBackendForecastingParametersRow {
   createdAt: string;
   wellPrioritizationId: string;
   wellDeclineParameterId: string;
+  declineParametersId: string;
   wellPrioritizationTitle: string;
   wellDeclineParameterTitle: string;
   parametersEntity: IParametersEntity;

@@ -19,9 +19,9 @@ import {
   PERSIST_POPOVERID,
   REMOVE_NETWORK,
   RUN_FORECAST_REQUEST,
-  SAVENETWORK_FAILURE,
-  SAVENETWORK_ISVALID,
-  SAVENETWORK_SUCCESS,
+  SAVE_NETWORK_FAILURE,
+  SAVE_NETWORK_ISVALID,
+  SAVE_NETWORK_SUCCESS,
   SET_CURRENTELEMENT,
   SHOW_NETWORKELEMENTDETAILS,
   SHOW_POPOVER,
@@ -125,7 +125,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case SAVENETWORK_ISVALID:
+    case SAVE_NETWORK_ISVALID:
       return {
         ...state,
         isValids: { ...action.payload },
@@ -202,7 +202,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case SAVENETWORK_SUCCESS: {
+    case SAVE_NETWORK_SUCCESS: {
       const { status, success, selectedNetworkId } = action.payload;
       return {
         ...state,
@@ -212,7 +212,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       };
     }
 
-    case SAVENETWORK_FAILURE: {
+    case SAVE_NETWORK_FAILURE: {
       const { status, errors } = action.payload;
 
       return {

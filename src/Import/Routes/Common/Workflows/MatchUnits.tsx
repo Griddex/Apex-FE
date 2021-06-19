@@ -1,16 +1,18 @@
 import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import findIndex from "lodash.findindex";
+import range from "lodash.range";
 import uniq from "lodash.uniq";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import Select, { ActionMeta, OptionsType, ValueType } from "react-select";
+import Select, { OptionsType, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import ImportMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ImportMoreActionsContextMenu";
+import FillPopoverComponent from "../../../../Application/Components/PopoverComponents/FillPopoverComponent";
 import {
   AppUnitSelectOptionsType,
   IAppUnitSelectOption,
@@ -42,10 +44,6 @@ import generateMatchData from "../../../Utils/GenerateMatchData";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
 import getWorkflowClass from "./../../../../Application/Utils/GetWorkflowClass";
 import { TUnit, TUserMatchObject } from "./MatchHeadersTypes";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import FillPopoverComponent from "../../../../Application/Components/PopoverComponents/FillPopoverComponent";
-import range from "lodash.range";
-import ImportMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ImportMoreActionsContextMenu";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -831,29 +829,27 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       )
     );
 
-    const appHeaderNameUnitsMap = rows.reduce((acc: any, row: IRawRow) => {
-      const { type, fileHeader } = row;
-      const fileHeaderDefined = fileHeader as string;
-
-      const appHeaderUnitIdObj =
-        fileHeadersUnitsAppHeadersWithoutNoneMap.current[fileHeaderDefined];
-
-      const appHeader = appHeaderUnitIdObj.chosenAppHeader;
-      const chosenAppUnitId = fileHeaderUnitIdMap[fileHeaderDefined];
-      const appHeaderName = currentAppHeaderNameMap[appHeader];
-
-      return {
-        ...acc,
-        [appHeaderName]:
-          type === "Multiple" ? chosenAppUnitId.join("&|&") : chosenAppUnitId,
-      };
-    }, {});
-    console.log(
-      "Logged output --> ~ file: MatchUnits.tsx ~ line 858 ~ appHeaderNameUnitsMap ~ appHeaderNameUnitsMap",
-      appHeaderNameUnitsMap
+    dispatch(
+      updateInputParameterAction(
+        reducer,
+        `inputDataWorkflows.${wp}.fileHeaderUnitIdMap`,
+        fileHeaderUnitIdMap
+      )
     );
-
-    dispatch(persistVariableUnitsAction(reducer, appHeaderNameUnitsMap, wp));
+    dispatch(
+      updateInputParameterAction(
+        reducer,
+        `inputDataWorkflows.${wp}.currentAppHeaderNameMap`,
+        currentAppHeaderNameMap
+      )
+    );
+    dispatch(
+      updateInputParameterAction(
+        reducer,
+        `inputDataWorkflows.${wp}.fileHeadersUnitsAppHeadersWithoutNoneMap`,
+        fileHeadersUnitsAppHeadersWithoutNoneMap
+      )
+    );
 
     dispatch(
       persistChosenApplicationUnitIndicesAction(

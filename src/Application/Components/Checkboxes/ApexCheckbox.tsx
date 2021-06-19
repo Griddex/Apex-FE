@@ -10,6 +10,7 @@ import { IApexCheckbox } from "./ApexGridCheckboxTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    borderRadius: "50%",
     "&:hover": {
       backgroundColor: "transparent",
     },

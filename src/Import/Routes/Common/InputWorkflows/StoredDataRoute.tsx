@@ -30,6 +30,10 @@ import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutCha
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { useSelector } from "react-redux";
+import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
+import formatDate from "../../../../Application/Utils/FormatDate";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -75,19 +79,15 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       reducer,
       mainUrl,
     },
-    componentRef
+    ref
   ) => {
-    console.log(
-      "Logged output --> ~ file: StoredDataRoute.tsx ~ line 80 ~ componentRef",
-      componentRef
-    );
-    console.log(
-      "Logged output --> ~ file: StoredDataRoute.tsx ~ line 69 ~ reducer",
-      reducer
-    );
     const classes = useStyles();
     const dispatch = useDispatch();
     const wp = wkPs as NonNullable<IStoredDataProps["wkPs"]>;
+
+    const { dayFormat, monthFormat, yearFormat } = useSelector(
+      (state: RootState) => state.unitSettingsReducer
+    ) as IUnitSettingsData;
 
     const [selectedRows, setSelectedRows] = React.useState(
       new Set<React.Key>()
@@ -110,7 +110,13 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
 
     const generateColumns = () => {
       const columns: Column<IStoredDataRow>[] = [
-        { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+        {
+          key: "sn",
+          name: "SN",
+          editable: false,
+          resizable: true,
+          width: 50,
+        },
         ApexGridCheckboxColumn,
         {
           key: "actions",
@@ -254,7 +260,16 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           name: "CREATED",
           resizable: true,
           formatter: ({ row }) => {
-            return <div>{row.createdOn}</div>;
+            return (
+              <div>
+                {formatDate(
+                  new Date(row.createdOn as string),
+                  dayFormat,
+                  monthFormat,
+                  yearFormat
+                ).toString()}
+              </div>
+            );
           },
           minWidth: 200,
         },
@@ -263,7 +278,16 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           name: "MODIFIED",
           resizable: true,
           formatter: ({ row }) => {
-            return <div>{row.modifiedOn}</div>;
+            return (
+              <div>
+                {formatDate(
+                  new Date(row.modifiedOn as string),
+                  dayFormat,
+                  monthFormat,
+                  yearFormat
+                ).toString()}
+              </div>
+            );
           },
           minWidth: 200,
         },
@@ -289,7 +313,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
         )}
 
         <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-          <div className={classes.workflowBody} ref={componentRef}>
+          <div
+            className={classes.workflowBody}
+            ref={ref as React.RefObject<any>}
+          >
             <SizeMe monitorHeight refreshRate={32}>
               {({ size }) => (
                 <ApexGrid<IStoredDataRow, ITableButtonsProps>
@@ -306,7 +333,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                   autoAdjustTableDim={true}
                   showTableHeader={true}
                   showTablePagination={true}
-                  // componentRef={componentRef as React.MutableRefObject<any>}
                 />
               )}
             </SizeMe>

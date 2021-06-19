@@ -5,7 +5,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IButtonsConfigProps } from "../../../Application/Layout/LayoutTypes";
-import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  hideDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 
 const DialogCancelFetchButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
@@ -26,15 +29,17 @@ const DialogCancelFetchButtons = (
       variant: "contained",
       color: "primary",
       startIcon: <DetailsOutlinedIcon />,
-      handleAction: () => {
-        let i = 0;
-        for (const execute of shouldExecute) {
-          if (execute) {
-            const action = finalActions[i];
-            if (shouldDispatch[i]) dispatch(action());
-            else action();
-          }
-          i += 1;
+      handleAction: (i?: number) => {
+        const iDefined = i as number;
+        const sExecute = shouldExecute[iDefined];
+        const action = finalActions[iDefined];
+        const sDispatch = shouldDispatch[iDefined];
+
+        if (sExecute) {
+          if (sDispatch) dispatch(action());
+          else action();
+
+          dispatch(unloadDialogsAction());
         }
       },
     },
@@ -47,7 +52,9 @@ const DialogCancelFetchButtons = (
           key={i}
           variant={button.variant}
           color={button.color}
-          onClick={button.handleAction}
+          onClick={() =>
+            button?.handleAction && button?.handleAction(i as number)
+          }
           startIcon={button.startIcon}
         >
           {button.title}

@@ -83,8 +83,12 @@ export default function StoredFacilitiesDecks({
     reducer,
     mainUrl,
     tableTitle,
-    componentRef,
   };
 
-  return <StoredDataRoute {...props} />;
+  return (
+    <StoredDataRoute
+      {...props}
+      ref={componentRef as React.MutableRefObject<any>}
+    />
+  );
 }

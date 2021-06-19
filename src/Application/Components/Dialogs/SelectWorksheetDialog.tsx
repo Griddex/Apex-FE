@@ -303,7 +303,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
           variant={variant}
           color={color}
           startIcon={startIcon}
-          onClick={handleAction}
+          onClick={() => handleAction && handleAction(i as number)}
           disabled={title === "Okay" && (selectedListItem ? false : true)}
         >
           {title}

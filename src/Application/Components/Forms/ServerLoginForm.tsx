@@ -142,7 +142,9 @@ const ServerLoginForm = () => {
         key={i}
         variant={button.variant}
         color={button.color}
-        onClick={button.handleAction}
+        onClick={() =>
+          button?.handleAction && button?.handleAction(i as number)
+        }
         startIcon={button.startIcon}
       >
         {button.title}

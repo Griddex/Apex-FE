@@ -230,7 +230,7 @@ export default function StoredForecastResults({
       },
       {
         key: "saved",
-        name: "SAVED",
+        name: "SAVE_D",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {

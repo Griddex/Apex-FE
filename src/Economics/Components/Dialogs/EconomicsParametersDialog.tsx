@@ -193,7 +193,9 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
         variant={button.variant}
         color={button.color}
         startIcon={button.startIcon}
-        onClick={button.handleAction}
+        onClick={() =>
+          button?.handleAction && button?.handleAction(i as number)
+        }
       >
         {button.title}
       </Button>

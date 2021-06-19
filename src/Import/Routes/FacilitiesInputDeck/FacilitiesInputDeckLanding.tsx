@@ -53,6 +53,8 @@ const FacilitiesInputDeckLanding = () => {
 
   const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
+
+  const initialState = useSelector((state: RootState) => state.inputReducer);
   const { loadWorkflow } = useSelector(
     (state: RootState) => state.layoutReducer
   );
@@ -102,21 +104,23 @@ const FacilitiesInputDeckLanding = () => {
     },
   ];
 
-  //Define a service that combines more than one icon or image into an overlapped one
-  //CSS using overlap and z-index
-
-  //Paying it back
   const facilitiesExcelandDbWorkflowFinalAction = (
     workflowProcess: IAllWorkflows["wrkflwPrcss"]
   ) => {
-    const saveFacilitiesInputdeckConfirmation = () => {
+    const saveFacilitiesInputdeckConfirmation = (
+      titleDesc: Record<string, string>
+    ) => {
       const dps = confirmationDialogParameters(
         "FacilitiesDeck_Save_Confirmation",
         "Facilities Deck Save Confirmation",
         `Do you want to save the current facilities Inputdeck?`,
+        false,
         true,
-        true,
-        () => saveInputDeckRequestAction(workflowProcess),
+        () =>
+          saveInputDeckRequestAction(
+            workflowProcess,
+            titleDesc as Record<string, string>
+          ),
         "Save",
         "saveOutlined"
       );
@@ -132,14 +136,21 @@ const FacilitiesInputDeckLanding = () => {
       exclusive: true,
       maxWidth: "sm",
       iconType: "save",
-      actionsList: () =>
+      actionsList: (titleDesc?: Record<string, string>) =>
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveFacilitiesInputdeckConfirmation]
+          [
+            unloadDialogsAction,
+            () =>
+              saveFacilitiesInputdeckConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
+      initialState,
     };
 
     dispatch(showDialogAction(dialogParameters));

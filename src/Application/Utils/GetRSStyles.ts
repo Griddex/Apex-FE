@@ -5,7 +5,8 @@ import { ISelectOption } from "../Components/Selects/SelectItemsType";
 const getRSStyles = <T extends ISelectOption>(
   theme: Theme,
   containerWidth?: React.Key,
-  containerHeight?: React.Key
+  containerHeight?: React.Key,
+  isDisabled?: boolean
 ) => {
   const apexSelectStyles: Styles<T, boolean> = {
     container: (styles) => ({
@@ -15,6 +16,8 @@ const getRSStyles = <T extends ISelectOption>(
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      cursor: isDisabled ? "not-allowed" : "pointer",
+      pointerEvents: "auto",
     }),
     valueContainer: (styles) => ({
       ...styles,
@@ -80,7 +83,8 @@ const getRSStyles = <T extends ISelectOption>(
       }
       return {
         ...styles,
-        backgroundColor: "white",
+        backgroundColor: isDisabled ? theme.palette.grey["100"] : "white",
+        cursor: isDisabled ? "not-allowed" : "pointer",
         borderColor: currentValueLabel,
         borderWidth: 1,
         minHeight: 30,

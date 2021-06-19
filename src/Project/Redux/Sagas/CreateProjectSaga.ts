@@ -24,9 +24,9 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
 import {
-  createNewProjectFailureAction,
-  createNewProjectSuccessAction,
-  CREATE_NEW_PROJECT,
+  createProjectFailureAction,
+  createProjectSuccessAction,
+  CREATE_PROJECT_REQUEST,
   fetchRecentProjectsAction,
 } from "../Actions/ProjectActions";
 
@@ -35,11 +35,11 @@ export default function* watchCreateNewProjectSaga(): Generator<
   void,
   any
 > {
-  const createNewProjectChan = yield actionChannel(CREATE_NEW_PROJECT);
-  yield takeLeading(createNewProjectChan, createNewProjectSaga);
+  const createProjectChan = yield actionChannel(CREATE_PROJECT_REQUEST);
+  yield takeLeading(createProjectChan, createProjectSaga);
 }
 
-function* createNewProjectSaga(
+function* createProjectSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<any>>
@@ -51,6 +51,9 @@ function* createNewProjectSaga(
   any
 > {
   const { payload } = action;
+  const {
+    titleDesc: { title, description },
+  } = payload;
 
   const { projectTitle, projectDescription } = yield select(
     (state: RootState) => state.projectReducer
@@ -67,8 +70,8 @@ function* createNewProjectSaga(
 
   const data = {
     userId: "Gideon",
-    title: projectTitle,
-    description: projectDescription,
+    title,
+    description,
     unitGroup,
     dayFormat,
     monthFormat,
@@ -77,12 +80,11 @@ function* createNewProjectSaga(
     variableUnits: selectedVariableUnits,
   };
   const config = { withCredentials: false };
-  const createNewProjectAPI = (url: string) =>
-    authService.post(url, data, config);
+  const createProjectAPI = (url: string) => authService.post(url, data, config);
 
   try {
     const result = yield call(
-      createNewProjectAPI,
+      createProjectAPI,
       `${getBaseForecastUrl()}/project`
     );
 
@@ -93,7 +95,7 @@ function* createNewProjectSaga(
       },
     } = result;
 
-    const successAction = createNewProjectSuccessAction();
+    const successAction = createProjectSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -110,7 +112,7 @@ function* createNewProjectSaga(
 
     yield put(showDialogAction(successDialogParameters));
   } catch (errors) {
-    const failureAction = createNewProjectFailureAction();
+    const failureAction = createProjectFailureAction();
 
     yield put({
       ...failureAction,

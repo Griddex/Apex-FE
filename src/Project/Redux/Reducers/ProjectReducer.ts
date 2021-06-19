@@ -1,22 +1,22 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
-  CREATE_NEW_PROJECT,
+  CREATE_PROJECT_REQUEST,
   FETCH_RECENTPROJECTS_FAILURE,
   FETCH_RECENTPROJECTS_SUCCESS,
   FETCH_STORED_PROJECTS_FAILURE,
   FETCH_STORED_PROJECTS_SUCCESS,
-  NEW_PROJECT_FAILURE,
-  NEW_PROJECT_SUCCESS,
+  CREATE_PROJECT_FAILURE,
+  CREATE_PROJECT_SUCCESS,
   OPEN_RECENTPROJECT_SUCCESS,
-  UPDATE_NEW_PROJECT,
-  UPDATES_NEW_PROJECT,
+  UPDATE_CREATE_PROJECT,
+  UPDATES_CREATE_PROJECT,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
 const projectReducer = (state = projectState, action: IAction) => {
   switch (action.type) {
-    case UPDATE_NEW_PROJECT: {
+    case UPDATE_CREATE_PROJECT: {
       const { name, value } = action.payload;
 
       return {
@@ -25,7 +25,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case UPDATES_NEW_PROJECT: {
+    case UPDATES_CREATE_PROJECT: {
       const { updateObj } = action.payload;
 
       return {
@@ -87,7 +87,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case NEW_PROJECT_SUCCESS: {
+    case CREATE_PROJECT_SUCCESS: {
       const {
         status,
         currentProjectId,
@@ -104,7 +104,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case NEW_PROJECT_FAILURE: {
+    case CREATE_PROJECT_FAILURE: {
       const { status, error } = action.payload;
 
       return {

@@ -15,13 +15,15 @@ const ApexSelectRS = <T extends ISelectOption>({
   className,
   containerWidth,
   containerHeight,
+  isDisabled,
   ...rest
 }: IApexSelectRS<T>) => {
   const theme = useTheme();
   const RSStyles = getRSStyles<T>(
     theme,
     containerWidth as React.Key,
-    containerHeight as React.Key
+    containerHeight as React.Key,
+    isDisabled as boolean
   );
 
   let dataOptions: T[];
@@ -39,6 +41,7 @@ const ApexSelectRS = <T extends ISelectOption>({
       menuPortalTarget={menuPortalTarget}
       theme={(thm) => getRSTheme(thm, theme)}
       {...rest}
+      isDisabled={isDisabled}
     />
   );
 };

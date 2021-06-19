@@ -4,7 +4,10 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import {
+  hideDialogAction,
+  unloadDialogsAction,
+} from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 import HourglassFullOutlinedIcon from "@material-ui/icons/HourglassFullOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
@@ -43,15 +46,17 @@ const DialogOneCancelButtons = (
       variant: "contained",
       color: "primary",
       startIcon: icons[oneButtonIconTitle],
-      handleAction: () => {
-        let i = 0;
-        for (const execute of shouldExecute) {
-          if (execute) {
-            const action = finalActions[i];
-            if (shouldDispatch[i]) dispatch(action());
-            else action();
-          }
-          i += 1;
+      handleAction: (i?: number) => {
+        const iDefined = i as number;
+        const sExecute = shouldExecute[iDefined];
+        const action = finalActions[iDefined];
+        const sDispatch = shouldDispatch[iDefined];
+
+        if (sExecute) {
+          if (sDispatch) dispatch(action());
+          else action();
+
+          dispatch(unloadDialogsAction());
         }
       },
     },
@@ -64,7 +69,9 @@ const DialogOneCancelButtons = (
           key={i}
           variant={button.variant}
           color={button.color}
-          onClick={button.handleAction}
+          onClick={() =>
+            button?.handleAction && button?.handleAction(i as number)
+          }
           startIcon={button.startIcon}
         >
           {button.title}

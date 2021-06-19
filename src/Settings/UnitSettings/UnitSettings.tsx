@@ -7,6 +7,7 @@ import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
+import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
@@ -73,11 +74,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function UnitSettings({
-  errors,
-  touched,
   handleChange,
-  isValid,
-}: INewProjectWorkflowProps) {
+}: ITitleAndDescriptionFormProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 

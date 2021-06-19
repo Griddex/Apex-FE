@@ -15,7 +15,10 @@ import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinn
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import getCurrentApplicationHeaders from "../../../../Application/Utils/GetCurrentApplicationHeaders";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import { persistTableDataAction } from "../../../Redux/Actions/InputActions";
+import {
+  persistTableDataAction,
+  persistVariableUnitsAction,
+} from "../../../Redux/Actions/InputActions";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
 
@@ -55,9 +58,18 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
-  const { currentDevOption } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
-  );
+  const {
+    currentDevOption,
+    fileHeaderUnitIdMap,
+    currentAppHeaderNameMap,
+    fileHeadersUnitsAppHeadersWithoutNoneMap,
+    tableRoleNames,
+    columnNameTableData,
+    selectedHeaderRowIndex,
+    selectedUnitRowIndex,
+    matchHeadersTable,
+    matchUnitsTable,
+  } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const {
     facilitiesAppHeaders,
@@ -84,16 +96,6 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     allAppHeadersObj,
     false
   );
-
-  const {
-    tableRoleNames,
-    columnNameTableData,
-    selectedHeaderRowIndex,
-    selectedUnitRowIndex,
-    matchHeadersTable,
-    matchUnitsTable,
-    fileAppHeaderExcludeWithNoneMap,
-  } = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const excludedColumnIndices = matchHeadersTable.reduce(
     (acc: number[], row: IRawRow, i: number) => {
@@ -235,6 +237,33 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   React.useEffect(() => {
     dispatch(persistTableDataAction(reducer, tableData, wp));
+
+    const appHeaderNameUnitsMap = matchUnitsTable.reduce(
+      (acc: any, row: IRawRow) => {
+        const { type, fileHeader } = row;
+        const fileHeaderDefined = fileHeader as string;
+
+        const appHeaderUnitIdObj =
+          fileHeadersUnitsAppHeadersWithoutNoneMap.current[fileHeaderDefined];
+
+        const appHeader = appHeaderUnitIdObj.chosenAppHeader;
+        const chosenAppUnitId = fileHeaderUnitIdMap[fileHeaderDefined];
+        const appHeaderName = currentAppHeaderNameMap[appHeader];
+
+        return {
+          ...acc,
+          [appHeaderName]:
+            type === "Multiple" ? chosenAppUnitId.join("&|&") : chosenAppUnitId,
+        };
+      },
+      {}
+    );
+    console.log(
+      "Logged output --> ~ file: MatchUnits.tsx ~ line 858 ~ appHeaderNameUnitsMap ~ appHeaderNameUnitsMap",
+      appHeaderNameUnitsMap
+    );
+
+    dispatch(persistVariableUnitsAction(reducer, appHeaderNameUnitsMap, wp));
 
     dispatch(hideSpinnerAction());
   }, []);

@@ -1,4 +1,3 @@
-import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -10,7 +9,7 @@ export const confirmationDialogParameters = (
   dialogText: string,
   exclusive: boolean,
   shouldDispatch: boolean,
-  action: () => IAction | void,
+  action: (titleDesc?: Record<string, string>) => IAction | void,
   oneButtonTitle: string,
   oneButtonIconTitle: string
 ): DialogStuff => {

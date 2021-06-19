@@ -5,7 +5,7 @@ import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsA
 
 export const successDialogParameters: DialogStuff = {
   name: "New_Project_Success_Dialog",
-  title: "Create New Project Success",
+  title: "Create Project Success",
   type: "textDialog",
   show: true,
   exclusive: false,
@@ -18,7 +18,7 @@ export const successDialogParameters: DialogStuff = {
 
 export const failureDialogParameters: DialogStuff = {
   name: "New_Project_Failure_Dialog",
-  title: "Create New Project Failure",
+  title: "Create Project Failure",
   type: "textDialog",
   show: true,
   exclusive: false,

@@ -9,12 +9,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import FacilitiesTitleAndDescription from "../Forms/FacilitiesTitleAndDescription";
-import FacilitiesTitleAndDescriptionForm from "../Forms/FacilitiesTitleAndDescriptionForm";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -98,6 +97,14 @@ const SaveFacilitiesInputDeckDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
+
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
@@ -115,11 +122,14 @@ const SaveFacilitiesInputDeckDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <FacilitiesTitleAndDescriptionForm>
-          {(props) => <FacilitiesTitleAndDescription {...props} />}
-        </FacilitiesTitleAndDescriptionForm>
+        <TitleAndDescriptionForm
+          title={formTitle}
+          setTitle={setFormTitle}
+          description={formDescription}
+          setDescription={setFormDescription}
+        />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList()}</DialogActions>
+      <DialogActions>{actionsList && actionsList(titleDesc)}</DialogActions>
     </Dialog>
   );
 };

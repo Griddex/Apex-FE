@@ -13,22 +13,22 @@ export const SHOW_NETWORKELEMENTDETAILS = "SHOW_NETWORKELEMENTDETAILS";
 export const HIDE_NETWORKELEMENTDETAILS = "HIDE_NETWORKELEMENTDETAILS";
 export const HIDE_WELHEADSUMMARYNODES = "HIDE_WELHEADSUMMARYNODES";
 export const HIDE_WELHEADSUMMARYEDGES = "HIDE_WELHEADSUMMARYEDGES";
-export const SAVENETWORK_ISVALID = "SAVENETWORK_ISVALID";
+export const SAVE_NETWORK_ISVALID = "SAVE_NETWORK_ISVALID";
 export const AUTOGENERATENETWORK_REQUEST = "AUTOGENERATENETWORK_REQUEST";
 export const AUTOGENERATENETWORK_SUCCESS = "AUTOGENERATENETWORK_SUCCESS";
 export const AUTOGENERATENETWORK_FAILURE = "AUTOGENERATENETWORK_FAILURE";
 export const DISPLAY_NETWORKBYID_REQUEST = "DISPLAY_NETWORKBYID_REQUEST";
 export const DISPLAY_NETWORKBYID_SUCCESS = "DISPLAY_NETWORKBYID_SUCCESS";
 export const DISPLAY_NETWORKBYID_FAILURE = "DISPLAY_NETWORKBYID_FAILURE";
-export const SAVEAUTOGENERATENETWORK_REQUEST =
-  "SAVEAUTOGENERATENETWORK_REQUEST";
-export const SAVEAUTOGENERATENETWORK_SUCCESS =
-  "SAVEAUTOGENERATENETWORK_SUCCESS";
-export const SAVEAUTOGENERATENETWORK_FAILURE =
-  "SAVEAUTOGENERATENETWORK_FAILURE";
-export const SAVENETWORK_REQUEST = "SAVENETWORK_REQUEST";
-export const SAVENETWORK_SUCCESS = "SAVENETWORK_SUCCESS";
-export const SAVENETWORK_FAILURE = "SAVENETWORK_FAILURE";
+export const SAVE_AUTOGENERATENETWORK_REQUEST =
+  "SAVE_AUTOGENERATENETWORK_REQUEST";
+export const SAVE_AUTOGENERATENETWORK_SUCCESS =
+  "SAVE_AUTOGENERATENETWORK_SUCCESS";
+export const SAVE_AUTOGENERATENETWORK_FAILURE =
+  "SAVE_AUTOGENERATENETWORK_FAILURE";
+export const SAVE_NETWORK_REQUEST = "SAVE_NETWORK_REQUEST";
+export const SAVE_NETWORK_SUCCESS = "SAVE_NETWORK_SUCCESS";
+export const SAVE_NETWORK_FAILURE = "SAVE_NETWORK_FAILURE";
 export const STORED_FORECASTPARAMETERS_REQUEST =
   "STORED_FORECASTPARAMETERS_REQUEST";
 export const STORED_FORECASTPARAMETERS_SUCCESS =
@@ -213,7 +213,7 @@ export const saveNetworkExtrudeIsValidAction = (
   saveNetworkExtrudeIsValid: boolean
 ) => {
   return {
-    type: SAVENETWORK_ISVALID,
+    type: SAVE_NETWORK_ISVALID,
     payload: {
       saveNetworkExtrudeIsValid,
     },
@@ -283,7 +283,7 @@ export const saveAndAutoGenerateNetworkRequestAction = (
     inputDeck = "forecast inputdeck";
 
   return {
-    type: SAVEAUTOGENERATENETWORK_REQUEST,
+    type: SAVE_AUTOGENERATENETWORK_REQUEST,
     payload: { workflowProcess },
     meta: { message: `Saving ${inputDeck}...` },
   };
@@ -291,7 +291,7 @@ export const saveAndAutoGenerateNetworkRequestAction = (
 
 export const saveAndAutoGenerateNetworkSuccessAction = () => {
   return {
-    type: SAVEAUTOGENERATENETWORK_SUCCESS,
+    type: SAVE_AUTOGENERATENETWORK_SUCCESS,
     payload: {
       status: 0,
     },
@@ -300,7 +300,7 @@ export const saveAndAutoGenerateNetworkSuccessAction = () => {
 
 export const saveAndAutoGenerateNetworkFailureAction = () => {
   return {
-    type: SAVEAUTOGENERATENETWORK_FAILURE,
+    type: SAVE_AUTOGENERATENETWORK_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -308,16 +308,17 @@ export const saveAndAutoGenerateNetworkFailureAction = () => {
   };
 };
 
-export const saveNetworkRequestAction = () => {
+export const saveNetworkRequestAction = (titleDesc: Record<string, string>) => {
   return {
-    type: SAVENETWORK_REQUEST,
+    type: SAVE_NETWORK_REQUEST,
+    payload: { titleDesc },
     meta: { showSpinner: true, message: "Saving network..." },
   };
 };
 
 export const saveNetworkSuccessAction = () => {
   return {
-    type: SAVENETWORK_SUCCESS,
+    type: SAVE_NETWORK_SUCCESS,
     payload: {
       status: 0,
     },
@@ -326,7 +327,7 @@ export const saveNetworkSuccessAction = () => {
 
 export const saveNetworkFailureAction = () => {
   return {
-    type: SAVENETWORK_FAILURE,
+    type: SAVE_NETWORK_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

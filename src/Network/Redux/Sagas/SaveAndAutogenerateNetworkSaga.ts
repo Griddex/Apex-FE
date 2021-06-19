@@ -11,7 +11,7 @@ import { saveInputDeckSaga } from "../../../Import/Redux/Sagas/SaveInputDeckSaga
 import {
   autoGenerateNetworkFailureAction,
   autoGenerateNetworkRequestAction,
-  SAVEAUTOGENERATENETWORK_REQUEST,
+  SAVE_AUTOGENERATENETWORK_REQUEST,
 } from "../Actions/NetworkActions";
 import { autoGenerateNetworkSaga } from "./AutogenerateNetworkSaga";
 import { saveInputDeckRequestAction } from "./../../../Import/Redux/Actions/InputActions";
@@ -26,7 +26,7 @@ export default function* watchAndSaveAutogenerateNetworkSaga(): Generator<
   any
 > {
   const saveAutoGenerateNetworkChan = yield actionChannel(
-    SAVEAUTOGENERATENETWORK_REQUEST
+    SAVE_AUTOGENERATENETWORK_REQUEST
   );
   yield takeLeading(
     saveAutoGenerateNetworkChan,

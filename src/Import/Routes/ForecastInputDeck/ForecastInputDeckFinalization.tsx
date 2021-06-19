@@ -23,6 +23,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import { IAllWorkflows } from "./../../../Application/Components/Workflows/WorkflowTypes";
+import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 
 const useStyles = makeStyles(() => ({
   dialogButtons: {
@@ -56,7 +57,6 @@ const ForecastInputDeckFinalization = ({
   const { subModuleName } = useSelector(
     (state: RootState) => state.applicationReducer
   );
-
   if (success) {
     enqueueSnackbar(`${subModuleName} saved`, {
       persist: false,
@@ -67,30 +67,25 @@ const ForecastInputDeckFinalization = ({
   const saveForecastInputdeck = (
     workflowProcess: IAllWorkflows["wrkflwPrcss"]
   ) => {
-    const saveForecastInputdeckConfirmation = () => {
-      const dialogParameters: DialogStuff = {
-        name: "Save_Forecast_Inputdeck_Confirmation_Dialog",
-        title: "Save Forecast Inputdeck Confirmation",
-        type: "textDialog",
-        show: true,
-        exclusive: false,
-        maxWidth: "xs",
-        iconType: "confirmation",
-        dialogText: `Do you want to save the 
-          current Forecast Inputdeck?`,
-        actionsList: () =>
-          DialogSaveCancelButtons(
-            [true, true],
-            [true, true],
-            [
-              unloadDialogsAction,
-              () => saveInputDeckRequestAction(workflowProcess),
-            ]
+    const saveForecastInputdeckConfirmation = (
+      titleDesc: Record<string, string>
+    ) => {
+      const dps = confirmationDialogParameters(
+        "ForecastDeck_Save_Confirmation",
+        "Forecast Deck Save Confirmation",
+        `Do you want to save the current forecast Inputdeck?`,
+        false,
+        true,
+        () =>
+          saveInputDeckRequestAction(
+            workflowProcess,
+            titleDesc as Record<string, string>
           ),
-        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      };
+        "Save",
+        "saveOutlined"
+      );
 
-      dispatch(showDialogAction(dialogParameters));
+      dispatch(showDialogAction(dps));
     };
 
     const dialogParameters: DialogStuff = {
@@ -103,11 +98,17 @@ const ForecastInputDeckFinalization = ({
       iconType: "save",
       workflowProcess,
       workflowCategory: "inputDataWorkflows",
-      actionsList: () =>
+      actionsList: (titleDesc?: Record<string, string>) =>
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveForecastInputdeckConfirmation]
+          [
+            unloadDialogsAction,
+            () =>
+              saveForecastInputdeckConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ]
         ),
     };
 

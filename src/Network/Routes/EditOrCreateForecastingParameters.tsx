@@ -5,7 +5,7 @@ import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
 import { DatePicker, DatePickerInput } from "carbon-components-react";
 import "carbon-components/css/carbon-components.min.css";
 import React, { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
@@ -17,9 +17,11 @@ import { ISelectOption } from "../../Application/Components/Selects/SelectItemsT
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { TAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import {
+  hideDialogAction,
   showDialogAction,
   unloadDialogsAction,
 } from "../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TUseState } from "../../Application/Types/ApplicationTypes";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import {
@@ -79,6 +81,16 @@ const EditOrCreateForecastingParameters = ({
     currentRow as IForecastParametersStoredRow
   );
 
+  const {
+    selectedDeclineParametersId,
+    selectedDeclineParametersTitle,
+    selectedDeclineParametersDescription,
+
+    selectedProductionPrioritizationId,
+    selectedProductionPrioritizationTitle,
+    selectedProductionPrioritizationDescription,
+  } = useSelector((state: RootState) => state.networkReducer);
+
   const handleChange = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
     setFormEditorRow((prev) => ({ ...prev, [name]: value }));
@@ -112,20 +124,30 @@ const EditOrCreateForecastingParameters = ({
       title: "Stored DCA Parameters",
       type: "storedDeclineCurveParametersDialog",
       show: true,
-      exclusive: true,
+      exclusive: false,
       maxWidth: "lg",
       iconType: "table",
       workflowProcess,
       actionsList: () =>
         DialogOneCancelButtons(
           [true, true],
-          [true, true],
+          [true, false],
           [
             unloadDialogsAction,
-            () =>
-              getDeclineParametersByIdRequestAction(
-                formEditorRow["wellDeclineParameterId"]
-              ),
+            // () =>
+            //   getDeclineParametersByIdRequestAction(
+            //     formEditorRow["wellDeclineParameterId"]
+            //   ),
+            () => {
+              setFormEditorRow((prev) => ({
+                ...prev,
+                wellDeclineParameterId: selectedDeclineParametersId,
+                wellDeclineParameterTitle: selectedDeclineParametersTitle
+                  ? selectedDeclineParametersTitle
+                  : "Default",
+              })),
+                dispatch(hideDialogAction());
+            },
           ],
           "Load",
           "loadOutlined"
@@ -164,20 +186,31 @@ const EditOrCreateForecastingParameters = ({
       title: "Stored Prioritization Parameters",
       type: "textDialog",
       show: true,
-      exclusive: true,
+      exclusive: false,
       maxWidth: "lg",
       iconType: "table",
       workflowProcess,
       actionsList: () =>
         DialogOneCancelButtons(
           [true, true],
-          [true, true],
+          [true, false],
           [
             unloadDialogsAction,
-            () =>
-              getProductionPrioritizationByIdRequestAction(
-                formEditorRow["wellPrioritizationId"]
-              ),
+            // () =>
+            //   getProductionPrioritizationByIdRequestAction(
+            //     formEditorRow["wellPrioritizationId"]
+            //   ),
+
+            () => {
+              setFormEditorRow((prev) => ({
+                ...prev,
+                wellPrioritizationId: selectedProductionPrioritizationId,
+                wellPrioritizationTitle: selectedProductionPrioritizationTitle
+                  ? selectedProductionPrioritizationTitle
+                  : "Default",
+              })),
+                dispatch(hideDialogAction());
+            },
           ],
           "Load",
           "loadOutlined"
@@ -311,7 +344,7 @@ const EditOrCreateForecastingParameters = ({
           containerStyle={{ width: "45%", height: 50 }}
         />
         <AnalyticsComp
-          title="Add Deferment"
+          title="Deferment Utilization"
           direction="Vertical"
           content={
             <ApexSelectRS
@@ -358,6 +391,7 @@ const EditOrCreateForecastingParameters = ({
             }
             menuPortalTarget={dialogRef.current as HTMLElement}
             isSelectOptionType={true}
+            isDisabled={true}
           />
         }
         containerStyle={{ width: "100%", height: 50 }}
@@ -368,7 +402,10 @@ const EditOrCreateForecastingParameters = ({
           title="Start Forecast Date"
           direction="Vertical"
           content={
-            <DatePicker datePickerType="single">
+            <DatePicker
+              datePickerType="single"
+              value={new Date(formEditorRow["startForecast"])}
+            >
               <DatePickerInput
                 id="date-picker-input-id-start"
                 placeholder="DD/MM/yyyy"
@@ -384,6 +421,8 @@ const EditOrCreateForecastingParameters = ({
           content={
             <DatePicker
               datePickerType="single"
+              minDate={new Date(formEditorRow["startForecast"])}
+              value={new Date(formEditorRow["endForecast"])}
               onChange={(dates: Date[], currentDateString: string) => {
                 setFormEditorRow((prev) => ({
                   ...prev,

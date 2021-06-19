@@ -134,6 +134,7 @@ export default function StoredForecastingParameters({
         createdAt,
         wellPrioritizationId,
         wellDeclineParameterId,
+        declineParametersId,
         wellPrioritizationTitle,
         wellDeclineParameterTitle,
         parametersEntity,
@@ -158,14 +159,14 @@ export default function StoredForecastingParameters({
         title,
         description,
         type,
-        wellDeclineParameterId,
+        wellDeclineParameterId: declineParametersId,
         wellPrioritizationId,
         wellDeclineParameterTitle,
         wellPrioritizationTitle,
         targetFluid,
         timeFrequency,
-        isDefered: isDefered === 0 ? "No Deferment" : "Add Deferment",
-        realtimeResults: "Yes",
+        isDefered: isDefered === 0 ? "noDeferment" : "useDeferment",
+        realtimeResults: "no",
         startForecast: formatDate(
           new Date(startYear, startMonth, startDay),
           dayFormat,
@@ -221,10 +222,20 @@ export default function StoredForecastingParameters({
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IForecastParametersStoredRow) => {
-    const name = "selectedForecastingParametersId";
-    const value = row.forecastingParametersId;
+    dispatch(
+      updateNetworkParameterAction(
+        "selectedForecastingParametersId",
+        row.forecastingParametersId
+      )
+    );
 
-    dispatch(updateNetworkParameterAction(name, value));
+    dispatch(
+      updateNetworkParameterAction(
+        "selectedForecastingParametersTitle",
+        row.title
+      )
+    );
+
     setCheckboxSelected(!checkboxSelected);
   };
 
@@ -254,6 +265,8 @@ export default function StoredForecastingParameters({
                 const currentRow = rows[currentSN - 1];
                 const clonedRow = {
                   ...currentRow,
+                  sn: rows.length + 1,
+                  forecastingParametersId: "",
                   title: "New Title",
                   type: "User",
                 } as IForecastParametersStoredRow;
@@ -267,6 +280,10 @@ export default function StoredForecastingParameters({
             <ApexFlexContainer>
               <EditOutlinedIcon
                 onClick={() => {
+                  console.log(
+                    "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 260 ~ generateColumns ~ currentRow",
+                    currentRow
+                  );
                   dispatch(
                     showDialogAction(
                       extrudeForecastParametersDPs(
@@ -489,6 +506,10 @@ export default function StoredForecastingParameters({
   })) as IForecastParametersStoredRow[];
 
   const [rows, setRows] = React.useState(snTransStoredData);
+  console.log(
+    "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 508 ~ rows",
+    rows
+  );
 
   return (
     <div className={classes.rootStoredData}>

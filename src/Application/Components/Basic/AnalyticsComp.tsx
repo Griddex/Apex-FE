@@ -24,12 +24,12 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: "#E0E0E0",
     // backgroundColor: "#EBEBEB",
     // border: `1px solid ${theme.palette.primary.dark}`,
-    textTransform: "uppercase",
+    textTransform: "capitalize",
     // color: theme.palette.primary.dark,
     color: theme.palette.grey[900],
     letterSpacing: 1.2,
-    fontSize: 12,
-    fontWeight: "bold",
+    fontSize: 14,
+    fontWeight: 400,
   },
 }));
 

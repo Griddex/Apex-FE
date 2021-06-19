@@ -13,7 +13,7 @@ import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
-import { createNewProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
+import { createProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
 import {
   hideDialogAction,
@@ -119,11 +119,24 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
 
+  const storedTitles = useSelector(
+    (state: RootState) =>
+      state.applicationReducer["allFormTitles"]["projectTitles"]
+  );
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
+
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
     (state: RootState) =>
       state.workflowReducer[workflowCategory][workflowProcess]
   );
+
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
     [activeStep]
@@ -141,10 +154,10 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     isStepSkipped,
   };
 
-  const finalAction = () => {
+  const finalAction = (titleDesc: Record<string, string>) => {
     const confirmationDialogParameters: DialogStuff = {
-      name: "Create_New_Project_Dialog",
-      title: "Create New Project Dialog",
+      name: "Create_Project_Dialog",
+      title: "Create Project Dialog",
       type: "textDialog",
       show: true,
       exclusive: false,
@@ -155,7 +168,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [() => createNewProjectAction(), unloadDialogsAction]
+          [unloadDialogsAction, () => createProjectAction(titleDesc)]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -169,7 +182,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction,
+    finalAction: () => finalAction(titleDesc),
     finalNavIcon: () => <SaveOutlinedIcon />,
     workflowProps,
     workflowProcess,
@@ -214,7 +227,14 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
             width: "100%",
           }}
         >
-          <NewProjectWorkflow activeStep={activeStep} />
+          <NewProjectWorkflow
+            activeStep={activeStep}
+            title={formTitle}
+            setTitle={setFormTitle}
+            description={formDescription}
+            setDescription={setFormDescription}
+            storedTitles={storedTitles}
+          />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>

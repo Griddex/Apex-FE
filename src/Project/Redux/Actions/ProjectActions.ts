@@ -1,8 +1,8 @@
-export const UPDATE_NEW_PROJECT = "UPDATE_NEW_PROJECT";
-export const UPDATES_NEW_PROJECT = "UPDATES_NEW_PROJECT";
-export const CREATE_NEW_PROJECT = "CREATE_NEW_PROJECT";
-export const NEW_PROJECT_SUCCESS = "NEW_PROJECT_SUCCESS";
-export const NEW_PROJECT_FAILURE = "NEW_PROJECT_FAILURE";
+export const UPDATE_CREATE_PROJECT = "UPDATE_CREATE_PROJECT";
+export const UPDATES_CREATE_PROJECT = "UPDATES_CREATE_PROJECT";
+export const CREATE_PROJECT_REQUEST = "CREATE_PROJECT_REQUEST";
+export const CREATE_PROJECT_SUCCESS = "CREATE_PROJECT_SUCCESS";
+export const CREATE_PROJECT_FAILURE = "CREATE_PROJECT_FAILURE";
 export const FETCH_RECENTPROJECTS_REQUEST = "FETCH_RECENTPROJECTS_REQUEST";
 export const FETCH_RECENTPROJECTS_SUCCESS = "FETCH_RECENTPROJECTS_SUCCESS";
 export const FETCH_RECENTPROJECTS_FAILURE = "FETCH_RECENTPROJECTS_FAILURE";
@@ -16,7 +16,7 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 
 export const updateProjectParameterAction = (name: string, value: string) => {
   return {
-    type: UPDATE_NEW_PROJECT,
+    type: UPDATE_CREATE_PROJECT,
     payload: {
       name,
       value,
@@ -27,7 +27,7 @@ export const updateProjectParametersAction = (
   updateObj: Record<string, any>
 ) => {
   return {
-    type: UPDATES_NEW_PROJECT,
+    type: UPDATES_CREATE_PROJECT,
     payload: {
       updateObj,
     },
@@ -126,16 +126,16 @@ export const openRecentProjectFailureAction = () => {
   };
 };
 
-export const createNewProjectAction = () => {
+export const createProjectAction = (titleDesc: Record<string, string>) => {
   return {
-    type: CREATE_NEW_PROJECT,
-    payload: {},
+    type: CREATE_PROJECT_REQUEST,
+    payload: { titleDesc },
   };
 };
 
-export const createNewProjectSuccessAction = () => {
+export const createProjectSuccessAction = () => {
   return {
-    type: NEW_PROJECT_SUCCESS,
+    type: CREATE_PROJECT_SUCCESS,
     payload: {
       status: 0,
       data: [],
@@ -143,9 +143,9 @@ export const createNewProjectSuccessAction = () => {
   };
 };
 
-export const createNewProjectFailureAction = () => {
+export const createProjectFailureAction = () => {
   return {
-    type: NEW_PROJECT_FAILURE,
+    type: CREATE_PROJECT_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

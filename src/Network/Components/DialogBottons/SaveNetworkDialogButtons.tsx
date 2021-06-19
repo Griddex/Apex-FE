@@ -19,10 +19,11 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 
 const SaveNetworkDialogButtons = ({
   isSaveNetworkValid,
+  titleDesc,
 }: IIsSaveNetworkValid) => {
   const dispatch = useDispatch();
 
-  const finalAction = () => {
+  const finalAction = (titleDesc: Record<string, string>) => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Save_Network_Dialog",
       title: "Save Network Dialog",
@@ -36,7 +37,7 @@ const SaveNetworkDialogButtons = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [saveNetworkRequestAction, unloadDialogsAction]
+          [unloadDialogsAction, () => saveNetworkRequestAction(titleDesc)]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -57,7 +58,7 @@ const SaveNetworkDialogButtons = ({
       variant: "contained",
       color: "primary",
       startIcon: <SaveOutlinedIcon />,
-      handleAction: finalAction,
+      handleAction: () => finalAction(titleDesc as Record<string, string>),
     },
   ];
 
@@ -68,7 +69,9 @@ const SaveNetworkDialogButtons = ({
           key={i}
           variant={button.variant}
           color={button.color}
-          onClick={button.handleAction}
+          onClick={() =>
+            button?.handleAction && button?.handleAction(i as number)
+          }
           startIcon={button.startIcon}
           disabled={button.title === "Save" ? isSaveNetworkValid : false}
         >

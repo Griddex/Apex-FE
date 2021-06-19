@@ -36,9 +36,9 @@ export const SELECTED_ROW = "SELECTED_ROW";
 export const PERSIST_CHOSENAPPLICATIONHEADERS =
   "PERSIST_CHOSENAPPLICATIONHEADERS";
 export const PERSIST_CHOSENAPPLICATIONUNITS = "PERSIST_CHOSENAPPLICATIONUNITS";
-export const SAVEINPUTDECK_REQUEST = "SAVEINPUTDECK_REQUEST";
-export const SAVEINPUTDECK_SUCCESS = "SAVEINPUTDECK_SUCCESS";
-export const SAVEINPUTDECK_FAILURE = "SAVEINPUTDECK_FAILURE";
+export const SAVE_INPUTDECK_REQUEST = "SAVE_INPUTDECK_REQUEST";
+export const SAVE_INPUTDECK_SUCCESS = "SAVE_INPUTDECK_SUCCESS";
+export const SAVE_INPUTDECK_FAILURE = "SAVE_INPUTDECK_FAILURE";
 export const FETCH_APPLICATIONHEADERS_REQUEST =
   "FETCH_APPLICATIONHEADERS_REQUEST";
 export const FETCH_APPLICATIONHEADERS_SUCCESS =
@@ -277,7 +277,8 @@ export const persistColumnNameTableDataAction = (
 };
 
 export const saveInputDeckRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  titleDesc: Record<string, string>
 ) => {
   let inputDeck;
   const reducer = "inputReducer";
@@ -288,15 +289,15 @@ export const saveInputDeckRequestAction = (
     inputDeck = "forecast inputdeck";
 
   return {
-    type: SAVEINPUTDECK_REQUEST,
-    payload: { workflowProcess, reducer },
+    type: SAVE_INPUTDECK_REQUEST,
+    payload: { workflowProcess, reducer, titleDesc },
     meta: { message: `Saving ${inputDeck}...` },
   };
 };
 
 export const saveInputDeckSuccessAction = () => {
   return {
-    type: SAVEINPUTDECK_SUCCESS,
+    type: SAVE_INPUTDECK_SUCCESS,
     payload: {
       status: 0,
     },
@@ -305,7 +306,7 @@ export const saveInputDeckSuccessAction = () => {
 
 export const saveInputDeckFailureAction = () => {
   return {
-    type: SAVEINPUTDECK_FAILURE,
+    type: SAVE_INPUTDECK_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

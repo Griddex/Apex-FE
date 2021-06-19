@@ -27,15 +27,15 @@ export const STORED_ECONOMICSPARAMETERSDATA_SUCCESS =
 export const STORED_ECONOMICSPARAMETERSDATA_FAILURE =
   "STORED_ECONOMICSPARAMETERSDATA_FAILURE";
 
-export const SAVECOSTSREVENUES_REQUEST = "SAVECOSTSREVENUES_REQUEST";
-export const SAVECOSTSREVENUES_SUCCESS = "SAVECOSTSREVENUES_SUCCESS";
-export const SAVECOSTSREVENUES_FAILURE = "SAVECOSTSREVENUES_FAILURE";
-export const SAVEECONOMICSPARAMETERS_REQUEST =
-  "SAVEECONOMICSPARAMETERS_REQUEST";
-export const SAVEECONOMICSPARAMETERS_SUCCESS =
-  "SAVEECONOMICSPARAMETERS_SUCCESS";
-export const SAVEECONOMICSPARAMETERS_FAILURE =
-  "SAVEECONOMICSPARAMETERS_FAILURE";
+export const SAVE_COSTSREVENUES_REQUEST = "SAVE_COSTSREVENUES_REQUEST";
+export const SAVE_COSTSREVENUES_SUCCESS = "SAVE_COSTSREVENUES_SUCCESS";
+export const SAVE_COSTSREVENUES_FAILURE = "SAVE_COSTSREVENUES_FAILURE";
+export const SAVE_ECONOMICSPARAMETERS_REQUEST =
+  "SAVE_ECONOMICSPARAMETERS_REQUEST";
+export const SAVE_ECONOMICSPARAMETERS_SUCCESS =
+  "SAVE_ECONOMICSPARAMETERS_SUCCESS";
+export const SAVE_ECONOMICSPARAMETERS_FAILURE =
+  "SAVE_ECONOMICSPARAMETERS_FAILURE";
 export const FETCH_COSTSREVENUESHEADERS_REQUEST =
   "FETCH_COSTSREVENUESHEADERS_REQUEST";
 export const FETCH_COSTSREVENUESHEADERS_SUCCESS =
@@ -70,12 +70,12 @@ export const STORED_ECONOMICSSENSITIVITIES_SUCCESS =
 export const STORED_ECONOMICSSENSITIVITIES_FAILURE =
   "STORED_ECONOMICSSENSITIVITIES_FAILURE";
 
-export const SAVEECONOMICSSENSITIVITIES_REQUEST =
-  "SAVEECONOMICSSENSITIVITIES_REQUEST";
-export const SAVEECONOMICSSENSITIVITIES_SUCCESS =
-  "SAVEECONOMICSSENSITIVITIES_SUCCESS";
-export const SAVEECONOMICSSENSITIVITIES_FAILURE =
-  "SAVEECONOMICSSENSITIVITIES_FAILURE";
+export const SAVE_ECONOMICSSENSITIVITIES_REQUEST =
+  "SAVE_ECONOMICSSENSITIVITIES_REQUEST";
+export const SAVE_ECONOMICSSENSITIVITIES_SUCCESS =
+  "SAVE_ECONOMICSSENSITIVITIES_SUCCESS";
+export const SAVE_ECONOMICSSENSITIVITIES_FAILURE =
+  "SAVE_ECONOMICSSENSITIVITIES_FAILURE";
 
 export const GETECONOMICSSENSITIVITIESBYID_REQUEST =
   "GETECONOMICSSENSITIVITIESBYID_REQUEST";
@@ -178,7 +178,7 @@ export const saveCostsRevenuesRequestAction = (
   reducer: ReducersType
 ) => {
   return {
-    type: SAVECOSTSREVENUES_REQUEST,
+    type: SAVE_COSTSREVENUES_REQUEST,
     payload: { workflowProcess, reducer },
     meta: { showSpinner: true, message: "Saving costs & revenues..." },
   };
@@ -186,7 +186,7 @@ export const saveCostsRevenuesRequestAction = (
 
 export const saveCostsRevenuesSuccessAction = () => {
   return {
-    type: SAVECOSTSREVENUES_SUCCESS,
+    type: SAVE_COSTSREVENUES_SUCCESS,
     payload: {
       status: 0,
     },
@@ -195,7 +195,7 @@ export const saveCostsRevenuesSuccessAction = () => {
 
 export const saveCostsRevenuesFailureAction = () => {
   return {
-    type: SAVECOSTSREVENUES_FAILURE,
+    type: SAVE_COSTSREVENUES_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -252,7 +252,7 @@ export const saveEconomicsParametersRequestAction = (
   reducer: ReducersType
 ) => {
   return {
-    type: SAVEECONOMICSPARAMETERS_REQUEST,
+    type: SAVE_ECONOMICSPARAMETERS_REQUEST,
     payload: { workflowProcess, reducer },
     meta: { showSpinner: true, message: "Saving economics parameters..." },
   };
@@ -260,7 +260,7 @@ export const saveEconomicsParametersRequestAction = (
 
 export const saveEconomicsParametersSuccessAction = () => {
   return {
-    type: SAVEECONOMICSPARAMETERS_SUCCESS,
+    type: SAVE_ECONOMICSPARAMETERS_SUCCESS,
     payload: {
       status: 0,
     },
@@ -269,7 +269,7 @@ export const saveEconomicsParametersSuccessAction = () => {
 
 export const saveEconomicsParametersFailureAction = () => {
   return {
-    type: SAVEECONOMICSPARAMETERS_FAILURE,
+    type: SAVE_ECONOMICSPARAMETERS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -341,7 +341,7 @@ export const saveEconomicsSensitivitiesRequestAction = (
   analysisName: TEconomicsAnalysesNames
 ) => {
   return {
-    type: SAVEECONOMICSSENSITIVITIES_REQUEST,
+    type: SAVE_ECONOMICSSENSITIVITIES_REQUEST,
     payload: { workflowProcess, reducer, analysisName },
     meta: { showSpinner: true, message: "Saving economics sensitivities..." },
   };
@@ -349,7 +349,7 @@ export const saveEconomicsSensitivitiesRequestAction = (
 
 export const saveEconomicsSensitivitiesSuccessAction = () => {
   return {
-    type: SAVEECONOMICSSENSITIVITIES_SUCCESS,
+    type: SAVE_ECONOMICSSENSITIVITIES_SUCCESS,
     payload: {
       status: 0,
     },
@@ -358,7 +358,7 @@ export const saveEconomicsSensitivitiesSuccessAction = () => {
 
 export const saveEconomicsSensitivitiesFailureAction = () => {
   return {
-    type: SAVEECONOMICSSENSITIVITIES_FAILURE,
+    type: SAVE_ECONOMICSSENSITIVITIES_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

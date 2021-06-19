@@ -1,11 +1,9 @@
-import { Input, TextareaAutosize, TextField } from "@material-ui/core";
+import { Input, TextareaAutosize } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { INewForecastInputDeckWorkflowProps } from "../../Redux/State/InputStateTypes";
-import PreviewSave from "../../Routes/Common/Workflows/PreviewSave";
 
 const ForecastTitleAndDescription = ({
   forecastInputdeckTitle,
@@ -54,9 +52,7 @@ const ForecastTitleAndDescription = ({
         content={
           <Input
             name="forecastInputdeckTitle"
-            // variant="outlined"
             style={{ width: "100%" }}
-            // helperText={helperText}
             error={Boolean(helperText)}
             value={forecastInputdeckTitle}
             onChange={handleTitleDescChange}

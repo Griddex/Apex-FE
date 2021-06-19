@@ -1,4 +1,4 @@
-import { TextareaAutosize, TextField } from "@material-ui/core";
+import { Input, TextareaAutosize, TextField } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../Application/Components/Basic/AnalyticsComp";
@@ -28,14 +28,12 @@ const NewProjectTitleAndDescription = ({
         title="Title"
         direction="Vertical"
         content={
-          <TextField
+          <Input
             name="projectTitle"
-            variant="outlined"
             style={{ width: "100%" }}
-            helperText={helperText}
             error={Boolean(helperText)}
             value={projectTitle}
-            onChange={handleChange}
+            // onChange={handleTitleDescChange}
             onBlur={handleBlur}
             required
             autoFocus

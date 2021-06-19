@@ -24,12 +24,12 @@ import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/SaveInputDeckDialogParameters";
-import { fetchStoredDataRequestAction } from "../Actions/StoredDataActions";
 import {
   saveInputDeckFailureAction,
   saveInputDeckSuccessAction,
-  SAVEINPUTDECK_REQUEST,
+  SAVE_INPUTDECK_REQUEST,
 } from "../Actions/InputActions";
+import { fetchStoredDataRequestAction } from "../Actions/StoredDataActions";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
 function getInputDeckType(workflowProcess: IAllWorkflows["wrkflwPrcss"]) {
@@ -49,7 +49,7 @@ export default function* watchSaveInputDeckSaga(): Generator<
   void,
   any
 > {
-  const saveInputDeckChan = yield actionChannel(SAVEINPUTDECK_REQUEST);
+  const saveInputDeckChan = yield actionChannel(SAVE_INPUTDECK_REQUEST);
   yield takeLeading(saveInputDeckChan, saveInputDeckSaga);
 }
 
@@ -67,11 +67,13 @@ export function* saveInputDeckSaga(
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
 
-  const { workflowProcess, reducer } = payload;
+  const { workflowProcess, reducer, titleDesc } = payload;
+  const { title, description } = titleDesc;
+
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
-  const { userId } = yield select((state) => state.loginReducer);
-  const { projectId } = yield select((state) => state.projectReducer);
+
+  const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const { tableData: inputDeck, appHeaderNameUnitsMap } = yield select(
     (state) => state[reducer][wc][wp]
@@ -88,31 +90,17 @@ export function* saveInputDeckSaga(
     if (val.toLowerCase() !== "noid") return { ...acc, [key]: val };
     else return acc;
   }, {});
-  console.log(
-    "Logged output --> ~ file: SaveInputDeckSaga.ts ~ line 92 ~ appHeaderNameUnitsMapDefined",
-    appHeaderNameUnitsMapDefined
-  );
 
-  const {
-    facilitiesInputDeckId,
-    facilitiesInputDeckTitle,
-    facilitiesInputDeckDescription,
-    forecastInputdeckTitle,
-    forecastInputDeckDescription,
-  } = yield select((state) => state.inputReducer);
+  const { facilitiesInputDeckId } = yield select((state) => state.inputReducer);
 
   const inputDeckData = [...inputDeck];
   inputDeckData.shift();
   const data = {
-    projectId,
+    projectId: currentProjectId,
     userId: "Gideon",
     facilitiesInputDeckId,
-    title: wp.includes("facilities")
-      ? facilitiesInputDeckTitle
-      : forecastInputdeckTitle,
-    description: wp.includes("facilities")
-      ? facilitiesInputDeckDescription
-      : forecastInputDeckDescription,
+    title,
+    description,
     inputDeck: inputDeckData,
     matchObject,
     variableUnits: appHeaderNameUnitsMapDefined,
@@ -148,8 +136,8 @@ export function* saveInputDeckSaga(
       },
     });
 
-    yield put(fetchStoredDataRequestAction(projectId));
-    yield put(fetchStoredForecastingParametersRequestAction(projectId));
+    yield put(fetchStoredDataRequestAction(currentProjectId));
+    yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
     yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(successDialogParameters(reducer, inputDeckType, wp))

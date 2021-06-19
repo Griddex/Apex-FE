@@ -146,7 +146,7 @@ export interface DialogStuff<TRow = IRawRow> {
   iconType?: IconNameType;
   contentText?: string;
   contentList?: Record<string, any>;
-  actionsList?: (par?: any) => JSX.Element | JSX.Element[];
+  actionsList?: (arg?: any) => JSX.Element | JSX.Element[];
   onClose?: () => void;
   classes?: Record<string, string>;
   dialogData?: IDialogData<TRow>;
@@ -167,6 +167,7 @@ export interface DialogStuff<TRow = IRawRow> {
   apexEditorProps?: IApexEditor;
   apexEditorComponent?: React.FC<any>;
   forecastParametersIndex?: number;
+  initialState?: any;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];
@@ -179,6 +180,6 @@ export interface ButtonProps {
   variant?: "text" | "outlined" | "contained";
   color?: "inherit" | "primary" | "secondary" | "default";
   startIcon?: JSX.Element;
-  handleAction?: () => { type: string } | void;
+  handleAction?: (i?: number) => { type: string } | void;
   handleRemove?: () => void;
 }
