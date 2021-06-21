@@ -129,7 +129,9 @@ const EconomicsParametersLanding = () => {
   const economicsParametersWorkflowFinalAction = (
     wp: IAllWorkflows["wrkflwPrcss"]
   ) => {
-    const saveEconomicsParametersInputdeckConfirmation = () => {
+    const saveEconomicsParametersInputdeckConfirmation = (
+      titleDesc: Record<string, string>
+    ) => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Save_EconomicsParametersDeck_Confirmation",
         title: "Save EconomicsParameters Confirmation",
@@ -145,8 +147,15 @@ const EconomicsParametersLanding = () => {
             [true, true],
             [
               unloadDialogsAction,
-              () => saveEconomicsParametersRequestAction(wp, reducer),
-            ]
+              () =>
+                saveEconomicsParametersRequestAction(
+                  wp,
+                  reducer,
+                  titleDesc as Record<string, string>
+                ),
+            ],
+            false,
+            "All"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -162,11 +171,19 @@ const EconomicsParametersLanding = () => {
       exclusive: true,
       maxWidth: "sm",
       iconType: "save",
-      actionsList: () =>
+      actionsList: (titleDesc?: Record<string, string>) =>
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveEconomicsParametersInputdeckConfirmation]
+          [
+            unloadDialogsAction,
+            () =>
+              saveEconomicsParametersInputdeckConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          false,
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

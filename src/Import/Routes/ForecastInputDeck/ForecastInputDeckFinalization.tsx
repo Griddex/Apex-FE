@@ -108,7 +108,9 @@ const ForecastInputDeckFinalization = ({
               saveForecastInputdeckConfirmation(
                 titleDesc as Record<string, string>
               ),
-          ]
+          ],
+          false,
+          "None"
         ),
     };
 

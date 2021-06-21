@@ -168,7 +168,9 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, () => createProjectAction(titleDesc)]
+          [unloadDialogsAction, () => createProjectAction(titleDesc)],
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

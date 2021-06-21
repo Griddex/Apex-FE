@@ -1,17 +1,28 @@
 import { makeStyles } from "@material-ui/core";
+import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
-import ImportDatabase from "../../../Import/Images/ImportDatabase.svg";
-import MSExcel from "../../../Import/Images/MSExcel.svg";
+import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
+import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import Image from "../../../Application/Components/Visuals/Image";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
+import ImportDatabase from "../../../Import/Images/ImportDatabase.svg";
+import MSExcel from "../../../Import/Images/MSExcel.svg";
+import {
+  saveEconomicsSensitivitiesRequestAction,
+  updateEconomicsParameterAction,
+} from "../../Redux/Actions/EconomicsActions";
+import { TEconomicsAnalysesNames } from "../EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsParametersSensitivities from "../EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivities";
 import StoredEconomicsSensitivities from "../EconomicsAnalyses/EconomicsParametersSensitivities/StoredEconomicsSensitivities";
 import { IdType } from "./EconomicsSensitivitiesTypes";
-import Image from "../../../Application/Components/Visuals/Image";
-import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
-import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
   economicsSensitivitiesLanding: {
@@ -41,6 +52,7 @@ const EconomicsSensitivitiesLanding = () => {
   const dispatch = useDispatch();
 
   const reducer = "economicsReducer";
+  const wp = "economicsSensitivitiesCreate";
 
   const { url, path } = useRouteMatch();
   const { loadEconomicsSensitivitiesWorkflow } = useSelector(
@@ -79,70 +91,64 @@ const EconomicsSensitivitiesLanding = () => {
     },
   ];
 
-  //Define a service that combines more than one icon or image into an overlapped one
-  //CSS using overlap and z-index
+  const economicsSensitivitiesWorkflowFinalAction = () => {
+    console.log("I'm here oooooooooo");
+    const dialogParameters: DialogStuff = {
+      name: "Create_Economics_Sensitivities_Dialog",
+      title: "Create Economics Sensitivities",
+      type: "saveEconomicsSensitivitiesDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "save",
+      workflowProcess: wp,
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, false],
+          [unloadDialogsAction, economicsSensitivitiesConfirmation],
+          false,
+          "None"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
 
-  // //Paying it back
-  // const costsRevenueWorkflowFinalAction = (
-  //   wp: IAllWorkflows["wrkflwPrcss"]
-  // ) => {
-  //   const saveSensitivitiesInputdeckConfirmation = () => {
-  //     const confirmationDialogParameters: DialogStuff = {
-  //       name: "Save_CostsRevenue_Dialog_Confirmation",
-  //       title: "Save Costs & Revenues Confirmation",
-  //       type: "textDialog",
-  //       show: true,
-  //       exclusive: false,
-  //       maxWidth: "xs",
-  //       dialogText: `Do you want to save the economics costs schedule?`,
-  //       iconType: "confirmation",
-  //       actionsList: () =>
-  //         DialogSaveCancelButtons(
-  //           [true, true],
-  //           [true, true],
-  //           [
-  //             unloadDialogsAction,
-  //             () => saveSensitivitiesRequestAction(wp, reducer),
-  //           ]
-  //         ),
-  //       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-  //     };
+    dispatch(showDialogAction(dialogParameters));
+  };
 
-  //     dispatch(showDialogAction(confirmationDialogParameters));
-  //   };
+  const economicsSensitivitiesConfirmation = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Economics_Sensitivities_Save_Confirmation",
+      title: "Economics Sensitivities Save Confirmation",
+      type: "textDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the current economics sensitivities?",
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogSaveCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            (titleDesc?: Record<string, string>) =>
+              saveEconomicsSensitivitiesRequestAction(
+                wp,
+                reducer,
+                "mulitpleAnalyses" as NonNullable<TEconomicsAnalysesNames>,
+                titleDesc as Record<string, string>
+              ),
+          ],
+          false,
+          "All"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      reducer,
+    };
 
-  //   const dialogParameters: DialogStuff = {
-  //     name: "Save_CostsRevenue_Dialog",
-  //     title: "Save Costs & Revenues",
-  //     type: "saveSensitivitiesInputDeckDialog",
-  //     show: true,
-  //     exclusive: false,
-  //     maxWidth: "sm",
-  //     iconType: "information",
-  //     actionsList: () =>
-  //       DialogSaveCancelButtons(
-  //         [true, true],
-  //         [true, false],
-  //         [unloadDialogsAction, saveSensitivitiesInputdeckConfirmation]
-  //       ),
-  //   };
-
-  //   dispatch(showDialogAction(dialogParameters));
-  // };
-
-  // //TODO: Not doing anything here
-  // const storedDataFinalAction = () => {
-  //   const dialogParameters: DialogStuff = {
-  //     name: "Manage_Deck_Dialog",
-  //     title: `Manage Sensitivities Deck`,
-  //     type: "textDialog",
-  //     show: true,
-  //     exclusive: true,
-  //     maxWidth: "sm",
-  //     iconType: "information",
-  //   };
-  //   dispatch(showDialogAction(dialogParameters));
-  // };
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   return (
     <>
@@ -156,7 +162,16 @@ const EconomicsSensitivitiesLanding = () => {
               } = match;
 
               const economicsSensitivitiesDeckWorkflows = {
-                create: <EconomicsParametersSensitivities />,
+                create: (
+                  <EconomicsParametersSensitivities
+                    selectedAnalysis={{
+                      name: "mulitpleAnalyses",
+                      title: "Multiple Analyses",
+                      icon: <ViewHeadlineIcon />,
+                    }}
+                    finalAction={economicsSensitivitiesWorkflowFinalAction}
+                  />
+                ),
                 stored: <StoredEconomicsSensitivities />,
               };
 

@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export interface IEconomicsInputButtonsMenu {
+  title: string;
+  action: () => void;
+  icon: JSX.Element;
+}
+
 const EconomicsInputButtonsMenu = ({
   children,
 }: {
@@ -48,11 +54,7 @@ const EconomicsInputButtonsMenu = ({
     setAnchorEl(null);
   };
 
-  const buttons: {
-    title: string;
-    action: () => void;
-    icon: JSX.Element;
-  }[] = [
+  const buttons = [
     {
       title: "Economics Costs & Revenues",
       action: () => {
@@ -83,10 +85,16 @@ const EconomicsInputButtonsMenu = ({
       },
       icon: <VerticalSplitOutlinedIcon color="primary" fontSize="small" />,
     },
-  ];
+  ] as IEconomicsInputButtonsMenu[];
+
+  const [economicsInput, setEconomicsInput] = React.useState("Economics Input");
+  console.log(
+    "Logged output --> ~ file: EconomicsInputButtonsMenu.tsx ~ line 91 ~ economicsInput",
+    economicsInput
+  );
 
   const childrenProps = {
-    name: "Economics Input",
+    name: economicsInput,
     startIcon: <TrendingUpOutlinedIcon />,
     endIcon: <KeyboardArrowDownIcon />,
     className: classes.button,
@@ -120,6 +128,11 @@ const EconomicsInputButtonsMenu = ({
               onClick={() => {
                 action();
                 dispatch(subNavbarSetMenuAction(title));
+                setEconomicsInput(title);
+                console.log(
+                  "Logged output --> ~ file: EconomicsInputButtonsMenu.tsx ~ line 124 ~ {buttons.map ~ title",
+                  title
+                );
                 handleClose();
               }}
             >

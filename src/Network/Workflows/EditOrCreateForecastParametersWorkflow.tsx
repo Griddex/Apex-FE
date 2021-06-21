@@ -1,19 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
+import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAndDescriptionForm";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
-import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
 import { ICreateForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 import EditOrCreateForecastingParameters, {
   IEditOrCreateForecastingParameters,
 } from "../Routes/EditOrCreateForecastingParameters";
-import ForecastParametersTitleAndDescription from "../Routes/ForecastParametersTitleAndDescription";
 
 const EditOrCreateForecastParametersWorkflow = ({
   setRows,
@@ -23,7 +21,13 @@ const EditOrCreateForecastParametersWorkflow = ({
   workflowProcess,
   activeStep,
   forecastParametersIndex,
-}: IEditOrCreateForecastingParameters) => {
+
+  title,
+  setTitle,
+  description,
+  setDescription,
+  storedTitles,
+}: IEditOrCreateForecastingParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as ReducersType;
 
   const wc = "storedDataWorkflows";
@@ -58,7 +62,15 @@ const EditOrCreateForecastParametersWorkflow = ({
           </ApexFlexContainer>
         );
       case 2:
-        return <ForecastParametersTitleAndDescription {...props} />;
+        return (
+          <TitleAndDescriptionForm
+            title={title}
+            setTitle={setTitle}
+            description={description}
+            setDescription={setDescription}
+            storedTitles={storedTitles}
+          />
+        );
       default:
         return <h1>No view</h1>;
     }

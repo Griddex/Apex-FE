@@ -25,9 +25,10 @@ const TitleAndDescriptionForm = ({
     <Formik
       initialValues={{ title, description }}
       validationSchema={Yup.object().shape({
-        title: Yup.mixed()
-          .required("title is required")
-          //.notOneOf(storedTitles as string[], "Title already exists"),
+        title: Yup.string()
+          .lowercase()
+          .notOneOf(storedTitles as string[], "Title already exists")
+          .required("Title is required"),
       })}
       onSubmit={() => {}}
     >

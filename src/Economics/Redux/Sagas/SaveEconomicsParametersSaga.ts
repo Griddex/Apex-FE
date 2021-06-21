@@ -60,7 +60,12 @@ function* saveEconomicsParametersSaga(
   any
 > {
   const { payload } = action;
-  const { workflowProcess, reducer } = payload;
+  const {
+    workflowProcess,
+    reducer,
+    titleDesc: { title, description },
+  } = payload;
+
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
 
@@ -123,8 +128,8 @@ function* saveEconomicsParametersSaga(
 
   const data = {
     projectId: currentProjectId,
-    title: economicsParametersInputDeckTitle,
-    description: economicsParametersInputDeckDescription,
+    title,
+    description,
     keyData: {
       commercialTechnical,
       fiscal,

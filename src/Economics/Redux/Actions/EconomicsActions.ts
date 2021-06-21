@@ -175,11 +175,12 @@ export const persistCostsRevDataFaiSelectOptionFailureAction = () => {
 
 export const saveCostsRevenuesRequestAction = (
   workflowProcess: IAllWorkflows["wrkflwPrcss"],
-  reducer: ReducersType
+  reducer: ReducersType,
+  titleDesc: Record<string, string>
 ) => {
   return {
     type: SAVE_COSTSREVENUES_REQUEST,
-    payload: { workflowProcess, reducer },
+    payload: { workflowProcess, reducer, titleDesc },
     meta: { showSpinner: true, message: "Saving costs & revenues..." },
   };
 };
@@ -249,11 +250,12 @@ export const persistEconomicsParDataFaiSelectOptionFailureAction = () => {
 
 export const saveEconomicsParametersRequestAction = (
   workflowProcess: IAllWorkflows["wrkflwPrcss"],
-  reducer: ReducersType
+  reducer: ReducersType,
+  titleDesc: Record<string, string>
 ) => {
   return {
     type: SAVE_ECONOMICSPARAMETERS_REQUEST,
-    payload: { workflowProcess, reducer },
+    payload: { workflowProcess, reducer, titleDesc },
     meta: { showSpinner: true, message: "Saving economics parameters..." },
   };
 };
@@ -338,11 +340,12 @@ export const fetchStoredEconomicsSensitivitiesFailureAction = () => {
 export const saveEconomicsSensitivitiesRequestAction = (
   workflowProcess: IEconomicsWorkflows["wkPs"],
   reducer: ReducersType,
-  analysisName: TEconomicsAnalysesNames
+  analysisName: TEconomicsAnalysesNames,
+  titleDesc: Record<string, string>
 ) => {
   return {
     type: SAVE_ECONOMICSSENSITIVITIES_REQUEST,
-    payload: { workflowProcess, reducer, analysisName },
+    payload: { workflowProcess, reducer, analysisName, titleDesc },
     meta: { showSpinner: true, message: "Saving economics sensitivities..." },
   };
 };

@@ -9,7 +9,6 @@ import { SizeMe } from "react-sizeme";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IDeclineCurveParametersDetail } from "../Components/Dialogs/StoredNetworksDialogTypes";

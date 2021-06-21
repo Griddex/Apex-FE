@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import KeyboardReturnOutlinedIcon from "@material-ui/icons/KeyboardReturnOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -15,7 +15,9 @@ import {
 import { saveForecastRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import DialogCancelFetchButtons from "../DialogButtons/DialogCancelFetchButtons";
 
-const GetTreeviewKeysByIdResetFetchButtons = () => {
+const GetTreeviewKeysByIdResetFetchButtons = (
+  titleDesc: Record<string, string>
+) => {
   const dispatch = useDispatch();
 
   const extrudeGetTreeviewKeys = () => {
@@ -32,7 +34,7 @@ const GetTreeviewKeysByIdResetFetchButtons = () => {
         DialogCancelFetchButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, saveForecastRequestAction]
+          [unloadDialogsAction, () => saveForecastRequestAction(titleDesc)]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -52,7 +54,7 @@ const GetTreeviewKeysByIdResetFetchButtons = () => {
       title: "Fetch",
       variant: "contained",
       color: "primary",
-      startIcon: <SaveOutlinedIcon />,
+      startIcon: <KeyboardReturnOutlinedIcon />,
       handleAction: () => {
         dispatch(hideDialogAction());
         extrudeGetTreeviewKeys();

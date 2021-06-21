@@ -6,4 +6,5 @@ export interface IIsSaveNetworkValid {
 export interface IIsSaveForecastResultsValid {
   isSaveForecastResultsValid?: boolean;
   setIsSaveForecastResultsValid?: React.Dispatch<React.SetStateAction<boolean>>;
+  titleDesc?: Record<string, string>;
 }

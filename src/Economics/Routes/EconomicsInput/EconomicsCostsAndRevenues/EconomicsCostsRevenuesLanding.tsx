@@ -71,7 +71,7 @@ const EconomicsCostsRevenuesLanding = () => {
   const wc = "inputDataWorkflows";
 
   const { url, path } = useRouteMatch();
-  const { loadCostsRevenueWorkflow, currentWorkflowProcess } = useSelector(
+  const { loadCostsRevenueWorkflow } = useSelector(
     (state: RootState) => state.economicsReducer
   );
   //
@@ -154,11 +154,10 @@ const EconomicsCostsRevenuesLanding = () => {
     },
   ];
 
-  //Define a service that combines more than one icon or image into an overlapped one
-  //CSS using overlap and z-index
-
   const costsRevenueWorkflowSaveAction = (wp: IAllWorkflows["wrkflwPrcss"]) => {
-    const saveCostsRevenuesInputdeckConfirmation = () => {
+    const saveCostsRevenuesInputdeckConfirmation = (
+      titleDesc: Record<string, string>
+    ) => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Save_CostsRevenue_Dialog_Confirmation",
         title: "Save Costs & Revenues Confirmation",
@@ -174,8 +173,15 @@ const EconomicsCostsRevenuesLanding = () => {
             [true, true],
             [
               unloadDialogsAction,
-              () => saveCostsRevenuesRequestAction(wp, reducer),
-            ]
+              () =>
+                saveCostsRevenuesRequestAction(
+                  wp,
+                  reducer,
+                  titleDesc as Record<string, string>
+                ),
+            ],
+            false,
+            "All"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -191,15 +197,21 @@ const EconomicsCostsRevenuesLanding = () => {
       exclusive: false,
       maxWidth: "sm",
       iconType: "save",
-      actionsList: () =>
+      actionsList: (titleDesc?: Record<string, string>) =>
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveCostsRevenuesInputdeckConfirmation]
+          [
+            unloadDialogsAction,
+            () =>
+              saveCostsRevenuesInputdeckConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          false,
+          "None"
         ),
     };
-
-    console.log("hellooo");
 
     dispatch(showDialogAction(dialogParameters));
   };
@@ -222,7 +234,8 @@ const EconomicsCostsRevenuesLanding = () => {
           [true, true],
           [true, false],
           [unloadDialogsAction, () => costsRevenueWorkflowSaveAction(wp)],
-          isFinalButtonDisabled
+          isFinalButtonDisabled,
+          "None"
         ),
     };
 

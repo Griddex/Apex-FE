@@ -37,7 +37,9 @@ const SaveNetworkDialogButtons = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, () => saveNetworkRequestAction(titleDesc)]
+          [unloadDialogsAction, () => saveNetworkRequestAction(titleDesc)],
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

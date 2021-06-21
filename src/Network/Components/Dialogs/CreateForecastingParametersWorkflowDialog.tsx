@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
+import { ITitleAndDescriptionFormProps } from "../../../Application/Components/Forms/FormTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
@@ -119,12 +120,13 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const workflowCategory = "networkDataWorkflows";
-
 const CreateForecastingParametersWorkflowDialog = (
   props: DialogStuff<IForecastParametersStoredRow>
 ) => {
+  const workflowCategory = "networkDataWorkflows";
+
   const dispatch = useDispatch();
+
   const {
     title,
     show,
@@ -145,6 +147,19 @@ const CreateForecastingParametersWorkflowDialog = (
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
+
+  const storedTitles = useSelector(
+    (state: RootState) =>
+      state.applicationReducer["allFormTitles"]["forecastingParametersTitles"]
+  );
+
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
 
   let steps = [] as string[];
 
@@ -191,7 +206,14 @@ const CreateForecastingParametersWorkflowDialog = (
     activeStep,
     workflowProcess: workflowProcessDefined,
     forecastParametersIndex,
-  } as NonNullable<IEditOrCreateForecastingParameters>;
+
+    title: formTitle,
+    setTitle: setFormTitle,
+    description: formDescription,
+    setDescription: setFormDescription,
+    storedTitles,
+  } as NonNullable<IEditOrCreateForecastingParameters> &
+    ITitleAndDescriptionFormProps;
 
   const createForecastingParametersConfirmation = () => {
     const dialogParameters: DialogStuff = {
@@ -207,7 +229,15 @@ const CreateForecastingParametersWorkflowDialog = (
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, saveForecastParametersRequestAction]
+          [
+            unloadDialogsAction,
+            () =>
+              saveForecastParametersRequestAction(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

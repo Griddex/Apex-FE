@@ -7,15 +7,15 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import SaveForecastResultsDialogButtons from "../../../Forecast/Components/DialogButtons/SaveForecastResutlsDialogButtons";
-import SaveForecastResultsForm from "../Forms/SaveForecastResultsForm";
-import SaveForecastResultsTitleAndDescription from "../Forms/SaveForecastResultsTitleAndDescription";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import SaveForecastResultsDialogButtons from "../../../Forecast/Components/DialogButtons/SaveForecastResultsDialogButtons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,10 +108,21 @@ const DialogContent = withStyles((theme) => ({
 const SaveForecastDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
-  const [
-    isSaveForecastResultsValid,
-    setIsSaveForecastResultsValid,
-  ] = React.useState(true);
+  const [isSaveForecastResultsValid, setIsSaveForecastResultsValid] =
+    React.useState(true);
+
+  const storedTitles = useSelector(
+    (state: RootState) =>
+      state.applicationReducer["allFormTitles"]["forecastResultTitles"]
+  );
+
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
 
   return (
     <Dialog
@@ -130,18 +141,18 @@ const SaveForecastDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column" }}
       >
-        <SaveForecastResultsForm>
-          {(props) => (
-            <SaveForecastResultsTitleAndDescription
-              {...props}
-              setIsSaveForecastResultsValid={setIsSaveForecastResultsValid}
-            />
-          )}
-        </SaveForecastResultsForm>
+        <TitleAndDescriptionForm
+          title={formTitle}
+          setTitle={setFormTitle}
+          description={formDescription}
+          setDescription={setFormDescription}
+          storedTitles={storedTitles}
+        />
       </DialogContent>
       <DialogActions>
         <SaveForecastResultsDialogButtons
           isSaveForecastResultsValid={isSaveForecastResultsValid}
+          titleDesc={titleDesc}
         />
       </DialogActions>
     </Dialog>

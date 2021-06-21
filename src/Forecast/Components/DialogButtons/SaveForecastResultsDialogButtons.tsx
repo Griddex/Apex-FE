@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
@@ -13,16 +13,16 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { IIsSaveForecastResultsValid } from "../../../Network/Components/Dialogs/SaveNetworkDialogTypes";
 import { saveForecastRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 
 const SaveForecastResultsDialogButtons = ({
   isSaveForecastResultsValid,
+  titleDesc,
 }: IIsSaveForecastResultsValid) => {
   const dispatch = useDispatch();
 
-  const finalAction = () => {
+  const finalAction = (titleDesc: Record<string, string>) => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Save_Forecast_Results_Dialog",
       title: "Save Forecast Results Dialog",
@@ -36,7 +36,9 @@ const SaveForecastResultsDialogButtons = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, saveForecastRequestAction]
+          [unloadDialogsAction, () => saveForecastRequestAction(titleDesc)],
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -57,7 +59,7 @@ const SaveForecastResultsDialogButtons = ({
       variant: "contained",
       color: "primary",
       startIcon: <SaveOutlinedIcon />,
-      handleAction: finalAction,
+      handleAction: () => finalAction(titleDesc as Record<string, string>),
     },
   ];
 

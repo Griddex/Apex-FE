@@ -62,7 +62,11 @@ function* saveCostsRevenuesSaga(
   any
 > {
   const { payload } = action;
-  const { workflowProcess, reducer } = payload;
+  const {
+    workflowProcess,
+    reducer,
+    titleDesc: { title, description },
+  } = payload;
 
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
@@ -95,8 +99,8 @@ function* saveCostsRevenuesSaga(
   const data = {
     projectId: currentProjectId,
     forecastId: forecastResultsId,
-    title: costsRevenuesInputDeckTitle,
-    description: costsRevenuesInputDeckDescription,
+    title,
+    description,
     source: forecastResultsId ? "Apex" : "External",
     costRevenues: shiftedCostRevenues,
     developmentScenarios: Object.keys(shiftedCostRevenues).map(

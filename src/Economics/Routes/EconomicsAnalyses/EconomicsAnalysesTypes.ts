@@ -96,4 +96,5 @@ export interface IEconomicsParametersSensitivitiesProps {
   workflowProcess?: IEconomicsWorkflows["wkPs"];
   selectedAnalysis?: IEconomicsAnalysis;
   setSelectedAnalysis?: React.Dispatch<any>;
+  finalAction?: () => void;
 }

@@ -61,7 +61,10 @@ function* saveEconomicsSensitivitiesSaga(
   any
 > {
   const { payload } = action;
-  const { analysisName } = payload;
+  const {
+    analysisName,
+    titleDesc: { title, description },
+  } = payload;
 
   const aN = analysisName;
   const wc = "economicsAnalysisWorkflows";
@@ -75,8 +78,8 @@ function* saveEconomicsSensitivitiesSaga(
   //Should be user scoped?
   const { currentProjectId } = yield select((state) => state.projectReducer);
   const data = {
-    title: economicsSensitivitiesTitle,
-    description: economicsSensitivitiesDescription,
+    title,
+    description,
     analysisName,
     sensitivitiesTable: selectedSensitivitiesTable,
   };

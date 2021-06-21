@@ -1,7 +1,10 @@
 import { useTheme } from "@material-ui/core";
+import RotateLeftOutlinedIcon from "@material-ui/icons/RotateLeftOutlined";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { useSelector } from "react-redux";
 import Select from "react-select";
+import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
@@ -30,6 +33,7 @@ const initialSensitivityValues = [
 
 const EconomicsParametersSensitivities = ({
   selectedAnalysis,
+  finalAction,
 }: IEconomicsParametersSensitivitiesProps) => {
   const theme = useTheme();
 
@@ -41,10 +45,7 @@ const EconomicsParametersSensitivities = ({
 
   let tgtVarOption = {} as ISelectOption;
   let analysisNameOptions = [] as ISelectOption[];
-  console.log(
-    "Logged output --> ~ file: EconomicsParametersSensitivities.tsx ~ line 45 ~ createSensitivitiesIsDialog",
-    createSensitivitiesIsDialog
-  );
+
   if (createSensitivitiesIsDialog) {
     tgtVarOption = {
       value: selectedAnalysis?.name,
@@ -80,9 +81,8 @@ const EconomicsParametersSensitivities = ({
     },
   } as Record<TParametersId, IEconomicsSensitivities>;
 
-  const initialSensitivitiesObjRef = React.useRef(initialSensitivitiesObj);
   const [parameterSensitivitiesObj, setParameterSensitivitiesObj] =
-    React.useState(initialSensitivitiesObjRef.current);
+    React.useState(initialSensitivitiesObj);
 
   const RSStyles = getRSStyles(theme);
 
@@ -124,6 +124,33 @@ const EconomicsParametersSensitivities = ({
             />
           );
         })}
+      </ApexFlexContainer>
+      <ApexFlexContainer justifyContent="space-between" height={50} width={200}>
+        {!createSensitivitiesIsDialog && (
+          <ApexFlexContainer
+            justifyContent="space-between"
+            height={50}
+            moreStyles={{ marginBottom: 4, width: 270 }}
+          >
+            <BaseButtons
+              buttonTexts={["Reset", "Save"]}
+              variants={["contained", "contained"]}
+              colors={["secondary", "primary"]}
+              startIcons={[
+                <RotateLeftOutlinedIcon key={1} />,
+                <SaveOutlinedIcon key={2} />,
+              ]}
+              shouldExecute={[true, true]}
+              shouldDispatch={[false, false]}
+              finalActions={[
+                () => setParameterSensitivitiesObj(initialSensitivitiesObj),
+                finalAction as NonNullable<
+                  IEconomicsParametersSensitivitiesProps["finalAction"]
+                >,
+              ]}
+            />
+          </ApexFlexContainer>
+        )}
       </ApexFlexContainer>
     </ApexFlexContainer>
   );

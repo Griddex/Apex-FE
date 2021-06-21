@@ -96,9 +96,12 @@ export const runForecastRequestAction = () => {
   };
 };
 
-export const saveForecastRequestAction = () => {
+export const saveForecastRequestAction = (
+  titleDesc: Record<string, string>
+) => {
   return {
     type: SAVE_FORECAST_REQUEST,
+    payload: { titleDesc },
     meta: { showSpinner: true, message: "Saving forecast..." },
   };
 };
@@ -391,9 +394,12 @@ export const fetchStoredNetworkDataFailureAction = () => {
   };
 };
 
-export const saveForecastParametersRequestAction = () => {
+export const saveForecastParametersRequestAction = (
+  titleDesc: Record<string, string>
+) => {
   return {
     type: SAVE_FORECASTPARAMETERS_REQUEST,
+    payload: { titleDesc },
     meta: { showSpinner: true, message: "Saving forecast parameters..." },
   };
 };

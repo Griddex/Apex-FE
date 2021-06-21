@@ -110,7 +110,9 @@ const EditOrCreateForecastingParameters = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveDeclineParametersRequestAction]
+          [unloadDialogsAction, saveDeclineParametersRequestAction],
+          false,
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -172,7 +174,9 @@ const EditOrCreateForecastingParameters = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveProductionPrioritizationRequestAction]
+          [unloadDialogsAction, saveProductionPrioritizationRequestAction],
+          false,
+          "Current"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

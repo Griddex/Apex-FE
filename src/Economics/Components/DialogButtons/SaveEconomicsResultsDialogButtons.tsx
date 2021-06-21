@@ -35,7 +35,9 @@ const SaveEconomicsResultsDialogButtons = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, saveEconomicsResultsRequestAction]
+          [unloadDialogsAction, saveEconomicsResultsRequestAction],
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

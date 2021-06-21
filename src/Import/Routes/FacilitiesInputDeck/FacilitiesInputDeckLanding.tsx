@@ -146,7 +146,9 @@ const FacilitiesInputDeckLanding = () => {
               saveFacilitiesInputdeckConfirmation(
                 titleDesc as Record<string, string>
               ),
-          ]
+          ],
+          false,
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,

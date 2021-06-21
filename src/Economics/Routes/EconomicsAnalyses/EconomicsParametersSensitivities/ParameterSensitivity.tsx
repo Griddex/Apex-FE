@@ -63,12 +63,6 @@ const ParameterSensitivity = ({
     selectedOption: ValueType<ISelectOption, false>,
     parId: TParametersId
   ) => {
-    // const updatedOthers = set(
-    //   parameterSensitivitiesObj,
-    //   `${parId}.selectedTargetParameterOption`,
-    //   selectedOption
-    // );
-
     const selectedTargetParameterOption = selectedOption as ISelectOption;
 
     const parSenObj = parameterSensitivitiesObj[parId];
@@ -76,6 +70,7 @@ const ParameterSensitivity = ({
       ...parSenObj,
       selectedTargetParameterOption,
     };
+
     //Update list for other sensitivities
     setParameterSensitivitiesObj(parameterSensitivitiesObj);
     setValueOption(selectedTargetParameterOption);

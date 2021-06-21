@@ -14,6 +14,7 @@ import Author from "../../Application/Components/Author/Author";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import Saved from "../../Application/Components/Saved/Saved";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
@@ -110,9 +111,9 @@ export default function StoredForecastResults({
   const wp = "forecastResultsStored";
 
   const chartData = [
-    { name: "Group A", value: 2400, color: theme.palette.primary.main },
-    { name: "Group B", value: 4567, color: theme.palette.success.main },
-    { name: "Group C", value: 1398, color: theme.palette.secondary.main },
+    { id: "Group A", value: 10, color: theme.palette.primary.main },
+    { id: "Group B", value: 20, color: theme.palette.success.main },
+    { id: "Group C", value: 30, color: theme.palette.secondary.main },
   ];
 
   const componentRef = React.useRef();
@@ -372,13 +373,10 @@ export default function StoredForecastResults({
         </div>
       </ClickAwayListener>
       {showBaseButtons && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: 4,
-            width: 270,
-          }}
+        <ApexFlexContainer
+          justifyContent="space-between"
+          height={50}
+          moreStyles={{ marginBottom: 4, width: 270 }}
         >
           <BaseButtons
             buttonTexts={["View Table", "Plot Chart"]}
@@ -398,7 +396,7 @@ export default function StoredForecastResults({
               () => dispatch(fetchTreeviewKeysRequestAction()),
             ]}
           />
-        </div>
+        </ApexFlexContainer>
       )}
     </div>
   );

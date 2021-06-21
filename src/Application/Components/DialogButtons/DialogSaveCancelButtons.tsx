@@ -17,10 +17,6 @@ const DialogSaveCancelButtons = (
   isFinalButtonDisabled?: boolean,
   dialogPresence?: "All" | "Current" | "None"
 ) => {
-  console.log(
-    "Logged output --> ~ file: DialogSaveCancelButtons.tsx ~ line 16 ~ isFinalButtonDisabled",
-    isFinalButtonDisabled
-  );
   const dispatch = useDispatch();
   const buttonsData: ButtonProps[] = [
     {
@@ -54,6 +50,7 @@ const DialogSaveCancelButtons = (
               break;
             case "None":
             default:
+              dispatch(unloadDialogsAction());
               return;
           }
         }

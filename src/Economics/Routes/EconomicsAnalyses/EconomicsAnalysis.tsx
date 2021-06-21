@@ -77,10 +77,12 @@ const EconomicsAnalysis = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   const wc = "economicsAnalysisWorkflows";
   const wp = workflowProcess as NonNullable<
     IEconomicsParametersSensitivitiesProps["workflowProcess"]
   >;
+
   const reducer = "economicsReducer";
   const { showSensitivitiesTable, selectedDevScenarioNamesCostsRevenues } =
     useSelector((state: RootState) => state.economicsReducer);
@@ -92,14 +94,6 @@ const EconomicsAnalysis = ({
     title: analysisTitle,
     icon,
   } = selectedAnalysisDefined;
-
-  //TODO: filter devoptions based on costs/revenues data input
-  //Send all filtered dev options to backend
-
-  //TODO Pick data from Gift
-  // const devOptions = developmentScenarioOptions.filter((opts) =>
-  // selectedDevScenarioNamesCostsRevenues.includes(opts.value)
-  // );
 
   const devOptions = developmentScenarioOptions;
 
@@ -129,7 +123,9 @@ const EconomicsAnalysis = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveSensitivitiesAction]
+          [unloadDialogsAction, saveSensitivitiesAction],
+          false,
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       selectedAnalysis,
@@ -140,19 +136,27 @@ const EconomicsAnalysis = ({
 
   const saveSensitivitiesAction = () => {
     const dialogParameters: DialogStuff = {
-      name: "Create_Economics_Sensitivities_Dialog",
-      title: "Create Economics Sensitivities",
+      name: "Save_Economics_Sensitivities_Dialog",
+      title: "Save Economics Sensitivities",
       type: "saveEconomicsSensitivitiesDialog",
       show: true,
       exclusive: true,
       maxWidth: "sm",
       iconType: "save",
       workflowProcess,
-      actionsList: () =>
+      actionsList: (titleDesc?: Record<string, string>) =>
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, economicsSensitivitiesConfirmation]
+          [
+            unloadDialogsAction,
+            () =>
+              economicsSensitivitiesConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          false,
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       selectedAnalysis,
@@ -161,7 +165,9 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const economicsSensitivitiesConfirmation = () => {
+  const economicsSensitivitiesConfirmation = (
+    titleDesc: Record<string, string>
+  ) => {
     const dialogParameters: DialogStuff = {
       name: "Economics_Sensitivities_Save_Confirmation",
       title: "Economics Sensitivities Save Confirmation",
@@ -181,9 +187,12 @@ const EconomicsAnalysis = ({
               saveEconomicsSensitivitiesRequestAction(
                 wp,
                 reducer,
-                analysisName as NonNullable<TEconomicsAnalysesNames>
+                analysisName as NonNullable<TEconomicsAnalysesNames>,
+                titleDesc as Record<string, string>
               ),
-          ]
+          ],
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
@@ -282,7 +291,9 @@ const EconomicsAnalysis = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveEconomicsInputdeckConfirmation]
+          [unloadDialogsAction, saveEconomicsInputdeckConfirmation],
+          false,
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,

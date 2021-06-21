@@ -31,9 +31,7 @@ const EconomicsParametersValue = ({
   };
 
   const letterIcon = valueTitle === "Table" ? "T" : "E";
-  const valueText = nameOfTableOrEquation
-    ? nameOfTableOrEquation
-    : "[No value]";
+  const valueText = nameOfTableOrEquation ? nameOfTableOrEquation : "No value";
 
   const valuePresentStyle = {
     color: theme.palette.primary.main,
@@ -47,9 +45,9 @@ const EconomicsParametersValue = ({
   };
 
   const finalStyle =
-    valueText === "[No value]" ? noValuePresentStyle : valuePresentStyle;
+    valueText === "No value" ? noValuePresentStyle : valuePresentStyle;
   const letterIconStyle =
-    valueText === "[No value]"
+    valueText === "No value"
       ? { color: theme.palette.secondary.main }
       : { color: theme.palette.primary.main };
 
@@ -67,7 +65,9 @@ const EconomicsParametersValue = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, () => console.log("hello")]
+          [unloadDialogsAction, () => console.log("hello")],
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

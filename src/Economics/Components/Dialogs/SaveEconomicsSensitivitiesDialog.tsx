@@ -7,14 +7,14 @@ import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import EconomicsSensitivitiesTitleAndDescription from "../Forms/EconomicsSensitivitiesTitleAndDescription";
-import EconomicsSensitivitiesTitleAndDescriptionForm from "../Forms/EconomicsSensitivitiesTitleAndDescriptionForm";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -98,6 +98,19 @@ const SaveEconomicsSensitivitiesDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 
+  const storedTitles = useSelector(
+    (state: RootState) =>
+      state.applicationReducer["allFormTitles"]["economicsSensitivitiesTitles"]
+  );
+
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
+
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
@@ -115,11 +128,15 @@ const SaveEconomicsSensitivitiesDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <EconomicsSensitivitiesTitleAndDescriptionForm>
-          {(props) => <EconomicsSensitivitiesTitleAndDescription {...props} />}
-        </EconomicsSensitivitiesTitleAndDescriptionForm>
+        <TitleAndDescriptionForm
+          title={formTitle}
+          setTitle={setFormTitle}
+          description={formDescription}
+          setDescription={setFormDescription}
+          storedTitles={storedTitles}
+        />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList()}</DialogActions>
+      <DialogActions>{actionsList && actionsList(titleDesc)}</DialogActions>
     </Dialog>
   );
 };
