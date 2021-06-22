@@ -109,6 +109,7 @@ export const GET_ECONOMICSRESULTSBYID_SUCCESS =
   "GET_ECONOMICSRESULTSBYID_SUCCESS";
 export const GET_ECONOMICSRESULTSBYID_FAILURE =
   "GET_ECONOMICSRESULTSBYID_FAILURE";
+export const RESET_ECONOMICS = "RESET_ECONOMICS";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -557,5 +558,11 @@ export const getEconomicsResultsByIdFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const resetEconomicsAction = () => {
+  return {
+    type: RESET_ECONOMICS,
   };
 };

@@ -26,6 +26,7 @@ export interface IStoredDataRow {
   createdOn?: string;
   modifiedOn?: string;
   reducer?: ReducersType;
+
   // workflowProcess?:IStoredDataProps["wrkflwPrcss"]
 }
 
@@ -64,6 +65,7 @@ export interface IStoredDataProps {
   name?: keyof Pick<IStoredDataRow, "id" | "title">;
   handleCheckboxChange?: (row: any, event?: React.ChangeEvent<any>) => void;
   componentRef?: React.MutableRefObject<any>;
+  clickAwayAction?: () => void;
 }
 
 export interface IApplicationStoredDataRow {

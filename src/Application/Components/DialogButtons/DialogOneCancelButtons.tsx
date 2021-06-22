@@ -14,13 +14,17 @@ import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import UpdateOutlinedIcon from "@material-ui/icons/UpdateOutlined";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import OpenInBrowserOutlinedIcon from "@material-ui/icons/OpenInBrowserOutlined";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
   shouldDispatch: IButtonsConfigProps["shouldDispatch"],
   finalActions: IButtonsConfigProps["finalActions"],
   oneButtonTitle: string,
-  oneButtonIconTitle: string
+  oneButtonIconTitle: string,
+  isFinalButtonDisabled?: boolean,
+  dialogPresence?: "All" | "Current" | "None"
 ) => {
   const icons: Record<string, JSX.Element> = {
     saveOutlined: <SaveOutlinedIcon />,
@@ -30,6 +34,8 @@ const DialogOneCancelButtons = (
     viewDayTwoTone: <ViewDayTwoToneIcon />,
     reset: <RotateLeftIcon />,
     updateOutlined: <UpdateOutlinedIcon />,
+    closeOutlined: <CloseOutlinedIcon />,
+    openOutlined: <OpenInBrowserOutlinedIcon />,
   };
 
   const dispatch = useDispatch();
@@ -56,7 +62,17 @@ const DialogOneCancelButtons = (
           if (sDispatch) dispatch(action());
           else action();
 
-          dispatch(unloadDialogsAction());
+          switch (dialogPresence) {
+            case "All":
+              dispatch(unloadDialogsAction());
+              break;
+            case "Current":
+              dispatch(hideDialogAction());
+              break;
+            case "None":
+            default:
+              return;
+          }
         }
       },
     },
@@ -73,6 +89,7 @@ const DialogOneCancelButtons = (
             button?.handleAction && button?.handleAction(i as number)
           }
           startIcon={button.startIcon}
+          disabled={button.title === oneButtonTitle && isFinalButtonDisabled}
         >
           {button.title}
         </Button>

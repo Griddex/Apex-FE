@@ -87,6 +87,7 @@ export const SAVE_PRODUCTIONPRIORITIZATION_SUCCESS =
   "SAVE_PRODUCTIONPRIORITIZATION_SUCCESS";
 export const SAVE_PRODUCTIONPRIORITIZATION_FAILURE =
   "SAVE_PRODUCTIONPRIORITIZATION_FAILURE";
+export const RESET_NETWORK = "RESET_NETWORK";
 
 //STORED_PRODUCTIONPRIORITIZATION_REQUEST
 export const runForecastRequestAction = () => {
@@ -643,5 +644,11 @@ export const saveProductionPrioritizationFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const resetNetworkAction = () => {
+  return {
+    type: RESET_NETWORK,
   };
 };

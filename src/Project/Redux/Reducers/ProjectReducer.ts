@@ -9,14 +9,15 @@ import {
   CREATE_PROJECT_FAILURE,
   CREATE_PROJECT_SUCCESS,
   OPEN_RECENTPROJECT_SUCCESS,
-  UPDATE_CREATE_PROJECT,
-  UPDATES_CREATE_PROJECT,
+  UPDATE_PROJECT_PARAMETER,
+  UPDATE_PROJECT_PARAMETERS,
+  RESET_PROJECT,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
 const projectReducer = (state = projectState, action: IAction) => {
   switch (action.type) {
-    case UPDATE_CREATE_PROJECT: {
+    case UPDATE_PROJECT_PARAMETER: {
       const { name, value } = action.payload;
 
       return {
@@ -25,7 +26,7 @@ const projectReducer = (state = projectState, action: IAction) => {
       };
     }
 
-    case UPDATES_CREATE_PROJECT: {
+    case UPDATE_PROJECT_PARAMETERS: {
       const { updateObj } = action.payload;
 
       return {
@@ -125,6 +126,10 @@ const projectReducer = (state = projectState, action: IAction) => {
       } else {
         return state;
       }
+    }
+
+    case RESET_PROJECT: {
+      return projectState;
     }
 
     default:

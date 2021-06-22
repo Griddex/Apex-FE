@@ -9,12 +9,6 @@ import { IStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { IApplicationProject } from "../Redux/State/ProjectStateTypes";
 
-const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
-
 export default function StoredProjects({
   containerStyle,
 }: {
@@ -67,14 +61,24 @@ export default function StoredProjects({
       );
   };
 
+  const clickAwayAction = () => {
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("projectReducer", {
+          selectedProjectId: "",
+          selectedProjectTitle: "",
+        })
+      );
+  };
+
   const props = {
     snStoredData,
     dataKey,
     dataTitle,
     tableButtons,
-    chartData,
     containerStyle,
     handleCheckboxChange,
+    clickAwayAction,
   };
 
   return <StoredDataRoute {...props} />;

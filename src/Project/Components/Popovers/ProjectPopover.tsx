@@ -10,7 +10,8 @@ import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import ImageAspectRatioOutlinedIcon from "@material-ui/icons/ImageAspectRatioOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DialogOpenCancelButtons from "../../../Application/Components/DialogButtons/DialogOpenCancelButtons";
+import { useHistory } from "react-router-dom";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
   showDialogAction,
@@ -30,7 +31,11 @@ import {
   fetchStoredNetworkDataRequestAction,
   fetchStoredProductionPrioritizationRequestAction,
 } from "../../../Network/Redux/Actions/NetworkActions";
-import { openRecentProjectAction } from "../../Redux/Actions/ProjectActions";
+import {
+  closeProjectAction,
+  openRecentProjectAction,
+  updateProjectParametersAction,
+} from "../../Redux/Actions/ProjectActions";
 import { IProject } from "../../Redux/State/ProjectStateTypes";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
@@ -59,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
 
   const {
@@ -138,11 +144,12 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
       exclusive: false,
       maxWidth: "lg",
       iconType: "table",
-      actionsList: () =>
-        DialogOpenCancelButtons(
+      actionsList: (isFinalButtonDisabled: boolean) =>
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
+            unloadDialogsAction,
             () =>
               openRecentProjectAction(
                 "Gideon",
@@ -150,13 +157,58 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                 selectedProjectTitle as string,
                 selectedProjectDescription as string
               ),
-            unloadDialogsAction,
-          ]
+          ],
+          "Open",
+          "openOutlined",
+          isFinalButtonDisabled,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
 
     dispatch(showDialogAction(confirmationDialogParameters));
+  };
+
+  const closeProjectConfirmation = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Close_Project_Confirmation",
+      title: "Close Project Confirmation",
+      type: "textDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "xs",
+      dialogText: `Do you want to close the current project?
+      You will lose all unsaved project data.
+      
+      Proceed?`,
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, false],
+          [
+            unloadDialogsAction,
+            () => {
+              dispatch(closeProjectAction());
+              dispatch(
+                updateProjectParametersAction({
+                  currentProjectId: "",
+                  currentProjectTitle: "",
+                  currentProjectDescription: "",
+                })
+              );
+              history.push("/apex");
+            },
+          ],
+          "Close",
+          "closeOutlined",
+          false,
+          "All"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
   };
 
   const recentProjects = useSelector(
@@ -193,6 +245,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
         {recentProjects &&
           recentProjects.map((project: IProject, i: number) => {
             const { projectTitle, projectId, projectDescription } = project;
+
             return (
               <ApexMenuItem
                 key={i}
@@ -276,7 +329,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               className={classes.secondaryIcon}
             />
           }
-          handleClick={() => console.log("close project")} //Will dispatch new project workflow
+          handleClick={closeProjectConfirmation}
         />
       </div>
     </div>

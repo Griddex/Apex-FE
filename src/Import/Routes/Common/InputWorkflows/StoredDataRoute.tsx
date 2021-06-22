@@ -78,6 +78,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       handleCheckboxChange,
       reducer,
       mainUrl,
+      clickAwayAction,
     },
     ref
   ) => {
@@ -312,7 +313,12 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           </div>
         )}
 
-        <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
+        <ClickAwayListener
+          onClickAway={() => {
+            setSRow && setSRow(-1);
+            clickAwayAction && clickAwayAction();
+          }}
+        >
           <div
             className={classes.workflowBody}
             ref={ref as React.RefObject<any>}

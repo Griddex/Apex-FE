@@ -82,10 +82,6 @@ export default function UnitSettings({
   const { variableUnits } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
-  console.log(
-    "Logged output --> ~ file: UnitSettings.tsx ~ line 85 ~ variableUnits",
-    variableUnits
-  );
 
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const [unitGroupOption, setUnitGroupOption] = React.useState(

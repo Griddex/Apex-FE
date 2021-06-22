@@ -30,6 +30,7 @@ const allReducers = combineReducers({
   projectReducer,
   unitSettingsReducer,
 });
+
 export default allReducers;
 
 export type RootState = ReturnType<typeof allReducers>;

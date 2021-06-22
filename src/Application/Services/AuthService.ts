@@ -8,6 +8,10 @@ export const get = (url: string, config: any) => {
   return axios.get(url, config);
 };
 
+export const deleteData = (url: string, config: any) => {
+  return axios.delete(url, config);
+};
+
 // import decodeJwt from "jwt-decode";
 
 // let currentUserToken = null;

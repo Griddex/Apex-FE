@@ -28,6 +28,7 @@ import {
   WORKFLOWS_LANDING,
   SIMPLEDIALOG_TOGGLE,
   ACTIVATE_DISABLEDMENUS,
+  RESET_LAYOUT,
 } from "../Actions/LayoutActions";
 import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import UILayoutState from "../State/LayoutState";
@@ -197,6 +198,10 @@ const layoutReducer = (state = UILayoutState, action: IAction) => {
 
     case LOGOUT_REQUEST:
       return { ...state, undefined };
+
+    case RESET_LAYOUT: {
+      return UILayoutState;
+    }
 
     default:
       return {

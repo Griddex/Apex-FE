@@ -27,6 +27,7 @@ export const LOAD_WORKFLOW = "LOAD_WORKFLOW";
 export const WORKFLOWS_LANDING = "WORKFLOWS_LANDING";
 export const SIMPLEDIALOG_TOGGLE = "SIMPLEDIALOG_TOGGLE";
 export const ACTIVATE_DISABLEDMENUS = "ACTIVATE_DISABLEDMENUS";
+export const RESET_LAYOUT = "RESET_LAYOUT";
 
 //MAIN DRAWER
 export const mainDrawerShowAction = () => {
@@ -217,5 +218,11 @@ export const activateDisabledMenusAction = () => {
   return {
     type: ACTIVATE_DISABLEDMENUS,
     payload: { menusDisabled: false },
+  };
+};
+
+export const resetLayoutAction = () => {
+  return {
+    type: RESET_LAYOUT,
   };
 };

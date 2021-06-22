@@ -124,5 +124,4 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 // export { store, persistor };
-// listenMongoDb();
 export { store };

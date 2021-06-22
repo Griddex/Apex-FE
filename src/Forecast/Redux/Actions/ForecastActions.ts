@@ -41,6 +41,8 @@ export const RUN_FORECASTAGGREGATION_SUCCESS =
 export const RUN_FORECASTAGGREGATION_FAILURE =
   "RUN_FORECASTAGGREGATION_FAILURE";
 
+export const RESET_FORECAST = "RESET_FORECAST";
+
 export const updateForecastResultsParameterAction = (
   path: string,
   value: any

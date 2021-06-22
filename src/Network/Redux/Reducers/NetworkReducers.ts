@@ -30,6 +30,7 @@ import {
   STORED_DECLINEPARAMETERS_SUCCESS,
   STORED_PRODUCTIONPRIORITIZATION_FAILURE,
   STORED_PRODUCTIONPRIORITIZATION_SUCCESS,
+  RESET_NETWORK,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 
@@ -319,6 +320,10 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         status,
         errors,
       };
+    }
+
+    case RESET_NETWORK: {
+      return NetworkState;
     }
 
     default:

@@ -5,6 +5,7 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const FETCH_USERDETAILS_REQUEST = "FETCH_USERDETAILS_REQUEST";
 export const FETCH_USERDETAILS_SUCCESS = "FETCH_USERDETAILS_SUCCESS";
 export const FETCH_USERDETAILS_FAILURE = "FETCH_USERDETAILS_FAILURE";
+export const RESET_USER = "RESET_USER";
 
 export const persistToStoreAction = (name: string, value: string) => {
   return {
@@ -72,5 +73,11 @@ export const fetchUserDetailsFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const resetUserAction = () => {
+  return {
+    type: RESET_USER,
   };
 };

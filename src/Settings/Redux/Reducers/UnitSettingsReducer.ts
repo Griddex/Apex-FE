@@ -6,6 +6,7 @@ import {
   UPDATE_SELECTEDVARIABLEUNITS,
   UPDATE_UNITGROUPS,
   UPDATE_UNITSETTINGS,
+  RESET_UNITSETTINGS,
 } from "../Actions/UnitSettingsActions";
 import unitSettingsState from "../State/UnitSettingsState";
 
@@ -73,6 +74,10 @@ const unitSettingsReducer = (state = unitSettingsState, action: IAction) => {
         ...state,
         units: updatedUnits,
       };
+    }
+
+    case RESET_UNITSETTINGS: {
+      return unitSettingsState;
     }
 
     default:

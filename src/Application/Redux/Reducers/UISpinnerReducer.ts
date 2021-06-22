@@ -1,6 +1,9 @@
 import { IAction } from "../Actions/ActionTypes";
-import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
-import { HIDE_SPINNER, SHOW_SPINNER } from "../Actions/UISpinnerActions";
+import {
+  HIDE_SPINNER,
+  SHOW_SPINNER,
+  RESET_SPINNER,
+} from "../Actions/UISpinnerActions";
 import uiSpinnerState from "../State/UISpinnerState";
 
 const uiSpinnerReducer = (state = uiSpinnerState, action: IAction) => {
@@ -14,6 +17,10 @@ const uiSpinnerReducer = (state = uiSpinnerState, action: IAction) => {
 
     case HIDE_SPINNER:
       return { ...state, pending: false };
+
+    case RESET_SPINNER: {
+      return uiSpinnerState;
+    }
 
     default:
       return state;

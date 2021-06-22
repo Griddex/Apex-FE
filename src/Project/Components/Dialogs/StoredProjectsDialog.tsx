@@ -7,12 +7,13 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import StoredProjects from "../../Routes/StoredProjects";
 
 const useStyles = makeStyles((theme) => ({
@@ -107,6 +108,12 @@ const StoredProjectsDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 
+  const { selectedProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const isFinalButtonDisabled = selectedProjectId ? false : true;
+
   return (
     <Dialog
       aria-labelledby="customized-dialog-title"
@@ -126,7 +133,9 @@ const StoredProjectsDialog = (props: DialogStuff) => {
       >
         <StoredProjects containerStyle={{ boxShadow: "none" }} />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList()}</DialogActions>
+      <DialogActions>
+        {actionsList && actionsList(isFinalButtonDisabled)}
+      </DialogActions>
     </Dialog>
   );
 };

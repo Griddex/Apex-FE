@@ -12,6 +12,7 @@ import {
   SKIP_WORKFLOW,
   NAVBUTTON_DISABLED,
   SAVE_WORKFLOW,
+  RESET_CURRENTWORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
 import {
@@ -164,10 +165,12 @@ const workflowReducer = (state = workflowState, action: IAction) => {
       };
     }
 
-    //TODO - different scenarios for different workflows
-    //Should it be handled here or in other actions?
     case SAVE_WORKFLOW:
       return state;
+
+    case RESET_CURRENTWORKFLOW: {
+      return workflowState;
+    }
 
     default:
       return state;

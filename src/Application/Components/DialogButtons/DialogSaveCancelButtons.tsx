@@ -50,7 +50,6 @@ const DialogSaveCancelButtons = (
               break;
             case "None":
             default:
-              dispatch(unloadDialogsAction());
               return;
           }
         }

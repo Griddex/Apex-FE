@@ -8,6 +8,7 @@ import {
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
+export const RESET_INPUT = "RESET_INPUT";
 export const IMPORTFILE_INITIALIZATION = "IMPORTFILE_INITIALIZATION";
 export const PERSIST_VARIABLEUNITS = "PERSIST_VARIABLEUNITS";
 export const PERSIST_FILE = "PERSIST_FILE";
@@ -320,6 +321,7 @@ export const fetchApplicationHeadersRequestAction = () => {
     meta: { showSpinner: true, message: "Loading application..." },
   };
 };
+
 export const fetchApplicationHeadersSuccessAction = () => {
   return {
     type: FETCH_APPLICATIONHEADERS_SUCCESS,
@@ -331,11 +333,18 @@ export const fetchApplicationHeadersSuccessAction = () => {
     },
   };
 };
+
 export const fetchApplicationHeadersFailureAction = () => {
   return {
     type: FETCH_APPLICATIONHEADERS_SUCCESS,
     payload: {
       status: 0,
     },
+  };
+};
+
+export const resetInputAction = () => {
+  return {
+    type: RESET_INPUT,
   };
 };

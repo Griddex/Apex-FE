@@ -5,6 +5,7 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   UPDATE_REGISTRATION,
+  RESET_ADMIN,
 } from "../Actions/AdminActions";
 import userState from "../../../Application/Redux/State/UserState";
 
@@ -39,6 +40,9 @@ const adminReducer = (state = userState, action: IAction) => {
         status: action.payload.status,
         errors: new Array(action.payload.errors),
       };
+    case RESET_ADMIN: {
+      return userState;
+    }
     default:
       return state;
   }

@@ -3,6 +3,7 @@ export const PERSIST_AVATAR = "PERSIST_AVATAR";
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILURE = "REGISTER_FAILURE";
+export const RESET_ADMIN = "RESET_ADMIN";
 
 export const updateRegistrationFormAction = (
   name: string,
@@ -70,5 +71,11 @@ export const registerFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const resetAdminAction = () => {
+  return {
+    type: RESET_ADMIN,
   };
 };

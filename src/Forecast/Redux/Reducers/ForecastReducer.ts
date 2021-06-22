@@ -27,6 +27,7 @@ import {
   GET_FORECASTDATABYID_FAILURE,
   GET_FORECASTDATABYID_SUCCESS,
   REMOVE_FORECAST,
+  RESET_FORECAST,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -278,6 +279,10 @@ const forecastReducer = (
     case GET_TABLEDATABYID_FAILURE: {
       const { errors } = action.payload;
       return { ...state, errors };
+    }
+
+    case RESET_FORECAST: {
+      return forecastState;
     }
 
     default:

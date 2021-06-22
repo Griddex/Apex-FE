@@ -1,10 +1,10 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { LOGOUT_REQUEST } from "../../../Application/Redux/Actions/LogoutActions";
 import {
-  PERSIST_CHARTINDEX,
   PERSIST_CHARTELEMENTID,
-  SET_CHARTCOLOR,
+  PERSIST_CHARTINDEX,
+  RESET_CHART,
   SET_CHARTCELLCOLORS,
+  SET_CHARTCOLOR,
   SET_CHARTOBJECT,
   UPDATE_CHARTOBJECT,
 } from "../ChartActions/ChartActions";
@@ -22,10 +22,7 @@ const chartReducer = (state = chartState, action: IAction): IChartState => {
     case PERSIST_CHARTELEMENTID:
       return {
         ...state,
-        // selectedChartObjId: {
-        //   ...state.selectedChartObjId,
         ...action.payload,
-        // },
       };
 
     case SET_CHARTCOLOR:
@@ -73,6 +70,10 @@ const chartReducer = (state = chartState, action: IAction): IChartState => {
         ...state,
         chartObjects: [...otherObjects, updatedSelectedChartObj],
       };
+    }
+
+    case RESET_CHART: {
+      return chartState;
     }
 
     default:

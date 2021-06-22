@@ -11,6 +11,7 @@ export const BACK_WORKFLOW = "BACK_WORKFLOW";
 export const SKIP_WORKFLOW = "SKIP_WORKFLOW";
 export const NAVBUTTON_DISABLED = "NAVBUTTON_DISABLED";
 export const SAVE_WORKFLOW = "SAVE_WORKFLOW";
+export const RESET_CURRENTWORKFLOW = "RESET_CURRENTWORKFLOW";
 
 export const setWorkflowProcessAction = (
   workflowProcess: IAllWorkflows["wrkflwPrcss"] | IStoredDataProps["wkPs"],
@@ -151,5 +152,11 @@ export const workflowSaveAction = (
       workflowProcess,
       workflowCategory,
     },
+  };
+};
+
+export const resetCurrentWorkflowAction = () => {
+  return {
+    type: RESET_CURRENTWORKFLOW,
   };
 };

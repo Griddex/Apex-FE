@@ -32,6 +32,7 @@ import {
   SAVE_INPUTDECK_FAILURE,
   SAVE_INPUTDECK_SUCCESS,
   UPDATE_INPUT,
+  RESET_INPUT,
 } from "../Actions/InputActions";
 import InputState from "../State/InputState";
 
@@ -193,6 +194,10 @@ const inputReducer = (state = InputState, action: IAction) => {
     case GET_TABLEDATABYID_FAILURE: {
       const { errors } = action.payload;
       return { ...state, errors };
+    }
+
+    case RESET_INPUT: {
+      return InputState;
     }
 
     default:

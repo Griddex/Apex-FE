@@ -40,6 +40,7 @@ import {
   RUNECONOMICSANALYSIS_FAILURE,
   RUNECONOMICSANALYSIS_SUCCESS,
   UPDATE_ECONOMICSPARAMETER,
+  RESET_ECONOMICS,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -235,6 +236,10 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case GET_TABLEDATABYID_FAILURE: {
       const { errors } = action.payload;
       return { ...state, errors };
+    }
+
+    case RESET_ECONOMICS: {
+      return EconomicsState;
     }
 
     default:

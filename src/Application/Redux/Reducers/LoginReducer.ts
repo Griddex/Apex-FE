@@ -7,6 +7,7 @@ import {
   FETCH_USERDETAILS_REQUEST,
   FETCH_USERDETAILS_SUCCESS,
   FETCH_USERDETAILS_FAILURE,
+  RESET_USER,
 } from "../Actions/LoginActions";
 import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import userState from "../State/UserState";
@@ -33,8 +34,13 @@ const loginReducer = (state = userState, action: IAction) => {
         status: action.payload.status,
         errors: new Array(action.payload.errors),
       };
+
     case LOGOUT_REQUEST:
       return { ...state, undefined };
+
+    case RESET_USER: {
+      return userState;
+    }
 
     default:
       return state;

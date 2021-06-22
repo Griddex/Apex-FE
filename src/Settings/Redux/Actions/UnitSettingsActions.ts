@@ -12,6 +12,7 @@ export const FETCH_UNITSETTINGS_FAILURE = "FETCH_UNITSETTINGS_FAILURE";
 export const UPDATE_FIRSTLEVELUNITSETTINGS = "UPDATE_FIRSTLEVELUNITSETTINGS";
 export const UPDATE_SELECTEDVARIABLEUNITS = "UPDATE_SELECTEDVARIABLEUNITS";
 export const UPDATE_UNITGROUPS = "UPDATE_UNITGROUPS";
+export const RESET_UNITSETTINGS = "RESET_UNITSETTINGS";
 
 export const updateUnitsSettingsParameterAction = (
   path: string,
@@ -75,5 +76,11 @@ export const updateUnitGroupAction = (toUnitGroup: string) => {
   return {
     type: UPDATE_UNITGROUPS,
     payload: { toUnitGroup },
+  };
+};
+
+export const resetUnitSettingsAction = () => {
+  return {
+    type: RESET_UNITSETTINGS,
   };
 };

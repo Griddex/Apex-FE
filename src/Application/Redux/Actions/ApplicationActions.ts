@@ -18,6 +18,11 @@ export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
 export const GET_TABLEDATABYID_REQUEST = "GET_TABLEDATABYID_REQUEST";
 export const GET_TABLEDATABYID_SUCCESS = "GET_TABLEDATABYID_SUCCESS";
 export const GET_TABLEDATABYID_FAILURE = "GET_TABLEDATABYID_FAILURE";
+export const RESET_STORE = "RESET_STORE";
+export const RESET_APPLICATION = "RESET_APPLICATION";
+export const DELETE_DATABYID_REQUEST = "DELETE_DATABYID_REQUEST";
+export const DELETE_DATABYID_SUCCESS = "DELETE_DATABYID_SUCCESS";
+export const DELETE_DATABYID_FAILURE = "DELETE_DATABYID_FAILURE";
 
 export const updateApplicationParameterAction = (
   nameOrPath: string,
@@ -162,5 +167,48 @@ export const getTableDataByIdFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const deleteDataByIdRequestAction = (
+  reducer: ReducersType,
+  tableDataUrl: string,
+  tableTitle: string
+) => {
+  return {
+    type: DELETE_DATABYID_REQUEST,
+    payload: { reducer, tableDataUrl, tableTitle },
+    meta: { showSpinner: true, message: "Deleting data..." },
+  };
+};
+
+export const deleteDataByIdSuccessAction = () => {
+  return {
+    type: DELETE_DATABYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const deleteDataByIdFailureAction = () => {
+  return {
+    type: DELETE_DATABYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const resetStoreAction = () => {
+  return {
+    type: RESET_STORE,
+  };
+};
+
+export const resetApplicationAction = () => {
+  return {
+    type: RESET_APPLICATION,
   };
 };

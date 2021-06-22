@@ -7,6 +7,7 @@ export const SET_CHARTCOLOR = "SET_CHARTCOLOR";
 export const SET_CHARTCELLCOLORS = "SET_CHARTCELLCOLORS";
 export const SET_CHARTOBJECT = "SET_CHARTOBJECT";
 export const UPDATE_CHARTOBJECT = "UPDATE_CHARTOBJECT";
+export const RESET_CHART = "RESET_CHART";
 
 export const persistChartIndexAction = (selectedChartIndex: number) => {
   return {
@@ -56,5 +57,11 @@ export const persistChartObjectAction = (selectedChartObj: IChartObject) => {
   return {
     type: UPDATE_CHARTOBJECT,
     payload: selectedChartObj,
+  };
+};
+
+export const resetChartAction = () => {
+  return {
+    type: RESET_CHART,
   };
 };

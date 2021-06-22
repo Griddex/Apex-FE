@@ -12,6 +12,7 @@ import {
   SET_WORKFLOWMENU,
   UPDATE_APPLICATION,
   PERSIST_TITLES,
+  RESET_APPLICATION,
 } from "../Actions/ApplicationActions";
 import applicationState from "../State/ApplicationState";
 
@@ -95,6 +96,10 @@ const applicationReducer = (state = applicationState, action: IAction) => {
         ...state,
         savedMatchObjectAll,
       };
+    }
+
+    case RESET_APPLICATION: {
+      return applicationState;
     }
 
     default:

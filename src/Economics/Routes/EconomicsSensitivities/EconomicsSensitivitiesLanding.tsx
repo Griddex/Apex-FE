@@ -92,7 +92,6 @@ const EconomicsSensitivitiesLanding = () => {
   ];
 
   const economicsSensitivitiesWorkflowFinalAction = () => {
-    console.log("I'm here oooooooooo");
     const dialogParameters: DialogStuff = {
       name: "Create_Economics_Sensitivities_Dialog",
       title: "Create Economics Sensitivities",
