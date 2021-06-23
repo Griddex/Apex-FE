@@ -974,6 +974,7 @@ export default function CostsAndRevenueManual({
               const dialogParameters = confirmationDialogParameters(
                 "CostsRevenueManual_Reset_Confirmation",
                 "Reset Confirmation",
+                "textDialog",
                 `Do you want to reset this table?. 
                   You will lose all data up to current step.`,
                 true,

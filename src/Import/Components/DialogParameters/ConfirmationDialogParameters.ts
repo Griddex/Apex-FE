@@ -6,29 +6,33 @@ import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsA
 export const confirmationDialogParameters = (
   name: string,
   title: string,
+  type: DialogStuff["type"],
   dialogText: string,
   exclusive: boolean,
   shouldDispatch: boolean,
   action: (titleDesc?: Record<string, string>) => IAction | void,
   oneButtonTitle: string,
-  oneButtonIconTitle: string
+  oneButtonIconTitle: string,
+  iconType?: DialogStuff["iconType"]
 ): DialogStuff => {
   return {
     name,
     title,
-    type: "textDialog",
+    type,
     show: true,
     exclusive,
     maxWidth: "xs",
     dialogText,
-    iconType: "confirmation",
-    actionsList: () =>
+    iconType,
+    actionsList: (isFinalButtonDisabled: boolean) =>
       DialogOneCancelButtons(
         [true, true],
         [true, shouldDispatch],
         [unloadDialogsAction, action],
         oneButtonTitle,
-        oneButtonIconTitle
+        oneButtonIconTitle,
+        isFinalButtonDisabled,
+        "All"
       ),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
   };

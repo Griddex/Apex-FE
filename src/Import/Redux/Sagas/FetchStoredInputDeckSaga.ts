@@ -17,25 +17,24 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredDataDialogParameters";
 import {
-  STORED_DATA_REQUEST,
-  fetchStoredDataFailureAction,
-  fetchStoredDataSuccessAction,
-} from "../Actions/StoredDataActions";
+  fetchStoredInputDeckFailureAction,
+  fetchStoredInputDeckSuccessAction,
+  STORED_INPUTDECK_REQUEST,
+} from "../Actions/StoredInputDeckActions";
 
-export default function* watchFetchStoredDataSaga(): Generator<
+export default function* watchFetchStoredInputDeckSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const storedDataChan = yield actionChannel(STORED_DATA_REQUEST);
-  yield takeLeading(storedDataChan, fetchStoredDataSaga);
+  const storedInputDeckChan = yield actionChannel(STORED_INPUTDECK_REQUEST);
+  yield takeLeading(storedInputDeckChan, fetchStoredDataSaga);
 }
 
 const config = { withCredentials: false };
-const fetchStoredDataAPI = (url: string) => authService.get(url, config);
+const fetchStoredInputDeckAPI = (url: string) => authService.get(url, config);
 
 function* fetchStoredDataSaga(action: IAction): Generator<
   | AllEffect<CallEffect<AxiosResponse>>
@@ -53,8 +52,8 @@ function* fetchStoredDataSaga(action: IAction): Generator<
 
   try {
     const [facilitiesResult, forecastResults] = yield all([
-      call(fetchStoredDataAPI, facilitiesUrl),
-      call(fetchStoredDataAPI, forecastUrl),
+      call(fetchStoredInputDeckAPI, facilitiesUrl),
+      call(fetchStoredInputDeckAPI, forecastUrl),
     ]);
 
     const {
@@ -65,7 +64,7 @@ function* fetchStoredDataSaga(action: IAction): Generator<
       data: { data: forecastInputDeckStored },
     } = forecastResults;
 
-    const successAction = fetchStoredDataSuccessAction();
+    const successAction = fetchStoredInputDeckSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -88,7 +87,7 @@ function* fetchStoredDataSaga(action: IAction): Generator<
       )
     );
   } catch (errors) {
-    const failureAction = fetchStoredDataFailureAction();
+    const failureAction = fetchStoredInputDeckFailureAction();
 
     yield put({
       ...failureAction,

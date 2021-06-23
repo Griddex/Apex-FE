@@ -113,6 +113,7 @@ const FacilitiesInputDeckLanding = () => {
       const dps = confirmationDialogParameters(
         "FacilitiesDeck_Save_Confirmation",
         "Facilities Deck Save Confirmation",
+        "textDialog",
         `Do you want to save the current facilities Inputdeck?`,
         false,
         true,

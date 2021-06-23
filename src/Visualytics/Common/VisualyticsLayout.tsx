@@ -7,7 +7,6 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import Loading from "../../Application/Components/Visuals/Loading";
 import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import Visualytics from "./Visualytics";
 import VisualyticsBackground from "./VisualyticsBackground";

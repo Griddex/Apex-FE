@@ -11,6 +11,7 @@ import {
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { IAction } from "../Redux/Actions/ActionTypes";
 
 export type TApproval = "Approved" | "Pending" | "Returned" | "Not Started";
 
@@ -66,6 +67,9 @@ export interface IStoredDataProps {
   handleCheckboxChange?: (row: any, event?: React.ChangeEvent<any>) => void;
   componentRef?: React.MutableRefObject<any>;
   clickAwayAction?: () => void;
+  fetchStoredUrl?: string;
+  fetchStoredSuccessAction?: () => IAction;
+  dataStored?: string;
 }
 
 export interface IApplicationStoredDataRow {

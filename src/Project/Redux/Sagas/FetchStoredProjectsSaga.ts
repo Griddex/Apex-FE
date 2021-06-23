@@ -42,7 +42,7 @@ function* fetchStoredProjectsSaga(
   | AllEffect<CallEffect<any>>
   | CallEffect<any>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<IAction>
   | SelectEffect,
   void,
   any
@@ -51,9 +51,6 @@ function* fetchStoredProjectsSaga(
 
   const config = { withCredentials: false };
   const fetchStoredProjectsAPI = (url: string) => authService.get(url, config);
-
-  //TODO Gift needs to give me all project titles to
-  //check against
 
   try {
     const result = yield call(

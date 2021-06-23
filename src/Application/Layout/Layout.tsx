@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import NavigationPrompt from "react-router-navigation-prompt";
 import AdministrationLayout from "../../Administration/Routes/Common/AdministrationLayout";
 import CorporateLayout from "../../Corporate/Routes/Common/CorporateLayout";
 import DeclineCurveAnalysisLayout from "../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout";
@@ -11,20 +10,14 @@ import ForecastLayout from "../../Forecast/Common/ForecastLayout";
 import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/InputActions";
 import InputLayout from "../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "../../Network/Common/NetworkLayout";
-import {
-  fetchStoredProjectsAction,
-  fetchRecentProjectsAction,
-} from "../../Project/Redux/Actions/ProjectActions";
+import { fetchStoredProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import SettingsLayout from "../../Settings/Routes/Common/SettingsLayout";
 import VisualyticsLayout from "../../Visualytics/Common/VisualyticsLayout";
 import { ExitPromptContext } from "../App/App";
-import DialogOneCancelButtons from "../Components/DialogButtons/DialogOneCancelButtons";
 import Dialogs from "../Components/Dialogs/Dialogs";
-import TextDialog from "../Components/Dialogs/TextDialog";
 import MainDrawer from "../Components/Drawers/MainDrawer";
 import Navbar from "../Components/Navbars/Navbar";
-import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import Spinners from "../Components/Visuals/Spinners";
 import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
 import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActions";
@@ -62,9 +55,6 @@ const Layout = () => {
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
     dispatch(fetchStoredProjectsAction());
-    //TODO: Fetch first 20, then save most recent
-    //6 to recent projects store. we may not need recent projects saga
-    dispatch(fetchRecentProjectsAction());
     dispatch(fetchUnitSettingsRequestAction());
     dispatch(fetchMatchObjectRequestAction());
 

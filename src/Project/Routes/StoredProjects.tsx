@@ -5,8 +5,10 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
 import { IStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
+import { fetchStoredProjectsSuccessAction } from "../Redux/Actions/ProjectActions";
 import { IApplicationProject } from "../Redux/State/ProjectStateTypes";
 
 export default function StoredProjects({
@@ -14,8 +16,11 @@ export default function StoredProjects({
 }: {
   containerStyle: CSSProperties;
 }) {
-  const dispatch = useDispatch();
+  const mainUrl = `${getBaseForecastUrl()}/project`;
+  const fetchStoredUrl = `${getBaseForecastUrl()}/project/recents/20`;
+  const dataStored = "storedProjects";
 
+  const dispatch = useDispatch();
   const componentRef = React.useRef();
 
   const { storedProjects } = useSelector(
@@ -79,6 +84,10 @@ export default function StoredProjects({
     containerStyle,
     handleCheckboxChange,
     clickAwayAction,
+    mainUrl,
+    fetchStoredUrl,
+    fetchStoredSuccessAction: fetchStoredProjectsSuccessAction,
+    dataStored,
   };
 
   return <StoredDataRoute {...props} />;

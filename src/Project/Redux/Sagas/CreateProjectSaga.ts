@@ -27,7 +27,7 @@ import {
   createProjectFailureAction,
   createProjectSuccessAction,
   CREATE_PROJECT_REQUEST,
-  fetchRecentProjectsAction,
+  fetchStoredProjectsAction,
 } from "../Actions/ProjectActions";
 
 export default function* watchCreateNewProjectSaga(): Generator<
@@ -45,7 +45,7 @@ function* createProjectSaga(
   | AllEffect<CallEffect<any>>
   | CallEffect<any>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<IAction>
   | SelectEffect,
   void,
   any
@@ -101,14 +101,14 @@ function* createProjectSaga(
       payload: {
         ...payload,
         status,
-        currentProjectTitle: projectTitle,
-        currentProjectDescription: projectDescription,
+        currentProjectTitle: title,
+        currentProjectDescription: description,
         currentProjectId: id,
       },
     });
 
     yield put(activateDisabledMenusAction());
-    yield put(fetchRecentProjectsAction());
+    yield put(fetchStoredProjectsAction());
 
     yield put(showDialogAction(successDialogParameters));
   } catch (errors) {
@@ -120,6 +120,7 @@ function* createProjectSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters));
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

@@ -45,6 +45,7 @@ import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/De
 import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
 import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
+import DeleteDataDialog from "./DeleteDataDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -76,9 +77,12 @@ export interface IApplicationDialogs {
   saveEconomicsSensitivitiesDialog: typeof SaveEconomicsSensitivitiesDialog;
   storedEconomicsSensitivitiesDialog: typeof StoredEconomicsSensitivitiesDialog;
   selectDevelopmentScenariosDialog: typeof SelectDevelopmentScenariosDialog;
+
   tableDataDialog: typeof TableDataDialog;
   tableEditorDialog: typeof TableEditorDialog;
   draggableDialog: typeof DraggableDialog;
+  deleteDataDialog: typeof DeleteDataDialog;
+
   saveEconomicsResultsDialog: typeof SaveEconomicsResultsDialog;
 
   storedDeclineCurveParametersDialog: typeof StoredDeclineCurveParametersDialog;
@@ -136,6 +140,7 @@ export interface DialogStuff<TRow = IRawRow> {
     | "tableDataDialog"
     | "tableEditorDialog"
     | "draggableDialog"
+    | "deleteDataDialog"
     | "saveEconomicsResultsDialog"
     | "storedDeclineCurveParametersDialog"
     | "storedProductionStreamPrioritizationDialog";

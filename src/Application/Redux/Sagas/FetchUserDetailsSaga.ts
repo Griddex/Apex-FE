@@ -37,7 +37,7 @@ function* fetchUserDetailsSaga(
   | AllEffect<CallEffect<any>>
   | CallEffect<any>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<IAction>
   | SelectEffect,
   void,
   any

@@ -36,10 +36,12 @@ import { IForecastParametersStoredRow } from "../../../Network/Components/Dialog
 import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
 import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
+import DeleteDataDialog from "./DeleteDataDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
+
   storedProjectsDialog: StoredProjectsDialog,
   selectWorksheetDialog: SelectWorksheetDialog,
   finalizeForecastInputDeckDialog: FinalizeForecastInputDeckDialog,
@@ -71,9 +73,12 @@ const applicationDialogs: IApplicationDialogs = {
   saveEconomicsSensitivitiesDialog: SaveEconomicsSensitivitiesDialog,
   storedEconomicsSensitivitiesDialog: StoredEconomicsSensitivitiesDialog,
   selectDevelopmentScenariosDialog: SelectDevelopmentScenariosDialog,
+
   tableDataDialog: TableDataDialog,
   tableEditorDialog: TableEditorDialog,
   draggableDialog: DraggableDialog,
+  deleteDataDialog: DeleteDataDialog,
+
   saveEconomicsResultsDialog: SaveEconomicsResultsDialog,
 
   storedDeclineCurveParametersDialog: StoredDeclineCurveParametersDialog,

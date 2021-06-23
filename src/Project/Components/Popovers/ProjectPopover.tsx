@@ -18,13 +18,14 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import {
   fetchStoredEconomicsDataRequestAction,
   fetchStoredEconomicsResultsRequestAction,
   fetchStoredEconomicsSensitivitiesRequestAction,
 } from "../../../Economics/Redux/Actions/EconomicsActions";
 import { fetchStoredForecastingResultsRequestAction } from "../../../Forecast/Redux/Actions/ForecastActions";
-import { fetchStoredDataRequestAction } from "../../../Import/Redux/Actions/StoredDataActions";
+import { fetchStoredInputDeckRequestAction } from "../../../Import/Redux/Actions/StoredInputDeckActions";
 import {
   fetchStoredDeclineCurveParametersRequestAction,
   fetchStoredForecastingParametersRequestAction,
@@ -211,9 +212,11 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const recentProjects = useSelector(
-    (state: RootState) => state.projectReducer["recentProjects"]
-  ) as IProject[];
+  const { storedProjects } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const recentProjects = storedProjects.slice(0, 6);
 
   return (
     <div className={classes.root}>
@@ -243,70 +246,78 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           }
         />
         {recentProjects &&
-          recentProjects.map((project: IProject, i: number) => {
-            const { projectTitle, projectId, projectDescription } = project;
+          recentProjects.map(
+            (project: IApplicationStoredDataRow, i: number) => {
+              const { id, title, description } = project;
 
-            return (
-              <ApexMenuItem
-                key={i}
-                projectTitle={projectTitle as string}
-                handleClick={() => {
-                  const projectIdDefined = projectId as string;
+              const idDefined = id as string;
+              const titleDefined = title as string;
+              const descriptionDefined = description as string;
 
-                  dispatch(
-                    showSpinnerAction(`Loading ${project.projectTitle}...`)
-                  );
-                  dispatch(
-                    fetchStoredForecastingParametersRequestAction(
-                      projectIdDefined
-                    )
-                  );
-                  dispatch(
-                    fetchStoredDeclineCurveParametersRequestAction(
-                      projectIdDefined
-                    )
-                  );
-                  dispatch(
-                    fetchStoredProductionPrioritizationRequestAction(
-                      projectIdDefined
-                    )
-                  );
-                  dispatch(fetchStoredDataRequestAction(projectIdDefined));
-                  dispatch(
-                    fetchStoredEconomicsDataRequestAction(projectIdDefined)
-                  );
-                  dispatch(
-                    openRecentProjectAction(
-                      "Gideon",
-                      projectIdDefined,
-                      projectTitle as string,
-                      projectDescription as string
-                    )
-                  );
-                  dispatch(
-                    fetchStoredNetworkDataRequestAction(projectIdDefined)
-                  );
-                  dispatch(
-                    fetchStoredForecastingResultsRequestAction(projectIdDefined)
-                  );
-                  dispatch(
-                    fetchStoredEconomicsSensitivitiesRequestAction(
-                      projectIdDefined,
-                      false
-                    )
-                  );
-                  dispatch(
-                    fetchStoredEconomicsResultsRequestAction(
-                      projectIdDefined,
-                      false
-                    )
-                  );
-                }}
-                sn={i + 1}
-                toggleSN={true}
-              />
-            );
-          })}
+              return (
+                <ApexMenuItem
+                  key={i}
+                  projectTitle={titleDefined}
+                  handleClick={() => {
+                    const projectIdDefined = idDefined;
+
+                    dispatch(showSpinnerAction(`Loading ${titleDefined}...`));
+                    dispatch(
+                      fetchStoredForecastingParametersRequestAction(
+                        projectIdDefined
+                      )
+                    );
+                    dispatch(
+                      fetchStoredDeclineCurveParametersRequestAction(
+                        projectIdDefined
+                      )
+                    );
+                    dispatch(
+                      fetchStoredProductionPrioritizationRequestAction(
+                        projectIdDefined
+                      )
+                    );
+                    dispatch(
+                      fetchStoredInputDeckRequestAction(projectIdDefined)
+                    );
+                    dispatch(
+                      fetchStoredEconomicsDataRequestAction(projectIdDefined)
+                    );
+                    dispatch(
+                      openRecentProjectAction(
+                        "Gideon",
+                        projectIdDefined,
+                        titleDefined,
+                        descriptionDefined
+                      )
+                    );
+                    dispatch(
+                      fetchStoredNetworkDataRequestAction(projectIdDefined)
+                    );
+                    dispatch(
+                      fetchStoredForecastingResultsRequestAction(
+                        projectIdDefined
+                      )
+                    );
+                    dispatch(
+                      fetchStoredEconomicsSensitivitiesRequestAction(
+                        projectIdDefined,
+                        false
+                      )
+                    );
+                    dispatch(
+                      fetchStoredEconomicsResultsRequestAction(
+                        projectIdDefined,
+                        false
+                      )
+                    );
+                  }}
+                  sn={i + 1}
+                  toggleSN={true}
+                />
+              );
+            }
+          )}
       </div>
       <div className={classes.demarcation}>
         <ApexMenuItem

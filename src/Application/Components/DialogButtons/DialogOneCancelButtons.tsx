@@ -16,6 +16,7 @@ import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import UpdateOutlinedIcon from "@material-ui/icons/UpdateOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import OpenInBrowserOutlinedIcon from "@material-ui/icons/OpenInBrowserOutlined";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
@@ -36,6 +37,7 @@ const DialogOneCancelButtons = (
     updateOutlined: <UpdateOutlinedIcon />,
     closeOutlined: <CloseOutlinedIcon />,
     openOutlined: <OpenInBrowserOutlinedIcon />,
+    deleteOutlined: <DeleteOutlinedIcon />,
   };
 
   const dispatch = useDispatch();

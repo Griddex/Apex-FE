@@ -11,11 +11,10 @@ import authMiddleware from "../Middlewares/AuthMiddleware";
 import uiSpinnerMiddleware from "../Middlewares/UISpinnerMiddleware";
 import watchRunForecastSaga from "../../../Network/Redux/Sagas/RunForecastSaga";
 import rootReducer from "../Reducers/RootReducer";
-import watchFetchRecentProjectsSaga from "../../../Project/Redux/Sagas/FetchRecentProjectsSaga";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import watchOpenRecentProjectSaga from "../../../Project/Redux/Sagas/OpenRecentProjectSaga";
-import watchFetchStoredDataSaga from "../../../Import/Redux/Sagas/FetchStoredDataSaga";
+import watchFetchStoredInputDeckSaga from "../../../Import/Redux/Sagas/FetchStoredInputDeckSaga";
 import watchSaveInputDeckSaga from "../../../Import/Redux/Sagas/SaveInputDeckSaga";
 import watchAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/AutogenerateNetworkSaga";
 import watchSaveForecastParametersSaga from "../../../Network/Redux/Sagas/SaveForecastParametersSaga";
@@ -53,6 +52,7 @@ import watchFetchStoredForecastParametersSaga from "../../../Network/Redux/Sagas
 import watchFetchStoredEconomicsResultsSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsResultsSaga";
 import watchSaveEconomicsResultsSaga from "../../../Economics/Redux/Sagas/SaveEconomicsResultsSaga";
 import watchGetEconomicsResultsByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsResultsByIdSaga";
+import watchDeleteDataByIdSaga from "../Sagas/DeleteDataByIdSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -60,10 +60,9 @@ function* rootSaga() {
   yield spawn(watchConnectDatabaseSaga);
   yield spawn(watchCreateNewProjectSaga);
   yield spawn(watchFetchStoredProjectsSaga);
-  yield spawn(watchFetchRecentProjectsSaga);
   yield spawn(watchFetchUnitSettingsSaga);
   yield spawn(watchOpenRecentProjectSaga);
-  yield spawn(watchFetchStoredDataSaga);
+  yield spawn(watchFetchStoredInputDeckSaga);
   yield spawn(watchSaveInputDeckSaga);
   yield spawn(watchAutogenerateNetworkSaga);
   yield spawn(watchAndSaveAutogenerateNetworkSaga);
@@ -99,6 +98,7 @@ function* rootSaga() {
   yield spawn(watchFetchStoredEconomicsResultsSaga);
   yield spawn(watchSaveEconomicsResultsSaga);
   yield spawn(watchGetEconomicsResultsByIdSaga);
+  yield spawn(watchDeleteDataByIdSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

@@ -34,10 +34,10 @@ export default function* watchFetchStoredNetworkDataSaga(): Generator<
   yield takeLeading(storedNetworkDataChan, fetchStoredNetworkDataSaga);
 }
 
-type AxiosPromise = ReturnType<typeof fetchStoredDataAPI>;
+type AxiosPromise = ReturnType<typeof fetchStoredInputDeckAPI>;
 
 const config = { withCredentials: false };
-const fetchStoredDataAPI = (url: string) => authService.get(url, config);
+const fetchStoredInputDeckAPI = (url: string) => authService.get(url, config);
 
 function* fetchStoredNetworkDataSaga(
   action: IAction
@@ -45,7 +45,7 @@ function* fetchStoredNetworkDataSaga(
   | AllEffect<CallEffect<any>>
   | CallEffect<any>
   | TakeEffect
-  | PutEffect<{ payload: any; type: string }>
+  | PutEffect<IAction>
   | SelectEffect,
   void,
   any
@@ -56,7 +56,7 @@ function* fetchStoredNetworkDataSaga(
 
   try {
     const networkResult = yield call<(url: string) => AxiosPromise>(
-      fetchStoredDataAPI,
+      fetchStoredInputDeckAPI,
       networkUrl
     );
 

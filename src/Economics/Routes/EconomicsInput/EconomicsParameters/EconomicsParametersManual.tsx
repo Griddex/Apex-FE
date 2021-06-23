@@ -262,6 +262,7 @@ const EconomicsParametersManual = ({
               const dialogParameters = confirmationDialogParameters(
                 "EconomicsParameterManual_Reset_Confirmation",
                 "Reset Confirmation",
+                "textDialog",
                 `Do you want to reset this table?. 
                 You will lose all data up to current step.`,
                 true,

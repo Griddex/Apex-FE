@@ -250,13 +250,13 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\MSExcel.svg", "XML", 0, 0, 0, 7, 0, 0, 0, 0, 0, 7
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Images\Notepad.svg", "XML", 0, 0, 0, 50, 0, 0, 0, 1, 1, 52
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\DatabaseServerActions.ts", "TypeScript", 41, 0, 0, 0, 0, 0, 0, 0, 5, 46
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\StoredDataActions.ts", "TypeScript", 25, 0, 0, 0, 0, 0, 0, 0, 4, 29
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\StoredInputDeckActions.ts", "TypeScript", 25, 0, 0, 0, 0, 0, 0, 0, 4, 29
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Actions\InputActions.ts", "TypeScript", 299, 0, 0, 0, 0, 0, 0, 1, 21, 321
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Reducers\DatabaseServerReducers.ts", "TypeScript", 31, 0, 0, 0, 0, 0, 0, 0, 4, 35
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Reducers\InputReducer.ts", "TypeScript", 151, 0, 0, 0, 0, 0, 0, 0, 9, 160
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\ConnectDatabaseSaga.ts", "TypeScript", 48, 0, 0, 0, 0, 0, 0, 5, 10, 63
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\FetchApplicationHeadersSaga.ts", "TypeScript", 90, 0, 0, 0, 0, 0, 0, 8, 11, 109
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\FetchStoredDataSaga.ts", "TypeScript", 93, 0, 0, 0, 0, 0, 0, 0, 12, 105
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\FetchStoredInputDeckSaga.ts", "TypeScript", 93, 0, 0, 0, 0, 0, 0, 0, 12, 105
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\SaveInputDeckSaga.ts", "TypeScript", 107, 0, 0, 0, 0, 0, 0, 0, 18, 125
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\DatabaseServerState.ts", "TypeScript", 6, 0, 0, 0, 0, 0, 0, 0, 2, 8
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\InputState.ts", "TypeScript", 114, 0, 0, 0, 0, 0, 0, 8, 18, 140

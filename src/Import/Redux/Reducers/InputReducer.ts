@@ -8,9 +8,9 @@ import {
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
 import {
-  STORED_DATA_FAILURE,
-  STORED_DATA_SUCCESS,
-} from "../Actions/StoredDataActions";
+  STORED_INPUTDECK_FAILURE,
+  STORED_INPUTDECK_SUCCESS,
+} from "../Actions/StoredInputDeckActions";
 import {
   FETCH_APPLICATIONHEADERS_SUCCESS,
   IMPORTFILE_INITIALIZATION,
@@ -95,7 +95,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         return state;
       }
     }
-    case STORED_DATA_SUCCESS: {
+    case STORED_INPUTDECK_SUCCESS: {
       const { facilitiesInputDeckStored, forecastInputDeckStored } =
         action.payload;
 
@@ -108,7 +108,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         },
       };
     }
-    case STORED_DATA_FAILURE: {
+    case STORED_INPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
       const wp = workflowProcess as NonNullable<IStoredDataProps["wkPs"]>;
 

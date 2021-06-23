@@ -73,6 +73,7 @@ const ForecastInputDeckFinalization = ({
       const dps = confirmationDialogParameters(
         "ForecastDeck_Save_Confirmation",
         "Forecast Deck Save Confirmation",
+        "textDialog",
         `Do you want to save the current forecast Inputdeck?`,
         false,
         true,

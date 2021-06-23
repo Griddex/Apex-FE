@@ -268,6 +268,7 @@ const EconomicsAnalysis = ({
       const dps = confirmationDialogParameters(
         "EconomicsDeck_Save_Confirmation",
         "Economics Deck Save Confirmation",
+        "textDialog",
         `Do you want to save the current facilities Inputdeck?`,
         true,
         true,

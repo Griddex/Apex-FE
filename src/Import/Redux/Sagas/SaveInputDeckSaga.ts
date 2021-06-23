@@ -29,7 +29,7 @@ import {
   saveInputDeckSuccessAction,
   SAVE_INPUTDECK_REQUEST,
 } from "../Actions/InputActions";
-import { fetchStoredDataRequestAction } from "../Actions/StoredDataActions";
+import { fetchStoredInputDeckRequestAction } from "../Actions/StoredInputDeckActions";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
 function getInputDeckType(workflowProcess: IAllWorkflows["wrkflwPrcss"]) {
@@ -136,7 +136,7 @@ export function* saveInputDeckSaga(
       },
     });
 
-    yield put(fetchStoredDataRequestAction(currentProjectId));
+    yield put(fetchStoredInputDeckRequestAction(currentProjectId));
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
     yield put(workflowResetAction(0, wp, wc));
     yield put(

@@ -1,17 +1,14 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
-  CREATE_PROJECT_REQUEST,
-  FETCH_RECENTPROJECTS_FAILURE,
-  FETCH_RECENTPROJECTS_SUCCESS,
-  FETCH_STORED_PROJECTS_FAILURE,
-  FETCH_STORED_PROJECTS_SUCCESS,
   CREATE_PROJECT_FAILURE,
   CREATE_PROJECT_SUCCESS,
+  FETCH_STORED_PROJECTS_FAILURE,
+  FETCH_STORED_PROJECTS_SUCCESS,
   OPEN_RECENTPROJECT_SUCCESS,
+  RESET_PROJECT,
   UPDATE_PROJECT_PARAMETER,
   UPDATE_PROJECT_PARAMETERS,
-  RESET_PROJECT,
 } from "../Actions/ProjectActions";
 import projectState from "../State/ProjectState";
 
@@ -32,26 +29,6 @@ const projectReducer = (state = projectState, action: IAction) => {
       return {
         ...state,
         ...updateObj,
-      };
-    }
-
-    case FETCH_RECENTPROJECTS_SUCCESS: {
-      const { status, recentProjects } = action.payload;
-
-      return {
-        ...state,
-        status,
-        recentProjects,
-      };
-    }
-
-    case FETCH_RECENTPROJECTS_FAILURE: {
-      const { status, errors } = action.payload;
-
-      return {
-        ...state,
-        status,
-        errors,
       };
     }
 

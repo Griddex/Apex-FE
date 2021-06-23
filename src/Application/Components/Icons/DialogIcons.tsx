@@ -36,9 +36,11 @@ const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
     table: <TocIcon style={{ color: theme.palette.primary.main }} />,
     save: <SaveIcon style={{ color: theme.palette.primary.main }} />,
     create: <AddBoxIcon style={{ color: theme.palette.primary.main }} />,
-    delete: <DeleteIcon style={{ color: theme.palette.primary.main }} />,
+    delete: <DeleteIcon style={{ color: theme.palette.secondary.main }} />,
     run: <PlayArrowIcon style={{ color: theme.palette.primary.main }} />,
-    remove: <RemoveCircleIcon style={{ color: theme.palette.primary.main }} />,
+    remove: (
+      <RemoveCircleIcon style={{ color: theme.palette.secondary.main }} />
+    ),
     category: <CategoryIcon style={{ color: theme.palette.primary.main }} />,
   };
 

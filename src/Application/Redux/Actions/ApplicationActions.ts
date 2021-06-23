@@ -1,6 +1,7 @@
 import { TUserMatchObject } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
 import { ReducersType } from "../../Components/Workflows/WorkflowTypes";
+import { IAction } from "./ActionTypes";
 
 export const UPDATE_APPLICATION = "UPDATE_APPLICATION";
 export const PERSIST_TITLES = "PERSIST_TITLES";
@@ -173,11 +174,21 @@ export const getTableDataByIdFailureAction = () => {
 export const deleteDataByIdRequestAction = (
   reducer: ReducersType,
   tableDataUrl: string,
-  tableTitle: string
+  tableTitle: string,
+  fetchStoredUrl: string,
+  fetchStoredSuccessAction: () => IAction,
+  dataStored: string
 ) => {
   return {
     type: DELETE_DATABYID_REQUEST,
-    payload: { reducer, tableDataUrl, tableTitle },
+    payload: {
+      reducer,
+      tableDataUrl,
+      tableTitle,
+      fetchStoredUrl,
+      fetchStoredSuccessAction,
+      dataStored,
+    },
     meta: { showSpinner: true, message: "Deleting data..." },
   };
 };

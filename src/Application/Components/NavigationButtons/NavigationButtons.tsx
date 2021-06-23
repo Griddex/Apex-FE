@@ -79,6 +79,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             const dialogParameters = confirmationDialogParameters(
               "Navigation_Reset_Confirmation",
               "Reset Confirmation",
+              "textDialog",
               `Do you want to reset this workflow?. 
               You will lose all data up to current step.`,
               true,

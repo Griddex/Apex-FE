@@ -14,7 +14,6 @@ import ApexSelectRS from "../Selects/ApexSelectRS";
 import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
-import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles({

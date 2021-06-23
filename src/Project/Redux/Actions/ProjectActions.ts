@@ -3,9 +3,6 @@ export const UPDATE_PROJECT_PARAMETERS = "UPDATE_PROJECT_PARAMETERS";
 export const CREATE_PROJECT_REQUEST = "CREATE_PROJECT_REQUEST";
 export const CREATE_PROJECT_SUCCESS = "CREATE_PROJECT_SUCCESS";
 export const CREATE_PROJECT_FAILURE = "CREATE_PROJECT_FAILURE";
-export const FETCH_RECENTPROJECTS_REQUEST = "FETCH_RECENTPROJECTS_REQUEST";
-export const FETCH_RECENTPROJECTS_SUCCESS = "FETCH_RECENTPROJECTS_SUCCESS";
-export const FETCH_RECENTPROJECTS_FAILURE = "FETCH_RECENTPROJECTS_FAILURE";
 export const FETCH_STORED_PROJECTS_REQUEST = "FETCH_STORED_PROJECTS_REQUEST";
 export const FETCH_STORED_PROJECTS_SUCCESS = "FETCH_STORED_PROJECTS_SUCCESS";
 export const FETCH_STORED_PROJECTS_FAILURE = "FETCH_STORED_PROJECTS_FAILURE";
@@ -31,33 +28,6 @@ export const updateProjectParametersAction = (
     type: UPDATE_PROJECT_PARAMETERS,
     payload: {
       updateObj,
-    },
-  };
-};
-
-export const fetchRecentProjectsAction = () => {
-  return {
-    type: FETCH_RECENTPROJECTS_REQUEST,
-    payload: {},
-  };
-};
-
-export const fetchRecentProjectsSuccessAction = () => {
-  return {
-    type: FETCH_RECENTPROJECTS_SUCCESS,
-    payload: {
-      status: 0,
-      data: [],
-    },
-  };
-};
-
-export const fetchRecentProjectsFailureAction = () => {
-  return {
-    type: FETCH_RECENTPROJECTS_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
     },
   };
 };
@@ -131,6 +101,7 @@ export const createProjectAction = (titleDesc: Record<string, string>) => {
   return {
     type: CREATE_PROJECT_REQUEST,
     payload: { titleDesc },
+    meta: { showSpinner: true, message: "Creating project" },
   };
 };
 

@@ -14,7 +14,6 @@ const projectState: IProjectState = {
   currentProjectDescription: "",
 
   pressureAddend: 14.7,
-  recentProjects: [],
   storedProjects: [],
 };
 

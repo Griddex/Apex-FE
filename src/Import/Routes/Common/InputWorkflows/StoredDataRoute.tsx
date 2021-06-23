@@ -4,36 +4,38 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
+import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import { IApexEditorRow } from "../../../../Application/Components/Editors/ApexEditor";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
-import { getTableDataByIdRequestAction } from "../../../../Application/Redux/Actions/ApplicationActions";
+import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
+import {
+  deleteDataByIdRequestAction,
+  getTableDataByIdRequestAction,
+} from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   IStoredDataProps,
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
+import formatDate from "../../../../Application/Utils/FormatDate";
+import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
-import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { useSelector } from "react-redux";
-import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import formatDate from "../../../../Application/Utils/FormatDate";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -79,6 +81,9 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       reducer,
       mainUrl,
       clickAwayAction,
+      fetchStoredUrl,
+      fetchStoredSuccessAction,
+      dataStored,
     },
     ref
   ) => {
@@ -125,6 +130,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           editable: false,
           formatter: ({ row }) => {
             const sn = row.sn as number;
+            const title = row.title as string;
+            const id = row.id as string;
+            const deleteUrl = `${mainUrl}/${id}`;
+
             const editedRow = rows[sn - 1];
             const editorData = [
               {
@@ -184,22 +193,24 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                     dispatch(
                       showDialogAction(
                         confirmationDialogParameters(
-                          "Delete_Table",
-                          "Confirm Table Deletion",
-                          `This action will permanently delete this data item.
-  
-  Proceed?`,
-                          true,
+                          "Delete_Table_Data_Dialog",
+                          title,
+                          "deleteDataDialog",
+                          "",
                           false,
-                          () => {
-                            const sn = row.sn as number;
-                            const remainingRows = rows.splice(sn - 1, 1);
-
-                            setRows(remainingRows);
-                            // tableRows.current = remainingRows;
-                          },
-                          "Proceed",
-                          "proceedOutlined"
+                          true,
+                          () =>
+                            deleteDataByIdRequestAction(
+                              reducer as ReducersType,
+                              deleteUrl as string,
+                              title as string,
+                              fetchStoredUrl as string,
+                              fetchStoredSuccessAction as () => IAction,
+                              dataStored as string
+                            ),
+                          "Delete",
+                          "deleteOutlined",
+                          "delete"
                         )
                       )
                     )
