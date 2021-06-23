@@ -368,7 +368,7 @@ export const fetchStoredForecastingParametersFailureAction = () => {
 };
 
 export const fetchStoredNetworkDataRequestAction = (
-  projectIdDefined: string
+  projectIdDefined?: string
 ) => {
   return {
     type: STORED_NETWORKDATA_REQUEST,

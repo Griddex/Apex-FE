@@ -8,6 +8,7 @@ import {
   IStoredDataProps,
   IApplicationStoredDataRow,
 } from "../../../Application/Types/ApplicationTypes";
+import { fetchStoredInputDeckRequestAction } from "../../Redux/Actions/StoredInputDeckActions";
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../InputDeckTypes";
 
@@ -24,22 +25,22 @@ export default function StoredForecastDecks({
   finalAction,
   showChart,
 }: IStoredInputDeck) {
-  const dispatch = useDispatch();
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
 
   const tableTitle = "Forecast InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/forecast-inputdeck`;
+  const fetchStoredUrl = `${getBaseForecastUrl()}/forecast-inputdeck/light/${currentProjectId}`;
+  const dataStored = "forecastInputDeckStored";
 
+  const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "forecastInputDeckStored";
+  const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
 
   const componentRef = React.useRef();
 
-  const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
-
-  console.log(
-    "Logged output --> ~ file: StoredForecastDecks.tsx ~ line 41 ~ reducer",
-    reducer
-  );
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
@@ -75,7 +76,17 @@ export default function StoredForecastDecks({
       );
   };
 
-  const props = {
+  const clickAwayAction = () => {
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("inputReducer", {
+          selectedNetworkId: "",
+          selectedNetworkTitle: "",
+        })
+      );
+  };
+
+  const props: IStoredDataProps = {
     wkPs: wp,
     snStoredData,
     dataKey,
@@ -88,6 +99,11 @@ export default function StoredForecastDecks({
     reducer,
     mainUrl,
     tableTitle,
+    clickAwayAction,
+    fetchStoredUrl,
+    fetchStoredSuccessAction: () =>
+      fetchStoredInputDeckRequestAction(currentProjectId),
+    dataStored,
   };
 
   return <StoredDataRoute {...props} />;

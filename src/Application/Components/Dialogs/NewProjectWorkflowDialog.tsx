@@ -23,6 +23,7 @@ import {
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import DialogOneCancelButtons from "../DialogButtons/DialogOneCancelButtons";
 import DialogSaveCancelButtons from "../DialogButtons/DialogSaveCancelButtons";
 import DialogContextDrawer from "../Drawers/DialogContextDrawer";
 import DialogIcons from "../Icons/DialogIcons";
@@ -165,10 +166,12 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
       dialogText: "Do you want to create the new project?",
       iconType: "confirmation",
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [unloadDialogsAction, () => createProjectAction(titleDesc)],
+          "Create",
+          "createOutlined",
           false,
           "All"
         ),

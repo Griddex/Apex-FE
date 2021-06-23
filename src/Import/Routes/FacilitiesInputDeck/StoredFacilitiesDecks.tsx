@@ -8,6 +8,7 @@ import {
   IStoredDataProps,
   IApplicationStoredDataRow,
 } from "../../../Application/Types/ApplicationTypes";
+import { fetchStoredInputDeckRequestAction } from "../../Redux/Actions/StoredInputDeckActions";
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../InputDeckTypes";
 
@@ -24,11 +25,16 @@ export default function StoredFacilitiesDecks({
   finalAction,
   showChart,
 }: IStoredInputDeck) {
-  const dispatch = useDispatch();
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
 
   const tableTitle = "Facilities InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/facilities-inputdeck`;
+  const fetchStoredUrl = `${getBaseForecastUrl()}/facilities-inputdeck/light/${currentProjectId}`;
+  const dataStored = "facilitiesInputDeckStored";
 
+  const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "facilitiesInputDeckStored";
   const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
@@ -70,6 +76,16 @@ export default function StoredFacilitiesDecks({
       );
   };
 
+  const clickAwayAction = () => {
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("inputReducer", {
+          selectedNetworkId: "",
+          selectedNetworkTitle: "",
+        })
+      );
+  };
+
   const props: IStoredDataProps = {
     wkPs: wp,
     snStoredData,
@@ -83,6 +99,11 @@ export default function StoredFacilitiesDecks({
     reducer,
     mainUrl,
     tableTitle,
+    clickAwayAction,
+    fetchStoredUrl,
+    fetchStoredSuccessAction: () =>
+      fetchStoredInputDeckRequestAction(currentProjectId),
+    dataStored,
   };
 
   return (

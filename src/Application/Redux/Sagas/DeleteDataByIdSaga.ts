@@ -10,6 +10,10 @@ import {
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
+import {
+  deleteFailureDPs,
+  deleteSuccessDPs,
+} from "../../Components/DialogParameters/DeleteDataSuccessFailureDialogParameters";
 import * as authService from "../../Services/AuthService";
 import { IAction } from "../Actions/ActionTypes";
 import {
@@ -17,6 +21,7 @@ import {
   deleteDataByIdSuccessAction,
   DELETE_DATABYID_REQUEST,
 } from "../Actions/ApplicationActions";
+import { showDialogAction } from "../Actions/DialogsAction";
 import { hideSpinnerAction } from "../Actions/UISpinnerActions";
 
 export default function* watchDeleteDataByIdSaga(): Generator<
@@ -68,6 +73,11 @@ function* deleteDataByIdSaga(action: IAction): Generator<
     });
 
     const fetchResults = yield call(fetchStoredDataAPI, fetchStoredUrl);
+    console.log(
+      "Logged output --> ~ file: DeleteDataByIdSaga.ts ~ line 76 ~ fetchResults",
+      fetchResults
+    );
+    //TODO Switch if 1 or levels deep
     const {
       data: { data },
     } = fetchResults;
@@ -80,6 +90,8 @@ function* deleteDataByIdSaga(action: IAction): Generator<
         [dataStored]: data,
       },
     });
+
+    yield put(showDialogAction(deleteSuccessDPs()));
   } catch (errors) {
     const failureAction = deleteDataByIdFailureAction();
 
@@ -88,7 +100,7 @@ function* deleteDataByIdSaga(action: IAction): Generator<
       payload: { ...payload, errors },
     });
 
-    // yield put(showDialogAction(failureDialogParameters()));
+    yield put(showDialogAction(deleteFailureDPs()));
   } finally {
     yield put(hideSpinnerAction());
   }

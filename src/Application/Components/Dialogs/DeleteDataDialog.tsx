@@ -106,26 +106,12 @@ const DeleteDataDialog = (props: DialogStuff) => {
     props;
 
   const [confirmDeleteTitle, setConfirmDeleteTitle] = React.useState("");
-  console.log(
-    "Logged output --> ~ file: DeleteDataDialog.tsx ~ line 109 ~ DeleteDataDialog ~ confirmDeleteTitle",
-    confirmDeleteTitle
-  );
 
   const isFinalButtonDisabled =
     confirmDeleteTitle.trim().toLowerCase() ===
     (title as string).trim().toLowerCase()
       ? false
       : true;
-
-  console.log(
-    "Logged output --> ~ file: DeleteDataDialog.tsx ~ line 161 ~ DeleteDataDialog ~ title",
-    title
-  );
-
-  console.log(
-    "Logged output --> ~ file: DeleteDataDialog.tsx ~ line 112 ~ DeleteDataDialog ~ isFinalButtonDisabled",
-    isFinalButtonDisabled
-  );
 
   return (
     <Dialog
@@ -151,7 +137,7 @@ const DeleteDataDialog = (props: DialogStuff) => {
       >
         <ApexFlexContainer flexDirection="column">
           <Typography variant="body1">
-            {`You are about to delete all data with title: ${title}.
+            {`You are about to cascade delete all data with title: ${title}.
           
           Confirm this action by copying and pasting the title in the
           input box below`}

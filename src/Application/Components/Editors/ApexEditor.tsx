@@ -41,10 +41,10 @@ export interface IApexEditorRow {
 }
 export interface IApexEditor {
   editorData: IApexEditorRow[];
-  editedRow: IStoredDataRow;
+  editedRow: any;
   dividerPositions: number[];
-  rows: IStoredDataRow[];
-  setRows: TUseState<IStoredDataRow[]>;
+  rows: any[];
+  setRows: TUseState<any[]>;
   shouldUpdate: boolean;
   setShouldUpdate?: TUseState<boolean>;
   customComponent?: React.FC;
@@ -102,7 +102,7 @@ const ApexEditor = ({
                 onChange={(event) => {
                   const { value } = event.target;
 
-                  setFormEditorRow((prev) => {
+                  setFormEditorRow((prev: any) => {
                     return { ...prev, [name]: value };
                   });
                 }}
@@ -127,7 +127,7 @@ const ApexEditor = ({
                 value={formEditorRow[name as keyof IStoredDataRow] as string}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setFormEditorRow((prev) => {
+                  setFormEditorRow((prev: any) => {
                     return { ...prev, [name]: value };
                   });
                 }}
@@ -146,7 +146,7 @@ const ApexEditor = ({
               <DatePicker
                 datePickerType="single"
                 onChange={(_, currentDateString) => {
-                  setFormEditorRow((prev) => ({
+                  setFormEditorRow((prev: any) => ({
                     ...prev,
                     [name]: currentDateString,
                   }));
@@ -173,7 +173,7 @@ const ApexEditor = ({
                 name={name}
                 handleChange={(event) => {
                   const { checked } = event.target;
-                  setFormEditorRow((prev) => {
+                  setFormEditorRow((prev: any) => {
                     return { ...prev, [name]: checked };
                   });
                 }}
@@ -200,7 +200,7 @@ const ApexEditor = ({
                 valueOption={currentOption as ISelectOption}
                 data={Options as ISelectOption[]}
                 handleSelect={(option: ValueType<ISelectOption, false>) => {
-                  setFormEditorRow((prev) => {
+                  setFormEditorRow((prev: any) => {
                     return { ...prev, [name]: (option as ISelectOption).label };
                   });
                 }}

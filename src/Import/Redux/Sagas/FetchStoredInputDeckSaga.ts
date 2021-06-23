@@ -30,13 +30,13 @@ export default function* watchFetchStoredInputDeckSaga(): Generator<
   any
 > {
   const storedInputDeckChan = yield actionChannel(STORED_INPUTDECK_REQUEST);
-  yield takeLeading(storedInputDeckChan, fetchStoredDataSaga);
+  yield takeLeading(storedInputDeckChan, fetchStoredInputDeckSaga);
 }
 
 const config = { withCredentials: false };
 const fetchStoredInputDeckAPI = (url: string) => authService.get(url, config);
 
-function* fetchStoredDataSaga(action: IAction): Generator<
+function* fetchStoredInputDeckSaga(action: IAction): Generator<
   | AllEffect<CallEffect<AxiosResponse>>
   | PutEffect<{
       payload: any;

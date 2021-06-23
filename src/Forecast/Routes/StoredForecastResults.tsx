@@ -13,28 +13,46 @@ import Approval from "../../Application/Components/Approval/Approval";
 import Author from "../../Application/Components/Author/Author";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
+import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import { IApexEditorRow } from "../../Application/Components/Editors/ApexEditor";
 import Saved from "../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
+import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
+import {
+  deleteDataByIdRequestAction,
+  getTableDataByIdRequestAction,
+  persistSelectedIdTitleAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
 import {
   IApplicationStoredForecastResultsRow,
   IStoredDataProps,
+  IStoredDataRow,
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
+import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
+  fetchStoredForecastingResultsSuccessAction,
   fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,
   runForecastAggregationRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+import { IApexEditor } from "./../../Application/Components/Editors/ApexEditor";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -102,9 +120,17 @@ export default function StoredForecastResults({
   showBaseButtons,
   shouldRunAggregation,
 }: IStoredDataProps) {
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const reducer = "forecastReducer";
+  const mainUrl = `${getBaseForecastUrl()}/forecastResults`;
+  const fetchStoredUrl = `${getBaseForecastUrl()}/forecastResults/light/${currentProjectId}`;
+  const dataStored = "forecastInputDeckStored";
+
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const theme = useTheme();
 
   const wc = "storedDataWorkflows";
@@ -125,6 +151,8 @@ export default function StoredForecastResults({
   const storedData = useSelector(
     (state: RootState) => state.forecastReducer[wc][wp]
   ) as IApplicationStoredForecastResultsRow[];
+
+  const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
@@ -173,6 +201,8 @@ export default function StoredForecastResults({
     apexGridCheckboxFxn: handleCheckboxChange,
   });
 
+  const dividerPositions = [50];
+
   const generateColumns = () => {
     const columns: Column<IStoredForecastResultsRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -182,39 +212,108 @@ export default function StoredForecastResults({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
-          const { sn } = row;
-          const selectedRowIndex = (sn as number) - 1;
+          const sn = row.sn as number;
+          const title = row.forecastResultsTitle as string;
+          const id = row.forecastResultsId as string;
+          const deleteUrl = `${mainUrl}/${id}`;
+
+          const editedRow = rows[sn - 1];
+          const editorData = [
+            {
+              name: "title",
+              title: "FORECAST RESULTS TITLE",
+              value: row["forecastResultsTitle"],
+              editorType: "input",
+            },
+            {
+              name: "description",
+              title: "Description",
+              value: row["description"],
+              editorType: "textArea",
+            },
+          ] as IApexEditorRow[];
+
+          const apexEditorProps = {
+            editorData,
+            editedRow,
+            dividerPositions,
+            rows,
+            setRows,
+            shouldUpdate,
+            // } as IApexEditor<IStoredForecastResultsRow>;
+          } as IApexEditor;
 
           return (
-            <div
-              style={{
-                display: "flex",
-                height: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <ApexFlexContainer>
               <EditOutlinedIcon
                 onClick={() => {
-                  alert(`Edit Row is:${row}`);
-                  // dispatch(
-                  //   showDialogAction(extrudeDialogParameters(selectedRowIndex))
-                  // );
+                  const dialogParameters: DialogStuff = {
+                    name: "Edit_Table_Dialog",
+                    title: "Edit Table",
+                    type: "tableEditorDialog",
+                    show: true,
+                    exclusive: true,
+                    maxWidth: "xs",
+                    iconType: "edit",
+                    apexEditorProps,
+                    actionsList: () =>
+                      DialogOneCancelButtons(
+                        [true, true],
+                        [true, false],
+                        [
+                          unloadDialogsAction,
+                          //Captured variable
+                          //solve with componentRef
+                          () => setShouldUpdate(!shouldUpdate),
+                        ],
+                        "Update",
+                        "updateOutlined"
+                      ),
+                  };
+
+                  dispatch(showDialogAction(dialogParameters));
                 }}
               />
               <DeleteOutlinedIcon
-                onClick={() => {
-                  alert(`Edit Row is:${row}`);
-                  // dispatch(
-                  //   showDialogAction(deleteDialogParameters(selectedRowIndex))
-                  // );
-                }}
+                onClick={() =>
+                  dispatch(
+                    showDialogAction(
+                      confirmationDialogParameters(
+                        "Delete_Table_Data_Dialog",
+                        title,
+                        "deleteDataDialog",
+                        "",
+                        false,
+                        true,
+                        () =>
+                          deleteDataByIdRequestAction(
+                            reducer as ReducersType,
+                            deleteUrl as string,
+                            title as string,
+                            fetchStoredUrl as string,
+                            fetchStoredForecastingResultsSuccessAction as () => IAction,
+                            dataStored as string
+                          ),
+                        "Delete",
+                        "deleteOutlined",
+                        "delete"
+                      )
+                    )
+                  )
+                }
               />
               <MenuOpenOutlinedIcon
-                onClick={() => alert(`Menu Row is:${row}`)}
+                onClick={() =>
+                  dispatch(
+                    getTableDataByIdRequestAction(
+                      reducer as ReducersType,
+                      `${mainUrl}/${row.id}`,
+                      row.forecastParametersTitle as string
+                    )
+                  )
+                }
               />
-            </div>
+            </ApexFlexContainer>
           );
         },
         width: 120,

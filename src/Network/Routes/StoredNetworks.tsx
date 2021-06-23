@@ -4,8 +4,10 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
 import { IApplicationStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
+import { fetchStoredNetworkDataRequestAction } from "../Redux/Actions/NetworkActions";
 import { IStoredNetworks } from "./StoredNetworkTypes";
 
 const chartData = [
@@ -18,14 +20,22 @@ export default function StoredNetworks({
   workflowProcess,
   containerStyle,
 }: IStoredNetworks) {
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const mainUrl = `${getBaseForecastUrl()}/network`;
+  const fetchStoredUrl = `${getBaseForecastUrl()}/network/light/${currentProjectId}`;
+  const dataStored = "networkStored";
+
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
   const wp = workflowProcess;
 
   const componentRef = React.useRef();
 
-  const storedData = useSelector(
-    (state: RootState) => state.networkReducer[wc][wp]
+  const { networkStored } = useSelector(
+    (state: RootState) => state.networkReducer[wc]
   );
 
   const tableButtons: ITableButtonsProps = {
@@ -34,7 +44,7 @@ export default function StoredNetworks({
     componentRef,
   };
 
-  const snStoredData = storedData.map(
+  const snStoredData = networkStored.map(
     (row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
@@ -67,6 +77,16 @@ export default function StoredNetworks({
       );
   };
 
+  const clickAwayAction = () => {
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("networkReducer", {
+          selectedNetworkId: "",
+          selectedNetworkTitle: "",
+        })
+      );
+  };
+
   const props = {
     snStoredData,
     dataKey,
@@ -76,6 +96,12 @@ export default function StoredNetworks({
     wkPs: wp,
     containerStyle,
     handleCheckboxChange,
+    clickAwayAction,
+    mainUrl,
+    fetchStoredUrl,
+    fetchStoredSuccessAction: () =>
+      fetchStoredNetworkDataRequestAction(currentProjectId),
+    dataStored,
   };
 
   return <StoredDataRoute {...props} />;
