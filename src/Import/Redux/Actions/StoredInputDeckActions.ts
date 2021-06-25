@@ -2,11 +2,14 @@ export const STORED_INPUTDECK_REQUEST = "STORED_INPUTDECK_REQUEST";
 export const STORED_INPUTDECK_SUCCESS = "STORED_INPUTDECK_SUCCESS";
 export const STORED_INPUTDECK_FAILURE = "STORED_INPUTDECK_FAILURE";
 
-export const fetchStoredInputDeckRequestAction = (projectId: string) => {
+export const fetchStoredInputDeckRequestAction = (
+  projectId: string,
+  showSpinner = true
+) => {
   return {
     type: STORED_INPUTDECK_REQUEST,
     payload: { projectId },
-    meta: { showSpinner: true, message: "Loading project data..." },
+    meta: { showSpinner, message: "Loading project data..." },
   };
 };
 

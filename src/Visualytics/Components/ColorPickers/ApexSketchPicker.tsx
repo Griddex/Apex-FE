@@ -1,7 +1,6 @@
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { ColorResult, SketchPicker } from "react-color";
-import "react-color-gradient-picker/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";

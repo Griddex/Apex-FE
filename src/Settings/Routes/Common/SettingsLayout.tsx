@@ -1,11 +1,17 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useRouteMatch,
+} from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
 import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import Settings from "../../Settings";
 import SettingsBackground from "./SettingsBackground";
+import { IdType } from "./SettingsLayoutTypes";
 
 const navbarHeight = 43;
 // const subNavBarHeight = 25;
@@ -38,10 +44,9 @@ const SettingsLayout = () => {
           }
         >
           <Switch>
-            <Route exact path={path} render={() => <Settings />} />
-            <Route
-              path={`${url}/:settingsId`}
-              render={(props) => {
+            <Route exact path={path} component={() => <Settings />} />
+            <Route path={`${url}/:settingsId`}>
+              {(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { settingsId },
@@ -55,8 +60,8 @@ const SettingsLayout = () => {
 
                 return Layouts[settingsId];
               }}
-            />
-            <Route path="*" render={() => <h1>Not Available</h1>} />
+            </Route>
+            <Route path="*" component={() => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
       </div>

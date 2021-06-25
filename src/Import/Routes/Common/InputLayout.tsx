@@ -120,9 +120,8 @@ const InputLayout = () => {
         >
           <Switch>
             <Route exact path={path} component={InputBackground} />
-            <Route
-              path={`${url}/:subNavbarId`}
-              render={(props: RouteComponentProps<IdType>) => {
+            <Route path={`${url}/:subNavbarId`}>
+              {(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { subNavbarId },
@@ -140,8 +139,8 @@ const InputLayout = () => {
 
                 return Layouts[subNavbarId];
               }}
-            />
-            <Route path="*" render={() => <h1>Not Available</h1>} />
+            </Route>
+            <Route path="*" component={() => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
       </div>

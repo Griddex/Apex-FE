@@ -8,7 +8,12 @@ import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useRouteMatch,
+} from "react-router-dom";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import Loading from "../../../Application/Components/Visuals/Loading";
 import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
@@ -29,6 +34,7 @@ import EconomicsParametersLanding from "../EconomicsInput/EconomicsParameters/Ec
 import EconomicsResultsLanding from "../EconomicsResults/EconomicsResultsLanding";
 import EconomicsSensitivitiesLanding from "../EconomicsSensitivities/EconomicsSensitivitiesLanding";
 import EconomicsBackground from "./EconomicsBackground";
+import { IdType } from "./EconomicsLayoutTypes";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -143,10 +149,13 @@ const EconomicsLayout = () => {
           }
         >
           <Switch>
-            <Route exact path={path} render={() => <EconomicsBackground />} />
             <Route
-              path={`${url}/:economicsId`}
-              render={(props) => {
+              exact
+              path={path}
+              component={() => <EconomicsBackground />}
+            />
+            <Route path={`${url}/:economicsId`}>
+              {(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { economicsId },
@@ -164,8 +173,8 @@ const EconomicsLayout = () => {
 
                 return Layouts[economicsId];
               }}
-            />
-            <Route path="*" render={() => <h1>Not Available</h1>} />
+            </Route>
+            <Route path="*" component={() => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
       </div>

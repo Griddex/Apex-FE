@@ -40,7 +40,7 @@ import SelectWorksheetDialog from "./SelectWorksheetDialog";
 import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
 import TextDialog from "./TextDialog";
-import CreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/CreateForecastingParametersWorkflowDialog";
+import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
 import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
@@ -62,7 +62,7 @@ export interface IApplicationDialogs {
   storedNetworksDialog: typeof StoredNetworksDialog;
   generateNetworkWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   storedForecastingParametersDialog: typeof StoredForecastingParametersDialog;
-  createForecastingParametersWorkflowDialog: typeof CreateForecastingParametersWorkflowDialog;
+  createForecastingParametersWorkflowDialog: typeof EditOrCreateForecastingParametersWorkflowDialog;
 
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
   productionStreamPrioritizationDialog: typeof ProductionStreamPrioritizationDialog;

@@ -3,7 +3,12 @@ import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  Theme,
+  useTheme,
+  withStyles,
+} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
@@ -99,6 +104,7 @@ const DialogContent = withStyles((theme) => ({
 }))(MuiDialogContent);
 
 const DeleteDataDialog = (props: DialogStuff) => {
+  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -135,13 +141,27 @@ const DeleteDataDialog = (props: DialogStuff) => {
           ...dialogContentStyle,
         }}
       >
-        <ApexFlexContainer flexDirection="column">
+        <ApexFlexContainer flexDirection="column" alignItems="flex-start">
           <Typography variant="body1">
-            {`You are about to cascade delete all data with title: ${title}.
-          
-          Confirm this action by copying and pasting the title in the
+            {`You are about to delete all data associated with title:`}
+          </Typography>
+          <span>&nbsp;</span>
+          <span>&nbsp;</span>
+          <strong
+            style={{
+              fontSize: theme.typography.h6.fontSize,
+              color: theme.palette.secondary.main,
+            }}
+          >
+            {title}
+          </strong>
+          <span>&nbsp;</span>
+          <span>&nbsp;</span>
+          <Typography variant="body1">
+            {`Confirm this action by copying and pasting the title in the
           input box below`}
           </Typography>
+          <span>&nbsp;</span>
           <Input
             className={classes.input}
             value={confirmDeleteTitle}

@@ -1,7 +1,13 @@
 import { makeStyles } from "@material-ui/core";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
 import AdministrationLayout from "../../Administration/Routes/Common/AdministrationLayout";
 import CorporateLayout from "../../Corporate/Routes/Common/CorporateLayout";
 import DeclineCurveAnalysisLayout from "../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout";
@@ -10,7 +16,7 @@ import ForecastLayout from "../../Forecast/Common/ForecastLayout";
 import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/InputActions";
 import InputLayout from "../../Import/Routes/Common/InputLayout";
 import NetworkLayout from "../../Network/Common/NetworkLayout";
-import { fetchStoredProjectsAction } from "../../Project/Redux/Actions/ProjectActions";
+import { fetchStoredProjectsRequestAction } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import SettingsLayout from "../../Settings/Routes/Common/SettingsLayout";
 import VisualyticsLayout from "../../Visualytics/Common/VisualyticsLayout";
@@ -24,7 +30,7 @@ import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActio
 import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
 import ProductBackground from "../Routes/ProductBackground";
-import { ILayouts, LayoutNames } from "./LayoutTypes";
+import { IdType, ILayouts, LayoutNames } from "./LayoutTypes";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,7 +60,7 @@ const Layout = () => {
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
-    dispatch(fetchStoredProjectsAction());
+    dispatch(fetchStoredProjectsRequestAction());
     dispatch(fetchUnitSettingsRequestAction());
     dispatch(fetchMatchObjectRequestAction());
 
@@ -107,9 +113,8 @@ const Layout = () => {
               )}
             </NavigationPrompt> */}
             <Route exact path={url} component={ProductBackground} />
-            <Route
-              path={`${url}/:layoutId`}
-              render={(props) => {
+            <Route path={`${url}/:layoutId`}>
+              {(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { layoutId },
@@ -131,8 +136,8 @@ const Layout = () => {
 
                 return Layouts[layoutId as LayoutNames];
               }}
-            />
-            <Route path="*" render={() => <h1>Layout not found</h1>} />
+            </Route>
+            <Route path="*" component={() => <h1>Layout not found</h1>} />
           </Switch>
         </Suspense>
       </main>

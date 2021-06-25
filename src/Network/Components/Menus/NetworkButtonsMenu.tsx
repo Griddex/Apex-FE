@@ -6,12 +6,13 @@ import {
   useTheme,
 } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import CalendarViewDayOutlinedIcon from "@material-ui/icons/CalendarViewDayOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import StorageIcon from "@material-ui/icons/Storage";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogDisplayNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogDisplayNetworkCancelButtons";
@@ -21,13 +22,12 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   displayNetworkByIdRequestAction,
   removeCurrentNetworkAction,
   updateNetworkParameterAction,
 } from "../../Redux/Actions/NetworkActions";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const NetworkButtonsMenu = () => {
   const theme = useTheme();
@@ -140,7 +140,7 @@ const NetworkButtonsMenu = () => {
               const value = true;
 
               dispatch(updateNetworkParameterAction(path, value));
-              dispatch(removeCurrentNetworkAction());
+              dispatch(removeCurrentNetworkAction(true));
             },
           ]
         ),
@@ -164,12 +164,12 @@ const NetworkButtonsMenu = () => {
     {
       title: "Stored Networks",
       action: storedNetworks,
-      icon: <ListOutlinedIcon color="primary" fontSize="small" />,
+      icon: <StorageIcon color="primary" fontSize="small" />,
     },
     {
       title: "Remove Network",
       action: removeNetwork,
-      icon: <CloseOutlinedIcon color="secondary" fontSize="small" />,
+      icon: <RemoveCircleIcon color="secondary" fontSize="small" />,
     },
   ];
 

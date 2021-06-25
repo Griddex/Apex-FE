@@ -7,7 +7,6 @@ import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { SizeMe } from "react-sizeme";
 import Approval from "../../Application/Components/Approval/Approval";
 import Author from "../../Application/Components/Author/Author";
@@ -37,7 +36,6 @@ import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
 import {
   IApplicationStoredForecastResultsRow,
   IStoredDataProps,
-  IStoredDataRow,
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
@@ -45,7 +43,7 @@ import { updateNetworkParameterAction } from "../../Network/Redux/Actions/Networ
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
-  fetchStoredForecastingResultsSuccessAction,
+  fetchStoredForecastingResultsRequestAction,
   fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,
   runForecastAggregationRequestAction,
@@ -126,8 +124,6 @@ export default function StoredForecastResults({
 
   const reducer = "forecastReducer";
   const mainUrl = `${getBaseForecastUrl()}/forecastResults`;
-  const fetchStoredUrl = `${getBaseForecastUrl()}/forecastResults/light/${currentProjectId}`;
-  const dataStored = "forecastInputDeckStored";
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -137,9 +133,9 @@ export default function StoredForecastResults({
   const wp = "forecastResultsStored";
 
   const chartData = [
-    { id: "Group A", value: 10, color: theme.palette.primary.main },
-    { id: "Group B", value: 20, color: theme.palette.success.main },
-    { id: "Group C", value: 30, color: theme.palette.secondary.main },
+    { id: "A", value: 10, color: theme.palette.primary.main },
+    { id: "B", value: 20, color: theme.palette.success.main },
+    { id: "C", value: 30, color: theme.palette.secondary.main },
   ];
 
   const componentRef = React.useRef();
@@ -179,6 +175,7 @@ export default function StoredForecastResults({
     dispatch(
       updateForecastResultsParameterAction("isForecastResultsSaved", isSaved)
     );
+
     dispatch(updateNetworkParameterAction("selectedNetworkId", networkId));
 
     if (shouldRunAggregation)
@@ -290,9 +287,7 @@ export default function StoredForecastResults({
                             reducer as ReducersType,
                             deleteUrl as string,
                             title as string,
-                            fetchStoredUrl as string,
-                            fetchStoredForecastingResultsSuccessAction as () => IAction,
-                            dataStored as string
+                            fetchStoredForecastingResultsRequestAction as () => IAction
                           ),
                         "Delete",
                         "deleteOutlined",

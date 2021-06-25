@@ -76,8 +76,6 @@ function* saveCostsRevenuesSaga(
     (state) => state.applicationReducer
   );
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
-  const { costsRevenuesInputDeckTitle, costsRevenuesInputDeckDescription } =
-    yield select((state) => state.economicsReducer);
 
   const {
     costsRevenues,
@@ -136,10 +134,7 @@ function* saveCostsRevenuesSaga(
     });
 
     yield put(
-      updateEconomicsParameterAction(
-        "selectedCostsRevenuesTitle",
-        costsRevenuesInputDeckTitle
-      )
+      updateEconomicsParameterAction("selectedCostsRevenuesTitle", title)
     );
     yield put(fetchStoredEconomicsDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));

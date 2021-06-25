@@ -13,6 +13,9 @@ export type LayoutNames =
   | "administration"
   | "settings";
 export type ILayouts = Record<LayoutNames, JSX.Element>;
+export type IdType = {
+  layoutId: keyof ILayouts;
+};
 
 export interface IHTTPResponse {
   data?: any;

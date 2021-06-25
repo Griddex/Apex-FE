@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import React, { Suspense } from "react";
 import {
   Route,
@@ -8,12 +7,10 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
-import DeclineCurveAnalysis from "../../Corporate";
-import DeclineCurveAnalysisBackground from "./CorporateBackground";
+import CorporateBackground from "./CorporateBackground";
 import { ICorporateLayouts, IdType } from "./CorporateLayoutTypes";
 
 const navbarHeight = 43;
-// const subNavBarHeight = 25;
 const addedHeight = 10;
 const useStyles = makeStyles(() => {
   return {
@@ -40,22 +37,22 @@ const CorporateLayout = () => {
         <Suspense fallback={Loading}>
           <Switch>
             <Route exact path={path}>
-              {() => <DeclineCurveAnalysisBackground />}
+              {() => <CorporateBackground />}
             </Route>
-            <Route path={`${url}/:declineCurveAnalysisId`}>
+            <Route path={`${url}/:corporateId`}>
               {(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
-                    params: { declineCurveAnalysisId },
+                    params: { corporateId },
                   },
                 } = props;
 
                 const Layouts: ICorporateLayouts = {
-                  background: <DeclineCurveAnalysisBackground />,
-                  declineCurveAnalysis: <DeclineCurveAnalysis />,
+                  background: <CorporateBackground />,
+                  corporateLayout: <CorporateLayout />,
                 };
 
-                return Layouts[declineCurveAnalysisId];
+                return Layouts[corporateId];
               }}
             </Route>
             <Route path="*">{() => <h1>Not Available</h1>}</Route>

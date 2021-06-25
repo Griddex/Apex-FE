@@ -69,13 +69,11 @@ function* saveEconomicsSensitivitiesSaga(
   const aN = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
-  const { economicsSensitivitiesTitle, economicsSensitivitiesDescription } =
-    yield select((state) => state.economicsReducer);
   const { selectedSensitivitiesTable } = yield select(
     (state) => state.economicsReducer[wc]
   );
 
-  //Should be user scoped?
+  //TODO Should be user scoped?
   const { currentProjectId } = yield select((state) => state.projectReducer);
   const data = {
     title,
@@ -120,7 +118,7 @@ function* saveEconomicsSensitivitiesSaga(
     yield put(
       updateEconomicsParameterAction(
         "selectedEconomicsSensitivitiesTitle",
-        economicsSensitivitiesTitle
+        title
       )
     );
 

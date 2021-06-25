@@ -27,7 +27,7 @@ import {
   createProjectFailureAction,
   createProjectSuccessAction,
   CREATE_PROJECT_REQUEST,
-  fetchStoredProjectsAction,
+  fetchStoredProjectsRequestAction,
 } from "../Actions/ProjectActions";
 
 export default function* watchCreateNewProjectSaga(): Generator<
@@ -54,10 +54,6 @@ function* createProjectSaga(
   const {
     titleDesc: { title, description },
   } = payload;
-
-  const { projectTitle, projectDescription } = yield select(
-    (state: RootState) => state.projectReducer
-  );
 
   const {
     unitGroup,
@@ -108,7 +104,7 @@ function* createProjectSaga(
     });
 
     yield put(activateDisabledMenusAction());
-    yield put(fetchStoredProjectsAction());
+    yield put(fetchStoredProjectsRequestAction());
 
     yield put(showDialogAction(successDialogParameters));
   } catch (errors) {

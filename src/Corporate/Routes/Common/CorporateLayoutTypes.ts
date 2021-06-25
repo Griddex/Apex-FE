@@ -1,8 +1,8 @@
 export interface ICorporateLayouts {
   background: JSX.Element;
-  declineCurveAnalysis: JSX.Element;
+  corporateLayout: JSX.Element;
 }
 
 export type IdType = {
-  declineCurveAnalysisId: keyof ICorporateLayouts;
+  corporateId: keyof ICorporateLayouts;
 };

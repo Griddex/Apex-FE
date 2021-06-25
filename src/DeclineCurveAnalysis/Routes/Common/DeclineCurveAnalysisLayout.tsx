@@ -7,15 +7,15 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import Loading from "../../../Application/Components/Visuals/Loading";
 import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import { IdType } from "../../../Corporate/Routes/Common/CorporateLayoutTypes";
 import DeclineCurveAnalysis from "../../DeclineCurveAnalysis";
 import DeclineCurveAnalysisBackground from "./DeclineCurveAnalysisBackground";
-import { IDeclineCurveAnalysisLayouts } from "./DeclineCurveAnalysisLayoutTypes";
+import {
+  IDeclineCurveAnalysisLayouts,
+  IdType,
+} from "./DeclineCurveAnalysisLayoutTypes";
 
 const navbarHeight = 43;
-// const subNavBarHeight = 25;
 const addedHeight = 10;
 const useStyles = makeStyles(() => {
   return {
@@ -45,14 +45,11 @@ const DeclineCurveAnalysisLayout = () => {
           }
         >
           <Switch>
-            <Route
-              exact
-              path={path}
-              render={() => <DeclineCurveAnalysisBackground />}
-            />
-            <Route
-              path={`${url}/:declineCurveAnalysisId`}
-              render={(props: RouteComponentProps<IdType>) => {
+            <Route exact path={path}>
+              {() => <DeclineCurveAnalysisBackground />}
+            </Route>
+            <Route path={`${url}/:declineCurveAnalysisId`}>
+              {(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { declineCurveAnalysisId },
@@ -66,8 +63,8 @@ const DeclineCurveAnalysisLayout = () => {
 
                 return Layouts[declineCurveAnalysisId];
               }}
-            />
-            <Route path="*" render={() => <h1>Not Available</h1>} />
+            </Route>
+            <Route path="*" component={() => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
       </div>

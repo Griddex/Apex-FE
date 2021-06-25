@@ -35,7 +35,6 @@ export default function* watchDeleteDataByIdSaga(): Generator<
 
 const config = { withCredentials: false };
 const deleteDataByIdAPI = (url: string) => authService.deleteData(url, config);
-const fetchStoredDataAPI = (url: string) => authService.get(url, config);
 
 function* deleteDataByIdSaga(action: IAction): Generator<
   | CallEffect<AxiosResponse>
@@ -48,16 +47,10 @@ function* deleteDataByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const {
-    reducer,
-    tableDataUrl,
-    fetchStoredUrl,
-    fetchStoredSuccessAction,
-    dataStored,
-  } = payload;
+  const { reducer, deleteDataUrl, fetchStoredRequestAction } = payload;
 
   try {
-    const deleteResults = yield call(deleteDataByIdAPI, tableDataUrl);
+    const deleteResults = yield call(deleteDataByIdAPI, deleteDataUrl);
     const {
       data: { success: deleteSuccess },
     } = deleteResults;
@@ -72,24 +65,7 @@ function* deleteDataByIdSaga(action: IAction): Generator<
       },
     });
 
-    const fetchResults = yield call(fetchStoredDataAPI, fetchStoredUrl);
-    console.log(
-      "Logged output --> ~ file: DeleteDataByIdSaga.ts ~ line 76 ~ fetchResults",
-      fetchResults
-    );
-    //TODO Switch if 1 or levels deep
-    const {
-      data: { data },
-    } = fetchResults;
-
-    const fetchSuccessAction = fetchStoredSuccessAction();
-    yield put({
-      ...fetchSuccessAction,
-      payload: {
-        ...payload,
-        [dataStored]: data,
-      },
-    });
+    yield put(fetchStoredRequestAction());
 
     yield put(showDialogAction(deleteSuccessDPs()));
   } catch (errors) {

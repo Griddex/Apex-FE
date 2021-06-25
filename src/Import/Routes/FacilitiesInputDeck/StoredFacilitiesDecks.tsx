@@ -22,7 +22,6 @@ const chartData = [
 export default function StoredFacilitiesDecks({
   reducer,
   containerStyle,
-  finalAction,
   showChart,
 }: IStoredInputDeck) {
   const { currentProjectId } = useSelector(
@@ -31,13 +30,13 @@ export default function StoredFacilitiesDecks({
 
   const tableTitle = "Facilities InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/facilities-inputdeck`;
-  const fetchStoredUrl = `${getBaseForecastUrl()}/facilities-inputdeck/light/${currentProjectId}`;
-  const dataStored = "facilitiesInputDeckStored";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "facilitiesInputDeckStored";
-  const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
+  const { facilitiesInputDeckStored } = useSelector(
+    (state: RootState) => state[reducer][wc]
+  );
 
   const componentRef = React.useRef();
 
@@ -48,18 +47,20 @@ export default function StoredFacilitiesDecks({
   };
 
   const snStoredData =
-    storedData &&
-    storedData.map((row: IApplicationStoredDataRow, i: number) => ({
-      sn: i + 1,
-      id: row.id,
-      approval: "Not Started",
-      title: row.title,
-      description: row.description,
-      author: { avatarUrl: "", name: "None" },
-      approvers: ["--", "--"],
-      createdOn: row.createdAt,
-      modifiedOn: row.createdAt,
-    }));
+    facilitiesInputDeckStored &&
+    facilitiesInputDeckStored.map(
+      (row: IApplicationStoredDataRow, i: number) => ({
+        sn: i + 1,
+        id: row.id,
+        approval: "Not Started",
+        title: row.title,
+        description: row.description,
+        author: { avatarUrl: "", name: "None" },
+        approvers: ["--", "--"],
+        createdOn: row.createdAt,
+        modifiedOn: row.createdAt,
+      })
+    );
 
   const dataKey = "title";
   const dataTitle = "FACILITIES DECK TITLE";
@@ -80,8 +81,8 @@ export default function StoredFacilitiesDecks({
     persistSelectedIdTitleAction &&
       dispatch(
         persistSelectedIdTitleAction("inputReducer", {
-          selectedNetworkId: "",
-          selectedNetworkTitle: "",
+          selectedFacilitiesInputDeckId: "",
+          selectedFacilitiesInputDeckTitle: "",
         })
       );
   };
@@ -100,10 +101,8 @@ export default function StoredFacilitiesDecks({
     mainUrl,
     tableTitle,
     clickAwayAction,
-    fetchStoredUrl,
-    fetchStoredSuccessAction: () =>
+    fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),
-    dataStored,
   };
 
   return (

@@ -154,7 +154,7 @@ const EconomicsResultsLanding = () => {
             </Route>
             <Route
               path="*"
-              render={(props) => {
+              component={() => {
                 return <h1>Not Available</h1>;
               }}
             />

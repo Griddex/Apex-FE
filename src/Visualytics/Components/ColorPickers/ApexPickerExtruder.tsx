@@ -2,7 +2,6 @@ import { Box } from "@material-ui/core";
 import { darken, useTheme } from "@material-ui/core/styles";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import React from "react";
-import "react-color-gradient-picker/dist/index.css";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 export interface IApexPickerExtruder {

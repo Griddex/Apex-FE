@@ -8,7 +8,10 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
 import { IStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
-import { fetchStoredProjectsSuccessAction } from "../Redux/Actions/ProjectActions";
+import {
+  fetchStoredProjectsRequestAction,
+  fetchStoredProjectsSuccessAction,
+} from "../Redux/Actions/ProjectActions";
 import { IApplicationProject } from "../Redux/State/ProjectStateTypes";
 
 export default function StoredProjects({
@@ -85,9 +88,7 @@ export default function StoredProjects({
     handleCheckboxChange,
     clickAwayAction,
     mainUrl,
-    fetchStoredUrl,
-    fetchStoredSuccessAction: fetchStoredProjectsSuccessAction,
-    dataStored,
+    fetchStoredRequestAction: fetchStoredProjectsRequestAction,
   };
 
   return <StoredDataRoute {...props} />;

@@ -81,15 +81,12 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       reducer,
       mainUrl,
       clickAwayAction,
-      fetchStoredUrl,
-      fetchStoredSuccessAction,
-      dataStored,
+      fetchStoredRequestAction,
     },
     ref
   ) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const wp = wkPs as NonNullable<IStoredDataProps["wkPs"]>;
 
     const { dayFormat, monthFormat, yearFormat } = useSelector(
       (state: RootState) => state.unitSettingsReducer
@@ -181,7 +178,9 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                             () => setShouldUpdate(!shouldUpdate),
                           ],
                           "Update",
-                          "updateOutlined"
+                          "updateOutlined",
+                          false,
+                          "All"
                         ),
                     };
 
@@ -204,9 +203,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                               reducer as ReducersType,
                               deleteUrl as string,
                               title as string,
-                              fetchStoredUrl as string,
-                              fetchStoredSuccessAction as () => IAction,
-                              dataStored as string
+                              fetchStoredRequestAction as () => IAction
                             ),
                           "Delete",
                           "deleteOutlined",

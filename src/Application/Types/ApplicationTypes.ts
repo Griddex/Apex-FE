@@ -68,7 +68,7 @@ export interface IStoredDataProps {
   componentRef?: React.MutableRefObject<any>;
   clickAwayAction?: () => void;
   fetchStoredUrl?: string;
-  fetchStoredSuccessAction?: (projectIdDefined?: string) => IAction;
+  fetchStoredRequestAction?: (projectIdDefined?: string) => IAction;
   dataStored?: string;
 }
 

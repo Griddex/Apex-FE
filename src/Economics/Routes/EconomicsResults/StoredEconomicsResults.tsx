@@ -4,11 +4,13 @@ import { ITableButtonsProps } from "../../../Application/Components/Table/TableB
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import {
   IStoredDataProps,
   IApplicationStoredDataRow,
 } from "../../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
+import { fetchStoredEconomicsResultsRequestAction } from "../../Redux/Actions/EconomicsActions";
 import { IStoredDataRow } from "./../../../Application/Types/ApplicationTypes";
 
 const chartData = [
@@ -21,12 +23,19 @@ export default function StoredEconomicsResults({
   reducer,
   containerStyle,
 }: IStoredDataProps) {
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const tableTitle = "Economics Results Table";
+  const mainUrl = `${getBaseEconomicsUrl()}/analyses`;
+
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
   const wp = "economicsResultsStored" as NonNullable<IStoredDataProps["wkPs"]>;
 
-  const storedData = useSelector(
-    (state: RootState) => state.economicsReducer[wc][wp]
+  const { economicsResultsStored } = useSelector(
+    (state: RootState) => state.economicsReducer[wc]
   );
 
   const tableButtons: ITableButtonsProps = {
@@ -34,7 +43,7 @@ export default function StoredEconomicsResults({
     extraButtons: () => <div></div>,
   };
 
-  const snStoredData: IStoredDataRow[] = storedData.map(
+  const snStoredData: IStoredDataRow[] = economicsResultsStored.map(
     (row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
@@ -67,8 +76,17 @@ export default function StoredEconomicsResults({
       );
   };
 
+  const clickAwayAction = () => {
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("inputReducer", {
+          selectedEconomicsResultsId: "",
+          selectedEconomicsResultsTitle: "",
+        })
+      );
+  };
+
   const props = {
-    reducer,
     snStoredData,
     dataKey,
     dataTitle,
@@ -77,6 +95,12 @@ export default function StoredEconomicsResults({
     wkPs: wp,
     containerStyle,
     handleCheckboxChange,
+    reducer,
+    mainUrl,
+    tableTitle,
+    clickAwayAction,
+    fetchStoredRequestAction: () =>
+      fetchStoredEconomicsResultsRequestAction(currentProjectId, false),
   };
 
   return <StoredDataRoute {...props} />;

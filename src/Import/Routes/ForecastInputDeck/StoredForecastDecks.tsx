@@ -22,7 +22,6 @@ const chartData = [
 export default function StoredForecastDecks({
   reducer,
   containerStyle,
-  finalAction,
   showChart,
 }: IStoredInputDeck) {
   const { currentProjectId } = useSelector(
@@ -31,8 +30,6 @@ export default function StoredForecastDecks({
 
   const tableTitle = "Forecast InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/forecast-inputdeck`;
-  const fetchStoredUrl = `${getBaseForecastUrl()}/forecast-inputdeck/light/${currentProjectId}`;
-  const dataStored = "forecastInputDeckStored";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -77,13 +74,13 @@ export default function StoredForecastDecks({
   };
 
   const clickAwayAction = () => {
-    persistSelectedIdTitleAction &&
-      dispatch(
-        persistSelectedIdTitleAction("inputReducer", {
-          selectedNetworkId: "",
-          selectedNetworkTitle: "",
-        })
-      );
+    // persistSelectedIdTitleAction &&
+    //   dispatch(
+    //     persistSelectedIdTitleAction("inputReducer", {
+    //       selectedForecastInputDeckId: "",
+    //       selectedForecastInputDeckTitle: "",
+    //     })
+    //   );
   };
 
   const props: IStoredDataProps = {
@@ -100,10 +97,8 @@ export default function StoredForecastDecks({
     mainUrl,
     tableTitle,
     clickAwayAction,
-    fetchStoredUrl,
-    fetchStoredSuccessAction: () =>
+    fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),
-    dataStored,
   };
 
   return <StoredDataRoute {...props} />;

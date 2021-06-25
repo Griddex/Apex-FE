@@ -82,7 +82,7 @@ const App: React.FC<JSX.Element> = () => {
                 roles={["Officer", "Admin"]}
                 component={Layout}
               />
-              <Route render={() => <h1>Not Found</h1>} />
+              <Route component={() => <h1>Not Found</h1>} />
             </Switch>
           </Suspense>
         </DndProvider>

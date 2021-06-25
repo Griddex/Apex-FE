@@ -13,7 +13,7 @@ export const confirmationDialogParameters = (
   action: (titleDesc?: Record<string, string>) => IAction | void,
   oneButtonTitle: string,
   oneButtonIconTitle: string,
-  iconType?: DialogStuff["iconType"]
+  iconType: DialogStuff["iconType"] = "save"
 ): DialogStuff => {
   return {
     name,

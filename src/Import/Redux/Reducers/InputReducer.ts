@@ -95,6 +95,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         return state;
       }
     }
+
     case STORED_INPUTDECK_SUCCESS: {
       const { facilitiesInputDeckStored, forecastInputDeckStored } =
         action.payload;
@@ -108,6 +109,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         },
       };
     }
+
     case STORED_INPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
       const wp = workflowProcess as NonNullable<IStoredDataProps["wkPs"]>;

@@ -120,7 +120,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const CreateForecastingParametersWorkflowDialog = (
+const EditOrCreateForecastingParametersWorkflowDialog = (
   props: DialogStuff<IForecastParametersStoredRow>
 ) => {
   const workflowCategory = "networkDataWorkflows";
@@ -308,4 +308,4 @@ const CreateForecastingParametersWorkflowDialog = (
   );
 };
 
-export default CreateForecastingParametersWorkflowDialog;
+export default EditOrCreateForecastingParametersWorkflowDialog;

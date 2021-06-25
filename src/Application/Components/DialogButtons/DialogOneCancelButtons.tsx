@@ -75,7 +75,7 @@ const DialogOneCancelButtons = (
               break;
             case "None":
             default:
-              return;
+              break;
           }
         }
       },

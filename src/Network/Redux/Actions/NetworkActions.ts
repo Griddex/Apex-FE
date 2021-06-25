@@ -1,5 +1,8 @@
 import { FlowElement } from "react-flow-renderer";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  ReducersType,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
 export const UPDATE_NETWORKPARAMETER = "UPDATE_NETWORKPARAMETER";
@@ -340,11 +343,13 @@ export const saveNetworkFailureAction = () => {
 };
 
 export const fetchStoredForecastingParametersRequestAction = (
-  projectIdDefined: string
+  projectIdDefined: string,
+  showSpinner = false
 ) => {
   return {
     type: STORED_FORECASTPARAMETERS_REQUEST,
     payload: { projectId: projectIdDefined },
+    meta: { showSpinner, message: "Fetching forecast parameters..." },
   };
 };
 
@@ -472,18 +477,20 @@ export const persistForecastParametersAction = (
   };
 };
 
-export const removeCurrentNetworkAction = () => {
+export const removeCurrentNetworkAction = (showSpinner: boolean) => {
   return {
     type: REMOVE_NETWORK,
+    meta: { showSpinner, message: "Removing network..." },
   };
 };
 
 export const getDeclineParametersByIdRequestAction = (
-  selectedDeclineParametersId: string
+  selectedDeclineParametersId: string,
+  reducer: ReducersType
 ) => {
   return {
     type: GET_DECLINEPARAMETERSBYID_REQUEST,
-    payload: { selectedDeclineParametersId },
+    payload: { selectedDeclineParametersId, reducer },
     meta: { showSpinner: true, message: "fetching decline parameters..." },
   };
 };
@@ -537,12 +544,13 @@ export const getProductionPrioritizationByIdFailureAction = () => {
 };
 
 export const fetchStoredDeclineCurveParametersRequestAction = (
-  projectId: string
+  projectId: string,
+  showSpinner = false
 ) => {
   return {
     type: STORED_DECLINEPARAMETERS_REQUEST,
     payload: { projectId },
-    meta: { showSpinner: true, message: "fetching decline parameters data..." },
+    meta: { showSpinner, message: "fetching decline parameters data..." },
   };
 };
 
@@ -566,12 +574,16 @@ export const fetchStoredDeclineCurveParametersFailureAction = () => {
 };
 
 export const fetchStoredProductionPrioritizationRequestAction = (
-  projectId: string
+  projectId: string,
+  showSpinner = false
 ) => {
   return {
     type: STORED_PRODUCTIONPRIORITIZATION_REQUEST,
     payload: { projectId },
-    meta: { showSpinner: true, message: "fetching decline parameters data..." },
+    meta: {
+      showSpinner,
+      message: "fetching production prioritization data...",
+    },
   };
 };
 

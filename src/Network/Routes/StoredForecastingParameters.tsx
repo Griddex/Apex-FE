@@ -13,14 +13,17 @@ import ApexGridMoreActionsContextMenu from "../../Application/Components/Context
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
+import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
-import { deleteDialogParameters } from "../Components/DialogParameters/DeleteForecastParametersDialogParameters";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
 import {
@@ -30,6 +33,7 @@ import {
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
 import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
 import {
+  fetchStoredForecastingParametersRequestAction,
   getDeclineParametersByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
@@ -103,6 +107,13 @@ const chartData = [
 export default function StoredForecastingParameters({
   showChart,
 }: IStoredDataProps) {
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const reducer = "economicsReducer";
+  const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -258,6 +269,10 @@ export default function StoredForecastingParameters({
           const currentSN = sn as number;
           const currentRow = rows[currentSN - 1];
 
+          const title = row.title as string;
+          const id = row.forecastingParametersId as string;
+          const deleteUrl = `${mainUrl}/${id}`;
+
           const importMoreActionsData = [
             {
               title: "Clone",
@@ -280,10 +295,6 @@ export default function StoredForecastingParameters({
             <ApexFlexContainer>
               <EditOutlinedIcon
                 onClick={() => {
-                  console.log(
-                    "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 260 ~ generateColumns ~ currentRow",
-                    currentRow
-                  );
                   dispatch(
                     showDialogAction(
                       extrudeForecastParametersDPs(
@@ -302,8 +313,27 @@ export default function StoredForecastingParameters({
                 onClick={() => {
                   dispatch(
                     showDialogAction(
-                      deleteDialogParameters(currentSN - 1, () =>
-                        alert("Deleted")
+                      confirmationDialogParameters(
+                        "Delete_Table_Data_Dialog",
+                        "Delete Forecast Parameters",
+                        "deleteDataDialog",
+                        "",
+                        false,
+                        true,
+                        () =>
+                          deleteDataByIdRequestAction(
+                            reducer as ReducersType,
+                            deleteUrl as string,
+                            title as string,
+                            () =>
+                              fetchStoredForecastingParametersRequestAction(
+                                currentProjectId,
+                                false
+                              )
+                          ),
+                        "Delete",
+                        "deleteOutlined",
+                        "delete"
                       )
                     )
                   );
@@ -366,7 +396,8 @@ export default function StoredForecastingParameters({
                 onClick={() => {
                   dispatch(
                     getDeclineParametersByIdRequestAction(
-                      wellDeclineParameterId
+                      wellDeclineParameterId,
+                      reducer
                     )
                   );
 

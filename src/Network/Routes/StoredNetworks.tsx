@@ -25,8 +25,6 @@ export default function StoredNetworks({
   );
 
   const mainUrl = `${getBaseForecastUrl()}/network`;
-  const fetchStoredUrl = `${getBaseForecastUrl()}/network/light/${currentProjectId}`;
-  const dataStored = "networkStored";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -98,10 +96,8 @@ export default function StoredNetworks({
     handleCheckboxChange,
     clickAwayAction,
     mainUrl,
-    fetchStoredUrl,
-    fetchStoredSuccessAction: () =>
+    fetchStoredRequestAction: () =>
       fetchStoredNetworkDataRequestAction(currentProjectId),
-    dataStored,
   };
 
   return <StoredDataRoute {...props} />;

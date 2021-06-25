@@ -32,7 +32,7 @@ export const updateProjectParametersAction = (
   };
 };
 
-export const fetchStoredProjectsAction = () => {
+export const fetchStoredProjectsRequestAction = () => {
   return {
     type: FETCH_STORED_PROJECTS_REQUEST,
   };

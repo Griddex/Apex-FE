@@ -18,7 +18,7 @@ export const extrudeForecastParametersDPs = (
     type: "createForecastingParametersWorkflowDialog",
     show: true,
     exclusive: false,
-    maxWidth: "xl",
+    maxWidth: "lg",
     iconType: "edit",
     forecastParametersIndex,
     workflowProcess,

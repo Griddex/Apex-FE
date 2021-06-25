@@ -173,21 +173,17 @@ export const getTableDataByIdFailureAction = () => {
 
 export const deleteDataByIdRequestAction = (
   reducer: ReducersType,
-  tableDataUrl: string,
+  deleteDataUrl: string,
   tableTitle: string,
-  fetchStoredUrl: string,
-  fetchStoredSuccessAction: () => IAction,
-  dataStored: string
+  fetchStoredRequestAction: () => IAction
 ) => {
   return {
     type: DELETE_DATABYID_REQUEST,
     payload: {
       reducer,
-      tableDataUrl,
+      deleteDataUrl,
       tableTitle,
-      fetchStoredUrl,
-      fetchStoredSuccessAction,
-      dataStored,
+      fetchStoredRequestAction,
     },
     meta: { showSpinner: true, message: "Deleting data..." },
   };

@@ -43,9 +43,8 @@ const VisualyticsLayout = () => {
         >
           <Switch>
             <Route exact path={path} component={Visualytics} />
-            <Route
-              path={`${url}/:visualyticsId`}
-              render={(props: RouteComponentProps<IdType>) => {
+            <Route path={`${url}/:visualyticsId`}>
+              {(props: RouteComponentProps<IdType>) => {
                 const {
                   match: {
                     params: { visualyticsId },
@@ -59,8 +58,8 @@ const VisualyticsLayout = () => {
 
                 return Layouts[visualyticsId];
               }}
-            />
-            <Route path="*" render={() => <h1>Not Available</h1>} />
+            </Route>
+            <Route path="*" component={() => <h1>Not Available</h1>} />
           </Switch>
         </Suspense>
       </div>

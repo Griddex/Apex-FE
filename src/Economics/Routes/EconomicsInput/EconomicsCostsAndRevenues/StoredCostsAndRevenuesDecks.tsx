@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { persistSelectedIdTitleAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
 import {
   IStoredDataProps,
   IApplicationStoredDataRow,
@@ -10,7 +11,10 @@ import {
 } from "../../../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../../../../Import/Routes/InputDeckTypes";
-import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  fetchStoredEconomicsDataRequestAction,
+  updateEconomicsParameterAction,
+} from "../../../Redux/Actions/EconomicsActions";
 
 //TODO: Calculate classification data from collection
 const chartData = [
@@ -20,18 +24,25 @@ const chartData = [
 ];
 
 export default function StoredCostsAndRevenuesDecks({
+  reducer,
   containerStyle,
-  finalAction,
   showChart,
 }: IStoredInputDeck) {
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const tableTitle = "Costs/Revenues Table";
+  const mainUrl = `${getBaseEconomicsUrl()}/data`;
+
   const dispatch = useDispatch();
 
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> =
     "economicsCostsRevenuesDeckStored";
 
-  const storedData: IStoredDataRow[] = useSelector(
-    (state: RootState) => state.economicsReducer[wc][wp]
+  const { economicsCostsRevenuesDeckStored } = useSelector(
+    (state: RootState) => state.economicsReducer[wc]
   );
 
   const tableButtons: ITableButtonsProps = {
@@ -40,20 +51,22 @@ export default function StoredCostsAndRevenuesDecks({
   };
 
   const snStoredData: IStoredDataRow[] =
-    storedData &&
-    storedData.map((row: IApplicationStoredDataRow, i: number) => ({
-      sn: i + 1,
-      id: row.id,
-      approval: "Not Started",
-      title: row.title,
-      description: row.description,
-      developmentScenarios: row?.developmentScenariosCostsRevenue?.join(", "),
-      author: { avatarUrl: "", name: "None" },
-      // approvers: [{ avatarUrl: "", name: "" }],
-      approvers: "----",
-      createdOn: row.createdAt,
-      modifiedOn: row.createdAt,
-    }));
+    economicsCostsRevenuesDeckStored &&
+    economicsCostsRevenuesDeckStored.map(
+      (row: IApplicationStoredDataRow, i: number) => ({
+        sn: i + 1,
+        id: row.id,
+        approval: "Not Started",
+        title: row.title,
+        description: row.description,
+        developmentScenarios: row?.developmentScenariosCostsRevenue?.join(", "),
+        author: { avatarUrl: "", name: "None" },
+        // approvers: [{ avatarUrl: "", name: "" }],
+        approvers: "----",
+        createdOn: row.createdAt,
+        modifiedOn: row.createdAt,
+      })
+    );
 
   const dataKey = "title";
   const dataTitle = "COSTS & REVENUE TITLE";
@@ -77,6 +90,16 @@ export default function StoredCostsAndRevenuesDecks({
     );
   };
 
+  const clickAwayAction = () => {
+    persistSelectedIdTitleAction &&
+      dispatch(
+        persistSelectedIdTitleAction("inputReducer", {
+          selectedCostsRevenuesInputDeckId: "",
+          selectedCostsRevenuesInputDeckTitle: "",
+        })
+      );
+  };
+
   const props: IStoredDataProps = {
     snStoredData,
     dataKey,
@@ -87,6 +110,12 @@ export default function StoredCostsAndRevenuesDecks({
     showChart,
     containerStyle,
     handleCheckboxChange,
+    reducer,
+    mainUrl,
+    tableTitle,
+    clickAwayAction,
+    fetchStoredRequestAction: () =>
+      fetchStoredEconomicsDataRequestAction(currentProjectId),
   };
 
   return <StoredDataRoute {...props} />;

@@ -75,7 +75,7 @@ export function* autoGenerateNetworkSaga(
 
   try {
     yield put(showSpinnerAction(message));
-    yield put(removeCurrentNetworkAction());
+    yield put(removeCurrentNetworkAction(false));
 
     const chan = yield call(updateNodesAndEdges, url, reqPayload);
 

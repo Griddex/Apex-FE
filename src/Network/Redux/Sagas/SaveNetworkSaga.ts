@@ -64,13 +64,9 @@ function* saveNetworkSaga(
 
   const { selectedFacilitiesInputDeckId, selectedForecastInputDeckId } =
     yield select((state) => state.inputReducer);
-  const {
-    isNetworkAuto,
-    networkTitle,
-    networkDescription,
-    nodeElements,
-    edgeElements,
-  } = yield select((state) => state.networkReducer);
+  const { isNetworkAuto, nodeElements, edgeElements } = yield select(
+    (state) => state.networkReducer
+  );
 
   const data = {
     userId: "Gift",
@@ -107,9 +103,7 @@ function* saveNetworkSaga(
       payload: { ...payload, status, success, selectedNetworkId },
     });
 
-    yield put(
-      updateNetworkParameterAction("selectedNetworkTitle", networkTitle)
-    );
+    yield put(updateNetworkParameterAction("selectedNetworkTitle", title));
     yield put(fetchStoredNetworkDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
@@ -120,10 +114,7 @@ function* saveNetworkSaga(
       payload: { ...payload, errors },
     });
 
-    yield put(
-      // showDialogAction(failureDialogParameters(errors["errors"][0].message))
-      showDialogAction(failureDialogParameters(errors.message))
-    );
+    yield put(showDialogAction(failureDialogParameters(errors.message)));
   } finally {
     yield put(hideSpinnerAction());
   }

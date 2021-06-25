@@ -71,11 +71,6 @@ function* saveEconomicsParametersSaga(
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
-  const {
-    economicsParametersInputDeckTitle,
-    economicsParametersInputDeckDescription,
-  } = yield select((state) => state.economicsReducer);
-
   const { tableData: inputDeck, appHeaderNameUnitsMap } = yield select(
     (state) => state[reducer][wc][wp]
   );
@@ -167,10 +162,7 @@ function* saveEconomicsParametersSaga(
     });
 
     yield put(
-      updateEconomicsParameterAction(
-        "selectedEconomicsParametersTitle",
-        economicsParametersInputDeckTitle
-      )
+      updateEconomicsParameterAction("selectedEconomicsParametersTitle", title)
     );
     yield put(fetchStoredEconomicsDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));

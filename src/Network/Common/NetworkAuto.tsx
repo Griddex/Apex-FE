@@ -46,6 +46,7 @@ import { setCurrentElementAction } from "../Redux/Actions/NetworkActions";
 import GenerateNodeService from "../Services/GenerateNodeService";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
+import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -222,6 +223,8 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     if (reactFlowInstanceRef.current) {
       reactFlowInstanceRef.current.fitView();
     }
+
+    dispatch(hideSpinnerAction());
   }, [reactFlowInstanceRef, networkElements]);
 
   React.useEffect(() => {

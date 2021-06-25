@@ -354,7 +354,7 @@ Total : 494 files,  54813 codes, 946 comments, 3508 blanks, all 59267 lines
 | [src/Network/Components/Dialogs/StoredNetworksDialogTypes.ts](/src/Network/Components/Dialogs/StoredNetworksDialogTypes.ts) | TypeScript | 46 | 0 | 4 | 50 |
 | [src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx](/src/Network/Components/Dialogs/GenerateNetworkWorkflowDialog.tsx) | TypeScript React | 206 | 1 | 16 | 223 |
 | [src/Network/Components/Dialogs/RunForecastDialog.tsx](/src/Network/Components/Dialogs/RunForecastDialog.tsx) | TypeScript React | 121 | 4 | 8 | 133 |
-| [src/Network/Components/Dialogs/CreateForecastingParametersWorkflowDialog.tsx](/src/Network/Components/Dialogs/CreateForecastingParametersWorkflowDialog.tsx) | TypeScript React | 200 | 0 | 16 | 216 |
+| [src/Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog.tsx](/src/Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog.tsx) | TypeScript React | 200 | 0 | 16 | 216 |
 | [src/Network/Components/Dialogs/SaveNetworkDialog.tsx](/src/Network/Components/Dialogs/SaveNetworkDialog.tsx) | TypeScript React | 134 | 0 | 8 | 142 |
 | [src/Network/Components/Dialogs/SaveNetworkDialogTypes.ts](/src/Network/Components/Dialogs/SaveNetworkDialogTypes.ts) | TypeScript | 4 | 0 | 1 | 5 |
 | [src/Network/Components/Forms/RunForecastForm.tsx](/src/Network/Components/Forms/RunForecastForm.tsx) | TypeScript React | 71 | 0 | 6 | 77 |

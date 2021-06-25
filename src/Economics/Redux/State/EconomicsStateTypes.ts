@@ -227,6 +227,8 @@ export interface IEconomicsState
 
   showSensitivitiesTable: boolean;
 
+  selectedTableData: any[];
+
   sensitivitiesHeatMapTree: RenderTree;
   sensitivitiesHeatMapData: any;
   sensitivitiesHeatMap1or2D: [];

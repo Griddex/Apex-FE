@@ -23,6 +23,7 @@ import StoredFacilitiesDecks from "./StoredFacilitiesDecks";
 import { IdType } from "./FacilitiesInputDeckLandingTypes";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 
 const useStyles = makeStyles((theme) => ({
   facilitiesInputDeckLanding: {
@@ -138,7 +139,7 @@ const FacilitiesInputDeckLanding = () => {
       maxWidth: "sm",
       iconType: "save",
       actionsList: (titleDesc?: Record<string, string>) =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
           [
@@ -148,6 +149,8 @@ const FacilitiesInputDeckLanding = () => {
                 titleDesc as Record<string, string>
               ),
           ],
+          "Save",
+          "saveOutlined",
           false,
           "None"
         ),

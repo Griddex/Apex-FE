@@ -115,10 +115,8 @@ const ProductionDataLanding = () => {
     <>
       {loadWorkflow ? (
         <div className={classes.ImportWorkflow}>
-          <Route
-            exact
-            path={`${path}/:dataInputId`}
-            render={(props: RouteComponentProps<IdType>) => {
+          <Route exact path={`${path}/:dataInputId`}>
+            {(props: RouteComponentProps<IdType>) => {
               const { match } = props;
               const {
                 params: { dataInputId },
@@ -153,7 +151,7 @@ const ProductionDataLanding = () => {
 
               return inputProductionDataWorkflows[dataInputId];
             }}
-          />
+          </Route>
         </div>
       ) : (
         <div className={classes.ProductionDataLanding}>

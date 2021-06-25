@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import FormatColorFillIcon from "@material-ui/icons/FormatColorFill";
 import React from "react";
-import "react-color-gradient-picker/dist/index.css";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
