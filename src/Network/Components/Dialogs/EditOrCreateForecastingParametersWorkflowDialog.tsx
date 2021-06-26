@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -226,7 +227,7 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
       iconType: "confirmation",
       dialogText: "Do you want to save the current forecasting parameters?",
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
@@ -236,6 +237,8 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
                 titleDesc as Record<string, string>
               ),
           ],
+          "Save",
+          "saveOutlined",
           false,
           "All"
         ),

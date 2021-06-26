@@ -41,6 +41,8 @@ const networkState: INetworkState = {
   success: false,
   data: [],
 
+  selectedTableData: [],
+
   selectedForecastingParametersId: "",
   selectedForecastingParametersTitle: "",
   selectedForecastingParametersDescription: "",

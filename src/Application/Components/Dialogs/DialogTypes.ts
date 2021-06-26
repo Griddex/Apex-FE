@@ -171,6 +171,7 @@ export interface DialogStuff<TRow = IRawRow> {
   setRows?: TUseState<any>;
   apexEditorProps?: IApexEditor;
   apexEditorComponent?: React.FC<any>;
+  isCustomComponent?: boolean;
   forecastParametersIndex?: number;
   initialState?: any;
 }

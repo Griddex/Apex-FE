@@ -17,7 +17,6 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import history from "../../../Application/Services/HistoryService";
 import { IForecastParametersStoredRow } from "../../Components/Dialogs/StoredNetworksDialogTypes";
 import {
   fetchStoredForecastingParametersRequestAction,
@@ -52,14 +51,15 @@ function* saveForecastParametersSaga(
   any
 > {
   const { payload } = action;
+  const {
+    titleDesc: { title, description },
+  } = payload;
   const { currentProjectId } = yield select((state) => state.projectReducer);
   const { selectedForecastInputDeckId } = yield select(
     (state) => state.inputReducer
   );
   const {
     forecastingParametersStored,
-    forecastParametersTitle,
-    forecastParametersDescription,
     selectedDeclineParametersId,
     selectedProductionPrioritizationId,
     parameterEntries: {
@@ -80,8 +80,8 @@ function* saveForecastParametersSaga(
 
   const endForecast = new Date(endForecastDate);
   const data = {
-    title: forecastParametersTitle,
-    description: forecastParametersDescription,
+    title,
+    description,
     type: "User",
     userId: "Gideon",
     declineParametersId: selectedDeclineParametersId,

@@ -74,9 +74,9 @@ const SaveForecastResultsDialogButtons = ({
             button?.handleAction && button?.handleAction(i as number)
           }
           startIcon={button.startIcon}
-          disabled={
-            button.title === "Save" ? isSaveForecastResultsValid : false
-          }
+          // disabled={
+          //   button.title === "Save" ? !isSaveForecastResultsValid : true
+          // }
         >
           {button.title}
         </Button>

@@ -57,15 +57,15 @@ function* saveEconomicsResultsSaga(
   any
 > {
   const { payload } = action;
-  const { economicsResultsTitle, economicsResultsDescription } = yield select(
-    (state) => state.economicsReducer
-  );
+  const {
+    titleDesc: { title, description },
+  } = payload;
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
   const data = {
     projectId: currentProjectId,
-    title: economicsResultsTitle,
-    description: economicsResultsDescription,
+    title,
+    description,
   };
 
   const config = { withCredentials: false };
@@ -91,10 +91,7 @@ function* saveEconomicsResultsSaga(
       )
     );
     yield put(
-      updateEconomicsParameterAction(
-        "selectedEconomicsResultsTitle",
-        economicsResultsTitle
-      )
+      updateEconomicsParameterAction("selectedEconomicsResultsTitle", title)
     );
 
     yield put(updateEconomicsParameterAction("showResultsTable", true));

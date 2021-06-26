@@ -28,6 +28,7 @@ import {
   GET_FORECASTDATABYID_REQUEST,
 } from "../Actions/ForecastActions";
 import history from "../../../Application/Services/HistoryService";
+import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
 
 export default function* watchGetSelectedForecastDataByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -62,8 +63,9 @@ function* getSelectedForecastDataByIdSaga(
     (state) => state.forecastReducer
   );
 
+  const reducer = "forecastReducer";
+
   const config = {};
-  const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/forecastResultData/${selectedForecastingResultsId}`;
   const message = "Loading forecast data...";
 
@@ -73,13 +75,15 @@ function* getSelectedForecastDataByIdSaga(
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const { status, data: selectedForecastData, succcess } = result;
+    const { status, data: selectedTableData, succcess } = result;
 
-    const successAction = getForecastDataByIdSuccessAction();
+    const successAction = getTableDataByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
-        selectedForecastData,
+        ...payload,
+        reducer,
+        selectedTableData,
       },
     });
 

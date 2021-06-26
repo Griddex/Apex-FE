@@ -21,6 +21,10 @@ const useStyles = makeStyles({
     width: "100%",
     fontSize: 14,
   },
+  // select:(props:any) => {
+  //   return {width:props.width,
+  //   height:props.height,}
+  // }
 });
 
 export type TApexEditorType =
@@ -38,6 +42,8 @@ export interface IApexEditorRow {
   editorType: TApexEditorType;
   currentOption?: ISelectOption;
   Options?: ISelectOption[];
+  width: string | number;
+  height: string | number;
 }
 export interface IApexEditor {
   editorData: IApexEditorRow[];
@@ -45,8 +51,10 @@ export interface IApexEditor {
   dividerPositions: number[];
   rows: any[];
   setRows: TUseState<any[]>;
-  shouldUpdate: boolean;
+  shouldUpdate?: boolean;
   setShouldUpdate?: TUseState<boolean>;
+  shouldUpdateAction?: () => void;
+  isCustomComponent?: boolean;
   customComponent?: React.FC;
   workflowProcess?: TAllWorkflowProcesses;
   activeStep?: number;
@@ -58,14 +66,9 @@ const ApexEditor = ({
   dividerPositions,
   rows,
   setRows,
-  shouldUpdate,
-  setShouldUpdate,
   customComponent,
+  shouldUpdateAction,
 }: IApexEditor) => {
-  console.log(
-    "Logged output --> ~ file: ApexEditor.tsx ~ line 52 ~ shouldUpdate",
-    shouldUpdate
-  );
   const theme = useTheme();
   const classes = useStyles();
 
@@ -81,6 +84,8 @@ const ApexEditor = ({
     i: number,
     name: string,
     title: string,
+    width: string | number,
+    height: string | number,
     value?: any,
     editorType?: TApexEditorType,
     currentOption?: ISelectOption,
@@ -93,9 +98,10 @@ const ApexEditor = ({
             key={i}
             title={title}
             direction="Vertical"
-            containerStyle={{ marginTop: 20, minWidth: 350 }}
+            containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
               <Input
+                style={{ width: width, height: height }}
                 className={classes.input}
                 value={formEditorRow[name as keyof IStoredDataRow]}
                 margin="dense"
@@ -108,7 +114,6 @@ const ApexEditor = ({
                 }}
               />
             }
-            contentStyle={{ width: "100%" }}
           />
         );
 
@@ -118,11 +123,11 @@ const ApexEditor = ({
             key={i}
             title={title}
             direction="Vertical"
-            containerStyle={{ marginTop: 20, minWidth: 350, minHeight: 500 }}
+            containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
               <TextareaAutosize
                 name={name}
-                style={{ height: "100%", width: "100%" }}
+                style={{ width: width, height: height }}
                 rowsMin={20}
                 value={formEditorRow[name as keyof IStoredDataRow] as string}
                 onChange={(event) => {
@@ -142,6 +147,7 @@ const ApexEditor = ({
             key={i}
             title={title}
             direction="Vertical"
+            containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
               <DatePicker
                 datePickerType="single"
@@ -151,6 +157,7 @@ const ApexEditor = ({
                     [name]: currentDateString,
                   }));
                 }}
+                style={{ width: width, height: height }}
               >
                 <DatePickerInput
                   id="date-picker-input-id-start"
@@ -168,6 +175,7 @@ const ApexEditor = ({
             key={i}
             title={title}
             direction="Vertical"
+            containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
               <ApexMuiSwitch
                 name={name}
@@ -194,7 +202,7 @@ const ApexEditor = ({
             key={i}
             title={title}
             direction="Vertical"
-            containerStyle={{ marginTop: 20 }}
+            containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
               <ApexSelectRS
                 valueOption={currentOption as ISelectOption}
@@ -216,7 +224,7 @@ const ApexEditor = ({
             key={i}
             title={title}
             direction="Vertical"
-            containerStyle={{ marginTop: 20 }}
+            containerStyle={{ marginTop: 20, width: width, height: height }}
             content={<CustomComponent />}
           />
         );
@@ -239,33 +247,38 @@ const ApexEditor = ({
       rows
     );
     setRows(rows);
-  }, [shouldUpdate, setShouldUpdate]);
+  }, [shouldUpdateAction]);
 
   return (
-    <ApexFlexContainer>
+    <ApexFlexContainer alignItems="flex-start">
       {dividerPositions.map((pos, i) => {
         return (
-          <div key={i}>
+          <ApexFlexContainer key={i} alignItems="flex-start">
             <ApexFlexContainer
               flexDirection="column"
               justifyContent="flex-start"
-              height={400}
+              height="100%"
             >
               {editorData.map((row, i) => {
                 const {
                   name,
                   title,
                   value,
+                  width,
+                  height,
                   editorType,
                   currentOption,
                   Options,
                 } = row;
+
                 indexRef.current = i;
 
                 return renderEditorComponent(
                   i,
                   name,
                   title,
+                  width,
+                  height,
                   value,
                   editorType,
                   currentOption,
@@ -273,10 +286,8 @@ const ApexEditor = ({
                 );
               })}
             </ApexFlexContainer>
-            <div>
-              {dividerPositions.includes(indexRef.current) && <Divider />}
-            </div>
-          </div>
+            {dividerPositions.includes(indexRef.current) && <Divider />}
+          </ApexFlexContainer>
         );
       })}
     </ApexFlexContainer>

@@ -122,6 +122,8 @@ const TableDataDialog = (props: DialogStuff) => {
     (state: RootState) => state.applicationReducer
   );
 
+  //TODO better way is to deliver name here where
+  //data will be saved?
   const { selectedTableData } = useSelector(
     (state: RootState) => state[reducer as ReducersType]
   );

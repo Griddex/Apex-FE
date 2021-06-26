@@ -140,7 +140,7 @@ const NetworkButtonsMenu = () => {
               const value = true;
 
               dispatch(updateNetworkParameterAction(path, value));
-              dispatch(removeCurrentNetworkAction(true));
+              dispatch(removeCurrentNetworkAction(false));
             },
           ]
         ),

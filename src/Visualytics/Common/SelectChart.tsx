@@ -1,10 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ForecastStackedAreaChart from "../../Forecast/Components/ForecastStackedAreaChart";
 import BarChart from "../Components/Charts/BarChart";
 import DoughnutChart from "../Components/Charts/DoughnutChart";
 import LineChart from "../Components/Charts/LineChart";
+import RadarChart from "../Components/Charts/RadarChart";
+import ScatterPlotChart from "../Components/Charts/ScatterPlotChart";
 import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 import { ICharts } from "../Redux/ChartState/ChartStateTypes";
 
@@ -19,42 +20,21 @@ const charts: ICharts = {
   1: () => <LineChart />,
   2: () => <DoughnutChart data={tempData} willUseThemeColor={false} />,
   3: () => <BarChart />,
+  4: () => <ScatterPlotChart data={[]} willUseThemeColor={false} />,
+  5: () => <RadarChart data={[]} willUseThemeColor={false} />,
 };
 
 const SelectChart = () => {
   const dispatch = useDispatch();
 
-  const { selectedChartIndex, selectedChartObjId, chartObjects } = useSelector(
+  const { selectedChartIndex } = useSelector(
     (state: RootState) => state.chartReducer
   );
 
   const i = selectedChartIndex;
   const chart = charts[i || 0];
 
-  return (
-    <div style={{ height: "100%", width: "100%" }}>
-      {/* <Button
-        onClick={() => {
-          const chartObject = chartObjects.find(
-            (obj) => obj.chartObjId === selectedChartObjId
-          );
-          const lastYaxisId = uuidv4();
-
-          dispatch(
-            setChartObjectAction({
-              chartObjId: selectedChartObjId,
-              chartObjName: "yAxis",
-            })
-          );
-        }}
-        variant="outlined"
-        color="secondary"
-      >
-        Add Yaxis
-      </Button> */}
-      {chart()}
-    </div>
-  );
+  return <div style={{ height: "100%", width: "100%" }}>{chart()}</div>;
 };
 
 export default SelectChart;

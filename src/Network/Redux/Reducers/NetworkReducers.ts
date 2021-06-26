@@ -1,5 +1,8 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { UPDATE_SELECTEDIDTITLE } from "../../../Application/Redux/Actions/ApplicationActions";
+import {
+  GET_TABLEDATABYID_SUCCESS,
+  UPDATE_SELECTEDIDTITLE,
+} from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   ADD_NETWORKELEMENT,
   AUTOGENERATENETWORK_FAILURE,
@@ -33,6 +36,7 @@ import {
   RESET_NETWORK,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
+import set from "lodash.set";
 
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
@@ -320,6 +324,17 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         status,
         errors,
       };
+    }
+
+    case GET_TABLEDATABYID_SUCCESS: {
+      const { reducer, selectedTableData } = action.payload;
+
+      if (reducer === "networkReducer") {
+        const updatedState = set(state, "selectedTableData", selectedTableData);
+        return updatedState;
+      } else {
+        return state;
+      }
     }
 
     case RESET_NETWORK: {

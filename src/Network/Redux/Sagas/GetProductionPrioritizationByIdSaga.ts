@@ -12,6 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -55,6 +56,8 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
   const { selectedProductionPrioritizationId } = yield select(
     (state) => state.networkReducer
   );
+
+  const reducer = "networkReducer";
   const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/${selectedProductionPrioritizationId}`;
 
   try {
@@ -64,19 +67,18 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
     );
 
     const {
-      data: { data: selectedProductionPrioritizationData },
+      data: { data: selectedTableData },
     } = productionPrioritizationResults;
 
-    const successAction = getProductionPrioritizationByIdSuccessAction();
+    const successAction = getTableDataByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        selectedProductionPrioritizationData,
+        reducer,
+        selectedTableData,
       },
     });
-
-    // yield put(updateNetworkParameterAction("showProductionPrioritizationTable", true));
   } catch (errors) {
     const failureAction = getProductionPrioritizationByIdFailureAction();
 

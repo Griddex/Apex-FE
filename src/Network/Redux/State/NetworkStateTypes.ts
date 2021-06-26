@@ -115,6 +115,8 @@ export interface INetworkState extends ISaveNetworkFormProps {
   parameterEntries: ISaveForecastParametersFormValues;
   declineParameters: IDeclineCurveParametersDetail[];
 
+  selectedTableData: any[];
+
   selectedForecastingParametersId: string;
   selectedForecastingParametersTitle: string;
   selectedForecastingParametersDescription: string;

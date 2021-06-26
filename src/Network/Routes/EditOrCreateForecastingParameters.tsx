@@ -425,7 +425,7 @@ const EditOrCreateForecastingParameters = ({
           content={
             <DatePicker
               datePickerType="single"
-              minDate={new Date(formEditorRow["startForecast"])}
+              minDate={new Date(formEditorRow["startForecast"]).toString()}
               value={new Date(formEditorRow["endForecast"])}
               onChange={(dates: Date[], currentDateString: string) => {
                 setFormEditorRow((prev) => ({

@@ -50,22 +50,23 @@ function* saveDeclineParametersSaga(
   any
 > {
   const { payload } = action;
+  const {
+    titleDesc: { title, description },
+  } = payload;
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
   const { selectedForecastInputDeckId } = yield select(
     (state) => state.inputReducer
   );
 
-  const {
-    selectedDeclineParametersTitle,
-    selectedDeclineParametersDescription,
-    selectedDeclineParametersData,
-  } = yield select((state) => state.networkReducer);
+  const { selectedDeclineParametersData } = yield select(
+    (state) => state.networkReducer
+  );
 
   const data = {
     projectId: currentProjectId,
-    title: selectedDeclineParametersTitle,
-    description: selectedDeclineParametersDescription,
+    title,
+    description,
     type: "User",
     declineParameters: selectedDeclineParametersData,
     forecastInputDeckId: selectedForecastInputDeckId,

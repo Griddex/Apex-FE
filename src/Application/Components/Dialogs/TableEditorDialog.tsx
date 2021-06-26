@@ -107,11 +107,21 @@ const TableEditorDialog = (props: DialogStuff) => {
     maxWidth,
     iconType,
     actionsList,
+    isCustomComponent,
     apexEditorProps,
     apexEditorComponent,
   } = props;
 
-  // const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
+  const [shouldUpdate, setShouldUpdate] = React.useState(false);
+
+  const shouldUpdateAction = () => {
+    console.log(
+      "Logged output --> ~ file: TableEditorDialog.tsx ~ line 119 ~ shouldUpdateAction ~ shouldUpdate",
+      shouldUpdate
+    );
+    setShouldUpdate(!shouldUpdate);
+  };
+  const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
   const ApexEditorComponent = apexEditorComponent as NonNullable<
     DialogStuff["apexEditorComponent"]
   >;
@@ -133,10 +143,23 @@ const TableEditorDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        {/* <ApexEditor {...apexEditorPropsDefined} /> */}
-        <ApexEditorComponent />
+        {(isCustomComponent as boolean) ? (
+          <ApexEditorComponent
+            shouldUpdate={shouldUpdate}
+            setShouldUpdate={setShouldUpdate}
+          />
+        ) : (
+          <ApexEditor
+            {...apexEditorPropsDefined}
+            shouldUpdate={shouldUpdate}
+            setShouldUpdate={setShouldUpdate}
+            shouldUpdateAction={shouldUpdateAction}
+          />
+        )}
       </DialogContent>
-      <DialogActions>{actionsList && actionsList()}</DialogActions>
+      <DialogActions>
+        {actionsList && actionsList(shouldUpdateAction)}
+      </DialogActions>
     </Dialog>
   );
 };

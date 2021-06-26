@@ -1,42 +1,42 @@
-import { Grid, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { LoginForm } from "../../Components/Forms/LoginForm";
-import ApexLogoFull from "../../Images/ApexLogoFull.svg";
+import ApexFlexContainer from "../../Components/Styles/ApexFlexContainer";
 import Image from "../../Components/Visuals/Image";
+import ApexLogoFull from "../../Images/ApexLogoFull.svg";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexWrap: "nowrap",
     height: "100%",
     textAlign: "center",
   },
-  item: {
-    height: "100%",
-    marginTop: "20vh",
-  },
   image: {
     marginBottom: "40px",
-    height: "15vmin",
+    height: 100,
   },
   typography: {
-    color: "#808080",
+    color: theme.palette.grey["700"],
     margin: "20px 20px 30px 20px",
   },
 }));
 
 const LoginRoute = () => {
+  const theme = useTheme();
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      className={classes.root}
-      direction="column"
-      justify="center"
-      alignItems="center"
-    >
-      <Grid item className={classes.item} xs={10} sm={6} lg={4}>
+    <ApexFlexContainer>
+      <div
+        className={classes.root}
+        style={{
+          minWidth: 500,
+          width: "70%",
+          maxWidth: theme.breakpoints.values["sm"],
+          height: "auto",
+        }}
+      >
         <Image
           className={classes.image}
           src={ApexLogoFull}
@@ -46,8 +46,8 @@ const LoginRoute = () => {
           - Versatile Hydrocarbon Forecasting and Economics Evaluation Platform
         </Typography>
         <LoginForm />
-      </Grid>
-    </Grid>
+      </div>
+    </ApexFlexContainer>
   );
 };
 

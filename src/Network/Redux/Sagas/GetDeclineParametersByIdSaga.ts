@@ -14,6 +14,7 @@ import {
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
@@ -70,15 +71,16 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
     );
 
     const {
-      data: { data: selectedDeclineParametersData },
+      data: { data: selectedTableData },
     } = declineParametersResults;
 
-    const successAction = getDeclineParametersByIdSuccessAction();
+    const successAction = getTableDataByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        selectedDeclineParametersData,
+        reducer,
+        selectedTableData,
       },
     });
 

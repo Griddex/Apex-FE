@@ -96,7 +96,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       new Set<React.Key>()
     );
     const [sRow, setSRow] = React.useState(-1);
-    const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
     const currentRows = snStoredData as IStoredDataRow[];
     const [rows, setRows] = React.useState(currentRows);
@@ -110,6 +109,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     });
 
     const dividerPositions = [50];
+    const isCustomComponent = false;
 
     const generateColumns = () => {
       const columns: Column<IStoredDataRow>[] = [
@@ -138,12 +138,16 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                 title: dataTitle,
                 value: (row as IStoredDataRow)[dataKey as keyof IStoredDataRow],
                 editorType: "input",
+                width: "100%",
+                height: 40,
               },
               {
                 name: "description",
                 title: "Description",
                 value: (row as IStoredDataRow)["description"],
                 editorType: "textArea",
+                width: "100%",
+                height: "100%",
               },
             ] as IApexEditorRow[];
 
@@ -157,26 +161,21 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                       type: "tableEditorDialog",
                       show: true,
                       exclusive: true,
-                      maxWidth: "xs",
+                      maxWidth: isCustomComponent ? "lg" : "sm",
                       iconType: "edit",
+                      isCustomComponent,
                       apexEditorProps: {
                         editorData,
                         editedRow,
                         dividerPositions,
                         rows,
                         setRows,
-                        shouldUpdate,
                       },
-                      actionsList: () =>
+                      actionsList: (shouldUpdateAction: () => void) =>
                         DialogOneCancelButtons(
                           [true, true],
                           [true, false],
-                          [
-                            unloadDialogsAction,
-                            //Captured variable
-                            //solve with componentRef
-                            () => setShouldUpdate(!shouldUpdate),
-                          ],
+                          [unloadDialogsAction, shouldUpdateAction],
                           "Update",
                           "updateOutlined",
                           false,

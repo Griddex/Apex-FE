@@ -151,7 +151,7 @@ const SaveForecastDialog = (props: DialogStuff) => {
       </DialogContent>
       <DialogActions>
         <SaveForecastResultsDialogButtons
-          isSaveForecastResultsValid={isSaveForecastResultsValid}
+          isSaveForecastResultsValid={true}
           titleDesc={titleDesc}
         />
       </DialogActions>

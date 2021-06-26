@@ -1,4 +1,5 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography, useTheme } from "@material-ui/core";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
@@ -114,6 +115,7 @@ export default function StoredForecastingParameters({
   const reducer = "economicsReducer";
   const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
 
+  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -291,9 +293,18 @@ export default function StoredForecastingParameters({
             },
           ];
 
+          const style =
+            title.toLowerCase() === "default"
+              ? {
+                  pointerEvents: "none",
+                  color: theme.palette.grey[200],
+                }
+              : {};
+
           return (
             <ApexFlexContainer>
               <EditOutlinedIcon
+                style={style as CSSProperties}
                 onClick={() => {
                   dispatch(
                     showDialogAction(
