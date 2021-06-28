@@ -1,58 +1,42 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
 import CategoryOutlinedIcon from "@material-ui/icons/CategoryOutlined";
 import React from "react";
-import { useDispatch } from "react-redux";
-import Select, { Styles, ValueType } from "react-select";
+import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import getRSStyles from "../../../Application/Utils/GetRSStyles";
-import getRSTheme from "../../../Application/Utils/GetRSTheme";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-}));
-
-export interface IChartDataPanel {
+export interface IChartDataPanel<T = ISelectOption> {
   selectLabel: string;
-  selectedOption: ISelectOption;
-  titleOptions: ISelectOption[];
+  selectedOption: T;
+  titleOptions: T[];
   selectedTitle: string;
-  handleSelectChange: (row: ValueType<ISelectOption, false>) => void;
+  handleSelectChange: (row: ValueType<T, false>) => void;
   treeViewComponent: React.FC;
   categoriesAction?: () => void;
 }
 
-const ChartDataPanel = ({
+const ChartDataPanel = <T extends ISelectOption>({
   selectLabel,
   selectedOption,
   titleOptions,
   handleSelectChange,
   treeViewComponent: TreeViewComponent,
   categoriesAction,
-}: IChartDataPanel) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
+}: IChartDataPanel<T>) => {
   const theme = useTheme();
 
   const SelectTitle = () => {
-    const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
-
     return (
-      <Select
-        value={selectedOption}
-        options={titleOptions}
-        styles={RSStyles}
-        onChange={handleSelectChange}
+      <ApexSelectRS<T>
+        valueOption={selectedOption}
+        data={titleOptions}
+        handleSelect={handleSelectChange}
+        isSelectOptionType={true}
         menuPortalTarget={document.body}
-        theme={(thm) => getRSTheme(thm, theme)}
+        containerWidth={300}
       />
     );
   };

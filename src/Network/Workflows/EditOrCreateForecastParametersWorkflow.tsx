@@ -14,8 +14,6 @@ import EditOrCreateForecastingParameters, {
 } from "../Routes/EditOrCreateForecastingParameters";
 
 const EditOrCreateForecastParametersWorkflow = ({
-  setRows,
-  rows,
   currentRow,
   shouldUpdate,
   workflowProcess,
@@ -53,8 +51,6 @@ const EditOrCreateForecastParametersWorkflow = ({
           <ApexFlexContainer>
             <EditOrCreateForecastingParameters
               currentRow={currentRow}
-              rows={rows}
-              setRows={setRows}
               shouldUpdate={shouldUpdate}
               workflowProcess={workflowProcessDefined}
               forecastParametersIndex={forecastParametersIndex}

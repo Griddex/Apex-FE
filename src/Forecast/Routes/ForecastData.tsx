@@ -13,7 +13,12 @@ import Select, {
 } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
+import {
+  IForecastSelectOption,
+  ISelectOption,
+} from "../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -23,7 +28,10 @@ import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../Application/Utils/GetRSTheme";
-import { getForecastDataByIdRequestAction } from "../Redux/Actions/ForecastActions";
+import {
+  getForecastDataByIdRequestAction,
+  updateForecastResultsParameterAction,
+} from "../Redux/Actions/ForecastActions";
 import ApexFlexContainer from "./../../Application/Components/Styles/ApexFlexContainer";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 
@@ -63,6 +71,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
 }));
+
+export interface IForecastRunOptions {
+  value: string;
+  label: string;
+  id: string;
+}
 
 export default function ForecastData({
   wrkflwCtgry,
@@ -317,41 +331,33 @@ export default function ForecastData({
     (state: RootState) => state.forecastReducer
   );
 
-  const forecastRuns = forecastResultsStored.map(
-    (row) => row.title
-  ) as string[];
-  const forecastRunTitleOptions = generateSelectOptions(forecastRuns);
-  const selectedForecastTitle =
+  const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
+    value: row.title,
+    label: row.title,
+    id: row.id,
+  })) as IForecastSelectOption[];
+
+  forecastRunTitleOptions.unshift({
+    value: "select",
+    label: "Select...",
+    id: "",
+  });
+
+  const selectedForecastTitleOption =
     selectedForecastingResultsTitle !== ""
-      ? selectedForecastingResultsTitle
-      : forecastRuns[0];
+      ? {
+          value: selectedForecastingResultsTitle,
+          label: selectedForecastingResultsTitle,
+          id: (forecastRunTitleOptions as IForecastRunOptions[]).filter(
+            (o) => o.label === selectedForecastingResultsTitle
+          )[0].id,
+        }
+      : forecastRunTitleOptions[0];
 
-  const [forecastRun, setForecastRun] = React.useState(selectedForecastTitle);
-
-  const handleSelectForecastRunChange = (
-    row: ValueType<ISelectOption, false>
-  ) => {
-    const forecastRunName = row?.value as string;
-    setForecastRun(forecastRunName);
-
-    dispatch(getForecastDataByIdRequestAction());
-  };
-
-  const SelectForecastRun = () => {
-    const valueOption = generateSelectOptions([forecastRun])[0];
-    const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme, 300);
-
-    return (
-      <Select
-        value={valueOption}
-        options={forecastRunTitleOptions}
-        styles={RSStyles}
-        onChange={handleSelectForecastRunChange}
-        menuPortalTarget={document.body}
-        theme={(thm) => getRSTheme(thm, theme)}
-      />
+  const [forecastRunOption, setForecastRunOption] =
+    React.useState<IForecastSelectOption>(
+      selectedForecastTitleOption as IForecastSelectOption
     );
-  };
 
   return (
     <div className={classes.rootStoredData} style={containerStyle}>
@@ -366,32 +372,59 @@ export default function ForecastData({
           paddingRight: 20,
         }}
       >
-        <label className={classes.apexSelectRS}>
-          <b>Forecast Run</b>
-          <SelectForecastRun />
-        </label>
-        <label style={{ width: 400 }}>
-          <b>Group by</b> (drag to sort)
-          <SortableSelect
-            // react-sortable-hoc props
-            axis="xy"
-            onSortEnd={onSortEnd}
-            distance={4}
-            getHelperDimensions={({ node }) => node.getBoundingClientRect()}
-            // react-select props
-            isMulti
-            value={selectedOptions}
-            onChange={(options) => {
-              setSelectedOptions(options);
-              setExpandedGroupIds(new Set());
-            }}
-            options={options}
-            components={{
-              MultiValue: SortableMultiValue,
-            }}
-            closeMenuOnSelect={false}
-          />
-        </label>
+        <AnalyticsComp
+          title="Forecast Run"
+          direction="Vertical"
+          containerStyle={{ width: "100%" }}
+          content={
+            <ApexSelectRS<IForecastSelectOption>
+              valueOption={forecastRunOption}
+              data={forecastRunTitleOptions}
+              handleSelect={(
+                option: ValueType<IForecastSelectOption, false>
+              ) => {
+                setForecastRunOption(option as IForecastSelectOption);
+
+                dispatch(
+                  updateForecastResultsParameterAction(
+                    "selectedForecastingResultsId",
+                    (option as IForecastSelectOption).id
+                  )
+                );
+                dispatch(getForecastDataByIdRequestAction());
+              }}
+              isSelectOptionType={true}
+              menuPortalTarget={document.body}
+              containerWidth={300}
+            />
+          }
+        />
+        <AnalyticsComp
+          title="Group by  (drag to sort)"
+          direction="Vertical"
+          containerStyle={{ width: "100%" }}
+          content={
+            <SortableSelect
+              // react-sortable-hoc props
+              axis="xy"
+              onSortEnd={onSortEnd}
+              distance={4}
+              getHelperDimensions={({ node }) => node.getBoundingClientRect()}
+              // react-select props
+              isMulti
+              value={selectedOptions}
+              onChange={(options) => {
+                setSelectedOptions(options);
+                setExpandedGroupIds(new Set());
+              }}
+              options={options}
+              components={{
+                MultiValue: SortableMultiValue,
+              }}
+              closeMenuOnSelect={false}
+            />
+          }
+        />
       </div>
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.workflowBody}>

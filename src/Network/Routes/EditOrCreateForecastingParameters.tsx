@@ -34,6 +34,7 @@ import {
   getProductionPrioritizationByIdRequestAction,
   saveDeclineParametersRequestAction,
   saveProductionPrioritizationRequestAction,
+  updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,8 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IEditOrCreateForecastingParameters {
   currentRow?: Partial<IForecastParametersStoredRow>;
-  rows: IForecastParametersStoredRow[];
-  setRows: TUseState<IForecastParametersStoredRow[]>;
   shouldUpdate: boolean;
   setShouldUpdate?: TUseState<boolean>;
   workflowProcess?: TAllWorkflowProcesses;
@@ -65,13 +64,13 @@ export interface IEditOrCreateForecastingParameters {
 
 const EditOrCreateForecastingParameters = ({
   currentRow,
-  rows,
-  setRows,
   shouldUpdate,
   setShouldUpdate,
   workflowProcess,
   forecastParametersIndex,
 }: IEditOrCreateForecastingParameters) => {
+  const wc = "storedDataWorkflows";
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
@@ -90,6 +89,10 @@ const EditOrCreateForecastingParameters = ({
     selectedProductionPrioritizationTitle,
     selectedProductionPrioritizationDescription,
   } = useSelector((state: RootState) => state.networkReducer);
+
+  const { forecastingParametersStored } = useSelector(
+    (state: RootState) => state.networkReducer[wc]
+  );
 
   const handleChange = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
@@ -230,16 +233,23 @@ const EditOrCreateForecastingParameters = ({
   );
   React.useEffect(() => {
     const forecastParametersIndexDefined = forecastParametersIndex as number;
-    rows[forecastParametersIndexDefined] = formEditorRow;
+    forecastingParametersStored[forecastParametersIndexDefined] = formEditorRow;
 
-    setRows(rows);
+    dispatch(
+      updateNetworkParameterAction(
+        "storedDataWorkflows.forecastingParametersStored",
+        forecastingParametersStored
+      )
+    );
+
+    //TODO Update Saga here for forecast parameters
   }, [shouldUpdate]);
   // }, [shouldUpdate, setShouldUpdate]);
 
   return (
     <div className={classes.root}>
       <AnalyticsComp
-        title="FORECAST PARAMETERS TITLE"
+        title="Forecast Parameters Title"
         direction="Vertical"
         content={
           <Input

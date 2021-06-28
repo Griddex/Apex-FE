@@ -28,6 +28,8 @@ import {
   GET_FORECASTDATABYID_SUCCESS,
   REMOVE_FORECAST,
   RESET_FORECAST,
+  RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
+  RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -279,6 +281,16 @@ const forecastReducer = (
     case GET_TABLEDATABYID_FAILURE: {
       const { errors } = action.payload;
       return { ...state, errors };
+    }
+
+    case RUN_FORECASTRESULTSAGGREGATION_SUCCESS: {
+      const { forecastResultsAggregated } = action.payload;
+      return { ...state, forecastResultsAggregated };
+    }
+
+    case RUN_FORECASTECONOMICSAGGREGATION_SUCCESS: {
+      const { forecastEconomicsAggregated } = action.payload;
+      return { ...state, forecastEconomicsAggregated };
     }
 
     case RESET_FORECAST: {

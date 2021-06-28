@@ -20,35 +20,32 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl, {
-  getBaseEconomicsUrl,
-} from "../../../Application/Services/BaseUrlService";
+import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  runForecastAggregationFailureAction,
-  runForecastAggregationSuccessAction,
-  RUN_FORECASTAGGREGATION_REQUEST,
+  runForecastResultsAggregationFailureAction,
+  runForecastResultsAggregationSuccessAction,
+  RUN_FORECASTRESULTSAGGREGATION_REQUEST,
 } from "../Actions/ForecastActions";
-import history from "../../../Application/Services/HistoryService";
 
-export default function* watchRunForecastResultAggregationSaga(): Generator<
+export default function* watchRunForecastResultsAggregationSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
   const runForecastAggregationChan = yield actionChannel(
-    RUN_FORECASTAGGREGATION_REQUEST
+    RUN_FORECASTRESULTSAGGREGATION_REQUEST
   );
   yield takeLeading<ActionType>(
     runForecastAggregationChan,
-    runForecastResultAggregationSaga
+    runForecastResultsAggregationSaga
   );
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* runForecastResultAggregationSaga(
+function* runForecastResultsAggregationSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -70,6 +67,8 @@ function* runForecastResultAggregationSaga(
   );
 
   const config = {};
+  // const url = `${getBaseForecastUrl()}/forecastResultData/${selectedForecastingResultsId}`;
+
   const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastScenario}`;
   const message = "Running forecast results aggregation...";
 
@@ -79,9 +78,9 @@ function* runForecastResultAggregationSaga(
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const { status, data: forecastResultsAggregated, succcess } = result;
+    const { data: forecastResultsAggregated } = result;
 
-    const successAction = runForecastAggregationSuccessAction();
+    const successAction = runForecastResultsAggregationSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -89,7 +88,7 @@ function* runForecastResultAggregationSaga(
       },
     });
   } catch (errors) {
-    const failureAction = runForecastAggregationFailureAction();
+    const failureAction = runForecastResultsAggregationFailureAction();
 
     yield put({
       ...failureAction,

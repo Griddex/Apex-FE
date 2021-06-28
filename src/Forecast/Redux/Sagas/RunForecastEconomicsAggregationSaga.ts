@@ -15,39 +15,34 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import {
-  hideSpinnerAction,
-  showSpinnerAction,
-} from "../../../Application/Redux/Actions/UISpinnerActions";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  getForecastDataByIdFailureAction,
-  getForecastDataByIdSuccessAction,
-  GET_FORECASTDATABYID_REQUEST,
+  runForecastEconomicsAggregationFailureAction,
+  runForecastEconomicsAggregationSuccessAction,
+  RUN_FORECASTECONOMICSAGGREGATION_REQUEST,
 } from "../Actions/ForecastActions";
-import history from "../../../Application/Services/HistoryService";
-import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
 
-export default function* watchGetSelectedForecastDataByIdSaga(): Generator<
+export default function* watchRunForecastEconomicsAggregationSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const getSelectedForecastResultsChan = yield actionChannel(
-    GET_FORECASTDATABYID_REQUEST
+  const runForecastAggregationChan = yield actionChannel(
+    RUN_FORECASTECONOMICSAGGREGATION_REQUEST
   );
   yield takeLeading<ActionType>(
-    getSelectedForecastResultsChan,
-    getSelectedForecastDataByIdSaga
+    runForecastAggregationChan,
+    runForecastEconomicsAggregationSaga
   );
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* getSelectedForecastDataByIdSaga(
+function* runForecastEconomicsAggregationSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -59,41 +54,33 @@ function* getSelectedForecastDataByIdSaga(
   any
 > {
   const { payload } = action;
+  const { workflowProcess } = payload;
   const { selectedForecastingResultsId } = yield select(
     (state) => state.forecastReducer
   );
 
-  const reducer = "forecastReducer";
+  const { forecastScenario } = yield select(
+    (state) => state.economicsReducer["inputDataWorkflows"][workflowProcess]
+  );
 
   const config = {};
-  const url = `${getBaseForecastUrl()}/forecastResultDataByScenario/${selectedForecastingResultsId}/2P_2C`;
-  const message = "Loading forecast data...";
+  const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastScenario}`;
 
   try {
-    yield put(showSpinnerAction(message));
-
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
-    console.log(
-      "Logged output --> ~ file: GetSelectedForecastDataByIdSaga.ts ~ line 77 ~ result",
-      result
-    );
 
-    const { data: selectedTableData } = result;
+    const { data: forecastEconomicsAggregated } = result;
 
-    const successAction = getTableDataByIdSuccessAction();
+    const successAction = runForecastEconomicsAggregationSuccessAction();
     yield put({
       ...successAction,
       payload: {
-        ...payload,
-        reducer,
-        selectedTableData,
+        forecastEconomicsAggregated,
       },
     });
-
-    yield call(forwardTo, "/apex/forecast/forecastdata");
   } catch (errors) {
-    const failureAction = getForecastDataByIdFailureAction();
+    const failureAction = runForecastEconomicsAggregationFailureAction();
 
     yield put({
       ...failureAction,
@@ -104,8 +91,4 @@ function* getSelectedForecastDataByIdSaga(
   } finally {
     yield put(hideSpinnerAction());
   }
-}
-
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
 }

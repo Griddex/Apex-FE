@@ -32,7 +32,7 @@ const ApexSelectRS = <T extends ISelectOption>({
   else dataOptions = generateSelectOptions(data) as any;
 
   return (
-    <Select
+    <Select<T>
       className={className}
       value={valueOption}
       options={dataOptions}

@@ -9,15 +9,11 @@ import { IForecastParametersStoredRow } from "../Dialogs/StoredNetworksDialogTyp
 
 export interface ICreateForecastParametersButton {
   currentRow: IForecastParametersStoredRow;
-  rows: IForecastParametersStoredRow[];
-  setRows: TUseState<IForecastParametersStoredRow[]>;
   forecastParametersIndex: number;
 }
 
 const CreateForecastParametersButton = ({
   currentRow,
-  rows,
-  setRows,
   forecastParametersIndex,
 }: ICreateForecastParametersButton) => {
   const theme = useTheme();
@@ -43,8 +39,6 @@ const CreateForecastParametersButton = ({
               extrudeForecastParametersDPs(
                 "Create Forecasting Parameters",
                 currentRow,
-                rows,
-                setRows,
                 forecastParametersIndex,
                 "createForecastingParametersWorkflow"
               )

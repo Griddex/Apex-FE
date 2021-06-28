@@ -20,7 +20,6 @@ import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexConta
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
-import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
@@ -46,7 +45,7 @@ import {
   fetchStoredForecastingResultsRequestAction,
   fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,
-  runForecastAggregationRequestAction,
+  runForecastEconomicsAggregationRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
@@ -112,18 +111,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //TODO: Calculate classification data from collection
-
 export default function StoredForecastResults({
   showChart,
   showBaseButtons,
   shouldRunAggregation,
 }: IStoredDataProps) {
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
-
   const reducer = "forecastReducer";
-  const mainUrl = `${getBaseForecastUrl()}/forecastResults`;
+  const mainUrl = `${getBaseForecastUrl()}`;
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -131,6 +125,10 @@ export default function StoredForecastResults({
 
   const wc = "storedDataWorkflows";
   const wp = "forecastResultsStored";
+
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
 
   const chartData = [
     { id: "A", value: 10, color: theme.palette.primary.main },
@@ -144,10 +142,9 @@ export default function StoredForecastResults({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const storedData = useSelector(
-    (state: RootState) => state.forecastReducer[wc][wp]
-  ) as IApplicationStoredForecastResultsRow[];
-
+  const { forecastResultsStored } = useSelector(
+    (state: RootState) => state.forecastReducer[wc]
+  );
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
   const tableButtons: ITableButtonsProps = {
@@ -177,13 +174,6 @@ export default function StoredForecastResults({
     );
 
     dispatch(updateNetworkParameterAction("selectedNetworkId", networkId));
-
-    if (shouldRunAggregation)
-      dispatch(
-        runForecastAggregationRequestAction(
-          "economicsCostsRevenuesDeckApexForecast"
-        )
-      );
 
     setCheckboxSelected(!checkboxSelected);
   };
@@ -287,7 +277,10 @@ export default function StoredForecastResults({
                             reducer as ReducersType,
                             deleteUrl as string,
                             title as string,
-                            fetchStoredForecastingResultsRequestAction as () => IAction
+                            () =>
+                              fetchStoredForecastingResultsRequestAction(
+                                currentProjectId
+                              )
                           ),
                         "Delete",
                         "deleteOutlined",
@@ -325,7 +318,7 @@ export default function StoredForecastResults({
       },
       {
         key: "saved",
-        name: "SAVE_D",
+        name: "SAVE",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
@@ -408,7 +401,7 @@ export default function StoredForecastResults({
   };
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
-  const snStoredData = storedData.map(
+  const snStoredData = forecastResultsStored.map(
     (row: IApplicationStoredForecastResultsRow, i: number) => ({
       sn: i + 1,
       forecastResultsId: row.id,
@@ -426,15 +419,15 @@ export default function StoredForecastResults({
     })
   ) as IStoredForecastResultsRow[];
 
-  const tableRows = React.useRef<IStoredForecastResultsRow[]>(snStoredData);
-  const currentRows = tableRows.current;
-  const [rows, setRows] = React.useState(currentRows);
+  const [rows, setRows] = React.useState(snStoredData);
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
   }, [dispatch, rows]);
 
   const [sRow, setSRow] = React.useState(-1);
+
+  console.log("Wow.....a rerenderrrrrrrrrrrrrrrrr");
 
   return (
     <div className={classes.rootStoredData}>

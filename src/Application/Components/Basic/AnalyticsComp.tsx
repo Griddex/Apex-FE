@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.grey[900],
     letterSpacing: 1.2,
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: 500,
   },
 }));
 

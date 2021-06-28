@@ -25,6 +25,7 @@ import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsA
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { runForecastEconomicsAggregationRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import AggregatedButtons from "../../../Components/AggregatedButtons/AggregatedButtons";
 import {
@@ -85,6 +86,14 @@ export default function CostsAndRevenueManual({
     (state: RootState) => state.unitSettingsReducer
   );
 
+  const { forecastEconomicsAggregated } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
+  console.log(
+    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 90 ~ forecastEconomicsAggregated",
+    forecastEconomicsAggregated
+  );
+
   const [devOption, setDevOption] = React.useState(
     developmentScenarioOptions[0]
   );
@@ -130,19 +139,19 @@ export default function CostsAndRevenueManual({
 
   //TODO: initialize from Gift
   const initUnitOj = {
-    oilRate: "bopd",
-    agRate: "MMScf/d",
-    naGRate: "MMScf/d",
+    baseOilRate: "bopd",
+    associatedGasRate: "MMScf/d",
+    nonAssociatedGasRate: "MMScf/d",
     condensateRate: "bopd",
     seismicCost: "$m",
-    explApprCost: "$m",
+    explAppraisalCost: "$m",
     facilitiesCapex: "$m",
-    tangWellCost: "$m",
-    intangWellCost: "$m",
-    abandCost: "$m",
+    tangibleDrillingCost: "$m",
+    intangibleDrillingCost: "$m",
+    abandonmentCost: "$m",
     directCost: "$m",
-    cha: "$m",
-    terminalCost: "$m",
+    cHA: "$m",
+    terminalFee: "$m",
   };
   const initialAppHeaderChosenAppUnitObj = {
     oilDevelopment: initUnitOj,
@@ -222,7 +231,7 @@ export default function CostsAndRevenueManual({
         width: 100,
       },
       {
-        key: "oilRate",
+        key: "baseOilRate",
         name: `OIL RATE`,
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: (props: EditorProps<IRawRow>) => {
@@ -244,14 +253,14 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "oilRate")
+                    handleApplicationUnitChange(value, "baseOilRate")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.oilRate}</div>;
+          else return <div> {row.baseOilRate}</div>;
         },
         width: 170,
       },
@@ -285,12 +294,12 @@ export default function CostsAndRevenueManual({
                 />
               </div>
             );
-          else return <div> {row.oilRate}</div>;
+          else return <div> {row.baseOilRate}</div>;
         },
         width: 170,
       },
       {
-        key: "agRate",
+        key: "associatedGasRate",
         name: "ASSOC. GAS RATE",
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: TextEditor,
@@ -319,7 +328,7 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
-        key: "naGRate",
+        key: "nonAssociatedGasRate",
         name: "NON ASSOC. GAS RATE",
         editable: wp === "economicsCostsRevenuesDeckManual" ? true : false,
         editor: TextEditor,
@@ -377,7 +386,7 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
-        key: "explApprCost",
+        key: "explAppraisalCost",
         name: "EXPLR. & APPRAISAL COST",
         editable: true,
         editor: TextEditor,
@@ -395,14 +404,14 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "explApprCost")
+                    handleApplicationUnitChange(value, "explAppraisalCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.explApprCost}</div>;
+          else return <div> {row.explAppraisalCost}</div>;
         },
         width: 170,
       },
@@ -437,7 +446,7 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
-        key: "tangWellCost",
+        key: "tangibleDrillingCost",
         name: "TANG. DRILLING COST",
         editable: true,
         editor: TextEditor,
@@ -455,19 +464,19 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "tangWellCost")
+                    handleApplicationUnitChange(value, "tangibleDrillingCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.tangWellCost}</div>;
+          else return <div> {row.tangibleDrillingCost}</div>;
         },
         width: 170,
       },
       {
-        key: "intangWellCost",
+        key: "intangibleDrillingCost",
         name: "INTANG. DRILLING COST",
         editable: true,
         editor: TextEditor,
@@ -485,14 +494,14 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "intangWellCost")
+                    handleApplicationUnitChange(value, "intangibleDrillingCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.intangWellCost}</div>;
+          else return <div> {row.intangibleDrillingCost}</div>;
         },
         width: 170,
       },
@@ -527,7 +536,7 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
-        key: "abandCost",
+        key: "abandonmentCost",
         name: "ABANDONMENT COST",
         editable: true,
         editor: TextEditor,
@@ -544,14 +553,14 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "abandCost")
+                    handleApplicationUnitChange(value, "abandonmentCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.abandCost}</div>;
+          else return <div> {row.abandonmentCost}</div>;
         },
         width: 170,
       },
@@ -614,7 +623,7 @@ export default function CostsAndRevenueManual({
         width: 170,
       },
       {
-        key: "cha",
+        key: "cHA",
         name: "CHA",
         editable: true,
         editor: TextEditor,
@@ -631,14 +640,14 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "cha")
+                    handleApplicationUnitChange(value, "cHA")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.cha}</div>;
+          else return <div> {row.cHA}</div>;
         },
         width: 170,
       },
@@ -660,19 +669,19 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "cha")
+                    handleApplicationUnitChange(value, "cHA")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.cha}</div>;
+          else return <div> {row.cHA}</div>;
         },
         width: 170,
       },
       {
-        key: "gasProcessingFee",
+        key: "gasProcTraiffs",
         name: "GAS PROC. FEE",
         editable: true,
         editor: TextEditor,
@@ -689,19 +698,19 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "gasProcessingFee")
+                    handleApplicationUnitChange(value, "gasProcTraiffs")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.gasProcessingFee}</div>;
+          else return <div> {row.gasProcTraiffs}</div>;
         },
         resizable: true,
       },
       {
-        key: "terminalCost",
+        key: "terminalFee",
         name: "TERMINAL COST",
         editable: true,
         editor: TextEditor,
@@ -718,14 +727,14 @@ export default function CostsAndRevenueManual({
                   valueOption={valueOption}
                   data={uniqUnitOptions}
                   handleSelect={(value: ValueType<ISelectOption, false>) =>
-                    handleApplicationUnitChange(value, "terminalCost")
+                    handleApplicationUnitChange(value, "terminalFee")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
                 />
               </div>
             );
-          else return <div> {row.terminalCost}</div>;
+          else return <div> {row.terminalFee}</div>;
         },
         resizable: true,
       },
@@ -737,18 +746,18 @@ export default function CostsAndRevenueManual({
           "sn",
           "actions",
           "year",
-          "oilRate",
-          "agRate",
+          "baseOilRate",
+          "associatedGasRate",
           "seismicCost",
-          "explApprCost",
+          "explAppraisalCost",
           "facilitiesCapex",
-          "tangWellCost",
-          "intangWellCost",
-          "abandCost",
+          "tangibleDrillingCost",
+          "intangibleDrillingCost",
+          "abandonmentCost",
           "directCost",
           "projectCost",
-          "cha",
-          "terminalCost",
+          "cHA",
+          "terminalFee",
           "tariffs",
           "taxDepreciation",
         ].includes(column.key)
@@ -760,19 +769,19 @@ export default function CostsAndRevenueManual({
           "actions",
           "year",
           "condensateRate",
-          "naGRate",
+          "nonAssociatedGasRate",
           "seismicCost",
-          "explApprCost",
+          "explAppraisalCost",
           "facilitiesCapex",
-          "tangWellCost",
-          "intangWellCost",
-          "abandCost",
+          "tangibleDrillingCost",
+          "intangibleDrillingCost",
+          "abandonmentCost",
           "directCost",
           "projectCost",
-          "cha",
-          "terminalCost",
+          "cHA",
+          "terminalFee",
           "tariffs",
-          "gasProcessingFee",
+          "gasProcTraiffs",
           "taxDepreciation",
         ].includes(column.key)
       );
@@ -781,49 +790,14 @@ export default function CostsAndRevenueManual({
 
   const columns = React.useMemo(() => generateColumns(devVal), [devVal]);
 
-  const createTableRows = (numberOfRows: number): TRawTable => {
-    const fakeRows = [];
-    for (let i = 0; i < numberOfRows; i++) {
-      const fakeRow = {
-        sn: i,
-        year: "",
-        oilRate: "",
-        condensateRate: "",
-        gasRate: "",
-        seismicCost: "",
-        explApprCost: "",
-        facilitiesCapex: "",
-        tangWellCost: "",
-        intangWellCost: "",
-        taxDepreciation: "",
-        abandCost: "",
-        directCost: "",
-        cha: "",
-        terminalCost: "",
-      };
-
-      fakeRows.push(fakeRow);
-    }
-    return fakeRows;
-  };
-
-  const faketableRows = createTableRows(50);
-  const oilDevelopmentTableRows = React.useRef(faketableRows);
-  const nagDevelopmentTableRows = React.useRef(faketableRows);
-  const oilNAGDevelopmentTableRows = React.useRef(faketableRows);
-
-  const oilDevelopmentCurrentRows = oilDevelopmentTableRows.current;
-  const nagDevelopmentCurrentRows = nagDevelopmentTableRows.current;
-  const oilNAGDevelopmentCurrentRows = oilNAGDevelopmentTableRows.current;
-
   const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
-    oilDevelopmentCurrentRows
+    forecastEconomicsAggregated["costRevenuesOil"]
   );
   const [nagDevelopmentRows, setNAGDevelopmentRows] = React.useState(
-    nagDevelopmentCurrentRows
+    forecastEconomicsAggregated["costRevenuesNAG"]
   );
   const [oilNAGDevelopmentRows, setOilNAGDevelopmentRows] = React.useState(
-    oilNAGDevelopmentCurrentRows
+    forecastEconomicsAggregated["costRevenuesOil_NAG"]
   );
 
   if (devVal === "oilDevelopment") {
@@ -838,7 +812,11 @@ export default function CostsAndRevenueManual({
   }
 
   React.useEffect(() => {
-    dispatch(hideSpinnerAction());
+    dispatch(
+      runForecastEconomicsAggregationRequestAction(
+        "economicsCostsRevenuesDeckApexForecast"
+      )
+    );
   }, []);
 
   React.useEffect(() => {
@@ -872,7 +850,7 @@ export default function CostsAndRevenueManual({
             containerStyle={{
               display: "flex",
               flexDirection: "row",
-              width: 300,
+              width: 550,
             }}
             content={
               <ApexSelectRS

@@ -225,8 +225,6 @@ export default function StoredForecastingParameters({
     extraButtons: () => (
       <CreateForecastParametersButton
         currentRow={newRow}
-        rows={rows}
-        setRows={setRows}
         forecastParametersIndex={transStoredData.length}
       />
     ),
@@ -311,8 +309,6 @@ export default function StoredForecastingParameters({
                       extrudeForecastParametersDPs(
                         "Edit Forecast Parameters",
                         currentRow,
-                        rows,
-                        setRows,
                         currentSN - 1,
                         "editForecastingParametersWorkflow"
                       )

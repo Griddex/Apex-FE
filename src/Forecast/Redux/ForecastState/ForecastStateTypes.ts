@@ -4,6 +4,7 @@ import {
   IApplicationStoredForecastResultsRow,
   TApproval,
 } from "../../../Application/Types/ApplicationTypes";
+import { TDevScenarioNames } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   forecastChartObjectsNameTitleMap,
@@ -88,8 +89,11 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
     forecastResultsStored: IApplicationStoredForecastResultsRow[];
   };
 
-  loadForecastResultsWorkflow: boolean;
+  forecastResultsAggregated: any[];
+  forecastEconomicsAggregated: Record<string, any[]>;
+
   selectedForecastData: any[];
+  loadForecastResultsWorkflow: boolean;
 }
 
 export type colorGradient = typeof initialColorGradient;

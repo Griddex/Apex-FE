@@ -12,6 +12,11 @@ export interface IAppUnitSelectOption<T = string, U = string, V = string> {
   label: U;
   unitId?: V;
 }
+export interface IForecastSelectOption<T = string, U = string, V = string> {
+  value: T;
+  label: U;
+  id: V;
+}
 export type AppUnitSelectOptionsType = IAppUnitSelectOption[];
 
 export interface ISelectItem {

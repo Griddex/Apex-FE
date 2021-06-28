@@ -7,8 +7,6 @@ import { IForecastParametersStoredRow } from "../Dialogs/StoredNetworksDialogTyp
 export const extrudeForecastParametersDPs = (
   title: string,
   currentRow: IForecastParametersStoredRow,
-  rows: IForecastParametersStoredRow[],
-  setRows: TUseState<IForecastParametersStoredRow[]>,
   forecastParametersIndex: number,
   workflowProcess: NonNullable<TAllWorkflowProcesses>
 ): DialogStuff<IForecastParametersStoredRow> => {
@@ -25,7 +23,5 @@ export const extrudeForecastParametersDPs = (
     actionsList: () => DialogCancelButton(),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     currentRow,
-    rows,
-    setRows,
   };
 };

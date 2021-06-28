@@ -11,7 +11,10 @@ import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import {
+  IForecastSelectOption,
+  ISelectOption,
+} from "../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../Application/Utils/GetRSStyles";
@@ -21,8 +24,10 @@ import ForecastTreeView from "./ForecastTreeView";
 import {
   fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,
+  updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import ForecastChartCategories from "./ForecastChartCategories";
+import { IForecastRunOptions } from "../Routes/ForecastData";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,35 +75,53 @@ const ForecastChartDataPanel = () => {
     (state: RootState) => state.forecastReducer
   );
 
-  const forecastResults = forecastResultsStored.map(
-    (row) => row.title
-  ) as string[];
-  const forecastResultsTitleOptions = generateSelectOptions(forecastResults);
+  const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
+    value: row.title,
+    label: row.title,
+    id: row.id,
+  })) as IForecastSelectOption[];
 
-  const initialForecastResultsTitleOption =
+  forecastRunTitleOptions.unshift({
+    value: "select",
+    label: "Select...",
+    id: "",
+  });
+
+  const selectedForecastTitleOption =
     selectedForecastingResultsTitle !== ""
       ? {
           value: selectedForecastingResultsTitle,
           label: selectedForecastingResultsTitle,
+          id: (forecastRunTitleOptions as IForecastRunOptions[]).filter(
+            (o) => o.label === selectedForecastingResultsTitle
+          )[0].id,
         }
-      : forecastResultsTitleOptions[0];
+      : forecastRunTitleOptions[0];
 
-  const [forecastResultTitleOption, setForecastResultTitleOption] =
-    React.useState(initialForecastResultsTitleOption);
+  const [forecastRunOption, setForecastRunOption] =
+    React.useState<IForecastSelectOption>(
+      selectedForecastTitleOption as IForecastSelectOption
+    );
 
   const handleSelectForecastResultsChange = (
-    option: ValueType<ISelectOption, false>
+    option: ValueType<IForecastSelectOption, false>
   ) => {
-    setForecastResultTitleOption(option as ISelectOption);
+    setForecastRunOption(option as IForecastSelectOption);
 
-    dispatch(fetchTreeviewKeysRequestAction());
+    dispatch(
+      updateForecastResultsParameterAction(
+        "selectedForecastingResultsId",
+        (option as IForecastSelectOption).id
+      )
+    );
+    dispatch(getForecastDataByIdRequestAction());
   };
 
   return (
-    <ChartDataPanel
+    <ChartDataPanel<IForecastSelectOption>
       selectLabel={"Forecast Results"}
-      selectedOption={forecastResultTitleOption}
-      titleOptions={forecastResultsTitleOptions}
+      selectedOption={forecastRunOption}
+      titleOptions={forecastRunTitleOptions}
       handleSelectChange={handleSelectForecastResultsChange}
       selectedTitle={selectedForecastingResultsTitle}
       treeViewComponent={ForecastTreeView}

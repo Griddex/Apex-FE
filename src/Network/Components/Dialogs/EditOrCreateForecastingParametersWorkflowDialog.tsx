@@ -16,6 +16,7 @@ import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -134,16 +135,10 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     maxWidth,
     iconType,
     workflowProcess,
-    rows,
-    setRows,
     currentRow,
     forecastParametersIndex,
   } = props;
 
-  const rowsDefined = rows as NonNullable<IForecastParametersStoredRow[]>;
-  const setRowsDefined = setRows as NonNullable<
-    TUseState<IForecastParametersStoredRow[]>
-  >;
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
@@ -202,8 +197,6 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     shouldUpdate,
     setShouldUpdate,
     currentRow,
-    setRows: setRowsDefined,
-    rows: rowsDefined,
     activeStep,
     workflowProcess: workflowProcessDefined,
     forecastParametersIndex,
@@ -290,19 +283,12 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
         <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            height: "100%",
-            width: "100%",
-          }}
-        >
+        <ApexFlexContainer>
           <EditOrCreateForecastParametersWorkflow {...createProps} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>
-        </div>
+        </ApexFlexContainer>
       </DialogContent>
       <DialogActions>
         <NavigationButtons {...navigationButtonProps} />

@@ -34,12 +34,20 @@ export const GET_FORECASTDATABYID_REQUEST = "GET_FORECASTDATABYID_REQUEST";
 export const GET_FORECASTDATABYID_SUCCESS = "GET_FORECASTDATABYID_SUCCESS";
 export const GET_FORECASTDATABYID_FAILURE = "GET_FORECASTDATABYID_FAILURE";
 export const REMOVE_FORECAST = "REMOVE_FORECAST";
-export const RUN_FORECASTAGGREGATION_REQUEST =
-  "RUN_FORECASTAGGREGATION_REQUEST";
-export const RUN_FORECASTAGGREGATION_SUCCESS =
-  "RUN_FORECASTAGGREGATION_SUCCESS";
-export const RUN_FORECASTAGGREGATION_FAILURE =
-  "RUN_FORECASTAGGREGATION_FAILURE";
+
+export const RUN_FORECASTRESULTSAGGREGATION_REQUEST =
+  "RUN_FORECASTRESULTSAGGREGATION_REQUEST";
+export const RUN_FORECASTRESULTSAGGREGATION_SUCCESS =
+  "RUN_FORECASTRESULTSAGGREGATION_SUCCESS";
+export const RUN_FORECASTRESULTSAGGREGATION_FAILURE =
+  "RUN_FORECASTRESULTSAGGREGATION_FAILURE";
+
+export const RUN_FORECASTECONOMICSAGGREGATION_REQUEST =
+  "RUN_FORECASTECONOMICSAGGREGATION_REQUEST";
+export const RUN_FORECASTECONOMICSAGGREGATION_SUCCESS =
+  "RUN_FORECASTECONOMICSAGGREGATION_SUCCESS";
+export const RUN_FORECASTECONOMICSAGGREGATION_FAILURE =
+  "RUN_FORECASTECONOMICSAGGREGATION_FAILURE";
 
 export const RESET_FORECAST = "RESET_FORECAST";
 
@@ -290,27 +298,59 @@ export const removeCurrentForecastAction = () => {
   };
 };
 
-export const runForecastAggregationRequestAction = (
+export const runForecastResultsAggregationRequestAction = (
   workflowProcess: IAllWorkflows["wrkflwPrcss"]
 ) => {
   return {
-    type: RUN_FORECASTAGGREGATION_REQUEST,
+    type: RUN_FORECASTRESULTSAGGREGATION_REQUEST,
     payload: { workflowProcess },
   };
 };
 
-export const runForecastAggregationSuccessAction = () => {
+export const runForecastResultsAggregationSuccessAction = () => {
   return {
-    type: RUN_FORECASTAGGREGATION_SUCCESS,
+    type: RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const runForecastAggregationFailureAction = () => {
+export const runForecastResultsAggregationFailureAction = () => {
   return {
-    type: RUN_FORECASTAGGREGATION_FAILURE,
+    type: RUN_FORECASTRESULTSAGGREGATION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const runForecastEconomicsAggregationRequestAction = (
+  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+) => {
+  return {
+    type: RUN_FORECASTECONOMICSAGGREGATION_REQUEST,
+    payload: { workflowProcess },
+    meta: {
+      showSpinner: true,
+      message: "Running forecast aggregation per scenario...",
+    },
+  };
+};
+
+export const runForecastEconomicsAggregationSuccessAction = () => {
+  return {
+    type: RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const runForecastEconomicsAggregationFailureAction = () => {
+  return {
+    type: RUN_FORECASTECONOMICSAGGREGATION_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
