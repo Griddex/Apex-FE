@@ -53,16 +53,8 @@ function* openRecentProjectSaga(
 > {
   const { payload } = action;
   const { projectId, projectTitle, projectDescription } = payload; //grab from own dps
-  console.log(
-    "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 56 ~ projectId",
-    projectId
-  );
   const { selectedProjectId, selectedProjectTitle } = yield select(
     (state) => state.projectReducer
-  );
-  console.log(
-    "Logged output --> ~ file: OpenRecentProjectSaga.ts ~ line 66 ~ selectedProjectId",
-    selectedProjectId
   );
 
   const projectIdDefined = projectId ? projectId : selectedProjectId;

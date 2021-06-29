@@ -284,7 +284,8 @@ export default function StoredForecastResults({
                           ),
                         "Delete",
                         "deleteOutlined",
-                        "delete"
+                        "delete",
+                        title
                       )
                     )
                   )

@@ -1,7 +1,4 @@
 import { makeStyles, useTheme } from "@material-ui/core";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import { omit } from "lodash";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -172,23 +169,7 @@ export default function SelectHeaderUnitData({
   const generateColumns = (roleOptions: SelectOptionsType) => {
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true },
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        width: 100,
-        formatter: ({ row }) => (
-          <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row.sn}`)} />
-            <DeleteOutlinedIcon
-              onClick={() => alert(`Delete Row is:${row.sn}`)}
-            />
-            <MenuOpenOutlinedIcon
-              onClick={() => alert(`Menu Row is:${row.sn}`)}
-            />
-          </div>
-        ),
-      },
+
       {
         key: "role",
         name: "ROLE",

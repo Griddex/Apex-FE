@@ -236,7 +236,7 @@ export default function StoredEconomicsSensitivities() {
                     showDialogAction(
                       confirmationDialogParameters(
                         "Delete_Table_Data_Dialog",
-                        title,
+                        `Delete ${title}`,
                         "deleteDataDialog",
                         "",
                         false,
@@ -254,7 +254,8 @@ export default function StoredEconomicsSensitivities() {
                           ),
                         "Delete",
                         "deleteOutlined",
-                        "delete"
+                        "delete",
+                        title
                       )
                     )
                   )

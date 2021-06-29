@@ -13,7 +13,8 @@ export const confirmationDialogParameters = (
   action: (titleDesc?: Record<string, string>) => IAction | void,
   oneButtonTitle: string,
   oneButtonIconTitle: string,
-  iconType: DialogStuff["iconType"] = "save"
+  iconType: DialogStuff["iconType"] = "save",
+  deleteTitle?: string
 ): DialogStuff => {
   return {
     name,
@@ -24,6 +25,7 @@ export const confirmationDialogParameters = (
     maxWidth: "xs",
     dialogText,
     iconType,
+    deleteTitle,
     actionsList: (isFinalButtonDisabled: boolean) =>
       DialogOneCancelButtons(
         [true, true],

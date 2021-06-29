@@ -174,6 +174,7 @@ export interface DialogStuff<TRow = IRawRow> {
   isCustomComponent?: boolean;
   forecastParametersIndex?: number;
   initialState?: any;
+  deleteTitle?: string;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

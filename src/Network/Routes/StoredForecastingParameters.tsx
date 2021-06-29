@@ -135,7 +135,9 @@ export default function StoredForecastingParameters({
     (state: RootState) => state.networkReducer[wc][wp]
   ) as IBackendForecastingParametersRow[];
 
-  const transStoredData = storedData.map(
+  const [storedDataState, setStoredDataState] = React.useState(storedData);
+
+  const transStoredData = storedDataState.map(
     (row: IBackendForecastingParametersRow) => {
       const {
         id,
@@ -265,6 +267,10 @@ export default function StoredForecastingParameters({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
+          console.log(
+            "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 270 ~ generateColumns ~ row",
+            row
+          );
           const { sn } = row;
           const currentSN = sn as number;
           const currentRow = rows[currentSN - 1];
@@ -322,7 +328,7 @@ export default function StoredForecastingParameters({
                     showDialogAction(
                       confirmationDialogParameters(
                         "Delete_Table_Data_Dialog",
-                        "Delete Forecast Parameters",
+                        `Delete ${title}`,
                         "deleteDataDialog",
                         "",
                         false,
@@ -340,7 +346,8 @@ export default function StoredForecastingParameters({
                           ),
                         "Delete",
                         "deleteOutlined",
-                        "delete"
+                        "delete",
+                        title
                       )
                     )
                   );
@@ -546,8 +553,8 @@ export default function StoredForecastingParameters({
   const [rows, setRows] = React.useState(snTransStoredData);
 
   React.useEffect(() => {
-    setRows(snTransStoredData as IForecastParametersStoredRow[]);
-  }, [snTransStoredData]);
+    setStoredDataState(storedData as IBackendForecastingParametersRow[]);
+  }, [storedData]);
 
   return (
     <div className={classes.rootStoredData}>

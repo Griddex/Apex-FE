@@ -108,14 +108,21 @@ const DeleteDataDialog = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { title, show, maxWidth, iconType, dialogContentStyle, actionsList } =
-    props;
+  const {
+    title,
+    deleteTitle,
+    show,
+    maxWidth,
+    iconType,
+    dialogContentStyle,
+    actionsList,
+  } = props;
 
   const [confirmDeleteTitle, setConfirmDeleteTitle] = React.useState("");
 
   const isFinalButtonDisabled =
     confirmDeleteTitle.trim().toLowerCase() ===
-    (title as string).trim().toLowerCase()
+    (deleteTitle as string).trim().toLowerCase()
       ? false
       : true;
 
@@ -130,7 +137,7 @@ const DeleteDataDialog = (props: DialogStuff) => {
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{`Delete ${title}`}</div>
+        <div>{title}</div>
       </DialogTitle>
       <DialogContent
         dividers
@@ -153,7 +160,7 @@ const DeleteDataDialog = (props: DialogStuff) => {
               color: theme.palette.secondary.main,
             }}
           >
-            {title}
+            {deleteTitle}
           </strong>
           <span>&nbsp;</span>
           <span>&nbsp;</span>

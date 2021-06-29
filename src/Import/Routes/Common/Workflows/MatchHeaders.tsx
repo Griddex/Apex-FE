@@ -1,8 +1,5 @@
 import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
 import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import camelCase from "lodash.camelcase";
 import findIndex from "lodash.findindex";
 import zipObject from "lodash.zipobject";
@@ -35,10 +32,7 @@ import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
-import {
-  persistFileHeadersMatchAction,
-  updateInputParameterAction,
-} from "../../../Redux/Actions/InputActions";
+import { updateInputParameterAction } from "../../../Redux/Actions/InputActions";
 import computeFileHeaderMatches from "../../../Utils/ComputeFileHeaderMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
@@ -416,19 +410,6 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 20 },
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        formatter: ({ row }) => (
-          <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <MenuOpenOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-          </div>
-        ),
-        width: 100,
-      },
       {
         key: "fileHeader",
         name: "FILE HEADER",
