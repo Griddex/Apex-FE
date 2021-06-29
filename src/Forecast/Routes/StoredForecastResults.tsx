@@ -318,7 +318,7 @@ export default function StoredForecastResults({
       },
       {
         key: "saved",
-        name: "SAVE",
+        name: "SAVED",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
@@ -334,7 +334,7 @@ export default function StoredForecastResults({
         width: 300,
       },
       {
-        key: "forecastInputdeckTitle",
+        key: "forecastInputDeckTitle",
         name: "FORECAST INPUTDECK TITLE",
         editable: false,
         resizable: true,
@@ -410,7 +410,7 @@ export default function StoredForecastResults({
       saved: row.saved,
       approval: "Not Started",
       networkId: row.networkId,
-      forecastInputdeckTitle: row.forecastInputdeckTitle,
+      forecastInputDeckTitle: row.forecastInputDeckTitle,
       forecastParametersTitle: row.forecastingParametersGroupTitle,
       author: { avatarUrl: "", name: "None" },
       approvers: "---",
@@ -423,11 +423,13 @@ export default function StoredForecastResults({
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
-  }, [dispatch, rows]);
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    setRows(snStoredData as IStoredForecastResultsRow[]);
+  }, [snStoredData]);
 
   const [sRow, setSRow] = React.useState(-1);
-
-  console.log("Wow.....a rerenderrrrrrrrrrrrrrrrr");
 
   return (
     <div className={classes.rootStoredData}>
@@ -478,7 +480,13 @@ export default function StoredForecastResults({
             shouldDispatch={[false, false]}
             finalActions={[
               () => {
-                dispatch(getForecastDataByIdRequestAction());
+                dispatch(
+                  getForecastDataByIdRequestAction(
+                    "forecastResultsVisualytics",
+                    true,
+                    "/apex/forecast/forecastdata"
+                  )
+                );
               },
               () => dispatch(fetchTreeviewKeysRequestAction()),
             ]}

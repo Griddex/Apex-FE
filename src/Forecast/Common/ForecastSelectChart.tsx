@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ICharts } from "../../Visualytics/Redux/ChartState/ChartStateTypes";
 import ForecastStackedAreaChart from "../Components/ForecastStackedAreaChart";
@@ -12,9 +12,7 @@ const charts: ICharts = {
 };
 
 const ForecastSelectChart = () => {
-  const dispatch = useDispatch();
-
-  const { selectedChartIndex, selectedChartObjId, chartObjects } = useSelector(
+  const { selectedChartIndex } = useSelector(
     (state: RootState) => state.chartReducer
   );
 

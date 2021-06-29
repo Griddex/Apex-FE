@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #707070",
     boxShadow: theme.shadows[2],
     backgroundColor: "#FFF",
+    minWidth: theme.breakpoints.values["sm"],
   },
   selectFile: { width: 200, height: 50, fontWeight: "bold" },
   dndSection: {
@@ -99,7 +100,7 @@ const UploadFile = ({
   }, []);
 
   return (
-    <Container className={classes.container} maxWidth="md" fixed disableGutters>
+    <Container className={classes.container} maxWidth="md" disableGutters>
       <Dropzone
         accept="text/plain,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         onDropAccepted={(acceptedFiles: FileWithPath[]) => {

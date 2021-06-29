@@ -8,21 +8,22 @@ import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { valueContainerCSS } from "react-select/src/components/containers";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import {
-  IRawRow,
-  TRawTable,
-} from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IInputWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { runForecastEconomicsAggregationRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
@@ -36,6 +37,7 @@ import {
   persistEconomicsDeckRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
+import CostsRevenuesExcelExportTemplate from "../../../Templates/CostsRevenuesExcelExportTemplate";
 import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 
@@ -130,12 +132,6 @@ export default function CostsAndRevenueManual({
     sRow = oilNAGDevelopmentSRow;
     setSRow = setOilNAGDevelopmentSRow;
   }
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
 
   //TODO: initialize from Gift
   const initUnitOj = {
@@ -811,12 +807,37 @@ export default function CostsAndRevenueManual({
     setRows = setOilNAGDevelopmentRows;
   }
 
+  const exportColumns = generateColumns(devVal)
+    .filter((column) => column.key !== "actions")
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData["columns"];
+
+  const exportTableProps = {
+    fileName: "CostsAndRevenuesTemplate",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable {...exportTableProps} />,
+    componentRef,
+  };
+
   React.useEffect(() => {
-    dispatch(
-      runForecastEconomicsAggregationRequestAction(
-        "economicsCostsRevenuesDeckApexForecast"
-      )
-    );
+    if (wkPs === "economicsCostsRevenuesDeckApexForecast") {
+      dispatch(
+        runForecastEconomicsAggregationRequestAction(
+          "economicsCostsRevenuesDeckApexForecast"
+        )
+      );
+    }
   }, []);
 
   React.useEffect(() => {

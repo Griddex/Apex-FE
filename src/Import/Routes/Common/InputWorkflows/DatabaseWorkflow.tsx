@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     padding: 20,
   },
-  workflowContent: { height: "100%", width: "90%" },
+  workflowContent: { height: "100%", width: "100%" },
 }));
 
 const steps = [

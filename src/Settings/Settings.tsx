@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     padding: 5,
   },
-  workflowContent: { padding: 5, height: "100%", width: "90%" },
+  workflowContent: { padding: 5, height: "100%", width: "100%" },
   navigationbuttons: {
     display: "flex",
     justifyContent: "center",

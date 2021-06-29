@@ -66,6 +66,13 @@ export interface INetworkWorkflows {
     | "storedDataWorkflows"
     | "networkCreationWorkflows";
 }
+export interface IForecastResultsWorkflows {
+  wkPs:
+    | "forecastResultsData"
+    | "forecastResultsVisualytics"
+    | "forecastResultsStored";
+  wkCy: "storedDataWorkflows";
+}
 export interface IEconomicsWorkflows {
   wkPs:
     | "economicsAnalyses"
@@ -97,11 +104,13 @@ export interface IAllWorkflows {
     | IProjectWorkflows["wkPs"]
     | IInputWorkflows["wkPs"]
     | INetworkWorkflows["wkPs"]
+    | IForecastResultsWorkflows["wkPs"]
     | IEconomicsWorkflows["wkPs"];
   wrkflwCtgry:
     | IProjectWorkflows["wkCy"]
     | IInputWorkflows["wkCy"]
     | INetworkWorkflows["wkCy"]
+    | IForecastResultsWorkflows["wkCy"]
     | IEconomicsWorkflows["wkCy"];
   finalAction?: () => void;
   persistSelectedIdTitleAction?: (

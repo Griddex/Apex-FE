@@ -93,7 +93,7 @@ export interface IApplicationStoredForecastResultsRow
   forecastResultsId: string;
   networkTitle: string;
   networkId: string;
-  forecastInputdeckTitle: string;
+  forecastInputDeckTitle: string;
   forecastingParametersGroupTitle: string;
 }
 

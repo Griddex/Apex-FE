@@ -65,7 +65,7 @@ const ForecastStackedAreaChart = () => {
         legendOffset: -40,
       }}
       curve="linear"
-      offsetType="diverging"
+      offsetType="none"
       colors={{ scheme: "category10" }}
       fillOpacity={1}
       borderColor={{ theme: "background" }}

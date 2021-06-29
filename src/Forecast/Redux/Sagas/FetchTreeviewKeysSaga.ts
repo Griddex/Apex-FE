@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import jsonpipe from "jsonpipe";
 import { END, eventChannel } from "redux-saga";
 import {
@@ -21,15 +20,14 @@ import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
-import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import history from "../../../Application/Services/HistoryService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
   fetchTreeviewKeysFailureAction,
   fetchTreeviewKeysSuccessAction,
   TREEVIEWKEYS_REQUEST,
 } from "../Actions/ForecastActions";
-import history from "../../../Application/Services/HistoryService";
 
 export default function* watchFetchTreeviewKeysSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -39,8 +37,6 @@ export default function* watchFetchTreeviewKeysSaga(): Generator<
   const treeviewKeysChan = yield actionChannel(TREEVIEWKEYS_REQUEST);
   yield takeLeading(treeviewKeysChan, fetchTreeviewKeysSaga);
 }
-
-const config = { withCredentials: false };
 
 function* fetchTreeviewKeysSaga(action: IAction): Generator<
   | CallEffect<any>
@@ -102,7 +98,6 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
 
     yield put(showDialogAction(failureDialogParameters("")));
   } finally {
-    yield call(forwardTo, "/apex/forecast/forecastvisualytics");
     yield put(hideSpinnerAction());
   }
 }
@@ -111,7 +106,6 @@ function updateTreeAndKeys(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
-      // data: JSON.stringify(reqPayload),
       headers: { "Content-Type": "application/json; charset=utf-8" },
       disableContentType: true,
       withCredentials: false,

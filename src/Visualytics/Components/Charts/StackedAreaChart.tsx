@@ -1541,7 +1541,7 @@ const StackedAreaChart = (props: any) => {
           legendOffset: -40,
         }}
         curve="linear"
-        offsetType="diverging"
+        offsetType="none"
         colors={{ scheme: "paired" }}
         fillOpacity={0.85}
         borderColor={{ theme: "background" }}

@@ -88,10 +88,6 @@ const EconomicsInputButtonsMenu = ({
   ] as IEconomicsInputButtonsMenu[];
 
   const [economicsInput, setEconomicsInput] = React.useState("Economics Input");
-  console.log(
-    "Logged output --> ~ file: EconomicsInputButtonsMenu.tsx ~ line 91 ~ economicsInput",
-    economicsInput
-  );
 
   const childrenProps = {
     name: economicsInput,
@@ -129,10 +125,7 @@ const EconomicsInputButtonsMenu = ({
                 action();
                 dispatch(subNavbarSetMenuAction(title));
                 setEconomicsInput(title);
-                console.log(
-                  "Logged output --> ~ file: EconomicsInputButtonsMenu.tsx ~ line 124 ~ {buttons.map ~ title",
-                  title
-                );
+
                 handleClose();
               }}
             >

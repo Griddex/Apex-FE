@@ -544,10 +544,10 @@ export default function StoredForecastingParameters({
   })) as IForecastParametersStoredRow[];
 
   const [rows, setRows] = React.useState(snTransStoredData);
-  console.log(
-    "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 508 ~ rows",
-    rows
-  );
+
+  React.useEffect(() => {
+    setRows(snTransStoredData as IForecastParametersStoredRow[]);
+  }, [snTransStoredData]);
 
   return (
     <div className={classes.rootStoredData}>

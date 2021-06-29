@@ -59,6 +59,8 @@ function* getSelectedForecastDataByIdSaga(
   any
 > {
   const { payload } = action;
+  const { workflowProcess, switchToRoute, routeUrl } = payload;
+
   const { selectedForecastingResultsId } = yield select(
     (state) => state.forecastReducer
   );
@@ -74,10 +76,6 @@ function* getSelectedForecastDataByIdSaga(
 
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
-    console.log(
-      "Logged output --> ~ file: GetSelectedForecastDataByIdSaga.ts ~ line 77 ~ result",
-      result
-    );
 
     const { data: selectedTableData } = result;
 
@@ -91,7 +89,12 @@ function* getSelectedForecastDataByIdSaga(
       },
     });
 
-    yield call(forwardTo, "/apex/forecast/forecastdata");
+    // if (workflowProcess === "forecastResultsData") {
+    //   yield call(forwardTo, "/apex/forecast/forecastdata");
+    // }
+    if (switchToRoute) {
+      yield call(forwardTo, routeUrl);
+    }
   } catch (errors) {
     const failureAction = getForecastDataByIdFailureAction();
 

@@ -1,4 +1,3 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -9,7 +8,6 @@ import generateSelectOptions from "../../../../Application/Utils/GenerateSelectO
 import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
-
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
 const SensitivitiesHeatMapDataPanel = () => {

@@ -18,7 +18,6 @@ import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFle
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
-import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
@@ -330,11 +329,11 @@ export default function StoredEconomicsSensitivities() {
   };
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
-  const tableRows = React.useRef<IStoredEconomicsSensitivitiesRow[]>(
-    transStoredSensitivitiesData
-  );
-  const currentRows = tableRows.current;
-  const [rows, setRows] = React.useState(currentRows);
+  const [rows, setRows] = React.useState(transStoredSensitivitiesData);
+
+  React.useEffect(() => {
+    setRows(transStoredSensitivitiesData as IStoredEconomicsSensitivitiesRow[]);
+  }, [transStoredSensitivitiesData]);
 
   return (
     <div className={classes.rootStoredData}>

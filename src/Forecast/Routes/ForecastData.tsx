@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "97%",
     alignItems: "center",
-    justifyContent: "center", //around, between
+    justifyContent: "center",
   },
   chart: {
     display: "flex",
@@ -391,7 +391,9 @@ export default function ForecastData({
                     (option as IForecastSelectOption).id
                   )
                 );
-                dispatch(getForecastDataByIdRequestAction());
+                dispatch(
+                  getForecastDataByIdRequestAction("forecastResultsData", false)
+                );
               }}
               isSelectOptionType={true}
               menuPortalTarget={document.body}

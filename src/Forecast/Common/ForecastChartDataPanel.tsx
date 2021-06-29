@@ -1,71 +1,18 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Select, { Styles, ValueType } from "react-select";
-import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import {
-  IForecastSelectOption,
-  ISelectOption,
-} from "../../Application/Components/Selects/SelectItemsType";
+import { ValueType } from "react-select";
+import { IForecastSelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
-import getRSStyles from "../../Application/Utils/GetRSStyles";
-import getRSTheme from "../../Application/Utils/GetRSTheme";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import ForecastTreeView from "./ForecastTreeView";
 import {
   fetchTreeviewKeysRequestAction,
-  getForecastDataByIdRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
-import ForecastChartCategories from "./ForecastChartCategories";
 import { IForecastRunOptions } from "../Routes/ForecastData";
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-  chartSelect: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "10%",
-    border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-  treeViewPanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    height: "100%",
-    // border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
+import ForecastTreeView from "./ForecastTreeView";
 
 const ForecastChartDataPanel = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const wc = "storedDataWorkflows";
   const { forecastResultsStored } = useSelector(
@@ -114,7 +61,8 @@ const ForecastChartDataPanel = () => {
         (option as IForecastSelectOption).id
       )
     );
-    dispatch(getForecastDataByIdRequestAction());
+    // dispatch(fetchTreeviewKeysRequestAction("forecastResultsVisualytics"));
+    dispatch(fetchTreeviewKeysRequestAction());
   };
 
   return (

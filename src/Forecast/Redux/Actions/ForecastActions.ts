@@ -1,4 +1,7 @@
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  TAllWorkflowProcesses,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
@@ -266,10 +269,14 @@ export const fetchTreeviewKeysFailureAction = () => {
   };
 };
 
-export const getForecastDataByIdRequestAction = () => {
+export const getForecastDataByIdRequestAction = (
+  workflowProcess: TAllWorkflowProcesses,
+  switchToRoute: boolean,
+  routeUrl?: string
+) => {
   return {
     type: GET_FORECASTDATABYID_REQUEST,
-    payload: {},
+    payload: { workflowProcess, switchToRoute, routeUrl },
   };
 };
 

@@ -98,6 +98,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const [sRow, setSRow] = React.useState(-1);
 
     const currentRows = snStoredData as IStoredDataRow[];
+
     const [rows, setRows] = React.useState(currentRows);
 
     const ApexGridCheckboxColumn = apexGridCheckbox({
@@ -308,6 +309,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     React.useEffect(() => {
       dispatch(hideSpinnerAction());
     }, [dispatch]);
+
+    React.useEffect(() => {
+      setRows(snStoredData as IStoredDataRow[]);
+    }, [snStoredData]);
 
     return (
       <div className={classes.rootStoredData} style={containerStyle}>
