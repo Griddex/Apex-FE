@@ -118,10 +118,10 @@ const DeleteDataDialog = (props: DialogStuff) => {
     actionsList,
   } = props;
 
-  const [confirmDeleteTitle, setConfirmDeleteTitle] = React.useState("");
+  const [deleteTitleConfirm, setDeleteTitleConfirm] = React.useState("");
 
   const isFinalButtonDisabled =
-    confirmDeleteTitle.trim().toLowerCase() ===
+    (deleteTitleConfirm as string).trim().toLowerCase() ===
     (deleteTitle as string).trim().toLowerCase()
       ? false
       : true;
@@ -171,11 +171,11 @@ const DeleteDataDialog = (props: DialogStuff) => {
           <span>&nbsp;</span>
           <Input
             className={classes.input}
-            value={confirmDeleteTitle}
+            value={deleteTitleConfirm}
             margin="dense"
             onChange={(event) => {
               const { value } = event.target;
-              setConfirmDeleteTitle(value);
+              setDeleteTitleConfirm(value);
             }}
           />
         </ApexFlexContainer>

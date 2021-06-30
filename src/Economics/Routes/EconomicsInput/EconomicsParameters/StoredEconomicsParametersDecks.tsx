@@ -40,11 +40,6 @@ export default function StoredEconomicsParametersDecks({
     (state: RootState) => state.economicsReducer[wc]
   );
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
-
   const snStoredData: IStoredDataRow[] =
     economicsParametersDeckStored &&
     economicsParametersDeckStored.map(
@@ -55,7 +50,7 @@ export default function StoredEconomicsParametersDecks({
         title: row.title,
         description: row.description,
         author: { avatarUrl: "", name: "None" },
-        approvers: '"--", "--"',
+        approvers: [{ avatarUrl: "", name: "" }],
         createdOn: row.createdAt,
         modifiedOn: row.createdAt,
       })
@@ -92,7 +87,6 @@ export default function StoredEconomicsParametersDecks({
     dataKey,
     dataTitle,
     chartData,
-    tableButtons,
     handleCheckboxChange,
     reducer,
     mainUrl,

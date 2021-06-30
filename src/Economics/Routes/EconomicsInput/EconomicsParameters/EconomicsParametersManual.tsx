@@ -25,6 +25,10 @@ import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsA
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 
 const useStyles = makeStyles((theme) => ({
   rootEconomicsParametersManual: {
@@ -63,11 +67,6 @@ const EconomicsParametersManual = ({
   const { economicsParametersAppHeaders } = useSelector(
     (state: RootState) => state.economicsReducer
   );
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
 
   const createInitialRows = (
     numberOfRows: number = economicsParametersAppHeaders.length
@@ -116,107 +115,136 @@ const EconomicsParametersManual = ({
     const selectedAppUnit = selectedValue as string;
   };
 
-  const columns: Column<IRawRow>[] = [
-    { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
-    {
-      key: "actions",
-      name: "ACTIONS",
-      editable: false,
-      formatter: ({ row }) => (
-        <div>
-          <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-          <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-          <LaunchOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-        </div>
-      ),
-      width: 100,
-    },
-    {
-      key: "parameter",
-      name: "PARAMETER",
-      editable: false,
-      resizable: true,
-      width: 250,
-    },
-    {
-      key: "type",
-      name: "TYPE",
-      editable: false,
-      resizable: true,
-      formatter: ({ row }) => {
-        const type = row.type as string;
-        const valueOption = generateSelectOptions([type])[0];
-
-        return (
-          <ApexSelectRS
-            valueOption={valueOption}
-            data={typeData}
-            handleSelect={(value: ValueType<ISelectOption, false>) =>
-              handleParameterTypeChange(row, value)
-            }
-            menuPortalTarget={document.body}
-            isSelectOptionType={false}
-          />
-        );
+  const generateColumns = () => {
+    const columns: Column<IRawRow>[] = [
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
+      {
+        key: "actions",
+        name: "ACTIONS",
+        editable: false,
+        formatter: ({ row }) => (
+          <div>
+            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
+            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
+            <LaunchOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
+          </div>
+        ),
+        width: 100,
       },
-      width: 150,
-    },
-    {
-      key: "value",
-      name: "VALUE",
-      editable: true,
-      editor: TextEditor,
-      resizable: true,
-      formatter: ({ row }) => {
-        const type = row.type as string;
+      {
+        key: "parameter",
+        name: "PARAMETER",
+        editable: false,
+        resizable: true,
+        width: 250,
+      },
+      {
+        key: "type",
+        name: "TYPE",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          const type = row.type as string;
+          const valueOption = generateSelectOptions([type])[0];
 
-        if (type === "Table")
           return (
-            <EconomicsParametersValue
-              valueTitle="Table"
-              row={row}
-              additionalColumnsObj={{ value: "VALUE" }}
+            <ApexSelectRS
+              valueOption={valueOption}
+              data={typeData}
+              handleSelect={(value: ValueType<ISelectOption, false>) =>
+                handleParameterTypeChange(row, value)
+              }
+              menuPortalTarget={document.body}
+              isSelectOptionType={false}
             />
           );
-        else if (type === "Equation")
+        },
+        width: 150,
+      },
+      {
+        key: "value",
+        name: "VALUE",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        formatter: ({ row }) => {
+          const type = row.type as string;
+
+          if (type === "Table")
+            return (
+              <EconomicsParametersValue
+                valueTitle="Table"
+                row={row}
+                additionalColumnsObj={{ value: "VALUE" }}
+              />
+            );
+          else if (type === "Equation")
+            return (
+              <EconomicsParametersValue
+                valueTitle="Equation"
+                row={row}
+                additionalColumnsObj={{ value: "VALUE" }}
+              />
+            );
+          else return null;
+        },
+        width: 150,
+      },
+      {
+        key: "unit",
+        name: "UNIT",
+        editable: true,
+        resizable: true,
+        formatter: ({ row }) => {
+          const unit = row.unit as string;
+          const valueOption = generateSelectOptions([unit])[0];
+
           return (
-            <EconomicsParametersValue
-              valueTitle="Equation"
-              row={row}
-              additionalColumnsObj={{ value: "VALUE" }}
+            <ApexSelectRS
+              valueOption={valueOption}
+              data={unitData}
+              handleSelect={(value: ValueType<ISelectOption, false>) =>
+                handleParameterUnitChange(row, value)
+              }
+              menuPortalTarget={document.body}
+              isSelectOptionType={false}
             />
           );
-        else return null;
+        },
+        width: 150,
       },
-      width: 150,
-    },
-    {
-      key: "unit",
-      name: "UNIT",
-      editable: true,
-      resizable: true,
-      formatter: ({ row }) => {
-        const unit = row.unit as string;
-        const valueOption = generateSelectOptions([unit])[0];
+      { key: "remark", name: "REMARK", editable: true, resizable: true },
+    ];
 
-        return (
-          <ApexSelectRS
-            valueOption={valueOption}
-            data={unitData}
-            handleSelect={(value: ValueType<ISelectOption, false>) =>
-              handleParameterUnitChange(row, value)
-            }
-            menuPortalTarget={document.body}
-            isSelectOptionType={false}
-          />
-        );
-      },
-      width: 150,
-    },
-    { key: "remark", name: "REMARK", editable: true, resizable: true },
-  ];
+    return columns;
+  };
 
   const [sRow, setSRow] = React.useState(-1);
+
+  const exportColumns = generateColumns()
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "EconomicsParametersManual",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+  };
 
   return (
     <div className={classes.rootStoredData}>
@@ -225,7 +253,7 @@ const EconomicsParametersManual = ({
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
               <ApexGrid<IRawRow, ITableButtonsProps>
-                columns={columns}
+                columns={generateColumns()}
                 rows={rows}
                 tableButtons={tableButtons}
                 size={size}

@@ -33,12 +33,6 @@ export default function StoredProductionData({
   const stored = useSelector((state: RootState) => state.inputReducer);
   const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
-
   const snStoredData = storedData.map((row: any, i: number) => {
     const data: IStoredDataRow = {
       sn: i + 1,
@@ -47,7 +41,7 @@ export default function StoredProductionData({
       title: row.title,
       description: row.description,
       author: { avatarUrl: "", name: "None" },
-      approvers: "None",
+      approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     };
@@ -75,7 +69,6 @@ export default function StoredProductionData({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     chartData,
     handleCheckboxChange,
   };

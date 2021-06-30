@@ -41,12 +41,6 @@ export default function StoredDeclineCurveParameters({
     (state: RootState) => state.networkReducer[wc][wp]
   );
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
-
   const snStoredData = storedData.map(
     (row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
@@ -55,7 +49,7 @@ export default function StoredDeclineCurveParameters({
       title: row.title,
       description: row.description,
       author: { avatarUrl: "", name: "None" },
-      approvers: ["--", "--"],
+      approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -94,7 +88,6 @@ export default function StoredDeclineCurveParameters({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     chartData,
     wkPs: wp,
     containerStyle,

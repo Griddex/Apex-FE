@@ -7,6 +7,10 @@ import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../Application/Components/Export/ExcelExportTable";
 import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
@@ -95,11 +99,6 @@ export default function UnitSettings({
   const [numberFormatOption, String] = React.useState(numberFormatOptions[0]);
   const [numberFormatStringValue, setNumberFormatStringValue] =
     React.useState("0.0");
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
 
   //TODO use Unit group to do global units change
   const handleFirstLevelSettingsChange = (event: ChangeEvent<any>) => {
@@ -439,6 +438,31 @@ export default function UnitSettings({
   };
 
   const rows = tableRows.current;
+
+  const exportColumns = columns
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IUnitsRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "UnitSettings",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IUnitsRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable<IUnitsRow> {...exportTableProps} />,
+  };
 
   return (
     <div ref={dialogRef} className={classes.rootUnitSettingsGrid}>

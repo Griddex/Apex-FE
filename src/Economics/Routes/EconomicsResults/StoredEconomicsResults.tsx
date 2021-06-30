@@ -38,11 +38,6 @@ export default function StoredEconomicsResults({
     (state: RootState) => state.economicsReducer[wc]
   );
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
-
   const snStoredData: IStoredDataRow[] = economicsResultsStored.map(
     (row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
@@ -51,7 +46,7 @@ export default function StoredEconomicsResults({
       title: row.title,
       description: row.description,
       author: { avatarUrl: "", name: "None" },
-      approvers: "--",
+      approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -90,7 +85,6 @@ export default function StoredEconomicsResults({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     chartData,
     wkPs: wp,
     containerStyle,

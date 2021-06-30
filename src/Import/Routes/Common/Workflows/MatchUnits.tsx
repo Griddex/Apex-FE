@@ -12,6 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Select, { OptionsType, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import ImportMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ImportMoreActionsContextMenu";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 import FillPopoverComponent from "../../../../Application/Components/PopoverComponents/FillPopoverComponent";
 import {
   AppUnitSelectOptionsType,
@@ -767,56 +771,79 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const columns = generateColumns(keyedApplicationUnitOptions.current);
 
+  const exportColumns = generateColumns(keyedApplicationUnitOptions.current)
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "MatchUnits",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
+
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
-      <Tooltip
-        key={"acceptAllToolTip"}
-        title={"Toggle Accept All Matches"}
-        placement="bottom-end"
-        arrow
-      >
-        <IconButton
-          style={{
-            height: "28px",
-            backgroundColor: theme.palette.primary.light,
-            border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: 2,
-          }}
-          onClick={() => {
-            const currentAcceptMatchValue = !acceptmatchToggle;
-            const rowsAllAcceptMatch = rows.map((row: IRawRow) => {
-              const rowAccept = {
-                ...row,
-                acceptMatch: currentAcceptMatchValue,
-              };
-              return rowAccept;
-            });
-
-            const fileHeaderKeys = rows.map((row: IRawRow) => row.fileHeader);
-            for (const header of fileHeaderKeys) {
-              const chosenRow = rows.find(
-                (row: IRawRow) => row.fileHeader === header
-              ) as IRawRow;
-              const chosenAppUnit = chosenRow.fileUnit as string;
-              const chosenUnitType = chosenRow.type as TUnit;
-
-              userMatchObject[workflowClass]["units"][header] = {
-                header: chosenAppUnit as string,
-                type: chosenUnitType,
-                acceptMatch: currentAcceptMatchValue,
-              };
-            }
-
-            setRows(rowsAllAcceptMatch);
-            setReRender(!reRender);
-            setUserMatchObject(userMatchObject);
-            setAcceptmatchToggle(currentAcceptMatchValue);
-          }}
+      <div>
+        <Tooltip
+          key={"acceptAllToolTip"}
+          title={"Toggle Accept All Matches"}
+          placement="bottom-end"
+          arrow
         >
-          <AllInclusiveOutlinedIcon />
-        </IconButton>
-      </Tooltip>
+          <IconButton
+            style={{
+              height: "28px",
+              backgroundColor: theme.palette.primary.light,
+              border: `1px solid ${theme.palette.primary.main}`,
+              borderRadius: 2,
+            }}
+            onClick={() => {
+              const currentAcceptMatchValue = !acceptmatchToggle;
+              const rowsAllAcceptMatch = rows.map((row: IRawRow) => {
+                const rowAccept = {
+                  ...row,
+                  acceptMatch: currentAcceptMatchValue,
+                };
+                return rowAccept;
+              });
+
+              const fileHeaderKeys = rows.map((row: IRawRow) => row.fileHeader);
+              for (const header of fileHeaderKeys) {
+                const chosenRow = rows.find(
+                  (row: IRawRow) => row.fileHeader === header
+                ) as IRawRow;
+                const chosenAppUnit = chosenRow.fileUnit as string;
+                const chosenUnitType = chosenRow.type as TUnit;
+
+                userMatchObject[workflowClass]["units"][header] = {
+                  header: chosenAppUnit as string,
+                  type: chosenUnitType,
+                  acceptMatch: currentAcceptMatchValue,
+                };
+              }
+
+              setRows(rowsAllAcceptMatch);
+              setReRender(!reRender);
+              setUserMatchObject(userMatchObject);
+              setAcceptmatchToggle(currentAcceptMatchValue);
+            }}
+          >
+            <AllInclusiveOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+        <ExcelExportTable<IRawRow> {...exportTableProps} />
+      </div>
     ),
   };
 

@@ -1,21 +1,25 @@
-import React from "react";
 import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
+import React from "react";
 import ReactExport from "react-export-excel";
 import IconButtonWithTooltip from "../IconButtons/IconButtonWithTooltip";
 import { ISelectOption } from "./../Selects/SelectItemsType";
-import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 
-export interface IExcelSheetData {
-  data: IRawRow[];
+export interface IExcelSheetData<T> {
+  data: T[];
   columns: ISelectOption[];
 }
 
-export interface IExcelExportTable {
+export interface IExcelExportTable<T> {
   fileName: string;
-  tableData: Record<string, IExcelSheetData>;
+  tableData: Record<string, IExcelSheetData<T>>;
 }
 
-const ExcelExportTable = ({ fileName, tableData }: IExcelExportTable) => {
+export type TDataRow = Record<string, React.Key | Record<string, React.Key>>;
+
+const ExcelExportTable = <T extends any>({
+  fileName,
+  tableData,
+}: IExcelExportTable<T>) => {
   return (
     <IconButtonWithTooltip
       toolTipKey="exportTemplateToolTip"
@@ -27,12 +31,33 @@ const ExcelExportTable = ({ fileName, tableData }: IExcelExportTable) => {
         const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
         return (
-          <ExcelFile element={<ArrowUpwardOutlinedIcon />} fileName={fileName}>
+          <ExcelFile element={<ArrowUpwardOutlinedIcon />} filename={fileName}>
             {Object.keys(tableData).map((sheetName, i) => {
               const { data, columns } = tableData[sheetName];
 
+              const dataFinal = data.map((row) => {
+                const rowDefined = row as TDataRow;
+
+                const rowData = Object.keys(rowDefined).reduce((acc, key) => {
+                  const val = rowDefined[key] as TDataRow;
+
+                  if (Array.isArray(val)) {
+                    return {
+                      ...acc,
+                      [key]: val.map((o) => o["name"]).join(", "),
+                    };
+                  } else if (typeof val === "object") {
+                    return { ...acc, [key]: val["name"] };
+                  } else {
+                    return { ...acc, [key]: val };
+                  }
+                }, {});
+
+                return rowData;
+              });
+
               return (
-                <ExcelSheet key={i} data={data} name={sheetName}>
+                <ExcelSheet key={i} data={dataFinal} name={sheetName}>
                   {columns.map((column, j) => {
                     const { label, value } = column;
                     return <ExcelColumn key={j} label={label} value={value} />;

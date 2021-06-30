@@ -1,10 +1,11 @@
-import { useTheme, Typography, makeStyles } from "@material-ui/core";
+import { useTheme, Typography, makeStyles, Avatar } from "@material-ui/core";
 import React from "react";
 import Image from "../../../Application/Components/Visuals/Image";
 import AvatarStack from "react-avatar-stack";
 import { IApprover } from "./ApproversTypes";
 import { numberToWords } from "./../../Utils/NumberToWords";
 import ToTitleCase from "../../Utils/ToTitleCase";
+import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 
 const useStyles = makeStyles(() => ({
   image: { height: 30, width: 30 },
@@ -19,8 +20,8 @@ const useStyles = makeStyles(() => ({
   noOfApprovers: { marginLeft: 15 },
 }));
 
-const approversCheck = (variableToCheck: any): variableToCheck is IApprover =>
-  (variableToCheck as IApprover).name !== undefined;
+const approversCheck = (variableToCheck: any): variableToCheck is IApprover[] =>
+  (variableToCheck as IApprover[])[0].name !== undefined;
 
 const Approvers = ({
   approvers,
@@ -29,10 +30,10 @@ const Approvers = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles();
-  const isApprover = approversCheck(approvers);
+  const isApprovers = approversCheck(approvers);
 
   const getApprovers = () => {
-    if (isApprover) {
+    if (isApprovers) {
       const apprvrs = approvers as IApprover[];
       const noOfApprovers = apprvrs.length;
       const noOfApproversInWords = ToTitleCase(numberToWords(noOfApprovers));
@@ -48,19 +49,32 @@ const Approvers = ({
             {apprvrs.map((approver, i) => {
               const { avatarUrl } = approver;
 
-              return (
-                <Image
-                  key={i}
-                  className={classes.image}
-                  src={avatarUrl ? avatarUrl : ""}
-                  alt={`Approver ${i}`}
-                />
-              );
+              if (avatarUrl) {
+                return (
+                  <Image
+                    key={i}
+                    className={classes.image}
+                    src={avatarUrl}
+                    alt={`Approver ${i}`}
+                  />
+                );
+              } else {
+                return (
+                  <div key={i} className={classes.approvers}>
+                    <Avatar className={classes.image}>{"N"}</Avatar>
+                    <Typography className={classes.noOfApprovers}>
+                      {"None"}
+                    </Typography>
+                  </div>
+                );
+              }
             })}
           </AvatarStack>
-          <Typography
-            className={classes.noOfApprovers}
-          >{`${noOfApproversInWords} (${noOfApprovers}) Approvers`}</Typography>
+          {apprvrs[0].name !== "" && (
+            <Typography
+              className={classes.noOfApprovers}
+            >{`${noOfApproversInWords} (${noOfApprovers}) Approvers`}</Typography>
+          )}
         </div>
       );
     } else {

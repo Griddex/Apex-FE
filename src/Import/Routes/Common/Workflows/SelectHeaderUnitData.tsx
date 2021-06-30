@@ -5,6 +5,10 @@ import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 import {
   ISelectOption,
   SelectOptionsType,
@@ -84,10 +88,6 @@ export default function SelectHeaderUnitData({
   );
 
   //TABLE OPTIONS
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
 
   const { roleNames } = ApexGridRolesState;
   const roleOptions: SelectOptionsType = generateSelectOptions(roleNames);
@@ -234,6 +234,31 @@ export default function SelectHeaderUnitData({
     () => generateColumns(roleOptions),
     [roleOptions, rows]
   );
+
+  const exportColumns = columns
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "SelectHeaderUnitData",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+  };
 
   React.useEffect(() => {
     dispatch(

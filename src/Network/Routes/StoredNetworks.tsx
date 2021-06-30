@@ -36,12 +36,6 @@ export default function StoredNetworks({
     (state: RootState) => state.networkReducer[wc]
   );
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
-
   const snStoredData = networkStored.map(
     (row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
@@ -50,7 +44,7 @@ export default function StoredNetworks({
       title: row.title,
       description: row.description,
       author: { avatarUrl: "", name: "None" },
-      approvers: ["--", "--"],
+      approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -89,7 +83,6 @@ export default function StoredNetworks({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     chartData,
     wkPs: wp,
     containerStyle,

@@ -4,6 +4,10 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -174,11 +178,6 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const newUnitRowWithVariableName = { sn: 1, ...newUnitsRow };
   const tableData = [newUnitRowWithVariableName, ...orderedDataRows];
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
-
   const generateColumns = () => {
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -218,6 +217,31 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
   };
 
   const columns = generateColumns();
+
+  const exportColumns = generateColumns()
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "PreviewSave",
+    tableData: {
+      Template: {
+        data: tableData,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+  };
 
   React.useEffect(() => {
     dispatch(persistTableDataAction(reducer, tableData, wp));

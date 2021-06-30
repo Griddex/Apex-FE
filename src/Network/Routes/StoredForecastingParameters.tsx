@@ -11,6 +11,10 @@ import { SizeMe } from "react-sizeme";
 import Author from "../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ApexGridMoreActionsContextMenu from "../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -221,17 +225,6 @@ export default function StoredForecastingParameters({
     startForecast: "",
     endForecast: "",
   } as IForecastParametersStoredRow;
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: true,
-    extraButtons: () => (
-      <CreateForecastParametersButton
-        currentRow={newRow}
-        forecastParametersIndex={transStoredData.length}
-      />
-    ),
-    componentRef,
-  };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IForecastParametersStoredRow) => {
@@ -551,6 +544,40 @@ export default function StoredForecastingParameters({
   })) as IForecastParametersStoredRow[];
 
   const [rows, setRows] = React.useState(snTransStoredData);
+
+  const exportColumns = columns
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IForecastParametersStoredRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "CostsAndRevenuesTemplate",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IForecastParametersStoredRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => (
+      <div>
+        <CreateForecastParametersButton
+          currentRow={newRow}
+          forecastParametersIndex={transStoredData.length}
+        />
+        <ExcelExportTable<IForecastParametersStoredRow> {...exportTableProps} />
+      </div>
+    ),
+    componentRef,
+  };
 
   React.useEffect(() => {
     setStoredDataState(storedData as IBackendForecastingParametersRow[]);

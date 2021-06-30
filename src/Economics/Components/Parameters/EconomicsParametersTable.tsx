@@ -15,6 +15,10 @@ import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
@@ -50,6 +54,83 @@ const EconomicsParametersTable = ({
 
   const { costsRevenuesAppHeaders, economicsParametersAppHeaders } =
     useSelector((state: RootState) => state[reducer]);
+
+  const additionalColumnsObjKeys = Object.keys(additionalColumnsObj);
+
+  const createInitialRows = (numberOfRows = 3): TRawTable => {
+    const fakeRows = [];
+    for (let i = 0; i < numberOfRows; i++) {
+      const fakeRow = {
+        sn: i + 1,
+        from: "",
+        to: "",
+        ...additionalColumnsObjKeys.reduce(
+          (acc, k) => ({ ...acc, [k]: "" }),
+          {}
+        ),
+      };
+
+      fakeRows.push(fakeRow);
+    }
+    return fakeRows;
+  };
+
+  const initialRows = createInitialRows(3);
+  const [rows, setRows] = React.useState(initialRows);
+  const [sRow, setSRow] = React.useState(-1);
+
+  const additionalColumns = additionalColumnsObjKeys.map((k) => ({
+    key: k,
+    name: additionalColumnsObj[k],
+    editable: true,
+    editor: TextEditor,
+    resizable: true,
+  }));
+
+  const generateColumns = () => {
+    const columns: Column<IRawRow>[] = [
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
+      {
+        key: "from",
+        name: "FROM",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        width: 100,
+      },
+      {
+        key: "to",
+        name: "TO",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        width: 100,
+      },
+      ...additionalColumns,
+    ];
+
+    return columns;
+  };
+
+  const exportColumns = generateColumns()
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "EconomicsParametersTable",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
@@ -106,61 +187,10 @@ const EconomicsParametersTable = ({
             <RemoveOutlinedIcon />
           </IconButton>
         </Tooltip>
+        <ExcelExportTable<IRawRow> {...exportTableProps} />
       </div>
     ),
   };
-
-  const additionalColumnsObjKeys = Object.keys(additionalColumnsObj);
-
-  const createInitialRows = (numberOfRows = 3): TRawTable => {
-    const fakeRows = [];
-    for (let i = 0; i < numberOfRows; i++) {
-      const fakeRow = {
-        sn: i + 1,
-        from: "",
-        to: "",
-        ...additionalColumnsObjKeys.reduce(
-          (acc, k) => ({ ...acc, [k]: "" }),
-          {}
-        ),
-      };
-
-      fakeRows.push(fakeRow);
-    }
-    return fakeRows;
-  };
-
-  const initialRows = createInitialRows(3);
-  const [rows, setRows] = React.useState(initialRows);
-  const [sRow, setSRow] = React.useState(-1);
-
-  const additionalColumns = additionalColumnsObjKeys.map((k) => ({
-    key: k,
-    name: additionalColumnsObj[k],
-    editable: true,
-    editor: TextEditor,
-    resizable: true,
-  }));
-  const columns: Column<IRawRow>[] = [
-    { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
-    {
-      key: "from",
-      name: "FROM",
-      editable: true,
-      editor: TextEditor,
-      resizable: true,
-      width: 100,
-    },
-    {
-      key: "to",
-      name: "TO",
-      editable: true,
-      editor: TextEditor,
-      resizable: true,
-      width: 100,
-    },
-    ...additionalColumns,
-  ];
 
   const dataOptions = swapVariableNameTitleForISelectOption(
     costsRevenuesAppHeaders as TVariableNameTitleData
@@ -221,7 +251,7 @@ const EconomicsParametersTable = ({
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
               <ApexGrid<IRawRow, ITableButtonsProps>
-                columns={columns}
+                columns={generateColumns()}
                 rows={rows}
                 onRowsChange={setRows}
                 tableButtons={tableButtons}

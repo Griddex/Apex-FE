@@ -14,6 +14,10 @@ import {
   IApexEditor,
   IApexEditorRow,
 } from "../../../../Application/Components/Editors/ApexEditor";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -132,11 +136,6 @@ export default function StoredEconomicsSensitivities() {
   })) as IStoredEconomicsSensitivitiesRow[];
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredEconomicsSensitivitiesRow) => {
@@ -328,9 +327,39 @@ export default function StoredEconomicsSensitivities() {
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
+
+  const exportColumns = generateColumns()
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IStoredEconomicsSensitivitiesRow>["columns"];
 
   const [rows, setRows] = React.useState(transStoredSensitivitiesData);
+
+  const exportTableProps = {
+    fileName: "EconomicsSensitivities",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IStoredEconomicsSensitivitiesRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => (
+      <ExcelExportTable<IStoredEconomicsSensitivitiesRow>
+        {...exportTableProps}
+      />
+    ),
+  };
+
+  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
   React.useEffect(() => {
     setRows(transStoredSensitivitiesData as IStoredEconomicsSensitivitiesRow[]);

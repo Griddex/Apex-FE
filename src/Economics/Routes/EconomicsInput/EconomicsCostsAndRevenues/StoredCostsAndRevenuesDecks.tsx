@@ -1,12 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { persistSelectedIdTitleAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
 import {
-  IStoredDataProps,
   IApplicationStoredDataRow,
+  IStoredDataProps,
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
@@ -45,11 +44,6 @@ export default function StoredCostsAndRevenuesDecks({
     (state: RootState) => state.economicsReducer[wc]
   );
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
-
   const snStoredData: IStoredDataRow[] =
     economicsCostsRevenuesDeckStored &&
     economicsCostsRevenuesDeckStored.map(
@@ -61,8 +55,7 @@ export default function StoredCostsAndRevenuesDecks({
         description: row.description,
         developmentScenarios: row?.developmentScenariosCostsRevenue?.join(", "),
         author: { avatarUrl: "", name: "None" },
-        // approvers: [{ avatarUrl: "", name: "" }],
-        approvers: "----",
+        approvers: [{ avatarUrl: "", name: "" }],
         createdOn: row.createdAt,
         modifiedOn: row.createdAt,
       })
@@ -104,7 +97,6 @@ export default function StoredCostsAndRevenuesDecks({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     wkPs: wp,
     chartData,
     showChart,

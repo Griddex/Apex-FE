@@ -40,12 +40,6 @@ export default function StoredProductionPrioritization({
     (state: RootState) => state.networkReducer[wc][wp]
   );
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
-
   const snStoredData = storedData.map(
     (row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
@@ -54,7 +48,7 @@ export default function StoredProductionPrioritization({
       title: row.title,
       description: row.description,
       author: { avatarUrl: "", name: "None" },
-      approvers: ["--", "--"],
+      approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -93,7 +87,6 @@ export default function StoredProductionPrioritization({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     chartData,
     wkPs: wp,
     containerStyle,

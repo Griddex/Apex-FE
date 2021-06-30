@@ -40,12 +40,6 @@ export default function StoredFacilitiesDecks({
 
   const componentRef = React.useRef();
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
-
   const snStoredData =
     facilitiesInputDeckStored &&
     facilitiesInputDeckStored.map(
@@ -56,7 +50,7 @@ export default function StoredFacilitiesDecks({
         title: row.title,
         description: row.description,
         author: { avatarUrl: "", name: "None" },
-        approvers: ["--", "--"],
+        approvers: [{ avatarUrl: "", name: "" }],
         createdOn: row.createdAt,
         modifiedOn: row.createdAt,
       })
@@ -92,7 +86,6 @@ export default function StoredFacilitiesDecks({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     chartData,
     showChart,
     containerStyle,

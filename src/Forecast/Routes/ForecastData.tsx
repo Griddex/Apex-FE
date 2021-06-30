@@ -8,12 +8,15 @@ import Select, {
   components,
   OptionsType,
   Props as SelectProps,
-  Styles,
   ValueType,
 } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import {
   IForecastSelectOption,
@@ -25,9 +28,6 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
-import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
-import getRSStyles from "../../Application/Utils/GetRSStyles";
-import getRSTheme from "../../Application/Utils/GetRSTheme";
 import {
   getForecastDataByIdRequestAction,
   updateForecastResultsParameterAction,
@@ -96,11 +96,6 @@ export default function ForecastData({
     sn: i + 1,
     ...row,
   }));
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
@@ -358,6 +353,31 @@ export default function ForecastData({
     React.useState<IForecastSelectOption>(
       selectedForecastTitleOption as IForecastSelectOption
     );
+
+  const exportColumns = generateColumns()
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "ForecastData",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+  };
 
   return (
     <div className={classes.rootStoredData} style={containerStyle}>

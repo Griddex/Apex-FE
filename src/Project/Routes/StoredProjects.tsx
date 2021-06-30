@@ -8,10 +8,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
 import { IStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
-import {
-  fetchStoredProjectsRequestAction,
-  fetchStoredProjectsSuccessAction,
-} from "../Redux/Actions/ProjectActions";
+import { fetchStoredProjectsRequestAction } from "../Redux/Actions/ProjectActions";
 import { IApplicationProject } from "../Redux/State/ProjectStateTypes";
 
 export default function StoredProjects({
@@ -20,8 +17,6 @@ export default function StoredProjects({
   containerStyle: CSSProperties;
 }) {
   const mainUrl = `${getBaseForecastUrl()}/project`;
-  const fetchStoredUrl = `${getBaseForecastUrl()}/project/recents/20`;
-  const dataStored = "storedProjects";
 
   const dispatch = useDispatch();
   const componentRef = React.useRef();
@@ -29,12 +24,6 @@ export default function StoredProjects({
   const { storedProjects } = useSelector(
     (state: RootState) => state.projectReducer
   );
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
 
   const snStoredData = (storedProjects as IApplicationProject[]).map(
     (row, i: number) => ({
@@ -44,7 +33,7 @@ export default function StoredProjects({
       description: row.description,
       approval: "Not Started",
       author: { avatarUrl: "", name: "None" },
-      approvers: "---",
+      approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -83,7 +72,6 @@ export default function StoredProjects({
     snStoredData,
     dataKey,
     dataTitle,
-    tableButtons,
     containerStyle,
     handleCheckboxChange,
     clickAwayAction,

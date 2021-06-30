@@ -15,6 +15,10 @@ import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCh
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import { IApexEditorRow } from "../../Application/Components/Editors/ApexEditor";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../Application/Components/Export/ExcelExportTable";
 import Saved from "../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -145,13 +149,10 @@ export default function StoredForecastResults({
   const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   );
+  const [storedforecastResults, setStoredforecastResults] = React.useState(
+    forecastResultsStored
+  );
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-    componentRef,
-  };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredForecastResultsRow) => {
@@ -267,7 +268,7 @@ export default function StoredForecastResults({
                     showDialogAction(
                       confirmationDialogParameters(
                         "Delete_Table_Data_Dialog",
-                        title,
+                        `Delete ${title}`,
                         "deleteDataDialog",
                         "",
                         false,
@@ -414,7 +415,7 @@ export default function StoredForecastResults({
       forecastInputDeckTitle: row.forecastInputDeckTitle,
       forecastParametersTitle: row.forecastingParametersGroupTitle,
       author: { avatarUrl: "", name: "None" },
-      approvers: "---",
+      approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
     })
@@ -422,13 +423,40 @@ export default function StoredForecastResults({
 
   const [rows, setRows] = React.useState(snStoredData);
 
+  const exportColumns = generateColumns()
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IStoredForecastResultsRow>["columns"];
+
+  const exportTableProps = {
+    fileName: "StoredForecastResults",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IStoredForecastResultsRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => (
+      <ExcelExportTable<IStoredForecastResultsRow> {...exportTableProps} />
+    ),
+  };
+
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
   React.useEffect(() => {
-    setRows(snStoredData as IStoredForecastResultsRow[]);
-  }, [snStoredData]);
+    setStoredforecastResults(storedforecastResults);
+  }, [storedforecastResults]);
 
   const [sRow, setSRow] = React.useState(-1);
 

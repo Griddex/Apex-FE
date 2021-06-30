@@ -13,6 +13,10 @@ import apexGridCheckbox from "../../../../Application/Components/Checkboxes/Apex
 import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import { IApexEditorRow } from "../../../../Application/Components/Editors/ApexEditor";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -73,7 +77,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       dataKey,
       dataTitle,
       chartData,
-      tableButtons,
       wkPs,
       showChart,
       containerStyle,
@@ -193,7 +196,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                       showDialogAction(
                         confirmationDialogParameters(
                           "Delete_Table_Data_Dialog",
-                          title,
+                          `Delete ${title}`,
                           "deleteDataDialog",
                           "",
                           false,
@@ -207,7 +210,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                             ),
                           "Delete",
                           "deleteOutlined",
-                          "delete"
+                          "delete",
+                          title
                         )
                       )
                     )
@@ -305,6 +309,33 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       return columns;
     };
     const columns = React.useMemo(() => generateColumns(), [selectedRows]);
+
+    const exportColumns = columns
+      .filter(
+        (column) =>
+          !["actions", "select_control_key"].includes(column.key.toLowerCase())
+      )
+      .map((column) => ({
+        value: column.key,
+        label: column.name,
+      })) as IExcelSheetData<IStoredDataRow>["columns"];
+
+    const exportTableProps = {
+      fileName: wkPs,
+      tableData: {
+        Template: {
+          data: rows,
+          columns: exportColumns,
+        },
+      },
+    } as IExcelExportTable<IStoredDataRow>;
+
+    const tableButtons: ITableButtonsProps = {
+      showExtraButtons: true,
+      extraButtons: () => (
+        <ExcelExportTable<IStoredDataRow> {...exportTableProps} />
+      ),
+    };
 
     React.useEffect(() => {
       dispatch(hideSpinnerAction());

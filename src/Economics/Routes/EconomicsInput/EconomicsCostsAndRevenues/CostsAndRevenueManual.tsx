@@ -808,11 +808,14 @@ export default function CostsAndRevenueManual({
   }
 
   const exportColumns = generateColumns(devVal)
-    .filter((column) => column.key !== "actions")
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
     .map((column) => ({
       label: column.name,
       value: column.key,
-    })) as IExcelSheetData["columns"];
+    })) as IExcelSheetData<IRawRow>["columns"];
 
   const exportTableProps = {
     fileName: "CostsAndRevenuesTemplate",
@@ -822,7 +825,7 @@ export default function CostsAndRevenueManual({
         columns: exportColumns,
       },
     },
-  } as IExcelExportTable;
+  } as IExcelExportTable<IRawRow>;
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,

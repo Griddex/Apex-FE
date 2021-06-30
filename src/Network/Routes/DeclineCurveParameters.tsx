@@ -7,6 +7,10 @@ import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../Application/Components/Export/ExcelExportTable";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
@@ -76,11 +80,6 @@ export default function DeclineCurveParameters() {
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IDeclineCurveParametersDetail) => {
@@ -319,6 +318,33 @@ export default function DeclineCurveParameters() {
     tableRows.current = modifiedRows;
   };
   const rows = tableRows.current;
+
+  const exportColumns = columns
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      label: column.name,
+      value: column.key,
+    })) as IExcelSheetData<IDeclineCurveParametersDetail>["columns"];
+
+  const exportTableProps = {
+    fileName: "DeclineCurveParameters",
+    tableData: {
+      Template: {
+        data: rows,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IDeclineCurveParametersDetail>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => (
+      <ExcelExportTable<IDeclineCurveParametersDetail> {...exportTableProps} />
+    ),
+  };
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
