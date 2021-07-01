@@ -89,7 +89,7 @@
     "react": "^17.0.2",
     "react-avatar-stack": "0.0.4",
     "react-awesome-popover": "^6.1.1",
-    "react-circle-progress-bar_no-css": "^0.1.4",
+    "react-circular-progressbar": "^1.2.1",
     "react-color": "^2.18.1",
     "react-copy-to-clipboard": "^5.0.3",
     "react-data-griddex": "^0.7.3",

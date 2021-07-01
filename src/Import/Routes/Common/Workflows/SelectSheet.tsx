@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
 import { useSnackbar } from "notistack";
 import React from "react";
-import Progress from "react-circle-progress-bar_no-css";
+import CircularProgressbar from "react-circular-progressbar";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import * as xlsx from "xlsx";
@@ -25,6 +25,7 @@ import sizeConversions from "../../../../Application/Utils/SizeConversions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { persistWorksheetAction } from "../../../Redux/Actions/InputActions";
 import FileIconService from "../../../Services/FileIconService";
+import "react-circular-progressbar/dist/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     height: "65%",
     width: "100%",
-    // borderBottom: "1px solid #969498",
-    // borderBottom: "1px solid #707070",
     padding: 20,
   },
   fileContent: {
@@ -144,16 +143,23 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
 
   const FileSizeProgressCircle = () => {
     const fileSizePercent = Math.round(((fileSize as number) * 100) / 10485760);
+
     return (
-      <Progress
+      <CircularProgressbar
         className={classes.fileSizeProgress}
-        progress={fileSizePercent}
+        percentage={fileSizePercent}
+        text={`${fileSizePercent}%`}
         strokeWidth={3}
-        reduction={0}
-        background={
-          fileSizePercent >= 100 ? `${theme.palette.secondary.main}` : "#969498"
-        }
-        ballStrokeWidth={12}
+        initialAnimation={true}
+        styles={{
+          path: {
+            stroke:
+              fileSizePercent >= 100
+                ? theme.palette.primary.main
+                : theme.palette.secondary.main,
+            strokeLinecap: "butt",
+          },
+        }}
       />
     );
   };
