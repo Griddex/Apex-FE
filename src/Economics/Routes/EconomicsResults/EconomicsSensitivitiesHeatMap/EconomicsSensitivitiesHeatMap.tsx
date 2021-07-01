@@ -17,7 +17,6 @@ const EconomicsSensitivitiesHeatMap = () => {
     sensitivitiesHeatMap1or2D,
     heatMapVariableXOption,
     heatMapVariableYOption,
-    heatMapVariableZOption,
   } = useSelector((state: RootState) => state.economicsReducer);
 
   let keys: string[] = [];
@@ -32,6 +31,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         moreStyles={{
           border: `1px solid ${theme.palette.grey[400]}`,
           backgroundColor: theme.palette.grey[200],
+          minWidth: theme.breakpoints.values["md"],
         }}
       >
         {"No map"}
@@ -66,20 +66,7 @@ const EconomicsSensitivitiesHeatMap = () => {
       cellOpacity={1}
       cellBorderColor={{ from: "color", modifiers: [["darker", 0.4]] }}
       labelTextColor={{ from: "color", modifiers: [["darker", 1.8]] }}
-      // defs={[
-      //     {
-      //         id: 'lines',
-      //         type: 'patternLines',
-      //         background: 'inherit',
-      //         color: 'rgba(0, 0, 0, 0.1)',
-      //         rotation: -45,
-      //         lineWidth: 4,
-      //         spacing: 7
-      //     }
-      // ]}
-      // fill={[ { id: 'lines' } ]}
       animate={true}
-      // motionConfig="wobbly"
       motionStiffness={80}
       motionDamping={9}
       hoverTarget="cell"

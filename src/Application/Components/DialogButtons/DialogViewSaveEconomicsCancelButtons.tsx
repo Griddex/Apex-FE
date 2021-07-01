@@ -18,7 +18,7 @@ const DialogViewSaveEconomicsCancelButtons = () => {
   const extrudeSaveEconomicsRun = () => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Save_Economics_Dialog",
-      title: "Save Economics Run",
+      title: "Save Economics Results",
       type: "saveEconomicsResultsDialog",
       show: true,
       exclusive: false,

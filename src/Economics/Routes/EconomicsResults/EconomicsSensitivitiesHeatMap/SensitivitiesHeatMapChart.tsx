@@ -49,6 +49,13 @@ const SensitivitiesHeatMapChart = () => {
     (state: RootState) => state.economicsReducer[wc][ap]
   );
 
+  //TODO
+  //1, 2 or 3 sensitivity variables are possible
+  //a) For 1 variable, disable Y&Z categories and disable/remove Z area.
+  //then fire request. Define an artificial Y value just for Y axis
+  //b) For 2 variables, disable Z categories and disable/remove Z area.
+  //then fire request.
+
   const isAllVariablesDropped = [
     heatMapVariableXOption,
     heatMapVariableYOption,

@@ -1,6 +1,7 @@
 import { Button, makeStyles, Typography, useTheme } from "@material-ui/core";
 import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +16,11 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics";
 import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
   runEconomicsAnalysisRequestAction,
-  saveEconomicsResultsRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
@@ -220,7 +219,9 @@ const EconomicsAnalysis = ({
             () => getEconomicsSensitivitiesByIdRequestAction(wp, reducer),
           ],
           "Load",
-          "loadOutlined"
+          "loadOutlined",
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -255,7 +256,9 @@ const EconomicsAnalysis = ({
               ),
           ],
           "Calculate",
-          "viewDayTwoTone"
+          "viewDayTwoTone",
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };
@@ -264,22 +267,6 @@ const EconomicsAnalysis = ({
   };
 
   const saveeconomicsResultsFinalAction = () => {
-    const saveEconomicsInputdeckConfirmation = () => {
-      const dps = confirmationDialogParameters(
-        "EconomicsDeck_Save_Confirmation",
-        "Economics Deck Save Confirmation",
-        "textDialog",
-        `Do you want to save the current facilities Inputdeck?`,
-        true,
-        true,
-        saveEconomicsResultsRequestAction,
-        "Save",
-        "saveOutlined"
-      );
-
-      dispatch(showDialogAction(dps));
-    };
-
     const dialogParameters: DialogStuff = {
       name: "Save_Economics_Results_Dialog",
       title: "Save Economics Results",
@@ -288,14 +275,6 @@ const EconomicsAnalysis = ({
       exclusive: true,
       maxWidth: "sm",
       iconType: "save",
-      actionsList: () =>
-        DialogSaveCancelButtons(
-          [true, true],
-          [true, false],
-          [unloadDialogsAction, saveEconomicsInputdeckConfirmation],
-          false,
-          "None"
-        ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
     };
@@ -383,10 +362,10 @@ const EconomicsAnalysis = ({
         )}
       </div>
 
-      <ApexFlexContainer width={400} height={40} justifyContent="center">
+      <ApexFlexContainer width={310} height={40} justifyContent="space-between">
         <Button
           className={classes.primaryButton}
-          startIcon={<ViewDayTwoToneIcon />}
+          startIcon={<SaveOutlinedIcon />}
           onClick={saveeconomicsResultsFinalAction}
         >
           Save Results

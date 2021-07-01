@@ -94,7 +94,7 @@ function* saveEconomicsResultsSaga(
       updateEconomicsParameterAction("selectedEconomicsResultsTitle", title)
     );
 
-    yield put(updateEconomicsParameterAction("showResultsTable", true));
+    // yield put(updateEconomicsParameterAction("showResultsTable", true));
     yield put(
       fetchStoredEconomicsResultsRequestAction(currentProjectId, false)
     );

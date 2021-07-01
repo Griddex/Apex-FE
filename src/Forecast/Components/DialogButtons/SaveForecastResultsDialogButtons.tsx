@@ -75,7 +75,7 @@ const SaveForecastResultsDialogButtons = ({
           }
           startIcon={button.startIcon}
           // disabled={
-          //   button.title === "Save" ? !isSaveForecastResultsValid : true
+          //   button.title === "Save" ? isSaveForecastResultsValid : false
           // }
         >
           {button.title}

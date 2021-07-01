@@ -121,8 +121,11 @@ export default function StoredEconomicsSensitivities() {
     (state: RootState) => state.economicsReducer[wc]
   );
 
+  const [storedEconomicsSensitivities, setStoredEconomicsSensitivities] =
+    React.useState(economicsSensitivitiesStored);
+
   const transStoredSensitivitiesData = (
-    economicsSensitivitiesStored as IApplicationStoredDataRow[]
+    storedEconomicsSensitivities as IApplicationStoredDataRow[]
   ).map((row, i) => ({
     sn: i + 1,
     economicsSensitivitiesId: row.id,
@@ -312,7 +315,6 @@ export default function StoredEconomicsSensitivities() {
         formatter: ({ row }) => {
           return <div>{row.createdOn}</div>;
         },
-        // width: 200,
       },
       {
         key: "modifiedOn",
@@ -321,7 +323,6 @@ export default function StoredEconomicsSensitivities() {
         formatter: ({ row }) => {
           return <div>{row.modifiedOn}</div>;
         },
-        // width: 200,
       },
     ];
 
@@ -362,8 +363,8 @@ export default function StoredEconomicsSensitivities() {
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
   React.useEffect(() => {
-    setRows(transStoredSensitivitiesData as IStoredEconomicsSensitivitiesRow[]);
-  }, [transStoredSensitivitiesData]);
+    setStoredEconomicsSensitivities(economicsSensitivitiesStored);
+  }, [economicsSensitivitiesStored]);
 
   return (
     <div className={classes.rootStoredData}>

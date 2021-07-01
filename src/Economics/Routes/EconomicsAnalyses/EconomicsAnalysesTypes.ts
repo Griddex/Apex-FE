@@ -65,6 +65,8 @@ export type TDevScenarioTitles =
   | "NAG Development"
   | "Oil + NAG Development";
 
+export type TBackendDevScenarioTitles = "OIL/AG" | "NAG" | "OIL + NAG";
+
 export type TForecastScenario = "1P_1C" | "2P_2C" | "3P_3C";
 
 export type TSensitivitiesTable = ISensitivitiesRow[];

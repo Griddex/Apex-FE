@@ -169,6 +169,8 @@ export interface DialogStuff<TRow = IRawRow> {
   rows?: TRow[];
   columns?: Column<TRow>[];
   setRows?: TUseState<any>;
+  showCategories?: boolean;
+  setShowCategories?: TUseState<boolean>;
   apexEditorProps?: IApexEditor;
   apexEditorComponent?: React.FC<any>;
   isCustomComponent?: boolean;

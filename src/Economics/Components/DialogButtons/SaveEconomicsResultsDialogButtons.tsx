@@ -18,10 +18,11 @@ import { IIsSaveEconomicsResultsValid } from "../Dialogs/SaveEconomicsResultsDia
 
 const SaveEconomicsResultsDialogButtons = ({
   isSaveEconomicsResultsValid,
+  titleDesc,
 }: IIsSaveEconomicsResultsValid) => {
   const dispatch = useDispatch();
 
-  const finalAction = () => {
+  const finalAction = (titleDesc: Record<string, string>) => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Save_Economics_Results_Dialog",
       title: "Save Economics Results Dialog",
@@ -35,7 +36,10 @@ const SaveEconomicsResultsDialogButtons = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, saveEconomicsResultsRequestAction],
+          [
+            unloadDialogsAction,
+            () => saveEconomicsResultsRequestAction(titleDesc),
+          ],
           false,
           "All"
         ),
@@ -58,7 +62,7 @@ const SaveEconomicsResultsDialogButtons = ({
       variant: "contained",
       color: "primary",
       startIcon: <SaveOutlinedIcon />,
-      handleAction: finalAction,
+      handleAction: () => finalAction(titleDesc as Record<string, string>),
     },
   ];
 
@@ -73,9 +77,9 @@ const SaveEconomicsResultsDialogButtons = ({
             button?.handleAction && button?.handleAction(i as number)
           }
           startIcon={button.startIcon}
-          disabled={
-            button.title === "Save" ? isSaveEconomicsResultsValid : false
-          }
+          // disabled={
+          //   button.title === "Save" ? isSaveEconomicsResultsValid : false
+          // }
         >
           {button.title}
         </Button>

@@ -1,7 +1,11 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IUserDetails } from "../../../Application/Components/User/UserTypes";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
+import {
+  IApplicationStoredDataRow,
+  TApproval,
+} from "../../../Application/Types/ApplicationTypes";
 import {
   TVariableTitle,
   TVariableName,
@@ -9,6 +13,7 @@ import {
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   IEconomicsAnalysis,
+  TBackendDevScenarioTitles,
   TDevScenarioNames,
   TDevScenarioTitles,
   TEconomicsAnalysesNames,
@@ -160,6 +165,23 @@ export interface INewEconomicsResultsWorkflowProps
     props: INewEconomicsResultsWorkflowProps
   ) => JSX.Element | JSX.Element[];
   reducer?: ReducersType;
+}
+
+export interface IStoredEconomicsResultsRow {
+  sn: number;
+  id: string;
+  userId?: string;
+  approval: TApproval;
+  title: string;
+  description?: string;
+  saved: "Saved" | "Not Saved";
+  sensitivities: "Utilized" | "None";
+  analysis: TEconomicsAnalysesNames | TEconomicsAnalysesNames[];
+  devScenarios: TBackendDevScenarioTitles[];
+  author: IUserDetails | string;
+  approvers: IUserDetails[] | string;
+  createdOn: string;
+  modifiedOn: string;
 }
 
 export interface IEconomicsState

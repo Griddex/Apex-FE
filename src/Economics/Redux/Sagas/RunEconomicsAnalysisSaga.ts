@@ -30,7 +30,7 @@ import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCost
 import {
   runEconomicsAnalysisFailureAction,
   runEconomicsAnalysisSuccessAction,
-  RUNECONOMICSANALYSIS_REQUEST,
+  RUN_ECONOMICSANALYSIS_REQUEST,
 } from "../Actions/EconomicsActions";
 
 export default function* watchRunEconomicsAnalysisSaga(): Generator<
@@ -39,7 +39,7 @@ export default function* watchRunEconomicsAnalysisSaga(): Generator<
   any
 > {
   const runEconomicsAnalysisChan = yield actionChannel(
-    RUNECONOMICSANALYSIS_REQUEST
+    RUN_ECONOMICSANALYSIS_REQUEST
   );
   yield takeLeading(runEconomicsAnalysisChan, runEconomicsAnalysisSaga);
 }

@@ -5,7 +5,7 @@ import { compile } from "mathjs";
 
 interface IHeatMapCustomCell {
   data: any;
-  value: number | string;
+  label: React.Key;
   x: number;
   y: number;
   width: number;
@@ -16,21 +16,22 @@ interface IHeatMapCustomCell {
   borderColor: string;
   textColor: string;
 }
-const index = 0;
-const HeatMapCustomCell = ({
-  data,
-  value,
-  x,
-  y,
-  width,
-  height,
-  color,
-  opacity,
-  borderWidth,
-  borderColor,
-  textColor,
-}: IHeatMapCustomCell) => {
-  const indexRef = React.useRef<number>(index);
+
+const HeatMapCustomCell = (props: IHeatMapCustomCell) => {
+  const {
+    data,
+    label,
+    x,
+    y,
+    width,
+    height,
+    color,
+    opacity,
+    borderWidth,
+    borderColor,
+    textColor,
+  } = props;
+
   const { heatMapStylingData } = useSelector(
     (state: RootState) => state.economicsReducer
   );
@@ -42,7 +43,8 @@ const HeatMapCustomCell = ({
     relationalOperatorOption,
   } = heatMapStylingData;
 
-  const equationExpr = `${value}${relationalOperatorOption.value}${heatMapThresholdValue}`;
+  const equationExpr = `${label}${relationalOperatorOption.value}${heatMapThresholdValue}`;
+
   const thresholdEval = compile(equationExpr).evaluate();
 
   const appliedColor = thresholdEval
@@ -61,19 +63,18 @@ const HeatMapCustomCell = ({
         strokeWidth={borderWidth}
         stroke={appliedColor}
         strokeOpacity={opacity}
-      ></rect>
-
+      />
       <text
         dominantBaseline="central"
         textAnchor="middle"
         style={{
           fill: textColor,
           fontSize: 16,
-          fontWeight: "bold",
+          // fontWeight: "bold",
           fontFamily: "inherit",
         }}
       >
-        {value}
+        {label}
       </text>
     </g>
   );

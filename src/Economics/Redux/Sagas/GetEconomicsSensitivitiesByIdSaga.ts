@@ -20,7 +20,7 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Store
 import {
   getEconomicsSensitivitiesByIdFailureAction,
   getEconomicsSensitivitiesByIdSuccessAction,
-  GETECONOMICSSENSITIVITIESBYID_REQUEST,
+  GET_ECONOMICSSENSITIVITIESBYID_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
@@ -30,7 +30,7 @@ export default function* watchGetEconomicsSensitivitiesByIdSaga(): Generator<
   any
 > {
   const getEconomicsSensitivitiesByIdChan = yield actionChannel(
-    GETECONOMICSSENSITIVITIESBYID_REQUEST
+    GET_ECONOMICSSENSITIVITIESBYID_REQUEST
   );
   yield takeLeading(
     getEconomicsSensitivitiesByIdChan,

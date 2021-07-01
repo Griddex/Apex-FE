@@ -7,12 +7,14 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SaveEconomicsResultsDialogButtons from "../DialogButtons/SaveEconomicsResultsDialogButtons";
 import EconomicsResultsTitleAndDescription from "../Forms/EconomicsResultsTitleAndDescription";
 import EconomicsResultsTitleAndDescriptionForm from "../Forms/EconomicsResultsTitleAndDescriptionForm";
@@ -107,9 +109,23 @@ const DialogContent = withStyles((theme) => ({
 
 const SaveEconomicsResultsDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
+
+  const storedTitles = useSelector(
+    (state: RootState) =>
+      state.applicationReducer["allFormTitles"]["economicsResultTitles"]
+  );
+
   const { title, show, maxWidth, iconType } = props;
   const [isSaveEconomicsResultsValid, setIsSaveEconomicsResultsValid] =
     React.useState(true);
+
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
 
   return (
     <Dialog
@@ -128,18 +144,19 @@ const SaveEconomicsResultsDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column" }}
       >
-        <EconomicsResultsTitleAndDescriptionForm>
-          {(props) => (
-            <EconomicsResultsTitleAndDescription
-              {...props}
-              setIsSaveEconomicsResultsValid={setIsSaveEconomicsResultsValid}
-            />
-          )}
-        </EconomicsResultsTitleAndDescriptionForm>
+        <TitleAndDescriptionForm
+          title={formTitle}
+          setTitle={setFormTitle}
+          description={formDescription}
+          setDescription={setFormDescription}
+          storedTitles={storedTitles}
+        />
       </DialogContent>
       <DialogActions>
         <SaveEconomicsResultsDialogButtons
-          isSaveEconomicsResultsValid={isSaveEconomicsResultsValid}
+          // isSaveEconomicsResultsValid={isSaveEconomicsResultsValid}
+          isSaveEconomicsResultsValid={true}
+          titleDesc={titleDesc}
         />
       </DialogActions>
     </Dialog>

@@ -1,5 +1,4 @@
-import { Divider, Paper } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
+import { Divider } from "@material-ui/core";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
@@ -13,9 +12,7 @@ import {
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
-import Draggable from "react-draggable";
 import { useDispatch } from "react-redux";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
@@ -116,14 +113,12 @@ const DialogActions = withStyles((theme) => ({
 
 const DraggableDialog: React.FC<DialogStuff> = ({
   title,
-  show,
-  maxWidth,
   iconType,
+  setShowCategories,
   actionsList,
   children,
 }) => {
   const theme = useTheme();
-  const dispatch = useDispatch();
 
   return (
     <ApexFlexContainer
@@ -132,7 +127,7 @@ const DraggableDialog: React.FC<DialogStuff> = ({
       moreStyles={{ padding: 0, boxShadow: theme.shadows[8] }}
     >
       <DraggableDialogTitle
-        onClose={() => dispatch(hideDialogAction())}
+        onClose={() => setShowCategories && setShowCategories(false)}
         iconType={iconType}
       >
         <Typography variant="h6">{title}</Typography>

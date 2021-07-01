@@ -34,13 +34,15 @@ import {
   FETCH_COSTSREVENUESHEADERS_SUCCESS,
   FETCH_ECONOMICSPARAMETERSHEADERS_FAILURE,
   FETCH_ECONOMICSPARAMETERSHEADERS_SUCCESS,
-  GETECONOMICSSENSITIVITIESBYID_FAILURE,
-  GETECONOMICSSENSITIVITIESBYID_SUCCESS,
+  GET_ECONOMICSSENSITIVITIESBYID_FAILURE,
+  GET_ECONOMICSSENSITIVITIESBYID_SUCCESS,
   LOAD_ECONOMICS_WORKFLOW,
-  RUNECONOMICSANALYSIS_FAILURE,
-  RUNECONOMICSANALYSIS_SUCCESS,
+  RUN_ECONOMICSANALYSIS_FAILURE,
+  RUN_ECONOMICSANALYSIS_SUCCESS,
   UPDATE_ECONOMICSPARAMETER,
   RESET_ECONOMICS,
+  STORED_ECONOMICSRESULTS_SUCCESS,
+  STORED_ECONOMICSRESULTS_FAILURE,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -120,6 +122,28 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       }
     }
 
+    case STORED_ECONOMICSRESULTS_SUCCESS: {
+      const { economicsResultsStored } = action.payload;
+
+      return {
+        ...state,
+        storedDataWorkflows: {
+          ...state.storedDataWorkflows,
+          economicsResultsStored,
+        },
+      };
+    }
+
+    //TODO Yikes move from here
+    case STORED_ECONOMICSRESULTS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
+    }
+
     case FETCH_COSTSREVENUESHEADERS_SUCCESS: {
       const {
         costsRevenuesAppHeaders,
@@ -195,16 +219,16 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case RUNECONOMICSANALYSIS_FAILURE:
-    case RUNECONOMICSANALYSIS_SUCCESS: {
+    case RUN_ECONOMICSANALYSIS_FAILURE:
+    case RUN_ECONOMICSANALYSIS_SUCCESS: {
       return {
         ...state,
         ...action.payload,
       };
     }
 
-    case GETECONOMICSSENSITIVITIESBYID_FAILURE:
-    case GETECONOMICSSENSITIVITIESBYID_SUCCESS: {
+    case GET_ECONOMICSSENSITIVITIESBYID_FAILURE:
+    case GET_ECONOMICSSENSITIVITIESBYID_SUCCESS: {
       const { analysisName, analysisTableTitle, sensitivitiesTable } =
         action.payload;
 

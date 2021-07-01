@@ -7,13 +7,14 @@ import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ForecastTitleAndDescription from "../Forms/ForecastTitleAndDescription";
 import ForecastTitleAndDescriptionForm from "../Forms/ForecastTitleAndDescriptionForm";
 
@@ -97,6 +98,12 @@ const DialogContent = withStyles((theme) => ({
 
 const SaveForecastInputDeckDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
+
+  const storedTitles = useSelector(
+    (state: RootState) =>
+      state.applicationReducer["allFormTitles"]["forecastTitles"]
+  );
+
   const { title, show, maxWidth, iconType, actionsList } = props;
 
   const [formTitle, setFormTitle] = React.useState("");
@@ -129,6 +136,7 @@ const SaveForecastInputDeckDialog = (props: DialogStuff) => {
           setTitle={setFormTitle}
           description={formDescription}
           setDescription={setFormDescription}
+          storedTitles={storedTitles}
         />
       </DialogContent>
       <DialogActions>{actionsList && actionsList(titleDesc)}</DialogActions>

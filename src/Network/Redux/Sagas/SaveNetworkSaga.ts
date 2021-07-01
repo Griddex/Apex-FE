@@ -71,9 +71,9 @@ function* saveNetworkSaga(
   const data = {
     userId: "Gift",
     projectId: currentProjectId,
-    build: isNetworkAuto ? "Manual" : "Auto",
     title,
     description,
+    build: isNetworkAuto ? "Manual" : "Auto",
     facilitiesInputDeckId: selectedFacilitiesInputDeckId,
     forecastInputDeckId: selectedForecastInputDeckId,
     nodes: nodeElements,

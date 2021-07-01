@@ -1,10 +1,6 @@
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
-import DialogOkayCancelButtons from "../../../Application/Components/DialogButtons/DialogOkayCancelButtons";
+import DialogViewSaveEconomicsCancelButtons from "../../../Application/Components/DialogButtons/DialogViewSaveEconomicsCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import {
-  hideDialogAction,
-  unloadDialogsAction,
-} from "../../../Application/Redux/Actions/DialogsAction";
 
 export const successDialogParameters = (
   analysisTitle: string
@@ -17,12 +13,7 @@ export const successDialogParameters = (
   maxWidth: "xs",
   dialogText: `${analysisTitle} calculation was successfully completed!`,
   iconType: "success",
-  actionsList: () =>
-    DialogOkayCancelButtons(
-      [true, true],
-      [true, true],
-      [unloadDialogsAction, hideDialogAction]
-    ),
+  actionsList: () => DialogViewSaveEconomicsCancelButtons(),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });
 

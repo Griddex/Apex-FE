@@ -13,7 +13,10 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/EconomicsSuccessFailureDialogParameters";
@@ -50,12 +53,17 @@ function* getEconomicsResultsByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
+  const { workflowProcess, switchToRoute, routeUrl } = payload;
+
   const { selectedEconomicsResultsId } = yield select(
     (state) => state.economicsReducer
   );
   const economicsResultsUrl = `${getBaseEconomicsUrl()}/analyses/${selectedEconomicsResultsId}`;
+  const message = "Loading economics data...";
 
   try {
+    yield put(showSpinnerAction(message));
+
     const economicsResultsResults = yield call(
       getEconomicsResultsByIdAPI,
       economicsResultsUrl
@@ -65,28 +73,12 @@ function* getEconomicsResultsByIdSaga(action: IAction): Generator<
       data: { data: selectedResultsData },
     } = economicsResultsResults;
 
-    const {
-      analysisName,
-      title: analysisTableTitle,
-      sensitivitiesTable,
-    } = selectedResultsData;
-
-    const sensitivitiesTableStr = sensitivitiesTable.map(
-      (row: any, i: number) => ({
-        ...row,
-        sn: i + 1,
-        parameterValues: row.parameterValues.join(", "),
-      })
-    );
-
     const successAction = getEconomicsResultsByIdSuccessAction();
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        analysisName,
-        analysisTableTitle,
-        sensitivitiesTable: sensitivitiesTableStr,
+        selectedResultsData,
       },
     });
 

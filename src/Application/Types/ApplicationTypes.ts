@@ -7,6 +7,7 @@ import {
   ReducersType,
 } from "../Components/Workflows/WorkflowTypes";
 import {
+  TBackendDevScenarioTitles,
   TDevScenarioNames,
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
@@ -95,6 +96,22 @@ export interface IApplicationStoredForecastResultsRow
   networkId: string;
   forecastInputDeckTitle: string;
   forecastingParametersGroupTitle: string;
+}
+
+export interface IApplicationStoredEconomicsResultsRow {
+  sn?: number;
+  id?: string;
+  userId?: string;
+  approval?: TApproval;
+  title?: string;
+  description?: string;
+  saved?: "Saved" | "Not Saved";
+  hasSensitivities: boolean;
+  analysisName?: TEconomicsAnalysesNames | TEconomicsAnalysesNames[];
+  developmentScenariosAnalysis?: TBackendDevScenarioTitles[];
+  author?: IUserDetails | string;
+  approvers?: IUserDetails[] | string;
+  createdAt?: string;
 }
 
 export interface ILandingData {

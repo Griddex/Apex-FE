@@ -64,16 +64,16 @@ export const SAVE_ECONOMICSSENSITIVITIES_SUCCESS =
 export const SAVE_ECONOMICSSENSITIVITIES_FAILURE =
   "SAVE_ECONOMICSSENSITIVITIES_FAILURE";
 
-export const GETECONOMICSSENSITIVITIESBYID_REQUEST =
-  "GETECONOMICSSENSITIVITIESBYID_REQUEST";
-export const GETECONOMICSSENSITIVITIESBYID_SUCCESS =
-  "GETECONOMICSSENSITIVITIESBYID_SUCCESS";
-export const GETECONOMICSSENSITIVITIESBYID_FAILURE =
-  "GETECONOMICSSENSITIVITIESBYID_FAILURE";
+export const GET_ECONOMICSSENSITIVITIESBYID_REQUEST =
+  "GET_ECONOMICSSENSITIVITIESBYID_REQUEST";
+export const GET_ECONOMICSSENSITIVITIESBYID_SUCCESS =
+  "GET_ECONOMICSSENSITIVITIESBYID_SUCCESS";
+export const GET_ECONOMICSSENSITIVITIESBYID_FAILURE =
+  "GET_ECONOMICSSENSITIVITIESBYID_FAILURE";
 
-export const RUNECONOMICSANALYSIS_REQUEST = "RUNECONOMICSANALYSIS_REQUEST";
-export const RUNECONOMICSANALYSIS_SUCCESS = "RUNECONOMICSANALYSIS_SUCCESS";
-export const RUNECONOMICSANALYSIS_FAILURE = "RUNECONOMICSANALYSIS_FAILURE";
+export const RUN_ECONOMICSANALYSIS_REQUEST = "RUN_ECONOMICSANALYSIS_REQUEST";
+export const RUN_ECONOMICSANALYSIS_SUCCESS = "RUN_ECONOMICSANALYSIS_SUCCESS";
+export const RUN_ECONOMICSANALYSIS_FAILURE = "RUN_ECONOMICSANALYSIS_FAILURE";
 export const PERSIST_ECONOMICSDECK = "PERSIST_ECONOMICSDECK";
 export const CALCULATE_HEATMAPDATA_REQUEST = "CALCULATE_HEATMAPDATA_REQUEST";
 export const CALCULATE_HEATMAPDATA_SUCCESS = "CALCULATE_HEATMAPDATA_SUCCESS";
@@ -362,7 +362,7 @@ export const getEconomicsSensitivitiesByIdRequestAction = (
   reducer: ReducersType
 ) => {
   return {
-    type: GETECONOMICSSENSITIVITIESBYID_REQUEST,
+    type: GET_ECONOMICSSENSITIVITIESBYID_REQUEST,
     payload: { workflowProcess, reducer },
     meta: { showSpinner: true, message: "Loading economics sensitivities..." },
   };
@@ -370,7 +370,7 @@ export const getEconomicsSensitivitiesByIdRequestAction = (
 
 export const getEconomicsSensitivitiesByIdSuccessAction = () => {
   return {
-    type: GETECONOMICSSENSITIVITIESBYID_SUCCESS,
+    type: GET_ECONOMICSSENSITIVITIESBYID_SUCCESS,
     payload: {
       status: 0,
     },
@@ -379,7 +379,7 @@ export const getEconomicsSensitivitiesByIdSuccessAction = () => {
 
 export const getEconomicsSensitivitiesByIdFailureAction = () => {
   return {
-    type: GETECONOMICSSENSITIVITIESBYID_FAILURE,
+    type: GET_ECONOMICSSENSITIVITIESBYID_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -393,7 +393,7 @@ export const runEconomicsAnalysisRequestAction = (
   analysisTitle: TEconomicsAnalysesTitles
 ) => {
   return {
-    type: RUNECONOMICSANALYSIS_REQUEST,
+    type: RUN_ECONOMICSANALYSIS_REQUEST,
     payload: { workflowProcess, analysisName, analysisTitle },
     meta: { showSpinner: true, message: `Calculating ${analysisTitle}...` },
   };
@@ -401,7 +401,7 @@ export const runEconomicsAnalysisRequestAction = (
 
 export const runEconomicsAnalysisSuccessAction = () => {
   return {
-    type: RUNECONOMICSANALYSIS_SUCCESS,
+    type: RUN_ECONOMICSANALYSIS_SUCCESS,
     payload: {
       status: 0,
     },
@@ -410,7 +410,7 @@ export const runEconomicsAnalysisSuccessAction = () => {
 
 export const runEconomicsAnalysisFailureAction = () => {
   return {
-    type: RUNECONOMICSANALYSIS_FAILURE,
+    type: RUN_ECONOMICSANALYSIS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -462,9 +462,12 @@ export const calculateHeatMapDataFailureAction = () => {
   };
 };
 
-export const saveEconomicsResultsRequestAction = () => {
+export const saveEconomicsResultsRequestAction = (
+  titleDesc: Record<string, string>
+) => {
   return {
     type: SAVE_ECONOMICSRESULTS_REQUEST,
+    payload: { titleDesc },
     meta: { showSpinner: true, message: "Saving economics results..." },
   };
 };
@@ -519,12 +522,13 @@ export const fetchStoredEconomicsResultsFailureAction = () => {
 };
 
 export const getEconomicsResultsByIdRequestAction = (
-  workflowProcess: IEconomicsWorkflows["wkPs"],
-  reducer: ReducersType
+  // workflowProcess: IEconomicsWorkflows["wkPs"],
+  switchToRoute: boolean,
+  routeUrl?: string
 ) => {
   return {
     type: GET_ECONOMICSRESULTSBYID_REQUEST,
-    payload: { workflowProcess, reducer },
+    payload: { switchToRoute, routeUrl },
     meta: { showSpinner: true, message: "Loading economics result..." },
   };
 };

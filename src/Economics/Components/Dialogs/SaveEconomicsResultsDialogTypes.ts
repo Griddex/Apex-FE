@@ -3,4 +3,5 @@ export interface IIsSaveEconomicsResultsValid {
   setIsSaveEconomicsResultsValid?: React.Dispatch<
     React.SetStateAction<boolean>
   >;
+  titleDesc?: Record<string, string>;
 }
