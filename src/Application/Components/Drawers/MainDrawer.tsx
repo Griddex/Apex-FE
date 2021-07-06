@@ -19,14 +19,13 @@ import TuneIcon from "@material-ui/icons/Tune";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
 import ApexLogo from "../../Images/ApexLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import history from "../../Services/HistoryService";
 import { IMainDrawerData } from "./MainDrawerTypes";
 
 const navbarHeight = 43;
@@ -89,6 +88,8 @@ const useStyles = makeStyles((theme) => ({
 
 const MainDrawer = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const classes = useStyles(layoutProps);
   const { expandMainDrawer, menusDisabled } = layoutProps;

@@ -6,7 +6,7 @@ import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
 import React from "react";
 import { useDrag } from "react-dnd";
-import { animated, useSpring } from "react-spring/web.cjs"; // web.cjs is required for IE 11 support
+import { animated, useSpring } from "react-spring"; // web.cjs is required for IE 11 support
 import { IApexTreeView, RenderTree } from "./ApexTreeViewTypes";
 
 function MinusSquare(props: any) {

@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
 import { useSnackbar } from "notistack";
 import React from "react";
-import CircularProgressbar from "react-circular-progressbar";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import * as xlsx from "xlsx";
@@ -25,6 +24,7 @@ import sizeConversions from "../../../../Application/Utils/SizeConversions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { persistWorksheetAction } from "../../../Redux/Actions/InputActions";
 import FileIconService from "../../../Services/FileIconService";
+import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -147,16 +147,15 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
     return (
       <CircularProgressbar
         className={classes.fileSizeProgress}
-        percentage={fileSizePercent}
+        value={fileSizePercent}
         text={`${fileSizePercent}%`}
         strokeWidth={3}
-        initialAnimation={true}
         styles={{
           path: {
             stroke:
               fileSizePercent >= 100
-                ? theme.palette.primary.main
-                : theme.palette.secondary.main,
+                ? theme.palette.secondary.main
+                : theme.palette.primary.main,
             strokeLinecap: "butt",
           },
         }}

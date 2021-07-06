@@ -5,7 +5,6 @@ import {
   TextareaAutosize,
   useTheme,
 } from "@material-ui/core";
-import { DatePicker, DatePickerInput } from "carbon-components-react";
 import React from "react";
 import { ValueType } from "react-select";
 import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
@@ -149,22 +148,21 @@ const ApexEditor = ({
             direction="Vertical"
             containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
-              <DatePicker
-                datePickerType="single"
-                onChange={(_, currentDateString) => {
+              <Input
+                id="date-picker-input-id-start"
+                type="datetime-local"
+                margin="dense"
+                value={formEditorRow[name as keyof IStoredDataRow]}
+                onChange={(event) => {
+                  const { value } = event.target;
+
                   setFormEditorRow((prev: any) => ({
                     ...prev,
-                    [name]: currentDateString,
+                    [name]: value,
                   }));
                 }}
                 style={{ width: width, height: height }}
-              >
-                <DatePickerInput
-                  id="date-picker-input-id-start"
-                  placeholder="DD/MM/yyyy"
-                  labelText=""
-                />
-              </DatePicker>
+              />
             }
           />
         );

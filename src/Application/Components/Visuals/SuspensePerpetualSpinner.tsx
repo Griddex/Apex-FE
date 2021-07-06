@@ -1,11 +1,10 @@
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import Backdrop from "@material-ui/core/Backdrop";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import { RootState } from "../../Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme) => ({
   container: {

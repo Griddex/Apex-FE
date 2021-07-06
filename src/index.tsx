@@ -1,21 +1,21 @@
 import { ThemeProvider } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./Application/App";
-import history from "./Application/Services/HistoryService";
+import { store } from "./Application/Redux/Store/Store";
 import theme from "./Application/Theme/Theme";
-import { store, persistor } from "./Application/Redux/Store/Store";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <Router
-        history={history}
-        getUserConfirmation={(message, callback) => {
+        getUserConfirmation={(
+          message: string,
+          callback: (ok: boolean) => void
+        ) => {
           const allowTransition = window.confirm(message);
           callback(allowTransition);
         }}

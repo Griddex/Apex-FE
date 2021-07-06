@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   ISubNavbar,
   ISubNavbarData,
@@ -12,7 +13,6 @@ import {
 import { subNavbarSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { navigateResetWorkflowAction } from "../../Redux/Actions/LayoutActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import history from "../../Services/HistoryService";
 
 const mainDrawerExpanded = 96;
 const mainDrawerWidthCollapsed = 40;
@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const theme = useTheme();
 
   const { expandMainDrawer } = useSelector(

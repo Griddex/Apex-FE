@@ -6,7 +6,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
 import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
-import PerpetualSpinner from "../Components/Visuals/PerpetualSpinner";
 import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
 import useExitPrompt from "../Hooks/UseExitPrompt";
 import ProtectedRoute from "../Routes/ProtectedRoute";
@@ -36,7 +35,7 @@ export const ExitPromptContext = React.createContext<IExitPromptContext>(
   initExitPromptContext
 );
 
-const App: React.FC<JSX.Element> = () => {
+const App = () => {
   const classes = useStyles();
   const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false) as [
     boolean,

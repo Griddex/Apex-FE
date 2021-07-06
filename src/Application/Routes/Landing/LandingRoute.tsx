@@ -4,7 +4,7 @@ import React from "react";
 import Image from "../../Components/Visuals/Image";
 import SyncwareLogoWithName from "../../Images/SyncwareLogoWithName.svg";
 import ApexLogoFull from "../../Images/ApexLogoFull.svg";
-import history from "../../Services/HistoryService";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LandingRoute = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div className={classes.root}>

@@ -6,8 +6,8 @@ module.exports = {
   },
   jest: {
     babel: {
-      addPresets: true /* (default value) */,
-      addPlugins: true /* (default value) */,
+      addPresets: true,
+      addPlugins: true,
     },
     configure: {
       /* Any Jest configuration options: https://jestjs.io/docs/en/configuration. */

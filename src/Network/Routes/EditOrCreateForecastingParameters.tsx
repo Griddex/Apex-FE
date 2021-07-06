@@ -2,8 +2,6 @@ import { Button, Input } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
-import { DatePicker, DatePickerInput } from "carbon-components-react";
-import "carbon-components/css/carbon-components.min.css";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -30,8 +28,6 @@ import {
   timeFrequencyOptions,
 } from "../Data/NetworkData";
 import {
-  getDeclineParametersByIdRequestAction,
-  getProductionPrioritizationByIdRequestAction,
   saveDeclineParametersRequestAction,
   saveProductionPrioritizationRequestAction,
   updateNetworkParameterAction,
@@ -416,40 +412,32 @@ const EditOrCreateForecastingParameters = ({
           title="Start Forecast Date"
           direction="Vertical"
           content={
-            <DatePicker
-              datePickerType="single"
-              value={new Date(formEditorRow["startForecast"])}
-            >
-              <DatePickerInput
-                id="date-picker-input-id-start"
-                placeholder="DD/MM/yyyy"
-                labelText=""
-                disabled
-              />
-            </DatePicker>
+            <Input
+              id="date-picker-input-id-start"
+              type="datetime-local"
+              margin="dense"
+              defaultValue={formEditorRow["startForecast"]}
+            />
           }
         />
         <AnalyticsComp
           title="End Forecast Date"
           direction="Vertical"
           content={
-            <DatePicker
-              datePickerType="single"
-              minDate={new Date(formEditorRow["startForecast"]).toString()}
-              value={new Date(formEditorRow["endForecast"])}
-              onChange={(dates: Date[], currentDateString: string) => {
-                setFormEditorRow((prev) => ({
+            <Input
+              id="date-picker-input-id-start"
+              type="datetime-local"
+              margin="dense"
+              value={formEditorRow["endForecast"]}
+              onChange={(event) => {
+                const { value } = event.target;
+
+                setFormEditorRow((prev: any) => ({
                   ...prev,
-                  endForecast: currentDateString,
+                  endForecast: value,
                 }));
               }}
-            >
-              <DatePickerInput
-                id="date-picker-input-id-end"
-                placeholder="DD/MM/yyyy"
-                labelText=""
-              />
-            </DatePicker>
+            />
           }
         />
       </ApexFlexContainer>

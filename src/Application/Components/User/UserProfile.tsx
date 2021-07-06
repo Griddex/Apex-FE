@@ -11,12 +11,12 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
-import history from "../../Services/HistoryService";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
 import { IIconNameComp, IUserDetails } from "./UserTypes";
 import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import { logoutAction } from "../../Redux/Actions/LogoutActions";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: 80, width: 80 },
@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   userName: { fontWeight: "bold" },
   userLogout: {
-    // border: `2px solid ${theme.palette.secondary.main}`,
-    // color: `${theme.palette.secondary.main}`,
     fontWeight: "bold",
     width: 70,
     alignSelf: "center",
@@ -68,6 +66,7 @@ const iconNameStyles = { display: "flex", marginTop: 5, marginBottom: 5 };
 const UserProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const logoutDecision = () => {
     const logoutDialogActions = () => {

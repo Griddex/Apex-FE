@@ -156,8 +156,8 @@ const SimpleBarChart = () => {
         },
       ]}
       borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
-      axisTop={null}
-      axisRight={null}
+      axisTop={undefined}
+      axisRight={undefined}
       axisBottom={{
         tickSize: 5,
         tickPadding: 5,
@@ -202,8 +202,6 @@ const SimpleBarChart = () => {
         },
       ]}
       animate={true}
-      motionStiffness={90}
-      motionDamping={15}
     />
   );
 };
