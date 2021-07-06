@@ -5,8 +5,13 @@ import {
   TextareaAutosize,
   useTheme,
 } from "@material-ui/core";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import React from "react";
+import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import ApexSelectRS from "../Selects/ApexSelectRS";
@@ -70,6 +75,10 @@ const ApexEditor = ({
 }: IApexEditor) => {
   const theme = useTheme();
   const classes = useStyles();
+
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
 
   const editorRef = React.useRef<HTMLDivElement>(null);
   const indexRef = React.useRef(0);
@@ -148,18 +157,39 @@ const ApexEditor = ({
             direction="Vertical"
             containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
-              <Input
-                id="date-picker-input-id-start"
-                type="datetime-local"
-                margin="dense"
-                value={formEditorRow[name as keyof IStoredDataRow]}
-                onChange={(event) => {
-                  const { value } = event.target;
+              // <Input
+              //   id="date-picker-input-id-start"
+              //   type="datetime-local"
+              //   margin="dense"
+              //   value={formEditorRow[name as keyof IStoredDataRow]}
+              //   onChange={(event) => {
+              //     const { value } = event.target;
 
+              //     setFormEditorRow((prev: any) => ({
+              //       ...prev,
+              //       [name]: value,
+              //     }));
+              //   }}
+              //   style={{ width: width, height: height }}
+              // />
+
+              <KeyboardDatePicker
+                margin="normal"
+                id="date-picker-dialog"
+                label="Date picker dialog"
+                //TODO Date format not flexible enough
+                //User should have ability to change position
+                //of day, month and year
+                format={`${dayFormat} ${monthFormat} ${yearFormat}`}
+                value={formEditorRow[name as keyof IStoredDataRow]}
+                onChange={(date: MaterialUiPickersDate) => {
                   setFormEditorRow((prev: any) => ({
                     ...prev,
-                    [name]: value,
+                    [name]: date,
                   }));
+                }}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
                 }}
                 style={{ width: width, height: height }}
               />

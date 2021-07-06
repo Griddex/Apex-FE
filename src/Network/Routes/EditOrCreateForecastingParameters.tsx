@@ -2,6 +2,8 @@ import { Button, Input } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -21,6 +23,7 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TUseState } from "../../Application/Types/ApplicationTypes";
+import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import {
   defermentOptions,
@@ -70,6 +73,10 @@ const EditOrCreateForecastingParameters = ({
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
+
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
 
   const dialogRef = React.useRef<HTMLElement>(null);
   const [formEditorRow, setFormEditorRow] = React.useState(
@@ -412,11 +419,26 @@ const EditOrCreateForecastingParameters = ({
           title="Start Forecast Date"
           direction="Vertical"
           content={
-            <Input
-              id="date-picker-input-id-start"
-              type="datetime-local"
-              margin="dense"
-              defaultValue={formEditorRow["startForecast"]}
+            // <Input
+            //   id="date-picker-input-id-start"
+            //   type="datetime-local"
+            //   margin="dense"
+            //   defaultValue={formEditorRow["startForecast"]}
+            // />
+
+            <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Date picker dialog"
+              //TODO Date format not flexible enough
+              //User should have ability to change position
+              //of day, month and year
+              format={`${dayFormat} ${monthFormat} ${yearFormat}`}
+              value={formEditorRow["startForecast"]}
+              onChange={() => {}}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
             />
           }
         />
@@ -424,18 +446,40 @@ const EditOrCreateForecastingParameters = ({
           title="End Forecast Date"
           direction="Vertical"
           content={
-            <Input
-              id="date-picker-input-id-start"
-              type="datetime-local"
-              margin="dense"
-              value={formEditorRow["endForecast"]}
-              onChange={(event) => {
-                const { value } = event.target;
+            // <Input
+            //   id="date-picker-input-id-start"
+            //   type="datetime-local"
+            //   margin="dense"
+            //   value={formEditorRow["endForecast"]}
+            //   onChange={(event) => {
+            //     const { value } = event.target;
 
+            //     setFormEditorRow((prev: any) => ({
+            //       ...prev,
+            //       endForecast: value,
+            //     }));
+            //   }}
+            // />
+
+            <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Date picker dialog"
+              //TODO Date format not flexible enough
+              //User should have ability to change position
+              //of day, month and year
+              format={`${dayFormat} ${monthFormat} ${yearFormat}`}
+              value={formEditorRow["endForecast"]}
+              onChange={(date: MaterialUiPickersDate) => {
                 setFormEditorRow((prev: any) => ({
                   ...prev,
-                  endForecast: value,
+                  endForecast: date,
                 }));
+              }}
+              minDate={new Date(formEditorRow["startForecast"])}
+              maxDate={new Date(formEditorRow["endForecast"])}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
               }}
             />
           }
