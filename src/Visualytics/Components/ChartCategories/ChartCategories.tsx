@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.white,
     border: `1px solid ${theme.palette.grey[300]}`,
     zIndex: 1300,
-    // boxShadow: `${fade(theme.palette.grey[300], 0.25)} 0 0 0 2px`,
+    // boxShadow: `${alpha(theme.palette.grey[300], 0.25)} 0 0 0 2px`,
   },
 }));
 

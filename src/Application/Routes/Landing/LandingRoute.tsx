@@ -68,21 +68,13 @@ const LandingRoute = () => {
     <div className={classes.root}>
       <div className={classes.header}>Header</div>
       <div className={classes.company}>
-        <Image
-          height={50}
-          src={SyncwareLogoWithName}
-          alt="Apex Hydrocarbon Forecasting Platform Logo"
-        />
+        <Image height={50} src={SyncwareLogoWithName} alt="Syncware Logo" />
         <Typography className={classes.typography} variant="h6">
           ...inspired technologies for business growth
         </Typography>
       </div>
       <div className={classes.apex}>
-        <Image
-          height={150}
-          src={ApexLogoFull}
-          alt="Apex Hydrocarbon Forecasting Platform Logo"
-        />
+        <Image height={150} src={ApexLogoFull} alt="Apex Logo" />
         <Typography className={classes.typography} variant="h6">
           {
             "-Syncware's flagship Hydrocarbon Forecasting and Economics Platform"

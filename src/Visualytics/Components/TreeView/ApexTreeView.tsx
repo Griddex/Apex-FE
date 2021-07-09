@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import Collapse from "@material-ui/core/Collapse";
-import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
+import { alpha, makeStyles, withStyles } from "@material-ui/core/styles";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
@@ -66,7 +66,7 @@ const StyledTreeItem = withStyles((theme) => ({
   group: {
     marginLeft: 7,
     paddingLeft: 18,
-    borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
+    borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
   },
 }))((props: TreeItemProps) => {
   return <TreeItem {...props} /*TransitionComponent={TransitionComponent}*/ />;

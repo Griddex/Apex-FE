@@ -1,4 +1,4 @@
-import { makeStyles, fade } from "@material-ui/core/styles";
+import { makeStyles, alpha } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import React from "react";
@@ -65,12 +65,8 @@ const TabsWrapper = ({ children }: { children: JSX.Element }) => {
   //   setTabValue(newValue);
   // };
 
-  const {
-    newMainTabs,
-    newMainTabPanels,
-    workflowName,
-    currentMainTabValue,
-  } = useSelector((state: RootState) => state.applicationReducer);
+  const { newMainTabs, newMainTabPanels, workflowName, currentMainTabValue } =
+    useSelector((state: RootState) => state.applicationReducer);
 
   return (
     <div className={classes.rootTabs}>

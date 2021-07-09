@@ -158,6 +158,10 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
                 : theme.palette.primary.main,
             strokeLinecap: "butt",
           },
+          text: {
+            fill: theme.palette.primary.main,
+            fontSize: "16px",
+          },
         }}
       />
     );

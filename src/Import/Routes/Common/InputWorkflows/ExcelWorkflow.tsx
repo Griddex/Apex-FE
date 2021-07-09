@@ -1,20 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router-dom";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
-import TabsWrapper from "../../../../Application/Components/Tabs/TabsWrapper";
-import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
-import {
-  IAllWorkflows,
-  IOnlyWorkflows,
-} from "../../../../Application/Components/Workflows/WorkflowTypes";
+import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
+import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
-import { Prompt } from "react-router-dom";
 
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
@@ -40,11 +36,10 @@ const useStyles = makeStyles((theme) => ({
     height: "90%",
     width: "97%",
     alignItems: "center",
-    justifyContent: "center", //around, between
+    justifyContent: "center",
   },
 }));
 
-//Props for excel workflow from forecasting or facilities
 const steps = [
   "Upload File",
   "Select Worksheet",
@@ -135,29 +130,13 @@ const ExcelWorkflow = ({
       case 1:
         return <SelectSheet {...props} />;
       case 2:
-        return (
-          // <TabsWrapper>
-          <SelectHeaderUnitData {...props} />
-          // </TabsWrapper>
-        );
+        return <SelectHeaderUnitData {...props} />;
       case 3:
-        return (
-          // <TabsWrapper>
-          <MatchHeaders {...props} />
-          // </TabsWrapper>
-        );
+        return <MatchHeaders {...props} />;
       case 4:
-        return (
-          // <TabsWrapper>
-          <MatchUnits {...props} />
-          // </TabsWrapper>
-        );
+        return <MatchUnits {...props} />;
       case 5:
-        return (
-          // <TabsWrapper>
-          <PreviewSave {...props} />
-          // </TabsWrapper>
-        );
+        return <PreviewSave {...props} />;
       default:
         return <h1>End</h1>;
     }

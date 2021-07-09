@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests the root component <App/> <App/> matches snapshot 1`] = `
+<div>
+  <div
+    class="makeStyles-root-20"
+  >
+    <div
+      class="makeStyles-header-21"
+    >
+      Header
+    </div>
+    <div
+      class="makeStyles-company-22"
+    >
+      <img
+        alt="Syncware Logo"
+        height="50"
+        src="SyncwareLogoWithName.svg"
+      />
+      <h6
+        class="MuiTypography-root makeStyles-typography-25 MuiTypography-h6"
+      >
+        ...inspired technologies for business growth
+      </h6>
+    </div>
+    <div
+      class="makeStyles-apex-23"
+    >
+      <img
+        alt="Apex Logo"
+        height="150"
+        src="ApexLogoFull.svg"
+      />
+      <h6
+        class="MuiTypography-root makeStyles-typography-25 MuiTypography-h6"
+      >
+        -Syncware's flagship Hydrocarbon Forecasting and Economics Platform
+      </h6>
+    </div>
+    <div
+      class="makeStyles-footer-28"
+    >
+      <hr />
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-27 MuiButton-disableElevation"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Proceed
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

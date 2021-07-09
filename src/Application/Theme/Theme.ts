@@ -1,7 +1,7 @@
 import { grey } from "@material-ui/core/colors";
-import { createMuiTheme, fade } from "@material-ui/core/styles";
+import { createTheme, alpha } from "@material-ui/core/styles";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: { light: "#EDFBFD", main: "#14A9C1", dark: "#0A515C" },
     secondary: { light: "#FFEBEC", main: "#FF0013", dark: "#660005" },
@@ -127,7 +127,7 @@ theme.overrides = {
       "&$focused": {
         border: `1px solid ${theme.palette.primary.main}`,
         outline: `1px solid ${theme.palette.primary.main}`,
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
         borderRadius: 2,
       },
     },
@@ -193,11 +193,11 @@ theme.overrides = {
   MuiCardActionArea: {
     root: {
       border: `1px solid #999`,
-      boxShadow: `${fade("#999", 0.25)} 0 0 0 2px`,
+      boxShadow: `${alpha("#999", 0.25)} 0 0 0 2px`,
       "&:hover": {
         border: `1px solid ${theme.palette.primary.main}`,
         outline: `1px solid ${theme.palette.primary.main}`,
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
         borderRadius: 2,
         backgroundColor: "#FFF",
         // boxShadow: `0 0 .5rem #fff, inset 0 0 .5rem #fff,  0 0 2rem ${theme.palette.primary.main}, inset 0 0 2rem  ${theme.palette.primary.main}, 0 0 4rem  ${theme.palette.primary.main}, inset 0 0 4rem  ${theme.palette.primary.main}`,

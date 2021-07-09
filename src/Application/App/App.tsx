@@ -4,7 +4,7 @@ import { SnackbarProvider } from "notistack";
 import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
 import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
 import useExitPrompt from "../Hooks/UseExitPrompt";
@@ -37,7 +37,6 @@ export const ExitPromptContext = React.createContext<IExitPromptContext>(
 
 const App = () => {
   const classes = useStyles();
-  const history = useHistory();
 
   const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false) as [
     boolean,

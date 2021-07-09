@@ -471,7 +471,7 @@ export default function UnitSettings({
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          height: 150,
+          height: 190,
         }}
       >
         <div>
@@ -499,6 +499,8 @@ export default function UnitSettings({
             justifyContent: "space-between",
             width: "100%",
             height: 100,
+            marginTop: 20,
+            marginBottom: 20,
           }}
         >
           <AnalyticsComp
