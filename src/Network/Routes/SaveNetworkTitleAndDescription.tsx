@@ -61,7 +61,7 @@ const SaveNetworkTitleAndDescription = ({
           <TextareaAutosize
             name="networkDescription"
             style={{ height: 400, width: "100%" }}
-            rowsMin={20}
+            minRows={20}
             value={networkDescription}
             onChange={(e) => {
               const { name, value } = e.target;

@@ -18,7 +18,7 @@ const RegisterRoute = () => {
       container
       className={classes.root}
       direction="column"
-      justify="center"
+      justifyContent="center"
       alignItems="center"
       wrap="nowrap"
     >

@@ -1,4 +1,4 @@
-import { makeStyles, TextField } from "@material-ui/core";
+import { Input, makeStyles, TextField } from "@material-ui/core";
 import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
@@ -596,9 +596,8 @@ export default function UnitSettings({
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
                 />
-                <TextField
+                <Input
                   name="numberFormatString"
-                  variant="outlined"
                   style={{ width: "100%" }}
                   value={numberFormatStringValue}
                   onChange={(event: React.ChangeEvent<any>) => {

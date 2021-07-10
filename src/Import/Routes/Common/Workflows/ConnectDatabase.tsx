@@ -98,7 +98,7 @@ const ConnectDatabase = ({ wrkflwPrcss }: IAllWorkflows) => {
         container
         direction="column"
         wrap="wrap"
-        justify="space-evenly"
+        justifyContent="space-evenly"
       >
         <Grid item container spacing={2} direction="row" justify="flex-start">
           <Grid item xs={6}>
@@ -124,7 +124,7 @@ const ConnectDatabase = ({ wrkflwPrcss }: IAllWorkflows) => {
           spacing={2}
           // xs={12}
           direction="row"
-          justify="flex-start"
+          justifyContent="flex-start"
         >
           <Grid item container xs={6}>
             <AnalyticsComp

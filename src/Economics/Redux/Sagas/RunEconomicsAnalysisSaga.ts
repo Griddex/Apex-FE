@@ -25,7 +25,6 @@ import {
   successDialogParameters,
 } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
 import { devScenarios } from "../../Data/EconomicsData";
-import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
   runEconomicsAnalysisFailureAction,
@@ -140,4 +139,10 @@ function* runEconomicsAnalysisSaga(
   } finally {
     yield put(hideSpinnerAction());
   }
+}
+function updateEconomicsResultsParameterAction(
+  arg0: string,
+  economicsResultsTitle: any
+): any {
+  throw new Error("Function not implemented.");
 }

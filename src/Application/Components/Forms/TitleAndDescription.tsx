@@ -10,13 +10,17 @@ const TitleAndDescription = ({
   setDescription,
   errors,
   touched,
+  setFieldTouched,
   handleChange,
 }: ITitleAndDescriptionFormProps) => {
+  const helperTextTitle =
+    touched && touched.title ? errors && errors.title : "";
   console.log(
-    "Logged output --> ~ file: TitleAndDescription.tsx ~ line 15 ~ title",
-    title
+    "Logged output --> ~ file: TitleAndDescription.tsx ~ line 17 ~ helperTextTitle",
+    helperTextTitle
   );
-  const helperText = touched && touched.title ? errors && errors.title : "";
+  const helperTextDescription =
+    touched && touched.description ? errors && errors.description : "";
 
   const handleTitleDescChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -26,13 +30,14 @@ const TitleAndDescription = ({
 
     if (name === "title") {
       setTitle && setTitle(value);
+      setFieldTouched && setFieldTouched("title", true, true);
     } else {
       setDescription && setDescription(value);
     }
   };
 
   return (
-    <div>
+    <>
       <AnalyticsComp
         title="title"
         direction="Vertical"
@@ -40,7 +45,7 @@ const TitleAndDescription = ({
           <Input
             name="title"
             style={{ width: "100%" }}
-            error={Boolean(helperText)}
+            error={Boolean(helperTextTitle)}
             value={title}
             onChange={handleTitleDescChange}
             required
@@ -57,13 +62,13 @@ const TitleAndDescription = ({
           <TextareaAutosize
             name="description"
             style={{ height: 400, width: "100%" }}
-            rowsMin={20}
+            minRows={20}
             value={description}
             onChange={handleTitleDescChange}
           />
         }
       />
-    </div>
+    </>
   );
 };
 

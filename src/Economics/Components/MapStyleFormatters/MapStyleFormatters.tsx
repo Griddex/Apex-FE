@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   darken,
+  Input,
   makeStyles,
   TextField,
   Typography,
@@ -38,7 +39,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
   const mapRef = React.useRef<HTMLDivElement>(null);
 
   const [solidThresholdColor, setSolidThresholdColor] = React.useState(
-    theme.palette.secondary.main
+    theme.palette.primary.light
   );
 
   const [presetThresholdColors, setPresetThresholdColors] = React.useState([
@@ -104,9 +105,8 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
             menuPortalTarget={mapRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />
-          <TextField
+          <Input
             name="thresholdValue"
-            variant="outlined"
             style={{ width: "100%", marginLeft: 10 }}
             value={thresholdValue}
             onChange={(event: React.ChangeEvent<any>) =>

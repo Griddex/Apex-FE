@@ -7,8 +7,6 @@ import {
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
-import SaveForecastParametersForm from "../Components/Forms/SaveForecastParametersForm";
-import { ICreateForecastParametersFormProps } from "../Redux/State/NetworkStateTypes";
 import EditOrCreateForecastingParameters, {
   IEditOrCreateForecastingParameters,
 } from "../Routes/EditOrCreateForecastingParameters";
@@ -32,7 +30,7 @@ const EditOrCreateForecastParametersWorkflow = ({
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
-  const renderImportStep = (props: ICreateForecastParametersFormProps) => {
+  const renderImportStep = () => {
     const n = workflowProcess === "createForecastingParametersWorkflow" ? 0 : 1;
     const activeStepMod = (activeStep as number) + n;
 
@@ -72,37 +70,7 @@ const EditOrCreateForecastParametersWorkflow = ({
     }
   };
 
-  return (
-    <SaveForecastParametersForm>
-      {({
-        forecastParametersTitle,
-        forecastParametersDescription,
-        targetFluid,
-        timeFrequency,
-        defermentDecision,
-        realtimeResults,
-        endForecastDate,
-        errors,
-        touched,
-        handleChange,
-        isValid,
-      }) =>
-        renderImportStep({
-          forecastParametersTitle,
-          forecastParametersDescription,
-          targetFluid,
-          timeFrequency,
-          defermentDecision,
-          realtimeResults,
-          endForecastDate,
-          errors,
-          touched,
-          handleChange,
-          isValid,
-        })
-      }
-    </SaveForecastParametersForm>
-  );
+  return <div>{renderImportStep()}</div>;
 };
 
 export default EditOrCreateForecastParametersWorkflow;

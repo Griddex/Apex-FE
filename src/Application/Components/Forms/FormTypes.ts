@@ -14,6 +14,11 @@ export interface ITitleAndDescriptionFormProps
   activeStep?: number;
   errors?: FormikErrors<ITitleAndDescriptionFormValues>;
   touched?: FormikTouched<ITitleAndDescriptionFormValues>;
+  setFieldTouched?: (
+    field: string,
+    isTouched?: boolean,
+    shouldValidate?: boolean
+  ) => void;
   isValid?: boolean;
   handleChange?: (event: React.ChangeEvent<any>) => void;
   handleBlur?: (event: React.ChangeEvent<any>) => void;

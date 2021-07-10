@@ -336,7 +336,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           projectTitle="Close Project"
           icon={
             <CloseOutlinedIcon
-              fontSize="default"
+              fontSize="medium"
               className={classes.secondaryIcon}
             />
           }

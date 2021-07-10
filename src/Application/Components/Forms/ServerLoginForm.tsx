@@ -218,7 +218,7 @@ const ServerLoginForm = () => {
               container
               direction="column"
               wrap="nowrap"
-              justify="space-evenly"
+              justifyContent="space-evenly"
             >
               <Grid item container xs={8}>
                 <AnalyticsComp
@@ -296,7 +296,13 @@ const ServerLoginForm = () => {
                   label="Remember Password"
                 />
               </Grid>
-              <Grid item xs={12} container justify="center" alignItems="center">
+              <Grid
+                item
+                xs={12}
+                container
+                justifyContent="center"
+                alignItems="center"
+              >
                 <Button
                   type="submit"
                   className={classes.connectButton}

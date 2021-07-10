@@ -27,9 +27,7 @@ import {
 import {
   fetchStoredEconomicsSensitivitiesRequestAction,
   saveEconomicsSensitivitiesFailureAction,
-  saveEconomicsSensitivitiesSuccessAction,
   SAVE_ECONOMICSSENSITIVITIES_REQUEST,
-  updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
 export default function* watchSaveEconomicsSensitivitiesSaga(): Generator<
@@ -98,31 +96,6 @@ function* saveEconomicsSensitivitiesSaga(
       data: { data: economicsSensitivitiesId },
     } = result;
 
-    const successAction = saveEconomicsSensitivitiesSuccessAction();
-    // yield put({
-    //   ...successAction,
-    //   payload: {
-    //     ...payload,
-    //     status,
-    //     success,
-    //     selectedEconomicsSensitivitiesId,
-    //   },
-    // });
-
-    yield put(
-      updateEconomicsParameterAction(
-        "selectedEconomicsSensitivitiesId",
-        economicsSensitivitiesId
-      )
-    );
-    yield put(
-      updateEconomicsParameterAction(
-        "selectedEconomicsSensitivitiesTitle",
-        title
-      )
-    );
-
-    yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
     yield put(
       fetchStoredEconomicsSensitivitiesRequestAction(currentProjectId, false)
     );

@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Radio, { RadioProps } from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -66,9 +66,17 @@ export default function ApexCheckbox({
   variableZOption,
   apexCheckboxData,
 }: IApexCheckbox) {
+  const theme = useTheme();
+  const variableZTitle = variableZOption.label.split("_")[0];
+
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">{variableZOption.label}</FormLabel>
+      <FormLabel
+        component="legend"
+        style={{ fontWeight: theme.typography.fontWeightMedium }}
+      >
+        {variableZTitle}
+      </FormLabel>
       <RadioGroup
         defaultValue="female"
         aria-label="gender"

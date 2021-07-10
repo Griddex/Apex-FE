@@ -13,8 +13,6 @@ import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import EconomicsParametersTitleAndDescription from "../Forms/EconomicsParametersTitleAndDescription";
-import EconomicsParametersTitleAndDescriptionForm from "../Forms/EconomicsParametersTitleAndDescriptionForm";
 import EconomicsParametersTable from "../Parameters/EconomicsParametersTable";
 import { IEconomicsParametersTable } from "../Parameters/IParametersType";
 
@@ -98,16 +96,11 @@ const DialogContent = withStyles((theme) => ({
 
 const CreateEconomicsParametersTableDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    actionsList,
-    economicsTableData,
-  } = props;
+  const { title, show, maxWidth, iconType, actionsList, economicsTableData } =
+    props;
 
-  const economicsTableDataDefined = economicsTableData as IEconomicsParametersTable;
+  const economicsTableDataDefined =
+    economicsTableData as IEconomicsParametersTable;
 
   return (
     <Dialog

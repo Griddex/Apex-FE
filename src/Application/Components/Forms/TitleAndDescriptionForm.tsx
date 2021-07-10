@@ -23,12 +23,13 @@ const TitleAndDescriptionForm = ({
 
   return (
     <Formik
-      initialValues={{ title, description }}
+      initialValues={{ title: "", description: "" }}
       validationSchema={Yup.object().shape({
         title: Yup.string()
           .lowercase()
           .notOneOf(storedTitles as string[], "Title already exists")
           .required("Title is required"),
+        description: Yup.string(),
       })}
       onSubmit={() => {}}
     >

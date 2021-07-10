@@ -111,20 +111,20 @@ const MainDrawer = () => {
       route: `${url}/project`,
       icon: (
         <AccountBalanceWalletOutlinedIcon
-          fontSize={expandMainDrawer ? "large" : "default"}
+          fontSize={expandMainDrawer ? "large" : "medium"}
         />
       ),
     },
     {
       name: "Import",
       route: `${url}/import`,
-      icon: <ExitToAppIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+      icon: <ExitToAppIcon fontSize={expandMainDrawer ? "large" : "medium"} />,
     },
     {
       name: "Network",
       route: `${url}/network`,
       icon: (
-        <AccountTreeIcon fontSize={expandMainDrawer ? "large" : "default"} />
+        <AccountTreeIcon fontSize={expandMainDrawer ? "large" : "medium"} />
       ),
     },
     {
@@ -132,35 +132,35 @@ const MainDrawer = () => {
       route: `${url}/forecast`,
       icon: (
         <InsertPhotoOutlinedIcon
-          fontSize={expandMainDrawer ? "large" : "default"}
+          fontSize={expandMainDrawer ? "large" : "medium"}
         />
       ),
     },
     {
       name: "Visualytics",
       route: `${url}/visualytics`,
-      icon: <BarChartIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+      icon: <BarChartIcon fontSize={expandMainDrawer ? "large" : "medium"} />,
     },
     {
       name: "Economics",
       route: `${url}/economics`,
       icon: (
         <LocalAtmOutlinedIcon
-          fontSize={expandMainDrawer ? "large" : "default"}
+          fontSize={expandMainDrawer ? "large" : "medium"}
         />
       ),
     },
     {
       name: "DCA",
       route: `${url}/declineCurveAnalysis`,
-      icon: <TimelineIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+      icon: <TimelineIcon fontSize={expandMainDrawer ? "large" : "medium"} />,
     },
     {
       name: "Corporate",
       route: `${url}/corporate`,
       icon: (
         <BusinessOutlinedIcon
-          fontSize={expandMainDrawer ? "large" : "default"}
+          fontSize={expandMainDrawer ? "large" : "medium"}
         />
       ),
     },
@@ -169,14 +169,14 @@ const MainDrawer = () => {
       route: `${url}/administration`,
       icon: (
         <SupervisorAccountOutlinedIcon
-          fontSize={expandMainDrawer ? "large" : "default"}
+          fontSize={expandMainDrawer ? "large" : "medium"}
         />
       ),
     },
     {
       name: "Settings",
       route: `${url}/settings`,
-      icon: <TuneIcon fontSize={expandMainDrawer ? "large" : "default"} />,
+      icon: <TuneIcon fontSize={expandMainDrawer ? "large" : "medium"} />,
     },
   ];
 

@@ -64,8 +64,8 @@ const EconomicsLayout = () => {
     {
       name: "Economic input",
       route: `${url}`,
-      startIcon: <TrendingUpOutlinedIcon fontSize="default" />,
-      endIcon: <KeyboardArrowDownIcon fontSize="default" />,
+      startIcon: <TrendingUpOutlinedIcon fontSize="medium" />,
+      endIcon: <KeyboardArrowDownIcon fontSize="medium" />,
       hasWrapper: true,
       component: () => (
         <EconomicsInputButtonsMenu>
@@ -98,7 +98,7 @@ const EconomicsLayout = () => {
     {
       name: "Economic Analyses",
       route: `${url}/analyseslanding`,
-      startIcon: <WidgetsOutlinedIcon fontSize="default" />,
+      startIcon: <WidgetsOutlinedIcon fontSize="medium" />,
       hasWrapper: false,
       component: () => <div></div>,
       action: () =>
@@ -109,7 +109,7 @@ const EconomicsLayout = () => {
     {
       name: "Parameter Sensitivities",
       route: `${url}/sensitivities`,
-      startIcon: <DialpadOutlinedIcon fontSize="default" />,
+      startIcon: <DialpadOutlinedIcon fontSize="medium" />,
       hasWrapper: false,
       component: () => <div></div>,
       action: () =>
@@ -123,7 +123,7 @@ const EconomicsLayout = () => {
     {
       name: "View Results",
       route: `${url}/viewresults`,
-      startIcon: <TableChartOutlinedIcon fontSize="default" />,
+      startIcon: <TableChartOutlinedIcon fontSize="medium" />,
       hasWrapper: false,
       component: () => <div></div>,
       action: () =>

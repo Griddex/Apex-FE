@@ -150,7 +150,7 @@ const EconomicsAnalysis = ({
           [
             unloadDialogsAction,
             () =>
-              economicsSensitivitiesConfirmation(
+              saveSensitivitiesConfirmation(
                 titleDesc as Record<string, string>
               ),
           ],
@@ -164,15 +164,13 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const economicsSensitivitiesConfirmation = (
-    titleDesc: Record<string, string>
-  ) => {
+  const saveSensitivitiesConfirmation = (titleDesc: Record<string, string>) => {
     const dialogParameters: DialogStuff = {
       name: "Economics_Sensitivities_Save_Confirmation",
       title: "Economics Sensitivities Save Confirmation",
       type: "textDialog",
       show: true,
-      exclusive: true,
+      exclusive: false,
       maxWidth: "xs",
       dialogText: "Do you want to save the current economics sensitivities?",
       iconType: "confirmation",

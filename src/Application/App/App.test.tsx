@@ -2,7 +2,8 @@ import React from "react";
 import { render, waitFor, cleanup } from "@testing-library/react";
 import App from "./App";
 import { Router } from "react-router-dom";
-import history from "./../Services/HistoryService";
+// import history from "./../Services/HistoryService";
+import { createMemoryHistory } from "history";
 import { CssBaseline } from "@material-ui/core";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/core";
@@ -11,6 +12,7 @@ import { Provider } from "react-redux";
 import { store } from "../Redux/Store/Store";
 import DateFnsUtils from "@date-io/date-fns";
 
+const history = createMemoryHistory();
 afterEach(cleanup);
 
 describe("Tests the root component <App/>", () => {
@@ -27,7 +29,7 @@ describe("Tests the root component <App/>", () => {
     </Provider>
   );
 
-  test("renders <App/>", async () => {
+  test("renders <App/> without errors", async () => {
     const { getByText } = render(RootApp);
     const mottoElement = await waitFor(() =>
       getByText(/...inspired technologies for business growth/i)

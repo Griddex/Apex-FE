@@ -58,26 +58,26 @@ const InputLayout = () => {
     {
       name: "Facilities Deck",
       route: `${url}/facilitiesdeck`,
-      startIcon: <AppsIcon fontSize="default" />,
+      startIcon: <AppsIcon fontSize="medium" />,
       component: () => <div></div>,
     },
     {
       name: "Forecast Deck",
       route: `${url}/forecastdeck`,
-      startIcon: <LandscapeIcon fontSize="default" />,
+      startIcon: <LandscapeIcon fontSize="medium" />,
       component: () => <div></div>,
     },
     {
       name: "Production Data",
       route: `${url}/productiondata`,
-      startIcon: <BubbleChartIcon fontSize="default" />,
+      startIcon: <BubbleChartIcon fontSize="medium" />,
       component: () => <div></div>,
     },
     {
       name: "Economic input",
       route: `${url}`,
-      startIcon: <TrendingUpOutlinedIcon fontSize="default" />,
-      endIcon: <KeyboardArrowDownIcon fontSize="default" />,
+      startIcon: <TrendingUpOutlinedIcon fontSize="medium" />,
+      endIcon: <KeyboardArrowDownIcon fontSize="medium" />,
       hasWrapper: true,
       component: () => (
         <EconomicsInputButtonsMenu>

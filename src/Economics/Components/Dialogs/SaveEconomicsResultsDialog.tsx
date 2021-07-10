@@ -16,8 +16,6 @@ import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SaveEconomicsResultsDialogButtons from "../DialogButtons/SaveEconomicsResultsDialogButtons";
-import EconomicsResultsTitleAndDescription from "../Forms/EconomicsResultsTitleAndDescription";
-import EconomicsResultsTitleAndDescriptionForm from "../Forms/EconomicsResultsTitleAndDescriptionForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {

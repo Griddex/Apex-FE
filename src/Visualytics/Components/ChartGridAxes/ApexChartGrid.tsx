@@ -61,7 +61,7 @@ const ApexChartGrid = ({
       <TextareaAutosize
         name={gridValuesName}
         style={{ height: 30, width: "100%" }}
-        rowsMin={4}
+        minRows={4}
         value={storeGridValues?.join(", ")}
         onChange={(event) => {
           const { value } = event.target;

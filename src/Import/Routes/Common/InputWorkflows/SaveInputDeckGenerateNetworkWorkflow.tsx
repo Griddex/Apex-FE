@@ -1,6 +1,6 @@
 import React from "react";
-import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
-import ForecastTitleAndDescriptionForm from "../../../Components/Forms/ForecastTitleAndDescriptionForm";
+import { ITitleAndDescriptionFormProps } from "../../../../Application/Components/Forms/FormTypes";
+import TitleAndDescriptionForm from "../../../../Application/Components/Forms/TitleAndDescriptionForm";
 import StoredFacilitiesDecks from "../../FacilitiesInputDeck/StoredFacilitiesDecks";
 import { IStoredInputDeck } from "../../InputDeckTypes";
 
@@ -8,7 +8,13 @@ const SaveInputDeckGenerateNetworkWorkflow = ({
   reducer,
   activeStep,
   finalAction,
-}: IStoredInputDeck) => {
+
+  title,
+  setTitle,
+  description,
+  setDescription,
+  storedTitles,
+}: IStoredInputDeck & ITitleAndDescriptionFormProps) => {
   const props = {
     reducer,
     containerStyle: { boxShadow: "none" },
@@ -21,7 +27,15 @@ const SaveInputDeckGenerateNetworkWorkflow = ({
       case 0:
         return <StoredFacilitiesDecks {...props} />;
       case 1:
-        return <ForecastTitleAndDescriptionForm />;
+        return (
+          <TitleAndDescriptionForm
+            title={title}
+            setTitle={setTitle}
+            description={description}
+            setDescription={setDescription}
+            storedTitles={storedTitles}
+          />
+        );
       default:
         return <h1>No view</h1>;
     }

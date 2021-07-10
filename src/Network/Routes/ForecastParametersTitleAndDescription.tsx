@@ -54,7 +54,7 @@ const ForecastParametersTitleAndDescription = ({
           <TextareaAutosize
             name="forecastParametersDescription"
             style={{ height: 400, width: "100%" }}
-            rowsMin={20}
+            minRows={20}
             value={forecastParametersDescription}
             onChange={handleChange}
             onBlur={handleBlur}

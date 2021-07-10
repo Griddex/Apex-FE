@@ -58,7 +58,7 @@ const ApexChartAxis = ({
               <TextareaAutosize
                 name={axisName}
                 style={{ height: 50, width: "100%" }}
-                rowsMin={4}
+                minRows={4}
                 value={storeAxisTitle}
                 onChange={(event) => {
                   const { value } = event.target;

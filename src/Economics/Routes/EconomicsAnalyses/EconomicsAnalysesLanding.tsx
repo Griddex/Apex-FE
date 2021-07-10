@@ -62,7 +62,7 @@ const EconomicsAnalysesLanding = () => {
       return {
         title,
         icon,
-        // styledIcon: <Icon fontSize="default" color="primary" />,
+        // styledIcon: <Icon fontSize="medium" color="primary" />,
         // styledIcon,
         color: "primary",
         variant: "contained",

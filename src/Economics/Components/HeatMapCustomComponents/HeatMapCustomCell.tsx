@@ -1,7 +1,8 @@
+import { useTheme } from "@material-ui/core";
+import { compile } from "mathjs";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { compile } from "mathjs";
 
 interface IHeatMapCustomCell {
   data: any;
@@ -18,6 +19,8 @@ interface IHeatMapCustomCell {
 }
 
 const HeatMapCustomCell = (props: IHeatMapCustomCell) => {
+  const theme = useTheme();
+
   const {
     data,
     label,
@@ -68,9 +71,9 @@ const HeatMapCustomCell = (props: IHeatMapCustomCell) => {
         dominantBaseline="central"
         textAnchor="middle"
         style={{
-          fill: textColor,
+          fill: theme.palette.grey[700],
           fontSize: 16,
-          // fontWeight: "bold",
+          fontWeight: theme.typography.fontWeightMedium,
           fontFamily: "inherit",
         }}
       >

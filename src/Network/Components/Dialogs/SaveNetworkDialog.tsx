@@ -15,9 +15,7 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import SaveNetworkTitleAndDescription from "../../Routes/SaveNetworkTitleAndDescription";
 import SaveNetworkDialogButtons from "../DialogBottons/SaveNetworkDialogButtons";
-import SaveNetworkForm from "../Forms/SaveNetworkForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -142,15 +140,6 @@ const SaveNetworkDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column" }}
       >
-        {/* <SaveNetworkForm>
-          {(props) => (
-            <SaveNetworkTitleAndDescription
-              {...props}
-              setIsSaveNetworkValid={setIsSaveNetworkValid}
-            />
-          )}
-        </SaveNetworkForm> */}
-
         <TitleAndDescriptionForm
           title={formTitle}
           setTitle={setFormTitle}

@@ -341,7 +341,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         <Grid
           className={classes.tableHeadBanner}
           container
-          justify="space-between"
+          justifyContent="space-between"
           alignItems="center"
           wrap="nowrap"
         >

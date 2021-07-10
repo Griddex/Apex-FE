@@ -136,7 +136,7 @@ const ApexEditor = ({
               <TextareaAutosize
                 name={name}
                 style={{ width: width, height: height }}
-                rowsMin={20}
+                minRows={20}
                 value={formEditorRow[name as keyof IStoredDataRow] as string}
                 onChange={(event) => {
                   const { value } = event.target;

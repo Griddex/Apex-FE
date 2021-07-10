@@ -121,7 +121,7 @@ const EconomicsSensitivitiesLanding = () => {
       title: "Economics Sensitivities Save Confirmation",
       type: "textDialog",
       show: true,
-      exclusive: true,
+      exclusive: false,
       maxWidth: "xs",
       dialogText: "Do you want to save the current economics sensitivities?",
       iconType: "confirmation",

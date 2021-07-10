@@ -3,6 +3,7 @@ import camelCase from "lodash.camelcase";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import ApexCheckbox from "../../../../Application/Components/Checkboxes/ApexCheckbox";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
@@ -15,7 +16,8 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { ISensitivitiesRow } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
-
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
 }
@@ -131,23 +133,56 @@ const SensitivitiesHeatMapChart = () => {
       <ApexFlexContainer width={"90%"} height={"90%"}>
         <EconomicsSensitivitiesHeatMap />
         <Box marginLeft={3} width={200} minWidth={200} height={"70%"}>
-          {isAllVariablesDropped ? (
-            <ApexCheckbox
-              variableZOption={heatMapVariableZOption}
-              apexCheckboxData={heatMapVariableZData}
-            />
-          ) : (
-            <Box
-              width={200}
-              minWidth={200}
-              height={"70%"}
-              style={{
-                border: `1px solid ${theme.palette.grey[400]}`,
-                backgroundColor: theme.palette.grey[200],
-              }}
-            />
-          )}
+          {
+            isAllVariablesDropped && (
+              <ApexCheckbox
+                variableZOption={heatMapVariableZOption}
+                apexCheckboxData={heatMapVariableZData}
+              />
+            )
+            // : (
+            //   <Box
+            //     width={200}
+            //     minWidth={200}
+            //     height={"70%"}
+            //     style={{
+            //       border: `1px solid ${theme.palette.grey[400]}`,
+            //       backgroundColor: theme.palette.grey[200],
+            //     }}
+            //   />
+            // )
+          }
         </Box>
+      </ApexFlexContainer>
+      <ApexFlexContainer
+        justifyContent="space-between"
+        height={50}
+        moreStyles={{ marginBottom: 4, width: 270 }}
+      >
+        <BaseButtons
+          buttonTexts={["Reset", "Display"]}
+          variants={["contained", "contained"]}
+          colors={["secondary", "primary"]}
+          startIcons={[
+            <RotateLeftIcon key={1} />,
+            <AirplayOutlinedIcon key={2} />,
+          ]}
+          // disableds={[sRow === -1, sRow === -1]}
+          shouldExecute={[true, true]}
+          shouldDispatch={[false, false]}
+          finalActions={[
+            () => {
+              // dispatch(
+              //   getForecastDataByIdRequestAction(
+              //     "forecastResultsVisualytics",
+              //     true,
+              //     "/apex/forecast/forecastdata"
+              //   )
+              // );
+            },
+            () => dispatch(() => {}),
+          ]}
+        />
       </ApexFlexContainer>
     </ApexFlexContainer>
   );
