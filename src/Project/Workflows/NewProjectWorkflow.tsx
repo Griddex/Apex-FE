@@ -9,7 +9,7 @@ const NewProjectWorkflow = (props: ITitleAndDescriptionFormProps) => {
   const renderImportStep = () => {
     switch (activeStep) {
       case 0:
-        return <UnitSettings {...props} />;
+        return <UnitSettings />;
       case 1:
         return <TitleAndDescriptionForm {...props} />;
       default:

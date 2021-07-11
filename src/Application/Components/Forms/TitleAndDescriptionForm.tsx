@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import {
@@ -13,44 +13,51 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TitleAndDescriptionForm = ({
-  title,
   setTitle,
-  description,
   setDescription,
+  setDisable,
   storedTitles,
 }: ITitleAndDescriptionFormProps) => {
   const classes = useStyles();
+  const storedTitlesDefined = storedTitles as string[];
 
   return (
     <Formik
       initialValues={{ title: "", description: "" }}
-      validationSchema={Yup.object().shape({
+      validationSchema={Yup.object({
         title: Yup.string()
-          .lowercase()
-          .notOneOf(storedTitles as string[], "Title already exists")
-          .required("Title is required"),
+          .required("Title is required")
+          .test("alreadyExists", "Title already exists", (v) => {
+            if (v) {
+              const exi = storedTitlesDefined
+                .map((t) => t.toLowerCase())
+                .includes((v as string).trim().toLowerCase());
+              console.log(
+                "Logged output --> ~ file: TitleAndDescriptionForm.tsx ~ line 35 ~ .test ~ exi",
+                exi
+              );
+
+              return !exi;
+            } else return true;
+          }),
         description: Yup.string(),
       })}
       onSubmit={() => {}}
     >
       {(props: FormikProps<ITitleAndDescriptionFormValues>) => {
-        const { handleSubmit } = props;
-
         const formProps = {
-          title,
           setTitle,
-          description,
           setDescription,
+          setDisable,
         };
 
         return (
-          <form
+          <Form
             className={classes.form}
-            onSubmit={handleSubmit}
             style={{ height: "100%", width: "100%" }}
           >
-            <TitleAndDescription {...formProps} />
-          </form>
+            <TitleAndDescription {...formProps} {...props} />
+          </Form>
         );
       }}
     </Formik>

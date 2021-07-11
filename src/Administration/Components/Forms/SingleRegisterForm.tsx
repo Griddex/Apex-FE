@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React, { ChangeEvent } from "react";
 import ImageUploader from "react-images-upload";
 import { useDispatch, useSelector } from "react-redux";
@@ -90,7 +90,7 @@ const SingleRegisterForm = () => {
   return (
     <Formik
       initialValues={userState}
-      validationSchema={Yup.object().shape({
+      validationSchema={Yup.object({
         userName: Yup.string().required("Username is required"),
         email: Yup.string().email().required("Email is required"),
         password: Yup.string().required("Password is required"),
@@ -126,7 +126,7 @@ const SingleRegisterForm = () => {
           touched && touched.password ? errors && errors.password : "";
 
         return (
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <Form className={classes.form}>
             <div className={classes.formFields}>
               <div className={classes.namesContainer}>
                 <ApexMuiTextField
@@ -243,7 +243,7 @@ const SingleRegisterForm = () => {
                 {isSubmitting ? "Registering..." : "Register"}
               </Button>
             </div>
-          </form>
+          </Form>
         );
       }}
     </Formik>

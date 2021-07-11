@@ -84,13 +84,14 @@ export default function ApexCheckbox({
       >
         {apexCheckboxData.map((obj, i) => {
           const { value, label, handleCheck } = obj;
+
           return (
             <FormControlLabel
               key={i}
               value={value}
               control={<StyledRadio />}
               label={label}
-              onClick={() => handleCheck()}
+              onClick={handleCheck}
             />
           );
         })}

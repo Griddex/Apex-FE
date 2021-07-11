@@ -7,7 +7,7 @@ export interface INavigationButtonsProp {
   showBack?: boolean;
   showSkip?: boolean;
   showNext?: boolean;
-  nextDisabled?: boolean;
+  nextOrFinalDisabled?: boolean;
   isNavButtonDisabled?: {
     reset: boolean;
     skip: boolean;

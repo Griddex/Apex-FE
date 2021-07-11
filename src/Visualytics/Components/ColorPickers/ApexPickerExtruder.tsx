@@ -17,14 +17,6 @@ export default function ApexPickerExtruder({
   setShowPicker,
   containerStyle,
 }: IApexPickerExtruder) {
-  console.log(
-    "Logged output --> ~ file: ApexPickerExtruder.tsx ~ line 18 ~ showPicker",
-    showPicker
-  );
-  console.log(
-    "Logged output --> ~ file: ApexPickerExtruder.tsx ~ line 18 ~ color",
-    color
-  );
   const theme = useTheme();
 
   return (

@@ -130,7 +130,11 @@ const SensitivitiesHeatMapChart = () => {
         />
       </ApexFlexContainer>
 
-      <ApexFlexContainer width={"90%"} height={"90%"}>
+      <ApexFlexContainer
+        width={"90%"}
+        height={"90%"}
+        moreStyles={{ overflow: "auto" }}
+      >
         <EconomicsSensitivitiesHeatMap />
         <Box marginLeft={3} width={200} minWidth={200} height={"70%"}>
           {
@@ -155,7 +159,7 @@ const SensitivitiesHeatMapChart = () => {
         </Box>
       </ApexFlexContainer>
       <ApexFlexContainer
-        justifyContent="space-between"
+        justifyContent="space-evenly"
         height={50}
         moreStyles={{ marginBottom: 4, width: 270 }}
       >

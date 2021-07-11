@@ -12,7 +12,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
@@ -181,7 +181,7 @@ const ServerLoginForm = () => {
   return (
     <Formik
       initialValues={databaseServerState}
-      validationSchema={Yup.object().shape({
+      validationSchema={Yup.object({
         authenticationType: Yup.string().required(
           "AuthenticationType is required"
         ),
@@ -212,7 +212,7 @@ const ServerLoginForm = () => {
         } = props;
 
         return (
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <Form className={classes.form}>
             <Grid
               className={classes.grid}
               container
@@ -313,7 +313,7 @@ const ServerLoginForm = () => {
                 </Button>
               </Grid>
             </Grid>
-          </form>
+          </Form>
         );
       }}
     </Formik>

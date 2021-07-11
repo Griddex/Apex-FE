@@ -168,7 +168,7 @@ const SensitivitiesHeatMapVisualytics = () => {
     },
   ]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
 
@@ -176,17 +176,13 @@ const SensitivitiesHeatMapVisualytics = () => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
-          <SensitivitiesHeatMapDataPanel />
-        </div>
-
-        {showHeatMapCategories && (
-          <ChartCategories
-            categoriesTitle="Grid Map"
-            ChartCategoriesData={ChartCategoriesData.current}
-            showCategories={showHeatMapCategories}
+          <SensitivitiesHeatMapDataPanel
+            categoriesTitle="Heat Map"
+            showCategories={showCategories}
             setShowCategories={setShowCategories}
+            ChartCategoriesData={ChartCategoriesData.current}
           />
-        )}
+        </div>
 
         <div className={classes.chartContent}>
           <div

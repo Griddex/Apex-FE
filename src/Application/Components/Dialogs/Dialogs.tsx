@@ -92,7 +92,7 @@ const Dialogs: React.FC<DialogStuff> = () => {
   );
 
   return (
-    <div>
+    <>
       {(dialogs as any[]).map(
         (
           dialog: DialogStuff | DialogStuff<IForecastParametersStoredRow>,
@@ -116,7 +116,7 @@ const Dialogs: React.FC<DialogStuff> = () => {
           }
         }
       )}
-    </div>
+    </>
   );
 };
 

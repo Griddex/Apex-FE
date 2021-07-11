@@ -9,7 +9,7 @@ import LockIcon from "@material-ui/icons/Lock";
 import PersonIcon from "@material-ui/icons/Person";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
@@ -53,7 +53,7 @@ export const LoginForm = () => {
   return (
     <Formik
       initialValues={userState}
-      validationSchema={Yup.object().shape({
+      validationSchema={Yup.object({
         userName: Yup.string().required("Username is required"),
         password: Yup.string().required("Password is required"),
       })}
@@ -78,7 +78,7 @@ export const LoginForm = () => {
           touched && touched.password ? errors && errors.password : "";
 
         return (
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <Form className={classes.form}>
             <div className={classes.formTextFields}>
               <TextField
                 name="userName"
@@ -143,7 +143,7 @@ export const LoginForm = () => {
             >
               {isSubmitting ? "Logging in..." : "Submit"}
             </Button>
-          </form>
+          </Form>
         );
       }}
     </Formik>

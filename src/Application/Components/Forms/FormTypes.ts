@@ -11,16 +11,16 @@ export interface ITitleAndDescriptionFormProps
   extends ITitleAndDescriptionFormValues {
   setTitle?: TUseState<string>;
   setDescription?: TUseState<string>;
+  setDisable?: TUseState<boolean>;
   activeStep?: number;
-  errors?: FormikErrors<ITitleAndDescriptionFormValues>;
-  touched?: FormikTouched<ITitleAndDescriptionFormValues>;
-  setFieldTouched?: (
-    field: string,
-    isTouched?: boolean,
-    shouldValidate?: boolean
-  ) => void;
+  // errors?: FormikErrors<ITitleAndDescriptionFormValues>;
+  // touched?: FormikTouched<ITitleAndDescriptionFormValues>;
+  // setFieldTouched?: (
+  //   field: string,
+  //   isTouched?: boolean,
+  //   shouldValidate?: boolean
+  // ) => void;
   isValid?: boolean;
-  handleChange?: (event: React.ChangeEvent<any>) => void;
   handleBlur?: (event: React.ChangeEvent<any>) => void;
   children?: (
     props: ITitleAndDescriptionFormProps

@@ -52,7 +52,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     showBack,
     showSkip,
     showNext,
-    nextDisabled,
+    nextOrFinalDisabled,
     finalAction,
     finalNavIcon,
     workflowProps,
@@ -141,7 +141,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
           className={classes.button}
           variant="contained"
           color="primary"
-          disabled={nextDisabled}
+          disabled={nextOrFinalDisabled}
           onClick={() => {
             activeStep === steps.length - 1
               ? finalAction && finalAction()

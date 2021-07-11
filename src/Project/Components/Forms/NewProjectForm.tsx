@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
@@ -19,7 +19,7 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
   return (
     <Formik
       initialValues={projectState}
-      validationSchema={Yup.object().shape({
+      validationSchema={Yup.object({
         projectTitle: Yup.string().required("projectTitle is required"),
         projectDescription: Yup.string().required(
           "projectDescription is required"
@@ -38,7 +38,7 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
         } = props;
 
         return (
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <Form className={classes.form}>
             {children &&
               children({
                 projectTitle,
@@ -49,7 +49,7 @@ const NewProjectForm = ({ children }: INewProjectFormProps) => {
                 handleChange,
                 isValid,
               })}
-          </form>
+          </Form>
         );
       }}
     </Formik>

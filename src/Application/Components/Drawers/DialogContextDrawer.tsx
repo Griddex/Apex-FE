@@ -68,10 +68,6 @@ const DialogContextDrawer = ({
   const { expandDialogContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  console.log(
-    "Logged output --> ~ file: DialogContextDrawer.tsx ~ line 69 ~ expandDialogContextDrawer",
-    expandDialogContextDrawer
-  );
 
   return (
     <Drawer

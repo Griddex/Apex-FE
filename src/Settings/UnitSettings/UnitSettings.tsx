@@ -1,4 +1,4 @@
-import { Input, makeStyles, TextField } from "@material-ui/core";
+import { Input, makeStyles } from "@material-ui/core";
 import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
@@ -11,7 +11,6 @@ import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
-import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
@@ -19,7 +18,6 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import theme from "../../Application/Theme/Theme";
-import { INewProjectWorkflowProps } from "../../Project/Redux/State/ProjectStateTypes";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
   dayDateFormatOptions,
@@ -77,9 +75,7 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-export default function UnitSettings({
-  handleChange,
-}: ITitleAndDescriptionFormProps) {
+export default function UnitSettings() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -116,10 +112,8 @@ export default function UnitSettings({
     //       break;
     //   }
     // } else {
-    //   handleChange && handleChange(event);
     //   dispatch(updateUnitsSettingsParameterAction(name, value));
     // }
-    handleChange && handleChange(event);
     dispatch(updateUnitsSettingsParameterAction(name, value));
   };
 

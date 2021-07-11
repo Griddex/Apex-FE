@@ -9,10 +9,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  failureDialogParameters,
-  successDialogParameters,
-} from "../../../Project/Components/DialogParameters/ProjectSuccessFailureDialogsParameters";
 import { createProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
 import {
@@ -24,7 +20,6 @@ import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogOneCancelButtons from "../DialogButtons/DialogOneCancelButtons";
-import DialogSaveCancelButtons from "../DialogButtons/DialogSaveCancelButtons";
 import DialogContextDrawer from "../Drawers/DialogContextDrawer";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
@@ -126,6 +121,11 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
   );
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [disable, setDisable] = React.useState(false);
+  console.log(
+    "Logged output --> ~ file: NewProjectWorkflowDialog.tsx ~ line 125 ~ NewProjectWorkflowDialog ~ disable",
+    disable
+  );
 
   const titleDesc = {
     title: formTitle,
@@ -187,12 +187,17 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
     showBack: true,
     showSkip: true,
     showNext: true,
+    nextOrFinalDisabled: disable,
     finalAction: () => finalAction(titleDesc),
     finalNavIcon: () => <SaveOutlinedIcon />,
     workflowProps,
     workflowProcess,
     workflowCategory,
   };
+
+  React.useEffect(() => {
+    console.log("hey");
+  }, [disable]);
 
   React.useEffect(() => {
     dispatch(
@@ -234,10 +239,11 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         >
           <NewProjectWorkflow
             activeStep={activeStep}
-            title={formTitle}
+            // title={formTitle}
             setTitle={setFormTitle}
-            description={formDescription}
+            // description={formDescription}
             setDescription={setFormDescription}
+            setDisable={setDisable}
             storedTitles={storedTitles}
           />
           <DialogContextDrawer>

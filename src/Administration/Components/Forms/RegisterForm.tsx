@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 // import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
 // import PersonIcon from "@material-ui/icons/Person";
-import { Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
@@ -46,7 +46,7 @@ const RegisterForm = () => {
   return (
     <Formik
       initialValues={userState}
-      validationSchema={Yup.object().shape({
+      validationSchema={Yup.object({
         firstName: Yup.string().required("firstName is required"),
         middleName: Yup.string(),
         lastName: Yup.string().required("lastName is required"),
@@ -70,13 +70,13 @@ const RegisterForm = () => {
         } = props;
 
         return (
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <Form className={classes.form}>
             <RegistrationScenarios />
             <div></div>
             <Button type="submit" variant="outlined" color="primary">
               Select
             </Button>
-          </form>
+          </Form>
         );
       }}
     </Formik>
