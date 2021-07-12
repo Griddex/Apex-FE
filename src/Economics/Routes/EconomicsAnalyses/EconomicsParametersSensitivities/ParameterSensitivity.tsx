@@ -71,7 +71,7 @@ const ParameterSensitivity = ({
       selectedTargetParameterOption,
     };
 
-    //Update list for other sensitivities
+    //TODO Update list for other sensitivities
     setParameterSensitivitiesObj(parameterSensitivitiesObj);
     setValueOption(selectedTargetParameterOption);
   };
@@ -142,14 +142,27 @@ const ParameterSensitivity = ({
       sensitivityValues: rows,
     };
 
-    //transform and store in sensitivitiestable
-    const parameters = Object.keys(parameterSensitivitiesObj);
+    const parameters = (
+      Object.keys(parameterSensitivitiesObj) as TParametersId[]
+    ).reduce((acc: TParametersId[], key: TParametersId) => {
+      const pObj = parameterSensitivitiesObj[key as TParametersId];
+
+      const isSensitivity = Object.values(pObj["sensitivityValues"][0]).some(
+        (v) => v !== ""
+      );
+
+      if (isSensitivity) return [...acc, key];
+      else return acc;
+    }, [] as TParametersId[]);
+
     const selectedParameterTitles = parameters.map((p) => {
       const selectedOption =
         parameterSensitivitiesObj[p as TParametersId]
           .selectedTargetParameterOption;
+
       return selectedOption.label;
     });
+
     const parameterValues = parameters.map((p) => {
       const sensitivityValues =
         parameterSensitivitiesObj[p as TParametersId].sensitivityValues;

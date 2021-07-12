@@ -21,6 +21,7 @@ export const updateProjectParameterAction = (name: string, value: string) => {
     },
   };
 };
+
 export const updateProjectParametersAction = (
   updateObj: Record<string, any>
 ) => {

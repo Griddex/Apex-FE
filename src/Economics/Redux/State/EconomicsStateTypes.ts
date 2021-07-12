@@ -260,7 +260,6 @@ export interface IEconomicsState
     heatMapBackgroundColor: string;
     relationalOperatorOption: ISelectOption;
   };
-  showHeatMapCategories: boolean;
   heatMapVariableXOption: ISelectOption | null;
   heatMapVariableYOption: ISelectOption | null;
   heatMapVariableZOption: ISelectOption | null;

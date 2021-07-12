@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   chartContent: {
     display: "flex",
     flexDirection: "column",
-    marginLeft: (props: any) => (props.showHeatMapCategories ? -295 : 5),
+    marginLeft: 5,
     height: "100%",
     width: "calc(100% - 300px)",
     backgroundColor: "#FFF",
@@ -63,13 +63,7 @@ const SensitivitiesHeatMapVisualytics = () => {
     (state: RootState) => state.layoutReducer
   );
 
-  const { showHeatMapCategories } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
-  const [showCategories, setShowCategories] = React.useState(
-    showHeatMapCategories
-  );
-  const classes = useStyles({ showHeatMapCategories });
+  const classes = useStyles();
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -178,8 +172,6 @@ const SensitivitiesHeatMapVisualytics = () => {
         <div className={classes.chartPanel}>
           <SensitivitiesHeatMapDataPanel
             categoriesTitle="Heat Map"
-            showCategories={showCategories}
-            setShowCategories={setShowCategories}
             ChartCategoriesData={ChartCategoriesData.current}
           />
         </div>

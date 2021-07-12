@@ -33,7 +33,9 @@ import {
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
 import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
+import formatDate from "../../../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { economicsAnalysesNameTitlesObj } from "../../../Data/EconomicsData";
 import {
   fetchStoredEconomicsSensitivitiesRequestAction,
@@ -105,6 +107,10 @@ export default function StoredEconomicsSensitivities() {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
+
+  const { dayFormat, monthFormat, yearFormat } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  ) as IUnitSettingsData;
 
   const reducer = "economicsReducer";
   const mainUrl = `${getBaseEconomicsUrl()}/sensitivities`;
@@ -313,7 +319,16 @@ export default function StoredEconomicsSensitivities() {
         name: "CREATED",
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{row.createdOn}</div>;
+          return (
+            <div>
+              {formatDate(
+                new Date(row.createdOn as string),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
         },
       },
       {
@@ -321,7 +336,16 @@ export default function StoredEconomicsSensitivities() {
         name: "MODIFIED",
         resizable: true,
         formatter: ({ row }) => {
-          return <div>{row.modifiedOn}</div>;
+          return (
+            <div>
+              {formatDate(
+                new Date(row.modifiedOn as string),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
         },
       },
     ];

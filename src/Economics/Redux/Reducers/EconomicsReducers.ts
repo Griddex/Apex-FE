@@ -43,6 +43,7 @@ import {
   RESET_ECONOMICS,
   STORED_ECONOMICSRESULTS_SUCCESS,
   STORED_ECONOMICSRESULTS_FAILURE,
+  UPDATE_ECONOMICSPARAMETERS,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -53,6 +54,15 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
       const updatedState = set(state, path, value);
       return updatedState;
+    }
+
+    case UPDATE_ECONOMICSPARAMETERS: {
+      const { updateObj } = action.payload;
+
+      return {
+        ...state,
+        ...updateObj,
+      };
     }
 
     case UPDATE_INPUT: {

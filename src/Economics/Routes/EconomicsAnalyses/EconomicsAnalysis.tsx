@@ -34,6 +34,7 @@ import {
 } from "./EconomicsAnalysesTypes";
 import EconomicsDecksSelectionTable from "./EconomicsDecksSelectionTable";
 import EconomicsSensitivitiesTable from "./EconomicsParametersSensitivities/EconomicsSensitivitiesTable";
+import FacilitiesInputDeckLanding from "./../../../Import/Routes/FacilitiesInputDeck/FacilitiesInputDeckLanding";
 
 const useStyles = makeStyles((theme) => ({
   npvImage: {
@@ -83,8 +84,9 @@ const EconomicsAnalysis = ({
   >;
 
   const reducer = "economicsReducer";
-  const { showSensitivitiesTable, selectedDevScenarioNamesCostsRevenues } =
-    useSelector((state: RootState) => state.economicsReducer);
+  const { showSensitivitiesTable, selectedSensitivitiesTable } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
 
   const selectedAnalysisDefined =
     selectedAnalysis as NonNullable<IEconomicsAnalysis>;
@@ -205,16 +207,27 @@ const EconomicsAnalysis = ({
       type: "storedEconomicsSensitivitiesDialog",
       show: true,
       exclusive: true,
-      maxWidth: "md",
+      maxWidth: "lg",
       iconType: "table",
       workflowProcess,
       actionsList: () =>
         DialogOneCancelButtons(
           [true, true],
-          [true, true],
+          [true, false],
           [
             unloadDialogsAction,
-            () => getEconomicsSensitivitiesByIdRequestAction(wp, reducer),
+            () => {
+              dispatch(
+                updateEconomicsParameterAction("selectedSensitivitiesTable", [])
+              );
+              dispatch(
+                updateEconomicsParameterAction(
+                  `economicsAnalysisWorkflows.${analysisName}.analysisTableTitle`,
+                  []
+                )
+              );
+              dispatch(getEconomicsSensitivitiesByIdRequestAction(wp, reducer));
+            },
           ],
           "Load",
           "loadOutlined",
@@ -356,7 +369,10 @@ const EconomicsAnalysis = ({
         }}
       >
         {showSensitivitiesTable && (
-          <EconomicsSensitivitiesTable analysisName={analysisName} />
+          <EconomicsSensitivitiesTable
+            analysisName={analysisName}
+            selectedSensitivitiesTable={selectedSensitivitiesTable}
+          />
         )}
       </div>
 

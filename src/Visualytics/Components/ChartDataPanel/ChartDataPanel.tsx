@@ -14,6 +14,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   titleOptions: T[];
   selectedTitle: string;
   handleSelectChange: (row: ValueType<T, false>) => void;
+  secondarySelectComponent?: React.FC;
   treeViewComponent: React.FC;
   categoriesAction?: () => void;
 }
@@ -23,10 +24,12 @@ const ChartDataPanel = <T extends ISelectOption>({
   selectedOption,
   titleOptions,
   handleSelectChange,
+  secondarySelectComponent,
   treeViewComponent: TreeViewComponent,
   categoriesAction,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
+  const SecondarySelectComponent = secondarySelectComponent as React.FC;
 
   const SelectTitle = () => {
     return (
@@ -41,6 +44,14 @@ const ChartDataPanel = <T extends ISelectOption>({
     );
   };
 
+  const apexIconButtonStyle = {
+    height: "28px",
+    backgroundColor: theme.palette.primary.light,
+    border: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: 2,
+    marginLeft: 4,
+  };
+
   return (
     <ApexFlexContainer flexDirection="column">
       <AnalyticsComp
@@ -48,12 +59,13 @@ const ChartDataPanel = <T extends ISelectOption>({
         content={
           <div style={{ display: "flex", alignItems: "center" }}>
             <SelectTitle />
-            <CallMadeOutlinedIcon />
+            <CallMadeOutlinedIcon style={apexIconButtonStyle} />
           </div>
         }
         direction="Vertical"
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
+      <SecondarySelectComponent />
       <div
         style={{
           width: "100%",
@@ -65,7 +77,10 @@ const ChartDataPanel = <T extends ISelectOption>({
         <TreeViewComponent />
       </div>
       <ApexFlexContainer height={50} justifyContent="flex-end">
-        <CategoryOutlinedIcon onClick={categoriesAction} />
+        <CategoryOutlinedIcon
+          style={apexIconButtonStyle}
+          onClick={categoriesAction}
+        />
       </ApexFlexContainer>
     </ApexFlexContainer>
   );

@@ -316,7 +316,6 @@ const EconomicsState: IEconomicsState = {
     heatMapBackgroundColor: "#F8F9FA",
     relationalOperatorOption: { value: ">", label: ">" },
   },
-  showHeatMapCategories: false,
   heatMapVariableXOption: null,
   heatMapVariableYOption: null,
   heatMapVariableZOption: null,

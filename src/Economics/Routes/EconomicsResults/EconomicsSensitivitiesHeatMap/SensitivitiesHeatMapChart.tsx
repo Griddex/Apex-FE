@@ -131,32 +131,17 @@ const SensitivitiesHeatMapChart = () => {
       </ApexFlexContainer>
 
       <ApexFlexContainer
-        width={"90%"}
-        height={"90%"}
+        width={"95%"}
+        height={"95%"}
         moreStyles={{ overflow: "auto" }}
       >
         <EconomicsSensitivitiesHeatMap />
-        <Box marginLeft={3} width={200} minWidth={200} height={"70%"}>
-          {
-            isAllVariablesDropped && (
-              <ApexCheckbox
-                variableZOption={heatMapVariableZOption}
-                apexCheckboxData={heatMapVariableZData}
-              />
-            )
-            // : (
-            //   <Box
-            //     width={200}
-            //     minWidth={200}
-            //     height={"70%"}
-            //     style={{
-            //       border: `1px solid ${theme.palette.grey[400]}`,
-            //       backgroundColor: theme.palette.grey[200],
-            //     }}
-            //   />
-            // )
-          }
-        </Box>
+        {isAllVariablesDropped && (
+          <ApexCheckbox
+            variableZOption={heatMapVariableZOption}
+            apexCheckboxData={heatMapVariableZData}
+          />
+        )}
       </ApexFlexContainer>
       <ApexFlexContainer
         justifyContent="space-evenly"

@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   chartContent: {
     display: "flex",
     flexDirection: "column",
-    marginLeft: (props: any) => (props.showHeatMapCategories ? -295 : 5),
+    marginLeft: 5,
     height: "100%",
     width: (props: ControlPosition) => {
       return `calc(100% - ${props.x}px)`;

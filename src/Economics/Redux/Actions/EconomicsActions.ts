@@ -13,6 +13,7 @@ import {
 
 export const LOAD_ECONOMICS_WORKFLOW = "LOAD_ECONOMICS_WORKFLOW";
 export const UPDATE_ECONOMICSPARAMETER = "UPDATE_ECONOMICSPARAMETER";
+export const UPDATE_ECONOMICSPARAMETERS = "UPDATE_ECONOMICSPARAMETERS";
 
 export const SAVE_COSTSREVENUES_REQUEST = "SAVE_COSTSREVENUES_REQUEST";
 export const SAVE_COSTSREVENUES_SUCCESS = "SAVE_COSTSREVENUES_SUCCESS";
@@ -96,6 +97,9 @@ export const GET_ECONOMICSRESULTSBYID_SUCCESS =
   "GET_ECONOMICSRESULTSBYID_SUCCESS";
 export const GET_ECONOMICSRESULTSBYID_FAILURE =
   "GET_ECONOMICSRESULTSBYID_FAILURE";
+export const ECONOMICS_TREEVIEWKEYS_REQUEST = "ECONOMICS_TREEVIEWKEYS_REQUEST";
+export const ECONOMICS_TREEVIEWKEYS_SUCCESS = "ECONOMICS_TREEVIEWKEYS_SUCCESS";
+export const ECONOMICS_TREEVIEWKEYS_FAILURE = "ECONOMICS_TREEVIEWKEYS_FAILURE";
 export const RESET_ECONOMICS = "RESET_ECONOMICS";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
@@ -104,6 +108,17 @@ export const updateEconomicsParameterAction = (path: string, value: any) => {
     payload: {
       path,
       value,
+    },
+  };
+};
+
+export const updateEconomicsParametersAction = (
+  updateObj: Record<string, any>
+) => {
+  return {
+    type: UPDATE_ECONOMICSPARAMETERS,
+    payload: {
+      updateObj,
     },
   };
 };
@@ -545,6 +560,33 @@ export const getEconomicsResultsByIdSuccessAction = () => {
 export const getEconomicsResultsByIdFailureAction = () => {
   return {
     type: GET_ECONOMICSRESULTSBYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchEconomicsTreeviewKeysRequestAction = () => {
+  return {
+    type: ECONOMICS_TREEVIEWKEYS_REQUEST,
+    payload: {},
+    meta: { showSpinner: true, message: "Loading economics result..." },
+  };
+};
+
+export const fetchEconomicsTreeviewKeysSuccessAction = () => {
+  return {
+    type: ECONOMICS_TREEVIEWKEYS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchEconomicsTreeviewKeysFailureAction = () => {
+  return {
+    type: ECONOMICS_TREEVIEWKEYS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

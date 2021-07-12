@@ -140,8 +140,6 @@ export default function StoredForecastResults({
     { id: "C", value: 30, color: theme.palette.secondary.main },
   ];
 
-  const componentRef = React.useRef();
-
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;

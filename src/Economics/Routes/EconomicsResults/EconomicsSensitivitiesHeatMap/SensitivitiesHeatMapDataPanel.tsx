@@ -1,23 +1,23 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import DialogCancelButton from "../../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
 import { IChartCategoriesData } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
+import { fetchEconomicsTreeviewKeysRequestAction } from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
 const SensitivitiesHeatMapDataPanel = ({
   ChartCategoriesData,
-  showCategories,
   categoriesTitle,
 }: IChartCategoriesData) => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const SensitivitiesHeatMapDataPanel = ({
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  const { selectedEconomicsResultsTitle, showHeatMapCategories } = useSelector(
+  const { selectedEconomicsResultsTitle } = useSelector(
     (state: RootState) => state.economicsReducer
   );
 
@@ -52,7 +52,30 @@ const SensitivitiesHeatMapDataPanel = ({
   ) => {
     setEconomicsResultTitleOption(option as ISelectOption);
 
-    dispatch(fetchTreeviewKeysRequestAction());
+    dispatch(fetchEconomicsTreeviewKeysRequestAction());
+  };
+
+  const developmentScenarios = () => {
+    return (
+      <AnalyticsComp
+        title="Development Scenarios"
+        content={
+          <ApexSelectRS
+            valueOption={{ value: "a", label: "A" }}
+            data={[
+              { value: "a", label: "A" },
+              { value: "b", label: "B" },
+            ]}
+            handleSelect={() => {}}
+            isSelectOptionType={true}
+            menuPortalTarget={document.body}
+            containerWidth={300}
+          />
+        }
+        direction="Vertical"
+        containerStyle={{ width: "100%", marginBottom: 20 }}
+      />
+    );
   };
 
   return (
@@ -62,6 +85,7 @@ const SensitivitiesHeatMapDataPanel = ({
       titleOptions={economicsResultsTitleOptions}
       handleSelectChange={handleSelectEconomicsResultsChange}
       selectedTitle={selectedEconomicsResultsTitle}
+      secondarySelectComponent={developmentScenarios}
       treeViewComponent={SensitivitiesHeatMapTreeView}
       categoriesAction={() => {
         const dialogParameters: DialogStuff = {

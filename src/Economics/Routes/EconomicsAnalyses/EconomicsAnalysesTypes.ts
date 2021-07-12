@@ -49,6 +49,8 @@ export interface IDecksObj {
 }
 
 export interface ISensitivitiesRow {
+  id?: string;
+  _id?: string;
   sn?: number;
   parameter: TParametersId;
   parameterTitle: string;

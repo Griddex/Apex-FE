@@ -129,7 +129,7 @@ const DraggableDialog: React.FC<DialogStuff> = ({
           position: "relative",
           height: "fit-content",
           //TODO A hack?
-          left: -window.innerWidth + 300,
+          left: -window.innerWidth + 600,
           top: 150,
           backgroundColor: theme.palette.common.white,
           zIndex: 9000,
