@@ -158,52 +158,6 @@ const NetworkLanding = () => {
     },
   ];
 
-  //Define a service that combines more than one icon or image into an overlapped one
-  //CSS using overlap and z-index
-
-  const storedNetworks = () => {
-    const networkDisplayConfirmation = () => {
-      const dialogParameters: DialogStuff = {
-        name: "Stored_Network_Dialog",
-        title: "Confirm Network Display",
-        type: "textDialog",
-        show: true,
-        exclusive: false,
-        maxWidth: "xs",
-        iconType: "confirmation",
-        dialogText: `Do you want to display the 
-        currently selected  production network diagram?`,
-        actionsList: () =>
-          DialogDisplayNetworkCancelButtons(
-            [true, true],
-            [true, true],
-            [unloadDialogsAction, displayNetworkByIdRequestAction]
-          ),
-        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      };
-
-      dispatch(showDialogAction(dialogParameters));
-    };
-
-    const dialogParameters: DialogStuff = {
-      name: "Stored_Network_Dialog",
-      title: "Production Networks",
-      type: "storedNetworksDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "lg",
-      iconType: "table",
-      actionsList: () =>
-        DialogDisplayNetworkCancelButtons(
-          [true, true],
-          [true, false],
-          [unloadDialogsAction, networkDisplayConfirmation]
-        ),
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-  };
-
   return (
     <>
       {loadNetworkGenerationWorkflow ? (

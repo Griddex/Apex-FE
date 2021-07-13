@@ -89,6 +89,7 @@ const EconomicsTemplateDataPanel = () => {
       selectedOption={economicsResultTitleOption}
       titleOptions={economicsResultsTitleOptions}
       handleSelectChange={handleSelectEconomicsResultsChange}
+      hasSecondaryComponent={false}
       selectedTitle={selectedEconomicsResultsTitle}
       treeViewComponent={EconomicsTemplateTreeView}
     />

@@ -71,6 +71,7 @@ const ForecastChartDataPanel = () => {
       selectedOption={forecastRunOption}
       titleOptions={forecastRunTitleOptions}
       handleSelectChange={handleSelectForecastResultsChange}
+      hasSecondaryComponent={false}
       selectedTitle={selectedForecastingResultsTitle}
       treeViewComponent={ForecastTreeView}
     />

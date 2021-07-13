@@ -14,6 +14,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   titleOptions: T[];
   selectedTitle: string;
   handleSelectChange: (row: ValueType<T, false>) => void;
+  hasSecondaryComponent: boolean;
   secondarySelectComponent?: React.FC;
   treeViewComponent: React.FC;
   categoriesAction?: () => void;
@@ -24,6 +25,7 @@ const ChartDataPanel = <T extends ISelectOption>({
   selectedOption,
   titleOptions,
   handleSelectChange,
+  hasSecondaryComponent,
   secondarySelectComponent,
   treeViewComponent: TreeViewComponent,
   categoriesAction,
@@ -65,7 +67,7 @@ const ChartDataPanel = <T extends ISelectOption>({
         direction="Vertical"
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
-      <SecondarySelectComponent />
+      {hasSecondaryComponent && <SecondarySelectComponent />}
       <div
         style={{
           width: "100%",

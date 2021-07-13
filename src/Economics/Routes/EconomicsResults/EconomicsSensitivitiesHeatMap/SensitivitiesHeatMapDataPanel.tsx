@@ -69,7 +69,7 @@ const SensitivitiesHeatMapDataPanel = ({
             handleSelect={() => {}}
             isSelectOptionType={true}
             menuPortalTarget={document.body}
-            containerWidth={300}
+            containerWidth={"100%"}
           />
         }
         direction="Vertical"
@@ -85,6 +85,7 @@ const SensitivitiesHeatMapDataPanel = ({
       titleOptions={economicsResultsTitleOptions}
       handleSelectChange={handleSelectEconomicsResultsChange}
       selectedTitle={selectedEconomicsResultsTitle}
+      hasSecondaryComponent={true}
       secondarySelectComponent={developmentScenarios}
       treeViewComponent={SensitivitiesHeatMapTreeView}
       categoriesAction={() => {

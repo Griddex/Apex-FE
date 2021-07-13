@@ -89,6 +89,7 @@ const EconomicsPlotChartsDataPanel = () => {
       selectedOption={economicsResultTitleOption}
       titleOptions={economicsResultsTitleOptions}
       handleSelectChange={handleSelectEconomicsResultsChange}
+      hasSecondaryComponent={false}
       selectedTitle={selectedEconomicsResultsTitle}
       treeViewComponent={EconomicsPlotChartsTreeView}
     />
