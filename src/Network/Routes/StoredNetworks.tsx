@@ -30,8 +30,6 @@ export default function StoredNetworks({
   const wc = "storedDataWorkflows";
   const wp = workflowProcess;
 
-  const componentRef = React.useRef();
-
   const { networkStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
@@ -87,7 +85,7 @@ export default function StoredNetworks({
     wkPs: wp,
     containerStyle,
     handleCheckboxChange,
-    clickAwayAction,
+    // clickAwayAction,
     mainUrl,
     fetchStoredRequestAction: () =>
       fetchStoredNetworkDataRequestAction(currentProjectId),

@@ -9,24 +9,15 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
-import DialogDisplayNetworkCancelButtons from "../../Application/Components/DialogButtons/DialogDisplayNetworkCancelButtons";
-import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
-import {
-  showDialogAction,
-  unloadDialogsAction,
-} from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import AutoNetwork from "../Images/AutoNetwork.svg";
 import DeclineParameters from "../Images/DeclineParameters.svg";
-import StoredDeck from "../Images/StoredDeck.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
 import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
-import {
-  displayNetworkByIdRequestAction,
-  updateNetworkParameterAction,
-} from "../Redux/Actions/NetworkActions";
+import StoredDeck from "../Images/StoredDeck.svg";
+import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import StoredDeclineCurveParameters from "../Routes/StoredDeclineCurveParameters";
 import StoredForecastingParameters from "../Routes/StoredForecastingParameters";
 import StoredNetworks from "../Routes/StoredNetworks";

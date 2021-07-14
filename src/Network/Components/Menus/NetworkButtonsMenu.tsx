@@ -15,7 +15,7 @@ import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import StorageIcon from "@material-ui/icons/Storage";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DialogDisplayNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogDisplayNetworkCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
@@ -88,10 +88,14 @@ const NetworkButtonsMenu = () => {
         dialogText: `Do you want to display the 
         currently selected  production network diagram?`,
         actionsList: () =>
-          DialogDisplayNetworkCancelButtons(
+          DialogOneCancelButtons(
             [true, true],
             [true, true],
-            [unloadDialogsAction, displayNetworkByIdRequestAction]
+            [unloadDialogsAction, displayNetworkByIdRequestAction],
+            "Display",
+            "displayOutlined",
+            false,
+            "All"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -108,10 +112,14 @@ const NetworkButtonsMenu = () => {
       maxWidth: "lg",
       iconType: "table",
       actionsList: () =>
-        DialogDisplayNetworkCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, networkDisplayConfirmation]
+          [unloadDialogsAction, networkDisplayConfirmation],
+          "Display",
+          "displayOutlined",
+          false,
+          "None"
         ),
     };
 
