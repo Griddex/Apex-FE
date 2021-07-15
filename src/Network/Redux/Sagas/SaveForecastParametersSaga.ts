@@ -51,55 +51,12 @@ function* saveForecastParametersSaga(
   any
 > {
   const { payload } = action;
-  const {
-    titleDesc: { title, description },
-  } = payload;
+  const { forecastingParametersObj } = payload;
   const { currentProjectId } = yield select((state) => state.projectReducer);
-  const { selectedForecastInputDeckId } = yield select(
-    (state) => state.inputReducer
-  );
-  const {
-    forecastingParametersStored,
-    selectedDeclineParametersId,
-    selectedProductionPrioritizationId,
-    parameterEntries: {
-      targetFluid,
-      timeFrequency,
-      defermentDecision,
-      realtimeResults,
-      endForecastDate,
-    },
-  } = yield select((state) => state.networkReducer);
-
-  const selectedParametersObj = forecastingParametersStored.find(
-    (k: IForecastParametersStoredRow) =>
-      k.forecastInputDeckId === selectedForecastInputDeckId
-  );
-
-  const id = selectedParametersObj.forecastingParametersRootId;
-
-  const endForecast = new Date(endForecastDate);
-  const data = {
-    title,
-    description,
-    type: "User",
-    userId: "Gideon",
-    declineParametersId: selectedDeclineParametersId,
-    wellPrioritizationId: selectedProductionPrioritizationId,
-    parameterEntries: {
-      targetFluid,
-      timeFrequency,
-      realtimeResults,
-      isDefered: defermentDecision,
-      stopDay: endForecast.getDay(),
-      stopMonth: endForecast.getMonth(),
-      stopYear: endForecast.getFullYear(),
-    },
-  };
 
   const config = { withCredentials: false };
   const saveForecastParametersAPI = (url: string) =>
-    authService.post(url, data, config);
+    authService.post(url, forecastingParametersObj, config);
 
   try {
     const result = yield call(

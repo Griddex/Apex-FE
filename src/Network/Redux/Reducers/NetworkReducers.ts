@@ -42,10 +42,9 @@ const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
     case UPDATE_NETWORKPARAMETER: {
       const { name, value } = action.payload;
-      return {
-        ...state,
-        [name]: value,
-      };
+
+      const updatedState = set(state, name, value);
+      return updatedState;
     }
     case UPDATE_SELECTEDIDTITLE: {
       const { reducer, idTitleObj } = action.payload;

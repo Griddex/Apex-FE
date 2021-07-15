@@ -1,4 +1,4 @@
-import { DialogActions, Divider } from "@material-ui/core";
+import { DialogActions } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
@@ -8,8 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
-import DialogRunForecastCancelButtons from "../../../Application/Components/DialogButtons/DialogRunForecastCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
@@ -26,11 +25,7 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import {
-  autoGenerateNetworkRequestAction,
-  runForecastRequestAction,
-} from "../../Redux/Actions/NetworkActions";
-import GenerateNetworkWorkflow from "../../Workflows/GenerateNetworkWorkflow";
+import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
 import RunForecastWorkflow from "../../Workflows/RunForecastWorkflow";
 
 const useStyles = makeStyles((theme) => ({
@@ -164,10 +159,14 @@ const RunForecastWorkflowDialog = (props: DialogStuff) => {
       dialogText: `Do you want to run the forecast using the current parameters?`,
       iconType: "confirmation",
       actionsList: () =>
-        DialogRunForecastCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, runForecastRequestAction]
+          [unloadDialogsAction, runForecastRequestAction],
+          "Run",
+          "play",
+          false,
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

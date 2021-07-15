@@ -12,7 +12,8 @@ import EditOrCreateForecastingParameters, {
 } from "../Routes/EditOrCreateForecastingParameters";
 
 const EditOrCreateForecastParametersWorkflow = ({
-  currentRow,
+  currRow,
+  setCurrRow,
   shouldUpdate,
   workflowProcess,
   activeStep,
@@ -31,7 +32,9 @@ const EditOrCreateForecastParametersWorkflow = ({
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
   const renderImportStep = () => {
-    const n = workflowProcess === "createForecastingParametersWorkflow" ? 0 : 1;
+    const n =
+      workflowProcessDefined === "createForecastingParametersWorkflow" ? 0 : 1;
+
     const activeStepMod = (activeStep as number) + n;
 
     switch (activeStepMod) {
@@ -46,14 +49,13 @@ const EditOrCreateForecastParametersWorkflow = ({
         );
       case 1:
         return (
-          <ApexFlexContainer>
-            <EditOrCreateForecastingParameters
-              currentRow={currentRow}
-              shouldUpdate={shouldUpdate}
-              workflowProcess={workflowProcessDefined}
-              forecastParametersIndex={forecastParametersIndex}
-            />
-          </ApexFlexContainer>
+          <EditOrCreateForecastingParameters
+            currentRow={currRow}
+            setCurrentRow={setCurrRow}
+            shouldUpdate={shouldUpdate}
+            workflowProcess={workflowProcessDefined}
+            forecastParametersIndex={forecastParametersIndex}
+          />
         );
       case 2:
         return (
@@ -70,7 +72,7 @@ const EditOrCreateForecastParametersWorkflow = ({
     }
   };
 
-  return <div>{renderImportStep()}</div>;
+  return <>{renderImportStep()}</>;
 };
 
 export default EditOrCreateForecastParametersWorkflow;

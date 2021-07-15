@@ -53,7 +53,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IEditOrCreateForecastingParameters {
+  currRow?: Partial<IForecastParametersStoredRow>;
+  setCurrRow?: TUseState<IForecastParametersStoredRow>;
   currentRow?: Partial<IForecastParametersStoredRow>;
+  setCurrentRow?: TUseState<IForecastParametersStoredRow>;
   shouldUpdate: boolean;
   setShouldUpdate?: TUseState<boolean>;
   workflowProcess?: TAllWorkflowProcesses;
@@ -63,8 +66,8 @@ export interface IEditOrCreateForecastingParameters {
 
 const EditOrCreateForecastingParameters = ({
   currentRow,
+  setCurrentRow,
   shouldUpdate,
-  setShouldUpdate,
   workflowProcess,
   forecastParametersIndex,
 }: IEditOrCreateForecastingParameters) => {
@@ -77,6 +80,8 @@ const EditOrCreateForecastingParameters = ({
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
+
+  const currentDateFormat = `${dayFormat}/${monthFormat}/${yearFormat}`;
 
   const dialogRef = React.useRef<HTMLElement>(null);
   const [formEditorRow, setFormEditorRow] = React.useState(
@@ -92,15 +97,6 @@ const EditOrCreateForecastingParameters = ({
     selectedProductionPrioritizationTitle,
     selectedProductionPrioritizationDescription,
   } = useSelector((state: RootState) => state.networkReducer);
-
-  const { forecastingParametersStored } = useSelector(
-    (state: RootState) => state.networkReducer[wc]
-  );
-
-  const handleChange = (event: ChangeEvent<any>) => {
-    const { name, value } = event.target;
-    setFormEditorRow((prev) => ({ ...prev, [name]: value }));
-  };
 
   const createDCATable = () => {
     const dialogParameters: DialogStuff = {
@@ -194,7 +190,7 @@ const EditOrCreateForecastingParameters = ({
     const dialogParameters: DialogStuff = {
       name: "Stored_Load_Prioritization_Dialog",
       title: "Stored Prioritization Parameters",
-      type: "textDialog",
+      type: "productionStreamPrioritizationDialog",
       show: true,
       exclusive: false,
       maxWidth: "lg",
@@ -235,37 +231,11 @@ const EditOrCreateForecastingParameters = ({
     formEditorRow
   );
   React.useEffect(() => {
-    const forecastParametersIndexDefined = forecastParametersIndex as number;
-    forecastingParametersStored[forecastParametersIndexDefined] = formEditorRow;
-
-    dispatch(
-      updateNetworkParameterAction(
-        "storedDataWorkflows.forecastingParametersStored",
-        forecastingParametersStored
-      )
-    );
-
-    //TODO Update Saga here for forecast parameters
-  }, [shouldUpdate]);
-  // }, [shouldUpdate, setShouldUpdate]);
+    setCurrentRow && setCurrentRow(formEditorRow);
+  }, [formEditorRow]);
 
   return (
     <div className={classes.root}>
-      <AnalyticsComp
-        title="Forecast Parameters Title"
-        direction="Vertical"
-        content={
-          <Input
-            name="title"
-            value={formEditorRow["title"]}
-            margin="dense"
-            onChange={handleChange}
-            fullWidth
-          />
-        }
-        containerStyle={{ width: "100%", height: 50 }}
-      />
-
       <ApexFlexContainer justifyContent="space-between" height={50}>
         <AnalyticsComp
           title="DCA Table"
@@ -419,22 +389,17 @@ const EditOrCreateForecastingParameters = ({
           title="Start Forecast Date"
           direction="Vertical"
           content={
-            // <Input
-            //   id="date-picker-input-id-start"
-            //   type="datetime-local"
-            //   margin="dense"
-            //   defaultValue={formEditorRow["startForecast"]}
-            // />
-
             <KeyboardDatePicker
               margin="normal"
               id="date-picker-dialog"
               label="Date picker dialog"
+              variant="dialog"
+              disabled
               //TODO Date format not flexible enough
               //User should have ability to change position
               //of day, month and year
-              format={`${dayFormat} ${monthFormat} ${yearFormat}`}
-              value={formEditorRow["startForecast"]}
+              format={currentDateFormat}
+              value={new Date(formEditorRow["startForecast"])}
               onChange={() => {}}
               KeyboardButtonProps={{
                 "aria-label": "change date",
@@ -446,30 +411,16 @@ const EditOrCreateForecastingParameters = ({
           title="End Forecast Date"
           direction="Vertical"
           content={
-            // <Input
-            //   id="date-picker-input-id-start"
-            //   type="datetime-local"
-            //   margin="dense"
-            //   value={formEditorRow["endForecast"]}
-            //   onChange={(event) => {
-            //     const { value } = event.target;
-
-            //     setFormEditorRow((prev: any) => ({
-            //       ...prev,
-            //       endForecast: value,
-            //     }));
-            //   }}
-            // />
-
             <KeyboardDatePicker
               margin="normal"
               id="date-picker-dialog"
               label="Date picker dialog"
+              variant="dialog"
               //TODO Date format not flexible enough
               //User should have ability to change position
               //of day, month and year
-              format={`${dayFormat} ${monthFormat} ${yearFormat}`}
-              value={formEditorRow["endForecast"]}
+              format={currentDateFormat}
+              value={new Date(formEditorRow["endForecast"])}
               onChange={(date: MaterialUiPickersDate) => {
                 setFormEditorRow((prev: any) => ({
                   ...prev,
@@ -477,7 +428,6 @@ const EditOrCreateForecastingParameters = ({
                 }));
               }}
               minDate={new Date(formEditorRow["startForecast"])}
-              maxDate={new Date(formEditorRow["endForecast"])}
               KeyboardButtonProps={{
                 "aria-label": "change date",
               }}

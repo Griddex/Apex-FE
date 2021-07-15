@@ -8,7 +8,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
 import { ITitleAndDescriptionFormProps } from "../../../Application/Components/Forms/FormTypes";
@@ -28,7 +27,6 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
 import { IEditOrCreateForecastingParameters } from "../../Routes/EditOrCreateForecastingParameters";
 import EditOrCreateForecastParametersWorkflow from "../../Workflows/EditOrCreateForecastParametersWorkflow";
@@ -126,7 +124,6 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
   props: DialogStuff<IForecastParametersStoredRow>
 ) => {
   const workflowCategory = "networkDataWorkflows";
-
   const dispatch = useDispatch();
 
   const {
@@ -151,11 +148,14 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [currRow, setCurrRow] = React.useState(currentRow);
 
   const titleDesc = {
     title: formTitle,
     description: formDescription,
   };
+
+  const forecastingParametersObj = { ...currRow, ...titleDesc };
 
   let steps = [] as string[];
 
@@ -196,7 +196,8 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
   const createProps = {
     shouldUpdate,
     setShouldUpdate,
-    currentRow,
+    currRow,
+    setCurrRow,
     activeStep,
     workflowProcess: workflowProcessDefined,
     forecastParametersIndex,
@@ -227,7 +228,7 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
             unloadDialogsAction,
             () =>
               saveForecastParametersRequestAction(
-                titleDesc as Record<string, string>
+                forecastingParametersObj as Record<string, any>
               ),
           ],
           "Save",

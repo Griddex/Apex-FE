@@ -4,7 +4,7 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import CancelPresentationOutlinedIcon from "@material-ui/icons/CancelPresentationOutlined";
-import { Typography } from "@material-ui/core";
+import { Typography, useTheme } from "@material-ui/core";
 import ApexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import { SizeMe } from "react-sizeme";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
@@ -18,6 +18,7 @@ import { Column } from "react-data-griddex";
 
 const ProductionStreamPrioritization = () => {
   const wc = "storedDataWorkflows";
+  const theme = useTheme();
 
   const [prioritizationPerspective, setPrioritizationPerspective] =
     React.useState("Production Prioritization");
@@ -30,6 +31,10 @@ const ProductionStreamPrioritization = () => {
   const selectedTableData = useSelector(
     (state: RootState) =>
       state.networkReducer[wc]["productionPrioritizationStored"]
+  );
+  console.log(
+    "Logged output --> ~ file: ProductionStreamPrioritization.tsx ~ line 34 ~ ProductionStreamPrioritization ~ selectedTableData",
+    selectedTableData
   );
 
   const snSelectedTableData = selectedTableData.map(
@@ -50,17 +55,26 @@ const ProductionStreamPrioritization = () => {
   const NoPrioritization = () => {
     return (
       <ApexFlexContainer>
-        <div style={{ width: 300, height: 300 }}>
+        <ApexFlexContainer
+          flexDirection="column"
+          moreStyles={{
+            width: 500,
+            height: 300,
+            backgroundColor: theme.palette.grey["200"],
+          }}
+        >
           <CancelPresentationOutlinedIcon fontSize="large" />
-          <Typography>{`No prioritization will be applied.
-       Full facility capacity will be available to all streams`}</Typography>
-        </div>
+          <strong>{"No prioritization will be applied"}</strong>
+          <Typography>
+            {`Full facility capacity will be available to all streams`}
+          </Typography>
+        </ApexFlexContainer>
       </ApexFlexContainer>
     );
   };
 
   const ProductionPrioritization = () => {
-    const columnKeys = Object.keys(snSelectedTableData[1]);
+    const columnKeys = Object.keys(snSelectedTableData[0]);
     const columns = columnKeys.map((k) => {
       // const name = allHeadersNameTitleUniqueMap[k]?.toUpperCase();
 
@@ -153,9 +167,9 @@ const ProductionStreamPrioritization = () => {
   };
 
   return (
-    <div>
+    <ApexFlexContainer flexDirection="column">
       <AnalyticsComp
-        title="Flex Direction"
+        title="Prioritization Perspective"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={
@@ -179,10 +193,10 @@ const ProductionStreamPrioritization = () => {
           </ToggleButtonGroup>
         }
       />
-      <ApexFlexContainer>
+      <ApexFlexContainer moreStyles={{ marginTop: 20 }}>
         {renderPrioritization(prioritizationPerspective)}
       </ApexFlexContainer>
-    </div>
+    </ApexFlexContainer>
   );
 };
 

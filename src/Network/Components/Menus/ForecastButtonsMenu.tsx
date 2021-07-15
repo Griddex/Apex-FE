@@ -6,15 +6,18 @@ import {
   useTheme,
 } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
+import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
-import DialogRunForecastCancelButtons from "../../../Application/Components/DialogButtons/DialogRunForecastCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
   showDialogAction,
@@ -22,9 +25,6 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-import { useHistory } from "react-router-dom";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import { extrudeSaveForecastRun } from "../DialogParameters/ExtrudeSaveForecastRun";
 
 const ForecastButtonsMenu = () => {
@@ -46,24 +46,6 @@ const ForecastButtonsMenu = () => {
   };
 
   const runForecast = () => {
-    const dialogParameters: DialogStuff = {
-      name: "Run_Forecast_Dialog",
-      title: "Run Forecast",
-      type: "runForecastDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "lg",
-      iconType: "run",
-      actionsList: () =>
-        DialogRunForecastCancelButtons(
-          [true, true],
-          [true, false],
-          [unloadDialogsAction, confirmRunForecast]
-        ),
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-
     const confirmRunForecast = () => {
       const confirmationDialogParameters: DialogStuff = {
         name: "Run_Forecast_Dialog",
@@ -75,16 +57,42 @@ const ForecastButtonsMenu = () => {
         dialogText: `Do you want to run the forecast using the current parameters?`,
         iconType: "confirmation",
         actionsList: () =>
-          DialogRunForecastCancelButtons(
+          DialogOneCancelButtons(
             [true, true],
             [true, true],
-            [unloadDialogsAction, runForecastRequestAction]
+            [unloadDialogsAction, runForecastRequestAction],
+            "Run",
+            "play",
+            false,
+            "All"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
 
       dispatch(showDialogAction(confirmationDialogParameters));
     };
+
+    const dialogParameters: DialogStuff = {
+      name: "Run_Forecast_Dialog",
+      title: "Run Forecast",
+      type: "runForecastDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "lg",
+      iconType: "run",
+      actionsList: () =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, false],
+          [unloadDialogsAction, confirmRunForecast],
+          "Run",
+          "play",
+          false,
+          "None"
+        ),
+    };
+
+    dispatch(showDialogAction(dialogParameters));
   };
 
   const runForecastWorkflow = () => {

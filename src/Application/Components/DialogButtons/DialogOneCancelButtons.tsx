@@ -19,6 +19,7 @@ import OpenInBrowserOutlinedIcon from "@material-ui/icons/OpenInBrowserOutlined"
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
@@ -42,6 +43,7 @@ const DialogOneCancelButtons = (
     deleteOutlined: <DeleteOutlinedIcon />,
     createOutlined: <AddBoxOutlinedIcon />,
     displayOutlined: <AirplayOutlinedIcon />,
+    play: <PlayArrowIcon />,
   };
 
   const dispatch = useDispatch();

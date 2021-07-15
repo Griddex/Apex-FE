@@ -42,6 +42,10 @@ import {
   getDeclineParametersByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
+import {
+  forecastingParametersToStored,
+  storedToForecastingParameters,
+} from "../Utils/TransformForecastingParameters";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -135,75 +139,20 @@ export default function StoredForecastingParameters({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const storedData = useSelector(
-    (state: RootState) => state.networkReducer[wc][wp]
-  ) as IBackendForecastingParametersRow[];
+  const { forecastingParametersStored } = useSelector(
+    (state: RootState) => state.networkReducer[wc]
+  );
+  console.log(
+    "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 139 ~ forecastingParametersStored",
+    forecastingParametersStored
+  );
 
-  const [storedDataState, setStoredDataState] = React.useState(storedData);
-
-  const transStoredData = storedDataState.map(
-    (row: IBackendForecastingParametersRow) => {
-      const {
-        id,
-        forecastInputDeckId,
-        forecastInputdeckTitle,
-        title,
-        description,
-        type,
-        createdAt,
-        wellPrioritizationId,
-        wellDeclineParameterId,
-        declineParametersId,
-        wellPrioritizationTitle,
-        wellDeclineParameterTitle,
-        parametersEntity,
-      } = row;
-
-      const {
-        timeFrequency,
-        targetFluid,
-        isDefered,
-        startDay,
-        startMonth,
-        startYear,
-        stopDay,
-        stopMonth,
-        stopYear,
-      } = parametersEntity;
-
-      return {
-        forecastingParametersId: id,
-        forecastInputDeckId,
-        forecastInputdeckTitle,
-        title,
-        description,
-        type,
-        wellDeclineParameterId: declineParametersId,
-        wellPrioritizationId,
-        wellDeclineParameterTitle,
-        wellPrioritizationTitle,
-        targetFluid,
-        timeFrequency,
-        isDefered: isDefered === 0 ? "noDeferment" : "useDeferment",
-        realtimeResults: "no",
-        startForecast: formatDate(
-          new Date(startYear, startMonth, startDay),
-          dayFormat,
-          monthFormat,
-          yearFormat
-        ),
-        endForecast: formatDate(
-          new Date(stopYear, stopMonth, stopDay),
-          dayFormat,
-          monthFormat,
-          yearFormat
-        ),
-        author: { avatarUrl: "", name: "None" },
-        createdOn: createdAt,
-        modifiedOn: createdAt,
-      };
-    }
-  ) as IForecastParametersStoredRow[];
+  const snTransStoredData = storedToForecastingParameters(
+    forecastingParametersStored,
+    dayFormat,
+    monthFormat,
+    yearFormat
+  );
 
   const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
     useSelector((state: RootState) => state.inputReducer);
@@ -222,7 +171,8 @@ export default function StoredForecastingParameters({
     timeFrequency: "",
     isDefered: "",
     realtimeResults: "",
-    startForecast: "",
+    startForecast: "", //TODO use selectedforecastid to retrieve from forecasting parameters array
+    //but there's no forecastid at the moment
     endForecast: "",
   } as IForecastParametersStoredRow;
 
@@ -260,10 +210,6 @@ export default function StoredForecastingParameters({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
-          console.log(
-            "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 270 ~ generateColumns ~ row",
-            row
-          );
           const { sn } = row;
           const currentSN = sn as number;
           const currentRow = rows[currentSN - 1];
@@ -277,15 +223,22 @@ export default function StoredForecastingParameters({
               title: "Clone",
               action: () => {
                 const currentRow = rows[currentSN - 1];
-                const clonedRow = {
-                  ...currentRow,
-                  sn: rows.length + 1,
-                  forecastingParametersId: "",
-                  title: "New Title",
-                  type: "User",
-                } as IForecastParametersStoredRow;
+                const clonedRow = forecastingParametersToStored(
+                  currentRow,
+                  rows.length
+                );
+                console.log(
+                  "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 324 ~ generateColumns ~ clonedRow",
+                  clonedRow
+                );
 
-                setRows(rows.concat(clonedRow));
+                const newRows = [...forecastingParametersStored, clonedRow];
+                dispatch(
+                  updateNetworkParameterAction(
+                    "storedDataWorkflows.forecastingParametersStored",
+                    newRows
+                  )
+                );
               },
             },
           ];
@@ -295,6 +248,7 @@ export default function StoredForecastingParameters({
               ? {
                   pointerEvents: "none",
                   color: theme.palette.grey[200],
+                  backgroundColor: theme.palette.grey[400],
                 }
               : {};
 
@@ -316,6 +270,7 @@ export default function StoredForecastingParameters({
                 }}
               />
               <DeleteOutlinedIcon
+                style={style as CSSProperties}
                 onClick={() => {
                   dispatch(
                     showDialogAction(
@@ -537,12 +492,6 @@ export default function StoredForecastingParameters({
     return columns;
   };
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
-
-  const snTransStoredData = transStoredData.map((row, i) => ({
-    sn: i + 1,
-    ...row,
-  })) as IForecastParametersStoredRow[];
-
   const [rows, setRows] = React.useState(snTransStoredData);
 
   const exportColumns = columns
@@ -571,7 +520,7 @@ export default function StoredForecastingParameters({
       <div>
         <CreateForecastParametersButton
           currentRow={newRow}
-          forecastParametersIndex={transStoredData.length}
+          forecastParametersIndex={snTransStoredData.length}
         />
         <ExcelExportTable<IForecastParametersStoredRow> {...exportTableProps} />
       </div>
@@ -580,8 +529,14 @@ export default function StoredForecastingParameters({
   };
 
   React.useEffect(() => {
-    setStoredDataState(storedData as IBackendForecastingParametersRow[]);
-  }, [storedData]);
+    const updatedStoredData = storedToForecastingParameters(
+      forecastingParametersStored,
+      dayFormat,
+      monthFormat,
+      yearFormat
+    );
+    setRows(updatedStoredData);
+  }, [forecastingParametersStored.length]);
 
   return (
     <div className={classes.rootStoredData}>
