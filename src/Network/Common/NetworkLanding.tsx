@@ -18,6 +18,8 @@ import ManualNetwork from "../Images/ManualNetwork.svg";
 import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import StoredDeck from "../Images/StoredDeck.svg";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
+import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
+import ProductionStreamPrioritization from "../Routes/ProductionStreamPrioritization";
 import StoredDeclineCurveParameters from "../Routes/StoredDeclineCurveParameters";
 import StoredForecastingParameters from "../Routes/StoredForecastingParameters";
 import StoredNetworks from "../Routes/StoredNetworks";
@@ -120,6 +122,20 @@ const NetworkLanding = () => {
       workflowCategory: "storedDataWorkflows",
     },
     {
+      name: "Create Decline Parameters",
+      description: `Create decline parameters dataset as key input forecast generation`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={DeclineParameters}
+          alt="Decline parameters"
+        />
+      ),
+      route: `${url}/declineParametersCreate`,
+      workflowProcess: "declineParametersCreate",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
       name: "Stored Decline Parameters",
       description: `Automatically generate production network from a forecast input deck`,
       icon: (
@@ -131,6 +147,20 @@ const NetworkLanding = () => {
       ),
       route: `${url}/declineParametersStored`,
       workflowProcess: "declineParametersStored",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
+      name: "Create Production Prioritization",
+      description: `Create and utilize production optimization options for your forecast run`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ProductionPrioritization}
+          alt="Production prioritization"
+        />
+      ),
+      route: `${url}/productionPrioritizationCreate`,
+      workflowProcess: "productionPrioritizationCreate",
       workflowCategory: "storedDataWorkflows",
     },
     {
@@ -188,9 +218,21 @@ const NetworkLanding = () => {
                       containerStyle={{ boxShadow: "none" }}
                     />
                   ),
+                  declineParametersCreate: (
+                    <DeclineCurveParameters
+                      workflowProcess={"declineParametersCreate"}
+                      containerStyle={{ boxShadow: "none" }}
+                    />
+                  ),
                   productionPrioritizationStored: (
                     <StoredProductionPrioritization
                       workflowProcess={"productionPrioritizationStored"}
+                      containerStyle={{ boxShadow: "none" }}
+                    />
+                  ),
+                  productionPrioritizationCreate: (
+                    <ProductionStreamPrioritization
+                      workflowProcess={"productionPrioritizationCreate"}
                       containerStyle={{ boxShadow: "none" }}
                     />
                   ),

@@ -15,7 +15,7 @@ import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ApexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
 import ExcelExportTable, {
   IExcelExportTable,
-  IExcelSheetData
+  IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
@@ -24,8 +24,12 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 
-const ProductionStreamPrioritization = () => {
+const ProductionStreamPrioritization = ({
+  workflowProcess,
+  containerStyle,
+}: IStoredDataProps) => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
 
@@ -36,7 +40,7 @@ const ProductionStreamPrioritization = () => {
   } = useSelector((state: RootState) => state.networkReducer);
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
-    prioritizationPerspective
+    prioritizationPerspective ? prioritizationPerspective : "No Prioritization"
   );
 
   const [streamOption, setStreamOption] = React.useState({
@@ -78,32 +82,32 @@ const ProductionStreamPrioritization = () => {
   const ProductionPrioritization = () => {
     const columnKeys = Object.keys(snSelectedTableData[0]);
 
-    const columns = columnKeys.map((k) => {
-      const streamFormatter = ({ row }: FormatterProps<IRawRow, unknown>) => {
-        const optimizationWeight = row.optimizationWeight as string;
-        const optimizationOptions = [
-          { value: "high", label: "High" },
-          { value: "normal", label: "Normal" },
-          { value: "low", label: "Low" },
-        ];
-        const valueOption = {
-          value: camelCase(optimizationWeight),
-          label: capitalize(optimizationWeight),
-        };
-
-        return (
-          <ApexSelectRS
-            valueOption={valueOption as ISelectOption}
-            data={optimizationOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
-              console.log(option);
-            }}
-            menuPortalTarget={dialogRef.current as HTMLDivElement}
-            isSelectOptionType={true}
-          />
-        );
+    const streamFormatter = ({ row }: FormatterProps<IRawRow, unknown>) => {
+      const optimizationWeight = row.optimizationWeight as string;
+      const optimizationOptions = [
+        { value: "high", label: "High" },
+        { value: "normal", label: "Normal" },
+        { value: "low", label: "Low" },
+      ];
+      const valueOption = {
+        value: camelCase(optimizationWeight),
+        label: capitalize(optimizationWeight),
       };
 
+      return (
+        <ApexSelectRS
+          valueOption={valueOption as ISelectOption}
+          data={optimizationOptions}
+          handleSelect={(option: ValueType<ISelectOption, false>) => {
+            console.log(option);
+          }}
+          menuPortalTarget={dialogRef.current as HTMLDivElement}
+          isSelectOptionType={true}
+        />
+      );
+    };
+
+    const columns = columnKeys.map((k) => {
       return {
         key: k,
         name: startCase(k).toUpperCase(),

@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -33,8 +32,6 @@ export default function StoredProductionPrioritization({
   const wp = workflowProcess as NonNullable<
     IStoredDataProps["workflowProcess"]
   >;
-
-  const componentRef = React.useRef();
 
   const storedData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
