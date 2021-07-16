@@ -15,6 +15,7 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { IDeclineCurveParametersDetail } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
@@ -67,12 +68,14 @@ const useStyles = makeStyles(() => ({
 
 //TODO: Calculate classification data from collection
 
-export default function DeclineCurveParameters() {
+export default function DeclineCurveParameters({
+  workflowProcess,
+  containerStyle,
+}: IStoredDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const wc = "storedDataWorkflows";
-  const wp = "forecastingParametersStored";
+  const wp = workflowProcess;
 
   const { selectedDeclineParametersData } = useSelector(
     (state: RootState) => state.networkReducer
