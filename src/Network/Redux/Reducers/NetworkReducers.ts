@@ -34,6 +34,7 @@ import {
   STORED_PRODUCTIONPRIORITIZATION_FAILURE,
   STORED_PRODUCTIONPRIORITIZATION_SUCCESS,
   RESET_NETWORK,
+  UPDATE_NETWORK_PARAMETERS,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 import set from "lodash.set";
@@ -46,6 +47,16 @@ const networkReducer = (state = NetworkState, action: IAction) => {
       const updatedState = set(state, name, value);
       return updatedState;
     }
+
+    case UPDATE_NETWORK_PARAMETERS: {
+      const { updateObj } = action.payload;
+
+      return {
+        ...state,
+        ...updateObj,
+      };
+    }
+
     case UPDATE_SELECTEDIDTITLE: {
       const { reducer, idTitleObj } = action.payload;
 

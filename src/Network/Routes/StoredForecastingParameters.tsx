@@ -30,16 +30,14 @@ import { confirmationDialogParameters } from "../../Import/Components/DialogPara
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
-import { extrudeDialogParameters } from "../Components/DialogParameters/ShowDeclineCurveDialogParameters";
-import {
-  IBackendForecastingParametersRow,
-  IForecastParametersStoredRow,
-} from "../Components/Dialogs/StoredNetworksDialogTypes";
+import { extrudeDialogParameters } from "../Components/DialogParameters/ShowPrioritizationDialogParameters";
+import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
 import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
 import {
   fetchStoredForecastingParametersRequestAction,
   getDeclineParametersByIdRequestAction,
+  getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
 import {
@@ -120,7 +118,7 @@ export default function StoredForecastingParameters({
     (state: RootState) => state.projectReducer
   );
 
-  const reducer = "economicsReducer";
+  const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
 
   const theme = useTheme();
@@ -359,6 +357,7 @@ export default function StoredForecastingParameters({
                   dispatch(
                     getDeclineParametersByIdRequestAction(
                       wellDeclineParameterId,
+                      wellDeclineParameterTitle,
                       reducer
                     )
                   );
@@ -382,7 +381,7 @@ export default function StoredForecastingParameters({
         resizable: true,
         width: 150,
         formatter: ({ row }) => {
-          const { sn, wellPrioritizationTitle } = row;
+          const { sn, wellPrioritizationId, wellPrioritizationTitle } = row;
           const selectedRowIndex = (sn as number) - 1;
 
           return (
@@ -391,7 +390,15 @@ export default function StoredForecastingParameters({
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
-                  dispatch(showDialogAction(extrudeDialogParameters()));
+                  dispatch(
+                    getProductionPrioritizationByIdRequestAction(
+                      wellPrioritizationId,
+                      wellPrioritizationTitle,
+                      selectedRowIndex,
+                      reducer
+                    )
+                  );
+
                   dispatch(
                     updateNetworkParameterAction(
                       "selectedForecastingParametersId",

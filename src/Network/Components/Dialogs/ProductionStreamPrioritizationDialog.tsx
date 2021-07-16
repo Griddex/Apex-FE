@@ -102,14 +102,6 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const steps = [
-  "DCA Parameters",
-  "Other Forecast Parameters",
-  "Title and Description",
-];
-const workflowCategory = "networkDataWorkflows";
-const workflowProcess = "declineCurveParametersWorkflow";
-
 const ProductionStreamPrioritizationDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList, selectedRowIndex } =

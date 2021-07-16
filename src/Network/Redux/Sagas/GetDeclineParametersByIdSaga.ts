@@ -7,7 +7,6 @@ import {
   ForkEffect,
   put,
   PutEffect,
-  select,
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -22,7 +21,6 @@ import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineCurveParametersDialogParameters";
 import {
   getDeclineParametersByIdFailureAction,
-  getDeclineParametersByIdSuccessAction,
   GET_DECLINEPARAMETERSBYID_REQUEST,
 } from "../Actions/NetworkActions";
 
@@ -52,15 +50,9 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedDeclineParametersId, reducer } = payload;
+  const { selectedDeclineParametersId, wellDeclineParameterTitle, reducer } =
+    payload;
   const wc = "storedDataWorkflows";
-
-  const { forecastingParametersStored } = yield select(
-    (state) => state.networkReducer[wc]
-  );
-  const selectedWellDeclineParameterTitle = forecastingParametersStored.find(
-    (row: any) => row.id === selectedDeclineParametersId
-  );
 
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
@@ -71,8 +63,9 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
     );
 
     const {
-      data: { data: selectedTableData },
+      data: { data },
     } = declineParametersResults;
+    const selectedTableData = data["declineParameters"];
 
     const successAction = getTableDataByIdSuccessAction();
     yield put({
@@ -86,11 +79,11 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
 
     const dialogParameters: DialogStuff = {
       name: "Display_Table_Data_Dialog",
-      title: selectedWellDeclineParameterTitle,
+      title: wellDeclineParameterTitle,
       type: "tableDataDialog",
       show: true,
       exclusive: true,
-      maxWidth: "lg",
+      maxWidth: "xl",
       iconType: "information",
       actionsList: () => DialogCancelButton(),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

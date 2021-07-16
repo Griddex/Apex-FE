@@ -169,7 +169,7 @@ const EditOrCreateForecastingParameters = ({
       type: "productionStreamPrioritizationDialog",
       show: true,
       exclusive: false,
-      maxWidth: "xl",
+      maxWidth: "md",
       iconType: "create",
       workflowProcess,
       actionsList: () =>
@@ -193,7 +193,7 @@ const EditOrCreateForecastingParameters = ({
       type: "productionStreamPrioritizationDialog",
       show: true,
       exclusive: false,
-      maxWidth: "lg",
+      maxWidth: "md",
       iconType: "table",
       workflowProcess,
       actionsList: () =>
@@ -202,11 +202,6 @@ const EditOrCreateForecastingParameters = ({
           [true, false],
           [
             unloadDialogsAction,
-            // () =>
-            //   getProductionPrioritizationByIdRequestAction(
-            //     formEditorRow["wellPrioritizationId"]
-            //   ),
-
             () => {
               setFormEditorRow((prev) => ({
                 ...prev,

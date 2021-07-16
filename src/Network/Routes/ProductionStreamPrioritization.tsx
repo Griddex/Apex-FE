@@ -1,41 +1,48 @@
-import React from "react";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import CancelPresentationOutlinedIcon from "@material-ui/icons/CancelPresentationOutlined";
 import { Typography, useTheme } from "@material-ui/core";
-import ApexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import CancelPresentationOutlinedIcon from "@material-ui/icons/CancelPresentationOutlined";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import camelCase from "lodash.camelcase";
+import capitalize from "lodash.capitalize";
+import omit from "lodash.omit";
+import startCase from "lodash.startcase";
+import React from "react";
+import { Column, FormatterProps } from "react-data-griddex";
+import { useSelector } from "react-redux";
+import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
+import ApexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData
+} from "../../Application/Components/Export/ExcelExportTable";
+import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
+import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import startCase from "lodash.startcase";
-import omit from "lodash.omit";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { useSelector } from "react-redux";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { Column } from "react-data-griddex";
 
 const ProductionStreamPrioritization = () => {
-  const wc = "storedDataWorkflows";
+  const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
 
-  const [prioritizationPerspective, setPrioritizationPerspective] =
-    React.useState("Production Prioritization");
+  const {
+    selectedTableData,
+    prioritizationPerspective,
+    selectedStreamPrioritization,
+  } = useSelector((state: RootState) => state.networkReducer);
+
+  const [prtznPerspective, setPrtznPerspective] = React.useState(
+    prioritizationPerspective
+  );
 
   const [streamOption, setStreamOption] = React.useState({
-    value: "oil",
-    label: "Oil",
+    value: camelCase(selectedStreamPrioritization),
+    label: capitalize(selectedStreamPrioritization),
   });
-
-  const selectedTableData = useSelector(
-    (state: RootState) =>
-      state.networkReducer[wc]["productionPrioritizationStored"]
-  );
-  console.log(
-    "Logged output --> ~ file: ProductionStreamPrioritization.tsx ~ line 34 ~ ProductionStreamPrioritization ~ selectedTableData",
-    selectedTableData
-  );
 
   const snSelectedTableData = selectedTableData.map(
     (row: IRawRow, i: number) => {
@@ -44,11 +51,6 @@ const ProductionStreamPrioritization = () => {
       return { sn: i + 1, ...rowFiltered };
     }
   );
-
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
 
   const [rows, setRows] = React.useState(snSelectedTableData);
 
@@ -75,18 +77,71 @@ const ProductionStreamPrioritization = () => {
 
   const ProductionPrioritization = () => {
     const columnKeys = Object.keys(snSelectedTableData[0]);
+
     const columns = columnKeys.map((k) => {
-      // const name = allHeadersNameTitleUniqueMap[k]?.toUpperCase();
+      const streamFormatter = ({ row }: FormatterProps<IRawRow, unknown>) => {
+        const optimizationWeight = row.optimizationWeight as string;
+        const optimizationOptions = [
+          { value: "high", label: "High" },
+          { value: "normal", label: "Normal" },
+          { value: "low", label: "Low" },
+        ];
+        const valueOption = {
+          value: camelCase(optimizationWeight),
+          label: capitalize(optimizationWeight),
+        };
+
+        return (
+          <ApexSelectRS
+            valueOption={valueOption as ISelectOption}
+            data={optimizationOptions}
+            handleSelect={(option: ValueType<ISelectOption, false>) => {
+              console.log(option);
+            }}
+            menuPortalTarget={dialogRef.current as HTMLDivElement}
+            isSelectOptionType={true}
+          />
+        );
+      };
 
       return {
         key: k,
-        // name: name ? name : startCase(k).toUpperCase(),
         name: startCase(k).toUpperCase(),
         editable: false,
         resizable: true,
-        minWidth: k.toLowerCase().trim() === "sn" ? 50 : 150,
+        formatter:
+          k.toLowerCase().trim() === "optimizationweight"
+            ? streamFormatter
+            : undefined,
+        width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
       };
     });
+
+    const exportColumns = columns
+      .filter(
+        (column) =>
+          !["actions", "select_control_key"].includes(column.key.toLowerCase())
+      )
+      .map((column) => ({
+        value: column.key,
+        label: column.name,
+      })) as IExcelSheetData<IRawRow>["columns"];
+
+    const exportTableProps = {
+      fileName: "productionPrioritization",
+      tableData: {
+        Template: {
+          data: snSelectedTableData,
+          columns: exportColumns,
+        },
+      },
+    } as IExcelExportTable<IRawRow>;
+
+    const tableButtons: ITableButtonsProps = {
+      showExtraButtons: true,
+      extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+    };
+
     return (
       <ApexFlexContainer>
         <SizeMe monitorHeight refreshRate={32}>
@@ -110,6 +165,16 @@ const ProductionStreamPrioritization = () => {
   const StreamPrioritization = () => {
     const streamPrioritizationData = [
       {
+        value: "none",
+        label: "None",
+        handleCheck: () => {
+          setStreamOption({
+            value: "none",
+            label: "None",
+          });
+        },
+      },
+      {
         value: "oil",
         label: "Oil",
         handleCheck: () => {
@@ -120,12 +185,12 @@ const ProductionStreamPrioritization = () => {
         },
       },
       {
-        value: "gas",
-        label: "Gas",
+        value: "non-associated gas",
+        label: "Non-Associated Gas",
         handleCheck: () => {
           setStreamOption({
-            value: "gas",
-            label: "Gas",
+            value: "non-associated gas",
+            label: "Non-Associated Gas",
           });
         },
       },
@@ -140,6 +205,7 @@ const ProductionStreamPrioritization = () => {
         },
       },
     ];
+
     return (
       <ApexFlexContainer>
         <ApexCheckbox
@@ -150,8 +216,8 @@ const ProductionStreamPrioritization = () => {
     );
   };
 
-  const renderPrioritization = (prioritizationPerspective: string) => {
-    switch (prioritizationPerspective) {
+  const renderPrioritization = (prtznPerspective: string) => {
+    switch (prtznPerspective) {
       case "Production Prioritization":
         return <ProductionPrioritization />;
 
@@ -167,7 +233,7 @@ const ProductionStreamPrioritization = () => {
   };
 
   return (
-    <ApexFlexContainer flexDirection="column">
+    <ApexFlexContainer ref={dialogRef} flexDirection="column">
       <AnalyticsComp
         title="Prioritization Perspective"
         direction="Vertical"
@@ -175,26 +241,47 @@ const ProductionStreamPrioritization = () => {
         content={
           <ToggleButtonGroup
             size="small"
-            value={prioritizationPerspective}
+            value={prtznPerspective}
             exclusive
             onChange={(_, value) => {
-              setPrioritizationPerspective(value);
+              setPrtznPerspective(value);
             }}
           >
-            <ToggleButton value="No Prioritization">
+            <ToggleButton
+              value="No Prioritization"
+              style={
+                prtznPerspective === "No Prioritization"
+                  ? { backgroundColor: theme.palette.primary.light }
+                  : {}
+              }
+            >
               {"No Prioritization"}
             </ToggleButton>
-            <ToggleButton value="Production Prioritization">
+            <ToggleButton
+              value="Production Prioritization"
+              style={
+                prtznPerspective === "Production Prioritization"
+                  ? { backgroundColor: theme.palette.primary.light }
+                  : {}
+              }
+            >
               {"Production Prioritization"}
             </ToggleButton>
-            <ToggleButton value="Stream Prioritization">
+            <ToggleButton
+              value="Stream Prioritization"
+              style={
+                prtznPerspective === "Stream Prioritization"
+                  ? { backgroundColor: theme.palette.primary.light }
+                  : {}
+              }
+            >
               {"Stream Prioritization"}
             </ToggleButton>
           </ToggleButtonGroup>
         }
       />
       <ApexFlexContainer moreStyles={{ marginTop: 20 }}>
-        {renderPrioritization(prioritizationPerspective)}
+        {renderPrioritization(prtznPerspective)}
       </ApexFlexContainer>
     </ApexFlexContainer>
   );

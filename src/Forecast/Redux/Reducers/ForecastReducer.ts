@@ -270,7 +270,7 @@ const forecastReducer = (
     case GET_TABLEDATABYID_SUCCESS: {
       const { reducer, selectedTableData } = action.payload;
 
-      if (reducer === "inputReducer") {
+      if (reducer === "forecastReducer") {
         const updatedState = set(state, "selectedTableData", selectedTableData);
         return updatedState;
       } else {

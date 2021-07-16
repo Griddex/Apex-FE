@@ -22,6 +22,10 @@ import { ITableButtonsProps } from "../Table/TableButtonsTypes";
 import { ReducersType } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
 import omit from "lodash.omit";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../Export/ExcelExportTable";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -110,11 +114,6 @@ const TableDataDialog = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const tableButtons: ITableButtonsProps = {
-    showExtraButtons: false,
-    extraButtons: () => <div></div>,
-  };
-
   const { title, show, maxWidth, iconType, actionsList, setRows, reducer } =
     props;
 
@@ -135,8 +134,7 @@ const TableDataDialog = (props: DialogStuff) => {
       return { sn: i + 1, ...rowFiltered };
     }
   );
-
-  const columnKeys = Object.keys(snSelectedTableData[1]);
+  const columnKeys = Object.keys(snSelectedTableData[0]);
   const columns = columnKeys.map((k) => {
     const name = allHeadersNameTitleUniqueMap[k]?.toUpperCase();
 
@@ -148,6 +146,31 @@ const TableDataDialog = (props: DialogStuff) => {
       minWidth: k.toLowerCase().trim() === "sn" ? 50 : 150,
     };
   });
+
+  const exportColumns = columns
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      value: column.key,
+      label: column.name,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: title,
+    tableData: {
+      Template: {
+        data: snSelectedTableData,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+  };
 
   return (
     <Dialog

@@ -259,7 +259,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case GET_TABLEDATABYID_SUCCESS: {
       const { reducer, selectedTableData } = action.payload;
 
-      if (reducer === "inputReducer") {
+      if (reducer === "economicsReducer") {
         const updatedState = set(state, "selectedTableData", selectedTableData);
         return updatedState;
       } else {

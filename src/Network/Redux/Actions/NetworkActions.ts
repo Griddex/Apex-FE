@@ -6,6 +6,7 @@ import {
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
 export const UPDATE_NETWORKPARAMETER = "UPDATE_NETWORKPARAMETER";
+export const UPDATE_NETWORK_PARAMETERS = "UPDATE_NETWORK_PARAMETERS";
 export const SET_CURRENTELEMENT = "SET_CURRENTELEMENT";
 export const PERSIST_NETWORKELEMENTS = "PERSIST_NETWORKELEMENTS";
 export const ADD_NETWORKELEMENT = "ADD_NETWORKELEMENT";
@@ -92,7 +93,6 @@ export const SAVE_PRODUCTIONPRIORITIZATION_FAILURE =
   "SAVE_PRODUCTIONPRIORITIZATION_FAILURE";
 export const RESET_NETWORK = "RESET_NETWORK";
 
-//STORED_PRODUCTIONPRIORITIZATION_REQUEST
 export const runForecastRequestAction = () => {
   return {
     type: RUN_FORECAST_REQUEST,
@@ -116,6 +116,17 @@ export const updateNetworkParameterAction = (name: string, value: any) => {
     payload: {
       name,
       value,
+    },
+  };
+};
+
+export const updateNetworkParametersAction = (
+  updateObj: Record<string, any>
+) => {
+  return {
+    type: UPDATE_NETWORK_PARAMETERS,
+    payload: {
+      updateObj,
     },
   };
 };
@@ -486,12 +497,17 @@ export const removeCurrentNetworkAction = (showSpinner: boolean) => {
 
 export const getDeclineParametersByIdRequestAction = (
   selectedDeclineParametersId: string,
+  wellDeclineParameterTitle: string,
   reducer: ReducersType
 ) => {
   return {
     type: GET_DECLINEPARAMETERSBYID_REQUEST,
-    payload: { selectedDeclineParametersId, reducer },
-    meta: { showSpinner: true, message: "fetching decline parameters..." },
+    payload: {
+      selectedDeclineParametersId,
+      wellDeclineParameterTitle,
+      reducer,
+    },
+    meta: { showSpinner: true, message: "Fetching decline parameters..." },
   };
 };
 
@@ -515,12 +531,20 @@ export const getDeclineParametersByIdFailureAction = () => {
 };
 
 export const getProductionPrioritizationByIdRequestAction = (
-  selectedProductionPrioritizationId: string
+  selectedProductionPrioritizationId: string,
+  selectedProductionPrioritizationTitle: string,
+  selectedRowIndex: number,
+  reducer: ReducersType
 ) => {
   return {
     type: GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
-    payload: { selectedProductionPrioritizationId },
-    meta: { showSpinner: true, message: "fetching prioritization data..." },
+    payload: {
+      selectedProductionPrioritizationId,
+      selectedProductionPrioritizationTitle,
+      selectedRowIndex,
+      reducer,
+    },
+    meta: { showSpinner: true, message: "Fetching prioritization data..." },
   };
 };
 

@@ -10,7 +10,7 @@ export const extrudeDialogParameters = (
     type: "productionStreamPrioritizationDialog",
     show: true,
     exclusive: false,
-    maxWidth: "xl",
+    maxWidth: "md",
     iconType: "information",
     selectedRowIndex,
     actionsList: () => DialogCancelButton(),

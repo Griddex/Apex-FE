@@ -11,6 +11,8 @@ import {
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
+import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -20,8 +22,8 @@ import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredProductionPrioritizationDialogParameters";
 import {
   getProductionPrioritizationByIdFailureAction,
-  getProductionPrioritizationByIdSuccessAction,
   GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
+  updateNetworkParametersAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchGetProductionPrioritizationByIdSaga(): Generator<
@@ -53,11 +55,13 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedProductionPrioritizationId } = yield select(
-    (state) => state.networkReducer
-  );
+  const {
+    selectedProductionPrioritizationId,
+    selectedProductionPrioritizationTitle,
+    selectedRowIndex,
+    reducer,
+  } = payload;
 
-  const reducer = "networkReducer";
   const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/${selectedProductionPrioritizationId}`;
 
   try {
@@ -67,8 +71,10 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
     );
 
     const {
-      data: { data: selectedTableData },
+      data: { data },
     } = productionPrioritizationResults;
+
+    const selectedTableData = data["wellPrioritizations"];
 
     const successAction = getTableDataByIdSuccessAction();
     yield put({
@@ -79,6 +85,29 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
         selectedTableData,
       },
     });
+
+    yield put(
+      updateNetworkParametersAction({
+        prioritizationPerspective: data["typeOfPrioritization"],
+        selectedStreamPrioritization: data["typeOfStream"],
+        useSecondaryFacility: data["useSecondaryFacility"],
+      })
+    );
+
+    const dialogParameters: DialogStuff = {
+      name: "Extrude_Prioritization_Parameters_Dialog",
+      title: selectedProductionPrioritizationTitle,
+      type: "productionStreamPrioritizationDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "md",
+      iconType: "information",
+      selectedRowIndex,
+      actionsList: () => DialogCancelButton(),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    yield put(showDialogAction(dialogParameters));
   } catch (errors) {
     const failureAction = getProductionPrioritizationByIdFailureAction();
 

@@ -522,6 +522,7 @@ export default function UnitSettings() {
                   }}
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerWidth={90}
                 />
                 <ApexSelectRS
                   valueOption={monthOption}
@@ -537,6 +538,7 @@ export default function UnitSettings() {
                   }}
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerWidth={90}
                 />
                 <ApexSelectRS
                   valueOption={yearOption}
@@ -552,6 +554,7 @@ export default function UnitSettings() {
                   }}
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerWidth={90}
                 />
 
                 <DateFormatter
@@ -589,10 +592,11 @@ export default function UnitSettings() {
                   }}
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerWidth={150}
                 />
                 <Input
                   name="numberFormatString"
-                  style={{ width: "100%" }}
+                  style={{ width: 80 }}
                   value={numberFormatStringValue}
                   onChange={(event: React.ChangeEvent<any>) => {
                     const { value } = event.target;
