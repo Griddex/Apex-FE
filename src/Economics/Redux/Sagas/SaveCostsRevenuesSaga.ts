@@ -109,7 +109,7 @@ function* saveCostsRevenuesSaga(
     variableUnits: appHeaderNameUnitsMap,
   };
 
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const saveCostsRevenuesAPI = (url: string) =>
     authService.post(url, data, config);
 

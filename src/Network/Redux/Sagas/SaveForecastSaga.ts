@@ -74,7 +74,7 @@ function* saveForecastSaga(
     forecastResultsKey: selectedForecastingResultsId,
   };
 
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const saveForecastAPI = (url: string) => authService.post(url, data, config);
 
   try {

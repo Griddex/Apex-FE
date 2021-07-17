@@ -75,7 +75,7 @@ function* createProjectSaga(
     pressureAddend,
     variableUnits: selectedVariableUnits,
   };
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const createProjectAPI = (url: string) => authService.post(url, data, config);
 
   try {

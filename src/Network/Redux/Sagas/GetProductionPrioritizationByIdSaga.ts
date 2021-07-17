@@ -40,7 +40,7 @@ export default function* watchGetProductionPrioritizationByIdSaga(): Generator<
   );
 }
 
-const config = { withCredentials: false };
+const config = { withCredentials: true };
 const getProductionPrioritizationByIdAPI = (url: string) =>
   authService.get(url, config);
 
