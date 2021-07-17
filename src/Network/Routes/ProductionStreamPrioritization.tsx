@@ -147,7 +147,7 @@ const ProductionStreamPrioritization = ({
     };
 
     return (
-      <ApexFlexContainer>
+      <ApexFlexContainer ref={dialogRef}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
             <ApexGrid<IRawRow, ITableButtonsProps>
@@ -237,7 +237,7 @@ const ProductionStreamPrioritization = ({
   };
 
   return (
-    <ApexFlexContainer ref={dialogRef} flexDirection="column">
+    <ApexFlexContainer flexDirection="column">
       <AnalyticsComp
         title="Prioritization Perspective"
         direction="Vertical"

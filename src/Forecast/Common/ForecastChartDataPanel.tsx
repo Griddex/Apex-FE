@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import { IForecastSelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import { IIdSelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
@@ -26,7 +26,7 @@ const ForecastChartDataPanel = () => {
     value: row.title,
     label: row.title,
     id: row.id,
-  })) as IForecastSelectOption[];
+  })) as IIdSelectOption[];
 
   forecastRunTitleOptions.unshift({
     value: "select",
@@ -46,27 +46,27 @@ const ForecastChartDataPanel = () => {
       : forecastRunTitleOptions[0];
 
   const [forecastRunOption, setForecastRunOption] =
-    React.useState<IForecastSelectOption>(
-      selectedForecastTitleOption as IForecastSelectOption
+    React.useState<IIdSelectOption>(
+      selectedForecastTitleOption as IIdSelectOption
     );
 
   const handleSelectForecastResultsChange = (
-    option: ValueType<IForecastSelectOption, false>
+    option: ValueType<IIdSelectOption, false>
   ) => {
-    setForecastRunOption(option as IForecastSelectOption);
+    setForecastRunOption(option as IIdSelectOption);
 
     dispatch(
       updateForecastResultsParameterAction(
         "selectedForecastingResultsId",
-        (option as IForecastSelectOption).id
+        (option as IIdSelectOption).id
       )
     );
-    // dispatch(fetchTreeviewKeysRequestAction("forecastResultsVisualytics"));
+
     dispatch(fetchTreeviewKeysRequestAction());
   };
 
   return (
-    <ChartDataPanel<IForecastSelectOption>
+    <ChartDataPanel<IIdSelectOption>
       selectLabel={"Forecast Results"}
       selectedOption={forecastRunOption}
       titleOptions={forecastRunTitleOptions}

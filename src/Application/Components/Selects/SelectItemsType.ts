@@ -12,7 +12,7 @@ export interface IAppUnitSelectOption<T = string, U = string, V = string> {
   label: U;
   unitId?: V;
 }
-export interface IForecastSelectOption<T = string, U = string, V = string> {
+export interface IIdSelectOption<T = string, U = string, V = string> {
   value: T;
   label: U;
   id: V;

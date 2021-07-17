@@ -1,14 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
-import SelectChart from "./SelectChart";
-import SelectChartDataPanel from "./SelectChartDataPanel";
-import FormatAggregator from "../Components/FormatAggregators/FormatAggregator";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ChartButtons from "../Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../Components/Menus/ChartButtonsTypes";
+import SelectChart from "./SelectChart";
+import SelectChartDataPanel from "./SelectChartDataPanel";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -77,7 +76,7 @@ const Visualytics = () => {
         </div>
       </div>
       {showContextDrawer && (
-        <ContextDrawer>{() => <FormatAggregator />}</ContextDrawer>
+        <ContextDrawer>{() => <div>Format</div>}</ContextDrawer>
       )}
     </div>
   );
