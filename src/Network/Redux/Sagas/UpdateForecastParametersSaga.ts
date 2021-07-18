@@ -85,7 +85,7 @@ function* updateForecastParametersSaga(
     },
   };
 
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const updateForecastParametersAPI = (url: string) =>
     authService.post(url, data, config);
   const status = ""; //Get from success response

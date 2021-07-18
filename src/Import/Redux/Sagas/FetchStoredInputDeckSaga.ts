@@ -33,7 +33,7 @@ export default function* watchFetchStoredInputDeckSaga(): Generator<
   yield takeLeading(storedInputDeckChan, fetchStoredInputDeckSaga);
 }
 
-const config = { withCredentials: false };
+const config = { withCredentials: true };
 const fetchStoredInputDeckAPI = (url: string) => authService.get(url, config);
 
 function* fetchStoredInputDeckSaga(action: IAction): Generator<
