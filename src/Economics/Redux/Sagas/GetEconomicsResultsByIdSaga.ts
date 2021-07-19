@@ -38,7 +38,7 @@ export default function* watchGetEconomicsResultsByIdSaga(): Generator<
   yield takeLeading(getEconomicsResultsByIdChan, getEconomicsResultsByIdSaga);
 }
 
-const config = { withCredentials: false };
+const config = { withCredentials: true };
 const getEconomicsResultsByIdAPI = (url: string) =>
   authService.get(url, config);
 

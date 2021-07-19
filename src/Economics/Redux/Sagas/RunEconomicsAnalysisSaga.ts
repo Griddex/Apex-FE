@@ -86,7 +86,7 @@ function* runEconomicsAnalysisSaga(
     forecastScenarioAnalysis,
   };
 
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const runEconomicsAnalysisAPI = (url: string) =>
     authService.post(url, data, config);
 

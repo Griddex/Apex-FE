@@ -63,7 +63,7 @@ function* registerSaga(
     email,
     password,
   };
-  const config = { withCredentials: false };
+  const config = { withCredentials: true };
   const registerAPI = (url: string) => authService.post(url, data, config);
 
   try {

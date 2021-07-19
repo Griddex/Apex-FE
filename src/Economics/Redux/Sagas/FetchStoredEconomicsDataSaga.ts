@@ -35,7 +35,7 @@ export default function* watchFetchStoredEconomicsDataSaga(): Generator<
   yield takeLeading(storedEconomicsDataChan, fetchStoredEconomicsDataSaga);
 }
 
-const config = { withCredentials: false };
+const config = { withCredentials: true };
 const fetchStoredEconomicsDataAPI = (url: string) =>
   authService.get(url, config);
 

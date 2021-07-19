@@ -38,7 +38,7 @@ export default function* watchFetchStoredEconomicsResultsSaga(): Generator<
   );
 }
 
-const config = { withCredentials: false };
+const config = { withCredentials: true };
 const fetchStoredEconomicsResultsAPI = (url: string) =>
   authService.get(url, config);
 
