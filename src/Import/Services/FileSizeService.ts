@@ -1,6 +1,6 @@
 import MSExcel from "../Images/MSExcel.svg";
 
-const FileSizeService = (fileType) => {
+const fileSizeService = (fileType: string) => {
   switch (fileType) {
     case ".xls":
       return MSExcel;
@@ -10,4 +10,4 @@ const FileSizeService = (fileType) => {
   }
 };
 
-export default FileSizeService;
+export default fileSizeService;

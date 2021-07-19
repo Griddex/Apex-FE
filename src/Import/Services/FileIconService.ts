@@ -1,7 +1,7 @@
 import MSExcel from "../Images/MSExcel.svg";
 import Notepad from "../Images/Notepad.svg";
 
-const FileIconService = (fileType) => {
+const fileIconService = (fileType: string) => {
   switch (fileType) {
     case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
       return MSExcel;
@@ -13,4 +13,4 @@ const FileIconService = (fileType) => {
   }
 };
 
-export default FileIconService;
+export default fileIconService;

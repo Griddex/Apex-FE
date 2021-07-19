@@ -1,6 +1,10 @@
 import zipObject from "lodash.zipobject";
+import { IRawRow } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 
-const generateColumnNameInfo = (rawTableHeaders, cleanTableData) => {
+const generateColumnNameInfo = (
+  rawTableHeaders: string[],
+  cleanTableData: IRawRow[]
+) => {
   //Generate interim ColumnHeaders
   const columnNameTableHeaders = rawTableHeaders.map((_, i) => `Column_${i}`);
 

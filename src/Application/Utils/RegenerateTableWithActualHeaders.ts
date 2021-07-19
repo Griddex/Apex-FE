@@ -1,6 +1,10 @@
 import zipobject from "lodash.zipobject";
+import { IRawRow } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 
-const regenerateTableWithActualHeaders = (tableData, tableHeaders) => {
+const regenerateTableWithActualHeaders = (
+  tableData: IRawRow[],
+  tableHeaders: string[]
+) => {
   //Re-create table data by using interim headers
   const regeneratedTableData = tableData.map((row) => {
     const rowValues = Object.values(row);
