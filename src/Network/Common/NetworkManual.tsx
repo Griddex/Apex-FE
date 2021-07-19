@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { useSnackbar } from "notistack";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
@@ -20,11 +19,10 @@ import ReactFlow, {
   removeElements,
   XYPosition,
 } from "react-flow-renderer";
+import mergeRefs from "react-merge-refs";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
-import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import composeRefs from "../../Application/Utils/ComposeRefs";
 import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
 import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
 import {
@@ -39,12 +37,11 @@ import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
 import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
 import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
-import WellheadNode from "../Components/Widgets/WellheadWidget";
-import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
-import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import WellheadSummaryNode from "../Components/Widgets/WellheadSummaryWidget";
+import WellheadNode from "../Components/Widgets/WellheadWidget";
 import { setCurrentElementAction } from "../Redux/Actions/NetworkActions";
 import GenerateNodeService from "../Services/GenerateNodeService";
+import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
 
@@ -232,7 +229,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
             <NetworkPanel />
           </div>
           <div
-            ref={composeRefs(drop, networkRef)}
+            ref={mergeRefs([drop, networkRef])}
             style={dropTargetStyle}
             className={classes.networkContent}
           >

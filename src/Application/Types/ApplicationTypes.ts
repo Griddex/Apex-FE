@@ -133,3 +133,12 @@ export interface IVariableNameTitle {
 export type TVariableNameTitleData = IVariableNameTitle[];
 
 export type TUseState<T> = React.Dispatch<React.SetStateAction<T>>;
+
+export type TApexRowData =
+  | boolean
+  | React.Key
+  | string[]
+  | Record<string, React.Key>
+  | Record<string, React.Key>[];
+
+export type TApexData = string[] | Record<string, TApexRowData>[];

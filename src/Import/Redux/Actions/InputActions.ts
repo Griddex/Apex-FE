@@ -6,6 +6,7 @@ import {
   IAllWorkflows,
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TApexData } from "../../../Application/Types/ApplicationTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
 export const RESET_INPUT = "RESET_INPUT";
@@ -268,7 +269,7 @@ export const persistTableDataAction = (
 
 export const persistColumnNameTableDataAction = (
   reducer: ReducersType,
-  columnNameTableData: Record<string, React.Key>[],
+  columnNameTableData: TApexData,
   workflowProcess: IAllWorkflows["wrkflwPrcss"]
 ) => {
   return {

@@ -24,7 +24,6 @@ import { ValueType } from "react-select";
 import ApexSelectRS from "../../Selects/ApexSelectRS";
 import { ISelectOption } from "../../Selects/SelectItemsType";
 import TableButtons from "../TableButtons";
-import composeRefs, { mergeRefs } from "./../../../Utils/ComposeRefs";
 import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 
