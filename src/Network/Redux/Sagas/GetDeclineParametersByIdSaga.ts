@@ -35,7 +35,7 @@ export default function* watchGetDeclineParametersByIdSaga(): Generator<
   yield takeLeading(getDeclineParametersByIdChan, getDeclineParametersByIdSaga);
 }
 
-const config = { withCredentials: true };
+const config = { withCredentials: false };
 const getDeclineParametersByIdAPI = (url: string) =>
   authService.get(url, config);
 

@@ -37,7 +37,7 @@ export default function* watchFetchStoredForecastingResultsSaga(): Generator<
   );
 }
 
-const config = { withCredentials: true };
+const config = { withCredentials: false };
 const fetchStoredForecastingResultsAPI = (url: string) =>
   authService.get(url, config);
 
