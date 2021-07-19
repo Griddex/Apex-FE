@@ -8,6 +8,7 @@ import { Route, Switch } from "react-router-dom";
 import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
 import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
 import useExitPrompt from "../Hooks/UseExitPrompt";
+import NotFnd from "../Routes/Challenges/NotFnd";
 import ProtectedRoute from "../Routes/ProtectedRoute";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
@@ -82,7 +83,7 @@ const App = () => {
                 roles={["Officer", "Admin"]}
                 component={Layout}
               />
-              <Route component={() => <h1>Not Found</h1>} />
+              <Route component={NotFnd} />
             </Switch>
           </Suspense>
         </DndProvider>

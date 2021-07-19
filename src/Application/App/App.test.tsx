@@ -2,7 +2,6 @@ import React from "react";
 import { render, waitFor, cleanup } from "@testing-library/react";
 import App from "./App";
 import { Router } from "react-router-dom";
-// import history from "./../Services/HistoryService";
 import { createMemoryHistory } from "history";
 import { CssBaseline } from "@material-ui/core";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -13,22 +12,21 @@ import { store } from "../Redux/Store/Store";
 import DateFnsUtils from "@date-io/date-fns";
 
 const history = createMemoryHistory();
+const RootApp = (
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Router history={history}>
+          <CssBaseline />
+          <App />
+        </Router>
+      </MuiPickersUtilsProvider>
+    </ThemeProvider>
+  </Provider>
+);
 afterEach(cleanup);
 
 describe("Tests the root component <App/>", () => {
-  const RootApp = (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Router history={history}>
-            <CssBaseline />
-            <App />
-          </Router>
-        </MuiPickersUtilsProvider>
-      </ThemeProvider>
-    </Provider>
-  );
-
   test("renders <App/> without errors", async () => {
     const { getByText } = render(RootApp);
     const mottoElement = await waitFor(() =>
