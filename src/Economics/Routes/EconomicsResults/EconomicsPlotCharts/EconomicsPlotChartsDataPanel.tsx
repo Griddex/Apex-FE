@@ -1,52 +1,14 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import { IIdSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-  chartSelect: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "10%",
-    border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-  treeViewPanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    height: "100%",
-    // border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
-
 const EconomicsPlotChartsDataPanel = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const wc = "storedDataWorkflows";
   const { economicsResultsStored } = useSelector(
@@ -56,32 +18,43 @@ const EconomicsPlotChartsDataPanel = () => {
     (state: RootState) => state.economicsReducer
   );
 
-  const economicsResultsTitles = economicsResultsStored.map(
-    (row: IApplicationStoredDataRow) => row.title
-  ) as string[];
-  const economicsResultsTitleOptions = generateSelectOptions(
-    economicsResultsTitles
-  );
-  const initialEconomicsResultsTitleOption =
+  const economicsResultsTitleOptions = economicsResultsStored.map(
+    (row: any) => ({
+      value: row.title,
+      label: row.title,
+      id: row.id,
+    })
+  ) as IIdSelectOption[];
+
+  economicsResultsTitleOptions.unshift({
+    value: "select",
+    label: "Select...",
+    id: "",
+  });
+
+  const selectedEconomicsResultsTitleOption =
     selectedEconomicsResultsTitle !== ""
-      ? selectedEconomicsResultsTitle
+      ? {
+          value: selectedEconomicsResultsTitle,
+          label: selectedEconomicsResultsTitle,
+          id: (economicsResultsTitleOptions as IIdSelectOption[]).filter(
+            (o) => o.label === selectedEconomicsResultsTitle
+          )[0].id,
+        }
       : economicsResultsTitleOptions[0];
 
   const [economicsResultTitleOption, setEconomicsResultTitleOption] =
-    React.useState(initialEconomicsResultsTitleOption);
-  const firstRender = React.useRef(true);
+    React.useState<IIdSelectOption>(
+      selectedEconomicsResultsTitleOption as IIdSelectOption
+    );
 
   const handleSelectEconomicsResultsChange = (
-    option: ValueType<ISelectOption, false>
+    option: ValueType<IIdSelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option);
+    setEconomicsResultTitleOption(option as IIdSelectOption);
 
     dispatch(fetchTreeviewKeysRequestAction());
   };
-
-  React.useEffect(() => {
-    firstRender.current = false;
-  }, []);
 
   return (
     <ChartDataPanel

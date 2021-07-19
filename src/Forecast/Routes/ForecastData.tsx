@@ -19,7 +19,7 @@ import ExcelExportTable, {
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import {
-  IForecastSelectOption,
+  IIdSelectOption,
   ISelectOption,
 } from "../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -85,7 +85,6 @@ export default function ForecastData({
 }: IForecastRoutes) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const wp = wrkflwPrcss as NonNullable<IStoredDataProps["wkPs"]>;
   const { selectedForecastData } = useSelector(
@@ -330,7 +329,7 @@ export default function ForecastData({
     value: row.title,
     label: row.title,
     id: row.id,
-  })) as IForecastSelectOption[];
+  })) as IIdSelectOption[];
 
   forecastRunTitleOptions.unshift({
     value: "select",
@@ -350,8 +349,8 @@ export default function ForecastData({
       : forecastRunTitleOptions[0];
 
   const [forecastRunOption, setForecastRunOption] =
-    React.useState<IForecastSelectOption>(
-      selectedForecastTitleOption as IForecastSelectOption
+    React.useState<IIdSelectOption>(
+      selectedForecastTitleOption as IIdSelectOption
     );
 
   const exportColumns = generateColumns()
@@ -397,18 +396,16 @@ export default function ForecastData({
           direction="Vertical"
           containerStyle={{ width: "100%" }}
           content={
-            <ApexSelectRS<IForecastSelectOption>
+            <ApexSelectRS<IIdSelectOption>
               valueOption={forecastRunOption}
               data={forecastRunTitleOptions}
-              handleSelect={(
-                option: ValueType<IForecastSelectOption, false>
-              ) => {
-                setForecastRunOption(option as IForecastSelectOption);
+              handleSelect={(option: ValueType<IIdSelectOption, false>) => {
+                setForecastRunOption(option as IIdSelectOption);
 
                 dispatch(
                   updateForecastResultsParameterAction(
                     "selectedForecastingResultsId",
-                    (option as IForecastSelectOption).id
+                    (option as IIdSelectOption).id
                   )
                 );
                 dispatch(
