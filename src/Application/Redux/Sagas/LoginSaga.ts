@@ -53,10 +53,6 @@ function* loginSaga(
 
   try {
     const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
-    // const response = yield call(
-    //   loginAPI,
-    //   "https://gorest.co.in/public-api/users"
-    // );
 
     const { status } = response;
 
