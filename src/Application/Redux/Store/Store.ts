@@ -113,9 +113,12 @@ const persistConfig = {
 const store = createStore(
   rootReducer,
   composeWithDevTools(
-    // applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
-    // applyMiddleware(authMiddleware, sagaMiddleware)
-    applyMiddleware(uiSpinnerMiddleware, economicsMiddleware, sagaMiddleware)
+    applyMiddleware(
+      uiSpinnerMiddleware,
+      authMiddleware,
+      economicsMiddleware,
+      sagaMiddleware
+    )
   )
 );
 

@@ -49,7 +49,7 @@ function* fetchStoredProjectsSaga(
 > {
   const { payload } = action;
 
-  const config = { withCredentials: true };
+  const config = {};
   const fetchStoredProjectsAPI = (url: string) => authService.get(url, config);
 
   try {

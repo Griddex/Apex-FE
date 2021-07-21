@@ -137,7 +137,7 @@ function* saveEconomicsParametersSaga(
     matchObject,
   };
 
-  const config = { withCredentials: true };
+  const config = {};
   const saveEconomicsParametersAPI = (url: string) =>
     authService.post(url, data, config);
 

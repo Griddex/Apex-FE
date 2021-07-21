@@ -108,7 +108,7 @@ function updateTreeAndKeys(url: string) {
       method: "GET",
       headers: { "Content-Type": "application/json; charset=utf-8" },
       disableContentType: true,
-      withCredentials: true,
+      ,
       success: function (chunk) {
         emitter(chunk);
       },

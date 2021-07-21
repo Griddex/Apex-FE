@@ -43,9 +43,7 @@ function* fetchMatchObjectSaga(
 > {
   const { payload } = action;
 
-  const config = {
-    withCredentials: true,
-  };
+  const config = {};
   const fetchMatchObjectAPI = (url: string) => authService.get(url, config);
 
   try {

@@ -51,7 +51,7 @@ function* connectDatabaseSaga(
     title: userName,
     body: password,
   };
-  const config = { withCredentials: true };
+  const config = {};
   const connectDatabaI = (url: string) => authService.post(url, data, config);
   const status = "";
 

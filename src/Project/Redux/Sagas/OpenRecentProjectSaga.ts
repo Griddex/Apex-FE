@@ -62,7 +62,7 @@ function* openRecentProjectSaga(
     ? projectTitle
     : selectedProjectTitle;
 
-  const config = { withCredentials: true };
+  const config = {};
   const openRecentProjectAPI = (url: string) => authService.get(url, config);
 
   const message = `Loading ${projectTitle}...`;

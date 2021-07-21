@@ -54,7 +54,7 @@ function* saveForecastParametersSaga(
   const { forecastingParametersObj } = payload;
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
-  const config = { withCredentials: true };
+  const config = {};
   const saveForecastParametersAPI = (url: string) =>
     authService.post(url, forecastingParametersObj, config);
 

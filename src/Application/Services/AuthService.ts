@@ -1,47 +1,23 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-axios.defaults.withCredentials = true;
-axios.interceptors.request.use(
-  (config) => {
-    console.log(
-      "Logged output --> ~ file: AuthService.ts ~ line 5 ~ config",
-      config
-    );
-    return config;
-  },
-  (error) => {
-    console.log(
-      "Logged output --> ~ file: AuthService.ts ~ line 8 ~ error",
-      error
-    );
-    return Promise.reject(error);
-  }
-);
+const token = sessionStorage.getItem("token");
+const headers = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
+  "Accept-Language": "en-US, en;q=0.8",
+  Authorization: `Bearer ${token}`,
+};
 
-axios.interceptors.response.use(
-  (reponse) => {
-    console.log(
-      "Logged output --> ~ file: AuthService.ts ~ line 5 ~ reponse",
-      reponse
-    );
-    return reponse;
-  },
-  (error) => {
-    console.log(
-      "Logged output --> ~ file: AuthService.ts ~ line 8 ~ error",
-      error
-    );
-    return Promise.reject(error);
-  }
-);
 export const post = (url: string, data: any, config: AxiosRequestConfig) => {
-  return axios.post(url, data, config);
+  if (url.endsWith("/signin"))
+    return axios.post(url, data, { ...config, ...headers });
+  else return axios.post(url, data, config);
 };
 
 export const get = (url: string, config: AxiosRequestConfig) => {
-  return axios.get(url, config);
+  return axios.get(url, { ...config, ...headers });
 };
 
 export const deleteData = (url: string, config: AxiosRequestConfig) => {
-  return axios.delete(url, config);
+  return axios.delete(url, { ...config, ...headers });
 };

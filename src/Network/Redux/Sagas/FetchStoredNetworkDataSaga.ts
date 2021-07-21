@@ -36,7 +36,7 @@ export default function* watchFetchStoredNetworkDataSaga(): Generator<
 
 type AxiosPromise = ReturnType<typeof fetchStoredInputDeckAPI>;
 
-const config = { withCredentials: true };
+const config = {};
 const fetchStoredInputDeckAPI = (url: string) => authService.get(url, config);
 
 function* fetchStoredNetworkDataSaga(

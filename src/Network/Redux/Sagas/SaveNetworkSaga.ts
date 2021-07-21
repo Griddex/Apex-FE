@@ -80,7 +80,7 @@ function* saveNetworkSaga(
     edges: edgeElements,
   };
 
-  const config = { withCredentials: true };
+  const config = {};
   const saveNetworkAPI = (url: string) => authService.post(url, data, config);
 
   try {

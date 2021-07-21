@@ -41,7 +41,7 @@ export default function* watchFetchStoredProductionPrioritizationSaga(): Generat
 
 type AxiosPromise = ReturnType<typeof fetchStoredProductionPrioritizationAPI>;
 
-const config = { withCredentials: true };
+const config = {};
 const fetchStoredProductionPrioritizationAPI = (url: string) =>
   authService.get(url, config);
 

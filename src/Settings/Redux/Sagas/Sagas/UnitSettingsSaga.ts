@@ -56,7 +56,7 @@ function* fetchUnitSettingsSaga(
 > {
   const { payload } = action;
 
-  const config = { withCredentials: true };
+  const config = {};
   const fetchUnitSettingsAPI = (url: string) => authService.get(url, config);
 
   try {

@@ -68,7 +68,7 @@ function* saveEconomicsResultsSaga(
     description,
   };
 
-  const config = { withCredentials: true };
+  const config = {};
   const saveEconomicsResultsAPI = (url: string) =>
     authService.post(url, data, config);
 

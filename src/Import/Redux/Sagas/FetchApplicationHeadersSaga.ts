@@ -43,7 +43,7 @@ export default function* watchFetchApplicationHeadersSaga(): Generator<
   yield takeLeading(appHeadersChan, fetchApplicationHeadersSaga);
 }
 
-const config = { withCredentials: true };
+const config = {};
 const fetchHeadersAPI = (url: string) => authService.get(url, config);
 const facilitiesUrl = `${getBaseForecastUrl()}/facilities-inputdeck/facilitiesInputHeaders`;
 const forecastUrl = `${getBaseForecastUrl()}/forecast-inputdeck/forecastInputHeaders`;
