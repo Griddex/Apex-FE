@@ -10,9 +10,10 @@ const headers = {
 };
 
 export const post = (url: string, data: any, config: AxiosRequestConfig) => {
-  if (url.endsWith("/signin"))
-    return axios.post(url, data, { ...config, ...headers });
-  else return axios.post(url, data, config);
+  // if (url.endsWith("/signin"))
+  //   return axios.post(url, data, { ...config, ...headers });
+  //   else return axios.post(url, data, config);
+  return axios.post(url, data, { ...config, ...headers });
 };
 
 export const get = (url: string, config: AxiosRequestConfig) => {
