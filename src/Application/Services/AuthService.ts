@@ -13,6 +13,24 @@ const apexAxios = axios.create({
   headers,
 });
 
+apexAxios.interceptors.request.use(
+  (config) => {
+    console.log(
+      "Logged output --> ~ file: AuthService.ts ~ line 17 ~ config",
+      config
+    );
+
+    return config;
+  },
+  (err) => {
+    console.log(
+      "Logged output --> ~ file: AuthService.ts ~ line 21 ~ err",
+      err
+    );
+    return Promise.reject();
+  }
+);
+
 export const post = (url: string, data: any, config: AxiosRequestConfig) => {
   // if (url.endsWith("/signin"))
   //   return axios.post(url, data, { ...config, ...headers });
