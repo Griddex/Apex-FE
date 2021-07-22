@@ -14,7 +14,7 @@ apexAxios.interceptors.request.use(
       ...config,
       headers: {
         ...config.headers,
-        "X-Access-Token": localStorage.getItem("token"),
+        "X-Access-Token": sessionStorage.getItem("token"),
       },
     };
     console.log(
