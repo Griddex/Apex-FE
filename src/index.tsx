@@ -22,7 +22,7 @@ async function prepare() {
     const { worker } = await import("./mocks/browser");
     // const { server } = await import("./Mocks/Server");
 
-    worker.start();
+    // worker.start();
     // server.listen();
   }
   return Promise.resolve();
