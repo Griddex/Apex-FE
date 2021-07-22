@@ -5,7 +5,8 @@ const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
   "Accept-Language": "en-US, en;q=0.8",
-  Authorization: `Bearer ${token}`,
+  // Authorization: `Bearer ${token}`,
+  "X-Access-Token": token,
 };
 
 export const post = (url: string, data: any, config: AxiosRequestConfig) => {

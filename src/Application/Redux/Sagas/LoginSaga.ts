@@ -52,7 +52,8 @@ function* loginSaga(
 
   try {
     const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
-    const { status, token } = response;
+    const { status, data } = response;
+    const token = data["access-token"];
     sessionStorage.setItem("token", token);
 
     if (status === 200) {
