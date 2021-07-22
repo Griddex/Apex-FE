@@ -1,13 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-// const apexAxios = axios.create({
-//   headers: {
-//     Accept: "application/json",
-//     "Content-Type": "application/json",
-//     "Accept-Language": "en-US, en;q=0.8",
-//   },
-// });
-
 axios.interceptors.request.use(
   (config) => {
     const newConfig = {
