@@ -84,7 +84,7 @@ const UserProfile = () => {
           color: "primary",
           startIcon: <DoneOutlinedIcon />,
           handleAction: () => {
-            sessionStorage.clear();
+            localStorage.clear();
             localStorage.clear();
             history.replace("/");
             dispatch(unloadDialogsAction());
