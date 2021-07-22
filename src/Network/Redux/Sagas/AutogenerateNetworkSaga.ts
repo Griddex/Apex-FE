@@ -130,7 +130,6 @@ function updateNodesAndEdges(url: string, reqPayload: any) {
       data: JSON.stringify(reqPayload),
       headers: { "Content-Type": "application/json; charset=utf-8" },
       disableContentType: true,
-      ,
       success: function (chunk) {
         emitter(chunk);
       },

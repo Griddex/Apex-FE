@@ -139,7 +139,6 @@ function updateForecastKeysAndTrees(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
-      ,
       success: function (chunk) {
         emitter(chunk);
       },
