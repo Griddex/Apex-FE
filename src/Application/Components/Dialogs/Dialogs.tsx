@@ -37,6 +37,7 @@ import ProductionStreamPrioritizationDialog from "../../../Network/Components/Di
 import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
 import DeleteDataDialog from "./DeleteDataDialog";
+import SnapshotDialog from "./SnapshotDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -84,6 +85,8 @@ const applicationDialogs: IApplicationDialogs = {
   storedDeclineCurveParametersDialog: StoredDeclineCurveParametersDialog,
   storedProductionStreamPrioritizationDialog:
     StoredProductionStreamPrioritizationDialog,
+
+  snapshotDialog: SnapshotDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

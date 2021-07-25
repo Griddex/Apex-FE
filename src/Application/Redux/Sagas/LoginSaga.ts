@@ -52,17 +52,16 @@ function* loginSaga(
   yield put(showSpinnerAction("Logging in..."));
 
   try {
-    const { status, data } = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    // const { data } = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    // const token = data["access-token"];
+    // sessionStorage.setItem("token", token);
 
-    const token = data["access-token"];
+    const response = yield call(
+      loginAPI,
+      "https://gorest.co.in/public-api/users"
+    );
 
-    localStorage.setItem("token", token);
-    // const response = yield call(
-    //   loginAPI,
-    //   "https://gorest.co.in/public-api/users"
-    // );
-
-    // const { status } = response;
+    const { status } = response;
 
     if (status === 200) {
       yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });

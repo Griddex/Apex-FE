@@ -1,21 +1,13 @@
-import React from "react";
-import {
-  render,
-  waitFor,
-  cleanup,
-  RenderOptions,
-} from "@testing-library/react";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
-import { CssBaseline } from "@material-ui/core";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { ThemeProvider } from "@material-ui/core";
-import { Provider } from "react-redux";
 import DateFnsUtils from "@date-io/date-fns";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { render, RenderOptions } from "@testing-library/react";
+import { createMemoryHistory } from "history";
+import React from "react";
+import { Provider } from "react-redux";
+import { Router } from "react-router-dom";
 import { store } from "../Redux/Store/Store";
 import theme from "../Theme/Theme";
-
-// type TChildren
 
 const history = createMemoryHistory();
 const ApexProviders: React.FC = ({ children }) => {

@@ -46,6 +46,7 @@ import ProductionStreamPrioritizationDialog from "../../../Network/Components/Di
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
 import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
 import DeleteDataDialog from "./DeleteDataDialog";
+import SnapshotDialog from "./SnapshotDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -87,6 +88,8 @@ export interface IApplicationDialogs {
 
   storedDeclineCurveParametersDialog: typeof StoredDeclineCurveParametersDialog;
   storedProductionStreamPrioritizationDialog: typeof StoredProductionStreamPrioritizationDialog;
+
+  snapshotDialog: typeof SnapshotDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -143,7 +146,8 @@ export interface DialogStuff<TRow = IRawRow> {
     | "deleteDataDialog"
     | "saveEconomicsResultsDialog"
     | "storedDeclineCurveParametersDialog"
-    | "storedProductionStreamPrioritizationDialog";
+    | "storedProductionStreamPrioritizationDialog"
+    | "snapshotDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -171,12 +175,13 @@ export interface DialogStuff<TRow = IRawRow> {
   setRows?: TUseState<any>;
   showCategories?: boolean;
   setShowCategories?: TUseState<boolean>;
-  apexEditorProps?: IApexEditor;
+  apexEditorProps?: Partial<IApexEditor>;
   apexEditorComponent?: React.FC<any>;
   isCustomComponent?: boolean;
   forecastParametersIndex?: number;
   initialState?: any;
   deleteTitle?: string;
+  snapshot?: any;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

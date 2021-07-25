@@ -143,9 +143,8 @@ theme.overrides = {
       // width: 80,
     },
     arrow: {
-      backgroundColor: "white",
+      // backgroundColor: "white",
       color: "white",
-      boxShadow: theme.shadows[2],
     },
   },
   MuiDialogTitle: { root: { padding: theme.spacing(1) } },

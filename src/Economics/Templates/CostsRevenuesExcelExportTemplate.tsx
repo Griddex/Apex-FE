@@ -7,7 +7,7 @@ const CostsRevenuesExcelExportTemplate = () => {
   return (
     <IconButtonWithTooltip
       toolTipKey="exportTemplateToolTip"
-      toolTipTitle="Export Import Template"
+      toolTipTitle="Template"
       toolTipPlacement="bottom-end"
       icon={() => {
         const ExcelFile = ReactExport.ExcelFile;

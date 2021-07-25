@@ -4,6 +4,7 @@ import { ReducersType } from "../../Components/Workflows/WorkflowTypes";
 import { IAction } from "./ActionTypes";
 
 export const UPDATE_APPLICATION = "UPDATE_APPLICATION";
+export const PUT_DATA = "PUT_DATA";
 export const PERSIST_TITLES = "PERSIST_TITLES";
 export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const SET_MAINDRAWERMENU = "SET_MAINDRAWERMENU";
@@ -33,6 +34,15 @@ export const updateApplicationParameterAction = (
     type: UPDATE_APPLICATION,
     payload: {
       nameOrPath,
+      value,
+    },
+  };
+};
+
+export const putDataAction = (value: any) => {
+  return {
+    type: PUT_DATA,
+    payload: {
       value,
     },
   };

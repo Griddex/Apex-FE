@@ -1,22 +1,22 @@
-import { DialogActions } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
+import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { putDataAction } from "../../Redux/Actions/ApplicationActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import ApexEditor, { IApexEditor } from "../Editors/ApexEditor";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { DialogStuff } from "./DialogTypes";
+import Image from "../Visuals/Image";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useDialogTitleStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    width: "5%",
+    marginRight: 5,
     height: "100%",
   },
   dialogTitle: {
@@ -51,16 +51,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderRadius: 0,
     },
   },
-  table: {
-    width: "100%",
-    height: "100%",
-    padding: 20,
-  },
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const classes = useDialogTitleStyles(props);
   const dispatch = useDispatch();
-  const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
   return (
@@ -69,9 +64,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
         </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
+        <div className={classes.dialogTitle}>{children}</div>
         {onClose ? (
           <IconButton
             className={classes.closeButton}
@@ -99,35 +92,23 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const TableEditorDialog = (props: DialogStuff) => {
+const DialogActions = withStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1.5),
+  },
+}))(MuiDialogActions);
+
+const SnapshotDialog: React.FC<DialogStuff> = ({
+  title,
+  show,
+  maxWidth,
+  iconType,
+  snapshot,
+  actionsList,
+  dialogContentStyle,
+}) => {
   const dispatch = useDispatch();
-
-  const {
-    title,
-    show,
-    maxWidth,
-    iconType,
-    actionsList,
-    isCustomComponent,
-    apexEditorProps,
-    apexEditorComponent,
-  } = props;
-
-  const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
-  const { editedRow } = apexEditorPropsDefined;
-  const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
-  console.log(
-    "Logged output --> ~ file: TableEditorDialog.tsx ~ line 119 ~ TableEditorDialog ~ formEditorRow",
-    formEditorRow
-  );
-
-  const ApexEditorComponent = apexEditorComponent as NonNullable<
-    DialogStuff["apexEditorComponent"]
-  >;
-
-  const shouldUpdateAction = () => {
-    dispatch(putDataAction(formEditorRow));
-  };
 
   return (
     <Dialog
@@ -135,35 +116,20 @@ const TableEditorDialog = (props: DialogStuff) => {
       open={show as boolean}
       maxWidth={maxWidth}
       fullWidth
+      style={{ padding: 0 }}
     >
       <DialogTitle
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{title}</div>
+        <Typography variant="h6">{title}</Typography>
       </DialogTitle>
-      <DialogContent
-        dividers
-        style={{ display: "flex", flexDirection: "column", height: 650 }}
-      >
-        {(isCustomComponent as boolean) ? (
-          <ApexEditorComponent
-            formEditorRow={formEditorRow}
-            setFormEditorRow={setFormEditorRow}
-          />
-        ) : (
-          <ApexEditor
-            {...apexEditorPropsDefined}
-            formEditorRow={formEditorRow}
-            setFormEditorRow={setFormEditorRow}
-          />
-        )}
+      <DialogContent dividers style={dialogContentStyle}>
+        <Image src={snapshot} height={"100%"} width={"100%"} alt="snapshot" />
+        <Divider />
       </DialogContent>
-      <DialogActions>
-        {actionsList && actionsList(shouldUpdateAction)}
-      </DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
-
-export default TableEditorDialog;
+export default SnapshotDialog;

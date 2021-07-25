@@ -29,6 +29,7 @@ import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -620,16 +621,21 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           type IsMulti = false;
 
           return (
-            <Select<ISelectOption, IsMulti>
-              value={valueOption}
-              options={typeOptions}
-              styles={RSStyles}
-              onChange={(value: ValueType<ISelectOption, IsMulti>) => {
-                handleUnitTypeChange(value, row);
-              }}
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-            />
+            <div
+              style={{ width: "100%", height: "100%" }}
+              {...noEventPropagation()}
+            >
+              <Select<ISelectOption, IsMulti>
+                value={valueOption}
+                options={typeOptions}
+                styles={RSStyles}
+                onChange={(value: ValueType<ISelectOption, IsMulti>) => {
+                  handleUnitTypeChange(value, row);
+                }}
+                menuPortalTarget={document.body}
+                theme={(thm) => getRSTheme(thm, theme)}
+              />
+            </div>
           );
         },
         width: 150,
@@ -649,11 +655,16 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           let valueOption: IAppUnitSelectOption | IAppUnitSelectOption[];
           let IsMulti: boolean;
           if (type === "Single") {
-            appUnit = row.applicationUnit as string;
+            appUnit = row.applicationUnit as string | string[];
+            if (Array.isArray(appUnit)) {
+              appUnit = appUnit[0];
+            }
+
             valueOption = unitOptions.find(
               (option) =>
                 option.value.toLowerCase() === (appUnit as string).toLowerCase()
             ) as IAppUnitSelectOption;
+
             IsMulti = false;
           } else {
             const multiAppUnit = row.applicationUnit;
@@ -686,28 +697,33 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           type IsMultiType = typeof IsMulti;
 
           return (
-            <Select<IAppUnitSelectOption, IsMultiType>
-              value={valueOption}
-              options={unitOptions}
-              styles={RSStyles}
-              onChange={(
-                option: ValueType<IAppUnitSelectOption, IsMultiType>
-              ) =>
-                handleApplicationUnitChange<IsMultiType>(
-                  option as NonNullable<
-                    ValueType<IAppUnitSelectOption, IsMultiType>
-                  >,
-                  row,
-                  fileHeader,
-                  type,
-                  unitOptions,
-                  scoreOptions
-                )
-              }
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-              isMulti={IsMulti}
-            />
+            <div
+              style={{ width: "100%", height: "100%" }}
+              {...noEventPropagation()}
+            >
+              <Select<IAppUnitSelectOption, IsMultiType>
+                value={valueOption}
+                options={unitOptions}
+                styles={RSStyles}
+                onChange={(
+                  option: ValueType<IAppUnitSelectOption, IsMultiType>
+                ) =>
+                  handleApplicationUnitChange<IsMultiType>(
+                    option as NonNullable<
+                      ValueType<IAppUnitSelectOption, IsMultiType>
+                    >,
+                    row,
+                    fileHeader,
+                    type,
+                    unitOptions,
+                    scoreOptions
+                  )
+                }
+                menuPortalTarget={document.body}
+                theme={(thm) => getRSTheme(thm, theme)}
+                isMulti={IsMulti}
+              />
+            </div>
           );
         },
         width: 300,

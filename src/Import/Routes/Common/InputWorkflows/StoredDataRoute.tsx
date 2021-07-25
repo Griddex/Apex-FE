@@ -139,11 +139,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             const editorData = [
               {
                 name: dataKey,
-                title: dataTitle,
+                title: "Title",
                 value: (row as IStoredDataRow)[dataKey as keyof IStoredDataRow],
                 editorType: "input",
                 width: "100%",
-                height: 40,
               },
               {
                 name: "description",
@@ -172,8 +171,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                         editorData,
                         editedRow,
                         dividerPositions,
-                        rows,
-                        setRows,
                       },
                       actionsList: (shouldUpdateAction: () => void) =>
                         DialogOneCancelButtons(
