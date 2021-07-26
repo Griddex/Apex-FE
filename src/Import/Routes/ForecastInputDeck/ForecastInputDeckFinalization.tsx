@@ -123,7 +123,7 @@ const ForecastInputDeckFinalization = ({
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Network_Dialog",
-      title: "Save Forecast Inputdeck | Generate Network",
+      title: "Save Forecast Inputdeck",
       type: "saveInputDeckGenerateNetworkWorkflowDialog",
       show: true,
       exclusive: false,
@@ -178,19 +178,6 @@ const ForecastInputDeckFinalization = ({
         history.push("/apex/network/networkManual");
       },
     },
-    // {
-    //   title: "Save and Link Deck to Stored Network",
-    //   color: "primary",
-    //   variant: "contained",
-    //   startIcon: <LinkOutlinedIcon />,
-    //   handleAction: () => {
-    //     dispatch(hideDialogAction());
-    //     enqueueSnackbar(`${subModuleName} saved`, {
-    //       persist: false,
-    //       variant: "error",
-    //     });
-    //   },
-    // },
   ];
 
   return (

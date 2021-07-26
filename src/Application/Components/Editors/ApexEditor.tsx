@@ -25,10 +25,6 @@ const useStyles = makeStyles({
     width: "100%",
     fontSize: 14,
   },
-  // select:(props:any) => {
-  //   return {width:props.width,
-  //   height:props.height,}
-  // }
 });
 
 export type TApexEditorType =
@@ -51,13 +47,10 @@ export interface IApexEditorRow {
 }
 export interface IApexEditor {
   editorData: IApexEditorRow[];
-  editedRow: any;
   dividerPositions: number[];
-  rows: any[];
-  setRows: TUseState<any[]>;
-  shouldUpdate?: boolean;
-  setShouldUpdate?: TUseState<boolean>;
-  shouldUpdateAction?: () => void;
+  editedRow?: any;
+  formEditorRow: any;
+  setFormEditorRow: TUseState<any>;
   isCustomComponent?: boolean;
   customComponent?: React.FC;
   workflowProcess?: TAllWorkflowProcesses;
@@ -66,12 +59,10 @@ export interface IApexEditor {
 
 const ApexEditor = ({
   editorData,
-  editedRow,
+  formEditorRow,
+  setFormEditorRow,
   dividerPositions,
-  rows,
-  setRows,
   customComponent,
-  shouldUpdateAction,
 }: IApexEditor) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -82,7 +73,6 @@ const ApexEditor = ({
 
   const editorRef = React.useRef<HTMLDivElement>(null);
   const indexRef = React.useRef(0);
-  const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
 
   const CustomComponent = customComponent as NonNullable<
     IApexEditor["customComponent"]
@@ -94,7 +84,6 @@ const ApexEditor = ({
     title: string,
     width: string | number,
     height: string | number,
-    value?: any,
     editorType?: TApexEditorType,
     currentOption?: ISelectOption,
     Options?: ISelectOption[]
@@ -115,7 +104,6 @@ const ApexEditor = ({
                 margin="dense"
                 onChange={(event) => {
                   const { value } = event.target;
-
                   setFormEditorRow((prev: any) => {
                     return { ...prev, [name]: value };
                   });
@@ -157,22 +145,6 @@ const ApexEditor = ({
             direction="Vertical"
             containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
-              // <Input
-              //   id="date-picker-input-id-start"
-              //   type="datetime-local"
-              //   margin="dense"
-              //   value={formEditorRow[name as keyof IStoredDataRow]}
-              //   onChange={(event) => {
-              //     const { value } = event.target;
-
-              //     setFormEditorRow((prev: any) => ({
-              //       ...prev,
-              //       [name]: value,
-              //     }));
-              //   }}
-              //   style={{ width: width, height: height }}
-              // />
-
               <KeyboardDatePicker
                 margin="normal"
                 id="date-picker-dialog"
@@ -246,6 +218,7 @@ const ApexEditor = ({
             }
           />
         );
+
       case "custom":
         return (
           <AnalyticsComp
@@ -261,21 +234,6 @@ const ApexEditor = ({
         <div>No match</div>;
     }
   };
-
-  React.useEffect(() => {
-    const sn = editedRow["sn"] as number;
-    rows[sn - 1] = formEditorRow;
-    console.log(
-      "Logged output --> ~ file: ApexEditor.tsx ~ line 201 ~ React.useEffect ~ formEditorRow",
-      formEditorRow
-    );
-
-    console.log(
-      "Logged output --> ~ file: ApexEditor.tsx ~ line 208 ~ React.useEffect ~ rows",
-      rows
-    );
-    setRows(rows);
-  }, [shouldUpdateAction]);
 
   return (
     <ApexFlexContainer alignItems="flex-start">
@@ -307,7 +265,6 @@ const ApexEditor = ({
                   title,
                   width,
                   height,
-                  value,
                   editorType,
                   currentOption,
                   Options

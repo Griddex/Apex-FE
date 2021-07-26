@@ -1,34 +1,13 @@
+import { cleanup, waitFor } from "@testing-library/react";
 import React from "react";
-import { render, waitFor, cleanup } from "@testing-library/react";
+import { render } from "../Utils/ApexTestRender";
 import App from "./App";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
-import { CssBaseline } from "@material-ui/core";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { ThemeProvider } from "@material-ui/core";
-import theme from "../Theme/Theme";
-import { Provider } from "react-redux";
-import { store } from "../Redux/Store/Store";
-import DateFnsUtils from "@date-io/date-fns";
 
-const history = createMemoryHistory();
-const RootApp = (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Router history={history}>
-          <CssBaseline />
-          <App />
-        </Router>
-      </MuiPickersUtilsProvider>
-    </ThemeProvider>
-  </Provider>
-);
 afterEach(cleanup);
 
 describe("Tests the root component <App/>", () => {
   test("renders <App/> without errors", async () => {
-    const { getByText } = render(RootApp);
+    const { getByText } = render(<App />);
     const mottoElement = await waitFor(() =>
       getByText(/...inspired technologies for business growth/i)
     );
@@ -36,18 +15,18 @@ describe("Tests the root component <App/>", () => {
   });
 
   test("<App/> matches snapshot", () => {
-    const { container } = render(RootApp);
+    const { container } = render(<App />);
     expect(container).toMatchSnapshot();
   });
 
   test("Syncware logo renders", async () => {
-    const { findByAltText } = render(RootApp);
+    const { findByAltText } = render(<App />);
     const logoElement = await findByAltText("Syncware Logo");
     expect(logoElement).toBeInTheDocument();
   });
 
   test("Apex logo renders", async () => {
-    const { findByAltText } = render(RootApp);
+    const { findByAltText } = render(<App />);
     const logoElement = await findByAltText("Apex Logo");
     expect(logoElement).toBeInTheDocument();
   });

@@ -80,7 +80,7 @@ function* saveEconomicsSensitivitiesSaga(
     sensitivitiesTable: selectedSensitivitiesTable,
   };
 
-  const config = {};
+  const config = { withCredentials: false };
   const saveEconomicsSensitivitiesAPI = (url: string) =>
     authService.post(url, data, config);
 

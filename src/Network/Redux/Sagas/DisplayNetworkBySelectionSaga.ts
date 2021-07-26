@@ -46,7 +46,7 @@ export default function* watchDisplayNetworkBySelectionSaga(): Generator<
   );
 }
 
-const config = {};
+const config = { withCredentials: false };
 const displayNetworkBySelectionAPI = (url: string) =>
   authService.get(url, config);
 type AxiosPromise = ReturnType<typeof displayNetworkBySelectionAPI>;
@@ -142,6 +142,7 @@ function updateNodesAndEdges(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
+      withCredentials: false,
       success: function (chunk) {
         emitter(chunk);
       },

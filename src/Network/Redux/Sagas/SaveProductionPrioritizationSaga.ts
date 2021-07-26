@@ -72,7 +72,7 @@ function* saveProductionPrioritizationSaga(
     forecastInputDeckId: selectedForecastInputDeckId,
   };
 
-  const config = {};
+  const config = { withCredentials: false };
   const saveProductionPrioritizationAPI = (url: string) =>
     authService.post(url, data, config);
 

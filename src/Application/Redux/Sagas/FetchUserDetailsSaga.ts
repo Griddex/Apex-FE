@@ -44,7 +44,9 @@ function* fetchUserDetailsSaga(
 > {
   const { payload } = action;
 
-  const config = {};
+  const config = {
+    withCredentials: false,
+  };
   const fetchUserDetailsAPI = (url: string) => authService.get(url, config);
 
   try {

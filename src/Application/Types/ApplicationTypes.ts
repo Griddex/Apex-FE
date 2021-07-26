@@ -142,3 +142,5 @@ export type TApexRowData =
   | Record<string, React.Key>[];
 
 export type TApexData = string[] | Record<string, TApexRowData>[];
+
+export type TTitleDescription = { title: string; description: string };

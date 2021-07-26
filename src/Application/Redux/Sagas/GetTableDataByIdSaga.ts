@@ -33,7 +33,7 @@ export default function* watchGetTableDataByIdSaga(): Generator<
   yield takeLeading(getTableDataByIdChan, getTableDataByIdSaga);
 }
 
-const config = {};
+const config = { withCredentials: false };
 const getTableDataByIdAPI = (url: string) => authService.get(url, config);
 
 function* getTableDataByIdSaga(action: IAction): Generator<

@@ -23,7 +23,7 @@ const ExcelExportTable = <T extends any>({
   return (
     <IconButtonWithTooltip
       toolTipKey="exportTemplateToolTip"
-      toolTipTitle="Export Import Template"
+      toolTipTitle="Export"
       toolTipPlacement="bottom-end"
       icon={() => {
         const ExcelFile = ReactExport.ExcelFile;

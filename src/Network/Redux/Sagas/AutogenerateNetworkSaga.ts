@@ -39,6 +39,7 @@ export default function* watchAutogenerateNetworkSaga(): Generator<
   const autoGenerateNetworkChan = yield actionChannel(
     AUTOGENERATENETWORK_REQUEST
   );
+  console.log("I'm in watchGenerateNetwork");
   yield takeLeading(autoGenerateNetworkChan, autoGenerateNetworkSaga);
 }
 
@@ -130,6 +131,7 @@ function updateNodesAndEdges(url: string, reqPayload: any) {
       data: JSON.stringify(reqPayload),
       headers: { "Content-Type": "application/json; charset=utf-8" },
       disableContentType: true,
+      withCredentials: false,
       success: function (chunk) {
         emitter(chunk);
       },

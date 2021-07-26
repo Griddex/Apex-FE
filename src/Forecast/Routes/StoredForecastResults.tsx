@@ -223,11 +223,7 @@ export default function StoredForecastResults({
             editorData,
             editedRow,
             dividerPositions,
-            rows,
-            setRows,
-            shouldUpdate,
-            // } as IApexEditor<IStoredForecastResultsRow>;
-          } as IApexEditor;
+          } as Partial<IApexEditor>;
 
           return (
             <ApexFlexContainer>

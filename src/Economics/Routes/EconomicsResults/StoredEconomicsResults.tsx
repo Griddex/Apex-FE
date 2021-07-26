@@ -236,11 +236,7 @@ export default function StoredEcoResults({
             editorData,
             editedRow,
             dividerPositions,
-            rows,
-            setRows,
-            shouldUpdate,
-            // } as IApexEditor<IStoredEconomicsResultsRow>;
-          } as IApexEditor;
+          } as Partial<IApexEditor>;
 
           return (
             <ApexFlexContainer>

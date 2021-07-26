@@ -197,11 +197,7 @@ export default function StoredEconomicsSensitivities() {
             editorData,
             editedRow,
             dividerPositions,
-            rows,
-            setRows,
-            shouldUpdate,
-            // } as IApexEditor<IStoredForecastResultsRow>;
-          } as IApexEditor;
+          } as Partial<IApexEditor>;
 
           return (
             <ApexFlexContainer>

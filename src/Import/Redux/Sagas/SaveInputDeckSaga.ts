@@ -19,6 +19,7 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
 import { fetchStoredForecastingParametersRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
   failureDialogParameters,
@@ -44,17 +45,19 @@ function getInputDeckRouteParam(workflowProcess: IAllWorkflows["wrkflwPrcss"]) {
   else return "";
 }
 
-export default function* watchSaveInputDeckSaga(): Generator<
-  ActionChannelEffect | ForkEffect<never>,
-  void,
-  any
-> {
+export default function* watchSaveInputDeckSaga(
+  autoTitleDesc?: TTitleDescription
+): Generator<ActionChannelEffect | ForkEffect<never>, void, any> {
   const saveInputDeckChan = yield actionChannel(SAVE_INPUTDECK_REQUEST);
-  yield takeLeading(saveInputDeckChan, saveInputDeckSaga);
+  console.log("I'm in watchSaveInput");
+  yield takeLeading(saveInputDeckChan, (action) =>
+    saveInputDeckSaga(action, autoTitleDesc as TTitleDescription)
+  );
 }
 
 export function* saveInputDeckSaga(
-  action: IAction
+  action: IAction,
+  autoTitleDesc: TTitleDescription
 ): Generator<
   | AllEffect<CallEffect<any>>
   | CallEffect<any>
@@ -68,7 +71,8 @@ export function* saveInputDeckSaga(
   const message = meta && meta.message ? meta.message : "";
 
   const { workflowProcess, reducer, titleDesc } = payload;
-  const { title, description } = titleDesc;
+  const currentTitleDesc = autoTitleDesc ? autoTitleDesc : titleDesc;
+  const { title, description } = currentTitleDesc;
 
   const wp = workflowProcess;
   const wc = "inputDataWorkflows";
@@ -106,7 +110,7 @@ export function* saveInputDeckSaga(
     variableUnits: appHeaderNameUnitsMapDefined,
   };
 
-  const config = {};
+  const config = { withCredentials: false };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);
   const inputDeckType = getInputDeckType(wp);
 

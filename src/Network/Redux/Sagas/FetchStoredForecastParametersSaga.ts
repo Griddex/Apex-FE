@@ -42,7 +42,7 @@ export default function* watchFetchStoredForecastParametersSaga(): Generator<
 
 type AxiosPromise = ReturnType<typeof fetchStoredForecastParametersAPI>;
 
-const config = {};
+const config = { withCredentials: false };
 const fetchStoredForecastParametersAPI = (url: string) =>
   authService.get(url, config);
 

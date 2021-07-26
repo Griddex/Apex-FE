@@ -68,7 +68,7 @@ function* saveEconomicsResultsSaga(
     description,
   };
 
-  const config = {};
+  const config = { withCredentials: false };
   const saveEconomicsResultsAPI = (url: string) =>
     authService.post(url, data, config);
 
@@ -97,6 +97,7 @@ function* saveEconomicsResultsSaga(
     yield put(
       fetchStoredEconomicsResultsRequestAction(currentProjectId, false)
     );
+    // yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(
         successDialogParameters(

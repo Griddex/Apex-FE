@@ -16,6 +16,7 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
+import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
   hideDialogAction,
@@ -206,7 +207,11 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{title}</div>
+        <WorkflowBanner
+          activeStep={activeStep}
+          steps={steps}
+          subModuleName={title as string}
+        />
       </DialogTitle>
       <DialogContent
         dividers
@@ -217,7 +222,6 @@ const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
           height: 650,
         }}
       >
-        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <div
           style={{
             display: "flex",

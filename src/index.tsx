@@ -14,15 +14,11 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import history from "./Application/Services/HistoryService";
 
 async function prepare() {
-  console.log(
-    "Logged output --> ~ file: index.tsx ~ line 18 ~ prepare ~ process",
-    process
-  );
   if (process.env.NODE_ENV === "development") {
     const { worker } = await import("./mocks/browser");
     // const { server } = await import("./Mocks/Server");
 
-    worker.start();
+    // worker.start();
     // server.listen();
   }
   return Promise.resolve();

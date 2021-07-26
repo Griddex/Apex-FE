@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   image: {
-    marginBottom: "40px",
+    marginBottom: 40,
     height: 100,
   },
   typography: {

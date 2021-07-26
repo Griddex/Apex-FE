@@ -2,7 +2,7 @@ import { Divider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -13,10 +13,10 @@ import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
-import DialogCancelButton from "./../DialogButtons/DialogCancelButton";
 import { DialogStuff } from "./DialogTypes";
+import Image from "../Visuals/Image";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useDialogTitleStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -24,26 +24,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   dialogHeader: {
     display: "flex",
-    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    width: "5%",
+    marginRight: 5,
     height: "100%",
   },
   dialogTitle: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "90%",
+    width: "100%",
     height: "100%",
   },
   closeButton: {
     color: theme.palette.grey[500],
-    width: "5%",
     height: "100%",
     padding: 0,
     "&:hover": {
@@ -52,20 +51,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderRadius: 0,
     },
   },
-  listDialogContent: { display: "flex", flexDirection: "column" },
-  listBorder: {
-    height: 200,
-    overflow: "auto",
-    border: "1px solid #F7F7F7",
-  },
-  avatar: {
-    color: theme.palette.primary.main,
-  },
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
+  const classes = useDialogTitleStyles(props);
   const dispatch = useDispatch();
-  const classes = useStyles(props);
   const { iconType, children, onClose, ...other } = props;
 
   return (
@@ -74,9 +64,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
         </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
+        <div className={classes.dialogTitle}>{children}</div>
         {onClose ? (
           <IconButton
             className={classes.closeButton}
@@ -111,9 +99,16 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
+const SnapshotDialog: React.FC<DialogStuff> = ({
+  title,
+  show,
+  maxWidth,
+  iconType,
+  snapshot,
+  actionsList,
+  dialogContentStyle,
+}) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType } = props;
 
   return (
     <Dialog
@@ -121,20 +116,20 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       open={show as boolean}
       maxWidth={maxWidth}
       fullWidth
+      style={{ padding: 0 }}
     >
       <DialogTitle
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{title}</div>
+        <Typography variant="h6">{title}</Typography>
       </DialogTitle>
-      <DialogContent dividers>
-        <div></div>
+      <DialogContent dividers style={dialogContentStyle}>
+        <Image src={snapshot} height={"100%"} width={"100%"} alt="snapshot" />
         <Divider />
       </DialogContent>
-      <DialogActions>{DialogCancelButton()}</DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
-
-export default SelectWorksheetDialog;
+export default SnapshotDialog;

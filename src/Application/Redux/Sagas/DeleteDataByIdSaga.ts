@@ -33,7 +33,7 @@ export default function* watchDeleteDataByIdSaga(): Generator<
   yield takeLeading(deleteDataByIdChan, deleteDataByIdSaga);
 }
 
-const config = {};
+const config = { withCredentials: false };
 const deleteDataByIdAPI = (url: string) => authService.deleteData(url, config);
 
 function* deleteDataByIdSaga(action: IAction): Generator<

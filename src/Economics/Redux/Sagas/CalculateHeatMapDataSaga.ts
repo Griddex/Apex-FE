@@ -103,7 +103,7 @@ function* calculateHeatMapDataSaga(
     forecastScenarioAnalysis,
   };
 
-  const config = {};
+  const config = { withCredentials: false };
   const calculateHeatMapDataAPI = (url: string) =>
     authService.post(url, data, config);
 

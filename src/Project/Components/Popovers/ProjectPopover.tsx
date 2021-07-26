@@ -202,7 +202,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
             },
           ],
           "Close",
-          "closeOutlined",
+          "closeWithBorder",
           false,
           "All"
         ),

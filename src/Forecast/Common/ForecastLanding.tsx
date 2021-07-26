@@ -57,8 +57,8 @@ const ForecastLanding = () => {
 
   const forecastLandingData: ILandingData[] = [
     {
-      name: "Forecast Report Table",
-      description: `View forecast results data in responsive and perfomant tables`,
+      name: "Forecast Report",
+      description: `View forecast results data in responsive and performant tables`,
       icon: (
         <Image
           className={classes.image}

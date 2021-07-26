@@ -72,7 +72,7 @@ function* saveDeclineParametersSaga(
     forecastInputDeckId: selectedForecastInputDeckId,
   };
 
-  const config = {};
+  const config = { withCredentials: false };
   const saveDeclineParametersAPI = (url: string) =>
     authService.post(url, data, config);
 
