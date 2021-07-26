@@ -26,6 +26,7 @@ import { IconNameType } from "../Icons/DialogIconsTypes";
 import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowStepper";
+import WorkflowBanner from "../Workflows/WorkflowBanner";
 import WorkflowDialogBanner from "../Workflows/WorkflowDialogBanner";
 import { DialogStuff } from "./DialogTypes";
 
@@ -222,13 +223,16 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{title}</div>
+        <WorkflowBanner
+          activeStep={activeStep}
+          steps={steps}
+          subModuleName={title as string}
+        />
       </DialogTitle>
       <DialogContent
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <div
           style={{
             display: "flex",

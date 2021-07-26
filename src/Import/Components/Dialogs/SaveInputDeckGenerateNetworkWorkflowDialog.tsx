@@ -17,6 +17,7 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
+import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
   IAllWorkflows,
@@ -124,15 +125,36 @@ const steps = ["Select Facilities Deck", "Save & Generate"];
 const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, workflowProcess } = props;
-  const skipped = new Set<number>();
 
   const reducer = "inputReducer" as ReducersType;
   const wc = "inputDataWorkflows";
   const wp = workflowProcess as NonNullable<IAllWorkflows["wrkflwPrcss"]>;
 
+  const storedTitles = useSelector(
+    (state: RootState) =>
+      state.applicationReducer["allFormTitles"]["forecastTitles"]
+  );
+
+  const [formTitle, setFormTitle] = React.useState("");
+  const [formDescription, setFormDescription] = React.useState("");
+
+  const titleDesc = {
+    title: formTitle,
+    description: formDescription,
+  };
+
+  const formProps = {
+    title: formTitle,
+    setTitle: setFormTitle,
+    description: formDescription,
+    setDescription: setFormDescription,
+    storedTitles,
+  };
+
   const { activeStep } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
   );
+  const skipped = new Set<number>();
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
     [activeStep]
@@ -167,7 +189,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
           [true, true],
           [
             unloadDialogsAction,
-            () => saveAndAutoGenerateNetworkRequestAction(wp),
+            () => saveAndAutoGenerateNetworkRequestAction(wp, titleDesc),
           ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
@@ -211,13 +233,17 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{title}</div>
+        <WorkflowBanner
+          activeStep={activeStep}
+          steps={steps}
+          subModuleName={title as string}
+        />
       </DialogTitle>
+
       <DialogContent
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <div
           style={{
             display: "flex",
@@ -226,7 +252,10 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
             width: "100%",
           }}
         >
-          <SaveInputDeckGenerateNetworkWorkflow {...storedProps} />
+          <SaveInputDeckGenerateNetworkWorkflow
+            {...storedProps}
+            {...formProps}
+          />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>{" "}

@@ -2,7 +2,9 @@ import { FlowElement } from "react-flow-renderer";
 import {
   IAllWorkflows,
   ReducersType,
+  TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
 export const UPDATE_NETWORKPARAMETER = "UPDATE_NETWORKPARAMETER";
@@ -291,18 +293,14 @@ export const autoGenerateNetworkFailureAction = () => {
 };
 
 export const saveAndAutoGenerateNetworkRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses,
+  titleDesc: TTitleDescription
 ) => {
   let inputDeck;
 
-  if (workflowProcess.includes("facilities"))
-    inputDeck = "facilities inputdeck";
-  else if (workflowProcess.includes("forecast"))
-    inputDeck = "forecast inputdeck";
-
   return {
     type: SAVE_AUTOGENERATENETWORK_REQUEST,
-    payload: { workflowProcess },
+    payload: { workflowProcess, titleDesc },
     meta: { message: `Saving ${inputDeck}...` },
   };
 };

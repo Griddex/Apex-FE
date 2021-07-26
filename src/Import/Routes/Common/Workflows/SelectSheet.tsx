@@ -116,7 +116,10 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
     if (selectedWorksheetData.length === 0) {
       enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
     } else {
-      enqueueSnackbar("Worksheet loaded!", { persist: false, variant: "info" });
+      enqueueSnackbar("Worksheet loaded!", {
+        persist: false,
+        variant: "success",
+      });
     }
 
     dispatch(persistWorksheetAction(reducer, sWN, selectedWorksheetData, wp));

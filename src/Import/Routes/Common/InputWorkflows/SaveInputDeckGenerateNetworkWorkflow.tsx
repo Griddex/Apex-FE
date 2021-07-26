@@ -41,7 +41,9 @@ const SaveInputDeckGenerateNetworkWorkflow = ({
     }
   };
 
-  return <div style={{ width: "100%", height: 525 }}>{renderImportStep()}</div>;
+  return (
+    <div style={{ width: "100%", height: "100%" }}>{renderImportStep()}</div>
+  );
 };
 
 export default SaveInputDeckGenerateNetworkWorkflow;

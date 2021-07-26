@@ -17,6 +17,7 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
+import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
@@ -277,13 +278,16 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <div>{title}</div>
+        <WorkflowBanner
+          activeStep={activeStep}
+          steps={steps}
+          subModuleName={title as string}
+        />
       </DialogTitle>
       <DialogContent
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <WorkflowDialogBanner activeStep={activeStep} steps={steps} />
         <ApexFlexContainer>
           <EditOrCreateForecastParametersWorkflow {...createProps} />
           <DialogContextDrawer>

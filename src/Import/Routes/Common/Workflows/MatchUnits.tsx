@@ -29,6 +29,7 @@ import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { typeOptions } from "../../../../Application/Data/ApplicationData";
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -286,7 +287,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     })
   );
 
-  const [reRender, setReRender] = React.useState(false);
   const [rows, setRows] = React.useState(initialTableRows.current);
 
   const [chosenApplicationUnitIndices, setChosenApplicationUnitIndices] =
@@ -344,7 +344,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       }));
 
       setRows(rows);
-      setReRender(!reRender);
     };
 
     const handleApplicationUnitChange = <T extends boolean>(
@@ -420,7 +419,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         }));
 
         setRows(rows);
-        setReRender(!reRender);
       } else {
         const selectedValue = option && (option as IAppUnitSelectOption).label;
         const selectedAppUnit = selectedValue as string;
@@ -456,7 +454,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         }));
 
         setRows(rows);
-        setReRender(!reRender);
       }
     };
 
@@ -607,15 +604,17 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         resizable: true,
         width: 200,
       },
-
       {
         key: "type",
         name: "TYPE",
         resizable: true,
         formatter: ({ row }) => {
           const type = row.type as string;
-          const typeOptions = generateSelectOptions(["Single", "Multiple"]);
-          const valueOption = generateSelectOptions([type])[0];
+
+          const valueOption = {
+            value: type,
+            label: type,
+          };
 
           const RSStyles = getRSStyles(theme);
           type IsMulti = false;
@@ -850,7 +849,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
               }
 
               setRows(rowsAllAcceptMatch);
-              setReRender(!reRender);
               setUserMatchObject(userMatchObject);
               setAcceptmatchToggle(currentAcceptMatchValue);
             }}
@@ -871,7 +869,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         rows
       )
     );
+  }, [rows]);
 
+  React.useEffect(() => {
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -879,6 +879,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         fileHeaderUnitIdMap
       )
     );
+  }, [fileHeaderUnitIdMap]);
+
+  React.useEffect(() => {
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -886,6 +889,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         currentAppHeaderNameMap
       )
     );
+  }, [currentAppHeaderNameMap]);
+
+  React.useEffect(() => {
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -893,7 +899,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         fileHeadersUnitsAppHeadersWithoutNoneMap
       )
     );
+  }, [fileHeadersUnitsAppHeadersWithoutNoneMap]);
 
+  React.useEffect(() => {
     dispatch(
       persistChosenApplicationUnitIndicesAction(
         reducer,
@@ -901,11 +909,11 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         wp
       )
     );
+  }, [chosenApplicationUnitIndices]);
 
+  React.useEffect(() => {
     dispatch(saveUserMatchAction(userMatchObject));
-
-    dispatch(hideSpinnerAction());
-  }, [reRender]);
+  }, [userMatchObject]);
 
   return (
     <div className={classes.rootMatchUnits}>

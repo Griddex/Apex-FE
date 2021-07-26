@@ -5,9 +5,9 @@ import { IAction } from "./../../Redux/Actions/ActionTypes";
 export interface IWorkflowBannerProps {
   activeStep: number;
   steps: string[];
-  moduleName: string;
+  moduleName?: string;
   subModuleName: string;
-  workflowName: string;
+  workflowName?: string;
 }
 
 export interface IWorkflowDataProps extends IWorkflowProcessState {

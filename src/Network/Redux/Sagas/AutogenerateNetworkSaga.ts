@@ -39,6 +39,7 @@ export default function* watchAutogenerateNetworkSaga(): Generator<
   const autoGenerateNetworkChan = yield actionChannel(
     AUTOGENERATENETWORK_REQUEST
   );
+  console.log("I'm in watchGenerateNetwork");
   yield takeLeading(autoGenerateNetworkChan, autoGenerateNetworkSaga);
 }
 

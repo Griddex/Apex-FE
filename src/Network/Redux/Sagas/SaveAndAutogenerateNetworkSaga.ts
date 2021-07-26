@@ -4,21 +4,28 @@ import {
   call,
   ForkEffect,
   put,
+  putResolve,
+  take,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { saveInputDeckSaga } from "../../../Import/Redux/Sagas/SaveInputDeckSaga";
-import {
-  autoGenerateNetworkFailureAction,
-  autoGenerateNetworkRequestAction,
-  SAVE_AUTOGENERATENETWORK_REQUEST,
-} from "../Actions/NetworkActions";
-import { autoGenerateNetworkSaga } from "./AutogenerateNetworkSaga";
-import { saveInputDeckRequestAction } from "./../../../Import/Redux/Actions/InputActions";
-import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import history from "../../../Application/Services/HistoryService";
+import {
+  saveInputDeckRequestAction,
+  SAVE_INPUTDECK_FAILURE,
+  SAVE_INPUTDECK_SUCCESS,
+} from "../../../Import/Redux/Actions/InputActions";
+import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
+import {
+  autoGenerateNetworkFailureAction,
+  AUTOGENERATENETWORK_FAILURE,
+  AUTOGENERATENETWORK_SUCCESS,
+  SAVE_AUTOGENERATENETWORK_REQUEST,
+  updateNetworkParameterAction,
+} from "../Actions/NetworkActions";
+import { autoGenerateNetworkRequestAction } from "./../Actions/NetworkActions";
 
 export default function* watchAndSaveAutogenerateNetworkSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -36,16 +43,33 @@ export default function* watchAndSaveAutogenerateNetworkSaga(): Generator<
 
 function* saveAndAutoGenerateNetworkSaga(action: IAction) {
   const { payload } = action;
-  const { workflowProcess } = payload;
+  const { workflowProcess, titleDesc } = payload;
 
   try {
-    yield call(saveInputDeckSaga, action);
-    // yield put(saveInputDeckRequestAction(workflowProcess));
+    yield putResolve(saveInputDeckRequestAction(workflowProcess, titleDesc));
 
-    yield call(forwardTo, "/apex");
+    yield take([SAVE_INPUTDECK_SUCCESS, SAVE_INPUTDECK_FAILURE]);
+  } catch (errors) {
+    const failureAction = autoGenerateNetworkFailureAction();
 
-    yield call(autoGenerateNetworkSaga, action);
-    // yield put(autoGenerateNetworkRequestAction());
+    yield put({
+      ...failureAction,
+      payload: { ...payload, errors },
+    });
+
+    yield put(showDialogAction(failureDialogParameters()));
+  } finally {
+    yield putResolve(
+      updateNetworkParameterAction("loadNetworkGenerationWorkflow", true)
+    );
+    yield put(hideSpinnerAction());
+  }
+
+  try {
+    yield call(forwardTo, "/apex/network/networkAuto");
+
+    yield putResolve(autoGenerateNetworkRequestAction());
+    yield take([AUTOGENERATENETWORK_SUCCESS, AUTOGENERATENETWORK_FAILURE]);
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
 
