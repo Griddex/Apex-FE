@@ -71,6 +71,7 @@ export interface INetworkWorkflows {
 export interface IForecastResultsWorkflows {
   wkPs:
     | "forecastResultsData"
+    | "forecastResultsQualityAssurance"
     | "forecastResultsVisualytics"
     | "forecastResultsStored";
   wkCy: "storedDataWorkflows";

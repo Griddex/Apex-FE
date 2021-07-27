@@ -16,6 +16,14 @@ export const GET_FORECASTRESULTS_CHARTDATA_SUCCESS =
   "GET_FORECASTRESULTS_CHARTDATA_SUCCESS";
 export const GET_FORECASTRESULTS_CHARTDATA_FAILURE =
   "GET_FORECASTRESULTS_CHARTDATA_FAILURE";
+
+export const GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST =
+  "GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST";
+export const GET_FORECASTRESULTS_QUALITYASSURANCE_SUCCESS =
+  "GET_FORECASTRESULTS_QUALITYASSURANCE_SUCCESS";
+export const GET_FORECASTRESULTS_QUALITYASSURANCE_FAILURE =
+  "GET_FORECASTRESULTS_QUALITYASSURANCE_FAILURE";
+
 export const SAVE_FORECAST_SUCCESS = "SAVE_FORECAST_SUCCESS";
 export const SAVE_FORECAST_FAILURE = "SAVE_FORECAST_FAILURE";
 export const PERSIST_FORECASTCHARTINDEX = "PERSIST_FORECASTCHARTINDEX";
@@ -126,6 +134,42 @@ export const getForecastResultsChartDataSuccessAction = () => {
 export const getForecastResultsChartDataFailureAction = () => {
   return {
     type: GET_FORECASTRESULTS_CHARTDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const getForecastResultsQualityAssuranceRequestAction = (
+  isMonthly: boolean,
+  aggregationLevel: "scenario" | "station",
+  selectedModulePaths: string[],
+  forecastQualityAssuranceVariable: string
+) => {
+  return {
+    type: GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
+    payload: {
+      isMonthly,
+      aggregationLevel,
+      selectedModulePaths,
+      forecastQualityAssuranceVariable,
+    },
+  };
+};
+
+export const getForecastResultsQualityAssuranceSuccessAction = () => {
+  return {
+    type: GET_FORECASTRESULTS_QUALITYASSURANCE_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getForecastResultsQualityAssuranceFailureAction = () => {
+  return {
+    type: GET_FORECASTRESULTS_QUALITYASSURANCE_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

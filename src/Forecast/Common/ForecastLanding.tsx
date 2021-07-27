@@ -15,12 +15,14 @@ import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction"
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import StoredDeck from "../../Import/Images/StoredDeck.svg";
+import QualityAssurance from "../Images/QualityAssurance.svg";
 import ForecastCharts from "../Images/ForecastCharts.svg";
 import { loadForecastResultsWorkflowAction } from "../Redux/Actions/ForecastActions";
 import StoredForecastResults from "../Routes/StoredForecastResults";
 import ForecastData from "../Routes/ForecastData";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
 import { IdType } from "./ForecastLandingTypes";
+import ForecastQualityAssurance from "../Routes/ForecastQualityAssurance";
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -57,20 +59,6 @@ const ForecastLanding = () => {
 
   const forecastLandingData: ILandingData[] = [
     {
-      name: "Forecast Report",
-      description: `View forecast results data in responsive and performant tables`,
-      icon: (
-        <Image
-          className={classes.image}
-          src={Spreadsheet}
-          alt="Spreadsheet Logo"
-        />
-      ),
-      route: `${url}/forecastdata`,
-      workflowProcess: "forecastResultsData",
-      workflowCategory: "storedDataWorkflows",
-    },
-    {
       name: "Plot Charts",
       description: `Plot forecast results in highly interactive charts`,
       icon: (
@@ -82,6 +70,34 @@ const ForecastLanding = () => {
       ),
       route: `${url}/forecastvisualytics`,
       workflowProcess: "forecastResultsVisualytics",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
+      name: "Forecast Quality Assurance",
+      description: `Dissect forecast results data in responsive tables and identify potential errors`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={QualityAssurance}
+          alt="QualityAssurance Logo"
+        />
+      ),
+      route: `${url}/forecastqualityassurance`,
+      workflowProcess: "forecastResultsQualityAssurance",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
+      name: "Forecast Report",
+      description: `View forecast results data in responsive and performant tables`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={Spreadsheet}
+          alt="Spreadsheet Logo"
+        />
+      ),
+      route: `${url}/forecastdata`,
+      workflowProcess: "forecastResultsData",
       workflowCategory: "storedDataWorkflows",
     },
     {
@@ -132,6 +148,12 @@ const ForecastLanding = () => {
                       wrkflwCtgry={"storedDataWorkflows"}
                       wrkflwPrcss={"forecastResultsData"}
                       showChart={false}
+                    />
+                  ),
+                  forecastqualityassurance: (
+                    <ForecastQualityAssurance
+                    // wrkflwCtgry={"storedDataWorkflows"}
+                    // wrkflwPrcss={"forecastResultsQualityAssurance"}
                     />
                   ),
                   forecastvisualytics: (
