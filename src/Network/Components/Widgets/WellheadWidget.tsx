@@ -1,46 +1,34 @@
-import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
+import { Tooltip } from "@material-ui/core";
 import React from "react";
+import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Wellhead from "../../Images/Wellhead.svg";
-import WellheadPopover from "./../Popovers/WellheadPopover";
 import WellheadContextMenu from "./../ContextMenu/WellheadContextMenu";
-import { IXYPos } from "./WidgetTypes";
+import WellheadPopover from "./../Popovers/WellheadPopover";
+import { handleStyle, widgetStyle } from "./WidgetStyles";
+import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const WellheadWidget = () => {
+const WellheadWidget = ({ name }: IWidget) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Handle
-        type="source"
-        position={Position.Top}
-        style={{
-          background: "#999",
-          borderWidth: "0px",
-          width: "4px",
-          height: "4px",
-          borderRadius: "0px",
-        }}
-      />
-      <img
-        src={Wellhead}
-        width={20}
-        height={20}
-        draggable={false}
-        alt="Wellhead"
-      />
+    <div style={widgetStyle}>
+      <Handle type="source" position={Position.Top} style={handleStyle} />
+      <Tooltip key="flowstation" title={name} placement="bottom" arrow>
+        <img
+          src={Wellhead}
+          width={20}
+          height={20}
+          draggable={false}
+          alt="Wellhead"
+        />
+      </Tooltip>
     </div>
   );
 };
 
-const WellheadNode = React.memo((props: Node & IXYPos) => {
-  const { data, xPos, yPos } = props;
-  const { forecastData } = data;
+const WellheadNode = React.memo((props: Node & IExtraNodeProps) => {
+  const { xPos, yPos, data } = props;
+  const { forecastData, name } = data;
   const { showPopover, currentPopoverId } = useSelector(
     (state: RootState) => state.networkReducer
   );
@@ -56,13 +44,13 @@ const WellheadNode = React.memo((props: Node & IXYPos) => {
         <WellheadPopover data={forecastData}>
           <div>
             <WellheadContextMenu position={position}>
-              <WellheadWidget />
+              <WellheadWidget name={name} />
             </WellheadContextMenu>
           </div>
         </WellheadPopover>
       ) : (
         <WellheadContextMenu position={position}>
-          <WellheadWidget />
+          <WellheadWidget name={name} />
         </WellheadContextMenu>
       )}
     </>

@@ -13,6 +13,7 @@ import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
+import { forecastAggregationTypes } from "../../Data/ForecastData";
 import { updateForecastResultsParameterAction } from "../../Redux/Actions/ForecastActions";
 import { forecastVariablesMap } from "../../Utils/ForecastVariables";
 
@@ -29,13 +30,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ForecastVariableButtonsMenu = () => {
+const ForecastAggregationTypeButtonsMenu = () => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [forecastVariableTitle, setForecastVariableTitle] =
-    React.useState("Oil Rate");
+  const [forecastAggregationOption, setForecastAggregationOption] =
+    React.useState(forecastAggregationTypes[0]);
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);
@@ -45,11 +46,14 @@ const ForecastVariableButtonsMenu = () => {
     setAnchorEl(null);
   };
 
-  type forecastVariableTitle = keyof typeof forecastVariablesMap;
-
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
-      <Tooltip key="forecastVariable" title="Variable" placement="bottom" arrow>
+      <Tooltip
+        key="forecastAggregationType"
+        title="Type"
+        placement="bottom"
+        arrow
+      >
         <Button
           onClick={handleClick}
           startIcon={<ShowChartOutlinedIcon />}
@@ -58,11 +62,12 @@ const ForecastVariableButtonsMenu = () => {
             height: 28,
             backgroundColor: theme.palette.primary.light,
             border: `1px solid ${theme.palette.primary.main}`,
-            width: 250,
+            width: 120,
+            marginRight: 4,
           }}
           classes={{ label: classes.label }}
         >
-          {forecastVariableTitle}
+          {forecastAggregationOption.label}
         </Button>
       </Tooltip>
       <Menu
@@ -80,36 +85,36 @@ const ForecastVariableButtonsMenu = () => {
           horizontal: "center",
         }}
       >
-        {(Object.keys(forecastVariablesMap) as forecastVariableTitle[]).map(
-          (title, i) => {
-            const avatar = getFirstCharFromEveryWord(title);
-            const selectedVar = forecastVariablesMap[title];
+        {forecastAggregationTypes.map((option, i) => {
+          const { value, label } = option;
+          const avatar = getFirstCharFromEveryWord(label);
 
-            return (
-              <MenuItem
-                key={i}
-                onClick={() => {
-                  setForecastVariableTitle(title);
-                  dispatch(
-                    updateForecastResultsParameterAction(
-                      "selectedForecastChartVariable",
-                      selectedVar
-                    )
-                  );
-                  handleClose();
-                }}
-              >
-                <ListItemAvatar className={classes.listItemAvatar}>
-                  <>{avatar}</>
-                </ListItemAvatar>
-                <Typography variant="inherit">{title}</Typography>
-              </MenuItem>
-            );
-          }
-        )}
+          return (
+            <MenuItem
+              key={i}
+              onClick={() => {
+                setForecastAggregationOption(option);
+
+                dispatch(
+                  updateForecastResultsParameterAction(
+                    "selectedForecastAggregationType",
+                    value
+                  )
+                );
+
+                handleClose();
+              }}
+            >
+              <ListItemAvatar className={classes.listItemAvatar}>
+                <>{avatar}</>
+              </ListItemAvatar>
+              <Typography variant="inherit">{label}</Typography>
+            </MenuItem>
+          );
+        })}
       </Menu>
     </div>
   );
 };
 
-export default ForecastVariableButtonsMenu;
+export default ForecastAggregationTypeButtonsMenu;

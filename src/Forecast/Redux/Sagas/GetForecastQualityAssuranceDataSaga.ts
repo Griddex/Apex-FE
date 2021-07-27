@@ -1,6 +1,4 @@
 import { ActionType } from "@redux-saga/types";
-import jsonpipe from "jsonpipe";
-import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -12,7 +10,6 @@ import {
   PutEffect,
   select,
   SelectEffect,
-  take,
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -26,29 +23,29 @@ import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  getForecastResultsChartDataFailureAction,
-  getForecastResultsChartDataSuccessAction,
-  GET_FORECASTRESULTS_CHARTDATA_REQUEST,
+  getForecastResultsQualityAssuranceFailureAction,
+  getForecastResultsQualityAssuranceSuccessAction,
+  GET_FORECASTDATABYID_REQUEST,
 } from "../Actions/ForecastActions";
 
-export default function* watchGetForecastResultsChartDataSaga(): Generator<
+export default function* watchGetForecastQADataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const getForecastResultsChan = yield actionChannel(
-    GET_FORECASTRESULTS_CHARTDATA_REQUEST
+  const getForecastQAResultsChan = yield actionChannel(
+    GET_FORECASTDATABYID_REQUEST
   );
   yield takeLeading<ActionType>(
-    getForecastResultsChan,
-    getForecastResultsChartDataSaga
+    getForecastQAResultsChan,
+    getForecastQADataSaga
   );
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* getForecastResultsChartDataSaga(
+function* getForecastQADataSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -60,64 +57,47 @@ function* getForecastResultsChartDataSaga(
   any
 > {
   const { payload } = action;
-  const {
-    selectedIds,
-    selectedModuleNames,
-    selectedModulePaths,
-    selectedForecastChartVariable,
-  } = payload;
+  const { selectedModulePaths, forecastQualityAssuranceVariable } = payload;
 
-  const { selectedNetworkId } = yield select((state) => state.networkReducer);
-  const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
-    (state) => state.forecastReducer
-  );
+  const {
+    selectedForecastingResultsId,
+    selectedForecastAggregationType,
+    selectedForecastAggregationLevel,
+  } = yield select((state) => state.forecastReducer);
 
   const config = {};
   const userId = "Gideon";
-  const url = `${getBaseForecastUrl()}/chartData`;
-
-  //if former selected variable is different form current one
-  //please replace chart data in store
+  const url = `${getBaseForecastUrl()}/forecastQualityAssurance`;
   const data = {
     userId: userId,
-    networkId: selectedNetworkId,
-    selectedVariable: selectedForecastChartVariable,
-    selectedModuleIds: selectedIds,
-    selectedModuleNames: selectedModuleNames,
+    isMonthly: selectedForecastAggregationType === "monthly" ? true : false,
+    aggregationLevel: selectedForecastAggregationLevel,
+    selectedVariable: forecastQualityAssuranceVariable,
     selectedModulePaths: selectedModulePaths,
-    isSaved: isForecastResultsSaved,
     forecastId: selectedForecastingResultsId,
   };
 
-  const message = "Loading forecast chart data...";
+  const message = "Loading forecast data...";
 
   try {
     yield put(showSpinnerAction(message));
 
-    const forecastResultsAPI = (url: string) =>
+    const forecastQualityAssuranceAPI = (url: string) =>
       authService.post(url, data, config);
-    const result = yield call(forecastResultsAPI, url);
+    const result = yield call(forecastQualityAssuranceAPI, url);
 
-    const { data: forecastResults } = result;
+    const { data: forecastQualityAssuranceData } = result;
 
-    const successAction = getForecastResultsChartDataSuccessAction();
+    const successAction = getForecastResultsQualityAssuranceSuccessAction();
     yield put({
       ...successAction,
       payload: {
-        forecastResults,
+        ...payload,
+        forecastQualityAssuranceData,
       },
     });
-
-    yield put({
-      type: "UPDATE_FORECASTPARAMETER",
-      payload: {
-        selectedModuleIds: selectedIds,
-      },
-    });
-
-    // yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
-    const failureAction = getForecastResultsChartDataFailureAction();
+    const failureAction = getForecastResultsQualityAssuranceFailureAction();
 
     yield put({
       ...failureAction,

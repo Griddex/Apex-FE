@@ -56,7 +56,10 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
-import { IApexEditor } from "./../../Application/Components/Editors/ApexEditor";
+import { IApexEditor } from "../../Application/Components/Editors/ApexEditor";
+import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
+import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
+import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -118,10 +121,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //TODO: Calculate classification data from collection
-export default function StoredForecastResults({
+export default function ForecastQualityAssuranceData({
   showChart,
   showBaseButtons,
-  shouldRunAggregation,
 }: IStoredDataProps) {
   const reducer = "forecastReducer";
   const mainUrl = `${getBaseForecastUrl()}`;
@@ -129,9 +131,10 @@ export default function StoredForecastResults({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+  const componentRef = React.useRef();
 
   const wc = "storedDataWorkflows";
-  const wp = "forecastResultsStored";
+  const wp = "forecastResultsQualityAssurance";
 
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
@@ -445,8 +448,14 @@ export default function StoredForecastResults({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
-      <ExcelExportTable<IStoredForecastResultsRow> {...exportTableProps} />
+      <div style={{ display: "flex" }}>
+        <ForecastAggregationLevelButtonsMenu />
+        <ForecastAggregationTypeButtonsMenu />
+        <ForecastVariableButtonsMenu />
+        <ExcelExportTable<IStoredForecastResultsRow> {...exportTableProps} />
+      </div>
     ),
+    componentRef,
   };
 
   React.useEffect(() => {
@@ -496,7 +505,7 @@ export default function StoredForecastResults({
           moreStyles={{ marginBottom: 4, width: 270 }}
         >
           <BaseButtons
-            buttonTexts={["View Table", "Plot Chart"]}
+            buttonTexts={["Reset", "Display"]}
             variants={["contained", "contained"]}
             colors={["secondary", "primary"]}
             startIcons={[

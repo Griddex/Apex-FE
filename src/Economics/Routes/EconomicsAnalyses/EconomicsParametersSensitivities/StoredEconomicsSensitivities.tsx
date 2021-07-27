@@ -21,7 +21,10 @@ import ExcelExportTable, {
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
@@ -271,7 +274,9 @@ export default function StoredEconomicsSensitivities() {
                     getTableDataByIdRequestAction(
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
-                      row.economicsSensitivitiesTitle as string
+                      row.economicsSensitivitiesTitle as string,
+
+                      wp as TAllWorkflowProcesses
                     )
                   )
                 }

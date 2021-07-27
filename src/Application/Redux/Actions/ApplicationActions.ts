@@ -1,6 +1,9 @@
 import { TUserMatchObject } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
-import { ReducersType } from "../../Components/Workflows/WorkflowTypes";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../../Components/Workflows/WorkflowTypes";
 import { IAction } from "./ActionTypes";
 
 export const UPDATE_APPLICATION = "UPDATE_APPLICATION";
@@ -153,11 +156,12 @@ export const saveUserMatchAction = (savedMatchObjectAll: TUserMatchObject) => {
 export const getTableDataByIdRequestAction = (
   reducer: ReducersType,
   tableDataUrl: string,
-  tableTitle: string
+  tableTitle: string,
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: GET_TABLEDATABYID_REQUEST,
-    payload: { reducer, tableDataUrl, tableTitle },
+    payload: { reducer, tableDataUrl, tableTitle, workflowProcess },
     meta: { showSpinner: true, message: "Fetching table data..." },
   };
 };
