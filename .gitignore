@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # Files
-# src/Application/Redux/Sagas/LoginSaga.ts
-# src/Application/Services/BaseUrlService.ts
+src/Application/Redux/Sagas/LoginSaga.ts
+src/Application/Services/BaseUrlService.ts
 
 # dependencies
 /node_modules
