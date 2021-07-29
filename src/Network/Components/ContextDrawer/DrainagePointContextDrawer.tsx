@@ -39,7 +39,7 @@ const ContextStat = ({ caption, contentText }: IContextStatistics) => {
   );
 };
 
-const WellheadContextDrawer = ({ data }: ICurrentPopoverData) => {
+const DrainagePointContextDrawer = ({ data }: ICurrentPopoverData) => {
   const classes = useStyles();
   const keys = Object.keys((data as Record<string, React.Key>[])[0]);
 
@@ -63,4 +63,4 @@ const WellheadContextDrawer = ({ data }: ICurrentPopoverData) => {
   );
 };
 
-export default WellheadContextDrawer;
+export default DrainagePointContextDrawer;

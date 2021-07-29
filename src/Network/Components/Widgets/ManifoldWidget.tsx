@@ -5,12 +5,14 @@ import ManifoldContextMenu from "./../ContextMenu/ManifoldContextMenu";
 import { Tooltip } from "@material-ui/core";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { useSelector } from "react-redux";
 
-const ManifoldWidget = ({ name }: IWidget) => {
+const ManifoldWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="flowstation" title={name} placement="bottom" arrow>
+      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
         <img
           src={Manifold}
           width={40}
@@ -25,14 +27,26 @@ const ManifoldWidget = ({ name }: IWidget) => {
 };
 
 const ManifoldNode = React.memo((props: Node & IExtraNodeProps) => {
-  console.log(
-    "Logged output --> ~ file: ManifoldWidget.tsx ~ line 53 ~ ManifoldNode ~ props",
-    props
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
   );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "manifoldNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        title: `Manifold_${noOfNodes}`,
+      },
+    };
+  }
+
   const {
     xPos,
     yPos,
-    data: { rowData },
+    data: { title },
   } = props;
 
   const position: XYPosition = {
@@ -40,11 +54,9 @@ const ManifoldNode = React.memo((props: Node & IExtraNodeProps) => {
     y: yPos,
   };
 
-  const name = `${rowData[0]["stationName"]} Manifold`;
-
   return (
     <ManifoldContextMenu position={position}>
-      <ManifoldWidget name={name} />
+      <ManifoldWidget title={title} />
     </ManifoldContextMenu>
   );
 });

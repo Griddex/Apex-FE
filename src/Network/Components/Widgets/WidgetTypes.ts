@@ -5,5 +5,5 @@ export interface IExtraNodeProps {
 }
 
 export interface IWidget {
-  name: string;
+  title: string;
 }

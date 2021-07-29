@@ -15,6 +15,8 @@ export interface ISaveNetworkFormValues {
 export interface ISaveNetworkFormProps extends ISaveNetworkFormValues {
   nodeElements?: Node[];
   edgeElements?: Edge[];
+  nodeElementsManual?: Node[];
+  edgeElementsManual?: Edge[];
   activeStep?: number;
   errors?: FormikErrors<ISaveNetworkFormValues>;
   touched?: FormikTouched<ISaveNetworkFormValues>;
@@ -90,13 +92,13 @@ export interface INetworkState extends ISaveNetworkFormProps {
   showPopover: boolean;
   showNetworkElementDetails:
     | null
-    | "showWellheadDetails"
+    | "showDrainagePointDetails"
     | "showManifoldDetails"
     | "showFlowstationDetails"
     | "showGasfacilityDetails"
     | "showTerminalDetails";
-  showWellheadSummaryNodes: boolean;
-  showWellheadSummaryEdges: boolean;
+  showDrainagePointSummaryNodes: boolean;
+  showDrainagePointSummaryEdges: boolean;
 
   isNetworkSaved: boolean;
   isNetworkChanged: boolean;

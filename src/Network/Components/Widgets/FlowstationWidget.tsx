@@ -1,16 +1,18 @@
 import { Tooltip } from "@material-ui/core";
 import React from "react";
-import { Handle, Position, XYPosition } from "react-flow-renderer";
+import { Handle, Position, XYPosition, Node } from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Flowstation from "../../Images/Flowstation.svg";
 import FlowstationContextMenu from "../ContextMenu/FlowstationContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const FlowstationWidget = ({ name }: IWidget) => {
+const FlowstationWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="flowstation" title={name} placement="bottom" arrow>
+      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
         <img
           src={Flowstation}
           width={40}
@@ -25,14 +27,28 @@ const FlowstationWidget = ({ name }: IWidget) => {
 };
 
 const FlowstationNode = React.memo((props: Node & IExtraNodeProps) => {
-  console.log(
-    "Logged output --> ~ file: FlowstationWidget.tsx ~ line 63 ~ FlowstationNode ~ props",
-    props
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
   );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "flowstationNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        stationData: { title: `Flowstation_${noOfNodes}` },
+      },
+    };
+  }
+
   const {
     xPos,
     yPos,
-    data: { name },
+    data: {
+      stationData: { title },
+    },
   } = props;
 
   const position: XYPosition = {
@@ -42,7 +58,7 @@ const FlowstationNode = React.memo((props: Node & IExtraNodeProps) => {
 
   return (
     <FlowstationContextMenu position={position}>
-      <FlowstationWidget name={name} />
+      <FlowstationWidget title={title} />
     </FlowstationContextMenu>
   );
 });
