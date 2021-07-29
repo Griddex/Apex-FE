@@ -112,11 +112,11 @@ export const saveForecastRequestAction = (
   };
 };
 
-export const updateNetworkParameterAction = (name: string, value: any) => {
+export const updateNetworkParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_NETWORKPARAMETER,
     payload: {
-      name,
+      path,
       value,
     },
   };

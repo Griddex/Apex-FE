@@ -1,6 +1,8 @@
 import { Tooltip } from "@material-ui/core";
 import React from "react";
-import { Handle, Position, XYPosition } from "react-flow-renderer";
+import { Handle, Position, XYPosition, Node } from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
 import GatheringCenterContextMenu from "../ContextMenu/GatheringCenterContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
@@ -25,6 +27,22 @@ const GatheringCenterWidget = ({ title }: IWidget) => {
 };
 
 const GatheringCenterNode = React.memo((props: Node & IExtraNodeProps) => {
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "gatheringCenterNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        stationData: { title: `Gathering Center_${noOfNodes}` },
+      },
+    };
+  }
+
   const {
     xPos,
     yPos,

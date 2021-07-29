@@ -1,6 +1,8 @@
 import { Tooltip } from "@material-ui/core";
 import React from "react";
 import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import DrainagePoint from "../../Images/DrainagePoint.svg";
 import DrainagePointContextMenu from "./../ContextMenu/DrainagePointContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
@@ -24,6 +26,21 @@ const DrainagePointWidget = ({ title }: IWidget) => {
 };
 
 const DrainagePointNode = React.memo((props: Node & IExtraNodeProps) => {
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "drainagePointNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        title: `DrainagePoint_${noOfNodes}`,
+      },
+    };
+  }
   const { xPos, yPos, data } = props;
   const { title } = data;
 

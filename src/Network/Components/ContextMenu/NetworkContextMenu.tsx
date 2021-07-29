@@ -13,7 +13,7 @@ import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined"
 import UndoOutlinedIcon from "@material-ui/icons/UndoOutlined";
 import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Flowstation from "../../Images/Flowstation.svg";
 import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
@@ -27,6 +27,7 @@ import {
 import { addNetworkElementAction } from "../../Redux/Actions/NetworkActions";
 import GenerateNodeByPositionService from "../../Services/GenerateNodeByPositionService";
 import { XYPosition } from "react-flow-renderer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 export const AddNetworkElementMenu = ({
   elementName,
@@ -339,14 +340,22 @@ export const NetworkContextMenu = React.forwardRef<
   HTMLDivElement,
   INetworkContextMenuProps
 >(({ elementName }, ref) => {
+  const { isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
   return (
     <div ref={ref}>
-      <AddNetworkElementMenu elementName={elementName} />
-      <AddAssetMenu />
-      <hr />
-      <RenameMenu />
+      {!isNetworkAuto && (
+        <>
+          <AddNetworkElementMenu elementName={elementName} />
+          <AddAssetMenu />
+          <hr />
+        </>
+      )}
       <ShowDetailsMenu />
-      <hr />
+      <RunForecastMenu />
+      {/* <hr />
       <CopyMenu />
       <CutMenu />
       <PasteMenu />
@@ -355,7 +364,7 @@ export const NetworkContextMenu = React.forwardRef<
       <RedoMenu />
       <hr />
       <ShowNetworkDataMenu />
-      <RunForecastMenu />
+      <RenameMenu /> */}
     </div>
   );
 });

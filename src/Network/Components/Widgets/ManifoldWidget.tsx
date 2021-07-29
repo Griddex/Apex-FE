@@ -5,6 +5,8 @@ import ManifoldContextMenu from "./../ContextMenu/ManifoldContextMenu";
 import { Tooltip } from "@material-ui/core";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { useSelector } from "react-redux";
 
 const ManifoldWidget = ({ title }: IWidget) => {
   return (
@@ -25,10 +27,22 @@ const ManifoldWidget = ({ title }: IWidget) => {
 };
 
 const ManifoldNode = React.memo((props: Node & IExtraNodeProps) => {
-  console.log(
-    "Logged output --> ~ file: ManifoldWidget.tsx ~ line 53 ~ ManifoldNode ~ props",
-    props
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
   );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "manifoldNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        title: `Manifold_${noOfNodes}`,
+      },
+    };
+  }
+
   const {
     xPos,
     yPos,

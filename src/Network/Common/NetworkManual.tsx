@@ -39,7 +39,10 @@ import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
 import DrainagePointSummaryNode from "../Components/Widgets/DrainagePointSummaryWidget";
 import DrainagePointNode from "../Components/Widgets/DrainagePointWidget";
-import { setCurrentElementAction } from "../Redux/Actions/NetworkActions";
+import {
+  setCurrentElementAction,
+  updateNetworkParameterAction,
+} from "../Redux/Actions/NetworkActions";
 import GenerateNodeService from "../Services/GenerateNodeService";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
@@ -123,9 +126,8 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
-  const { currentPopoverData, showNetworkElementDetails } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const { nodeElementsManual, currentPopoverData, showNetworkElementDetails } =
+    useSelector((state: RootState) => state.networkReducer);
 
   const NetworkDiagramIconsProps = {
     showMiniMap,
@@ -221,6 +223,17 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     setCurrentElement(element);
   };
 
+  React.useEffect(() => {
+    setNetworkElements(nodeElementsManual);
+  }, []);
+
+  React.useEffect(() => {
+    //TODO How to save edgeelements in edgeElementsManual?
+    dispatch(
+      updateNetworkParameterAction("nodeElementsManual", networkElements)
+    );
+  }, [networkElements]);
+
   return (
     <div className={classes.root}>
       <ReactFlowProvider>
@@ -259,13 +272,6 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
               // defaultZoom={1.5}
               minZoom={0.2}
               maxZoom={4}
-              // onNodeMouseEnter={(event, node) => {
-              //   // dispatch(showPopoverAction(true));
-              //   dispatch(setCurrentPopoverIdAction(node.id));
-              //   dispatch(setCurrentPopoverDataAction(node.data.forecastData));
-
-              //   event.nativeEvent.stopImmediatePropagation();
-              // }}
               onPaneContextMenu={(event) => console.log(event)}
             >
               {showMiniMap && (

@@ -9,6 +9,8 @@ const networkState: INetworkState = {
 
   nodeElements: [],
   edgeElements: [],
+  nodeElementsManual: [],
+  edgeElementsManual: [],
   showDrainagePointSummaryNodes: true,
   showDrainagePointSummaryEdges: true,
 

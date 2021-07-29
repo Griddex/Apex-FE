@@ -10,6 +10,8 @@ import {
   drainagePointSummaryWidgetStyle,
 } from "./WidgetStyles";
 import { IExtraNodeProps } from "./WidgetTypes";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const DrainagePointSummaryWidget = ({
   drainagePoints,
@@ -41,10 +43,22 @@ const DrainagePointSummaryWidget = ({
 };
 
 const DrainagePointSummaryNode = React.memo((props: Node & IExtraNodeProps) => {
-  console.log(
-    "Logged output --> ~ file: DrainagePointSummaryWidget.tsx ~ line 43 ~ DrainagePointSummaryNode ~ props",
-    props
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
   );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "drainagePointSummaryNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        drainagePoints: "None",
+      },
+    };
+  }
+
   const {
     xPos,
     yPos,

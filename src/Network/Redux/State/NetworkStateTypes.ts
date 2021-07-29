@@ -15,6 +15,8 @@ export interface ISaveNetworkFormValues {
 export interface ISaveNetworkFormProps extends ISaveNetworkFormValues {
   nodeElements?: Node[];
   edgeElements?: Edge[];
+  nodeElementsManual?: Node[];
+  edgeElementsManual?: Edge[];
   activeStep?: number;
   errors?: FormikErrors<ISaveNetworkFormValues>;
   touched?: FormikTouched<ISaveNetworkFormValues>;
