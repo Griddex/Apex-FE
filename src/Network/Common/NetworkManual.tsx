@@ -27,7 +27,7 @@ import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationCon
 import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
 import {
   default as ManifoldContextDrawer,
-  default as WellheadContextDrawer,
+  default as DrainagePointContextDrawer,
 } from "../Components/ContextDrawer/ManifoldContextDrawer";
 import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
 import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
@@ -37,8 +37,8 @@ import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
 import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
 import ManifoldNode from "../Components/Widgets/ManifoldWidget";
 import TerminalNode from "../Components/Widgets/TerminalWidget";
-import WellheadSummaryNode from "../Components/Widgets/WellheadSummaryWidget";
-import WellheadNode from "../Components/Widgets/WellheadWidget";
+import DrainagePointSummaryNode from "../Components/Widgets/DrainagePointSummaryWidget";
+import DrainagePointNode from "../Components/Widgets/DrainagePointWidget";
 import { setCurrentElementAction } from "../Redux/Actions/NetworkActions";
 import GenerateNodeService from "../Services/GenerateNodeService";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
@@ -95,8 +95,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const nodeTypes: NodeTypesType = {
-  wellheadSummaryNode: WellheadSummaryNode,
-  wellheadNode: WellheadNode,
+  drainagePointSummaryNode: DrainagePointSummaryNode,
+  drainagePointNode: DrainagePointNode,
   manifoldNode: ManifoldNode,
   flowstationNode: FlowstationNode,
   gasFacilityNode: GasFacilityNode,
@@ -276,7 +276,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
                     if (n.type === "manifoldNode") return "#0041d0";
                     if (n.type === "flowstationNode") return "#31BFCC";
                     if (n.type === "gasFacilityNode") return "#ff0072";
-                    if (n.type === "wellheadNode") return "#ff3400";
+                    if (n.type === "drainagePointNode") return "#ff3400";
                     if (n.type === "terminal") return "#1a192b";
                     return "#eee";
                   }}
@@ -297,8 +297,8 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
       {showContextDrawer && (
         <ContextDrawer>
           {() => {
-            if (showNetworkElementDetails === "showWellheadDetails")
-              return <WellheadContextDrawer data={currentPopoverData} />;
+            if (showNetworkElementDetails === "showDrainagePointDetails")
+              return <DrainagePointContextDrawer data={currentPopoverData} />;
             else if (showNetworkElementDetails === "showManifoldDetails")
               return <ManifoldContextDrawer data={currentPopoverData} />;
             else if (showNetworkElementDetails === "showFlowstationDetails")

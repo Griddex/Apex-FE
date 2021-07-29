@@ -9,8 +9,8 @@ const networkState: INetworkState = {
 
   nodeElements: [],
   edgeElements: [],
-  showWellheadSummaryNodes: true,
-  showWellheadSummaryEdges: true,
+  showDrainagePointSummaryNodes: true,
+  showDrainagePointSummaryEdges: true,
 
   parameterEntries: {
     forecastParametersTitle: "",

@@ -37,7 +37,7 @@ const NetworkPanel = () => {
   ) as IApplicationStoredForecastResultsRow[];
 
   const nodeNames = [
-    "wellhead",
+    "drainagePoint",
     "manifold",
     "flowstation",
     "gasFacility",

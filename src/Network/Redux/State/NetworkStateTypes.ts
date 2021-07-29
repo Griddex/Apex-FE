@@ -90,13 +90,13 @@ export interface INetworkState extends ISaveNetworkFormProps {
   showPopover: boolean;
   showNetworkElementDetails:
     | null
-    | "showWellheadDetails"
+    | "showDrainagePointDetails"
     | "showManifoldDetails"
     | "showFlowstationDetails"
     | "showGasfacilityDetails"
     | "showTerminalDetails";
-  showWellheadSummaryNodes: boolean;
-  showWellheadSummaryEdges: boolean;
+  showDrainagePointSummaryNodes: boolean;
+  showDrainagePointSummaryEdges: boolean;
 
   isNetworkSaved: boolean;
   isNetworkChanged: boolean;

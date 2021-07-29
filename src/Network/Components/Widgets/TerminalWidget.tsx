@@ -6,11 +6,11 @@ import TerminalContextMenu from "../ContextMenu/TerminalContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const TerminalWidget = ({ name }: IWidget) => {
+const TerminalWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="flowstation" title={name} placement="bottom" arrow>
+      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
         <img
           src={Terminal}
           width={40}
@@ -28,7 +28,7 @@ const TerminalNode = React.memo((props: Node & IExtraNodeProps) => {
   const {
     xPos,
     yPos,
-    data: { name },
+    data: { title },
   } = props;
   const position: XYPosition = {
     x: xPos,
@@ -37,7 +37,7 @@ const TerminalNode = React.memo((props: Node & IExtraNodeProps) => {
 
   return (
     <TerminalContextMenu position={position}>
-      <TerminalWidget name={name} />
+      <TerminalWidget title={title} />
     </TerminalContextMenu>
   );
 });

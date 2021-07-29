@@ -6,11 +6,11 @@ import GatheringCenterContextMenu from "../ContextMenu/GatheringCenterContextMen
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const GatheringCenterWidget = ({ name }: IWidget) => {
+const GatheringCenterWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Left} style={handleStyle} />
-      <Tooltip key="gatheringCenter" title={name} placement="bottom" arrow>
+      <Tooltip key="gatheringCenter" title={title} placement="bottom" arrow>
         <img
           src={GatheringCenter}
           width={40}
@@ -28,7 +28,9 @@ const GatheringCenterNode = React.memo((props: Node & IExtraNodeProps) => {
   const {
     xPos,
     yPos,
-    data: { name },
+    data: {
+      stationData: { title },
+    },
   } = props;
   const position: XYPosition = {
     x: xPos,
@@ -37,7 +39,7 @@ const GatheringCenterNode = React.memo((props: Node & IExtraNodeProps) => {
 
   return (
     <GatheringCenterContextMenu position={position}>
-      <GatheringCenterWidget name={name} />
+      <GatheringCenterWidget title={title} />
     </GatheringCenterContextMenu>
   );
 });

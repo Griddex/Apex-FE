@@ -6,11 +6,11 @@ import GasfacilityContextMenu from "../ContextMenu/GasfacilityContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const GasFacilityWidget = ({ name }: IWidget) => {
+const GasFacilityWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="gasFacility" title={name} placement="bottom" arrow>
+      <Tooltip key="gasFacility" title={title} placement="bottom" arrow>
         <img
           src={GasFacility}
           width={40}
@@ -28,7 +28,9 @@ const GasFacilityNode = React.memo((props: Node & IExtraNodeProps) => {
   const {
     xPos,
     yPos,
-    data: { name },
+    data: {
+      stationData: { title },
+    },
   } = props;
   const position: XYPosition = {
     x: xPos,
@@ -37,7 +39,7 @@ const GasFacilityNode = React.memo((props: Node & IExtraNodeProps) => {
 
   return (
     <GasfacilityContextMenu position={position}>
-      <GasFacilityWidget name={name} />
+      <GasFacilityWidget title={title} />
     </GasfacilityContextMenu>
   );
 });

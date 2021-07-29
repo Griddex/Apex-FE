@@ -6,11 +6,11 @@ import { Tooltip } from "@material-ui/core";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 
-const ManifoldWidget = ({ name }: IWidget) => {
+const ManifoldWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="flowstation" title={name} placement="bottom" arrow>
+      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
         <img
           src={Manifold}
           width={40}
@@ -32,7 +32,7 @@ const ManifoldNode = React.memo((props: Node & IExtraNodeProps) => {
   const {
     xPos,
     yPos,
-    data: { rowData },
+    data: { title },
   } = props;
 
   const position: XYPosition = {
@@ -40,11 +40,9 @@ const ManifoldNode = React.memo((props: Node & IExtraNodeProps) => {
     y: yPos,
   };
 
-  const name = `${rowData[0]["stationName"]} Manifold`;
-
   return (
     <ManifoldContextMenu position={position}>
-      <ManifoldWidget name={name} />
+      <ManifoldWidget title={title} />
     </ManifoldContextMenu>
   );
 });

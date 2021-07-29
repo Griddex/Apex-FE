@@ -19,7 +19,7 @@ import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
 import Manifold from "../../Images/Manifold.svg";
 import Terminal from "../../Images/Terminal.svg";
-import Wellhead from "../../Images/Wellhead.svg";
+import DrainagePoint from "../../Images/DrainagePoint.svg";
 import {
   contextDrawerExpandAction,
   showContextDrawerAction,
@@ -34,8 +34,8 @@ export const AddNetworkElementMenu = ({
   elementName: string;
 }) => {
   const NetworkIcons: Record<string, string> = {
-    wellhead: Wellhead,
-    wellheadSummary: Wellhead,
+    drainagePoint: DrainagePoint,
+    drainagePointSummary: DrainagePoint,
     manifold: Manifold,
     flowstation: Flowstation,
     gasFacility: GasFacility,
@@ -75,13 +75,12 @@ export const NetworkElementsMenu = ({
     y: -1,
   };
   const [open, setOpen] = React.useState(false);
-  const [nodePosition, setNodePosition] = React.useState<XYPosition>(
-    initialPosition
-  );
+  const [nodePosition, setNodePosition] =
+    React.useState<XYPosition>(initialPosition);
 
   const elements = [
     {
-      Wellhead: Wellhead,
+      DrainagePoint: DrainagePoint,
       handleClick: () => {
         const newElementPosition = {
           x: nodePosition.x + 20,
@@ -89,7 +88,7 @@ export const NetworkElementsMenu = ({
         };
 
         const newElement = GenerateNodeByPositionService(
-          "wellhead",
+          "drainagePoint",
           newElementPosition
         );
 
