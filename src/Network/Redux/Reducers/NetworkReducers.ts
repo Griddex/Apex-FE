@@ -42,9 +42,9 @@ import set from "lodash.set";
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
     case UPDATE_NETWORKPARAMETER: {
-      const { name, value } = action.payload;
+      const { path, value } = action.payload;
 
-      const updatedState = set(state, name, value);
+      const updatedState = set(state, path, value);
       return updatedState;
     }
 

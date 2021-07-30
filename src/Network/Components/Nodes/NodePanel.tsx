@@ -5,7 +5,7 @@ import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
 import Manifold from "../../Images/Manifold.svg";
 import Terminal from "../../Images/Terminal.svg";
-import Wellhead from "../../Images/Wellhead.svg";
+import DrainagePoint from "../../Images/DrainagePoint.svg";
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 
 interface nodeProps {
@@ -94,11 +94,11 @@ const NodePanel: React.FC<nodeProps> = ({ name }) => {
       ),
     },
     {
-      name: "wellhead",
-      label: "Wellhead",
+      name: "drainagePoint",
+      label: "DrainagePoint",
       icon: (
         <img
-          src={Wellhead}
+          src={DrainagePoint}
           alt="Network background"
           height={"100%"}
           width={"100%"}

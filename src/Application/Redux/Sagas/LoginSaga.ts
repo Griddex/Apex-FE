@@ -62,9 +62,11 @@ function* loginSaga(
     //   "https://gorest.co.in/public-api/users"
     // );
 
+    
     const { status } = response;
 
     if (status === 200) {
+      console.log("Called FETCH_USERDETAILS_REQUEST" )
       yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
     }
     yield call(forwardTo, "/apex");

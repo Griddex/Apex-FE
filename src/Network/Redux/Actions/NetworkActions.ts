@@ -112,11 +112,11 @@ export const saveForecastRequestAction = (
   };
 };
 
-export const updateNetworkParameterAction = (name: string, value: any) => {
+export const updateNetworkParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_NETWORKPARAMETER,
     payload: {
-      name,
+      path,
       value,
     },
   };
@@ -206,25 +206,25 @@ export const hideNetworkElementDetailsAction = () => {
   return {
     type: HIDE_NETWORKELEMENTDETAILS,
     payload: {
-      showWellheadDetails: false,
+      showDrainagePointDetails: false,
     },
   };
 };
 
-export const hideWellheadSummaryNodesAction = () => {
+export const hideDrainagePointSummaryNodesAction = () => {
   return {
     type: HIDE_WELHEADSUMMARYNODES,
     payload: {
-      showWellheadSummaryNodes: false,
+      showDrainagePointSummaryNodes: false,
     },
   };
 };
 
-export const hideWellheadSummaryEdgesAction = () => {
+export const hideDrainagePointSummaryEdgesAction = () => {
   return {
     type: HIDE_WELHEADSUMMARYEDGES,
     payload: {
-      showWellheadSummaryEdges: false,
+      showDrainagePointSummaryEdges: false,
     },
   };
 };

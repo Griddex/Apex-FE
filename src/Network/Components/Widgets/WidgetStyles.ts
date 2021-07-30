@@ -14,7 +14,7 @@ export const widgetStyle = {
   justifyContent: "center",
 } as CSSProperties;
 
-export const wellheadSummaryWidgetStyle = {
+export const drainagePointSummaryWidgetStyle = {
   display: "flex",
   flexDirection: "row",
   width: "100%",
@@ -23,7 +23,7 @@ export const wellheadSummaryWidgetStyle = {
   padding: 2,
 } as CSSProperties;
 
-export const wellheadeSummaryInnerStyle = {
+export const drainagePointSummaryInnerStyle = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -31,7 +31,7 @@ export const wellheadeSummaryInnerStyle = {
   width: "50%",
 } as CSSProperties;
 
-export const wellheadeSummaryTextStyle = {
+export const drainagePointSummaryTextStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

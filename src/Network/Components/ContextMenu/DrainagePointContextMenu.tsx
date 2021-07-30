@@ -6,17 +6,21 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IContextMenuProps } from "./ContextMenuTypes";
 import NetworkContextMenu from "./NetworkContextMenu";
 
-const WellheadSummaryContextMenu = ({
+const DrainagePointContextMenu = ({
   children,
   position,
 }: IContextMenuProps) => {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
+  console.log(
+    "Logged output --> ~ file: DrainagePointContextMenu.tsx ~ line 13 ~ DrainagePointContextMenu ~ position",
+    position
+  );
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { showWellheadDetails } = useSelector(
+  const { showDrainagePointDetails } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
@@ -57,14 +61,13 @@ const WellheadSummaryContextMenu = ({
         keepMounted
         open={open}
         onClose={handleClose}
-        onMouseLeave={handleClose}
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}
       >
-        <NetworkContextMenu elementName={"wellheadSummary"} />
+        <NetworkContextMenu elementName={"drainagePoint"} />
       </Menu>
     </div>
   );
 };
 
-export default WellheadSummaryContextMenu;
+export default DrainagePointContextMenu;

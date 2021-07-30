@@ -1,16 +1,18 @@
 import { Tooltip } from "@material-ui/core";
 import React from "react";
-import { Handle, Position, XYPosition } from "react-flow-renderer";
+import { Handle, Position, XYPosition, Node } from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import GasFacility from "../../Images/GasFacility.svg";
 import GasfacilityContextMenu from "../ContextMenu/GasfacilityContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const GasFacilityWidget = ({ name }: IWidget) => {
+const GasFacilityWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="gasFacility" title={name} placement="bottom" arrow>
+      <Tooltip key="gasFacility" title={title} placement="bottom" arrow>
         <img
           src={GasFacility}
           width={40}
@@ -25,11 +27,30 @@ const GasFacilityWidget = ({ name }: IWidget) => {
 };
 
 const GasFacilityNode = React.memo((props: Node & IExtraNodeProps) => {
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "gasFacilityNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        stationData: { title: `Gas Facility_${noOfNodes}` },
+      },
+    };
+  }
+
   const {
     xPos,
     yPos,
-    data: { name },
+    data: {
+      stationData: { title },
+    },
   } = props;
+
   const position: XYPosition = {
     x: xPos,
     y: yPos,
@@ -37,7 +58,7 @@ const GasFacilityNode = React.memo((props: Node & IExtraNodeProps) => {
 
   return (
     <GasfacilityContextMenu position={position}>
-      <GasFacilityWidget name={name} />
+      <GasFacilityWidget title={title} />
     </GasfacilityContextMenu>
   );
 });

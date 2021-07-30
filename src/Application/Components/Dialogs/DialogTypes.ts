@@ -47,6 +47,7 @@ import StoredProductionStreamPrioritizationDialog from "../../../Network/Compone
 import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
 import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
+import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -90,6 +91,7 @@ export interface IApplicationDialogs {
   storedProductionStreamPrioritizationDialog: typeof StoredProductionStreamPrioritizationDialog;
 
   snapshotDialog: typeof SnapshotDialog;
+  networkWidgetDialog: typeof NetworkWidgetDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -147,7 +149,8 @@ export interface DialogStuff<TRow = IRawRow> {
     | "saveEconomicsResultsDialog"
     | "storedDeclineCurveParametersDialog"
     | "storedProductionStreamPrioritizationDialog"
-    | "snapshotDialog";
+    | "snapshotDialog"
+    | "networkWidgetDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -182,6 +185,7 @@ export interface DialogStuff<TRow = IRawRow> {
   initialState?: any;
   deleteTitle?: string;
   snapshot?: any;
+  widgetComponent?: React.FC<any>;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

@@ -3,51 +3,46 @@ import React from "react";
 import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import Terminal from "../../Images/Terminal.svg";
-import TerminalContextMenu from "../ContextMenu/TerminalContextMenu";
+import DrainagePoint from "../../Images/DrainagePoint.svg";
+import DrainagePointContextMenu from "./../ContextMenu/DrainagePointContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const TerminalWidget = ({ title }: IWidget) => {
+const DrainagePointWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
-      <Handle type="target" position={Position.Bottom} style={handleStyle} />
+      <Handle type="source" position={Position.Top} style={handleStyle} />
       <Tooltip key="flowstation" title={title} placement="bottom" arrow>
         <img
-          src={Terminal}
-          width={40}
-          height={40}
+          src={DrainagePoint}
+          width={20}
+          height={20}
           draggable={false}
-          alt="Terminal"
+          alt="DrainagePoint"
         />
       </Tooltip>
-      <Handle type="source" position={Position.Right} style={handleStyle} />
     </div>
   );
 };
 
-const TerminalNode = React.memo((props: Node & IExtraNodeProps) => {
+const DrainagePointNode = React.memo((props: Node & IExtraNodeProps) => {
   const { nodeElementsManual, isNetworkAuto } = useSelector(
     (state: RootState) => state.networkReducer
   );
   const noOfNodes = nodeElementsManual.filter(
-    (node: Node & IExtraNodeProps) => node.type === "terminalNode"
+    (node: Node & IExtraNodeProps) => node.type === "drainagePointNode"
   ).length;
 
   if (!isNetworkAuto) {
     props = {
       ...props,
       ["data"]: {
-        title: `Terminal_${noOfNodes}`,
+        title: `DrainagePoint_${noOfNodes}`,
       },
     };
   }
-
-  const {
-    xPos,
-    yPos,
-    data: { title },
-  } = props;
+  const { xPos, yPos, data } = props;
+  const { title } = data;
 
   const position: XYPosition = {
     x: xPos,
@@ -55,10 +50,10 @@ const TerminalNode = React.memo((props: Node & IExtraNodeProps) => {
   };
 
   return (
-    <TerminalContextMenu position={position}>
-      <TerminalWidget title={title} />
-    </TerminalContextMenu>
+    <DrainagePointContextMenu position={position}>
+      <DrainagePointWidget title={title} />
+    </DrainagePointContextMenu>
   );
 });
 
-export default TerminalNode;
+export default DrainagePointNode;

@@ -25,21 +25,22 @@ const TitleAndDescriptionForm = ({
     <Formik
       initialValues={{ title: "", description: "" }}
       validationSchema={Yup.object({
-        title: Yup.string()
-          .required("Title is required")
-          .test("alreadyExists", "Title already exists", (v) => {
-            if (v) {
-              const exi = storedTitlesDefined
-                .map((t) => t.toLowerCase())
-                .includes((v as string).trim().toLowerCase());
-              console.log(
-                "Logged output --> ~ file: TitleAndDescriptionForm.tsx ~ line 35 ~ .test ~ exi",
-                exi
-              );
+        title: Yup.string(),
+          // .required("Title is required")
+          // .test("alreadyExists", "Title already exists", (v) => {
+          //   if (v) {
+          //     const exi = storedTitlesDefined
+          //       .map((t) => t.toLowerCase())
+          //       .includes((v as string).trim().toLowerCase());
+          //     console.log(
+          //       "Logged output --> ~ file: TitleAndDescriptionForm.tsx ~ line 35 ~ .test ~ exi",
+          //       exi
+          //     );
 
-              return !exi;
-            } else return true;
-          }),
+          //     return !exi;
+          //   } else return true;
+          // })
+          
         description: Yup.string(),
       })}
       onSubmit={() => {}}

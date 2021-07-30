@@ -1,16 +1,18 @@
 import { Tooltip } from "@material-ui/core";
 import React from "react";
-import { Handle, Position, XYPosition } from "react-flow-renderer";
+import { Handle, Position, XYPosition, Node } from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
 import GatheringCenterContextMenu from "../ContextMenu/GatheringCenterContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const GatheringCenterWidget = ({ name }: IWidget) => {
+const GatheringCenterWidget = ({ title }: IWidget) => {
   return (
     <div style={widgetStyle}>
       <Handle type="target" position={Position.Left} style={handleStyle} />
-      <Tooltip key="gatheringCenter" title={name} placement="bottom" arrow>
+      <Tooltip key="gatheringCenter" title={title} placement="bottom" arrow>
         <img
           src={GatheringCenter}
           width={40}
@@ -25,10 +27,28 @@ const GatheringCenterWidget = ({ name }: IWidget) => {
 };
 
 const GatheringCenterNode = React.memo((props: Node & IExtraNodeProps) => {
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "gatheringCenterNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        stationData: { title: `Gathering Center_${noOfNodes}` },
+      },
+    };
+  }
+
   const {
     xPos,
     yPos,
-    data: { name },
+    data: {
+      stationData: { title },
+    },
   } = props;
   const position: XYPosition = {
     x: xPos,
@@ -37,7 +57,7 @@ const GatheringCenterNode = React.memo((props: Node & IExtraNodeProps) => {
 
   return (
     <GatheringCenterContextMenu position={position}>
-      <GatheringCenterWidget name={name} />
+      <GatheringCenterWidget title={title} />
     </GatheringCenterContextMenu>
   );
 });
