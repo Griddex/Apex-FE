@@ -3,7 +3,7 @@ import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneO
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import TuneOutlinedIcon from "@material-ui/icons/TuneOutlined";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "../../../Application/Components/Visuals/Image";
 import { anitaImg } from "../../../Import/Utils/iconImages";
 import {
@@ -17,6 +17,7 @@ import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import { logoutAction } from "../../Redux/Actions/LogoutActions";
 import { useHistory } from "react-router-dom";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: 80, width: 80 },
@@ -43,14 +44,14 @@ const useStyles = makeStyles((theme) => ({
 
 //TODO: Saga to grab user profile information from server
 //Put data in store and retrieve here using useSelector
-const userProfileData: IUserDetails = {
+/* const userProfileData: IUserDetails = {
   avatarUrl: anitaImg,
   name: "Gideon Sanni",
   callName: "Gideon",
   email: "gideon.sanni@syncware.com",
   jobTitle: "Senior Reservoir Engineer",
   role: "Corporate Forecaster",
-};
+}; */
 
 const IconNameComp = ({ icon, name, iconNameStyles }: IIconNameComp) => {
   return (
@@ -67,6 +68,8 @@ const UserProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const loginProps = useSelector((state: RootState) => state.loginReducer);
+  const { userName, email,  avatarUrl} = loginProps
 
   const logoutDecision = () => {
     const logoutDialogActions = () => {
@@ -139,11 +142,11 @@ const UserProfile = () => {
       }}
     >
       <div className={classes.userProfile}>
-        <Image className={classes.image} src={userProfileData.avatarUrl} />
+        <Image className={classes.image} src={avatarUrl} />
         <Typography className={classes.userName}>
-          {userProfileData.name}
+          {userName}
         </Typography>
-        <Typography variant="caption">{userProfileData.email}</Typography>
+        <Typography variant="caption">{email}</Typography>
       </div>
       <div
         style={{

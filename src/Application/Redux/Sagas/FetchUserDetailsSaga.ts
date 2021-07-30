@@ -43,16 +43,18 @@ function* fetchUserDetailsSaga(
   any
 > {
   const { payload } = action;
+  console.log("payload current user: ", payload)
 
   const config = {
-    withCredentials: true,
+    withCredentials: false,
   };
   const fetchUserDetailsAPI = (url: string) => authService.get(url, config);
 
   try {
+    console.log("getBaseAuthUrl(): ", getBaseAuthUrl())
     const response = yield call(
       fetchUserDetailsAPI,
-      `${getBaseAuthUrl()}/currentuser`
+      `${getBaseAuthUrl()}/profiles/currentuser`
     );
 
     const {

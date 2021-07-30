@@ -53,14 +53,17 @@ function* loginSaga(
 
   try {
     // const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    //"https://gorest.co.in/public-api/users"
     const response = yield call(
       loginAPI,
-      "https://gorest.co.in/public-api/users"
+      `${getBaseAuthUrl()}/signin`
     );
 
+    
     const { status } = response;
 
     if (status === 200) {
+      console.log("Called FETCH_USERDETAILS_REQUEST" )
       yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
     }
     yield call(forwardTo, "/apex");

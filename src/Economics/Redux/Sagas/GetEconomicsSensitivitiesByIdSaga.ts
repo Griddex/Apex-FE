@@ -38,7 +38,7 @@ export default function* watchGetEconomicsSensitivitiesByIdSaga(): Generator<
   );
 }
 
-const config = { withCredentials: true };
+const config = { withCredentials: false };
 const getEconomicsSensitivitiesByIdAPI = (url: string) =>
   authService.get(url, config);
 

@@ -41,7 +41,7 @@ export default function* watchFetchStoredDeclineCurveParametersSaga(): Generator
 
 type AxiosPromise = ReturnType<typeof fetchStoredDeclineCurveParametersAPI>;
 
-const config = { withCredentials: true };
+const config = { withCredentials: false };
 const fetchStoredDeclineCurveParametersAPI = (url: string) =>
   authService.get(url, config);
 
