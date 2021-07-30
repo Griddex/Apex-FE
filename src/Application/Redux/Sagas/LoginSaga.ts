@@ -52,8 +52,11 @@ function* loginSaga(
   yield put(showSpinnerAction("Logging in..."));
 
   try {
-    // const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
-    //"https://gorest.co.in/public-api/users"
+
+    // const { data } = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    // const token = data["access-token"];
+    // sessionStorage.setItem("token", token);
+
     const response = yield call(
       loginAPI,
       `${getBaseAuthUrl()}/signin`

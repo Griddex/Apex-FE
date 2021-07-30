@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { putDataAction } from "../../Redux/Actions/ApplicationActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import ApexEditor, { IApexEditor } from "../Editors/ApexEditor";
@@ -112,19 +113,21 @@ const TableEditorDialog = (props: DialogStuff) => {
     apexEditorComponent,
   } = props;
 
-  const [shouldUpdate, setShouldUpdate] = React.useState(false);
-
-  const shouldUpdateAction = () => {
-    console.log(
-      "Logged output --> ~ file: TableEditorDialog.tsx ~ line 119 ~ shouldUpdateAction ~ shouldUpdate",
-      shouldUpdate
-    );
-    setShouldUpdate(!shouldUpdate);
-  };
   const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
+  const { editedRow } = apexEditorPropsDefined;
+  const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
+  console.log(
+    "Logged output --> ~ file: TableEditorDialog.tsx ~ line 119 ~ TableEditorDialog ~ formEditorRow",
+    formEditorRow
+  );
+
   const ApexEditorComponent = apexEditorComponent as NonNullable<
     DialogStuff["apexEditorComponent"]
   >;
+
+  const shouldUpdateAction = () => {
+    dispatch(putDataAction(formEditorRow));
+  };
 
   return (
     <Dialog
@@ -145,15 +148,14 @@ const TableEditorDialog = (props: DialogStuff) => {
       >
         {(isCustomComponent as boolean) ? (
           <ApexEditorComponent
-            shouldUpdate={shouldUpdate}
-            setShouldUpdate={setShouldUpdate}
+            formEditorRow={formEditorRow}
+            setFormEditorRow={setFormEditorRow}
           />
         ) : (
           <ApexEditor
             {...apexEditorPropsDefined}
-            shouldUpdate={shouldUpdate}
-            setShouldUpdate={setShouldUpdate}
-            shouldUpdateAction={shouldUpdateAction}
+            formEditorRow={formEditorRow}
+            setFormEditorRow={setFormEditorRow}
           />
         )}
       </DialogContent>

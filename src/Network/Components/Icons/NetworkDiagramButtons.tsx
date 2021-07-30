@@ -39,7 +39,7 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
       <ForecastButtonsMenu />
       <Tooltip
         key={"miniMapToolTip"}
-        title={"Toggle the production network's minimap on or off"}
+        title={"Minimap"}
         placement="bottom-end"
         arrow
       >
@@ -57,7 +57,7 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
       </Tooltip>
       <Tooltip
         key={"controlsToolTip"}
-        title={"Toggle the production network's controls on or off"}
+        title={"Controls"}
         placement="bottom-end"
         arrow
       >

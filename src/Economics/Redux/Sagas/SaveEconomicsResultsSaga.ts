@@ -97,6 +97,7 @@ function* saveEconomicsResultsSaga(
     yield put(
       fetchStoredEconomicsResultsRequestAction(currentProjectId, false)
     );
+    // yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(
         successDialogParameters(

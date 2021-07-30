@@ -2,6 +2,7 @@ import {
   Button,
   makeStyles,
   MenuItem,
+  Tooltip,
   Typography,
   useTheme,
 } from "@material-ui/core";
@@ -48,20 +49,22 @@ const ForecastVariableButtonsMenu = () => {
 
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
-      <Button
-        onClick={handleClick}
-        startIcon={<ShowChartOutlinedIcon />}
-        endIcon={<KeyboardArrowDownIcon />}
-        style={{
-          height: 28,
-          backgroundColor: theme.palette.primary.light,
-          border: `1px solid ${theme.palette.primary.main}`,
-          width: 250,
-        }}
-        classes={{ label: classes.label }}
-      >
-        {forecastVariableTitle}
-      </Button>
+      <Tooltip key="forecastVariable" title="Variable" placement="bottom" arrow>
+        <Button
+          onClick={handleClick}
+          startIcon={<ShowChartOutlinedIcon />}
+          endIcon={<KeyboardArrowDownIcon />}
+          style={{
+            height: 28,
+            backgroundColor: theme.palette.primary.light,
+            border: `1px solid ${theme.palette.primary.main}`,
+            width: 250,
+          }}
+          classes={{ label: classes.label }}
+        >
+          {forecastVariableTitle}
+        </Button>
+      </Tooltip>
       <Menu
         keepMounted
         anchorEl={anchorEl}

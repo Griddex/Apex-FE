@@ -1,53 +1,54 @@
+import { Tooltip } from "@material-ui/core";
 import React from "react";
 import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Terminal from "../../Images/Terminal.svg";
 import TerminalContextMenu from "../ContextMenu/TerminalContextMenu";
-import { IXYPos } from "./WidgetTypes";
+import { handleStyle, widgetStyle } from "./WidgetStyles";
+import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const TerminalWidget = () => {
+const TerminalWidget = ({ title }: IWidget) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Bottom}
-        style={{
-          background: "#999",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-          borderRadius: "0px",
-        }}
-      />
-      <img
-        src={Terminal}
-        width={40}
-        height={40}
-        draggable={false}
-        alt="Terminal"
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        style={{
-          background: "#999",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-          borderRadius: "0px",
-        }}
-      />
+    <div style={widgetStyle}>
+      <Handle type="target" position={Position.Bottom} style={handleStyle} />
+      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
+        <img
+          src={Terminal}
+          width={40}
+          height={40}
+          draggable={false}
+          alt="Terminal"
+        />
+      </Tooltip>
+      <Handle type="source" position={Position.Right} style={handleStyle} />
     </div>
   );
 };
 
-const TerminalNode = React.memo((props: Node & IXYPos) => {
-  const { xPos, yPos } = props;
+const TerminalNode = React.memo((props: Node & IExtraNodeProps) => {
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "terminalNode"
+  ).length;
+
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        title: `Terminal_${noOfNodes}`,
+      },
+    };
+  }
+
+  const {
+    xPos,
+    yPos,
+    data: { title },
+  } = props;
+
   const position: XYPosition = {
     x: xPos,
     y: yPos,
@@ -55,7 +56,7 @@ const TerminalNode = React.memo((props: Node & IXYPos) => {
 
   return (
     <TerminalContextMenu position={position}>
-      <TerminalWidget />
+      <TerminalWidget title={title} />
     </TerminalContextMenu>
   );
 });

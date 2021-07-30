@@ -33,20 +33,8 @@ import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
-import {
-  IAllWorkflows,
-  IInputWorkflows,
-  ReducersType,
-} from "../Workflows/WorkflowTypes";
+import { IInputWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
-import TickIcon from "../../../Application/Components/Svg/TickIcon.svg";
-
-const tickIcon = `<?xml version="1.0" encoding="iso-8859-1"?>
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 490 490" style="enable-background:new 0 0 490 490;" xml:space="preserve">
-	<polygon points="452.253,28.326 197.831,394.674 29.044,256.875 0,292.469 
-	207.253,461.674 490,54.528 "/>
-</svg>`;
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -93,29 +81,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "auto",
     border: "1px solid #F7F7F7",
   },
-  selectedListItem: (props: any) => {
-    // const { tickIcon } = props;
-    // console.log(
-    //   "Logged output --> ~ file: SelectWorksheetDialog.tsx ~ line 94 ~ useStyles ~ tickIcon",
-    //   tickIcon
-    // );
-
-    return {
-      "&:after": {
-        // content: "'Hi'",
-        content: "'url(data:image/svg+xml; utf8,'" + tickIcon + "')'",
-        // content: `url(data:image/svg+xml; utf8, ${tickIcon})`,
-        // content: `url(${TickIcon})`,
-        right: 5,
-        color: theme.palette.secondary.main,
-      },
-    };
-  },
 }));
 
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
-  const classes = useStyles({ ...props, tickIcon });
+  const classes = useStyles();
   const { iconType, children, onClose, ...other } = props;
 
   return (
@@ -203,9 +173,6 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
               return (
                 <ListItem
                   key={i}
-                  className={
-                    name === selectedListItem ? classes.selectedListItem : ""
-                  }
                   selected={name === selectedListItem}
                   button
                   onClick={() => {
@@ -311,6 +278,10 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       );
     });
   };
+
+  React.useEffect(() => {
+    dispatch(hideSpinnerAction());
+  }, []);
 
   return (
     <Dialog

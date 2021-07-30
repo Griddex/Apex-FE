@@ -39,6 +39,7 @@ export default function* watchAutogenerateNetworkSaga(): Generator<
   const autoGenerateNetworkChan = yield actionChannel(
     AUTOGENERATENETWORK_REQUEST
   );
+  console.log("I'm in watchGenerateNetwork");
   yield takeLeading(autoGenerateNetworkChan, autoGenerateNetworkSaga);
 }
 
@@ -59,16 +60,15 @@ export function* autoGenerateNetworkSaga(
   const { userId } = yield select((state) => state.loginReducer);
   const { selectedForecastInputDeckId, selectedFacilitiesInputDeckId } =
     yield select((state) => state.inputReducer);
-  const { showWellheadSummaryNodes, showWellheadSummaryEdges } = yield select(
-    (state) => state.networkReducer
-  );
+  const { showDrainagePointSummaryNodes, showDrainagePointSummaryEdges } =
+    yield select((state) => state.networkReducer);
 
   const reqPayload = {
     userId,
     facilitiesInputDeckId: selectedFacilitiesInputDeckId,
     forecastInputDeckId: selectedForecastInputDeckId,
-    showWellheadSummaryNodes,
-    showWellheadSummaryEdges,
+    showDrainagePointSummaryNodes,
+    showDrainagePointSummaryEdges,
   };
 
   const url = `${getBaseForecastUrl()}/network/generate`;

@@ -5,6 +5,7 @@ import React from "react";
 import IconButtonWithTooltip from "../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { IChartButtonsProps } from "./ChartButtonsTypes";
 import ReactToPrint from "react-to-print";
+import CameraOutlinedIcon from "@material-ui/icons/CameraOutlined";
 
 const useStyles = makeStyles((theme) => ({
   tableContentIcons: {
@@ -32,7 +33,7 @@ const ChartButtons: React.FC<IChartButtonsProps> = ({
       {showExtraButtons && extraButtons && extraButtons()}
       <IconButtonWithTooltip
         toolTipKey="printToolTip"
-        toolTipTitle="Print table"
+        toolTipTitle="Print"
         toolTipPlacement="bottom-end"
         icon={() => (
           <ReactToPrint
@@ -43,9 +44,9 @@ const ChartButtons: React.FC<IChartButtonsProps> = ({
       />
       <IconButtonWithTooltip
         toolTipKey="copyToolTip"
-        toolTipTitle="Copy entire table"
+        toolTipTitle="Snapshot"
         toolTipPlacement="bottom-end"
-        icon={() => <FileCopyOutlinedIcon />}
+        icon={() => <CameraOutlinedIcon />}
       />
     </div>
   );

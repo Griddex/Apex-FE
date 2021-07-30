@@ -2,7 +2,9 @@ import { FlowElement } from "react-flow-renderer";
 import {
   IAllWorkflows,
   ReducersType,
+  TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
 import { ICurrentPopoverData } from "../State/NetworkStateTypes";
 
 export const UPDATE_NETWORKPARAMETER = "UPDATE_NETWORKPARAMETER";
@@ -110,11 +112,11 @@ export const saveForecastRequestAction = (
   };
 };
 
-export const updateNetworkParameterAction = (name: string, value: any) => {
+export const updateNetworkParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_NETWORKPARAMETER,
     payload: {
-      name,
+      path,
       value,
     },
   };
@@ -204,25 +206,25 @@ export const hideNetworkElementDetailsAction = () => {
   return {
     type: HIDE_NETWORKELEMENTDETAILS,
     payload: {
-      showWellheadDetails: false,
+      showDrainagePointDetails: false,
     },
   };
 };
 
-export const hideWellheadSummaryNodesAction = () => {
+export const hideDrainagePointSummaryNodesAction = () => {
   return {
     type: HIDE_WELHEADSUMMARYNODES,
     payload: {
-      showWellheadSummaryNodes: false,
+      showDrainagePointSummaryNodes: false,
     },
   };
 };
 
-export const hideWellheadSummaryEdgesAction = () => {
+export const hideDrainagePointSummaryEdgesAction = () => {
   return {
     type: HIDE_WELHEADSUMMARYEDGES,
     payload: {
-      showWellheadSummaryEdges: false,
+      showDrainagePointSummaryEdges: false,
     },
   };
 };
@@ -291,18 +293,14 @@ export const autoGenerateNetworkFailureAction = () => {
 };
 
 export const saveAndAutoGenerateNetworkRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses,
+  titleDesc: TTitleDescription
 ) => {
   let inputDeck;
 
-  if (workflowProcess.includes("facilities"))
-    inputDeck = "facilities inputdeck";
-  else if (workflowProcess.includes("forecast"))
-    inputDeck = "forecast inputdeck";
-
   return {
     type: SAVE_AUTOGENERATENETWORK_REQUEST,
-    payload: { workflowProcess },
+    payload: { workflowProcess, titleDesc },
     meta: { message: `Saving ${inputDeck}...` },
   };
 };

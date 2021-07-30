@@ -98,7 +98,7 @@ function* getForecastResultsChartDataSaga(
       authService.post(url, data, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const { status, data: forecastResults, succcess } = result;
+    const { data: forecastResults } = result;
 
     const successAction = getForecastResultsChartDataSuccessAction();
     yield put({

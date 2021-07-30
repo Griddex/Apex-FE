@@ -47,18 +47,10 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { reducer, tableDataUrl, tableTitle } = payload;
-  console.log(
-    "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 51 ~ reducer",
-    reducer
-  );
+  const { reducer, tableDataUrl, tableTitle, workflowProcess } = payload;
 
   try {
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
-    console.log(
-      "Logged output --> ~ file: GetTableDataByIdSaga.ts ~ line 58 ~ tableDataResults",
-      tableDataResults
-    );
 
     const {
       data: { data },
@@ -87,6 +79,7 @@ function* getTableDataByIdSaga(action: IAction): Generator<
       actionsList: () => DialogCancelButton(),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
+      workflowProcess,
     };
 
     yield put(showDialogAction(dialogParameters));

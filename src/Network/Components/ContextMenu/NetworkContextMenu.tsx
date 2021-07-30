@@ -13,13 +13,13 @@ import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined"
 import UndoOutlinedIcon from "@material-ui/icons/UndoOutlined";
 import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Flowstation from "../../Images/Flowstation.svg";
 import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
 import Manifold from "../../Images/Manifold.svg";
 import Terminal from "../../Images/Terminal.svg";
-import Wellhead from "../../Images/Wellhead.svg";
+import DrainagePoint from "../../Images/DrainagePoint.svg";
 import {
   contextDrawerExpandAction,
   showContextDrawerAction,
@@ -27,6 +27,7 @@ import {
 import { addNetworkElementAction } from "../../Redux/Actions/NetworkActions";
 import GenerateNodeByPositionService from "../../Services/GenerateNodeByPositionService";
 import { XYPosition } from "react-flow-renderer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 export const AddNetworkElementMenu = ({
   elementName,
@@ -34,8 +35,8 @@ export const AddNetworkElementMenu = ({
   elementName: string;
 }) => {
   const NetworkIcons: Record<string, string> = {
-    wellhead: Wellhead,
-    wellheadSummary: Wellhead,
+    drainagePoint: DrainagePoint,
+    drainagePointSummary: DrainagePoint,
     manifold: Manifold,
     flowstation: Flowstation,
     gasFacility: GasFacility,
@@ -75,13 +76,12 @@ export const NetworkElementsMenu = ({
     y: -1,
   };
   const [open, setOpen] = React.useState(false);
-  const [nodePosition, setNodePosition] = React.useState<XYPosition>(
-    initialPosition
-  );
+  const [nodePosition, setNodePosition] =
+    React.useState<XYPosition>(initialPosition);
 
   const elements = [
     {
-      Wellhead: Wellhead,
+      DrainagePoint: DrainagePoint,
       handleClick: () => {
         const newElementPosition = {
           x: nodePosition.x + 20,
@@ -89,7 +89,7 @@ export const NetworkElementsMenu = ({
         };
 
         const newElement = GenerateNodeByPositionService(
-          "wellhead",
+          "drainagePoint",
           newElementPosition
         );
 
@@ -340,14 +340,22 @@ export const NetworkContextMenu = React.forwardRef<
   HTMLDivElement,
   INetworkContextMenuProps
 >(({ elementName }, ref) => {
+  const { isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
   return (
     <div ref={ref}>
-      <AddNetworkElementMenu elementName={elementName} />
-      <AddAssetMenu />
-      <hr />
-      <RenameMenu />
+      {!isNetworkAuto && (
+        <>
+          <AddNetworkElementMenu elementName={elementName} />
+          <AddAssetMenu />
+          <hr />
+        </>
+      )}
       <ShowDetailsMenu />
-      <hr />
+      <RunForecastMenu />
+      {/* <hr />
       <CopyMenu />
       <CutMenu />
       <PasteMenu />
@@ -356,7 +364,7 @@ export const NetworkContextMenu = React.forwardRef<
       <RedoMenu />
       <hr />
       <ShowNetworkDataMenu />
-      <RunForecastMenu />
+      <RenameMenu /> */}
     </div>
   );
 });

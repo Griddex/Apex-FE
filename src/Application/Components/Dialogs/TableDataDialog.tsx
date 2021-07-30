@@ -26,6 +26,7 @@ import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../Export/ExcelExportTable";
+import { TVariableNameTitleData } from "../../Types/ApplicationTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -114,20 +115,47 @@ const TableDataDialog = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { title, show, maxWidth, iconType, actionsList, setRows, reducer } =
-    props;
+  const {
+    title,
+    show,
+    maxWidth,
+    iconType,
+    actionsList,
+    setRows,
+    reducer,
+    workflowProcess,
+  } = props;
 
   const { allHeadersNameTitleUniqueMap } = useSelector(
     (state: RootState) => state.applicationReducer
   );
 
-  //TODO better way is to deliver name here where
-  //data will be saved?
   const { selectedTableData } = useSelector(
     (state: RootState) => state[reducer as ReducersType]
   );
 
-  const snSelectedTableData = selectedTableData.map(
+  let sortedSelectedTableData;
+  const { forecastHeadersNameMap } = useSelector(
+    (state: RootState) => state.inputReducer
+  );
+  if (workflowProcess?.toLowerCase().includes("forecast")) {
+    const headerNames = Object.values(forecastHeadersNameMap) as string[];
+
+    sortedSelectedTableData = selectedTableData.map(
+      (row: Record<string, React.Key>) => {
+        const newRow = headerNames.reduce((acc, header) => {
+          return { ...acc, [header]: row[header] };
+        }, {});
+
+        return newRow;
+      }
+    );
+  }
+
+  const finalSelectedData = sortedSelectedTableData
+    ? sortedSelectedTableData
+    : selectedTableData;
+  const snSelectedTableData = finalSelectedData.map(
     (row: IRawRow, i: number) => {
       const rowFiltered = omit(row, ["id", "_id"]);
 

@@ -19,7 +19,10 @@ import ExcelExportTable, {
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
@@ -139,11 +142,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             const editorData = [
               {
                 name: dataKey,
-                title: dataTitle,
+                title: "Title",
                 value: (row as IStoredDataRow)[dataKey as keyof IStoredDataRow],
                 editorType: "input",
                 width: "100%",
-                height: 40,
               },
               {
                 name: "description",
@@ -172,8 +174,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                         editorData,
                         editedRow,
                         dividerPositions,
-                        rows,
-                        setRows,
                       },
                       actionsList: (shouldUpdateAction: () => void) =>
                         DialogOneCancelButtons(
@@ -223,7 +223,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                       getTableDataByIdRequestAction(
                         reducer as ReducersType,
                         `${mainUrl}/${row.id}`,
-                        row.title as string
+                        row.title as string,
+                        wkPs as TAllWorkflowProcesses
                       )
                     )
                   }

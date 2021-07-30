@@ -1,8 +1,9 @@
 export const getBaseAuthUrl = () => {
-  return "https://apex.syncware.io/auth";
+  //return "https://apex.syncware.io/auth";
   // return "https://dev.syncware.io/auth";
   // return "http://localhost:5015/api/forecast";
   //return "http://localhost:5017/api/users";
+  return "http://localhost:5017/api/auth";
 };
 
 export const getBaseUnitUrl = () => {

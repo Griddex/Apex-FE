@@ -24,6 +24,8 @@ export interface IForecastChartObject {
 }
 export interface IForecastChartState {
   selectedForecastChartVariable: string;
+  selectedForecastAggregationType: string;
+  selectedForecastAggregationLevel: string;
   selectedModuleIds: string[];
   selectedChartIndex: number;
   selectedChartObjId: string;

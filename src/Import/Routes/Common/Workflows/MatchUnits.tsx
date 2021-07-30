@@ -29,6 +29,8 @@ import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { typeOptions } from "../../../../Application/Data/ApplicationData";
+import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -285,7 +287,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     })
   );
 
-  const [reRender, setReRender] = React.useState(false);
   const [rows, setRows] = React.useState(initialTableRows.current);
 
   const [chosenApplicationUnitIndices, setChosenApplicationUnitIndices] =
@@ -343,7 +344,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       }));
 
       setRows(rows);
-      setReRender(!reRender);
     };
 
     const handleApplicationUnitChange = <T extends boolean>(
@@ -419,7 +419,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         }));
 
         setRows(rows);
-        setReRender(!reRender);
       } else {
         const selectedValue = option && (option as IAppUnitSelectOption).label;
         const selectedAppUnit = selectedValue as string;
@@ -455,7 +454,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         }));
 
         setRows(rows);
-        setReRender(!reRender);
       }
     };
 
@@ -606,30 +604,37 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         resizable: true,
         width: 200,
       },
-
       {
         key: "type",
         name: "TYPE",
         resizable: true,
         formatter: ({ row }) => {
           const type = row.type as string;
-          const typeOptions = generateSelectOptions(["Single", "Multiple"]);
-          const valueOption = generateSelectOptions([type])[0];
+
+          const valueOption = {
+            value: type,
+            label: type,
+          };
 
           const RSStyles = getRSStyles(theme);
           type IsMulti = false;
 
           return (
-            <Select<ISelectOption, IsMulti>
-              value={valueOption}
-              options={typeOptions}
-              styles={RSStyles}
-              onChange={(value: ValueType<ISelectOption, IsMulti>) => {
-                handleUnitTypeChange(value, row);
-              }}
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-            />
+            <div
+              style={{ width: "100%", height: "100%" }}
+              {...noEventPropagation()}
+            >
+              <Select<ISelectOption, IsMulti>
+                value={valueOption}
+                options={typeOptions}
+                styles={RSStyles}
+                onChange={(value: ValueType<ISelectOption, IsMulti>) => {
+                  handleUnitTypeChange(value, row);
+                }}
+                menuPortalTarget={document.body}
+                theme={(thm) => getRSTheme(thm, theme)}
+              />
+            </div>
           );
         },
         width: 150,
@@ -649,11 +654,16 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           let valueOption: IAppUnitSelectOption | IAppUnitSelectOption[];
           let IsMulti: boolean;
           if (type === "Single") {
-            appUnit = row.applicationUnit as string;
+            appUnit = row.applicationUnit as string | string[];
+            if (Array.isArray(appUnit)) {
+              appUnit = appUnit[0];
+            }
+
             valueOption = unitOptions.find(
               (option) =>
                 option.value.toLowerCase() === (appUnit as string).toLowerCase()
             ) as IAppUnitSelectOption;
+
             IsMulti = false;
           } else {
             const multiAppUnit = row.applicationUnit;
@@ -686,28 +696,33 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           type IsMultiType = typeof IsMulti;
 
           return (
-            <Select<IAppUnitSelectOption, IsMultiType>
-              value={valueOption}
-              options={unitOptions}
-              styles={RSStyles}
-              onChange={(
-                option: ValueType<IAppUnitSelectOption, IsMultiType>
-              ) =>
-                handleApplicationUnitChange<IsMultiType>(
-                  option as NonNullable<
-                    ValueType<IAppUnitSelectOption, IsMultiType>
-                  >,
-                  row,
-                  fileHeader,
-                  type,
-                  unitOptions,
-                  scoreOptions
-                )
-              }
-              menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
-              isMulti={IsMulti}
-            />
+            <div
+              style={{ width: "100%", height: "100%" }}
+              {...noEventPropagation()}
+            >
+              <Select<IAppUnitSelectOption, IsMultiType>
+                value={valueOption}
+                options={unitOptions}
+                styles={RSStyles}
+                onChange={(
+                  option: ValueType<IAppUnitSelectOption, IsMultiType>
+                ) =>
+                  handleApplicationUnitChange<IsMultiType>(
+                    option as NonNullable<
+                      ValueType<IAppUnitSelectOption, IsMultiType>
+                    >,
+                    row,
+                    fileHeader,
+                    type,
+                    unitOptions,
+                    scoreOptions
+                  )
+                }
+                menuPortalTarget={document.body}
+                theme={(thm) => getRSTheme(thm, theme)}
+                isMulti={IsMulti}
+              />
+            </div>
           );
         },
         width: 300,
@@ -834,7 +849,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
               }
 
               setRows(rowsAllAcceptMatch);
-              setReRender(!reRender);
               setUserMatchObject(userMatchObject);
               setAcceptmatchToggle(currentAcceptMatchValue);
             }}
@@ -855,7 +869,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         rows
       )
     );
+  }, [rows]);
 
+  React.useEffect(() => {
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -863,6 +879,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         fileHeaderUnitIdMap
       )
     );
+  }, [fileHeaderUnitIdMap]);
+
+  React.useEffect(() => {
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -870,6 +889,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         currentAppHeaderNameMap
       )
     );
+  }, [currentAppHeaderNameMap]);
+
+  React.useEffect(() => {
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -877,7 +899,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         fileHeadersUnitsAppHeadersWithoutNoneMap
       )
     );
+  }, [fileHeadersUnitsAppHeadersWithoutNoneMap]);
 
+  React.useEffect(() => {
     dispatch(
       persistChosenApplicationUnitIndicesAction(
         reducer,
@@ -885,11 +909,11 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         wp
       )
     );
+  }, [chosenApplicationUnitIndices]);
 
+  React.useEffect(() => {
     dispatch(saveUserMatchAction(userMatchObject));
-
-    dispatch(hideSpinnerAction());
-  }, [reRender]);
+  }, [userMatchObject]);
 
   return (
     <div className={classes.rootMatchUnits}>

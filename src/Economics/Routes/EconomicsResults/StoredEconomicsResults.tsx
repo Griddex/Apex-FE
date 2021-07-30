@@ -45,7 +45,10 @@ import ExcelExportTable, {
 import Saved from "../../../Application/Components/Saved/Saved";
 import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   unloadDialogsAction,
   showDialogAction,
@@ -236,11 +239,7 @@ export default function StoredEcoResults({
             editorData,
             editedRow,
             dividerPositions,
-            rows,
-            setRows,
-            shouldUpdate,
-            // } as IApexEditor<IStoredEconomicsResultsRow>;
-          } as IApexEditor;
+          } as Partial<IApexEditor>;
 
           return (
             <ApexFlexContainer>
@@ -310,7 +309,9 @@ export default function StoredEcoResults({
                     getTableDataByIdRequestAction(
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
-                      row.title as string
+                      row.title as string,
+
+                      wp as TAllWorkflowProcesses
                     )
                   )
                 }

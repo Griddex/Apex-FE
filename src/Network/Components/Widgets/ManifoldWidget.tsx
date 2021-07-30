@@ -2,56 +2,53 @@ import { Handle, Position, Node, XYPosition } from "react-flow-renderer";
 import React from "react";
 import Manifold from "../../Images/Manifold.svg";
 import ManifoldContextMenu from "./../ContextMenu/ManifoldContextMenu";
+import { Tooltip } from "@material-ui/core";
+import { IExtraNodeProps, IWidget } from "./WidgetTypes";
+import { handleStyle, widgetStyle } from "./WidgetStyles";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { useSelector } from "react-redux";
 
-const ManifoldWidget = () => {
+const ManifoldWidget = ({ title }: IWidget) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Bottom}
-        style={{
-          background: "#999",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-          borderRadius: "0px",
-        }}
-      />
-      <img
-        src={Manifold}
-        width={40}
-        height={40}
-        draggable={false}
-        alt="Manifold"
-      />
-      <Handle
-        type="source"
-        position={Position.Top}
-        style={{
-          background: "#999",
-          borderWidth: "0px",
-          height: "4px",
-          width: "4px",
-          borderRadius: "0px",
-        }}
-      />
+    <div style={widgetStyle}>
+      <Handle type="target" position={Position.Bottom} style={handleStyle} />
+      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
+        <img
+          src={Manifold}
+          width={40}
+          height={40}
+          draggable={false}
+          alt="Manifold"
+        />
+      </Tooltip>
+      <Handle type="source" position={Position.Top} style={handleStyle} />
     </div>
   );
 };
 
-interface IXYPos {
-  xPos: number;
-  yPos: number;
-}
+const ManifoldNode = React.memo((props: Node & IExtraNodeProps) => {
+  const { nodeElementsManual, isNetworkAuto } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+  const noOfNodes = nodeElementsManual.filter(
+    (node: Node & IExtraNodeProps) => node.type === "manifoldNode"
+  ).length;
 
-const ManifoldNode = React.memo((props: Node & IXYPos) => {
-  const { xPos, yPos } = props;
+  if (!isNetworkAuto) {
+    props = {
+      ...props,
+      ["data"]: {
+        title: `Manifold_${noOfNodes}`,
+      },
+    };
+  }
+
+  const {
+    xPos,
+    yPos,
+    data: { title },
+  } = props;
+
   const position: XYPosition = {
     x: xPos,
     y: yPos,
@@ -59,7 +56,7 @@ const ManifoldNode = React.memo((props: Node & IXYPos) => {
 
   return (
     <ManifoldContextMenu position={position}>
-      <ManifoldWidget />
+      <ManifoldWidget title={title} />
     </ManifoldContextMenu>
   );
 });

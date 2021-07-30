@@ -1,35 +1,13 @@
+import { cleanup, waitFor } from "@testing-library/react";
 import React from "react";
-import { render, waitFor, cleanup } from "@testing-library/react";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
-import { CssBaseline } from "@material-ui/core";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { ThemeProvider } from "@material-ui/core";
-import { Provider } from "react-redux";
-import DateFnsUtils from "@date-io/date-fns";
-
+import { render } from "../../Utils/ApexTestRender";
 import LoginRoute from "./LoginRoute";
-import theme from "../../Theme/Theme";
-import { store } from "../../Redux/Store/Store";
 
-const history = createMemoryHistory();
-const Component = (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Router history={history}>
-          <CssBaseline />
-          <LoginRoute />
-        </Router>
-      </MuiPickersUtilsProvider>
-    </ThemeProvider>
-  </Provider>
-);
 afterEach(cleanup);
 
 describe("Tests the root component <App/>", () => {
   test("renders without errors", async () => {
-    const { getByText } = render(Component);
+    const { getByText } = render(<LoginRoute />);
     const mottoElement = await waitFor(() =>
       getByText(
         /- Versatile Hydrocarbon Forecasting and Economics Evaluation Platform/i
@@ -39,12 +17,12 @@ describe("Tests the root component <App/>", () => {
   });
 
   test("matches snapshot", () => {
-    const { container } = render(Component);
+    const { container } = render(<LoginRoute />);
     expect(container).toMatchSnapshot();
   });
 
   test("Apex logo renders", async () => {
-    const { findByAltText } = render(Component);
+    const { findByAltText } = render(<LoginRoute />);
     const logoElement = await findByAltText(
       "Hydrocarbon Forecasting Platform Company Logo"
     );

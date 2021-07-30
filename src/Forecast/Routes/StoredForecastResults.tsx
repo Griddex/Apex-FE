@@ -23,7 +23,10 @@ import Saved from "../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../../Application/Components/Workflows/WorkflowTypes";
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
@@ -223,11 +226,7 @@ export default function StoredForecastResults({
             editorData,
             editedRow,
             dividerPositions,
-            rows,
-            setRows,
-            shouldUpdate,
-            // } as IApexEditor<IStoredForecastResultsRow>;
-          } as IApexEditor;
+          } as Partial<IApexEditor>;
 
           return (
             <ApexFlexContainer>
@@ -296,7 +295,8 @@ export default function StoredForecastResults({
                     getTableDataByIdRequestAction(
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
-                      row.forecastParametersTitle as string
+                      row.forecastParametersTitle as string,
+                      wp as TAllWorkflowProcesses
                     )
                   )
                 }
@@ -399,6 +399,7 @@ export default function StoredForecastResults({
 
     return columns;
   };
+
   const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
   const snStoredData = forecastResultsStored.map(

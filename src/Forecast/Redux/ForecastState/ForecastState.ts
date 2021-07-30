@@ -41,12 +41,14 @@ export const initialColorGradient = {
 
 const forecastChartState: IForecastChartState = {
   selectedForecastChartVariable: "oilRate",
+  selectedForecastAggregationLevel: "",
+  selectedForecastAggregationType: "",
   selectedModuleIds: [],
   selectedChartIndex: 0,
   selectedChartObjId: "",
   forecastChartObjects: [],
   structureObj: { xAxes: [], yAxes: [] },
-  // forecastChartObjName: "None",
+
   formatObj: {
     forecastChartLayoutColor: "white",
     forecastChartSeriesSolidColors: ["#31BFCC", "#DA1B57", "#00C49F"],

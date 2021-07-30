@@ -1,22 +1,20 @@
-import { Divider } from "@material-ui/core";
+import { DialogActions } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
-import MuiDialogActions from "@material-ui/core/DialogActions";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import DialogIcons from "../Icons/DialogIcons";
-import { IconNameType } from "../Icons/DialogIconsTypes";
-import DialogCancelButton from "./../DialogButtons/DialogCancelButton";
-import { DialogStuff } from "./DialogTypes";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
+import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
+import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
@@ -42,6 +40,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
   },
   closeButton: {
+    // position: "absolute",
+    // right: theme.spacing(1),
+    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
+    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
@@ -104,16 +106,12 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
-
-const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
+const NetworkWidgetDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType } = props;
+  const { title, show, maxWidth, iconType, actionsList, widgetComponent } =
+    props;
+
+  const WidgetComponent = widgetComponent as React.FC;
 
   return (
     <Dialog
@@ -128,13 +126,15 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
       >
         <div>{title}</div>
       </DialogTitle>
-      <DialogContent dividers>
-        <div></div>
-        <Divider />
+      <DialogContent
+        dividers
+        style={{ display: "flex", flexDirection: "column", height: 650 }}
+      >
+        <WidgetComponent />
       </DialogContent>
-      <DialogActions>{DialogCancelButton()}</DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default SelectWorksheetDialog;
+export default NetworkWidgetDialog;
