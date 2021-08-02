@@ -569,11 +569,17 @@ export const fetchStoredDeclineCurveParametersRequestAction = (
   projectId: string,
   showSpinner = false
 ) => {
+  console.log("fetchStoredDeclineCurveParametersRequestAction called");
   return {
     type: STORED_DECLINEPARAMETERS_REQUEST,
     payload: { projectId },
-    meta: { showSpinner, message: "fetching decline parameters data..." },
+    meta: { showSpinner, message: "fetching decline parameters data..." }
   };
+  /* return {
+    type: STORED_DECLINEPARAMETERS_REQUEST,
+    payload: { projectId },
+    meta: { showSpinner, message: "fetching decline parameters data..." },
+  }; */
 };
 
 export const fetchStoredDeclineCurveParametersSuccessAction = () => {

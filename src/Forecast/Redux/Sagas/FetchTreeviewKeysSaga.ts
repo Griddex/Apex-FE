@@ -65,19 +65,24 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
     while (true) {
       const treeOrKeys = yield take(chan);
 
+      console.log("treeOrKeys: ", treeOrKeys);
+
       const successAction = fetchTreeviewKeysSuccessAction();
       if (Object.keys(treeOrKeys)[0] === "tree") {
         const forecastTree = treeOrKeys["tree"];
-        yield put({
+        const actns:any = {
           ...successAction,
           payload: {
             ...payload,
             keyVar: "forecastTree",
             forecastTree,
           },
-        });
+        }
+        console.log("action: ", actns)
+        yield put(actns);
       } else if (Object.keys(treeOrKeys)[0] === "keys") {
         const forecastKeys = treeOrKeys["keys"];
+        console.log("forecastKeys: ", forecastKeys);
         yield put({
           ...successAction,
           payload: {

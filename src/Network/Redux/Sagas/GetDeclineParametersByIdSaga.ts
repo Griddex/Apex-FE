@@ -29,6 +29,8 @@ export default function* watchGetDeclineParametersByIdSaga(): Generator<
   void,
   any
 > {
+  console.log("watchGetDeclineParametersByIdSaga Called:");
+
   const getDeclineParametersByIdChan = yield actionChannel(
     GET_DECLINEPARAMETERSBYID_REQUEST
   );

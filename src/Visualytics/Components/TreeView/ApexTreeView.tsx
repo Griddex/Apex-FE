@@ -194,6 +194,7 @@ export default function ApexTreeView({
 
   const renderTree = (scenarioNodes: RenderTree) => {
     const { id, name, title } = scenarioNodes;
+    console.log("scenarioNodes: ", scenarioNodes)
     const [{ isDragging }, drag] = useDrag(
       () => ({
         type: dragDropTypes,
@@ -228,7 +229,12 @@ export default function ApexTreeView({
               <div ref={drag} style={{ opacity }}>
                 {scenarioNodes.title}
               </div>
-            }
+            } 
+            /* label={
+              <div style={{ opacity }}>
+                {scenarioNodes.title}
+              </div>
+            }*/
             key={scenarioNodes.id}
           />
         }

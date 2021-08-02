@@ -91,6 +91,7 @@ function* saveForecastParametersSaga(
   forecastingParametersObj.wellPrioritizationTitle = titleDesc.wellPrioritizationTitle;
   forecastingParametersObj.wellDeclineParameterTitle = titleDesc.wellDeclineParameterTitle;
 
+  //console.log("forecastingParametersObj: ", forecastingParametersObj);
   const config = { withCredentials: false };
   const saveForecastParametersAPI = (url: string) =>
     authService.post(url, forecastingParametersObj, config);
