@@ -95,7 +95,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       reducer,
     };
 
-    //yield put(showDialogAction(dialogParameters));
+    yield put(showDialogAction(dialogParameters));
   } catch (errors) {
     const failureAction = getDeclineParametersByIdFailureAction();
 

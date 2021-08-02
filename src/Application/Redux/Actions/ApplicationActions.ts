@@ -157,11 +157,12 @@ export const getTableDataByIdRequestAction = (
   reducer: ReducersType,
   tableDataUrl: string,
   tableTitle: string,
+  collectionName: string,
   workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: GET_TABLEDATABYID_REQUEST,
-    payload: { reducer, tableDataUrl, tableTitle, workflowProcess },
+    payload: { reducer, tableDataUrl, tableTitle, workflowProcess, collectionName },
     meta: { showSpinner: true, message: "Fetching table data..." },
   };
 };

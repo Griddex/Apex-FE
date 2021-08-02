@@ -11,6 +11,9 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { fetchStoredDeclineCurveParametersRequestAction } from "../Redux/Actions/NetworkActions";
+import {
+  ReducersType,
+} from "../../Application/Components/Workflows/WorkflowTypes";
 
 const chartData = [
   { name: "Group A", value: 2400 },
@@ -27,6 +30,8 @@ export default function StoredDeclineCurveParameters({
   );
 
   const mainUrl = `${getBaseForecastUrl()}/well-decline-parameters`;
+  const collectionName = "declineParameters";
+  const reducer = "networkReducer" as ReducersType;
 
   const dispatch = useDispatch();
 
@@ -40,6 +45,7 @@ export default function StoredDeclineCurveParameters({
   const storedData = useSelector(
     (state: RootState) => state.networkReducer[wc][wp]
   );
+
 
   const snStoredData = storedData.map(
     (row: IApplicationStoredDataRow, i: number) => ({
@@ -67,7 +73,7 @@ export default function StoredDeclineCurveParameters({
 
     persistSelectedIdTitleAction &&
       dispatch(
-        persistSelectedIdTitleAction("networkReducer", {
+        persistSelectedIdTitleAction(reducer, {
           selectedDeclineParametersId: id,
           selectedDeclineParametersTitle: title,
         })
@@ -77,7 +83,7 @@ export default function StoredDeclineCurveParameters({
   const clickAwayAction = () => {
     persistSelectedIdTitleAction &&
       dispatch(
-        persistSelectedIdTitleAction("networkReducer", {
+        persistSelectedIdTitleAction(reducer, {
           selectedDeclineParametersId: "",
           selectedDeclineParametersTitle: "",
         })
@@ -93,6 +99,8 @@ export default function StoredDeclineCurveParameters({
     containerStyle,
     handleCheckboxChange,
     clickAwayAction,
+    reducer,
+    collectionName,
     mainUrl,
     fetchStoredRequestAction: () =>
       fetchStoredDeclineCurveParametersRequestAction(currentProjectId, false)

@@ -85,6 +85,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       containerStyle,
       handleCheckboxChange,
       reducer,
+      collectionName,
       mainUrl,
       clickAwayAction,
       fetchStoredRequestAction,
@@ -224,7 +225,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                         reducer as ReducersType,
                         `${mainUrl}/${row.id}`,
                         row.title as string,
-                        wkPs as TAllWorkflowProcesses
+                        collectionName as string,
+                        wkPs as TAllWorkflowProcesses,
                       )
                     )
                   }

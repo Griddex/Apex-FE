@@ -29,6 +29,7 @@ export default function StoredFacilitiesDecks({
 
   const tableTitle = "Facilities InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/facilities-inputdeck`;
+  const collectionName = "InputDeckEntities";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -90,6 +91,7 @@ export default function StoredFacilitiesDecks({
     containerStyle,
     handleCheckboxChange,
     reducer,
+    collectionName,
     mainUrl,
     tableTitle,
     clickAwayAction,

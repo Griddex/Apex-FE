@@ -25,6 +25,7 @@ export default function StoredNetworks({
   );
 
   const mainUrl = `${getBaseForecastUrl()}/network`;
+  const collectionName = "declineParameters";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -84,6 +85,7 @@ export default function StoredNetworks({
     chartData,
     wkPs: wp,
     containerStyle,
+    collectionName,
     handleCheckboxChange,
     // clickAwayAction,
     mainUrl,

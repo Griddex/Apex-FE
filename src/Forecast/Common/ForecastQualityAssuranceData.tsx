@@ -124,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ForecastQualityAssuranceData({
   showChart,
   showBaseButtons,
+  collectionName
 }: IStoredDataProps) {
   const reducer = "forecastReducer";
   const mainUrl = `${getBaseForecastUrl()}`;
@@ -299,6 +300,7 @@ export default function ForecastQualityAssuranceData({
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
                       row.forecastParametersTitle as string,
+                      collectionName as string,
                       wp as TAllWorkflowProcesses
                     )
                   )

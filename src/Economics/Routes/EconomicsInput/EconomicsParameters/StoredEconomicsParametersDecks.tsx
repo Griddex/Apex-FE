@@ -31,6 +31,7 @@ export default function StoredEconomicsParametersDecks({
 
   const tableTitle = "Economics Parameters Table";
   const mainUrl = `${getBaseEconomicsUrl()}/parameter`;
+  const collectionName = "declineParameters";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -89,6 +90,7 @@ export default function StoredEconomicsParametersDecks({
     chartData,
     handleCheckboxChange,
     reducer,
+    collectionName,
     mainUrl,
     tableTitle,
     clickAwayAction,

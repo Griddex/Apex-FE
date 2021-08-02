@@ -33,6 +33,7 @@ export default function StoredCostsAndRevenuesDecks({
 
   const tableTitle = "Costs/Revenues Table";
   const mainUrl = `${getBaseEconomicsUrl()}/data`;
+  const collectionName = "declineParameters";
 
   const dispatch = useDispatch();
 
@@ -103,6 +104,7 @@ export default function StoredCostsAndRevenuesDecks({
     containerStyle,
     handleCheckboxChange,
     reducer,
+    collectionName,
     mainUrl,
     tableTitle,
     clickAwayAction,

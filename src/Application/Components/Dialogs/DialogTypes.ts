@@ -169,6 +169,7 @@ export interface DialogStuff<TRow = IRawRow> {
   workflowProcess?: IAllWorkflows["wrkflwPrcss"];
   workflowCategory?: IAllWorkflows["wrkflwCtgry"];
   reducer?: ReducersType;
+  selectedTableData?: any[];
   economicsTableData?: IEconomicsParametersTable;
   economicsAnalyses?: TEconomicsAnalyses;
   selectedAnalysis?: IEconomicsAnalysis;

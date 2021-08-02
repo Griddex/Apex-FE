@@ -10,6 +10,11 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { fetchStoredProductionPrioritizationRequestAction } from "../Redux/Actions/NetworkActions";
+import {
+  ReducersType,
+} from "../../Application/Components/Workflows/WorkflowTypes";
+
+
 
 const chartData = [
   { name: "Group A", value: 2400 },
@@ -26,6 +31,9 @@ export default function StoredProductionPrioritization({
   );
 
   const mainUrl = `${getBaseForecastUrl()}/well-prioritization`;
+  const collectionName = "wellPrioritizations";
+  const reducer = "networkReducer" as ReducersType;
+
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -63,7 +71,7 @@ export default function StoredProductionPrioritization({
 
     persistSelectedIdTitleAction &&
       dispatch(
-        persistSelectedIdTitleAction("networkReducer", {
+        persistSelectedIdTitleAction(reducer, {
           selectedProductionPrioritizationId: id,
           selectedProductionPrioritizationTitle: title,
         })
@@ -73,7 +81,7 @@ export default function StoredProductionPrioritization({
   const clickAwayAction = () => {
     persistSelectedIdTitleAction &&
       dispatch(
-        persistSelectedIdTitleAction("networkReducer", {
+        persistSelectedIdTitleAction(reducer, {
           selectedProductionPrioritizationId: "",
           selectedProductionPrioritizationTitle: "",
         })
@@ -89,6 +97,8 @@ export default function StoredProductionPrioritization({
     containerStyle,
     handleCheckboxChange,
     clickAwayAction,
+    reducer,
+    collectionName,
     mainUrl,
     fetchStoredRequestAction: () =>
       fetchStoredProductionPrioritizationRequestAction(currentProjectId, false),

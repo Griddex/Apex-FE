@@ -122,6 +122,7 @@ export default function StoredForecastResults({
   showChart,
   showBaseButtons,
   shouldRunAggregation,
+  collectionName
 }: IStoredDataProps) {
   const reducer = "forecastReducer";
   const mainUrl = `${getBaseForecastUrl()}`;
@@ -296,6 +297,7 @@ export default function StoredForecastResults({
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
                       row.forecastParametersTitle as string,
+                      collectionName as string,
                       wp as TAllWorkflowProcesses
                     )
                   )

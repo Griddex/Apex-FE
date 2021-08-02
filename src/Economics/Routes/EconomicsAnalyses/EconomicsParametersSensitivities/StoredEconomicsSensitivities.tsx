@@ -117,6 +117,7 @@ export default function StoredEconomicsSensitivities() {
 
   const reducer = "economicsReducer";
   const mainUrl = `${getBaseEconomicsUrl()}/sensitivities`;
+  const collectionName = "";
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -275,7 +276,7 @@ export default function StoredEconomicsSensitivities() {
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
                       row.economicsSensitivitiesTitle as string,
-
+                      collectionName as string,
                       wp as TAllWorkflowProcesses
                     )
                   )

@@ -43,6 +43,7 @@ export interface IStoredDataProps {
   tableButtons?: ITableButtonsProps;
   shouldRunAggregation?: boolean;
   mainUrl?: string;
+  collectionName?: string;
   tableTitle?: string;
   workflowProcess?: IStoredDataProps["wkPs"];
   wkPs?:
