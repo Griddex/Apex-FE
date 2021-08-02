@@ -13,7 +13,7 @@ import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
 import userState from "../State/UserState";
 
 const loginReducer = (state = userState, action: IAction) => {
-  console.log(action.type, action.payload)
+  //console.log(action.type, action.payload)
   switch (action.type) {
     case PERSIST_STORE:
       return {

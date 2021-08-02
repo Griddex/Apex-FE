@@ -49,6 +49,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   void,
   any
 > {
+  console.log("DCA Parameters Action: ", action);
   const { payload } = action;
   const { selectedDeclineParametersId, wellDeclineParameterTitle, reducer } =
     payload;
@@ -57,11 +58,13 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
   try {
-    const declineParametersResults = yield call(
+    const declineParametersResults =  yield call(
       getDeclineParametersByIdAPI,
       declineParametersUrl
     );
 
+    console.log("declineParametersResults: ", declineParametersResults);
+    
     const {
       data: { data },
     } = declineParametersResults;
@@ -90,7 +93,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       reducer,
     };
 
-    yield put(showDialogAction(dialogParameters));
+    //yield put(showDialogAction(dialogParameters));
   } catch (errors) {
     const failureAction = getDeclineParametersByIdFailureAction();
 

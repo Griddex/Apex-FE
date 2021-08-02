@@ -95,8 +95,9 @@ export default function StoredDeclineCurveParameters({
     clickAwayAction,
     mainUrl,
     fetchStoredRequestAction: () =>
-      fetchStoredDeclineCurveParametersRequestAction(currentProjectId, false),
+      fetchStoredDeclineCurveParametersRequestAction(currentProjectId, false)
   };
+
 
   return <StoredDataRoute {...props} />;
 }

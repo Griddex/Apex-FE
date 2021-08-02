@@ -21,6 +21,9 @@ axios.interceptors.request.use(
 );
 
 export const post = (url: string, data: any, config: AxiosRequestConfig) => {
+  //console.log("url: ", url);
+  //console.log("data: ", data);
+  //console.log("config: ", config);
   return axios.post(url, data, config);
   
 };
@@ -28,6 +31,9 @@ export const post = (url: string, data: any, config: AxiosRequestConfig) => {
 
 export const get = (url: string, config: AxiosRequestConfig) => {
   return axios.get(url, config);
+  /* const ans =  axios.get(url, config);
+  console.log("ans: ", ans);
+  return ans; */
 };
 
 export const deleteData = (url: string, config: AxiosRequestConfig) => {

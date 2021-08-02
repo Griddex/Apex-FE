@@ -52,23 +52,18 @@ function* loginSaga(
   yield put(showSpinnerAction("Logging in..."));
 
   try {
-    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    //To be added later////////////////////////////
+    /* const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
     const { data } = response;
     const token = data["access-token"];
     sessionStorage.setItem("token", token);
-
-    // const response = yield call(
-    //   loginAPI,
-    //   "https://gorest.co.in/public-api/users"
-    // );
-
     
     const { status } = response;
 
     if (status === 200) {
-      console.log("Called FETCH_USERDETAILS_REQUEST" )
       yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
-    }
+    } */
+    ////////////////////////////
     yield call(forwardTo, "/apex");
   } catch (errors) {
     const failureAction = loginFailureAction();
