@@ -43,6 +43,8 @@ import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettings
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
+import CreateStoredDataButton from "../../../Menus/CreateStoredDataButton";
+import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -89,11 +91,18 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       mainUrl,
       clickAwayAction,
       fetchStoredRequestAction,
+      buttonToolTip,
+      butttonTitle,
+      dialogTitle
     },
     ref
   ) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const buttonToolTipCopy = (buttonToolTip == null) ? "" : buttonToolTip;
+    const butttonTitleCopy = (butttonTitle == null) ? "" : butttonTitle;
+    const dialogTitleCopy = (dialogTitle == null) ? "" : dialogTitle;
 
     const { dayFormat, monthFormat, yearFormat } = useSelector(
       (state: RootState) => state.unitSettingsReducer
@@ -104,7 +113,15 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     );
     const [sRow, setSRow] = React.useState(-1);
 
+    const componentRef = React.useRef();
+
     const currentRows = snStoredData as IStoredDataRow[];
+    const rowIndex:number = currentRows.length;
+    let currentStoredDataRow =  {} as IStoredDataRow;
+    if(rowIndex > 0){
+      currentStoredDataRow =  currentRows[rowIndex-1]
+    }
+    
 
     const [rows, setRows] = React.useState(currentRows);
 
@@ -336,9 +353,41 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const tableButtons: ITableButtonsProps = {
       showExtraButtons: true,
       extraButtons: () => (
-        <ExcelExportTable<IStoredDataRow> {...exportTableProps} />
-      ),
+        <div>
+          <CreateStoredDataButton
+          currentRow={currentStoredDataRow}
+          storedDataIndex = {rowIndex}
+          buttonToolTip={buttonToolTipCopy}
+          butttonTitle={butttonTitleCopy}
+          dialogTitle = {dialogTitleCopy}
+          />
+         <ExcelExportTable<IStoredDataRow> {...exportTableProps} />
+      </div>
+      ), 
     };
+
+      
+    
+
+    /* 
+     currentRow,
+    forecastParametersIndex,
+    buttonToolTip,
+    butttonTitle,
+    dialogTitle
+    const tableButtons: ITableButtonsProps = {
+      showExtraButtons: true,
+      extraButtons: () => (
+        <div>
+          <CreateForecastParametersButton
+            currentRow={newRow}
+            forecastParametersIndex={snTransStoredData.length}
+          />
+          <ExcelExportTable<IForecastParametersStoredRow> {...exportTableProps} />
+        </div>
+      ),
+      componentRef,
+    }; */
 
     React.useEffect(() => {
       dispatch(hideSpinnerAction());

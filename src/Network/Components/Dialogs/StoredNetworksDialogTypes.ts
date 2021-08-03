@@ -28,6 +28,29 @@ export interface IDeclineCurveParametersDetail {
   declineMethod: string;
 }
 
+export interface IDeclineParametersStoredRow {
+  sn?: number;
+  forecastingParametersId: string;
+  forecastInputDeckId: string;
+  forecastInputdeckTitle: string;
+  title: string;
+  description: string;
+  type: "Default" | "User";
+  wellDeclineParameterId: string;
+  wellPrioritizationId: string;
+  wellDeclineParameterTitle: string;
+  wellPrioritizationTitle: string;
+  targetFluid: string;
+  timeFrequency: string;
+  isDefered: string;
+  realtimeResults: string;
+  startForecast: string;
+  endForecast: string;
+  author: IUserDetails;
+  createdOn: string;
+  modifiedOn: string;
+}
+
 export interface IParametersEntity {
   targetFluid: string;
   timeFrequency: string;

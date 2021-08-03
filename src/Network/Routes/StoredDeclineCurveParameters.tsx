@@ -15,6 +15,7 @@ import {
   ReducersType,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 
+
 const chartData = [
   { name: "Group A", value: 2400 },
   { name: "Group B", value: 4567 },
@@ -90,6 +91,11 @@ export default function StoredDeclineCurveParameters({
       );
   };
 
+  const buttonToolTip = "newDeclineParametersToolTip";
+  const butttonTitle = "Add new decline parameters";
+  const dialogTitle = "CREATE NEW DECLINE PARAMETER";
+
+
   const props = {
     snStoredData,
     dataKey,
@@ -102,6 +108,9 @@ export default function StoredDeclineCurveParameters({
     reducer,
     collectionName,
     mainUrl,
+    buttonToolTip,
+    butttonTitle,
+    dialogTitle,
     fetchStoredRequestAction: () =>
       fetchStoredDeclineCurveParametersRequestAction(currentProjectId, false)
   };

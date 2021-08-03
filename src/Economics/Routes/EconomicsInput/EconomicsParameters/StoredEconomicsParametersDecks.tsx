@@ -13,6 +13,7 @@ import StoredDataRoute from "../../../../Import/Routes/Common/InputWorkflows/Sto
 import { IStoredInputDeck } from "../../../../Import/Routes/InputDeckTypes";
 import { fetchStoredEconomicsDataRequestAction } from "../../../Redux/Actions/EconomicsActions";
 
+
 //TODO: Calculate classification data from collection
 const chartData = [
   { name: "Group A", value: 2400 },
@@ -31,7 +32,8 @@ export default function StoredEconomicsParametersDecks({
 
   const tableTitle = "Economics Parameters Table";
   const mainUrl = `${getBaseEconomicsUrl()}/parameter`;
-  const collectionName = "declineParameters";
+  const collectionName = "fiscal";
+  // "commercialTechnical", "fiscal" "flarePenalty" "gasRoyalty" "oilRoyalty" "ppt"
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -65,7 +67,7 @@ export default function StoredEconomicsParametersDecks({
 
     persistSelectedIdTitleAction &&
       dispatch(
-        persistSelectedIdTitleAction("economicsReducer", {
+        persistSelectedIdTitleAction(reducer, {
           selectedEconomicsParametersInputDeckId: id,
           selectedEconomicsParametersInputDeckTitle: title,
         })
@@ -75,7 +77,7 @@ export default function StoredEconomicsParametersDecks({
   const clickAwayAction = () => {
     persistSelectedIdTitleAction &&
       dispatch(
-        persistSelectedIdTitleAction("inputReducer", {
+        persistSelectedIdTitleAction(reducer, {
           selectedEconomicsParametersInputDeckId: "",
           selectedEconomicsParametersInputDeckTitle: "",
         })

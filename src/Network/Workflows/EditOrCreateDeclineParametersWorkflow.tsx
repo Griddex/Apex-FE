@@ -7,13 +7,10 @@ import {
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
-import EditOrCreateForecastingParameters, {
-  IEditOrCreateForecastingParameters,
-} from "../Routes/EditOrCreateForecastingParameters";
+import EditOrCreateDeclineParameters from "../Routes/EditOrCreateDeclineParameters";
+import { IEditOrCreateDeclineParameters } from  "../Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog"
 
-
-
-const EditOrCreateForecastParametersWorkflow = ({
+const EditOrCreateDeclineParametersWorkflow = ({
   currRow,
   setCurrRow,
   shouldUpdate,
@@ -26,7 +23,7 @@ const EditOrCreateForecastParametersWorkflow = ({
   description,
   setDescription,
   storedTitles,
-}: IEditOrCreateForecastingParameters & ITitleAndDescriptionFormProps) => {
+}: IEditOrCreateDeclineParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as ReducersType;
 
   const wc = "storedDataWorkflows";
@@ -51,12 +48,8 @@ const EditOrCreateForecastParametersWorkflow = ({
         );
       case 1:
         return (
-          <EditOrCreateForecastingParameters
+          <EditOrCreateDeclineParameters
             currentRow={currRow}
-            setCurrentRow={setCurrRow}
-            shouldUpdate={shouldUpdate}
-            workflowProcess={workflowProcessDefined}
-            forecastParametersIndex={forecastParametersIndex}
           />
         );
       case 2:
@@ -77,4 +70,4 @@ const EditOrCreateForecastParametersWorkflow = ({
   return <>{renderImportStep()}</>;
 };
 
-export default EditOrCreateForecastParametersWorkflow;
+export default EditOrCreateDeclineParametersWorkflow;

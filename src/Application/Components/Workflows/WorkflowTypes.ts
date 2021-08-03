@@ -62,7 +62,8 @@ export interface INetworkWorkflows {
     | "runForecastWorkflow"
     | "createForecastingParametersWorkflow"
     | "editForecastingParametersWorkflow"
-    | "declineCurveParametersWorkflow";
+    | "declineCurveParametersWorkflow"
+    | "createDeclineParametersWorkflow";
   wkCy:
     | "networkDataWorkflows"
     | "storedDataWorkflows"
