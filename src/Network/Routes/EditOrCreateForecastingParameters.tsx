@@ -385,9 +385,8 @@ const EditOrCreateForecastingParameters = ({
           direction="Vertical"
           content={
             <KeyboardDatePicker
-              margin="normal"
+              margin="none"
               id="date-picker-dialog"
-              label="Date picker dialog"
               variant="dialog"
               disabled
               //TODO Date format not flexible enough
@@ -407,9 +406,8 @@ const EditOrCreateForecastingParameters = ({
           direction="Vertical"
           content={
             <KeyboardDatePicker
-              margin="normal"
+              margin="none"
               id="date-picker-dialog"
-              label="Date picker dialog"
               variant="dialog"
               //TODO Date format not flexible enough
               //User should have ability to change position
@@ -422,6 +420,7 @@ const EditOrCreateForecastingParameters = ({
                   endForecast: date,
                 }));
               }}
+              //TODO at least one year ahead
               minDate={new Date(formEditorRow["startForecast"])}
               KeyboardButtonProps={{
                 "aria-label": "change date",

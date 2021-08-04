@@ -2,15 +2,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { IIdSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import { fetchTreeviewKeysRequestAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
 
 const EconomicsPlotChartsDataPanel = () => {
   const dispatch = useDispatch();
 
+  const reducer = "economicsReducer";
   const wc = "storedDataWorkflows";
+
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
@@ -53,7 +55,7 @@ const EconomicsPlotChartsDataPanel = () => {
   ) => {
     setEconomicsResultTitleOption(option as IIdSelectOption);
 
-    dispatch(fetchTreeviewKeysRequestAction());
+    dispatch(fetchTreeviewKeysRequestAction(reducer, "economicsPlotCharts"));
   };
 
   return (

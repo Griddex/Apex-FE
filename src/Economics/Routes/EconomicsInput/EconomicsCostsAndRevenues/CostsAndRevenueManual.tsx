@@ -149,6 +149,7 @@ export default function CostsAndRevenueManual({
     cHA: "$m",
     terminalFee: "$m",
   };
+
   const initialAppHeaderChosenAppUnitObj = {
     oilDevelopment: initUnitOj,
     nagDevelopment: initUnitOj,

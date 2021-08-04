@@ -15,8 +15,6 @@ import * as authService from "../../Services/AuthService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
 import { loginFailureAction, LOGIN_REQUEST } from "../Actions/LoginActions";
-import { hideSpinnerAction } from "../Actions/UISpinnerActions";
-import { getBaseAuthUrl } from "./../../Services/BaseUrlService";
 import { showSpinnerAction } from "./../Actions/UISpinnerActions";
 
 export default function* watchLoginSaga(): Generator<
@@ -52,13 +50,11 @@ function* loginSaga(
   yield put(showSpinnerAction("Logging in..."));
 
   try {
-    // const { data } = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
-    // const token = data["access-token"];
-    // sessionStorage.setItem("token", token);
-
     const response = yield call(
-      loginAPI,
-      "https://gorest.co.in/public-api/users"
+      () =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => resolve({ status: 200 }), 1000);
+        })
     );
 
     const { status } = response;

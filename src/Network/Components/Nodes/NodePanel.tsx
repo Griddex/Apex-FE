@@ -109,7 +109,7 @@ const NodePanel: React.FC<nodeProps> = ({ name }) => {
 
   const opacity = isDragging ? 0.4 : 1;
 
-  const currentNode: currentNodeType = nodes.find(
+  const currentNode = nodes.find(
     (node) => node.name === name
   ) as currentNodeType;
 

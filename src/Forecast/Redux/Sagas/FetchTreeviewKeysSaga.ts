@@ -15,19 +15,18 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import {
+  TREEVIEWKEYS_REQUEST,
+  fetchTreeviewKeysSuccessAction,
+  fetchTreeviewKeysFailureAction,
+} from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import history from "../../../Application/Services/HistoryService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
-import {
-  fetchTreeviewKeysFailureAction,
-  fetchTreeviewKeysSuccessAction,
-  TREEVIEWKEYS_REQUEST,
-} from "../Actions/ForecastActions";
 
 export default function* watchFetchTreeviewKeysSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -68,6 +67,7 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
       const successAction = fetchTreeviewKeysSuccessAction();
       if (Object.keys(treeOrKeys)[0] === "tree") {
         const forecastTree = treeOrKeys["tree"];
+
         yield put({
           ...successAction,
           payload: {
@@ -78,6 +78,7 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
         });
       } else if (Object.keys(treeOrKeys)[0] === "keys") {
         const forecastKeys = treeOrKeys["keys"];
+
         yield put({
           ...successAction,
           payload: {
@@ -124,8 +125,4 @@ function updateTreeAndKeys(url: string) {
       emitter(END);
     };
   });
-}
-
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
 }

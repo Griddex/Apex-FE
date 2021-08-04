@@ -29,6 +29,7 @@ import {
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import {
   deleteDataByIdRequestAction,
+  fetchTreeviewKeysRequestAction,
   getTableDataByIdRequestAction,
   persistSelectedIdTitleAction,
 } from "../../Application/Redux/Actions/ApplicationActions";
@@ -50,9 +51,7 @@ import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateT
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchStoredForecastingResultsRequestAction,
-  fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,
-  runForecastEconomicsAggregationRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
@@ -296,7 +295,8 @@ export default function StoredForecastResults({
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
                       row.forecastParametersTitle as string,
-                      wp as TAllWorkflowProcesses
+                      wp as TAllWorkflowProcesses,
+                      "table"
                     )
                   )
                 }
@@ -516,7 +516,10 @@ export default function StoredForecastResults({
                   )
                 );
               },
-              () => dispatch(fetchTreeviewKeysRequestAction()),
+              () =>
+                dispatch(
+                  fetchTreeviewKeysRequestAction(reducer, "forecastChart")
+                ),
             ]}
           />
         </ApexFlexContainer>

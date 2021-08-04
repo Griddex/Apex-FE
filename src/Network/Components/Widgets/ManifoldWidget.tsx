@@ -1,18 +1,41 @@
-import { Handle, Position, Node, XYPosition } from "react-flow-renderer";
+import { Tooltip } from "@material-ui/core";
 import React from "react";
+import {
+  Connection,
+  Handle,
+  Node,
+  Position,
+  XYPosition,
+} from "react-flow-renderer";
 import Manifold from "../../Images/Manifold.svg";
 import ManifoldContextMenu from "./../ContextMenu/ManifoldContextMenu";
-import { Tooltip } from "@material-ui/core";
-import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { useSelector } from "react-redux";
+import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
 const ManifoldWidget = ({ title }: IWidget) => {
+  const isValidTopConnection = (connection: Connection) => {
+    const nodeType = connection?.target?.split("_")[1];
+    return nodeType === "flowstation" || nodeType === "gasFacility";
+  };
+  const isValidBottomConnection = (connection: Connection) => {
+    const nodeType = connection?.target?.split("_")[1];
+    return nodeType === "drainagePoint";
+  };
+
   return (
     <div style={widgetStyle}>
-      <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
+      <Handle
+        type="source"
+        position={Position.Top}
+        style={handleStyle}
+        isValidConnection={isValidTopConnection}
+      />
+      <Tooltip
+        key="flowstation"
+        title={title as string}
+        placement="bottom"
+        arrow
+      >
         <img
           src={Manifold}
           width={40}
@@ -21,33 +44,19 @@ const ManifoldWidget = ({ title }: IWidget) => {
           alt="Manifold"
         />
       </Tooltip>
-      <Handle type="source" position={Position.Top} style={handleStyle} />
+      <Handle
+        type="target"
+        position={Position.Bottom}
+        style={handleStyle}
+        isValidConnection={isValidBottomConnection}
+      />
     </div>
   );
 };
 
 const ManifoldNode = React.memo((props: Node & IExtraNodeProps) => {
-  const { nodeElementsManual, isNetworkAuto } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-  const noOfNodes = nodeElementsManual.filter(
-    (node: Node & IExtraNodeProps) => node.type === "manifoldNode"
-  ).length;
-
-  if (!isNetworkAuto) {
-    props = {
-      ...props,
-      ["data"]: {
-        title: `Manifold_${noOfNodes}`,
-      },
-    };
-  }
-
-  const {
-    xPos,
-    yPos,
-    data: { title },
-  } = props;
+  const { xPos, yPos, data } = props;
+  const { title } = data;
 
   const position: XYPosition = {
     x: xPos,

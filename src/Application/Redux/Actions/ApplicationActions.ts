@@ -28,6 +28,9 @@ export const RESET_APPLICATION = "RESET_APPLICATION";
 export const DELETE_DATABYID_REQUEST = "DELETE_DATABYID_REQUEST";
 export const DELETE_DATABYID_SUCCESS = "DELETE_DATABYID_SUCCESS";
 export const DELETE_DATABYID_FAILURE = "DELETE_DATABYID_FAILURE";
+export const TREEVIEWKEYS_REQUEST = "TREEVIEWKEYS_REQUEST";
+export const TREEVIEWKEYS_SUCCESS = "TREEVIEWKEYS_SUCCESS";
+export const TREEVIEWKEYS_FAILURE = "TREEVIEWKEYS_FAILURE";
 
 export const updateApplicationParameterAction = (
   nameOrPath: string,
@@ -157,11 +160,18 @@ export const getTableDataByIdRequestAction = (
   reducer: ReducersType,
   tableDataUrl: string,
   tableTitle: string,
-  workflowProcess: TAllWorkflowProcesses
+  workflowProcess: TAllWorkflowProcesses,
+  tableOrSuccessDialog?: "table" | "success"
 ) => {
   return {
     type: GET_TABLEDATABYID_REQUEST,
-    payload: { reducer, tableDataUrl, tableTitle, workflowProcess },
+    payload: {
+      reducer,
+      tableDataUrl,
+      tableTitle,
+      workflowProcess,
+      tableOrSuccessDialog,
+    },
     meta: { showSpinner: true, message: "Fetching table data..." },
   };
 };
@@ -215,6 +225,43 @@ export const deleteDataByIdSuccessAction = () => {
 export const deleteDataByIdFailureAction = () => {
   return {
     type: DELETE_DATABYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchTreeviewKeysRequestAction = (
+  reducer: ReducersType,
+  perspective:
+    | "forecastChart"
+    | "forecastAssurance"
+    | "economicsPlotCharts"
+    | "economicsTemplateResults"
+) => {
+  return {
+    type: TREEVIEWKEYS_REQUEST,
+    payload: {
+      reducer,
+      perspective,
+      status: 0,
+    },
+  };
+};
+
+export const fetchTreeviewKeysSuccessAction = () => {
+  return {
+    type: TREEVIEWKEYS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchTreeviewKeysFailureAction = () => {
+  return {
+    type: TREEVIEWKEYS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

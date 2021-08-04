@@ -1,16 +1,20 @@
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import NodePanel from "../Components/Nodes/NodePanel";
-import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
-import { IApplicationStoredForecastResultsRow } from "../../Application/Types/ApplicationTypes";
+import { IIdSelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { getTableDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { useSelector } from "react-redux";
-import generateSelectOptions from "../../Application/Utils/GenerateSelectOptions";
+import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import { IApplicationStoredDataRow } from "../../Application/Types/ApplicationTypes";
+import { updateForecastResultsParameterAction } from "../../Forecast/Redux/Actions/ForecastActions";
+import NodePanel from "../Components/Nodes/NodePanel";
+import { networkIcons } from "../Data/NetworkData";
 
 const useStyles = makeStyles(() => ({
   networkPanel: {
@@ -24,34 +28,56 @@ const useStyles = makeStyles(() => ({
 const NetworkPanel = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
+  const reducer = "inputReducer";
+  const mainUrl = `${getBaseForecastUrl()}/forecast-inputdeck`;
   const wc = "storedDataWorkflows";
-  const wp = "forecastResultsStored";
+  const wp = "forecastInputDeckStored";
 
   const { isNetworkAuto } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
-  const storedData = useSelector(
-    (state: RootState) => state.forecastReducer[wc][wp]
-  ) as IApplicationStoredForecastResultsRow[];
-
-  const nodeNames = [
-    "drainagePoint",
-    "manifold",
-    "flowstation",
-    "gasFacility",
-    "gatheringCenter",
-    "terminal",
-  ];
-
-  const forecastInputDeckTitles = storedData.map((row) => row.title);
-  const forecastInputDeckOptions = generateSelectOptions(
-    forecastInputDeckTitles
+  const { forecastInputDeckStored } = useSelector(
+    (state: RootState) => state.inputReducer[wc]
   );
-  const [forecastInputDeckOption, setForecastInputDeckOption] = React.useState(
-    forecastInputDeckOptions[0]
+
+  const { selectedForecastInputDeckTitle } = useSelector(
+    (state: RootState) => state.inputReducer
   );
+
+  const nodeTypes = Object.keys(networkIcons);
+
+  const forecastInputDeckOptions = forecastInputDeckStored.map(
+    (row: IApplicationStoredDataRow) => ({
+      value: row.title,
+      label: row.title,
+      id: row.id,
+    })
+  ) as IIdSelectOption[];
+
+  forecastInputDeckOptions.unshift({
+    value: "select",
+    label: "Select...",
+    id: "",
+  });
+
+  const selectedForecastDeckTitleOption =
+    selectedForecastInputDeckTitle !== ""
+      ? {
+          value: selectedForecastInputDeckTitle,
+          label: selectedForecastInputDeckTitle,
+          id: forecastInputDeckOptions.filter(
+            (o) => o.label === selectedForecastInputDeckTitle
+          )[0].id,
+        }
+      : forecastInputDeckOptions[0];
+
+  const [forecastInputDeckOption, setForecastInputDeckOption] =
+    React.useState<IIdSelectOption>(
+      selectedForecastDeckTitleOption as IIdSelectOption
+    );
 
   let style = {};
   if (isNetworkAuto) {
@@ -71,8 +97,26 @@ const NetworkPanel = () => {
               <ApexSelectRS
                 valueOption={forecastInputDeckOption}
                 data={forecastInputDeckOptions}
-                handleSelect={(option: ValueType<ISelectOption, false>) => {
-                  setForecastInputDeckOption(option as ISelectOption);
+                handleSelect={(option: ValueType<IIdSelectOption, false>) => {
+                  const optionDefined = option as IIdSelectOption;
+                  setForecastInputDeckOption(optionDefined);
+
+                  dispatch(
+                    updateForecastResultsParameterAction(
+                      "selectedForecastInputDeckId",
+                      optionDefined.id
+                    )
+                  );
+
+                  dispatch(
+                    getTableDataByIdRequestAction(
+                      reducer as ReducersType,
+                      `${mainUrl}/${optionDefined.id}`,
+                      optionDefined.label as string,
+                      "networkManualBuild",
+                      "success"
+                    )
+                  );
                 }}
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
@@ -86,9 +130,11 @@ const NetworkPanel = () => {
       )}
       <AnalyticsTitle title="Network Nodes" />
       <div className={classes.networkPanel} style={style}>
-        {nodeNames.map((nodeName, i) => (
-          <NodePanel key={i} name={nodeName} />
-        ))}
+        {nodeTypes
+          .filter((n) => n !== "drainagePointSummary")
+          .map((nodeName, i) => (
+            <NodePanel key={i} name={nodeName} />
+          ))}
       </div>
     </>
   );

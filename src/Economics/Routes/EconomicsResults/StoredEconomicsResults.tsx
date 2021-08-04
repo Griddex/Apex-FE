@@ -4,45 +4,27 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
+import startCase from "lodash.startcase";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
-import startCase from "lodash.startcase";
-import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
-import {
-  IApplicationStoredEconomicsResultsRow,
-  IStoredDataProps,
-} from "../../../Application/Types/ApplicationTypes";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
-import {
-  deleteDataByIdRequestAction,
-  getTableDataByIdRequestAction,
-  persistSelectedIdTitleAction,
-} from "../../../Application/Redux/Actions/ApplicationActions";
-import {
-  fetchTreeviewKeysRequestAction,
-  getForecastDataByIdRequestAction,
-  updateForecastResultsParameterAction,
-} from "../../../Forecast/Redux/Actions/ForecastActions";
+import Approval from "../../../Application/Components/Approval/Approval";
+import Author from "../../../Application/Components/Author/Author";
+import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
 import apexGridCheckbox from "../../../Application/Components/Checkboxes/ApexGridCheckbox";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
   IApexEditor,
   IApexEditorRow,
 } from "../../../Application/Components/Editors/ApexEditor";
-import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import Approval from "../../../Application/Components/Approval/Approval";
-import Author from "../../../Application/Components/Author/Author";
-import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
-import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import ExcelExportTable, {
-  IExcelSheetData,
   IExcelExportTable,
+  IExcelSheetData,
 } from "../../../Application/Components/Export/ExcelExportTable";
 import Saved from "../../../Application/Components/Saved/Saved";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import {
@@ -50,17 +32,32 @@ import {
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
-  unloadDialogsAction,
+  deleteDataByIdRequestAction,
+  fetchTreeviewKeysRequestAction,
+  getTableDataByIdRequestAction,
+  persistSelectedIdTitleAction,
+} from "../../../Application/Redux/Actions/ApplicationActions";
+import {
   showDialogAction,
+  unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
+import {
+  IApplicationStoredEconomicsResultsRow,
+  IStoredDataProps,
+} from "../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../Application/Utils/FormatDate";
+import { updateForecastResultsParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchStoredEconomicsResultsRequestAction,
   getEconomicsResultsByIdRequestAction,
 } from "../../Redux/Actions/EconomicsActions";
+import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -310,8 +307,8 @@ export default function StoredEcoResults({
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
                       row.title as string,
-
-                      wp as TAllWorkflowProcesses
+                      wp as TAllWorkflowProcesses,
+                      "table"
                     )
                   )
                 }
@@ -549,7 +546,10 @@ export default function StoredEcoResults({
                   )
                 );
               },
-              () => dispatch(fetchTreeviewKeysRequestAction()),
+              () =>
+                dispatch(
+                  fetchTreeviewKeysRequestAction(reducer, "economicsPlotCharts")
+                ),
             ]}
           />
         </ApexFlexContainer>

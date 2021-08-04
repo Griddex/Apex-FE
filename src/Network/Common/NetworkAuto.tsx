@@ -47,6 +47,7 @@ import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
+import { nodeTypes } from "../Data/NetworkData";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -97,17 +98,7 @@ const useStyles = makeStyles(() => ({
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
-const nodeTypes: NodeTypesType = {
-  drainagePointSummaryNode: DrainagePointSummaryNode,
-  drainagePointNode: DrainagePointNode,
-  manifoldNode: ManifoldNode,
-  flowstationNode: FlowstationNode,
-  gasFacilityNode: GasFacilityNode,
-  gatheringCenterNode: GatheringCenterNode,
-  terminalNode: TerminalNode,
-};
-
-const Network = ({ isNetworkAuto }: INetworkProps) => {
+const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -186,7 +177,10 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
       reactFlowInstanceRef.current as OnLoadParams
     ).project(mouseCoordUpdated);
 
-    const newElement: FlowElement = GenerateNodeService(nodeType);
+    const newElement: FlowElement = GenerateNodeService(
+      nodeType,
+      isNetworkAuto
+    );
     const updatedNewElement = {
       ...newElement,
       position: { ...mouseCoordProjected } as XYPosition,
@@ -324,4 +318,4 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
   );
 };
 
-export default Network;
+export default NetworkAuto;

@@ -1,53 +1,19 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import { fetchTreeviewKeysRequestAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import EconomicsTemplateTreeView from "./EconomicsTemplateTreeView";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-  chartSelect: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "10%",
-    border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-  treeViewPanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    height: "100%",
-    // border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
-
 const EconomicsTemplateDataPanel = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
+  const reducer = "economicsReducer";
   const wc = "storedDataWorkflows";
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
@@ -76,7 +42,9 @@ const EconomicsTemplateDataPanel = () => {
   ) => {
     setEconomicsResultTitleOption(option);
 
-    dispatch(fetchTreeviewKeysRequestAction());
+    dispatch(
+      fetchTreeviewKeysRequestAction(reducer, "economicsTemplateResults")
+    );
   };
 
   React.useEffect(() => {

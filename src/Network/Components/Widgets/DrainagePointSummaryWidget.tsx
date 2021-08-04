@@ -1,40 +1,96 @@
-import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
+import { Tooltip, Typography, useTheme } from "@material-ui/core";
 import React from "react";
+import {
+  Connection,
+  Handle,
+  Node,
+  Position,
+  XYPosition,
+} from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import DrainagePoint from "../../Images/DrainagePoint.svg";
 import DrainagePointSummaryContextMenu from "../ContextMenu/DrainagePointSummaryContextMenu";
-import { Typography } from "@material-ui/core";
 import {
-  handleStyle,
   drainagePointSummaryInnerStyle,
   drainagePointSummaryTextStyle,
   drainagePointSummaryWidgetStyle,
+  handleStyle,
 } from "./WidgetStyles";
-import { IExtraNodeProps } from "./WidgetTypes";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
-const DrainagePointSummaryWidget = ({
-  drainagePoints,
-}: {
-  drainagePoints: string[];
-}) => {
+const DrainagePointSummaryTitle = ({ drainagePoints }: IWidget) => {
+  const theme = useTheme();
+
+  return (
+    <AnalyticsComp
+      title="Drainage Points"
+      direction="Vertical"
+      titleStyle={{ color: theme.palette.primary.main }}
+      containerStyle={{ width: "100%" }}
+      content={
+        <ApexFlexContainer
+          flexDirection="column"
+          moreStyles={{
+            width: 200,
+            height: "auto",
+            maxHeight: 200,
+            overflow: "auto",
+          }}
+        >
+          {drainagePoints?.map((dp, i) => {
+            return (
+              <div key={i} style={{ display: "flex", flexDirection: "row" }}>
+                <div style={{ width: 20 }}>{`${i + 1}.`}</div>
+                <div style={{ width: 180 }}>{dp}</div>
+              </div>
+            );
+          })}
+        </ApexFlexContainer>
+      }
+    />
+  );
+};
+
+const DrainagePointSummaryWidget = ({ drainagePoints }: IWidget) => {
+  const isValidConnection = (connection: Connection) => {
+    const nodeType = connection?.target?.split("_")[1];
+    return nodeType === "manifold";
+  };
+
   return (
     <div style={drainagePointSummaryWidgetStyle}>
-      <Handle type="source" position={Position.Top} style={handleStyle} />
-      <img
-        src={DrainagePoint}
-        width={20}
-        height={20}
-        draggable={false}
-        alt="DrainagePoint"
+      <Handle
+        type="source"
+        position={Position.Top}
+        style={handleStyle}
+        isValidConnection={isValidConnection}
       />
+      <Tooltip
+        key="drainagePointSummary"
+        title={<DrainagePointSummaryTitle drainagePoints={drainagePoints} />}
+        placement="bottom"
+        arrow
+      >
+        <img
+          src={DrainagePoint}
+          width={20}
+          height={20}
+          draggable={false}
+          alt="DrainagePoint"
+        />
+      </Tooltip>
       <div style={drainagePointSummaryTextStyle}>
         <div style={drainagePointSummaryInnerStyle}>
-          <Typography variant="caption">{drainagePoints.length}</Typography>
+          <Typography variant="caption">
+            {drainagePoints && drainagePoints.length}
+          </Typography>
         </div>
         <div style={drainagePointSummaryInnerStyle}>
           <Typography style={{ fontSize: 8 }} variant="caption">
-            Wells
+            DPs
           </Typography>
         </div>
       </div>
@@ -43,18 +99,15 @@ const DrainagePointSummaryWidget = ({
 };
 
 const DrainagePointSummaryNode = React.memo((props: Node & IExtraNodeProps) => {
-  const { nodeElementsManual, isNetworkAuto } = useSelector(
+  const { isNetworkAuto } = useSelector(
     (state: RootState) => state.networkReducer
   );
-  const noOfNodes = nodeElementsManual.filter(
-    (node: Node & IExtraNodeProps) => node.type === "drainagePointSummaryNode"
-  ).length;
 
   if (!isNetworkAuto) {
     props = {
       ...props,
       ["data"]: {
-        drainagePoints: "None",
+        drainagePoints: [],
       },
     };
   }

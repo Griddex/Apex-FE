@@ -12,6 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import DialogCancelButton from "../../Components/DialogButtons/DialogCancelButton";
+import DialogOkayButton from "../../Components/DialogButtons/DialogOkayButton";
 import { failureDialogParameters } from "../../Components/DialogParameters/GetTableDataByIdFailureDialogParameters";
 import { DialogStuff } from "../../Components/Dialogs/DialogTypes";
 import * as authService from "../../Services/AuthService";
@@ -47,7 +48,13 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { reducer, tableDataUrl, tableTitle, workflowProcess } = payload;
+  const {
+    reducer,
+    tableDataUrl,
+    tableTitle,
+    workflowProcess,
+    tableOrSuccessDialog,
+  } = payload;
 
   try {
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
@@ -68,19 +75,35 @@ function* getTableDataByIdSaga(action: IAction): Generator<
       },
     });
 
-    const dialogParameters: DialogStuff = {
-      name: "Display_Table_Data_Dialog",
-      title: tableTitle,
-      type: "tableDataDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "lg",
-      iconType: "information",
-      actionsList: () => DialogCancelButton(),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      reducer,
-      workflowProcess,
-    };
+    let dialogParameters = {} as DialogStuff;
+    if (tableOrSuccessDialog === "table") {
+      dialogParameters = {
+        name: "Display_Table_Data_Dialog",
+        title: tableTitle,
+        type: "tableDataDialog",
+        show: true,
+        exclusive: true,
+        maxWidth: "lg",
+        iconType: "information",
+        actionsList: () => DialogCancelButton(),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+        reducer,
+        workflowProcess,
+      };
+    } else {
+      dialogParameters = {
+        name: "Get_ForecastInputDeck_Success_Dialog",
+        title: "Forecast Input Deck Success",
+        type: "textDialog",
+        show: true,
+        exclusive: true,
+        maxWidth: "xs",
+        dialogText: `Forecast input deck was successfully fetched!`,
+        iconType: "success",
+        actionsList: () => DialogOkayButton([true], [false], [() => {}]),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+    }
 
     yield put(showDialogAction(dialogParameters));
   } catch (errors) {

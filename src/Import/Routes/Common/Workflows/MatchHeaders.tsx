@@ -632,7 +632,8 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
                 const chosenAppHeader = chosenRow.applicationHeader as string;
                 const chosenType = chosenRow.type as THeader;
 
-                userMatchObject[workflowClass]["headers"][header as string] = {
+                const headerJSON = JSON.stringify(header as string);
+                userMatchObject[workflowClass]["headers"][headerJSON] = {
                   header: chosenAppHeader,
                   type: chosenType,
                   acceptMatch: currentAcceptMatchValue,

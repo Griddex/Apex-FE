@@ -96,6 +96,7 @@ export interface InputStateType
   selectedForecastInputDeckId: string;
   selectedForecastInputDeckTitle: string;
   selectedForecastInputDeckDescription: string;
+  selectedForecastInputDeck: IRawRow[];
 
   forecastInputDeckId: string;
   forecastInputdeckTitle: string;

@@ -224,7 +224,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                         reducer as ReducersType,
                         `${mainUrl}/${row.id}`,
                         row.title as string,
-                        wkPs as TAllWorkflowProcesses
+                        wkPs as TAllWorkflowProcesses,
+                        "table"
                       )
                     )
                   }

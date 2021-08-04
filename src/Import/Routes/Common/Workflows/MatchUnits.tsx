@@ -841,7 +841,8 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
                 const chosenAppUnit = chosenRow.fileUnit as string;
                 const chosenUnitType = chosenRow.type as TUnit;
 
-                userMatchObject[workflowClass]["units"][header] = {
+                const headerJSON = JSON.stringify(header as string);
+                userMatchObject[workflowClass]["units"][headerJSON] = {
                   header: chosenAppUnit as string,
                   type: chosenUnitType,
                   acceptMatch: currentAcceptMatchValue,

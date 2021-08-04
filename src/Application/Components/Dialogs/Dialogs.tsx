@@ -39,6 +39,7 @@ import StoredProductionStreamPrioritizationDialog from "../../../Network/Compone
 import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
+import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -89,6 +90,7 @@ const applicationDialogs: IApplicationDialogs = {
 
   snapshotDialog: SnapshotDialog,
   networkWidgetDialog: NetworkWidgetDialog,
+  linkInputDeckDialog: LinkInputDeckDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

@@ -48,6 +48,7 @@ import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dial
 import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
+import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -92,6 +93,7 @@ export interface IApplicationDialogs {
 
   snapshotDialog: typeof SnapshotDialog;
   networkWidgetDialog: typeof NetworkWidgetDialog;
+  linkInputDeckDialog: typeof LinkInputDeckDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -150,7 +152,8 @@ export interface DialogStuff<TRow = IRawRow> {
     | "storedDeclineCurveParametersDialog"
     | "storedProductionStreamPrioritizationDialog"
     | "snapshotDialog"
-    | "networkWidgetDialog";
+    | "networkWidgetDialog"
+    | "linkInputDeckDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

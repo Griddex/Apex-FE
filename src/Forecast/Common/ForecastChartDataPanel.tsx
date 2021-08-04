@@ -2,18 +2,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { IIdSelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import { fetchTreeviewKeysRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import {
-  fetchTreeviewKeysRequestAction,
-  updateForecastResultsParameterAction,
-} from "../Redux/Actions/ForecastActions";
+import { updateForecastResultsParameterAction } from "../Redux/Actions/ForecastActions";
 import { IForecastRunOptions } from "../Routes/ForecastData";
 import ForecastTreeView from "./ForecastTreeView";
 
 const ForecastChartDataPanel = () => {
   const dispatch = useDispatch();
 
+  const reducer = "forecastReducer";
   const wc = "storedDataWorkflows";
   const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
@@ -62,7 +61,7 @@ const ForecastChartDataPanel = () => {
       )
     );
 
-    dispatch(fetchTreeviewKeysRequestAction());
+    dispatch(fetchTreeviewKeysRequestAction(reducer, "forecastChart"));
   };
 
   return (
