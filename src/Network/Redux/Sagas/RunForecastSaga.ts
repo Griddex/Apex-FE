@@ -72,8 +72,8 @@ function* runForecastSaga(
     (state) => state.networkReducer
   );
 
-  const userId = "Gideon";
-  const url = `${getBaseForecastUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersId=${selectedForecastingParametersId}/userId=${userId}`;
+  
+  const url = `${getBaseForecastUrl()}/run/networkId=${selectedNetworkId}/forecastingParametersId=${selectedForecastingParametersId}`;
 
   try {
     yield put(removeCurrentForecastAction());
