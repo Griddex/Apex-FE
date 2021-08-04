@@ -542,6 +542,7 @@ export default function StoredForecastingParameters({
       monthFormat,
       yearFormat
     );
+
     setRows(updatedStoredData);
   }, [forecastingParametersStored.length]);
 
