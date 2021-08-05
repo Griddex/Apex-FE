@@ -80,6 +80,9 @@ export default function StoredForecastDecks({
     //   );
   };
 
+  const isDataVisibility = true;
+  const isCloning = false;
+
   const props: IStoredDataProps = {
     wkPs: wp,
     snStoredData,
@@ -93,6 +96,8 @@ export default function StoredForecastDecks({
     collectionName,
     mainUrl,
     tableTitle,
+    isDataVisibility,
+    isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),

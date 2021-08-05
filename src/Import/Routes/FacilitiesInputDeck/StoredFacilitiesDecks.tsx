@@ -81,6 +81,9 @@ export default function StoredFacilitiesDecks({
       );
   };
 
+  const isDataVisibility = true;
+  const isCloning = false;
+
   const props: IStoredDataProps = {
     wkPs: wp,
     snStoredData,
@@ -94,6 +97,8 @@ export default function StoredFacilitiesDecks({
     collectionName,
     mainUrl,
     tableTitle,
+    isDataVisibility,
+    isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),

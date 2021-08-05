@@ -90,6 +90,8 @@ const EconomicsParametersManual = ({
   const initialRows = createInitialRows(economicsParametersAppHeaders.length);
   const [rows, setRows] = React.useState(initialRows);
 
+  console.log("initialRows: ", initialRows);
+
   const handleParameterTypeChange = (
     row: IRawRow,
     value: ValueType<ISelectOption, false>

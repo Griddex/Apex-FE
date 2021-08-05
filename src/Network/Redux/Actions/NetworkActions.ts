@@ -113,6 +113,8 @@ export const saveForecastRequestAction = (
 };
 
 export const updateNetworkParameterAction = (path: string, value: any) => {
+  console.log("path: ", path);
+  console.log("value: ", value);
   return {
     type: UPDATE_NETWORKPARAMETER,
     payload: {
@@ -496,7 +498,8 @@ export const removeCurrentNetworkAction = (showSpinner: boolean) => {
 export const getDeclineParametersByIdRequestAction = (
   selectedDeclineParametersId: string,
   wellDeclineParameterTitle: string,
-  reducer: ReducersType
+  reducer: ReducersType,
+  isCreateOrEdit: boolean
 ) => {
   return {
     type: GET_DECLINEPARAMETERSBYID_REQUEST,
@@ -504,6 +507,7 @@ export const getDeclineParametersByIdRequestAction = (
       selectedDeclineParametersId,
       wellDeclineParameterTitle,
       reducer,
+      isCreateOrEdit
     },
     meta: { showSpinner: true, message: "Fetching decline parameters..." },
   };

@@ -20,6 +20,11 @@ import { IDeclineCurveParametersDetail } from "../Components/Dialogs/StoredNetwo
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
 
+import {
+  ReducersType
+} from "../../Application/Components/Workflows/WorkflowTypes";
+
+
 const useStyles = makeStyles(() => ({
   rootStoredData: {
     display: "flex",
@@ -69,16 +74,19 @@ const useStyles = makeStyles(() => ({
 //TODO: Calculate classification data from collection
 
 export default function EditOrCreateDeclineParameters({
-    currentRow}: IStoredDataProps) {
+  reducer, currentRow}: IStoredDataProps) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
+  const currentRowCopy = currentRow == null ? {} : currentRow;
 
+  
   //const wp = workflowProcess;
-  console.log("currentRow: ", currentRow); //From currentRow you can get selectedDeclineParametersData
   const { selectedDeclineParametersData } = useSelector(
     (state: RootState) => state.networkReducer
   );
+
+  console.log("selectedDeclineParametersData: ", selectedDeclineParametersData);
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);

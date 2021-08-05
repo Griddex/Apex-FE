@@ -9,6 +9,14 @@ import {
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
 import EditOrCreateDeclineParameters from "../Routes/EditOrCreateDeclineParameters";
 import { IEditOrCreateDeclineParameters } from  "../Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog"
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getTableDataByIdRequestAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
+import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import {
+  IStoredDataProps,
+} from "../../Application/Types/ApplicationTypes";
 
 const EditOrCreateDeclineParametersWorkflow = ({
   currRow,
@@ -17,7 +25,6 @@ const EditOrCreateDeclineParametersWorkflow = ({
   workflowProcess,
   activeStep,
   forecastParametersIndex,
-
   title,
   setTitle,
   description,
@@ -29,6 +36,17 @@ const EditOrCreateDeclineParametersWorkflow = ({
   const wc = "storedDataWorkflows";
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
+
+    const dispatch = useDispatch();
+
+    const wp = workflowProcess as NonNullable<
+    IStoredDataProps["workflowProcess"]
+  >;
+
+  const mainUrl = `${getBaseForecastUrl()}/well-decline-parameters`;
+  const collectionName = "declineParameters";
+  const currRowCopy = currRow == null ? {} : currRow;
+  console.log("currRowCopy: ", currRowCopy);
 
   const renderImportStep = () => {
     const n =
@@ -47,9 +65,11 @@ const EditOrCreateDeclineParametersWorkflow = ({
           />
         );
       case 1:
+      
         return (
           <EditOrCreateDeclineParameters
-            currentRow={currRow}
+            currentRow={currRowCopy}
+            reducer={reducer}
           />
         );
       case 2:

@@ -1,3 +1,4 @@
+import { falseDependencies } from "mathjs";
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -11,6 +12,7 @@ export const extrudeStoredDataDPs = (
   forecastParametersIndex: number,
   workflowProcess: NonNullable<TAllWorkflowProcesses>
 ): DialogStuff<IStoredDataRow> => {
+  console.log("currentRow from extrudeStoredDataDPs: ", currentRow);
   return {
     name: "Edit_Decline_Parameters_Parameters_Dialog",
     title,

@@ -44,7 +44,7 @@ const CreateStoredDataButton = ({
           border: `1px solid ${theme.palette.primary.main}`,
           borderRadius: 0,
         }}
-        onClick={() =>
+        /* onClick={() =>
           dispatch(
             showDialogAction(
                 extrudeStoredDataDPs(
@@ -54,8 +54,8 @@ const CreateStoredDataButton = ({
                   "createForecastingParametersWorkflow" 
                 )
               )
-          )
-        }
+          ) 
+        } */
         startIcon={<AddOutlinedIcon />}
       >
         {"Create"}

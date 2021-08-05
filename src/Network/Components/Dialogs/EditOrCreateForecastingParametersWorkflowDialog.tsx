@@ -137,6 +137,8 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     forecastParametersIndex,
   } = props;
 
+  console.log("currentRow: ", currentRow);
+
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 

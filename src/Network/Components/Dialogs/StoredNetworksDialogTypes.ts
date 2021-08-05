@@ -51,6 +51,17 @@ export interface IDeclineParametersStoredRow {
   modifiedOn: string;
 }
 
+export interface IBackendDeclineParametersRow {
+  sn?: number;
+  createdAt: string;
+  title: string;
+  description: string;
+  forecastInputDeckId: string;
+  id: string;
+  projectId: string;
+  userId: string;
+}
+
 export interface IParametersEntity {
   targetFluid: string;
   timeFrequency: string;

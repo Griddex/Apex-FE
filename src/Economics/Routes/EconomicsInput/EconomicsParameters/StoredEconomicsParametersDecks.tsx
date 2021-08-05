@@ -32,7 +32,7 @@ export default function StoredEconomicsParametersDecks({
 
   const tableTitle = "Economics Parameters Table";
   const mainUrl = `${getBaseEconomicsUrl()}/parameter`;
-  const collectionName = "fiscal";
+  const collectionName = "commercialTechnical-fiscal-flarePenalty-gasRoyalty-oilRoyalty";
   // "commercialTechnical", "fiscal" "flarePenalty" "gasRoyalty" "oilRoyalty" "ppt"
 
   const dispatch = useDispatch();
@@ -84,6 +84,9 @@ export default function StoredEconomicsParametersDecks({
       );
   };
 
+  const isDataVisibility = true;
+  const isCloning = false;
+
   const props: IStoredDataProps = {
     wkPs: wp,
     snStoredData,
@@ -95,6 +98,8 @@ export default function StoredEconomicsParametersDecks({
     collectionName,
     mainUrl,
     tableTitle,
+    isDataVisibility,
+    isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredEconomicsDataRequestAction(currentProjectId),

@@ -116,12 +116,14 @@ const Dialogs: React.FC<DialogStuff> = () => {
               const SpecificDialog = applicationDialogs[type];
               const dialogDefined =
                 dialog as DialogStuff<IForecastParametersStoredRow>;
+                console.log("DialogStuff<IForecastParametersStoredRow>: ", dialogDefined);
 
               return <SpecificDialog key={i} {...dialogDefined} />;
             }else if (type === "createDeclineParametersWorkflowDialog") {
               const SpecificDialog = applicationDialogs[type];
               const dialogDefined =
                 dialog as DialogStuff<IStoredDataRow>;
+              console.log("DialogStuff<IStoredDataRow>: ", dialogDefined);
 
               return <SpecificDialog key={i} {...dialogDefined} />;
             } else {

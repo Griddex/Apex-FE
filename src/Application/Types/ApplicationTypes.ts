@@ -81,6 +81,9 @@ export interface IStoredDataProps {
   buttonToolTip?: string;
   butttonTitle?: string;
   dialogTitle?: string;
+  isDataVisibility?: boolean;
+  isCloning?: boolean;
+  wcc?: string;
 }
 
 export interface IApplicationStoredDataRow {

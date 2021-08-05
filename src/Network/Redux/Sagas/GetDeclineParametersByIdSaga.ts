@@ -51,9 +51,9 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   void,
   any
 > {
-  console.log("DCA Parameters Action: ", action);
+  
   const { payload } = action;
-  const { selectedDeclineParametersId, wellDeclineParameterTitle, reducer } =
+  const { selectedDeclineParametersId, wellDeclineParameterTitle, reducer, isCreateOrEdit} =
     payload;
   const wc = "storedDataWorkflows";
 
@@ -73,6 +73,15 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
     const selectedTableData = data["declineParameters"];
 
     const successAction = getTableDataByIdSuccessAction();
+    console.log("ans: ", {
+      ...successAction,
+      payload: {
+        ...payload,
+        reducer,
+        selectedTableData,
+      },
+    });
+
     yield put({
       ...successAction,
       payload: {
@@ -82,20 +91,28 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       },
     });
 
-    const dialogParameters: DialogStuff = {
-      name: "Display_Table_Data_Dialog",
-      title: wellDeclineParameterTitle,
-      type: "tableDataDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "xl",
-      iconType: "information",
-      actionsList: () => DialogCancelButton(),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      reducer,
-    };
+    if(isCreateOrEdit == false){
 
-    yield put(showDialogAction(dialogParameters));
+      const dialogParameters: DialogStuff = {
+        name: "Display_Table_Data_Dialog",
+        title: wellDeclineParameterTitle,
+        type: "tableDataDialog",
+        show: true,
+        exclusive: true,
+        maxWidth: "xl",
+        iconType: "information",
+        actionsList: () => DialogCancelButton(),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+        reducer,
+      };
+
+      yield put(showDialogAction(dialogParameters));
+    }else{
+      yield put({type: GET_DECLINEPARAMETERSBYID_REQUEST, payload:{
+        path: "selectedDeclineParametersData",
+        value: selectedTableData
+    }});
+    } 
   } catch (errors) {
     const failureAction = getDeclineParametersByIdFailureAction();
 
