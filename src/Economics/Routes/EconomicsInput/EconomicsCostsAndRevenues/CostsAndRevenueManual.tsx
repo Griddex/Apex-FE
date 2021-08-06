@@ -8,7 +8,6 @@ import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import { valueContainerCSS } from "react-select/src/components/containers";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ExcelExportTable, {
@@ -37,7 +36,6 @@ import {
   persistEconomicsDeckRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import CostsRevenuesExcelExportTemplate from "../../../Templates/CostsRevenuesExcelExportTemplate";
 import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 
@@ -96,14 +94,13 @@ export default function CostsAndRevenueManual({
     forecastEconomicsAggregated
   );
 
-  const [devOption, setDevOption] = React.useState(
+  const [devOption, setDevOption] = React.useState<ISelectOption>(
     developmentScenarioOptions[0]
   );
   const devVal = devOption.value as TDevScenarioNames;
 
-  const [forecastCaseOption, setForecastCaseOption] = React.useState(
-    forecastCaseOptions[1]
-  );
+  const [forecastCaseOption, setForecastCaseOption] =
+    React.useState<ISelectOption>(forecastCaseOptions[1]);
   const [buttonsData, setButtonsData] = React.useState([
     {
       title: devOption.label,

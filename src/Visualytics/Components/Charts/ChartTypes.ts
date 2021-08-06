@@ -1,5 +1,9 @@
 import { IApexMultiAccordion } from "../../../Application/Components/Accordions/ApexMultiAccordions";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  TAllWorkflowCategories,
+  TOnlyWorkflowProcesses,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { IApexSlider } from "../Sliders/ApexSlider";
 
@@ -45,6 +49,7 @@ export interface IApexLegends {
   itemDirection: string;
   symbolShape: string;
   symbolBorderColor: string;
+
   storeTranslateX: Partial<IApexSlider>;
   storeTranslateY: Partial<IApexSlider>;
   storeItemsSpacing: Partial<IApexSlider>;
@@ -52,17 +57,6 @@ export interface IApexLegends {
   storeItemHeight: Partial<IApexSlider>;
   storeItemOpacity: Partial<IApexSlider>;
   storeSymbolSize: Partial<IApexSlider>;
-  axisCaption: string;
-  axisEnabled: boolean;
-  enableName: string;
-  axisName: string;
-  storeAxisTitle: string;
-  storeAxisTitleOffset: Partial<IApexSlider>;
-  storeAxisTickSize: Partial<IApexSlider>;
-  storeAxisTickPadding: Partial<IApexSlider>;
-  storeAxisTickRotation: Partial<IApexSlider>;
-  storeTitlePosition: "start" | "middle" | "end";
-  enableAction?: () => void;
 }
 
 export interface IApexChartPointers {
@@ -80,20 +74,37 @@ export interface IApexLineChartGeneral {
   colors: string;
   storeLineWidth: Partial<IApexSlider>;
   enableArea: boolean;
-  areaBlendMode: string;
+  areaBlendMode:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "lighten"
+    | "darken"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "saturation"
+    | "color"
+    | "luminosity";
   storeAreaBaselineValue: Partial<IApexSlider>;
   storeAreaOpacity: Partial<IApexSlider>;
 }
 
 export interface IApexChartFormatProps {
-  workflowProcess: IAllWorkflows["wrkflwPrcss"];
+  workflowCategory: TAllWorkflowCategories;
+  workflowProcess: TOnlyWorkflowProcesses;
   chartType: TChartTypes;
   updateParameterAction: (path: string, value: any) => IAction;
   apexChartGridData: IApexChartGrid[];
   apexChartAxesData: IApexChartAxis[];
   apexMultiAccordionsData: IApexMultiAccordion[];
-  apexLegendsData?: any;
-  apexPointersData?: any;
-  apexLineChartGeneralData?: any;
-  apexLineChartPlotData?: any;
+  // apexLegendsData?: any;
+  // apexPointersData?: any;
+  // apexLineChartGeneralData?: any;
+  // apexLineChartPlotData?: any;
 }

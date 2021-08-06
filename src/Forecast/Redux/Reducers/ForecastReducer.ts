@@ -3,8 +3,8 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_SUCCESS,
   GET_TABLEDATABYID_FAILURE,
-  TREEVIEWKEYS_FAILURE,
-  TREEVIEWKEYS_SUCCESS,
+  FORECAST_TREEVIEWKEYS_FAILURE,
+  FORECAST_TREEVIEWKEYS_SUCCESS,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   LOAD_FORECASTRESULTS_WORKFLOW,
@@ -209,7 +209,7 @@ const forecastReducer = (
       };
     }
 
-    case TREEVIEWKEYS_SUCCESS: {
+    case FORECAST_TREEVIEWKEYS_SUCCESS: {
       const { keyVar, reducer, perspective } = action.payload;
 
       // if (reducer === "forecastReducer") {
@@ -229,7 +229,7 @@ const forecastReducer = (
       // }
     }
 
-    case TREEVIEWKEYS_FAILURE: {
+    case FORECAST_TREEVIEWKEYS_FAILURE: {
       const { errors } = action.payload;
 
       return {

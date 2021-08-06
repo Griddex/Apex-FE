@@ -32,7 +32,6 @@ import {
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import {
   deleteDataByIdRequestAction,
-  fetchTreeviewKeysRequestAction,
   getTableDataByIdRequestAction,
   persistSelectedIdTitleAction,
 } from "../../Application/Redux/Actions/ApplicationActions";
@@ -56,6 +55,7 @@ import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAgg
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import {
+  fetchForecastTreeviewKeysRequestAction,
   fetchStoredForecastingResultsRequestAction,
   getForecastDataByIdRequestAction,
   updateForecastResultsParameterAction,
@@ -529,7 +529,10 @@ export default function ForecastQualityAssuranceData({
               },
               () =>
                 dispatch(
-                  fetchTreeviewKeysRequestAction(reducer, "forecastAssurance")
+                  fetchForecastTreeviewKeysRequestAction(
+                    reducer,
+                    "forecastAssurance"
+                  )
                 ),
             ]}
           />

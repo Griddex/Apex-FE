@@ -11,7 +11,7 @@ import ExcelExportTable, {
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import {
   ISelectOption,
-  SelectOptionsType,
+  TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ApexGridRolesState } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridState";
@@ -90,7 +90,7 @@ export default function SelectHeaderUnitData({
   //TABLE OPTIONS
 
   const { roleNames } = ApexGridRolesState;
-  const roleOptions: SelectOptionsType = generateSelectOptions(roleNames);
+  const roleOptions: TSelectOptions = generateSelectOptions(roleNames);
 
   const initializeRoleNames = () => {
     const roleNames = [];
@@ -166,7 +166,7 @@ export default function SelectHeaderUnitData({
   const rows = tableRows.current;
   const indexRow = columnNameTableData[0];
 
-  const generateColumns = (roleOptions: SelectOptionsType) => {
+  const generateColumns = (roleOptions: TSelectOptions) => {
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true },
 

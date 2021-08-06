@@ -313,12 +313,14 @@ const EditOrCreateForecastingParameters = ({
                 ) as ISelectOption
               }
               data={timeFrequencyOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) =>
+              handleSelect={(option: ValueType<ISelectOption, false>) => {
+                const optionDefined = option as ISelectOption;
+
                 setFormEditorRow((prev) => ({
                   ...prev,
-                  timeFrequency: (option as ISelectOption).value,
-                }))
-              }
+                  timeFrequency: optionDefined.value as string,
+                }));
+              }}
               menuPortalTarget={dialogRef.current as HTMLElement}
               isSelectOptionType={true}
             />
@@ -338,12 +340,14 @@ const EditOrCreateForecastingParameters = ({
                 ) as ISelectOption
               }
               data={defermentOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) =>
+              handleSelect={(option: ValueType<ISelectOption, false>) => {
+                const optionDefined = option as ISelectOption;
+
                 setFormEditorRow((prev) => ({
                   ...prev,
-                  isDefered: (option as ISelectOption).value,
-                }))
-              }
+                  isDefered: optionDefined.value as string,
+                }));
+              }}
               menuPortalTarget={dialogRef.current as HTMLElement}
               isSelectOptionType={true}
             />
@@ -365,12 +369,14 @@ const EditOrCreateForecastingParameters = ({
               ) as ISelectOption
             }
             data={realtimeOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) =>
+            handleSelect={(option: ValueType<ISelectOption, false>) => {
+              const optionDefined = option as ISelectOption;
+
               setFormEditorRow((prev) => ({
                 ...prev,
-                realtimeResults: (option as ISelectOption).value,
-              }))
-            }
+                realtimeResults: optionDefined.value as string,
+              }));
+            }}
             menuPortalTarget={dialogRef.current as HTMLElement}
             isSelectOptionType={true}
             isDisabled={true}

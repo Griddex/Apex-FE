@@ -19,9 +19,9 @@ import ExcelExportTable, {
 import FillPopoverComponent from "../../../../Application/Components/PopoverComponents/FillPopoverComponent";
 import {
   AppUnitSelectOptionsType,
-  IAppUnitSelectOption,
+  IExtendedSelectOption,
   ISelectOption,
-  SelectOptionsType,
+  TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
@@ -239,7 +239,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         Object.values(fileUnitMatch).map((u) => u.score.toString())
       );
     })
-  ) as React.MutableRefObject<SelectOptionsType[]>;
+  ) as React.MutableRefObject<TSelectOptions[]>;
 
   const keyedScoreOptions = React.useRef(
     zipObject(fileHeadersWithoutNone.current, scoreOptions.current)
@@ -326,8 +326,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       const selectedValue = option && option.label;
       const selectedUnitType = selectedValue as TUnit;
 
+      //as NonNullable<ISelectOption>
       const selectedUnitId =
-        option?.value.toString().toLowerCase() === "multiple"
+        (option?.value as string).toLowerCase() === "multiple"
           ? [unitId]
           : unitId;
 
@@ -347,19 +348,19 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     };
 
     const handleApplicationUnitChange = <T extends boolean>(
-      option: NonNullable<ValueType<IAppUnitSelectOption, T>>,
+      option: NonNullable<ValueType<IExtendedSelectOption, T>>,
       row: IRawRow,
       fileHeader: string,
       type: TUnit,
-      unitOptions: IAppUnitSelectOption[],
-      scoreOptions: IAppUnitSelectOption[]
+      unitOptions: IExtendedSelectOption[],
+      scoreOptions: IExtendedSelectOption[]
     ) => {
       const { sn } = row;
       const rowSN = sn as number;
 
       if (type === "Multiple") {
         const selectedAppUnitsOptions = option
-          ? (option as OptionsType<IAppUnitSelectOption>)
+          ? (option as OptionsType<IExtendedSelectOption>)
           : [];
 
         const selectedAppUnits = selectedAppUnitsOptions.map((u) => u.label);
@@ -390,7 +391,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         //Highest score
         const selectedScore = selectedUnitOptionIndices.reduce(
           (highestScore, posIdx) => {
-            const score = parseInt(scoreOptions[posIdx].value);
+            const score = parseInt(scoreOptions[posIdx].value as string);
             if (score > highestScore) return score;
             else return highestScore;
           },
@@ -420,7 +421,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
         setRows(rows);
       } else {
-        const selectedValue = option && (option as IAppUnitSelectOption).label;
+        const selectedValue = option && (option as IExtendedSelectOption).label;
         const selectedAppUnit = selectedValue as string;
 
         const selectedUnitGroup = appUnitsUnitGroupsMap[selectedAppUnit];
@@ -436,7 +437,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         }));
 
         const selectedUnitId = option
-          ? (option as IAppUnitSelectOption).unitId
+          ? (option as IExtendedSelectOption).unitId
           : "";
 
         const selectedRow = rows[rowSN - 1];
@@ -651,7 +652,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
           const scoreOptions = keyedScoreOptions.current[fileHeader];
 
           let appUnit: string | string[];
-          let valueOption: IAppUnitSelectOption | IAppUnitSelectOption[];
+          let valueOption: IExtendedSelectOption | IExtendedSelectOption[];
           let IsMulti: boolean;
           if (type === "Single") {
             appUnit = row.applicationUnit as string | string[];
@@ -661,8 +662,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
             valueOption = unitOptions.find(
               (option) =>
-                option.value.toLowerCase() === (appUnit as string).toLowerCase()
-            ) as IAppUnitSelectOption;
+                (option.value as string).toLowerCase() ===
+                (appUnit as string).toLowerCase()
+            ) as IExtendedSelectOption;
 
             IsMulti = false;
           } else {
@@ -671,8 +673,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
               valueOption = (multiAppUnit as string[]).reduce(
                 (acc: any, u: string) => {
                   const vOpt = unitOptions.find(
-                    (option) => option.value.toLowerCase() === u.toLowerCase()
-                  ) as IAppUnitSelectOption;
+                    (option) =>
+                      (option.value as string).toLowerCase() === u.toLowerCase()
+                  ) as IExtendedSelectOption;
 
                   return [...acc, vOpt];
                 },
@@ -681,9 +684,9 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
             } else {
               const vOpt = unitOptions.find(
                 (option) =>
-                  option.value.toLowerCase() ===
+                  (option.value as string).toLowerCase() ===
                   (multiAppUnit as string).toLowerCase()
-              ) as IAppUnitSelectOption;
+              ) as IExtendedSelectOption;
 
               valueOption = [vOpt];
             }
@@ -700,16 +703,16 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
               style={{ width: "100%", height: "100%" }}
               {...noEventPropagation()}
             >
-              <Select<IAppUnitSelectOption, IsMultiType>
+              <Select<IExtendedSelectOption, IsMultiType>
                 value={valueOption}
                 options={unitOptions}
                 styles={RSStyles}
                 onChange={(
-                  option: ValueType<IAppUnitSelectOption, IsMultiType>
+                  option: ValueType<IExtendedSelectOption, IsMultiType>
                 ) =>
                   handleApplicationUnitChange<IsMultiType>(
                     option as NonNullable<
-                      ValueType<IAppUnitSelectOption, IsMultiType>
+                      ValueType<IExtendedSelectOption, IsMultiType>
                     >,
                     row,
                     fileHeader,

@@ -3,6 +3,11 @@ import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  FORECAST_TREEVIEWKEYS_REQUEST,
+  FORECAST_TREEVIEWKEYS_SUCCESS,
+  FORECAST_TREEVIEWKEYS_FAILURE,
+} from "../../../Application/Redux/Actions/ApplicationActions";
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
@@ -373,6 +378,39 @@ export const runForecastEconomicsAggregationSuccessAction = () => {
 export const runForecastEconomicsAggregationFailureAction = () => {
   return {
     type: RUN_FORECASTECONOMICSAGGREGATION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchForecastTreeviewKeysRequestAction = (
+  reducer: ReducersType,
+  perspective: "forecastChart" | "forecastAssurance"
+) => {
+  return {
+    type: FORECAST_TREEVIEWKEYS_REQUEST,
+    payload: {
+      reducer,
+      perspective,
+      status: 0,
+    },
+  };
+};
+
+export const fetchForecastTreeviewKeysSuccessAction = () => {
+  return {
+    type: FORECAST_TREEVIEWKEYS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchForecastTreeviewKeysFailureAction = () => {
+  return {
+    type: FORECAST_TREEVIEWKEYS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

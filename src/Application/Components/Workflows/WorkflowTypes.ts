@@ -95,7 +95,10 @@ export interface IEconomicsWorkflows {
     | "economicsResultsPlotCharts"
     | "economicsResultsSensitivitiesHeatmap"
     | "economicsResultsStored";
-  wkCy: "economicsDataWorkflows" | "economicsAnalysisWorkflows";
+  wkCy:
+    | "economicsDataWorkflows"
+    | "economicsAnalysisWorkflows"
+    | "economicsChartsWorkflows";
 }
 
 export type ReducersType = keyof {

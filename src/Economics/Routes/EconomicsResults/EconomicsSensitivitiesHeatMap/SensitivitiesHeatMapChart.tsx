@@ -47,9 +47,9 @@ const SensitivitiesHeatMapChart = () => {
     selectedSensitivitiesTable,
   } = useSelector((state: RootState) => state.economicsReducer);
 
-  const { economicsAnalysisButtons } = useSelector(
-    (state: RootState) => state.economicsReducer[wc][ap]
-  );
+  // const { economicsAnalysisButtons } = useSelector(
+  //   (state: RootState) => state.economicsReducer[wc][ap]
+  // );
 
   //TODO
   //1, 2 or 3 sensitivity variables are possible
@@ -86,7 +86,9 @@ const SensitivitiesHeatMapChart = () => {
 
     if (Object.entries(sensitivitiesHeatMapData).length > 0) {
       handleCheck = (v: any) => {
-        const devScenario = economicsAnalysisButtons[0].scenarioName;
+        //TODO Solve this
+        // const devScenario = economicsAnalysisButtons[0].scenarioName;
+        const devScenario = "oilDevelopment";
         const variableZCamel = camelCase(sensitivitiesZRow.parameterTitle);
         const variableZKey = `${variableZCamel}${v}`;
         //use current devscenario and current z value to get collection

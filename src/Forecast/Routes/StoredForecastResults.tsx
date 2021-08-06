@@ -29,7 +29,6 @@ import {
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import {
   deleteDataByIdRequestAction,
-  fetchTreeviewKeysRequestAction,
   getTableDataByIdRequestAction,
   persistSelectedIdTitleAction,
 } from "../../Application/Redux/Actions/ApplicationActions";
@@ -50,6 +49,7 @@ import { updateNetworkParameterAction } from "../../Network/Redux/Actions/Networ
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
+  fetchForecastTreeviewKeysRequestAction,
   fetchStoredForecastingResultsRequestAction,
   getForecastDataByIdRequestAction,
   updateForecastResultsParameterAction,
@@ -518,7 +518,10 @@ export default function StoredForecastResults({
               },
               () =>
                 dispatch(
-                  fetchTreeviewKeysRequestAction(reducer, "forecastChart")
+                  fetchForecastTreeviewKeysRequestAction(
+                    reducer,
+                    "forecastChart"
+                  )
                 ),
             ]}
           />

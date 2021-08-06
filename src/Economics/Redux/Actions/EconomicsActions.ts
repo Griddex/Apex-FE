@@ -567,10 +567,14 @@ export const getEconomicsResultsByIdFailureAction = () => {
   };
 };
 
-export const fetchEconomicsTreeviewKeysRequestAction = () => {
+export const fetchEconomicsTreeviewKeysRequestAction = (
+  willShowSuccessDialog: boolean,
+  perspective: "heatMapTree" | "plotChartsTree" | "templatesTree",
+  id?: string
+) => {
   return {
     type: ECONOMICS_TREEVIEWKEYS_REQUEST,
-    payload: {},
+    payload: { willShowSuccessDialog, perspective, id },
     meta: { showSpinner: true, message: "Loading economics result..." },
   };
 };

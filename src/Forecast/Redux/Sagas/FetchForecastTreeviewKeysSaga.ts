@@ -15,11 +15,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import {
-  TREEVIEWKEYS_REQUEST,
-  fetchTreeviewKeysSuccessAction,
-  fetchTreeviewKeysFailureAction,
-} from "../../../Application/Redux/Actions/ApplicationActions";
+import { FORECAST_TREEVIEWKEYS_REQUEST } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
@@ -27,17 +23,21 @@ import {
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
+import {
+  fetchForecastTreeviewKeysSuccessAction,
+  fetchForecastTreeviewKeysFailureAction,
+} from "../Actions/ForecastActions";
 
-export default function* watchFetchTreeviewKeysSaga(): Generator<
+export default function* watchFetchForecastTreeviewKeysSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const treeviewKeysChan = yield actionChannel(TREEVIEWKEYS_REQUEST);
-  yield takeLeading(treeviewKeysChan, fetchTreeviewKeysSaga);
+  const treeviewKeysChan = yield actionChannel(FORECAST_TREEVIEWKEYS_REQUEST);
+  yield takeLeading(treeviewKeysChan, fetchForecastTreeviewKeysSaga);
 }
 
-function* fetchTreeviewKeysSaga(action: IAction): Generator<
+function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
   | CallEffect<any>
   | TakeEffect
   | PutEffect<{
@@ -64,7 +64,7 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
     while (true) {
       const treeOrKeys = yield take(chan);
 
-      const successAction = fetchTreeviewKeysSuccessAction();
+      const successAction = fetchForecastTreeviewKeysSuccessAction();
       if (Object.keys(treeOrKeys)[0] === "tree") {
         const forecastTree = treeOrKeys["tree"];
 
@@ -90,7 +90,7 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
       }
     }
   } catch (errors) {
-    const failureAction = fetchTreeviewKeysFailureAction();
+    const failureAction = fetchForecastTreeviewKeysFailureAction();
 
     yield put({
       ...failureAction,

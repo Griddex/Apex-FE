@@ -1,14 +1,12 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { subNavbarSetMenuAction } from "../../../Application/Redux/Actions/ApplicationActions";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   developmentScenarioOptions,
   forecastCaseOptions,
@@ -54,9 +52,8 @@ const SelectScenariosByButtonsWithForecastCaseEconomics = ({
     },
   ] as IAggregateButtonProps[]);
 
-  const [forecastCaseOption, setForecastCaseOption] = React.useState(
-    forecastCaseOptions[1]
-  );
+  const [forecastCaseOption, setForecastCaseOption] =
+    React.useState<ISelectOption>(forecastCaseOptions[1]);
 
   React.useEffect(() => {
     dispatch(

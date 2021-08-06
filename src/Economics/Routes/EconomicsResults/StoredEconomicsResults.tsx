@@ -33,7 +33,6 @@ import {
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   deleteDataByIdRequestAction,
-  fetchTreeviewKeysRequestAction,
   getTableDataByIdRequestAction,
   persistSelectedIdTitleAction,
 } from "../../../Application/Redux/Actions/ApplicationActions";
@@ -54,6 +53,7 @@ import { confirmationDialogParameters } from "../../../Import/Components/DialogP
 import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../../Visualytics/Components/Charts/DoughnutChart";
 import {
+  fetchEconomicsTreeviewKeysRequestAction,
   fetchStoredEconomicsResultsRequestAction,
   getEconomicsResultsByIdRequestAction,
 } from "../../Redux/Actions/EconomicsActions";
@@ -548,7 +548,10 @@ export default function StoredEcoResults({
               },
               () =>
                 dispatch(
-                  fetchTreeviewKeysRequestAction(reducer, "economicsPlotCharts")
+                  fetchEconomicsTreeviewKeysRequestAction(
+                    false,
+                    "plotChartsTree"
+                  )
                 ),
             ]}
           />

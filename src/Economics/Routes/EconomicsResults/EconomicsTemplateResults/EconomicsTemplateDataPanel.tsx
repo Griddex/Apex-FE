@@ -1,13 +1,10 @@
-import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import { fetchTreeviewKeysRequestAction } from "../../../../Application/Redux/Actions/ApplicationActions";
+import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
+import { fetchEconomicsTreeviewKeysRequestAction } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsTemplateTreeView from "./EconomicsTemplateTreeView";
 
 const EconomicsTemplateDataPanel = () => {
@@ -22,34 +19,45 @@ const EconomicsTemplateDataPanel = () => {
     (state: RootState) => state.economicsReducer
   );
 
-  const economicsResultsTitles = economicsResultsStored.map(
-    (row: IApplicationStoredDataRow) => row.title
-  ) as string[];
-  const economicsResultsTitleOptions = generateSelectOptions(
-    economicsResultsTitles
-  );
-  const initialEconomicsResultsTitleOption =
+  const economicsResultsTitleOptions = economicsResultsStored.map(
+    (row: any) => ({
+      value: row.title,
+      label: row.title,
+      id: row.id,
+    })
+  ) as IExtendedSelectOption[];
+
+  economicsResultsTitleOptions.unshift({
+    value: "select",
+    label: "Select...",
+    id: "",
+  });
+
+  const selectedEconomicsResultsTitleOption =
     selectedEconomicsResultsTitle !== ""
-      ? selectedEconomicsResultsTitle
+      ? {
+          value: selectedEconomicsResultsTitle,
+          label: selectedEconomicsResultsTitle,
+          id: (economicsResultsTitleOptions as IExtendedSelectOption[]).filter(
+            (o) => o.label === selectedEconomicsResultsTitle
+          )[0].id,
+        }
       : economicsResultsTitleOptions[0];
 
   const [economicsResultTitleOption, setEconomicsResultTitleOption] =
-    React.useState(initialEconomicsResultsTitleOption);
-  const firstRender = React.useRef(true);
+    React.useState<IExtendedSelectOption>(
+      selectedEconomicsResultsTitleOption as IExtendedSelectOption
+    );
 
   const handleSelectEconomicsResultsChange = (
-    option: ValueType<ISelectOption, false>
+    option: ValueType<IExtendedSelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option);
+    setEconomicsResultTitleOption(option as IExtendedSelectOption);
 
     dispatch(
-      fetchTreeviewKeysRequestAction(reducer, "economicsTemplateResults")
+      fetchEconomicsTreeviewKeysRequestAction(true, "templatesTree", option?.id)
     );
   };
-
-  React.useEffect(() => {
-    firstRender.current = false;
-  }, []);
 
   return (
     <ChartDataPanel

@@ -1,27 +1,20 @@
-import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
-import {
-  curveOptions,
-  colorsOptions,
-  areaBlendOptions,
-  plotMargins,
-  scaleOptions,
-} from "../../Data/VisualyticsData";
+import { plotMargins, scaleOptions } from "../../Data/VisualyticsData";
 import {
   IApexChartFormatProps,
   IApexLinePlotStyle,
 } from "../Charts/ChartTypes";
+import ChartValueFormatters from "../ChartValueFormatters/ChartValueFormatters";
 import ApexPlotMargins from "../Margins/ApexPlotMargins";
 import YScale from "../Scales/YScale";
-import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexLinePlotStyle = ({
+  workflowCategory,
   workflowProcess,
   updateParameterAction,
   chartType,
@@ -31,13 +24,13 @@ const ApexLinePlotStyle = ({
   yScale,
   yFormat,
 }: IApexLinePlotStyle & Partial<IApexChartFormatProps>) => {
-  const theme = useTheme();
   const dispatch = useDispatch();
+  const wc = workflowCategory;
   const wp = workflowProcess;
 
   const plotRef = React.useRef<HTMLDivElement>(null);
 
-  const basePath = `economicsChartsWorkflows.${wp}.${chartType}`;
+  const basePath = `${wc}.${wp}.${chartType}`;
   const xScaleOption = scaleOptions.find((option) => option.value === xScale);
   const yScaleOption = scaleOptions.find((option) => option.value === yScale);
 
@@ -59,7 +52,7 @@ const ApexLinePlotStyle = ({
   });
 
   return (
-    <div style={{ width: "100%", padding: 5 }}>
+    <div ref={plotRef} style={{ width: "100%", padding: 5 }}>
       <AnalyticsComp
         title="X Scale"
         direction="Vertical"
@@ -82,6 +75,22 @@ const ApexLinePlotStyle = ({
         }
       />
       <AnalyticsComp
+        title="X Format"
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ChartValueFormatters
+            basePath={basePath}
+            intialFormatValue={{ format: xFormat, enabled: false }}
+            plotRef={plotRef}
+            updateParameterAction={
+              updateParameterAction as IApexChartFormatProps["updateParameterAction"]
+            }
+            axisFormat="xFormat"
+          />
+        }
+      />
+      <AnalyticsComp
         title="Y Scale"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
@@ -97,7 +106,6 @@ const ApexLinePlotStyle = ({
           />
         }
       />
-
       <AnalyticsComp
         title="Margins"
         direction="Vertical"

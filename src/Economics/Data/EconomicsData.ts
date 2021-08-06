@@ -454,3 +454,12 @@ export const chartTypeOptions = {
 };
 
 export type TChartTypeNames = keyof typeof chartTypeOptions;
+
+export const economicsPerspectiveTreeMap = {
+  heatMapTree: "sensitivitiesHeatMapTree",
+  plotChartsTree: "economicsPlotChartsTree",
+  templatesTree: "economicsTemplatesTree",
+};
+
+export type TEconomicsTreePerspective =
+  keyof typeof economicsPerspectiveTreeMap;

@@ -6,7 +6,7 @@ import { ValueType } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
-import { IIdSelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { getTableDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -55,7 +55,7 @@ const NetworkPanel = () => {
       label: row.title,
       id: row.id,
     })
-  ) as IIdSelectOption[];
+  ) as IExtendedSelectOption[];
 
   forecastInputDeckOptions.unshift({
     value: "select",
@@ -75,8 +75,8 @@ const NetworkPanel = () => {
       : forecastInputDeckOptions[0];
 
   const [forecastInputDeckOption, setForecastInputDeckOption] =
-    React.useState<IIdSelectOption>(
-      selectedForecastDeckTitleOption as IIdSelectOption
+    React.useState<IExtendedSelectOption>(
+      selectedForecastDeckTitleOption as IExtendedSelectOption
     );
 
   let style = {};
@@ -97,8 +97,10 @@ const NetworkPanel = () => {
               <ApexSelectRS
                 valueOption={forecastInputDeckOption}
                 data={forecastInputDeckOptions}
-                handleSelect={(option: ValueType<IIdSelectOption, false>) => {
-                  const optionDefined = option as IIdSelectOption;
+                handleSelect={(
+                  option: ValueType<IExtendedSelectOption, false>
+                ) => {
+                  const optionDefined = option as IExtendedSelectOption;
                   setForecastInputDeckOption(optionDefined);
 
                   dispatch(

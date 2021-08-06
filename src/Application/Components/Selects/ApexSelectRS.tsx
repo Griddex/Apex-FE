@@ -16,6 +16,8 @@ const ApexSelectRS = <T extends ISelectOption>({
   containerWidth,
   containerHeight,
   isDisabled,
+  isClearable,
+  components,
   ...rest
 }: IApexSelectRS<T>) => {
   const theme = useTheme();
@@ -42,6 +44,8 @@ const ApexSelectRS = <T extends ISelectOption>({
       theme={(thm) => getRSTheme(thm, theme)}
       {...rest}
       isDisabled={isDisabled}
+      isClearable={isClearable}
+      components={components}
     />
   );
 };

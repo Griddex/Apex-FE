@@ -23,7 +23,8 @@ export interface IYScaleState {
   reverse: boolean;
 }
 
-const YScale = ({ yScaleOption, scaleOptions, action, ref }: IYScale) => {
+const YScale = React.forwardRef<HTMLDivElement, IYScale>((props, ref) => {
+  const { yScaleOption, scaleOptions, action } = props;
   const theme = useTheme();
 
   const [yScaleState, setYScaleState] = React.useState<IYScaleState>({
@@ -51,10 +52,13 @@ const YScale = ({ yScaleOption, scaleOptions, action, ref }: IYScale) => {
         handleSelect={(option: ValueType<ISelectOption, false>) => {
           setYScaleState((prev) => ({
             ...prev,
-            type: option ? option.value : "linear",
+            type: option ? (option.value as string) : "linear",
           }));
         }}
-        menuPortalTarget={ref.current as HTMLDivElement}
+        // menuPortalTarget={ref. as HTMLDivElement}
+        menuPortalTarget={
+          (ref as React.MutableRefObject<HTMLDivElement>).current
+        }
         isSelectOptionType={true}
       />
 
@@ -150,6 +154,6 @@ const YScale = ({ yScaleOption, scaleOptions, action, ref }: IYScale) => {
       )}
     </ApexFlexContainer>
   );
-};
+});
 
 export default YScale;

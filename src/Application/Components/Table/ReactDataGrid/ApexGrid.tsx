@@ -421,9 +421,8 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             }
             data={uniquePageOptions}
             handleSelect={(option: ValueType<ISelectOption, false>) => {
-              handlePageSelectChange(
-                (option as NonNullable<ISelectOption>).value
-              );
+              const optionDefined = option as NonNullable<ISelectOption>;
+              handlePageSelectChange(optionDefined?.value as string);
             }}
             isSelectOptionType={true}
             menuPortalTarget={document.body}
