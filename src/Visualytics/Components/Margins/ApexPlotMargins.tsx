@@ -28,7 +28,7 @@ const ApexPlotMargins = ({ plotMarginData }: IApexPlotMargins) => {
                 style={{
                   backgroundColor: theme.palette.grey[200],
                 }}
-              ></Input>
+              />
             </div>
           ))}
         </ApexFlexContainer>

@@ -13,6 +13,8 @@ import ChartValueFormatters from "../ChartValueFormatters/ChartValueFormatters";
 import ApexPlotMargins from "../Margins/ApexPlotMargins";
 import YScale from "../Scales/YScale";
 
+export type TMargin = "top" | "right" | "bottom" | "left";
+
 const ApexLinePlotStyle = ({
   workflowCategory,
   workflowProcess,
@@ -38,11 +40,13 @@ const ApexLinePlotStyle = ({
     const optionsArr = rowArr.map((opt) => ({
       ...opt,
       action: () => {
+        const marginType = opt.label.toLowerCase() as TMargin;
+
         updateParameterAction &&
           dispatch(
             updateParameterAction(
-              `${basePath}.margin.${opt.label.toLowerCase()}`,
-              opt.value
+              `${basePath}.margin.${marginType}`,
+              margin[marginType]
             )
           );
       },

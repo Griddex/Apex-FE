@@ -17,6 +17,7 @@ const ApexSelectRS = <T extends ISelectOption>({
   containerHeight,
   isDisabled,
   isClearable,
+  isSearchable,
   components,
   ...rest
 }: IApexSelectRS<T>) => {
@@ -45,6 +46,7 @@ const ApexSelectRS = <T extends ISelectOption>({
       {...rest}
       isDisabled={isDisabled}
       isClearable={isClearable}
+      isSearchable={isSearchable}
       components={components}
     />
   );

@@ -15,6 +15,7 @@ export interface IExtendedSelectOption<T = string, U = string, V = string> {
   id?: V;
   unitId?: V;
   description?: V;
+  colors?: string[];
 }
 
 export type AppUnitSelectOptionsType = IExtendedSelectOption[];
@@ -51,5 +52,6 @@ export interface IApexSelectRS<T extends ISelectOption> {
   containerHeight?: React.Key;
   isDisabled?: boolean;
   isClearable?: boolean;
+  isSearchable?: boolean;
   components?: SelectComponentsConfig<T, false>;
 }

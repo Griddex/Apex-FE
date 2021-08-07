@@ -36,7 +36,6 @@ const YScale = React.forwardRef<HTMLDivElement, IYScale>((props, ref) => {
   });
 
   const [yMinMax, setYMinMax] = React.useState({ min: true, max: true });
-
   const [minValue, setMinValue] = React.useState(0);
   const [maxValue, setMaxValue] = React.useState(1000);
 
@@ -55,7 +54,6 @@ const YScale = React.forwardRef<HTMLDivElement, IYScale>((props, ref) => {
             type: option ? (option.value as string) : "linear",
           }));
         }}
-        // menuPortalTarget={ref. as HTMLDivElement}
         menuPortalTarget={
           (ref as React.MutableRefObject<HTMLDivElement>).current
         }
