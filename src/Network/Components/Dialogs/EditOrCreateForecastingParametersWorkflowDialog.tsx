@@ -230,8 +230,9 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
           [
             unloadDialogsAction,
             () =>
+            //as Record<string, any>
               saveForecastParametersRequestAction(
-                forecastingParametersObj as Record<string, any>
+                forecastingParametersObj 
               ),
           ],
           "Save",

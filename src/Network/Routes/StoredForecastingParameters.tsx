@@ -353,8 +353,10 @@ export default function StoredForecastingParameters({
         resizable: true,
         width: 120,
         formatter: ({ row }) => {
-          const { wellDeclineParameterTitle, wellDeclineParameterId } = row;
+          const { wellDeclineParameterTitle, sn} = row;
           const isCreateOrEdit = false;
+          const currentSN = sn as number;
+          const currentRow = row;
 
           return (
             <div className={classes.dcaOrPrtznTable}>
@@ -365,10 +367,10 @@ export default function StoredForecastingParameters({
                   console.log("DCA from Forecast Parameter");
                   dispatch(
                     getDeclineParametersByIdRequestAction(
-                      wellDeclineParameterId,
-                      wellDeclineParameterTitle,
                       reducer,
-                      isCreateOrEdit as boolean
+                      isCreateOrEdit as boolean,
+                      currentRow,
+                      currentSN
                     )
                   );
 

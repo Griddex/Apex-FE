@@ -169,6 +169,7 @@ export const getTableDataByIdRequestAction = (
   };
 };
 
+
 export const getTableDataByIdSuccessAction = () => {
   return {
     type: GET_TABLEDATABYID_SUCCESS,

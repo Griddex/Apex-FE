@@ -49,6 +49,7 @@ function* saveDeclineParametersSaga(
   void,
   any
 > {
+  console.log("action: ", action);
   const { payload } = action;
   const {
     titleDesc: { title, description },
@@ -81,6 +82,8 @@ function* saveDeclineParametersSaga(
       saveDeclineParametersAPI,
       `${getBaseForecastUrl()}/well-decline-parameters`
     );
+
+    console.log("result: ", result);
 
     const {
       data: { success, status, data },

@@ -54,6 +54,7 @@ function* saveForecastParametersSaga(
 > {
   const { payload } = action;
   const { titleDesc } = payload;
+  console.log("payload: ", payload);
   const forecastingParametersObj:any = {};
 
   const { currentProjectId } = yield select((state) => state.projectReducer);

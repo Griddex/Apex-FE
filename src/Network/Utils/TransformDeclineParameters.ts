@@ -12,9 +12,7 @@ export const declineParametersStoredWithSN = (
             createdAt,
             title,
             description,
-            forecastInputDeckId,
             id,
-            projectId,
             userId
           } = row;
     
@@ -23,6 +21,9 @@ export const declineParametersStoredWithSN = (
             id: id,
             userId: userId,
             title: title,
+            approval: "Not Started",
+            author: { avatarUrl: "", name: "None" },
+            approvers: [{ avatarUrl: "", name: "" }],
             description: description,
             createdOn: createdAt,
             modifiedOn: createdAt,
@@ -45,12 +46,17 @@ export const declineParametersStoredWithSN = (
     noOfRows: number
   ) => {
 
-    const { approval, approvers, author, createdOn, description,
-        id, modifiedOn, sn, title } = currentRow;
+    const { createdOn, description,
+        id, title } = currentRow;
 
-
-      const newRow = { approval, approvers, author, createdOn, description,
-        id, modifiedOn, sn: noOfRows+1, title: "User", userId: "Gabriel" } as IStoredDataRow;
+      const newRow = { 
+        createdAt: createdOn, 
+        description,
+        forecastInputDeckId: "",
+        id,
+        projectId: "",
+        title,
+         userId: "Gabriel" } as IBackendDeclineParametersRow;
   
     return newRow;
   };

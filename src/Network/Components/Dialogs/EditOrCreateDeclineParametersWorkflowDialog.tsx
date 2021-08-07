@@ -28,7 +28,7 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
+import { saveDeclineParametersRequestAction } from "../../Redux/Actions/NetworkActions";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import EditOrCreateDeclineParametersWorkflow from "../../Workflows/EditOrCreateDeclineParametersWorkflow";
 import {
@@ -160,9 +160,10 @@ const EditOrCreateDeclineParametersWorkflowDialog = (
 
   const storedTitles = useSelector(
     (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["forecastingParametersTitles"]
+      state.applicationReducer["allFormTitles"]["declineParametersTitles"]
   );
 
+  console.log("storedTitles: ", storedTitles);
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
   const [currRow, setCurrRow] = React.useState(currentRow);
@@ -172,7 +173,9 @@ const EditOrCreateDeclineParametersWorkflowDialog = (
     description: formDescription,
   };
 
-  const forecastingParametersObj = { ...currRow, ...titleDesc };
+  
+  const declineParametersObj = { ...currRow, ...titleDesc };
+  console.log("declineParametersObj: ", declineParametersObj);
 
   let steps = [] as string[];
   
@@ -243,10 +246,11 @@ const EditOrCreateDeclineParametersWorkflowDialog = (
           [true, true],
           [
             unloadDialogsAction,
-            () =>
-              saveForecastParametersRequestAction(
-                forecastingParametersObj as Record<string, any>
-              ),
+            () => {
+            saveDeclineParametersRequestAction(
+              declineParametersObj
+            ) 
+            },
           ],
           "Save",
           "saveOutlined",

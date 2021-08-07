@@ -31,7 +31,7 @@ import {
   timeFrequencyOptions,
 } from "../Data/NetworkData";
 import {
-  saveDeclineParametersRequestAction,
+  saveDeclineParametersRequestActionForFP,
   saveProductionPrioritizationRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
@@ -112,7 +112,7 @@ const EditOrCreateForecastingParameters = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveDeclineParametersRequestAction],
+          [unloadDialogsAction, saveDeclineParametersRequestActionForFP],
           false,
           "None"
         ),

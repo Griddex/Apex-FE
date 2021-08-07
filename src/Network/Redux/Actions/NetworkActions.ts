@@ -113,8 +113,6 @@ export const saveForecastRequestAction = (
 };
 
 export const updateNetworkParameterAction = (path: string, value: any) => {
-  console.log("path: ", path);
-  console.log("value: ", value);
   return {
     type: UPDATE_NETWORKPARAMETER,
     payload: {
@@ -411,8 +409,9 @@ export const fetchStoredNetworkDataFailureAction = () => {
   };
 };
 
+// Record<string, string>
 export const saveForecastParametersRequestAction = (
-  titleDesc: Record<string, string>
+  titleDesc: any
 ) => {
   return {
     type: SAVE_FORECASTPARAMETERS_REQUEST,
@@ -496,18 +495,18 @@ export const removeCurrentNetworkAction = (showSpinner: boolean) => {
 };
 
 export const getDeclineParametersByIdRequestAction = (
-  selectedDeclineParametersId: string,
-  wellDeclineParameterTitle: string,
   reducer: ReducersType,
-  isCreateOrEdit: boolean
+  isCreateOrEdit: any,
+  currentRow: any,
+  currentSN: number
 ) => {
   return {
     type: GET_DECLINEPARAMETERSBYID_REQUEST,
     payload: {
-      selectedDeclineParametersId,
-      wellDeclineParameterTitle,
       reducer,
-      isCreateOrEdit
+      isCreateOrEdit,
+      currentRow,
+      currentSN
     },
     meta: { showSpinner: true, message: "Fetching decline parameters..." },
   };
@@ -637,7 +636,17 @@ export const fetchStoredProductionPrioritizationFailureAction = () => {
     },
   };
 };
-export const saveDeclineParametersRequestAction = () => {
+export const saveDeclineParametersRequestAction = (
+  titleDesc: any
+) => {
+  return {
+    type: SAVE_DECLINEPARAMETERS_REQUEST,
+    payload: { titleDesc },
+    meta: { showSpinner: true, message: "Saving decline parameters data..." },
+  };
+};
+
+export const saveDeclineParametersRequestActionForFP = () => {
   return {
     type: SAVE_DECLINEPARAMETERS_REQUEST,
     meta: { showSpinner: true, message: "Saving decline parameters data..." },

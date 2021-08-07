@@ -8,6 +8,8 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import Approval from "../../Application/Components/Approval/Approval";
+import Approvers from "../../Application/Components/Approvers/Approvers";
 import Author from "../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ApexGridMoreActionsContextMenu from "../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
@@ -124,6 +126,7 @@ export default function StoredForecastingParameters({
 
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
+  const collectionName = "declineParameters"
 
   const theme = useTheme();
   const classes = useStyles();
@@ -141,13 +144,12 @@ export default function StoredForecastingParameters({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
+
   const { declineParametersStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
- /*  console.log(
-    "Logged output --> ~ file: StoredDeclineCurveParameters.tsx ~ line 139 ~ declineParametersStored",
-    declineParametersStored
-  ); */
+
+  console.log("declineParametersStored: ", declineParametersStored);
 
   const snTransStoredData = declineParametersStoredWithSN(
     declineParametersStored as IBackendDeclineParametersRow[]
@@ -233,37 +235,47 @@ export default function StoredForecastingParameters({
                   backgroundColor: theme.palette.grey[400],
                 }
               : {};
+                
 
-          return (
-            <ApexFlexContainer>
-              <EditOutlinedIcon
-                style={style as CSSProperties}
+              const VisibilityOutlined = (<VisibilityOutlinedIcon
                 onClick={() => {
-                const isCreateOrEdit = true;
-
+                  const isCreateOrEdit = true;
                   dispatch(
-                  getDeclineParametersByIdRequestAction(
-                    currentRow.id as string,
-                    currentRow.title as string,
-                    "inputReducer" as ReducersType,
-                    isCreateOrEdit as boolean
-                  )
-                );
-                  dispatch(
-                    showDialogAction(
-                      extrudeStoredDataDPs(
-                        "Edit Decline Parameters",
-                        currentRow,
-                        currentSN - 1,
-                        "editForecastingParametersWorkflow"
-                      )
+                    getDeclineParametersByIdRequestAction(
+                      reducer,
+                      isCreateOrEdit as boolean,
+                      currentRow,
+                      currentSN
                     )
                   );
+                }} 
+              />);
+  
+              const ApexGridMoreActionsContext = ( <ApexGridMoreActionsContextMenu
+                component={ForecastParametersMoreActionsPopover}
+                data={importMoreActionsData}
+              >
+                <MenuOpenOutlinedIcon />
+              </ApexGridMoreActionsContextMenu>);
 
-                }}
-              />
-              <DeleteOutlinedIcon
-                style={style as CSSProperties}
+              const EditCommand = (<EditOutlinedIcon
+                /* style={style as CSSProperties} */
+                onClick={() => {
+                  const isCreateOrEdit = true;
+  
+                    dispatch(
+                    getDeclineParametersByIdRequestAction(
+                      "inputReducer" as ReducersType,
+                      isCreateOrEdit,
+                      currentRow,
+                      currentSN
+                    )
+                  );
+                  }}
+              />);
+
+              const DeleteCommand = (<DeleteOutlinedIcon
+                /* style={style as CSSProperties} */
                 onClick={() => {
                   dispatch(
                     showDialogAction(
@@ -293,13 +305,14 @@ export default function StoredForecastingParameters({
                     )
                   );
                 }}
-              />
-              <ApexGridMoreActionsContextMenu
-                component={ForecastParametersMoreActionsPopover}
-                data={importMoreActionsData}
-              >
-                <MenuOpenOutlinedIcon />
-              </ApexGridMoreActionsContextMenu>
+              />);
+
+          return (
+            <ApexFlexContainer>
+             {EditCommand}
+             {DeleteCommand}
+             {VisibilityOutlined}
+             {ApexGridMoreActionsContext}
             </ApexFlexContainer>
           );
         },
@@ -320,46 +333,36 @@ export default function StoredForecastingParameters({
         width: 300,
       },
       {
-        key: "dcaParameters",
-        name: "DCA TABLE",
+        key: "approval",
+        name: "APPROVAL",
         editable: false,
         resizable: true,
-        width: 120,
         formatter: ({ row }) => {
-          const { title, id } = row;
-
-          return (
-            <div className={classes.dcaOrPrtznTable}>
-              <Typography>{title}</Typography>
-              <VisibilityOutlinedIcon
-                className={classes.visibilityOutlinedIcon}
-                onClick={() => {
-                  const isCreateOrEdit = false;
-                  dispatch(
-                    getDeclineParametersByIdRequestAction(
-                      id as string,
-                      title as string,
-                      reducer,
-                      isCreateOrEdit as boolean
-                    )
-                  );
-
-                  dispatch(
-                    updateNetworkParameterAction(
-                      "selectedDeclineParametersId",
-                      row.id
-                    )
-                  );
-                }}
-              />
-            </div>
-          );
+          return <Approval approvalText={row.approval} />;
         },
+        width: 100,
       },
-    /*   {
+      {
+        key: "author",
+        name: "AUTHOR",
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Author author={row.author} />;
+        },
+        width: 200,
+      },
+      {
+        key: "approvers",
+        name: "APPROVERS",
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Approvers approvers={row.approvers} />;
+        },
+        width: 200,
+      },
+      {
         key: "createdOn",
         name: "CREATED",
-        editable: false,
         resizable: true,
         formatter: ({ row }) => {
           return (
@@ -369,12 +372,30 @@ export default function StoredForecastingParameters({
                 dayFormat,
                 monthFormat,
                 yearFormat
-              )}
+              ).toString()}
             </div>
           );
         },
-        width: 200,
-      } */
+        minWidth: 200,
+      },
+      {
+        key: "modifiedOn",
+        name: "MODIFIED",
+        resizable: true,
+        formatter: ({ row }) => {
+          return (
+            <div>
+              {formatDate(
+                new Date(row.modifiedOn as string),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              ).toString()}
+            </div>
+          );
+        },
+        minWidth: 200,
+      },
     ];
 
     return columns;
