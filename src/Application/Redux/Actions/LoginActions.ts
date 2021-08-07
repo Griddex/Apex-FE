@@ -18,6 +18,7 @@ export const persistToStoreAction = (name: string, value: string) => {
 };
 
 export const loginRequestAction = (userName: string, password: string) => {
+  console.log("Seen")
   return {
     type: LOGIN_REQUEST,
     payload: {

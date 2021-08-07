@@ -47,6 +47,7 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   void,
   any
 > {
+  console.log("action: ", action);
   const { payload } = action;
   const {
     reducer,
@@ -54,26 +55,28 @@ function* getTableDataByIdSaga(action: IAction): Generator<
     tableTitle,
     workflowProcess,
     tableOrSuccessDialog,
+    collectionName,
   } = payload;
 
   try {
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
+    console.log("tableDataResults: ", tableDataResults);
+    //const { data: { data }} = tableDataResults;
 
-    const {
-      data: { data },
-    } = tableDataResults;
-
-    const selectedTableData = data["InputDeckEntities"];
+    const selectedTableData = tableDataResults.data.data[collectionName]; // data["InputDeckEntities"];
 
     const successAction = getTableDataByIdSuccessAction();
-    yield put({
+    const newAction = {
       ...successAction,
       payload: {
         ...payload,
         reducer,
         selectedTableData,
       },
-    });
+    };
+
+    console.log("newAction: ", newAction);
+    yield put(newAction);
 
     let dialogParameters = {} as DialogStuff;
     if (tableOrSuccessDialog === "table") {

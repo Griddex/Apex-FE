@@ -28,10 +28,12 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveForecastParametersRequestAction } from "../../Redux/Actions/NetworkActions";
-import { IEditOrCreateForecastingParameters } from "../../Routes/EditOrCreateForecastingParameters";
-import EditOrCreateForecastParametersWorkflow from "../../Workflows/EditOrCreateForecastParametersWorkflow";
-import { IForecastParametersStoredRow } from "./StoredNetworksDialogTypes";
+import { saveDeclineParametersRequestAction } from "../../Redux/Actions/NetworkActions";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import EditOrCreateDeclineParametersWorkflow from "../../Workflows/EditOrCreateDeclineParametersWorkflow";
+import {
+  IStoredDataRow,
+} from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,8 +123,20 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const EditOrCreateForecastingParametersWorkflowDialog = (
-  props: DialogStuff<IForecastParametersStoredRow>
+export interface IEditOrCreateDeclineParameters {
+  currRow?: Partial<IStoredDataRow>;
+  setCurrRow?: TUseState<IStoredDataRow>;
+  currentRow?: Partial<IStoredDataRow>;
+  setCurrentRow?: TUseState<IStoredDataRow>;
+  shouldUpdate: boolean;
+  setShouldUpdate?: TUseState<boolean>;
+  workflowProcess?: TAllWorkflowProcesses;
+  activeStep?: number;
+  forecastParametersIndex?: number;
+}
+
+const EditOrCreateDeclineParametersWorkflowDialog = (
+  props: DialogStuff<IStoredDataRow>
 ) => {
   const workflowCategory = "networkDataWorkflows";
   const dispatch = useDispatch();
@@ -137,7 +151,7 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     forecastParametersIndex,
   } = props;
 
-  console.log("currentRow: ", currentRow);
+  
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
@@ -146,9 +160,10 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
 
   const storedTitles = useSelector(
     (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["forecastingParametersTitles"]
+      state.applicationReducer["allFormTitles"]["declineParametersTitles"]
   );
 
+  console.log("storedTitles: ", storedTitles);
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
   const [currRow, setCurrRow] = React.useState(currentRow);
@@ -158,18 +173,20 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     description: formDescription,
   };
 
-  const forecastingParametersObj = { ...currRow, ...titleDesc };
+  
+  const declineParametersObj = { ...currRow, ...titleDesc };
+  console.log("declineParametersObj: ", declineParametersObj);
 
   let steps = [] as string[];
- 
+  
   if (workflowProcessDefined === "createForecastingParametersWorkflow") {
     steps = [
       "Select Forecast InputDeck",
-      "Forecast Parameters",
+      "Decline Parameters",
       "Title and Description",
     ];
   } else {
-    steps = ["Forecast Parameters", "Title and Description"];
+    steps = ["Decline Parameters", "Title and Description"];
   }
 
   const skipped = new Set<number>();
@@ -210,10 +227,10 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     description: formDescription,
     setDescription: setFormDescription,
     storedTitles,
-  } as NonNullable<IEditOrCreateForecastingParameters> &
+  } as NonNullable<IEditOrCreateDeclineParameters> &
     ITitleAndDescriptionFormProps;
 
-  const createForecastingParametersConfirmation = () => {
+  const createDeclineParametersConfirmation = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Network_Dialog",
       title: "Confirm Parameters Save",
@@ -222,18 +239,18 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
       exclusive: false,
       maxWidth: "xs",
       iconType: "confirmation",
-      dialogText: "Do you want to save the current forecasting parameters?",
+      dialogText: "Do you want to save the current decline parameters?",
       actionsList: () =>
         DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
             unloadDialogsAction,
-            () =>
-            //as Record<string, any>
-              saveForecastParametersRequestAction(
-                forecastingParametersObj 
-              ),
+            () => {
+            saveDeclineParametersRequestAction(
+              declineParametersObj
+            ) 
+            },
           ],
           "Save",
           "saveOutlined",
@@ -252,7 +269,7 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     showBack: true,
     showSkip: true,
     showNext: true,
-    finalAction: createForecastingParametersConfirmation,
+    finalAction: createDeclineParametersConfirmation,
     workflowProps,
     workflowProcess,
     workflowCategory,
@@ -292,7 +309,7 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
         <ApexFlexContainer>
-          <EditOrCreateForecastParametersWorkflow {...createProps} />
+          <EditOrCreateDeclineParametersWorkflow {...createProps} />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>
@@ -305,4 +322,4 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
   );
 };
 
-export default EditOrCreateForecastingParametersWorkflowDialog;
+export default EditOrCreateDeclineParametersWorkflowDialog;

@@ -29,6 +29,7 @@ export default function StoredFacilitiesDecks({
 
   const tableTitle = "Facilities InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/facilities-inputdeck`;
+  const collectionName = "InputDeckEntities";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -80,6 +81,9 @@ export default function StoredFacilitiesDecks({
       );
   };
 
+  const isDataVisibility = true;
+  const isCloning = false;
+
   const props: IStoredDataProps = {
     wkPs: wp,
     snStoredData,
@@ -90,8 +94,11 @@ export default function StoredFacilitiesDecks({
     containerStyle,
     handleCheckboxChange,
     reducer,
+    collectionName,
     mainUrl,
     tableTitle,
+    isDataVisibility,
+    isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),

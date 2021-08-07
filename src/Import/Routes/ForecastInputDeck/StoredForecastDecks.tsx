@@ -12,6 +12,7 @@ import { fetchStoredInputDeckRequestAction } from "../../Redux/Actions/StoredInp
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../InputDeckTypes";
 
+
 //TODO: Calculate classification data from collection
 const chartData = [
   { name: "Group A", value: 2400 },
@@ -30,6 +31,8 @@ export default function StoredForecastDecks({
 
   const tableTitle = "Forecast InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/forecast-inputdeck`;
+  const collectionName = "InputDeckEntities";
+
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
@@ -77,6 +80,9 @@ export default function StoredForecastDecks({
     //   );
   };
 
+  const isDataVisibility = true;
+  const isCloning = false;
+
   const props: IStoredDataProps = {
     wkPs: wp,
     snStoredData,
@@ -87,8 +93,11 @@ export default function StoredForecastDecks({
     containerStyle,
     handleCheckboxChange,
     reducer,
+    collectionName,
     mainUrl,
     tableTitle,
+    isDataVisibility,
+    isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),

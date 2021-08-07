@@ -1,7 +1,9 @@
-import { ClickAwayListener, makeStyles } from "@material-ui/core";
+import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +45,13 @@ import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettings
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
+import CreateStoredDataButton from "../../../Menus/CreateStoredDataButton";
+import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGridMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
+import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
+import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
+import { extrudeStoredDataDPs } from "../../../../Network/Components/DialogParameters/EditDeclineParametersDialogParameters";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -85,14 +94,27 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       containerStyle,
       handleCheckboxChange,
       reducer,
+      collectionName,
       mainUrl,
       clickAwayAction,
       fetchStoredRequestAction,
+      buttonToolTip,
+      butttonTitle,
+      dialogTitle,
+      isDataVisibility,
+      isCloning,
+      wcc,
     },
     ref
   ) => {
+    const theme = useTheme();
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const buttonToolTipCopy = buttonToolTip == null ? "" : buttonToolTip;
+    const butttonTitleCopy = butttonTitle == null ? "" : butttonTitle;
+    const dialogTitleCopy = dialogTitle == null ? "" : dialogTitle;
+    const wc = wcc == null ? "" : wcc;
 
     const { dayFormat, monthFormat, yearFormat } = useSelector(
       (state: RootState) => state.unitSettingsReducer
@@ -103,7 +125,13 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     );
     const [sRow, setSRow] = React.useState(-1);
 
+    const snStoredDataCopy = snStoredData as IStoredDataRow[];
     const currentRows = snStoredData as IStoredDataRow[];
+    const rowIndex: number = currentRows.length;
+    let currentStoredDataRow = {} as IStoredDataRow;
+    if (rowIndex > 0) {
+      currentStoredDataRow = currentRows[rowIndex - 1];
+    }
 
     const [rows, setRows] = React.useState(currentRows);
 
@@ -117,6 +145,34 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
 
     const dividerPositions = [50];
     const isCustomComponent = false;
+
+    const cloneSelectedRow = (currentRow: IStoredDataRow, noOfRows: number) => {
+      const {
+        approval,
+        approvers,
+        author,
+        createdOn,
+        description,
+        id,
+        modifiedOn,
+        sn,
+        title,
+      } = currentRow;
+
+      const newRow = {
+        approval,
+        approvers,
+        author,
+        createdOn,
+        description,
+        id,
+        modifiedOn,
+        sn: noOfRows + 1,
+        title,
+      } as IStoredDataRow;
+
+      return newRow;
+    };
 
     const generateColumns = () => {
       const columns: Column<IStoredDataRow>[] = [
@@ -133,7 +189,12 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           name: "ACTIONS",
           editable: false,
           formatter: ({ row }) => {
+            console.log("row: ", row);
             const sn = row.sn as number;
+            const currentSN = sn as number;
+            const currentRow = rows[currentSN - 1];
+            console.log("currentRow 1", currentRow);
+
             const title = row.title as string;
             const id = row.id as string;
             const deleteUrl = `${mainUrl}/${id}`;
@@ -157,8 +218,68 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
               },
             ] as IApexEditorRow[];
 
+            const importMoreActionsData = [
+              {
+                title: "Clone",
+                action: () => {
+                  const currentRow = rows[currentSN - 1];
+                  console.log("rows: ", rows);
+                  console.log("currentRow: ", currentRow);
+                  const clonedRow = cloneSelectedRow(currentRow, rows.length);
+                  console.log(
+                    "Logged output --> ~ file: StoredData.tsx ~ line 324 ~ generateColumns ~ clonedRow",
+                    clonedRow
+                  );
+
+                  const newRows = [...snStoredDataCopy, clonedRow];
+                  //setRows(newRows);
+
+                  dispatch(updateNetworkParameterAction(wc, newRows));
+                },
+              },
+            ];
+
+            const style =
+              title.toLowerCase() === "default"
+                ? {
+                    pointerEvents: "none",
+                    color: theme.palette.grey[200],
+                    backgroundColor: theme.palette.grey[400],
+                  }
+                : {};
+
+            const VisibilityOutlined =
+              isDataVisibility == true ? (
+                <VisibilityOutlinedIcon
+                  onClick={() =>
+                    dispatch(
+                      getTableDataByIdRequestAction(
+                        reducer as ReducersType,
+                        `${mainUrl}/${row.id}`,
+                        row.title as string,
+                        wkPs as TAllWorkflowProcesses,
+                        "table",
+                        collectionName as string
+                      )
+                    )
+                  }
+                />
+              ) : null;
+
+            const ApexGridMoreActionsContext =
+              isCloning == true ? (
+                <ApexGridMoreActionsContextMenu
+                  component={ForecastParametersMoreActionsPopover}
+                  data={importMoreActionsData}
+                >
+                  <MenuOpenOutlinedIcon />
+                </ApexGridMoreActionsContextMenu>
+              ) : null;
+
+            console.log("currentRow 2", currentRow);
+
             return (
-              <div>
+              <ApexFlexContainer>
                 <EditOutlinedIcon
                   onClick={() => {
                     const dialogParameters: DialogStuff = {
@@ -187,7 +308,12 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                         ),
                     };
 
-                    dispatch(showDialogAction(dialogParameters));
+                    /*  dispatch(showDialogAction(extrudeStoredDataDPs(
+                      dialogTitleCopy,
+                    currentRow,
+                    currentSN - 1,
+                    "createForecastingParametersWorkflow" 
+                  ))) */
                   }}
                 />
                 <DeleteOutlinedIcon
@@ -217,23 +343,19 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                     )
                   }
                 />
-                <VisibilityOutlinedIcon
-                  onClick={() =>
-                    dispatch(
-                      getTableDataByIdRequestAction(
-                        reducer as ReducersType,
-                        `${mainUrl}/${row.id}`,
-                        row.title as string,
-                        wkPs as TAllWorkflowProcesses,
-                        "table"
-                      )
-                    )
-                  }
-                />
-              </div>
+                {VisibilityOutlined}
+                {ApexGridMoreActionsContext}
+              </ApexFlexContainer>
             );
           },
           width: 100,
+        },
+        {
+          key: "status",
+          name: "STATUS",
+          editable: false,
+          resizable: true,
+          width: 300,
         },
         {
           key: "approval",
@@ -332,10 +454,23 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       },
     } as IExcelExportTable<IStoredDataRow>;
 
+    const addCreateButton = false;
+    const createBtn = (
+      <CreateStoredDataButton
+        currentRow={currentStoredDataRow}
+        storedDataIndex={rowIndex}
+        buttonToolTip={buttonToolTipCopy}
+        butttonTitle={butttonTitleCopy}
+        dialogTitle={dialogTitleCopy}
+      />
+    );
+
     const tableButtons: ITableButtonsProps = {
       showExtraButtons: true,
       extraButtons: () => (
-        <ExcelExportTable<IStoredDataRow> {...exportTableProps} />
+        <div>
+          <ExcelExportTable<IStoredDataRow> {...exportTableProps} />
+        </div>
       ),
     };
 
@@ -343,9 +478,12 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       dispatch(hideSpinnerAction());
     }, [dispatch]);
 
+    const updatedStoredData = snStoredData as IStoredDataRow[];
     React.useEffect(() => {
-      setRows(snStoredData as IStoredDataRow[]);
-    }, [snStoredData]);
+      setRows(updatedStoredData);
+    }, [updatedStoredData.length]);
+
+    console.log("rows: ", rows);
 
     return (
       <div className={classes.rootStoredData} style={containerStyle}>

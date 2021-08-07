@@ -111,6 +111,7 @@ export default function ApexTreeView({
 }: IApexTreeView) {
   const classes = useStyles();
 
+  console.log("rootTree: ", rootTree);
   const initExpanded = rootTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id
   );

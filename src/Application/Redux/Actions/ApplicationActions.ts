@@ -161,7 +161,8 @@ export const getTableDataByIdRequestAction = (
   tableDataUrl: string,
   tableTitle: string,
   workflowProcess: TAllWorkflowProcesses,
-  tableOrSuccessDialog?: "table" | "success"
+  tableOrSuccessDialog?: "table" | "success",
+  collectionName?: string
 ) => {
   return {
     type: GET_TABLEDATABYID_REQUEST,
@@ -171,7 +172,9 @@ export const getTableDataByIdRequestAction = (
       tableTitle,
       workflowProcess,
       tableOrSuccessDialog,
+      collectionName,
     },
+
     meta: { showSpinner: true, message: "Fetching table data..." },
   };
 };

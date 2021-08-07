@@ -1,6 +1,7 @@
 import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
@@ -121,6 +122,7 @@ export default function StoredForecastResults({
   showChart,
   showBaseButtons,
   shouldRunAggregation,
+  collectionName,
 }: IStoredDataProps) {
   const reducer = "forecastReducer";
   const mainUrl = `${getBaseForecastUrl()}`;
@@ -200,6 +202,7 @@ export default function StoredForecastResults({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
+          console.log("row: ", row);
           const sn = row.sn as number;
           const title = row.forecastResultsTitle as string;
           const id = row.forecastResultsId as string;
@@ -227,80 +230,111 @@ export default function StoredForecastResults({
             dividerPositions,
           } as Partial<IApexEditor>;
 
+          const EditCommand = (
+            <EditOutlinedIcon
+              onClick={() => {
+                const dialogParameters: DialogStuff = {
+                  name: "Edit_Table_Dialog",
+                  title: "Edit Table",
+                  type: "tableEditorDialog",
+                  show: true,
+                  exclusive: true,
+                  maxWidth: "xs",
+                  iconType: "edit",
+                  apexEditorProps,
+                  actionsList: () =>
+                    DialogOneCancelButtons(
+                      [true, true],
+                      [true, false],
+                      [
+                        unloadDialogsAction,
+                        //Captured variable
+                        //solve with componentRef
+                        () => setShouldUpdate(!shouldUpdate),
+                      ],
+                      "Update",
+                      "updateOutlined"
+                    ),
+                };
+
+                dispatch(showDialogAction(dialogParameters));
+              }}
+            />
+          );
+
+          const DeleteCommand = (
+            <DeleteOutlinedIcon
+              onClick={() =>
+                dispatch(
+                  showDialogAction(
+                    confirmationDialogParameters(
+                      "Delete_Table_Data_Dialog",
+                      `Delete ${title}`,
+                      "deleteDataDialog",
+                      "",
+                      false,
+                      true,
+                      () =>
+                        deleteDataByIdRequestAction(
+                          reducer as ReducersType,
+                          deleteUrl as string,
+                          title as string,
+                          () =>
+                            fetchStoredForecastingResultsRequestAction(
+                              currentProjectId
+                            )
+                        ),
+                      "Delete",
+                      "deleteOutlined",
+                      "delete",
+                      title
+                    )
+                  )
+                )
+              }
+            />
+          );
+
+          const VisibilityOutlined = (
+            <VisibilityOutlinedIcon
+              className={classes.visibilityOutlinedIcon}
+              onClick={() =>
+                dispatch(
+                  getTableDataByIdRequestAction(
+                    reducer as ReducersType,
+                    `${mainUrl}/forecastResultData/${row.forecastResultsId}`,
+                    row.forecastParametersTitle as string,
+                    wp as TAllWorkflowProcesses,
+                    "table",
+                    collectionName as string
+                  )
+                )
+              }
+            />
+          );
+
+          const MoreActionsCommand = (
+            <MenuOpenOutlinedIcon
+              onClick={() =>
+                dispatch(
+                  getTableDataByIdRequestAction(
+                    reducer as ReducersType,
+                    `${mainUrl}/${row.id}`,
+                    row.forecastParametersTitle as string,
+                    wp as TAllWorkflowProcesses,
+                    "table",
+                    collectionName as string
+                  )
+                )
+              }
+            />
+          );
+
           return (
             <ApexFlexContainer>
-              <EditOutlinedIcon
-                onClick={() => {
-                  const dialogParameters: DialogStuff = {
-                    name: "Edit_Table_Dialog",
-                    title: "Edit Table",
-                    type: "tableEditorDialog",
-                    show: true,
-                    exclusive: true,
-                    maxWidth: "xs",
-                    iconType: "edit",
-                    apexEditorProps,
-                    actionsList: () =>
-                      DialogOneCancelButtons(
-                        [true, true],
-                        [true, false],
-                        [
-                          unloadDialogsAction,
-                          //Captured variable
-                          //solve with componentRef
-                          () => setShouldUpdate(!shouldUpdate),
-                        ],
-                        "Update",
-                        "updateOutlined"
-                      ),
-                  };
-
-                  dispatch(showDialogAction(dialogParameters));
-                }}
-              />
-              <DeleteOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table_Data_Dialog",
-                        `Delete ${title}`,
-                        "deleteDataDialog",
-                        "",
-                        false,
-                        true,
-                        () =>
-                          deleteDataByIdRequestAction(
-                            reducer as ReducersType,
-                            deleteUrl as string,
-                            title as string,
-                            () =>
-                              fetchStoredForecastingResultsRequestAction(
-                                currentProjectId
-                              )
-                          ),
-                        "Delete",
-                        "deleteOutlined",
-                        "delete",
-                        title
-                      )
-                    )
-                  )
-                }
-              />
-              <MenuOpenOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    getTableDataByIdRequestAction(
-                      reducer as ReducersType,
-                      `${mainUrl}/${row.id}`,
-                      row.forecastParametersTitle as string,
-                      wp as TAllWorkflowProcesses,
-                      "table"
-                    )
-                  )
-                }
-              />
+              {EditCommand}
+              {DeleteCommand}
+              {VisibilityOutlined}
             </ApexFlexContainer>
           );
         },

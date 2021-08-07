@@ -7,31 +7,46 @@ import {
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
-import EditOrCreateForecastingParameters, {
-  IEditOrCreateForecastingParameters,
-} from "../Routes/EditOrCreateForecastingParameters";
+import EditOrCreateDeclineParameters from "../Routes/EditOrCreateDeclineParameters";
+import { IEditOrCreateDeclineParameters } from  "../Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog"
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getTableDataByIdRequestAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
+import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import {
+  IStoredDataProps,
+} from "../../Application/Types/ApplicationTypes";
 
-
-
-const EditOrCreateForecastParametersWorkflow = ({
+const EditOrCreateDeclineParametersWorkflow = ({
   currRow,
   setCurrRow,
   shouldUpdate,
   workflowProcess,
   activeStep,
   forecastParametersIndex,
-
   title,
   setTitle,
   description,
   setDescription,
   storedTitles,
-}: IEditOrCreateForecastingParameters & ITitleAndDescriptionFormProps) => {
+}: IEditOrCreateDeclineParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as ReducersType;
 
   const wc = "storedDataWorkflows";
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
+
+    const dispatch = useDispatch();
+
+    const wp = workflowProcess as NonNullable<
+    IStoredDataProps["workflowProcess"]
+  >;
+
+  const mainUrl = `${getBaseForecastUrl()}/well-decline-parameters`;
+  const collectionName = "declineParameters";
+  const currRowCopy = currRow == null ? {} : currRow;
+  console.log("currRowCopy: ", currRowCopy);
 
   const renderImportStep = () => {
     const n =
@@ -50,13 +65,11 @@ const EditOrCreateForecastParametersWorkflow = ({
           />
         );
       case 1:
+      
         return (
-          <EditOrCreateForecastingParameters
-            currentRow={currRow}
-            setCurrentRow={setCurrRow}
-            shouldUpdate={shouldUpdate}
-            workflowProcess={workflowProcessDefined}
-            forecastParametersIndex={forecastParametersIndex}
+          <EditOrCreateDeclineParameters
+            currentRow={currRowCopy}
+            reducer={reducer}
           />
         );
       case 2:
@@ -77,4 +90,4 @@ const EditOrCreateForecastParametersWorkflow = ({
   return <>{renderImportStep()}</>;
 };
 
-export default EditOrCreateForecastParametersWorkflow;
+export default EditOrCreateDeclineParametersWorkflow;

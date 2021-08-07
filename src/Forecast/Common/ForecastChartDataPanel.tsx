@@ -66,6 +66,12 @@ const ForecastChartDataPanel = () => {
     dispatch(fetchForecastTreeviewKeysRequestAction(reducer, "forecastChart"));
   };
 
+  /*   console.log("forecastResultsStored: ", forecastResultsStored);
+  console.log("selectedForecastTitleOption: ", selectedForecastTitleOption);
+  console.log("forecastRunOption: ", forecastRunOption);
+  console.log("forecastRunTitleOptions: ", forecastRunTitleOptions);
+  console.log("selectedForecastingResultsTitle: ", selectedForecastingResultsTitle);
+ */
   return (
     <ChartDataPanel<IExtendedSelectOption>
       selectLabel={"Forecast Results"}

@@ -40,7 +40,7 @@ const CreateForecastParametersButton = ({
                 "Create Forecasting Parameters",
                 currentRow,
                 forecastParametersIndex,
-                "createForecastingParametersWorkflow"
+                "createForecastingParametersWorkflow" 
               )
             )
           )

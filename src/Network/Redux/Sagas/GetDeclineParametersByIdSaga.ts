@@ -23,12 +23,15 @@ import {
   getDeclineParametersByIdFailureAction,
   GET_DECLINEPARAMETERSBYID_REQUEST,
 } from "../Actions/NetworkActions";
+import { extrudeStoredDataDPs } from "../../Components/DialogParameters/EditDeclineParametersDialogParameters";
 
 export default function* watchGetDeclineParametersByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
+  console.log("watchGetDeclineParametersByIdSaga Called:");
+
   const getDeclineParametersByIdChan = yield actionChannel(
     GET_DECLINEPARAMETERSBYID_REQUEST
   );
@@ -49,25 +52,39 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   void,
   any
 > {
+  
   const { payload } = action;
-  const { selectedDeclineParametersId, wellDeclineParameterTitle, reducer } =
-    payload;
+  const { reducer, isCreateOrEdit, currentRow, currentSN} = payload;
+  const { title , id } = currentRow;
+  const selectedDeclineParametersId = id; 
+  const wellDeclineParameterTitle = title;
   const wc = "storedDataWorkflows";
 
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
   try {
-    const declineParametersResults = yield call(
+    const declineParametersResults =  yield call(
       getDeclineParametersByIdAPI,
       declineParametersUrl
     );
 
+    console.log("declineParametersResults: ", declineParametersResults);
+    
     const {
       data: { data },
     } = declineParametersResults;
     const selectedTableData = data["declineParameters"];
 
     const successAction = getTableDataByIdSuccessAction();
+    console.log("ans: ", {
+      ...successAction,
+      payload: {
+        ...payload,
+        reducer,
+        selectedTableData,
+      },
+    });
+
     yield put({
       ...successAction,
       payload: {
@@ -77,20 +94,39 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       },
     });
 
-    const dialogParameters: DialogStuff = {
-      name: "Display_Table_Data_Dialog",
-      title: wellDeclineParameterTitle,
-      type: "tableDataDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "xl",
-      iconType: "information",
-      actionsList: () => DialogCancelButton(),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      reducer,
-    };
+    if(isCreateOrEdit == false){
 
-    yield put(showDialogAction(dialogParameters));
+      const dialogParameters: DialogStuff = {
+        name: "Display_Table_Data_Dialog",
+        title: wellDeclineParameterTitle,
+        type: "tableDataDialog",
+        show: true,
+        exclusive: true,
+        maxWidth: "xl",
+        iconType: "information",
+        actionsList: () => DialogCancelButton(),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+        reducer,
+      };
+      console.log("tableDataDialog called");
+      yield put(showDialogAction(dialogParameters));
+      console.log("tableDataDialog executed");
+
+    }else{
+      yield put({type: GET_DECLINEPARAMETERSBYID_REQUEST, payload:{
+        path: "selectedDeclineParametersData",
+        value: selectedTableData
+      }});
+
+      yield put(showDialogAction(extrudeStoredDataDPs(
+        "Edit Decline Parameters",
+        currentRow,
+        currentSN - 1,
+        "editForecastingParametersWorkflow"
+      )))
+
+      
+    } 
   } catch (errors) {
     const failureAction = getDeclineParametersByIdFailureAction();
 

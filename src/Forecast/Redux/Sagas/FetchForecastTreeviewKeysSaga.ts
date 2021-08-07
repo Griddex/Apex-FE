@@ -78,7 +78,6 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
         });
       } else if (Object.keys(treeOrKeys)[0] === "keys") {
         const forecastKeys = treeOrKeys["keys"];
-
         yield put({
           ...successAction,
           payload: {

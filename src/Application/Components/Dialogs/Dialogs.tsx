@@ -13,6 +13,7 @@ import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/G
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
+import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -40,6 +41,7 @@ import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
 import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
+import { IStoredDataRow } from "../../Types/ApplicationTypes";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -60,6 +62,8 @@ const applicationDialogs: IApplicationDialogs = {
   storedForecastingParametersDialog: StoredForecastingParametersDialog,
   createForecastingParametersWorkflowDialog:
     EditOrCreateForecastingParametersWorkflowDialog,
+  createDeclineParametersWorkflowDialog:
+    EditOrCreateDeclineParametersWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
 
   productionStreamPrioritizationDialog: ProductionStreamPrioritizationDialog,
@@ -100,29 +104,35 @@ const Dialogs: React.FC<DialogStuff> = () => {
 
   return (
     <>
-      {(dialogs as any[]).map(
-        (
-          dialog: DialogStuff | DialogStuff<IForecastParametersStoredRow>,
-          i: number
-        ) => {
-          const { type } = dialog;
+      {(dialogs as any[]).map((dialog: DialogStuff, i: number) => {
+        const { type } = dialog;
 
-          if (dialog !== undefined && dialog.show === true && type) {
-            if (type === "createForecastingParametersWorkflowDialog") {
-              const SpecificDialog = applicationDialogs[type];
-              const dialogDefined =
-                dialog as DialogStuff<IForecastParametersStoredRow>;
+        if (dialog !== undefined && dialog.show === true && type) {
+          // const SpecificDialog = applicationDialogs[type];
+          //   // const dialogDefined =
+          //   //   dialog as DialogStuff<IForecastParametersStoredRow>;
 
-              return <SpecificDialog key={i} {...dialogDefined} />;
-            } else {
-              const SpecificDialog = applicationDialogs[type];
-              const dialogDefined = dialog as DialogStuff;
+          //   return <SpecificDialog key={i} {...dialog} />;
 
-              return <SpecificDialog key={i} {...dialogDefined} />;
-            }
+          if (type === "createForecastingParametersWorkflowDialog") {
+            const SpecificDialog = applicationDialogs[type];
+            const dialogDefined =
+              dialog as DialogStuff<IForecastParametersStoredRow>;
+
+            return <SpecificDialog key={i} {...dialogDefined} />;
+          } else if (type === "createDeclineParametersWorkflowDialog") {
+            const SpecificDialog = applicationDialogs[type];
+            const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
+
+            return <SpecificDialog key={i} {...dialogDefined} />;
+          } else {
+            const SpecificDialog = applicationDialogs[type];
+            const dialogDefined = dialog as DialogStuff;
+
+            return <SpecificDialog key={i} {...dialogDefined} />;
           }
         }
-      )}
+      })}
     </>
   );
 };

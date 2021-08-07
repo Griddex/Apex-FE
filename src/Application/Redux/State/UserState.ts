@@ -5,13 +5,13 @@ const userState: IUserState = {
   userId: "",
   userName: "",
   password: "",
+  email: "",
   rememberMe: false,
 
   //registration
   firstName: "",
   middleName: "",
   lastName: "",
-  email: "",
   mobileNumber: "",
   role: "Asset Forecaster",
   avatarUrl: "",

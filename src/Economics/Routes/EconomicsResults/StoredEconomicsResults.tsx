@@ -123,6 +123,7 @@ export default function StoredEcoResults({
   showChart,
   showBaseButtons,
   shouldRunAggregation,
+  collectionName,
 }: IStoredDataProps) {
   const reducer = "economicsReducer";
   const mainUrl = `${getBaseEconomicsUrl()}`;
@@ -308,7 +309,8 @@ export default function StoredEcoResults({
                       `${mainUrl}/${row.id}`,
                       row.title as string,
                       wp as TAllWorkflowProcesses,
-                      "table"
+                      "table",
+                      collectionName as string
                     )
                   )
                 }
