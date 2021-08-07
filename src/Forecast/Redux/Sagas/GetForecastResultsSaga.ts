@@ -62,12 +62,15 @@ function* getForecastResultsSaga(
     selectedModulePaths,
     selectedForecastChartVariable,
   } = payload;
+  console.log("payload: ", payload);
   const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
     (state) => state.forecastReducer
   );
 
   const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/chartData`;
+  console.log("url: ", url);
+  const isForecastResultsSavedNew = true;
 
   //if former selected variable is different form current one
   //please replace chart data in store
@@ -78,9 +81,11 @@ function* getForecastResultsSaga(
     selectedModuleIds: selectedIds,
     selectedModuleNames: selectedModuleNames,
     selectedModulePaths: selectedModulePaths,
-    isSaved: isForecastResultsSaved,
+    isSaved: isForecastResultsSavedNew,
     forecastId: selectedForecastingResultsId,
   };
+
+  console.log("reqPayload: ", reqPayload);
 
   //isForecastResultsLoading
   try {
@@ -101,6 +106,8 @@ function* getForecastResultsSaga(
         (state) => state.forecastReducer
       );
       const newForecastResults = [...forecastResults, forecastResultsChunk];
+
+      console.log("newForecastResults: ", newForecastResults);
 
       const successAction = getForecastResultsChartDataSuccessAction();
       yield put({

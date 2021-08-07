@@ -111,6 +111,7 @@ export default function ApexTreeView({
 }: IApexTreeView) {
   const classes = useStyles();
 
+  console.log("rootTree: ", rootTree);
   const initExpanded = rootTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id
   );
@@ -194,8 +195,7 @@ export default function ApexTreeView({
 
   const renderTree = (scenarioNodes: RenderTree) => {
     const { id, name, title } = scenarioNodes;
-    console.log("scenarioNodes: ", scenarioNodes)
-    const [{ isDragging }, drag] = useDrag(
+   /*  const [{ isDragging }, drag] = useDrag(
       () => ({
         type: dragDropTypes,
         item: { id, name, title },
@@ -205,8 +205,11 @@ export default function ApexTreeView({
         collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
       }),
       []
-    );
+    ); 
     const opacity = isDragging ? 0.4 : 1;
+    */
+    const opacity = 1;
+    
 
     return (
       <StyledTreeItem
@@ -226,15 +229,11 @@ export default function ApexTreeView({
               />
             }
             label={
-              <div ref={drag} style={{ opacity }}>
+              //ref={drag} style={{ opacity }}
+              <div>
                 {scenarioNodes.title}
               </div>
             } 
-            /* label={
-              <div style={{ opacity }}>
-                {scenarioNodes.title}
-              </div>
-            }*/
             key={scenarioNodes.id}
           />
         }

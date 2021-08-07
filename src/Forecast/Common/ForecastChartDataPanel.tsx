@@ -45,6 +45,7 @@ const ForecastChartDataPanel = () => {
         }
       : forecastRunTitleOptions[0];
 
+
   const [forecastRunOption, setForecastRunOption] =
     React.useState<IIdSelectOption>(
       selectedForecastTitleOption as IIdSelectOption
@@ -54,7 +55,7 @@ const ForecastChartDataPanel = () => {
     option: ValueType<IIdSelectOption, false>
   ) => {
     setForecastRunOption(option as IIdSelectOption);
-
+    console.log("option: ", option);
     dispatch(
       updateForecastResultsParameterAction(
         "selectedForecastingResultsId",
@@ -65,6 +66,12 @@ const ForecastChartDataPanel = () => {
     dispatch(fetchTreeviewKeysRequestAction());
   };
 
+/*   console.log("forecastResultsStored: ", forecastResultsStored);
+  console.log("selectedForecastTitleOption: ", selectedForecastTitleOption);
+  console.log("forecastRunOption: ", forecastRunOption);
+  console.log("forecastRunTitleOptions: ", forecastRunTitleOptions);
+  console.log("selectedForecastingResultsTitle: ", selectedForecastingResultsTitle);
+ */
   return (
     <ChartDataPanel<IIdSelectOption>
       selectLabel={"Forecast Results"}

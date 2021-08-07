@@ -154,6 +154,9 @@ export default function ForecastQualityAssuranceData({
   const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   );
+
+  console.log("forecastResultsStored: ", forecastResultsStored);
+
   const [storedforecastResults, setStoredforecastResults] = React.useState(
     forecastResultsStored
   );
@@ -164,6 +167,7 @@ export default function ForecastQualityAssuranceData({
     const id = row.forecastResultsId as string;
     const title = row.forecastResultsTitle as string;
     const saved = row.saved as string;
+    console.log("saved: ", saved);
     const isSaved = saved === "Saved" ? true : false;
     const networkId = row.networkId as string;
 

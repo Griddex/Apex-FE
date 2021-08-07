@@ -66,6 +66,7 @@ export const updateForecastResultsParameterAction = (
   path: string,
   value: any
 ) => {
+  
   return {
     type: UPDATE_FORECASTPARAMETER,
     payload: { path, value },
