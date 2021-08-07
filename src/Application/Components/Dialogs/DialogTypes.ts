@@ -158,7 +158,8 @@ export interface DialogStuff<TRow = TDataRow> {
     | "storedProductionStreamPrioritizationDialog"
     | "snapshotDialog"
     | "networkWidgetDialog"
-    | "createDeclineParametersWorkflowDialog";
+    | "createDeclineParametersWorkflowDialog"
+    | "linkInputDeckDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
