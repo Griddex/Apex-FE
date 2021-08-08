@@ -322,13 +322,13 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                     if (currentProjectId === "") {
                       openProject(idDefined, titleDefined, descriptionDefined);
                     } else {
-                      dispatch(
-                        updateProjectParametersAction({
-                          currentProjectId: idDefined,
-                          currentProjectTitle: titleDefined,
-                          currentProjectDescription: descriptionDefined,
-                        })
-                      );
+                      // dispatch(
+                      //   updateProjectParametersAction({
+                      //     currentProjectId: idDefined,
+                      //     currentProjectTitle: titleDefined,
+                      //     currentProjectDescription: descriptionDefined,
+                      //   })
+                      // );
                       openProjectConfirmation(
                         idDefined,
                         titleDefined,
