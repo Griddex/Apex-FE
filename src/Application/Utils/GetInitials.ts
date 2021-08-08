@@ -1,5 +1,5 @@
 const GetInitials = (text: string) => {
-  if (text === undefined) return "";
+  if (!text) return "";
 
   const textArray = text.split(" ");
   const Initials = textArray.map((s) => s.charAt(0));
