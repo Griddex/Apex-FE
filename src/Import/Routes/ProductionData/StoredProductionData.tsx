@@ -25,6 +25,8 @@ export default function StoredProductionData({
 }: IStoredInputDeck) {
   const dispatch = useDispatch();
 
+  const collectionName = "declineParameters";
+
   const wc = "storedDataWorkflows";
   const wp: wpTypeNon = "productionInputDataStored";
 
@@ -70,6 +72,7 @@ export default function StoredProductionData({
     dataKey,
     dataTitle,
     chartData,
+    collectionName,
     handleCheckboxChange,
   };
 

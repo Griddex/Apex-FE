@@ -11,7 +11,7 @@ export type RSOptionsType = {
   label: string;
 };
 
-export interface SelectOptionsType {
+export interface TSelectOptions {
   [key: string]: [UnitOptionsType, UnitOptionsType];
 }
 

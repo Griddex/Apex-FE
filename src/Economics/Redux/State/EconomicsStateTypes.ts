@@ -187,8 +187,6 @@ export interface IStoredEconomicsResultsRow {
 export interface IEconomicsState
   extends INewCostsRevenuesInputDeckFormValues,
     INewEconomicsParametersInputDeckFormValues {
-  //Remove from here
-  forecastRun: string;
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   loadCostsRevenueWorkflow: boolean;
   loadEconomicsParametersWorkflow: boolean;

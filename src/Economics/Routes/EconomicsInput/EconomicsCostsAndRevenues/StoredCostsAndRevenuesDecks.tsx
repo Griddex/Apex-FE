@@ -33,6 +33,7 @@ export default function StoredCostsAndRevenuesDecks({
 
   const tableTitle = "Costs/Revenues Table";
   const mainUrl = `${getBaseEconomicsUrl()}/data`;
+  const collectionName = "costRevenuesOil";
 
   const dispatch = useDispatch();
 
@@ -93,6 +94,9 @@ export default function StoredCostsAndRevenuesDecks({
       );
   };
 
+  const isDataVisibility = true;
+  const isCloning = false;
+
   const props: IStoredDataProps = {
     snStoredData,
     dataKey,
@@ -103,8 +107,11 @@ export default function StoredCostsAndRevenuesDecks({
     containerStyle,
     handleCheckboxChange,
     reducer,
+    collectionName,
     mainUrl,
     tableTitle,
+    isDataVisibility,
+      isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredEconomicsDataRequestAction(currentProjectId),

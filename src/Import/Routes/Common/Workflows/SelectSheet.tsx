@@ -13,7 +13,7 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   ISelectOption,
-  SelectOptionsType,
+  TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -126,7 +126,7 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
   };
 
   const SelectWorksheet = () => {
-    const worksheetNameOptions: SelectOptionsType =
+    const worksheetNameOptions: TSelectOptions =
       generateSelectOptions(workSheetNames);
 
     const worksheetNameOption = generateSelectOptions([worksheetName])[0];

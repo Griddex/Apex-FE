@@ -8,62 +8,29 @@ import CalendarViewDayOutlinedIcon from "@material-ui/icons/CalendarViewDayOutli
 import ChevronRightOutlinedIcon from "@material-ui/icons/ChevronRightOutlined";
 import DetailsOutlinedIcon from "@material-ui/icons/DetailsOutlined";
 import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
+import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
 import RedoOutlinedIcon from "@material-ui/icons/RedoOutlined";
 import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
 import UndoOutlinedIcon from "@material-ui/icons/UndoOutlined";
 import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
 import React from "react";
+import { XYPosition } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import DrainagePoint from "../../Images/DrainagePoint.svg";
 import Flowstation from "../../Images/Flowstation.svg";
 import GasFacility from "../../Images/GasFacility.svg";
 import GatheringCenter from "../../Images/GatheringCenter.svg";
 import Manifold from "../../Images/Manifold.svg";
 import Terminal from "../../Images/Terminal.svg";
-import DrainagePoint from "../../Images/DrainagePoint.svg";
-import {
-  contextDrawerExpandAction,
-  showContextDrawerAction,
-} from "../../../Application/Redux/Actions/LayoutActions";
-import { addNetworkElementAction } from "../../Redux/Actions/NetworkActions";
-import GenerateNodeByPositionService from "../../Services/GenerateNodeByPositionService";
-import { XYPosition } from "react-flow-renderer";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-
-export const AddNetworkElementMenu = ({
-  elementName,
-}: {
-  elementName: string;
-}) => {
-  const NetworkIcons: Record<string, string> = {
-    drainagePoint: DrainagePoint,
-    drainagePointSummary: DrainagePoint,
-    manifold: Manifold,
-    flowstation: Flowstation,
-    gasFacility: GasFacility,
-    gatheringCenter: GatheringCenter,
-    terminal: Terminal,
-  };
-
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <ListItemIcon>
-          <img
-            src={NetworkIcons[elementName]}
-            alt="Network logos"
-            height={24}
-            width={24}
-          />
-        </ListItemIcon>
-      </ListItemIcon>
-      <Typography variant="inherit">{`Add ${elementName}`}</Typography>
-    </MenuItem>
-  );
-};
+import addNetworkNodeToCanvas from "../../Utils/AddNetworkNodeToCanvas";
+import NetworkContextMenuItem from "./NetworkContextMenuItem";
 
 export const NetworkElementsMenu = ({
   children,
@@ -81,26 +48,39 @@ export const NetworkElementsMenu = ({
 
   const elements = [
     {
-      DrainagePoint: DrainagePoint,
-      handleClick: () => {
-        const newElementPosition = {
-          x: nodePosition.x + 20,
-          y: nodePosition.y + 20,
-        };
-
-        const newElement = GenerateNodeByPositionService(
-          "drainagePoint",
-          newElementPosition
-        );
-
-        dispatch(addNetworkElementAction(newElement));
-      },
+      title: "Drainage Point",
+      icon: DrainagePoint,
+      action: () =>
+        addNetworkNodeToCanvas(dispatch, nodePosition, "drainagePoint"),
     },
-    { Manifold: Manifold },
-    { Flowstation: Flowstation },
-    { GasFacility: GasFacility },
-    { GatheringCenter: GatheringCenter },
-    { Terminal: Terminal },
+    {
+      title: "Manifold",
+      icon: Manifold,
+      action: () => addNetworkNodeToCanvas(dispatch, nodePosition, "manifold"),
+    },
+    {
+      title: "Flowstation",
+      icon: Flowstation,
+      action: () =>
+        addNetworkNodeToCanvas(dispatch, nodePosition, "flowstation"),
+    },
+    {
+      title: "Gas Facility",
+      icon: GasFacility,
+      action: () =>
+        addNetworkNodeToCanvas(dispatch, nodePosition, "gasFacility"),
+    },
+    {
+      title: "Gathering Center",
+      icon: GatheringCenter,
+      action: () =>
+        addNetworkNodeToCanvas(dispatch, nodePosition, "gatheringCenter"),
+    },
+    {
+      title: "Terminal",
+      icon: Terminal,
+      action: () => addNetworkNodeToCanvas(dispatch, nodePosition, "terminal"),
+    },
   ];
 
   const handleOpenMouseEnter = (
@@ -143,20 +123,14 @@ export const NetworkElementsMenu = ({
         anchorPosition={anchorPosition}
       >
         {elements.map((element, i) => {
-          const nodeKey = Object.keys(element)[0];
-          const nodeIcon = Object.values(element)[0] as string;
+          const { title, icon, action } = element;
 
           return (
-            <MenuItem
-              key={i}
-              onClick={() => {
-                console.log("HELLO");
-              }}
-            >
+            <MenuItem key={i} onClick={action}>
               <ListItemIcon>
-                <img src={nodeIcon} width={24} height={24} />
+                <img src={icon} width={24} height={24} />
               </ListItemIcon>
-              <Typography variant="inherit">{`${nodeKey}`}</Typography>
+              <Typography variant="inherit">{title}</Typography>
             </MenuItem>
           );
         })}
@@ -167,168 +141,16 @@ export const NetworkElementsMenu = ({
 
 export const AddAssetMenu = () => {
   return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
+    <ListItemIcon
       style={{
         display: "flex",
-        padding: "5px",
-        justifyContent: "space-around",
+        justifyContent: "flex-end",
       }}
     >
-      <ListItemIcon style={{ minWidth: "30px" }}>
-        <AddOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Add Asset</Typography>
-      <ListItemIcon
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <NetworkElementsMenu>
-          <ChevronRightOutlinedIcon fontSize="small" />
-        </NetworkElementsMenu>
-      </ListItemIcon>
-    </MenuItem>
-  );
-};
-
-export const RenameMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <ZoomOutMapOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Rename</Typography>
-    </MenuItem>
-  );
-};
-
-export const ShowDetailsMenu = () => {
-  const dispatch = useDispatch();
-  return (
-    <MenuItem
-      onClick={() => {
-        dispatch(showContextDrawerAction());
-        dispatch(contextDrawerExpandAction());
-      }}
-    >
-      <ListItemIcon>
-        <ZoomOutMapOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Show Details</Typography>
-    </MenuItem>
-  );
-};
-
-export const CopyMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <FileCopyOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Copy</Typography>
-    </MenuItem>
-  );
-};
-
-export const CutMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <DetailsOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Cut</Typography>
-    </MenuItem>
-  );
-};
-
-export const PasteMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <AssignmentOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Paste</Typography>
-    </MenuItem>
-  );
-};
-
-export const UndoMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <UndoOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Undo</Typography>
-    </MenuItem>
-  );
-};
-
-export const RedoMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <RedoOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Redo</Typography>
-    </MenuItem>
-  );
-};
-
-export const ShowNetworkDataMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <CalendarViewDayOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Show Network Data</Typography>
-    </MenuItem>
-  );
-};
-
-export const RunForecastMenu = () => {
-  return (
-    <MenuItem
-      onClick={() => {
-        console.log("HELLO");
-      }}
-    >
-      <ListItemIcon>
-        <SubscriptionsOutlinedIcon fontSize="small" />
-      </ListItemIcon>
-      <Typography variant="inherit">Run Forecast</Typography>
-    </MenuItem>
+      <NetworkElementsMenu>
+        <ChevronRightOutlinedIcon fontSize="small" />
+      </NetworkElementsMenu>
+    </ListItemIcon>
   );
 };
 
@@ -340,31 +162,134 @@ export const NetworkContextMenu = React.forwardRef<
   HTMLDivElement,
   INetworkContextMenuProps
 >(({ elementName }, ref) => {
+  const dispatch = useDispatch();
   const { isNetworkAuto } = useSelector(
     (state: RootState) => state.networkReducer
   );
 
+  const getMenuItems = (element: string) => [
+    {
+      action: () => {},
+      icon: <AddOutlinedIcon fontSize="small" />,
+      title: "Add Node",
+      hasSubMenu: false,
+      element,
+    },
+    {
+      action: () => {},
+      icon: <AddOutlinedIcon fontSize="small" />,
+      title: "Add Asset",
+      hasSubMenu: true,
+      subMenu: AddAssetMenu,
+    },
+    {
+      action: () => {},
+      icon: <ZoomOutMapOutlinedIcon fontSize="small" />,
+      title: "Rename",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {
+        const dialogParameters: DialogStuff = {
+          name: "Link_Deck_Dialog",
+          title: "Link Deck",
+          type: "linkInputDeckDialog",
+          show: true,
+          exclusive: true,
+          maxWidth: "lg",
+          iconType: "link",
+          actionsList: (titleDesc?: Record<string, string>) =>
+            DialogOneCancelButtons(
+              [true, true],
+              [true, false],
+              [unloadDialogsAction, () => {}],
+              "Update",
+              "updateOutlined",
+              false,
+              "All"
+            ),
+          dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+        };
+
+        dispatch(showDialogAction(dialogParameters));
+      },
+      icon: <LinkOutlinedIcon fontSize="small" />,
+      title: "Link Data",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <AddOutlinedIcon fontSize="small" />,
+      title: "Show Details",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <FileCopyOutlinedIcon fontSize="small" />,
+      title: "Copy",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <DetailsOutlinedIcon fontSize="small" />,
+      title: "Cut",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <AssignmentOutlinedIcon fontSize="small" />,
+      title: "Paste",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <UndoOutlinedIcon fontSize="small" />,
+      title: "Undo",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <RedoOutlinedIcon fontSize="small" />,
+      title: "Redo",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <CalendarViewDayOutlinedIcon fontSize="small" />,
+      title: "Show Network Data",
+      hasSubMenu: false,
+    },
+    {
+      action: () => {},
+      icon: <SubscriptionsOutlinedIcon fontSize="small" />,
+      title: "Run Forecast",
+      hasSubMenu: false,
+    },
+  ];
+
+  const networkManualItems = getMenuItems(elementName).filter((o) =>
+    [
+      "Add Node",
+      "Add Asset",
+      "Show Details",
+      "Link Data",
+      "Run Forecast",
+    ].includes(o.title)
+  );
+
+  const networkAutoItems = getMenuItems(elementName).filter((o) =>
+    ["Show Details", "Run Forecast"].includes(o.title)
+  );
+
   return (
     <div ref={ref}>
-      {!isNetworkAuto && (
-        <>
-          <AddNetworkElementMenu elementName={elementName} />
-          <AddAssetMenu />
-          <hr />
-        </>
-      )}
-      <ShowDetailsMenu />
-      <RunForecastMenu />
-      {/* <hr />
-      <CopyMenu />
-      <CutMenu />
-      <PasteMenu />
-      <hr />
-      <UndoMenu />
-      <RedoMenu />
-      <hr />
-      <ShowNetworkDataMenu />
-      <RenameMenu /> */}
+      {!isNetworkAuto
+        ? networkManualItems.map((props, i) => {
+            return <NetworkContextMenuItem key={i} {...props} />;
+          })
+        : networkAutoItems.map((props, i) => {
+            return <NetworkContextMenuItem key={i} {...props} />;
+          })}
     </div>
   );
 });

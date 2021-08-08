@@ -1,6 +1,8 @@
 import { IUserDetails } from "../Components/User/UserTypes";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
+import { DialogStuff } from "../Components/Dialogs/DialogTypes";
+import { IRawRow } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 import {
   IAllWorkflows,
   INetworkWorkflows,
@@ -34,6 +36,7 @@ export interface IStoredDataRow {
 
 export interface IStoredDataProps {
   snStoredData?: IStoredDataRow[];
+  currentRow?: IStoredDataRow;
   reducer?: ReducersType;
   dataKey?: string;
   dataTitle?: string;
@@ -43,6 +46,7 @@ export interface IStoredDataProps {
   tableButtons?: ITableButtonsProps;
   shouldRunAggregation?: boolean;
   mainUrl?: string;
+  collectionName?: string;
   tableTitle?: string;
   workflowProcess?: IStoredDataProps["wkPs"];
   wkPs?:
@@ -73,6 +77,13 @@ export interface IStoredDataProps {
   fetchStoredUrl?: string;
   fetchStoredRequestAction?: (projectIdDefined?: string) => IAction;
   dataStored?: string;
+  dialog?: DialogStuff<IRawRow>;
+  buttonToolTip?: string;
+  butttonTitle?: string;
+  dialogTitle?: string;
+  isDataVisibility?: boolean;
+  isCloning?: boolean;
+  wcc?: string;
 }
 
 export interface IApplicationStoredDataRow {
@@ -89,6 +100,7 @@ export interface IApplicationStoredDataRow {
   analysisTitle?: TEconomicsAnalysesTitles | "Multiple";
   analysisName?: TEconomicsAnalysesNames;
   developmentScenariosCostsRevenue?: TDevScenarioNames[];
+  build?: "Auto" | "Manual";
 }
 export interface IApplicationStoredForecastResultsRow
   extends IApplicationStoredDataRow {

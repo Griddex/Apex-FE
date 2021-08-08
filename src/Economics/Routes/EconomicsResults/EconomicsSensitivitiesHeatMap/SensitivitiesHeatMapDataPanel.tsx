@@ -5,11 +5,9 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import DialogCancelButton from "../../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
-import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
 import { IChartCategoriesData } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
@@ -30,29 +28,43 @@ const SensitivitiesHeatMapDataPanel = ({
     (state: RootState) => state.economicsReducer
   );
 
-  const economicsResultsTitles = economicsResultsStored.map(
-    (row: IApplicationStoredDataRow) => row.title
-  ) as string[];
-  const economicsResultsTitleOptions = generateSelectOptions(
-    economicsResultsTitles
-  );
-  const initialEconomicsResultsTitleOption =
+  const economicsResultsTitleOptions = economicsResultsStored.map(
+    (row: any) => ({
+      value: row.title,
+      label: row.title,
+      id: row.id,
+    })
+  ) as IExtendedSelectOption[];
+
+  economicsResultsTitleOptions.unshift({
+    value: "select",
+    label: "Select...",
+    id: "",
+  });
+
+  const selectedEconomicsResultsTitleOption =
     selectedEconomicsResultsTitle !== ""
       ? {
           value: selectedEconomicsResultsTitle,
           label: selectedEconomicsResultsTitle,
+          id: (economicsResultsTitleOptions as IExtendedSelectOption[]).filter(
+            (o) => o.label === selectedEconomicsResultsTitle
+          )[0].id,
         }
       : economicsResultsTitleOptions[0];
 
   const [economicsResultTitleOption, setEconomicsResultTitleOption] =
-    React.useState(initialEconomicsResultsTitleOption);
-
+    React.useState<IExtendedSelectOption>(
+      selectedEconomicsResultsTitleOption as IExtendedSelectOption
+    );
   const handleSelectEconomicsResultsChange = (
-    option: ValueType<ISelectOption, false>
+    option: ValueType<IExtendedSelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option as ISelectOption);
+    setEconomicsResultTitleOption(option as IExtendedSelectOption);
 
-    dispatch(fetchEconomicsTreeviewKeysRequestAction());
+    dispatch(
+      fetchEconomicsTreeviewKeysRequestAction(true, "heatMapTree", option?.id)
+    );
   };
 
   const developmentScenarios = () => {

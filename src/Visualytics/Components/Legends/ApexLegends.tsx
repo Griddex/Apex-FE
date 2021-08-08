@@ -29,6 +29,8 @@ const ApexLegends = ({
   justify,
   itemDirection,
   symbolShape,
+  symbolBorderColor,
+
   storeTranslateX,
   storeTranslateY,
   storeItemsSpacing,
@@ -36,7 +38,6 @@ const ApexLegends = ({
   storeItemHeight,
   storeItemOpacity,
   storeSymbolSize,
-  symbolBorderColor,
 }: IApexLegends & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();

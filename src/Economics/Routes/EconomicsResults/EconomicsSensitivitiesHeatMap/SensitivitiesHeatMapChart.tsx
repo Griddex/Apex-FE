@@ -1,4 +1,6 @@
-import { Box, useTheme } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
+import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import camelCase from "lodash.camelcase";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,14 +18,11 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { ISensitivitiesRow } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
 }
 
 const SensitivitiesHeatMapChart = () => {
-  const theme = useTheme();
   const dispatch = useDispatch();
   const wc = "economicsAnalysisWorkflows";
 
@@ -47,9 +46,9 @@ const SensitivitiesHeatMapChart = () => {
     selectedSensitivitiesTable,
   } = useSelector((state: RootState) => state.economicsReducer);
 
-  const { economicsAnalysisButtons } = useSelector(
-    (state: RootState) => state.economicsReducer[wc][ap]
-  );
+  // const { economicsAnalysisButtons } = useSelector(
+  //   (state: RootState) => state.economicsReducer[wc][ap]
+  // );
 
   //TODO
   //1, 2 or 3 sensitivity variables are possible
@@ -86,7 +85,9 @@ const SensitivitiesHeatMapChart = () => {
 
     if (Object.entries(sensitivitiesHeatMapData).length > 0) {
       handleCheck = (v: any) => {
-        const devScenario = economicsAnalysisButtons[0].scenarioName;
+        //TODO Solve this
+        // const devScenario = economicsAnalysisButtons[0].scenarioName;
+        const devScenario = "oilDevelopment";
         const variableZCamel = camelCase(sensitivitiesZRow.parameterTitle);
         const variableZKey = `${variableZCamel}${v}`;
         //use current devscenario and current z value to get collection

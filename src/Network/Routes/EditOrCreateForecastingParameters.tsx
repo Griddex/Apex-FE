@@ -31,7 +31,7 @@ import {
   timeFrequencyOptions,
 } from "../Data/NetworkData";
 import {
-  saveDeclineParametersRequestAction,
+  saveDeclineParametersRequestActionForFP,
   saveProductionPrioritizationRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
@@ -112,7 +112,7 @@ const EditOrCreateForecastingParameters = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveDeclineParametersRequestAction],
+          [unloadDialogsAction, saveDeclineParametersRequestActionForFP],
           false,
           "None"
         ),
@@ -313,12 +313,14 @@ const EditOrCreateForecastingParameters = ({
                 ) as ISelectOption
               }
               data={timeFrequencyOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) =>
+              handleSelect={(option: ValueType<ISelectOption, false>) => {
+                const optionDefined = option as ISelectOption;
+
                 setFormEditorRow((prev) => ({
                   ...prev,
-                  timeFrequency: (option as ISelectOption).value,
-                }))
-              }
+                  timeFrequency: optionDefined.value as string,
+                }));
+              }}
               menuPortalTarget={dialogRef.current as HTMLElement}
               isSelectOptionType={true}
             />
@@ -338,12 +340,14 @@ const EditOrCreateForecastingParameters = ({
                 ) as ISelectOption
               }
               data={defermentOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) =>
+              handleSelect={(option: ValueType<ISelectOption, false>) => {
+                const optionDefined = option as ISelectOption;
+
                 setFormEditorRow((prev) => ({
                   ...prev,
-                  isDefered: (option as ISelectOption).value,
-                }))
-              }
+                  isDefered: optionDefined.value as string,
+                }));
+              }}
               menuPortalTarget={dialogRef.current as HTMLElement}
               isSelectOptionType={true}
             />
@@ -365,12 +369,14 @@ const EditOrCreateForecastingParameters = ({
               ) as ISelectOption
             }
             data={realtimeOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) =>
+            handleSelect={(option: ValueType<ISelectOption, false>) => {
+              const optionDefined = option as ISelectOption;
+
               setFormEditorRow((prev) => ({
                 ...prev,
-                realtimeResults: (option as ISelectOption).value,
-              }))
-            }
+                realtimeResults: optionDefined.value as string,
+              }));
+            }}
             menuPortalTarget={dialogRef.current as HTMLElement}
             isSelectOptionType={true}
             isDisabled={true}
@@ -385,9 +391,8 @@ const EditOrCreateForecastingParameters = ({
           direction="Vertical"
           content={
             <KeyboardDatePicker
-              margin="normal"
+              margin="none"
               id="date-picker-dialog"
-              label="Date picker dialog"
               variant="dialog"
               disabled
               //TODO Date format not flexible enough
@@ -407,9 +412,8 @@ const EditOrCreateForecastingParameters = ({
           direction="Vertical"
           content={
             <KeyboardDatePicker
-              margin="normal"
+              margin="none"
               id="date-picker-dialog"
-              label="Date picker dialog"
               variant="dialog"
               //TODO Date format not flexible enough
               //User should have ability to change position
@@ -422,6 +426,7 @@ const EditOrCreateForecastingParameters = ({
                   endForecast: date,
                 }));
               }}
+              //TODO at least one year ahead
               minDate={new Date(formEditorRow["startForecast"])}
               KeyboardButtonProps={{
                 "aria-label": "change date",

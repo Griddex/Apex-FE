@@ -235,8 +235,6 @@ const analysesDataState = generateAnalysesState();
 const chartsDataState = generateChartsState();
 
 const EconomicsState: IEconomicsState = {
-  //TODO Remove from here
-  forecastRun: "",
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
   loadEconomicsParametersWorkflow: false,

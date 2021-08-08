@@ -6,6 +6,21 @@ import {
   IForecastParametersStoredRow,
 } from "../../Components/Dialogs/StoredNetworksDialogTypes";
 
+export interface IHandleIds {
+  source: string[];
+  target: string[];
+}
+
+export interface INodesByIds {
+  drainagePointSummaryNode: IHandleIds;
+  drainagePointNode: IHandleIds;
+  manifoldNode: IHandleIds;
+  flowstationNode: IHandleIds;
+  gasFacilityNode: IHandleIds;
+  gatheringCenterNode: IHandleIds;
+  terminalNode: IHandleIds;
+}
+
 //NetworkModel
 export interface ISaveNetworkFormValues {
   networkTitle: string;
@@ -104,6 +119,8 @@ export interface INetworkState extends ISaveNetworkFormProps {
   isNetworkChanged: boolean;
   isNetworkDisplayed: boolean;
   isNetworkAuto: boolean;
+
+  nodesByIds: INodesByIds;
 
   networkId: string;
   status: number;

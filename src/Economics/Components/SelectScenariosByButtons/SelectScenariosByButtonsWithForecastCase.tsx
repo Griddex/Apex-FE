@@ -68,9 +68,8 @@ const SelectScenariosByButtonsWithForecastCase = ({
         ] as IAggregateButtonProps[])
   );
 
-  const [forecastCaseOption, setForecastCaseOption] = React.useState(
-    forecastCaseOptions[1]
-  );
+  const [forecastCaseOption, setForecastCaseOption] =
+    React.useState<ISelectOption>(forecastCaseOptions[1]);
 
   React.useEffect(() => {
     dispatch(

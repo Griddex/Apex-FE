@@ -27,7 +27,7 @@ import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/Upda
 import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
 import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
 import watchFetchStoredForecastingResultsSaga from "../../../Forecast/Redux/Sagas/FetchStoredForecastingResultsSaga";
-import watchFetchTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchTreeviewKeysSaga";
+import watchFetchForecastTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchForecastTreeviewKeysSaga";
 import watchFetchStoredProjectsSaga from "../../../Project/Redux/Sagas/FetchStoredProjectsSaga";
 import watchDisplayNetworkBySelectionSaga from "../../../Network/Redux/Sagas/DisplayNetworkBySelectionSaga";
 import watchFetchMatchObjectSaga from "../Sagas/FetchMatchObjectSaga";
@@ -53,6 +53,7 @@ import watchFetchStoredEconomicsResultsSaga from "../../../Economics/Redux/Sagas
 import watchSaveEconomicsResultsSaga from "../../../Economics/Redux/Sagas/SaveEconomicsResultsSaga";
 import watchGetEconomicsResultsByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsResultsByIdSaga";
 import watchDeleteDataByIdSaga from "../Sagas/DeleteDataByIdSaga";
+import watchFetchEconomicsTreeviewKeysSaga from "../../../Economics/Redux/Sagas/FetchEconomicsTreeviewKeysSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -77,7 +78,7 @@ function* rootSaga() {
   yield spawn(watchSaveForecastSaga);
   yield spawn(watchFetchUserDetailsSaga);
   yield spawn(watchFetchStoredForecastingResultsSaga);
-  yield spawn(watchFetchTreeviewKeysSaga);
+  yield spawn(watchFetchForecastTreeviewKeysSaga);
   yield spawn(watchGetForecastResultsChartDataSaga);
   yield spawn(watchFetchMatchObjectSaga);
   yield spawn(watchGetSelectedForecastDataByIdSaga);
@@ -99,6 +100,7 @@ function* rootSaga() {
   yield spawn(watchSaveEconomicsResultsSaga);
   yield spawn(watchGetEconomicsResultsByIdSaga);
   yield spawn(watchDeleteDataByIdSaga);
+  yield spawn(watchFetchEconomicsTreeviewKeysSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

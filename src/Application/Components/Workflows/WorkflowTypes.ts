@@ -62,7 +62,8 @@ export interface INetworkWorkflows {
     | "runForecastWorkflow"
     | "createForecastingParametersWorkflow"
     | "editForecastingParametersWorkflow"
-    | "declineCurveParametersWorkflow";
+    | "declineCurveParametersWorkflow"
+    | "createDeclineParametersWorkflow";
   wkCy:
     | "networkDataWorkflows"
     | "storedDataWorkflows"
@@ -95,7 +96,10 @@ export interface IEconomicsWorkflows {
     | "economicsResultsPlotCharts"
     | "economicsResultsSensitivitiesHeatmap"
     | "economicsResultsStored";
-  wkCy: "economicsDataWorkflows" | "economicsAnalysisWorkflows";
+  wkCy:
+    | "economicsDataWorkflows"
+    | "economicsAnalysisWorkflows"
+    | "economicsChartsWorkflows";
 }
 
 export type ReducersType = keyof {

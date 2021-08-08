@@ -165,3 +165,148 @@ export const scaleOptions = [
 ];
 
 export type TAxisType = keyof typeof axisNameTitlesObj;
+
+export const valueTypeOptions = [
+  {
+    value: undefined,
+    label: "none",
+    description: "none",
+  },
+  {
+    value: "e",
+    label: "e",
+    description: "exponent notation.",
+  },
+  {
+    value: "f",
+    label: "f",
+    description: "fixed point notation.",
+  },
+  {
+    value: "g",
+    label: "g",
+    description:
+      "either decimal or exponent notation, rounded to significant digits.",
+  },
+  {
+    value: "r",
+    label: "r",
+    description: "decimal notation, rounded to significant digits.",
+  },
+  {
+    value: "s",
+    label: "s",
+    description:
+      "decimal notation with an SI prefix, rounded to significant digits.",
+  },
+  {
+    value: "%",
+    label: "%",
+    description:
+      "multiply by 100, and then decimal notation with a percent sign.",
+  },
+  {
+    value: "p",
+    label: "p",
+    description:
+      "multiply by 100, round to significant digits, and then decimal notation with a percent sign.",
+  },
+  {
+    value: "b",
+    label: "b",
+    description: "binary notation, rounded to integer.",
+  },
+  {
+    value: "o",
+    label: "o",
+    description: "octal notation, rounded to integer.",
+  },
+  {
+    value: "d",
+    label: "d",
+    description: "decimal notation, rounded to integer.",
+  },
+  {
+    value: "x",
+    label: "x",
+    description:
+      "hexadecimal notation, using lower-case letters, rounded to integer.",
+  },
+  {
+    value: "X",
+    label: "X",
+    description:
+      "hexadecimal notation, using upper-case letters, rounded to integer.",
+  },
+  {
+    value: "c",
+    label: "c",
+    description:
+      "converts the integer to the corresponding unicode character before printing.",
+  },
+];
+
+export const valueAlignOptions = [
+  {
+    value: ">",
+    label: ">",
+    description:
+      "Force the field to be right-aligned within the available space.",
+  },
+  {
+    value: "<",
+    label: "<",
+    description:
+      "Force the field to be left-aligned within the available space.",
+  },
+  {
+    value: "^",
+    label: "^",
+    description: "Force the field to be centered within the available space.",
+  },
+  {
+    value: "=",
+    label: "=",
+    description:
+      "like >, but with any sign and symbol to the left of any padding.",
+  },
+];
+
+export const valueSignOptions = [
+  {
+    value: "-",
+    label: "-",
+    description: "nothing for zero or positive and a minus sign for negative.",
+  },
+  {
+    value: "+",
+    label: "+",
+    description:
+      "a plus sign for zero or positive and a minus sign for negative.",
+  },
+  {
+    value: "(",
+    label: "(",
+    description: "nothing for zero or positive and parentheses for negative.",
+  },
+  {
+    value: " ",
+    label: "(space)",
+    description: "a space for zero or positive and a minus sign for negative.",
+  },
+];
+
+export const valueSymbolOptions = [
+  {
+    value: undefined,
+    label: "none",
+  },
+  {
+    value: "#",
+    label: "#",
+  },
+  {
+    value: "$",
+    label: "$",
+  },
+];

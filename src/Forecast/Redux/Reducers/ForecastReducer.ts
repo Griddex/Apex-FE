@@ -3,6 +3,8 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_SUCCESS,
   GET_TABLEDATABYID_FAILURE,
+  FORECAST_TREEVIEWKEYS_FAILURE,
+  FORECAST_TREEVIEWKEYS_SUCCESS,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   LOAD_FORECASTRESULTS_WORKFLOW,
@@ -22,8 +24,6 @@ import {
   SET_FORECASTCHARTOBJECT,
   STORED_FORECASTINGRESULTS_SUCCESS,
   STORED_FORECASTINGRESULTS_FAILURE,
-  TREEVIEWKEYS_SUCCESS,
-  TREEVIEWKEYS_FAILURE,
   GET_FORECASTDATABYID_FAILURE,
   GET_FORECASTDATABYID_SUCCESS,
   REMOVE_FORECAST,
@@ -41,8 +41,9 @@ const forecastReducer = (
   switch (action.type) {
     case UPDATE_FORECASTPARAMETER: {
       const { path, value } = action.payload;
-
+      
       const updatedState = set(state, path, value);
+      console.log("action.payload: ", action.payload);
       return updatedState;
     }
 
@@ -209,9 +210,10 @@ const forecastReducer = (
       };
     }
 
-    case TREEVIEWKEYS_SUCCESS: {
-      const { keyVar } = action.payload;
+    case FORECAST_TREEVIEWKEYS_SUCCESS: {
+      const { keyVar, reducer, perspective } = action.payload;
 
+      // if (reducer === "forecastReducer") {
       if (keyVar === "forecastKeys") {
         const { forecastKeys } = action.payload;
         return {
@@ -220,15 +222,15 @@ const forecastReducer = (
         };
       } else {
         const { forecastTree } = action.payload;
-
         return {
           ...state,
           forecastTree,
         };
       }
+      // }
     }
 
-    case TREEVIEWKEYS_FAILURE: {
+    case FORECAST_TREEVIEWKEYS_FAILURE: {
       const { errors } = action.payload;
 
       return {

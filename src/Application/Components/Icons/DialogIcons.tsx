@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import CategoryIcon from "@material-ui/icons/Category";
+import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
 
 const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
   const theme = useTheme();
@@ -42,6 +43,7 @@ const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
       <RemoveCircleIcon style={{ color: theme.palette.secondary.main }} />
     ),
     category: <CategoryIcon style={{ color: theme.palette.primary.main }} />,
+    link: <LinkOutlinedIcon style={{ color: theme.palette.primary.main }} />,
   };
 
   return icons[iconType];

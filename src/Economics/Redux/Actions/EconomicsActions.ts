@@ -102,6 +102,8 @@ export const ECONOMICS_TREEVIEWKEYS_SUCCESS = "ECONOMICS_TREEVIEWKEYS_SUCCESS";
 export const ECONOMICS_TREEVIEWKEYS_FAILURE = "ECONOMICS_TREEVIEWKEYS_FAILURE";
 export const RESET_ECONOMICS = "RESET_ECONOMICS";
 
+export const GET_ECONOMICSPARAMETERSBYID_REQUEST = "GET_DECLINEPARAMETERSBYID_REQUEST";
+
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_ECONOMICSPARAMETER,
@@ -109,6 +111,22 @@ export const updateEconomicsParameterAction = (path: string, value: any) => {
       path,
       value,
     },
+  };
+};
+
+export const getEconomicsParametersByIdRequestAction = (
+  selectedEconomicsParametersId: string,
+  reducer: ReducersType,
+  isCreateOrEdit: boolean
+) => {
+  return {
+    type: GET_ECONOMICSPARAMETERSBYID_REQUEST,
+    payload: {
+      selectedEconomicsParametersId,
+      reducer,
+      isCreateOrEdit
+    },
+    meta: { showSpinner: true, message: "Fetching economics parameters..." },
   };
 };
 
@@ -567,10 +585,14 @@ export const getEconomicsResultsByIdFailureAction = () => {
   };
 };
 
-export const fetchEconomicsTreeviewKeysRequestAction = () => {
+export const fetchEconomicsTreeviewKeysRequestAction = (
+  willShowSuccessDialog: boolean,
+  perspective: "heatMapTree" | "plotChartsTree" | "templatesTree",
+  id?: string
+) => {
   return {
     type: ECONOMICS_TREEVIEWKEYS_REQUEST,
-    payload: {},
+    payload: { willShowSuccessDialog, perspective, id },
     meta: { showSpinner: true, message: "Loading economics result..." },
   };
 };

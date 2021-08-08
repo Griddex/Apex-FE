@@ -318,6 +318,13 @@ export default function StoredForecastingParameters({
         width: 300,
       },
       {
+        key: "status",
+        name: "STATUS",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
         key: "type",
         name: "TYPE",
         editable: false,
@@ -346,7 +353,10 @@ export default function StoredForecastingParameters({
         resizable: true,
         width: 120,
         formatter: ({ row }) => {
-          const { wellDeclineParameterTitle, wellDeclineParameterId } = row;
+          const { wellDeclineParameterTitle, sn} = row;
+          const isCreateOrEdit = false;
+          const currentSN = sn as number;
+          const currentRow = row;
 
           return (
             <div className={classes.dcaOrPrtznTable}>
@@ -354,11 +364,13 @@ export default function StoredForecastingParameters({
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
+                  console.log("DCA from Forecast Parameter");
                   dispatch(
                     getDeclineParametersByIdRequestAction(
-                      wellDeclineParameterId,
-                      wellDeclineParameterTitle,
-                      reducer
+                      reducer,
+                      isCreateOrEdit as boolean,
+                      currentRow,
+                      currentSN
                     )
                   );
 
@@ -542,6 +554,7 @@ export default function StoredForecastingParameters({
       monthFormat,
       yearFormat
     );
+
     setRows(updatedStoredData);
   }, [forecastingParametersStored.length]);
 

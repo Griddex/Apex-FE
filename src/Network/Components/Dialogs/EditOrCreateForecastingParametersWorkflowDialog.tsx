@@ -137,6 +137,8 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     forecastParametersIndex,
   } = props;
 
+  console.log("currentRow: ", currentRow);
+
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
@@ -159,7 +161,7 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
   const forecastingParametersObj = { ...currRow, ...titleDesc };
 
   let steps = [] as string[];
-
+ 
   if (workflowProcessDefined === "createForecastingParametersWorkflow") {
     steps = [
       "Select Forecast InputDeck",
@@ -228,8 +230,9 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
           [
             unloadDialogsAction,
             () =>
+            //as Record<string, any>
               saveForecastParametersRequestAction(
-                forecastingParametersObj as Record<string, any>
+                forecastingParametersObj 
               ),
           ],
           "Save",

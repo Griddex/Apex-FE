@@ -1,4 +1,6 @@
 import { ActionType } from "@redux-saga/types";
+import { AnyMxRecord } from "dns";
+import { AnyCnameRecord } from "node:dns";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -51,9 +53,46 @@ function* saveForecastParametersSaga(
   any
 > {
   const { payload } = action;
-  const { forecastingParametersObj } = payload;
-  const { currentProjectId } = yield select((state) => state.projectReducer);
+  const { titleDesc } = payload;
+  console.log("payload: ", payload);
+  const forecastingParametersObj:any = {};
 
+  const { currentProjectId } = yield select((state) => state.projectReducer);
+  
+  let isDefered = 0;
+  if(titleDesc.isDefered == "useDeferment"){
+    isDefered = 1;
+  }
+
+  const startForecast = new Date(titleDesc.startForecast);
+  
+
+  forecastingParametersObj.title = titleDesc.title;
+  forecastingParametersObj.description = titleDesc.description;
+  forecastingParametersObj.forecastInputDeckId = titleDesc.forecastInputDeckId;
+  forecastingParametersObj.projectId = currentProjectId;
+  forecastingParametersObj.userId = "";
+  forecastingParametersObj.type = titleDesc.type;
+  forecastingParametersObj.parameterEntries = 
+  {
+    targetFluid: titleDesc.targetFluid,
+    timeFrequency: titleDesc.timeFrequency,
+    realtimeResults: titleDesc.realtimeResults,
+    isDefered: isDefered,
+    stopDay: titleDesc.endForecast.getDate(),
+    stopMonth: titleDesc.endForecast.getMonth() + 1,
+    stopYear: titleDesc.endForecast.getFullYear(),
+    startDay: startForecast.getDate(),
+    startMonth:  startForecast.getMonth() + 1,
+    startYear:  startForecast.getFullYear()
+  }; 
+  forecastingParametersObj.declineParametersId = titleDesc.wellDeclineParameterId;
+  forecastingParametersObj.wellPrioritizationId = titleDesc.wellPrioritizationId;
+  forecastingParametersObj.forecastInputdeckTitle = titleDesc.forecastInputdeckTitle;
+  forecastingParametersObj.wellPrioritizationTitle = titleDesc.wellPrioritizationTitle;
+  forecastingParametersObj.wellDeclineParameterTitle = titleDesc.wellDeclineParameterTitle;
+
+  //console.log("forecastingParametersObj: ", forecastingParametersObj);
   const config = { withCredentials: false };
   const saveForecastParametersAPI = (url: string) =>
     authService.post(url, forecastingParametersObj, config);

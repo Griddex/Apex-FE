@@ -14,7 +14,10 @@ import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import { IApexEditorRow } from "../../Application/Components/Editors/ApexEditor";
+import {
+  IApexEditor,
+  IApexEditorRow,
+} from "../../Application/Components/Editors/ApexEditor";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -48,18 +51,16 @@ import { confirmationDialogParameters } from "../../Import/Components/DialogPara
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
-import {
-  fetchStoredForecastingResultsRequestAction,
-  fetchTreeviewKeysRequestAction,
-  getForecastDataByIdRequestAction,
-  runForecastEconomicsAggregationRequestAction,
-  updateForecastResultsParameterAction,
-} from "../Redux/Actions/ForecastActions";
-import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
-import { IApexEditor } from "../../Application/Components/Editors/ApexEditor";
 import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
+import {
+  fetchForecastTreeviewKeysRequestAction,
+  fetchStoredForecastingResultsRequestAction,
+  getForecastDataByIdRequestAction,
+  updateForecastResultsParameterAction,
+} from "../Redux/Actions/ForecastActions";
+import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -124,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ForecastQualityAssuranceData({
   showChart,
   showBaseButtons,
+  collectionName,
 }: IStoredDataProps) {
   const reducer = "forecastReducer";
   const mainUrl = `${getBaseForecastUrl()}`;
@@ -153,6 +155,9 @@ export default function ForecastQualityAssuranceData({
   const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   );
+
+  console.log("forecastResultsStored: ", forecastResultsStored);
+
   const [storedforecastResults, setStoredforecastResults] = React.useState(
     forecastResultsStored
   );
@@ -163,6 +168,7 @@ export default function ForecastQualityAssuranceData({
     const id = row.forecastResultsId as string;
     const title = row.forecastResultsTitle as string;
     const saved = row.saved as string;
+    console.log("saved: ", saved);
     const isSaved = saved === "Saved" ? true : false;
     const networkId = row.networkId as string;
 
@@ -299,7 +305,9 @@ export default function ForecastQualityAssuranceData({
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
                       row.forecastParametersTitle as string,
-                      wp as TAllWorkflowProcesses
+                      wp as TAllWorkflowProcesses,
+                      "success",
+                      collectionName as string
                     )
                   )
                 }
@@ -525,7 +533,13 @@ export default function ForecastQualityAssuranceData({
                   )
                 );
               },
-              () => dispatch(fetchTreeviewKeysRequestAction()),
+              () =>
+                dispatch(
+                  fetchForecastTreeviewKeysRequestAction(
+                    reducer,
+                    "forecastAssurance"
+                  )
+                ),
             ]}
           />
         </ApexFlexContainer>

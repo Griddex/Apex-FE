@@ -17,6 +17,7 @@ export default function StoredProjects({
   containerStyle: CSSProperties;
 }) {
   const mainUrl = `${getBaseForecastUrl()}/project`;
+  const collectionName = "declineParameters";
 
   const dispatch = useDispatch();
   const componentRef = React.useRef();
@@ -75,6 +76,7 @@ export default function StoredProjects({
     containerStyle,
     handleCheckboxChange,
     clickAwayAction,
+    collectionName,
     mainUrl,
     fetchStoredRequestAction: fetchStoredProjectsRequestAction,
   };

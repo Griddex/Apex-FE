@@ -35,14 +35,23 @@ import {
   STORED_PRODUCTIONPRIORITIZATION_SUCCESS,
   RESET_NETWORK,
   UPDATE_NETWORK_PARAMETERS,
+  GET_DECLINEPARAMETERSBYID_REQUEST
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 import set from "lodash.set";
+import { Node, Edge } from "react-flow-renderer";
 
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
+    case GET_DECLINEPARAMETERSBYID_REQUEST: {
+      console.log("GET_DECLINEPARAMETERSBYID_REQUEST action :", action);
+      const { path, value } = action.payload;
+      const updatedState = set(state, path, value);
+      return updatedState;
+    }
     case UPDATE_NETWORKPARAMETER: {
       const { path, value } = action.payload;
+
 
       const updatedState = set(state, path, value);
       return updatedState;
@@ -80,15 +89,25 @@ const networkReducer = (state = NetworkState, action: IAction) => {
         ...action.payload,
       };
     case ADD_NETWORKELEMENT: {
-      let updatedElements = [];
-      const newElement = action.payload;
-      const nodeElements = state.nodeElements ? state.nodeElements : [];
-      updatedElements = [...nodeElements, newElement];
+      const { type, element } = action.payload;
 
-      return {
-        ...state,
-        nodeElements: updatedElements,
-      };
+      if (type === "Node") {
+        return {
+          ...state,
+          nodeElementsManual: [
+            ...(state.nodeElementsManual as Node[]),
+            element,
+          ],
+        };
+      } else {
+        return {
+          ...state,
+          edgeElementsManual: [
+            ...(state.edgeElementsManual as Edge[]),
+            element,
+          ],
+        };
+      }
     }
     case PERSIST_POPOVERID:
       return {

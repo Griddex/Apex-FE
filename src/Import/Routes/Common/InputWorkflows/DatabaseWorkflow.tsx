@@ -1,16 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router-dom";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
-import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
-import {
-  IAllWorkflows,
-  IInputWorkflows,
-  IOnlyWorkflows,
-} from "../../../../Application/Components/Workflows/WorkflowTypes";
+import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
+import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Components/SelectDatabase";
@@ -20,7 +17,6 @@ import MatchUnits from "../Workflows/MatchUnits";
 import PreviewSave from "../Workflows/PreviewSave";
 import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
 import UploadFile from "../Workflows/UploadFile";
-import { Prompt } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {

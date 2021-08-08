@@ -3,10 +3,7 @@ import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
-import {
-  hideDialogAction,
-  unloadDialogsAction,
-} from "../../Redux/Actions/DialogsAction";
+import { unloadDialogsAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 
 const DialogOkayButton = (

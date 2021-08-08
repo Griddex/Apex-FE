@@ -66,10 +66,8 @@ function* getForecastQADataSaga(
   } = yield select((state) => state.forecastReducer);
 
   const config = {};
-  const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/forecastQualityAssurance`;
   const data = {
-    userId: userId,
     isMonthly: selectedForecastAggregationType === "monthly" ? true : false,
     aggregationLevel: selectedForecastAggregationLevel,
     selectedVariable: forecastQualityAssuranceVariable,

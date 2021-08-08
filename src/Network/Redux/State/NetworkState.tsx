@@ -34,6 +34,36 @@ const networkState: INetworkState = {
   isNetworkDisplayed: false,
   isNetworkAuto: false,
 
+  nodesByIds: {
+    drainagePointSummaryNode: {
+      source: [],
+      target: [],
+    },
+    drainagePointNode: {
+      source: [],
+      target: [],
+    },
+    manifoldNode: {
+      source: [],
+      target: [],
+    },
+    flowstationNode: {
+      source: [],
+      target: [],
+    },
+    gasFacilityNode: {
+      source: [],
+      target: [],
+    },
+    gatheringCenterNode: {
+      source: [],
+      target: [],
+    },
+    terminalNode: {
+      source: [],
+      target: [],
+    },
+  },
   networkId: "",
   networkTitle: "",
   networkDescription: "",
@@ -66,6 +96,7 @@ const networkState: INetworkState = {
     declineParametersStored: [],
     productionPrioritizationStored: [],
   },
+
 
   selectedDeclineParametersData: [],
   currentProductionPrioritization: [],

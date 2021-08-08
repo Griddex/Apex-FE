@@ -28,6 +28,9 @@ export const RESET_APPLICATION = "RESET_APPLICATION";
 export const DELETE_DATABYID_REQUEST = "DELETE_DATABYID_REQUEST";
 export const DELETE_DATABYID_SUCCESS = "DELETE_DATABYID_SUCCESS";
 export const DELETE_DATABYID_FAILURE = "DELETE_DATABYID_FAILURE";
+export const FORECAST_TREEVIEWKEYS_REQUEST = "FORECAST_TREEVIEWKEYS_REQUEST";
+export const FORECAST_TREEVIEWKEYS_SUCCESS = "FORECAST_TREEVIEWKEYS_SUCCESS";
+export const FORECAST_TREEVIEWKEYS_FAILURE = "FORECAST_TREEVIEWKEYS_FAILURE";
 
 export const updateApplicationParameterAction = (
   nameOrPath: string,
@@ -157,11 +160,21 @@ export const getTableDataByIdRequestAction = (
   reducer: ReducersType,
   tableDataUrl: string,
   tableTitle: string,
-  workflowProcess: TAllWorkflowProcesses
+  workflowProcess: TAllWorkflowProcesses,
+  tableOrSuccessDialog?: "table" | "success",
+  collectionName?: string
 ) => {
   return {
     type: GET_TABLEDATABYID_REQUEST,
-    payload: { reducer, tableDataUrl, tableTitle, workflowProcess },
+    payload: {
+      reducer,
+      tableDataUrl,
+      tableTitle,
+      workflowProcess,
+      tableOrSuccessDialog,
+      collectionName,
+    },
+
     meta: { showSpinner: true, message: "Fetching table data..." },
   };
 };

@@ -28,7 +28,7 @@ import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunFo
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
-import { TUseState } from "../../Types/ApplicationTypes";
+import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
 import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
@@ -41,6 +41,7 @@ import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
 import TextDialog from "./TextDialog";
 import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
+import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
 import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
@@ -48,6 +49,9 @@ import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dial
 import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
+import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
+import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
+import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -65,6 +69,7 @@ export interface IApplicationDialogs {
   generateNetworkWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   storedForecastingParametersDialog: typeof StoredForecastingParametersDialog;
   createForecastingParametersWorkflowDialog: typeof EditOrCreateForecastingParametersWorkflowDialog;
+  createDeclineParametersWorkflowDialog: typeof EditOrCreateDeclineParametersWorkflowDialog;
 
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
   productionStreamPrioritizationDialog: typeof ProductionStreamPrioritizationDialog;
@@ -92,6 +97,9 @@ export interface IApplicationDialogs {
 
   snapshotDialog: typeof SnapshotDialog;
   networkWidgetDialog: typeof NetworkWidgetDialog;
+  linkInputDeckDialog: typeof LinkInputDeckDialog;
+
+  openProjectConfirmationDialog: typeof OpenProjectConfirmationDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -111,7 +119,9 @@ export interface IDialogData<T> {
   columns: Column<T>[];
   rows: T[];
 }
-export interface DialogStuff<TRow = IRawRow> {
+// export interface DialogStuff<TRow = IRawRow> {
+type TDataRow = IRawRow | IStoredDataRow | IForecastParametersStoredRow;
+export interface DialogStuff<TRow = TDataRow> {
   name?: string;
   title?: string;
   type?:
@@ -150,7 +160,10 @@ export interface DialogStuff<TRow = IRawRow> {
     | "storedDeclineCurveParametersDialog"
     | "storedProductionStreamPrioritizationDialog"
     | "snapshotDialog"
-    | "networkWidgetDialog";
+    | "networkWidgetDialog"
+    | "createDeclineParametersWorkflowDialog"
+    | "linkInputDeckDialog"
+    | "openProjectConfirmationDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -169,6 +182,7 @@ export interface DialogStuff<TRow = IRawRow> {
   workflowProcess?: IAllWorkflows["wrkflwPrcss"];
   workflowCategory?: IAllWorkflows["wrkflwCtgry"];
   reducer?: ReducersType;
+  selectedTableData?: any[];
   economicsTableData?: IEconomicsParametersTable;
   economicsAnalyses?: TEconomicsAnalyses;
   selectedAnalysis?: IEconomicsAnalysis;

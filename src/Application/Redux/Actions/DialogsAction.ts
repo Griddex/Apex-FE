@@ -16,6 +16,7 @@ export const persistToStoreAction = (name: string, value: string) => {
 };
 
 export const showDialogAction = <TRow = IRawRow>(dialog: DialogStuff<TRow>) => {
+  console.log("dialog: ", dialog);
   return {
     type: SHOW_DIALOG,
     payload: dialog,

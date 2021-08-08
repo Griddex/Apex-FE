@@ -7,17 +7,19 @@ import ApexChartAxis from "./ApexChartAxis";
 import ApexChartGrid from "./ApexChartGrid";
 
 const ApexChartGridAxes = ({
+  workflowCategory,
   workflowProcess,
   updateParameterAction,
   chartType,
   apexChartGridData,
   apexChartAxesData,
   apexMultiAccordionsData,
-}: IApexChartFormatProps & Partial<IApexChartFormatProps>) => {
+}: IApexChartFormatProps) => {
   const apexAxesComponents = apexChartAxesData.map((obj, i) => (
     <ApexChartAxis
       key={i}
       {...obj}
+      workflowCategory={workflowCategory}
       workflowProcess={workflowProcess}
       updateParameterAction={updateParameterAction}
       chartType={chartType}
@@ -36,6 +38,7 @@ const ApexChartGridAxes = ({
           <ApexChartGrid
             key={i}
             {...obj}
+            workflowCategory={workflowCategory}
             workflowProcess={workflowProcess}
             updateParameterAction={updateParameterAction}
             chartType={chartType}

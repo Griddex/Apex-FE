@@ -13,6 +13,9 @@ export default function ForecastTreeView() {
     (state: RootState) => state.forecastReducer
   );
 
+  console.log("forecastTree: ", forecastTree);
+  console.log("selectedForecastChartVariable: ", selectedForecastChartVariable);
+
   const updatedForecastTree = [
     { ...forecastTree?.[0], id: "5749dc74-4b81-4652-8a46-a58b6bea0157" },
     { ...forecastTree?.[1], id: "ac430726-1b97-45f6-8b09-0c2ac347cc6e" },

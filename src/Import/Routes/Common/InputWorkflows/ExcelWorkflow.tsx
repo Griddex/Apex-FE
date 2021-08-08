@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
@@ -107,7 +107,7 @@ const ExcelWorkflow = ({
     isStepSkipped,
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
   }, [dispatch]);
 

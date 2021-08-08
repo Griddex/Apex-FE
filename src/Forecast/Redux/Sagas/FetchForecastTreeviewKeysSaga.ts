@@ -15,30 +15,29 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { FORECAST_TREEVIEWKEYS_REQUEST } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import history from "../../../Application/Services/HistoryService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  fetchTreeviewKeysFailureAction,
-  fetchTreeviewKeysSuccessAction,
-  TREEVIEWKEYS_REQUEST,
+  fetchForecastTreeviewKeysSuccessAction,
+  fetchForecastTreeviewKeysFailureAction,
 } from "../Actions/ForecastActions";
 
-export default function* watchFetchTreeviewKeysSaga(): Generator<
+export default function* watchFetchForecastTreeviewKeysSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const treeviewKeysChan = yield actionChannel(TREEVIEWKEYS_REQUEST);
-  yield takeLeading(treeviewKeysChan, fetchTreeviewKeysSaga);
+  const treeviewKeysChan = yield actionChannel(FORECAST_TREEVIEWKEYS_REQUEST);
+  yield takeLeading(treeviewKeysChan, fetchForecastTreeviewKeysSaga);
 }
 
-function* fetchTreeviewKeysSaga(action: IAction): Generator<
+function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
   | CallEffect<any>
   | TakeEffect
   | PutEffect<{
@@ -65,9 +64,10 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
     while (true) {
       const treeOrKeys = yield take(chan);
 
-      const successAction = fetchTreeviewKeysSuccessAction();
+      const successAction = fetchForecastTreeviewKeysSuccessAction();
       if (Object.keys(treeOrKeys)[0] === "tree") {
         const forecastTree = treeOrKeys["tree"];
+
         yield put({
           ...successAction,
           payload: {
@@ -89,7 +89,7 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
       }
     }
   } catch (errors) {
-    const failureAction = fetchTreeviewKeysFailureAction();
+    const failureAction = fetchForecastTreeviewKeysFailureAction();
 
     yield put({
       ...failureAction,
@@ -124,8 +124,4 @@ function updateTreeAndKeys(url: string) {
       emitter(END);
     };
   });
-}
-
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
 }

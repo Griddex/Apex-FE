@@ -185,10 +185,13 @@ export const persistNetworkElementsAction = (
   };
 };
 
-export const addNetworkElementAction = (element: FlowElement) => {
+export const addNetworkElementAction = (
+  type: "Node" | "Edge",
+  element: FlowElement
+) => {
   return {
     type: ADD_NETWORKELEMENT,
-    payload: element,
+    payload: { type, element },
     meta: { showSpinner: false, message: "Persisting to store..." },
   };
 };
@@ -409,8 +412,9 @@ export const fetchStoredNetworkDataFailureAction = () => {
   };
 };
 
+// Record<string, string>
 export const saveForecastParametersRequestAction = (
-  titleDesc: Record<string, string>
+  titleDesc: any
 ) => {
   return {
     type: SAVE_FORECASTPARAMETERS_REQUEST,
@@ -494,16 +498,18 @@ export const removeCurrentNetworkAction = (showSpinner: boolean) => {
 };
 
 export const getDeclineParametersByIdRequestAction = (
-  selectedDeclineParametersId: string,
-  wellDeclineParameterTitle: string,
-  reducer: ReducersType
+  reducer: ReducersType,
+  isCreateOrEdit: any,
+  currentRow: any,
+  currentSN: number
 ) => {
   return {
     type: GET_DECLINEPARAMETERSBYID_REQUEST,
     payload: {
-      selectedDeclineParametersId,
-      wellDeclineParameterTitle,
       reducer,
+      isCreateOrEdit,
+      currentRow,
+      currentSN
     },
     meta: { showSpinner: true, message: "Fetching decline parameters..." },
   };
@@ -569,11 +575,17 @@ export const fetchStoredDeclineCurveParametersRequestAction = (
   projectId: string,
   showSpinner = false
 ) => {
+  console.log("fetchStoredDeclineCurveParametersRequestAction called");
   return {
     type: STORED_DECLINEPARAMETERS_REQUEST,
     payload: { projectId },
-    meta: { showSpinner, message: "fetching decline parameters data..." },
+    meta: { showSpinner, message: "fetching decline parameters data..." }
   };
+  /* return {
+    type: STORED_DECLINEPARAMETERS_REQUEST,
+    payload: { projectId },
+    meta: { showSpinner, message: "fetching decline parameters data..." },
+  }; */
 };
 
 export const fetchStoredDeclineCurveParametersSuccessAction = () => {
@@ -627,7 +639,17 @@ export const fetchStoredProductionPrioritizationFailureAction = () => {
     },
   };
 };
-export const saveDeclineParametersRequestAction = () => {
+export const saveDeclineParametersRequestAction = (
+  titleDesc: any
+) => {
+  return {
+    type: SAVE_DECLINEPARAMETERS_REQUEST,
+    payload: { titleDesc },
+    meta: { showSpinner: true, message: "Saving decline parameters data..." },
+  };
+};
+
+export const saveDeclineParametersRequestActionForFP = () => {
   return {
     type: SAVE_DECLINEPARAMETERS_REQUEST,
     meta: { showSpinner: true, message: "Saving decline parameters data..." },
