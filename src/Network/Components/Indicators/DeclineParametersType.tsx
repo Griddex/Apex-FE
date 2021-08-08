@@ -1,4 +1,5 @@
 import { makeStyles, useTheme } from "@material-ui/core";
+import capitalize from "lodash.capitalize";
 import React from "react";
 import { ApprovalTextType } from "../../../Application/Components/Approval/ApprovalTypes";
 
@@ -47,8 +48,7 @@ const DeclineParametersType = ({
 
   return (
     <div className={classes.DeclineParametersType} style={dpStyle}>
-      {/* {ToTitleCase(dpTypeText)} */}
-      {dpTypeText}
+      {capitalize(dpTypeText)}
     </div>
   );
 };

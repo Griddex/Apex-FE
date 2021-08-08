@@ -1,5 +1,6 @@
 import { makeStyles, useTheme } from "@material-ui/core";
 import { omit } from "lodash";
+import capitalize from "lodash.capitalize";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +32,6 @@ import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getTableHeaders from "../../../../Application/Utils/GetTableHeaders";
 import getTableUnits from "../../../../Application/Utils/GetTableUnits";
-import ToTitleCase from "../../../../Application/Utils/ToTitleCase";
 import {
   persistColumnNameTableDataAction,
   persistFileHeadersAction,
@@ -220,7 +220,7 @@ export default function SelectHeaderUnitData({
     ];
 
     const otherColumns = Object.keys(indexRow).map((columnName: string) => ({
-      key: ToTitleCase(columnName),
+      key: capitalize(columnName),
       name: columnName,
       resizable: true,
       width: 200,

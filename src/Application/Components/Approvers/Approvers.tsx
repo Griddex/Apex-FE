@@ -1,11 +1,10 @@
-import { useTheme, Typography, makeStyles, Avatar } from "@material-ui/core";
+import { Avatar, makeStyles, Typography, useTheme } from "@material-ui/core";
+import capitalize from "lodash.capitalize";
 import React from "react";
-import Image from "../../../Application/Components/Visuals/Image";
 import AvatarStack from "react-avatar-stack";
-import { IApprover } from "./ApproversTypes";
+import Image from "../../../Application/Components/Visuals/Image";
 import { numberToWords } from "./../../Utils/NumberToWords";
-import ToTitleCase from "../../Utils/ToTitleCase";
-import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
+import { IApprover } from "./ApproversTypes";
 
 const useStyles = makeStyles(() => ({
   image: { height: 30, width: 30 },
@@ -36,7 +35,8 @@ const Approvers = ({
     if (isApprovers) {
       const apprvrs = approvers as IApprover[];
       const noOfApprovers = apprvrs.length;
-      const noOfApproversInWords = ToTitleCase(numberToWords(noOfApprovers));
+      const words = numberToWords(noOfApprovers);
+      const noOfApproversInWords = capitalize(words);
 
       return (
         <div className={classes.approvers}>
