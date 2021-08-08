@@ -185,7 +185,7 @@ export default function  StoredEconomicsParametersDecks({
     (state: RootState) => state.projectReducer
   );
 
-  const reducer = "networkReducer";
+  const reducer = "economicsReducer"; // "networkReducer"
   const tableTitle = "Economics Parameters Table";
   const mainUrl = `${getBaseEconomicsUrl()}/parameter`;
   const collectionName = "commercialTechnical-fiscal-flarePenalty-gasRoyalty-oilRoyalty";
