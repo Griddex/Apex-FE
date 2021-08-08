@@ -42,6 +42,7 @@ import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
 import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
 import { IStoredDataRow } from "../../Types/ApplicationTypes";
+import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -95,6 +96,8 @@ const applicationDialogs: IApplicationDialogs = {
   snapshotDialog: SnapshotDialog,
   networkWidgetDialog: NetworkWidgetDialog,
   linkInputDeckDialog: LinkInputDeckDialog,
+
+  openProjectConfirmationDialog: OpenProjectConfirmationDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {
@@ -108,12 +111,6 @@ const Dialogs: React.FC<DialogStuff> = () => {
         const { type } = dialog;
 
         if (dialog !== undefined && dialog.show === true && type) {
-          // const SpecificDialog = applicationDialogs[type];
-          //   // const dialogDefined =
-          //   //   dialog as DialogStuff<IForecastParametersStoredRow>;
-
-          //   return <SpecificDialog key={i} {...dialog} />;
-
           if (type === "createForecastingParametersWorkflowDialog") {
             const SpecificDialog = applicationDialogs[type];
             const dialogDefined =

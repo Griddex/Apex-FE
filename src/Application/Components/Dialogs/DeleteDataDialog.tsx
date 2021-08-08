@@ -150,7 +150,7 @@ const DeleteDataDialog = (props: DialogStuff) => {
       >
         <ApexFlexContainer flexDirection="column" alignItems="flex-start">
           <Typography variant="body1">
-            {`You are about to delete all data associated with title:`}
+            {`You are about to delete all data associated with:`}
           </Typography>
           <span>&nbsp;</span>
           <span>&nbsp;</span>

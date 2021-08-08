@@ -51,6 +51,7 @@ import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
 import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
 import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
+import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -97,6 +98,8 @@ export interface IApplicationDialogs {
   snapshotDialog: typeof SnapshotDialog;
   networkWidgetDialog: typeof NetworkWidgetDialog;
   linkInputDeckDialog: typeof LinkInputDeckDialog;
+
+  openProjectConfirmationDialog: typeof OpenProjectConfirmationDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -159,7 +162,8 @@ export interface DialogStuff<TRow = TDataRow> {
     | "snapshotDialog"
     | "networkWidgetDialog"
     | "createDeclineParametersWorkflowDialog"
-    | "linkInputDeckDialog";
+    | "linkInputDeckDialog"
+    | "openProjectConfirmationDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

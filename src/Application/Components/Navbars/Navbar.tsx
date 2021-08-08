@@ -92,14 +92,13 @@ const Navbar = () => {
   const theme = useTheme();
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const loginProps = useSelector((state: RootState) => state.loginReducer);
-  const { userName, role } = loginProps
+  const { userName, role } = loginProps;
   const classes = useStyles(layoutProps);
 
   const { expandMainDrawer, showNavbar } = layoutProps;
   // const username = faker.name.findName();
   const username = userName; //"Gideon Sanni";
   //const role = "Corporate Forecaster";
-  console.log("username: ", userName);
   const userinitials = GetInitials(username);
   const { currentProjectTitle } = useSelector(
     (state: RootState) => state.projectReducer
