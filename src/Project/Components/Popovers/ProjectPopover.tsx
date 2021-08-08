@@ -177,10 +177,25 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(confirmationDialogParameters));
   };
 
+  const openProject = (id: string, title: string, description: string) => {
+    dispatch(showSpinnerAction(`Loading ${title}...`));
+    dispatch(fetchStoredForecastingParametersRequestAction(id));
+    dispatch(fetchStoredDeclineCurveParametersRequestAction(id));
+    dispatch(fetchStoredProductionPrioritizationRequestAction(id));
+    dispatch(fetchStoredInputDeckRequestAction(id));
+    dispatch(fetchStoredEconomicsDataRequestAction(id));
+    dispatch(openRecentProjectAction("Gideon", id, title, description));
+    dispatch(fetchStoredNetworkDataRequestAction(id));
+    dispatch(fetchStoredForecastingResultsRequestAction(id));
+    dispatch(fetchStoredEconomicsSensitivitiesRequestAction(id, false));
+    dispatch(fetchStoredEconomicsResultsRequestAction(id, false));
+  };
+
   const openProjectConfirmation = (
     id: string,
     title: string,
-    description: string
+    description: string,
+    openProject: (id: string, title: string, description: string) => void
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Open_Project_Confirmation",
@@ -205,6 +220,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               dispatch(
                 openRecentProjectAction("Gideon", id, title, description)
               );
+              openProject(id, title, description);
 
               history.push("/apex");
             },
@@ -298,62 +314,13 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               const titleDefined = title as string;
               const descriptionDefined = description as string;
 
-              const openProject = () => {
-                const projectIdDefined = idDefined;
-
-                dispatch(showSpinnerAction(`Loading ${titleDefined}...`));
-                dispatch(
-                  fetchStoredForecastingParametersRequestAction(
-                    projectIdDefined
-                  )
-                );
-                dispatch(
-                  fetchStoredDeclineCurveParametersRequestAction(
-                    projectIdDefined
-                  )
-                );
-                dispatch(
-                  fetchStoredProductionPrioritizationRequestAction(
-                    projectIdDefined
-                  )
-                );
-                dispatch(fetchStoredInputDeckRequestAction(projectIdDefined));
-                dispatch(
-                  fetchStoredEconomicsDataRequestAction(projectIdDefined)
-                );
-                dispatch(
-                  openRecentProjectAction(
-                    "Gideon",
-                    projectIdDefined,
-                    titleDefined,
-                    descriptionDefined
-                  )
-                );
-                dispatch(fetchStoredNetworkDataRequestAction(projectIdDefined));
-                dispatch(
-                  fetchStoredForecastingResultsRequestAction(projectIdDefined)
-                );
-                dispatch(
-                  fetchStoredEconomicsSensitivitiesRequestAction(
-                    projectIdDefined,
-                    false
-                  )
-                );
-                dispatch(
-                  fetchStoredEconomicsResultsRequestAction(
-                    projectIdDefined,
-                    false
-                  )
-                );
-              };
-
               return (
                 <ApexMenuItem
                   key={i}
                   projectTitle={titleDefined}
                   handleClick={() => {
                     if (currentProjectId === "") {
-                      openProject();
+                      openProject(idDefined, titleDefined, descriptionDefined);
                     } else {
                       dispatch(
                         updateProjectParametersAction({
@@ -365,7 +332,8 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                       openProjectConfirmation(
                         idDefined,
                         titleDefined,
-                        descriptionDefined
+                        descriptionDefined,
+                        openProject
                       );
                     }
                   }}
