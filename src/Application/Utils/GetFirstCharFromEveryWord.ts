@@ -1,4 +1,5 @@
 const getFirstCharFromEveryWord = (sentence: string) => {
+  if (sentence === undefined) return "";
   const parts = sentence.split(" ");
 
   const abbreviation = parts.reduce((final, part) => {
