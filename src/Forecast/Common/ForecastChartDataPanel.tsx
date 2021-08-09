@@ -7,6 +7,7 @@ import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDat
 import {
   fetchForecastTreeviewKeysRequestAction,
   updateForecastResultsParameterAction,
+  updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
 import { IForecastRunOptions } from "../Routes/ForecastData";
 import ForecastTreeView from "./ForecastTreeView";
@@ -19,20 +20,25 @@ const ForecastChartDataPanel = () => {
   const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   );
-  const { selectedForecastingResultsTitle } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+  const {
+    selectedForecastingResultsTitle,
+    selectedForecastingResultsDescription,
+  } = useSelector((state: RootState) => state.forecastReducer);
 
   const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
     value: row.title,
     label: row.title,
     id: row.id,
+    title: row.title,
+    description: row.description,
   })) as IExtendedSelectOption[];
 
   forecastRunTitleOptions.unshift({
     value: "select",
     label: "Select...",
     id: "",
+    title: "Select...",
+    description: "Select...",
   });
 
   const selectedForecastTitleOption =
@@ -43,6 +49,8 @@ const ForecastChartDataPanel = () => {
           id: (forecastRunTitleOptions as IForecastRunOptions[]).filter(
             (o) => o.label === selectedForecastingResultsTitle
           )[0].id,
+          title: selectedForecastingResultsTitle,
+          description: selectedForecastingResultsDescription,
         }
       : forecastRunTitleOptions[0];
 
@@ -54,24 +62,22 @@ const ForecastChartDataPanel = () => {
   const handleSelectForecastResultsChange = (
     option: ValueType<IExtendedSelectOption, false>
   ) => {
-    setForecastRunOption(option as IExtendedSelectOption);
+    const optionDefined = option as IExtendedSelectOption;
+    setForecastRunOption(optionDefined);
+
+    const { id, title, description } = optionDefined;
 
     dispatch(
-      updateForecastResultsParameterAction(
-        "selectedForecastingResultsId",
-        (option as IExtendedSelectOption).id
-      )
+      updateForecastResultsParametersAction({
+        selectedForecastingResultsId: id,
+        selectedForecastingResultsTitle: title,
+        selectedForecastingResultsDescription: description,
+      })
     );
 
     dispatch(fetchForecastTreeviewKeysRequestAction(reducer, "forecastChart"));
   };
 
-  /*   console.log("forecastResultsStored: ", forecastResultsStored);
-  console.log("selectedForecastTitleOption: ", selectedForecastTitleOption);
-  console.log("forecastRunOption: ", forecastRunOption);
-  console.log("forecastRunTitleOptions: ", forecastRunTitleOptions);
-  console.log("selectedForecastingResultsTitle: ", selectedForecastingResultsTitle);
- */
   return (
     <ChartDataPanel<IExtendedSelectOption>
       selectLabel={"Forecast Results"}

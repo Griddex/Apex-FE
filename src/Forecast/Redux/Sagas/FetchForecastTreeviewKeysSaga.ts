@@ -21,11 +21,13 @@ import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
+import authHeaders from "../../../Application/Services/AuthHeaders";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  fetchForecastTreeviewKeysSuccessAction,
   fetchForecastTreeviewKeysFailureAction,
+  fetchForecastTreeviewKeysSuccessAction,
+  updateForecastResultsParametersAction,
 } from "../Actions/ForecastActions";
 
 export default function* watchFetchForecastTreeviewKeysSaga(): Generator<
@@ -65,7 +67,9 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
       const treeOrKeys = yield take(chan);
 
       const successAction = fetchForecastTreeviewKeysSuccessAction();
-      if (Object.keys(treeOrKeys)[0] === "tree") {
+      const key = Object.keys(treeOrKeys)[0];
+
+      if (key === "tree") {
         const forecastTree = treeOrKeys["tree"];
 
         yield put({
@@ -76,8 +80,9 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
             forecastTree,
           },
         });
-      } else if (Object.keys(treeOrKeys)[0] === "keys") {
+      } else if (key === "keys") {
         const forecastKeys = treeOrKeys["keys"];
+
         yield put({
           ...successAction,
           payload: {
@@ -88,6 +93,14 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
         });
       }
     }
+
+    yield put(
+      updateForecastResultsParametersAction({
+        isForecastResultsSaved: true,
+        selectedForecastingResultsTitle: "Provide Title",
+        selectedForecastingResultsDescription: "Provide description",
+      })
+    );
   } catch (errors) {
     const failureAction = fetchForecastTreeviewKeysFailureAction();
 
@@ -106,7 +119,7 @@ function updateTreeAndKeys(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers: authHeaders(),
       disableContentType: true,
       withCredentials: false,
       success: function (chunk) {

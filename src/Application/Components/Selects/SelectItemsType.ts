@@ -13,8 +13,9 @@ export interface IExtendedSelectOption<T = string, U = string, V = string> {
   value: T | undefined;
   label: U;
   id?: V;
-  unitId?: V;
+  title?: V;
   description?: V;
+  unitId?: V;
   colors?: string[];
 }
 

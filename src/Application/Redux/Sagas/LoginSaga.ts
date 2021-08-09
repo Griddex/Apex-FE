@@ -15,6 +15,7 @@ import * as authService from "../../Services/AuthService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
 import { loginFailureAction, LOGIN_REQUEST } from "../Actions/LoginActions";
+import { getBaseAuthUrl } from "./../../Services/BaseUrlService";
 import { showSpinnerAction } from "./../Actions/UISpinnerActions";
 
 export default function* watchLoginSaga(): Generator<
@@ -44,24 +45,21 @@ function* loginSaga(
     email: userName,
     password: password,
   };
-  const config = { withCredentials: false };
+  const config = {};
   const loginAPI = (url: string) => authService.post(url, data, config);
 
   yield put(showSpinnerAction("Logging in..."));
 
   try {
-    const response = yield call(
-      () =>
-        new Promise((resolve, reject) => {
-          setTimeout(() => resolve({ status: 200 }), 1000);
-        })
-    );
-
-    const { status } = response;
+    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    const { status, data } = response;
+    const token = data["access-token"];
+    sessionStorage.setItem("token", token);
 
     if (status === 200) {
       yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
     }
+
     yield call(forwardTo, "/apex");
   } catch (errors) {
     const failureAction = loginFailureAction();

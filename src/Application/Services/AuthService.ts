@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import authHeaders from "./AuthHeaders";
 
 axios.interceptors.request.use(
   (config) => {
@@ -6,10 +7,7 @@ axios.interceptors.request.use(
       ...config,
       headers: {
         ...config.headers,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Accept-Language": "en-US, en;q=0.8",
-        "X-Access-Token": sessionStorage.getItem("token"),
+        ...authHeaders(),
       },
     };
 
@@ -25,9 +23,7 @@ export const post = (url: string, data: any, config: AxiosRequestConfig) => {
   //console.log("data: ", data);
   //console.log("config: ", config);
   return axios.post(url, data, config);
-  
 };
-
 
 export const get = (url: string, config: AxiosRequestConfig) => {
   return axios.get(url, config);

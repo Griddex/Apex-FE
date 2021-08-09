@@ -1,7 +1,7 @@
 import { rest } from "msw";
 
 export const handlers = [
-  rest.post("https://apex.syncware.io/auth/signin", (req, res, ctx) => {
+  rest.post("achavshahttps://apex.syncware.io/auth/signin", (req, res, ctx) => {
     sessionStorage.setItem("is-authenticated", "true");
 
     return res(

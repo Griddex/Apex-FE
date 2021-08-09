@@ -22,6 +22,7 @@ import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
+import authHeaders from "../../../Application/Services/AuthHeaders";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import {
@@ -111,6 +112,7 @@ function* runForecastSaga(
         forecastResultsTitle
       )
     );
+
     yield put(
       updateForecastResultsParameterAction(
         "selectedForecastingResultsDescription",
@@ -135,6 +137,7 @@ function updateForecastKeysAndTrees(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
+      headers: authHeaders(),
       withCredentials: false,
       success: function (chunk) {
         emitter(chunk);
