@@ -190,6 +190,8 @@ export interface DialogStuff<TRow = TDataRow> {
   rows?: TRow[];
   columns?: Column<TRow>[];
   setRows?: TUseState<any>;
+  inputWorkbook?: any;
+  selectedWorksheetName?: string;
   showCategories?: boolean;
   setShowCategories?: TUseState<boolean>;
   apexEditorProps?: Partial<IApexEditor>;

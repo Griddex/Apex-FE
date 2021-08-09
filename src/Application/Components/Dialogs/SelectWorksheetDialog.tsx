@@ -136,6 +136,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
+
   const {
     title,
     show,
@@ -145,18 +146,21 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     workflowProcess,
     workflowCategory,
     reducer,
+    inputWorkbook,
+    selectedWorksheetName,
   } = props;
 
   const wc = workflowCategory as IInputWorkflows["wkCy"];
   const wp = workflowProcess as IInputWorkflows["wkPs"];
   const reducerDefined = reducer as NonNullable<ReducersType>;
+  const selectedWorksheetNameDefined = selectedWorksheetName as string;
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
   );
-  const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
-    (state: RootState) => state[reducerDefined]["inputDataWorkflows"][wp]
-  );
+  // const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
+  //   (state: RootState) => state[reducerDefined]["inputDataWorkflows"][wp]
+  // );
 
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
 
@@ -203,8 +207,9 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
   };
 
   const prepareSelectWorksheetRoute = () => {
-    const selectedWorksheetDataXLSX =
-      inputDeckWorkbook.Sheets[selectedWorksheetName];
+    const selectedWorksheetDataXLSX = (inputWorkbook as xlsx.WorkBook).Sheets[
+      selectedWorksheetNameDefined
+    ];
 
     const selectedWorksheetData = xlsx.utils.sheet_to_json<
       Record<string, React.Key>
@@ -217,7 +222,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     dispatch(
       persistWorksheetAction(
         reducerDefined,
-        selectedWorksheetName,
+        selectedWorksheetNameDefined,
         selectedWorksheetData,
         wp
       )

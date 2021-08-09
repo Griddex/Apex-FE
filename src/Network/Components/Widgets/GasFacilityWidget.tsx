@@ -55,8 +55,8 @@ const GasFacilityWidget = ({ title }: IWidget) => {
 };
 
 const GasFacilityNode = React.memo((props: Node & IExtraNodeProps) => {
-  const { xPos, yPos, data } = props;
-  const { title } = data;
+  const { xPos, yPos, stationData } = props;
+  const { title } = stationData;
 
   const position: XYPosition = {
     x: xPos,
