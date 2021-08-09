@@ -18,10 +18,7 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import {
-  hideSpinnerAction,
-  showSpinnerAction,
-} from "../../../Application/Redux/Actions/UISpinnerActions";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import authHeaders from "../../../Application/Services/AuthHeaders";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
@@ -29,7 +26,6 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Store
 import {
   getForecastResultsChartDataFailureAction,
   getForecastResultsChartDataSuccessAction,
-  GET_FORECASTRESULTS_CHARTDATA_REQUEST,
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastResultsSaga(): Generator<
@@ -63,32 +59,26 @@ function* getForecastResultsSaga(
     selectedModulePaths,
     selectedForecastChartVariable,
   } = payload;
-  console.log("payload: ", payload);
+
   const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
     (state) => state.forecastReducer
   );
 
-  const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/chartData`;
-  console.log("url: ", url);
-  const isForecastResultsSavedNew = true;
 
+  //TODO
   //if former selected variable is different form current one
   //please replace chart data in store
   const reqPayload = {
-    userId: userId,
     networkId: selectedNetworkId,
     selectedVariable: selectedForecastChartVariable,
     selectedModuleIds: selectedIds,
     selectedModuleNames: selectedModuleNames,
     selectedModulePaths: selectedModulePaths,
-    isSaved: isForecastResultsSavedNew,
+    isSaved: isForecastResultsSaved,
     forecastId: selectedForecastingResultsId,
   };
 
-  console.log("reqPayload: ", reqPayload);
-
-  //isForecastResultsLoading
   try {
     // yield put(showSpinnerAction("fetching data..."));
     yield put({
@@ -107,8 +97,6 @@ function* getForecastResultsSaga(
         (state) => state.forecastReducer
       );
       const newForecastResults = [...forecastResults, forecastResultsChunk];
-
-      console.log("newForecastResults: ", newForecastResults);
 
       const successAction = getForecastResultsChartDataSuccessAction();
       yield put({

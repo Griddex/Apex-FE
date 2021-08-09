@@ -12,6 +12,7 @@ import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
 export const UPDATE_FORECASTPARAMETER = "UPDATE_FORECASTPARAMETER";
+export const UPDATE_FORECASTPARAMETERS = "UPDATE_FORECASTPARAMETERS";
 export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const LOAD_FORECASTRESULTS_WORKFLOW = "LOAD_FORECASTRESULTS_WORKFLOW";
 export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
@@ -73,6 +74,17 @@ export const updateForecastResultsParameterAction = (
   return {
     type: UPDATE_FORECASTPARAMETER,
     payload: { path, value },
+  };
+};
+
+export const updateForecastResultsParametersAction = (
+  updateObj: Record<string, any>
+) => {
+  return {
+    type: UPDATE_FORECASTPARAMETERS,
+    payload: {
+      updateObj,
+    },
   };
 };
 

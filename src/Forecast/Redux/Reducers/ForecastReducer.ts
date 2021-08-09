@@ -30,6 +30,7 @@ import {
   RESET_FORECAST,
   RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
   RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
+  UPDATE_FORECASTPARAMETERS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -41,10 +42,18 @@ const forecastReducer = (
   switch (action.type) {
     case UPDATE_FORECASTPARAMETER: {
       const { path, value } = action.payload;
-      
+
       const updatedState = set(state, path, value);
       console.log("action.payload: ", action.payload);
       return updatedState;
+    }
+    case UPDATE_FORECASTPARAMETERS: {
+      const { updateObj } = action.payload;
+
+      return {
+        ...state,
+        ...updateObj,
+      };
     }
 
     case UPDATE_SELECTEDIDTITLE: {

@@ -27,6 +27,8 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Store
 import {
   fetchForecastTreeviewKeysSuccessAction,
   fetchForecastTreeviewKeysFailureAction,
+  updateForecastResultsParameterAction,
+  updateForecastResultsParametersAction,
 } from "../Actions/ForecastActions";
 
 export default function* watchFetchForecastTreeviewKeysSaga(): Generator<
@@ -89,6 +91,14 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
         });
       }
     }
+
+    yield put(
+      updateForecastResultsParametersAction({
+        isForecastResultsSaved: true,
+        selectedForecastingResultsTitle: "Provide Title",
+        selectedForecastingResultsDescription: "Provide description",
+      })
+    );
   } catch (errors) {
     const failureAction = fetchForecastTreeviewKeysFailureAction();
 
