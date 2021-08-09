@@ -22,6 +22,7 @@ import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
+import authHeaders from "../../../Application/Services/AuthHeaders";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
@@ -150,7 +151,7 @@ function updateForecastResults(url: string, reqPayload: any) {
     jsonpipe.flow(url, {
       method: "POST",
       data: JSON.stringify(reqPayload),
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers: authHeaders(),
       disableContentType: true,
       withCredentials: false,
       success: function (chunk) {

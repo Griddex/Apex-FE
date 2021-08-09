@@ -21,6 +21,7 @@ import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
+import authHeaders from "../../../Application/Services/AuthHeaders";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
@@ -106,7 +107,7 @@ function updateTreeAndKeys(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers: authHeaders(),
       disableContentType: true,
       withCredentials: false,
       success: function (chunk) {
