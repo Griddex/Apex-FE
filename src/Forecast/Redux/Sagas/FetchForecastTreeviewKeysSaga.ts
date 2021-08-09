@@ -25,9 +25,8 @@ import authHeaders from "../../../Application/Services/AuthHeaders";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  fetchForecastTreeviewKeysSuccessAction,
   fetchForecastTreeviewKeysFailureAction,
-  updateForecastResultsParameterAction,
+  fetchForecastTreeviewKeysSuccessAction,
   updateForecastResultsParametersAction,
 } from "../Actions/ForecastActions";
 
@@ -68,7 +67,9 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
       const treeOrKeys = yield take(chan);
 
       const successAction = fetchForecastTreeviewKeysSuccessAction();
-      if (Object.keys(treeOrKeys)[0] === "tree") {
+      const key = Object.keys(treeOrKeys)[0];
+
+      if (key === "tree") {
         const forecastTree = treeOrKeys["tree"];
 
         yield put({
@@ -79,8 +80,9 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
             forecastTree,
           },
         });
-      } else if (Object.keys(treeOrKeys)[0] === "keys") {
+      } else if (key === "keys") {
         const forecastKeys = treeOrKeys["keys"];
+
         yield put({
           ...successAction,
           payload: {
