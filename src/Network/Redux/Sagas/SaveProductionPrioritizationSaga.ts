@@ -49,22 +49,23 @@ function* saveProductionPrioritizationSaga(
   void,
   any
 > {
+  console.log("action: ", action);
+
   const { payload } = action;
   const {
     titleDesc: { title, description },
   } = payload;
   const { currentProjectId } = yield select((state) => state.projectReducer);
+  console.log("currentProjectId: ", currentProjectId);
 
   const { selectedForecastInputDeckId } = yield select(
     (state) => state.inputReducer
   );
+  console.log("selectedForecastInputDeckId: ", selectedForecastInputDeckId);
 
   const { currentProductionPrioritization } = yield select(
     (state) => state.networkReducer
   );
-
-  console.log("currentProjectId: ", currentProjectId);
-  console.log("selectedForecastInputDeckId: ", selectedForecastInputDeckId);
   console.log("currentProductionPrioritization: ", currentProductionPrioritization);
 
   const data = {
