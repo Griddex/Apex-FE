@@ -81,7 +81,7 @@ function* createProjectSaga(
   try {
     const result = yield call(
       createProjectAPI,
-      `${getBaseForecastUrl()}/project`
+      `${getBaseForecastUrl()}/project/save`
     );
 
     const {
