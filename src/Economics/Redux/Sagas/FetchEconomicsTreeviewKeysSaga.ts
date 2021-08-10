@@ -72,10 +72,10 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
 
     const result = yield call(fetchEconomicsTreeAPI, url);
 
-    // const {
-    //   data: { data: economicsTree },
-    // } = result;
-    const { data: economicsTree } = economicsTreeHard();
+    const {
+      data: { data: economicsTree },
+    } = result;
+    // const { data: economicsTree } = economicsTreeHard();
     const treeType = perspective as TEconomicsTreePerspective;
 
     yield put(
