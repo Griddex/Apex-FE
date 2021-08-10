@@ -12,6 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
+import { getBaseAuthUrl } from "../../Services/BaseUrlService";
 import history from "../../Services/HistoryService";
 import { IAction } from "../Actions/ActionTypes";
 import { loginFailureAction, LOGIN_REQUEST } from "../Actions/LoginActions";
@@ -48,17 +49,12 @@ function* loginSaga(
   const loginAPI = (url: string) => authService.post(url, data, config);
 
   yield put(showSpinnerAction("Logging in..."));
-  //Hello
-  try {
-    const response = yield call(
-      () =>
-        new Promise((resolve, reject) => {
-          setTimeout(() => resolve({ status: 200 }), 1000);
-        })
-    );
 
-    sessionStorage.setItem("token", "MyToken");
-    const { status } = response;
+  try {
+    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    const { status, data } = response;
+    const token = data["access-token"];
+    sessionStorage.setItem("token", token);
 
     if (status === 200) {
       yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
