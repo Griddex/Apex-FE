@@ -1,17 +1,17 @@
 export const getBaseAuthUrl = () => {
-  return "http://localhost:5017/api/auth";
+  return "https://apex.syncware.io/auth";
 };
 
 export const getBaseUnitUrl = () => {
-  return "http://localhost:5017/api/unit-system";
+  return "https://apex.syncware.io/units";
 };
 
 export const getBaseEconomicsUrl = () => {
-  return "http://localhost:5016/api/economics";
+  return "https://apex.syncware.io/economics";
 };
 
 const getBaseForecastUrl = () => {
-  return "http://localhost:5015/api/forecast";
+  return "https://apex.syncware.io/forecast";
 };
 
 export default getBaseForecastUrl;
