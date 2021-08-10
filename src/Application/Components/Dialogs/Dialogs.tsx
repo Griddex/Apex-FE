@@ -14,6 +14,7 @@ import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDi
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
 import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
+import EditOrCreateProductionPrioritizationWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -65,6 +66,7 @@ const applicationDialogs: IApplicationDialogs = {
   createForecastingParametersWorkflowDialog:
     EditOrCreateForecastingParametersWorkflowDialog,
     createDeclineParametersWorkflowDialog:  EditOrCreateDeclineParametersWorkflowDialog,
+    createPrioritizationParametersWorkflowDialog: EditOrCreateProductionPrioritizationWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
 
   productionStreamPrioritizationDialog: ProductionStreamPrioritizationDialog,

@@ -537,6 +537,7 @@ export const getProductionPrioritizationByIdRequestAction = (
   selectedRowIndex: number,
   reducer: ReducersType
 ) => {
+  console.log("getProductionPrioritizationByIdRequestAction called");
   return {
     type: GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
     payload: {

@@ -77,14 +77,24 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
     const selectedTableData = data["wellPrioritizations"];
 
     const successAction = getTableDataByIdSuccessAction();
+    console.log("put payload: ", {
+      ...successAction,
+      payload: {
+        ...payload,
+        reducer: "networkReducer",
+        selectedTableData,
+      },
+    });
+
     yield put({
       ...successAction,
       payload: {
         ...payload,
-        reducer,
+        reducer: "networkReducer",
         selectedTableData,
       },
     });
+
 
     yield put(
       updateNetworkParametersAction({

@@ -31,6 +31,8 @@ const SensitivitiesHeatMapChart = () => {
     (state: RootState) => state.economicsReducer[wc]
   );
 
+  console.log("selectedAnalysis: ", selectedAnalysis);
+
   const ap = selectedAnalysis?.name;
   const tl = selectedAnalysis?.title;
 
@@ -46,6 +48,7 @@ const SensitivitiesHeatMapChart = () => {
     heatMapVariableZOption,
     selectedSensitivitiesTable,
   } = useSelector((state: RootState) => state.economicsReducer);
+
 
   const { economicsAnalysisButtons } = useSelector(
     (state: RootState) => state.economicsReducer[wc][ap]

@@ -37,7 +37,6 @@ import DeclineParametersType from "../Components/Indicators/DeclineParametersTyp
 import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
 import {
   fetchStoredForecastingParametersRequestAction,
-  getDeclineParametersByIdRequestAction,
   getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
@@ -323,13 +322,12 @@ export default function StoredProductionPrioritization({
               const EditCommand = (<EditOutlinedIcon
                 style={style as CSSProperties}
                 onClick={() => {
-                  const isCreateOrEdit = true;
                     dispatch(
-                    getDeclineParametersByIdRequestAction(
+                      getProductionPrioritizationByIdRequestAction(
+                      id,
+                      title,
+                      selectedRowIndex,
                       "inputReducer" as ReducersType,
-                      isCreateOrEdit,
-                      currentRow,
-                      currentSN
                     ));
                   }}
               />);

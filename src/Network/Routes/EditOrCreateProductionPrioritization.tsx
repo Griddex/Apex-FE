@@ -26,10 +26,7 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 
-const ProductionStreamPrioritization = ({
-  workflowProcess,
-  containerStyle,
-}: IStoredDataProps) => {
+const EditOrCreateProductionPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
 
@@ -39,10 +36,6 @@ const ProductionStreamPrioritization = ({
     selectedStreamPrioritization,
   } = useSelector((state: RootState) => state.networkReducer);
 
-
-  /* const {
-    selectedTableData
-  } = useSelector((state: RootState) => state.inputReducer); */
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
     prioritizationPerspective ? prioritizationPerspective : "No Prioritization"
@@ -299,4 +292,4 @@ const ProductionStreamPrioritization = ({
   );
 };
 
-export default ProductionStreamPrioritization;
+export default EditOrCreateProductionPrioritization;

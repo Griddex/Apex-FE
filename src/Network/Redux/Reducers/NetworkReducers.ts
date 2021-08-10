@@ -349,6 +349,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
 
       if (reducer === "networkReducer") {
         const updatedState = set(state, "selectedTableData", selectedTableData);
+        console.log("updatedState: ", updatedState);
         return updatedState;
       } else {
         return state;
