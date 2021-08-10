@@ -329,7 +329,7 @@ export default function ForecastQualityAssuranceData({
       },
       {
         key: "saved",
-        name: "SAVED",
+        name: "STATUS",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {

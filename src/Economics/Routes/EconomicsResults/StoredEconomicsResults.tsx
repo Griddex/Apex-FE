@@ -332,7 +332,7 @@ export default function StoredEcoResults({
       },
       {
         key: "saved",
-        name: "SAVED",
+        name: "STATUS",
         editable: false,
         resizable: true,
         formatter: ({ row }) => {
