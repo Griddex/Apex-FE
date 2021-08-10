@@ -131,7 +131,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
+const SelectWorksheetDialog = (props: DialogStuff) => {
   const classes = useStyles(props);
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -147,24 +147,19 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     workflowCategory,
     reducer,
     inputWorkbook,
-    selectedWorksheetName,
   } = props;
 
   const wc = workflowCategory as IInputWorkflows["wkCy"];
   const wp = workflowProcess as IInputWorkflows["wkPs"];
   const reducerDefined = reducer as NonNullable<ReducersType>;
-  const selectedWorksheetNameDefined = selectedWorksheetName as string;
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
   );
-  // const { inputFile: inputDeckWorkbook, selectedWorksheetName } = useSelector(
-  //   (state: RootState) => state[reducerDefined]["inputDataWorkflows"][wp]
-  // );
 
-  const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
+  const [selectedWorksheetName, setSelectedWorksheetName] = React.useState("");
 
-  const SelectWorksheetDialogContent = () => {
+  const selectWorksheetDialogContent = () => {
     return (
       <div className={classes.listDialogContent}>
         <Typography variant="body1" style={{ marginTop: 10, marginBottom: 10 }}>
@@ -177,16 +172,16 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
               return (
                 <ListItem
                   key={i}
-                  selected={name === selectedListItem}
+                  selected={name === selectedWorksheetName}
                   button
                   onClick={() => {
-                    setSelectedListItem(name);
+                    setSelectedWorksheetName(name);
                     dispatch(
                       persistWorksheetAction(reducerDefined, name, [], wp)
                     );
                   }}
                   style={
-                    name === selectedListItem
+                    name === selectedWorksheetName
                       ? {
                           border: `1px solid ${theme.palette.primary.main}`,
                           backgroundColor: theme.palette.primary.light,
@@ -206,10 +201,14 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
     );
   };
 
-  const prepareSelectWorksheetRoute = () => {
-    const selectedWorksheetDataXLSX = (inputWorkbook as xlsx.WorkBook).Sheets[
-      selectedWorksheetNameDefined
+  const persistSelectedWorksheet = (workbook: xlsx.WorkBook) => {
+    const selectedWorksheetDataXLSX = (workbook as xlsx.WorkBook).Sheets[
+      selectedWorksheetName
     ];
+    console.log(
+      "Logged output --> ~ file: SelectWorksheetDialog.tsx ~ line 206 ~ persistSelectedWorksheet ~ selectedWorksheetDataXLSX",
+      selectedWorksheetDataXLSX
+    );
 
     const selectedWorksheetData = xlsx.utils.sheet_to_json<
       Record<string, React.Key>
@@ -217,16 +216,18 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
 
     if (selectedWorksheetData.length === 0) {
       enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
+      return;
     }
 
     dispatch(
       persistWorksheetAction(
         reducerDefined,
-        selectedWorksheetNameDefined,
+        selectedWorksheetName,
         selectedWorksheetData,
         wp
       )
     );
+
     dispatch(
       workflowNextAction(
         skipped as Set<number>,
@@ -238,10 +239,11 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         wc
       )
     );
+
     dispatch(hideDialogAction());
   };
 
-  const SelectWorksheetDialogActions = () => {
+  const selectWorksheetDialogActions = (inputWorkbook: xlsx.WorkBook) => {
     const buttonsData: ButtonProps[] = [
       {
         title: "Cancel",
@@ -256,12 +258,12 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         color: "primary",
         startIcon: <DoneOutlinedIcon />,
         handleAction: () => {
-          if (selectedListItem === "")
+          if (selectedWorksheetName === "")
             enqueueSnackbar("Select a worksheet", {
               persist: false,
               variant: "error",
             });
-          else prepareSelectWorksheetRoute();
+          else persistSelectedWorksheet(inputWorkbook);
         },
       },
     ];
@@ -276,7 +278,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
           color={color}
           startIcon={startIcon}
           onClick={() => handleAction && handleAction(i as number)}
-          disabled={title === "Okay" && (selectedListItem ? false : true)}
+          disabled={title === "Okay" && (selectedWorksheetName ? false : true)}
         >
           {title}
         </Button>
@@ -302,10 +304,12 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
         <div>{title}</div>
       </DialogTitle>
       <DialogContent dividers>
-        {SelectWorksheetDialogContent()}
+        {selectWorksheetDialogContent()}
         <Divider />
       </DialogContent>
-      <DialogActions>{SelectWorksheetDialogActions()}</DialogActions>
+      <DialogActions>
+        {selectWorksheetDialogActions(inputWorkbook)}
+      </DialogActions>
     </Dialog>
   );
 };

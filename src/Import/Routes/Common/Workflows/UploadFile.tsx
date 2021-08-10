@@ -12,7 +12,6 @@ import { workflowNextAction } from "../../../../Application/Redux/Actions/Workfl
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   importFileInitAction,
-  persistFileAction,
   persistWorksheetAction,
   persistWorksheetNamesAction,
 } from "../../../Redux/Actions/InputActions";
@@ -74,22 +73,20 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = ({
   wrkflwPrcss,
   reducer,
+  setInputWorkbook,
   hasExtraComponent,
   extraComponent,
 }: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
   const ExtraComponent = extraComponent as NonNullable<
     IAllWorkflows["extraComponent"]
   >;
-
-  const { dnDDisabled } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
-  );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
@@ -127,7 +124,7 @@ const UploadFile = ({
               type: "array",
             }) as xlsx.WorkBook;
 
-            // dispatch(persistFileAction(reducer, inputWorkbook, wp));
+            setInputWorkbook && setInputWorkbook(inputWorkbook);
 
             const { Author: fileAuthor, CreatedDate: fileCreated } =
               inputWorkbook.Props as xlsx.FullProperties;
