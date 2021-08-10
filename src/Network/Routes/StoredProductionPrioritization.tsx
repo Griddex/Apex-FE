@@ -25,7 +25,10 @@ import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/App
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
-import { IStoredDataProps, IStoredDataRow } from "../../Application/Types/ApplicationTypes";
+import {
+  IStoredDataProps,
+  IStoredDataRow,
+} from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
@@ -41,7 +44,6 @@ import {
   getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
-
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -112,44 +114,37 @@ const chartData = [
 export const productionPrioritizationStoredWithSN = (
   productionPrioritizationStored: any[]
 ) => {
+  const transStoredData = productionPrioritizationStored.map((row: any) => {
+    const {
+      createdAt,
+      title,
+      description,
+      forecastInputDeckId,
+      id,
+      projectId,
+      userId,
+      typeOfPrioritization,
+      typeOfStream,
+      useSecondaryFacility,
+    } = row;
 
-  const transStoredData = productionPrioritizationStored.map(
-
-      (row: any) => {
-        const {
-          createdAt,
-          title,
-          description,
-          forecastInputDeckId,
-          id,
-          projectId,
-          userId,
-          typeOfPrioritization,
-          typeOfStream,
-          useSecondaryFacility,
-        } = row;
-  
-  
-        return {
-          id: id,
-          userId: userId,
-          title: title,
-          approval: "Not Started",
-          author: { avatarUrl: "", name: "None" },
-          approvers: [{ avatarUrl: "", name: "" }],
-          description: description,
-          createdOn: createdAt,
-          modifiedOn: createdAt,
-        };
-      }
-    ) as IStoredDataRow[];
-
+    return {
+      id: id,
+      userId: userId,
+      title: title,
+      approval: "Not Started",
+      author: { avatarUrl: "", name: "None" },
+      approvers: [{ avatarUrl: "", name: "" }],
+      description: description,
+      createdOn: createdAt,
+      modifiedOn: createdAt,
+    };
+  }) as IStoredDataRow[];
 
   const snTransStoredData = transStoredData.map((row, i) => ({
     sn: i + 1,
     ...row,
   })) as IStoredDataRow[];
-
 
   return snTransStoredData;
 };
@@ -158,14 +153,33 @@ export const cloneProductionPrioritizationRow = (
   currentRow: IStoredDataRow,
   noOfRows: number
 ) => {
+  const {
+    approval,
+    approvers,
+    author,
+    createdOn,
+    description,
+    id,
+    modifiedOn,
+    sn,
+    title,
+  } = currentRow;
 
-  const { approval, approvers, author, createdOn, description,
-      id, modifiedOn, sn, title } = currentRow;
-
-
-    const newRow = { approval, approvers, author, createdOn, description,
-      id, modifiedOn, sn: noOfRows+1, title: "User", userId: "Gabriel",
-      typeOfPrioritization: "", typeOfStream: "", useSecondaryFacility: "" } ;
+  const newRow = {
+    approval,
+    approvers,
+    author,
+    createdOn,
+    description,
+    id,
+    modifiedOn,
+    sn: noOfRows + 1,
+    title: "User",
+    userId: "Gabriel",
+    typeOfPrioritization: "",
+    typeOfStream: "",
+    useSecondaryFacility: "",
+  };
 
   return newRow;
 };
@@ -201,7 +215,6 @@ export default function StoredProductionPrioritization({
   const { productionPrioritizationStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
- 
 
   const snTransStoredData = productionPrioritizationStoredWithSN(
     productionPrioritizationStored
@@ -213,10 +226,7 @@ export default function StoredProductionPrioritization({
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
     dispatch(
-      updateNetworkParameterAction(
-        "selectedProductionPrioritizationId",
-        row.id
-      )
+      updateNetworkParameterAction("selectedProductionPrioritizationId", row.id)
     );
 
     dispatch(
@@ -269,7 +279,7 @@ export default function StoredProductionPrioritization({
                   "Logged output --> ~ file: StoredDeclineCurveParameters.tsx ~ line 324 ~ generateColumns ~ clonedRow",
                   clonedRow
                 ); */
-                
+
                 console.log("clonedRow: ", clonedRow);
 
                 const newRows = [...productionPrioritizationStored, clonedRow];
@@ -292,81 +302,89 @@ export default function StoredProductionPrioritization({
                 }
               : {};
 
-              const VisibilityOutlined = (  <VisibilityOutlinedIcon
-                className={classes.visibilityOutlinedIcon}
-                onClick={() => {
-                  dispatch(
-                    getProductionPrioritizationByIdRequestAction(
-                      wellPrioritizationId,
-                      wellPrioritizationTitle,
-                      selectedRowIndex,
-                      reducer
-                    )
-                  );
+          const VisibilityOutlined = (
+            <VisibilityOutlinedIcon
+              className={classes.visibilityOutlinedIcon}
+              onClick={() => {
+                dispatch(
+                  getProductionPrioritizationByIdRequestAction(
+                    wellPrioritizationId,
+                    wellPrioritizationTitle,
+                    selectedRowIndex,
+                    reducer
+                  )
+                );
 
-                  /* dispatch(
+                /* dispatch(
                     updateNetworkParameterAction(
                       "selectedForecastingParametersId",
                       row.forecastingParametersId
                     )
                   ); */
-                }}
-              />);
-  
-              const ApexGridMoreActionsContext = ( <ApexGridMoreActionsContextMenu
-                component={ForecastParametersMoreActionsPopover}
-                data={importMoreActionsData}
-              >
-                <MenuOpenOutlinedIcon />
-              </ApexGridMoreActionsContextMenu>);
+              }}
+            />
+          );
 
-              const EditCommand = (<EditOutlinedIcon
-                style={style as CSSProperties}
-                onClick={() => {
-                  const isCreateOrEdit = true;
-                    dispatch(
-                    getDeclineParametersByIdRequestAction(
-                      "inputReducer" as ReducersType,
-                      isCreateOrEdit,
-                      currentRow,
-                      currentSN
-                    ));
-                  }}
-              />);
+          const ApexGridMoreActionsContext = (
+            <ApexGridMoreActionsContextMenu
+              component={ForecastParametersMoreActionsPopover}
+              data={importMoreActionsData}
+            >
+              <MenuOpenOutlinedIcon />
+            </ApexGridMoreActionsContextMenu>
+          );
 
-              const DeleteCommand = (<DeleteOutlinedIcon
-                style={style as CSSProperties}
-                onClick={() => {
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table_Data_Dialog",
-                        `Delete ${title}`,
-                        "deleteDataDialog",
-                        "",
-                        false,
-                        true,
-                        () =>
-                          deleteDataByIdRequestAction(
-                            reducer as ReducersType,
-                            deleteUrl as string,
-                            title as string,
-                            () =>
-                              fetchStoredForecastingParametersRequestAction(
-                                currentProjectId,
-                                false
-                              )
-                          ),
-                        "Delete",
-                        "deleteOutlined",
-                        "delete",
-                        title
-                      )
+          const EditCommand = (
+            <EditOutlinedIcon
+              style={style as CSSProperties}
+              onClick={() => {
+                const isCreateOrEdit = true;
+                dispatch(
+                  getDeclineParametersByIdRequestAction(
+                    "inputReducer" as ReducersType,
+                    isCreateOrEdit,
+                    currentRow,
+                    currentSN
+                  )
+                );
+              }}
+            />
+          );
+
+          const DeleteCommand = (
+            <DeleteOutlinedIcon
+              style={style as CSSProperties}
+              onClick={() => {
+                dispatch(
+                  showDialogAction(
+                    confirmationDialogParameters(
+                      "Delete_Table_Data_Dialog",
+                      `Delete ${title}`,
+                      "deleteDataDialog",
+                      "",
+                      false,
+                      true,
+                      () =>
+                        deleteDataByIdRequestAction(
+                          reducer as ReducersType,
+                          deleteUrl as string,
+                          title as string,
+                          () =>
+                            fetchStoredForecastingParametersRequestAction(
+                              currentProjectId,
+                              false
+                            )
+                        ),
+                      "Delete",
+                      "deleteOutlined",
+                      "delete",
+                      title
                     )
-                  );
-                }}
-              />);
-              
+                  )
+                );
+              }}
+            />
+          );
 
           return (
             <ApexFlexContainer>
@@ -384,7 +402,7 @@ export default function StoredProductionPrioritization({
         name: "STATUS",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 100,
       },
       {
         key: "approval",
@@ -488,8 +506,8 @@ export default function StoredProductionPrioritization({
   };
 
   React.useEffect(() => {
-      const updatedStoredData = productionPrioritizationStoredWithSN(
-    productionPrioritizationStored
+    const updatedStoredData = productionPrioritizationStoredWithSN(
+      productionPrioritizationStored
     );
     setRows(updatedStoredData);
   }, [productionPrioritizationStored.length]);

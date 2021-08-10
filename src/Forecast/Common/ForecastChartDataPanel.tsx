@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
+import NoData from "../../Application/Components/Visuals/NoData";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchForecastTreeviewKeysRequestAction,
-  updateForecastResultsParameterAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
 import { IForecastRunOptions } from "../Routes/ForecastData";
@@ -67,15 +67,31 @@ const ForecastChartDataPanel = () => {
 
     const { id, title, description } = optionDefined;
 
-    dispatch(
-      updateForecastResultsParametersAction({
+    if (title === "Select...") {
+      dispatch(
+        updateForecastResultsParametersAction({
+          selectedForecastingResultsId: "",
+          selectedForecastingResultsTitle: "",
+          selectedForecastingResultsDescription: "",
+          isForecastResultsSaved: false,
+        })
+      );
+    } else {
+      const idTitleDescIsSaved = {
         selectedForecastingResultsId: id,
         selectedForecastingResultsTitle: title,
         selectedForecastingResultsDescription: description,
-      })
-    );
+        isForecastResultsSaved: true,
+      };
 
-    dispatch(fetchForecastTreeviewKeysRequestAction(reducer, "forecastChart"));
+      dispatch(
+        fetchForecastTreeviewKeysRequestAction(
+          reducer,
+          "forecastChart",
+          idTitleDescIsSaved
+        )
+      );
+    }
   };
 
   return (
@@ -86,7 +102,9 @@ const ForecastChartDataPanel = () => {
       handleSelectChange={handleSelectForecastResultsChange}
       hasSecondaryComponent={false}
       selectedTitle={selectedForecastingResultsTitle}
-      treeViewComponent={ForecastTreeView}
+      treeViewComponent={
+        forecastRunOption.title === "Select..." ? NoData : ForecastTreeView
+      }
     />
   );
 };

@@ -55,8 +55,8 @@ const FlowstationWidget = ({ title }: IWidget) => {
 };
 
 const FlowstationNode = React.memo((props: Node & IExtraNodeProps) => {
-  const { xPos, yPos, stationData } = props;
-  const { title } = stationData;
+  const { xPos, yPos, data } = props;
+  const { title } = data.stationData;
 
   const position: XYPosition = {
     x: xPos,

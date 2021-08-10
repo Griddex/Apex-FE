@@ -355,7 +355,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           name: "STATUS",
           editable: false,
           resizable: true,
-          width: 300,
+          width: 100,
         },
         {
           key: "approval",

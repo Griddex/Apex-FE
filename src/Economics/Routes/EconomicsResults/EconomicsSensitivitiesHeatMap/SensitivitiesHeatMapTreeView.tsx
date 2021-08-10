@@ -6,12 +6,10 @@ import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTree
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
 export default function SensitivitiesHeatMapTreeView() {
-  const dispatch = useDispatch();
-
-  const { sensitivitiesHeatMapTree, selectedAnalysesNames } = useSelector(
+  const { heatMapTreeByScenario, selectedAnalysesNames } = useSelector(
     (state: RootState) => state.economicsReducer
   );
-  const rootTree = sensitivitiesHeatMapTree as RenderTree;
+  const rootTree = heatMapTreeByScenario as RenderTree;
 
   //TODO: Ability to handle multiple analyses
   const selectedAnalysisName = selectedAnalysesNames[0];

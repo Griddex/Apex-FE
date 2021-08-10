@@ -399,13 +399,15 @@ export const runForecastEconomicsAggregationFailureAction = () => {
 
 export const fetchForecastTreeviewKeysRequestAction = (
   reducer: ReducersType,
-  perspective: "forecastChart" | "forecastAssurance"
+  perspective: "forecastChart" | "forecastAssurance",
+  idTitleDescIsSaved?: Record<string, any>
 ) => {
   return {
     type: FORECAST_TREEVIEWKEYS_REQUEST,
     payload: {
       reducer,
       perspective,
+      idTitleDescIsSaved,
       status: 0,
     },
   };

@@ -4,7 +4,10 @@ import { ValueType } from "react-select";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import { fetchEconomicsTreeviewKeysRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  fetchEconomicsTreeviewKeysRequestAction,
+  updateEconomicsParametersAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import EconomicsTemplateTreeView from "./EconomicsTemplateTreeView";
 
 const EconomicsTemplateDataPanel = () => {
@@ -52,11 +55,36 @@ const EconomicsTemplateDataPanel = () => {
   const handleSelectEconomicsResultsChange = (
     option: ValueType<IExtendedSelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option as IExtendedSelectOption);
+    const optionDefined = option as IExtendedSelectOption;
+    setEconomicsResultTitleOption(optionDefined);
 
-    dispatch(
-      fetchEconomicsTreeviewKeysRequestAction(true, "templatesTree", option?.id)
-    );
+    const { id, title, description } = optionDefined;
+
+    if (title === "Select...") {
+      dispatch(
+        updateEconomicsParametersAction({
+          selectedEconomicsResultsId: "",
+          selectedEconomicsResultsTitle: "",
+          selectedEconomicsResultsDescription: "",
+          isEconomicsResultsSaved: false,
+        })
+      );
+    } else {
+      const idTitleDescIsSaved = {
+        selectedEconomicsResultsId: id,
+        selectedEconomicsResultsTitle: title,
+        selectedEconomicsResultsDescription: description,
+        isEconomicsResultsSaved: true,
+      };
+
+      dispatch(
+        fetchEconomicsTreeviewKeysRequestAction(
+          true,
+          "templatesTree",
+          idTitleDescIsSaved
+        )
+      );
+    }
   };
 
   return (

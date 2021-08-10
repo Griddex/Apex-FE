@@ -305,6 +305,7 @@ const EconomicsState: IEconomicsState = {
   selectedTableData: [],
 
   //HeatMap
+  heatMapTreeByScenario: { id: "", name: "" },
   sensitivitiesHeatMapTree: { id: "", name: "" },
   sensitivitiesHeatMapData: {},
   sensitivitiesHeatMap1or2D: [],

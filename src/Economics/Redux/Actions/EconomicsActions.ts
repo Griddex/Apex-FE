@@ -102,7 +102,8 @@ export const ECONOMICS_TREEVIEWKEYS_SUCCESS = "ECONOMICS_TREEVIEWKEYS_SUCCESS";
 export const ECONOMICS_TREEVIEWKEYS_FAILURE = "ECONOMICS_TREEVIEWKEYS_FAILURE";
 export const RESET_ECONOMICS = "RESET_ECONOMICS";
 
-export const GET_ECONOMICSPARAMETERSBYID_REQUEST = "GET_DECLINEPARAMETERSBYID_REQUEST";
+export const GET_ECONOMICSPARAMETERSBYID_REQUEST =
+  "GET_DECLINEPARAMETERSBYID_REQUEST";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -110,6 +111,17 @@ export const updateEconomicsParameterAction = (path: string, value: any) => {
     payload: {
       path,
       value,
+    },
+  };
+};
+
+export const updateEconomicsParametersAction = (
+  updateObj: Record<string, any>
+) => {
+  return {
+    type: UPDATE_ECONOMICSPARAMETERS,
+    payload: {
+      updateObj,
     },
   };
 };
@@ -124,20 +136,9 @@ export const getEconomicsParametersByIdRequestAction = (
     payload: {
       selectedEconomicsParametersId,
       reducer,
-      isCreateOrEdit
+      isCreateOrEdit,
     },
     meta: { showSpinner: true, message: "Fetching economics parameters..." },
-  };
-};
-
-export const updateEconomicsParametersAction = (
-  updateObj: Record<string, any>
-) => {
-  return {
-    type: UPDATE_ECONOMICSPARAMETERS,
-    payload: {
-      updateObj,
-    },
   };
 };
 
@@ -588,11 +589,11 @@ export const getEconomicsResultsByIdFailureAction = () => {
 export const fetchEconomicsTreeviewKeysRequestAction = (
   willShowSuccessDialog: boolean,
   perspective: "heatMapTree" | "plotChartsTree" | "templatesTree",
-  id?: string
+  idTitleDescIsSaved?: Record<string, any>
 ) => {
   return {
     type: ECONOMICS_TREEVIEWKEYS_REQUEST,
-    payload: { willShowSuccessDialog, perspective, id },
+    payload: { willShowSuccessDialog, perspective, idTitleDescIsSaved },
     meta: { showSpinner: true, message: "Loading economics result..." },
   };
 };

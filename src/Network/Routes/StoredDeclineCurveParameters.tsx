@@ -25,7 +25,10 @@ import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/App
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
-import { IStoredDataProps, IStoredDataRow } from "../../Application/Types/ApplicationTypes";
+import {
+  IStoredDataProps,
+  IStoredDataRow,
+} from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
@@ -47,9 +50,7 @@ import {
 } from "../Utils/TransformDeclineParameters";
 
 import { extrudeStoredDataDPs } from "../Components/DialogParameters/EditDeclineParametersDialogParameters";
-import { IBackendDeclineParametersRow } from "../Components/Dialogs/StoredNetworksDialogTypes"
-
-
+import { IBackendDeclineParametersRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -126,7 +127,7 @@ export default function StoredForecastingParameters({
 
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
-  const collectionName = "declineParameters"
+  const collectionName = "declineParameters";
 
   const theme = useTheme();
   const classes = useStyles();
@@ -143,7 +144,6 @@ export default function StoredForecastingParameters({
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
-
 
   const { declineParametersStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
@@ -162,17 +162,11 @@ export default function StoredForecastingParameters({
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
     dispatch(
-      updateNetworkParameterAction(
-        "selectedDeclineParametersId",
-        row.id
-      )
+      updateNetworkParameterAction("selectedDeclineParametersId", row.id)
     );
 
     dispatch(
-      updateNetworkParameterAction(
-        "selectedDeclineParametersTitle",
-        row.title
-      )
+      updateNetworkParameterAction("selectedDeclineParametersTitle", row.title)
     );
 
     setCheckboxSelected(!checkboxSelected);
@@ -235,84 +229,91 @@ export default function StoredForecastingParameters({
                   backgroundColor: theme.palette.grey[400],
                 }
               : {};
-                
 
-              const VisibilityOutlined = (<VisibilityOutlinedIcon
-                onClick={() => {
-                  const isCreateOrEdit = true;
-                  dispatch(
-                    getDeclineParametersByIdRequestAction(
-                      reducer,
-                      isCreateOrEdit as boolean,
-                      currentRow,
-                      currentSN
-                    )
-                  );
-                }} 
-              />);
-  
-              const ApexGridMoreActionsContext = ( <ApexGridMoreActionsContextMenu
-                component={ForecastParametersMoreActionsPopover}
-                data={importMoreActionsData}
-              >
-                <MenuOpenOutlinedIcon />
-              </ApexGridMoreActionsContextMenu>);
+          const VisibilityOutlined = (
+            <VisibilityOutlinedIcon
+              onClick={() => {
+                const isCreateOrEdit = true;
+                dispatch(
+                  getDeclineParametersByIdRequestAction(
+                    reducer,
+                    isCreateOrEdit as boolean,
+                    currentRow,
+                    currentSN
+                  )
+                );
+              }}
+            />
+          );
 
-              const EditCommand = (<EditOutlinedIcon
-                /* style={style as CSSProperties} */
-                onClick={() => {
-                  const isCreateOrEdit = true;
-  
-                    dispatch(
-                    getDeclineParametersByIdRequestAction(
-                      "inputReducer" as ReducersType,
-                      isCreateOrEdit,
-                      currentRow,
-                      currentSN
-                    )
-                  );
-                  }}
-              />);
+          const ApexGridMoreActionsContext = (
+            <ApexGridMoreActionsContextMenu
+              component={ForecastParametersMoreActionsPopover}
+              data={importMoreActionsData}
+            >
+              <MenuOpenOutlinedIcon />
+            </ApexGridMoreActionsContextMenu>
+          );
 
-              const DeleteCommand = (<DeleteOutlinedIcon
-                /* style={style as CSSProperties} */
-                onClick={() => {
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table_Data_Dialog",
-                        `Delete ${title}`,
-                        "deleteDataDialog",
-                        "",
-                        false,
-                        true,
-                        () =>
-                          deleteDataByIdRequestAction(
-                            reducer as ReducersType,
-                            deleteUrl as string,
-                            title as string,
-                            () =>
-                              fetchStoredForecastingParametersRequestAction(
-                                currentProjectId,
-                                false
-                              )
-                          ),
-                        "Delete",
-                        "deleteOutlined",
-                        "delete",
-                        title
-                      )
+          const EditCommand = (
+            <EditOutlinedIcon
+              /* style={style as CSSProperties} */
+              onClick={() => {
+                const isCreateOrEdit = true;
+
+                dispatch(
+                  getDeclineParametersByIdRequestAction(
+                    "inputReducer" as ReducersType,
+                    isCreateOrEdit,
+                    currentRow,
+                    currentSN
+                  )
+                );
+              }}
+            />
+          );
+
+          const DeleteCommand = (
+            <DeleteOutlinedIcon
+              /* style={style as CSSProperties} */
+              onClick={() => {
+                dispatch(
+                  showDialogAction(
+                    confirmationDialogParameters(
+                      "Delete_Table_Data_Dialog",
+                      `Delete ${title}`,
+                      "deleteDataDialog",
+                      "",
+                      false,
+                      true,
+                      () =>
+                        deleteDataByIdRequestAction(
+                          reducer as ReducersType,
+                          deleteUrl as string,
+                          title as string,
+                          () =>
+                            fetchStoredForecastingParametersRequestAction(
+                              currentProjectId,
+                              false
+                            )
+                        ),
+                      "Delete",
+                      "deleteOutlined",
+                      "delete",
+                      title
                     )
-                  );
-                }}
-              />);
+                  )
+                );
+              }}
+            />
+          );
 
           return (
             <ApexFlexContainer>
-             {EditCommand}
-             {DeleteCommand}
-             {VisibilityOutlined}
-             {ApexGridMoreActionsContext}
+              {EditCommand}
+              {DeleteCommand}
+              {VisibilityOutlined}
+              {ApexGridMoreActionsContext}
             </ApexFlexContainer>
           );
         },
@@ -323,7 +324,7 @@ export default function StoredForecastingParameters({
         name: "STATUS",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 100,
       },
       {
         key: "title",
@@ -434,7 +435,7 @@ export default function StoredForecastingParameters({
   };
 
   React.useEffect(() => {
-      const updatedStoredData = declineParametersStoredWithSN(
+    const updatedStoredData = declineParametersStoredWithSN(
       declineParametersStored as IBackendDeclineParametersRow[]
     );
     setRows(updatedStoredData);

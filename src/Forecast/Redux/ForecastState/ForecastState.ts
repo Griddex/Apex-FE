@@ -74,6 +74,7 @@ const forcastResultState: IForecastResultState = {
 
   selectedForecastingResultsId: "",
   selectedForecastingResultsTitle: "",
+  selectedForecastingResultsDescription: "",
   isForecastResultsLoading: false,
   isForecastResultsSaved: false,
 

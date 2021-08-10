@@ -26,6 +26,7 @@ import {
   economicsPerspectiveTreeMap,
   TEconomicsTreePerspective,
 } from "../../Data/EconomicsData";
+import { economicsTreeHard } from "../../Routes/EconomicsResults/EconomicsSensitivitiesHeatMap/HeatMapTree";
 import {
   ECONOMICS_TREEVIEWKEYS_REQUEST,
   fetchEconomicsTreeviewKeysFailureAction,
@@ -71,10 +72,10 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
 
     const result = yield call(fetchEconomicsTreeAPI, url);
 
-    const {
-      data: { status, data: economicsTree },
-    } = result;
-
+    // const {
+    //   data: { data: economicsTree },
+    // } = result;
+    const { data: economicsTree } = economicsTreeHard();
     const treeType = perspective as TEconomicsTreePerspective;
 
     yield put(

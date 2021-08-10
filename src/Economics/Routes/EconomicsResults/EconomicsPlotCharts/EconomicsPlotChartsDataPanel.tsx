@@ -4,7 +4,10 @@ import { ValueType } from "react-select";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import { fetchEconomicsTreeviewKeysRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  fetchEconomicsTreeviewKeysRequestAction,
+  updateEconomicsParametersAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
 
 const EconomicsPlotChartsDataPanel = () => {
@@ -16,15 +19,16 @@ const EconomicsPlotChartsDataPanel = () => {
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  const { selectedEconomicsResultsTitle } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const { selectedEconomicsResultsTitle, selectedEconomicsResultsDescription } =
+    useSelector((state: RootState) => state.economicsReducer);
 
   const economicsResultsTitleOptions = economicsResultsStored.map(
     (row: any) => ({
       value: row.title,
       label: row.title,
       id: row.id,
+      title: row.title,
+      description: row.description,
     })
   ) as IExtendedSelectOption[];
 
@@ -32,6 +36,8 @@ const EconomicsPlotChartsDataPanel = () => {
     value: "select",
     label: "Select...",
     id: "",
+    title: "Select...",
+    description: "Select...",
   });
 
   const selectedEconomicsResultsTitleOption =
@@ -42,6 +48,8 @@ const EconomicsPlotChartsDataPanel = () => {
           id: (economicsResultsTitleOptions as IExtendedSelectOption[]).filter(
             (o) => o.label === selectedEconomicsResultsTitle
           )[0].id,
+          title: selectedEconomicsResultsTitle,
+          description: selectedEconomicsResultsDescription,
         }
       : economicsResultsTitleOptions[0];
 
@@ -53,15 +61,36 @@ const EconomicsPlotChartsDataPanel = () => {
   const handleSelectEconomicsResultsChange = (
     option: ValueType<IExtendedSelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option as IExtendedSelectOption);
+    const optionDefined = option as IExtendedSelectOption;
+    setEconomicsResultTitleOption(optionDefined);
 
-    dispatch(
-      fetchEconomicsTreeviewKeysRequestAction(
-        true,
-        "plotChartsTree",
-        option?.id
-      )
-    );
+    const { id, title, description } = optionDefined;
+
+    if (title === "Select...") {
+      dispatch(
+        updateEconomicsParametersAction({
+          selectedEconomicsResultsId: "",
+          selectedEconomicsResultsTitle: "",
+          selectedEconomicsResultsDescription: "",
+          isEconomicsResultsSaved: false,
+        })
+      );
+    } else {
+      const idTitleDescIsSaved = {
+        selectedEconomicsResultsId: id,
+        selectedEconomicsResultsTitle: title,
+        selectedEconomicsResultsDescription: description,
+        isEconomicsResultsSaved: true,
+      };
+
+      dispatch(
+        fetchEconomicsTreeviewKeysRequestAction(
+          true,
+          "plotChartsTree",
+          idTitleDescIsSaved
+        )
+      );
+    }
   };
 
   return (

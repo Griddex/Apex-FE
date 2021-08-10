@@ -249,6 +249,7 @@ export interface IEconomicsState
 
   selectedTableData: any[];
 
+  heatMapTreeByScenario: RenderTree;
   sensitivitiesHeatMapTree: RenderTree;
   sensitivitiesHeatMapData: any;
   sensitivitiesHeatMap1or2D: [];

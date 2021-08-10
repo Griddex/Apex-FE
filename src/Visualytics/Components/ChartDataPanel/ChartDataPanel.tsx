@@ -27,11 +27,12 @@ const ChartDataPanel = <T extends ISelectOption>({
   handleSelectChange,
   hasSecondaryComponent,
   secondarySelectComponent,
-  treeViewComponent: TreeViewComponent,
+  treeViewComponent,
   categoriesAction,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
+  const TreeViewComponent = treeViewComponent as React.FC;
 
   const SelectTitle = () => {
     return (
@@ -72,6 +73,7 @@ const ChartDataPanel = <T extends ISelectOption>({
         style={{
           width: "100%",
           height: "100%",
+          borderTop: `1px solid ${theme.palette.grey[300]}`,
           borderBottom: `1px solid ${theme.palette.grey[300]}`,
           overflow: "auto",
         }}

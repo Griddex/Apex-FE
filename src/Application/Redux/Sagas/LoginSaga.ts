@@ -57,6 +57,7 @@ function* loginSaga(
         })
     );
 
+    sessionStorage.setItem("token", "MyToken");
     const { status } = response;
 
     if (status === 200) {

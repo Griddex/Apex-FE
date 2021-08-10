@@ -5,13 +5,22 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import DialogCancelButton from "../../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
-import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import {
+  IExtendedSelectOption,
+  ISelectOption,
+} from "../../../../Application/Components/Selects/SelectItemsType";
+import NoData from "../../../../Application/Components/Visuals/NoData";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
 import { IChartCategoriesData } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import { fetchEconomicsTreeviewKeysRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
+import {
+  fetchEconomicsTreeviewKeysRequestAction,
+  updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
 const SensitivitiesHeatMapDataPanel = ({
@@ -21,18 +30,39 @@ const SensitivitiesHeatMapDataPanel = ({
   const dispatch = useDispatch();
 
   const wc = "storedDataWorkflows";
+
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  const { selectedEconomicsResultsTitle } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const {
+    selectedEconomicsResultsTitle,
+    selectedEconomicsResultsDescription,
+    sensitivitiesHeatMapTree,
+  } = useSelector((state: RootState) => state.economicsReducer);
+
+  const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
+    RenderTree["children"]
+  >;
+  const devScenariosColl = heatMapTreeData ? heatMapTreeData : [];
+  const devOptions = devScenariosColl.map((row) => ({
+    value: row.title,
+    label: row.title,
+  }));
+
+  devOptions.unshift({
+    value: "select",
+    label: "Select...",
+  });
+
+  const [devOption, setDevOption] = React.useState(devOptions[0]);
 
   const economicsResultsTitleOptions = economicsResultsStored.map(
     (row: any) => ({
       value: row.title,
       label: row.title,
       id: row.id,
+      title: row.title,
+      description: row.description,
     })
   ) as IExtendedSelectOption[];
 
@@ -40,6 +70,8 @@ const SensitivitiesHeatMapDataPanel = ({
     value: "select",
     label: "Select...",
     id: "",
+    title: "Select...",
+    description: "Select...",
   });
 
   const selectedEconomicsResultsTitleOption =
@@ -50,6 +82,8 @@ const SensitivitiesHeatMapDataPanel = ({
           id: (economicsResultsTitleOptions as IExtendedSelectOption[]).filter(
             (o) => o.label === selectedEconomicsResultsTitle
           )[0].id,
+          title: selectedEconomicsResultsTitle,
+          description: selectedEconomicsResultsDescription,
         }
       : economicsResultsTitleOptions[0];
 
@@ -57,28 +91,66 @@ const SensitivitiesHeatMapDataPanel = ({
     React.useState<IExtendedSelectOption>(
       selectedEconomicsResultsTitleOption as IExtendedSelectOption
     );
+
   const handleSelectEconomicsResultsChange = (
     option: ValueType<IExtendedSelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option as IExtendedSelectOption);
+    const optionDefined = option as IExtendedSelectOption;
+    setEconomicsResultTitleOption(optionDefined);
 
-    dispatch(
-      fetchEconomicsTreeviewKeysRequestAction(true, "heatMapTree", option?.id)
-    );
+    const { id, title, description } = optionDefined;
+
+    if (title === "Select...") {
+      dispatch(
+        updateEconomicsParametersAction({
+          selectedEconomicsResultsId: "",
+          selectedEconomicsResultsTitle: "",
+          selectedEconomicsResultsDescription: "",
+          isEconomicsResultsSaved: false,
+        })
+      );
+      setDevOption({ value: "select", label: "Select..." });
+    } else {
+      const idTitleDescIsSaved = {
+        selectedEconomicsResultsId: id,
+        selectedEconomicsResultsTitle: title,
+        selectedEconomicsResultsDescription: description,
+        isEconomicsResultsSaved: true,
+      };
+
+      dispatch(
+        fetchEconomicsTreeviewKeysRequestAction(
+          true,
+          "heatMapTree",
+          idTitleDescIsSaved
+        )
+      );
+    }
   };
 
-  const developmentScenarios = () => {
+  const DevelopmentScenarios = () => {
     return (
       <AnalyticsComp
         title="Development Scenarios"
         content={
           <ApexSelectRS
-            valueOption={{ value: "a", label: "A" }}
-            data={[
-              { value: "a", label: "A" },
-              { value: "b", label: "B" },
-            ]}
-            handleSelect={() => {}}
+            valueOption={devOption as NonNullable<ISelectOption>}
+            data={devOptions as NonNullable<ISelectOption[]>}
+            handleSelect={(option: ValueType<ISelectOption, false>) => {
+              const optionDefined = option as NonNullable<ISelectOption>;
+
+              setDevOption(optionDefined);
+              const heatMapTreeByScenario = heatMapTreeData.find(
+                (sno) => sno.title === optionDefined.label
+              ) as RenderTree;
+
+              dispatch(
+                updateEconomicsParameterAction(
+                  "heatMapTreeByScenario",
+                  heatMapTreeByScenario
+                )
+              );
+            }}
             isSelectOptionType={true}
             menuPortalTarget={document.body}
             containerWidth={"100%"}
@@ -98,8 +170,10 @@ const SensitivitiesHeatMapDataPanel = ({
       handleSelectChange={handleSelectEconomicsResultsChange}
       selectedTitle={selectedEconomicsResultsTitle}
       hasSecondaryComponent={true}
-      secondarySelectComponent={developmentScenarios}
-      treeViewComponent={SensitivitiesHeatMapTreeView}
+      secondarySelectComponent={DevelopmentScenarios}
+      treeViewComponent={
+        devOption.label === "Select..." ? NoData : SensitivitiesHeatMapTreeView
+      }
       categoriesAction={() => {
         const dialogParameters: DialogStuff = {
           name: "Chart_Categories_Dialog",

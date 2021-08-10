@@ -8,7 +8,6 @@ import {
   ForkEffect,
   put,
   PutEffect,
-  select,
   SelectEffect,
   take,
   TakeEffect,
@@ -51,9 +50,9 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedForecastingResultsId: forecastId } = yield select(
-    (state) => state.forecastReducer
-  );
+  const { idTitleDescIsSaved } = payload;
+  const forecastId = idTitleDescIsSaved.selectedForecastingResultsId;
+
   const url = `${getBaseForecastUrl()}/forecastResults/treeview/${forecastId}`;
 
   const message = "Loading forecast chart data...";
@@ -63,6 +62,7 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
 
     const chan = yield call(updateTreeAndKeys, url);
 
+    let i = 0;
     while (true) {
       const treeOrKeys = yield take(chan);
 
@@ -92,15 +92,12 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
           },
         });
       }
-    }
 
-    yield put(
-      updateForecastResultsParametersAction({
-        isForecastResultsSaved: true,
-        selectedForecastingResultsTitle: "Provide Title",
-        selectedForecastingResultsDescription: "Provide description",
-      })
-    );
+      i += 1;
+      if (i === 2) {
+        yield put(updateForecastResultsParametersAction(idTitleDescIsSaved));
+      }
+    }
   } catch (errors) {
     const failureAction = fetchForecastTreeviewKeysFailureAction();
 
