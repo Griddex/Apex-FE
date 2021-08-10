@@ -63,6 +63,10 @@ function* saveProductionPrioritizationSaga(
     (state) => state.networkReducer
   );
 
+  console.log("currentProjectId: ", currentProjectId);
+  console.log("selectedForecastInputDeckId: ", selectedForecastInputDeckId);
+  console.log("currentProductionPrioritization: ", currentProductionPrioritization);
+
   const data = {
     projectId: currentProjectId,
     title,
@@ -71,6 +75,19 @@ function* saveProductionPrioritizationSaga(
     declineParameters: currentProductionPrioritization,
     forecastInputDeckId: selectedForecastInputDeckId,
   };
+
+      /*   const data = {
+            projectId: currentProjectId,
+            title,
+            description,
+            type: "User",
+            typeOfPrioritization: currentProductionPrioritization,
+            forecastInputDeckId: selectedForecastInputDeckId,
+            typeOfStream,
+            useSecondaryFacility,
+            wellPrioritizations
+            
+          }; */
 
   const config = { withCredentials: false };
   const saveProductionPrioritizationAPI = (url: string) =>

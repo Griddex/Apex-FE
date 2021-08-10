@@ -112,7 +112,7 @@ const chartData = [
 ];
 
 export default function StoredForecastingParameters({
-  showChart,
+  showChart
 }: IStoredDataProps) {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
@@ -407,7 +407,8 @@ export default function StoredForecastingParameters({
                       wellPrioritizationId,
                       wellPrioritizationTitle,
                       selectedRowIndex,
-                      reducer
+                      reducer,
+                      false as boolean
                     )
                   );
 

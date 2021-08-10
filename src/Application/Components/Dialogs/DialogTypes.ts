@@ -154,7 +154,8 @@ export interface DialogStuff<TRow = IRawRow> {
     | "storedProductionStreamPrioritizationDialog"
     | "snapshotDialog"
     | "networkWidgetDialog"
-    | "createDeclineParametersWorkflowDialog";
+    | "createDeclineParametersWorkflowDialog"
+    |"createPrioritizationParametersWorkflowDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

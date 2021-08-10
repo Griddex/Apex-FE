@@ -84,6 +84,7 @@ export interface IStoredDataProps {
   isDataVisibility?: boolean;
   isCloning?: boolean;
   wcc?: string;
+  isCreateOrEdit?: boolean;
 }
 
 export interface IApplicationStoredDataRow {

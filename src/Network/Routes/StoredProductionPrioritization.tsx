@@ -299,7 +299,8 @@ export default function StoredProductionPrioritization({
                       wellPrioritizationId,
                       wellPrioritizationTitle,
                       selectedRowIndex,
-                      reducer
+                      reducer,
+                      false as boolean
                     )
                   );
 
@@ -328,6 +329,7 @@ export default function StoredProductionPrioritization({
                       title,
                       selectedRowIndex,
                       "inputReducer" as ReducersType,
+                      true as boolean
                     ));
                   }}
               />);

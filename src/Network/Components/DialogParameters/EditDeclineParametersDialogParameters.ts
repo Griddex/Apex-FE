@@ -28,3 +28,28 @@ export const extrudeStoredDataDPs = (
     currentRow,
   };
 };
+
+
+//currentRow: IStoredDataRow,
+//forecastParametersIndex: number,
+
+export const extrudeStoredProductionPrioritization = (
+  title: string,
+  workflowProcess: NonNullable<TAllWorkflowProcesses>
+): DialogStuff<IStoredDataRow> => {
+  return {
+    name: "Edit_Well_Prioritization_Parameters_Dialog",
+    title,
+    type: "createPrioritizationParametersWorkflowDialog",
+    show: true,
+    exclusive: false,
+    maxWidth: "lg",
+    iconType: "edit",
+    workflowProcess,
+    actionsList: () => DialogCancelButton(),
+    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+  };
+};
+
+//forecastParametersIndex,
+//currentRow,

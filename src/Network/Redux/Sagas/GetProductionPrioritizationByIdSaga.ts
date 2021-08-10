@@ -25,6 +25,8 @@ import {
   GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
   updateNetworkParametersAction,
 } from "../Actions/NetworkActions";
+import { extrudeStoredProductionPrioritization } from "../../Components/DialogParameters/EditDeclineParametersDialogParameters";
+
 
 export default function* watchGetProductionPrioritizationByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -60,6 +62,7 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
     selectedProductionPrioritizationTitle,
     selectedRowIndex,
     reducer,
+    isCreateOrEdit
   } = payload;
 
   const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/${selectedProductionPrioritizationId}`;
@@ -104,20 +107,31 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
       })
     );
 
-    const dialogParameters: DialogStuff = {
-      name: "Extrude_Prioritization_Parameters_Dialog",
-      title: selectedProductionPrioritizationTitle,
-      type: "productionStreamPrioritizationDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "md",
-      iconType: "information",
-      selectedRowIndex,
-      actionsList: () => DialogCancelButton(),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-    };
+    console.log("isCreateOrEdit: ", isCreateOrEdit);
 
-    yield put(showDialogAction(dialogParameters));
+    if(isCreateOrEdit == false){
+      const dialogParameters: DialogStuff = {
+        name: "Extrude_Prioritization_Parameters_Dialog",
+        title: selectedProductionPrioritizationTitle,
+        type: "productionStreamPrioritizationDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "md",
+        iconType: "information",
+        selectedRowIndex,
+        actionsList: () => DialogCancelButton(),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+  
+      yield put(showDialogAction(dialogParameters));
+  
+    }else{
+      yield put(showDialogAction(extrudeStoredProductionPrioritization(
+        "Edit Well Prioritization",
+        "editForecastingParametersWorkflow"
+      )))
+  
+    }
   } catch (errors) {
     const failureAction = getProductionPrioritizationByIdFailureAction();
 

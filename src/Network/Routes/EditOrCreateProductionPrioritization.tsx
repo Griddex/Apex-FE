@@ -29,7 +29,7 @@ import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 const EditOrCreateProductionPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
-
+  const isCreateOrEdit = true;
   const {
     selectedTableData,
     prioritizationPerspective,
@@ -109,7 +109,7 @@ const EditOrCreateProductionPrioritization = () => {
     };
 
     const columns = columnKeys.map((k) => {
-      return {
+      const column = {
         key: k,
         name: startCase(k).toUpperCase(),
         editable: false,
@@ -120,6 +120,13 @@ const EditOrCreateProductionPrioritization = () => {
             : undefined,
         width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
       };
+
+      if(isCreateOrEdit == true){
+        if(column.key  != "module"){
+          column.editable = true;
+        }
+      }
+      return column;
     });
 
     const exportColumns = columns
