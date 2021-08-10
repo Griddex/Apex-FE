@@ -1,2 +1,5 @@
-BaseUrlService.ts merge=ours
-LoginSaga.ts merge=ours
+src\Application\Services\BaseUrlService.ts merge=ours
+src\Application\Redux\Sagas\LoginSaga.ts merge=ours
+
+
+
