@@ -79,7 +79,7 @@ function* saveProductionPrioritizationSaga(
   try {
     const result = yield call(
       saveProductionPrioritizationAPI,
-      `${getBaseForecastUrl()}/well-prioritization`
+      `${getBaseForecastUrl()}/well-prioritization/save`
     );
 
     const {

@@ -60,9 +60,6 @@ function* saveForecastSaga(
   const { selectedNetworkId, selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
   );
-  const { selectedForecastingResultsId } = yield select(
-    (state) => state.forecastReducer
-  );
 
   const data = {
     userId: "Gideon",
@@ -71,7 +68,6 @@ function* saveForecastSaga(
     forecastingParametersId: selectedForecastingParametersId,
     title,
     description,
-    forecastResultsKey: selectedForecastingResultsId,
   };
 
   const config = { withCredentials: false };
@@ -80,7 +76,7 @@ function* saveForecastSaga(
   try {
     yield put(showSpinnerAction("Saving forecast results..."));
 
-    const result = yield call(saveForecastAPI, `${getBaseForecastUrl()}`);
+    const result = yield call(saveForecastAPI, `${getBaseForecastUrl()}/save`);
 
     const {
       data: { data: selectedForecastingResultsId },

@@ -80,7 +80,7 @@ function* saveDeclineParametersSaga(
   try {
     const result = yield call(
       saveDeclineParametersAPI,
-      `${getBaseForecastUrl()}/well-decline-parameters`
+      `${getBaseForecastUrl()}/well-decline-parameters/save`
     );
 
     console.log("result: ", result);
