@@ -446,15 +446,6 @@ export const devScenarios = {
   oilNAGDevelopment: "OIL + NAG",
 };
 
-export const chartTypeOptions = {
-  stackedArea: "StackedAreaChart",
-  line: "LineChart",
-  doughnut: "DoughnutChart",
-  bar: "BarChart",
-};
-
-export type TChartTypeNames = keyof typeof chartTypeOptions;
-
 export const economicsPerspectiveTreeMap = {
   heatMapTree: "sensitivitiesHeatMapTree",
   plotChartsTree: "economicsPlotChartsTree",

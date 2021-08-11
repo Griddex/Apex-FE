@@ -14,7 +14,6 @@ import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons"
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartSelectionMenu from "../../../Components/Menus/EconomicsChartSelectionMenu";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import { TChartTypeNames } from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
 import EconomicsPlotChartsSelectCharts from "./EconomicsPlotChartsSelectCharts";
@@ -257,7 +256,7 @@ const EconomicsPlotChartsVisualytics = () => {
                   workflowCategory={wc}
                   workflowProcess={wp}
                   updateParameterAction={updateEconomicsParameterAction}
-                  chartType={"lineChart"}
+                  chartType="lineChart"
                 />
               );
             } else {

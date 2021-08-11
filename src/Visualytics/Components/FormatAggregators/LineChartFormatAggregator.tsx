@@ -301,6 +301,7 @@ const LineChartFormatAggregator = ({
   };
 
   const apexChartProps = {
+    workflowCategory,
     workflowProcess,
     updateParameterAction,
     chartType,

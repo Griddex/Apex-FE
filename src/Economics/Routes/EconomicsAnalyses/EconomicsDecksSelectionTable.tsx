@@ -52,6 +52,7 @@ const EconomicsDecksSelectionTable = () => {
   const costRevDeckTitle = selectedCostsRevenuesInputDeckTitle
     ? selectedCostsRevenuesInputDeckTitle
     : economicsCostsRevenuesDeckStored[0]?.title;
+
   const ecoParDeckTitle = selectedEconomicsParametersInputDeckTitle
     ? selectedEconomicsParametersInputDeckTitle
     : selectedEconomicsParametersInputDeckTitle[0]?.title;

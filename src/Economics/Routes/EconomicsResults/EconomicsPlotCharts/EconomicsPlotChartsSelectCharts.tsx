@@ -1,35 +1,55 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import NoData from "../../../../Application/Components/Visuals/NoData";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import BarChart from "../../../../Visualytics/Components/Charts/BarChart";
+import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import LineChart from "../../../../Visualytics/Components/Charts/LineChart";
 import StackedAreaChart from "../../../../Visualytics/Components/Charts/StackedAreaChart";
-import { TChartTypeNames } from "../../../Data/EconomicsData";
+import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 
-const tempData = [
-  { name: "Oil", value: 450 },
-  { name: "Gas", value: 250 },
-  { name: "Condensate", value: 90 },
-];
-
-const economicsPlotCharts = {
-  stackedArea: <StackedAreaChart />,
-  line: <LineChart />,
-  doughnut: <DoughnutChart data={tempData} willUseThemeColor={true} />,
-  bar: <BarChart />,
-} as Record<TChartTypeNames, JSX.Element>;
+const EconomicsPlotCharts = ({
+  chartType,
+  data,
+  otherProperties,
+}: IChartProps) => {
+  switch (chartType) {
+    case "stackedArea":
+      return <StackedAreaChart data={data} otherProperties={otherProperties} />;
+    case "line":
+      return <LineChart data={data} otherProperties={otherProperties} />;
+    case "doughnut":
+      return <DoughnutChart data={data} otherProperties={otherProperties} />;
+    case "bar":
+      return <BarChart data={data} otherProperties={otherProperties} />;
+    default:
+      return <NoData />;
+  }
+};
 
 const EconomicsPlotChartsSelectCharts = () => {
+  const wc = "economicsChartsWorkflows";
+
   const { selectedEconomicsPlotChartOption } = useSelector(
     (state: RootState) => state.economicsReducer
   );
 
-  const chartValue = selectedEconomicsPlotChartOption.value as TChartTypeNames;
+  const chartType = selectedEconomicsPlotChartOption.value as TChartTypes;
+  const economicsChartsObj = useSelector(
+    (state: RootState) => state.economicsReducer[wc]
+  );
+  const { data, otherProperties } = economicsChartsObj[chartType];
 
   return (
-    <ApexFlexContainer>{economicsPlotCharts[chartValue]}</ApexFlexContainer>
+    <ApexFlexContainer>
+      <EconomicsPlotCharts
+        chartType={chartType}
+        data={data}
+        otherProperties={otherProperties}
+      />
+    </ApexFlexContainer>
   );
 };
 
