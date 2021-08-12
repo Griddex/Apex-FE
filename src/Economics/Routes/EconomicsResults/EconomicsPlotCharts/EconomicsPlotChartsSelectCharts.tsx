@@ -1,35 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import NoData from "../../../../Application/Components/Visuals/NoData";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import BarChart from "../../../../Visualytics/Components/Charts/BarChart";
+import ChartSelector from "../../../../Visualytics/Common/ChartSelector";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
-import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
-import LineChart from "../../../../Visualytics/Components/Charts/LineChart";
-import StackedAreaChart from "../../../../Visualytics/Components/Charts/StackedAreaChart";
-import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
-
-const EconomicsPlotCharts = ({
-  chartType,
-  data,
-  otherProperties,
-}: IChartProps) => {
-  switch (chartType) {
-    case "stackedArea":
-      return <StackedAreaChart data={data} otherProperties={otherProperties} />;
-    case "line":
-      return <LineChart data={data} otherProperties={otherProperties} />;
-    case "doughnut":
-      return <DoughnutChart data={data} otherProperties={otherProperties} />;
-    case "bar":
-      return <BarChart data={data} otherProperties={otherProperties} />;
-    default:
-      return <NoData />;
-  }
-};
 
 const EconomicsPlotChartsSelectCharts = () => {
+  const wp = "economicsResultsPlotCharts";
   const wc = "economicsChartsWorkflows";
 
   const { selectedEconomicsPlotChartOption } = useSelector(
@@ -40,11 +17,11 @@ const EconomicsPlotChartsSelectCharts = () => {
   const economicsChartsObj = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  const { data, otherProperties } = economicsChartsObj[chartType];
+  const { data, otherProperties } = economicsChartsObj[wp][chartType];
 
   return (
     <ApexFlexContainer>
-      <EconomicsPlotCharts
+      <ChartSelector
         chartType={chartType}
         data={data}
         otherProperties={otherProperties}

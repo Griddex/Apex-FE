@@ -480,10 +480,10 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Components\TreeView.tsx", "TypeScript React", 0, 0, 0, 0, 309, 0, 0, 4, 26, 339
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Images\DragAndDrop.svg", "XML", 0, 0, 0, 7, 0, 0, 0, 1, 1, 9
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Images\Visualytics.svg", "XML", 0, 0, 0, 105, 0, 0, 0, 1, 1, 107
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\ChartActions\ChartActions.ts", "TypeScript", 53, 0, 0, 0, 0, 0, 0, 0, 8, 61
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\ChartReducer\ChartReducer.ts", "TypeScript", 68, 0, 0, 0, 0, 0, 0, 3, 13, 84
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\ChartState\ChartState.ts", "TypeScript", 351, 0, 0, 0, 0, 0, 0, 1, 4, 356
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\ChartState\ChartStateTypes.ts", "TypeScript", 38, 0, 0, 0, 0, 0, 0, 0, 5, 43
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\VisualyticsActions\VisualyticsActions.ts", "TypeScript", 53, 0, 0, 0, 0, 0, 0, 0, 8, 61
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\VisualyticsReducer\VisualyticsReducer.ts", "TypeScript", 68, 0, 0, 0, 0, 0, 0, 3, 13, 84
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\VisualyticsState\VisualyticsState.ts", "TypeScript", 351, 0, 0, 0, 0, 0, 0, 1, 4, 356
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Redux\VisualyticsState\VisualyticsStateTypes.ts", "TypeScript", 38, 0, 0, 0, 0, 0, 0, 0, 5, 43
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Utils\DragAndDropItemTypes.ts", "TypeScript", 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Utils\GenerateRandomColors.ts", "TypeScript", 5, 0, 0, 0, 0, 0, 0, 0, 3, 8
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Visualytics\Utils\PredefinedPalettes.ts", "TypeScript", 1210, 0, 0, 0, 0, 0, 0, 0, 2, 1212

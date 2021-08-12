@@ -1,3 +1,5 @@
+import { Theme } from "@material-ui/core";
+
 export const axisNameTitlesObj = {
   axisLeft: "Left Axis",
   axisBottom: "Bottom Axis",
@@ -310,3 +312,461 @@ export const valueSymbolOptions = [
     label: "$",
   },
 ];
+
+export const defaultDoughnutOtherProperties = (
+  willUseThemeColor: boolean,
+  theme: Theme
+) => {
+  return {
+    margin: { top: 20, right: 0, bottom: 20, left: 0 },
+    colors: willUseThemeColor
+      ? { scheme: "category10" }
+      : { datum: "data.color" },
+
+    innerRadius: 0.7,
+    padAngle: 3,
+    cornerRadius: 0,
+    activeOuterRadiusOffset: 8,
+    borderWidth: 1,
+    borderColor: { from: "color", modifiers: [["darker", 0.2]] },
+    arcLinkLabelsSkipAngle: 10,
+    arcLinkLabelsTextColor: "#333333",
+    arcLinkLabelsThickness: 2,
+    arcLinkLabelsColor: { from: "color" },
+    arcLabelsSkipAngle: 10,
+    arcLabelsTextColor: { from: "color", modifiers: [["darker", 2]] },
+    defs: [
+      {
+        id: "full",
+        type: "",
+        background: "inherit",
+        color: theme.palette.success.main,
+        size: 4,
+        padding: 1,
+        stagger: true,
+      },
+      {
+        id: "partial",
+        color: theme.palette.primary.main,
+      },
+      {
+        id: "none",
+        color: theme.palette.secondary.main,
+      },
+    ],
+    fill: [
+      {
+        match: {
+          id: "Full Match",
+        },
+        id: "full",
+      },
+      {
+        match: {
+          id: "Partial Match",
+        },
+        id: "partial",
+      },
+      {
+        match: {
+          id: "No Match",
+        },
+        id: "none",
+      },
+    ],
+  };
+};
+
+export const lineChartOtherProperties = {
+  margin: { top: 50, right: 110, bottom: 50, left: 60 },
+  xScale: { type: "point" },
+  xFormat: "",
+  yScale: {
+    type: "linear",
+    min: "auto",
+    max: "auto",
+    stacked: true,
+    reverse: false,
+  },
+  yFormat: "",
+
+  //GRID
+  enableGridX: true,
+  enableGridY: true,
+  gridXValues: [],
+  gridYValues: [],
+
+  //AXES
+  axisTop: null,
+  axisRight: null,
+  axisBottom: {
+    axisEnabled: true,
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "",
+    legendOffset: 36,
+    legendPosition: "middle",
+  },
+  axisLeft: {
+    axisEnabled: true,
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "",
+    legendOffset: -40,
+    legendPosition: "middle",
+  },
+  apexAxesEnabled: {
+    axisLeft: true,
+    axisBottom: true,
+    axisTop: false,
+    axisRight: false,
+  },
+
+  //POINTS
+  pointSize: 10,
+  pointColor: { from: "color", modifiers: [] },
+  pointBorderWidth: 2,
+  pointBorderColor: { from: "serieColor", modifiers: [] },
+  pointLabelYOffset: -12,
+  useMesh: true,
+
+  //LEGENDS
+  enableLegend: false,
+  legends: [
+    {
+      anchor: "bottom-right",
+      direction: "column",
+      justify: false,
+      translateX: 100,
+      translateY: 0,
+      itemsSpacing: 0,
+      itemDirection: "left-to-right",
+      itemWidth: 80,
+      itemHeight: 20,
+      itemOpacity: 0.75,
+      symbolSize: 12,
+      symbolShape: "circle",
+      symbolBorderColor: "rgba(0, 0, 0, .5)",
+      effects: [
+        {
+          on: "hover",
+          style: {
+            itemBackground: "rgba(0, 0, 0, .03)",
+            itemOpacity: 1,
+          },
+        },
+      ],
+    },
+  ],
+};
+
+export const stackedAreaChartOtherProperties = {
+  keys: ["Raoul", "Josiane", "Marcel", "René", "Paul", "Jacques"],
+  margin: { top: 50, right: 110, bottom: 50, left: 60 },
+  axisTop: null,
+  axisRight: null,
+  axisBottom: {
+    orient: "bottom",
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "",
+    legendOffset: 36,
+  },
+  axisLeft: {
+    orient: "left",
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "",
+    legendOffset: -40,
+  },
+  offsetType: "silhouette",
+  colors: { scheme: "nivo" },
+  fillOpacity: 0.85,
+  borderColor: { theme: "background" },
+  defs: [
+    {
+      id: "dots",
+      type: "patternDots",
+      background: "inherit",
+      color: "#2c998f",
+      size: 4,
+      padding: 2,
+      stagger: true,
+    },
+    {
+      id: "squares",
+      type: "patternSquares",
+      background: "inherit",
+      color: "#e4c912",
+      size: 6,
+      padding: 2,
+      stagger: true,
+    },
+  ],
+  fill: [
+    {
+      match: {
+        id: "Paul",
+      },
+      id: "dots",
+    },
+    {
+      match: {
+        id: "Marcel",
+      },
+      id: "squares",
+    },
+  ],
+  dotSize: 8,
+  dotColor: { from: "color" },
+  dotBorderWidth: 2,
+  dotBorderColor: { from: "color", modifiers: [["darker", 0.7]] },
+  legends: [
+    {
+      anchor: "bottom-right",
+      direction: "column",
+      translateX: 100,
+      itemWidth: 80,
+      itemHeight: 20,
+      itemTextColor: "#999999",
+      symbolSize: 12,
+      symbolShape: "circle",
+      effects: [
+        {
+          on: "hover",
+          style: {
+            itemTextColor: "#000000",
+          },
+        },
+      ],
+    },
+  ],
+};
+
+export const doughnutChartOtherProperties = {
+  margin: { top: 40, right: 80, bottom: 80, left: 80 },
+  innerRadius: 0.5,
+  padAngle: 0.7,
+  cornerRadius: 3,
+  activeOuterRadiusOffset: 8,
+  borderWidth: 1,
+  borderColor: { from: "color", modifiers: [["darker", 0.2]] },
+  arcLinkLabelsSkipAngle: 10,
+  arcLinkLabelsTextColor: "#333333",
+  arcLinkLabelsThickness: 2,
+  arcLinkLabelsColor: { from: "color" },
+  arcLabelsSkipAngle: 10,
+  arcLabelsTextColor: { from: "color", modifiers: [["darker", 2]] },
+  defs: [
+    {
+      id: "dots",
+      type: "patternDots",
+      background: "inherit",
+      color: "rgba(255, 255, 255, 0.3)",
+      size: 4,
+      padding: 1,
+      stagger: true,
+    },
+    {
+      id: "lines",
+      type: "patternLines",
+      background: "inherit",
+      color: "rgba(255, 255, 255, 0.3)",
+      rotation: -45,
+      lineWidth: 6,
+      spacing: 10,
+    },
+  ],
+  fill: [
+    {
+      match: {
+        id: "ruby",
+      },
+      id: "dots",
+    },
+    {
+      match: {
+        id: "c",
+      },
+      id: "dots",
+    },
+    {
+      match: {
+        id: "go",
+      },
+      id: "dots",
+    },
+    {
+      match: {
+        id: "python",
+      },
+      id: "dots",
+    },
+    {
+      match: {
+        id: "scala",
+      },
+      id: "lines",
+    },
+    {
+      match: {
+        id: "lisp",
+      },
+      id: "lines",
+    },
+    {
+      match: {
+        id: "elixir",
+      },
+      id: "lines",
+    },
+    {
+      match: {
+        id: "javascript",
+      },
+      id: "lines",
+    },
+  ],
+  legends: [
+    {
+      anchor: "bottom",
+      direction: "row",
+      justify: false,
+      translateX: 0,
+      translateY: 56,
+      itemsSpacing: 0,
+      itemWidth: 100,
+      itemHeight: 18,
+      itemTextColor: "#999",
+      itemDirection: "left-to-right",
+      itemOpacity: 1,
+      symbolSize: 18,
+      symbolShape: "circle",
+      effects: [
+        {
+          on: "hover",
+          style: {
+            itemTextColor: "#000",
+          },
+        },
+      ],
+    },
+  ],
+};
+
+export const barChartOtherProperties = {
+  keys: ["hot dog", "burger", "sandwich", "kebab", "fries", "donut"],
+  indexBy: "country",
+  margin: { top: 50, right: 130, bottom: 50, left: 60 },
+  padding: 0.3,
+  valueScale: { type: "linear" },
+  indexScale: { type: "band", round: true },
+  valueFormat: { format: "", enabled: false },
+  colors: { scheme: "nivo" },
+  defs: [
+    {
+      id: "dots",
+      type: "patternDots",
+      background: "inherit",
+      color: "#38bcb2",
+      size: 4,
+      padding: 1,
+      stagger: true,
+    },
+    {
+      id: "lines",
+      type: "patternLines",
+      background: "inherit",
+      color: "#eed312",
+      rotation: -45,
+      lineWidth: 6,
+      spacing: 10,
+    },
+  ],
+  fill: [
+    {
+      match: {
+        id: "fries",
+      },
+      id: "dots",
+    },
+    {
+      match: {
+        id: "sandwich",
+      },
+      id: "lines",
+    },
+  ],
+  borderColor: { from: "color", modifiers: [["darker", 1.6]] },
+  axisTop: null,
+  axisRight: null,
+  axisBottom: {
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "country",
+    legendPosition: "middle",
+    legendOffset: 32,
+  },
+  axisLeft: {
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "food",
+    legendPosition: "middle",
+    legendOffset: -40,
+  },
+  labelSkipWidth: 12,
+  labelSkipHeight: 12,
+  labelTextColor: { from: "color", modifiers: [["darker", 1.6]] },
+  legends: [
+    {
+      dataFrom: "keys",
+      anchor: "bottom-right",
+      direction: "column",
+      justify: false,
+      translateX: 120,
+      translateY: 0,
+      itemsSpacing: 2,
+      itemWidth: 100,
+      itemHeight: 20,
+      itemDirection: "left-to-right",
+      itemOpacity: 0.85,
+      symbolSize: 20,
+      effects: [
+        {
+          on: "hover",
+          style: {
+            itemOpacity: 1,
+          },
+        },
+      ],
+    },
+  ],
+};
+
+export const allChartsDataAndOtherProperties = {
+  lineChart: {
+    data: [],
+    otherProperties: lineChartOtherProperties,
+  },
+
+  stackedAreaChart: {
+    data: [],
+    otherProperties: stackedAreaChartOtherProperties,
+  },
+
+  doughnutChart: {
+    data: [],
+    otherProperties: doughnutChartOtherProperties,
+  },
+
+  barChart: {
+    data: [],
+    otherProperties: barChartOtherProperties,
+  },
+};

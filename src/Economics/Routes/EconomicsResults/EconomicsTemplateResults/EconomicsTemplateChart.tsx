@@ -25,7 +25,7 @@ const EconomicsTemplateChart = () => {
   const dispatch = useDispatch();
 
   const { selectedChartIndex } = useSelector(
-    (state: RootState) => state.chartReducer
+    (state: RootState) => state.visualyticsReducer
   );
 
   const [layoutConfig, setConfigLayout] =

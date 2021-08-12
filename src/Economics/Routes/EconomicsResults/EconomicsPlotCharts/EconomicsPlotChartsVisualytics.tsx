@@ -9,6 +9,7 @@ import IconButtonWithTooltip from "../../../../Application/Components/IconButton
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
+import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import LineChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
@@ -79,7 +80,7 @@ const EconomicsPlotChartsVisualytics = () => {
     showPlotChartsCategories
   );
 
-  const chartValue = selectedEconomicsPlotChartOption.value as TChartTypeNames;
+  const chartValue = selectedEconomicsPlotChartOption.value as TChartTypes;
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -248,9 +249,9 @@ const EconomicsPlotChartsVisualytics = () => {
       {showContextDrawer && (
         <ContextDrawer>
           {() => {
-            if (chartValue === "stackedArea") {
+            if (chartValue === "stackedAreaChart") {
               return <div>StackedArea</div>;
-            } else if (chartValue === "line") {
+            } else if (chartValue === "lineChart") {
               return (
                 <LineChartFormatAggregator
                   workflowCategory={wc}

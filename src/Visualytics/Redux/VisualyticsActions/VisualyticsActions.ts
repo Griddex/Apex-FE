@@ -1,5 +1,5 @@
-import { chartObjectsNameTitleMap } from "../ChartState/ChartState";
-import { IChartObject } from "./../ChartState/ChartStateTypes";
+import { chartObjectsNameTitleMap } from "../VisualyticsState/VisualyticsState";
+import { IChartObject } from "./../VisualyticsState/VisualyticsStateTypes";
 
 export const PERSIST_CHARTINDEX = "PERSIST_CHARTINDEX";
 export const PERSIST_CHARTELEMENTID = "PERSIST_CHARTELEMENTID";

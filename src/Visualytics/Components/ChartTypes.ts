@@ -1,7 +1,7 @@
 export interface IChartProps {
   chartType?: string;
   data: any[];
-  otherProperties: any;
+  otherProperties?: any;
   willUseThemeColor?: boolean;
 }
 
