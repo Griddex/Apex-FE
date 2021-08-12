@@ -612,10 +612,10 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | [src/Visualytics/Components/TreeView.tsx](/src/Visualytics/Components/TreeView.tsx) | TypeScript React | 308 | 4 | 26 | 338 |
 | [src/Visualytics/Images/DragAndDrop.svg](/src/Visualytics/Images/DragAndDrop.svg) | XML | 7 | 1 | 1 | 9 |
 | [src/Visualytics/Images/Visualytics.svg](/src/Visualytics/Images/Visualytics.svg) | XML | 105 | 1 | 1 | 107 |
-| [src/Visualytics/Redux/ChartActions/ChartActions.ts](/src/Visualytics/Redux/ChartActions/ChartActions.ts) | TypeScript | 53 | 0 | 8 | 61 |
-| [src/Visualytics/Redux/ChartReducer/ChartReducer.ts](/src/Visualytics/Redux/ChartReducer/ChartReducer.ts) | TypeScript | 68 | 3 | 13 | 84 |
-| [src/Visualytics/Redux/ChartState/ChartState.ts](/src/Visualytics/Redux/ChartState/ChartState.ts) | TypeScript | 351 | 1 | 4 | 356 |
-| [src/Visualytics/Redux/ChartState/ChartStateTypes.ts](/src/Visualytics/Redux/ChartState/ChartStateTypes.ts) | TypeScript | 38 | 0 | 5 | 43 |
+| [src/Visualytics/Redux/VisualyticsActions/VisualyticsActions.ts](/src/Visualytics/Redux/VisualyticsActions/VisualyticsActions.ts) | TypeScript | 53 | 0 | 8 | 61 |
+| [src/Visualytics/Redux/VisualyticsReducer/VisualyticsReducer.ts](/src/Visualytics/Redux/VisualyticsReducer/VisualyticsReducer.ts) | TypeScript | 68 | 3 | 13 | 84 |
+| [src/Visualytics/Redux/VisualyticsState/VisualyticsState.ts](/src/Visualytics/Redux/VisualyticsState/VisualyticsState.ts) | TypeScript | 351 | 1 | 4 | 356 |
+| [src/Visualytics/Redux/VisualyticsState/VisualyticsStateTypes.ts](/src/Visualytics/Redux/VisualyticsState/VisualyticsStateTypes.ts) | TypeScript | 38 | 0 | 5 | 43 |
 | [src/Visualytics/Utils/DragAndDropItemTypes.ts](/src/Visualytics/Utils/DragAndDropItemTypes.ts) | TypeScript | 5 | 0 | 1 | 6 |
 | [src/Visualytics/Utils/GenerateRandomColors.ts](/src/Visualytics/Utils/GenerateRandomColors.ts) | TypeScript | 5 | 0 | 3 | 8 |
 | [src/Visualytics/Utils/PredefinedPalettes.ts](/src/Visualytics/Utils/PredefinedPalettes.ts) | TypeScript | 1,210 | 0 | 2 | 1,212 |

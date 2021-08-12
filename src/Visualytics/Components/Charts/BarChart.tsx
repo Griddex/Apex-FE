@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { ResponsiveBar } from "@nivo/bar";
+import { IChartProps } from "../ChartTypes";
 
 const data = [
   {
@@ -110,7 +111,7 @@ const data = [
   },
 ];
 
-const SimpleBarChart = () => {
+const SimpleBarChart = ({ data, otherProperties }: IChartProps) => {
   return (
     <ResponsiveBar
       data={data}

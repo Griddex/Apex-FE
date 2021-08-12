@@ -54,14 +54,11 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { willShowSuccessDialog, perspective, id } = payload;
-  const { selectedEconomicsResultsId } = yield select(
-    (state) => state.forecastReducer
-  );
 
-  const economicsId = id ? id : selectedEconomicsResultsId;
+  const { willShowSuccessDialog, perspective, idTitleDescIsSaved } = payload;
+  const { selectedEconomicsResultsId } = idTitleDescIsSaved;
 
-  const url = `${getBaseEconomicsUrl()}/analyses/analysisResultTree/${economicsId}`;
+  const url = `${getBaseEconomicsUrl()}/analyses/analysisResultTree/${selectedEconomicsResultsId}`;
   const config = { withCredentials: false };
   const fetchEconomicsTreeAPI = (url: string) => authService.get(url, config);
 
@@ -75,7 +72,7 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
     const {
       data: { data: economicsTree },
     } = result;
-    // const { data: economicsTree } = economicsTreeHard();
+
     const treeType = perspective as TEconomicsTreePerspective;
 
     yield put(

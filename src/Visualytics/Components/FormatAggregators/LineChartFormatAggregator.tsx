@@ -30,7 +30,7 @@ const LineChartFormatAggregator = ({
     setPerspective(newPerspective);
   };
 
-  const lineChart = economicsResultsPlotCharts["lineChart"];
+  const { otherProperties } = economicsResultsPlotCharts["lineChart"];
 
   //GENERAL
   const {
@@ -41,7 +41,7 @@ const LineChartFormatAggregator = ({
     areaBlendMode,
     areaBaselineValue,
     areaOpacity,
-  } = lineChart;
+  } = otherProperties;
 
   const lineChartGeneralData = {
     curve: curve ? curve : "linear",
@@ -69,7 +69,7 @@ const LineChartFormatAggregator = ({
   };
 
   //PLOT
-  const { margin, xScale, xFormat, yScale, yFormat } = lineChart;
+  const { margin, xScale, xFormat, yScale, yFormat } = otherProperties;
   const lineChartPlotData = {
     margin,
     colors: colors ? colors.scheme : { scheme: "category10" },
@@ -80,7 +80,8 @@ const LineChartFormatAggregator = ({
   };
 
   //GRID DATA
-  const { enableGridX, enableGridY, gridXValues, gridYValues } = lineChart;
+  const { enableGridX, enableGridY, gridXValues, gridYValues } =
+    otherProperties;
   const lineGridData = [
     {
       gridName: "gridX",
@@ -99,10 +100,10 @@ const LineChartFormatAggregator = ({
   ];
 
   //AXES DATA
-  const apexAxesEnabled = lineChart["apexAxesEnabled"];
+  const apexAxesEnabled = otherProperties["apexAxesEnabled"];
   const lineAxesData = Object.keys(axisNameTitlesObj).reduce(
     (acc: any, name) => {
-      if (lineChart[name]) {
+      if (otherProperties[name]) {
         const {
           tickSize,
           tickPadding,
@@ -110,7 +111,7 @@ const LineChartFormatAggregator = ({
           legend,
           legendOffset,
           legendPosition,
-        } = lineChart[name];
+        } = otherProperties[name];
 
         return [
           ...acc,
@@ -193,7 +194,7 @@ const LineChartFormatAggregator = ({
   }));
 
   //LEGENDS
-  const { enableLegend } = lineChart;
+  const { enableLegend } = otherProperties;
   const {
     anchor,
     direction,
@@ -208,7 +209,7 @@ const LineChartFormatAggregator = ({
     symbolSize,
     symbolShape,
     symbolBorderColor,
-  } = lineChart["legends"][0];
+  } = otherProperties["legends"][0];
 
   const lineLegendsData = {
     enableLegend,
@@ -272,7 +273,7 @@ const LineChartFormatAggregator = ({
     pointBorderColor,
     pointBorderWidth,
     pointLabelYOffset,
-  } = lineChart;
+  } = otherProperties;
 
   const linePointersData = {
     enablePointers: enablePoints,
@@ -301,6 +302,7 @@ const LineChartFormatAggregator = ({
   };
 
   const apexChartProps = {
+    workflowCategory,
     workflowProcess,
     updateParameterAction,
     chartType,

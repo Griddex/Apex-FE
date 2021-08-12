@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import NoData from "../../../../Application/Components/Visuals/NoData";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
@@ -53,7 +54,7 @@ const EconomicsPlotChartsDataPanel = () => {
         }
       : economicsResultsTitleOptions[0];
 
-  const [economicsResultTitleOption, setEconomicsResultTitleOption] =
+  const [economicsResultOption, setEconomicsResultOption] =
     React.useState<IExtendedSelectOption>(
       selectedEconomicsResultsTitleOption as IExtendedSelectOption
     );
@@ -62,7 +63,7 @@ const EconomicsPlotChartsDataPanel = () => {
     option: ValueType<IExtendedSelectOption, false>
   ) => {
     const optionDefined = option as IExtendedSelectOption;
-    setEconomicsResultTitleOption(optionDefined);
+    setEconomicsResultOption(optionDefined);
 
     const { id, title, description } = optionDefined;
 
@@ -96,12 +97,16 @@ const EconomicsPlotChartsDataPanel = () => {
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
-      selectedOption={economicsResultTitleOption}
+      selectedOption={economicsResultOption}
       titleOptions={economicsResultsTitleOptions}
       handleSelectChange={handleSelectEconomicsResultsChange}
       hasSecondaryComponent={false}
       selectedTitle={selectedEconomicsResultsTitle}
-      treeViewComponent={EconomicsPlotChartsTreeView}
+      treeViewComponent={
+        economicsResultOption.title === "Select..."
+          ? NoData
+          : EconomicsPlotChartsTreeView
+      }
     />
   );
 };

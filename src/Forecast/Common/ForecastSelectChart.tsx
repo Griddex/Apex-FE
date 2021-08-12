@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { ICharts } from "../../Visualytics/Redux/ChartState/ChartStateTypes";
+import { ICharts } from "../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
 import ForecastStackedAreaChart from "../Components/ForecastStackedAreaChart";
 
 const charts: ICharts = {
@@ -13,7 +13,7 @@ const charts: ICharts = {
 
 const ForecastSelectChart = () => {
   const { selectedChartIndex } = useSelector(
-    (state: RootState) => state.chartReducer
+    (state: RootState) => state.visualyticsReducer
   );
 
   const chart = charts[selectedChartIndex || 0];

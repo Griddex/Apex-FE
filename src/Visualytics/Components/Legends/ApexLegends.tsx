@@ -20,6 +20,7 @@ import {
 } from "../../Data/VisualyticsData";
 
 const ApexLegends = ({
+  workflowCategory,
   workflowProcess,
   updateParameterAction,
   chartType,
@@ -41,6 +42,7 @@ const ApexLegends = ({
 }: IApexLegends & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const wc = workflowCategory;
   const wp = workflowProcess;
 
   const legendRef = React.useRef<HTMLDivElement>(null);
@@ -53,7 +55,7 @@ const ApexLegends = ({
     theme.palette.warning.main,
   ]);
 
-  const basePath = `economicsChartsWorkflows.${wp}.${chartType}`;
+  const basePath = `${wc}.${wp}.${chartType}.otherProperties`;
   const itemDirectionOption = legendItemsDirectionOptions.find(
     (option) => option.value === itemDirection
   );

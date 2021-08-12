@@ -157,9 +157,9 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | [src/Visualytics/Components/TreeView.js](/src/Visualytics/Components/TreeView.js) | JavaScript | 306 | 13 | 24 | 343 |
 | [src/Visualytics/Images/DragAndDrop.svg](/src/Visualytics/Images/DragAndDrop.svg) | XML | 7 | 1 | 1 | 9 |
 | [src/Visualytics/Images/Visualytics.svg](/src/Visualytics/Images/Visualytics.svg) | XML | 105 | 1 | 1 | 107 |
-| [src/Visualytics/Redux/ChartActions/ChartActions.js](/src/Visualytics/Redux/ChartActions/ChartActions.js) | JavaScript | 9 | 0 | 2 | 11 |
-| [src/Visualytics/Redux/ChartReducer/ChartReducer.js](/src/Visualytics/Redux/ChartReducer/ChartReducer.js) | JavaScript | 14 | 0 | 4 | 18 |
-| [src/Visualytics/Redux/ChartState/ChartState.js](/src/Visualytics/Redux/ChartState/ChartState.js) | JavaScript | 4 | 0 | 1 | 5 |
+| [src/Visualytics/Redux/VisualyticsActions/VisualyticsActions.js](/src/Visualytics/Redux/VisualyticsActions/VisualyticsActions.js) | JavaScript | 9 | 0 | 2 | 11 |
+| [src/Visualytics/Redux/VisualyticsReducer/VisualyticsReducer.js](/src/Visualytics/Redux/VisualyticsReducer/VisualyticsReducer.js) | JavaScript | 14 | 0 | 4 | 18 |
+| [src/Visualytics/Redux/VisualyticsState/VisualyticsState.js](/src/Visualytics/Redux/VisualyticsState/VisualyticsState.js) | JavaScript | 4 | 0 | 1 | 5 |
 | [src/index.css](/src/index.css) | CSS | 10 | 7 | 2 | 19 |
 | [src/index.js](/src/index.js) | JavaScript | 29 | 0 | 4 | 33 |
 | [src/serviceWorker.js](/src/serviceWorker.js) | JavaScript | 98 | 31 | 13 | 142 |

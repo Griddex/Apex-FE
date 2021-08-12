@@ -18,6 +18,7 @@ import {
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexLineChartGeneral = ({
+  workflowCategory,
   workflowProcess,
   updateParameterAction,
   chartType,
@@ -31,11 +32,12 @@ const ApexLineChartGeneral = ({
 }: IApexLineChartGeneral & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const wc = workflowCategory;
   const wp = workflowProcess;
 
   const pointRef = React.useRef<HTMLDivElement>(null);
 
-  const basePath = `economicsChartsWorkflows.${wp}.${chartType}`;
+  const basePath = `${wc}.${wp}.${chartType}.otherProperties`;
   const curveOption = curveOptions.find((option) => option.value === curve);
   const colorsOption = colorsOptions.find((option) => option.value === colors);
   const areaBlendOption = areaBlendOptions.find(

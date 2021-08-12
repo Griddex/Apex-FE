@@ -6,18 +6,20 @@ import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
+import NoData from "../../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
+import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import LineChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartSelectionMenu from "../../../Components/Menus/EconomicsChartSelectionMenu";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import { TChartTypeNames } from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
-import EconomicsPlotChartsSelectCharts from "./EconomicsPlotChartsSelectCharts";
+import EconomicsPlotChartsSelectChart from "./EconomicsPlotChartsSelectChart";
+import EconomicsPlotChartsSelectCharts from "./EconomicsPlotChartsSelectChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,7 +82,7 @@ const EconomicsPlotChartsVisualytics = () => {
     showPlotChartsCategories
   );
 
-  const chartValue = selectedEconomicsPlotChartOption.value as TChartTypeNames;
+  const chartType = selectedEconomicsPlotChartOption.value;
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -88,14 +90,14 @@ const EconomicsPlotChartsVisualytics = () => {
       <div style={{ display: "flex" }}>
         <EconomicsChartSelectionMenu />
         <IconButtonWithTooltip
-          toolTipKey="printToolTip"
-          toolTipTitle="Print table"
+          toolTipKey="saveToolTip"
+          toolTipTitle="Save"
           toolTipPlacement="bottom-end"
           icon={() => <SaveOutlinedIcon />}
         />
         <IconButtonWithTooltip
-          toolTipKey="printToolTip"
-          toolTipTitle="Print table"
+          toolTipKey="removeToolTip"
+          toolTipTitle="Remove"
           toolTipPlacement="bottom-end"
           icon={() => <RemoveOutlinedIcon />}
         />
@@ -243,21 +245,25 @@ const EconomicsPlotChartsVisualytics = () => {
             <EconomicsChartTitlePlaque />
             <ChartButtons {...chartButtons} />
           </div>
-          <EconomicsPlotChartsSelectCharts />
+          {chartType === "Select Chart..." ? (
+            <NoData />
+          ) : (
+            <EconomicsPlotChartsSelectChart />
+          )}
         </div>
       </div>
       {showContextDrawer && (
         <ContextDrawer>
           {() => {
-            if (chartValue === "stackedArea") {
+            if (chartType === "stackedAreaChart") {
               return <div>StackedArea</div>;
-            } else if (chartValue === "line") {
+            } else if (chartType === "lineChart") {
               return (
                 <LineChartFormatAggregator
                   workflowCategory={wc}
                   workflowProcess={wp}
                   updateParameterAction={updateEconomicsParameterAction}
-                  chartType={"lineChart"}
+                  chartType="lineChart"
                 />
               );
             } else {

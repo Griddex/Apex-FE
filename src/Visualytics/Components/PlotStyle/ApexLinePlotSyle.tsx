@@ -32,7 +32,7 @@ const ApexLinePlotStyle = ({
 
   const plotRef = React.useRef<HTMLDivElement>(null);
 
-  const basePath = `${wc}.${wp}.${chartType}`;
+  const basePath = `${wc}.${wp}.${chartType}.otherProperties`;
   const xScaleOption = scaleOptions.find((option) => option.value === xScale);
   const yScaleOption = scaleOptions.find((option) => option.value === yScale);
 

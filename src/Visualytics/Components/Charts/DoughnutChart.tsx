@@ -3,6 +3,7 @@ import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { useTheme } from "@material-ui/core/styles";
 import { IChartProps } from "../ChartTypes";
+import { defaultDoughnutOtherProperties } from "../../Data/VisualyticsData";
 
 const useStyles = makeStyles(() => ({
   rootDoughnutChart: {
@@ -10,94 +11,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const DoughnutChart = ({ data, willUseThemeColor }: IChartProps) => {
+const DoughnutChart = ({
+  data,
+  otherProperties,
+  willUseThemeColor,
+}: IChartProps) => {
   const theme = useTheme();
 
-  return (
-    <ResponsivePie
-      data={data}
-      margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
-      colors={
-        willUseThemeColor ? { scheme: "category10" } : { datum: "data.color" }
-      }
-      innerRadius={0.7}
-      padAngle={3}
-      cornerRadius={0}
-      activeOuterRadiusOffset={8}
-      borderWidth={1}
-      borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
-      arcLinkLabelsSkipAngle={10}
-      arcLinkLabelsTextColor="#333333"
-      arcLinkLabelsThickness={2}
-      arcLinkLabelsColor={{ from: "color" }}
-      arcLabelsSkipAngle={10}
-      arcLabelsTextColor={{ from: "color", modifiers: [["darker", 2]] }}
-      defs={[
-        {
-          id: "full",
-          type: "",
-          background: "inherit",
-          color: theme.palette.success.main,
-          size: 4,
-          padding: 1,
-          stagger: true,
-        },
-        {
-          id: "partial",
-          color: theme.palette.primary.main,
-        },
-        {
-          id: "none",
-          color: theme.palette.secondary.main,
-        },
-      ]}
-      fill={[
-        {
-          match: {
-            id: "Full Match",
-          },
-          id: "full",
-        },
-        {
-          match: {
-            id: "Partial Match",
-          },
-          id: "partial",
-        },
-        {
-          match: {
-            id: "No Match",
-          },
-          id: "none",
-        },
-      ]}
-      // legends={[
-      //   {
-      //     anchor: "bottom",
-      //     direction: "row",
-      //     justify: false,
-      //     translateX: 0,
-      //     translateY: 56,
-      //     itemsSpacing: 0,
-      //     itemWidth: 100,
-      //     itemHeight: 18,
-      //     itemTextColor: "#999",
-      //     itemDirection: "left-to-right",
-      //     itemOpacity: 1,
-      //     symbolSize: 18,
-      //     symbolShape: "circle",
-      //     effects: [
-      //       {
-      //         on: "hover",
-      //         style: {
-      //           itemTextColor: "#000",
-      //         },
-      //       },
-      //     ],
-      //   },
-      // ]}
-    />
-  );
+  const chartOtherProperties = !otherProperties
+    ? defaultDoughnutOtherProperties(willUseThemeColor as boolean, theme)
+    : otherProperties;
+
+  return <ResponsivePie data={data} {...chartOtherProperties} />;
 };
 
 export default DoughnutChart;

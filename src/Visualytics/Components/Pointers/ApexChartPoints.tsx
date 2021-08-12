@@ -20,6 +20,7 @@ import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexChartPointers = ({
+  workflowCategory,
   workflowProcess,
   updateParameterAction,
   chartType,
@@ -34,6 +35,7 @@ const ApexChartPointers = ({
 }: IApexChartPointers & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const wc = workflowCategory;
   const wp = workflowProcess;
 
   const pointRef = React.useRef<HTMLDivElement>(null);
@@ -58,7 +60,7 @@ const ApexChartPointers = ({
   const [borderColorPerspective, setBorderColorPerspective] =
     React.useState("inherit");
 
-  const basePath = `economicsChartsWorkflows.${wp}.${chartType}`;
+  const basePath = `${wc}.${wp}.${chartType}.otherProperties`;
   const pointLabelOption = pointLabelOptions.find(
     (option) => option.value === pointLabel
   );

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import React, { ChangeEvent } from "react";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import { persistChartIndexAction } from "../Redux/ChartActions/ChartActions";
+import { persistChartIndexAction } from "../Redux/VisualyticsActions/VisualyticsActions";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles(() => ({
