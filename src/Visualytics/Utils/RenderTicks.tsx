@@ -1,3 +1,5 @@
+import React from "react";
+
 export type AxisValue = string | number | Date;
 export interface AxisTickProps<Value extends AxisValue> {
   tickIndex: number;
