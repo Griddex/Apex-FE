@@ -20,22 +20,7 @@ const TitleAndDescription = ({
 }: ITitleAndDescriptionFormProps &
   FormikProps<ITitleAndDescriptionFormValues>) => {
   const theme = useTheme();
-  console.log(
-    "Logged output --> ~ file: TitleAndDescription.tsx ~ line 22 ~ dirty",
-    dirty
-  );
-  console.log(
-    "Logged output --> ~ file: TitleAndDescription.tsx ~ line 22 ~ isValid",
-    isValid
-  );
-  console.log(
-    "Logged output --> ~ file: TitleAndDescription.tsx ~ line 22 ~ values",
-    values
-  );
-  console.log(
-    "Logged output --> ~ file: TitleAndDescription.tsx ~ line 21 ~ errors",
-    errors
-  );
+
   const { title, description } = values;
 
   const helperTextTitle =
