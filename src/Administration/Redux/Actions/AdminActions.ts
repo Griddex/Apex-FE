@@ -27,7 +27,7 @@ export const persistAvatarToReduxAction = (avatarUrl: string) => {
   };
 };
 
-export const registerAction = (
+export const registerRequestAction = (
   userName: string,
   email: string,
   password: string

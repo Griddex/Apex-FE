@@ -26,23 +26,16 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 
-const ProductionStreamPrioritization = ({
-  workflowProcess,
-  containerStyle,
-}: IStoredDataProps) => {
+const EditOrCreateProductionPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
-
+  const isCreateOrEdit = true;
   const {
     selectedTableData,
     prioritizationPerspective,
     selectedStreamPrioritization,
   } = useSelector((state: RootState) => state.networkReducer);
 
-
-  /* const {
-    selectedTableData
-  } = useSelector((state: RootState) => state.inputReducer); */
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
     prioritizationPerspective ? prioritizationPerspective : "No Prioritization"
@@ -116,7 +109,7 @@ const ProductionStreamPrioritization = ({
     };
 
     const columns = columnKeys.map((k) => {
-      return {
+      const column = {
         key: k,
         name: startCase(k).toUpperCase(),
         editable: false,
@@ -127,6 +120,13 @@ const ProductionStreamPrioritization = ({
             : undefined,
         width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
       };
+
+      if(isCreateOrEdit == true){
+        if(column.key  != "module"){
+          column.editable = true;
+        }
+      }
+      return column;
     });
 
     const exportColumns = columns
@@ -299,4 +299,4 @@ const ProductionStreamPrioritization = ({
   );
 };
 
-export default ProductionStreamPrioritization;
+export default EditOrCreateProductionPrioritization;

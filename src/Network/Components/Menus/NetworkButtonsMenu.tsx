@@ -145,7 +145,7 @@ const NetworkButtonsMenu = () => {
             unloadDialogsAction,
             () => {
               const path = "isNetworkDisplayed";
-              const value = true;
+              const value = false;
 
               dispatch(updateNetworkParameterAction(path, value));
               dispatch(removeCurrentNetworkAction(false));

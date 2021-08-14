@@ -30,6 +30,8 @@ const SensitivitiesHeatMapChart = () => {
     (state: RootState) => state.economicsReducer[wc]
   );
 
+  console.log("selectedAnalysis: ", selectedAnalysis);
+
   const ap = selectedAnalysis?.name;
   const tl = selectedAnalysis?.title;
 

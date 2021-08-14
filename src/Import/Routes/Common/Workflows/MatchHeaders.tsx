@@ -96,6 +96,10 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 98 ~ MatchHeaders ~ savedMatchObjectAll",
+    savedMatchObjectAll
+  );
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]

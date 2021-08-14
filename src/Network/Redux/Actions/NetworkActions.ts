@@ -538,8 +538,10 @@ export const getProductionPrioritizationByIdRequestAction = (
   selectedProductionPrioritizationId: string,
   selectedProductionPrioritizationTitle: string,
   selectedRowIndex: number,
-  reducer: ReducersType
+  reducer: ReducersType,
+  isCreateOrEdit: boolean,
 ) => {
+  console.log("getProductionPrioritizationByIdRequestAction called");
   return {
     type: GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
     payload: {
@@ -547,6 +549,7 @@ export const getProductionPrioritizationByIdRequestAction = (
       selectedProductionPrioritizationTitle,
       selectedRowIndex,
       reducer,
+      isCreateOrEdit
     },
     meta: { showSpinner: true, message: "Fetching prioritization data..." },
   };

@@ -109,6 +109,7 @@ const StoredProductionStreamPrioritizationDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
   const wp = "productionPrioritizationStored";
+  const isCreateOrEdit = true;
 
   return (
     <Dialog
@@ -135,6 +136,7 @@ const StoredProductionStreamPrioritizationDialog = (props: DialogStuff) => {
           showChart={true}
           workflowProcess={wp}
           containerStyle={{ boxShadow: "none" }}
+          isCreateOrEdit
         />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>

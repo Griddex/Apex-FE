@@ -245,13 +245,13 @@ const EditOrCreateForecastingParameters = ({
                 }
                 titleStyle={{ width: "80%", color: theme.palette.primary.main }}
               />
-              <Button
+             {/*  <Button
                 className={classes.button}
                 startIcon={<AddBoxTwoToneIcon />}
                 onClick={createDCATable}
               >
                 Create
-              </Button>
+              </Button> */}
               <Button
                 style={{ marginLeft: 10 }}
                 className={classes.button}
@@ -278,13 +278,13 @@ const EditOrCreateForecastingParameters = ({
                 }
                 titleStyle={{ width: "80%", color: theme.palette.primary.main }}
               />
-              <Button
+            {/*   <Button
                 className={classes.button}
                 startIcon={<AddBoxTwoToneIcon />}
                 onClick={createPrioritization}
               >
                 Create
-              </Button>
+              </Button> */}
               <Button
                 style={{ marginLeft: 10 }}
                 className={classes.button}

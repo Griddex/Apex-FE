@@ -205,10 +205,6 @@ const SelectWorksheetDialog = (props: DialogStuff) => {
     const selectedWorksheetDataXLSX = (workbook as xlsx.WorkBook).Sheets[
       selectedWorksheetName
     ];
-    console.log(
-      "Logged output --> ~ file: SelectWorksheetDialog.tsx ~ line 206 ~ persistSelectedWorksheet ~ selectedWorksheetDataXLSX",
-      selectedWorksheetDataXLSX
-    );
 
     const selectedWorksheetData = xlsx.utils.sheet_to_json<
       Record<string, React.Key>
