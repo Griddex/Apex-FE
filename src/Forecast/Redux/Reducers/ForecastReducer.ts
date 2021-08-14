@@ -283,6 +283,7 @@ const forecastReducer = (
 
       if (reducer === "forecastReducer") {
         const updatedState = set(state, "selectedTableData", selectedTableData);
+        console.log("updatedState: ", updatedState);
         return updatedState;
       } else {
         return state;

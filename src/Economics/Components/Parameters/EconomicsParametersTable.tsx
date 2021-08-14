@@ -192,9 +192,11 @@ const EconomicsParametersTable = ({
     ),
   };
 
+  console.log("economicsParametersAppHeaders: ", economicsParametersAppHeaders);
   const dataOptions = swapVariableNameTitleForISelectOption(
-    costsRevenuesAppHeaders as TVariableNameTitleData
+    economicsParametersAppHeaders as TVariableNameTitleData
   );
+  console.log("dataOptions: ", dataOptions);
   const valueOption = dataOptions[0];
 
   const handleBasedOnVariableChange = (

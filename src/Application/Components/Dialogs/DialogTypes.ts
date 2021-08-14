@@ -42,6 +42,7 @@ import TableEditorDialog from "./TableEditorDialog";
 import TextDialog from "./TextDialog";
 import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
 import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
+import EditOrCreateProductionPrioritizationWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog";
 import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
 import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
@@ -70,7 +71,7 @@ export interface IApplicationDialogs {
   storedForecastingParametersDialog: typeof StoredForecastingParametersDialog;
   createForecastingParametersWorkflowDialog: typeof EditOrCreateForecastingParametersWorkflowDialog;
   createDeclineParametersWorkflowDialog: typeof EditOrCreateDeclineParametersWorkflowDialog;
-
+  createPrioritizationParametersWorkflowDialog: typeof EditOrCreateProductionPrioritizationWorkflowDialog;
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
   productionStreamPrioritizationDialog: typeof ProductionStreamPrioritizationDialog;
 
@@ -163,7 +164,8 @@ export interface DialogStuff<TRow = TDataRow> {
     | "networkWidgetDialog"
     | "createDeclineParametersWorkflowDialog"
     | "linkInputDeckDialog"
-    | "openProjectConfirmationDialog";
+    | "openProjectConfirmationDialog"
+    | "createPrioritizationParametersWorkflowDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

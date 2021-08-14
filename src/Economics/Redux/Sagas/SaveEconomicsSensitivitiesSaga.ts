@@ -58,11 +58,13 @@ function* saveEconomicsSensitivitiesSaga(
   void,
   any
 > {
+  console.log("action: ", action);
   const { payload } = action;
   const {
     analysisName,
     titleDesc: { title, description },
   } = payload;
+
 
   const aN = analysisName;
   const wc = "economicsAnalysisWorkflows";
@@ -92,6 +94,7 @@ function* saveEconomicsSensitivitiesSaga(
       `${getBaseEconomicsUrl()}/sensitivities/save`
     );
 
+    console.log("result: ", result);
     const {
       data: { data: economicsSensitivitiesId },
     } = result;

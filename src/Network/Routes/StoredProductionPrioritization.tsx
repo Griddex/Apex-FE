@@ -40,7 +40,6 @@ import DeclineParametersType from "../Components/Indicators/DeclineParametersTyp
 import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
 import {
   fetchStoredForecastingParametersRequestAction,
-  getDeclineParametersByIdRequestAction,
   getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
@@ -275,12 +274,6 @@ export default function StoredProductionPrioritization({
                   currentRow,
                   rows.length
                 );
-                /* console.log(
-                  "Logged output --> ~ file: StoredDeclineCurveParameters.tsx ~ line 324 ~ generateColumns ~ clonedRow",
-                  clonedRow
-                ); */
-
-                console.log("clonedRow: ", clonedRow);
 
                 const newRows = [...productionPrioritizationStored, clonedRow];
                 dispatch(
@@ -311,7 +304,8 @@ export default function StoredProductionPrioritization({
                     wellPrioritizationId,
                     wellPrioritizationTitle,
                     selectedRowIndex,
-                    reducer
+                    reducer,
+                    false
                   )
                 );
 
@@ -338,13 +332,13 @@ export default function StoredProductionPrioritization({
             <EditOutlinedIcon
               style={style as CSSProperties}
               onClick={() => {
-                const isCreateOrEdit = true;
                 dispatch(
-                  getDeclineParametersByIdRequestAction(
+                  getProductionPrioritizationByIdRequestAction(
+                    id,
+                    title,
+                    selectedRowIndex,
                     "inputReducer" as ReducersType,
-                    isCreateOrEdit,
-                    currentRow,
-                    currentSN
+                    true as boolean
                   )
                 );
               }}

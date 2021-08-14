@@ -14,6 +14,7 @@ import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDi
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
 import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
+import EditOrCreateProductionPrioritizationWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -63,8 +64,13 @@ const applicationDialogs: IApplicationDialogs = {
   storedForecastingParametersDialog: StoredForecastingParametersDialog,
   createForecastingParametersWorkflowDialog:
     EditOrCreateForecastingParametersWorkflowDialog,
+<<<<<<< HEAD
   createDeclineParametersWorkflowDialog:
     EditOrCreateDeclineParametersWorkflowDialog,
+=======
+    createDeclineParametersWorkflowDialog:  EditOrCreateDeclineParametersWorkflowDialog,
+    createPrioritizationParametersWorkflowDialog: EditOrCreateProductionPrioritizationWorkflowDialog,
+>>>>>>> gab
   declineCurveParametersDialog: DeclineCurveParametersDialog,
 
   productionStreamPrioritizationDialog: ProductionStreamPrioritizationDialog,
@@ -107,26 +113,36 @@ const Dialogs: React.FC<DialogStuff> = () => {
 
   return (
     <>
-      {(dialogs as any[]).map((dialog: DialogStuff, i: number) => {
-        const { type } = dialog;
+      {(dialogs as any[]).map(
+        (
+          dialog: DialogStuff | DialogStuff<IForecastParametersStoredRow> | DialogStuff<IStoredDataRow>,
+          i: number
+        ) => {
+          const { type } = dialog;
 
-        if (dialog !== undefined && dialog.show === true && type) {
-          if (type === "createForecastingParametersWorkflowDialog") {
-            const SpecificDialog = applicationDialogs[type];
-            const dialogDefined =
-              dialog as DialogStuff<IForecastParametersStoredRow>;
+          if (dialog !== undefined && dialog.show === true && type) {
+            if (type === "createForecastingParametersWorkflowDialog") {
+              const SpecificDialog = applicationDialogs[type];
+              const dialogDefined =
+                dialog as DialogStuff<IForecastParametersStoredRow>;
 
-            return <SpecificDialog key={i} {...dialogDefined} />;
-          } else if (type === "createDeclineParametersWorkflowDialog") {
-            const SpecificDialog = applicationDialogs[type];
-            const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
+              return <SpecificDialog key={i} {...dialogDefined} />;
+            }else if (type === "createDeclineParametersWorkflowDialog") {
+              const SpecificDialog = applicationDialogs[type];
+              const dialogDefined =
+                dialog as DialogStuff<IStoredDataRow>;
+              return <SpecificDialog key={i} {...dialogDefined} />;
+            }else if (type === "createPrioritizationParametersWorkflowDialog") {
+              const SpecificDialog = applicationDialogs[type];
+              const dialogDefined =
+                dialog as DialogStuff<IStoredDataRow>;
+              return <SpecificDialog key={i} {...dialogDefined} />;
+            } else {
+              const SpecificDialog = applicationDialogs[type];
+              const dialogDefined = dialog as DialogStuff;
 
-            return <SpecificDialog key={i} {...dialogDefined} />;
-          } else {
-            const SpecificDialog = applicationDialogs[type];
-            const dialogDefined = dialog as DialogStuff;
-
-            return <SpecificDialog key={i} {...dialogDefined} />;
+              return <SpecificDialog key={i} {...dialogDefined} />;
+            }
           }
         }
       })}

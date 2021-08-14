@@ -57,6 +57,7 @@ function* runEconomicsAnalysisSaga(
   void,
   any
 > {
+  console.log("action: ", action);
   const { payload } = action;
   const { analysisName, analysisTitle } = payload;
   const ap = analysisName;
@@ -86,6 +87,8 @@ function* runEconomicsAnalysisSaga(
     forecastScenarioAnalysis,
   };
 
+  console.log("data: ", data);
+
   const config = { withCredentials: false };
   const runEconomicsAnalysisAPI = (url: string) =>
     authService.post(url, data, config);
@@ -97,6 +100,8 @@ function* runEconomicsAnalysisSaga(
       runEconomicsAnalysisAPI,
       `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
     );
+
+    console.log("result: ", result);
 
     const {
       data: {

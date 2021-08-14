@@ -365,6 +365,7 @@ export const saveEconomicsSensitivitiesRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   titleDesc: Record<string, string>
 ) => {
+  console.log("titleDesc: ", titleDesc);
   return {
     type: SAVE_ECONOMICSSENSITIVITIES_REQUEST,
     payload: { workflowProcess, reducer, analysisName, titleDesc },
@@ -426,6 +427,7 @@ export const runEconomicsAnalysisRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles
 ) => {
+  console.log("payload: ", { workflowProcess, analysisName, analysisTitle });
   return {
     type: RUN_ECONOMICSANALYSIS_REQUEST,
     payload: { workflowProcess, analysisName, analysisTitle },
