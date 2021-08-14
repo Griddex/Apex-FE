@@ -80,12 +80,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const { reducer, idTitleObj } = action.payload;
 
       if (reducer === "economicsReducer") {
-        
-        console.log("economics reducder: ", {
-          ...state,
-          ...idTitleObj,
-        });
-
         return {
           ...state,
           ...idTitleObj,

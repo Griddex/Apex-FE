@@ -40,10 +40,6 @@ const SelectScenariosByButtons = ({
     currentDevOption,
     developmentScenariosCompleted,
   } = useSelector((state: RootState) => state.economicsReducer[wc][wp]);
-  console.log(
-    "Logged output --> ~ file: SelectScenariosByButtons.tsx ~ line 42 ~ developmentScenariosCompleted",
-    developmentScenariosCompleted
-  );
 
   const [devOption, setDevOption] = React.useState(currentDevOption);
 

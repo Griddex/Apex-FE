@@ -116,10 +116,6 @@ const TableEditorDialog = (props: DialogStuff) => {
   const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
   const { editedRow } = apexEditorPropsDefined;
   const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
-  console.log(
-    "Logged output --> ~ file: TableEditorDialog.tsx ~ line 119 ~ TableEditorDialog ~ formEditorRow",
-    formEditorRow
-  );
 
   const ApexEditorComponent = apexEditorComponent as NonNullable<
     DialogStuff["apexEditorComponent"]

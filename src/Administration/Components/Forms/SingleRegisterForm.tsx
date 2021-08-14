@@ -101,10 +101,6 @@ const SingleRegisterForm = () => {
         password: Yup.string().required("Password is required"),
       })}
       onSubmit={({ userName, email, password }) => {
-        console.log(
-          "Logged output --> ~ file: SingleRegisterForm.tsx ~ line 112 ~ SingleRegisterForm ~ userName",
-          userName
-        );
         dispatch(registerRequestAction(userName, email, password));
       }}
     >

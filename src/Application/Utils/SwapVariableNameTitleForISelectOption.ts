@@ -4,7 +4,6 @@ import { IVariableNameTitle } from "./../Types/ApplicationTypes";
 const swapVariableNameTitleForISelectOption = (
   data: TVariableNameTitleData
 ) => {
-  console.log("data: ", data);
   const definedData = data.filter(
     (row) => row.variableTitle !== "" && row.variableName !== ""
   );

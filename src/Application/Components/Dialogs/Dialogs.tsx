@@ -64,13 +64,10 @@ const applicationDialogs: IApplicationDialogs = {
   storedForecastingParametersDialog: StoredForecastingParametersDialog,
   createForecastingParametersWorkflowDialog:
     EditOrCreateForecastingParametersWorkflowDialog,
-<<<<<<< HEAD
   createDeclineParametersWorkflowDialog:
     EditOrCreateDeclineParametersWorkflowDialog,
-=======
-    createDeclineParametersWorkflowDialog:  EditOrCreateDeclineParametersWorkflowDialog,
-    createPrioritizationParametersWorkflowDialog: EditOrCreateProductionPrioritizationWorkflowDialog,
->>>>>>> gab
+  createPrioritizationParametersWorkflowDialog:
+    EditOrCreateProductionPrioritizationWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
 
   productionStreamPrioritizationDialog: ProductionStreamPrioritizationDialog,
@@ -115,7 +112,10 @@ const Dialogs: React.FC<DialogStuff> = () => {
     <>
       {(dialogs as any[]).map(
         (
-          dialog: DialogStuff | DialogStuff<IForecastParametersStoredRow> | DialogStuff<IStoredDataRow>,
+          dialog:
+            | DialogStuff
+            | DialogStuff<IForecastParametersStoredRow>
+            | DialogStuff<IStoredDataRow>,
           i: number
         ) => {
           const { type } = dialog;
@@ -127,15 +127,15 @@ const Dialogs: React.FC<DialogStuff> = () => {
                 dialog as DialogStuff<IForecastParametersStoredRow>;
 
               return <SpecificDialog key={i} {...dialogDefined} />;
-            }else if (type === "createDeclineParametersWorkflowDialog") {
+            } else if (type === "createDeclineParametersWorkflowDialog") {
               const SpecificDialog = applicationDialogs[type];
-              const dialogDefined =
-                dialog as DialogStuff<IStoredDataRow>;
+              const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
               return <SpecificDialog key={i} {...dialogDefined} />;
-            }else if (type === "createPrioritizationParametersWorkflowDialog") {
+            } else if (
+              type === "createPrioritizationParametersWorkflowDialog"
+            ) {
               const SpecificDialog = applicationDialogs[type];
-              const dialogDefined =
-                dialog as DialogStuff<IStoredDataRow>;
+              const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
               return <SpecificDialog key={i} {...dialogDefined} />;
             } else {
               const SpecificDialog = applicationDialogs[type];
@@ -145,7 +145,7 @@ const Dialogs: React.FC<DialogStuff> = () => {
             }
           }
         }
-      })}
+      )}
     </>
   );
 };

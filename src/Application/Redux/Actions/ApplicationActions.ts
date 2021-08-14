@@ -71,11 +71,6 @@ export const persistSelectedIdTitleAction = (
   reducer: ReducersType,
   idTitleObj: Record<string, string>
 ) => {
-  console.log("payload: ", {
-    reducer,
-    idTitleObj,
-  });
-
   return {
     type: UPDATE_SELECTEDIDTITLE,
     payload: {

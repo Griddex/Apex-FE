@@ -47,7 +47,6 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   void,
   any
 > {
-  console.log("action: ", action);
   const { payload } = action;
   const {
     reducer,
@@ -60,8 +59,6 @@ function* getTableDataByIdSaga(action: IAction): Generator<
 
   try {
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
-    console.log("tableDataResults: ", tableDataResults);
-    //const { data: { data }} = tableDataResults;
 
     const selectedTableData = tableDataResults.data.data[collectionName]; // data["InputDeckEntities"];
 
@@ -75,7 +72,6 @@ function* getTableDataByIdSaga(action: IAction): Generator<
       },
     };
 
-    console.log("newAction: ", newAction);
     yield put(newAction);
 
     let dialogParameters = {} as DialogStuff;

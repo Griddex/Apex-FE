@@ -5,14 +5,7 @@ const authMiddleware =
   ({ getState }: MiddlewareAPI) =>
   (next: Dispatch<IAction>) =>
   (action: IAction) => {
-    console.log("Im in auth middleware");
-    // const falsies = [null, undefined, false, ""];
-    // if (falsies.some((value) => value === action.meta)) {
-    //   return next(action);
-    // }
-
     if (action.meta && action.meta.addAuth) {
-      // const authToken = getState().loginReducer.token;
       const token = sessionStorage.getItem("token");
 
       const actionAuth = {
