@@ -58,6 +58,11 @@ function* saveForecastParametersSaga(
   const forecastingParametersObj:any = {};
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
+  const { selectedProductionPrioritizationId } = yield select((state) => state.networkReducer);
+  const { selectedDeclineParametersId } = yield select((state) => state.networkReducer);
+
+  console.log("selectedProductionPrioritizationId: ", selectedProductionPrioritizationId);
+  console.log("selectedDeclineParametersId: ", selectedDeclineParametersId);
   
   let isDefered = 0;
   if(titleDesc.isDefered == "useDeferment"){
@@ -86,8 +91,8 @@ function* saveForecastParametersSaga(
     startMonth:  startForecast.getMonth() + 1,
     startYear:  startForecast.getFullYear()
   }; 
-  forecastingParametersObj.declineParametersId = titleDesc.wellDeclineParameterId;
-  forecastingParametersObj.wellPrioritizationId = titleDesc.wellPrioritizationId;
+  forecastingParametersObj.declineParametersId = selectedDeclineParametersId;
+  forecastingParametersObj.wellPrioritizationId = selectedProductionPrioritizationId;
   forecastingParametersObj.forecastInputdeckTitle = titleDesc.forecastInputdeckTitle;
   forecastingParametersObj.wellPrioritizationTitle = titleDesc.wellPrioritizationTitle;
   forecastingParametersObj.wellDeclineParameterTitle = titleDesc.wellDeclineParameterTitle;

@@ -30,6 +30,7 @@ import {
   RESET_FORECAST,
   RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
   RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
+  UPDATE_FORECASTRESULT_PARAMETERS
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -39,6 +40,16 @@ const forecastReducer = (
   action: IAction
 ): ForecastStateType => {
   switch (action.type) {
+    case UPDATE_FORECASTRESULT_PARAMETERS: {
+      const { timeData, forecastResults } = action.payload;
+      console.log("action.payload: ", action.payload);
+      return {
+        ...state,
+        timeData,
+        forecastResults,
+      }
+    }
+
     case UPDATE_FORECASTPARAMETER: {
       const { path, value } = action.payload;
       

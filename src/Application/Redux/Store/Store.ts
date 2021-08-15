@@ -53,6 +53,8 @@ import watchFetchStoredEconomicsResultsSaga from "../../../Economics/Redux/Sagas
 import watchSaveEconomicsResultsSaga from "../../../Economics/Redux/Sagas/SaveEconomicsResultsSaga";
 import watchGetEconomicsResultsByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsResultsByIdSaga";
 import watchDeleteDataByIdSaga from "../Sagas/DeleteDataByIdSaga";
+import watchSaveDeclineParametersSaga from "../../../Network/Redux/Sagas/SaveDeclineParametersSaga";
+import watchSaveProductionPrioritizationSaga from "../../../Network/Redux/Sagas/SaveProductionPrioritizationSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -99,6 +101,9 @@ function* rootSaga() {
   yield spawn(watchSaveEconomicsResultsSaga);
   yield spawn(watchGetEconomicsResultsByIdSaga);
   yield spawn(watchDeleteDataByIdSaga);
+  yield spawn(watchSaveDeclineParametersSaga);
+  yield spawn(watchSaveProductionPrioritizationSaga);
+
 }
 
 const sagaMiddleware = createSagaMiddleware();

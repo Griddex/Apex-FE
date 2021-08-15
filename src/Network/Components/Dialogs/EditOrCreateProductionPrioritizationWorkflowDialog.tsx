@@ -28,7 +28,7 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveDeclineParametersRequestAction } from "../../Redux/Actions/NetworkActions";
+import { saveProductionPrioritizationRequestAction } from "../../Redux/Actions/NetworkActions";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import EditOrCreateProductionPrioritizationWorkflow from "../../Workflows/EditOrCreateProductionPrioritizationWorkflow";
 import {
@@ -174,8 +174,8 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
   };
 
   
-  const declineParametersObj = { ...currRow, ...titleDesc };
-  console.log("declineParametersObj: ", declineParametersObj);
+  const productionPrioritizationParametersObj = { ...currRow, ...titleDesc };
+  console.log("productionPrioritizationParametersObj: ", productionPrioritizationParametersObj);
 
   let steps = [] as string[];
   
@@ -230,6 +230,10 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
   } as NonNullable<IEditOrCreateProductionPrioritization> &
     ITitleAndDescriptionFormProps;
 
+    const saveSelectedProductionPrioritization = () => {
+      return saveProductionPrioritizationRequestAction(productionPrioritizationParametersObj);
+    };
+
   const createProductionPrioritizationConfirmation = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Network_Dialog",
@@ -239,18 +243,14 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
       exclusive: false,
       maxWidth: "xs",
       iconType: "confirmation",
-      dialogText: "Do you want to save the current decline production prioritization?",
+      dialogText: "Do you want to save the current production prioritization?",
       actionsList: () =>
         DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
             unloadDialogsAction,
-            () => {
-            saveDeclineParametersRequestAction(
-              declineParametersObj
-            ) 
-            },
+            saveSelectedProductionPrioritization,
           ],
           "Save",
           "saveOutlined",

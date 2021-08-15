@@ -9,12 +9,14 @@ import { itemTypes } from "../Utils/DragAndDropItemTypes";
 export default function ForecastTreeView() {
   const dispatch = useDispatch();
 
-  const { forecastTree, selectedForecastChartVariable } = useSelector(
+  const { forecastTree, selectedForecastChartVariable, selectedForecastAggregationType } = useSelector(
     (state: RootState) => state.forecastReducer
   );
 
-  console.log("forecastTree: ", forecastTree);
+
+  //console.log("forecastTree: ", forecastTree);
   console.log("selectedForecastChartVariable: ", selectedForecastChartVariable);
+  console.log("selectedForecastAggregationType: ", selectedForecastAggregationType);
 
   const updatedForecastTree = [
     { ...forecastTree?.[0], id: "5749dc74-4b81-4652-8a46-a58b6bea0157" },
@@ -52,7 +54,8 @@ export default function ForecastTreeView() {
           selectedIds,
           selectedModuleNames,
           selectedModulePaths,
-          selectedForecastChartVariable
+          selectedForecastChartVariable,
+          selectedForecastAggregationType
         )
       );
     }

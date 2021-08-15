@@ -99,7 +99,6 @@ const Navbar = () => {
   // const username = faker.name.findName();
   const username = userName; //"Gideon Sanni";
   //const role = "Corporate Forecaster";
-  console.log("username: ", userName);
   const userinitials = GetInitials(username);
   const { currentProjectTitle } = useSelector(
     (state: RootState) => state.projectReducer

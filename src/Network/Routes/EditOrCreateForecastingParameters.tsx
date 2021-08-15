@@ -34,6 +34,7 @@ import {
   saveDeclineParametersRequestActionForFP,
   saveProductionPrioritizationRequestAction,
   updateNetworkParameterAction,
+  getNetworkState
 } from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -98,6 +99,9 @@ const EditOrCreateForecastingParameters = ({
     selectedProductionPrioritizationDescription,
   } = useSelector((state: RootState) => state.networkReducer);
 
+  console.log("selectedDeclineParametersTitle: ", selectedDeclineParametersTitle);
+  console.log("selectedProductionPrioritizationTitle: ", selectedProductionPrioritizationTitle);
+
   const createDCATable = () => {
     const dialogParameters: DialogStuff = {
       name: "Extrude_Decline_Curve_Parameters_Dialog",
@@ -149,6 +153,10 @@ const EditOrCreateForecastingParameters = ({
                 wellDeclineParameterTitle: selectedDeclineParametersTitle
                   ? selectedDeclineParametersTitle
                   : "Default",
+                  wellPrioritizationId: selectedProductionPrioritizationId,
+                  wellPrioritizationTitle: selectedProductionPrioritizationTitle
+                    ? selectedProductionPrioritizationTitle
+                    : "Default",
               })),
                 dispatch(hideDialogAction());
             },
@@ -160,6 +168,11 @@ const EditOrCreateForecastingParameters = ({
     };
 
     dispatch(showDialogAction(dialogParameters));
+  };
+
+  const saveSelectedProductionPrioritization = () => {
+    const productionPrioritizationParametersObj = {};
+    return saveProductionPrioritizationRequestAction(productionPrioritizationParametersObj);
   };
 
   const createPrioritization = () => {
@@ -176,7 +189,7 @@ const EditOrCreateForecastingParameters = ({
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveProductionPrioritizationRequestAction],
+          [unloadDialogsAction, saveSelectedProductionPrioritization],
           false,
           "Current"
         ),
@@ -186,11 +199,26 @@ const EditOrCreateForecastingParameters = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
+ /*  () => {
+    setFormEditorRow((prev) => ({
+      ...prev,
+      wellPrioritizationId: selectedProductionPrioritizationId,
+      wellPrioritizationTitle: selectedProductionPrioritizationTitle
+        ? selectedProductionPrioritizationTitle
+        : "Default",
+    })),
+      dispatch(hideDialogAction());
+  },
+ */
+const updateFormEditor = () => {
+  formEditorRow.wellPrioritizationTitle = selectedProductionPrioritizationTitle;
+  dispatch(hideDialogAction());
+}
   const loadPrioritization = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Load_Prioritization_Dialog",
       title: "Stored Prioritization Parameters",
-      type: "productionStreamPrioritizationDialog",
+      type: "storedProductionStreamPrioritizationDialog",
       show: true,
       exclusive: false,
       maxWidth: "md",
@@ -202,16 +230,7 @@ const EditOrCreateForecastingParameters = ({
           [true, false],
           [
             unloadDialogsAction,
-            () => {
-              setFormEditorRow((prev) => ({
-                ...prev,
-                wellPrioritizationId: selectedProductionPrioritizationId,
-                wellPrioritizationTitle: selectedProductionPrioritizationTitle
-                  ? selectedProductionPrioritizationTitle
-                  : "Default",
-              })),
-                dispatch(hideDialogAction());
-            },
+            updateFormEditor,
           ],
           "Load",
           "loadOutlined"
@@ -245,13 +264,13 @@ const EditOrCreateForecastingParameters = ({
                 }
                 titleStyle={{ width: "80%", color: theme.palette.primary.main }}
               />
-             {/*  <Button
+              <Button
                 className={classes.button}
                 startIcon={<AddBoxTwoToneIcon />}
                 onClick={createDCATable}
               >
                 Create
-              </Button> */}
+              </Button>
               <Button
                 style={{ marginLeft: 10 }}
                 className={classes.button}
@@ -278,13 +297,13 @@ const EditOrCreateForecastingParameters = ({
                 }
                 titleStyle={{ width: "80%", color: theme.palette.primary.main }}
               />
-            {/*   <Button
+              <Button
                 className={classes.button}
                 startIcon={<AddBoxTwoToneIcon />}
                 onClick={createPrioritization}
               >
                 Create
-              </Button> */}
+              </Button>
               <Button
                 style={{ marginLeft: 10 }}
                 className={classes.button}

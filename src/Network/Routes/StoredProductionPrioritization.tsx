@@ -170,7 +170,7 @@ export const cloneProductionPrioritizationRow = (
 };
 
 export default function StoredProductionPrioritization({
-  showChart,
+  showChart
 }: IStoredDataProps) {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
@@ -382,6 +382,13 @@ export default function StoredProductionPrioritization({
       {
         key: "status",
         name: "STATUS",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "title",
+        name: "WELL PRIORITIZATION TITLE",
         editable: false,
         resizable: true,
         width: 300,

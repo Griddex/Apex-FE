@@ -69,7 +69,6 @@ const DialogOneCancelButtons = (
         const sExecute = shouldExecute[iDefined];
         const action = finalActions[iDefined];
         const sDispatch = shouldDispatch[iDefined];
-
         if (sExecute) {
           if (sDispatch) dispatch(action());
           else action();

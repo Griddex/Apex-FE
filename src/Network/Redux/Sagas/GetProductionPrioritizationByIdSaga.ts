@@ -26,7 +26,7 @@ import {
   updateNetworkParametersAction,
 } from "../Actions/NetworkActions";
 import { extrudeStoredProductionPrioritization } from "../../Components/DialogParameters/EditDeclineParametersDialogParameters";
-
+import { UPDATE_INPUT } from "../../../Import/Redux/Actions/InputActions";
 
 export default function* watchGetProductionPrioritizationByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -78,6 +78,8 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
     } = productionPrioritizationResults;
 
     const selectedTableData = data["wellPrioritizations"];
+    const forecastInputDeckId = data["forecastInputDeckId"];
+
 
     const successAction = getTableDataByIdSuccessAction();
     console.log("put payload: ", {
@@ -107,7 +109,14 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
       })
     );
 
-    console.log("isCreateOrEdit: ", isCreateOrEdit);
+    yield put({
+      type: UPDATE_INPUT,
+      payload: {
+        nameOrPath: "selectedForecastInputDeckId",
+        value: forecastInputDeckId,
+        reducer: "inputReducer",
+      }
+    });
 
     if(isCreateOrEdit == false){
       const dialogParameters: DialogStuff = {

@@ -255,6 +255,7 @@ export default function StoredForecastingParameters({
               <EditOutlinedIcon
                 style={style as CSSProperties}
                 onClick={() => {
+                  console.log("currentRow: ", currentRow);
                   dispatch(
                     showDialogAction(
                       extrudeForecastParametersDPs(
@@ -263,6 +264,35 @@ export default function StoredForecastingParameters({
                         currentSN - 1,
                         "editForecastingParametersWorkflow"
                       )
+                    )
+                  );
+
+
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedDeclineParametersId",
+                      currentRow.wellDeclineParameterId
+                    )
+                  );
+
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedDeclineParametersTitle",
+                      currentRow.wellDeclineParameterTitle
+                    )
+                  );
+
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedProductionPrioritizationId",
+                      currentRow.wellPrioritizationId
+                    )
+                  );
+
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedProductionPrioritizationTitle",
+                      currentRow.wellPrioritizationTitle
                     )
                   );
                 }}
@@ -364,13 +394,17 @@ export default function StoredForecastingParameters({
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
-                  console.log("DCA from Forecast Parameter");
+                  console.log("currentRow DCA from Forecast Parameter: ", currentRow);
+                  const wellDeclineParamtersId = currentRow.wellDeclineParameterId;
+                  const wellDeclineParamtersTitle = currentRow.wellDeclineParameterTitle;
                   dispatch(
                     getDeclineParametersByIdRequestAction(
                       reducer,
                       isCreateOrEdit as boolean,
-                      currentRow,
-                      currentSN
+                      wellDeclineParamtersId as string,
+                      wellDeclineParamtersTitle as string,
+                      currentSN,
+                      currentRow
                     )
                   );
 

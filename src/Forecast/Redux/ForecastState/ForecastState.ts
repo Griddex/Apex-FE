@@ -57,7 +57,7 @@ const forecastChartState: IForecastChartState = {
 
 const forcastResultState: IForecastResultState = {
   selectedTableData: [],
-
+  timeData: [],
   forecastResults: [],
   forecastTree: [],
   forecastKeys: [],

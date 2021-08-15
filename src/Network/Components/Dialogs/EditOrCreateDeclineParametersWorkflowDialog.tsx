@@ -28,7 +28,8 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveDeclineParametersRequestAction } from "../../Redux/Actions/NetworkActions";
+import { saveDeclineParametersRequestAction,
+  saveDeclineParametersRequestActionForFP } from "../../Redux/Actions/NetworkActions";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import EditOrCreateDeclineParametersWorkflow from "../../Workflows/EditOrCreateDeclineParametersWorkflow";
 import {
@@ -230,6 +231,11 @@ const EditOrCreateDeclineParametersWorkflowDialog = (
   } as NonNullable<IEditOrCreateDeclineParameters> &
     ITitleAndDescriptionFormProps;
 
+ 
+    const saveSelectedDeclineParameter = () => {
+      return saveDeclineParametersRequestAction(declineParametersObj);
+    };
+ 
   const createDeclineParametersConfirmation = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Network_Dialog",
@@ -246,11 +252,7 @@ const EditOrCreateDeclineParametersWorkflowDialog = (
           [true, true],
           [
             unloadDialogsAction,
-            () => {
-            saveDeclineParametersRequestAction(
-              declineParametersObj
-            ) 
-            },
+            saveSelectedDeclineParameter,
           ],
           "Save",
           "saveOutlined",

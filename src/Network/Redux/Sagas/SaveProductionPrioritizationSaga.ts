@@ -63,32 +63,24 @@ function* saveProductionPrioritizationSaga(
   );
   console.log("selectedForecastInputDeckId: ", selectedForecastInputDeckId);
 
-  const { currentProductionPrioritization } = yield select(
+  const { selectedTableData, prioritizationPerspective,
+    selectedStreamPrioritization } = yield select(
     (state) => state.networkReducer
   );
-  console.log("currentProductionPrioritization: ", currentProductionPrioritization);
-
+  
   const data = {
     projectId: currentProjectId,
     title,
     description,
-    type: "User",
-    declineParameters: currentProductionPrioritization,
+    wellPrioritizations: selectedTableData,
     forecastInputDeckId: selectedForecastInputDeckId,
+    typeOfPrioritization: prioritizationPerspective,
+    typeOfStream: selectedStreamPrioritization,
+    useSecondaryFacility: ""
   };
 
-      /*   const data = {
-            projectId: currentProjectId,
-            title,
-            description,
-            type: "User",
-            typeOfPrioritization: currentProductionPrioritization,
-            forecastInputDeckId: selectedForecastInputDeckId,
-            typeOfStream,
-            useSecondaryFacility,
-            wellPrioritizations
-            
-          }; */
+
+  console.log("data: ", data);
 
   const config = { withCredentials: false };
   const saveProductionPrioritizationAPI = (url: string) =>
@@ -99,6 +91,8 @@ function* saveProductionPrioritizationSaga(
       saveProductionPrioritizationAPI,
       `${getBaseForecastUrl()}/well-prioritization`
     );
+
+    console.log("result: ", result);
 
     const {
       data: { success, status, data },

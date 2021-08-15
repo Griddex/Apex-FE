@@ -65,6 +65,7 @@ function* getForecastResultsChartDataSaga(
     selectedModuleNames,
     selectedModulePaths,
     selectedForecastChartVariable,
+    selectedForecastAggregationType
   } = payload;
 
   const { selectedNetworkId } = yield select((state) => state.networkReducer);
@@ -87,6 +88,7 @@ function* getForecastResultsChartDataSaga(
     selectedModulePaths: selectedModulePaths,
     isSaved: isForecastResultsSaved,
     forecastId: selectedForecastingResultsId,
+    forecastAggregationType: selectedForecastAggregationType
   };
 
   const message = "Loading forecast chart data...";
@@ -97,16 +99,39 @@ function* getForecastResultsChartDataSaga(
     const forecastResultsAPI = (url: string) =>
       authService.post(url, data, config);
     const result = yield call(forecastResultsAPI, url);
+    console.log("result: ", result);
 
-    const { data: forecastResults } = result;
+    //const { data: forecastResults } = result;
 
-    const successAction = getForecastResultsChartDataSuccessAction();
+    const timeData = result.data.timeData;
+    const forecastResults = result.data.xAxesData;
+
+    console.log("forecastResults: ", forecastResults);
+    console.log("timeData: ", timeData);
+
+    yield put({
+      type: "UPDATE_FORECASTRESULT_PARAMETERS",
+      payload: {
+        timeData,
+        forecastResults
+      },
+    });
+
+   /*  const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
         forecastResults,
       },
-    });
+    }); */
+
+   /*  yield put({
+      type: "UPDATE_FORECASTPARAMETER",
+      payload: {
+        path: "forecastResults",
+        value: forecastResults
+      },
+    }); */
 
     yield put({
       type: "UPDATE_FORECASTPARAMETER",

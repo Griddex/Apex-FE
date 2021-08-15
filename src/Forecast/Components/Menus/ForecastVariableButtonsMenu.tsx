@@ -90,6 +90,7 @@ const ForecastVariableButtonsMenu = () => {
                 key={i}
                 onClick={() => {
                   setForecastVariableTitle(title);
+                  console.log("selectedForecastChartVariable: ", selectedVar);
                   dispatch(
                     updateForecastResultsParameterAction(
                       "selectedForecastChartVariable",

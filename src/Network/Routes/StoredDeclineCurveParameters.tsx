@@ -240,12 +240,16 @@ export default function StoredForecastingParameters({
               const VisibilityOutlined = (<VisibilityOutlinedIcon
                 onClick={() => {
                   const isCreateOrEdit = true;
+                  const wellDeclineParamtersId = currentRow.id;
+                  const wellDeclineParamtersTitle = currentRow.title;
                   dispatch(
                     getDeclineParametersByIdRequestAction(
                       reducer,
                       isCreateOrEdit as boolean,
-                      currentRow,
-                      currentSN
+                      wellDeclineParamtersId as string,
+                      wellDeclineParamtersTitle as string,
+                      currentSN,
+                      currentRow
                     )
                   );
                 }} 
@@ -262,13 +266,16 @@ export default function StoredForecastingParameters({
                 /* style={style as CSSProperties} */
                 onClick={() => {
                   const isCreateOrEdit = true;
-  
+                  const wellDeclineParamtersId = currentRow.id;
+                  const wellDeclineParamtersTitle = currentRow.title;
                     dispatch(
                     getDeclineParametersByIdRequestAction(
                       "inputReducer" as ReducersType,
                       isCreateOrEdit,
-                      currentRow,
-                      currentSN
+                      wellDeclineParamtersId as string,
+                      wellDeclineParamtersTitle as string,
+                      currentSN,
+                      currentRow as any
                     )
                   );
                   }}

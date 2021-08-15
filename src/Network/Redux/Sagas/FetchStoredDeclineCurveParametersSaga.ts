@@ -67,7 +67,6 @@ function* fetchStoredDeclineCurveParametersSaga(
       declineParametersUrl
     );
 
-    console.log("result: ", result);
     const {
       data: { data: declineParametersStored },
     } = result;

@@ -85,6 +85,7 @@ function* getForecastQADataSaga(
     const forecastQualityAssuranceAPI = (url: string) =>
       authService.post(url, data, config);
     const result = yield call(forecastQualityAssuranceAPI, url);
+    console.log("result: ", result);
 
     const { data: forecastQualityAssuranceData } = result;
 

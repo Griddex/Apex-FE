@@ -8,7 +8,7 @@ import omit from "lodash.omit";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column, FormatterProps } from "react-data-griddex";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
@@ -25,16 +25,21 @@ import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGr
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
+import {
+  updateNetworkParameterAction
+} from "../Redux/Actions/NetworkActions";
 
 const EditOrCreateProductionPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
+  const dispatch = useDispatch();
   const isCreateOrEdit = true;
   const {
     selectedTableData,
     prioritizationPerspective,
-    selectedStreamPrioritization,
+    selectedStreamPrioritization
   } = useSelector((state: RootState) => state.networkReducer);
+
 
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
@@ -53,11 +58,40 @@ const EditOrCreateProductionPrioritization = () => {
       return { sn: i + 1, ...rowFiltered };
     }
   );
-  console.log("selectedTableData: ", selectedTableData);
-
-  console.log("snSelectedTableData: ", snSelectedTableData);
 
   const [rows, setRows] = React.useState(snSelectedTableData);
+
+ /*  React.useEffect(() => {
+    dispatch(
+      updateNetworkParameterAction(
+        "selectedTableData",
+        rows
+      )
+    );
+
+}, [rows.length]); */
+
+  React.useEffect(() => {
+    dispatch(
+      updateNetworkParameterAction(
+        "prioritizationPerspective",
+        prtznPerspective
+      )
+    );
+
+}, [prtznPerspective as any]);
+
+
+React.useEffect(() => {
+
+  dispatch(
+    updateNetworkParameterAction(
+      "selectedStreamPrioritization",
+      streamOption.value
+    )
+  );
+
+}, [streamOption.value as any]);
 
   const NoPrioritization = () => {
     return (
@@ -83,6 +117,19 @@ const EditOrCreateProductionPrioritization = () => {
   const ProductionPrioritization = () => {
     const columnKeys = Object.keys(snSelectedTableData[0]);
 
+    const updateRow = (row:any, option:any) => {
+      const currentSN = row.sn as number;
+      row.optimizationWeight = option.value as string;
+      rows[currentSN-1] = row;
+      console.log("rows: ", rows);
+      dispatch(
+        updateNetworkParameterAction(
+          "selectedTableData",
+          rows
+        )
+      );
+    }
+
     const streamFormatter = ({ row }: FormatterProps<IRawRow, unknown>) => {
       const optimizationWeight = row.optimizationWeight as string;
       const optimizationOptions = [
@@ -101,6 +148,8 @@ const EditOrCreateProductionPrioritization = () => {
           data={optimizationOptions}
           handleSelect={(option: ValueType<ISelectOption, false>) => {
             console.log(option);
+            console.log("row: ", row);
+            updateRow(row, option);
           }}
           menuPortalTarget={dialogRef.current as HTMLDivElement}
           isSelectOptionType={true}

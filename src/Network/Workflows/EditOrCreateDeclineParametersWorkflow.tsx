@@ -32,6 +32,7 @@ const EditOrCreateDeclineParametersWorkflow = ({
   storedTitles,
 }: IEditOrCreateDeclineParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as ReducersType;
+  const currRowCopy = currRow == null ? {} : currRow;
 
   const wc = "storedDataWorkflows";
   const workflowProcessDefined =
@@ -45,8 +46,6 @@ const EditOrCreateDeclineParametersWorkflow = ({
 
   const mainUrl = `${getBaseForecastUrl()}/well-decline-parameters`;
   const collectionName = "declineParameters";
-  const currRowCopy = currRow == null ? {} : currRow;
-  console.log("currRowCopy: ", currRowCopy);
 
   const renderImportStep = () => {
     const n =
@@ -68,7 +67,7 @@ const EditOrCreateDeclineParametersWorkflow = ({
       
         return (
           <EditOrCreateDeclineParameters
-            currentRow={currRowCopy}
+          currentRow={currRowCopy}
             reducer={reducer}
           />
         );

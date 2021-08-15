@@ -61,6 +61,7 @@ function* getForecastResultsSaga(
     selectedModuleNames,
     selectedModulePaths,
     selectedForecastChartVariable,
+    selectedForecastAggregationType
   } = payload;
   console.log("payload: ", payload);
   const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
@@ -83,6 +84,7 @@ function* getForecastResultsSaga(
     selectedModulePaths: selectedModulePaths,
     isSaved: isForecastResultsSavedNew,
     forecastId: selectedForecastingResultsId,
+    forecastAggregationType: selectedForecastAggregationType
   };
 
   console.log("reqPayload: ", reqPayload);
