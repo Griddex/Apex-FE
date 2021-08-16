@@ -5,17 +5,24 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
+import NoData from "../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { updateEconomicsParameterAction } from "../../Economics/Redux/Actions/EconomicsActions";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
+import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
+import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
 import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
-import { removeCurrentForecastAction } from "../Redux/Actions/ForecastActions";
+import {
+  removeCurrentForecastAction,
+  updateForecastResultsParameterAction,
+} from "../Redux/Actions/ForecastActions";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -69,10 +76,34 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
     (state: RootState) => state.forecastReducer
   );
 
+  const { selectedForecastChartOption } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
+
+  const chartType = selectedForecastChartOption.value;
+  const forecastPlotCharts = [
+    {
+      value: "Select Chart...",
+      label: "Select Chart...",
+    },
+    {
+      value: "stackedAreaChart",
+      label: "Stacked Area",
+    },
+    {
+      value: "lineChart",
+      label: "Line",
+    },
+  ];
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
       <div style={{ display: "flex" }}>
+        <ChartSelectionMenu
+          chartOptions={forecastPlotCharts}
+          selectedChartType={selectedForecastChartOption.value as string}
+          updateAction={updateForecastResultsParameterAction}
+        />
         <ForecastVariableButtonsMenu />
         <IconButtonWithTooltip
           toolTipKey="saveToolTip"
@@ -118,7 +149,11 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
               <ForecastChartTitlePlaque />
               <ChartButtons {...chartButtons} />
             </div>
-            <ForecastSelectChart />
+            {chartType === "Select Chart..." ? (
+              <NoData />
+            ) : (
+              <ForecastSelectChart />
+            )}
           </div>
         )}
       </div>
@@ -129,4 +164,4 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
   );
 };
 
-export default ForecastVisualytics;
+export default React.memo(ForecastVisualytics);

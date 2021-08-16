@@ -1,21 +1,20 @@
-import { makeStyles } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { ResponsiveStream } from "@nivo/stream";
 import React from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
-import { ResponsiveStream } from "@nivo/stream";
+import { useDispatch } from "react-redux";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { setChartObjectAction } from "../../Redux/VisualyticsActions/VisualyticsActions";
-import {
-  IChartLayoutProps,
-  IChartMetaData,
-} from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChartMetaData } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
 import { itemTypesVisualytics } from "../../Utils/DragAndDropItemTypes";
-import { IChartProps } from "../ChartTypes";
 import renderTick from "../../Utils/RenderTicks";
+import { IChartProps } from "../ChartTypes";
 
-const StackedAreaChart = ({ data, otherProperties }: IChartProps) => {
+const StackedAreaChart = ({
+  data,
+  specificProperties,
+  commonProperties,
+}: IChartProps) => {
   const dispatch = useDispatch();
   const chartRef = React.useRef<any>("");
 
@@ -146,14 +145,20 @@ const StackedAreaChart = ({ data, otherProperties }: IChartProps) => {
 
   const bottomAxisValues = data.map((_, i) => 2020 + i);
 
-  // const axBtm = otherProperties["axisBottom"];
-  // axBtm["renderTick"] = renderTick(bottomAxisValues);
-  otherProperties["axisBottom"]["renderTick"] = renderTick(bottomAxisValues);
-  otherProperties["keys"] = keys;
+  console.log(
+    "Logged output --> ~ file: StackedAreaChart.tsx ~ line 149 ~ specificProperties",
+    specificProperties
+  );
+  specificProperties["axisBottom"]["renderTick"] = renderTick(bottomAxisValues);
+  specificProperties["keys"] = keys;
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <ResponsiveStream data={data} {...otherProperties} />
+      <ResponsiveStream
+        data={data}
+        {...specificProperties}
+        {...commonProperties}
+      />
     </ClickAwayListener>
   );
 };

@@ -1,28 +1,28 @@
-import { makeStyles } from "@material-ui/core";
-import React from "react";
-import { ResponsivePie } from "@nivo/pie";
 import { useTheme } from "@material-ui/core/styles";
+import { ResponsivePie } from "@nivo/pie";
+import React from "react";
+import { defaultDoughnutSpecificProperties } from "../../Data/VisualyticsData";
 import { IChartProps } from "../ChartTypes";
-import { defaultDoughnutOtherProperties } from "../../Data/VisualyticsData";
-
-const useStyles = makeStyles(() => ({
-  rootDoughnutChart: {
-    marginTop: 10,
-  },
-}));
 
 const DoughnutChart = ({
   data,
-  otherProperties,
+  specificProperties,
+  commonProperties,
   willUseThemeColor,
 }: IChartProps) => {
   const theme = useTheme();
 
-  const chartOtherProperties = !otherProperties
-    ? defaultDoughnutOtherProperties(willUseThemeColor as boolean, theme)
-    : otherProperties;
+  const chartSpecificProperties = !specificProperties
+    ? defaultDoughnutSpecificProperties(willUseThemeColor as boolean, theme)
+    : specificProperties;
 
-  return <ResponsivePie data={data} {...chartOtherProperties} />;
+  return (
+    <ResponsivePie
+      data={data}
+      {...chartSpecificProperties}
+      {...commonProperties}
+    />
+  );
 };
 
 export default DoughnutChart;

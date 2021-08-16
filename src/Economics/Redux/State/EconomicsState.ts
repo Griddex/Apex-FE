@@ -1,4 +1,4 @@
-import { allChartsDataAndOtherProperties } from "../../../Visualytics/Data/VisualyticsData";
+import { allChartsDataAndSpecificProperties } from "../../../Visualytics/Data/VisualyticsData";
 import {
   IEconomicsAnalysis,
   TEconomicsAnalysesNames,
@@ -136,7 +136,7 @@ const generateChartsState = () => {
   return chartsWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
-      [workflowProcess]: allChartsDataAndOtherProperties,
+      [workflowProcess]: allChartsDataAndSpecificProperties,
     };
   }, {});
 };
@@ -245,6 +245,7 @@ const EconomicsState: IEconomicsState = {
   plotChartsVariableYSecOption: null,
   plotChartsCommonProperties: {
     stackedAreaChart: {},
+    scatterChart: {},
     lineChart: {},
     doughnutChart: {},
     barChart: {},

@@ -1,3 +1,4 @@
+import { allChartsDataAndSpecificProperties } from "../../../Visualytics/Data/VisualyticsData";
 import {
   IForecastChartState,
   IForecastResultState,
@@ -53,6 +54,13 @@ const forecastChartState: IForecastChartState = {
     forecastChartLayoutColor: "white",
     forecastChartSeriesSolidColors: ["#31BFCC", "#DA1B57", "#00C49F"],
   },
+
+  selectedForecastChartOption: {
+    value: "Select Chart...",
+    label: "Select Chart...",
+  },
+
+  forecastChartWorkflows: allChartsDataAndSpecificProperties,
 };
 
 const forcastResultState: IForecastResultState = {
@@ -61,6 +69,8 @@ const forcastResultState: IForecastResultState = {
   forecastResults: [],
   forecastTree: [],
   forecastKeys: [],
+  lineOrScatter: "line",
+  isYear: true,
   transForecastResult: [],
 
   qualityAssuranceResults: [],

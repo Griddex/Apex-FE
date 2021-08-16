@@ -10,16 +10,14 @@ import NoData from "../../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
-import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import LineChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
-import EconomicsChartSelectionMenu from "../../../Components/Menus/EconomicsChartSelectionMenu";
+import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
 import EconomicsPlotChartsSelectChart from "./EconomicsPlotChartsSelectChart";
-import EconomicsPlotChartsSelectCharts from "./EconomicsPlotChartsSelectChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,12 +81,34 @@ const EconomicsPlotChartsVisualytics = () => {
   );
 
   const chartType = selectedEconomicsPlotChartOption.value;
+  const economicsPlotCharts = [
+    {
+      value: "stackedAreaChart",
+      label: "Stacked Area",
+    },
+    {
+      value: "lineChart",
+      label: "Line",
+    },
+    {
+      value: "doughnutChart",
+      label: "Doughnut",
+    },
+    {
+      value: "barChart",
+      label: "Bar",
+    },
+  ];
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
       <div style={{ display: "flex" }}>
-        <EconomicsChartSelectionMenu />
+        <ChartSelectionMenu
+          chartOptions={economicsPlotCharts}
+          selectedChartType={selectedEconomicsPlotChartOption}
+          updateAction={updateEconomicsParameterAction}
+        />
         <IconButtonWithTooltip
           toolTipKey="saveToolTip"
           toolTipTitle="Save"

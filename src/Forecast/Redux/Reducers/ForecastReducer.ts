@@ -6,6 +6,7 @@ import {
   FORECAST_TREEVIEWKEYS_FAILURE,
   FORECAST_TREEVIEWKEYS_SUCCESS,
 } from "../../../Application/Redux/Actions/ApplicationActions";
+import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   LOAD_FORECASTRESULTS_WORKFLOW,
   UPDATE_SELECTEDIDTITLE,
@@ -31,6 +32,10 @@ import {
   RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
   RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
   UPDATE_FORECASTPARAMETERS,
+  PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
+  PUT_FORECASTRESULTS_CHARTDATA_FAILURE,
+  TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE,
+  TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -122,14 +127,73 @@ const forecastReducer = (
 
     case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
       const { forecastResults } = action.payload;
+      const data = forecastResults;
 
       return {
         ...state,
-        forecastResults,
+        forecastChartWorkflows: {
+          ...state["forecastChartWorkflows"],
+          stackedAreaChart: {
+            ...state["forecastChartWorkflows"]["stackedAreaChart"],
+            data,
+          },
+        },
       };
     }
 
     case GET_FORECASTRESULTS_CHARTDATA_FAILURE: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
+    case PUT_FORECASTRESULTS_CHARTDATA_SUCCESS: {
+      const { chartType, forecastResults } = action.payload;
+      const data = forecastResults;
+
+      return {
+        ...state,
+        forecastChartWorkflows: {
+          ...state["forecastChartWorkflows"],
+          [chartType]: { data },
+        },
+      };
+    }
+
+    case PUT_FORECASTRESULTS_CHARTDATA_FAILURE: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
+    case TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS: {
+      const {
+        chartType,
+        forecastResults,
+        forecastKeys,
+        lineOrScatter,
+        isYear,
+      } = action.payload;
+      const data = forecastResults;
+
+      return {
+        ...state,
+        forecastKeys,
+        lineOrScatter,
+        isYear,
+        forecastChartWorkflows: {
+          ...state["forecastChartWorkflows"],
+          [chartType]: {
+            ...state["forecastChartWorkflows"][chartType as TChartTypes],
+            data,
+          },
+        },
+      };
+    }
+
+    case TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE: {
       return {
         ...state,
         ...action.payload,
