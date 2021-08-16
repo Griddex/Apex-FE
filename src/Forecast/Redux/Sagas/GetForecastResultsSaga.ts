@@ -18,17 +18,14 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import {
-  hideSpinnerAction,
-  showSpinnerAction,
-} from "../../../Application/Redux/Actions/UISpinnerActions";
+import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import authHeaders from "../../../Application/Services/AuthHeaders";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
   getForecastResultsChartDataFailureAction,
   getForecastResultsChartDataSuccessAction,
-  GET_FORECASTRESULTS_CHARTDATA_REQUEST,
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastResultsSaga(): Generator<
@@ -63,33 +60,27 @@ function* getForecastResultsSaga(
     selectedForecastChartVariable,
     selectedForecastAggregationType
   } = payload;
-  console.log("payload: ", payload);
+
   const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
     (state) => state.forecastReducer
   );
 
-  const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/chartData`;
-  console.log("url: ", url);
-  const isForecastResultsSavedNew = true;
 
+  //TODO
   //if former selected variable is different form current one
   //please replace chart data in store
   const reqPayload = {
-    userId: userId,
     networkId: selectedNetworkId,
     selectedVariable: selectedForecastChartVariable,
     selectedModuleIds: selectedIds,
     selectedModuleNames: selectedModuleNames,
     selectedModulePaths: selectedModulePaths,
-    isSaved: isForecastResultsSavedNew,
+    isSaved: isForecastResultsSaved,
     forecastId: selectedForecastingResultsId,
     forecastAggregationType: selectedForecastAggregationType
   };
 
-  console.log("reqPayload: ", reqPayload);
-
-  //isForecastResultsLoading
   try {
     // yield put(showSpinnerAction("fetching data..."));
     yield put({
@@ -108,8 +99,6 @@ function* getForecastResultsSaga(
         (state) => state.forecastReducer
       );
       const newForecastResults = [...forecastResults, forecastResultsChunk];
-
-      console.log("newForecastResults: ", newForecastResults);
 
       const successAction = getForecastResultsChartDataSuccessAction();
       yield put({
@@ -152,7 +141,7 @@ function updateForecastResults(url: string, reqPayload: any) {
     jsonpipe.flow(url, {
       method: "POST",
       data: JSON.stringify(reqPayload),
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers: authHeaders(),
       disableContentType: true,
       withCredentials: false,
       success: function (chunk) {

@@ -92,7 +92,7 @@ const Navbar = () => {
   const theme = useTheme();
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const loginProps = useSelector((state: RootState) => state.loginReducer);
-  const { userName, role } = loginProps
+  const { userName, role } = loginProps;
   const classes = useStyles(layoutProps);
 
   const { expandMainDrawer, showNavbar } = layoutProps;
@@ -163,8 +163,7 @@ const Navbar = () => {
                 <Avatar
                   className={classes.smallAvatar}
                   alt={username}
-                  // src={faker.internet.avatar()}
-                  src={"GS"}
+                  src={faker.internet.avatar()}
                   variant="circular"
                 >
                   {userinitials}

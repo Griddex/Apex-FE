@@ -12,6 +12,7 @@ export type IconNameType =
   | "delete"
   | "run"
   | "remove"
+  | "link"
   | "category";
 
 export type DialogIconsType = Record<IconNameType, JSX.Element>;

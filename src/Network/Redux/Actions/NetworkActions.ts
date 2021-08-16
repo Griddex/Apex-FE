@@ -195,10 +195,13 @@ export const persistNetworkElementsAction = (
   };
 };
 
-export const addNetworkElementAction = (element: FlowElement) => {
+export const addNetworkElementAction = (
+  type: "Node" | "Edge",
+  element: FlowElement
+) => {
   return {
     type: ADD_NETWORKELEMENT,
-    payload: element,
+    payload: { type, element },
     meta: { showSpinner: false, message: "Persisting to store..." },
   };
 };

@@ -1,19 +1,15 @@
-import { Button } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Form, Formik, FormikProps } from "formik";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import ImageUploader from "react-images-upload";
-import { useDispatch, useSelector } from "react-redux";
-import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
-import ApexMuiTextField from "../../../Application/Components/TextFields/ApexMuiTextField";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import {
-  registerAction,
-  updateRegistrationFormAction,
-} from "../../Redux/Actions/AdminActions";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import userState from "../../../Application/Redux/State/UserState";
 import { IUserState } from "../../../Application/Redux/State/UserStateTypes";
+import { registerRequestAction } from "../../Redux/Actions/AdminActions";
 
 const useStyles = makeStyles((theme) => ({
   form: { display: "flex", width: "90%", height: "90%" },
@@ -83,9 +79,18 @@ const useStyles = makeStyles((theme) => ({
 const SingleRegisterForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { registrationScenario } = useSelector(
-    (state: RootState) => state.adminReducer
-  );
+
+  const [registration, setRegistration] = React.useState({
+    userName: "",
+    email: "",
+    password: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    mobileNumber: "",
+    jobTitle: "",
+    role: "",
+  });
 
   return (
     <Formik
@@ -96,7 +101,7 @@ const SingleRegisterForm = () => {
         password: Yup.string().required("Password is required"),
       })}
       onSubmit={({ userName, email, password }) => {
-        dispatch(registerAction(userName, email, password));
+        dispatch(registerRequestAction(userName, email, password));
       }}
     >
       {(props: FormikProps<IUserState>) => {
@@ -110,113 +115,163 @@ const SingleRegisterForm = () => {
           isSubmitting,
         } = props;
 
-        // const [value, setValue] = React.useState(textFieldInitialValue);
-        // const handleRegisterChange = (event: ChangeEvent<any>) => {
-        //   handleChange(event)
-        //   const { name, value } = event.target;
-        //   setValue(value);
-        //   updateRegistrationFormAction && dispatch(updateRegistrationFormAction(name, value));
-        // };
+        const handleFormChange =
+          (name: string) =>
+          (
+            event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+          ) => {
+            handleChange(event);
+            const { value } = event.target;
 
-        const helperTextUsername =
-          touched && touched.userName ? errors && errors.userName : "";
-        const helperTextEmail =
-          touched && touched.email ? errors && errors.email : "";
-        const helperTextPassword =
-          touched && touched.password ? errors && errors.password : "";
+            setRegistration((prev) => ({ ...prev, [name]: value }));
+          };
+
+        const helperText = (name: keyof IUserState) =>
+          touched && touched[name] ? errors && errors[name] : "";
 
         return (
           <Form className={classes.form}>
             <div className={classes.formFields}>
               <div className={classes.namesContainer}>
-                <ApexMuiTextField
+                <AnalyticsComp
                   title="FirstName"
-                  textFieldName="firstName"
-                  action={handleChange}
-                  required={false}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={""}
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="firstName"
+                      error={Boolean(helperText("firstName"))}
+                      value={registration["firstName"]}
+                      onChange={handleFormChange("firstName")}
+                      fullWidth
+                    />
+                  }
                 />
-                <ApexMuiTextField
-                  title="MiddleName"
-                  textFieldName="middleName"
-                  action={handleChange}
-                  required={false}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={""}
-                />
-                <ApexMuiTextField
+
+                <AnalyticsComp
                   title="LastName"
-                  textFieldName="lastName"
-                  action={handleChange}
-                  required={false}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={""}
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="lastName"
+                      error={Boolean(helperText("lastName"))}
+                      value={registration["lastName"]}
+                      onChange={handleFormChange("lastName")}
+                      fullWidth
+                    />
+                  }
                 />
-                <ApexMuiTextField
-                  title="Username"
-                  textFieldName="userName"
-                  action={handleChange}
-                  required={true}
-                  autoFocus={true}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={userName}
-                  helperText={helperTextUsername}
+
+                <AnalyticsComp
+                  title="MiddleName"
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="middleName"
+                      error={Boolean(helperText("middleName"))}
+                      value={registration["middleName"]}
+                      onChange={handleFormChange("middleName")}
+                      fullWidth
+                    />
+                  }
                 />
-                <ApexMuiTextField
+
+                <AnalyticsComp
+                  title="UserName"
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="userName"
+                      error={Boolean(helperText("userName"))}
+                      value={registration["userName"]}
+                      onChange={handleFormChange("userName")}
+                      required
+                      autoFocus
+                      fullWidth
+                    />
+                  }
+                />
+
+                <AnalyticsComp
                   title="Password"
-                  textFieldName="password"
-                  action={handleChange}
-                  required={true}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={password}
-                  type="password"
-                  helperText={helperTextPassword}
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="password"
+                      error={Boolean(helperText("password"))}
+                      value={registration["password"]}
+                      onChange={handleFormChange("password")}
+                      required
+                      fullWidth
+                    />
+                  }
                 />
               </div>
               <div className={classes.emailMobileContainer}>
-                <ApexMuiTextField
+                <AnalyticsComp
                   title="Email"
-                  textFieldName="email"
-                  action={handleChange}
-                  required={true}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={email}
-                  helperText={helperTextEmail}
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="email"
+                      error={Boolean(helperText("email"))}
+                      value={registration["email"]}
+                      onChange={handleFormChange("email")}
+                      required
+                      fullWidth
+                    />
+                  }
                 />
-                <ApexMuiTextField
-                  title="Mobile Number"
-                  textFieldName="mobileNumber"
-                  action={handleChange}
-                  required={false}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={""}
+
+                <AnalyticsComp
+                  title="MobileNumber"
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="mobileNumber"
+                      error={Boolean(helperText("mobileNumber"))}
+                      value={registration["mobileNumber"]}
+                      onChange={handleFormChange("mobileNumber")}
+                      fullWidth
+                    />
+                  }
                 />
               </div>
               <div className={classes.jobRoleContainer}>
-                <ApexMuiTextField
-                  title="Job Title"
-                  textFieldName="jobTitle"
-                  action={handleChange}
-                  required={false}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={""}
+                <AnalyticsComp
+                  title="FirstName"
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="jobTitle"
+                      error={Boolean(helperText("jobTitle"))}
+                      value={registration["jobTitle"]}
+                      onChange={handleFormChange("jobTitle")}
+                      fullWidth
+                    />
+                  }
                 />
-                <ApexMuiTextField
-                  title="Role"
-                  textFieldName="role"
-                  action={handleChange}
-                  required={false}
-                  autoFocus={false}
-                  textFieldStyle={{ minWidth: 300 }}
-                  textFieldInitialValue={""}
+
+                <AnalyticsComp
+                  title="FirstName"
+                  direction="Vertical"
+                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                  content={
+                    <Input
+                      name="role"
+                      error={Boolean(helperText("role"))}
+                      value={registration["role"]}
+                      onChange={handleFormChange("role")}
+                      fullWidth
+                    />
+                  }
                 />
               </div>
             </div>
@@ -232,17 +287,17 @@ const SingleRegisterForm = () => {
                 fileContainerStyle={{ height: "100%", width: "100%" }}
                 buttonText="Choose photo"
               />
-              <Button
-                className={classes.button}
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={!isValid}
-                fullWidth
-              >
-                {isSubmitting ? "Registering..." : "Register"}
-              </Button>
             </div>
+            <Button
+              className={classes.button}
+              type="submit"
+              variant="contained"
+              color="primary"
+              // disabled={!isValid}
+              fullWidth
+            >
+              {isSubmitting ? "Registering..." : "Register"}
+            </Button>
           </Form>
         );
       }}

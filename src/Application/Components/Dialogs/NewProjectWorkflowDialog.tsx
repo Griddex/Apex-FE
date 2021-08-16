@@ -123,10 +123,6 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
   const [disable, setDisable] = React.useState(false);
-  console.log(
-    "Logged output --> ~ file: NewProjectWorkflowDialog.tsx ~ line 125 ~ NewProjectWorkflowDialog ~ disable",
-    disable
-  );
 
   const titleDesc = {
     title: formTitle,

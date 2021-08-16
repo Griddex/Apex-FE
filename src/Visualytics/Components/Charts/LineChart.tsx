@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { ResponsiveLine } from "@nivo/line";
+import { IChartProps } from "../ChartTypes";
 
 const useStyles = makeStyles(() => ({
   rootLineChart: {
@@ -281,7 +282,7 @@ const data = [
   },
 ];
 
-const SimpleLineChart = () => {
+const SimpleLineChart = ({ data, otherProperties }: IChartProps) => {
   const classes = useStyles();
 
   return (

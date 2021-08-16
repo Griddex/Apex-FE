@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
@@ -11,6 +11,7 @@ import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/Wor
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
+import * as xlsx from "xlsx";
 
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
@@ -80,6 +81,8 @@ const ExcelWorkflow = ({
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
 
+  const [inputWorkbook, setInputWorkbook] = React.useState({} as xlsx.WorkBook);
+
   const WorkflowBannerProps = {
     activeStep,
     steps,
@@ -107,14 +110,12 @@ const ExcelWorkflow = ({
     isStepSkipped,
   };
 
-  useEffect(() => {
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  }, [dispatch]);
-
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
     reducer,
+    inputWorkbook,
+    setInputWorkbook,
   };
 
   function renderImportStep(activeStep: number) {
@@ -163,6 +164,10 @@ const ExcelWorkflow = ({
     workflowProcess: wp,
     workflowCategory: wc,
   };
+
+  React.useEffect(() => {
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>

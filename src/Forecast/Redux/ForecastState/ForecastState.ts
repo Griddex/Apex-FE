@@ -63,12 +63,18 @@ const forcastResultState: IForecastResultState = {
   forecastKeys: [],
   transForecastResult: [],
 
+  qualityAssuranceResults: [],
+  qualityAssuranceTree: [],
+  qualityAssuranceKeys: [],
+  transQualityAssuranceResult: [],
+
   forecastResultsId: "",
   forecastResultsTitle: "",
   forecastResultsDescription: "",
 
   selectedForecastingResultsId: "",
   selectedForecastingResultsTitle: "",
+  selectedForecastingResultsDescription: "",
   isForecastResultsLoading: false,
   isForecastResultsSaved: false,
 

@@ -7,6 +7,7 @@ import { IApexChartAxis, IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexChartAxis = ({
+  workflowCategory,
   workflowProcess,
   updateParameterAction,
   chartType,
@@ -23,6 +24,7 @@ const ApexChartAxis = ({
 }: IApexChartAxis & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const wc = workflowCategory;
   const wp = workflowProcess;
 
   return (
@@ -36,7 +38,7 @@ const ApexChartAxis = ({
           updateParameterAction &&
             dispatch(
               updateParameterAction(
-                `economicsChartsWorkflows.${wp}.${chartType}.apexAxesEnabled.${axisName}`,
+                `${wc}.${wp}.${chartType}.apexAxesEnabled.${axisName}`,
                 checked
               )
             );
@@ -66,7 +68,7 @@ const ApexChartAxis = ({
                   updateParameterAction &&
                     dispatch(
                       updateParameterAction(
-                        `economicsChartsWorkflows.${wp}.${chartType}.${axisName}.legend`,
+                        `${wc}.${wp}.${chartType}.${axisName}.legend`,
                         value
                       )
                     );
@@ -86,7 +88,7 @@ const ApexChartAxis = ({
                 step={storeAxisTitleOffset.step as number}
                 min={storeAxisTitleOffset.min as number}
                 max={storeAxisTitleOffset.max as number}
-                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.legendOffset`}
+                actionPath={`${wc}.${wp}.${chartType}.${axisName}.legendOffset`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -105,7 +107,7 @@ const ApexChartAxis = ({
                 step={storeAxisTitleOffset.step as number}
                 min={storeAxisTitleOffset.min as number}
                 max={storeAxisTitleOffset.max as number}
-                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.legendPosition`}
+                actionPath={`${wc}.${wp}.${chartType}.${axisName}.legendPosition`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -124,7 +126,7 @@ const ApexChartAxis = ({
                 step={storeAxisTickSize.step as number}
                 min={storeAxisTickSize.min as number}
                 max={storeAxisTickSize.max as number}
-                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.tickSize`}
+                actionPath={`${wc}.${wp}.${chartType}.${axisName}.tickSize`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -143,7 +145,7 @@ const ApexChartAxis = ({
                 step={storeAxisTickPadding.step as number}
                 min={storeAxisTickPadding.min as number}
                 max={storeAxisTickPadding.max as number}
-                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.tickPadding`}
+                actionPath={`${wc}.${wp}.${chartType}.${axisName}.tickPadding`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -162,7 +164,7 @@ const ApexChartAxis = ({
                 step={storeAxisTickRotation.step as number}
                 min={storeAxisTickRotation.min as number}
                 max={storeAxisTickRotation.max as number}
-                actionPath={`economicsChartsWorkflows.${wp}.${chartType}.${axisName}.tickRotation`}
+                actionPath={`${wc}.${wp}.${chartType}.${axisName}.tickRotation`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))

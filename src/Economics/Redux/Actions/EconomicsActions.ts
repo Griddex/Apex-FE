@@ -102,7 +102,8 @@ export const ECONOMICS_TREEVIEWKEYS_SUCCESS = "ECONOMICS_TREEVIEWKEYS_SUCCESS";
 export const ECONOMICS_TREEVIEWKEYS_FAILURE = "ECONOMICS_TREEVIEWKEYS_FAILURE";
 export const RESET_ECONOMICS = "RESET_ECONOMICS";
 
-export const GET_ECONOMICSPARAMETERSBYID_REQUEST = "GET_DECLINEPARAMETERSBYID_REQUEST";
+export const GET_ECONOMICSPARAMETERSBYID_REQUEST =
+  "GET_DECLINEPARAMETERSBYID_REQUEST";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -110,6 +111,17 @@ export const updateEconomicsParameterAction = (path: string, value: any) => {
     payload: {
       path,
       value,
+    },
+  };
+};
+
+export const updateEconomicsParametersAction = (
+  updateObj: Record<string, any>
+) => {
+  return {
+    type: UPDATE_ECONOMICSPARAMETERS,
+    payload: {
+      updateObj,
     },
   };
 };
@@ -124,20 +136,9 @@ export const getEconomicsParametersByIdRequestAction = (
     payload: {
       selectedEconomicsParametersId,
       reducer,
-      isCreateOrEdit
+      isCreateOrEdit,
     },
     meta: { showSpinner: true, message: "Fetching economics parameters..." },
-  };
-};
-
-export const updateEconomicsParametersAction = (
-  updateObj: Record<string, any>
-) => {
-  return {
-    type: UPDATE_ECONOMICSPARAMETERS,
-    payload: {
-      updateObj,
-    },
   };
 };
 
@@ -364,7 +365,6 @@ export const saveEconomicsSensitivitiesRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   titleDesc: Record<string, string>
 ) => {
-  console.log("titleDesc: ", titleDesc);
   return {
     type: SAVE_ECONOMICSSENSITIVITIES_REQUEST,
     payload: { workflowProcess, reducer, analysisName, titleDesc },
@@ -426,7 +426,6 @@ export const runEconomicsAnalysisRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles
 ) => {
-  console.log("payload: ", { workflowProcess, analysisName, analysisTitle });
   return {
     type: RUN_ECONOMICSANALYSIS_REQUEST,
     payload: { workflowProcess, analysisName, analysisTitle },
@@ -587,10 +586,14 @@ export const getEconomicsResultsByIdFailureAction = () => {
   };
 };
 
-export const fetchEconomicsTreeviewKeysRequestAction = () => {
+export const fetchEconomicsTreeviewKeysRequestAction = (
+  willShowSuccessDialog: boolean,
+  perspective: "heatMapTree" | "plotChartsTree" | "templatesTree",
+  idTitleDescIsSaved?: Record<string, any>
+) => {
   return {
     type: ECONOMICS_TREEVIEWKEYS_REQUEST,
-    payload: {},
+    payload: { willShowSuccessDialog, perspective, idTitleDescIsSaved },
     meta: { showSpinner: true, message: "Loading economics result..." },
   };
 };

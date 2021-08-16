@@ -20,13 +20,22 @@ import ExcelExportTable, {
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
-import { deleteDataByIdRequestAction } from "../../../../Application/Redux/Actions/ApplicationActions";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  deleteDataByIdRequestAction,
+  getTableDataByIdRequestAction,
+} from "../../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
-import { IStoredDataProps, IApplicationStoredDataRow, IStoredDataRow } 
-from "../../../../Application/Types/ApplicationTypes";
+import {
+  IStoredDataProps,
+  IApplicationStoredDataRow,
+  IStoredDataRow,
+} from "../../../../Application/Types/ApplicationTypes";
 import { persistSelectedIdTitleAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 
 import formatDate from "../../../../Application/Utils/FormatDate";
@@ -34,9 +43,11 @@ import ForecastParametersMoreActionsPopover from "../../../../Forecast/Component
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
-import { updateEconomicsParameterAction,
-  getEconomicsParametersByIdRequestAction } from "../../../Redux/Actions/EconomicsActions";
-
+import {
+  updateEconomicsParameterAction,
+  getEconomicsParametersByIdRequestAction,
+} from "../../../Redux/Actions/EconomicsActions";
+import { fetchStoredForecastingParametersRequestAction } from "../../../../Network/Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -108,48 +119,42 @@ export const cloneEconomicParameter = (
   currentRow: IStoredDataRow,
   noOfRows: number
 ) => {
+  const { id, title, description, createdOn } = currentRow;
 
-  const { id, title, description } = currentRow;
-  const createdOn = currentRow.createdOn;
-
-    const newRow = { 
-      createdAt: createdOn,
-      description,
-      id,
-      projectId: "", 
-      title
-     };
+  const newRow = {
+    createdAt: createdOn,
+    description,
+    id,
+    projectId: "",
+    title,
+  };
 
   return newRow;
 };
 
-
 const formatEconomicsParameters = (
   economicsParametersDeckStored: IApplicationStoredDataRow[]
 ) => {
-
   const transStoredData = economicsParametersDeckStored.map(
-      (row: IApplicationStoredDataRow) => {
-        return {
-          id: row.id,
-          userId: row.userId,
-          approval: "Not Started",
-          title: row.title,
-          description: row.description,
-          author: { avatarUrl: "", name: "None" },
-          approvers: [{ avatarUrl: "", name: "" }],
-          createdOn: row.createdAt,
-          modifiedOn: row.createdAt,
-        };
-      }
-    ) as IStoredDataRow[];
-
+    (row: IApplicationStoredDataRow) => {
+      return {
+        id: row.id,
+        userId: row.userId,
+        approval: "Not Started",
+        title: row.title,
+        description: row.description,
+        author: { avatarUrl: "", name: "None" },
+        approvers: [{ avatarUrl: "", name: "" }],
+        createdOn: row.createdAt,
+        modifiedOn: row.createdAt,
+      };
+    }
+  ) as IStoredDataRow[];
 
   const snTransStoredData = transStoredData.map((row, i) => ({
     sn: i + 1,
     ...row,
   })) as IStoredDataRow[];
-
 
   return snTransStoredData;
 };
@@ -177,18 +182,18 @@ const formatEconomicsParameters = (
   };
 }; */
 
-
-export default function  StoredEconomicsParametersDecks({
+export default function StoredEconomicsParametersDecks({
   showChart,
 }: IStoredDataProps) {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
 
-  const reducer = "economicsReducer"; // "networkReducer"
+  const reducer = "economicsReducer";
   const tableTitle = "Economics Parameters Table";
   const mainUrl = `${getBaseEconomicsUrl()}/parameter`;
-  const collectionName = "commercialTechnical-fiscal-flarePenalty-gasRoyalty-oilRoyalty";
+  const collectionName =
+    "commercialTechnical-fiscal-flarePenalty-gasRoyalty-oilRoyalty";
   // "commercialTechnical", "fiscal" "flarePenalty" "gasRoyalty" "oilRoyalty" "ppt"
 
   const theme = useTheme();
@@ -202,25 +207,18 @@ export default function  StoredEconomicsParametersDecks({
     (state: RootState) => state.economicsReducer[wc]
   );
 
-  console.log("economicsParametersDeckStored: ", economicsParametersDeckStored);
-
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const snTransStoredData: IStoredDataRow[] 
-  = formatEconomicsParameters(economicsParametersDeckStored);
-
-  const dataKey = "title";
-  const dataTitle = "ECONOMIC PARAMETERS TITLE";
+  const snTransStoredData: IStoredDataRow[] = formatEconomicsParameters(
+    economicsParametersDeckStored
+  );
 
   const componentRef = React.useRef();
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
-
-
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
 
   const handleCheckboxChange = (row: any) => {
     const { id, title } = row;
@@ -240,15 +238,6 @@ export default function  StoredEconomicsParametersDecks({
     apexGridCheckboxFxn: handleCheckboxChange,
   });
 
-  /* id: row.id,
-          approval: "Not Started",
-          title: row.title,
-          description: row.description,
-          author: { avatarUrl: "", name: "None" },
-          approvers: [{ avatarUrl: "", name: "" }],
-          createdOn: row.createdAt,
-          modifiedOn: row.createdAt, */
-
   const generateColumns = () => {
     const columns: Column<IStoredDataRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -258,7 +247,6 @@ export default function  StoredEconomicsParametersDecks({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
-          //console.log("row: ", row);
           const { sn } = row;
           const currentSN = sn as number;
           const currentRow = rows[currentSN - 1];
@@ -276,7 +264,7 @@ export default function  StoredEconomicsParametersDecks({
                   currentRow,
                   rows.length
                 );
-  
+
                 const newRows = [...economicsParametersDeckStored, clonedRow];
                 dispatch(
                   updateEconomicsParameterAction(
@@ -297,73 +285,82 @@ export default function  StoredEconomicsParametersDecks({
                 }
               : {};
 
-              const VisibilityOutlined = (<VisibilityOutlinedIcon
-                /* onClick={() => 
-                  dispatch(
-                    getTableDataByIdRequestAction(
-                      reducer as ReducersType,
-                      `${mainUrl}/${row.id}`,
-                      row.title as string,
-                      collectionName as string,
-                      wkPs as TAllWorkflowProcesses,
-                    )
+          const VisibilityOutlined = (
+            <VisibilityOutlinedIcon
+              onClick={() =>
+                dispatch(
+                  getTableDataByIdRequestAction(
+                    reducer as ReducersType,
+                    `${mainUrl}/${row.id}`,
+                    row.title as string,
+                    wp as TAllWorkflowProcesses,
+                    "table",
+                    collectionName as string
                   )
-                } */
-              />);
-  
-              const ApexGridMoreActionsContext = ( <ApexGridMoreActionsContextMenu
-                component={ForecastParametersMoreActionsPopover}
-                data={importMoreActionsData}
-              >
-                <MenuOpenOutlinedIcon />
-              </ApexGridMoreActionsContextMenu>);
+                )
+              }
+            />
+          );
 
-              const EditCommand = (<EditOutlinedIcon
-                style={style as CSSProperties}
-               /*  onClick={() => {
+          const ApexGridMoreActionsContext = (
+            <ApexGridMoreActionsContextMenu
+              component={ForecastParametersMoreActionsPopover}
+              data={importMoreActionsData}
+            >
+              <MenuOpenOutlinedIcon />
+            </ApexGridMoreActionsContextMenu>
+          );
+
+          const EditCommand = (
+            <EditOutlinedIcon
+              style={style as CSSProperties}
+              onClick={() => {
                 const isCreateOrEdit = true;
-                  dispatch(
-                    getEconomicsParametersByIdRequestAction(
+                dispatch(
+                  getEconomicsParametersByIdRequestAction(
                     currentRow.id as string,
                     "economicsReducer" as ReducersType,
-                    isCreateOrEdit as boolean,
+                    isCreateOrEdit as boolean
                   )
                 );
-              }} */
-              />);
+              }}
+            />
+          );
 
-              const DeleteCommand = (<DeleteOutlinedIcon
-                style={style as CSSProperties}
-              /*   onClick={() => {
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table_Data_Dialog",
-                        `Delete ${title}`,
-                        "deleteDataDialog",
-                        "",
-                        false,
-                        true,
-                        () =>
-                          deleteDataByIdRequestAction(
-                            reducer as ReducersType,
-                            deleteUrl as string,
-                            title as string,
-                            () =>
-                              fetchStoredForecastingParametersRequestAction(
-                                currentProjectId,
-                                false
-                              )
-                          ),
-                        "Delete",
-                        "deleteOutlined",
-                        "delete",
-                        title
-                      )
+          const DeleteCommand = (
+            <DeleteOutlinedIcon
+              style={style as CSSProperties}
+              onClick={() => {
+                dispatch(
+                  showDialogAction(
+                    confirmationDialogParameters(
+                      "Delete_Table_Data_Dialog",
+                      `Delete ${title}`,
+                      "deleteDataDialog",
+                      "",
+                      false,
+                      true,
+                      () =>
+                        deleteDataByIdRequestAction(
+                          reducer as ReducersType,
+                          deleteUrl as string,
+                          title as string,
+                          () =>
+                            fetchStoredForecastingParametersRequestAction(
+                              currentProjectId,
+                              false
+                            )
+                        ),
+                      "Delete",
+                      "deleteOutlined",
+                      "delete",
+                      title
                     )
-                  );
-                }} */
-              />);
+                  )
+                );
+              }}
+            />
+          );
 
           return (
             <ApexFlexContainer>
@@ -381,7 +378,7 @@ export default function  StoredEconomicsParametersDecks({
         name: "STATUS",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 100,
       },
       {
         key: "title",
@@ -472,7 +469,7 @@ export default function  StoredEconomicsParametersDecks({
     })) as IExcelSheetData<IStoredDataRow>["columns"];
 
   const exportTableProps = {
-    fileName: "CostsAndRevenuesTemplate",
+    fileName: "StoredEconomicsParameters",
     tableData: {
       Template: {
         data: rows,
@@ -492,8 +489,8 @@ export default function  StoredEconomicsParametersDecks({
   };
 
   React.useEffect(() => {
-      const updatedStoredData = formatEconomicsParameters(
-        economicsParametersDeckStored as IApplicationStoredDataRow[]
+    const updatedStoredData = formatEconomicsParameters(
+      economicsParametersDeckStored as IApplicationStoredDataRow[]
     );
     setRows(updatedStoredData);
   }, [economicsParametersDeckStored.length]);

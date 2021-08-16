@@ -1,18 +1,41 @@
 import { Tooltip } from "@material-ui/core";
 import React from "react";
-import { Handle, Node, Position, XYPosition } from "react-flow-renderer";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import {
+  Connection,
+  Handle,
+  Node,
+  Position,
+  XYPosition,
+} from "react-flow-renderer";
 import Terminal from "../../Images/Terminal.svg";
 import TerminalContextMenu from "../ContextMenu/TerminalContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
 const TerminalWidget = ({ title }: IWidget) => {
+  const isValidConnection = (connection: Connection) => {
+    const nodeType = connection?.target?.split("_")[1];
+    return (
+      nodeType === "gatheringCenter" ||
+      nodeType === "gasFacility" ||
+      nodeType === "flowstation"
+    );
+  };
+
   return (
     <div style={widgetStyle}>
-      <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
+      <Handle
+        type="target"
+        position={Position.Bottom}
+        style={handleStyle}
+        isValidConnection={isValidConnection}
+      />
+      <Tooltip
+        key="flowstation"
+        title={title as string}
+        placement="bottom"
+        arrow
+      >
         <img
           src={Terminal}
           width={40}
@@ -27,27 +50,8 @@ const TerminalWidget = ({ title }: IWidget) => {
 };
 
 const TerminalNode = React.memo((props: Node & IExtraNodeProps) => {
-  const { nodeElementsManual, isNetworkAuto } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-  const noOfNodes = nodeElementsManual.filter(
-    (node: Node & IExtraNodeProps) => node.type === "terminalNode"
-  ).length;
-
-  if (!isNetworkAuto) {
-    props = {
-      ...props,
-      ["data"]: {
-        title: `Terminal_${noOfNodes}`,
-      },
-    };
-  }
-
-  const {
-    xPos,
-    yPos,
-    data: { title },
-  } = props;
+  const { xPos, yPos, data } = props;
+  const { title } = data;
 
   const position: XYPosition = {
     x: xPos,

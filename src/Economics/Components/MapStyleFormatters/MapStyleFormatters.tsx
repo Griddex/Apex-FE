@@ -62,7 +62,9 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
 
   const operators = [">", ">=", "<", "=<", "=="];
   const opOptions = generateSelectOptions(operators);
-  const [operatorOption, setOperatorOption] = React.useState(opOptions[0]);
+  const [operatorOption, setOperatorOption] = React.useState<ISelectOption>(
+    opOptions[0]
+  );
   const [thresholdValue, setThresholdValue] = React.useState(0);
   const [showThresholdPicker, setShowThresholdPicker] = React.useState(false);
   const [showBackgroundPicker, setShowBackgroundPicker] = React.useState(false);

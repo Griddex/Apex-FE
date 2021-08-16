@@ -126,7 +126,6 @@ const TableDataDialog = (props: DialogStuff) => {
     workflowProcess,
   } = props;
 
-  console.log("reducer: ", reducer);
   const { allHeadersNameTitleUniqueMap } = useSelector(
     (state: RootState) => state.applicationReducer
   );

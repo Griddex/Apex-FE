@@ -14,7 +14,10 @@ import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import { IApexEditorRow } from "../../Application/Components/Editors/ApexEditor";
+import {
+  IApexEditor,
+  IApexEditorRow,
+} from "../../Application/Components/Editors/ApexEditor";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -48,19 +51,24 @@ import { confirmationDialogParameters } from "../../Import/Components/DialogPara
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
+import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
+import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
+import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import {
+  fetchForecastTreeviewKeysRequestAction,
   fetchStoredForecastingResultsRequestAction,
-  fetchTreeviewKeysRequestAction,
   getForecastDataByIdRequestAction,
-  runForecastEconomicsAggregationRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+<<<<<<< HEAD
 import { IApexEditor } from "../../Application/Components/Editors/ApexEditor";
 import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import { kron, varianceDependencies } from "mathjs";
+=======
+>>>>>>> 87413a9718b8f1b7e4a7e051d3e8db15dbd83ad5
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -125,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ForecastQualityAssuranceData({
   showChart,
   showBaseButtons,
-  collectionName
+  collectionName,
 }: IStoredDataProps) {
   const reducer = "forecastReducer";
   const mainUrl = `${getBaseForecastUrl()}`;
@@ -206,6 +214,7 @@ export default function ForecastQualityAssuranceData({
 
   const dividerPositions = [50];
 
+<<<<<<< HEAD
   const getForecastDate = (row:any, i:number) => {
     const keys = Object.keys(row);
     const rowData = timeData[i];
@@ -213,6 +222,216 @@ export default function ForecastQualityAssuranceData({
     //console.log("dateValues: ", dateValues);
     const forecastDate = `${dateValues.day}/${dateValues.month}/${dateValues.year}`;
     return forecastDate;
+=======
+  const generateColumns = () => {
+    const columns: Column<IStoredForecastResultsRow>[] = [
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+      ApexGridCheckboxColumn,
+      {
+        key: "actions",
+        name: "ACTIONS",
+        editable: false,
+        formatter: ({ row }) => {
+          const sn = row.sn as number;
+          const title = row.forecastResultsTitle as string;
+          const id = row.forecastResultsId as string;
+          const deleteUrl = `${mainUrl}/${id}`;
+
+          const editedRow = rows[sn - 1];
+          const editorData = [
+            {
+              name: "title",
+              title: "FORECAST RESULTS TITLE",
+              value: row["forecastResultsTitle"],
+              editorType: "input",
+            },
+            {
+              name: "description",
+              title: "Description",
+              value: row["description"],
+              editorType: "textArea",
+            },
+          ] as IApexEditorRow[];
+
+          const apexEditorProps = {
+            editorData,
+            editedRow,
+            dividerPositions,
+          } as Partial<IApexEditor>;
+
+          return (
+            <ApexFlexContainer>
+              <EditOutlinedIcon
+                onClick={() => {
+                  const dialogParameters: DialogStuff = {
+                    name: "Edit_Table_Dialog",
+                    title: "Edit Table",
+                    type: "tableEditorDialog",
+                    show: true,
+                    exclusive: true,
+                    maxWidth: "xs",
+                    iconType: "edit",
+                    apexEditorProps,
+                    actionsList: () =>
+                      DialogOneCancelButtons(
+                        [true, true],
+                        [true, false],
+                        [
+                          unloadDialogsAction,
+                          //Captured variable
+                          //solve with componentRef
+                          () => setShouldUpdate(!shouldUpdate),
+                        ],
+                        "Update",
+                        "updateOutlined"
+                      ),
+                  };
+
+                  dispatch(showDialogAction(dialogParameters));
+                }}
+              />
+              <DeleteOutlinedIcon
+                onClick={() =>
+                  dispatch(
+                    showDialogAction(
+                      confirmationDialogParameters(
+                        "Delete_Table_Data_Dialog",
+                        `Delete ${title}`,
+                        "deleteDataDialog",
+                        "",
+                        false,
+                        true,
+                        () =>
+                          deleteDataByIdRequestAction(
+                            reducer as ReducersType,
+                            deleteUrl as string,
+                            title as string,
+                            () =>
+                              fetchStoredForecastingResultsRequestAction(
+                                currentProjectId
+                              )
+                          ),
+                        "Delete",
+                        "deleteOutlined",
+                        "delete",
+                        title
+                      )
+                    )
+                  )
+                }
+              />
+              <MenuOpenOutlinedIcon
+                onClick={() =>
+                  dispatch(
+                    getTableDataByIdRequestAction(
+                      reducer as ReducersType,
+                      `${mainUrl}/${row.id}`,
+                      row.forecastParametersTitle as string,
+                      wp as TAllWorkflowProcesses,
+                      "success",
+                      collectionName as string
+                    )
+                  )
+                }
+              />
+            </ApexFlexContainer>
+          );
+        },
+        width: 120,
+      },
+      {
+        key: "approval",
+        name: "APPROVAL",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Approval approvalText={row.approval} />;
+        },
+        width: 100,
+      },
+      {
+        key: "saved",
+        name: "SAVED",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Saved savedText={row.saved} />;
+        },
+        width: 100,
+      },
+      {
+        key: "forecastResultsTitle",
+        name: "FORECAST RESULTS TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "forecastInputDeckTitle",
+        name: "FORECAST INPUTDECK TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "forecastParametersTitle",
+        name: "FORECAST PARAMETERS TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
+        key: "author",
+        name: "AUTHOR",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return <Author author={row.author} />;
+        },
+        width: 200,
+      },
+      {
+        key: "createdOn",
+        name: "CREATED",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return (
+            <div>
+              {formatDate(
+                new Date(row.createdOn),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
+        },
+        width: 200,
+      },
+      {
+        key: "modifiedOn",
+        name: "MODIFIED",
+        editable: false,
+        resizable: true,
+        formatter: ({ row }) => {
+          return (
+            <div>
+              {formatDate(
+                new Date(row.modifiedOn),
+                dayFormat,
+                monthFormat,
+                yearFormat
+              )}
+            </div>
+          );
+        },
+        width: 200,
+      },
+    ];
+
+    return columns;
+>>>>>>> 87413a9718b8f1b7e4a7e051d3e8db15dbd83ad5
   };
 
   const forecastResultCount = forecastResults.length;
@@ -357,7 +576,13 @@ console.log("columnKeys: ", columnKeys);
                   )
                 );
               },
-              () => dispatch(fetchTreeviewKeysRequestAction()),
+              () =>
+                dispatch(
+                  fetchForecastTreeviewKeysRequestAction(
+                    reducer,
+                    "forecastAssurance"
+                  )
+                ),
             ]}
           />
         </ApexFlexContainer>

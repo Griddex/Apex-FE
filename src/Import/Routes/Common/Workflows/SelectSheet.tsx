@@ -13,7 +13,7 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   ISelectOption,
-  SelectOptionsType,
+  TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -72,7 +72,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
+const SelectSheet = ({
+  wrkflwPrcss,
+  reducer,
+  inputWorkbook,
+}: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -94,7 +98,7 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const { workSheetNames, selectedWorksheetName, inputFile } = useSelector(
+  const { workSheetNames, selectedWorksheetName } = useSelector(
     (state: RootState) => state[reducer][wc][wp]
   );
 
@@ -102,13 +106,15 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
     selectedWorksheetName
   );
 
-  const handleSelectChange = (value: ValueType<ISelectOption, false>) => {
-    const selectedWorksheetName = value && value.label;
+  const handleSelectChange = (option: ValueType<ISelectOption, false>) => {
+    const selectedWorksheetName = option && option.label;
     const sWN = selectedWorksheetName as string;
 
     setWorksheetName(sWN);
 
-    const selectedWorksheetDataXLSX = inputFile.Sheets[sWN];
+    const selectedWorksheetDataXLSX = (inputWorkbook as xlsx.WorkBook).Sheets[
+      sWN
+    ];
     const selectedWorksheetData = xlsx.utils.sheet_to_json<
       Record<string, React.Key>
     >(selectedWorksheetDataXLSX);
@@ -126,7 +132,7 @@ const SelectSheet = ({ wrkflwPrcss, reducer }: IAllWorkflows) => {
   };
 
   const SelectWorksheet = () => {
-    const worksheetNameOptions: SelectOptionsType =
+    const worksheetNameOptions: TSelectOptions =
       generateSelectOptions(workSheetNames);
 
     const worksheetNameOption = generateSelectOptions([worksheetName])[0];

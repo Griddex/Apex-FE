@@ -88,7 +88,7 @@ function* saveNetworkSaga(
 
     const result = yield call(
       saveNetworkAPI,
-      `${getBaseForecastUrl()}/network`
+      `${getBaseForecastUrl()}/network/save`
     );
 
     const {

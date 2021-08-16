@@ -7,11 +7,14 @@ import {
   SET_CHARTCOLOR,
   SET_CHARTOBJECT,
   UPDATE_CHARTOBJECT,
-} from "../ChartActions/ChartActions";
-import chartState from "../ChartState/ChartState";
-import { IChartState } from "../ChartState/ChartStateTypes";
+} from "../VisualyticsActions/VisualyticsActions";
+import visualyticsState from "../VisualyticsState/VisualyticsState";
+import { IVisualyticsState } from "../VisualyticsState/VisualyticsStateTypes";
 
-const chartReducer = (state = chartState, action: IAction): IChartState => {
+const visualyticsReducer = (
+  state = visualyticsState,
+  action: IAction
+): IVisualyticsState => {
   switch (action.type) {
     case PERSIST_CHARTINDEX:
       return {
@@ -73,7 +76,7 @@ const chartReducer = (state = chartState, action: IAction): IChartState => {
     }
 
     case RESET_CHART: {
-      return chartState;
+      return visualyticsState;
     }
 
     default:
@@ -81,4 +84,4 @@ const chartReducer = (state = chartState, action: IAction): IChartState => {
   }
 };
 
-export default chartReducer;
+export default visualyticsReducer;

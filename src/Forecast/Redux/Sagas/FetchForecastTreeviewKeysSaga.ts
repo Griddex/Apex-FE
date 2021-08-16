@@ -8,37 +8,37 @@ import {
   ForkEffect,
   put,
   PutEffect,
-  select,
   SelectEffect,
   take,
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { FORECAST_TREEVIEWKEYS_REQUEST } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
+import authHeaders from "../../../Application/Services/AuthHeaders";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
-import history from "../../../Application/Services/HistoryService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  fetchTreeviewKeysFailureAction,
-  fetchTreeviewKeysSuccessAction,
-  TREEVIEWKEYS_REQUEST,
+  fetchForecastTreeviewKeysFailureAction,
+  fetchForecastTreeviewKeysSuccessAction,
+  updateForecastResultsParametersAction,
 } from "../Actions/ForecastActions";
 
-export default function* watchFetchTreeviewKeysSaga(): Generator<
+export default function* watchFetchForecastTreeviewKeysSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const treeviewKeysChan = yield actionChannel(TREEVIEWKEYS_REQUEST);
-  yield takeLeading(treeviewKeysChan, fetchTreeviewKeysSaga);
+  const treeviewKeysChan = yield actionChannel(FORECAST_TREEVIEWKEYS_REQUEST);
+  yield takeLeading(treeviewKeysChan, fetchForecastTreeviewKeysSaga);
 }
 
-function* fetchTreeviewKeysSaga(action: IAction): Generator<
+function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
   | CallEffect<any>
   | TakeEffect
   | PutEffect<{
@@ -50,9 +50,9 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
   any
 > {
   const { payload } = action;
-  const { selectedForecastingResultsId: forecastId } = yield select(
-    (state) => state.forecastReducer
-  );
+  const { idTitleDescIsSaved } = payload;
+  const forecastId = idTitleDescIsSaved.selectedForecastingResultsId;
+
   const url = `${getBaseForecastUrl()}/forecastResults/treeview/${forecastId}`;
 
   const message = "Loading forecast chart data...";
@@ -62,27 +62,27 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
 
     const chan = yield call(updateTreeAndKeys, url);
 
+    let i = 0;
     while (true) {
       const treeOrKeys = yield take(chan);
 
-      console.log("treeOrKeys: ", treeOrKeys);
+      const successAction = fetchForecastTreeviewKeysSuccessAction();
+      const key = Object.keys(treeOrKeys)[0];
 
-      const successAction = fetchTreeviewKeysSuccessAction();
-      if (Object.keys(treeOrKeys)[0] === "tree") {
+      if (key === "tree") {
         const forecastTree = treeOrKeys["tree"];
-        const actns:any = {
+
+        yield put({
           ...successAction,
           payload: {
             ...payload,
             keyVar: "forecastTree",
             forecastTree,
           },
-        }
-        console.log("action: ", actns)
-        yield put(actns);
-      } else if (Object.keys(treeOrKeys)[0] === "keys") {
+        });
+      } else if (key === "keys") {
         const forecastKeys = treeOrKeys["keys"];
-        console.log("forecastKeys: ", forecastKeys);
+
         yield put({
           ...successAction,
           payload: {
@@ -92,9 +92,14 @@ function* fetchTreeviewKeysSaga(action: IAction): Generator<
           },
         });
       }
+
+      i += 1;
+      if (i === 2) {
+        yield put(updateForecastResultsParametersAction(idTitleDescIsSaved));
+      }
     }
   } catch (errors) {
-    const failureAction = fetchTreeviewKeysFailureAction();
+    const failureAction = fetchForecastTreeviewKeysFailureAction();
 
     yield put({
       ...failureAction,
@@ -111,7 +116,7 @@ function updateTreeAndKeys(url: string) {
   return eventChannel((emitter) => {
     jsonpipe.flow(url, {
       method: "GET",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
+      headers: authHeaders(),
       disableContentType: true,
       withCredentials: false,
       success: function (chunk) {
@@ -129,8 +134,4 @@ function updateTreeAndKeys(url: string) {
       emitter(END);
     };
   });
-}
-
-function forwardTo(routeUrl: string) {
-  history.push(routeUrl);
 }

@@ -76,8 +76,8 @@ Total : 153 files,  10739 codes, 401 comments, 1062 blanks, all 12202 lines
 | Visualytics\Components | 6 | 669 | 24 | 60 | 753 |
 | Visualytics\Images | 2 | 112 | 2 | 2 | 116 |
 | Visualytics\Redux | 3 | 27 | 0 | 7 | 34 |
-| Visualytics\Redux\ChartActions | 1 | 9 | 0 | 2 | 11 |
-| Visualytics\Redux\ChartReducer | 1 | 14 | 0 | 4 | 18 |
-| Visualytics\Redux\ChartState | 1 | 4 | 0 | 1 | 5 |
+| Visualytics\Redux\VisualyticsActions | 1 | 9 | 0 | 2 | 11 |
+| Visualytics\Redux\VisualyticsReducer | 1 | 14 | 0 | 4 | 18 |
+| Visualytics\Redux\VisualyticsState | 1 | 4 | 0 | 1 | 5 |
 
 [details](details.md)

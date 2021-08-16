@@ -81,10 +81,16 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   forecastKeys: string[];
   transForecastResult: any[];
 
+  qualityAssuranceResults: any[];
+  qualityAssuranceTree: RenderTree["children"];
+  qualityAssuranceKeys: string[];
+  transQualityAssuranceResult: any[];
+
   forecastResultsId: string;
 
   selectedForecastingResultsId: string;
   selectedForecastingResultsTitle: string;
+  selectedForecastingResultsDescription: string;
   isForecastResultsLoading: boolean;
   isForecastResultsSaved: boolean;
 

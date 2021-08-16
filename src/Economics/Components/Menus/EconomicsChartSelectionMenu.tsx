@@ -48,19 +48,19 @@ const EconomicsChartSelectionMenu = () => {
 
   const economicsPlotCharts = [
     {
-      value: "stackedArea",
+      value: "stackedAreaChart",
       label: "Stacked Area",
     },
     {
-      value: "line",
+      value: "lineChart",
       label: "Line",
     },
     {
-      value: "doughnut",
+      value: "doughnutChart",
       label: "Doughnut",
     },
     {
-      value: "bar",
+      value: "barChart",
       label: "Bar",
     },
   ];

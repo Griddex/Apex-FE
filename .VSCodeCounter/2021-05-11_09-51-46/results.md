@@ -226,9 +226,9 @@ Total : 614 files,  50408 codes, 1225 comments, 4911 blanks, all 56544 lines
 | Visualytics\Components\Menus | 2 | 49 | 0 | 6 | 55 |
 | Visualytics\Images | 2 | 112 | 2 | 2 | 116 |
 | Visualytics\Redux | 4 | 510 | 4 | 30 | 544 |
-| Visualytics\Redux\ChartActions | 1 | 53 | 0 | 8 | 61 |
-| Visualytics\Redux\ChartReducer | 1 | 68 | 3 | 13 | 84 |
-| Visualytics\Redux\ChartState | 2 | 389 | 1 | 9 | 399 |
+| Visualytics\Redux\VisualyticsActions | 1 | 53 | 0 | 8 | 61 |
+| Visualytics\Redux\VisualyticsReducer | 1 | 68 | 3 | 13 | 84 |
+| Visualytics\Redux\VisualyticsState | 2 | 389 | 1 | 9 | 399 |
 | Visualytics\Utils | 4 | 1,224 | 0 | 8 | 1,232 |
 
 [details](details.md)

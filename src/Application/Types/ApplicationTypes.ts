@@ -101,6 +101,7 @@ export interface IApplicationStoredDataRow {
   analysisTitle?: TEconomicsAnalysesTitles | "Multiple";
   analysisName?: TEconomicsAnalysesNames;
   developmentScenariosCostsRevenue?: TDevScenarioNames[];
+  build?: "Auto" | "Manual";
 }
 export interface IApplicationStoredForecastResultsRow
   extends IApplicationStoredDataRow {

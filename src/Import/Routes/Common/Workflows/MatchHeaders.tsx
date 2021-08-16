@@ -16,7 +16,8 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   ISelectOption,
-  SelectOptionsType,
+  TKeyedSelectOptions,
+  TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -95,6 +96,10 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
     useSelector((state: RootState) => state.applicationReducer);
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 98 ~ MatchHeaders ~ savedMatchObjectAll",
+    savedMatchObjectAll
+  );
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
@@ -183,18 +188,19 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
       const appHeaderTitleMatches = Object.keys(fileHeaderMatch);
       const appHeaderOption = appHeaderTitleMatches.map((t) => {
-        const appHeaderName = currentAppHeaderTitleNameMap[t];
+        const appHeaderName = currentAppHeaderTitleNameMap[t] as string;
+
         if (appHeaderName) return { value: appHeaderName, label: t };
         else return { value: camelCase(t), label: t };
       });
 
       return appHeaderOption;
     })
-  ) as React.MutableRefObject<SelectOptionsType[]>;
+  ) as React.MutableRefObject<TSelectOptions[]>;
 
   const keyedAppHeaderOptions = React.useRef(
     zipObject(fileHeaders, applicationHeaderOptions.current)
-  );
+  ) as React.MutableRefObject<TKeyedSelectOptions>;
 
   const scoreOptions = React.useRef(
     fileHeaders.map((fileHeader: string) => {
@@ -204,7 +210,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         Object.values(fileHeaderMatch).map((h) => h.toString())
       );
     })
-  ) as React.MutableRefObject<SelectOptionsType[]>;
+  ) as React.MutableRefObject<TSelectOptions[]>;
 
   const keyedScoreOptions = React.useRef(
     zipObject(fileHeaders, scoreOptions.current)
@@ -258,9 +264,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
 
-  const generateColumns = (keyedAppHeaderOptions: {
-    [index: string]: { value: string; label: string }[];
-  }) => {
+  const generateColumns = (keyedAppHeaderOptions: TKeyedSelectOptions) => {
     const handleHeaderTypeChange = (
       option: ValueType<ISelectOption, false>,
       row: IRawRow
@@ -308,7 +312,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       rows[rowSN - 1] = {
         ...selectedRow,
         applicationHeader: selectedAppHeader,
-        match: selectedScore.value,
+        match: selectedScore.value as string,
         exclude: selectedAppHeader === "None" ? true : false,
       };
 
@@ -632,7 +636,8 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
                 const chosenAppHeader = chosenRow.applicationHeader as string;
                 const chosenType = chosenRow.type as THeader;
 
-                userMatchObject[workflowClass]["headers"][header as string] = {
+                const headerJSON = JSON.stringify(header as string);
+                userMatchObject[workflowClass]["headers"][headerJSON] = {
                   header: chosenAppHeader,
                   type: chosenType,
                   acceptMatch: currentAcceptMatchValue,

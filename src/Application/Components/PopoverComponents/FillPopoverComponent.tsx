@@ -54,7 +54,7 @@ const FillPopoverComponent = ({
     downToOptions[downToOptions.length - 1]
   );
 
-  const currentValue = currentRow[columnTitleOption.value];
+  const currentValue = currentRow[columnTitleOption?.value as string];
 
   return (
     <div>
@@ -154,14 +154,18 @@ const FillPopoverComponent = ({
             startIcon={<ArrowDownwardOutlinedIcon />}
             onClick={() => {
               const currentSN = currentRow.sn;
-              const currentDataToFill = currentRow[columnTitleOption.value];
+              const currentDataToFill =
+                currentRow[columnTitleOption?.value as string];
 
               const newRows = rows.map((row) => {
                 const { sn } = row;
-                if (sn > currentSN && sn <= parseInt(downToOption.value)) {
+                if (
+                  sn > currentSN &&
+                  sn <= parseInt(downToOption?.value as string)
+                ) {
                   return {
                     ...row,
-                    [columnTitleOption.value]: currentDataToFill,
+                    [columnTitleOption?.value as string]: currentDataToFill,
                   };
                 } else {
                   return row;
@@ -182,14 +186,18 @@ const FillPopoverComponent = ({
             startIcon={<ArrowUpwardOutlinedIcon />}
             onClick={() => {
               const currentSN = currentRow.sn;
-              const currentDataToFill = currentRow[columnTitleOption.value];
+              const currentDataToFill =
+                currentRow[columnTitleOption?.value as string];
 
               const newRows = rows.map((row) => {
                 const { sn } = row;
-                if (sn < currentSN && sn >= parseInt(upToOption.value)) {
+                if (
+                  sn < currentSN &&
+                  sn >= parseInt(upToOption.value as string)
+                ) {
                   return {
                     ...row,
-                    [columnTitleOption.value]: currentDataToFill,
+                    [columnTitleOption?.value as string]: currentDataToFill,
                   };
                 } else {
                   return row;

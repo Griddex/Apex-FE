@@ -41,7 +41,7 @@ const computeFileUnitMatches = (
   const fileUnitMatches: Record<string, Record<string, React.Key>>[] = [];
   for (const fileUnit of fileUnitsWithoutNone) {
     const appHeaderName = chosenAppHeaderNamesWithoutNone[i];
-    const unitsCollection = variableNameUnitsMap[appHeaderName];
+    const unitsCollection = variableNameUnitsMap[appHeaderName as string];
 
     const appUnitsByHeaderName = unitsCollection
       ? unitsCollection.map((u) => u.title)

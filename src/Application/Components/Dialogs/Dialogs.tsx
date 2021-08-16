@@ -41,10 +41,9 @@ import StoredProductionStreamPrioritizationDialog from "../../../Network/Compone
 import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
-import {
-  IStoredDataRow,
-} from "../../Types/ApplicationTypes";
-
+import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
+import { IStoredDataRow } from "../../Types/ApplicationTypes";
+import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -65,8 +64,10 @@ const applicationDialogs: IApplicationDialogs = {
   storedForecastingParametersDialog: StoredForecastingParametersDialog,
   createForecastingParametersWorkflowDialog:
     EditOrCreateForecastingParametersWorkflowDialog,
-    createDeclineParametersWorkflowDialog:  EditOrCreateDeclineParametersWorkflowDialog,
-    createPrioritizationParametersWorkflowDialog: EditOrCreateProductionPrioritizationWorkflowDialog,
+  createDeclineParametersWorkflowDialog:
+    EditOrCreateDeclineParametersWorkflowDialog,
+  createPrioritizationParametersWorkflowDialog:
+    EditOrCreateProductionPrioritizationWorkflowDialog,
   declineCurveParametersDialog: DeclineCurveParametersDialog,
 
   productionStreamPrioritizationDialog: ProductionStreamPrioritizationDialog,
@@ -97,6 +98,9 @@ const applicationDialogs: IApplicationDialogs = {
 
   snapshotDialog: SnapshotDialog,
   networkWidgetDialog: NetworkWidgetDialog,
+  linkInputDeckDialog: LinkInputDeckDialog,
+
+  openProjectConfirmationDialog: OpenProjectConfirmationDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {
@@ -108,7 +112,10 @@ const Dialogs: React.FC<DialogStuff> = () => {
     <>
       {(dialogs as any[]).map(
         (
-          dialog: DialogStuff | DialogStuff<IForecastParametersStoredRow> | DialogStuff<IStoredDataRow>,
+          dialog:
+            | DialogStuff
+            | DialogStuff<IForecastParametersStoredRow>
+            | DialogStuff<IStoredDataRow>,
           i: number
         ) => {
           const { type } = dialog;
@@ -120,15 +127,15 @@ const Dialogs: React.FC<DialogStuff> = () => {
                 dialog as DialogStuff<IForecastParametersStoredRow>;
 
               return <SpecificDialog key={i} {...dialogDefined} />;
-            }else if (type === "createDeclineParametersWorkflowDialog") {
+            } else if (type === "createDeclineParametersWorkflowDialog") {
               const SpecificDialog = applicationDialogs[type];
-              const dialogDefined =
-                dialog as DialogStuff<IStoredDataRow>;
+              const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
               return <SpecificDialog key={i} {...dialogDefined} />;
-            }else if (type === "createPrioritizationParametersWorkflowDialog") {
+            } else if (
+              type === "createPrioritizationParametersWorkflowDialog"
+            ) {
               const SpecificDialog = applicationDialogs[type];
-              const dialogDefined =
-                dialog as DialogStuff<IStoredDataRow>;
+              const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
               return <SpecificDialog key={i} {...dialogDefined} />;
             } else {
               const SpecificDialog = applicationDialogs[type];

@@ -111,10 +111,22 @@ export default function ApexTreeView({
 }: IApexTreeView) {
   const classes = useStyles();
 
-  console.log("rootTree: ", rootTree);
   const initExpanded = rootTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id
   );
+
+  const [expanded, setExpanded] = React.useState<string[]>(
+    initExpanded as string[]
+  );
+  const [selected, setSelected] = React.useState<string[]>([]);
+
+  const handleToggle = (event: React.ChangeEvent<any>, nodeIds: string[]) => {
+    setExpanded(nodeIds);
+  };
+
+  const handleSelect = (event: React.ChangeEvent<any>, nodeIds: string[]) => {
+    setSelected(nodeIds);
+  };
 
   const getChildById = (node: RenderTree, id: string) => {
     let idArray: string[] = [];
@@ -195,21 +207,19 @@ export default function ApexTreeView({
 
   const renderTree = (scenarioNodes: RenderTree) => {
     const { id, name, title } = scenarioNodes;
-   /*  const [{ isDragging }, drag] = useDrag(
-      () => ({
-        type: dragDropTypes,
-        item: { id, name, title },
-        end: (item, monitor) => {
-          const dropResult = monitor.getDropResult();
-        },
-        collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-      }),
-      []
-    ); 
-    const opacity = isDragging ? 0.4 : 1;
-    */
-    const opacity = 1;
-    
+    //TODO Unequal hooks between re-renders
+    // const [{ isDragging }, drag] = useDrag(
+    //   () => ({
+    //     type: dragDropTypes,
+    //     item: { id, name, title },
+    //     end: (item, monitor) => {
+    //       const dropResult = monitor.getDropResult();
+    //     },
+    //     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
+    //   }),
+    //   []
+    // );
+    // const opacity = isDragging ? 0.4 : 1;
 
     return (
       <StyledTreeItem
@@ -229,11 +239,9 @@ export default function ApexTreeView({
               />
             }
             label={
-              //ref={drag} style={{ opacity }}
-              <div>
-                {scenarioNodes.title}
-              </div>
-            } 
+              // <div ref={drag} style={{ opacity }}>
+              <div>{scenarioNodes.title}</div>
+            }
             key={scenarioNodes.id}
           />
         }
@@ -249,10 +257,13 @@ export default function ApexTreeView({
   return (
     <TreeView
       className={classes.rootTreeView}
-      defaultExpanded={initExpanded}
+      expanded={expanded}
       defaultCollapseIcon={<MinusSquare />}
       defaultExpandIcon={<PlusSquare />}
       // defaultEndIcon={<CloseSquare />}
+      selected={selected}
+      onNodeToggle={handleToggle}
+      onNodeSelect={handleSelect}
     >
       {renderTree(rootTree)}
     </TreeView>

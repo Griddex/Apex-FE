@@ -1,3 +1,4 @@
+import { allChartsDataAndOtherProperties } from "../../../Visualytics/Data/VisualyticsData";
 import {
   IEconomicsAnalysis,
   TEconomicsAnalysesNames,
@@ -127,104 +128,15 @@ const generateAnalysesState = () => {
 };
 
 const chartsWorkflowProcesses = [
-  "economicsTemplateResultsData",
   "economicsResultsPlotCharts",
   "economicsResultsSensitivitiesHeatmap",
+  "economicsTemplateResultsData",
 ];
 const generateChartsState = () => {
   return chartsWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
       ...acc,
-      [workflowProcess]: {
-        lineChart: {
-          data: [],
-          margin: { top: 50, right: 110, bottom: 50, left: 60 },
-          xScale: { type: "point" },
-          xFormat: "",
-          yScale: {
-            type: "linear",
-            min: "auto",
-            max: "auto",
-            stacked: true,
-            reverse: false,
-          },
-          yFormat: "",
-
-          //GRID
-          enableGridX: true,
-          enableGridY: true,
-          gridXValues: [],
-          gridYValues: [],
-
-          //AXES
-          axisTop: null,
-          axisRight: null,
-          axisBottom: {
-            axisEnabled: true,
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: "",
-            legendOffset: 36,
-            legendPosition: "middle",
-          },
-          axisLeft: {
-            axisEnabled: true,
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: "",
-            legendOffset: -40,
-            legendPosition: "middle",
-          },
-          apexAxesEnabled: {
-            axisLeft: true,
-            axisBottom: true,
-            axisTop: false,
-            axisRight: false,
-          },
-
-          //POINTS
-          pointSize: 10,
-          pointColor: { from: "color", modifiers: [] },
-          pointBorderWidth: 2,
-          pointBorderColor: { from: "serieColor", modifiers: [] },
-          pointLabelYOffset: -12,
-          useMesh: true,
-
-          //LEGENDS
-          enableLegend: false,
-          legends: [
-            {
-              anchor: "bottom-right",
-              direction: "column",
-              justify: false,
-              translateX: 100,
-              translateY: 0,
-              itemsSpacing: 0,
-              itemDirection: "left-to-right",
-              itemWidth: 80,
-              itemHeight: 20,
-              itemOpacity: 0.75,
-              symbolSize: 12,
-              symbolShape: "circle",
-              symbolBorderColor: "rgba(0, 0, 0, .5)",
-              effects: [
-                {
-                  on: "hover",
-                  style: {
-                    itemBackground: "rgba(0, 0, 0, .03)",
-                    itemOpacity: 1,
-                  },
-                },
-              ],
-            },
-          ],
-        },
-        stackedAreaChart: {},
-        doughnutChart: {},
-        barChart: {},
-      },
+      [workflowProcess]: allChartsDataAndOtherProperties,
     };
   }, {});
 };
@@ -235,8 +147,6 @@ const analysesDataState = generateAnalysesState();
 const chartsDataState = generateChartsState();
 
 const EconomicsState: IEconomicsState = {
-  //TODO Remove from here
-  forecastRun: "",
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
   loadEconomicsParametersWorkflow: false,
@@ -307,6 +217,7 @@ const EconomicsState: IEconomicsState = {
   selectedTableData: [],
 
   //HeatMap
+  heatMapTreeByScenario: { id: "", name: "" },
   sensitivitiesHeatMapTree: { id: "", name: "" },
   sensitivitiesHeatMapData: {},
   sensitivitiesHeatMap1or2D: [],
@@ -324,11 +235,20 @@ const EconomicsState: IEconomicsState = {
   economicsPlotChartsTree: { id: "", name: "" },
   plotChartsData: null,
   plotChartsDataTrans: null,
-  selectedEconomicsPlotChartOption: { value: "", label: "" },
+  selectedEconomicsPlotChartOption: {
+    value: "Select Chart...",
+    label: "Select Chart...",
+  },
   showPlotChartsCategories: false,
   plotChartsVariableXOption: null,
   plotChartsVariableYPriOption: null,
   plotChartsVariableYSecOption: null,
+  plotChartsCommonProperties: {
+    stackedAreaChart: {},
+    lineChart: {},
+    doughnutChart: {},
+    barChart: {},
+  },
 
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },

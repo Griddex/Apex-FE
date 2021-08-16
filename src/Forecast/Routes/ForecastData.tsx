@@ -19,7 +19,7 @@ import ExcelExportTable, {
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import {
-  IIdSelectOption,
+  IExtendedSelectOption,
   ISelectOption,
 } from "../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -329,7 +329,7 @@ export default function ForecastData({
     value: row.title,
     label: row.title,
     id: row.id,
-  })) as IIdSelectOption[];
+  })) as IExtendedSelectOption[];
 
   forecastRunTitleOptions.unshift({
     value: "select",
@@ -349,8 +349,8 @@ export default function ForecastData({
       : forecastRunTitleOptions[0];
 
   const [forecastRunOption, setForecastRunOption] =
-    React.useState<IIdSelectOption>(
-      selectedForecastTitleOption as IIdSelectOption
+    React.useState<IExtendedSelectOption>(
+      selectedForecastTitleOption as IExtendedSelectOption
     );
 
   const exportColumns = generateColumns()
@@ -396,16 +396,18 @@ export default function ForecastData({
           direction="Vertical"
           containerStyle={{ width: "100%" }}
           content={
-            <ApexSelectRS<IIdSelectOption>
+            <ApexSelectRS<IExtendedSelectOption>
               valueOption={forecastRunOption}
               data={forecastRunTitleOptions}
-              handleSelect={(option: ValueType<IIdSelectOption, false>) => {
-                setForecastRunOption(option as IIdSelectOption);
+              handleSelect={(
+                option: ValueType<IExtendedSelectOption, false>
+              ) => {
+                setForecastRunOption(option as IExtendedSelectOption);
 
                 dispatch(
                   updateForecastResultsParameterAction(
                     "selectedForecastingResultsId",
-                    (option as IIdSelectOption).id
+                    (option as IExtendedSelectOption).id
                   )
                 );
                 dispatch(
@@ -460,7 +462,7 @@ export default function ForecastData({
                 onSelectedRowChange={setSRow}
                 onRowsChange={setRows}
                 size={size}
-                groupBy={groupBy}
+                groupBy={groupBy as readonly string[]}
                 rowGrouper={rowGrouper}
                 expandedGroupIds={expandedGroupIds}
                 onExpandedGroupIdsChange={setExpandedGroupIds}

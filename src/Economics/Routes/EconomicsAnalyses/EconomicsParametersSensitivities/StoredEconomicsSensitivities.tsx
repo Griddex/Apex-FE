@@ -276,8 +276,9 @@ export default function StoredEconomicsSensitivities() {
                       reducer as ReducersType,
                       `${mainUrl}/${row.id}`,
                       row.economicsSensitivitiesTitle as string,
-                      collectionName as string,
-                      wp as TAllWorkflowProcesses
+                      wp as TAllWorkflowProcesses,
+                      "table",
+                      collectionName as string
                     )
                   )
                 }

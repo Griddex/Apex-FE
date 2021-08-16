@@ -1,5 +1,6 @@
 import { FlowElement, XYPosition } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
+import { TNodeTypes } from "./../Data/NetworkData";
 
 export interface NodeDimensionsType {
   [key: string]: [string, string];
@@ -15,18 +16,19 @@ const nodeDimensions: NodeDimensionsType = {
   terminal: ["80px", "40px"],
 };
 
-const GenerateNodeService = (nodeType: string) => {
-  const CurrentDimensions = nodeDimensions[nodeType];
+const GenerateNodeService = (nodeType: TNodeTypes, isNetworkAuto: boolean) => {
+  const currentDimensions = nodeDimensions[nodeType];
+  const id = uuidv4();
 
   const newElement: FlowElement = {
-    id: uuidv4(),
+    id: isNetworkAuto ? id : `${id}_${nodeType}`,
     type: `${nodeType}Node`,
     data: {
       label: nodeType,
     },
     style: {
-      width: CurrentDimensions[0],
-      height: CurrentDimensions[1],
+      width: currentDimensions[0],
+      height: currentDimensions[1],
       padding: "0px",
       borderColor: "#31BFCC",
     },

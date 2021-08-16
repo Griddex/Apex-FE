@@ -371,75 +371,6 @@ export const mapData3D = {
   ],
 };
 
-export const mapDataResultFromGabriel = {
-  statusCode: 200,
-  data: {
-    oilDevelopment: {
-      gasPrice4: [
-        {
-          oilPrice: 60,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-        {
-          oilPrice: 70,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-        {
-          oilPrice: 80,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-      ],
-      gasPrice5: [
-        {
-          oilPrice: 60,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-        {
-          oilPrice: 70,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-        {
-          oilPrice: 80,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-      ],
-      gasPrice6: [
-        {
-          oilPrice: 60,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-        {
-          oilPrice: 70,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-        {
-          oilPrice: 80,
-          "10Color": "#F8F9FA",
-          "15Color": "#F8F9FA",
-          "20Color": "#F8F9FA",
-        },
-      ],
-    },
-  },
-  success: true,
-};
-
 export const devScenarios = {
   oilDevelopment: "OIL/AG",
   nagDevelopment: "NAG",
@@ -454,3 +385,12 @@ export const chartTypeOptions = {
 };
 
 export type TChartTypeNames = keyof typeof chartTypeOptions;
+
+export const economicsPerspectiveTreeMap = {
+  heatMapTree: "sensitivitiesHeatMapTree",
+  plotChartsTree: "economicsPlotChartsTree",
+  templatesTree: "economicsTemplatesTree",
+};
+
+export type TEconomicsTreePerspective =
+  keyof typeof economicsPerspectiveTreeMap;

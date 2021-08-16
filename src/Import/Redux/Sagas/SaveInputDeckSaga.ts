@@ -119,7 +119,7 @@ export function* saveInputDeckSaga(
 
     const result = yield call(
       saveinputDeckAPI,
-      `${getBaseForecastUrl()}/${getInputDeckRouteParam(wp)}`
+      `${getBaseForecastUrl()}/${getInputDeckRouteParam(wp)}/save`
     );
 
     const {

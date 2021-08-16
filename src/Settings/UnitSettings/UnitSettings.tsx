@@ -84,15 +84,21 @@ export default function UnitSettings() {
   ) as IUnitSettingsData;
 
   const dialogRef = React.useRef<HTMLDivElement>(null);
-  const [unitGroupOption, setUnitGroupOption] = React.useState(
+  const [unitGroupOption, setUnitGroupOption] = React.useState<ISelectOption>(
     unitGroupOptions[0]
   );
-  const [dayOption, setDayOption] = React.useState(dayDateFormatOptions[2]);
-  const [monthOption, setMonthOption] = React.useState(
+  const [dayOption, setDayOption] = React.useState<ISelectOption>(
+    dayDateFormatOptions[2]
+  );
+  const [monthOption, setMonthOption] = React.useState<ISelectOption>(
     monthDateFormatOptions[3]
   );
-  const [yearOption, setYearOption] = React.useState(yearDateFormatOptions[3]);
-  const [numberFormatOption, String] = React.useState(numberFormatOptions[0]);
+  const [yearOption, setYearOption] = React.useState<ISelectOption>(
+    yearDateFormatOptions[3]
+  );
+  const [numberFormatOption, String] = React.useState<ISelectOption>(
+    numberFormatOptions[0]
+  );
   const [numberFormatStringValue, setNumberFormatStringValue] =
     React.useState("0.0");
 

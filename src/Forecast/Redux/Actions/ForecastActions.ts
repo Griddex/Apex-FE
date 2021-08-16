@@ -1,11 +1,18 @@
 import {
   IAllWorkflows,
+  ReducersType,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  FORECAST_TREEVIEWKEYS_REQUEST,
+  FORECAST_TREEVIEWKEYS_SUCCESS,
+  FORECAST_TREEVIEWKEYS_FAILURE,
+} from "../../../Application/Redux/Actions/ApplicationActions";
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
 
 export const UPDATE_FORECASTPARAMETER = "UPDATE_FORECASTPARAMETER";
+export const UPDATE_FORECASTPARAMETERS = "UPDATE_FORECASTPARAMETERS";
 export const UPDATE_SELECTEDIDTITLE = "UPDATE_SELECTEDIDTITLE";
 export const LOAD_FORECASTRESULTS_WORKFLOW = "LOAD_FORECASTRESULTS_WORKFLOW";
 export const RUN_FORECAST_SUCCESS = "RUN_FORECAST_SUCCESS";
@@ -38,9 +45,7 @@ export const STORED_FORECASTINGRESULTS_SUCCESS =
   "STORED_FORECASTINGRESULTS_SUCCESS";
 export const STORED_FORECASTINGRESULTS_FAILURE =
   "STORED_FORECASTINGRESULTS_FAILURE";
-export const TREEVIEWKEYS_REQUEST = "TREEVIEWKEYS_REQUEST";
-export const TREEVIEWKEYS_SUCCESS = "TREEVIEWKEYS_SUCCESS";
-export const TREEVIEWKEYS_FAILURE = "TREEVIEWKEYS_FAILURE";
+
 export const GET_FORECASTDATABYID_REQUEST = "GET_FORECASTDATABYID_REQUEST";
 export const GET_FORECASTDATABYID_SUCCESS = "GET_FORECASTDATABYID_SUCCESS";
 export const GET_FORECASTDATABYID_FAILURE = "GET_FORECASTDATABYID_FAILURE";
@@ -78,10 +83,20 @@ export const updateForecastResultsParameterAction = (
   path: string,
   value: any
 ) => {
-  
   return {
     type: UPDATE_FORECASTPARAMETER,
     payload: { path, value },
+  };
+};
+
+export const updateForecastResultsParametersAction = (
+  updateObj: Record<string, any>
+) => {
+  return {
+    type: UPDATE_FORECASTPARAMETERS,
+    payload: {
+      updateObj,
+    },
   };
 };
 
@@ -300,35 +315,6 @@ export const fetchStoredForecastingResultsFailureAction = () => {
   };
 };
 
-export const fetchTreeviewKeysRequestAction = () => {
-  return {
-    type: TREEVIEWKEYS_REQUEST,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const fetchTreeviewKeysSuccessAction = () => {
-  return {
-    type: TREEVIEWKEYS_SUCCESS,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const fetchTreeviewKeysFailureAction = () => {
-  return {
-    type: TREEVIEWKEYS_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
-    },
-  };
-};
-
-//selectedForecastingResultsId
 export const getForecastDataByIdRequestAction = (
   workflowProcess: TAllWorkflowProcesses,
   switchToRoute: boolean,
@@ -418,6 +404,41 @@ export const runForecastEconomicsAggregationSuccessAction = () => {
 export const runForecastEconomicsAggregationFailureAction = () => {
   return {
     type: RUN_FORECASTECONOMICSAGGREGATION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const fetchForecastTreeviewKeysRequestAction = (
+  reducer: ReducersType,
+  perspective: "forecastChart" | "forecastAssurance",
+  idTitleDescIsSaved?: Record<string, any>
+) => {
+  return {
+    type: FORECAST_TREEVIEWKEYS_REQUEST,
+    payload: {
+      reducer,
+      perspective,
+      idTitleDescIsSaved,
+      status: 0,
+    },
+  };
+};
+
+export const fetchForecastTreeviewKeysSuccessAction = () => {
+  return {
+    type: FORECAST_TREEVIEWKEYS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchForecastTreeviewKeysFailureAction = () => {
+  return {
+    type: FORECAST_TREEVIEWKEYS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

@@ -1,53 +1,19 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import { fetchTreeviewKeysRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
+import {
+  fetchEconomicsTreeviewKeysRequestAction,
+  updateEconomicsParametersAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import EconomicsTemplateTreeView from "./EconomicsTemplateTreeView";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-  chartSelect: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "10%",
-    border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-  treeViewPanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    height: "100%",
-    // border: "1px solid #C4C4C4",
-    width: "100%",
-  },
-
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
-
 const EconomicsTemplateDataPanel = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
+  const reducer = "economicsReducer";
   const wc = "storedDataWorkflows";
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
@@ -56,32 +22,70 @@ const EconomicsTemplateDataPanel = () => {
     (state: RootState) => state.economicsReducer
   );
 
-  const economicsResultsTitles = economicsResultsStored.map(
-    (row: IApplicationStoredDataRow) => row.title
-  ) as string[];
-  const economicsResultsTitleOptions = generateSelectOptions(
-    economicsResultsTitles
-  );
-  const initialEconomicsResultsTitleOption =
+  const economicsResultsTitleOptions = economicsResultsStored.map(
+    (row: any) => ({
+      value: row.title,
+      label: row.title,
+      id: row.id,
+    })
+  ) as IExtendedSelectOption[];
+
+  economicsResultsTitleOptions.unshift({
+    value: "select",
+    label: "Select...",
+    id: "",
+  });
+
+  const selectedEconomicsResultsTitleOption =
     selectedEconomicsResultsTitle !== ""
-      ? selectedEconomicsResultsTitle
+      ? {
+          value: selectedEconomicsResultsTitle,
+          label: selectedEconomicsResultsTitle,
+          id: (economicsResultsTitleOptions as IExtendedSelectOption[]).filter(
+            (o) => o.label === selectedEconomicsResultsTitle
+          )[0].id,
+        }
       : economicsResultsTitleOptions[0];
 
   const [economicsResultTitleOption, setEconomicsResultTitleOption] =
-    React.useState(initialEconomicsResultsTitleOption);
-  const firstRender = React.useRef(true);
+    React.useState<IExtendedSelectOption>(
+      selectedEconomicsResultsTitleOption as IExtendedSelectOption
+    );
 
   const handleSelectEconomicsResultsChange = (
-    option: ValueType<ISelectOption, false>
+    option: ValueType<IExtendedSelectOption, false>
   ) => {
-    setEconomicsResultTitleOption(option);
+    const optionDefined = option as IExtendedSelectOption;
+    setEconomicsResultTitleOption(optionDefined);
 
-    dispatch(fetchTreeviewKeysRequestAction());
+    const { id, title, description } = optionDefined;
+
+    if (title === "Select...") {
+      dispatch(
+        updateEconomicsParametersAction({
+          selectedEconomicsResultsId: "",
+          selectedEconomicsResultsTitle: "",
+          selectedEconomicsResultsDescription: "",
+          isEconomicsResultsSaved: false,
+        })
+      );
+    } else {
+      const idTitleDescIsSaved = {
+        selectedEconomicsResultsId: id,
+        selectedEconomicsResultsTitle: title,
+        selectedEconomicsResultsDescription: description,
+        isEconomicsResultsSaved: true,
+      };
+
+      dispatch(
+        fetchEconomicsTreeviewKeysRequestAction(
+          true,
+          "templatesTree",
+          idTitleDescIsSaved
+        )
+      );
+    }
   };
-
-  React.useEffect(() => {
-    firstRender.current = false;
-  }, []);
 
   return (
     <ChartDataPanel

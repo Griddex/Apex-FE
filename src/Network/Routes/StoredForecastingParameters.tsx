@@ -352,7 +352,7 @@ export default function StoredForecastingParameters({
         name: "STATUS",
         editable: false,
         resizable: true,
-        width: 300,
+        width: 100,
       },
       {
         key: "type",
@@ -383,7 +383,7 @@ export default function StoredForecastingParameters({
         resizable: true,
         width: 120,
         formatter: ({ row }) => {
-          const { wellDeclineParameterTitle, sn} = row;
+          const { wellDeclineParameterTitle, sn } = row;
           const isCreateOrEdit = false;
           const currentSN = sn as number;
           const currentRow = row;
@@ -589,6 +589,7 @@ export default function StoredForecastingParameters({
       monthFormat,
       yearFormat
     );
+
     setRows(updatedStoredData);
   }, [forecastingParametersStored.length]);
 

@@ -27,7 +27,6 @@ import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/Upda
 import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
 import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
 import watchFetchStoredForecastingResultsSaga from "../../../Forecast/Redux/Sagas/FetchStoredForecastingResultsSaga";
-import watchFetchTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchTreeviewKeysSaga";
 import watchFetchStoredProjectsSaga from "../../../Project/Redux/Sagas/FetchStoredProjectsSaga";
 import watchDisplayNetworkBySelectionSaga from "../../../Network/Redux/Sagas/DisplayNetworkBySelectionSaga";
 import watchFetchMatchObjectSaga from "../Sagas/FetchMatchObjectSaga";
@@ -55,6 +54,8 @@ import watchGetEconomicsResultsByIdSaga from "../../../Economics/Redux/Sagas/Get
 import watchDeleteDataByIdSaga from "../Sagas/DeleteDataByIdSaga";
 import watchSaveDeclineParametersSaga from "../../../Network/Redux/Sagas/SaveDeclineParametersSaga";
 import watchSaveProductionPrioritizationSaga from "../../../Network/Redux/Sagas/SaveProductionPrioritizationSaga";
+import watchFetchEconomicsTreeviewKeysSaga from "../../../Economics/Redux/Sagas/FetchEconomicsTreeviewKeysSaga";
+import watchFetchForecastTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchForecastTreeviewKeysSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -79,7 +80,7 @@ function* rootSaga() {
   yield spawn(watchSaveForecastSaga);
   yield spawn(watchFetchUserDetailsSaga);
   yield spawn(watchFetchStoredForecastingResultsSaga);
-  yield spawn(watchFetchTreeviewKeysSaga);
+  yield spawn(watchFetchForecastTreeviewKeysSaga);
   yield spawn(watchGetForecastResultsChartDataSaga);
   yield spawn(watchFetchMatchObjectSaga);
   yield spawn(watchGetSelectedForecastDataByIdSaga);
@@ -103,7 +104,7 @@ function* rootSaga() {
   yield spawn(watchDeleteDataByIdSaga);
   yield spawn(watchSaveDeclineParametersSaga);
   yield spawn(watchSaveProductionPrioritizationSaga);
-
+  yield spawn(watchFetchEconomicsTreeviewKeysSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -118,9 +119,12 @@ const persistConfig = {
 const store = createStore(
   rootReducer,
   composeWithDevTools(
-    // applyMiddleware(uiSpinnerMiddleware, authMiddleware, sagaMiddleware)
-    // applyMiddleware(authMiddleware, sagaMiddleware)
-    applyMiddleware(uiSpinnerMiddleware, economicsMiddleware, sagaMiddleware)
+    applyMiddleware(
+      uiSpinnerMiddleware,
+      // authMiddleware,
+      economicsMiddleware,
+      sagaMiddleware
+    )
   )
 );
 

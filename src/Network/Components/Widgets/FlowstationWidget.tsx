@@ -1,18 +1,41 @@
 import { Tooltip } from "@material-ui/core";
 import React from "react";
-import { Handle, Position, XYPosition, Node } from "react-flow-renderer";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import {
+  Connection,
+  Handle,
+  Node,
+  Position,
+  XYPosition,
+} from "react-flow-renderer";
 import Flowstation from "../../Images/Flowstation.svg";
 import FlowstationContextMenu from "../ContextMenu/FlowstationContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
 
 const FlowstationWidget = ({ title }: IWidget) => {
+  const isValidTopConnection = (connection: Connection) => {
+    const nodeType = connection?.target?.split("_")[1];
+    return nodeType === "gatheringCenter" || nodeType === "terminal";
+  };
+  const isValidBottomConnection = (connection: Connection) => {
+    const nodeType = connection?.target?.split("_")[1];
+    return nodeType === "manifold";
+  };
+
   return (
     <div style={widgetStyle}>
-      <Handle type="target" position={Position.Bottom} style={handleStyle} />
-      <Tooltip key="flowstation" title={title} placement="bottom" arrow>
+      <Handle
+        type="source"
+        position={Position.Top}
+        style={handleStyle}
+        isValidConnection={isValidTopConnection}
+      />
+      <Tooltip
+        key="flowstation"
+        title={title as string}
+        placement="bottom"
+        arrow
+      >
         <img
           src={Flowstation}
           width={40}
@@ -21,35 +44,19 @@ const FlowstationWidget = ({ title }: IWidget) => {
           alt="Flowstation"
         />
       </Tooltip>
-      <Handle type="source" position={Position.Top} style={handleStyle} />
+      <Handle
+        type="target"
+        position={Position.Bottom}
+        style={handleStyle}
+        isValidConnection={isValidBottomConnection}
+      />
     </div>
   );
 };
 
 const FlowstationNode = React.memo((props: Node & IExtraNodeProps) => {
-  const { nodeElementsManual, isNetworkAuto } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-  const noOfNodes = nodeElementsManual.filter(
-    (node: Node & IExtraNodeProps) => node.type === "flowstationNode"
-  ).length;
-
-  if (!isNetworkAuto) {
-    props = {
-      ...props,
-      ["data"]: {
-        stationData: { title: `Flowstation_${noOfNodes}` },
-      },
-    };
-  }
-
-  const {
-    xPos,
-    yPos,
-    data: {
-      stationData: { title },
-    },
-  } = props;
+  const { xPos, yPos, data } = props;
+  const { title } = data.stationData;
 
   const position: XYPosition = {
     x: xPos,

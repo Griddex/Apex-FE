@@ -10,6 +10,7 @@ import {
   TVariableTitle,
   TVariableName,
 } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
+import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   IEconomicsAnalysis,
@@ -187,8 +188,6 @@ export interface IStoredEconomicsResultsRow {
 export interface IEconomicsState
   extends INewCostsRevenuesInputDeckFormValues,
     INewEconomicsParametersInputDeckFormValues {
-  //Remove from here
-  forecastRun: string;
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   loadCostsRevenueWorkflow: boolean;
   loadEconomicsParametersWorkflow: boolean;
@@ -251,6 +250,7 @@ export interface IEconomicsState
 
   selectedTableData: any[];
 
+  heatMapTreeByScenario: RenderTree;
   sensitivitiesHeatMapTree: RenderTree;
   sensitivitiesHeatMapData: any;
   sensitivitiesHeatMap1or2D: [];
@@ -272,6 +272,7 @@ export interface IEconomicsState
   plotChartsVariableXOption: ISelectOption | null;
   plotChartsVariableYPriOption: ISelectOption | null;
   plotChartsVariableYSecOption: ISelectOption | null;
+  plotChartsCommonProperties: Record<TChartTypes, any>;
 
   economicsTemplatesTree: RenderTree;
 

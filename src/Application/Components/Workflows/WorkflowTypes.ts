@@ -1,7 +1,8 @@
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
+import { TUseState } from "../../Types/ApplicationTypes";
 import { IAction } from "./../../Redux/Actions/ActionTypes";
-
+import * as xlsx from "xlsx";
 export interface IWorkflowBannerProps {
   activeStep: number;
   steps: string[];
@@ -96,7 +97,10 @@ export interface IEconomicsWorkflows {
     | "economicsResultsPlotCharts"
     | "economicsResultsSensitivitiesHeatmap"
     | "economicsResultsStored";
-  wkCy: "economicsDataWorkflows" | "economicsAnalysisWorkflows";
+  wkCy:
+    | "economicsDataWorkflows"
+    | "economicsAnalysisWorkflows"
+    | "economicsChartsWorkflows";
 }
 
 export type ReducersType = keyof {
@@ -124,6 +128,8 @@ export interface IAllWorkflows {
   idTitleArr?: string[];
   finalIcon?: JSX.Element;
   finalText?: string;
+  inputWorkbook?: xlsx.WorkBook;
+  setInputWorkbook?: TUseState<xlsx.WorkBook>;
   extraComponent?: React.FC<any>;
   hasExtraComponent?: boolean;
 }

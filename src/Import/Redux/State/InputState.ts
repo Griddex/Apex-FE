@@ -134,6 +134,7 @@ const InputState: InputStateType = {
   selectedForecastInputDeckId: "",
   selectedForecastInputDeckTitle: "",
   selectedForecastInputDeckDescription: "",
+  selectedForecastInputDeck: [],
 
   forecastInputDeckId: "",
   forecastInputdeckTitle: "",

@@ -28,7 +28,7 @@ import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunFo
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
-import { TUseState } from "../../Types/ApplicationTypes";
+import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
 import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
@@ -50,6 +50,9 @@ import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dial
 import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
+import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
+import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
+import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -95,6 +98,9 @@ export interface IApplicationDialogs {
 
   snapshotDialog: typeof SnapshotDialog;
   networkWidgetDialog: typeof NetworkWidgetDialog;
+  linkInputDeckDialog: typeof LinkInputDeckDialog;
+
+  openProjectConfirmationDialog: typeof OpenProjectConfirmationDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -114,7 +120,9 @@ export interface IDialogData<T> {
   columns: Column<T>[];
   rows: T[];
 }
-export interface DialogStuff<TRow = IRawRow> {
+// export interface DialogStuff<TRow = IRawRow> {
+type TDataRow = IRawRow | IStoredDataRow | IForecastParametersStoredRow;
+export interface DialogStuff<TRow = TDataRow> {
   name?: string;
   title?: string;
   type?:
@@ -155,7 +163,9 @@ export interface DialogStuff<TRow = IRawRow> {
     | "snapshotDialog"
     | "networkWidgetDialog"
     | "createDeclineParametersWorkflowDialog"
-    |"createPrioritizationParametersWorkflowDialog";
+    | "linkInputDeckDialog"
+    | "openProjectConfirmationDialog"
+    | "createPrioritizationParametersWorkflowDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -182,6 +192,8 @@ export interface DialogStuff<TRow = IRawRow> {
   rows?: TRow[];
   columns?: Column<TRow>[];
   setRows?: TUseState<any>;
+  inputWorkbook?: any;
+  selectedWorksheetName?: string;
   showCategories?: boolean;
   setShowCategories?: TUseState<boolean>;
   apexEditorProps?: Partial<IApexEditor>;

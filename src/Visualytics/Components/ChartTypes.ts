@@ -1,5 +1,8 @@
 export interface IChartProps {
-  data: Record<string, React.Key>[];
-  willUseThemeColor: boolean;
+  chartType?: string;
+  data: any[];
+  otherProperties?: any;
+  willUseThemeColor?: boolean;
 }
+
 export type DoughnutChartType = Record<string, React.Key>[];

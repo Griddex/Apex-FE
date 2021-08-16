@@ -13,7 +13,6 @@ import ReactFlow, {
   FlowElement,
   MiniMap,
   Node,
-  NodeTypesType,
   OnLoadParams,
   ReactFlowProvider,
   removeElements,
@@ -26,27 +25,24 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
 import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
 import {
-  default as ManifoldContextDrawer,
   default as DrainagePointContextDrawer,
+  default as ManifoldContextDrawer,
 } from "../Components/ContextDrawer/ManifoldContextDrawer";
 import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
 import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
 import NetworkTitlePlaque from "../Components/TitlePlaques/NetworkTitlePlaque";
-import FlowstationNode from "../Components/Widgets/FlowstationWidget";
-import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
-import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
-import ManifoldNode from "../Components/Widgets/ManifoldWidget";
-import TerminalNode from "../Components/Widgets/TerminalWidget";
-import DrainagePointSummaryNode from "../Components/Widgets/DrainagePointSummaryWidget";
-import DrainagePointNode from "../Components/Widgets/DrainagePointWidget";
+import { IExtraNodeProps } from "../Components/Widgets/WidgetTypes";
+import { nodeTypes } from "../Data/NetworkData";
 import {
   setCurrentElementAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
 import GenerateNodeService from "../Services/GenerateNodeService";
+import "../Styles/NetworkValidation.css";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
+import capitalize from "lodash.capitalize";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -97,17 +93,7 @@ const useStyles = makeStyles(() => ({
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
-const nodeTypes: NodeTypesType = {
-  drainagePointSummaryNode: DrainagePointSummaryNode,
-  drainagePointNode: DrainagePointNode,
-  manifoldNode: ManifoldNode,
-  flowstationNode: FlowstationNode,
-  gasFacilityNode: GasFacilityNode,
-  gatheringCenterNode: GatheringCenterNode,
-  terminalNode: TerminalNode,
-};
-
-const Network = ({ isNetworkAuto }: INetworkProps) => {
+const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -118,16 +104,19 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
   const networkRef = React.useRef<HTMLElement>(null);
   const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
 
-  const [networkElements, setNetworkElements] = React.useState(
-    [] as FlowElement[]
-  );
+  const [nodeElements, setNodeElements] = React.useState([] as Elements);
+  const [edgeElements, setEdgeElements] = React.useState([] as Elements);
   const [showMiniMap, setShowMiniMap] = React.useState(false);
   const [showControls, setShowControls] = React.useState(true);
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
-  const { nodeElementsManual, currentPopoverData, showNetworkElementDetails } =
-    useSelector((state: RootState) => state.networkReducer);
+  const {
+    nodeElementsManual,
+    edgeElementsManual,
+    currentPopoverData,
+    showNetworkElementDetails,
+  } = useSelector((state: RootState) => state.networkReducer);
 
   const NetworkDiagramIconsProps = {
     showMiniMap,
@@ -140,7 +129,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: itemTypes.NETWORK_ELEMENT,
-      drop: (_, monitor) => handleWidgetDrop(monitor),
+      drop: (_, monitor) => handleWidgetDrop(monitor, nodeElementsManual),
       collect: (monitor) => {
         return {
           isOver: !!monitor.isOver(),
@@ -148,7 +137,7 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
         };
       },
     }),
-    []
+    [nodeElementsManual]
   );
 
   const isActive = canDrop && isOver;
@@ -163,26 +152,24 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     };
   }
 
-  const handleWidgetDrop = (monitor: DropTargetMonitor) => {
+  const handleWidgetDrop = (
+    monitor: DropTargetMonitor,
+    nodesManual: Node[] & IExtraNodeProps[]
+  ) => {
+    console.log(
+      "Logged output --> ~ file: NetworkManual.tsx ~ line 159 ~ NetworkManual ~ nodesManual",
+      nodesManual
+    );
     const networkBounds = (
       networkRef.current as HTMLElement
     ).getBoundingClientRect();
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 170 ~ handleWidgetDrop ~ networkBounds",
-      networkBounds
-    );
 
     const { nodeType } = monitor.getItem() as any;
+    console.log(
+      "Logged output --> ~ file: NetworkManual.tsx ~ line 167 ~ NetworkManual ~ nodeType",
+      nodeType
+    );
     const mouseCoord = monitor.getClientOffset() as XYPosition;
-    const mouseCoord1 = monitor.getInitialClientOffset() as XYPosition;
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 178 ~ handleWidgetDrop ~ mouseCoord1",
-      mouseCoord1
-    );
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 177 ~ handleWidgetDrop ~ mouseCoord",
-      mouseCoord
-    );
 
     const mouseCoordUpdated = {
       x: mouseCoord.x - networkBounds.left,
@@ -192,28 +179,32 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
     const mouseCoordProjected = (
       reactFlowInstanceRef.current as OnLoadParams
     ).project(mouseCoordUpdated);
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 182 ~ handleWidgetDrop ~ mouseCoordProjected",
-      mouseCoordProjected
-    );
 
-    const newElement: FlowElement = GenerateNodeService(nodeType);
-    const updatedNewElement = {
-      ...newElement,
-      position: { ...mouseCoordProjected } as XYPosition,
+    const noOfNodes =
+      nodesManual.filter((node) => node.type === `${nodeType}Node`).length + 1;
+
+    const nodeTitle = `${capitalize(nodeType)}_${noOfNodes}`;
+
+    const newNodeElement = GenerateNodeService(nodeType, isNetworkAuto) as Node;
+    const updatedNewNodeElement = {
+      ...newNodeElement,
+      data: { ...newNodeElement.data, title: nodeTitle },
+      position: mouseCoordProjected as XYPosition,
     };
 
-    setNetworkElements((es) => es.concat(updatedNewElement));
+    setNodeElements((es) => es.concat(updatedNewNodeElement));
   };
 
   const onLoad = (reactFlowInstance: OnLoadParams) =>
     (reactFlowInstanceRef.current = reactFlowInstance);
 
   const onConnect = (params: Edge | Connection) =>
-    setNetworkElements((els) => addEdge(params, els));
+    setEdgeElements((els) => addEdge(params, els));
 
-  const onElementsRemove = (elementsToRemove: Elements) =>
-    setNetworkElements((els) => removeElements(elementsToRemove, els));
+  const onElementsRemove = (elementsToRemove: Elements) => {
+    setNodeElements((els) => removeElements(elementsToRemove, els));
+    setEdgeElements((els) => removeElements(elementsToRemove, els));
+  };
 
   const onElementClick = (
     event: React.MouseEvent<Element, MouseEvent>,
@@ -224,15 +215,17 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
   };
 
   React.useEffect(() => {
-    setNetworkElements(nodeElementsManual);
+    setNodeElements(nodeElementsManual);
+    setEdgeElements(edgeElementsManual);
   }, []);
 
   React.useEffect(() => {
-    //TODO How to save edgeelements in edgeElementsManual?
-    dispatch(
-      updateNetworkParameterAction("nodeElementsManual", networkElements)
-    );
-  }, [networkElements]);
+    dispatch(updateNetworkParameterAction("nodeElementsManual", nodeElements));
+  }, [nodeElements]);
+
+  React.useEffect(() => {
+    dispatch(updateNetworkParameterAction("edgeElementsManual", edgeElements));
+  }, [edgeElements]);
 
   return (
     <div className={classes.root}>
@@ -258,8 +251,9 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
               <NetworkDiagramButtons {...NetworkDiagramIconsProps} />
             </div>
             <ReactFlow
+              className="validationflow"
               style={{ height: `calc(100% - 30px)` }}
-              elements={networkElements}
+              elements={[...nodeElements, ...edgeElements]}
               onElementsRemove={onElementsRemove}
               onConnect={onConnect}
               onLoad={onLoad}
@@ -321,4 +315,4 @@ const Network = ({ isNetworkAuto }: INetworkProps) => {
   );
 };
 
-export default Network;
+export default NetworkManual;

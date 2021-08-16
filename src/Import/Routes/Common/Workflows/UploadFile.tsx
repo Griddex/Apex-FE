@@ -12,7 +12,6 @@ import { workflowNextAction } from "../../../../Application/Redux/Actions/Workfl
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   importFileInitAction,
-  persistFileAction,
   persistWorksheetAction,
   persistWorksheetNamesAction,
 } from "../../../Redux/Actions/InputActions";
@@ -74,22 +73,20 @@ const useStyles = makeStyles((theme) => ({
 const UploadFile = ({
   wrkflwPrcss,
   reducer,
+  setInputWorkbook,
   hasExtraComponent,
   extraComponent,
 }: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
   const ExtraComponent = extraComponent as NonNullable<
     IAllWorkflows["extraComponent"]
   >;
-
-  const { dnDDisabled } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
-  );
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
@@ -116,18 +113,18 @@ const UploadFile = ({
             size: fileSize,
           } = file;
 
-          const reader: FileReader = new FileReader();
+          const reader = new FileReader() as FileReader;
           reader.readAsArrayBuffer(file);
 
           reader.onabort = () => console.log("file reading was aborted");
           reader.onerror = () => console.log("file reading has failed");
           reader.onload = () => {
             const fileData = new Uint8Array(reader.result as ArrayBuffer);
-            const inputWorkbook: xlsx.WorkBook = xlsx.read(fileData, {
+            const inputWorkbook = xlsx.read(fileData, {
               type: "array",
-            });
+            }) as xlsx.WorkBook;
 
-            dispatch(persistFileAction(reducer, inputWorkbook, wp));
+            setInputWorkbook && setInputWorkbook(inputWorkbook);
 
             const { Author: fileAuthor, CreatedDate: fileCreated } =
               inputWorkbook.Props as xlsx.FullProperties;
@@ -161,6 +158,7 @@ const UploadFile = ({
                 exclusive: true,
                 maxWidth: "sm",
                 iconType: "select",
+                inputWorkbook,
                 contentList: workSheetNames,
                 workflowProcess: wp,
                 workflowCategory: wc,
@@ -169,8 +167,10 @@ const UploadFile = ({
               dispatch(showDialogAction(dialogParameters));
             } else {
               const selectedWorksheetName = workSheetNames && workSheetNames[0];
+
               const selectedWorksheetDataXLSX =
                 inputWorkbook.Sheets[selectedWorksheetName];
+
               const selectedWorksheetData = xlsx.utils.sheet_to_json<
                 Record<string, React.Key>
               >(selectedWorksheetDataXLSX);
@@ -183,6 +183,7 @@ const UploadFile = ({
                   wp
                 )
               );
+
               dispatch(
                 workflowNextAction(
                   skipped as Set<number>,
@@ -196,11 +197,8 @@ const UploadFile = ({
               );
             }
           };
-          reader.onprogress = () => {
-            // console.log("Logged output -->: UploadFile -> e", e);
-          };
+          reader.onprogress = () => {};
         }}
-        // disabled={dnDDisabled}
         minSize={0}
         maxSize={10485760}
         multiple={false}

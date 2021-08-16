@@ -13,11 +13,14 @@ export default function ForecastTreeView() {
     (state: RootState) => state.forecastReducer
   );
 
+<<<<<<< HEAD
 
   //console.log("forecastTree: ", forecastTree);
   console.log("selectedForecastChartVariable: ", selectedForecastChartVariable);
   console.log("selectedForecastAggregationType: ", selectedForecastAggregationType);
 
+=======
+>>>>>>> 87413a9718b8f1b7e4a7e051d3e8db15dbd83ad5
   const updatedForecastTree = [
     { ...forecastTree?.[0], id: "5749dc74-4b81-4652-8a46-a58b6bea0157" },
     { ...forecastTree?.[1], id: "ac430726-1b97-45f6-8b09-0c2ac347cc6e" },

@@ -13,10 +13,7 @@ const DrainagePointContextMenu = ({
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [nodePosition, setNodePosition] = React.useState(position);
-  console.log(
-    "Logged output --> ~ file: DrainagePointContextMenu.tsx ~ line 13 ~ DrainagePointContextMenu ~ position",
-    position
-  );
+
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
