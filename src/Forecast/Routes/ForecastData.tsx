@@ -91,14 +91,14 @@ export default function ForecastData({
     (state: RootState) => state.forecastReducer
   );
 
-console.log("selectedTableData: ", selectedTableData);
+//console.log("selectedTableData: ", selectedTableData);
   
   const snSelectedForecastData = selectedTableData.map((row: any, i:number) => ({
     sn: i + 1,
     ...row,
   }));
 
-  console.log("snSelectedForecastData: ", snSelectedForecastData);
+  //console.log("snSelectedForecastData: ", snSelectedForecastData);
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);

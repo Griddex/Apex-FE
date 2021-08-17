@@ -230,8 +230,8 @@ export default function ForecastQualityAssuranceData({
 
   //const [rows, setRows] = React.useState(snStoredData);
  
-  const columnKeys = Object.keys(rows[0]);
-  
+  let columnKeys = ["SN"];
+  if(rows.length > 0) columnKeys = Object.keys(rows[0]);
   
 console.log("columnKeys: ", columnKeys);
   const columns = columnKeys.map((k) => {
