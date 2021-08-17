@@ -229,7 +229,6 @@ export default function StoredForecastingParameters({
                   backgroundColor: theme.palette.grey[400],
                 }
               : {};
-<<<<<<< HEAD
                 
 
               const VisibilityOutlined = (<VisibilityOutlinedIcon
@@ -304,83 +303,8 @@ export default function StoredForecastingParameters({
                         "delete",
                         title
                       )
-=======
-
-          const VisibilityOutlined = (
-            <VisibilityOutlinedIcon
-              onClick={() => {
-                const isCreateOrEdit = true;
-                dispatch(
-                  getDeclineParametersByIdRequestAction(
-                    reducer,
-                    isCreateOrEdit as boolean,
-                    currentRow,
-                    currentSN
-                  )
-                );
-              }}
-            />
-          );
-
-          const ApexGridMoreActionsContext = (
-            <ApexGridMoreActionsContextMenu
-              component={ForecastParametersMoreActionsPopover}
-              data={importMoreActionsData}
-            >
-              <MenuOpenOutlinedIcon />
-            </ApexGridMoreActionsContextMenu>
-          );
-
-          const EditCommand = (
-            <EditOutlinedIcon
-              /* style={style as CSSProperties} */
-              onClick={() => {
-                const isCreateOrEdit = true;
-
-                dispatch(
-                  getDeclineParametersByIdRequestAction(
-                    "inputReducer" as ReducersType,
-                    isCreateOrEdit,
-                    currentRow,
-                    currentSN
-                  )
-                );
-              }}
-            />
-          );
-
-          const DeleteCommand = (
-            <DeleteOutlinedIcon
-              /* style={style as CSSProperties} */
-              onClick={() => {
-                dispatch(
-                  showDialogAction(
-                    confirmationDialogParameters(
-                      "Delete_Table_Data_Dialog",
-                      `Delete ${title}`,
-                      "deleteDataDialog",
-                      "",
-                      false,
-                      true,
-                      () =>
-                        deleteDataByIdRequestAction(
-                          reducer as ReducersType,
-                          deleteUrl as string,
-                          title as string,
-                          () =>
-                            fetchStoredForecastingParametersRequestAction(
-                              currentProjectId,
-                              false
-                            )
-                        ),
-                      "Delete",
-                      "deleteOutlined",
-                      "delete",
-                      title
->>>>>>> 87413a9718b8f1b7e4a7e051d3e8db15dbd83ad5
                     )
                   )
-                );
               }}
             />
           );

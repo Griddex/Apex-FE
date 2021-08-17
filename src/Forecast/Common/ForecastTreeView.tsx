@@ -3,24 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../Visualytics/Components/TreeView/ApexTreeViewTypes";
-import { getForecastResultsChartDataRequestAction } from "../Redux/Actions/ForecastActions";
+import { getForecastResultsChartDataRequestAction,
+  getForecastResultsQualityAssuranceRequestAction } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 
 export default function ForecastTreeView() {
   const dispatch = useDispatch();
 
-  const { forecastTree, selectedForecastChartVariable, selectedForecastAggregationType } = useSelector(
+  const { forecastTree, selectedForecastChartVariable, selectedForecastAggregationType,
+    selectedForecastAggregationLevel, selectedView } = useSelector(
     (state: RootState) => state.forecastReducer
   );
-
-<<<<<<< HEAD
 
   //console.log("forecastTree: ", forecastTree);
   console.log("selectedForecastChartVariable: ", selectedForecastChartVariable);
   console.log("selectedForecastAggregationType: ", selectedForecastAggregationType);
+  console.log("selectedView: ", selectedView);
 
-=======
->>>>>>> 87413a9718b8f1b7e4a7e051d3e8db15dbd83ad5
   const updatedForecastTree = [
     { ...forecastTree?.[0], id: "5749dc74-4b81-4652-8a46-a58b6bea0157" },
     { ...forecastTree?.[1], id: "ac430726-1b97-45f6-8b09-0c2ac347cc6e" },
@@ -52,15 +51,32 @@ export default function ForecastTreeView() {
     );
 
     if (selectedIds.length > 0) {
-      dispatch(
-        getForecastResultsChartDataRequestAction(
-          selectedIds,
-          selectedModuleNames,
-          selectedModulePaths,
-          selectedForecastChartVariable,
-          selectedForecastAggregationType
-        )
-      );
+
+      switch(selectedView){
+        case "Plot Charts":
+          console.log("Plot Charts");
+          dispatch(
+            getForecastResultsChartDataRequestAction(
+              selectedIds,
+              selectedModuleNames,
+              selectedModulePaths,
+              selectedForecastChartVariable,
+              selectedForecastAggregationType
+            )
+          );
+          break;
+        case "Forecast Quality Assurance":
+          console.log("Forecast Quality Assurance");
+          dispatch(
+            getForecastResultsQualityAssuranceRequestAction(
+              selectedForecastAggregationType,
+              selectedForecastAggregationLevel,
+              selectedModulePaths,
+              selectedForecastChartVariable
+            )
+          );
+          break;
+      }
     }
   }, [selectedIds, selectedForecastChartVariable]);
 

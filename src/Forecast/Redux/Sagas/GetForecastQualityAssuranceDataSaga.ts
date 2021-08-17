@@ -25,7 +25,7 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Store
 import {
   getForecastResultsQualityAssuranceFailureAction,
   getForecastResultsQualityAssuranceSuccessAction,
-  GET_FORECASTDATABYID_REQUEST,
+  GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastQADataSaga(): Generator<
@@ -34,7 +34,7 @@ export default function* watchGetForecastQADataSaga(): Generator<
   any
 > {
   const getForecastQAResultsChan = yield actionChannel(
-    GET_FORECASTDATABYID_REQUEST
+    GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST
   );
   yield takeLeading<ActionType>(
     getForecastQAResultsChan,

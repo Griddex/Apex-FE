@@ -73,6 +73,7 @@ export interface ISaveForecastProps {
 }
 
 export interface IForecastResultState extends ISaveForecastResultsProps {
+  selectedView: string;
   selectedTableData: any;
 
   timeData: any[];

@@ -56,6 +56,7 @@ import watchSaveDeclineParametersSaga from "../../../Network/Redux/Sagas/SaveDec
 import watchSaveProductionPrioritizationSaga from "../../../Network/Redux/Sagas/SaveProductionPrioritizationSaga";
 import watchFetchEconomicsTreeviewKeysSaga from "../../../Economics/Redux/Sagas/FetchEconomicsTreeviewKeysSaga";
 import watchFetchForecastTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchForecastTreeviewKeysSaga";
+import watchGetForecastQADataSaga from "../../../Forecast/Redux/Sagas/GetForecastQualityAssuranceDataSaga";
 
 function* rootSaga() {
   yield spawn(watchLoginSaga);
@@ -105,6 +106,7 @@ function* rootSaga() {
   yield spawn(watchSaveDeclineParametersSaga);
   yield spawn(watchSaveProductionPrioritizationSaga);
   yield spawn(watchFetchEconomicsTreeviewKeysSaga);
+  yield spawn(watchGetForecastQADataSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

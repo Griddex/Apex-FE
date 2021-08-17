@@ -15,6 +15,10 @@ export const forecastAggregationLevels = [
     label: "Select...",
   },
   {
+    value: "none",
+    label: "None...",
+  },
+  {
     value: "station",
     label: "Station",
   },

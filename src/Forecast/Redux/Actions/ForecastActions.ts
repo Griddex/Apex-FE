@@ -83,6 +83,7 @@ export const updateForecastResultsParameterAction = (
   path: string,
   value: any
 ) => {
+  console.log("updateForecastResultsParameterAction called")
   return {
     type: UPDATE_FORECASTPARAMETER,
     payload: { path, value },
@@ -104,6 +105,7 @@ export const loadForecastResultsWorkflowAction = (
   name: string,
   trueOrFalse: boolean
 ) => {
+  console.log("loadForecastResultsWorkflowAction called")
   return {
     type: LOAD_FORECASTRESULTS_WORKFLOW,
     payload: {
@@ -171,17 +173,18 @@ export const getForecastResultsChartDataFailureAction = () => {
   };
 };
 
+//"scenario" | "station"
 export const getForecastResultsQualityAssuranceRequestAction = (
-  isMonthly: boolean,
-  aggregationLevel: "scenario" | "station",
+  selectedForecastAggregationType: string,
+  selectedForecastAggregationLevel: string,
   selectedModulePaths: string[],
   forecastQualityAssuranceVariable: string
 ) => {
   return {
     type: GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
     payload: {
-      isMonthly,
-      aggregationLevel,
+      selectedForecastAggregationType,
+      selectedForecastAggregationLevel,
       selectedModulePaths,
       forecastQualityAssuranceVariable,
     },

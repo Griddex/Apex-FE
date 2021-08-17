@@ -87,14 +87,18 @@ export default function ForecastData({
   const dispatch = useDispatch();
 
   const wp = wrkflwPrcss as NonNullable<IStoredDataProps["wkPs"]>;
-  const { selectedForecastData } = useSelector(
+  const { selectedTableData } = useSelector(
     (state: RootState) => state.forecastReducer
   );
 
-  const snSelectedForecastData = selectedForecastData.map((row, i) => ({
+console.log("selectedTableData: ", selectedTableData);
+  
+  const snSelectedForecastData = selectedTableData.map((row: any, i:number) => ({
     sn: i + 1,
     ...row,
   }));
+
+  console.log("snSelectedForecastData: ", snSelectedForecastData);
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
@@ -117,7 +121,7 @@ export default function ForecastData({
     forecastDataWithTimeColumns = [];
   }
 
-  const generateColumns = () => {
+ /*  const generateColumns = () => {
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
@@ -143,7 +147,7 @@ export default function ForecastData({
       },
       {
         // key: "field",
-        key: "Feld",
+        key: "Field",
         name: "FIELD",
         editable: false,
         resizable: true,
@@ -249,9 +253,32 @@ export default function ForecastData({
 
     return columns;
   };
+  */
+
+  let columnKeys = ["SN"];
+  if(snSelectedForecastData.length > 0){
+    const originalColumnKeys = Object.keys(snSelectedForecastData[0]);
+    columnKeys = [...originalColumnKeys];
+  }
+  
+  const generateColumns = () => {
+    const columns = columnKeys.map((k) => {
+      const column = {
+        key: k,
+        name: k,
+        editable: false,
+        resizable: true,
+        width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
+      };
+      return column;
+    });
+    return columns;
+}
+
 
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snSelectedForecastData);
+  console.log("tableRows: ", tableRows);
   const currentRows = tableRows.current;
   const [rows, setRows] = React.useState(currentRows);
 

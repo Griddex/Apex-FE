@@ -40,11 +40,8 @@ import {
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 import set from "lodash.set";
-<<<<<<< HEAD
 import get from "lodash.get";
-=======
 import { Node, Edge } from "react-flow-renderer";
->>>>>>> 87413a9718b8f1b7e4a7e051d3e8db15dbd83ad5
 
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {

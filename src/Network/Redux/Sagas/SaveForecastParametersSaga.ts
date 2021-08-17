@@ -105,7 +105,7 @@ function* saveForecastParametersSaga(
   try {
     const result = yield call(
       saveForecastParametersAPI,
-      `${getBaseForecastUrl()}/forecast-parameters` //This is the URL endpoint you should change
+      `${getBaseForecastUrl()}/forecast-parameters/save` //This is the URL endpoint you should change
     );
 
     const {

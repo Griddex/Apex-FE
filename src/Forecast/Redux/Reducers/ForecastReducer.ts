@@ -30,11 +30,8 @@ import {
   RESET_FORECAST,
   RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
   RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
-<<<<<<< HEAD
-  UPDATE_FORECASTRESULT_PARAMETERS
-=======
-  UPDATE_FORECASTPARAMETERS,
->>>>>>> 87413a9718b8f1b7e4a7e051d3e8db15dbd83ad5
+  UPDATE_FORECASTRESULT_PARAMETERS,
+  UPDATE_FORECASTPARAMETERS
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
