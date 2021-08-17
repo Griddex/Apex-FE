@@ -12,7 +12,6 @@ import {
   getForecastResultsChartDataRequestAction,
   transformForecastResultsChartDataAction,
   updateForecastResultsParameterAction,
-  updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 
@@ -80,7 +79,6 @@ export default function ForecastTreeView() {
 
     if (selectedModIds.length === 0) {
       dispatch(updateForecastResultsParameterAction("selectedModuleIds", []));
-      // dispatch(updateForecastResultsParameterAction(`${wc}.${ap}.data`, []));
 
       dispatch({
         ...transformForecastResultsChartDataAction(),

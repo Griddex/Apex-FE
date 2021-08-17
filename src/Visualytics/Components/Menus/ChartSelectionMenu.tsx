@@ -11,9 +11,8 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import { transformForecastResultsChartDataAction } from "../../../Forecast/Redux/Actions/ForecastActions";
+import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
