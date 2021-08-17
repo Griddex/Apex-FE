@@ -5,17 +5,22 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
+import NoData from "../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
+import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
 import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
-import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
-import { removeCurrentForecastAction } from "../Redux/Actions/ForecastActions";
+import {
+  removeCurrentForecastAction,
+  transformForecastResultsChartDataAction,
+  updateForecastResultsParameterAction,
+} from "../Redux/Actions/ForecastActions";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
+  const wc = "forecastChartWorkflows";
+  const ap = "stackedAreaChart";
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -65,14 +72,54 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
-  const { isForecastResultsLoading } = useSelector(
+  const { isForecastResultsLoading, selectedForecastChartOption } = useSelector(
     (state: RootState) => state.forecastReducer
   );
+
+  const { data: forecastResults } = useSelector(
+    (state: RootState) => state.forecastReducer[wc][ap]
+  );
+
+  const chartType = selectedForecastChartOption.value;
+  const forecastPlotChartsOptions = [
+    {
+      value: "Select Chart...",
+      label: "Select Chart...",
+    },
+    {
+      value: "stackedAreaChart",
+      label: "Stacked Area",
+    },
+    {
+      value: "lineChart",
+      label: "Line",
+    },
+  ];
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
       <div style={{ display: "flex" }}>
+        <ChartSelectionMenu
+          chartOptions={forecastPlotChartsOptions}
+          updateAction={updateForecastResultsParameterAction}
+          transformChartResultsAction={
+            forecastResults.length > 0
+              ? (selectedChartype: string) =>
+                  dispatch({
+                    ...transformForecastResultsChartDataAction(),
+                    payload: {
+                      chartType: selectedChartype,
+                      forecastResults,
+                      xValueCategories: forecastResults.map((_, i) => i + 2020),
+                      lineOrScatter:
+                        selectedChartype === "lineChart" ? "line" : "scatter",
+                      isYear: true,
+                    },
+                  })
+              : (selectedChartType: string) => {}
+          }
+        />
         <ForecastVariableButtonsMenu />
         <IconButtonWithTooltip
           toolTipKey="saveToolTip"
@@ -118,7 +165,11 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
               <ForecastChartTitlePlaque />
               <ChartButtons {...chartButtons} />
             </div>
-            <ForecastSelectChart />
+            {chartType === "Select Chart..." ? (
+              <NoData />
+            ) : (
+              <ForecastSelectChart />
+            )}
           </div>
         )}
       </div>
@@ -129,4 +180,4 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
   );
 };
 
-export default ForecastVisualytics;
+export default React.memo(ForecastVisualytics);

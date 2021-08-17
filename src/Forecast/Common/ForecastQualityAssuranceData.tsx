@@ -162,15 +162,14 @@ export default function ForecastQualityAssuranceData({
     (state: RootState) => state.forecastReducer[wc]
   ); */
 
-  const { forecastResults, timeData } = useSelector(
+  const { qualityAssuranceResults } = useSelector(
     (state: RootState) => state.forecastReducer
   );
 
-  console.log("forecastResults: ", forecastResults);
-  console.log("timeData: ", timeData);
+  console.log("qualityAssuranceResults: ", qualityAssuranceResults);
 
   const [storedforecastResults, setStoredforecastResults] = React.useState(
-    forecastResults
+    qualityAssuranceResults
   );
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
@@ -211,34 +210,28 @@ export default function ForecastQualityAssuranceData({
   });
 
   const dividerPositions = [50];
-  const getForecastDate = (row:any, i:number) => {
+  /* const getForecastDate = (row:any, i:number) => {
     const keys = Object.keys(row);
     const rowData = timeData[i];
     const dateValues = rowData[keys[0]];
     //console.log("dateValues: ", dateValues);
     const forecastDate = `${dateValues.day}/${dateValues.month}/${dateValues.year}`;
     return forecastDate;
-  };
+  }; */
 
-  const forecastResultCount = forecastResults.length;
+  const forecastResultCount = qualityAssuranceResults.length;
 
-  const rowsReversed = forecastResults.map(
+  const rows = qualityAssuranceResults.map(
     (row: any, i: number) => ({
-      sn: forecastResultCount - i,
-      date: getForecastDate(row, i),
       ...row
     })
   ) as any[];
 
-  const rows = rowsReversed.reverse();
 
   //const [rows, setRows] = React.useState(snStoredData);
-  console.log("rows: ", rows);
-  let columnKeys = ["SN"];
-  if(rows.length > 0){
-    const originalColumnKeys = Object.keys(rows[0]);
-    columnKeys = [...originalColumnKeys];
-  }
+ 
+  const columnKeys = Object.keys(rows[0]);
+  
   
 console.log("columnKeys: ", columnKeys);
   const columns = columnKeys.map((k) => {
@@ -247,7 +240,7 @@ console.log("columnKeys: ", columnKeys);
       name: k,
       editable: false,
       resizable: true,
-      width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
+      width: "auto",
     };
     return column;
   });
@@ -266,7 +259,7 @@ console.log("columnKeys: ", columnKeys);
     })) as IExcelSheetData<IStoredForecastResultsRow>["columns"];
 
   const exportTableProps = {
-    fileName: "StoredForecastResults",
+    fileName: "QualityAssuranceResults",
     tableData: {
       Template: {
         data: rows,

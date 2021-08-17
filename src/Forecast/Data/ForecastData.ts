@@ -1,3 +1,10 @@
+import {
+  stackedChartToLineOrScatterChartData,
+  barChartToStackedChartData,
+  stackedChartToDoughnutChartData,
+  stackedChartTostackedChartData,
+} from "../Utils/TransformOneChartDataToAnother";
+
 export const forecastAggregationTypes = [
   {
     value: "yearly",
@@ -27,3 +34,11 @@ export const forecastAggregationLevels = [
     label: "Scenario",
   },
 ];
+
+export const forecastResultsTransformersObj = {
+  stackedAreaChart: stackedChartTostackedChartData,
+  lineChart: stackedChartToLineOrScatterChartData,
+  scatterChart: stackedChartToLineOrScatterChartData,
+  barChart: barChartToStackedChartData,
+  doughnutChart: stackedChartToDoughnutChartData,
+};

@@ -80,18 +80,11 @@ function* runForecastSaga(
 
     while (true) {
       const data = yield take(chan);
-      const successAction = runForecastSuccessAction();
 
-      if (Object.keys(data)[0] === "keys") {
-        yield put({
-          ...successAction,
-          payload: {
-            ...payload,
-            keyVar: "forecastKeys",
-            forecastKeys: data["keys"],
-          },
-        });
-      } else if (Object.keys(data)[0] === "tree") {
+      const successAction = runForecastSuccessAction();
+      const key = Object.keys(data)[0];
+
+      if (key === "tree") {
         const newData = data["tree"];
 
         yield put({
@@ -100,6 +93,15 @@ function* runForecastSaga(
             ...payload,
             keyVar: "forecastTree",
             forecastTree: newData,
+          },
+        });
+      } else if (key === "keys") {
+        yield put({
+          ...successAction,
+          payload: {
+            ...payload,
+            keyVar: "xValueCategories",
+            xValueCategories: data["keys"],
           },
         });
       }

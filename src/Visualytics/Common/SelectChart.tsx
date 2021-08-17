@@ -16,14 +16,14 @@ const SelectChart = () => {
   const visualyticsChartsObj = useSelector(
     (state: RootState) => state.visualyticsReducer[wc]
   );
-  const { data, otherProperties } = visualyticsChartsObj[chartType];
+  const { data, specificProperties } = visualyticsChartsObj[chartType];
 
   return (
     <ApexFlexContainer>
       <ChartSelector
         chartType={chartType}
         data={data}
-        otherProperties={otherProperties}
+        specificProperties={specificProperties}
       />
     </ApexFlexContainer>
   );

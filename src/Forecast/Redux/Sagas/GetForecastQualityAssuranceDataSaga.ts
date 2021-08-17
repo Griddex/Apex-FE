@@ -26,6 +26,7 @@ import {
   getForecastResultsQualityAssuranceFailureAction,
   getForecastResultsQualityAssuranceSuccessAction,
   GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
+  UPDATE_FORECASTPARAMETER
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastQADataSaga(): Generator<
@@ -83,18 +84,26 @@ function* getForecastQADataSaga(
     const forecastQualityAssuranceAPI = (url: string) =>
       authService.post(url, data, config);
     const result = yield call(forecastQualityAssuranceAPI, url);
-    console.log("result: ", result);
-
+   
     const { data: forecastQualityAssuranceData } = result;
+
+    console.log("forecastQualityAssuranceData.data: ", forecastQualityAssuranceData.data);
 
     const successAction = getForecastResultsQualityAssuranceSuccessAction();
     yield put({
+      type: UPDATE_FORECASTPARAMETER,
+      payload: {
+        path: "qualityAssuranceResults",
+        value: forecastQualityAssuranceData.data
+      }
+    })
+    /* yield put({
       ...successAction,
       payload: {
         ...payload,
         forecastQualityAssuranceData,
       },
-    });
+    }); */
   } catch (errors) {
     const failureAction = getForecastResultsQualityAssuranceFailureAction();
 

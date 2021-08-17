@@ -1,4 +1,4 @@
-import { allChartsDataAndOtherProperties } from "../../Data/VisualyticsData";
+import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 import {
   chartObjectsNameTitleMap,
@@ -15,6 +15,9 @@ export interface IChartObject {
     gradient?: colorGradient;
   };
 }
+
+export type TAllChartsDataAndSpecificProperties =
+  typeof allChartsDataAndSpecificProperties;
 export interface IVisualyticsState {
   selectedChartIndex: number;
   selectedChartObjId: string;
@@ -30,7 +33,7 @@ export interface IVisualyticsState {
   };
 
   selectedVisualyticsOption: ISelectOption;
-  visualyticsChartsWorkflows: typeof allChartsDataAndOtherProperties;
+  visualyticsChartsWorkflows: TAllChartsDataAndSpecificProperties;
 }
 
 export interface ICharts {

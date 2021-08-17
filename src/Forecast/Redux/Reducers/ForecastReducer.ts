@@ -1,20 +1,27 @@
 import set from "lodash.set";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
-  GET_TABLEDATABYID_SUCCESS,
-  GET_TABLEDATABYID_FAILURE,
   FORECAST_TREEVIEWKEYS_FAILURE,
   FORECAST_TREEVIEWKEYS_SUCCESS,
+  GET_TABLEDATABYID_FAILURE,
+  GET_TABLEDATABYID_SUCCESS,
 } from "../../../Application/Redux/Actions/ApplicationActions";
+import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
-  LOAD_FORECASTRESULTS_WORKFLOW,
-  UPDATE_SELECTEDIDTITLE,
+  GET_FORECASTDATABYID_FAILURE,
+  GET_FORECASTDATABYID_SUCCESS,
   GET_FORECASTRESULTS_CHARTDATA_FAILURE,
   GET_FORECASTRESULTS_CHARTDATA_SUCCESS,
-  UPDATE_FORECASTPARAMETER,
+  LOAD_FORECASTRESULTS_WORKFLOW,
   PERSIST_FORECASTCHARTELEMENTID,
   PERSIST_FORECASTCHARTINDEX,
   PERSIST_FORECASTCHARTOBJECT,
+  PUT_FORECASTRESULTS_CHARTDATA_FAILURE,
+  PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
+  REMOVE_FORECAST,
+  RESET_FORECAST,
+  RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
+  RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
   RUN_FORECAST_FAILURE,
   RUN_FORECAST_SUCCESS,
   SAVE_FORECAST_FAILURE,
@@ -22,8 +29,8 @@ import {
   SET_FORECASTCHARTCELLCOLORS,
   SET_FORECASTCHARTCOLOR,
   SET_FORECASTCHARTOBJECT,
-  STORED_FORECASTINGRESULTS_SUCCESS,
   STORED_FORECASTINGRESULTS_FAILURE,
+/* <<<<<<< HEAD
   GET_FORECASTDATABYID_FAILURE,
   GET_FORECASTDATABYID_SUCCESS,
   REMOVE_FORECAST,
@@ -32,6 +39,14 @@ import {
   RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
   UPDATE_FORECASTRESULT_PARAMETERS,
   UPDATE_FORECASTPARAMETERS
+======= */
+  STORED_FORECASTINGRESULTS_SUCCESS,
+  TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE,
+  TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS,
+  UPDATE_FORECASTPARAMETER,
+  UPDATE_FORECASTPARAMETERS,
+  UPDATE_SELECTEDIDTITLE,
+  UPDATE_FORECASTRESULT_PARAMETERS
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -55,7 +70,6 @@ const forecastReducer = (
       const { path, value } = action.payload;
 
       const updatedState = set(state, path, value);
-      console.log("action.payload: ", action.payload);
       return updatedState;
     }
     case UPDATE_FORECASTPARAMETERS: {
@@ -91,11 +105,11 @@ const forecastReducer = (
     case RUN_FORECAST_SUCCESS: {
       const { keyVar } = action.payload;
 
-      if (keyVar === "forecastKeys") {
-        const { forecastKeys } = action.payload;
+      if (keyVar === "xValueCategories") {
+        const { xValueCategories } = action.payload;
         return {
           ...state,
-          forecastKeys,
+          xValueCategories,
         };
       } else {
         const { forecastTree } = action.payload;
@@ -133,14 +147,73 @@ const forecastReducer = (
 
     case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
       const { forecastResults } = action.payload;
+      const data = forecastResults;
 
       return {
         ...state,
-        forecastResults,
+        forecastChartWorkflows: {
+          ...state["forecastChartWorkflows"],
+          stackedAreaChart: {
+            ...state["forecastChartWorkflows"]["stackedAreaChart"],
+            data,
+          },
+        },
       };
     }
 
     case GET_FORECASTRESULTS_CHARTDATA_FAILURE: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
+    case PUT_FORECASTRESULTS_CHARTDATA_SUCCESS: {
+      const { chartType, forecastResults } = action.payload;
+      const data = forecastResults;
+
+      return {
+        ...state,
+        forecastChartWorkflows: {
+          ...state["forecastChartWorkflows"],
+          [chartType]: { data },
+        },
+      };
+    }
+
+    case PUT_FORECASTRESULTS_CHARTDATA_FAILURE: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
+    case TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS: {
+      const {
+        chartType,
+        forecastResults,
+        xValueCategories,
+        lineOrScatter,
+        isYear,
+      } = action.payload;
+      const data = forecastResults;
+
+      return {
+        ...state,
+        xValueCategories,
+        lineOrScatter,
+        isYear,
+        forecastChartWorkflows: {
+          ...state["forecastChartWorkflows"],
+          [chartType]: {
+            ...state["forecastChartWorkflows"][chartType as TChartTypes],
+            data,
+          },
+        },
+      };
+    }
+
+    case TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE: {
       return {
         ...state,
         ...action.payload,
@@ -233,12 +306,11 @@ const forecastReducer = (
     case FORECAST_TREEVIEWKEYS_SUCCESS: {
       const { keyVar, reducer, perspective } = action.payload;
 
-      // if (reducer === "forecastReducer") {
-      if (keyVar === "forecastKeys") {
-        const { forecastKeys } = action.payload;
+      if (keyVar === "xValueCategories") {
+        const { xValueCategories } = action.payload;
         return {
           ...state,
-          forecastKeys,
+          xValueCategories,
         };
       } else {
         const { forecastTree } = action.payload;
@@ -247,7 +319,6 @@ const forecastReducer = (
           forecastTree,
         };
       }
-      // }
     }
 
     case FORECAST_TREEVIEWKEYS_FAILURE: {
@@ -282,7 +353,7 @@ const forecastReducer = (
         ...state,
         forecastResults: [],
         forecastTree: [],
-        forecastKeys: [],
+        xValueCategories: [],
         transForecastResult: [],
         selectedForecastingResultsId: "",
         selectedForecastingResultsTitle: "",

@@ -48,7 +48,13 @@ const ForecastVariableButtonsMenu = () => {
   type forecastVariableTitle = keyof typeof forecastVariablesMap;
 
   return (
-    <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
+    <div
+      style={{
+        cursor: "context-menu",
+        backgroundColor: "#F7F7F7",
+        marginLeft: 4,
+      }}
+    >
       <Tooltip key="forecastVariable" title="Variable" placement="bottom" arrow>
         <Button
           onClick={handleClick}

@@ -1,3 +1,4 @@
+import { allChartsDataAndSpecificProperties } from "../../../Visualytics/Data/VisualyticsData";
 import {
   IForecastChartState,
   IForecastResultState,
@@ -53,6 +54,13 @@ const forecastChartState: IForecastChartState = {
     forecastChartLayoutColor: "white",
     forecastChartSeriesSolidColors: ["#31BFCC", "#DA1B57", "#00C49F"],
   },
+
+  selectedForecastChartOption: {
+    value: "stackedAreaChart",
+    label: "Stacked Area",
+  },
+
+  forecastChartWorkflows: allChartsDataAndSpecificProperties,
 };
 
 const forcastResultState: IForecastResultState = {
@@ -61,7 +69,9 @@ const forcastResultState: IForecastResultState = {
   timeData: [],
   forecastResults: [],
   forecastTree: [],
-  forecastKeys: [],
+  xValueCategories: [],
+  lineOrScatter: "line",
+  isYear: true,
   transForecastResult: [],
 
   qualityAssuranceResults: [],

@@ -10,6 +10,7 @@ import { IApexSlider } from "../Sliders/ApexSlider";
 export type TChartTypes =
   | "stackedAreaChart"
   | "lineChart"
+  | "scatterChart"
   | "doughnutChart"
   | "barChart";
 

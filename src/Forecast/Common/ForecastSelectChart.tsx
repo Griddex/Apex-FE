@@ -1,24 +1,35 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { ICharts } from "../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
-import ForecastStackedAreaChart from "../Components/ForecastStackedAreaChart";
-
-const charts: ICharts = {
-  0: () => <ForecastStackedAreaChart />,
-  // 1: () => <LineChart />,
-  // 2: () => <DoughnutChart data={tempData} />,
-  // 3: () => <BarChart />,
-};
+import ChartSelector from "../../Visualytics/Common/ChartSelector";
+import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 
 const ForecastSelectChart = () => {
-  const { selectedChartIndex } = useSelector(
-    (state: RootState) => state.visualyticsReducer
+  const wc = "forecastChartWorkflows";
+
+  const { selectedForecastChartOption } = useSelector(
+    (state: RootState) => state.forecastReducer
   );
 
-  const chart = charts[selectedChartIndex || 0];
+  const chartType = selectedForecastChartOption.value as TChartTypes;
+  const forecastChartsObj = useSelector(
+    (state: RootState) => state.forecastReducer[wc]
+  );
 
-  return <div style={{ height: "100%", width: "100%" }}>{chart()}</div>;
+  const { commonProperties } = forecastChartsObj["commonChart"];
+  const { data, specificProperties } = forecastChartsObj[chartType];
+
+  return (
+    <ApexFlexContainer>
+      <ChartSelector
+        chartType={chartType}
+        data={data}
+        specificProperties={specificProperties}
+        commonProperties={commonProperties}
+      />
+    </ApexFlexContainer>
+  );
 };
 
 export default ForecastSelectChart;

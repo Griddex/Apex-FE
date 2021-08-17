@@ -8,7 +8,7 @@ export interface IChartCategory {
 
 export type TCategoriesTitle = string;
 export interface IChartCategoriesData {
-  ChartCategoriesData: IChartCategory[];
+  chartCategoriesData: IChartCategory[];
   categoriesTitle?: TCategoriesTitle;
   showCategories?: boolean;
   setShowCategories?: TUseState<boolean>;
