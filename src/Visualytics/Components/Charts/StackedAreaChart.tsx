@@ -145,21 +145,17 @@ const StackedAreaChart = ({
 
   const bottomAxisValues = data.map((_, i) => 2020 + i);
 
-  console.log(
-    "Logged output --> ~ file: StackedAreaChart.tsx ~ line 149 ~ specificProperties",
-    specificProperties
-  );
   specificProperties["axisBottom"]["renderTick"] = renderTick(bottomAxisValues);
   specificProperties["keys"] = keys;
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
-      <ResponsiveStream
-        data={data}
-        {...specificProperties}
-        {...commonProperties}
-      />
-    </ClickAwayListener>
+    // <ClickAwayListener onClickAway={handleClickAway}>
+    <ResponsiveStream
+      data={data}
+      {...specificProperties}
+      {...commonProperties}
+    />
+    // </ClickAwayListener>
   );
 };
 

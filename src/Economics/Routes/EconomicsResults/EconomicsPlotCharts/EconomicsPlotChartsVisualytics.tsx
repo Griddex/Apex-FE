@@ -106,8 +106,21 @@ const EconomicsPlotChartsVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={economicsPlotCharts}
-          selectedChartType={selectedEconomicsPlotChartOption}
           updateAction={updateEconomicsParameterAction}
+          transformChartResultsAction={() =>
+            //TODO Update fxn
+            dispatch({
+              // ...transformForecastResultsChartDataAction(),
+              type: "REPLACE_TYPE",
+              payload: {
+                chartType,
+                forecastResults: [],
+                xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
+                lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
+                isYear: true,
+              },
+            })
+          }
         />
         <IconButtonWithTooltip
           toolTipKey="saveToolTip"
@@ -126,7 +139,7 @@ const EconomicsPlotChartsVisualytics = () => {
     componentRef,
   };
 
-  const ChartCategoriesData = React.useRef([
+  const chartCategoriesData = React.useRef([
     {
       categoryTitle: "X Category",
       persistAction: (name: string, title: string) =>
@@ -233,10 +246,10 @@ const EconomicsPlotChartsVisualytics = () => {
         </div>
         {showCategories && (
           <ChartCategories
-            categoriesTitle={selectedEconomicsPlotChartOption.label}
-            ChartCategoriesData={ChartCategoriesData.current}
-            showCategories={showCategories}
-            setShowCategories={setShowCategories}
+            // categoriesTitle={selectedEconomicsPlotChartOption.label}
+            chartCategoriesData={chartCategoriesData.current}
+            // showCategories={showCategories}
+            // setShowCategories={setShowCategories}
           />
         )}
 

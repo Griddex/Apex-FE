@@ -188,12 +188,14 @@ export default function ApexTreeView({
       ? [...selectedIds, ...allIdNodes]
       : selectedIds.filter((value) => !allIdNodes.includes(value));
     idArray = idArray.filter((v, i) => idArray.indexOf(v) === i);
+
     setSelectedIds(idArray);
 
     let titleArray = checked
       ? [...selectedNames, ...allNameNodes]
       : selectedNames.filter((value) => !allNameNodes.includes(value));
     titleArray = titleArray.filter((v, i) => titleArray.indexOf(v) === i);
+
     setSelectedNames(titleArray);
 
     let pathArray = checked
@@ -202,6 +204,7 @@ export default function ApexTreeView({
           (value) => !allPathNodes.includes(value)
         );
     pathArray = pathArray.filter((v, i) => pathArray.indexOf(v) === i);
+
     setSelectedPathsUnfiltered(pathArray);
   };
 

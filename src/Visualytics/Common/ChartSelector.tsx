@@ -12,6 +12,10 @@ const ChartSelector = ({
   specificProperties,
   commonProperties,
 }: IChartProps) => {
+  console.log(
+    "Logged output --> ~ file: ChartSelector.tsx ~ line 15 ~ chartType",
+    chartType
+  );
   switch (chartType) {
     case "stackedAreaChart":
       return (

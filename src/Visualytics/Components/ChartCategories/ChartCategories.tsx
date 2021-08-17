@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChartCategories = ({ ChartCategoriesData }: IChartCategoriesData) => {
+const ChartCategories = ({ chartCategoriesData }: IChartCategoriesData) => {
   const classes = useStyles();
 
   return (
@@ -22,7 +22,7 @@ const ChartCategories = ({ ChartCategoriesData }: IChartCategoriesData) => {
       width={300}
       height="fit-content"
     >
-      {ChartCategoriesData.map((props, i) => (
+      {chartCategoriesData.map((props, i) => (
         <ChartCategory key={i} {...props} />
       ))}
     </ApexFlexContainer>

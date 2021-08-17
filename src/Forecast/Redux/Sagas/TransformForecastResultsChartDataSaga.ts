@@ -41,15 +41,24 @@ function* transformForecastResultsChartDataSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
-  const { chartType, forecastResults, forecastKeys, lineOrScatter, isYear } =
-    payload;
+  console.log(
+    "Logged output --> ~ file: TransformForecastResultsChartDataSaga.ts ~ line 44 ~ payload",
+    payload
+  );
+  const {
+    chartType,
+    forecastResults,
+    xValueCategories,
+    lineOrScatter,
+    isYear,
+  } = payload;
 
   const transformedForecastResultsFxn =
     forecastResultsTransformersObj[chartType as TChartTypes];
 
   const transformedForecastResults = transformedForecastResultsFxn({
     data: forecastResults,
-    yearsOrMonths: forecastKeys,
+    yearsOrMonths: xValueCategories,
     lineOrScatter,
     isYear,
   });
@@ -61,7 +70,7 @@ function* transformForecastResultsChartDataSaga(
       payload: {
         chartType,
         forecastResults: transformedForecastResults,
-        forecastKeys,
+        xValueCategories,
         lineOrScatter,
         isYear,
       },

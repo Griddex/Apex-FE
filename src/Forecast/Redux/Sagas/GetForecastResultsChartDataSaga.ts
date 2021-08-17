@@ -98,7 +98,9 @@ function* getForecastResultsChartDataSaga(
 
     const { data: forecastResults } = result;
     //TODO Get both from Gift
-    const forecastKeys = forecastResults.map((_: any, i: number) => 2020 + i);
+    const xValueCategories = forecastResults.map(
+      (_: any, i: number) => 2020 + i
+    );
     const isYear = true;
 
     const successAction = getForecastResultsChartDataSuccessAction();
@@ -107,7 +109,7 @@ function* getForecastResultsChartDataSaga(
       payload: {
         chartType,
         forecastResults,
-        forecastKeys,
+        xValueCategories,
         lineOrScatter,
         isYear,
       },

@@ -24,7 +24,7 @@ import {
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
 const SensitivitiesHeatMapDataPanel = ({
-  ChartCategoriesData,
+  chartCategoriesData,
   categoriesTitle,
 }: IChartCategoriesData) => {
   const dispatch = useDispatch();
@@ -184,7 +184,7 @@ const SensitivitiesHeatMapDataPanel = ({
           maxWidth: "xs",
           iconType: "category",
           children: (
-            <ChartCategories ChartCategoriesData={ChartCategoriesData} />
+            <ChartCategories chartCategoriesData={chartCategoriesData} />
           ),
           actionsList: () => DialogCancelButton(),
         };

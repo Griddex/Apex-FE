@@ -49,7 +49,6 @@ const forecastReducer = (
       const { path, value } = action.payload;
 
       const updatedState = set(state, path, value);
-      console.log("action.payload: ", action.payload);
       return updatedState;
     }
     case UPDATE_FORECASTPARAMETERS: {
@@ -85,11 +84,11 @@ const forecastReducer = (
     case RUN_FORECAST_SUCCESS: {
       const { keyVar } = action.payload;
 
-      if (keyVar === "forecastKeys") {
-        const { forecastKeys } = action.payload;
+      if (keyVar === "xValueCategories") {
+        const { xValueCategories } = action.payload;
         return {
           ...state,
-          forecastKeys,
+          xValueCategories,
         };
       } else {
         const { forecastTree } = action.payload;
@@ -172,7 +171,7 @@ const forecastReducer = (
       const {
         chartType,
         forecastResults,
-        forecastKeys,
+        xValueCategories,
         lineOrScatter,
         isYear,
       } = action.payload;
@@ -180,7 +179,7 @@ const forecastReducer = (
 
       return {
         ...state,
-        forecastKeys,
+        xValueCategories,
         lineOrScatter,
         isYear,
         forecastChartWorkflows: {
@@ -286,12 +285,11 @@ const forecastReducer = (
     case FORECAST_TREEVIEWKEYS_SUCCESS: {
       const { keyVar, reducer, perspective } = action.payload;
 
-      // if (reducer === "forecastReducer") {
-      if (keyVar === "forecastKeys") {
-        const { forecastKeys } = action.payload;
+      if (keyVar === "xValueCategories") {
+        const { xValueCategories } = action.payload;
         return {
           ...state,
-          forecastKeys,
+          xValueCategories,
         };
       } else {
         const { forecastTree } = action.payload;
@@ -300,7 +298,6 @@ const forecastReducer = (
           forecastTree,
         };
       }
-      // }
     }
 
     case FORECAST_TREEVIEWKEYS_FAILURE: {
@@ -335,7 +332,7 @@ const forecastReducer = (
         ...state,
         forecastResults: [],
         forecastTree: [],
-        forecastKeys: [],
+        xValueCategories: [],
         transForecastResult: [],
         selectedForecastingResultsId: "",
         selectedForecastingResultsTitle: "",

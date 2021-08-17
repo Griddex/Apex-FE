@@ -12,6 +12,8 @@ export const stackedChartToLineOrScatterChartData = ({
   yearsOrMonths,
   lineOrScatter,
 }: IForecastResultsTransformers) => {
+  if (data.length === 0) return [];
+
   const series = Object.keys(data[0]);
 
   const lineData = series.reduce((acc, serie) => {
@@ -40,6 +42,8 @@ export const stackedChartToLineOrScatterChartData = ({
 export const lineOrScatterChartToStackedChartData = ({
   data,
 }: IForecastResultsTransformers) => {
+  if (data.length === 0) return [];
+
   const stackedData = data.reduce((acc: any[], row: any) => {
     const serie = row["id"];
     const lineOrScatterData = row["data"];
@@ -64,6 +68,8 @@ export const stackedChartToBarChartData = ({
   yearsOrMonths,
   isYear,
 }: IForecastResultsTransformers) => {
+  if (data.length === 0) return [];
+
   const series = Object.keys(data[0]);
   const yearOrMonthTitle = isYear ? "Year" : "Month";
 
@@ -87,6 +93,8 @@ export const stackedChartToBarChartData = ({
 export const barChartToStackedChartData = ({
   data,
 }: IForecastResultsTransformers) => {
+  if (data.length === 0) return [];
+
   const keys = Object.keys(data[0]);
 
   const stackedData = data.map((row: any, i: number) => {
@@ -110,6 +118,8 @@ export const barChartToStackedChartData = ({
 export const stackedChartToDoughnutChartData = ({
   data,
 }: IForecastResultsTransformers) => {
+  if (data.length === 0) return [];
+
   const series = Object.keys(data[0]);
 
   const doughnutData = series.map((serie: string, i: number) => {

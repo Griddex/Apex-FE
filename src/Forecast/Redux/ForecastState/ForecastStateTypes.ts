@@ -81,7 +81,7 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
 
   forecastResults: any[];
   forecastTree: RenderTree["children"];
-  forecastKeys: string[];
+  xValueCategories: string[];
   lineOrScatter: "line" | "scatter";
   isYear: boolean;
   transForecastResult: any[];

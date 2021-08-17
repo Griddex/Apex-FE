@@ -86,7 +86,7 @@ const SensitivitiesHeatMapVisualytics = () => {
     componentRef,
   };
 
-  const ChartCategoriesData = React.useRef([
+  const chartCategoriesData = React.useRef([
     {
       categoryTitle: "X Category",
       persistAction: React.useCallback(
@@ -172,7 +172,7 @@ const SensitivitiesHeatMapVisualytics = () => {
         <div className={classes.chartPanel}>
           <SensitivitiesHeatMapDataPanel
             categoriesTitle="Heat Map"
-            ChartCategoriesData={ChartCategoriesData.current}
+            chartCategoriesData={chartCategoriesData.current}
           />
         </div>
 

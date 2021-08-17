@@ -32,4 +32,4 @@ const ForecastSelectChart = () => {
   );
 };
 
-export default React.memo(ForecastSelectChart);
+export default ForecastSelectChart;

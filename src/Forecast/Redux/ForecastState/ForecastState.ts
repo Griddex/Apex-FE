@@ -56,8 +56,8 @@ const forecastChartState: IForecastChartState = {
   },
 
   selectedForecastChartOption: {
-    value: "Select Chart...",
-    label: "Select Chart...",
+    value: "stackedAreaChart",
+    label: "Stacked Area",
   },
 
   forecastChartWorkflows: allChartsDataAndSpecificProperties,
@@ -68,7 +68,7 @@ const forcastResultState: IForecastResultState = {
 
   forecastResults: [],
   forecastTree: [],
-  forecastKeys: [],
+  xValueCategories: [],
   lineOrScatter: "line",
   isYear: true,
   transForecastResult: [],

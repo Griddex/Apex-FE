@@ -13,6 +13,7 @@ import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { transformForecastResultsChartDataAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -29,23 +30,23 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IChartSelectionMenu {
   chartOptions: ISelectOption[];
-  selectedChartType: string;
   updateAction: (selectedChartType: string, value: any) => void;
+  transformChartResultsAction: (selectedChartype: string) => void;
 }
 
 const ChartSelectionMenu = ({
   chartOptions,
-  selectedChartType,
   updateAction,
+  transformChartResultsAction,
 }: IChartSelectionMenu) => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [plotChartOption, setPlotChartOption] = React.useState({
-    value: "select",
-    label: "Select Chart...",
-  } as ISelectOption);
+  const [plotChartOption, setPlotChartOption] = React.useState(
+    chartOptions[1] as ISelectOption
+  );
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);
@@ -65,7 +66,7 @@ const ChartSelectionMenu = ({
           height: 28,
           backgroundColor: theme.palette.primary.light,
           border: `1px solid ${theme.palette.primary.main}`,
-          width: 250,
+          width: 200,
         }}
         classes={{ label: classes.label }}
       >
@@ -86,22 +87,27 @@ const ChartSelectionMenu = ({
           horizontal: "center",
         }}
       >
-        {chartOptions.map((chart, i) => {
-          const avatar = getFirstCharFromEveryWord(chart.label);
+        {chartOptions.map((chartOption, i) => {
+          const avatar = getFirstCharFromEveryWord(chartOption.label);
 
           return (
             <MenuItem
               key={i}
               onClick={() => {
-                setPlotChartOption(chart);
-                dispatch(updateAction("selectedForecastChartOption", chart));
+                setPlotChartOption(chartOption);
+                dispatch(
+                  updateAction("selectedForecastChartOption", chartOption)
+                );
+
+                transformChartResultsAction(chartOption.value as string);
+
                 handleClose();
               }}
             >
               <ListItemAvatar className={classes.listItemAvatar}>
                 <>{avatar}</>
               </ListItemAvatar>
-              <Typography variant="inherit">{chart.label}</Typography>
+              <Typography variant="inherit">{chartOption.label}</Typography>
             </MenuItem>
           );
         })}
