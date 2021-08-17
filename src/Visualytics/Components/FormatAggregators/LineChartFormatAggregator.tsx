@@ -30,7 +30,7 @@ const LineChartFormatAggregator = ({
     setPerspective(newPerspective);
   };
 
-  const { otherProperties } = economicsResultsPlotCharts["lineChart"];
+  const { specificProperties } = economicsResultsPlotCharts["lineChart"];
 
   //GENERAL
   const {
@@ -41,7 +41,7 @@ const LineChartFormatAggregator = ({
     areaBlendMode,
     areaBaselineValue,
     areaOpacity,
-  } = otherProperties;
+  } = specificProperties;
 
   const lineChartGeneralData = {
     curve: curve ? curve : "linear",
@@ -69,7 +69,7 @@ const LineChartFormatAggregator = ({
   };
 
   //PLOT
-  const { margin, xScale, xFormat, yScale, yFormat } = otherProperties;
+  const { margin, xScale, xFormat, yScale, yFormat } = specificProperties;
   const lineChartPlotData = {
     margin,
     colors: colors ? colors.scheme : { scheme: "category10" },
@@ -81,7 +81,7 @@ const LineChartFormatAggregator = ({
 
   //GRID DATA
   const { enableGridX, enableGridY, gridXValues, gridYValues } =
-    otherProperties;
+    specificProperties;
   const lineGridData = [
     {
       gridName: "gridX",
@@ -100,10 +100,10 @@ const LineChartFormatAggregator = ({
   ];
 
   //AXES DATA
-  const apexAxesEnabled = otherProperties["apexAxesEnabled"];
+  const apexAxesEnabled = specificProperties["apexAxesEnabled"];
   const lineAxesData = Object.keys(axisNameTitlesObj).reduce(
     (acc: any, name) => {
-      if (otherProperties[name]) {
+      if (specificProperties[name]) {
         const {
           tickSize,
           tickPadding,
@@ -111,7 +111,7 @@ const LineChartFormatAggregator = ({
           legend,
           legendOffset,
           legendPosition,
-        } = otherProperties[name];
+        } = specificProperties[name];
 
         return [
           ...acc,
@@ -194,7 +194,7 @@ const LineChartFormatAggregator = ({
   }));
 
   //LEGENDS
-  const { enableLegend } = otherProperties;
+  const { enableLegend } = specificProperties;
   const {
     anchor,
     direction,
@@ -209,7 +209,7 @@ const LineChartFormatAggregator = ({
     symbolSize,
     symbolShape,
     symbolBorderColor,
-  } = otherProperties["legends"][0];
+  } = specificProperties["legends"][0];
 
   const lineLegendsData = {
     enableLegend,
@@ -273,7 +273,7 @@ const LineChartFormatAggregator = ({
     pointBorderColor,
     pointBorderWidth,
     pointLabelYOffset,
-  } = otherProperties;
+  } = specificProperties;
 
   const linePointersData = {
     enablePointers: enablePoints,

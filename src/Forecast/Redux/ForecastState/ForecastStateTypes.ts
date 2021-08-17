@@ -4,8 +4,9 @@ import {
   IApplicationStoredForecastResultsRow,
   TApproval,
 } from "../../../Application/Types/ApplicationTypes";
-import { TDevScenarioNames } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
+import { TAllChartsDataAndSpecificProperties } from "../../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
+import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 import {
   forecastChartObjectsNameTitleMap,
   initialColorGradient,
@@ -39,6 +40,9 @@ export interface IForecastChartState {
     xAxes: { xAxisId: string }[];
     yAxes: { yAxisId: string }[];
   };
+
+  selectedForecastChartOption: ISelectOption;
+  forecastChartWorkflows: TAllChartsDataAndSpecificProperties;
 }
 
 export interface IForecastCharts {
@@ -77,7 +81,9 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
 
   forecastResults: any[];
   forecastTree: RenderTree["children"];
-  forecastKeys: string[];
+  xValueCategories: string[];
+  lineOrScatter: "line" | "scatter";
+  isYear: boolean;
   transForecastResult: any[];
 
   qualityAssuranceResults: any[];

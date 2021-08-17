@@ -55,7 +55,7 @@ const ApexLegends = ({
     theme.palette.warning.main,
   ]);
 
-  const basePath = `${wc}.${wp}.${chartType}.otherProperties`;
+  const basePath = `${wc}.${wp}.${chartType}.specificProperties`;
   const itemDirectionOption = legendItemsDirectionOptions.find(
     (option) => option.value === itemDirection
   );

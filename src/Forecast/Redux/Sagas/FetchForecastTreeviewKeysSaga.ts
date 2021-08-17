@@ -64,13 +64,13 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
 
     let i = 0;
     while (true) {
-      const treeOrKeys = yield take(chan);
+      const data = yield take(chan);
 
       const successAction = fetchForecastTreeviewKeysSuccessAction();
-      const key = Object.keys(treeOrKeys)[0];
+      const key = Object.keys(data)[0];
 
       if (key === "tree") {
-        const forecastTree = treeOrKeys["tree"];
+        const forecastTree = data["tree"];
 
         yield put({
           ...successAction,
@@ -81,14 +81,14 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
           },
         });
       } else if (key === "keys") {
-        const forecastKeys = treeOrKeys["keys"];
+        const xValueCategories = data["keys"];
 
         yield put({
           ...successAction,
           payload: {
             ...payload,
-            keyVar: "forecastKeys",
-            forecastKeys,
+            keyVar: "xValueCategories",
+            xValueCategories,
           },
         });
       }

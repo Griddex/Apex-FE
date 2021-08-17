@@ -1,4 +1,4 @@
-import { allChartsDataAndOtherProperties } from "../../Data/VisualyticsData";
+import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import { chartObjNameType, IVisualyticsState } from "./VisualyticsStateTypes";
 
 export const chartObjectsNameTitleMap = {
@@ -50,6 +50,6 @@ const visualyticsState: IVisualyticsState = {
 
   selectedVisualyticsOption: { label: "Select...", value: "Select..." },
 
-  visualyticsChartsWorkflows: allChartsDataAndOtherProperties,
+  visualyticsChartsWorkflows: allChartsDataAndSpecificProperties,
 };
 export default visualyticsState;

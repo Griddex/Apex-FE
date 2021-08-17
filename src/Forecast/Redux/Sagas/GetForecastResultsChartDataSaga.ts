@@ -1,6 +1,4 @@
 import { ActionType } from "@redux-saga/types";
-import jsonpipe from "jsonpipe";
-import { END, eventChannel, EventChannel } from "redux-saga";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -12,7 +10,6 @@ import {
   PutEffect,
   select,
   SelectEffect,
-  take,
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -68,18 +65,19 @@ function* getForecastResultsChartDataSaga(
   } = payload;
 
   const { selectedNetworkId } = yield select((state) => state.networkReducer);
-  const { selectedForecastingResultsId, isForecastResultsSaved } = yield select(
-    (state) => state.forecastReducer
-  );
+  const {
+    selectedForecastingResultsId,
+    isForecastResultsSaved,
+    selectedForecastChartOption,
+  } = yield select((state) => state.forecastReducer);
+
+  const chartType = selectedForecastChartOption.value;
+  const lineOrScatter = chartType === "lineChart" ? "line" : "scatter";
 
   const config = {};
-  const userId = "Gideon";
   const url = `${getBaseForecastUrl()}/chartData`;
 
-  //if former selected variable is different form current one
-  //please replace chart data in store
   const data = {
-    userId: userId,
     networkId: selectedNetworkId,
     selectedVariable: selectedForecastChartVariable,
     selectedModuleIds: selectedIds,
@@ -99,12 +97,21 @@ function* getForecastResultsChartDataSaga(
     const result = yield call(forecastResultsAPI, url);
 
     const { data: forecastResults } = result;
+    //TODO Get both from Gift
+    const xValueCategories = forecastResults.map(
+      (_: any, i: number) => 2020 + i
+    );
+    const isYear = true;
 
     const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
+        chartType,
         forecastResults,
+        xValueCategories,
+        lineOrScatter,
+        isYear,
       },
     });
 
@@ -114,8 +121,6 @@ function* getForecastResultsChartDataSaga(
         selectedModuleIds: selectedIds,
       },
     });
-
-    // yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = getForecastResultsChartDataFailureAction();
 

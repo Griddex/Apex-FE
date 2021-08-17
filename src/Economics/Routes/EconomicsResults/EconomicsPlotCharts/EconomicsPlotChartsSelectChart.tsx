@@ -17,14 +17,14 @@ const EconomicsPlotChartsSelectChart = () => {
   const economicsChartsObj = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  const { data, otherProperties } = economicsChartsObj[wp][chartType];
+  const { data, specificProperties } = economicsChartsObj[wp][chartType];
 
   return (
     <ApexFlexContainer>
       <ChartSelector
         chartType={chartType}
         data={data}
-        otherProperties={otherProperties}
+        specificProperties={specificProperties}
       />
     </ApexFlexContainer>
   );

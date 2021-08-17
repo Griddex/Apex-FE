@@ -37,7 +37,7 @@ const ApexLineChartGeneral = ({
 
   const pointRef = React.useRef<HTMLDivElement>(null);
 
-  const basePath = `${wc}.${wp}.${chartType}.otherProperties`;
+  const basePath = `${wc}.${wp}.${chartType}.specificProperties`;
   const curveOption = curveOptions.find((option) => option.value === curve);
   const colorsOption = colorsOptions.find((option) => option.value === colors);
   const areaBlendOption = areaBlendOptions.find(

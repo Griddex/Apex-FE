@@ -60,7 +60,7 @@ const ApexChartPointers = ({
   const [borderColorPerspective, setBorderColorPerspective] =
     React.useState("inherit");
 
-  const basePath = `${wc}.${wp}.${chartType}.otherProperties`;
+  const basePath = `${wc}.${wp}.${chartType}.specificProperties`;
   const pointLabelOption = pointLabelOptions.find(
     (option) => option.value === pointLabel
   );

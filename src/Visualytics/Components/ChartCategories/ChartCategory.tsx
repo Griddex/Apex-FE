@@ -41,10 +41,6 @@ const ChartCategory = ({
   const theme = useTheme();
 
   const [hasDropped, setHasDropped] = React.useState(false);
-  console.log(
-    "Logged output --> ~ file: ChartCategory.tsx ~ line 43 ~ hasDropped",
-    hasDropped
-  );
   const [dragItem, setDragItem] = React.useState({} as IDragItem);
 
   const allItemTypes = [
