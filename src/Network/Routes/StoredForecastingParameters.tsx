@@ -112,11 +112,14 @@ const chartData = [
 ];
 
 export default function StoredForecastingParameters({
-  showChart
+  showChart, isAllForecastParameters
 }: IStoredDataProps) {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
+
+  const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
+    useSelector((state: RootState) => state.inputReducer);
 
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
@@ -137,7 +140,10 @@ export default function StoredForecastingParameters({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const { forecastingParametersStored } = useSelector(
+  const { selectedNetworkId } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+  const { forecastingParametersStored, networkStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
   console.log(
@@ -145,15 +151,40 @@ export default function StoredForecastingParameters({
     forecastingParametersStored
   );
 
+const selectedNetwork = networkStored.find((row:any) => {
+  if(row.id == selectedNetworkId){
+    return row;
+  }
+});
+
+let forecastingParametersFiltered:any = [];
+
+console.log("isAllForecastParameters: ", isAllForecastParameters);
+
+if(isAllForecastParameters  == true){
+  forecastingParametersFiltered = forecastingParametersStored.map((row:any) => {
+    return row;
+  });
+}else{
+  console.log("filter seen")
+  forecastingParametersFiltered = forecastingParametersStored.filter((row:any) => {
+    if(selectedNetwork  != undefined){
+      if(row.forecastInputDeckId == selectedNetwork.forecastInputDeckId) {
+        return row;
+      }
+    }
+  });
+}
+
+console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
+
   const snTransStoredData = storedToForecastingParameters(
-    forecastingParametersStored,
+    forecastingParametersFiltered,
     dayFormat,
     monthFormat,
     yearFormat
   );
 
-  const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
-    useSelector((state: RootState) => state.inputReducer);
 
   const newRow = {
     forecastInputDeckId: selectedForecastInputDeckId,
@@ -293,6 +324,13 @@ export default function StoredForecastingParameters({
                     updateNetworkParameterAction(
                       "selectedProductionPrioritizationTitle",
                       currentRow.wellPrioritizationTitle
+                    )
+                  );
+
+                  dispatch(
+                    updateNetworkParameterAction(
+                      "selectedForecastingParametersId",
+                      row.forecastingParametersId
                     )
                   );
                 }}
@@ -584,7 +622,7 @@ export default function StoredForecastingParameters({
 
   React.useEffect(() => {
     const updatedStoredData = storedToForecastingParameters(
-      forecastingParametersStored,
+      forecastingParametersFiltered,
       dayFormat,
       monthFormat,
       yearFormat

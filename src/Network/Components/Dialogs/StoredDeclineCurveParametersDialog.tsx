@@ -133,6 +133,7 @@ const StoredDeclineCurveParametersDialog = (props: DialogStuff) => {
           showChart={true}
           workflowProcess={wp}
           containerStyle={{ boxShadow: "none" }}
+          isAllDeclineParameters={false}
         />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>

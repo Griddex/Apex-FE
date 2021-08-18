@@ -118,12 +118,14 @@ const chartData = [
   { id: "Group C", value: 2, color: "green" },
 ];
 
-export default function StoredForecastingParameters({
-  showChart,
+export default function StoredDeclineCurveParameters({
+  showChart, isAllDeclineParameters
 }: IStoredDataProps) {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
+
+  console.log("isAllDeclineParameters: ", isAllDeclineParameters);
 
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
@@ -145,14 +147,45 @@ export default function StoredForecastingParameters({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const { declineParametersStored } = useSelector(
+  const { declineParametersStored, forecastingParametersStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
 
-  console.log("declineParametersStored: ", declineParametersStored);
+  const { selectedForecastingParametersId } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
+  const selectedforecastingParametersStored = forecastingParametersStored.find((row:any) => {
+    if(row.id == selectedForecastingParametersId){
+      return row;
+    }
+  });
+
+  console.log("selectedForecastingParametersId: ", selectedForecastingParametersId);
+  console.log("selectedforecastingParametersStored: ", selectedforecastingParametersStored);
+
+
+let declineParametersFiltered:any = [];
+
+if(isAllDeclineParameters  == true){
+  declineParametersFiltered = declineParametersStored.map((row:any) => {
+    return row;
+  });
+}else{
+  console.log("filter seen")
+  declineParametersFiltered = declineParametersStored.filter((row:any) => {
+    if(selectedforecastingParametersStored  != undefined){
+      if(row.forecastInputDeckId == selectedforecastingParametersStored.forecastInputDeckId) {
+        return row;
+      }
+    }
+  });
+}
+
+console.log("declineParametersFiltered: ", declineParametersFiltered);
 
   const snTransStoredData = declineParametersStoredWithSN(
-    declineParametersStored as IBackendDeclineParametersRow[]
+    declineParametersFiltered as IBackendDeclineParametersRow[]
   );
 
   //console.log("snTransStoredData: ", snTransStoredData);
@@ -437,7 +470,7 @@ export default function StoredForecastingParameters({
 
   React.useEffect(() => {
     const updatedStoredData = declineParametersStoredWithSN(
-      declineParametersStored as IBackendDeclineParametersRow[]
+      declineParametersFiltered as IBackendDeclineParametersRow[]
     );
     setRows(updatedStoredData);
   }, [declineParametersStored.length]);

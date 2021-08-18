@@ -59,7 +59,15 @@ function* fetchStoredForecastParametersSaga(
 > {
   const { payload } = action;
   const { projectId } = payload;
+
+
+  const { isAllForecastParameters, 
+    forecastingParametersStored } = yield select((state) => state.networkReducer);
+
+    console.log("forecastingParametersStored: ", forecastingParametersStored);
+
   const forecastParametersUrl = `${getBaseForecastUrl()}/forecast-parameters/light/${projectId}`;
+
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(

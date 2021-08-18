@@ -128,7 +128,8 @@ const RunForecastDialog = (props: DialogStuff) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <StoredForecastingParameters showChart={false} />
+        <StoredForecastingParameters showChart={false}
+        isAllForecastParameters={false} />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>

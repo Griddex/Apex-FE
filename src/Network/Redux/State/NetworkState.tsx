@@ -1,6 +1,9 @@
 import { INetworkState } from "./NetworkStateTypes";
 
 const networkState: INetworkState = {
+  isAllForecastParameters: false,
+  isAllDeclineParameters: false,
+  isAllWellPrioritization: false,
   currentElement: {},
   currentPopoverId: "",
   currentPopoverData: { data: [] },

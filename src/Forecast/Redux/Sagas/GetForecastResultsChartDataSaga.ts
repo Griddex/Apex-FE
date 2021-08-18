@@ -109,15 +109,8 @@ function* getForecastResultsChartDataSaga(
 
     console.log("forecastResults: ", forecastResults);
 
-    yield put({
-      type: "UPDATE_FORECASTRESULT_PARAMETERS",
-      payload: {
-        timeData: [],
-        forecastResults
-      },
-    });
 
-   /*  const successAction = getForecastResultsChartDataSuccessAction();
+    const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -127,7 +120,7 @@ function* getForecastResultsChartDataSaga(
         lineOrScatter,
         isYear,
       },
-    }); */
+    });
 
    /*  yield put({
       type: "UPDATE_FORECASTPARAMETER",

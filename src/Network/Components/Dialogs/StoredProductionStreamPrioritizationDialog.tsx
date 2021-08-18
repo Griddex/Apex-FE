@@ -137,6 +137,7 @@ const StoredProductionStreamPrioritizationDialog = (props: DialogStuff) => {
           workflowProcess={wp}
           containerStyle={{ boxShadow: "none" }}
           isCreateOrEdit
+          isAllWellPrioritization={false}
         />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>

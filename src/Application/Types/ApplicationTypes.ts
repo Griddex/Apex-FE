@@ -35,6 +35,9 @@ export interface IStoredDataRow {
 }
 
 export interface IStoredDataProps {
+  isAllForecastParameters?: boolean;
+  isAllDeclineParameters?: boolean;
+  isAllWellPrioritization?: boolean;
   snStoredData?: IStoredDataRow[];
   currentRow?: IStoredDataRow;
   reducer?: ReducersType;

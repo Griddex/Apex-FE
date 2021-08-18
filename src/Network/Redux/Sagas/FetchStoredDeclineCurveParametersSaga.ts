@@ -61,6 +61,7 @@ function* fetchStoredDeclineCurveParametersSaga(
 
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/light/${projectId}`;
 
+
   try {
     const result = yield call<(url: string) => AxiosPromise>(
       fetchStoredDeclineCurveParametersAPI,

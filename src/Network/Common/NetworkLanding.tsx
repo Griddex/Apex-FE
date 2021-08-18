@@ -210,12 +210,14 @@ const NetworkLanding = () => {
                     />
                   ),
                   forecastParameters: (
-                    <StoredForecastingParameters showChart={true} />
+                    <StoredForecastingParameters showChart={true}
+                    isAllForecastParameters={true} />
                   ),
                   declineParametersStored: (
                     <StoredDeclineCurveParameters
                       workflowProcess={"declineParametersStored"}
                       containerStyle={{ boxShadow: "none" }}
+                      isAllDeclineParameters={true}
                     />
                   ),
                   declineParametersCreate: (
@@ -228,6 +230,7 @@ const NetworkLanding = () => {
                     <StoredProductionPrioritization
                       workflowProcess={"productionPrioritizationStored"}
                       containerStyle={{ boxShadow: "none" }}
+                      isAllWellPrioritization={true}
                     />
                   ),
                   productionPrioritizationCreate: (
@@ -277,6 +280,7 @@ const NetworkLanding = () => {
                   dispatch(
                     updateNetworkParameterAction("isNetworkAuto", isNetworkAuto)
                   );
+
                 }}
                 title={name}
                 description={description}
