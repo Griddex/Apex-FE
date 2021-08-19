@@ -1,4 +1,3 @@
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { ResponsiveStream } from "@nivo/stream";
 import React from "react";
 import { useDrop } from "react-dnd";
@@ -51,19 +50,6 @@ const StackedAreaChart = ({
       outlineStyle: "dashed",
     };
   }
-
-  const handleClickAway = () => {
-    localDispatch({
-      type: "RESET",
-    });
-    // dispatch(
-    //   setSelectedChartObjIdAction({
-    //     id: chartRef.current.uniqueChartId,
-    //     chartObjName: "none",
-    //   })
-    // );
-    // dispatch(contextDrawerCollapseAction());
-  };
 
   const initializeChartMetaData = () => {
     const activeIndex = 0;
@@ -149,13 +135,11 @@ const StackedAreaChart = ({
   specificProperties["keys"] = keys;
 
   return (
-    // <ClickAwayListener onClickAway={handleClickAway}>
     <ResponsiveStream
       data={data}
       {...specificProperties}
       {...commonProperties}
     />
-    // </ClickAwayListener>
   );
 };
 

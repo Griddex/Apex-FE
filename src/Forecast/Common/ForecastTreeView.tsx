@@ -1,5 +1,4 @@
 import get from "lodash.get";
-import isEqual from "lodash.isequal";
 import pick from "lodash.pick";
 import objectScan from "object-scan";
 import React from "react";
@@ -14,6 +13,7 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
+import { transformModulePaths } from "../Utils/TransformForecastForChart";
 
 export default function ForecastTreeView() {
   const wc = "forecastChartWorkflows";
@@ -55,8 +55,6 @@ export default function ForecastTreeView() {
     (p) => p?.match(/@#\$%/g)?.length === 2
   );
 
-  const isSelectedIdsChanged = isEqual(selectedIds, prevModuleIds);
-
   React.useEffect(() => {
     const selectedModIds = selectedModulePaths.map((path) => {
       const pathPath = objectScan([`[*].children[*].children[*].path`], {
@@ -91,7 +89,7 @@ export default function ForecastTreeView() {
         },
       });
     } else if (selectedModIds.length > 0) {
-      if (selectedModIds.length > prevModuleIds.length) {
+      if (selectedModIds.length >= prevModuleIds.length) {
         dispatch(
           getForecastResultsChartDataRequestAction(
             selectedModIds,
@@ -101,10 +99,11 @@ export default function ForecastTreeView() {
           )
         );
       } else {
-        const filteredData = data.map((row) => pick(row, selectedModuleNames));
-        console.log(
-          "Logged output --> ~ file: ForecastTreeView.tsx ~ line 90 ~ React.useEffect ~ filteredData",
-          filteredData
+        const transformedModulePaths =
+          transformModulePaths(selectedModulePaths);
+
+        const filteredData = data.map((row) =>
+          pick(row, transformedModulePaths)
         );
 
         dispatch({

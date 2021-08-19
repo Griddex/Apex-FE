@@ -7,8 +7,8 @@ import { IApexChartAxis, IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexChartAxis = ({
-  workflowCategory,
-  workflowProcess,
+  cpBasePath,
+  spBasePath,
   updateParameterAction,
   chartType,
   axisCaption,
@@ -24,8 +24,6 @@ const ApexChartAxis = ({
 }: IApexChartAxis & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const wc = workflowCategory;
-  const wp = workflowProcess;
 
   return (
     <div style={{ width: "100%" }}>
@@ -38,7 +36,7 @@ const ApexChartAxis = ({
           updateParameterAction &&
             dispatch(
               updateParameterAction(
-                `${wc}.${wp}.${chartType}.apexAxesEnabled.${axisName}`,
+                `${spBasePath}.apexAxesEnabled.${axisName}`,
                 checked
               )
             );
@@ -68,7 +66,7 @@ const ApexChartAxis = ({
                   updateParameterAction &&
                     dispatch(
                       updateParameterAction(
-                        `${wc}.${wp}.${chartType}.${axisName}.legend`,
+                        `${spBasePath}.${axisName}.legend`,
                         value
                       )
                     );
@@ -88,7 +86,7 @@ const ApexChartAxis = ({
                 step={storeAxisTitleOffset.step as number}
                 min={storeAxisTitleOffset.min as number}
                 max={storeAxisTitleOffset.max as number}
-                actionPath={`${wc}.${wp}.${chartType}.${axisName}.legendOffset`}
+                actionPath={`${spBasePath}.${axisName}.legendOffset`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -107,7 +105,7 @@ const ApexChartAxis = ({
                 step={storeAxisTitleOffset.step as number}
                 min={storeAxisTitleOffset.min as number}
                 max={storeAxisTitleOffset.max as number}
-                actionPath={`${wc}.${wp}.${chartType}.${axisName}.legendPosition`}
+                actionPath={`${spBasePath}.${axisName}.legendPosition`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -126,7 +124,7 @@ const ApexChartAxis = ({
                 step={storeAxisTickSize.step as number}
                 min={storeAxisTickSize.min as number}
                 max={storeAxisTickSize.max as number}
-                actionPath={`${wc}.${wp}.${chartType}.${axisName}.tickSize`}
+                actionPath={`${spBasePath}.${axisName}.tickSize`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -145,7 +143,7 @@ const ApexChartAxis = ({
                 step={storeAxisTickPadding.step as number}
                 min={storeAxisTickPadding.min as number}
                 max={storeAxisTickPadding.max as number}
-                actionPath={`${wc}.${wp}.${chartType}.${axisName}.tickPadding`}
+                actionPath={`${spBasePath}.${axisName}.tickPadding`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -164,7 +162,7 @@ const ApexChartAxis = ({
                 step={storeAxisTickRotation.step as number}
                 min={storeAxisTickRotation.min as number}
                 max={storeAxisTickRotation.max as number}
-                actionPath={`${wc}.${wp}.${chartType}.${axisName}.tickRotation`}
+                actionPath={`${spBasePath}.${axisName}.tickRotation`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))

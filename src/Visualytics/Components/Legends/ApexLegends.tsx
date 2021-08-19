@@ -1,4 +1,4 @@
-import { TextareaAutosize, useTheme } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import React from "react";
@@ -9,21 +9,18 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
-import { IApexLegends, IApexChartFormatProps } from "../Charts/ChartTypes";
-import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
-import ApexSlider from "../Sliders/ApexSlider";
-import startCase from "lodash.startcase";
 import {
   legendAnchorPositions,
   legendItemsDirectionOptions,
   legendSymbolShapeOptions,
 } from "../../Data/VisualyticsData";
+import { IApexChartFormatProps, IApexLegends } from "../Charts/ChartTypes";
+import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
+import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexLegends = ({
-  workflowCategory,
-  workflowProcess,
+  cpBasePath,
   updateParameterAction,
-  chartType,
   enableLegend,
   anchor,
   direction,
@@ -42,8 +39,6 @@ const ApexLegends = ({
 }: IApexLegends & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const wc = workflowCategory;
-  const wp = workflowProcess;
 
   const legendRef = React.useRef<HTMLDivElement>(null);
   const [solidColor, setSolidColor] = React.useState(symbolBorderColor);
@@ -55,7 +50,6 @@ const ApexLegends = ({
     theme.palette.warning.main,
   ]);
 
-  const basePath = `${wc}.${wp}.${chartType}.specificProperties`;
   const itemDirectionOption = legendItemsDirectionOptions.find(
     (option) => option.value === itemDirection
   );
@@ -69,7 +63,7 @@ const ApexLegends = ({
       action: () => {
         updateParameterAction &&
           dispatch(
-            updateParameterAction(`${basePath}.legends[0].anchor`, opt.value)
+            updateParameterAction(`${cpBasePath}.legends[0].anchor`, opt.value)
           );
       },
     }));
@@ -86,7 +80,7 @@ const ApexLegends = ({
 
           updateParameterAction &&
             dispatch(
-              updateParameterAction(`${basePath}.enableLegend`, checked)
+              updateParameterAction(`${cpBasePath}.enableLegend`, checked)
             );
         }}
         checked={enableLegend}
@@ -123,7 +117,7 @@ const ApexLegends = ({
                   updateParameterAction &&
                     dispatch(
                       updateParameterAction(
-                        `${basePath}.legends[0].direction`,
+                        `${cpBasePath}.legends[0].direction`,
                         value
                       )
                     );
@@ -146,7 +140,7 @@ const ApexLegends = ({
 
                   updateParameterAction &&
                     dispatch(
-                      updateParameterAction(`${basePath}.justify`, checked)
+                      updateParameterAction(`${cpBasePath}.justify`, checked)
                     );
                 }}
                 checked={justify}
@@ -169,7 +163,7 @@ const ApexLegends = ({
                 step={storeTranslateX.step as number}
                 min={storeTranslateX.min as number}
                 max={storeTranslateX.max as number}
-                actionPath={`${basePath}.translateX`}
+                actionPath={`${cpBasePath}.translateX`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -188,7 +182,7 @@ const ApexLegends = ({
                 step={storeTranslateY.step as number}
                 min={storeTranslateY.min as number}
                 max={storeTranslateY.max as number}
-                actionPath={`${basePath}.translateY`}
+                actionPath={`${cpBasePath}.translateY`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -207,7 +201,7 @@ const ApexLegends = ({
                 step={storeItemsSpacing.step as number}
                 min={storeItemsSpacing.min as number}
                 max={storeItemsSpacing.max as number}
-                actionPath={`${basePath}.itemsSpacing`}
+                actionPath={`${cpBasePath}.itemsSpacing`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -226,7 +220,7 @@ const ApexLegends = ({
                 step={storeItemWidth.step as number}
                 min={storeItemWidth.min as number}
                 max={storeItemWidth.max as number}
-                actionPath={`${basePath}.itemWidth`}
+                actionPath={`${cpBasePath}.itemWidth`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -245,7 +239,7 @@ const ApexLegends = ({
                 step={storeItemHeight.step as number}
                 min={storeItemHeight.min as number}
                 max={storeItemHeight.max as number}
-                actionPath={`${basePath}.itemHeight`}
+                actionPath={`${cpBasePath}.itemHeight`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -264,7 +258,7 @@ const ApexLegends = ({
                 step={storeItemOpacity.step as number}
                 min={storeItemOpacity.min as number}
                 max={storeItemOpacity.max as number}
-                actionPath={`${basePath}.itemOpacity`}
+                actionPath={`${cpBasePath}.itemOpacity`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -284,7 +278,7 @@ const ApexLegends = ({
                   updateParameterAction &&
                     dispatch(
                       updateParameterAction(
-                        `${basePath}.itemDirection`,
+                        `${cpBasePath}.itemDirection`,
                         (option as ISelectOption).value
                       )
                     );
@@ -305,7 +299,7 @@ const ApexLegends = ({
                 step={storeSymbolSize.step as number}
                 min={storeSymbolSize.min as number}
                 max={storeSymbolSize.max as number}
-                actionPath={`${basePath}.symbolSize`}
+                actionPath={`${cpBasePath}.symbolSize`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -340,7 +334,7 @@ const ApexLegends = ({
                   updateParameterAction &&
                     dispatch(
                       updateParameterAction(
-                        `${basePath}.symbolShape`,
+                        `${cpBasePath}.symbolShape`,
                         (option as ISelectOption).value
                       )
                     );

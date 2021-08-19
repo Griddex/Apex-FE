@@ -142,7 +142,7 @@ export function* saveInputDeckSaga(
 
     yield put(fetchStoredInputDeckRequestAction(currentProjectId));
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
-    yield put(workflowResetAction(0, wp, wc));
+    // yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(successDialogParameters(reducer, inputDeckType, wp))
     );

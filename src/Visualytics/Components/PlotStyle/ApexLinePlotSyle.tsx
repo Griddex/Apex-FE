@@ -16,8 +16,7 @@ import YScale from "../Scales/YScale";
 export type TMargin = "top" | "right" | "bottom" | "left";
 
 const ApexLinePlotStyle = ({
-  workflowCategory,
-  workflowProcess,
+  spBasePath,
   updateParameterAction,
   chartType,
   margin,
@@ -27,12 +26,9 @@ const ApexLinePlotStyle = ({
   yFormat,
 }: IApexLinePlotStyle & Partial<IApexChartFormatProps>) => {
   const dispatch = useDispatch();
-  const wc = workflowCategory;
-  const wp = workflowProcess;
 
   const plotRef = React.useRef<HTMLDivElement>(null);
 
-  const basePath = `${wc}.${wp}.${chartType}.specificProperties`;
   const xScaleOption = scaleOptions.find((option) => option.value === xScale);
   const yScaleOption = scaleOptions.find((option) => option.value === yScale);
 
@@ -45,7 +41,7 @@ const ApexLinePlotStyle = ({
         updateParameterAction &&
           dispatch(
             updateParameterAction(
-              `${basePath}.margin.${marginType}`,
+              `${spBasePath}.margin.${marginType}`,
               margin[marginType]
             )
           );
@@ -68,7 +64,7 @@ const ApexLinePlotStyle = ({
             handleSelect={(option: ValueType<ISelectOption, false>) => {
               updateParameterAction &&
                 dispatch(
-                  updateParameterAction(`${basePath}.xScale`, {
+                  updateParameterAction(`${spBasePath}.xScale`, {
                     type: (option as ISelectOption).value,
                   })
                 );
@@ -84,7 +80,7 @@ const ApexLinePlotStyle = ({
         containerStyle={{ marginTop: 20 }}
         content={
           <ChartValueFormatters
-            basePath={basePath}
+            basePath={spBasePath as string}
             intialFormatValue={{ format: xFormat, enabled: false }}
             plotRef={plotRef}
             updateParameterAction={
@@ -104,7 +100,7 @@ const ApexLinePlotStyle = ({
             scaleOptions={scaleOptions}
             action={(value) => {
               updateParameterAction &&
-                dispatch(updateParameterAction(`${basePath}.yScale`, value));
+                dispatch(updateParameterAction(`${spBasePath}.yScale`, value));
             }}
             ref={plotRef}
           />

@@ -20,10 +20,8 @@ import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexChartPointers = ({
-  workflowCategory,
-  workflowProcess,
+  cpBasePath,
   updateParameterAction,
-  chartType,
   enablePointers,
   enablePointLabel,
   pointLabel,
@@ -35,8 +33,6 @@ const ApexChartPointers = ({
 }: IApexChartPointers & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const wc = workflowCategory;
-  const wp = workflowProcess;
 
   const pointRef = React.useRef<HTMLDivElement>(null);
   const [pointColor, setPointColor] = React.useState(storePointColor);
@@ -60,7 +56,7 @@ const ApexChartPointers = ({
   const [borderColorPerspective, setBorderColorPerspective] =
     React.useState("inherit");
 
-  const basePath = `${wc}.${wp}.${chartType}.specificProperties`;
+  const basePath = `${cpBasePath}.specificProperties`;
   const pointLabelOption = pointLabelOptions.find(
     (option) => option.value === pointLabel
   );

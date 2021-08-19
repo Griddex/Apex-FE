@@ -22,6 +22,7 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
+import transformForecastForChart from "../../Utils/TransformForecastForChart";
 import {
   getForecastResultsChartDataFailureAction,
   getForecastResultsChartDataSuccessAction,
@@ -77,7 +78,7 @@ function* getForecastResultsChartDataSaga(
   const config = {};
   const url = `${getBaseForecastUrl()}/chartData`;
 
-  const data = {
+  const requestData = {
     networkId: selectedNetworkId,
     selectedVariable: selectedForecastChartVariable,
     selectedModuleIds: selectedIds,
@@ -93,10 +94,12 @@ function* getForecastResultsChartDataSaga(
     yield put(showSpinnerAction(message));
 
     const forecastResultsAPI = (url: string) =>
-      authService.post(url, data, config);
+      authService.post(url, requestData, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const { data: forecastResults } = result;
+    const { data } = result;
+    const forecastResults = transformForecastForChart(data);
+
     //TODO Get both from Gift
     const xValueCategories = forecastResults.map(
       (_: any, i: number) => 2020 + i

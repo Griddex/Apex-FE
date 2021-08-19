@@ -97,8 +97,8 @@ export interface IApexLineChartGeneral {
 }
 
 export interface IApexChartFormatProps {
-  workflowCategory: TAllWorkflowCategories;
-  workflowProcess: TOnlyWorkflowProcesses;
+  spBasePath: string;
+  cpBasePath: string;
   chartType: TChartTypes;
   updateParameterAction: (path: string, value: any) => IAction;
   apexChartGridData: IApexChartGrid[];

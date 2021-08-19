@@ -313,186 +313,19 @@ export const valueSymbolOptions = [
   },
 ];
 
-export const defaultDoughnutSpecificProperties = (
-  willUseThemeColor: boolean,
-  theme: Theme
-) => {
-  return {
-    margin: { top: 20, right: 0, bottom: 20, left: 0 },
-    colors: willUseThemeColor
-      ? { scheme: "category10" }
-      : { datum: "data.color" },
+export const lineChartSpecificProperties = {};
 
-    innerRadius: 0.7,
-    padAngle: 3,
-    cornerRadius: 0,
-    activeOuterRadiusOffset: 8,
-    borderWidth: 1,
-    borderColor: { from: "color", modifiers: [["darker", 0.2]] },
-    arcLinkLabelsSkipAngle: 10,
-    arcLinkLabelsTextColor: "#333333",
-    arcLinkLabelsThickness: 2,
-    arcLinkLabelsColor: { from: "color" },
-    arcLabelsSkipAngle: 10,
-    arcLabelsTextColor: { from: "color", modifiers: [["darker", 2]] },
-  };
-};
-
-export const lineChartSpecificProperties = {
-  margin: { top: 50, right: 110, bottom: 50, left: 60 },
-  xScale: { type: "point" },
-  xFormat: "",
-  yScale: {
-    type: "linear",
-    min: "auto",
-    max: "auto",
-    stacked: true,
-    reverse: false,
-  },
-  yFormat: "",
-
-  //GRID
-  enableGridX: true,
-  enableGridY: true,
-  gridXValues: [],
-  gridYValues: [],
-
-  //AXES
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: 36,
-    legendPosition: "middle",
-  },
-  axisLeft: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: -40,
-    legendPosition: "middle",
-  },
-  apexAxesEnabled: {
-    axisLeft: true,
-    axisBottom: true,
-    axisTop: false,
-    axisRight: false,
-  },
-
-  //POINTS
-  pointSize: 10,
-  pointColor: { from: "color", modifiers: [] },
-  pointBorderWidth: 2,
-  pointBorderColor: { from: "serieColor", modifiers: [] },
-  pointLabelYOffset: -12,
-  useMesh: true,
-};
-
-export const scatterChartSpecificProperties = {
-  margin: { top: 50, right: 110, bottom: 50, left: 60 },
-  xScale: { type: "point" },
-  xFormat: "",
-  yScale: {
-    type: "linear",
-    min: "auto",
-    max: "auto",
-    stacked: true,
-    reverse: false,
-  },
-  yFormat: "",
-
-  //GRID
-  enableGridX: true,
-  enableGridY: true,
-  gridXValues: [],
-  gridYValues: [],
-
-  //AXES
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: 36,
-    legendPosition: "middle",
-  },
-  axisLeft: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: -40,
-    legendPosition: "middle",
-  },
-  apexAxesEnabled: {
-    axisLeft: true,
-    axisBottom: true,
-    axisTop: false,
-    axisRight: false,
-  },
-
-  //POINTS
-  pointSize: 10,
-  pointColor: { from: "color", modifiers: [] },
-  pointBorderWidth: 2,
-  pointBorderColor: { from: "serieColor", modifiers: [] },
-  pointLabelYOffset: -12,
-  useMesh: true,
-
-  //LEGENDS
-  enableLegend: false,
-};
+export const scatterChartSpecificProperties = {};
 
 export const stackedAreaChartSpecificProperties = {
-  keys: [],
-  margin: { top: 50, right: 110, bottom: 50, left: 60 },
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    orient: "bottom",
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: 36,
-  },
-  axisLeft: {
-    orient: "left",
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: -40,
-  },
-  curve: "linear",
   offsetType: "none",
-  colors: { scheme: "category10" },
-  fillOpacity: 0.85,
-  borderColor: { theme: "background" },
-  dotSize: 8,
-  dotColor: { from: "color" },
-  dotBorderWidth: 2,
-  dotBorderColor: { from: "color", modifiers: [["darker", 0.7]] },
 };
 
 export const doughnutChartSpecificProperties = {
-  margin: { top: 40, right: 80, bottom: 80, left: 80 },
   innerRadius: 0.5,
   padAngle: 0.7,
   cornerRadius: 3,
   activeOuterRadiusOffset: 8,
-  borderWidth: 1,
-  borderColor: { from: "color", modifiers: [["darker", 0.2]] },
   arcLinkLabelsSkipAngle: 10,
   arcLinkLabelsTextColor: "#333333",
   arcLinkLabelsThickness: 2,
@@ -502,130 +335,255 @@ export const doughnutChartSpecificProperties = {
 };
 
 export const barChartSpecificProperties = {
-  keys: ["hot dog", "burger", "sandwich", "kebab", "fries", "donut"],
-  indexBy: "country",
-  margin: { top: 50, right: 130, bottom: 50, left: 60 },
-  padding: 0.3,
-  valueScale: { type: "linear" },
-  indexScale: { type: "band", round: true },
-  valueFormat: { format: "", enabled: false },
-  colors: { scheme: "nivo" },
-  borderColor: { from: "color", modifiers: [["darker", 1.6]] },
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "country",
-    legendPosition: "middle",
-    legendOffset: 32,
-  },
-  axisLeft: {
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "food",
-    legendPosition: "middle",
-    legendOffset: -40,
-  },
   labelSkipWidth: 12,
   labelSkipHeight: 12,
   labelTextColor: { from: "color", modifiers: [["darker", 1.6]] },
 };
 
-export const commonProperties = {
-  enableLegend: false,
-  defs: [
-    {
-      id: "dots",
-      type: "patternDots",
-      background: "inherit",
-      color: "#38bcb2",
-      size: 4,
-      padding: 1,
-      stagger: true,
+export const commonPropertiesOptions = {
+  selectedMotion: "preset",
+  motionOptions: {
+    preset: "default",
+    custom: { mass: 1, tension: 170, friction: 26, clamp: false },
+  },
+  selectedBorderColor: "inherit",
+  borderColorOptions: {
+    theme: { theme: "background" },
+    custom: "grey",
+    inherit: { from: "color", modifiers: [["darker", 0.2]] },
+  },
+  selectedDotColor: "inherit",
+  dotColorOptions: {
+    theme: { theme: "background" },
+    custom: "grey",
+    inherit: { from: "color", modifiers: [["darker", 0.2]] },
+  },
+  selectedDotBorderColor: "inherit",
+  dotBorderColorOptions: {
+    theme: { theme: "background" },
+    custom: "grey",
+    inherit: { from: "color", modifiers: [["darker", 0.2]] },
+  },
+  indexBy: "",
+};
+
+export const getCommonProperties = (
+  commonPropertiesOptions: Record<string, any>
+) => {
+  const {
+    selectedMotion,
+    motionOptions,
+    selectedBorderColor,
+    borderColorOptions,
+    dotBorderColorOptions,
+    selectedDotBorderColor,
+    dotColorOptions,
+    selectedDotColor,
+    indexBy,
+  } = commonPropertiesOptions;
+
+  return {
+    //Chart
+    Keys: [],
+    colors: { scheme: "category10" },
+    margin: { top: 40, right: 80, bottom: 80, left: 110 },
+    padding: 0.3,
+    role: "", //what's this?
+    indexBy,
+    minValue: "auto",
+    maxValue: "auto",
+    valueFormat: " >-.2f",
+    valueScale: { type: "linear" },
+    indexScale: { type: "band", round: true },
+    // theme: pretty big object, implement later?
+
+    //Series
+    curve: "linear",
+    blendMode: "normal",
+    borderColor: borderColorOptions[selectedBorderColor],
+    borderWidth: 1,
+    fillOpacity: 1,
+
+    //Dots
+    enableDots: false,
+    dotBorderColor: dotBorderColorOptions[selectedDotBorderColor],
+    dotBorderWidth: 1,
+    dotColor: dotColorOptions[selectedDotColor],
+    dotSize: 8,
+    //markers: "", can't find in linechart
+
+    //POINTS
+    pointSize: 10,
+    pointColor: { from: "color", modifiers: [] },
+    pointBorderWidth: 2,
+    pointBorderColor: { from: "serieColor", modifiers: [] },
+    pointLabelYOffset: -12,
+
+    //Motion
+    isInteractive: true,
+    animate: true,
+    motionConfig: motionOptions[selectedMotion],
+    renderWrapper: false,
+    // motionDamping: "", confirm if still needed
+    // motionStiffness: "",
+
+    //Tooltip
+    tooltip: () => {},
+    tooltipFormat: " >-.2f",
+    tooltipLabel: () => "",
+    enableStackTooltip: true,
+
+    //Axis
+    axisTop: null,
+    axisRight: null,
+    axisBottom: {
+      axisEnabled: true,
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: "",
+      legendOffset: 36,
+      legendPosition: "middle",
     },
-    {
-      id: "lines",
-      type: "patternLines",
-      background: "inherit",
-      color: "#eed312",
-      rotation: -45,
-      lineWidth: 6,
-      spacing: 10,
+    axisLeft: {
+      axisEnabled: true,
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      legend: "",
+      legendOffset: -40,
+      legendPosition: "middle",
     },
-  ],
-  fill: [
-    {
-      match: {
-        id: "fries",
+    apexAxesEnabled: {
+      axisLeft: true,
+      axisBottom: true,
+      axisTop: false,
+      axisRight: false,
+    },
+
+    //Grid
+    enableGridX: true,
+    enableGridY: true,
+    gridXValues: [],
+    gridYValues: [],
+
+    //Handlers
+    onClick: () => {},
+    onMouseEnter: () => {},
+    onMouseLeave: () => {},
+    onMouseMove: () => {},
+
+    //Scales
+    xScale: { type: "point" },
+    xFormat: " >-.2f",
+    yScale: {
+      type: "linear",
+      min: "auto",
+      max: "auto",
+      stacked: true,
+      reverse: false,
+    },
+    yFormat: " >-.2f",
+
+    //Definitions
+    defs: [
+      {
+        id: "dots",
+        type: "patternDots",
+        background: "inherit",
+        color: "#38bcb2",
+        size: 4,
+        padding: 1,
+        stagger: true,
       },
-      id: "dots",
-    },
-    {
-      match: {
-        id: "sandwich",
+      {
+        id: "lines",
+        type: "patternLines",
+        background: "inherit",
+        color: "#eed312",
+        rotation: -45,
+        lineWidth: 6,
+        spacing: 10,
       },
-      id: "lines",
-    },
-  ],
-  legends: [
-    {
-      dataFrom: "keys",
-      anchor: "bottom-right",
-      direction: "column",
-      justify: false,
-      translateX: 120,
-      translateY: 0,
-      itemsSpacing: 2,
-      itemWidth: 100,
-      itemHeight: 20,
-      itemDirection: "left-to-right",
-      itemOpacity: 0.85,
-      symbolSize: 20,
-      effects: [
-        {
-          on: "hover",
-          style: {
-            itemOpacity: 1,
-          },
+    ],
+
+    //Fill
+    fill: [
+      {
+        match: {
+          id: "fries",
         },
-      ],
-    },
-  ],
+        id: "dots",
+      },
+      {
+        match: {
+          id: "sandwich",
+        },
+        id: "lines",
+      },
+    ],
+
+    //Legend
+    enableLegend: false,
+    legends: [
+      {
+        dataFrom: "keys",
+        anchor: "bottom-right",
+        direction: "column",
+        justify: false,
+        translateX: 120,
+        translateY: 0,
+        itemsSpacing: 2,
+        itemWidth: 100,
+        itemHeight: 20,
+        itemDirection: "left-to-right",
+        itemOpacity: 0.85,
+        symbolSize: 20,
+        effects: [
+          {
+            on: "hover",
+            style: {
+              itemOpacity: 1,
+            },
+          },
+        ],
+      },
+    ],
+  };
 };
 
 export const allChartsDataAndSpecificProperties = {
-  commonChart: { commonProperties },
+  commonChart: {
+    commonProperties: getCommonProperties(commonPropertiesOptions),
+  },
 
   stackedAreaChart: {
     data: [],
     specificProperties: stackedAreaChartSpecificProperties,
-    commonProperties,
+    commonProperties: getCommonProperties(commonPropertiesOptions),
   },
 
   lineChart: {
     data: [],
     specificProperties: lineChartSpecificProperties,
-    commonProperties,
+    commonProperties: getCommonProperties(commonPropertiesOptions),
   },
 
   scatterChart: {
     data: [],
     specificProperties: scatterChartSpecificProperties,
-    commonProperties,
+    commonProperties: getCommonProperties(commonPropertiesOptions),
   },
 
   doughnutChart: {
     data: [],
     specificProperties: doughnutChartSpecificProperties,
-    commonProperties,
+    commonProperties: getCommonProperties(commonPropertiesOptions),
   },
 
   barChart: {
     data: [],
     specificProperties: barChartSpecificProperties,
-    commonProperties,
+    commonProperties: getCommonProperties(commonPropertiesOptions),
   },
 };

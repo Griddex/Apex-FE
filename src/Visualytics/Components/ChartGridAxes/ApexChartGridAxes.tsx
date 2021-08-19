@@ -7,8 +7,8 @@ import ApexChartAxis from "./ApexChartAxis";
 import ApexChartGrid from "./ApexChartGrid";
 
 const ApexChartGridAxes = ({
-  workflowCategory,
-  workflowProcess,
+  spBasePath,
+  cpBasePath,
   updateParameterAction,
   chartType,
   apexChartGridData,
@@ -19,8 +19,8 @@ const ApexChartGridAxes = ({
     <ApexChartAxis
       key={i}
       {...obj}
-      workflowCategory={workflowCategory}
-      workflowProcess={workflowProcess}
+      spBasePath={spBasePath}
+      cpBasePath={cpBasePath}
       updateParameterAction={updateParameterAction}
       chartType={chartType}
     />
@@ -38,8 +38,8 @@ const ApexChartGridAxes = ({
           <ApexChartGrid
             key={i}
             {...obj}
-            workflowCategory={workflowCategory}
-            workflowProcess={workflowProcess}
+            spBasePath={spBasePath}
+            cpBasePath={cpBasePath}
             updateParameterAction={updateParameterAction}
             chartType={chartType}
           />

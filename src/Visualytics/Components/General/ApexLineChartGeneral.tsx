@@ -18,10 +18,9 @@ import {
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexLineChartGeneral = ({
-  workflowCategory,
-  workflowProcess,
+  cpBasePath,
+  spBasePath,
   updateParameterAction,
-  chartType,
   curve,
   colors,
   storeLineWidth,
@@ -32,12 +31,9 @@ const ApexLineChartGeneral = ({
 }: IApexLineChartGeneral & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const wc = workflowCategory;
-  const wp = workflowProcess;
 
   const pointRef = React.useRef<HTMLDivElement>(null);
 
-  const basePath = `${wc}.${wp}.${chartType}.specificProperties`;
   const curveOption = curveOptions.find((option) => option.value === curve);
   const colorsOption = colorsOptions.find((option) => option.value === colors);
   const areaBlendOption = areaBlendOptions.find(
@@ -58,7 +54,7 @@ const ApexLineChartGeneral = ({
               updateParameterAction &&
                 dispatch(
                   updateParameterAction(
-                    `${basePath}.curve`,
+                    `${spBasePath}.curve`,
                     (option as ISelectOption).value
                   )
                 );
@@ -79,7 +75,7 @@ const ApexLineChartGeneral = ({
             handleSelect={(option: ValueType<ISelectOption, false>) => {
               updateParameterAction &&
                 dispatch(
-                  updateParameterAction(`${basePath}.colors`, {
+                  updateParameterAction(`${spBasePath}.colors`, {
                     scheme: (option as ISelectOption).value,
                   })
                 );
@@ -101,7 +97,7 @@ const ApexLineChartGeneral = ({
             step={storeLineWidth.step as number}
             min={storeLineWidth.min as number}
             max={storeLineWidth.max as number}
-            actionPath={`${basePath}.lineWidth`}
+            actionPath={`${spBasePath}.lineWidth`}
             action={(path, value) =>
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
@@ -122,7 +118,7 @@ const ApexLineChartGeneral = ({
 
               updateParameterAction &&
                 dispatch(
-                  updateParameterAction(`${basePath}.enableArea`, checked)
+                  updateParameterAction(`${spBasePath}.enableArea`, checked)
                 );
             }}
             checked={enableArea}
@@ -146,7 +142,7 @@ const ApexLineChartGeneral = ({
             step={storeAreaBaselineValue.step as number}
             min={storeAreaBaselineValue.min as number}
             max={storeAreaBaselineValue.max as number}
-            actionPath={`${basePath}.areaBaseLineValue`}
+            actionPath={`${spBasePath}.areaBaseLineValue`}
             action={(path, value) =>
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
@@ -165,7 +161,7 @@ const ApexLineChartGeneral = ({
             step={storeAreaOpacity.step as number}
             min={storeAreaOpacity.min as number}
             max={storeAreaOpacity.max as number}
-            actionPath={`${basePath}.areaOpacity`}
+            actionPath={`${spBasePath}.areaOpacity`}
             action={(path, value) =>
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
@@ -186,7 +182,7 @@ const ApexLineChartGeneral = ({
               updateParameterAction &&
                 dispatch(
                   updateParameterAction(
-                    `${basePath}.areaBlendMode`,
+                    `${spBasePath}.areaBlendMode`,
                     (option as ISelectOption).value
                   )
                 );

@@ -7,7 +7,9 @@ import { TChartTypes } from "../Charts/ChartTypes";
 
 export interface IApexFormatAggregator {
   workflowCategory: TAllWorkflowCategories;
-  workflowProcess: TOnlyWorkflowProcesses;
+  // workflowProcess: TOnlyWorkflowProcesses;
+  cpBasePath: string;
+  spBasePath: string;
   chartType: TChartTypes;
   updateParameterAction: (path: string, value: any) => IAction;
 }

@@ -6,19 +6,15 @@ import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitc
 import { IApexChartFormatProps, IApexChartGrid } from "../Charts/ChartTypes";
 
 const ApexChartGrid = ({
-  workflowCategory,
-  workflowProcess,
+  cpBasePath,
+  spBasePath,
   updateParameterAction,
-  chartType,
   gridName,
   gridTitle,
   storeGridEnabled,
   gridValuesName,
   storeGridValues,
 }: IApexChartGrid & Partial<IApexChartFormatProps>) => {
-  const wc = workflowCategory;
-  const wp = workflowProcess;
-
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -45,7 +41,7 @@ const ApexChartGrid = ({
               updateParameterAction &&
                 dispatch(
                   updateParameterAction(
-                    `${wc}.${wp}.${chartType}.${currentGridEnabled}`,
+                    `${spBasePath}.${currentGridEnabled}`,
                     checked
                   )
                 );
@@ -72,7 +68,7 @@ const ApexChartGrid = ({
           updateParameterAction &&
             dispatch(
               updateParameterAction(
-                `${wc}.${wp}.${chartType}.${gridValuesName}`,
+                `${spBasePath}.${gridValuesName}`,
                 value.split(", ")
               )
             );

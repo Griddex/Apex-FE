@@ -100,6 +100,9 @@ const EconomicsPlotChartsVisualytics = () => {
     },
   ];
 
+  const spBasePath = `${wc}.${wp}.${chartType}.specificProperties`;
+  const cpBasePath = `${wc}.${wp}.commonChart.commonProperties`;
+
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
@@ -294,7 +297,8 @@ const EconomicsPlotChartsVisualytics = () => {
               return (
                 <LineChartFormatAggregator
                   workflowCategory={wc}
-                  workflowProcess={wp}
+                  spBasePath={spBasePath}
+                  cpBasePath={cpBasePath}
                   updateParameterAction={updateEconomicsParameterAction}
                   chartType="lineChart"
                 />

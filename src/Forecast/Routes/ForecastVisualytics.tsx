@@ -9,6 +9,7 @@ import NoData from "../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
+import LineChartFormatAggregator from "../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
@@ -140,7 +141,10 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
     componentRef,
   };
 
-  useEffect(() => {
+  const spBasePath = `${wc}.${chartType}.specificProperties`;
+  const cpBasePath = `${wc}.commonChart.commonProperties`;
+
+  React.useEffect(() => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
 
@@ -174,7 +178,25 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
         )}
       </div>
       {showContextDrawer && (
-        <ContextDrawer>{() => <div>Format</div>}</ContextDrawer>
+        <ContextDrawer>
+          {() => {
+            if (chartType === "stackedAreaChart") {
+              return <div>StackedArea</div>;
+            } else if (chartType === "lineChart") {
+              return (
+                <LineChartFormatAggregator
+                  workflowCategory={wc}
+                  cpBasePath={cpBasePath}
+                  spBasePath={spBasePath}
+                  updateParameterAction={updateForecastResultsParameterAction}
+                  chartType="lineChart"
+                />
+              );
+            } else {
+              return <div>No Format</div>;
+            }
+          }}
+        </ContextDrawer>
       )}
     </div>
   );

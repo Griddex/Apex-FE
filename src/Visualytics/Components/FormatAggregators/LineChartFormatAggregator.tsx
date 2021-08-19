@@ -14,7 +14,8 @@ import { IApexFormatAggregator } from "./FormatAggregatorTypes";
 
 const LineChartFormatAggregator = ({
   workflowCategory,
-  workflowProcess,
+  spBasePath,
+  cpBasePath,
   chartType,
   updateParameterAction,
 }: IApexFormatAggregator) => {
@@ -302,15 +303,15 @@ const LineChartFormatAggregator = ({
   };
 
   const apexChartProps = {
-    workflowCategory,
-    workflowProcess,
+    cpBasePath,
+    spBasePath,
     updateParameterAction,
     chartType,
   };
 
   const apexGridAxesProps = {
-    workflowCategory,
-    workflowProcess,
+    cpBasePath,
+    spBasePath,
     updateParameterAction,
     chartType,
     apexChartGridData: lineGridData,
