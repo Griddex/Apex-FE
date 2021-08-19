@@ -5,7 +5,7 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
-import { Column, EditorProps, TextEditor } from "react-data-griddex";
+import { Column, EditorProps, TextEditor, PasteEvent } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
@@ -79,6 +79,29 @@ export default function CostsAndRevenueManual({
 
   const wc = wkCy;
   const wp = wkPs;
+
+  const defaultParsePaste = (str:string) => {
+    const externalRows = str.split(/\r\n|\n|\r/);
+    const tableData = externalRows.map((row) => {
+      const cells = row.split("\t");
+      return cells
+    })
+    console.log("tableData: ", tableData);
+
+    return str.split(/\r\n|\n|\r/).map((row) => {
+      row.split("\t")
+    });
+  };
+
+  const handlePaste = (e:any) => {
+    e.preventDefault();
+    //const { topLeft } = this.state;
+
+    const newRows = [];
+    const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
+  };
+
+  document.addEventListener("paste", handlePaste);
 
   const componentRef = React.useRef();
 
@@ -288,7 +311,7 @@ export default function CostsAndRevenueManual({
                 />
               </div>
             );
-          else return <div> {row.baseOilRate}</div>;
+          else return <div> {row.condensateRate}</div>;
         },
         width: 170,
       },
@@ -300,6 +323,7 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const valueOption = uniqUnitOptions[0];
+          //console.log("row.sn :", row.sn );
           if (row.sn === 0)
             return (
               <div
@@ -317,7 +341,7 @@ export default function CostsAndRevenueManual({
                 />
               </div>
             );
-          else return <div> {row.gasRate}</div>;
+          else return <div> {row.associatedGasRate}</div>;
         },
         width: 170,
       },
@@ -346,7 +370,7 @@ export default function CostsAndRevenueManual({
                 />
               </div>
             );
-          else return <div> {row.gasRate}</div>;
+          else return <div> {row.nonAssociatedGasRate}</div>;
         },
         width: 170,
       },
@@ -794,16 +818,25 @@ export default function CostsAndRevenueManual({
     forecastEconomicsAggregated["costRevenuesOil_NAG"]
   );
 
+  console.log("oilDevelopment: ", forecastEconomicsAggregated["costRevenuesOil"]);
   if (devVal === "oilDevelopment") {
-    rows = oilDevelopmentRows;
+    rows = forecastEconomicsAggregated["costRevenuesOil"] as IRawRow[]; //oilDevelopmentRows;
     setRows = setOilDevelopmentRows;
+    //setRows(rows);
+    //
   } else if (devVal === "nagDevelopment") {
-    rows = nagDevelopmentRows;
+    rows = forecastEconomicsAggregated["costRevenuesNAG"] as IRawRow[]; //nagDevelopmentRows;
     setRows = setNAGDevelopmentRows;
+    //setRows(rows);
   } else {
-    rows = oilNAGDevelopmentRows;
+    rows = forecastEconomicsAggregated["costRevenuesOil_NAG"] as IRawRow[]; //oilNAGDevelopmentRows;
     setRows = setOilNAGDevelopmentRows;
+    //setRows(rows);
   }
+
+  console.log("devVal: ", devVal);
+  console.log("oilDevelopmentRows: ", oilDevelopmentRows);
+  console.log("rows: ", rows);
 
   const exportColumns = generateColumns(devVal)
     .filter(
@@ -833,11 +866,13 @@ export default function CostsAndRevenueManual({
 
   React.useEffect(() => {
     if (wkPs === "economicsCostsRevenuesDeckApexForecast") {
+      console.log("runForecastEconomicsAggregationRequestAction dispatched")
       dispatch(
         runForecastEconomicsAggregationRequestAction(
           "economicsCostsRevenuesDeckApexForecast"
         )
       );
+      console.log("rows: ", rows);
     }
   }, []);
 

@@ -208,6 +208,9 @@ const CostsRevenueApexForecastWorkflow = ({
                   handleSelect={(option: ValueType<ISelectOption, false>) => {
                     const path = `inputDataWorkflows.${workflowProcess}.forecastScenario`;
                     const value = option?.value as string;
+                    console.log("path: ", path);
+                    console.log("value: ", value);
+
                     dispatch(updateEconomicsParameterAction(path, value));
 
                     setForecastCaseOption(option as ISelectOption);
