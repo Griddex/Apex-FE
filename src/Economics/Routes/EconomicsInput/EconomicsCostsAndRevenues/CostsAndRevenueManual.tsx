@@ -80,29 +80,6 @@ export default function CostsAndRevenueManual({
   const wc = wkCy;
   const wp = wkPs;
 
-  const defaultParsePaste = (str:string) => {
-    const externalRows = str.split(/\r\n|\n|\r/);
-    const tableData = externalRows.map((row) => {
-      const cells = row.split("\t");
-      return cells
-    })
-    console.log("tableData: ", tableData);
-
-    return str.split(/\r\n|\n|\r/).map((row) => {
-      row.split("\t")
-    });
-  };
-
-  const handlePaste = (e:any) => {
-    e.preventDefault();
-    //const { topLeft } = this.state;
-
-    const newRows = [];
-    const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
-  };
-
-  document.addEventListener("paste", handlePaste);
-
   const componentRef = React.useRef();
 
   const { uniqUnitOptions } = useSelector(
@@ -135,7 +112,12 @@ export default function CostsAndRevenueManual({
   ] as IAggregateButtonProps[]);
 
   let rows = [] as IRawRow[];
-  let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
+
+  //let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
+  
+
+
+
   let sRow = -1;
   let setSRow: React.Dispatch<React.SetStateAction<number>>;
 
@@ -198,7 +180,7 @@ export default function CostsAndRevenueManual({
       ...selectedRow,
       headerName: selectedAppUnit,
     };
-    setRows(rows);
+    //setRows(rows);
   };
 
   const generateColumns = (dval: TDevScenarioNames) => {
@@ -808,7 +790,7 @@ export default function CostsAndRevenueManual({
 
   const columns = React.useMemo(() => generateColumns(devVal), [devVal]);
 
-  const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
+ /*  const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
     forecastEconomicsAggregated["costRevenuesOil"]
   );
   const [nagDevelopmentRows, setNAGDevelopmentRows] = React.useState(
@@ -816,27 +798,171 @@ export default function CostsAndRevenueManual({
   );
   const [oilNAGDevelopmentRows, setOilNAGDevelopmentRows] = React.useState(
     forecastEconomicsAggregated["costRevenuesOil_NAG"]
-  );
+  ); */
 
   console.log("oilDevelopment: ", forecastEconomicsAggregated["costRevenuesOil"]);
   if (devVal === "oilDevelopment") {
     rows = forecastEconomicsAggregated["costRevenuesOil"] as IRawRow[]; //oilDevelopmentRows;
-    setRows = setOilDevelopmentRows;
+    //setRows = setOilDevelopmentRows;
     //setRows(rows);
     //
   } else if (devVal === "nagDevelopment") {
     rows = forecastEconomicsAggregated["costRevenuesNAG"] as IRawRow[]; //nagDevelopmentRows;
-    setRows = setNAGDevelopmentRows;
+    //setRows = setNAGDevelopmentRows;
     //setRows(rows);
   } else {
     rows = forecastEconomicsAggregated["costRevenuesOil_NAG"] as IRawRow[]; //oilNAGDevelopmentRows;
-    setRows = setOilNAGDevelopmentRows;
+    //setRows = setOilNAGDevelopmentRows;
     //setRows(rows);
   }
 
-  console.log("devVal: ", devVal);
-  console.log("oilDevelopmentRows: ", oilDevelopmentRows);
-  console.log("rows: ", rows);
+  //wkPs={"economicsCostsRevenuesDeckManual"}
+  //wkPs={"economicsCostsRevenuesDeckApexForecast"}
+
+  const pasteOilDevelopmentCostRevenue = (tableData: any[]) => {
+    const rowData = tableData[0];
+    console.log("rowData: ", rowData);
+    const nColumns = rowData.length;
+    console.log("nColumns: ", nColumns);
+    if(nColumns == 15){
+      if(wkPs == "economicsCostsRevenuesDeckApexForecast"){
+        const oilDevelopmentExcelRows = tableData.map((row:any[], i: number) => {
+          return {
+            sn: i+1,
+            year: Number(row[0]),
+            baseOilRate: Number(row[1]),
+            associatedGasRate: Number(row[2]),
+            seismicCost: Number(row[3]),
+            explAppraisalCost: Number(row[4]),
+            facilitiesCapex: Number(row[5]),
+            tangibleDrillingCost: Number(row[6]),
+            intangibleDrillingCost: Number(row[7]),
+            taxDepreciation: Number(row[8]),
+            abandonmentCost: Number(row[9]),
+            directCost: Number(row[10]),
+            projectCost: Number(row[11]),
+            cHA: Number(row[12]),
+            tariffs: Number(row[13]),
+            terminalFee: Number(row[14])
+          }
+        });
+
+        rows = oilDevelopmentExcelRows as IRawRow[]; 
+       // setRows(rows);
+        //setRows = setOilDevelopmentRows;
+        console.log("rows: ", rows);
+      }
+      
+    }
+  }
+
+  const pasteDevelopmentCostRevenue = (tableData: any[]) => {
+    
+    console.log("tableData: ", tableData);
+    const nRows = tableData.length;
+    if(nRows > 1){
+      tableData.pop();
+      if (devVal === "oilDevelopment") {
+        pasteOilDevelopmentCostRevenue(tableData);
+      } 
+    /*   else if (devVal === "nagDevelopment") {
+
+      } else {
+       
+      } */
+    }
+  }
+
+  const defaultParsePaste = (str:string) => {
+    const externalRows = str.split(/\r\n|\n|\r/);
+    const tableData = externalRows.map((row) => {
+      const cells = row.split("\t");
+      return cells
+    })
+    //console.log("tableData: ", tableData);
+    pasteDevelopmentCostRevenue(tableData);
+    /* return str.split(/\r\n|\n|\r/).map((row) => {
+      row.split("\t")
+    }); */
+    return {};
+  };
+
+  const handlePaste2 = (e:any) => {
+    e.preventDefault();
+    //const { topLeft } = this.state;
+
+    const newRows = [];
+    const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
+  };
+
+  const handleGridRowsUpdated = (parameters:any) => {
+    const rowsX = rows;
+    const fromRow = parameters.fromRow;
+    const toRow = parameters.toRow;
+    const updated = parameters.updated;
+
+    for(let i = 0; i <= toRow - fromRow; i++) {
+      const index = fromRow + i;
+      const update = Array.isArray(updated) ? updated[i] : updated;
+
+      //rowsX = rowsX.update(index, Map(), r => r.merge(update));
+    }
+
+    //setRows(rowsX);
+  };
+
+  const handlePasteX = ({
+    sourceColumnKey,
+    sourceRow,
+    targetColumnKey,
+    targetRow
+  }: PasteEvent<IRawRow>): IRawRow => {
+    const incompatibleColumns = ['email', 'zipCode', 'date'];
+    if (
+      sourceColumnKey === 'avatar' ||
+      ['id', 'avatar'].includes(targetColumnKey) ||
+      ((incompatibleColumns.includes(targetColumnKey) ||
+        incompatibleColumns.includes(sourceColumnKey)) &&
+        sourceColumnKey !== targetColumnKey)
+    ) {
+      return targetRow;
+    }
+
+    return { ...targetRow, [targetColumnKey]: sourceRow[sourceColumnKey as keyof IRawRow] };
+  }
+
+  const handlePaste = (e:any) => {
+    //e.preventDefault();
+    const pastedRows = e.clipboardData.getData("text/plain").split('\n');
+    const pastedColumnKeys:any[] = [];
+
+    console.log("columns: ", columns);
+    const nColumns = pastedRows[0].split('\t').length;
+    console.log("nColumns: ", nColumns);
+    for (let i = 0; i < nColumns; i++){
+      const columnIdx = 1 + i;
+      console.log("columns[columnIdx].key: ", columns[columnIdx].key);
+      pastedColumnKeys.push(columns[columnIdx].key);
+    }
+
+    const updated = pastedRows.map((pastedRow:any) => {
+      const columnsX = pastedRow.split('\t');
+      return pastedColumnKeys.reduce(
+        (memo, key, index) => {memo[key] = columnsX[index]; return memo;},
+        {},
+      );
+    });
+
+    console.log("updated: ", updated);
+
+    //handlePasteX({});
+    
+  };
+
+  document.addEventListener("paste", handlePaste2);
+  //document.addEventListener("paste", handlePaste);
+
+
 
   const exportColumns = generateColumns(devVal)
     .filter(
@@ -878,6 +1004,7 @@ export default function CostsAndRevenueManual({
 
   React.useEffect(() => {
     dispatch(persistEconomicsDeckRequestAction(wp, devVal, rows, true));
+    console.log("rows: ", rows);
   }, [rows]);
 
   React.useEffect(() => {
@@ -889,6 +1016,7 @@ export default function CostsAndRevenueManual({
     );
   }, [devVal]);
 
+  //onRowsChange={setRows}
   return (
     <div className={classes.rootStoredData}>
       <ApexFlexContainer
@@ -978,7 +1106,7 @@ export default function CostsAndRevenueManual({
         newTableRowHeight={35}
         selectedRow={sRow}
         onSelectedRowChange={setSRow}
-        onRowsChange={setRows}
+        onPaste={handlePasteX}
         size={{ height: 700, width: 900 }}
         autoAdjustTableDim={true}
         showTableHeader={true}
