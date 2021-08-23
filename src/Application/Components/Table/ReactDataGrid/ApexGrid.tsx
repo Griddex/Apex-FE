@@ -90,6 +90,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     selectedRow,
     onSelectedRowChange,
     onRowsChange,
+    onPaste,
     mappingErrors,
     size,
     groupBy,
@@ -393,6 +394,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
             onRowsChange={onRowsChange}
+            onPaste={onPaste}
             selectedRow={selectedRow}
             onSelectedRowChange={onSelectedRowChange}
             sortColumn={sortColumn}

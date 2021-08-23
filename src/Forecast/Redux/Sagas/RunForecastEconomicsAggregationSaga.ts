@@ -72,6 +72,7 @@ function* runForecastEconomicsAggregationSaga(
 
     const { data: forecastEconomicsAggregated } = result;
 
+    console.log("forecastEconomicsAggregated: ", forecastEconomicsAggregated);
     const successAction = runForecastEconomicsAggregationSuccessAction();
     yield put({
       ...successAction,

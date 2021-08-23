@@ -77,8 +77,10 @@ export interface ISaveForecastProps {
 }
 
 export interface IForecastResultState extends ISaveForecastResultsProps {
+  selectedView: string;
   selectedTableData: any;
 
+  timeData: any[];
   forecastResults: any[];
   forecastTree: RenderTree["children"];
   xValueCategories: string[];

@@ -61,6 +61,12 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+/*  import { IApexEditor } from "../../Application/Components/Editors/ApexEditor";
+import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
+import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
+import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu"; */
+import { kron, varianceDependencies } from "mathjs";
+
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -152,15 +158,20 @@ export default function ForecastQualityAssuranceData({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const { forecastResultsStored } = useSelector(
+ /*  const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
+  ); */
+
+  const { qualityAssuranceResults } = useSelector(
+    (state: RootState) => state.forecastReducer
   );
 
-  console.log("forecastResultsStored: ", forecastResultsStored);
+  console.log("qualityAssuranceResults: ", qualityAssuranceResults);
 
   const [storedforecastResults, setStoredforecastResults] = React.useState(
-    forecastResultsStored
+    qualityAssuranceResults
   );
+
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
@@ -199,240 +210,45 @@ export default function ForecastQualityAssuranceData({
   });
 
   const dividerPositions = [50];
+  /* const getForecastDate = (row:any, i:number) => {
+    const keys = Object.keys(row);
+    const rowData = timeData[i];
+    const dateValues = rowData[keys[0]];
+    //console.log("dateValues: ", dateValues);
+    const forecastDate = `${dateValues.day}/${dateValues.month}/${dateValues.year}`;
+    return forecastDate;
+  }; */
 
-  const generateColumns = () => {
-    const columns: Column<IStoredForecastResultsRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexGridCheckboxColumn,
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        formatter: ({ row }) => {
-          const sn = row.sn as number;
-          const title = row.forecastResultsTitle as string;
-          const id = row.forecastResultsId as string;
-          const deleteUrl = `${mainUrl}/${id}`;
+  const forecastResultCount = qualityAssuranceResults.length;
 
-          const editedRow = rows[sn - 1];
-          const editorData = [
-            {
-              name: "title",
-              title: "FORECAST RESULTS TITLE",
-              value: row["forecastResultsTitle"],
-              editorType: "input",
-            },
-            {
-              name: "description",
-              title: "Description",
-              value: row["description"],
-              editorType: "textArea",
-            },
-          ] as IApexEditorRow[];
-
-          const apexEditorProps = {
-            editorData,
-            editedRow,
-            dividerPositions,
-          } as Partial<IApexEditor>;
-
-          return (
-            <ApexFlexContainer>
-              <EditOutlinedIcon
-                onClick={() => {
-                  const dialogParameters: DialogStuff = {
-                    name: "Edit_Table_Dialog",
-                    title: "Edit Table",
-                    type: "tableEditorDialog",
-                    show: true,
-                    exclusive: true,
-                    maxWidth: "xs",
-                    iconType: "edit",
-                    apexEditorProps,
-                    actionsList: () =>
-                      DialogOneCancelButtons(
-                        [true, true],
-                        [true, false],
-                        [
-                          unloadDialogsAction,
-                          //Captured variable
-                          //solve with componentRef
-                          () => setShouldUpdate(!shouldUpdate),
-                        ],
-                        "Update",
-                        "updateOutlined"
-                      ),
-                  };
-
-                  dispatch(showDialogAction(dialogParameters));
-                }}
-              />
-              <DeleteOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table_Data_Dialog",
-                        `Delete ${title}`,
-                        "deleteDataDialog",
-                        "",
-                        false,
-                        true,
-                        () =>
-                          deleteDataByIdRequestAction(
-                            reducer as ReducersType,
-                            deleteUrl as string,
-                            title as string,
-                            () =>
-                              fetchStoredForecastingResultsRequestAction(
-                                currentProjectId
-                              )
-                          ),
-                        "Delete",
-                        "deleteOutlined",
-                        "delete",
-                        title
-                      )
-                    )
-                  )
-                }
-              />
-              <MenuOpenOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    getTableDataByIdRequestAction(
-                      reducer as ReducersType,
-                      `${mainUrl}/${row.id}`,
-                      row.forecastParametersTitle as string,
-                      wp as TAllWorkflowProcesses,
-                      "success",
-                      collectionName as string
-                    )
-                  )
-                }
-              />
-            </ApexFlexContainer>
-          );
-        },
-        width: 120,
-      },
-      {
-        key: "approval",
-        name: "APPROVAL",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Approval approvalText={row.approval} />;
-        },
-        width: 100,
-      },
-      {
-        key: "saved",
-        name: "SAVED",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Saved savedText={row.saved} />;
-        },
-        width: 100,
-      },
-      {
-        key: "forecastResultsTitle",
-        name: "FORECAST RESULTS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
-      },
-      {
-        key: "forecastInputDeckTitle",
-        name: "FORECAST INPUTDECK TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
-      },
-      {
-        key: "forecastParametersTitle",
-        name: "FORECAST PARAMETERS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
-      },
-      {
-        key: "author",
-        name: "AUTHOR",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Author author={row.author} />;
-        },
-        width: 200,
-      },
-      {
-        key: "createdOn",
-        name: "CREATED",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return (
-            <div>
-              {formatDate(
-                new Date(row.createdOn),
-                dayFormat,
-                monthFormat,
-                yearFormat
-              )}
-            </div>
-          );
-        },
-        width: 200,
-      },
-      {
-        key: "modifiedOn",
-        name: "MODIFIED",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return (
-            <div>
-              {formatDate(
-                new Date(row.modifiedOn),
-                dayFormat,
-                monthFormat,
-                yearFormat
-              )}
-            </div>
-          );
-        },
-        width: 200,
-      },
-    ];
-
-    return columns;
-  };
-
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
-
-  const snStoredData = forecastResultsStored.map(
-    (row: IApplicationStoredForecastResultsRow, i: number) => ({
-      sn: i + 1,
-      forecastResultsId: row.id,
-      forecastResultsTitle: row.title,
-      description: row.description,
-      saved: row.saved,
-      approval: "Not Started",
-      networkId: row.networkId,
-      forecastInputDeckTitle: row.forecastInputDeckTitle,
-      forecastParametersTitle: row.forecastingParametersGroupTitle,
-      author: { avatarUrl: "", name: "None" },
-      approvers: [{ avatarUrl: "", name: "" }],
-      createdOn: row.createdAt,
-      modifiedOn: row.createdAt,
+  const rows = qualityAssuranceResults.map(
+    (row: any, i: number) => ({
+      ...row
     })
-  ) as IStoredForecastResultsRow[];
+  ) as any[];
 
-  const [rows, setRows] = React.useState(snStoredData);
 
-  const exportColumns = generateColumns()
+  //const [rows, setRows] = React.useState(snStoredData);
+ 
+  let columnKeys = ["SN"];
+  if(rows.length > 0) columnKeys = Object.keys(rows[0]);
+  
+console.log("columnKeys: ", columnKeys);
+  const columns = columnKeys.map((k) => {
+    const column = {
+      key: k,
+      name: k,
+      editable: false,
+      resizable: true,
+      width: "auto",
+    };
+    return column;
+  });
+
+  //const columns = React.useMemo(() => generateColumns(), [generateColumns]);
+
+
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())
@@ -443,7 +259,7 @@ export default function ForecastQualityAssuranceData({
     })) as IExcelSheetData<IStoredForecastResultsRow>["columns"];
 
   const exportTableProps = {
-    fileName: "StoredForecastResults",
+    fileName: "QualityAssuranceResults",
     tableData: {
       Template: {
         data: rows,
@@ -466,14 +282,22 @@ export default function ForecastQualityAssuranceData({
   };
 
   React.useEffect(() => {
+    console.log("seen")
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     setStoredforecastResults(storedforecastResults);
-  }, [storedforecastResults]);
+    dispatch(
+      updateForecastResultsParameterAction(
+        "forecastResults",
+        storedforecastResults
+      )
+    );
+  }, [forecastResults]); */
 
   const [sRow, setSRow] = React.useState(-1);
+  //onRowsChange={setRows}
 
   return (
     <div className={classes.rootStoredData}>
@@ -495,7 +319,6 @@ export default function ForecastQualityAssuranceData({
                 setSelectedRows={setSelectedRows}
                 selectedRow={sRow}
                 onSelectedRowChange={setSRow}
-                onRowsChange={setRows}
                 size={size}
                 autoAdjustTableDim={true}
                 showTableHeader={true}

@@ -17,7 +17,8 @@ import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import StoredDeck from "../../Import/Images/StoredDeck.svg";
 import QualityAssurance from "../Images/QualityAssurance.svg";
 import ForecastCharts from "../Images/ForecastCharts.svg";
-import { loadForecastResultsWorkflowAction } from "../Redux/Actions/ForecastActions";
+import { loadForecastResultsWorkflowAction, 
+  updateForecastResultsParameterAction } from "../Redux/Actions/ForecastActions";
 import StoredForecastResults from "../Routes/StoredForecastResults";
 import ForecastData from "../Routes/ForecastData";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
@@ -195,6 +196,13 @@ const ForecastLanding = () => {
                     loadForecastResultsWorkflowAction(
                       "loadForecastResultsWorkflow",
                       true
+                    )
+                  );
+
+                  dispatch(
+                    updateForecastResultsParameterAction(
+                      "selectedView",
+                      name
                     )
                   );
                 }}

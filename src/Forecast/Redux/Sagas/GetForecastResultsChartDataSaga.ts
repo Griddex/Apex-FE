@@ -63,6 +63,7 @@ function* getForecastResultsChartDataSaga(
     selectedModuleNames,
     selectedModulePaths,
     selectedForecastChartVariable,
+    selectedForecastAggregationType,
   } = payload;
 
   const { selectedNetworkId } = yield select((state) => state.networkReducer);
@@ -86,6 +87,7 @@ function* getForecastResultsChartDataSaga(
     selectedModulePaths: selectedModulePaths,
     isSaved: isForecastResultsSaved,
     forecastId: selectedForecastingResultsId,
+    forecastAggregationType: selectedForecastAggregationType,
   };
 
   const message = "Loading forecast chart data...";
@@ -114,6 +116,8 @@ function* getForecastResultsChartDataSaga(
     );
     const isYear = true;
 
+    console.log("forecastResults: ", forecastResults);
+
     const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,
@@ -125,6 +129,14 @@ function* getForecastResultsChartDataSaga(
         isYear,
       },
     });
+
+    /*  yield put({
+      type: "UPDATE_FORECASTPARAMETER",
+      payload: {
+        path: "forecastResults",
+        value: forecastResults
+      },
+    }); */
 
     yield put({
       type: "UPDATE_FORECASTPARAMETER",

@@ -25,7 +25,8 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Store
 import {
   getForecastResultsQualityAssuranceFailureAction,
   getForecastResultsQualityAssuranceSuccessAction,
-  GET_FORECASTDATABYID_REQUEST,
+  GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
+  UPDATE_FORECASTPARAMETER
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastQADataSaga(): Generator<
@@ -34,7 +35,7 @@ export default function* watchGetForecastQADataSaga(): Generator<
   any
 > {
   const getForecastQAResultsChan = yield actionChannel(
-    GET_FORECASTDATABYID_REQUEST
+    GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST
   );
   yield takeLeading<ActionType>(
     getForecastQAResultsChan,
@@ -83,17 +84,26 @@ function* getForecastQADataSaga(
     const forecastQualityAssuranceAPI = (url: string) =>
       authService.post(url, data, config);
     const result = yield call(forecastQualityAssuranceAPI, url);
-
+   
     const { data: forecastQualityAssuranceData } = result;
+
+    console.log("forecastQualityAssuranceData.data: ", forecastQualityAssuranceData.data);
 
     const successAction = getForecastResultsQualityAssuranceSuccessAction();
     yield put({
+      type: UPDATE_FORECASTPARAMETER,
+      payload: {
+        path: "qualityAssuranceResults",
+        value: forecastQualityAssuranceData.data
+      }
+    })
+    /* yield put({
       ...successAction,
       payload: {
         ...payload,
         forecastQualityAssuranceData,
       },
-    });
+    }); */
   } catch (errors) {
     const failureAction = getForecastResultsQualityAssuranceFailureAction();
 

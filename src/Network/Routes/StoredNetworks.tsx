@@ -57,6 +57,7 @@ export default function StoredNetworks({
   const dataTitle = "NETWORK TITLE";
 
   const handleCheckboxChange = (row: any) => {
+    console.log("row: ", row);
     const { id, title } = row;
 
     persistSelectedIdTitleAction &&

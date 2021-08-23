@@ -88,11 +88,24 @@ export const RUN_FORECASTECONOMICSAGGREGATION_FAILURE =
   "RUN_FORECASTECONOMICSAGGREGATION_FAILURE";
 
 export const RESET_FORECAST = "RESET_FORECAST";
+export const UPDATE_FORECASTRESULT_PARAMETERS = "UPDATE_FORECASTRESULT_PARAMETERS"
+
+export const updateForecastResultParameterAction = (
+  timeData: any,
+  forecastResults: any
+) => {
+  
+  return {
+    type: UPDATE_FORECASTRESULT_PARAMETERS,
+    payload: { timeData, forecastResults },
+  };
+};
 
 export const updateForecastResultsParameterAction = (
   path: string,
   value: any
 ) => {
+  console.log("updateForecastResultsParameterAction called")
   return {
     type: UPDATE_FORECASTPARAMETER,
     payload: { path, value },
@@ -114,6 +127,7 @@ export const loadForecastResultsWorkflowAction = (
   name: string,
   trueOrFalse: boolean
 ) => {
+  console.log("loadForecastResultsWorkflowAction called")
   return {
     type: LOAD_FORECASTRESULTS_WORKFLOW,
     payload: {
@@ -147,7 +161,8 @@ export const getForecastResultsChartDataRequestAction = (
   selectedIds: string[],
   selectedModuleNames: string[],
   selectedModulePaths: string[],
-  selectedForecastChartVariable: string
+  selectedForecastChartVariable: string,
+  selectedForecastAggregationType: string
 ) => {
   return {
     type: GET_FORECASTRESULTS_CHARTDATA_REQUEST,
@@ -156,6 +171,7 @@ export const getForecastResultsChartDataRequestAction = (
       selectedModuleNames,
       selectedModulePaths,
       selectedForecastChartVariable,
+      selectedForecastAggregationType
     },
   };
 };
@@ -179,6 +195,7 @@ export const getForecastResultsChartDataFailureAction = () => {
   };
 };
 
+//"scenario" | "station"
 export const putForecastResultsChartDataSuccessAction = () => {
   return {
     type: PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
@@ -263,16 +280,16 @@ export const transformForecastResultsChartDataFailureAction = () => {
 };
 
 export const getForecastResultsQualityAssuranceRequestAction = (
-  isMonthly: boolean,
-  aggregationLevel: "scenario" | "station",
+  selectedForecastAggregationType: string,
+  selectedForecastAggregationLevel: string,
   selectedModulePaths: string[],
   forecastQualityAssuranceVariable: string
 ) => {
   return {
     type: GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
     payload: {
-      isMonthly,
-      aggregationLevel,
+      selectedForecastAggregationType,
+      selectedForecastAggregationLevel,
       selectedModulePaths,
       forecastQualityAssuranceVariable,
     },

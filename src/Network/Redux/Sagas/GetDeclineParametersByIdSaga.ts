@@ -22,7 +22,9 @@ import { failureDialogParameters } from "../../Components/DialogParameters/Store
 import {
   getDeclineParametersByIdFailureAction,
   GET_DECLINEPARAMETERSBYID_REQUEST,
+  UPDATE_NETWORKPARAMETER,
 } from "../Actions/NetworkActions";
+import { UPDATE_INPUT } from "../../../Import/Redux/Actions/InputActions";
 import { extrudeStoredDataDPs } from "../../Components/DialogParameters/EditDeclineParametersDialogParameters";
 
 export default function* watchGetDeclineParametersByIdSaga(): Generator<
@@ -54,10 +56,13 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
 > {
   
   const { payload } = action;
-  const { reducer, isCreateOrEdit, currentRow, currentSN} = payload;
-  const { title , id } = currentRow;
-  const selectedDeclineParametersId = id; 
-  const wellDeclineParameterTitle = title;
+  const { reducer, isCreateOrEdit, wellDeclineParamtersId,
+    wellDeclineParamtersTitle, currentSN, currentRow} = payload;
+  console.log("wellDeclineParamtersTitle: ", wellDeclineParamtersTitle);
+  console.log("wellDeclineParamtersId: ", wellDeclineParamtersId);
+  console.log("currentRow: ", currentRow);
+  const selectedDeclineParametersId = wellDeclineParamtersId; 
+  const wellDeclineParameterTitle = wellDeclineParamtersTitle;
   const wc = "storedDataWorkflows";
 
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
@@ -74,6 +79,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       data: { data },
     } = declineParametersResults;
     const selectedTableData = data["declineParameters"];
+    const forecastInputDeckId = data["forecastInputDeckId"];
 
     const successAction = getTableDataByIdSuccessAction();
     console.log("ans: ", {
@@ -94,6 +100,17 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       },
     });
 
+    yield put({
+      type: UPDATE_INPUT,
+      payload: {
+        nameOrPath: "selectedForecastInputDeckId",
+        value: forecastInputDeckId,
+        reducer: "inputReducer",
+      }
+    });
+
+    
+
     if(isCreateOrEdit == false){
 
       const dialogParameters: DialogStuff = {
@@ -113,7 +130,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       console.log("tableDataDialog executed");
 
     }else{
-      yield put({type: GET_DECLINEPARAMETERSBYID_REQUEST, payload:{
+      yield put({type: UPDATE_NETWORKPARAMETER, payload:{
         path: "selectedDeclineParametersData",
         value: selectedTableData
       }});

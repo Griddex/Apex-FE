@@ -101,6 +101,9 @@ export interface ICurrentPopoverData {
 export type NetworkWorkflowProcessesType = "networkStored";
 
 export interface INetworkState extends ISaveNetworkFormProps {
+  isAllForecastParameters: boolean;
+  isAllDeclineParameters: boolean;
+  isAllWellPrioritization: boolean;
   currentElement: number | string | Record<string, React.Key>;
   currentPopoverId: string;
   currentPopoverData: ICurrentPopoverData;

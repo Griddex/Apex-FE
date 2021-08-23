@@ -74,11 +74,10 @@ const useStyles = makeStyles(() => ({
 //TODO: Calculate classification data from collection
 
 export default function EditOrCreateDeclineParameters({
-  reducer, currentRow}: IStoredDataProps) {
+  currentRow, reducer}: IStoredDataProps) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const currentRowCopy = currentRow == null ? {} : currentRow;
 
   
   //const wp = workflowProcess;
@@ -86,7 +85,7 @@ export default function EditOrCreateDeclineParameters({
     (state: RootState) => state.networkReducer
   );
 
-  console.log("selectedDeclineParametersData: ", selectedDeclineParametersData);
+  //console.log("selectedDeclineParametersData: ", selectedDeclineParametersData);
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
@@ -191,13 +190,24 @@ export default function EditOrCreateDeclineParameters({
               style={{ width: "100%", height: "95%" }}
               value={declineTypeValue as string}
               onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                event.stopPropagation();
+                //event.stopPropagation();
                 const selectedValue = event.target.value;
-
-                onRowChange({
+                const updatedRow = {
                   ...row,
                   declineMethod: selectedValue as string,
-                });
+                };
+                
+                console.log("updatedRow: ", updatedRow);
+                const currentSN = updatedRow.sn as number;
+                rows[currentSN-1] = updatedRow;
+               /*  dispatch(
+                  updateNetworkParameterAction(
+                    "selectedDeclineParametersData",
+                    rows
+                  )
+                ); */
+
+                onRowChange(updatedRow);
 
                 const selectedDeclineTypeOptionIndex = findIndex(
                   declineTypeOptions,
