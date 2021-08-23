@@ -68,7 +68,8 @@ function* getSelectedForecastDataByIdSaga(
   const reducer = "forecastReducer";
 
   const config = {};
-  const url = `${getBaseForecastUrl()}/forecastResultDataByScenario/${selectedForecastingResultsId}/2P_2C`;
+  //const url = `${getBaseForecastUrl()}/forecastResultDataByScenario/${selectedForecastingResultsId}/2P_2C`;
+  const url = `${getBaseForecastUrl()}/forecastResultData/${selectedForecastingResultsId}`;
   const message = "Loading forecast data...";
 
   try {
@@ -76,10 +77,22 @@ function* getSelectedForecastDataByIdSaga(
 
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
+    
+    console.log("result: ", result);
 
-    const { data: selectedTableData } = result;
+    const selectedTableData = result.data;
+    
 
     const successAction = getTableDataByIdSuccessAction();
+    console.log("ans: ", {
+      ...successAction,
+      payload: {
+        ...payload,
+        reducer,
+        selectedTableData,
+      },
+    });
+
     yield put({
       ...successAction,
       payload: {

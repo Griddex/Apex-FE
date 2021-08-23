@@ -1,10 +1,6 @@
 import { IApexMultiAccordion } from "../../../Application/Components/Accordions/ApexMultiAccordions";
-import {
-  IAllWorkflows,
-  TAllWorkflowCategories,
-  TOnlyWorkflowProcesses,
-} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { AxisProps } from "../ChartTypes";
 import { IApexSlider } from "../Sliders/ApexSlider";
 
 export type TChartTypes =
@@ -12,7 +8,8 @@ export type TChartTypes =
   | "lineChart"
   | "scatterChart"
   | "doughnutChart"
-  | "barChart";
+  | "barChart"
+  | "radarChart";
 
 export interface IApexChartGrid {
   gridName: string;
@@ -29,17 +26,11 @@ export interface IApexLinePlotStyle {
   yFormat: string;
 }
 
-export interface IApexChartAxis {
+export interface IApexChartAxis extends AxisProps {
   axisCaption: string;
-  axisEnabled: boolean;
+  axisEnabled?: boolean;
   enableName: string;
   axisName: string;
-  storeAxisTitle: string;
-  storeAxisTitleOffset: Partial<IApexSlider>;
-  storeAxisTickSize: Partial<IApexSlider>;
-  storeAxisTickPadding: Partial<IApexSlider>;
-  storeAxisTickRotation: Partial<IApexSlider>;
-  storeTitlePosition: "start" | "middle" | "end";
   enableAction?: () => void;
 }
 export interface IApexLegends {
@@ -50,25 +41,12 @@ export interface IApexLegends {
   itemDirection: string;
   symbolShape: string;
   symbolBorderColor: string;
-
-  storeTranslateX: Partial<IApexSlider>;
-  storeTranslateY: Partial<IApexSlider>;
-  storeItemsSpacing: Partial<IApexSlider>;
-  storeItemWidth: Partial<IApexSlider>;
-  storeItemHeight: Partial<IApexSlider>;
-  storeItemOpacity: Partial<IApexSlider>;
-  storeSymbolSize: Partial<IApexSlider>;
 }
 
 export interface IApexChartPointers {
   enablePointers: boolean;
   enablePointLabel: boolean;
   pointLabel: string;
-  storePointColor: Partial<IApexSlider>;
-  storePointSize: Partial<IApexSlider>;
-  storePointBorderWidth: Partial<IApexSlider>;
-  storePointBorderColor: Partial<IApexSlider>;
-  storePointLabelYOffset: Partial<IApexSlider>;
 }
 export interface IApexLineChartGeneral {
   curve: string;
@@ -92,20 +70,13 @@ export interface IApexLineChartGeneral {
     | "saturation"
     | "color"
     | "luminosity";
-  storeAreaBaselineValue: Partial<IApexSlider>;
-  storeAreaOpacity: Partial<IApexSlider>;
 }
 
 export interface IApexChartFormatProps {
-  workflowCategory: TAllWorkflowCategories;
-  workflowProcess: TOnlyWorkflowProcesses;
+  basePath: string;
   chartType: TChartTypes;
   updateParameterAction: (path: string, value: any) => IAction;
   apexChartGridData: IApexChartGrid[];
   apexChartAxesData: IApexChartAxis[];
   apexMultiAccordionsData: IApexMultiAccordion[];
-  // apexLegendsData?: any;
-  // apexPointersData?: any;
-  // apexLineChartGeneralData?: any;
-  // apexLineChartPlotData?: any;
 }

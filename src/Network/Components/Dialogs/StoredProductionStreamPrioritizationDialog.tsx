@@ -107,7 +107,7 @@ const DialogContent = withStyles((theme) => ({
 
 const StoredProductionStreamPrioritizationDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList } = props;
+  const { title, show, maxWidth, iconType, actionsList, currentRow} = props;
   const wp = "productionPrioritizationStored";
   const isCreateOrEdit = true;
 
@@ -137,6 +137,7 @@ const StoredProductionStreamPrioritizationDialog = (props: DialogStuff) => {
           workflowProcess={wp}
           containerStyle={{ boxShadow: "none" }}
           isCreateOrEdit
+          isAllWellPrioritization={false}
         />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>

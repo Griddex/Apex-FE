@@ -35,16 +35,22 @@ import {
   STORED_PRODUCTIONPRIORITIZATION_SUCCESS,
   RESET_NETWORK,
   UPDATE_NETWORK_PARAMETERS,
-  GET_DECLINEPARAMETERSBYID_REQUEST
+  GET_DECLINEPARAMETERSBYID_REQUEST,
+  GET_CURRENT_NETWORK_STORE
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 import set from "lodash.set";
+import get from "lodash.get";
 import { Node, Edge } from "react-flow-renderer";
 
 const networkReducer = (state = NetworkState, action: IAction) => {
   switch (action.type) {
+    case GET_CURRENT_NETWORK_STORE: {
+      const { path } = action.payload;
+      const value = get(state, path);
+      return value;
+    }
     case GET_DECLINEPARAMETERSBYID_REQUEST: {
-      console.log("GET_DECLINEPARAMETERSBYID_REQUEST action :", action);
       const { path, value } = action.payload;
       const updatedState = set(state, path, value);
       return updatedState;
@@ -52,6 +58,7 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     case UPDATE_NETWORKPARAMETER: {
       const { path, value } = action.payload;
 
+      console.log("payload: ",  action.payload);
 
       const updatedState = set(state, path, value);
       return updatedState;

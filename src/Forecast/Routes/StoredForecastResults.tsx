@@ -158,6 +158,7 @@ export default function StoredForecastResults({
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredForecastResultsRow) => {
+    //console.log("row: ", row);
     const id = row.forecastResultsId as string;
     const title = row.forecastResultsTitle as string;
     const saved = row.saved as string;

@@ -6,16 +6,22 @@ import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
+import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import NoData from "../../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { putSelectChartOptionAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
+import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
 import LineChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  transformEconomicsResultsChartDataAction,
+  updateEconomicsParameterAction,
+} from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
 import EconomicsPlotChartsSelectChart from "./EconomicsPlotChartsSelectChart";
 
@@ -62,10 +68,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EconomicsPlotChartsVisualytics = () => {
-  const dispatch = useDispatch();
-  const theme = useTheme();
+  const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
   const wp = "economicsResultsPlotCharts";
+
+  const dispatch = useDispatch();
+  const theme = useTheme();
 
   const componentRef = React.useRef();
 
@@ -100,13 +108,40 @@ const EconomicsPlotChartsVisualytics = () => {
     },
   ];
 
+  const basePath = `${wc}.${wp}.commonChartProps`;
+
+  const transformChartResultsPayload = {
+    ...transformEconomicsResultsChartDataAction(),
+    payload: {
+      chartType,
+      forecastResults: [],
+      xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
+      lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
+      isYear: true,
+    },
+  };
+
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={economicsPlotCharts}
-          updateAction={updateEconomicsParameterAction}
+          selectedChartOptionTitle="selectedEconomicsChartOption"
+          putChartOptionAction={
+            [1, 2, 3].length > 0
+              ? (chartOption: ISelectOption) => {
+                  dispatch(
+                    putSelectChartOptionAction(
+                      reducer,
+                      chartOption,
+                      transformEconomicsResultsChartDataAction,
+                      transformChartResultsPayload
+                    )
+                  );
+                }
+              : (chartOption: ISelectOption) => {}
+          }
           transformChartResultsAction={() =>
             //TODO Update fxn
             dispatch({
@@ -206,11 +241,6 @@ const EconomicsPlotChartsVisualytics = () => {
 
   const classes = useStyles(mousePosition);
 
-  React.useEffect(() => {
-    dispatch(showContextDrawerAction());
-    setMousePosition({ x: panelRef.current?.offsetWidth as number, y: 0 });
-  }, [dispatch]);
-
   const handler = React.useCallback(() => {
     function onMouseMove(e: MouseEvent) {
       console.log(
@@ -233,6 +263,27 @@ const EconomicsPlotChartsVisualytics = () => {
     moveDivRef?.current?.addEventListener("mousemove", onMouseMove);
     moveDivRef?.current?.addEventListener("mouseup", onMouseUp);
   }, []);
+
+  const renderChartFormatAggregator = (chartType: string) => {
+    if (chartType === "stackedAreaChart") {
+      return <div>StackedArea</div>;
+    } else if (chartType === "lineChart") {
+      return (
+        <LineChartFormatAggregator
+          basePath={basePath}
+          updateParameterAction={updateEconomicsParameterAction}
+          chartType="lineChart"
+        />
+      );
+    } else {
+      return <div>No Format</div>;
+    }
+  };
+
+  React.useEffect(() => {
+    dispatch(showContextDrawerAction());
+    setMousePosition({ x: panelRef.current?.offsetWidth as number, y: 0 });
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -287,22 +338,11 @@ const EconomicsPlotChartsVisualytics = () => {
       </div>
       {showContextDrawer && (
         <ContextDrawer>
-          {() => {
-            if (chartType === "stackedAreaChart") {
-              return <div>StackedArea</div>;
-            } else if (chartType === "lineChart") {
-              return (
-                <LineChartFormatAggregator
-                  workflowCategory={wc}
-                  workflowProcess={wp}
-                  updateParameterAction={updateEconomicsParameterAction}
-                  chartType="lineChart"
-                />
-              );
-            } else {
-              return <div>No Format</div>;
-            }
-          }}
+          {() => (
+            <ChartFormatAggregatorContextProvider>
+              {renderChartFormatAggregator(chartType as string)}
+            </ChartFormatAggregatorContextProvider>
+          )}
         </ContextDrawer>
       )}
     </div>

@@ -94,6 +94,7 @@ export const SAVE_PRODUCTIONPRIORITIZATION_SUCCESS =
 export const SAVE_PRODUCTIONPRIORITIZATION_FAILURE =
   "SAVE_PRODUCTIONPRIORITIZATION_FAILURE";
 export const RESET_NETWORK = "RESET_NETWORK";
+export const GET_CURRENT_NETWORK_STORE = "GET_CURRENT_NETWORK_STORE";
 
 export const runForecastRequestAction = () => {
   return {
@@ -109,6 +110,15 @@ export const saveForecastRequestAction = (
     type: SAVE_FORECAST_REQUEST,
     payload: { titleDesc },
     meta: { showSpinner: true, message: "Saving forecast..." },
+  };
+};
+
+export const getNetworkState = (path: string) => {
+  return {
+    type: GET_CURRENT_NETWORK_STORE,
+    payload: {
+      path
+    },
   };
 };
 
@@ -500,16 +510,20 @@ export const removeCurrentNetworkAction = (showSpinner: boolean) => {
 export const getDeclineParametersByIdRequestAction = (
   reducer: ReducersType,
   isCreateOrEdit: any,
-  currentRow: any,
-  currentSN: number
+  wellDeclineParamtersId: string,
+  wellDeclineParamtersTitle:string,
+  currentSN: number,
+  currentRow: any
 ) => {
   return {
     type: GET_DECLINEPARAMETERSBYID_REQUEST,
     payload: {
       reducer,
       isCreateOrEdit,
-      currentRow,
-      currentSN
+      wellDeclineParamtersId,
+      wellDeclineParamtersTitle,
+      currentSN,
+      currentRow
     },
     meta: { showSpinner: true, message: "Fetching decline parameters..." },
   };
@@ -578,17 +592,11 @@ export const fetchStoredDeclineCurveParametersRequestAction = (
   projectId: string,
   showSpinner = false
 ) => {
-  console.log("fetchStoredDeclineCurveParametersRequestAction called");
   return {
     type: STORED_DECLINEPARAMETERS_REQUEST,
     payload: { projectId },
     meta: { showSpinner, message: "fetching decline parameters data..." }
   };
-  /* return {
-    type: STORED_DECLINEPARAMETERS_REQUEST,
-    payload: { projectId },
-    meta: { showSpinner, message: "fetching decline parameters data..." },
-  }; */
 };
 
 export const fetchStoredDeclineCurveParametersSuccessAction = () => {
@@ -645,8 +653,9 @@ export const fetchStoredProductionPrioritizationFailureAction = () => {
 export const saveDeclineParametersRequestAction = (
   titleDesc: any
 ) => {
+  console.log("titleDesc: ", titleDesc);
   return {
-    type: SAVE_DECLINEPARAMETERS_REQUEST,
+    type: SAVE_DECLINEPARAMETERS_REQUEST, 
     payload: { titleDesc },
     meta: { showSpinner: true, message: "Saving decline parameters data..." },
   };
@@ -677,9 +686,14 @@ export const saveDeclineParametersFailureAction = () => {
     },
   };
 };
-export const saveProductionPrioritizationRequestAction = () => {
+export const saveProductionPrioritizationRequestAction = (
+  titleDesc:any
+  ) => {
   return {
     type: SAVE_PRODUCTIONPRIORITIZATION_REQUEST,
+    payload: {
+      titleDesc
+    },
     meta: {
       showSpinner: true,
       message: "Saving production prioritization data...",

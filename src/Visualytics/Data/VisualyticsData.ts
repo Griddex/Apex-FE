@@ -1,4 +1,6 @@
 import { Theme } from "@material-ui/core";
+import { IChart } from "../Redux/VisualyticsState/VisualyticsStateTypes";
+import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
 
 export const axisNameTitlesObj = {
   axisLeft: "Left Axis",
@@ -45,12 +47,12 @@ export const legendAnchorPositions = [
   ],
 ];
 
-export const pointLabelOptions = [
-  { value: "x", label: "X" },
-  { value: "xFormatted", label: "XFormatted" },
-  { value: "yFormatted", label: "YFormatted" },
-  { value: "yStacked", label: "YStacked" },
-];
+// export const pointLabelOptions = [
+//   { value: "x", label: "X" },
+//   { value: "xFormatted", label: "XFormatted" },
+//   { value: "yFormatted", label: "YFormatted" },
+//   { value: "yStacked", label: "YStacked" },
+// ];
 
 export const curveOptions = [
   { value: "basis", label: "Basis" },
@@ -63,7 +65,7 @@ export const curveOptions = [
   { value: "step", label: "Step" },
   { value: "stepAfter", label: "StepAfter" },
   { value: "stepBefore", label: "StepBefore" },
-];
+] as ISelectOption[];
 
 export const colorsOptions = [
   { value: "nivo", label: "Nivo" },
@@ -148,6 +150,12 @@ export const areaBlendOptions = [
   { value: "saturation", label: "Saturation" },
   { value: "color", label: "Color" },
   { value: "luminosity", label: "Luminosity" },
+];
+
+export const axisTitlePositionOptions = [
+  { value: "start", label: "Start" },
+  { value: "middle", label: "Middle" },
+  { value: "end", label: "End" },
 ];
 
 export const plotMargins = [
@@ -313,229 +321,192 @@ export const valueSymbolOptions = [
   },
 ];
 
-export const defaultDoughnutSpecificProperties = (
-  willUseThemeColor: boolean,
-  theme: Theme
-) => {
-  return {
-    margin: { top: 20, right: 0, bottom: 20, left: 0 },
-    colors: willUseThemeColor
-      ? { scheme: "category10" }
-      : { datum: "data.color" },
+export const pointLabelOptions = [
+  {
+    value: "y",
+    label: "Y",
+  },
+  {
+    value: "yFormatted",
+    label: "YFormatted",
+  },
+  {
+    value: "x",
+    label: "X",
+  },
+  {
+    value: "xFormatted",
+    label: "XFormatted",
+  },
+  {
+    value: "d => ${d.x}: ${d.y}",
+    label: "d => ${d.x}: ${d.y}",
+  },
+];
 
-    innerRadius: 0.7,
-    padAngle: 3,
-    cornerRadius: 0,
-    activeOuterRadiusOffset: 8,
-    borderWidth: 1,
-    borderColor: { from: "color", modifiers: [["darker", 0.2]] },
-    arcLinkLabelsSkipAngle: 10,
-    arcLinkLabelsTextColor: "#333333",
-    arcLinkLabelsThickness: 2,
-    arcLinkLabelsColor: { from: "color" },
-    arcLabelsSkipAngle: 10,
-    arcLabelsTextColor: { from: "color", modifiers: [["darker", 2]] },
-  };
+export const defaultChartProps = {
+  selectedMotion: "preset",
+  motionOptions: {
+    preset: "default",
+    custom: { mass: 1, tension: 170, friction: 26, clamp: false },
+  },
+  selectedBorderColor: "inherit",
+  borderColorOptions: {
+    theme: { theme: "background" },
+    custom: "grey",
+    inherit: { from: "color", modifiers: [["darker", 0.2]] },
+  },
+  selectedDotColor: "inherit",
+  dotColorOptions: {
+    theme: { theme: "background" },
+    custom: "grey",
+    inherit: { from: "color", modifiers: [["darker", 0.2]] },
+  },
+  selectedDotBorderColor: "inherit",
+  dotBorderColorOptions: {
+    theme: { theme: "background" },
+    custom: "grey",
+    inherit: { from: "color", modifiers: [["darker", 0.2]] },
+  },
+  indexBy: "",
 };
 
-export const lineChartSpecificProperties = {
-  margin: { top: 50, right: 110, bottom: 50, left: 60 },
-  xScale: { type: "point" },
-  xFormat: "",
-  yScale: {
-    type: "linear",
-    min: "auto",
-    max: "auto",
-    stacked: true,
-    reverse: false,
-  },
-  yFormat: "",
-
-  //GRID
-  enableGridX: true,
-  enableGridY: true,
-  gridXValues: [],
-  gridYValues: [],
-
-  //AXES
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: 36,
-    legendPosition: "middle",
-  },
-  axisLeft: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: -40,
-    legendPosition: "middle",
-  },
-  apexAxesEnabled: {
-    axisLeft: true,
-    axisBottom: true,
-    axisTop: false,
-    axisRight: false,
-  },
-
-  //POINTS
-  pointSize: 10,
-  pointColor: { from: "color", modifiers: [] },
-  pointBorderWidth: 2,
-  pointBorderColor: { from: "serieColor", modifiers: [] },
-  pointLabelYOffset: -12,
-  useMesh: true,
-};
-
-export const scatterChartSpecificProperties = {
-  margin: { top: 50, right: 110, bottom: 50, left: 60 },
-  xScale: { type: "point" },
-  xFormat: "",
-  yScale: {
-    type: "linear",
-    min: "auto",
-    max: "auto",
-    stacked: true,
-    reverse: false,
-  },
-  yFormat: "",
-
-  //GRID
-  enableGridX: true,
-  enableGridY: true,
-  gridXValues: [],
-  gridYValues: [],
-
-  //AXES
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: 36,
-    legendPosition: "middle",
-  },
-  axisLeft: {
-    axisEnabled: true,
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: -40,
-    legendPosition: "middle",
-  },
-  apexAxesEnabled: {
-    axisLeft: true,
-    axisBottom: true,
-    axisTop: false,
-    axisRight: false,
-  },
-
-  //POINTS
-  pointSize: 10,
-  pointColor: { from: "color", modifiers: [] },
-  pointBorderWidth: 2,
-  pointBorderColor: { from: "serieColor", modifiers: [] },
-  pointLabelYOffset: -12,
-  useMesh: true,
-
-  //LEGENDS
-  enableLegend: false,
-};
-
-export const stackedAreaChartSpecificProperties = {
-  keys: [],
-  margin: { top: 50, right: 110, bottom: 50, left: 60 },
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    orient: "bottom",
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: 36,
-  },
-  axisLeft: {
-    orient: "left",
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "",
-    legendOffset: -40,
-  },
-  curve: "linear",
+export const commonChartProps = {
+  //Statcked
   offsetType: "none",
-  colors: { scheme: "category10" },
-  fillOpacity: 0.85,
-  borderColor: { theme: "background" },
-  dotSize: 8,
-  dotColor: { from: "color" },
-  dotBorderWidth: 2,
-  dotBorderColor: { from: "color", modifiers: [["darker", 0.7]] },
-};
 
-export const doughnutChartSpecificProperties = {
-  margin: { top: 40, right: 80, bottom: 80, left: 80 },
+  //Doughnut
   innerRadius: 0.5,
   padAngle: 0.7,
   cornerRadius: 3,
   activeOuterRadiusOffset: 8,
-  borderWidth: 1,
-  borderColor: { from: "color", modifiers: [["darker", 0.2]] },
   arcLinkLabelsSkipAngle: 10,
   arcLinkLabelsTextColor: "#333333",
   arcLinkLabelsThickness: 2,
   arcLinkLabelsColor: { from: "color" },
   arcLabelsSkipAngle: 10,
   arcLabelsTextColor: { from: "color", modifiers: [["darker", 2]] },
-};
 
-export const barChartSpecificProperties = {
-  keys: ["hot dog", "burger", "sandwich", "kebab", "fries", "donut"],
-  indexBy: "country",
-  margin: { top: 50, right: 130, bottom: 50, left: 60 },
-  padding: 0.3,
-  valueScale: { type: "linear" },
-  indexScale: { type: "band", round: true },
-  valueFormat: { format: "", enabled: false },
-  colors: { scheme: "nivo" },
-  borderColor: { from: "color", modifiers: [["darker", 1.6]] },
-  axisTop: null,
-  axisRight: null,
-  axisBottom: {
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "country",
-    legendPosition: "middle",
-    legendOffset: 32,
-  },
-  axisLeft: {
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: "food",
-    legendPosition: "middle",
-    legendOffset: -40,
-  },
+  //Bar
   labelSkipWidth: 12,
   labelSkipHeight: 12,
   labelTextColor: { from: "color", modifiers: [["darker", 1.6]] },
-};
 
-export const commonProperties = {
-  enableLegend: false,
+  //Line
+  lineWidth: 2,
+  enableArea: false,
+  areaBaselineValue: 0,
+  areaOpacity: 0.2,
+  areaBlendMode: "normal",
+
+  //General
+  keys: [],
+  colors: { scheme: "category10" },
+  margin: { top: 40, right: 100, bottom: 80, left: 80 },
+  padding: 0.3,
+  role: "", //what's this?
+  indexBy: "",
+  minValue: "auto",
+  maxValue: "auto",
+  valueFormat: " >-.2f",
+  valueScale: { type: "linear" },
+  indexScale: { type: "band", round: true },
+  // theme: pretty big object, implement later?
+
+  //Series
+  curve: "linear",
+  blendMode: "normal",
+  borderColor: { from: "color", modifiers: [["darker", 0.2]] },
+  borderWidth: 1,
+  fillOpacity: 1,
+
+  //Dots
+  enableDots: false,
+  dotBorderColor: { from: "color", modifiers: [["darker", 0.2]] },
+  dotBorderWidth: 1,
+  dotColor: { from: "color", modifiers: [["darker", 0.2]] },
+  dotSize: 8,
+  //markers: "", can't find in linechart
+
+  //POINTS
+  enablePoints: false,
+  pointSize: 10,
+  pointColor: { from: "color", modifiers: [] },
+  pointBorderWidth: 2,
+  pointBorderColor: { from: "serieColor", modifiers: [] },
+  pointLabelYOffset: -12,
+  enablePointLabel: false,
+  pointLabel: "yFormatted",
+
+  //Motion
+  isInteractive: true,
+  animate: true,
+  motionConfig: "default",
+  renderWrapper: true,
+  // motionDamping: "", confirm if still needed
+  // motionStiffness: "",
+
+  //Tooltip
+  tooltip: undefined,
+  // tooltip: () => {},
+  tooltipFormat: undefined,
+  // tooltipFormat: " >-.2f",
+  tooltipLabel: undefined,
+  enableStackTooltip: true,
+
+  //Axis
+  axisTop: undefined,
+  axisRight: undefined,
+  axisBottom: {
+    axisEnabled: true,
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "",
+    legendOffset: 36,
+    legendPosition: "middle",
+  },
+  axisLeft: {
+    axisEnabled: true,
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: "",
+    legendOffset: -40,
+    legendPosition: "middle",
+  },
+  apexAxesEnabled: {
+    axisLeft: true,
+    axisBottom: true,
+    axisTop: false,
+    axisRight: false,
+  },
+
+  //Grid
+  enableGridX: true,
+  enableGridY: true,
+  gridXValues: [],
+  gridYValues: [],
+
+  //Handlers
+  onClick: () => {},
+  onMouseEnter: () => {},
+  onMouseLeave: () => {},
+  onMouseMove: () => {},
+
+  //Scales
+  xScale: { type: "point" },
+  xFormat: " >-.2f",
+  yScale: {
+    type: "linear",
+    min: "auto",
+    max: "auto",
+    stacked: true,
+    reverse: false,
+  },
+  yFormat: " >-.2f",
+
+  //Definitions
   defs: [
     {
       id: "dots",
@@ -556,6 +527,8 @@ export const commonProperties = {
       spacing: 10,
     },
   ],
+
+  //Fill
   fill: [
     {
       match: {
@@ -570,6 +543,9 @@ export const commonProperties = {
       id: "lines",
     },
   ],
+
+  //Legend
+  enableLegend: false,
   legends: [
     {
       dataFrom: "keys",
@@ -594,38 +570,32 @@ export const commonProperties = {
       ],
     },
   ],
-};
+} as IChart;
 
 export const allChartsDataAndSpecificProperties = {
-  commonChart: { commonProperties },
+  commonChartProps,
 
   stackedAreaChart: {
     data: [],
-    specificProperties: stackedAreaChartSpecificProperties,
-    commonProperties,
   },
 
   lineChart: {
     data: [],
-    specificProperties: lineChartSpecificProperties,
-    commonProperties,
   },
 
   scatterChart: {
     data: [],
-    specificProperties: scatterChartSpecificProperties,
-    commonProperties,
   },
 
   doughnutChart: {
     data: [],
-    specificProperties: doughnutChartSpecificProperties,
-    commonProperties,
   },
 
   barChart: {
     data: [],
-    specificProperties: barChartSpecificProperties,
-    commonProperties,
+  },
+
+  radarChart: {
+    data: [],
   },
 };

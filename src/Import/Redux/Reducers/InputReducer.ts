@@ -42,6 +42,7 @@ const inputReducer = (state = InputState, action: IAction) => {
       const { reducer, nameOrPath, value } = action.payload;
 
       if (reducer === "inputReducer") {
+        console.log("inputReducer payload: ", action.payload);
         const updatedState = set(state, nameOrPath, value);
         return updatedState;
       } else {

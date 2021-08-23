@@ -3,6 +3,8 @@ import { CommonProps, PropsWithStyles } from "react-select/src/types";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { IExtendedSelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 import { FormatSpecifierObject } from "d3-format";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import { DatumValue, ValueFormat } from "@nivo/core";
 
 type IsMulti = true | false;
 type prospswithstyleUnion = keyof PropsWithStyles;
@@ -14,7 +16,7 @@ export type TCustomOptions = Omit<
 >;
 
 interface IFormatValue {
-  format: string;
+  format: ValueFormat<DatumValue>;
   enabled: boolean;
 }
 
@@ -23,7 +25,8 @@ export interface IChartValueFormatters {
   intialFormatValue: IFormatValue;
   plotRef: React.MutableRefObject<any>;
   updateParameterAction: (path: string, value: any) => IAction;
-  axisFormat: string;
+  axisFormatTitle: string;
+  setValueFormat: TUseState<any>;
 }
 
 export interface IChartSelectSubFormatters {

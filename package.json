@@ -19,6 +19,7 @@
     "@nivo/line": "^0.72.0",
     "@nivo/pie": "^0.72.0",
     "@nivo/radar": "^0.72.0",
+    "@nivo/scales": "^0.73.0",
     "@nivo/scatterplot": "^0.72.0",
     "@nivo/stream": "^0.72.0",
     "@popperjs/core": "^2.9.2",

@@ -118,12 +118,14 @@ const chartData = [
   { id: "Group C", value: 2, color: "green" },
 ];
 
-export default function StoredForecastingParameters({
-  showChart,
+export default function StoredDeclineCurveParameters({
+  showChart, isAllDeclineParameters
 }: IStoredDataProps) {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
+
+  console.log("isAllDeclineParameters: ", isAllDeclineParameters);
 
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
@@ -145,14 +147,45 @@ export default function StoredForecastingParameters({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const { declineParametersStored } = useSelector(
+  const { declineParametersStored, forecastingParametersStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
 
-  console.log("declineParametersStored: ", declineParametersStored);
+  const { selectedForecastingParametersId } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
+  const selectedforecastingParametersStored = forecastingParametersStored.find((row:any) => {
+    if(row.id == selectedForecastingParametersId){
+      return row;
+    }
+  });
+
+  console.log("selectedForecastingParametersId: ", selectedForecastingParametersId);
+  console.log("selectedforecastingParametersStored: ", selectedforecastingParametersStored);
+
+
+let declineParametersFiltered:any = [];
+
+if(isAllDeclineParameters  == true){
+  declineParametersFiltered = declineParametersStored.map((row:any) => {
+    return row;
+  });
+}else{
+  console.log("filter seen")
+  declineParametersFiltered = declineParametersStored.filter((row:any) => {
+    if(selectedforecastingParametersStored  != undefined){
+      if(row.forecastInputDeckId == selectedforecastingParametersStored.forecastInputDeckId) {
+        return row;
+      }
+    }
+  });
+}
+
+console.log("declineParametersFiltered: ", declineParametersFiltered);
 
   const snTransStoredData = declineParametersStoredWithSN(
-    declineParametersStored as IBackendDeclineParametersRow[]
+    declineParametersFiltered as IBackendDeclineParametersRow[]
   );
 
   //console.log("snTransStoredData: ", snTransStoredData);
@@ -229,81 +262,82 @@ export default function StoredForecastingParameters({
                   backgroundColor: theme.palette.grey[400],
                 }
               : {};
+                
 
-          const VisibilityOutlined = (
-            <VisibilityOutlinedIcon
-              onClick={() => {
-                const isCreateOrEdit = true;
-                dispatch(
-                  getDeclineParametersByIdRequestAction(
-                    reducer,
-                    isCreateOrEdit as boolean,
-                    currentRow,
-                    currentSN
-                  )
-                );
-              }}
-            />
-          );
+              const VisibilityOutlined = (<VisibilityOutlinedIcon
+                onClick={() => {
+                  const isCreateOrEdit = true;
+                  const wellDeclineParamtersId = currentRow.id;
+                  const wellDeclineParamtersTitle = currentRow.title;
+                  dispatch(
+                    getDeclineParametersByIdRequestAction(
+                      reducer,
+                      isCreateOrEdit as boolean,
+                      wellDeclineParamtersId as string,
+                      wellDeclineParamtersTitle as string,
+                      currentSN,
+                      currentRow
+                    )
+                  );
+                }} 
+              />);
+  
+              const ApexGridMoreActionsContext = ( <ApexGridMoreActionsContextMenu
+                component={ForecastParametersMoreActionsPopover}
+                data={importMoreActionsData}
+              >
+                <MenuOpenOutlinedIcon />
+              </ApexGridMoreActionsContextMenu>);
 
-          const ApexGridMoreActionsContext = (
-            <ApexGridMoreActionsContextMenu
-              component={ForecastParametersMoreActionsPopover}
-              data={importMoreActionsData}
-            >
-              <MenuOpenOutlinedIcon />
-            </ApexGridMoreActionsContextMenu>
-          );
+              const EditCommand = (<EditOutlinedIcon
+                /* style={style as CSSProperties} */
+                onClick={() => {
+                  const isCreateOrEdit = true;
+                  const wellDeclineParamtersId = currentRow.id;
+                  const wellDeclineParamtersTitle = currentRow.title;
+                    dispatch(
+                    getDeclineParametersByIdRequestAction(
+                      "inputReducer" as ReducersType,
+                      isCreateOrEdit,
+                      wellDeclineParamtersId as string,
+                      wellDeclineParamtersTitle as string,
+                      currentSN,
+                      currentRow as any
+                    )
+                  );
+                  }}
+              />);
 
-          const EditCommand = (
-            <EditOutlinedIcon
-              /* style={style as CSSProperties} */
-              onClick={() => {
-                const isCreateOrEdit = true;
-
-                dispatch(
-                  getDeclineParametersByIdRequestAction(
-                    "inputReducer" as ReducersType,
-                    isCreateOrEdit,
-                    currentRow,
-                    currentSN
-                  )
-                );
-              }}
-            />
-          );
-
-          const DeleteCommand = (
-            <DeleteOutlinedIcon
-              /* style={style as CSSProperties} */
-              onClick={() => {
-                dispatch(
-                  showDialogAction(
-                    confirmationDialogParameters(
-                      "Delete_Table_Data_Dialog",
-                      `Delete ${title}`,
-                      "deleteDataDialog",
-                      "",
-                      false,
-                      true,
-                      () =>
-                        deleteDataByIdRequestAction(
-                          reducer as ReducersType,
-                          deleteUrl as string,
-                          title as string,
-                          () =>
-                            fetchStoredForecastingParametersRequestAction(
-                              currentProjectId,
-                              false
-                            )
-                        ),
-                      "Delete",
-                      "deleteOutlined",
-                      "delete",
-                      title
+              const DeleteCommand = (<DeleteOutlinedIcon
+                /* style={style as CSSProperties} */
+                onClick={() => {
+                  dispatch(
+                    showDialogAction(
+                      confirmationDialogParameters(
+                        "Delete_Table_Data_Dialog",
+                        `Delete ${title}`,
+                        "deleteDataDialog",
+                        "",
+                        false,
+                        true,
+                        () =>
+                          deleteDataByIdRequestAction(
+                            reducer as ReducersType,
+                            deleteUrl as string,
+                            title as string,
+                            () =>
+                              fetchStoredForecastingParametersRequestAction(
+                                currentProjectId,
+                                false
+                              )
+                          ),
+                        "Delete",
+                        "deleteOutlined",
+                        "delete",
+                        title
+                      )
                     )
                   )
-                );
               }}
             />
           );
@@ -436,7 +470,7 @@ export default function StoredForecastingParameters({
 
   React.useEffect(() => {
     const updatedStoredData = declineParametersStoredWithSN(
-      declineParametersStored as IBackendDeclineParametersRow[]
+      declineParametersFiltered as IBackendDeclineParametersRow[]
     );
     setRows(updatedStoredData);
   }, [declineParametersStored.length]);

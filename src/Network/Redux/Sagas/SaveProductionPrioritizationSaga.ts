@@ -49,45 +49,38 @@ function* saveProductionPrioritizationSaga(
   void,
   any
 > {
+  console.log("action: ", action);
+
   const { payload } = action;
   const {
     titleDesc: { title, description },
   } = payload;
   const { currentProjectId } = yield select((state) => state.projectReducer);
+  console.log("currentProjectId: ", currentProjectId);
 
   const { selectedForecastInputDeckId } = yield select(
     (state) => state.inputReducer
   );
+  console.log("selectedForecastInputDeckId: ", selectedForecastInputDeckId);
 
-  const { currentProductionPrioritization } = yield select(
+  const { selectedTableData, prioritizationPerspective,
+    selectedStreamPrioritization } = yield select(
     (state) => state.networkReducer
   );
-
-  console.log("currentProjectId: ", currentProjectId);
-  console.log("selectedForecastInputDeckId: ", selectedForecastInputDeckId);
-  console.log("currentProductionPrioritization: ", currentProductionPrioritization);
-
+  
   const data = {
     projectId: currentProjectId,
     title,
     description,
-    type: "User",
-    declineParameters: currentProductionPrioritization,
+    wellPrioritizations: selectedTableData,
     forecastInputDeckId: selectedForecastInputDeckId,
+    typeOfPrioritization: prioritizationPerspective,
+    typeOfStream: selectedStreamPrioritization,
+    useSecondaryFacility: ""
   };
 
-      /*   const data = {
-            projectId: currentProjectId,
-            title,
-            description,
-            type: "User",
-            typeOfPrioritization: currentProductionPrioritization,
-            forecastInputDeckId: selectedForecastInputDeckId,
-            typeOfStream,
-            useSecondaryFacility,
-            wellPrioritizations
-            
-          }; */
+
+  console.log("data: ", data);
 
   const config = { withCredentials: false };
   const saveProductionPrioritizationAPI = (url: string) =>
@@ -98,6 +91,8 @@ function* saveProductionPrioritizationSaga(
       saveProductionPrioritizationAPI,
       `${getBaseForecastUrl()}/well-prioritization/save`
     );
+
+    console.log("result: ", result);
 
     const {
       data: { success, status, data },

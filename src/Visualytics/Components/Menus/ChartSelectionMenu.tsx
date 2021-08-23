@@ -12,6 +12,7 @@ import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,13 +30,15 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IChartSelectionMenu {
   chartOptions: ISelectOption[];
-  updateAction: (selectedChartType: string, value: any) => void;
-  transformChartResultsAction: (selectedChartype: string) => void;
+  selectedChartOptionTitle: string;
+  putChartOptionAction: (chartOption: ISelectOption) => void;
+  transformChartResultsAction: () => IAction;
 }
 
 const ChartSelectionMenu = ({
   chartOptions,
-  updateAction,
+  selectedChartOptionTitle,
+  putChartOptionAction,
   transformChartResultsAction,
 }: IChartSelectionMenu) => {
   const classes = useStyles();
@@ -94,11 +97,7 @@ const ChartSelectionMenu = ({
               key={i}
               onClick={() => {
                 setPlotChartOption(chartOption);
-                dispatch(
-                  updateAction("selectedForecastChartOption", chartOption)
-                );
-
-                transformChartResultsAction(chartOption.value as string);
+                putChartOptionAction(chartOption);
 
                 handleClose();
               }}

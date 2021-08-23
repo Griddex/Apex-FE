@@ -128,7 +128,8 @@ const StoredForecastingParametersDialog = (props: DialogStuff) => {
           height: 650,
         }}
       >
-        <StoredForecastingParameters showChart={true} />
+        <StoredForecastingParameters showChart={true}
+        isAllForecastParameters={true} />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>

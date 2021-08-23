@@ -10,6 +10,8 @@ import {
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
+import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
+import { IAction } from "./../../../Application/Redux/Actions/ActionTypes";
 
 export const UPDATE_FORECASTPARAMETER = "UPDATE_FORECASTPARAMETER";
 export const UPDATE_FORECASTPARAMETERS = "UPDATE_FORECASTPARAMETERS";
@@ -30,6 +32,10 @@ export const PUT_FORECASTRESULTS_CHARTDATA_SUCCESS =
   "PUT_FORECASTRESULTS_CHARTDATA_SUCCESS";
 export const PUT_FORECASTRESULTS_CHARTDATA_FAILURE =
   "PUT_FORECASTRESULTS_CHARTDATA_FAILURE";
+
+export const PUT_SELECTCHART = "PUT_SELECTCHART";
+export const PUT_SELECTCHART_SUCCESS = "PUT_SELECTCHART_SUCCESS";
+export const PUT_SELECTCHART_FAILURE = "PUT_SELECTCHART_FAILURE";
 
 export const TRANSFORM_FORECASTRESULTS_CHARTDATA =
   "TRANSFORM_FORECASTRESULTS_CHARTDATA";
@@ -82,11 +88,24 @@ export const RUN_FORECASTECONOMICSAGGREGATION_FAILURE =
   "RUN_FORECASTECONOMICSAGGREGATION_FAILURE";
 
 export const RESET_FORECAST = "RESET_FORECAST";
+export const UPDATE_FORECASTRESULT_PARAMETERS = "UPDATE_FORECASTRESULT_PARAMETERS"
+
+export const updateForecastResultParameterAction = (
+  timeData: any,
+  forecastResults: any
+) => {
+  
+  return {
+    type: UPDATE_FORECASTRESULT_PARAMETERS,
+    payload: { timeData, forecastResults },
+  };
+};
 
 export const updateForecastResultsParameterAction = (
   path: string,
   value: any
 ) => {
+  console.log("updateForecastResultsParameterAction called")
   return {
     type: UPDATE_FORECASTPARAMETER,
     payload: { path, value },
@@ -108,6 +127,7 @@ export const loadForecastResultsWorkflowAction = (
   name: string,
   trueOrFalse: boolean
 ) => {
+  console.log("loadForecastResultsWorkflowAction called")
   return {
     type: LOAD_FORECASTRESULTS_WORKFLOW,
     payload: {
@@ -141,7 +161,8 @@ export const getForecastResultsChartDataRequestAction = (
   selectedIds: string[],
   selectedModuleNames: string[],
   selectedModulePaths: string[],
-  selectedForecastChartVariable: string
+  selectedForecastChartVariable: string,
+  selectedForecastAggregationType: string
 ) => {
   return {
     type: GET_FORECASTRESULTS_CHARTDATA_REQUEST,
@@ -150,6 +171,7 @@ export const getForecastResultsChartDataRequestAction = (
       selectedModuleNames,
       selectedModulePaths,
       selectedForecastChartVariable,
+      selectedForecastAggregationType
     },
   };
 };
@@ -173,6 +195,7 @@ export const getForecastResultsChartDataFailureAction = () => {
   };
 };
 
+//"scenario" | "station"
 export const putForecastResultsChartDataSuccessAction = () => {
   return {
     type: PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
@@ -185,6 +208,42 @@ export const putForecastResultsChartDataSuccessAction = () => {
 export const putForecastResultsChartDataFailureAction = () => {
   return {
     type: PUT_FORECASTRESULTS_CHARTDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const putSelectChartOptionAction = (
+  reducer: ReducersType,
+  chartOption: ISelectOption,
+  transformChartResultsAction: () => IAction,
+  transformChartResultsPayload: any
+) => {
+  return {
+    type: PUT_SELECTCHART,
+    payload: {
+      reducer,
+      chartOption,
+      transformChartResultsAction,
+      transformChartResultsPayload,
+    },
+  };
+};
+
+export const putSelectChartOptionSuccessAction = () => {
+  return {
+    type: PUT_SELECTCHART_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const putSelectChartOptionFailureAction = () => {
+  return {
+    type: PUT_SELECTCHART_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -221,16 +280,16 @@ export const transformForecastResultsChartDataFailureAction = () => {
 };
 
 export const getForecastResultsQualityAssuranceRequestAction = (
-  isMonthly: boolean,
-  aggregationLevel: "scenario" | "station",
+  selectedForecastAggregationType: string,
+  selectedForecastAggregationLevel: string,
   selectedModulePaths: string[],
   forecastQualityAssuranceVariable: string
 ) => {
   return {
     type: GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
     payload: {
-      isMonthly,
-      aggregationLevel,
+      selectedForecastAggregationType,
+      selectedForecastAggregationLevel,
       selectedModulePaths,
       forecastQualityAssuranceVariable,
     },

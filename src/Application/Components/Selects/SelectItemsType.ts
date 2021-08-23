@@ -5,6 +5,10 @@ export interface ISelectOption<T = string | undefined, U = string> {
   value: T;
   label: U;
 }
+export interface ISelectOptionDefined<T = string, U = string> {
+  value: T;
+  label: U;
+}
 
 export type TSelectOptions = ISelectOption[];
 export type TKeyedSelectOptions = Record<string, ISelectOption[]>;

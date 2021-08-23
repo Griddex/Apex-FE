@@ -1,4 +1,4 @@
-import { Column } from "react-data-griddex";
+import { Column, PasteEvent } from "react-data-griddex";
 import { ITableButtonsProps } from "../TableButtonsTypes";
 
 export type IRawRow = {
@@ -30,6 +30,8 @@ export interface IApexGrid<R, O> {
   selectedRow?: number;
   onSelectedRowChange?: React.Dispatch<React.SetStateAction<any>>;
   onRowsChange?: React.Dispatch<any>;
+  //onPaste?: React.Dispatch<PasteEvent<R>>;
+  onPaste?: (event: PasteEvent<R>) => R;
   mappingErrors?: React.Key[];
   size?: {
     readonly width: number | null;

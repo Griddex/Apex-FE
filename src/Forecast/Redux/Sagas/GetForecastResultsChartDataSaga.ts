@@ -22,6 +22,7 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
+import transformForecastForChart from "../../Utils/TransformForecastForChart";
 import {
   getForecastResultsChartDataFailureAction,
   getForecastResultsChartDataSuccessAction,
@@ -62,6 +63,7 @@ function* getForecastResultsChartDataSaga(
     selectedModuleNames,
     selectedModulePaths,
     selectedForecastChartVariable,
+    selectedForecastAggregationType,
   } = payload;
 
   const { selectedNetworkId } = yield select((state) => state.networkReducer);
@@ -77,7 +79,7 @@ function* getForecastResultsChartDataSaga(
   const config = {};
   const url = `${getBaseForecastUrl()}/chartData`;
 
-  const data = {
+  const requestData = {
     networkId: selectedNetworkId,
     selectedVariable: selectedForecastChartVariable,
     selectedModuleIds: selectedIds,
@@ -85,6 +87,7 @@ function* getForecastResultsChartDataSaga(
     selectedModulePaths: selectedModulePaths,
     isSaved: isForecastResultsSaved,
     forecastId: selectedForecastingResultsId,
+    forecastAggregationType: selectedForecastAggregationType,
   };
 
   const message = "Loading forecast chart data...";
@@ -93,15 +96,27 @@ function* getForecastResultsChartDataSaga(
     yield put(showSpinnerAction(message));
 
     const forecastResultsAPI = (url: string) =>
-      authService.post(url, data, config);
+      authService.post(url, requestData, config);
     const result = yield call(forecastResultsAPI, url);
+    console.log(
+      "Logged output --> ~ file: GetForecastResultsChartDataSaga.ts ~ line 99 ~ result",
+      result
+    );
 
-    const { data: forecastResults } = result;
+    const { data } = result;
+    const forecastResults = transformForecastForChart(data);
+    console.log(
+      "Logged output --> ~ file: GetForecastResultsChartDataSaga.ts ~ line 106 ~ forecastResults",
+      forecastResults
+    );
+
     //TODO Get both from Gift
     const xValueCategories = forecastResults.map(
       (_: any, i: number) => 2020 + i
     );
     const isYear = true;
+
+    console.log("forecastResults: ", forecastResults);
 
     const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
@@ -114,6 +129,14 @@ function* getForecastResultsChartDataSaga(
         isYear,
       },
     });
+
+    /*  yield put({
+      type: "UPDATE_FORECASTPARAMETER",
+      payload: {
+        path: "forecastResults",
+        value: forecastResults
+      },
+    }); */
 
     yield put({
       type: "UPDATE_FORECASTPARAMETER",

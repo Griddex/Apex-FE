@@ -1,30 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import ChartSelector from "../../../../Visualytics/Common/ChartSelector";
-import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
+import SelectChart from "../../../../Visualytics/Common/SelectChart";
 
 const EconomicsPlotChartsSelectChart = () => {
+  const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
   const wp = "economicsResultsPlotCharts";
 
-  const { selectedEconomicsPlotChartOption } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
-
-  const chartType = selectedEconomicsPlotChartOption.value as TChartTypes;
-  const economicsChartsObj = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
-  );
-  const { data, specificProperties } = economicsChartsObj[wp][chartType];
-
   return (
     <ApexFlexContainer>
-      <ChartSelector
-        chartType={chartType}
-        data={data}
-        specificProperties={specificProperties}
+      <SelectChart
+        workflowCategory={wc}
+        reducer={reducer}
+        selectedChartOptionTitle="selectedEconomicsChartOption"
       />
     </ApexFlexContainer>
   );

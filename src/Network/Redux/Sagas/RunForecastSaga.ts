@@ -61,11 +61,13 @@ function* runForecastSaga(
   { selectedNetworkId: any } & { selectedForecastingParametersId: any } & any
 > {
   const { payload } = action;
+
   const {
     selectedNetworkId,
     forecastResultsTitle,
     forecastResultsDescription,
   } = yield select((state) => state.networkReducer);
+
   const { selectedForecastingParametersId } = yield select(
     (state) => state.networkReducer
   );

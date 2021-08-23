@@ -81,6 +81,7 @@ export default function DeclineCurveParameters({
     (state: RootState) => state.networkReducer
   );
 
+
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
 

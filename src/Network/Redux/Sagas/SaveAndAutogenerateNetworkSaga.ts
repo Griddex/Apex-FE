@@ -49,26 +49,15 @@ function* saveAndAutoGenerateNetworkSaga(action: IAction) {
     yield putResolve(saveInputDeckRequestAction(workflowProcess, titleDesc));
 
     yield take([SAVE_INPUTDECK_SUCCESS, SAVE_INPUTDECK_FAILURE]);
-  } catch (errors) {
-    const failureAction = autoGenerateNetworkFailureAction();
 
-    yield put({
-      ...failureAction,
-      payload: { ...payload, errors },
-    });
-
-    yield put(showDialogAction(failureDialogParameters()));
-  } finally {
     yield putResolve(
       updateNetworkParameterAction("loadNetworkGenerationWorkflow", true)
     );
-    yield put(hideSpinnerAction());
-  }
 
-  try {
     yield call(forwardTo, "/apex/network/networkAuto");
 
     yield putResolve(autoGenerateNetworkRequestAction());
+
     yield take([AUTOGENERATENETWORK_SUCCESS, AUTOGENERATENETWORK_FAILURE]);
   } catch (errors) {
     const failureAction = autoGenerateNetworkFailureAction();
@@ -82,6 +71,24 @@ function* saveAndAutoGenerateNetworkSaga(action: IAction) {
   } finally {
     yield put(hideSpinnerAction());
   }
+
+  // try {
+  //   yield call(forwardTo, "/apex/network/networkAuto");
+
+  //   yield putResolve(autoGenerateNetworkRequestAction());
+  //   yield take([AUTOGENERATENETWORK_SUCCESS, AUTOGENERATENETWORK_FAILURE]);
+  // } catch (errors) {
+  //   const failureAction = autoGenerateNetworkFailureAction();
+
+  //   yield put({
+  //     ...failureAction,
+  //     payload: { ...payload, errors },
+  //   });
+
+  //   yield put(showDialogAction(failureDialogParameters()));
+  // } finally {
+  //   yield put(hideSpinnerAction());
+  // }
 }
 
 function forwardTo(routeUrl: string) {

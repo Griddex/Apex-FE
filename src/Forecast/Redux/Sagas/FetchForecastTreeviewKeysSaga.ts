@@ -65,7 +65,7 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
     let i = 0;
     while (true) {
       const data = yield take(chan);
-
+      
       const successAction = fetchForecastTreeviewKeysSuccessAction();
       const key = Object.keys(data)[0];
 
@@ -91,6 +91,9 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
             xValueCategories,
           },
         });
+      } else if (key == "xValueCategories"){
+        const forecastXValueCategories = data["xValueCategories"];
+        console.log("forecastXValueCategories: ", forecastXValueCategories);
       }
 
       i += 1;

@@ -184,7 +184,7 @@ export const cloneProductionPrioritizationRow = (
 };
 
 export default function StoredProductionPrioritization({
-  showChart,
+  showChart, isAllWellPrioritization
 }: IStoredDataProps) {
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
@@ -211,12 +211,47 @@ export default function StoredProductionPrioritization({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const { productionPrioritizationStored } = useSelector(
+  const { productionPrioritizationStored, forecastingParametersStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
 
+  const { selectedForecastingParametersId } = useSelector(
+    (state: RootState) => state.networkReducer
+  );
+
+  console.log("isAllWellPrioritization: ", isAllWellPrioritization);
+
+  const selectedforecastingParametersStored = forecastingParametersStored.find((row:any) => {
+    if(row.id == selectedForecastingParametersId){
+      return row;
+    }
+  });
+
+  console.log("selectedForecastingParametersId: ", selectedForecastingParametersId);
+  console.log("selectedforecastingParametersStored: ", selectedforecastingParametersStored);
+
+
+let wellPrioritizationFiltered:any = [];
+
+if(isAllWellPrioritization  == true){
+  wellPrioritizationFiltered = productionPrioritizationStored.map((row:any) => {
+    return row;
+  });
+}else{
+  console.log("filter seen")
+  wellPrioritizationFiltered = productionPrioritizationStored.filter((row:any) => {
+    if(selectedforecastingParametersStored  != undefined){
+      if(row.forecastInputDeckId == selectedforecastingParametersStored.forecastInputDeckId) {
+        return row;
+      }
+    }
+  });
+}
+
+console.log("wellPrioritizationFiltered: ", wellPrioritizationFiltered);
+
   const snTransStoredData = productionPrioritizationStoredWithSN(
-    productionPrioritizationStored
+    wellPrioritizationFiltered
   );
 
   const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
@@ -399,6 +434,13 @@ export default function StoredProductionPrioritization({
         width: 100,
       },
       {
+        key: "title",
+        name: "WELL PRIORITIZATION TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
+      },
+      {
         key: "approval",
         name: "APPROVAL",
         editable: false,
@@ -501,7 +543,7 @@ export default function StoredProductionPrioritization({
 
   React.useEffect(() => {
     const updatedStoredData = productionPrioritizationStoredWithSN(
-      productionPrioritizationStored
+      wellPrioritizationFiltered
     );
     setRows(updatedStoredData);
   }, [productionPrioritizationStored.length]);

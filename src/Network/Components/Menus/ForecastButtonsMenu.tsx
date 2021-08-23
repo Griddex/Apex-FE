@@ -24,7 +24,7 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
+import { runForecastRequestAction, updateNetworkParameterAction } from "../../Redux/Actions/NetworkActions";
 import { extrudeSaveForecastRun } from "../DialogParameters/ExtrudeSaveForecastRun";
 
 const ForecastButtonsMenu = () => {

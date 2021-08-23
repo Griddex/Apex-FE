@@ -12,6 +12,7 @@ import {
 } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
+import { TAllChartsDataAndSpecificProperties } from "../../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
 import {
   IEconomicsAnalysis,
   TBackendDevScenarioTitles,
@@ -272,7 +273,6 @@ export interface IEconomicsState
   plotChartsVariableXOption: ISelectOption | null;
   plotChartsVariableYPriOption: ISelectOption | null;
   plotChartsVariableYSecOption: ISelectOption | null;
-  plotChartsCommonProperties: Record<TChartTypes, any>;
 
   economicsTemplatesTree: RenderTree;
 
@@ -282,5 +282,5 @@ export interface IEconomicsState
     TEconomicsAnalysesNames,
     IEconomicsAnalysis
   >;
-  economicsChartsWorkflows: Record<string, any>;
+  economicsChartsWorkflows: TAllChartsDataAndSpecificProperties;
 }

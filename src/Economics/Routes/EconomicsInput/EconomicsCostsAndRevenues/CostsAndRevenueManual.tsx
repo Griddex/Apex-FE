@@ -5,7 +5,7 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
-import { Column, EditorProps, TextEditor } from "react-data-griddex";
+import { Column, EditorProps, TextEditor, PasteEvent } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
@@ -112,7 +112,12 @@ export default function CostsAndRevenueManual({
   ] as IAggregateButtonProps[]);
 
   let rows = [] as IRawRow[];
-  let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
+
+  //let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
+  
+
+
+
   let sRow = -1;
   let setSRow: React.Dispatch<React.SetStateAction<number>>;
 
@@ -175,7 +180,7 @@ export default function CostsAndRevenueManual({
       ...selectedRow,
       headerName: selectedAppUnit,
     };
-    setRows(rows);
+    //setRows(rows);
   };
 
   const generateColumns = (dval: TDevScenarioNames) => {
@@ -288,7 +293,7 @@ export default function CostsAndRevenueManual({
                 />
               </div>
             );
-          else return <div> {row.baseOilRate}</div>;
+          else return <div> {row.condensateRate}</div>;
         },
         width: 170,
       },
@@ -300,6 +305,7 @@ export default function CostsAndRevenueManual({
         resizable: true,
         formatter: ({ row }) => {
           const valueOption = uniqUnitOptions[0];
+          //console.log("row.sn :", row.sn );
           if (row.sn === 0)
             return (
               <div
@@ -317,7 +323,7 @@ export default function CostsAndRevenueManual({
                 />
               </div>
             );
-          else return <div> {row.gasRate}</div>;
+          else return <div> {row.associatedGasRate}</div>;
         },
         width: 170,
       },
@@ -346,7 +352,7 @@ export default function CostsAndRevenueManual({
                 />
               </div>
             );
-          else return <div> {row.gasRate}</div>;
+          else return <div> {row.nonAssociatedGasRate}</div>;
         },
         width: 170,
       },
@@ -784,7 +790,7 @@ export default function CostsAndRevenueManual({
 
   const columns = React.useMemo(() => generateColumns(devVal), [devVal]);
 
-  const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
+ /*  const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
     forecastEconomicsAggregated["costRevenuesOil"]
   );
   const [nagDevelopmentRows, setNAGDevelopmentRows] = React.useState(
@@ -792,18 +798,171 @@ export default function CostsAndRevenueManual({
   );
   const [oilNAGDevelopmentRows, setOilNAGDevelopmentRows] = React.useState(
     forecastEconomicsAggregated["costRevenuesOil_NAG"]
-  );
+  ); */
 
+  console.log("oilDevelopment: ", forecastEconomicsAggregated["costRevenuesOil"]);
   if (devVal === "oilDevelopment") {
-    rows = oilDevelopmentRows;
-    setRows = setOilDevelopmentRows;
+    rows = forecastEconomicsAggregated["costRevenuesOil"] as IRawRow[]; //oilDevelopmentRows;
+    //setRows = setOilDevelopmentRows;
+    //setRows(rows);
+    //
   } else if (devVal === "nagDevelopment") {
-    rows = nagDevelopmentRows;
-    setRows = setNAGDevelopmentRows;
+    rows = forecastEconomicsAggregated["costRevenuesNAG"] as IRawRow[]; //nagDevelopmentRows;
+    //setRows = setNAGDevelopmentRows;
+    //setRows(rows);
   } else {
-    rows = oilNAGDevelopmentRows;
-    setRows = setOilNAGDevelopmentRows;
+    rows = forecastEconomicsAggregated["costRevenuesOil_NAG"] as IRawRow[]; //oilNAGDevelopmentRows;
+    //setRows = setOilNAGDevelopmentRows;
+    //setRows(rows);
   }
+
+  //wkPs={"economicsCostsRevenuesDeckManual"}
+  //wkPs={"economicsCostsRevenuesDeckApexForecast"}
+
+  const pasteOilDevelopmentCostRevenue = (tableData: any[]) => {
+    const rowData = tableData[0];
+    console.log("rowData: ", rowData);
+    const nColumns = rowData.length;
+    console.log("nColumns: ", nColumns);
+    if(nColumns == 15){
+      if(wkPs == "economicsCostsRevenuesDeckApexForecast"){
+        const oilDevelopmentExcelRows = tableData.map((row:any[], i: number) => {
+          return {
+            sn: i+1,
+            year: Number(row[0]),
+            baseOilRate: Number(row[1]),
+            associatedGasRate: Number(row[2]),
+            seismicCost: Number(row[3]),
+            explAppraisalCost: Number(row[4]),
+            facilitiesCapex: Number(row[5]),
+            tangibleDrillingCost: Number(row[6]),
+            intangibleDrillingCost: Number(row[7]),
+            taxDepreciation: Number(row[8]),
+            abandonmentCost: Number(row[9]),
+            directCost: Number(row[10]),
+            projectCost: Number(row[11]),
+            cHA: Number(row[12]),
+            tariffs: Number(row[13]),
+            terminalFee: Number(row[14])
+          }
+        });
+
+        rows = oilDevelopmentExcelRows as IRawRow[]; 
+       // setRows(rows);
+        //setRows = setOilDevelopmentRows;
+        console.log("rows: ", rows);
+      }
+      
+    }
+  }
+
+  const pasteDevelopmentCostRevenue = (tableData: any[]) => {
+    
+    console.log("tableData: ", tableData);
+    const nRows = tableData.length;
+    if(nRows > 1){
+      tableData.pop();
+      if (devVal === "oilDevelopment") {
+        pasteOilDevelopmentCostRevenue(tableData);
+      } 
+    /*   else if (devVal === "nagDevelopment") {
+
+      } else {
+       
+      } */
+    }
+  }
+
+  const defaultParsePaste = (str:string) => {
+    const externalRows = str.split(/\r\n|\n|\r/);
+    const tableData = externalRows.map((row) => {
+      const cells = row.split("\t");
+      return cells
+    })
+    //console.log("tableData: ", tableData);
+    pasteDevelopmentCostRevenue(tableData);
+    /* return str.split(/\r\n|\n|\r/).map((row) => {
+      row.split("\t")
+    }); */
+    return {};
+  };
+
+  const handlePaste2 = (e:any) => {
+    e.preventDefault();
+    //const { topLeft } = this.state;
+
+    const newRows = [];
+    const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
+  };
+
+  const handleGridRowsUpdated = (parameters:any) => {
+    const rowsX = rows;
+    const fromRow = parameters.fromRow;
+    const toRow = parameters.toRow;
+    const updated = parameters.updated;
+
+    for(let i = 0; i <= toRow - fromRow; i++) {
+      const index = fromRow + i;
+      const update = Array.isArray(updated) ? updated[i] : updated;
+
+      //rowsX = rowsX.update(index, Map(), r => r.merge(update));
+    }
+
+    //setRows(rowsX);
+  };
+
+  const handlePasteX = ({
+    sourceColumnKey,
+    sourceRow,
+    targetColumnKey,
+    targetRow
+  }: PasteEvent<IRawRow>): IRawRow => {
+    const incompatibleColumns = ['email', 'zipCode', 'date'];
+    if (
+      sourceColumnKey === 'avatar' ||
+      ['id', 'avatar'].includes(targetColumnKey) ||
+      ((incompatibleColumns.includes(targetColumnKey) ||
+        incompatibleColumns.includes(sourceColumnKey)) &&
+        sourceColumnKey !== targetColumnKey)
+    ) {
+      return targetRow;
+    }
+
+    return { ...targetRow, [targetColumnKey]: sourceRow[sourceColumnKey as keyof IRawRow] };
+  }
+
+  const handlePaste = (e:any) => {
+    //e.preventDefault();
+    const pastedRows = e.clipboardData.getData("text/plain").split('\n');
+    const pastedColumnKeys:any[] = [];
+
+    console.log("columns: ", columns);
+    const nColumns = pastedRows[0].split('\t').length;
+    console.log("nColumns: ", nColumns);
+    for (let i = 0; i < nColumns; i++){
+      const columnIdx = 1 + i;
+      console.log("columns[columnIdx].key: ", columns[columnIdx].key);
+      pastedColumnKeys.push(columns[columnIdx].key);
+    }
+
+    const updated = pastedRows.map((pastedRow:any) => {
+      const columnsX = pastedRow.split('\t');
+      return pastedColumnKeys.reduce(
+        (memo, key, index) => {memo[key] = columnsX[index]; return memo;},
+        {},
+      );
+    });
+
+    console.log("updated: ", updated);
+
+    //handlePasteX({});
+    
+  };
+
+  document.addEventListener("paste", handlePaste2);
+  //document.addEventListener("paste", handlePaste);
+
+
 
   const exportColumns = generateColumns(devVal)
     .filter(
@@ -833,16 +992,19 @@ export default function CostsAndRevenueManual({
 
   React.useEffect(() => {
     if (wkPs === "economicsCostsRevenuesDeckApexForecast") {
+      console.log("runForecastEconomicsAggregationRequestAction dispatched")
       dispatch(
         runForecastEconomicsAggregationRequestAction(
           "economicsCostsRevenuesDeckApexForecast"
         )
       );
+      console.log("rows: ", rows);
     }
   }, []);
 
   React.useEffect(() => {
     dispatch(persistEconomicsDeckRequestAction(wp, devVal, rows, true));
+    console.log("rows: ", rows);
   }, [rows]);
 
   React.useEffect(() => {
@@ -854,6 +1016,7 @@ export default function CostsAndRevenueManual({
     );
   }, [devVal]);
 
+  //onRowsChange={setRows}
   return (
     <div className={classes.rootStoredData}>
       <ApexFlexContainer
@@ -943,7 +1106,7 @@ export default function CostsAndRevenueManual({
         newTableRowHeight={35}
         selectedRow={sRow}
         onSelectedRowChange={setSRow}
-        onRowsChange={setRows}
+        onPaste={handlePasteX}
         size={{ height: 700, width: 900 }}
         autoAdjustTableDim={true}
         showTableHeader={true}

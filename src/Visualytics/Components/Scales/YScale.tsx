@@ -108,7 +108,7 @@ const YScale = React.forwardRef<HTMLDivElement, IYScale>((props, ref) => {
       {yScaleState.min === "manual" && (
         <ApexSlider
           name="minValue"
-          currentValue={minValue as number}
+          sliderValue={minValue as number}
           step={1}
           min={-2000}
           max={2000}
@@ -143,7 +143,7 @@ const YScale = React.forwardRef<HTMLDivElement, IYScale>((props, ref) => {
       {yScaleState.max === "manual" && (
         <ApexSlider
           name="maxValue"
-          currentValue={maxValue as number}
+          sliderValue={maxValue as number}
           step={1}
           min={-2000}
           max={2000}

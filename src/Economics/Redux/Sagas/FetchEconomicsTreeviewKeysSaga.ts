@@ -6,7 +6,6 @@ import {
   ForkEffect,
   put,
   PutEffect,
-  select,
   SelectEffect,
   TakeEffect,
   takeLeading,
@@ -26,7 +25,6 @@ import {
   economicsPerspectiveTreeMap,
   TEconomicsTreePerspective,
 } from "../../Data/EconomicsData";
-import { economicsTreeHard } from "../../Routes/EconomicsResults/EconomicsSensitivitiesHeatMap/HeatMapTree";
 import {
   ECONOMICS_TREEVIEWKEYS_REQUEST,
   fetchEconomicsTreeviewKeysFailureAction,

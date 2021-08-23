@@ -1,22 +1,34 @@
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { ResponsiveStream } from "@nivo/stream";
 import React from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ReducersType,
+  TAllWorkflowCategories,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { setChartObjectAction } from "../../Redux/VisualyticsActions/VisualyticsActions";
-import { IChartMetaData } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import {
+  IChartMetaData,
+  ITooltipLabel,
+} from "../../Redux/VisualyticsState/VisualyticsStateTypes";
 import { itemTypesVisualytics } from "../../Utils/DragAndDropItemTypes";
 import renderTick from "../../Utils/RenderTicks";
-import { IChartProps } from "../ChartTypes";
+import { AxisProps, IChartProps } from "../ChartTypes";
+import { IChart } from "./../../Redux/VisualyticsState/VisualyticsStateTypes";
 
-const StackedAreaChart = ({
-  data,
-  specificProperties,
-  commonProperties,
-}: IChartProps) => {
+const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
+  const wc = workflowCategory as TAllWorkflowCategories;
+  const reducerDefined = reducer as ReducersType;
+
   const dispatch = useDispatch();
   const chartRef = React.useRef<any>("");
+
+  const { commonChartProps, stackedAreaChart } = useSelector(
+    (state: RootState) => state[reducerDefined][wc]
+  );
+  const { data } = stackedAreaChart;
 
   const [again, setAgain] = React.useState(0);
 
@@ -51,19 +63,6 @@ const StackedAreaChart = ({
       outlineStyle: "dashed",
     };
   }
-
-  const handleClickAway = () => {
-    localDispatch({
-      type: "RESET",
-    });
-    // dispatch(
-    //   setSelectedChartObjIdAction({
-    //     id: chartRef.current.uniqueChartId,
-    //     chartObjName: "none",
-    //   })
-    // );
-    // dispatch(contextDrawerCollapseAction());
-  };
 
   const initializeChartMetaData = () => {
     const activeIndex = 0;
@@ -143,19 +142,31 @@ const StackedAreaChart = ({
   if (Array.isArray(data) && data.length > 0) keys = Object.keys(data[0]);
   else keys = [];
 
-  const bottomAxisValues = data.map((_, i) => 2020 + i);
+  const bottomAxisValues = data.map((_: string, i: number) => 2020 + i);
 
-  specificProperties["axisBottom"]["renderTick"] = renderTick(bottomAxisValues);
-  specificProperties["keys"] = keys;
+  const commonChartPropsDefined = commonChartProps as IChart;
+  (commonChartPropsDefined["axisBottom"] as AxisProps)["renderTick"] =
+    renderTick(bottomAxisValues);
+
+  commonChartPropsDefined["keys"] = keys;
+
+  const toolTip = commonChartPropsDefined[
+    "tooltipLabel"
+  ] as ITooltipLabel["stackedArea"];
+
+  // commonChartPropsDefined["tooltipLabel"] = (d: any) => d.id;
+  // commonChartPropsDefined["tooltip"] = undefined;
+  console.log(
+    "Logged output --> ~ file: StackedAreaChart.tsx ~ line 159 ~ StackedAreaChart ~ commonChartPropsDefined",
+    commonChartPropsDefined
+  );
 
   return (
-    // <ClickAwayListener onClickAway={handleClickAway}>
     <ResponsiveStream
       data={data}
-      {...specificProperties}
-      {...commonProperties}
+      {...commonChartPropsDefined}
+      tooltipFormat={undefined}
     />
-    // </ClickAwayListener>
   );
 };
 
