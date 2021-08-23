@@ -4,10 +4,10 @@ import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import { IApexChartFormatProps, IApexChartGrid } from "../Charts/ChartTypes";
+import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 
 const ApexChartGrid = ({
-  cpBasePath,
-  spBasePath,
+  basePath,
   updateParameterAction,
   gridName,
   gridTitle,
@@ -20,6 +20,12 @@ const ApexChartGrid = ({
 
   // const [gridEnabled, setGridEnabled] = React.useState(storeGridEnabled);
   // const [gridValues, setGridValues] = React.useState(storeGridValues);
+
+  const { chartProps, setChartProps } = React.useContext(
+    ChartFormatAggregatorContext
+  );
+
+  const { enableGridX, enableGridY, gridXValues, gridYValues } = chartProps;
 
   const currentGridEnabled = gridName.endsWith("X")
     ? "enableGridX"
@@ -36,12 +42,15 @@ const ApexChartGrid = ({
             name={gridName}
             handleChange={(event) => {
               const { checked } = event.target;
-              // setGridEnabled(checked);
+              setChartProps((prev) => ({
+                ...prev,
+                [currentGridEnabled]: checked,
+              }));
 
               updateParameterAction &&
                 dispatch(
                   updateParameterAction(
-                    `${spBasePath}.${currentGridEnabled}`,
+                    `${basePath}.${currentGridEnabled}`,
                     checked
                   )
                 );
@@ -63,12 +72,11 @@ const ApexChartGrid = ({
         value={storeGridValues?.join(", ")}
         onChange={(event) => {
           const { value } = event.target;
-          // setGridValues([value]);
 
           updateParameterAction &&
             dispatch(
               updateParameterAction(
-                `${spBasePath}.${gridValuesName}`,
+                `${basePath}.${gridValuesName}`,
                 value.split(", ")
               )
             );

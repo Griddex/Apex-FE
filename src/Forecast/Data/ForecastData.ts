@@ -31,10 +31,27 @@ export const forecastAggregationLevels = [
   },
 ];
 
+export const forecastPlotChartsOptions = [
+  {
+    value: "Select Chart...",
+    label: "Select Chart...",
+  },
+  {
+    value: "stackedAreaChart",
+    label: "Stacked Area",
+  },
+  {
+    value: "lineChart",
+    label: "Line",
+  },
+];
+
 export const forecastResultsTransformersObj = {
   stackedAreaChart: stackedChartTostackedChartData,
   lineChart: stackedChartToLineOrScatterChartData,
   scatterChart: stackedChartToLineOrScatterChartData,
   barChart: barChartToStackedChartData,
   doughnutChart: stackedChartToDoughnutChartData,
+  //TODO do for radar transform
+  radarChart: stackedChartToDoughnutChartData,
 };

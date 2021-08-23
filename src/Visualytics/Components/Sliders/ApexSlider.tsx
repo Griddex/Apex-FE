@@ -15,20 +15,22 @@ const useStyles = makeStyles({
   },
 });
 
+export type TApexSlider = number | number[] | Array<string | number>;
+
 export interface IApexSlider {
   name: string;
-  currentValue: number | string | Array<number | string>;
   step: number;
   min: number;
   max: number;
   actionPath?: string;
   action?: (path: string, value: any) => void;
-  setSliderValue?: TUseState<number>;
+  sliderValue: TApexSlider;
+  setSliderValue?: TUseState<any>;
 }
 
 export default function ApexSlider({
   name,
-  currentValue,
+  sliderValue,
   step,
   min,
   max,
@@ -37,29 +39,24 @@ export default function ApexSlider({
   setSliderValue,
 }: IApexSlider) {
   const classes = useStyles();
-  const [value, setValue] =
-    React.useState<number | string | Array<number | string>>(currentValue);
 
-  const handleSliderChange = (event: any, newValue: number | number[]) => {
-    setValue(newValue);
-    setSliderValue && setSliderValue(newValue as number);
-    action && action(actionPath as string, newValue);
+  const handleSliderChange = (event: any, value: number | number[]) => {
+    setSliderValue && setSliderValue(value as number);
+    action && action(actionPath as string, value);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue =
-      event.target.value === "" ? "" : Number(event.target.value);
+    const { value } = event.target;
 
-    setValue(newValue);
-    setSliderValue && setSliderValue(newValue as number);
-    action && action(actionPath as string, newValue);
+    setSliderValue && setSliderValue(value);
+    action && action(actionPath as string, value);
   };
 
   const handleBlur = () => {
-    if (value < min) {
-      setValue(min);
-    } else if (value > max) {
-      setValue(max);
+    if (sliderValue < min) {
+      setSliderValue && setSliderValue(min);
+    } else if (sliderValue > max) {
+      setSliderValue && setSliderValue(max);
     }
   };
 
@@ -68,15 +65,17 @@ export default function ApexSlider({
       <Grid item xs>
         <Slider
           name={name}
-          value={typeof value === "number" ? value : min}
+          value={typeof sliderValue === "number" ? sliderValue : min}
           onChange={handleSliderChange}
           aria-labelledby="input-slider"
+          valueLabelDisplay="auto"
+          marks
         />
       </Grid>
       <Grid item>
         <Input
           className={classes.input}
-          value={value}
+          value={sliderValue}
           margin="dense"
           onChange={handleInputChange}
           onBlur={handleBlur}

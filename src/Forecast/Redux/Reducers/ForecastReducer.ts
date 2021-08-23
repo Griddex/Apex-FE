@@ -18,6 +18,7 @@ import {
   PERSIST_FORECASTCHARTOBJECT,
   PUT_FORECASTRESULTS_CHARTDATA_FAILURE,
   PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
+  PUT_SELECTCHART_SUCCESS,
   REMOVE_FORECAST,
   RESET_FORECAST,
   RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
@@ -144,6 +145,15 @@ const forecastReducer = (
       return {
         ...state,
         ...action.payload,
+      };
+    }
+
+    case PUT_SELECTCHART_SUCCESS: {
+      const { reducer, selectedForecastChartOption } = action.payload;
+
+      return {
+        ...state,
+        selectedForecastChartOption,
       };
     }
 

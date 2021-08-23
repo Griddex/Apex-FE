@@ -7,38 +7,71 @@ import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import {
-  curveOptions,
-  colorsOptions,
   areaBlendOptions,
+  colorsOptions,
+  curveOptions,
 } from "../../Data/VisualyticsData";
-import {
-  IApexChartFormatProps,
-  IApexLineChartGeneral,
-} from "../Charts/ChartTypes";
+import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IApexChartFormatProps } from "../Charts/ChartTypes";
+import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexLineChartGeneral = ({
-  cpBasePath,
-  spBasePath,
+  basePath,
   updateParameterAction,
-  curve,
-  colors,
-  storeLineWidth,
-  enableArea,
-  areaBlendMode,
-  storeAreaBaselineValue,
-  storeAreaOpacity,
-}: IApexLineChartGeneral & Partial<IApexChartFormatProps>) => {
+}: Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const pointRef = React.useRef<HTMLDivElement>(null);
+
+  const { chartProps, setChartProps } = React.useContext(
+    ChartFormatAggregatorContext
+  );
+
+  const {
+    curve,
+    colors,
+    areaBlendMode,
+    enableArea,
+    lineWidth,
+    areaBaselineValue,
+    areaOpacity,
+  } = chartProps;
 
   const curveOption = curveOptions.find((option) => option.value === curve);
   const colorsOption = colorsOptions.find((option) => option.value === colors);
   const areaBlendOption = areaBlendOptions.find(
     (option) => option.value === areaBlendMode
   );
+
+  const handleGeneralSelect =
+    (name: keyof IChart) => (option: ValueType<ISelectOption, false>) => {
+      setChartProps((prev) => ({
+        ...prev,
+        [name]: (option as ISelectOption).value as string,
+      }));
+
+      updateParameterAction &&
+        dispatch(
+          updateParameterAction(`${basePath}.${name}`, {
+            scheme: (option as ISelectOption).value,
+          })
+        );
+    };
+
+  const handleGeneralSwitch =
+    (name: keyof IChart) => (event: React.ChangeEvent<any>) => {
+      const { checked } = event.target;
+
+      setChartProps((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+
+      updateParameterAction &&
+        dispatch(updateParameterAction(`${basePath}.${name}`, checked));
+    };
 
   return (
     <div style={{ width: "100%", padding: 5 }}>
@@ -50,20 +83,13 @@ const ApexLineChartGeneral = ({
           <ApexSelectRS
             valueOption={curveOption as ISelectOption}
             data={curveOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
-              updateParameterAction &&
-                dispatch(
-                  updateParameterAction(
-                    `${spBasePath}.curve`,
-                    (option as ISelectOption).value
-                  )
-                );
-            }}
+            handleSelect={handleGeneralSelect("curve")}
             menuPortalTarget={pointRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />
         }
       />
+
       <AnalyticsComp
         title="Colors"
         direction="Vertical"
@@ -72,14 +98,7 @@ const ApexLineChartGeneral = ({
           <ApexSelectRS
             valueOption={colorsOption as ISelectOption}
             data={colorsOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
-              updateParameterAction &&
-                dispatch(
-                  updateParameterAction(`${spBasePath}.colors`, {
-                    scheme: (option as ISelectOption).value,
-                  })
-                );
-            }}
+            handleSelect={handleGeneralSelect("colors")}
             menuPortalTarget={pointRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />
@@ -92,16 +111,17 @@ const ApexLineChartGeneral = ({
         containerStyle={{ marginTop: 20 }}
         content={
           <ApexSlider
-            name="pointSize"
-            currentValue={storeLineWidth.currentValue as number}
-            step={storeLineWidth.step as number}
-            min={storeLineWidth.min as number}
-            max={storeLineWidth.max as number}
-            actionPath={`${spBasePath}.lineWidth`}
+            name="lineWidth"
+            sliderValue={lineWidth}
+            step={1}
+            min={0}
+            max={20}
+            actionPath={`${basePath}.lineWidth`}
             action={(path, value) =>
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
             }
+            setSliderValue={setChartProps}
           />
         }
       />
@@ -113,14 +133,7 @@ const ApexLineChartGeneral = ({
         content={
           <ApexMuiSwitch
             name={"generalEnableAreaName"}
-            handleChange={(event) => {
-              const { checked } = event.target;
-
-              updateParameterAction &&
-                dispatch(
-                  updateParameterAction(`${spBasePath}.enableArea`, checked)
-                );
-            }}
+            handleChange={handleGeneralSwitch("enableArea")}
             checked={enableArea}
             checkedColor={theme.palette.success.main}
             notCheckedColor={theme.palette.common.white}
@@ -137,16 +150,17 @@ const ApexLineChartGeneral = ({
         containerStyle={{ marginTop: 20 }}
         content={
           <ApexSlider
-            name="pointBorderWidth"
-            currentValue={storeAreaBaselineValue.currentValue as number}
-            step={storeAreaBaselineValue.step as number}
-            min={storeAreaBaselineValue.min as number}
-            max={storeAreaBaselineValue.max as number}
-            actionPath={`${spBasePath}.areaBaseLineValue`}
+            name="areaBaselineValue"
+            sliderValue={areaBaselineValue}
+            step={1}
+            min={0}
+            max={200}
+            actionPath={`${basePath}.areaBaselineValue`}
             action={(path, value) =>
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
             }
+            setSliderValue={setChartProps}
           />
         }
       />
@@ -156,12 +170,12 @@ const ApexLineChartGeneral = ({
         containerStyle={{ marginTop: 20 }}
         content={
           <ApexSlider
-            name="pointBorderWidth"
-            currentValue={storeAreaOpacity.currentValue as number}
-            step={storeAreaOpacity.step as number}
-            min={storeAreaOpacity.min as number}
-            max={storeAreaOpacity.max as number}
-            actionPath={`${spBasePath}.areaOpacity`}
+            name="areaOpacity"
+            sliderValue={areaOpacity}
+            step={0.1}
+            min={0}
+            max={1}
+            actionPath={`${basePath}.areaOpacity`}
             action={(path, value) =>
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
@@ -178,15 +192,7 @@ const ApexLineChartGeneral = ({
           <ApexSelectRS
             valueOption={areaBlendOption as ISelectOption}
             data={areaBlendOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
-              updateParameterAction &&
-                dispatch(
-                  updateParameterAction(
-                    `${spBasePath}.areaBlendMode`,
-                    (option as ISelectOption).value
-                  )
-                );
-            }}
+            handleSelect={handleGeneralSelect("areaBlendMode")}
             menuPortalTarget={pointRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />

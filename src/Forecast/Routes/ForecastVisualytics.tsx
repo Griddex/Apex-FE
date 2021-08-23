@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
@@ -9,6 +9,7 @@ import NoData from "../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
+import { ChartFormatAggregatorContextProvider } from "../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
 import LineChartFormatAggregator from "../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
@@ -17,12 +18,14 @@ import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
+import { forecastPlotChartsOptions } from "../Data/ForecastData";
 import {
+  putSelectChartOptionAction,
   removeCurrentForecastAction,
   transformForecastResultsChartDataAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
-import { IForecastRoutes } from "./ForecastRoutesTypes";
+import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,9 +65,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
+const ForecastVisualytics = () => {
+  const reducer = "forecastReducer";
   const wc = "forecastChartWorkflows";
-  const ap = "stackedAreaChart";
+  const ch = "stackedAreaChart";
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -73,29 +78,30 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
   const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
+
   const { isForecastResultsLoading, selectedForecastChartOption } = useSelector(
     (state: RootState) => state.forecastReducer
   );
 
+  const { commonChartProps } = useSelector(
+    (state: RootState) => state.forecastReducer[wc]
+  );
+
   const { data: forecastResults } = useSelector(
-    (state: RootState) => state.forecastReducer[wc][ap]
+    (state: RootState) => state.forecastReducer[wc][ch]
   );
 
   const chartType = selectedForecastChartOption.value;
-  const forecastPlotChartsOptions = [
-    {
-      value: "Select Chart...",
-      label: "Select Chart...",
+
+  const transformChartResultsPayload = {
+    ...transformForecastResultsChartDataAction(),
+    payload: {
+      forecastResults,
+      xValueCategories: forecastResults.map((_, i) => i + 2020),
+      lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
+      isYear: true,
     },
-    {
-      value: "stackedAreaChart",
-      label: "Stacked Area",
-    },
-    {
-      value: "lineChart",
-      label: "Line",
-    },
-  ];
+  };
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -103,23 +109,30 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={forecastPlotChartsOptions}
-          updateAction={updateForecastResultsParameterAction}
-          transformChartResultsAction={
+          selectedChartOptionTitle="selectedForecastChartOption"
+          putChartOptionAction={
             forecastResults.length > 0
-              ? (selectedChartype: string) =>
-                  dispatch({
-                    ...transformForecastResultsChartDataAction(),
+              ? (chartOption: ISelectOption) => {
+                  const payload = {
+                    ...transformChartResultsPayload,
                     payload: {
-                      chartType: selectedChartype,
-                      forecastResults,
-                      xValueCategories: forecastResults.map((_, i) => i + 2020),
-                      lineOrScatter:
-                        selectedChartype === "lineChart" ? "line" : "scatter",
-                      isYear: true,
+                      ...transformChartResultsPayload["payload"],
+                      chartType: chartOption.value,
                     },
-                  })
-              : (selectedChartType: string) => {}
+                  };
+
+                  dispatch(
+                    putSelectChartOptionAction(
+                      reducer,
+                      chartOption,
+                      transformForecastResultsChartDataAction,
+                      payload
+                    )
+                  );
+                }
+              : (chartOption: ISelectOption) => {}
           }
+          transformChartResultsAction={transformForecastResultsChartDataAction}
         />
         <ForecastVariableButtonsMenu />
         <IconButtonWithTooltip
@@ -141,8 +154,23 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
     componentRef,
   };
 
-  const spBasePath = `${wc}.${chartType}.specificProperties`;
-  const cpBasePath = `${wc}.commonChart.commonProperties`;
+  const basePath = `${wc}.commonChartProps`;
+
+  const renderChartFormatAggregator = (chartType: string) => {
+    if (chartType === "stackedAreaChart") {
+      return <div>StackedArea</div>;
+    } else if (chartType === "lineChart") {
+      return (
+        <LineChartFormatAggregator
+          basePath={basePath}
+          updateParameterAction={updateForecastResultsParameterAction}
+          chartType="lineChart"
+        />
+      );
+    } else {
+      return <div>No Format</div>;
+    }
+  };
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
@@ -179,23 +207,11 @@ const ForecastVisualytics = ({ wrkflwCtgry, wrkflwPrcss }: IForecastRoutes) => {
       </div>
       {showContextDrawer && (
         <ContextDrawer>
-          {() => {
-            if (chartType === "stackedAreaChart") {
-              return <div>StackedArea</div>;
-            } else if (chartType === "lineChart") {
-              return (
-                <LineChartFormatAggregator
-                  workflowCategory={wc}
-                  cpBasePath={cpBasePath}
-                  spBasePath={spBasePath}
-                  updateParameterAction={updateForecastResultsParameterAction}
-                  chartType="lineChart"
-                />
-              );
-            } else {
-              return <div>No Format</div>;
-            }
-          }}
+          {() => (
+            <ChartFormatAggregatorContextProvider>
+              {renderChartFormatAggregator(chartType as string)}
+            </ChartFormatAggregatorContextProvider>
+          )}
         </ContextDrawer>
       )}
     </div>

@@ -127,24 +127,9 @@ const generateAnalysesState = () => {
   }, {}) as Record<TEconomicsAnalysesNames, IEconomicsAnalysis>;
 };
 
-const chartsWorkflowProcesses = [
-  "economicsResultsPlotCharts",
-  "economicsResultsSensitivitiesHeatmap",
-  "economicsTemplateResultsData",
-];
-const generateChartsState = () => {
-  return chartsWorkflowProcesses.reduce((acc, workflowProcess) => {
-    return {
-      ...acc,
-      [workflowProcess]: allChartsDataAndSpecificProperties,
-    };
-  }, {});
-};
-
 const inputDataState = generateEconomicsState();
 const storedDataState = generateStoredDataState();
 const analysesDataState = generateAnalysesState();
-const chartsDataState = generateChartsState();
 
 const EconomicsState: IEconomicsState = {
   currentWorkflowProcess: "economicsAnalyses",
@@ -243,13 +228,6 @@ const EconomicsState: IEconomicsState = {
   plotChartsVariableXOption: null,
   plotChartsVariableYPriOption: null,
   plotChartsVariableYSecOption: null,
-  plotChartsCommonProperties: {
-    stackedAreaChart: {},
-    scatterChart: {},
-    lineChart: {},
-    doughnutChart: {},
-    barChart: {},
-  },
 
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },
@@ -257,7 +235,7 @@ const EconomicsState: IEconomicsState = {
   inputDataWorkflows: inputDataState,
   storedDataWorkflows: storedDataState,
   economicsAnalysisWorkflows: analysesDataState,
-  economicsChartsWorkflows: chartsDataState,
+  economicsChartsWorkflows: allChartsDataAndSpecificProperties,
 };
 
 export default EconomicsState;

@@ -4,45 +4,42 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
-import ApexLegendAnchor from "../../../Application/Components/Anchors/ApexLegendAnchor";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { pointLabelOptions } from "../../Data/VisualyticsData";
-import {
-  IApexChartFormatProps,
-  IApexChartPointers,
-} from "../Charts/ChartTypes";
+import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexPickerExtruder from "../ColorPickers/ApexPickerExtruder";
 import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
+import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexChartPointers = ({
-  cpBasePath,
+  basePath,
   updateParameterAction,
-  enablePointers,
-  enablePointLabel,
-  pointLabel,
-  storePointColor,
-  storePointSize,
-  storePointBorderWidth,
-  storePointBorderColor,
-  storePointLabelYOffset,
-}: IApexChartPointers & Partial<IApexChartFormatProps>) => {
+}: Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const pointRef = React.useRef<HTMLDivElement>(null);
-  const [pointColor, setPointColor] = React.useState(storePointColor);
-  const [showPointColorPicker, setShowPointColorPicker] = React.useState(false);
 
-  const [pointBorderColor, setPointBorderColor] = React.useState(
-    storePointBorderColor
+  const { chartProps, setChartProps } = React.useContext(
+    ChartFormatAggregatorContext
   );
-  const [showPointBorderColorPicker, setShowPointBorderColorPicker] =
-    React.useState(false);
+
+  const {
+    enablePoints,
+    pointSize,
+    pointColor,
+    pointBorderWidth,
+    pointBorderColor,
+    enablePointLabel,
+    pointLabel,
+    pointLabelYOffset,
+  } = chartProps;
 
   const [presetColors, setPresetColors] = React.useState([
     theme.palette.primary.main,
@@ -51,29 +48,52 @@ const ApexChartPointers = ({
     theme.palette.warning.main,
   ]);
 
+  const [showPointColorPicker, setShowPointColorPicker] = React.useState(false);
+  const [showPointBorderColorPicker, setShowPointBorderColorPicker] =
+    React.useState(false);
   const [pointColorPerspective, setPointColorPerspective] =
     React.useState("inherit");
   const [borderColorPerspective, setBorderColorPerspective] =
     React.useState("inherit");
 
-  const basePath = `${cpBasePath}.specificProperties`;
   const pointLabelOption = pointLabelOptions.find(
     (option) => option.value === pointLabel
   );
+
+  const handlePointsSwitch =
+    (name: keyof IChart) => (event: React.ChangeEvent<any>) => {
+      const { checked } = event.target;
+
+      setChartProps((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+
+      updateParameterAction &&
+        dispatch(updateParameterAction(`${basePath}.${name}`, checked));
+    };
+
+  const handlePointersSelect =
+    (name: keyof IChart) => (option: ValueType<ISelectOption, false>) => {
+      setChartProps((prev) => ({
+        ...prev,
+        [name]: (option as ISelectOption).value as string,
+      }));
+
+      updateParameterAction &&
+        dispatch(
+          updateParameterAction(`${basePath}.${name}`, {
+            scheme: (option as ISelectOption).value,
+          })
+        );
+    };
 
   return (
     <div style={{ width: "100%", padding: 5 }}>
       <ApexMuiSwitch
         name={"pointersEnableName"}
-        handleChange={(event) => {
-          const { checked } = event.target;
-
-          updateParameterAction &&
-            dispatch(
-              updateParameterAction(`${basePath}.enablePoints`, checked)
-            );
-        }}
-        checked={enablePointers}
+        handleChange={handlePointsSwitch("enablePoints")}
+        checked={enablePoints}
         checkedColor={theme.palette.success.main}
         notCheckedColor={theme.palette.common.white}
         hasLabels={true}
@@ -81,7 +101,7 @@ const ApexChartPointers = ({
         rightLabel="Enable"
       />
 
-      {enablePointers && (
+      {enablePoints && (
         <>
           {/* <AnalyticsComp
             title="Point Symbol"
@@ -135,8 +155,8 @@ const ApexChartPointers = ({
                         )
                       )
                     }
-                    solidColor={pointColor as string}
-                    setSolidColor={setPointColor as TUseState<string>}
+                    solidColor={chartProps["pointColor"] as string}
+                    setSolidColor={setChartProps as TUseState<any>}
                     presetColors={presetColors}
                     setPresetColors={setPresetColors}
                     showButtons={false}
@@ -152,15 +172,16 @@ const ApexChartPointers = ({
             content={
               <ApexSlider
                 name="pointSize"
-                currentValue={storePointSize.currentValue as number}
-                step={storePointSize.step as number}
-                min={storePointSize.min as number}
-                max={storePointSize.max as number}
+                sliderValue={pointSize}
+                step={1}
+                min={2}
+                max={20}
                 actionPath={`${basePath}.pointSize`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
                 }
+                setSliderValue={setChartProps}
               />
             }
           />
@@ -171,15 +192,16 @@ const ApexChartPointers = ({
             content={
               <ApexSlider
                 name="pointBorderWidth"
-                currentValue={storePointBorderWidth.currentValue as number}
-                step={storePointBorderWidth.step as number}
-                min={storePointBorderWidth.min as number}
-                max={storePointBorderWidth.max as number}
+                sliderValue={pointBorderWidth}
+                step={1}
+                min={0}
+                max={20}
                 actionPath={`${basePath}.pointBorderWidth`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
                 }
+                setSliderValue={setChartProps}
               />
             }
           />
@@ -223,8 +245,8 @@ const ApexChartPointers = ({
                         )
                       )
                     }
-                    solidColor={pointBorderColor as string}
-                    setSolidColor={setPointBorderColor as TUseState<string>}
+                    solidColor={chartProps["pointBorderColor"] as string}
+                    setSolidColor={setChartProps as TUseState<any>}
                     presetColors={presetColors}
                     setPresetColors={setPresetColors}
                     showButtons={false}
@@ -241,17 +263,7 @@ const ApexChartPointers = ({
             content={
               <ApexMuiSwitch
                 name={"pointersLabelEnableName"}
-                handleChange={(event) => {
-                  const { checked } = event.target;
-
-                  updateParameterAction &&
-                    dispatch(
-                      updateParameterAction(
-                        `${basePath}.enablePointLabel`,
-                        checked
-                      )
-                    );
-                }}
+                handleChange={handlePointsSwitch("enablePointLabel")}
                 checked={enablePointLabel}
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.common.white}
@@ -271,15 +283,7 @@ const ApexChartPointers = ({
                   <ApexSelectRS
                     valueOption={pointLabelOption as ISelectOption}
                     data={pointLabelOptions}
-                    handleSelect={(option: ValueType<ISelectOption, false>) => {
-                      updateParameterAction &&
-                        dispatch(
-                          updateParameterAction(
-                            `${basePath}.pointLabel`,
-                            (option as ISelectOption).value
-                          )
-                        );
-                    }}
+                    handleSelect={handlePointersSelect("pointLabel")}
                     menuPortalTarget={pointRef.current as HTMLDivElement}
                     isSelectOptionType={true}
                   />
@@ -291,12 +295,12 @@ const ApexChartPointers = ({
                 containerStyle={{ marginTop: 20 }}
                 content={
                   <ApexSlider
-                    name="titleOffset"
-                    currentValue={storePointLabelYOffset.currentValue as number}
-                    step={storePointLabelYOffset.step as number}
-                    min={storePointLabelYOffset.min as number}
-                    max={storePointLabelYOffset.max as number}
-                    actionPath={`${basePath}.translateY`}
+                    name="pointLabelYOffset"
+                    sliderValue={pointLabelYOffset}
+                    step={1}
+                    min={0}
+                    max={20}
+                    actionPath={`${basePath}.pointLabelYOffset`}
                     action={(path, value) =>
                       updateParameterAction &&
                       dispatch(updateParameterAction(path, value))

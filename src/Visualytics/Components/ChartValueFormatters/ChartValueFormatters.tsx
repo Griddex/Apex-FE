@@ -44,7 +44,8 @@ const ChartValueFormatters = memo(
     intialFormatValue,
     plotRef,
     updateParameterAction,
-    axisFormat,
+    axisFormatTitle,
+    setValueFormat,
   }: IChartValueFormatters) => {
     const theme = useTheme();
     const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const ChartValueFormatters = memo(
     const [isEditing, setIsEditing] = useState(false);
 
     const formatSpecifierOrig = useMemo(
-      () => parseFormat(formatValue.format),
+      () => parseFormat(formatValue.format as string),
       [formatValue.format]
     );
 
@@ -224,9 +225,17 @@ const ChartValueFormatters = memo(
     };
 
     React.useEffect(() => {
+      setValueFormat((prev: any) => ({
+        ...prev,
+        [axisFormatTitle]: formatValue.format as string,
+      }));
+
       updateParameterAction &&
         dispatch(
-          updateParameterAction(`${basePath}.${axisFormat}`, formatValue.format)
+          updateParameterAction(
+            `${basePath}.${axisFormatTitle}`,
+            formatValue.format
+          )
         );
     }, [formatValue.format]);
 

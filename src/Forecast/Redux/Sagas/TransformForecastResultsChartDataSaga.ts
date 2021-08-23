@@ -41,10 +41,7 @@ function* transformForecastResultsChartDataSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
-  console.log(
-    "Logged output --> ~ file: TransformForecastResultsChartDataSaga.ts ~ line 44 ~ payload",
-    payload
-  );
+
   const {
     chartType,
     forecastResults,
@@ -53,17 +50,17 @@ function* transformForecastResultsChartDataSaga(
     isYear,
   } = payload;
 
-  const transformedForecastResultsFxn =
-    forecastResultsTransformersObj[chartType as TChartTypes];
-
-  const transformedForecastResults = transformedForecastResultsFxn({
-    data: forecastResults,
-    yearsOrMonths: xValueCategories,
-    lineOrScatter,
-    isYear,
-  });
-
   try {
+    const transformedForecastResultsFxn =
+      forecastResultsTransformersObj[chartType as TChartTypes];
+
+    const transformedForecastResults = transformedForecastResultsFxn({
+      data: forecastResults,
+      yearsOrMonths: xValueCategories,
+      lineOrScatter,
+      isYear,
+    });
+
     const successAction = transformForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,

@@ -14,33 +14,41 @@ import {
   legendItemsDirectionOptions,
   legendSymbolShapeOptions,
 } from "../../Data/VisualyticsData";
-import { IApexChartFormatProps, IApexLegends } from "../Charts/ChartTypes";
+import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
+import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 import ApexSlider from "../Sliders/ApexSlider";
 
 const ApexLegends = ({
-  cpBasePath,
+  basePath,
   updateParameterAction,
-  enableLegend,
-  anchor,
-  direction,
-  justify,
-  itemDirection,
-  symbolShape,
-  symbolBorderColor,
-
-  storeTranslateX,
-  storeTranslateY,
-  storeItemsSpacing,
-  storeItemWidth,
-  storeItemHeight,
-  storeItemOpacity,
-  storeSymbolSize,
-}: IApexLegends & Partial<IApexChartFormatProps>) => {
+}: Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const legendRef = React.useRef<HTMLDivElement>(null);
+
+  const { chartProps, setChartProps } = React.useContext(
+    ChartFormatAggregatorContext
+  );
+
+  const {
+    enableLegend,
+    anchor,
+    direction,
+    justify,
+    translateX,
+    translateY,
+    itemsSpacing,
+    itemWidth,
+    itemHeight,
+    itemOpacity,
+    itemDirection,
+    symbolShape,
+    symbolSize,
+    symbolBorderColor,
+  } = chartProps["legends"];
+
   const [solidColor, setSolidColor] = React.useState(symbolBorderColor);
 
   const [presetColors, setPresetColors] = React.useState([
@@ -57,13 +65,33 @@ const ApexLegends = ({
     (option) => option.value === symbolShape
   );
 
+  const handleLegendSelect =
+    (name: string) => (option: ValueType<ISelectOption, false>) => {
+      setChartProps((prev) => ({
+        ...prev,
+        [name]: (option as ISelectOption).value as string,
+      }));
+
+      updateParameterAction &&
+        dispatch(
+          updateParameterAction(`${basePath}.legends[0].${name}`, {
+            scheme: (option as ISelectOption).value,
+          })
+        );
+    };
+
   const legendAnchorData = legendAnchorPositions.map((rowArr) => {
     const optionsArr = rowArr.map((opt) => ({
       ...opt,
       action: () => {
+        setChartProps((prev) => ({
+          ...prev,
+          legends: opt.value,
+        }));
+
         updateParameterAction &&
           dispatch(
-            updateParameterAction(`${cpBasePath}.legends[0].anchor`, opt.value)
+            updateParameterAction(`${basePath}.legends[0].anchor`, opt.value)
           );
       },
     }));
@@ -77,10 +105,14 @@ const ApexLegends = ({
         name={"legendEnableName"}
         handleChange={(event) => {
           const { checked } = event.target;
+          setChartProps((prev) => ({
+            ...prev,
+            enableLegend: checked,
+          }));
 
           updateParameterAction &&
             dispatch(
-              updateParameterAction(`${cpBasePath}.enableLegend`, checked)
+              updateParameterAction(`${basePath}.enableLegend`, checked)
             );
         }}
         checked={enableLegend}
@@ -114,10 +146,14 @@ const ApexLegends = ({
                 value={direction}
                 exclusive
                 onChange={(_, value) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: value,
+                  }));
                   updateParameterAction &&
                     dispatch(
                       updateParameterAction(
-                        `${cpBasePath}.legends[0].direction`,
+                        `${basePath}.legends[0].direction`,
                         value
                       )
                     );
@@ -137,10 +173,17 @@ const ApexLegends = ({
                 name={"justifyEnableName"}
                 handleChange={(event) => {
                   const { checked } = event.target;
+                  setChartProps((prev) => ({
+                    ...prev,
+                    enableLegend: checked,
+                  }));
 
                   updateParameterAction &&
                     dispatch(
-                      updateParameterAction(`${cpBasePath}.justify`, checked)
+                      updateParameterAction(
+                        `${basePath}.legends[0].justify`,
+                        checked
+                      )
                     );
                 }}
                 checked={justify}
@@ -158,12 +201,12 @@ const ApexLegends = ({
             containerStyle={{ marginTop: 20 }}
             content={
               <ApexSlider
-                name="titleOffset"
-                currentValue={storeTranslateX.currentValue as number}
-                step={storeTranslateX.step as number}
-                min={storeTranslateX.min as number}
-                max={storeTranslateX.max as number}
-                actionPath={`${cpBasePath}.translateX`}
+                name="translateX"
+                sliderValue={translateX}
+                step={1}
+                min={-200}
+                max={200}
+                actionPath={`${basePath}.legends[0].translateX`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -177,12 +220,12 @@ const ApexLegends = ({
             containerStyle={{ marginTop: 20 }}
             content={
               <ApexSlider
-                name="titleOffset"
-                currentValue={storeTranslateY.currentValue as number}
-                step={storeTranslateY.step as number}
-                min={storeTranslateY.min as number}
-                max={storeTranslateY.max as number}
-                actionPath={`${cpBasePath}.translateY`}
+                name="translateY"
+                sliderValue={translateY}
+                step={1}
+                min={-200}
+                max={200}
+                actionPath={`${basePath}.legends[0].translateY`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -196,12 +239,12 @@ const ApexLegends = ({
             containerStyle={{ marginTop: 20 }}
             content={
               <ApexSlider
-                name="titlePosition"
-                currentValue={storeItemsSpacing.currentValue as number}
-                step={storeItemsSpacing.step as number}
-                min={storeItemsSpacing.min as number}
-                max={storeItemsSpacing.max as number}
-                actionPath={`${cpBasePath}.itemsSpacing`}
+                name="itemsSpacing"
+                sliderValue={itemsSpacing}
+                step={1}
+                min={0}
+                max={60}
+                actionPath={`${basePath}.legends[0].itemsSpacing`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -216,11 +259,11 @@ const ApexLegends = ({
             content={
               <ApexSlider
                 name="itemWidth"
-                currentValue={storeItemWidth.currentValue as number}
-                step={storeItemWidth.step as number}
-                min={storeItemWidth.min as number}
-                max={storeItemWidth.max as number}
-                actionPath={`${cpBasePath}.itemWidth`}
+                sliderValue={itemWidth}
+                step={1}
+                min={10}
+                max={200}
+                actionPath={`${basePath}.legends[0].itemWidth`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -235,11 +278,11 @@ const ApexLegends = ({
             content={
               <ApexSlider
                 name="itemHeight"
-                currentValue={storeItemHeight.currentValue as number}
-                step={storeItemHeight.step as number}
-                min={storeItemHeight.min as number}
-                max={storeItemHeight.max as number}
-                actionPath={`${cpBasePath}.itemHeight`}
+                sliderValue={itemHeight}
+                step={1}
+                min={10}
+                max={200}
+                actionPath={`${basePath}.legends[0].itemHeight`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -254,11 +297,11 @@ const ApexLegends = ({
             content={
               <ApexSlider
                 name="itemOpacity"
-                currentValue={storeItemOpacity.currentValue as number}
-                step={storeItemOpacity.step as number}
-                min={storeItemOpacity.min as number}
-                max={storeItemOpacity.max as number}
-                actionPath={`${cpBasePath}.itemOpacity`}
+                sliderValue={itemOpacity}
+                step={1}
+                min={0}
+                max={10}
+                actionPath={`${basePath}.legends[0].itemOpacity`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -274,15 +317,7 @@ const ApexLegends = ({
               <ApexSelectRS
                 valueOption={itemDirectionOption as ISelectOption}
                 data={legendItemsDirectionOptions}
-                handleSelect={(option: ValueType<ISelectOption, false>) => {
-                  updateParameterAction &&
-                    dispatch(
-                      updateParameterAction(
-                        `${cpBasePath}.itemDirection`,
-                        (option as ISelectOption).value
-                      )
-                    );
-                }}
+                handleSelect={handleLegendSelect("itemDirection")}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
               />
@@ -295,11 +330,11 @@ const ApexLegends = ({
             content={
               <ApexSlider
                 name="symbolSize"
-                currentValue={storeSymbolSize.currentValue as number}
-                step={storeSymbolSize.step as number}
-                min={storeSymbolSize.min as number}
-                max={storeSymbolSize.max as number}
-                actionPath={`${cpBasePath}.symbolSize`}
+                sliderValue={symbolSize}
+                step={1}
+                min={2}
+                max={60}
+                actionPath={`${basePath}.legends[0].symbolSize`}
                 action={(path, value) =>
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
@@ -330,15 +365,7 @@ const ApexLegends = ({
               <ApexSelectRS
                 valueOption={symbolShapeOption as ISelectOption}
                 data={legendSymbolShapeOptions}
-                handleSelect={(option: ValueType<ISelectOption, false>) => {
-                  updateParameterAction &&
-                    dispatch(
-                      updateParameterAction(
-                        `${cpBasePath}.symbolShape`,
-                        (option as ISelectOption).value
-                      )
-                    );
-                }}
+                handleSelect={handleLegendSelect("symbolShape")}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
               />

@@ -42,6 +42,13 @@ export const FETCH_ECONOMICSPARAMETERSHEADERS_SUCCESS =
 export const FETCH_ECONOMICSPARAMETERSHEADERS_FAILURE =
   "FETCH_ECONOMICSPARAMETERSHEADERS_FAILURE";
 
+export const TRANSFORM_ECONOMICSRESULTS_CHARTDATA =
+  "TRANSFORM_ECONOMICSRESULTS_CHARTDATA";
+export const TRANSFORM_ECONOMICSRESULTS_CHARTDATA_SUCCESS =
+  "TRANSFORM_ECONOMICSRESULTS_CHARTDATA_SUCCESS";
+export const TRANSFORM_ECONOMICSRESULTS_CHARTDATA_FAILURE =
+  "TRANSFORM_ECONOMICSRESULTS_CHARTDATA_FAILURE";
+
 export const PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS =
   "PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS";
 export const PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE =
@@ -263,6 +270,34 @@ export const persistEconomicsParHeadersSelectOptionSuccessAction = () => {
 export const persistEconomicsParDataFaiSelectOptionFailureAction = () => {
   return {
     type: PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const transformEconomicsResultsChartDataAction = () => {
+  return {
+    type: TRANSFORM_ECONOMICSRESULTS_CHARTDATA,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const transformEconomicsResultsChartDataSuccessAction = () => {
+  return {
+    type: TRANSFORM_ECONOMICSRESULTS_CHARTDATA_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const transformEconomicsResultsChartDataFailureAction = () => {
+  return {
+    type: TRANSFORM_ECONOMICSRESULTS_CHARTDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

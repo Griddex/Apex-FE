@@ -150,18 +150,8 @@ const ForecastLanding = () => {
                       showChart={false}
                     />
                   ),
-                  forecastqualityassurance: (
-                    <ForecastQualityAssurance
-                    // wrkflwCtgry={"storedDataWorkflows"}
-                    // wrkflwPrcss={"forecastResultsQualityAssurance"}
-                    />
-                  ),
-                  forecastvisualytics: (
-                    <ForecastVisualytics
-                      wrkflwCtgry={"storedDataWorkflows"}
-                      wrkflwPrcss={"forecastResultsVisualytics"}
-                    />
-                  ),
+                  forecastqualityassurance: <ForecastQualityAssurance />,
+                  forecastvisualytics: <ForecastVisualytics />,
                   approvedforecastresults: (
                     <StoredForecastResults
                       wkCy={"storedDataWorkflows"}

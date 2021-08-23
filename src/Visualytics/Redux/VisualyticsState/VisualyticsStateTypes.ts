@@ -1,3 +1,32 @@
+import {
+  BarLegendProps,
+  BarTooltipProps,
+  ComputedDatum as BarComputedDatum,
+} from "@nivo/bar";
+import { InheritedColorConfig, OrdinalColorScaleConfig } from "@nivo/colors";
+import {
+  Box,
+  DatumValue,
+  ModernMotionProps,
+  PropertyAccessor,
+  StackOffset,
+  SvgDefsAndFill,
+  ValueFormat,
+} from "@nivo/core";
+import { Datum, LegendProps } from "@nivo/legends";
+import { PointMouseHandler, PointTooltip } from "@nivo/line";
+import { MouseEventHandler, PieTooltipProps } from "@nivo/pie";
+import { PointData } from "@nivo/radar";
+import { CustomTooltip, MouseHandler } from "@nivo/scatterplot";
+import { TooltipFormatter, TooltipLabel } from "@nivo/stream";
+import { ElementType } from "react";
+import {
+  AxisProps,
+  CrosshairType,
+  ScaleBandSpec,
+  ScaleSpec,
+  TicksSpec,
+} from "../../Components/ChartTypes";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 import {
@@ -51,3 +80,233 @@ export interface IChartLayoutProps {
 }
 
 export type colorGradient = typeof initialColorGradient;
+export interface StreamLayerDatum {
+  index: number;
+  x: number;
+  value: number;
+  y1: number;
+  y2: number;
+}
+
+export interface StackedComputedDatum {
+  id: number;
+  layer: StreamLayerDatum[];
+  path: string;
+  color: string;
+}
+
+interface DotDatum extends StreamLayerDatum {
+  id: string;
+  color: string;
+}
+
+export interface ChartComputedDatum<RawDatum> {
+  bar: BarComputedDatum<RawDatum>;
+  stacked: StackedComputedDatum;
+}
+
+export interface ITooltipLabel<
+  T = Datum,
+  RawDatum = Record<string, string | number>
+> {
+  stackedArea: TooltipLabel<T> | undefined;
+  // | string
+  scatter: PointTooltip;
+  bar: PropertyAccessor<BarComputedDatum<RawDatum>, string>;
+}
+
+export type TCurve =
+  | "linear"
+  | "basis"
+  | "cardinal"
+  | "catmullRom"
+  | "monotoneX"
+  | "monotoneY"
+  | "natural"
+  | "step"
+  | "stepAfter"
+  | "stepBefore"
+  | undefined;
+
+export type TAreaBlendMode =
+  | "normal"
+  | "multiply"
+  | "screen"
+  | "overlay"
+  | "lighten"
+  | "darken"
+  | "color-dodge"
+  | "color-burn"
+  | "hard-light"
+  | "soft-light"
+  | "difference"
+  | "exclusion"
+  | "hue"
+  | "saturation"
+  | "color"
+  | "luminosity";
+
+export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
+  //Statcked
+  offsetType: StackOffset;
+
+  //Doughnut
+  innerRadius: number;
+  padAngle: number;
+  cornerRadius: number;
+  activeOuterRadiusOffset: number;
+  arcLinkLabelsSkipAngle: number;
+  arcLinkLabelsTextColor: InheritedColorConfig<Datum>;
+  arcLinkLabelsThickness: number;
+  arcLinkLabelsColor: InheritedColorConfig<Datum>;
+  arcLabelsSkipAngle: number;
+  arcLabelsTextColor: InheritedColorConfig<Datum>;
+
+  //Bar
+  labelSkipWidth: number;
+  labelSkipHeight: number;
+  labelTextColor: any;
+  // labelTextColor: InheritedColorConfig<Datum>;
+
+  //Line
+  lineWidth: number;
+  enableArea: boolean;
+  areaBaselineValue: number;
+  areaOpacity: number;
+  areaBlendMode: string; //TODO provide real type?
+
+  //General
+  keys: string[];
+  colors: OrdinalColorScaleConfig;
+  margin: Box;
+  padding: number;
+  role: string; //what's this?
+  indexBy: PropertyAccessor<RawDatum, string>;
+  minValue: "auto" | number;
+  maxValue: "auto" | number;
+  valueFormat: ValueFormat<number>;
+  valueScale: ScaleSpec;
+  indexScale: ScaleBandSpec;
+  // theme: pretty big object, implement later?
+
+  //Series
+  curve: TCurve;
+  blendMode: TAreaBlendMode;
+  borderColor: any;
+  // borderColor: InheritedColorConfig<
+  //   StackedComputedDatum | Record<"color" | "key", string>
+  // >;
+  // | InheritedColorConfig<Record<"color" | "key", string>>;
+  borderWidth: number;
+  fillOpacity: number;
+
+  //Dots
+  enableDots: boolean;
+  dotBorderColor: InheritedColorConfig<PointData | DotDatum>;
+  dotBorderWidth: number;
+  dotColor: InheritedColorConfig<PointData | DotDatum>;
+  dotSize: number;
+  //markers: "", can't find in linechart
+
+  //POINTS
+  enablePoints: boolean;
+  pointSize: number;
+  pointColor: InheritedColorConfig<Datum>;
+  pointBorderWidth: number;
+  pointBorderColor: InheritedColorConfig<Datum>;
+  pointLabelYOffset: number;
+  enablePointLabel: boolean;
+  pointLabel: string;
+
+  //Motion
+  isInteractive: boolean;
+  animate: ModernMotionProps["animate"];
+  motionConfig: ModernMotionProps["motionConfig"];
+  renderWrapper: boolean;
+  // motionDamping: "", confirm if still needed
+  // motionStiffness: "",
+
+  //Tooltip
+  tooltip: any;
+  // tooltip:
+  //   | React.FC<PieTooltipProps<RawDatum>>
+  //   | React.FC<BarTooltipProps<RawDatum>>
+  //   | PointTooltip
+  //   | CustomTooltip;
+  tooltipFormat: any;
+  // tooltipFormat: TooltipFormatter<T> | string | ValueFormat<DatumValue>;
+  tooltipLabel: any;
+  // tooltipLabel:
+  //   | undefined
+  //   | TooltipLabel<T>
+  //   | PointTooltip
+  //   | Exclude<PropertyAccessor<BarComputedDatum<RawDatum>, string>,string>;
+  enableStackTooltip: boolean;
+  enableCrosshair?: boolean;
+  crosshairType?: CrosshairType;
+
+  //Axis
+  axisTop: AxisProps | undefined;
+  axisRight: AxisProps | undefined;
+  axisBottom: AxisProps | undefined;
+  axisLeft: AxisProps | undefined;
+  // axisTop: AxisProps | null | undefined;
+  // axisRight: AxisProps | null | undefined;
+  // axisBottom: AxisProps | null | undefined;
+  // axisLeft: AxisProps | null | undefined;
+  apexAxesEnabled: {
+    axisLeft: boolean;
+    axisBottom: boolean;
+    axisTop: boolean;
+    axisRight: boolean;
+  };
+
+  //Grid
+  enableGridX: boolean;
+  enableGridY: boolean;
+  gridXValues: any;
+  // gridXValues: TicksSpec<DatumValue>;
+  gridYValues: any;
+  // gridYValues: TicksSpec<DatumValue>;
+
+  //Handlers
+  onClick: any;
+  // onClick:
+  //   | PointMouseHandler
+  //   | MouseEventHandler<RawDatum, ElementType>
+  //   | MouseHandler;
+  onMouseEnter: any;
+  // onMouseEnter:
+  //   | PointMouseHandler
+  //   | MouseEventHandler<RawDatum, ElementType>
+  //   | MouseHandler;
+  onMouseLeave: any;
+  // onMouseLeave:
+  //   | PointMouseHandler
+  //   | MouseEventHandler<RawDatum, ElementType>
+  //   | MouseHandler;
+  onMouseMove: any;
+  // onMouseMove:
+  //   | PointMouseHandler
+  //   | MouseEventHandler<RawDatum, ElementType>
+  //   | MouseHandler;
+
+  //Scales
+  xScale: ScaleSpec;
+  xFormat: ValueFormat<DatumValue>;
+  yScale: ScaleSpec;
+  yFormat: ValueFormat<DatumValue>;
+
+  //Definitions
+  defs: any;
+  // defs: SvgDefsAndFill<Datum>["defs"];
+
+  //Fill
+  fill: any;
+  // fill: SvgDefsAndFill<Datum>["fill"];
+
+  //Legend
+  enableLegend: boolean;
+  legends: any;
+  // legends: LegendProps[] | BarLegendProps[];
+}

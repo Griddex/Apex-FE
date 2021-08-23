@@ -1,32 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ChartSelector from "../../Visualytics/Common/ChartSelector";
-import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
+import SelectChart from "../../Visualytics/Common/SelectChart";
 
 const ForecastSelectChart = () => {
+  const reducer = "forecastReducer";
   const wc = "forecastChartWorkflows";
-
-  const { selectedForecastChartOption } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
-
-  const chartType = selectedForecastChartOption.value as TChartTypes;
-  const forecastChartsObj = useSelector(
-    (state: RootState) => state.forecastReducer[wc]
-  );
-
-  const { commonProperties } = forecastChartsObj["commonChart"];
-  const { data, specificProperties } = forecastChartsObj[chartType];
 
   return (
     <ApexFlexContainer>
-      <ChartSelector
-        chartType={chartType}
-        data={data}
-        specificProperties={specificProperties}
-        commonProperties={commonProperties}
+      <SelectChart
+        workflowCategory={wc}
+        reducer={reducer}
+        selectedChartOptionTitle="selectedForecastChartOption"
       />
     </ApexFlexContainer>
   );
