@@ -344,33 +344,6 @@ export const pointLabelOptions = [
   },
 ];
 
-export const defaultChartProps = {
-  selectedMotion: "preset",
-  motionOptions: {
-    preset: "default",
-    custom: { mass: 1, tension: 170, friction: 26, clamp: false },
-  },
-  selectedBorderColor: "inherit",
-  borderColorOptions: {
-    theme: { theme: "background" },
-    custom: "grey",
-    inherit: { from: "color", modifiers: [["darker", 0.2]] },
-  },
-  selectedDotColor: "inherit",
-  dotColorOptions: {
-    theme: { theme: "background" },
-    custom: "grey",
-    inherit: { from: "color", modifiers: [["darker", 0.2]] },
-  },
-  selectedDotBorderColor: "inherit",
-  dotBorderColorOptions: {
-    theme: { theme: "background" },
-    custom: "grey",
-    inherit: { from: "color", modifiers: [["darker", 0.2]] },
-  },
-  indexBy: "",
-};
-
 export const commonChartProps = {
   //Statcked
   offsetType: "none",
@@ -405,10 +378,10 @@ export const commonChartProps = {
   margin: { top: 40, right: 100, bottom: 80, left: 80 },
   padding: 0.3,
   role: "", //what's this?
-  indexBy: "",
+  indexBy: "Year", //TODO here for now
   minValue: "auto",
   maxValue: "auto",
-  valueFormat: " >-.2f",
+  valueFormat: " >-.0f",
   valueScale: { type: "linear" },
   indexScale: { type: "band", round: true },
   // theme: pretty big object, implement later?
@@ -450,7 +423,7 @@ export const commonChartProps = {
   tooltip: undefined,
   // tooltip: () => {},
   tooltipFormat: undefined,
-  // tooltipFormat: " >-.2f",
+  // tooltipFormat: " >-.0f",
   tooltipLabel: undefined,
   enableStackTooltip: true,
 
@@ -496,7 +469,7 @@ export const commonChartProps = {
 
   //Scales
   xScale: { type: "point" },
-  xFormat: " >-.2f",
+  xFormat: " >-.0f",
   yScale: {
     type: "linear",
     min: "auto",
@@ -504,7 +477,7 @@ export const commonChartProps = {
     stacked: true,
     reverse: false,
   },
-  yFormat: " >-.2f",
+  yFormat: " >-.0f",
 
   //Definitions
   defs: [

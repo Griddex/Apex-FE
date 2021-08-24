@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import ApexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import ApexCheckboxGroup from "../../Application/Components/Checkboxes/ApexCheckboxGroup";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -25,9 +25,7 @@ import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGr
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
-import {
-  updateNetworkParameterAction
-} from "../Redux/Actions/NetworkActions";
+import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 
 const EditOrCreateProductionPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
@@ -37,10 +35,8 @@ const EditOrCreateProductionPrioritization = () => {
   const {
     selectedTableData,
     prioritizationPerspective,
-    selectedStreamPrioritization
+    selectedStreamPrioritization,
   } = useSelector((state: RootState) => state.networkReducer);
-
-
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
     prioritizationPerspective ? prioritizationPerspective : "No Prioritization"
@@ -61,7 +57,7 @@ const EditOrCreateProductionPrioritization = () => {
 
   const [rows, setRows] = React.useState(snSelectedTableData);
 
- /*  React.useEffect(() => {
+  /*  React.useEffect(() => {
     dispatch(
       updateNetworkParameterAction(
         "selectedTableData",
@@ -78,20 +74,16 @@ const EditOrCreateProductionPrioritization = () => {
         prtznPerspective
       )
     );
+  }, [prtznPerspective as any]);
 
-}, [prtznPerspective as any]);
-
-
-React.useEffect(() => {
-
-  dispatch(
-    updateNetworkParameterAction(
-      "selectedStreamPrioritization",
-      streamOption.value
-    )
-  );
-
-}, [streamOption.value as any]);
+  React.useEffect(() => {
+    dispatch(
+      updateNetworkParameterAction(
+        "selectedStreamPrioritization",
+        streamOption.value
+      )
+    );
+  }, [streamOption.value as any]);
 
   const NoPrioritization = () => {
     return (
@@ -117,18 +109,13 @@ React.useEffect(() => {
   const ProductionPrioritization = () => {
     const columnKeys = Object.keys(snSelectedTableData[0]);
 
-    const updateRow = (row:any, option:any) => {
+    const updateRow = (row: any, option: any) => {
       const currentSN = row.sn as number;
       row.optimizationWeight = option.value as string;
-      rows[currentSN-1] = row;
+      rows[currentSN - 1] = row;
       console.log("rows: ", rows);
-      dispatch(
-        updateNetworkParameterAction(
-          "selectedTableData",
-          rows
-        )
-      );
-    }
+      dispatch(updateNetworkParameterAction("selectedTableData", rows));
+    };
 
     const streamFormatter = ({ row }: FormatterProps<IRawRow, unknown>) => {
       const optimizationWeight = row.optimizationWeight as string;
@@ -170,8 +157,8 @@ React.useEffect(() => {
         width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
       };
 
-      if(isCreateOrEdit == true){
-        if(column.key  != "module"){
+      if (isCreateOrEdit == true) {
+        if (column.key != "module") {
           column.editable = true;
         }
       }
@@ -269,9 +256,9 @@ React.useEffect(() => {
 
     return (
       <ApexFlexContainer>
-        <ApexCheckbox
+        <ApexCheckboxGroup
           variableZOption={streamOption}
-          apexCheckboxData={streamPrioritizationData}
+          apexCheckboxDataGroup={streamPrioritizationData}
         />
       </ApexFlexContainer>
     );

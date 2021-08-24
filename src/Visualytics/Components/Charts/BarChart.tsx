@@ -14,12 +14,13 @@ const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const { commonChartProps, barChart } = useSelector(
+  const { commonChartProps, barChart, stackedAreaChart, isYear } = useSelector(
     (state: RootState) => state[reducerDefined][wc]
   );
   const { data } = barChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
+
   const { gridXValues, gridYValues, labelTextColor, legends } =
     commonChartPropsDefined;
 
@@ -37,7 +38,17 @@ const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
   const legendsBar = legends as BarLegendProps[] | undefined;
   commonChartPropsDefined["legends"] = legendsBar;
 
-  //BarLegendProps[] | undefined
+  //TODO fix isYear, keeps returning month
+  //Barchart renders before payload hits store
+  // commonChartPropsDefined["indexBy"] = isYear ? "Year" : "Month";
+  commonChartPropsDefined["indexBy"] = "Year";
+
+  const keys = Object.keys(stackedAreaChart.data[0]);
+  commonChartPropsDefined["keys"] = keys;
+  console.log(
+    "Logged output --> ~ file: BarChart.tsx ~ line 45 ~ SimpleBarChart ~ commonChartPropsDefined",
+    commonChartPropsDefined
+  );
 
   return <ResponsiveBar data={data} {...commonChartPropsDefined} />;
 };

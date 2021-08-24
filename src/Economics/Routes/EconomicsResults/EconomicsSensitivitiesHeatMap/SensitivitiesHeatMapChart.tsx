@@ -6,7 +6,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
-import ApexCheckbox from "../../../../Application/Components/Checkboxes/ApexCheckbox";
+import ApexCheckboxGroup from "../../../../Application/Components/Checkboxes/ApexCheckboxGroup";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
@@ -140,9 +140,9 @@ const SensitivitiesHeatMapChart = () => {
       >
         <EconomicsSensitivitiesHeatMap />
         {isAllVariablesDropped && (
-          <ApexCheckbox
+          <ApexCheckboxGroup
             variableZOption={heatMapVariableZOption}
-            apexCheckboxData={heatMapVariableZData}
+            apexCheckboxDataGroup={heatMapVariableZData}
           />
         )}
       </ApexFlexContainer>
