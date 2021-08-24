@@ -1,8 +1,4 @@
-import {
-  BarLegendProps,
-  BarTooltipProps,
-  ComputedDatum as BarComputedDatum,
-} from "@nivo/bar";
+import { ComputedDatum as BarComputedDatum } from "@nivo/bar";
 import { InheritedColorConfig, OrdinalColorScaleConfig } from "@nivo/colors";
 import {
   Box,
@@ -10,22 +6,17 @@ import {
   ModernMotionProps,
   PropertyAccessor,
   StackOffset,
-  SvgDefsAndFill,
   ValueFormat,
 } from "@nivo/core";
-import { Datum, LegendProps } from "@nivo/legends";
-import { PointMouseHandler, PointTooltip } from "@nivo/line";
-import { MouseEventHandler, PieTooltipProps } from "@nivo/pie";
+import { Datum } from "@nivo/legends";
+import { PointTooltip } from "@nivo/line";
 import { PointData } from "@nivo/radar";
-import { CustomTooltip, MouseHandler } from "@nivo/scatterplot";
-import { TooltipFormatter, TooltipLabel } from "@nivo/stream";
-import { ElementType } from "react";
+import { TooltipLabel } from "@nivo/stream";
 import {
   AxisProps,
   CrosshairType,
   ScaleBandSpec,
   ScaleSpec,
-  TicksSpec,
 } from "../../Components/ChartTypes";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
@@ -187,6 +178,8 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   valueFormat: ValueFormat<number>;
   valueScale: ScaleSpec;
   indexScale: ScaleBandSpec;
+  // width: number | undefined;
+  // height: number | undefined;
   // theme: pretty big object, implement later?
 
   //Series

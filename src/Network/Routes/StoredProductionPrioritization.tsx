@@ -33,7 +33,9 @@ import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../Visualytics/Components/Charts/DoughnutChart";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowPrioritizationDialogParameters";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
@@ -102,13 +104,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-//TODO: Calculate classification data from collection
-const chartData = [
-  { id: "Group A", value: 5, color: "red" },
-  { id: "Group B", value: 8, color: "blue" },
-  { id: "Group C", value: 2, color: "green" },
-];
 
 export const productionPrioritizationStoredWithSN = (
   productionPrioritizationStored: any[]
@@ -184,17 +179,10 @@ export const cloneProductionPrioritizationRow = (
 };
 
 export default function StoredProductionPrioritization({
-  showChart, isAllWellPrioritization
+  showChart,
+  isAllWellPrioritization,
 }: IStoredDataProps) {
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
-
-  const reducer = "networkReducer";
-  const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
-  const dataKey = "title";
-  const dataTitle = "PRODUCTION PRIORITIZATION TITLE";
-
+  //TODO: Calculate classification data from collection
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -204,6 +192,36 @@ export default function StoredProductionPrioritization({
 
   const componentRef = React.useRef();
 
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
+
+  const { currentProjectId } = useSelector(
+    (state: RootState) => state.projectReducer
+  );
+
+  const reducer = "networkReducer";
+  const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
+  const dataKey = "title";
+  const dataTitle = "PRODUCTION PRIORITIZATION TITLE";
+
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
@@ -211,9 +229,8 @@ export default function StoredProductionPrioritization({
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
-  const { productionPrioritizationStored, forecastingParametersStored } = useSelector(
-    (state: RootState) => state.networkReducer[wc]
-  );
+  const { productionPrioritizationStored, forecastingParametersStored } =
+    useSelector((state: RootState) => state.networkReducer[wc]);
 
   const { selectedForecastingParametersId } = useSelector(
     (state: RootState) => state.networkReducer
@@ -221,34 +238,48 @@ export default function StoredProductionPrioritization({
 
   console.log("isAllWellPrioritization: ", isAllWellPrioritization);
 
-  const selectedforecastingParametersStored = forecastingParametersStored.find((row:any) => {
-    if(row.id == selectedForecastingParametersId){
-      return row;
-    }
-  });
-
-  console.log("selectedForecastingParametersId: ", selectedForecastingParametersId);
-  console.log("selectedforecastingParametersStored: ", selectedforecastingParametersStored);
-
-
-let wellPrioritizationFiltered:any = [];
-
-if(isAllWellPrioritization  == true){
-  wellPrioritizationFiltered = productionPrioritizationStored.map((row:any) => {
-    return row;
-  });
-}else{
-  console.log("filter seen")
-  wellPrioritizationFiltered = productionPrioritizationStored.filter((row:any) => {
-    if(selectedforecastingParametersStored  != undefined){
-      if(row.forecastInputDeckId == selectedforecastingParametersStored.forecastInputDeckId) {
+  const selectedforecastingParametersStored = forecastingParametersStored.find(
+    (row: any) => {
+      if (row.id == selectedForecastingParametersId) {
         return row;
       }
     }
-  });
-}
+  );
 
-console.log("wellPrioritizationFiltered: ", wellPrioritizationFiltered);
+  console.log(
+    "selectedForecastingParametersId: ",
+    selectedForecastingParametersId
+  );
+  console.log(
+    "selectedforecastingParametersStored: ",
+    selectedforecastingParametersStored
+  );
+
+  let wellPrioritizationFiltered: any = [];
+
+  if (isAllWellPrioritization == true) {
+    wellPrioritizationFiltered = productionPrioritizationStored.map(
+      (row: any) => {
+        return row;
+      }
+    );
+  } else {
+    console.log("filter seen");
+    wellPrioritizationFiltered = productionPrioritizationStored.filter(
+      (row: any) => {
+        if (selectedforecastingParametersStored != undefined) {
+          if (
+            row.forecastInputDeckId ==
+            selectedforecastingParametersStored.forecastInputDeckId
+          ) {
+            return row;
+          }
+        }
+      }
+    );
+  }
+
+  console.log("wellPrioritizationFiltered: ", wellPrioritizationFiltered);
 
   const snTransStoredData = productionPrioritizationStoredWithSN(
     wellPrioritizationFiltered
@@ -552,7 +583,7 @@ console.log("wellPrioritizationFiltered: ", wellPrioritizationFiltered);
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <div className={classes.table}>

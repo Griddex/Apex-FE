@@ -50,7 +50,9 @@ import formatDate from "../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../Visualytics/Components/Charts/DoughnutChart";
 import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
@@ -66,7 +68,6 @@ import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAgg
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu"; */
 import { kron, varianceDependencies } from "mathjs";
-
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -139,6 +140,27 @@ export default function ForecastQualityAssuranceData({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
   const componentRef = React.useRef();
 
   const wc = "storedDataWorkflows";
@@ -148,17 +170,11 @@ export default function ForecastQualityAssuranceData({
     (state: RootState) => state.projectReducer
   );
 
-  const chartData = [
-    { id: "A", value: 10, color: theme.palette.primary.main },
-    { id: "B", value: 20, color: theme.palette.success.main },
-    { id: "C", value: 30, color: theme.palette.secondary.main },
-  ];
-
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   ) as IUnitSettingsData;
 
- /*  const { forecastResultsStored } = useSelector(
+  /*  const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   ); */
 
@@ -221,19 +237,16 @@ export default function ForecastQualityAssuranceData({
 
   const forecastResultCount = qualityAssuranceResults.length;
 
-  const rows = qualityAssuranceResults.map(
-    (row: any, i: number) => ({
-      ...row
-    })
-  ) as any[];
-
+  const rows = qualityAssuranceResults.map((row: any, i: number) => ({
+    ...row,
+  })) as any[];
 
   //const [rows, setRows] = React.useState(snStoredData);
- 
+
   let columnKeys = ["SN"];
-  if(rows.length > 0) columnKeys = Object.keys(rows[0]);
-  
-console.log("columnKeys: ", columnKeys);
+  if (rows.length > 0) columnKeys = Object.keys(rows[0]);
+
+  console.log("columnKeys: ", columnKeys);
   const columns = columnKeys.map((k) => {
     const column = {
       key: k,
@@ -246,7 +259,6 @@ console.log("columnKeys: ", columnKeys);
   });
 
   //const columns = React.useMemo(() => generateColumns(), [generateColumns]);
-
 
   const exportColumns = columns
     .filter(
@@ -282,7 +294,7 @@ console.log("columnKeys: ", columnKeys);
   };
 
   React.useEffect(() => {
-    console.log("seen")
+    console.log("seen");
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
@@ -303,7 +315,7 @@ console.log("columnKeys: ", columnKeys);
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>

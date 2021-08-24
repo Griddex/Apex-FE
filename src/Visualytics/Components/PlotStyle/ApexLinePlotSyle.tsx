@@ -25,6 +25,10 @@ const ApexLinePlotStyle = ({
   const { chartProps, setChartProps } = React.useContext(
     ChartFormatAggregatorContext
   );
+  console.log(
+    "Logged output --> ~ file: ApexLinePlotSyle.tsx ~ line 28 ~ chartProps",
+    chartProps
+  );
 
   const { xScale, xFormat, yScale, yFormat, margin } = chartProps;
 

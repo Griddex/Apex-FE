@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { persistSelectedIdTitleAction } from "../../../../Application/Redux/Actions/ApplicationActions";
@@ -15,18 +16,34 @@ import {
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
 
-//TODO: Calculate classification data from collection
-const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
-
 export default function StoredCostsAndRevenuesDecks({
   reducer,
   containerStyle,
   showChart,
 }: IStoredInputDeck) {
+  const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
+
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
@@ -111,7 +128,7 @@ export default function StoredCostsAndRevenuesDecks({
     mainUrl,
     tableTitle,
     isDataVisibility,
-      isCloning,
+    isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredEconomicsDataRequestAction(currentProjectId),

@@ -18,7 +18,7 @@ import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { transformModulePaths } from "../Utils/TransformForecastForChart";
 
 export default function ForecastTreeView() {
-  const wc = "forecastChartWorkflows";
+  const wc = "forecastChartsWorkflows";
   const ap = "stackedAreaChart";
   const dispatch = useDispatch();
 

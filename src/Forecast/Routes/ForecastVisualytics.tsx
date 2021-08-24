@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ForecastVisualytics = () => {
   const reducer = "forecastReducer";
-  const wc = "forecastChartWorkflows";
+  const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
 
   const classes = useStyles();
@@ -204,7 +204,7 @@ const ForecastVisualytics = () => {
       {showContextDrawer && (
         <ContextDrawer>
           {() => (
-            <ChartFormatAggregatorContextProvider>
+            <ChartFormatAggregatorContextProvider reducer={reducer}>
               {expandContextDrawer ? (
                 renderChartFormatAggregator(chartType as string)
               ) : (

@@ -42,7 +42,9 @@ import formatDate from "../../../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   updateEconomicsParameterAction,
   getEconomicsParametersByIdRequestAction,
@@ -107,13 +109,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-//TODO: Calculate classification data from collection
-const chartData = [
-  { id: "Group A", value: 5, color: "red" },
-  { id: "Group B", value: 8, color: "blue" },
-  { id: "Group C", value: 2, color: "green" },
-];
 
 export const cloneEconomicParameter = (
   currentRow: IStoredDataRow,
@@ -185,6 +180,35 @@ const formatEconomicsParameters = (
 export default function StoredEconomicsParametersDecks({
   showChart,
 }: IStoredDataProps) {
+  const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
+  const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const wc = "storedDataWorkflows";
+  const wp: NonNullable<IStoredDataProps["wkPs"]> =
+    "economicsParametersDeckStored";
+
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
@@ -196,13 +220,6 @@ export default function StoredEconomicsParametersDecks({
     "commercialTechnical-fiscal-flarePenalty-gasRoyalty-oilRoyalty";
   // "commercialTechnical", "fiscal" "flarePenalty" "gasRoyalty" "oilRoyalty" "ppt"
 
-  const theme = useTheme();
-  const classes = useStyles();
-
-  const dispatch = useDispatch();
-  const wc = "storedDataWorkflows";
-  const wp: NonNullable<IStoredDataProps["wkPs"]> =
-    "economicsParametersDeckStored";
   const { economicsParametersDeckStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
@@ -499,7 +516,7 @@ export default function StoredEconomicsParametersDecks({
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <div className={classes.table}>

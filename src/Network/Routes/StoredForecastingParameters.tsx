@@ -28,7 +28,9 @@ import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../Visualytics/Components/Charts/DoughnutChart";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowPrioritizationDialogParameters";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
@@ -104,16 +106,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//TODO: Calculate classification data from collection
-const chartData = [
-  { id: "Group A", value: 5, color: "red" },
-  { id: "Group B", value: 8, color: "blue" },
-  { id: "Group C", value: 2, color: "green" },
-];
-
 export default function StoredForecastingParameters({
-  showChart, isAllForecastParameters
+  showChart,
+  isAllForecastParameters,
 }: IStoredDataProps) {
+  const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const wc = "storedDataWorkflows";
+  const wp = "forecastingParametersStored";
+
+  const componentRef = React.useRef();
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
@@ -123,15 +148,6 @@ export default function StoredForecastingParameters({
 
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
-
-  const theme = useTheme();
-  const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const wc = "storedDataWorkflows";
-  const wp = "forecastingParametersStored";
-
-  const componentRef = React.useRef();
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
@@ -151,32 +167,36 @@ export default function StoredForecastingParameters({
     forecastingParametersStored
   );
 
-const selectedNetwork = networkStored.find((row:any) => {
-  if(row.id == selectedNetworkId){
-    return row;
-  }
-});
-
-let forecastingParametersFiltered:any = [];
-
-console.log("isAllForecastParameters: ", isAllForecastParameters);
-
-if(isAllForecastParameters  == true){
-  forecastingParametersFiltered = forecastingParametersStored.map((row:any) => {
-    return row;
-  });
-}else{
-  console.log("filter seen")
-  forecastingParametersFiltered = forecastingParametersStored.filter((row:any) => {
-    if(selectedNetwork  != undefined){
-      if(row.forecastInputDeckId == selectedNetwork.forecastInputDeckId) {
-        return row;
-      }
+  const selectedNetwork = networkStored.find((row: any) => {
+    if (row.id == selectedNetworkId) {
+      return row;
     }
   });
-}
 
-console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
+  let forecastingParametersFiltered: any = [];
+
+  console.log("isAllForecastParameters: ", isAllForecastParameters);
+
+  if (isAllForecastParameters == true) {
+    forecastingParametersFiltered = forecastingParametersStored.map(
+      (row: any) => {
+        return row;
+      }
+    );
+  } else {
+    console.log("filter seen");
+    forecastingParametersFiltered = forecastingParametersStored.filter(
+      (row: any) => {
+        if (selectedNetwork != undefined) {
+          if (row.forecastInputDeckId == selectedNetwork.forecastInputDeckId) {
+            return row;
+          }
+        }
+      }
+    );
+  }
+
+  console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
 
   const snTransStoredData = storedToForecastingParameters(
     forecastingParametersFiltered,
@@ -184,7 +204,6 @@ console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
     monthFormat,
     yearFormat
   );
-
 
   const newRow = {
     forecastInputDeckId: selectedForecastInputDeckId,
@@ -297,7 +316,6 @@ console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
                       )
                     )
                   );
-
 
                   dispatch(
                     updateNetworkParameterAction(
@@ -432,9 +450,14 @@ console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
               <VisibilityOutlinedIcon
                 className={classes.visibilityOutlinedIcon}
                 onClick={() => {
-                  console.log("currentRow DCA from Forecast Parameter: ", currentRow);
-                  const wellDeclineParamtersId = currentRow.wellDeclineParameterId;
-                  const wellDeclineParamtersTitle = currentRow.wellDeclineParameterTitle;
+                  console.log(
+                    "currentRow DCA from Forecast Parameter: ",
+                    currentRow
+                  );
+                  const wellDeclineParamtersId =
+                    currentRow.wellDeclineParameterId;
+                  const wellDeclineParamtersTitle =
+                    currentRow.wellDeclineParameterTitle;
                   dispatch(
                     getDeclineParametersByIdRequestAction(
                       reducer,
@@ -635,7 +658,7 @@ console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <div className={classes.table}>

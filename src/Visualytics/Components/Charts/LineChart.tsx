@@ -37,6 +37,8 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
   const tooltipLine = tooltip as PointTooltip;
   commonChartPropsDefined["tooltip"] = tooltipLine;
 
+  commonChartPropsDefined["curve"] = "linear";
+
   return <ResponsiveLine data={data} {...commonChartPropsDefined} />;
 };
 
