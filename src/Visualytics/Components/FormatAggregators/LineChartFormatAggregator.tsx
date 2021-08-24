@@ -32,7 +32,7 @@ const LineChartFormatAggregator = ({
     gridYValues,
   } = chartProps;
 
-  const [perspective, setPerspective] = React.useState("line");
+  const [perspective, setPerspective] = React.useState("general");
 
   const handleChange = (_: React.ChangeEvent<any>, newPerspective: string) => {
     setPerspective(newPerspective);

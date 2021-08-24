@@ -1,7 +1,7 @@
 import {
-  stackedChartToLineOrScatterChartData,
-  barChartToStackedChartData,
+  stackedChartToBarChartData,
   stackedChartToDoughnutChartData,
+  stackedChartToLineOrScatterChartData,
   stackedChartTostackedChartData,
 } from "../Utils/TransformOneChartDataToAnother";
 
@@ -48,13 +48,25 @@ export const forecastPlotChartsOptions = [
     value: "lineChart",
     label: "Line",
   },
+  {
+    value: "doughnutChart",
+    label: "Doughnut",
+  },
+  {
+    value: "barChart",
+    label: "Bar",
+  },
+  {
+    value: "scatterChart",
+    label: "Scatter",
+  },
 ];
 
 export const forecastResultsTransformersObj = {
   stackedAreaChart: stackedChartTostackedChartData,
   lineChart: stackedChartToLineOrScatterChartData,
   scatterChart: stackedChartToLineOrScatterChartData,
-  barChart: barChartToStackedChartData,
+  barChart: stackedChartToBarChartData,
   doughnutChart: stackedChartToDoughnutChartData,
   //TODO do for radar transform
   radarChart: stackedChartToDoughnutChartData,

@@ -7,6 +7,8 @@ import TreeView from "@material-ui/lab/TreeView";
 import React from "react";
 import { useDrag } from "react-dnd";
 import { animated, useSpring } from "react-spring"; // web.cjs is required for IE 11 support
+import ApexCheckbox from "../../../Application/Components/Checkboxes/ApexCheckbox";
+import ApexCheckbox2 from "../../../Application/Components/Checkboxes/ApexCheckbox2";
 import { IApexTreeView, RenderTree } from "./ApexTreeViewTypes";
 
 function MinusSquare(props: any) {
@@ -27,36 +29,6 @@ function PlusSquare(props: any) {
   );
 }
 
-function CloseSquare(props: any) {
-  return (
-    <SvgIcon
-      className="close"
-      fontSize="inherit"
-      style={{ width: 14, height: 14 }}
-      {...props}
-    >
-      {/* tslint:disable-next-line: max-line-length */}
-      <path d="M17.485 17.512q-.281.281-.682.281t-.696-.268l-4.12-4.147-4.12 4.147q-.294.268-.696.268t-.682-.281-.281-.682.294-.669l4.12-4.147-4.12-4.147q-.294-.268-.294-.669t.281-.682.682-.281.696 .268l4.12 4.147 4.12-4.147q.294-.268.696-.268t.682.281 .281.669-.294.682l-4.12 4.147 4.12 4.147q.294.268 .294.669t-.281.682zM22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0z" />
-    </SvgIcon>
-  );
-}
-
-function TransitionComponent(props: { in?: boolean }) {
-  const style = useSpring({
-    from: { opacity: 0, transform: "translate3d(20px,0,0)" },
-    to: {
-      opacity: props.in ? 1 : 0,
-      transform: `translate3d(${props.in ? 0 : 20}px,0,0)`,
-    },
-  });
-
-  return (
-    <animated.div style={style}>
-      <Collapse {...props} />
-    </animated.div>
-  );
-}
-
 const StyledTreeItem = withStyles((theme) => ({
   iconContainer: {
     "& .close": {
@@ -69,7 +41,7 @@ const StyledTreeItem = withStyles((theme) => ({
     borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
   },
 }))((props: TreeItemProps) => {
-  return <TreeItem {...props} /*TransitionComponent={TransitionComponent}*/ />;
+  return <TreeItem {...props} />;
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -97,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     border: "1px solid #F7F7F7",
   },
+  rootLabel: { marginRight: 0, marginLeft: 0, marginBottom: 0 },
 }));
 
 export default function ApexTreeView({
@@ -230,10 +203,8 @@ export default function ApexTreeView({
         nodeId={scenarioNodes.id}
         label={
           <FormControlLabel
-            style={{ width: "max-content" }}
             control={
-              <Checkbox
-                //TODO check this box from dropresult above
+              <ApexCheckbox2
                 checked={selectedIds.some((item) => item === scenarioNodes.id)}
                 onChange={(event) =>
                   getOnChange(event.currentTarget.checked, scenarioNodes)
@@ -246,9 +217,9 @@ export default function ApexTreeView({
               <div>{scenarioNodes.title}</div>
             }
             key={scenarioNodes.id}
+            classes={{ root: classes.rootLabel }}
           />
         }
-        // styledItemLabel={scenarioNodes.title}
       >
         {Array.isArray(scenarioNodes.children)
           ? scenarioNodes.children.map((node) => renderTree(node))
