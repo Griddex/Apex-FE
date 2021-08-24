@@ -633,11 +633,11 @@ console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
 
   return (
     <div className={classes.rootStoredData}>
-      {showChart && (
+      {/* {showChart && (
         <div className={classes.chart}>
           <DoughnutChart data={chartData} willUseThemeColor={false} />
         </div>
-      )}
+      )} */}
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (

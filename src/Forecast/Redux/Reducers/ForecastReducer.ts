@@ -59,7 +59,6 @@ const forecastReducer = (
   switch (action.type) {
     case UPDATE_FORECASTRESULT_PARAMETERS: {
       const { timeData, forecastResults } = action.payload;
-      console.log("action.payload: ", action.payload);
       return {
         ...state,
         timeData,
@@ -69,6 +68,7 @@ const forecastReducer = (
 
     case UPDATE_FORECASTPARAMETER: {
       const { path, value } = action.payload;
+      console.log("payload: ", action.payload);
 
       const updatedState = set(state, path, value);
       return updatedState;
@@ -149,6 +149,7 @@ const forecastReducer = (
     case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
       const { forecastResults } = action.payload;
       const data = forecastResults;
+      console.log("data: ", data);
 
       return {
         ...state,

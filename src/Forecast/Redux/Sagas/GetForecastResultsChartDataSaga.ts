@@ -71,7 +71,9 @@ function* getForecastResultsChartDataSaga(
     selectedForecastingResultsId,
     isForecastResultsSaved,
     selectedForecastChartOption,
+    xValueCategories,
   } = yield select((state) => state.forecastReducer);
+
 
   const chartType = selectedForecastChartOption.value;
   const lineOrScatter = chartType === "lineChart" ? "line" : "scatter";
@@ -111,14 +113,17 @@ function* getForecastResultsChartDataSaga(
     );
 
     //TODO Get both from Gift
-    const xValueCategories = forecastResults.map(
+   /*  const xValueCategories = forecastResults.map(
       (_: any, i: number) => 2020 + i
-    );
+    ); */
+
     const isYear = true;
 
-    console.log("forecastResults: ", forecastResults);
 
     const successAction = getForecastResultsChartDataSuccessAction();
+
+
+
     yield put({
       ...successAction,
       payload: {
@@ -130,13 +135,6 @@ function* getForecastResultsChartDataSaga(
       },
     });
 
-    /*  yield put({
-      type: "UPDATE_FORECASTPARAMETER",
-      payload: {
-        path: "forecastResults",
-        value: forecastResults
-      },
-    }); */
 
     yield put({
       type: "UPDATE_FORECASTPARAMETER",

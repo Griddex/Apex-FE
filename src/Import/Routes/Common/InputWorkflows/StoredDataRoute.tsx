@@ -487,14 +487,14 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
 
     return (
       <div className={classes.rootStoredData} style={containerStyle}>
-        {showChart && (
+       {/*  {showChart && (
           <div className={classes.chart}>
             <DoughnutChart
               data={chartData as IChartProps["data"]}
               willUseThemeColor={false}
             />
           </div>
-        )}
+        )} */}
 
         <ClickAwayListener
           onClickAway={() => {
