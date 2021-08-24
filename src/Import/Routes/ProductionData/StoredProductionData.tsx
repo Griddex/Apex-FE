@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
@@ -10,12 +11,6 @@ import {
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../InputDeckTypes";
 
-//TODO: Calculate classification data from collection
-const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
 type wpTypeNon = NonNullable<IStoredDataProps["wkPs"]>;
 // type wpType = Omit<wpTypeNon, "">;
 
@@ -24,6 +19,28 @@ export default function StoredProductionData({
   finalAction,
 }: IStoredInputDeck) {
   const dispatch = useDispatch();
+  const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
 
   const collectionName = "declineParameters";
 

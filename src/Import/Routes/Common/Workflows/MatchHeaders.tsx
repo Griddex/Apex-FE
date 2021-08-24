@@ -36,7 +36,9 @@ import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { updateInputParameterAction } from "../../../Redux/Actions/InputActions";
 import computeFileHeaderMatches from "../../../Utils/ComputeFileHeaderMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
@@ -688,7 +690,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   return (
     <div className={classes.rootMatchHeaders}>
       <div className={classes.chart}>
-        <DoughnutChart
+        <DoughnutChartAnalytics
           data={headerMatchChartData.current}
           willUseThemeColor={false}
         />

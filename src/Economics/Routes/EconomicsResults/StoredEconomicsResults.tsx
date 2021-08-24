@@ -51,7 +51,9 @@ import formatDate from "../../../Application/Utils/FormatDate";
 import { updateForecastResultsParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   fetchStoredEconomicsResultsRequestAction,
@@ -131,6 +133,27 @@ export default function StoredEcoResults({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
 
   const wc = "storedDataWorkflows";
   const wp = "economicsResultsStored" as NonNullable<IStoredDataProps["wkPs"]>;
@@ -138,12 +161,6 @@ export default function StoredEcoResults({
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
-
-  const chartData = [
-    { id: "A", value: 10, color: theme.palette.primary.main },
-    { id: "B", value: 20, color: theme.palette.success.main },
-    { id: "C", value: 30, color: theme.palette.secondary.main },
-  ];
 
   const componentRef = React.useRef();
 
@@ -496,7 +513,7 @@ export default function StoredEcoResults({
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>

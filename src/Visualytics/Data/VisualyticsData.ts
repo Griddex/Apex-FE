@@ -384,6 +384,8 @@ export const commonChartProps = {
   valueFormat: " >-.0f",
   valueScale: { type: "linear" },
   indexScale: { type: "band", round: true },
+  // width: undefined,
+  // height: undefined,
   // theme: pretty big object, implement later?
 
   //Series
@@ -474,7 +476,7 @@ export const commonChartProps = {
     type: "linear",
     min: "auto",
     max: "auto",
-    stacked: true,
+    stacked: false,
     reverse: false,
   },
   yFormat: " >-.0f",

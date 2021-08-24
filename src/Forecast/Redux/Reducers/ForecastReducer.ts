@@ -31,7 +31,7 @@ import {
   SET_FORECASTCHARTCOLOR,
   SET_FORECASTCHARTOBJECT,
   STORED_FORECASTINGRESULTS_FAILURE,
-/* <<<<<<< HEAD
+  /* <<<<<<< HEAD
   GET_FORECASTDATABYID_FAILURE,
   GET_FORECASTDATABYID_SUCCESS,
   REMOVE_FORECAST,
@@ -47,7 +47,7 @@ import {
   UPDATE_FORECASTPARAMETER,
   UPDATE_FORECASTPARAMETERS,
   UPDATE_SELECTEDIDTITLE,
-  UPDATE_FORECASTRESULT_PARAMETERS
+  UPDATE_FORECASTRESULT_PARAMETERS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -64,7 +64,7 @@ const forecastReducer = (
         ...state,
         timeData,
         forecastResults,
-      }
+      };
     }
 
     case UPDATE_FORECASTPARAMETER: {
@@ -152,10 +152,10 @@ const forecastReducer = (
 
       return {
         ...state,
-        forecastChartWorkflows: {
-          ...state["forecastChartWorkflows"],
+        forecastChartsWorkflows: {
+          ...state["forecastChartsWorkflows"],
           stackedAreaChart: {
-            ...state["forecastChartWorkflows"]["stackedAreaChart"],
+            ...state["forecastChartsWorkflows"]["stackedAreaChart"],
             data,
           },
         },
@@ -184,8 +184,8 @@ const forecastReducer = (
 
       return {
         ...state,
-        forecastChartWorkflows: {
-          ...state["forecastChartWorkflows"],
+        forecastChartsWorkflows: {
+          ...state["forecastChartsWorkflows"],
           [chartType]: { data },
         },
       };
@@ -213,10 +213,10 @@ const forecastReducer = (
         xValueCategories,
         lineOrScatter,
         isYear,
-        forecastChartWorkflows: {
-          ...state["forecastChartWorkflows"],
+        forecastChartsWorkflows: {
+          ...state["forecastChartsWorkflows"],
           [chartType]: {
-            ...state["forecastChartWorkflows"][chartType as TChartTypes],
+            ...state["forecastChartsWorkflows"][chartType as TChartTypes],
             data,
           },
         },

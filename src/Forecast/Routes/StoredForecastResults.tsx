@@ -48,7 +48,9 @@ import formatDate from "../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchForecastTreeviewKeysRequestAction,
   fetchStoredForecastingResultsRequestAction,
@@ -130,6 +132,27 @@ export default function StoredForecastResults({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
 
   const wc = "storedDataWorkflows";
   const wp = "forecastResultsStored";
@@ -137,12 +160,6 @@ export default function StoredForecastResults({
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
-
-  const chartData = [
-    { id: "A", value: 10, color: theme.palette.primary.main },
-    { id: "B", value: 20, color: theme.palette.success.main },
-    { id: "C", value: 30, color: theme.palette.secondary.main },
-  ];
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
     (state: RootState) => state.unitSettingsReducer
@@ -498,7 +515,7 @@ export default function StoredForecastResults({
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>

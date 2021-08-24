@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
@@ -12,19 +13,39 @@ import { fetchStoredInputDeckRequestAction } from "../../Redux/Actions/StoredInp
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../InputDeckTypes";
 
-
-//TODO: Calculate classification data from collection
-const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
-
 export default function StoredForecastDecks({
   reducer,
   containerStyle,
   showChart,
 }: IStoredInputDeck) {
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const wc = "storedDataWorkflows";
+  const wp: NonNullable<IStoredDataProps["wkPs"]> = "forecastInputDeckStored";
+  const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
+
+  const componentRef = React.useRef();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
@@ -32,14 +53,6 @@ export default function StoredForecastDecks({
   const tableTitle = "Forecast InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/forecast-inputdeck`;
   const collectionName = "InputDeckEntities";
-
-
-  const dispatch = useDispatch();
-  const wc = "storedDataWorkflows";
-  const wp: NonNullable<IStoredDataProps["wkPs"]> = "forecastInputDeckStored";
-  const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
-
-  const componentRef = React.useRef();
 
   const snStoredData = storedData.map(
     (row: IApplicationStoredDataRow, i: number) => ({

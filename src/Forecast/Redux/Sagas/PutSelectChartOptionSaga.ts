@@ -39,17 +39,6 @@ function* putSelectChartOptionSaga(
     transformChartResultsAction,
     transformChartResultsPayload,
   } = payload;
-  const selectedChartype = chartOption.value;
-  console.log(
-    "Logged output --> ~ file: PutSelectChartOptionSaga.ts ~ line 44 ~ selectedChartype",
-    selectedChartype
-  );
-
-  // const {
-  //   selectedNetworkId,
-  //   forecastResultsTitle,
-  //   forecastResultsDescription,
-  // } = yield select((state) => state[reducer]);
 
   try {
     const successAction = putSelectChartOptionSuccessAction();

@@ -42,7 +42,7 @@ export interface IForecastChartState {
   };
 
   selectedForecastChartOption: ISelectOption;
-  forecastChartWorkflows: TAllChartsDataAndSpecificProperties;
+  forecastChartsWorkflows: TAllChartsDataAndSpecificProperties;
 }
 
 export interface IForecastCharts {

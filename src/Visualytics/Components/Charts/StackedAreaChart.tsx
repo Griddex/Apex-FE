@@ -156,10 +156,6 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
 
   // commonChartPropsDefined["tooltipLabel"] = (d: any) => d.id;
   // commonChartPropsDefined["tooltip"] = undefined;
-  console.log(
-    "Logged output --> ~ file: StackedAreaChart.tsx ~ line 159 ~ StackedAreaChart ~ commonChartPropsDefined",
-    commonChartPropsDefined
-  );
 
   return (
     <ResponsiveStream

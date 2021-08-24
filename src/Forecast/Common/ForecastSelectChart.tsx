@@ -4,7 +4,7 @@ import SelectChart from "../../Visualytics/Common/SelectChart";
 
 const ForecastSelectChart = () => {
   const reducer = "forecastReducer";
-  const wc = "forecastChartWorkflows";
+  const wc = "forecastChartsWorkflows";
 
   return (
     <ApexFlexContainer>

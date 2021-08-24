@@ -77,7 +77,7 @@ export interface IForecastResultsWorkflows {
     | "forecastResultsQualityAssurance"
     | "forecastResultsVisualytics"
     | "forecastResultsStored";
-  wkCy: "storedDataWorkflows" | "forecastChartWorkflows";
+  wkCy: "storedDataWorkflows" | "forecastChartsWorkflows";
 }
 export interface IEconomicsWorkflows {
   wkPs:
@@ -140,7 +140,7 @@ export type TOnlyWorkflowProcesses = Exclude<IAllWorkflows["wrkflwPrcss"], "">;
 export type TAllWorkflowCategories = IAllWorkflows["wrkflwCtgry"];
 export type TOnlyWorkflowCategories = Exclude<
   IAllWorkflows["wrkflwCtgry"],
-  "storedDataWorkflows" | "networkCreationWorkflows" | "forecastChartWorkflows"
+  "storedDataWorkflows" | "networkCreationWorkflows" | "forecastChartsWorkflows"
 >;
 
 export interface IOnlyWorkflows {

@@ -1,9 +1,8 @@
 import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
+import ApexGridMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
 import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import { IApexEditorRow } from "../../../../Application/Components/Editors/ApexEditor";
@@ -19,6 +19,7 @@ import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
@@ -41,17 +42,13 @@ import {
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
+import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
+import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
 import CreateStoredDataButton from "../../../Menus/CreateStoredDataButton";
-import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import ApexGridMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
-import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
-import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
-import { extrudeStoredDataDPs } from "../../../../Network/Components/DialogParameters/EditDeclineParametersDialogParameters";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -78,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: "20%",
+    height: 150,
   },
 }));
 
@@ -489,7 +486,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       <div className={classes.rootStoredData} style={containerStyle}>
         {showChart && (
           <div className={classes.chart}>
-            <DoughnutChart
+            <DoughnutChartAnalytics
               data={chartData as IChartProps["data"]}
               willUseThemeColor={false}
             />
