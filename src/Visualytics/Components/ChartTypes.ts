@@ -9,7 +9,6 @@ import {
   ScaleTime as D3ScaleTime,
 } from "d3-scale";
 import { SpringValue } from "react-spring";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -26,6 +25,7 @@ export interface IChartProps {
 }
 
 export declare type AxisValue = string | number | Date;
+export declare type DatumValue = string | number | Date;
 export declare type GridValuesBuilder<T> = T extends number
   ? number[]
   : T extends string

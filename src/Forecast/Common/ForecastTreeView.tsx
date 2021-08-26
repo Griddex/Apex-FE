@@ -36,10 +36,6 @@ export default function ForecastTreeView() {
     selectedForecastAggregationLevel,
     selectedView,
   } = useSelector((state: RootState) => state.forecastReducer);
-  console.log(
-    "Logged output --> ~ file: ForecastTreeView.tsx ~ line 39 ~ ForecastTreeView ~ selectedForecastChartVariable",
-    selectedForecastChartVariable
-  );
 
   const { data } = useSelector(
     (state: RootState) => state.forecastReducer[wc][ap]
@@ -107,19 +103,11 @@ export default function ForecastTreeView() {
 
       return id;
     });
-    console.log(
-      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 82 ~ selectedModIds ~ selectedModIds",
-      selectedModIds
-    );
 
     const selectedModuleNames = selectedModulePaths.map(
       (path) => path.split("@#$%")[2]
     );
 
-    console.log(
-      "Logged output --> ~ file: ForecastTreeView.tsx ~ line 103 ~ React.useEffect ~ selectedView",
-      selectedView
-    );
     if (selectedModIds.length === 0) {
       dispatch(updateForecastResultsParameterAction("selectedModuleIds", []));
 

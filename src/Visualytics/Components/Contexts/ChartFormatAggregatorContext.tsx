@@ -36,10 +36,7 @@ const ChartFormatAggregatorContextProvider = ({
   const { commonChartProps: forecastCommonChartProps } = useSelector(
     (state: RootState) => state.forecastReducer["forecastChartsWorkflows"]
   );
-  console.log(
-    "Logged output --> ~ file: ChartFormatAggregatorContext.tsx ~ line 37 ~ forecastCommonChartProps",
-    forecastCommonChartProps
-  );
+
   const { commonChartProps: economicsCommonChartProps } = useSelector(
     (state: RootState) => state.economicsReducer["economicsChartsWorkflows"]
   );
@@ -52,10 +49,6 @@ const ChartFormatAggregatorContextProvider = ({
 
   const [chartProps, setChartProps] = React.useState(
     commonChartPropsMap[reducer] as IChart
-  );
-  console.log(
-    "Logged output --> ~ file: ChartFormatAggregatorContext.tsx ~ line 53 ~ chartProps",
-    chartProps
   );
 
   return (

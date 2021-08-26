@@ -12,7 +12,12 @@ import { IUserState } from "../../../Application/Redux/State/UserStateTypes";
 import { registerRequestAction } from "../../Redux/Actions/AdminActions";
 
 const useStyles = makeStyles((theme) => ({
-  form: { display: "flex", width: "90%", height: "90%" },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    width: "90%",
+    height: "90%",
+  },
   formFields: {
     display: "flex",
     flexWrap: "wrap",
@@ -69,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     // color: theme.palette.text.primary,
     // background: theme.palette.primary.main,
-    width: "100%",
+    width: 200,
     height: 50,
     margin: 0,
     fontWeight: "bold",
@@ -131,162 +136,164 @@ const SingleRegisterForm = () => {
 
         return (
           <Form className={classes.form}>
-            <div className={classes.formFields}>
-              <div className={classes.namesContainer}>
-                <AnalyticsComp
-                  title="FirstName"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="firstName"
-                      error={Boolean(helperText("firstName"))}
-                      value={registration["firstName"]}
-                      onChange={handleFormChange("firstName")}
-                      fullWidth
-                    />
-                  }
-                />
+            <div style={{ display: "flex", height: "100%" }}>
+              <div className={classes.formFields}>
+                <div className={classes.namesContainer}>
+                  <AnalyticsComp
+                    title="FirstName"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="firstName"
+                        error={Boolean(helperText("firstName"))}
+                        value={registration["firstName"]}
+                        onChange={handleFormChange("firstName")}
+                        fullWidth
+                      />
+                    }
+                  />
 
-                <AnalyticsComp
-                  title="LastName"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="lastName"
-                      error={Boolean(helperText("lastName"))}
-                      value={registration["lastName"]}
-                      onChange={handleFormChange("lastName")}
-                      fullWidth
-                    />
-                  }
-                />
+                  <AnalyticsComp
+                    title="LastName"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="lastName"
+                        error={Boolean(helperText("lastName"))}
+                        value={registration["lastName"]}
+                        onChange={handleFormChange("lastName")}
+                        fullWidth
+                      />
+                    }
+                  />
 
-                <AnalyticsComp
-                  title="MiddleName"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="middleName"
-                      error={Boolean(helperText("middleName"))}
-                      value={registration["middleName"]}
-                      onChange={handleFormChange("middleName")}
-                      fullWidth
-                    />
-                  }
-                />
+                  <AnalyticsComp
+                    title="MiddleName"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="middleName"
+                        error={Boolean(helperText("middleName"))}
+                        value={registration["middleName"]}
+                        onChange={handleFormChange("middleName")}
+                        fullWidth
+                      />
+                    }
+                  />
 
-                <AnalyticsComp
-                  title="UserName"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="userName"
-                      error={Boolean(helperText("userName"))}
-                      value={registration["userName"]}
-                      onChange={handleFormChange("userName")}
-                      required
-                      autoFocus
-                      fullWidth
-                    />
-                  }
-                />
+                  <AnalyticsComp
+                    title="UserName"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="userName"
+                        error={Boolean(helperText("userName"))}
+                        value={registration["userName"]}
+                        onChange={handleFormChange("userName")}
+                        required
+                        autoFocus
+                        fullWidth
+                      />
+                    }
+                  />
 
-                <AnalyticsComp
-                  title="Password"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="password"
-                      error={Boolean(helperText("password"))}
-                      value={registration["password"]}
-                      onChange={handleFormChange("password")}
-                      required
-                      fullWidth
-                    />
-                  }
+                  <AnalyticsComp
+                    title="Password"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="password"
+                        error={Boolean(helperText("password"))}
+                        value={registration["password"]}
+                        onChange={handleFormChange("password")}
+                        required
+                        fullWidth
+                      />
+                    }
+                  />
+                </div>
+                <div className={classes.emailMobileContainer}>
+                  <AnalyticsComp
+                    title="Email"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="email"
+                        error={Boolean(helperText("email"))}
+                        value={registration["email"]}
+                        onChange={handleFormChange("email")}
+                        required
+                        fullWidth
+                      />
+                    }
+                  />
+
+                  <AnalyticsComp
+                    title="MobileNumber"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="mobileNumber"
+                        error={Boolean(helperText("mobileNumber"))}
+                        value={registration["mobileNumber"]}
+                        onChange={handleFormChange("mobileNumber")}
+                        fullWidth
+                      />
+                    }
+                  />
+                </div>
+                <div className={classes.jobRoleContainer}>
+                  <AnalyticsComp
+                    title="FirstName"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="jobTitle"
+                        error={Boolean(helperText("jobTitle"))}
+                        value={registration["jobTitle"]}
+                        onChange={handleFormChange("jobTitle")}
+                        fullWidth
+                      />
+                    }
+                  />
+
+                  <AnalyticsComp
+                    title="FirstName"
+                    direction="Vertical"
+                    containerStyle={{ marginTop: 20, width: 300, height: 30 }}
+                    content={
+                      <Input
+                        name="role"
+                        error={Boolean(helperText("role"))}
+                        value={registration["role"]}
+                        onChange={handleFormChange("role")}
+                        fullWidth
+                      />
+                    }
+                  />
+                </div>
+              </div>
+              <div className={classes.avatarField}>
+                <AnalyticsTitle title="Photo" />
+                <ImageUploader
+                  withIcon={true}
+                  onChange={(files: File[], pictures: string[]) => {}}
+                  imgExtension={[".jpeg", ".jpg", ".gif", ".png", "gif"]}
+                  maxFileSize={5242880}
+                  withPreview={true}
+                  style={{ height: "100%", width: "100%" }}
+                  fileContainerStyle={{ height: "100%", width: "100%" }}
+                  buttonText="Choose photo"
                 />
               </div>
-              <div className={classes.emailMobileContainer}>
-                <AnalyticsComp
-                  title="Email"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="email"
-                      error={Boolean(helperText("email"))}
-                      value={registration["email"]}
-                      onChange={handleFormChange("email")}
-                      required
-                      fullWidth
-                    />
-                  }
-                />
-
-                <AnalyticsComp
-                  title="MobileNumber"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="mobileNumber"
-                      error={Boolean(helperText("mobileNumber"))}
-                      value={registration["mobileNumber"]}
-                      onChange={handleFormChange("mobileNumber")}
-                      fullWidth
-                    />
-                  }
-                />
-              </div>
-              <div className={classes.jobRoleContainer}>
-                <AnalyticsComp
-                  title="FirstName"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="jobTitle"
-                      error={Boolean(helperText("jobTitle"))}
-                      value={registration["jobTitle"]}
-                      onChange={handleFormChange("jobTitle")}
-                      fullWidth
-                    />
-                  }
-                />
-
-                <AnalyticsComp
-                  title="FirstName"
-                  direction="Vertical"
-                  containerStyle={{ marginTop: 20, width: 300, height: 30 }}
-                  content={
-                    <Input
-                      name="role"
-                      error={Boolean(helperText("role"))}
-                      value={registration["role"]}
-                      onChange={handleFormChange("role")}
-                      fullWidth
-                    />
-                  }
-                />
-              </div>
-            </div>
-            <div className={classes.avatarField}>
-              <AnalyticsTitle title="Photo" />
-              <ImageUploader
-                withIcon={true}
-                onChange={(files: File[], pictures: string[]) => {}}
-                imgExtension={[".jpeg", ".jpg", ".gif", ".png", "gif"]}
-                maxFileSize={5242880}
-                withPreview={true}
-                style={{ height: "100%", width: "100%" }}
-                fileContainerStyle={{ height: "100%", width: "100%" }}
-                buttonText="Choose photo"
-              />
             </div>
             <Button
               className={classes.button}

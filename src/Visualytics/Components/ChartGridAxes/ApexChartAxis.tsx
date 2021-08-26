@@ -91,7 +91,6 @@ const ApexChartAxis = ({
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
             }
-            setSliderValue={setChartProps}
           />
         }
       />
@@ -127,7 +126,6 @@ const ApexChartAxis = ({
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
             }
-            setSliderValue={setChartProps}
           />
         }
       />
@@ -148,7 +146,6 @@ const ApexChartAxis = ({
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
             }
-            setSliderValue={setChartProps}
           />
         }
       />
@@ -169,7 +166,6 @@ const ApexChartAxis = ({
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
             }
-            setSliderValue={setChartProps}
           />
         }
       />

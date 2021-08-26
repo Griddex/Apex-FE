@@ -108,6 +108,7 @@
     "react-draggable": "^4.4.3",
     "react-dropzone": "^11.3.4",
     "react-export-excel": "^0.5.3",
+    "react-fast-compare": "^3.2.0",
     "react-flow-renderer": "^9.6.3",
     "react-grid-layout": "^1.2.5",
     "react-images-upload": "^1.2.8",

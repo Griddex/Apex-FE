@@ -8,19 +8,33 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
+import isEqual from "react-fast-compare";
+import { OrdinalColorScaleConfigScheme } from "@nivo/colors";
+import { format } from "d3-format";
+import { Value } from "@nivo/scatterplot";
+import { DatumValue, ValueFormat } from "@nivo/core";
 
 const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
   const { commonChartProps, lineChart } = useSelector(
-    (state: RootState) => state[reducerDefined][wc]
+    (state: RootState) => state[reducerDefined][wc],
+    // (prev, next) => isEqual(prev, next)
+    (prev, next) => false
   );
   const { data } = lineChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
-  const { onClick, onMouseEnter, onMouseLeave, onMouseMove, tooltip, curve } =
-    commonChartPropsDefined;
+  const {
+    onClick,
+    onMouseEnter,
+    onMouseLeave,
+    onMouseMove,
+    tooltip,
+    colors,
+    yFormatString,
+  } = commonChartPropsDefined;
 
   const onMouseEnterLine = onMouseEnter as PointMouseHandler;
   commonChartPropsDefined["onMouseEnter"] = onMouseEnterLine;
@@ -37,8 +51,20 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
   const tooltipLine = tooltip as PointTooltip;
   commonChartPropsDefined["tooltip"] = tooltipLine;
 
-  commonChartPropsDefined["curve"] = "linear";
+  const colorsLine = colors as OrdinalColorScaleConfigScheme;
+  commonChartPropsDefined["colors"] = colorsLine;
 
+  const yFormatLine = (v: DatumValue) => format(yFormatString)(v as number);
+  commonChartPropsDefined["yFormat"] = yFormatLine;
+  console.log(
+    "Logged output --> ~ file: LineChart.tsx ~ line 59 ~ SimpleLineChart ~ commonChartPropsDefined",
+    commonChartPropsDefined
+  );
+
+  console.log(
+    "Logged output --> ~ file: LineChart.tsx ~ line 65 ~ SimpleLineChart ~ data",
+    data
+  );
   return <ResponsiveLine data={data} {...commonChartPropsDefined} />;
 };
 

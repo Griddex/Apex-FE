@@ -50,7 +50,6 @@ export default function* watchSaveInputDeckSaga(
   autoTitleDesc?: TTitleDescription
 ): Generator<ActionChannelEffect | ForkEffect<never>, void, any> {
   const saveInputDeckChan = yield actionChannel(SAVE_INPUTDECK_REQUEST);
-  console.log("I'm in watchSaveInput");
   yield takeLeading(saveInputDeckChan, (action) =>
     saveInputDeckSaga(action, autoTitleDesc as TTitleDescription)
   );
@@ -98,12 +97,11 @@ export function* saveInputDeckSaga(
 
   const { facilitiesInputDeckId } = yield select((state) => state.inputReducer);
 
-
   const inputDeckData = [...inputDeck];
   inputDeckData.shift();
 
   const dateFormat = "DD/MM/YYYY";
- /*  stopDay: titleDesc.endForecast.getDate(),
+  /*  stopDay: titleDesc.endForecast.getDate(),
   stopMonth: titleDesc.endForecast.getMonth() + 1,
   stopYear: titleDesc.endForecast.getFullYear(), */
 
