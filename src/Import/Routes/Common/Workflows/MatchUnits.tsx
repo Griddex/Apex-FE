@@ -39,7 +39,9 @@ import getCurrentAppHeaderTitleNameMap from "../../../../Application/Utils/GetCu
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import DoughnutChart from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   persistChosenApplicationUnitIndicesAction,
   persistVariableUnitsAction,
@@ -923,7 +925,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
   return (
     <div className={classes.rootMatchUnits}>
       <div className={classes.chart}>
-        <DoughnutChart
+        <DoughnutChartAnalytics
           data={unitsMatchChartData.current}
           willUseThemeColor={false}
         />

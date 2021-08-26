@@ -32,8 +32,6 @@ export default function* watchGetDeclineParametersByIdSaga(): Generator<
   void,
   any
 > {
-  console.log("watchGetDeclineParametersByIdSaga Called:");
-
   const getDeclineParametersByIdChan = yield actionChannel(
     GET_DECLINEPARAMETERSBYID_REQUEST
   );
@@ -54,27 +52,32 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   void,
   any
 > {
-  
   const { payload } = action;
-  const { reducer, isCreateOrEdit, wellDeclineParamtersId,
-    wellDeclineParamtersTitle, currentSN, currentRow} = payload;
+  const {
+    reducer,
+    isCreateOrEdit,
+    wellDeclineParamtersId,
+    wellDeclineParamtersTitle,
+    currentSN,
+    currentRow,
+  } = payload;
   console.log("wellDeclineParamtersTitle: ", wellDeclineParamtersTitle);
   console.log("wellDeclineParamtersId: ", wellDeclineParamtersId);
   console.log("currentRow: ", currentRow);
-  const selectedDeclineParametersId = wellDeclineParamtersId; 
+  const selectedDeclineParametersId = wellDeclineParamtersId;
   const wellDeclineParameterTitle = wellDeclineParamtersTitle;
   const wc = "storedDataWorkflows";
 
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
   try {
-    const declineParametersResults =  yield call(
+    const declineParametersResults = yield call(
       getDeclineParametersByIdAPI,
       declineParametersUrl
     );
 
     console.log("declineParametersResults: ", declineParametersResults);
-    
+
     const {
       data: { data },
     } = declineParametersResults;
@@ -106,13 +109,10 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
         nameOrPath: "selectedForecastInputDeckId",
         value: forecastInputDeckId,
         reducer: "inputReducer",
-      }
+      },
     });
 
-    
-
-    if(isCreateOrEdit == false){
-
+    if (isCreateOrEdit == false) {
       const dialogParameters: DialogStuff = {
         name: "Display_Table_Data_Dialog",
         title: wellDeclineParameterTitle,
@@ -128,22 +128,26 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       console.log("tableDataDialog called");
       yield put(showDialogAction(dialogParameters));
       console.log("tableDataDialog executed");
+    } else {
+      yield put({
+        type: UPDATE_NETWORKPARAMETER,
+        payload: {
+          path: "selectedDeclineParametersData",
+          value: selectedTableData,
+        },
+      });
 
-    }else{
-      yield put({type: UPDATE_NETWORKPARAMETER, payload:{
-        path: "selectedDeclineParametersData",
-        value: selectedTableData
-      }});
-
-      yield put(showDialogAction(extrudeStoredDataDPs(
-        "Edit Decline Parameters",
-        currentRow,
-        currentSN - 1,
-        "editForecastingParametersWorkflow"
-      )))
-
-      
-    } 
+      yield put(
+        showDialogAction(
+          extrudeStoredDataDPs(
+            "Edit Decline Parameters",
+            currentRow,
+            currentSN - 1,
+            "editForecastingParametersWorkflow"
+          )
+        )
+      );
+    }
   } catch (errors) {
     const failureAction = getDeclineParametersByIdFailureAction();
 

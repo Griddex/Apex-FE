@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import ApexCheckbox from "../../Application/Components/Checkboxes/ApexCheckbox";
+import ApexCheckboxGroup from "../../Application/Components/Checkboxes/ApexCheckboxGroup";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -38,7 +38,6 @@ const ProductionStreamPrioritization = ({
     prioritizationPerspective,
     selectedStreamPrioritization,
   } = useSelector((state: RootState) => state.networkReducer);
-
 
   /* const {
     selectedTableData
@@ -220,9 +219,9 @@ const ProductionStreamPrioritization = ({
 
     return (
       <ApexFlexContainer>
-        <ApexCheckbox
+        <ApexCheckboxGroup
           variableZOption={streamOption}
-          apexCheckboxData={streamPrioritizationData}
+          apexCheckboxDataGroup={streamPrioritizationData}
         />
       </ApexFlexContainer>
     );

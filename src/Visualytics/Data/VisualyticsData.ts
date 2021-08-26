@@ -1,6 +1,7 @@
 import { Theme } from "@material-ui/core";
 import { IChart } from "../Redux/VisualyticsState/VisualyticsStateTypes";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
+import { format } from "d3-format";
 
 export const axisNameTitlesObj = {
   axisLeft: "Left Axis",
@@ -160,12 +161,12 @@ export const axisTitlePositionOptions = [
 
 export const plotMargins = [
   [
-    { value: 50, label: "Top", action: () => {} },
-    { value: 110, label: "Right", action: () => {} },
+    { value: 50, label: "top", width: 130, action: () => {} },
+    { value: 110, label: "right", width: 130, action: () => {} },
   ],
   [
-    { value: 50, label: "Bottom", action: () => {} },
-    { value: 60, label: "Left", action: () => {} },
+    { value: 50, label: "bottom", width: 130, action: () => {} },
+    { value: 60, label: "left", width: 130, action: () => {} },
   ],
 ];
 
@@ -344,33 +345,6 @@ export const pointLabelOptions = [
   },
 ];
 
-export const defaultChartProps = {
-  selectedMotion: "preset",
-  motionOptions: {
-    preset: "default",
-    custom: { mass: 1, tension: 170, friction: 26, clamp: false },
-  },
-  selectedBorderColor: "inherit",
-  borderColorOptions: {
-    theme: { theme: "background" },
-    custom: "grey",
-    inherit: { from: "color", modifiers: [["darker", 0.2]] },
-  },
-  selectedDotColor: "inherit",
-  dotColorOptions: {
-    theme: { theme: "background" },
-    custom: "grey",
-    inherit: { from: "color", modifiers: [["darker", 0.2]] },
-  },
-  selectedDotBorderColor: "inherit",
-  dotBorderColorOptions: {
-    theme: { theme: "background" },
-    custom: "grey",
-    inherit: { from: "color", modifiers: [["darker", 0.2]] },
-  },
-  indexBy: "",
-};
-
 export const commonChartProps = {
   //Statcked
   offsetType: "none",
@@ -405,12 +379,14 @@ export const commonChartProps = {
   margin: { top: 40, right: 100, bottom: 80, left: 80 },
   padding: 0.3,
   role: "", //what's this?
-  indexBy: "",
+  indexBy: "Year", //TODO here for now
   minValue: "auto",
   maxValue: "auto",
-  valueFormat: " >-.2f",
+  valueFormat: " >-.0f",
   valueScale: { type: "linear" },
   indexScale: { type: "band", round: true },
+  // width: undefined,
+  // height: undefined,
   // theme: pretty big object, implement later?
 
   //Series
@@ -428,8 +404,8 @@ export const commonChartProps = {
   dotSize: 8,
   //markers: "", can't find in linechart
 
-  //POINTS
-  enablePoints: false,
+  //POINTS;
+  enablePoints: true,
   pointSize: 10,
   pointColor: { from: "color", modifiers: [] },
   pointBorderWidth: 2,
@@ -443,6 +419,7 @@ export const commonChartProps = {
   animate: true,
   motionConfig: "default",
   renderWrapper: true,
+  useMesh: true,
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -450,7 +427,7 @@ export const commonChartProps = {
   tooltip: undefined,
   // tooltip: () => {},
   tooltipFormat: undefined,
-  // tooltipFormat: " >-.2f",
+  // tooltipFormat: " >-.0f",
   tooltipLabel: undefined,
   enableStackTooltip: true,
 
@@ -462,6 +439,7 @@ export const commonChartProps = {
     tickSize: 5,
     tickPadding: 5,
     tickRotation: 0,
+    format: (v) => format(" >-.0f")(v),
     legend: "",
     legendOffset: 36,
     legendPosition: "middle",
@@ -471,6 +449,7 @@ export const commonChartProps = {
     tickSize: 5,
     tickPadding: 5,
     tickRotation: 0,
+    format: (v) => format(" >-.0f")(v),
     legend: "",
     legendOffset: -40,
     legendPosition: "middle",
@@ -496,15 +475,16 @@ export const commonChartProps = {
 
   //Scales
   xScale: { type: "point" },
-  xFormat: " >-.2f",
+  xFormat: " >-.0f",
   yScale: {
     type: "linear",
     min: "auto",
     max: "auto",
-    stacked: true,
+    stacked: false,
     reverse: false,
   },
-  yFormat: " >-.2f",
+  yFormat: (v) => format(" >-.0f")(v as number),
+  yFormatString: " >-.0f",
 
   //Definitions
   defs: [

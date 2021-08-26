@@ -181,7 +181,6 @@ const ApexChartPointers = ({
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
                 }
-                setSliderValue={setChartProps}
               />
             }
           />
@@ -201,7 +200,6 @@ const ApexChartPointers = ({
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
                 }
-                setSliderValue={setChartProps}
               />
             }
           />

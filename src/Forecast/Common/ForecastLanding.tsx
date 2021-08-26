@@ -14,16 +14,20 @@ import Spreadsheet from "../../Application/Images/Spreadsheet.svg";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
+import ForecastGeneration from "../Images/ForecastGeneration.svg";
 import StoredDeck from "../../Import/Images/StoredDeck.svg";
 import QualityAssurance from "../Images/QualityAssurance.svg";
 import ForecastCharts from "../Images/ForecastCharts.svg";
-import { loadForecastResultsWorkflowAction, 
-  updateForecastResultsParameterAction } from "../Redux/Actions/ForecastActions";
+import {
+  loadForecastResultsWorkflowAction,
+  updateForecastResultsParameterAction,
+} from "../Redux/Actions/ForecastActions";
 import StoredForecastResults from "../Routes/StoredForecastResults";
 import ForecastData from "../Routes/ForecastData";
 import ForecastVisualytics from "../Routes/ForecastVisualytics";
 import { IdType } from "./ForecastLandingTypes";
 import ForecastQualityAssurance from "../Routes/ForecastQualityAssurance";
+import RunForecastWorkflowDialog from "../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -60,7 +64,20 @@ const ForecastLanding = () => {
 
   const forecastLandingData: ILandingData[] = [
     {
-      name: "Plot Charts",
+      name: "Generate Forecast",
+      description: `Generate forecast results seamlessly`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ForecastGeneration}
+          alt="Chart Logo"
+        />
+      ),
+      route: `${url}/forecastGeneration`,
+      workflowProcess: "forecastResultsGeneration",
+    },
+    {
+      name: "Forecast Charts",
       description: `Plot forecast results in highly interactive charts`,
       icon: (
         <Image
@@ -130,6 +147,16 @@ const ForecastLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const dialogParameters: DialogStuff = {
+    name: "Run_Forecast_Dialog",
+    title: "Run Forecast Workflow",
+    type: "runForecastWorkflowDialog",
+    show: true,
+    exclusive: false,
+    maxWidth: "lg",
+    iconType: "run",
+  };
+
   return (
     <>
       {loadForecastResultsWorkflow ? (
@@ -144,6 +171,9 @@ const ForecastLanding = () => {
                 } = match;
 
                 const forecastWorkflows = {
+                  forecastGeneration: (
+                    <RunForecastWorkflowDialog {...dialogParameters} />
+                  ),
                   forecastdata: (
                     <ForecastData
                       wrkflwCtgry={"storedDataWorkflows"}
@@ -200,10 +230,7 @@ const ForecastLanding = () => {
                   );
 
                   dispatch(
-                    updateForecastResultsParameterAction(
-                      "selectedView",
-                      name
-                    )
+                    updateForecastResultsParameterAction("selectedView", name)
                   );
                 }}
                 title={name}

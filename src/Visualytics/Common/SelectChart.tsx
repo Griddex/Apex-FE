@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import NoData from "../../Application/Components/Visuals/NoData";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
@@ -19,10 +18,6 @@ const ChartSelector = ({
   workflowCategory,
   reducer,
 }: IChartProps) => {
-  console.log(
-    "Logged output --> ~ file: SelectChart.tsx ~ line 22 ~ chartType",
-    chartType
-  );
   switch (chartType) {
     case "stackedAreaChart":
       return (

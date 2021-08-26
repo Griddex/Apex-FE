@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
@@ -7,93 +8,78 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import { plotMargins, scaleOptions } from "../../Data/VisualyticsData";
 import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
+import { ScaleLinearSpec, ScaleSpec } from "../ChartTypes";
 import ChartValueFormatters from "../ChartValueFormatters/ChartValueFormatters";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 import ApexPlotMargins from "../Margins/ApexPlotMargins";
 import YScale from "../Scales/YScale";
-
-export type TMargin = "top" | "right" | "bottom" | "left";
 
 const ApexLinePlotStyle = ({
   basePath,
   updateParameterAction,
   chartType,
 }: Partial<IApexChartFormatProps>) => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const plotRef = React.useRef<HTMLDivElement>(null);
 
   const { chartProps, setChartProps } = React.useContext(
     ChartFormatAggregatorContext
   );
+  console.log(
+    "Logged output --> ~ file: ApexLinePlotSyle.tsx ~ line 28 ~ chartProps",
+    chartProps
+  );
 
-  const { xScale, xFormat, yScale, yFormat, margin } = chartProps;
+  const { xScale, xFormat, yScale, yFormatString, margin } = chartProps;
 
   const xScaleOption = scaleOptions.find(
     (option) => option.value === xScale.type
   );
-  const yScaleOption = scaleOptions.find(
-    (option) => option.value === yScale.type
-  );
 
   const handleGeneralSelect =
-    (name: keyof IChart) => (option: ValueType<ISelectOption, false>) => {
+    (name: keyof IChart, isObj?: boolean, obj?: any, objKey?: string) =>
+    (option: ValueType<ISelectOption, false>) => {
+      const optionValue = (option as ISelectOption).value as string;
+
+      let value: any;
+      if (isObj) {
+        value = { ...obj, [objKey as string]: optionValue };
+      } else {
+        value = optionValue;
+      }
+
       setChartProps((prev) => ({
         ...prev,
-        [name]: (option as ISelectOption).value as string,
+        [name]: value,
       }));
 
       updateParameterAction &&
-        dispatch(
-          updateParameterAction(`${basePath}.${name}`, {
-            scheme: (option as ISelectOption).value,
-          })
-        );
+        dispatch(updateParameterAction(`${basePath}.${name}`, value));
     };
 
-  const plotMarginData = plotMargins.map((rowArr) => {
-    const optionsArr = rowArr.map((opt) => ({
-      ...opt,
-      action: () => {
-        const marginType = opt.label.toLowerCase() as TMargin;
-
-        setChartProps((prev) => ({
-          ...prev,
-          margin: { ...prev.margin, [marginType]: opt.value },
-        }));
-
-        updateParameterAction &&
-          dispatch(
-            updateParameterAction(
-              `${basePath}.margin.${marginType}`,
-              margin[marginType]
-            )
-          );
-      },
-    }));
-
-    return optionsArr;
-  });
-
   return (
-    <div ref={plotRef} style={{ width: "100%", padding: 5 }}>
+    <div style={{ width: "100%", padding: 5 }}>
       <AnalyticsComp
-        title="X Scale"
+        title="XValue Scale"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={
           <ApexSelectRS
             valueOption={xScaleOption as ISelectOption}
             data={scaleOptions}
-            handleSelect={handleGeneralSelect("xScale")}
+            handleSelect={handleGeneralSelect("xScale", true, xScale, "type")}
             menuPortalTarget={plotRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />
         }
       />
       <AnalyticsComp
-        title="X Format"
+        title="XValue Format"
         direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
+        containerStyle={{
+          marginTop: 20,
+        }}
         content={
           <ChartValueFormatters
             basePath={basePath as string}
@@ -108,31 +94,48 @@ const ApexLinePlotStyle = ({
         }
       />
       <AnalyticsComp
-        title="Y Scale"
+        title="YValue Scale"
         direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
+        containerStyle={{
+          marginTop: 20,
+          borderTop: `1px solid ${theme.palette.grey["400"]}`,
+          paddingTop: 5,
+        }}
         content={
           <YScale
-            yScaleOption={yScaleOption as ISelectOption}
+            basePath={basePath as string}
+            yScale={yScale as ScaleLinearSpec}
             scaleOptions={scaleOptions}
-            action={handleGeneralSelect("yScale")}
+            actionPath={`${basePath}.yScale`}
+            action={(path: string, value: any) =>
+              updateParameterAction &&
+              dispatch(updateParameterAction(path, value))
+            }
+            yScaleContextFxn={(value: any, name?: keyof ScaleLinearSpec) => {
+              const nameDefined = name as keyof ScaleLinearSpec;
+
+              setChartProps((prev) => ({
+                ...prev,
+                yScale: { ...prev["yScale"], [nameDefined]: value },
+              }));
+            }}
             ref={plotRef}
           />
         }
       />
       <AnalyticsComp
-        title="Y Format"
+        title="YValue Format"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={
           <ChartValueFormatters
             basePath={basePath as string}
-            intialFormatValue={{ format: yFormat, enabled: false }}
+            intialFormatValue={{ format: yFormatString, enabled: false }}
             plotRef={plotRef}
             updateParameterAction={
               updateParameterAction as IApexChartFormatProps["updateParameterAction"]
             }
-            axisFormatTitle="yFormat"
+            axisFormatTitle="yFormatString"
             setValueFormat={setChartProps}
           />
         }
@@ -141,7 +144,17 @@ const ApexLinePlotStyle = ({
         title="Margins"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
-        content={<ApexPlotMargins plotMarginData={plotMarginData} />}
+        content={
+          <ApexPlotMargins
+            basePath={basePath as string}
+            margin={margin}
+            updateParameterAction={
+              updateParameterAction as IApexChartFormatProps["updateParameterAction"]
+            }
+            setMargins={setChartProps}
+            plotMarginData={plotMargins}
+          />
+        }
       />
     </div>
   );

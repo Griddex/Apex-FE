@@ -339,7 +339,7 @@ const EconomicsPlotChartsVisualytics = () => {
       {showContextDrawer && (
         <ContextDrawer>
           {() => (
-            <ChartFormatAggregatorContextProvider>
+            <ChartFormatAggregatorContextProvider reducer={reducer}>
               {renderChartFormatAggregator(chartType as string)}
             </ChartFormatAggregatorContextProvider>
           )}

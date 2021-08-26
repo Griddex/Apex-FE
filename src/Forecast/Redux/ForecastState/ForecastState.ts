@@ -60,7 +60,7 @@ const forecastChartState: IForecastChartState = {
     label: "Stacked Area",
   },
 
-  forecastChartWorkflows: allChartsDataAndSpecificProperties,
+  forecastChartsWorkflows: allChartsDataAndSpecificProperties,
 };
 
 const forcastResultState: IForecastResultState = {

@@ -33,7 +33,9 @@ import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart from "../../Visualytics/Components/Charts/DoughnutChart";
+import DoughnutChart, {
+  DoughnutChartAnalytics,
+} from "../../Visualytics/Components/Charts/DoughnutChart";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import { extrudeDialogParameters } from "../Components/DialogParameters/ShowPrioritizationDialogParameters";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
@@ -111,16 +113,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//TODO: Calculate classification data from collection
-const chartData = [
-  { id: "Group A", value: 5, color: "red" },
-  { id: "Group B", value: 8, color: "blue" },
-  { id: "Group C", value: 2, color: "green" },
-];
-
 export default function StoredDeclineCurveParameters({
-  showChart, isAllDeclineParameters
+  showChart,
+  isAllDeclineParameters,
 }: IStoredDataProps) {
+  const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const wc = "storedDataWorkflows";
+  const wp = "forecastingParametersStored";
+
+  const componentRef = React.useRef();
+
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );
@@ -130,15 +156,6 @@ export default function StoredDeclineCurveParameters({
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
   const collectionName = "declineParameters";
-
-  const theme = useTheme();
-  const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const wc = "storedDataWorkflows";
-  const wp = "forecastingParametersStored";
-
-  const componentRef = React.useRef();
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
@@ -155,34 +172,44 @@ export default function StoredDeclineCurveParameters({
     (state: RootState) => state.networkReducer
   );
 
-  const selectedforecastingParametersStored = forecastingParametersStored.find((row:any) => {
-    if(row.id == selectedForecastingParametersId){
-      return row;
-    }
-  });
-
-  console.log("selectedForecastingParametersId: ", selectedForecastingParametersId);
-  console.log("selectedforecastingParametersStored: ", selectedforecastingParametersStored);
-
-
-let declineParametersFiltered:any = [];
-
-if(isAllDeclineParameters  == true){
-  declineParametersFiltered = declineParametersStored.map((row:any) => {
-    return row;
-  });
-}else{
-  console.log("filter seen")
-  declineParametersFiltered = declineParametersStored.filter((row:any) => {
-    if(selectedforecastingParametersStored  != undefined){
-      if(row.forecastInputDeckId == selectedforecastingParametersStored.forecastInputDeckId) {
+  const selectedforecastingParametersStored = forecastingParametersStored.find(
+    (row: any) => {
+      if (row.id == selectedForecastingParametersId) {
         return row;
       }
     }
-  });
-}
+  );
 
-console.log("declineParametersFiltered: ", declineParametersFiltered);
+  console.log(
+    "selectedForecastingParametersId: ",
+    selectedForecastingParametersId
+  );
+  console.log(
+    "selectedforecastingParametersStored: ",
+    selectedforecastingParametersStored
+  );
+
+  let declineParametersFiltered: any = [];
+
+  if (isAllDeclineParameters == true) {
+    declineParametersFiltered = declineParametersStored.map((row: any) => {
+      return row;
+    });
+  } else {
+    console.log("filter seen");
+    declineParametersFiltered = declineParametersStored.filter((row: any) => {
+      if (selectedforecastingParametersStored != undefined) {
+        if (
+          row.forecastInputDeckId ==
+          selectedforecastingParametersStored.forecastInputDeckId
+        ) {
+          return row;
+        }
+      }
+    });
+  }
+
+  console.log("declineParametersFiltered: ", declineParametersFiltered);
 
   const snTransStoredData = declineParametersStoredWithSN(
     declineParametersFiltered as IBackendDeclineParametersRow[]
@@ -262,82 +289,88 @@ console.log("declineParametersFiltered: ", declineParametersFiltered);
                   backgroundColor: theme.palette.grey[400],
                 }
               : {};
-                
 
-              const VisibilityOutlined = (<VisibilityOutlinedIcon
-                onClick={() => {
-                  const isCreateOrEdit = true;
-                  const wellDeclineParamtersId = currentRow.id;
-                  const wellDeclineParamtersTitle = currentRow.title;
-                  dispatch(
-                    getDeclineParametersByIdRequestAction(
-                      reducer,
-                      isCreateOrEdit as boolean,
-                      wellDeclineParamtersId as string,
-                      wellDeclineParamtersTitle as string,
-                      currentSN,
-                      currentRow
-                    )
-                  );
-                }} 
-              />);
-  
-              const ApexGridMoreActionsContext = ( <ApexGridMoreActionsContextMenu
-                component={ForecastParametersMoreActionsPopover}
-                data={importMoreActionsData}
-              >
-                <MenuOpenOutlinedIcon />
-              </ApexGridMoreActionsContextMenu>);
+          const VisibilityOutlined = (
+            <VisibilityOutlinedIcon
+              onClick={() => {
+                const isCreateOrEdit = true;
+                const wellDeclineParamtersId = currentRow.id;
+                const wellDeclineParamtersTitle = currentRow.title;
+                dispatch(
+                  getDeclineParametersByIdRequestAction(
+                    reducer,
+                    isCreateOrEdit as boolean,
+                    wellDeclineParamtersId as string,
+                    wellDeclineParamtersTitle as string,
+                    currentSN,
+                    currentRow
+                  )
+                );
+              }}
+            />
+          );
 
-              const EditCommand = (<EditOutlinedIcon
-                /* style={style as CSSProperties} */
-                onClick={() => {
-                  const isCreateOrEdit = true;
-                  const wellDeclineParamtersId = currentRow.id;
-                  const wellDeclineParamtersTitle = currentRow.title;
-                    dispatch(
-                    getDeclineParametersByIdRequestAction(
-                      "inputReducer" as ReducersType,
-                      isCreateOrEdit,
-                      wellDeclineParamtersId as string,
-                      wellDeclineParamtersTitle as string,
-                      currentSN,
-                      currentRow as any
-                    )
-                  );
-                  }}
-              />);
+          const ApexGridMoreActionsContext = (
+            <ApexGridMoreActionsContextMenu
+              component={ForecastParametersMoreActionsPopover}
+              data={importMoreActionsData}
+            >
+              <MenuOpenOutlinedIcon />
+            </ApexGridMoreActionsContextMenu>
+          );
 
-              const DeleteCommand = (<DeleteOutlinedIcon
-                /* style={style as CSSProperties} */
-                onClick={() => {
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table_Data_Dialog",
-                        `Delete ${title}`,
-                        "deleteDataDialog",
-                        "",
-                        false,
-                        true,
-                        () =>
-                          deleteDataByIdRequestAction(
-                            reducer as ReducersType,
-                            deleteUrl as string,
-                            title as string,
-                            () =>
-                              fetchStoredForecastingParametersRequestAction(
-                                currentProjectId,
-                                false
-                              )
-                          ),
-                        "Delete",
-                        "deleteOutlined",
-                        "delete",
-                        title
-                      )
+          const EditCommand = (
+            <EditOutlinedIcon
+              /* style={style as CSSProperties} */
+              onClick={() => {
+                const isCreateOrEdit = true;
+                const wellDeclineParamtersId = currentRow.id;
+                const wellDeclineParamtersTitle = currentRow.title;
+                dispatch(
+                  getDeclineParametersByIdRequestAction(
+                    "inputReducer" as ReducersType,
+                    isCreateOrEdit,
+                    wellDeclineParamtersId as string,
+                    wellDeclineParamtersTitle as string,
+                    currentSN,
+                    currentRow as any
+                  )
+                );
+              }}
+            />
+          );
+
+          const DeleteCommand = (
+            <DeleteOutlinedIcon
+              /* style={style as CSSProperties} */
+              onClick={() => {
+                dispatch(
+                  showDialogAction(
+                    confirmationDialogParameters(
+                      "Delete_Table_Data_Dialog",
+                      `Delete ${title}`,
+                      "deleteDataDialog",
+                      "",
+                      false,
+                      true,
+                      () =>
+                        deleteDataByIdRequestAction(
+                          reducer as ReducersType,
+                          deleteUrl as string,
+                          title as string,
+                          () =>
+                            fetchStoredForecastingParametersRequestAction(
+                              currentProjectId,
+                              false
+                            )
+                        ),
+                      "Delete",
+                      "deleteOutlined",
+                      "delete",
+                      title
                     )
                   )
+                );
               }}
             />
           );
@@ -479,7 +512,7 @@ console.log("declineParametersFiltered: ", declineParametersFiltered);
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChart data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
       <div className={classes.table}>

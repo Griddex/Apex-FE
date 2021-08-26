@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ForecastVisualytics = () => {
   const reducer = "forecastReducer";
-  const wc = "forecastChartWorkflows";
+  const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
 
   const classes = useStyles();
@@ -75,16 +75,12 @@ const ForecastVisualytics = () => {
 
   const componentRef = React.useRef();
 
-  const { showContextDrawer } = useSelector(
+  const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
   const { isForecastResultsLoading, selectedForecastChartOption } = useSelector(
     (state: RootState) => state.forecastReducer
-  );
-
-  const { commonChartProps } = useSelector(
-    (state: RootState) => state.forecastReducer[wc]
   );
 
   const { data: forecastResults } = useSelector(
@@ -208,8 +204,12 @@ const ForecastVisualytics = () => {
       {showContextDrawer && (
         <ContextDrawer>
           {() => (
-            <ChartFormatAggregatorContextProvider>
-              {renderChartFormatAggregator(chartType as string)}
+            <ChartFormatAggregatorContextProvider reducer={reducer}>
+              {expandContextDrawer ? (
+                renderChartFormatAggregator(chartType as string)
+              ) : (
+                <div />
+              )}
             </ChartFormatAggregatorContextProvider>
           )}
         </ContextDrawer>

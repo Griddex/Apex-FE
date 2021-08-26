@@ -76,17 +76,18 @@ export const stackedChartToBarChartData = ({
   const barData = data.map((row: any, i: number) => {
     const yearOrMonth = yearsOrMonths && yearsOrMonths[i];
 
-    const seriesData = series
-      .map((serie: string, i: number) => {
-        return {
-          [serie]: row[serie],
-          [`${serie}Color`]: "#CCC",
-        };
-      })
-      .map((row) => ({ [yearOrMonthTitle]: yearOrMonth, ...row }));
+    const seriesObj = series.reduce((acc, serie: string, i: number) => {
+      const a = {
+        [serie]: row[serie],
+        [`${serie}Color`]: "#CCC",
+      };
 
-    return seriesData;
+      return { ...acc, ...a };
+    }, {});
+
+    return { [yearOrMonthTitle]: yearOrMonth, ...seriesObj };
   }, []);
+
   return barData;
 };
 

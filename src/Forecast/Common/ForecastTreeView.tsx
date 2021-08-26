@@ -18,20 +18,9 @@ import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { transformModulePaths } from "../Utils/TransformForecastForChart";
 
 export default function ForecastTreeView() {
-  const wc = "forecastChartWorkflows";
+  const wc = "forecastChartsWorkflows";
   const ap = "stackedAreaChart";
   const dispatch = useDispatch();
-
-  /* const { forecastTree, selectedForecastChartVariable, selectedForecastAggregationType,
-    selectedForecastAggregationLevel, selectedView } = useSelector(
-    (state: RootState) => state.forecastReducer
-  ); 
-
-  const updatedForecastTree = [
-    { ...forecastTree?.[0], id: "5749dc74-4b81-4652-8a46-a58b6bea0157" },
-    { ...forecastTree?.[1], id: "ac430726-1b97-45f6-8b09-0c2ac347cc6e" },
-    { ...forecastTree?.[2], id: "3d515091-8d7e-4650-8345-9fa953a23418" },
-  ]; */
 
   const { selectedForecastChartOption } = useSelector(
     (state: RootState) => state.forecastReducer
@@ -47,13 +36,6 @@ export default function ForecastTreeView() {
     selectedForecastAggregationLevel,
     selectedView,
   } = useSelector((state: RootState) => state.forecastReducer);
-
-  console.log("selectedForecastChartVariable: ", selectedForecastChartVariable);
-  console.log(
-    "selectedForecastAggregationType: ",
-    selectedForecastAggregationType
-  );
-  console.log("selectedView: ", selectedView);
 
   const { data } = useSelector(
     (state: RootState) => state.forecastReducer[wc][ap]
@@ -77,6 +59,34 @@ export default function ForecastTreeView() {
   const selectedModulePaths = selectedModulePathsUnfiltered.filter(
     (p) => p?.match(/@#\$%/g)?.length === 2
   );
+
+  React.useEffect(() => {
+    if (selectedIds.length > 0) {
+      switch (selectedView) {
+        case "Forecast Charts":
+          dispatch(
+            getForecastResultsChartDataRequestAction(
+              selectedIds,
+              selectedModuleNames,
+              selectedModulePaths,
+              selectedForecastChartVariable,
+              selectedForecastAggregationType
+            )
+          );
+          break;
+        case "Forecast Quality Assurance":
+          dispatch(
+            getForecastResultsQualityAssuranceRequestAction(
+              selectedForecastAggregationType,
+              selectedForecastAggregationLevel,
+              selectedModulePaths,
+              selectedForecastChartVariable
+            )
+          );
+          break;
+      }
+    }
+  }, [selectedForecastChartVariable]);
 
   React.useEffect(() => {
     const selectedModIds = selectedModulePaths.map((path) => {
@@ -114,8 +124,7 @@ export default function ForecastTreeView() {
     } else if (selectedModIds.length > 0) {
       if (selectedModIds.length > prevModuleIds.length) {
         switch (selectedView) {
-          case "Plot Charts":
-            console.log("Plot Charts");
+          case "Forecast Charts":
             dispatch(
               getForecastResultsChartDataRequestAction(
                 selectedIds,
@@ -127,7 +136,6 @@ export default function ForecastTreeView() {
             );
             break;
           case "Forecast Quality Assurance":
-            console.log("Forecast Quality Assurance");
             dispatch(
               getForecastResultsQualityAssuranceRequestAction(
                 selectedForecastAggregationType,
@@ -165,7 +173,7 @@ export default function ForecastTreeView() {
         )
       );
     }
-  }, [selectedIds, selectedForecastChartVariable]);
+  }, [selectedIds]);
 
   return (
     <ApexTreeView

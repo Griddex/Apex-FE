@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
@@ -10,16 +11,33 @@ import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDat
 import { fetchStoredNetworkDataRequestAction } from "../Redux/Actions/NetworkActions";
 import { IStoredNetworks } from "./StoredNetworkTypes";
 
-const chartData = [
-  { name: "Group A", value: 2400 },
-  { name: "Group B", value: 4567 },
-  { name: "Group C", value: 1398 },
-];
-
 export default function StoredNetworks({
   workflowProcess,
   containerStyle,
 }: IStoredNetworks) {
+  const theme = useTheme();
+  //TODO: Calculate classification data from collection
+  const chartData = [
+    {
+      id: "Group A",
+      label: "Group A",
+      value: 2400,
+      color: theme.palette.primary.main,
+    },
+    {
+      id: "Group B",
+      label: "Group B",
+      value: 4567,
+      color: theme.palette.success.main,
+    },
+    {
+      id: "Group C",
+      label: "Group C",
+      value: 1398,
+      color: theme.palette.secondary.main,
+    },
+  ];
+
   const { currentProjectId } = useSelector(
     (state: RootState) => state.projectReducer
   );

@@ -19,7 +19,7 @@ export interface IApexCheckboxData {
   handleCheck: () => void;
 }
 
-export interface IApexCheckbox {
+export interface IApexCheckboxGroup {
   variableZOption: ISelectOption;
-  apexCheckboxData: IApexCheckboxData[];
+  apexCheckboxDataGroup: IApexCheckboxData[];
 }

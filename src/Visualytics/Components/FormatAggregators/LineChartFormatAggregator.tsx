@@ -32,7 +32,7 @@ const LineChartFormatAggregator = ({
     gridYValues,
   } = chartProps;
 
-  const [perspective, setPerspective] = React.useState("line");
+  const [perspective, setPerspective] = React.useState("general");
 
   const handleChange = (_: React.ChangeEvent<any>, newPerspective: string) => {
     setPerspective(newPerspective);
@@ -57,7 +57,6 @@ const LineChartFormatAggregator = ({
 
   const lineAxesData = Object.keys(axisNameTitlesObj).map((name) => ({
     axisName: name,
-    // axisEnabled: apexAxesEnabled[name as TAxisName],
     axisCaption: "Chart Axes",
     enableName: `${name}Enable`,
     ...chartProps[name as TAxisName],
@@ -90,7 +89,7 @@ const LineChartFormatAggregator = ({
         return <ApexLineChartGeneral {...apexChartProps} />;
 
       case "plot":
-        return <ApexLinePlotStyle />;
+        return <ApexLinePlotStyle {...apexChartProps} />;
 
       case "gridAxes":
         return <ApexChartGridAxes {...apexGridAxesProps} />;

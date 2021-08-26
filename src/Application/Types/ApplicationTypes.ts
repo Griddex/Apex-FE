@@ -138,7 +138,7 @@ export interface ILandingData {
   icon: JSX.Element;
   route: string;
   workflowProcess: IAllWorkflows["wrkflwPrcss"] | IStoredDataProps["wkPs"];
-  workflowCategory: IAllWorkflows["wrkflwCtgry"] | IStoredDataProps["wkCy"];
+  workflowCategory?: IAllWorkflows["wrkflwCtgry"] | IStoredDataProps["wkCy"];
 }
 
 export interface IVariableNameTitle {
