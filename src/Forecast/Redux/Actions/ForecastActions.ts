@@ -88,13 +88,13 @@ export const RUN_FORECASTECONOMICSAGGREGATION_FAILURE =
   "RUN_FORECASTECONOMICSAGGREGATION_FAILURE";
 
 export const RESET_FORECAST = "RESET_FORECAST";
-export const UPDATE_FORECASTRESULT_PARAMETERS = "UPDATE_FORECASTRESULT_PARAMETERS"
+export const UPDATE_FORECASTRESULT_PARAMETERS =
+  "UPDATE_FORECASTRESULT_PARAMETERS";
 
 export const updateForecastResultParameterAction = (
   timeData: any,
   forecastResults: any
 ) => {
-  
   return {
     type: UPDATE_FORECASTRESULT_PARAMETERS,
     payload: { timeData, forecastResults },
@@ -105,7 +105,6 @@ export const updateForecastResultsParameterAction = (
   path: string,
   value: any
 ) => {
-  console.log("updateForecastResultsParameterAction called")
   return {
     type: UPDATE_FORECASTPARAMETER,
     payload: { path, value },
@@ -127,7 +126,6 @@ export const loadForecastResultsWorkflowAction = (
   name: string,
   trueOrFalse: boolean
 ) => {
-  console.log("loadForecastResultsWorkflowAction called")
   return {
     type: LOAD_FORECASTRESULTS_WORKFLOW,
     payload: {
@@ -171,7 +169,7 @@ export const getForecastResultsChartDataRequestAction = (
       selectedModuleNames,
       selectedModulePaths,
       selectedForecastChartVariable,
-      selectedForecastAggregationType
+      selectedForecastAggregationType,
     },
   };
 };

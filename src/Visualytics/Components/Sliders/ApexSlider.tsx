@@ -3,7 +3,6 @@ import Input from "@material-ui/core/Input";
 import Slider from "@material-ui/core/Slider";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles({
   root: {
@@ -16,7 +15,6 @@ const useStyles = makeStyles({
 });
 
 export type TApexSlider = number | number[] | Array<string | number>;
-
 export interface IApexSlider {
   name: string;
   step: number;
@@ -25,7 +23,7 @@ export interface IApexSlider {
   actionPath?: string;
   action?: (path: string, value: any) => void;
   sliderValue: TApexSlider;
-  setSliderValue?: TUseState<any>;
+  sliderContextFxn?: (value: any, name?: any) => void;
 }
 
 export default function ApexSlider({
@@ -36,27 +34,29 @@ export default function ApexSlider({
   max,
   actionPath,
   action,
-  setSliderValue,
+  sliderContextFxn,
 }: IApexSlider) {
   const classes = useStyles();
 
   const handleSliderChange = (event: any, value: number | number[]) => {
-    setSliderValue && setSliderValue(value as number);
+    sliderContextFxn && sliderContextFxn(value, name);
     action && action(actionPath as string, value);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setSliderValue && setSliderValue(value);
+    sliderContextFxn && sliderContextFxn(value, name);
     action && action(actionPath as string, value);
   };
 
   const handleBlur = () => {
     if (sliderValue < min) {
-      setSliderValue && setSliderValue(min);
+      sliderContextFxn && sliderContextFxn(min, name);
+      action && action(actionPath as string, min);
     } else if (sliderValue > max) {
-      setSliderValue && setSliderValue(max);
+      sliderContextFxn && sliderContextFxn(max, name);
+      action && action(actionPath as string, max);
     }
   };
 

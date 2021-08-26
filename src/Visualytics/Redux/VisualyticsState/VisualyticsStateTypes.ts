@@ -216,6 +216,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   animate: ModernMotionProps["animate"];
   motionConfig: ModernMotionProps["motionConfig"];
   renderWrapper: boolean;
+  useMesh: boolean;
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -289,6 +290,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   xFormat: ValueFormat<DatumValue>;
   yScale: ScaleSpec;
   yFormat: ValueFormat<DatumValue>;
+  yFormatString: string;
 
   //Definitions
   defs: any;

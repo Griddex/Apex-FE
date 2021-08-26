@@ -1,6 +1,7 @@
 import { Theme } from "@material-ui/core";
 import { IChart } from "../Redux/VisualyticsState/VisualyticsStateTypes";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
+import { format } from "d3-format";
 
 export const axisNameTitlesObj = {
   axisLeft: "Left Axis",
@@ -160,12 +161,12 @@ export const axisTitlePositionOptions = [
 
 export const plotMargins = [
   [
-    { value: 50, label: "Top", action: () => {} },
-    { value: 110, label: "Right", action: () => {} },
+    { value: 50, label: "top", width: 130, action: () => {} },
+    { value: 110, label: "right", width: 130, action: () => {} },
   ],
   [
-    { value: 50, label: "Bottom", action: () => {} },
-    { value: 60, label: "Left", action: () => {} },
+    { value: 50, label: "bottom", width: 130, action: () => {} },
+    { value: 60, label: "left", width: 130, action: () => {} },
   ],
 ];
 
@@ -403,8 +404,8 @@ export const commonChartProps = {
   dotSize: 8,
   //markers: "", can't find in linechart
 
-  //POINTS
-  enablePoints: false,
+  //POINTS;
+  enablePoints: true,
   pointSize: 10,
   pointColor: { from: "color", modifiers: [] },
   pointBorderWidth: 2,
@@ -418,6 +419,7 @@ export const commonChartProps = {
   animate: true,
   motionConfig: "default",
   renderWrapper: true,
+  useMesh: true,
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -437,6 +439,7 @@ export const commonChartProps = {
     tickSize: 5,
     tickPadding: 5,
     tickRotation: 0,
+    format: (v) => format(" >-.0f")(v),
     legend: "",
     legendOffset: 36,
     legendPosition: "middle",
@@ -446,6 +449,7 @@ export const commonChartProps = {
     tickSize: 5,
     tickPadding: 5,
     tickRotation: 0,
+    format: (v) => format(" >-.0f")(v),
     legend: "",
     legendOffset: -40,
     legendPosition: "middle",
@@ -479,7 +483,8 @@ export const commonChartProps = {
     stacked: false,
     reverse: false,
   },
-  yFormat: " >-.0f",
+  yFormat: (v) => format(" >-.0f")(v as number),
+  yFormatString: " >-.0f",
 
   //Definitions
   defs: [

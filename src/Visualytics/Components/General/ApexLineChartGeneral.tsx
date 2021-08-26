@@ -1,4 +1,5 @@
 import { useTheme } from "@material-ui/core";
+import { OrdinalColorScaleConfigScheme } from "@nivo/colors";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
@@ -38,26 +39,39 @@ const ApexLineChartGeneral = ({
     areaBaselineValue,
     areaOpacity,
   } = chartProps;
+  console.log(
+    "Logged output --> ~ file: ApexLineChartGeneral.tsx ~ line 42 ~ chartProps",
+    chartProps
+  );
 
   const curveOption = curveOptions.find((option) => option.value === curve);
-  const colorsOption = colorsOptions.find((option) => option.value === colors);
+  const colorsOption = colorsOptions.find(
+    (option) =>
+      option.value === (colors as OrdinalColorScaleConfigScheme)["scheme"]
+  );
   const areaBlendOption = areaBlendOptions.find(
     (option) => option.value === areaBlendMode
   );
 
   const handleGeneralSelect =
-    (name: keyof IChart) => (option: ValueType<ISelectOption, false>) => {
+    (name: keyof IChart, isObj?: boolean, obj?: any, objKey?: string) =>
+    (option: ValueType<ISelectOption, false>) => {
+      const optionValue = (option as ISelectOption).value as string;
+
+      let value: any;
+      if (isObj) {
+        value = { ...obj, [objKey as string]: optionValue };
+      } else {
+        value = optionValue;
+      }
+
       setChartProps((prev) => ({
         ...prev,
         [name]: (option as ISelectOption).value as string,
       }));
 
       updateParameterAction &&
-        dispatch(
-          updateParameterAction(`${basePath}.${name}`, {
-            scheme: (option as ISelectOption).value,
-          })
-        );
+        dispatch(updateParameterAction(`${basePath}.${name}`, value));
     };
 
   const handleGeneralSwitch =
@@ -83,7 +97,7 @@ const ApexLineChartGeneral = ({
           <ApexSelectRS
             valueOption={curveOption as ISelectOption}
             data={curveOptions}
-            handleSelect={handleGeneralSelect("curve")}
+            handleSelect={handleGeneralSelect("curve", false)}
             menuPortalTarget={pointRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />
@@ -98,7 +112,12 @@ const ApexLineChartGeneral = ({
           <ApexSelectRS
             valueOption={colorsOption as ISelectOption}
             data={colorsOptions}
-            handleSelect={handleGeneralSelect("colors")}
+            handleSelect={handleGeneralSelect(
+              "colors",
+              true,
+              { scheme: "category10" },
+              "scheme"
+            )}
             menuPortalTarget={pointRef.current as HTMLDivElement}
             isSelectOptionType={true}
           />
@@ -121,7 +140,12 @@ const ApexLineChartGeneral = ({
               updateParameterAction &&
               dispatch(updateParameterAction(path, value))
             }
-            setSliderValue={setChartProps}
+            sliderContextFxn={(value: any) => {
+              setChartProps((prev) => ({
+                ...prev,
+                lineWidth: value,
+              }));
+            }}
           />
         }
       />
@@ -144,60 +168,76 @@ const ApexLineChartGeneral = ({
         }
       />
 
-      <AnalyticsComp
-        title="Area Baseline"
-        direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
-        content={
-          <ApexSlider
-            name="areaBaselineValue"
-            sliderValue={areaBaselineValue}
-            step={1}
-            min={0}
-            max={200}
-            actionPath={`${basePath}.areaBaselineValue`}
-            action={(path, value) =>
-              updateParameterAction &&
-              dispatch(updateParameterAction(path, value))
-            }
-            setSliderValue={setChartProps}
-          />
-        }
-      />
-      <AnalyticsComp
-        title="Area Opacity"
-        direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
-        content={
-          <ApexSlider
-            name="areaOpacity"
-            sliderValue={areaOpacity}
-            step={0.1}
-            min={0}
-            max={1}
-            actionPath={`${basePath}.areaOpacity`}
-            action={(path, value) =>
-              updateParameterAction &&
-              dispatch(updateParameterAction(path, value))
+      {enableArea && (
+        <>
+          <AnalyticsComp
+            title="Area Baseline"
+            direction="Vertical"
+            containerStyle={{ marginTop: 20 }}
+            content={
+              <ApexSlider
+                name="areaBaselineValue"
+                sliderValue={areaBaselineValue}
+                step={1}
+                min={0}
+                max={200}
+                actionPath={`${basePath}.areaBaselineValue`}
+                action={(path, value) =>
+                  updateParameterAction &&
+                  dispatch(updateParameterAction(path, value))
+                }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    areaBaselineValue: value,
+                  }));
+                }}
+              />
             }
           />
-        }
-      />
 
-      <AnalyticsComp
-        title="Area Blend"
-        direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
-        content={
-          <ApexSelectRS
-            valueOption={areaBlendOption as ISelectOption}
-            data={areaBlendOptions}
-            handleSelect={handleGeneralSelect("areaBlendMode")}
-            menuPortalTarget={pointRef.current as HTMLDivElement}
-            isSelectOptionType={true}
+          <AnalyticsComp
+            title="Area Opacity"
+            direction="Vertical"
+            containerStyle={{ marginTop: 20 }}
+            content={
+              <ApexSlider
+                name="areaOpacity"
+                sliderValue={areaOpacity}
+                step={0.1}
+                min={0}
+                max={1}
+                actionPath={`${basePath}.areaOpacity`}
+                action={(path, value) =>
+                  updateParameterAction &&
+                  dispatch(updateParameterAction(path, value))
+                }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    areaOpacity: value,
+                  }));
+                }}
+              />
+            }
           />
-        }
-      />
+
+          <AnalyticsComp
+            title="Area Blend"
+            direction="Vertical"
+            containerStyle={{ marginTop: 20 }}
+            content={
+              <ApexSelectRS
+                valueOption={areaBlendOption as ISelectOption}
+                data={areaBlendOptions}
+                handleSelect={handleGeneralSelect("areaBlendMode")}
+                menuPortalTarget={pointRef.current as HTMLDivElement}
+                isSelectOptionType={true}
+              />
+            }
+          />
+        </>
+      )}
     </div>
   );
 };
