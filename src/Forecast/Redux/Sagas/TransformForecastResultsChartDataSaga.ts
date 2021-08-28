@@ -54,13 +54,14 @@ function* transformForecastResultsChartDataSaga(
     const transformedForecastResultsFxn =
       forecastResultsTransformersObj[chartType as TChartTypes];
 
+      
     const transformedForecastResults = transformedForecastResultsFxn({
       data: forecastResults,
       yearsOrMonths: xValueCategories,
       lineOrScatter,
       isYear,
     });
-
+    
     const successAction = transformForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,

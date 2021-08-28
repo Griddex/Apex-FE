@@ -85,25 +85,26 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
       } else if (key === "keys") {
         const xValueCategories = data["keys"];
 
-        yield put({
+        /* yield put({
           ...successAction,
           payload: {
             ...payload,
             keyVar: "xValueCategories",
             xValueCategories,
           },
-        });
+        }); */
+        
       } else if (key == "xValueCategories"){
         const forecastXValueCategories = data["xValueCategories"];
         
-        yield put({
+        /* yield put({
           ...successAction,
           payload: {
             ...payload,
             keyVar: "xValueCategories",
             xValueCategories: forecastXValueCategories,
           },
-        });
+        }); */
       }
 
       i += 1;

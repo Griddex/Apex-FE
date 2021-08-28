@@ -109,13 +109,14 @@ const EconomicsPlotChartsVisualytics = () => {
   ];
 
   const basePath = `${wc}.${wp}.commonChartProps`;
+  //xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
 
   const transformChartResultsPayload = {
     ...transformEconomicsResultsChartDataAction(),
     payload: {
       chartType,
       forecastResults: [],
-      xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
+      xValueCategories: [],
       lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
       isYear: true,
     },
@@ -144,13 +145,14 @@ const EconomicsPlotChartsVisualytics = () => {
           }
           transformChartResultsAction={() =>
             //TODO Update fxn
+            //xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
             dispatch({
               // ...transformForecastResultsChartDataAction(),
               type: "REPLACE_TYPE",
               payload: {
                 chartType,
                 forecastResults: [],
-                xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
+                xValueCategories: [],
                 lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
                 isYear: true,
               },

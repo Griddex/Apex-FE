@@ -147,12 +147,13 @@ const forecastReducer = (
       };
 
     case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
-      const { forecastResults } = action.payload;
+      const { forecastResults, xValueCategories } = action.payload;
       const data = forecastResults;
       console.log("data: ", data);
 
       return {
         ...state,
+        xValueCategories,
         forecastChartsWorkflows: {
           ...state["forecastChartsWorkflows"],
           stackedAreaChart: {
@@ -208,6 +209,8 @@ const forecastReducer = (
         isYear,
       } = action.payload;
       const data = forecastResults;
+
+     // console.log("data: ", forecastResults);
 
       return {
         ...state,

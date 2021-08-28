@@ -101,8 +101,11 @@ function* getForecastResultsChartDataSaga(
       authService.post(url, requestData, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const { data } = result;
-    const forecastResults = transformForecastForChart(data);
+    const { data: { xAxesData, uniqueYears } } = result;
+
+    console.log("xAxesData: ", xAxesData);
+    console.log("uniqueYears: ", uniqueYears);
+    const forecastResults = transformForecastForChart(xAxesData);
 
     //TODO Get both from Gift
    /*  const xValueCategories = forecastResults.map(
@@ -120,7 +123,7 @@ function* getForecastResultsChartDataSaga(
       payload: {
         chartType,
         forecastResults,
-        xValueCategories,
+        xValueCategories: uniqueYears,
         lineOrScatter,
         isYear,
       },

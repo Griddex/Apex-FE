@@ -87,13 +87,19 @@ const ForecastVisualytics = () => {
     (state: RootState) => state.forecastReducer[wc][ch]
   );
 
-  const chartType = selectedForecastChartOption.value;
+  const { xValueCategories } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
 
+  //console.log("xValueCategories: ", xValueCategories);
+
+  const chartType = selectedForecastChartOption.value;
+//forecastResults.map((_, i) => i + 2020)
   const transformChartResultsPayload = {
     ...transformForecastResultsChartDataAction(),
     payload: {
       forecastResults,
-      xValueCategories: forecastResults.map((_, i) => i + 2020),
+      xValueCategories,
       lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
       isYear: true,
     },
