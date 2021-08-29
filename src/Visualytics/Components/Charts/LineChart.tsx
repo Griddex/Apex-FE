@@ -25,9 +25,6 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
   );
   const { data } = lineChart;
 
-  console.log("reducerDefined: ", reducerDefined);
-  console.log("wc: ", wc);
-  console.log("data: ", data);
 
   const commonChartPropsDefined = commonChartProps as IChart;
   const {
