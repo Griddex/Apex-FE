@@ -67,7 +67,7 @@ const ApexLineChartGeneral = ({
 
       setChartProps((prev) => ({
         ...prev,
-        [name]: (option as ISelectOption).value as string,
+        [name]: value,
       }));
 
       updateParameterAction &&

@@ -1,12 +1,19 @@
-import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
+import { ClickAwayListener, makeStyles } from "@material-ui/core";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -15,20 +22,17 @@ import {
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
+import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
-import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
-import ExcelExportTable, {
-  IExcelExportTable,
-  IExcelSheetData,
-} from "../../../../Application/Components/Export/ExcelExportTable";
+import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
 
 const useStyles = makeStyles((theme) => ({
   rootEconomicsParametersManual: {
@@ -56,13 +60,12 @@ const EconomicsParametersManual = ({
 }: IAllWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const typeData = ["Single", "Table", "Equation"];
   const unitData = ["$m", "bopd", "$", "days", "frac", "$/bbl"];
 
-  const wc = wrkflwCtgry as IAllWorkflows["wrkflwCtgry"];
-  const wp = wrkflwPrcss as IAllWorkflows["wrkflwPrcss"];
+  const wc = wrkflwCtgry as TAllWorkflowCategories;
+  const wp = wrkflwPrcss as TAllWorkflowProcesses;
 
   const { economicsParametersAppHeaders } = useSelector(
     (state: RootState) => state.economicsReducer

@@ -10,7 +10,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
-import { IAllWorkflows } from "../Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -81,7 +81,7 @@ const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
     const { fileHeaders } = useSelector(
       (state: RootState) =>
         state.inputReducer["inputDataWorkflows"][
-          workflowProcess as IAllWorkflows["wrkflwPrcss"]
+          workflowProcess as TAllWorkflowProcesses
         ]
     );
 

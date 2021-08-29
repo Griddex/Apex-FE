@@ -5,7 +5,11 @@ import React from "react";
 import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
-import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../../../Application/Redux/Actions/WorkflowActions";
@@ -191,8 +195,8 @@ const UploadFile = ({
                   activeStep,
                   steps,
                   "Loading...",
-                  wp as IAllWorkflows["wrkflwPrcss"],
-                  wc as IAllWorkflows["wrkflwCtgry"]
+                  wp as TAllWorkflowProcesses,
+                  wc as TAllWorkflowCategories
                 )
               );
             }

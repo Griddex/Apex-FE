@@ -21,7 +21,10 @@ import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
-import { IAllWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
+import {
+  ReducersType,
+  TAllWorkflowProcesses,
+} from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -165,7 +168,7 @@ const ListDialog: React.FC<DialogStuff> = (props: DialogStuff) => {
                       reducerDefined,
                       name,
                       [],
-                      workflowProcess as IAllWorkflows["wrkflwPrcss"]
+                      workflowProcess as TAllWorkflowProcesses
                     )
                   );
                 }}

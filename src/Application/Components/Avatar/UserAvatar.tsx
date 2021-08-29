@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import { persistAvatarToReduxAction } from "../../../Administration/Redux/Actions/AdminActions";
+import { persistUserAvatarAction } from "../../../Administration/Redux/Actions/UserActions";
+
 const useStyles = makeStyles(() => ({
   dropZone: {
     borderStyle: "dotted",
@@ -49,7 +50,7 @@ const UserAvatar: React.FC<JSX.Element> = () => {
       onDropAccepted={(acceptedFile) => {
         const avatarImage = acceptedFile[0];
         const avatarUrl = URL.createObjectURL(avatarImage);
-        dispatch(persistAvatarToReduxAction(avatarUrl));
+        dispatch(persistUserAvatarAction(avatarUrl));
       }}
       //   disabled={isDisabled}
       minSize={0}

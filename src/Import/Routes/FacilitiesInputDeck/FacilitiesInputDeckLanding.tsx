@@ -6,7 +6,10 @@ import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  TAllWorkflowProcesses,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -106,7 +109,7 @@ const FacilitiesInputDeckLanding = () => {
   ];
 
   const facilitiesExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflows["wrkflwPrcss"]
+    workflowProcess: TAllWorkflowProcesses
   ) => {
     const saveFacilitiesInputdeckConfirmation = (
       titleDesc: Record<string, string>

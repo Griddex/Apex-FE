@@ -11,15 +11,12 @@ const ApexChartGrid = ({
   updateParameterAction,
   gridName,
   gridTitle,
-  storeGridEnabled,
+  enableGrid,
   gridValuesName,
-  storeGridValues,
+  gridValues,
 }: IApexChartGrid & Partial<IApexChartFormatProps>) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-
-  // const [gridEnabled, setGridEnabled] = React.useState(storeGridEnabled);
-  // const [gridValues, setGridValues] = React.useState(storeGridValues);
 
   const { chartProps, setChartProps } = React.useContext(
     ChartFormatAggregatorContext
@@ -27,9 +24,15 @@ const ApexChartGrid = ({
 
   const { enableGridX, enableGridY, gridXValues, gridYValues } = chartProps;
 
-  const currentGridEnabled = gridName.endsWith("X")
-    ? "enableGridX"
-    : "enableGridY";
+  let currentGridEnabled: string;
+  let currentGridValues: string;
+  if (gridName.endsWith("X")) {
+    currentGridEnabled = "enableGridX";
+    currentGridValues = "gridXValues";
+  } else {
+    currentGridEnabled = "enableGridY";
+    currentGridValues = "gridYValues";
+  }
 
   return (
     <div style={{ width: "100%" }}>
@@ -47,15 +50,32 @@ const ApexChartGrid = ({
                 [currentGridEnabled]: checked,
               }));
 
-              updateParameterAction &&
-                dispatch(
-                  updateParameterAction(
-                    `${basePath}.${currentGridEnabled}`,
-                    checked
-                  )
-                );
+              if (checked) {
+                updateParameterAction &&
+                  dispatch(
+                    updateParameterAction(
+                      `${basePath}.${currentGridEnabled}`,
+                      checked
+                    )
+                  );
+                updateParameterAction &&
+                  dispatch(
+                    updateParameterAction(
+                      `${basePath}.${currentGridValues}`,
+                      undefined
+                    )
+                  );
+              } else {
+                updateParameterAction &&
+                  dispatch(
+                    updateParameterAction(
+                      `${basePath}.${currentGridValues}`,
+                      []
+                    )
+                  );
+              }
             }}
-            checked={storeGridEnabled}
+            checked={enableGrid}
             checkedColor={theme.palette.success.main}
             notCheckedColor={theme.palette.common.white}
             hasLabels={true}
@@ -65,23 +85,29 @@ const ApexChartGrid = ({
         }
       />
 
-      <TextareaAutosize
-        name={gridValuesName}
-        style={{ height: 30, width: "100%" }}
-        minRows={4}
-        value={storeGridValues?.join(", ")}
-        onChange={(event) => {
-          const { value } = event.target;
+      {!chartProps[currentGridEnabled as "enableGridX" | "enableGridY"] && (
+        <TextareaAutosize
+          name={gridValuesName}
+          style={{ height: 30, width: "100%" }}
+          minRows={4}
+          value={gridValues?.join(",")}
+          onChange={(event) => {
+            const { value } = event.target;
+            //TODO regex to remove one or more commas at end of string
+            const XValues = value.split(",");
 
-          updateParameterAction &&
-            dispatch(
-              updateParameterAction(
-                `${basePath}.${gridValuesName}`,
-                value.split(", ")
-              )
-            );
-        }}
-      />
+            setChartProps((prev) => ({
+              ...prev,
+              [currentGridValues]: XValues,
+            }));
+
+            updateParameterAction &&
+              dispatch(
+                updateParameterAction(`${basePath}.${gridValuesName}`, XValues)
+              );
+          }}
+        />
+      )}
     </div>
   );
 };

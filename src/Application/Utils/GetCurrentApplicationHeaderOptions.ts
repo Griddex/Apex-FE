@@ -1,8 +1,8 @@
-import { IAllWorkflows } from "../Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
 import { ISelectOption } from "./../Components/Selects/SelectItemsType";
 
 const getCurrentApplicationHeaderOptions = (
-  wp: IAllWorkflows["wrkflwPrcss"],
+  wp: TAllWorkflowProcesses,
   allAppHeadersObjOptions: Record<string, ISelectOption[]>,
   returnIsStringArray: boolean
 ) => {

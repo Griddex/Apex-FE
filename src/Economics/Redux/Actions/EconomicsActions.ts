@@ -1,9 +1,9 @@
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
-  IAllWorkflows,
   IEconomicsWorkflows,
   IInputWorkflows,
   ReducersType,
+  TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   TDevScenarioNames,
@@ -203,7 +203,7 @@ export const persistCostsRevDataFaiSelectOptionFailureAction = () => {
 };
 
 export const saveCostsRevenuesRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowProcess: TAllWorkflowProcesses,
   reducer: ReducersType,
   titleDesc: Record<string, string>
 ) => {
@@ -306,7 +306,7 @@ export const transformEconomicsResultsChartDataFailureAction = () => {
 };
 
 export const saveEconomicsParametersRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowProcess: TAllWorkflowProcesses,
   reducer: ReducersType,
   titleDesc: Record<string, string>
 ) => {

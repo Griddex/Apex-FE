@@ -1,5 +1,5 @@
 import set from "lodash.set";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_FAILURE,
@@ -7,10 +7,6 @@ import {
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
-import {
-  STORED_INPUTDECK_FAILURE,
-  STORED_INPUTDECK_SUCCESS,
-} from "../Actions/StoredInputDeckActions";
 import {
   FETCH_APPLICATIONHEADERS_SUCCESS,
   IMPORTFILE_INITIALIZATION,
@@ -29,11 +25,15 @@ import {
   PERSIST_VARIABLEUNITS,
   PERSIST_WORKSHEET,
   PERSIST_WORKSHEETNAMES,
+  RESET_INPUT,
   SAVE_INPUTDECK_FAILURE,
   SAVE_INPUTDECK_SUCCESS,
   UPDATE_INPUT,
-  RESET_INPUT,
 } from "../Actions/InputActions";
+import {
+  STORED_INPUTDECK_FAILURE,
+  STORED_INPUTDECK_SUCCESS,
+} from "../Actions/StoredInputDeckActions";
 import InputState from "../State/InputState";
 
 const inputReducer = (state = InputState, action: IAction) => {
@@ -78,8 +78,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     case PERSIST_TABLEDATA:
     case PERSIST_COLUMNNAMETABLEDATA: {
       const { reducer, workflowProcess } = action.payload;
-      const workflowProcessDefined =
-        workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const workflowProcessDefined = workflowProcess as TAllWorkflowProcesses;
 
       if (reducer === "inputReducer") {
         return {
@@ -128,7 +127,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case SAVE_INPUTDECK_SUCCESS: {
       const { workflowProcess, storedDataId, status, success } = action.payload;
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
 
       return {
         ...state,
@@ -145,7 +144,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
     case SAVE_INPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
 
       return {
         ...state,

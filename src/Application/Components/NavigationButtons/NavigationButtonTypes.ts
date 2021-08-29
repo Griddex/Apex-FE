@@ -1,5 +1,8 @@
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
-import { IAllWorkflows } from "./../Workflows/WorkflowTypes";
+import {
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "./../Workflows/WorkflowTypes";
 
 export interface INavigationButtonsProp {
   isMainNav?: boolean;
@@ -17,6 +20,6 @@ export interface INavigationButtonsProp {
   finalAction?: () => void;
   finalNavIcon?: () => JSX.Element;
   workflowProps?: IWorkflowProcessState;
-  workflowProcess?: IAllWorkflows["wrkflwPrcss"];
-  workflowCategory?: IAllWorkflows["wrkflwCtgry"];
+  workflowProcess?: TAllWorkflowProcesses;
+  workflowCategory?: TAllWorkflowCategories;
 }

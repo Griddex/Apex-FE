@@ -6,11 +6,15 @@ import React from "react";
 
 const useStyles = makeStyles({
   root: {
+    display: "flex",
+    alignItems: "center",
     width: "100%",
+    minWidth: 200,
   },
   input: {
-    width: 60,
+    width: 80,
     fontSize: 14,
+    marginLeft: 5,
   },
 });
 
@@ -36,6 +40,10 @@ export default function ApexSlider({
   action,
   sliderContextFxn,
 }: IApexSlider) {
+  console.log(
+    "Logged output --> ~ file: ApexSlider.tsx ~ line 43 ~ sliderValue",
+    sliderValue
+  );
   const classes = useStyles();
 
   const handleSliderChange = (event: any, value: number | number[]) => {
@@ -61,33 +69,30 @@ export default function ApexSlider({
   };
 
   return (
-    <Grid className={classes.root} container spacing={2} alignItems="center">
-      <Grid item xs>
-        <Slider
-          name={name}
-          value={typeof sliderValue === "number" ? sliderValue : min}
-          onChange={handleSliderChange}
-          aria-labelledby="input-slider"
-          valueLabelDisplay="auto"
-          marks
-        />
-      </Grid>
-      <Grid item>
-        <Input
-          className={classes.input}
-          value={sliderValue}
-          margin="dense"
-          onChange={handleInputChange}
-          onBlur={handleBlur}
-          inputProps={{
-            step: step,
-            min: min,
-            max: max,
-            type: "number",
-            "aria-labelledby": "input-slider",
-          }}
-        />
-      </Grid>
-    </Grid>
+    <div className={classes.root}>
+      <Slider
+        name={name}
+        value={typeof sliderValue === "number" ? sliderValue : min}
+        onChange={handleSliderChange}
+        aria-labelledby="input-slider"
+        valueLabelDisplay="auto"
+        marks
+        style={{ width: "100%" }}
+      />
+      <Input
+        className={classes.input}
+        value={sliderValue}
+        margin="dense"
+        onChange={handleInputChange}
+        onBlur={handleBlur}
+        inputProps={{
+          step: step,
+          min: min,
+          max: max,
+          type: "number",
+          "aria-labelledby": "input-slider",
+        }}
+      />
+    </div>
   );
 }

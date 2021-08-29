@@ -25,4 +25,5 @@ export interface IWorkflowState {
   economicsDataWorkflows: Record<string, IWorkflowProcessState>;
   economicsAnalysisWorkflows: Record<string, IWorkflowProcessState>;
   economicsChartsWorkflows: Record<string, IWorkflowProcessState>;
+  visualyticsChartsWorkflows: Record<string, IWorkflowProcessState>;
 }

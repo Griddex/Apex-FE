@@ -22,6 +22,7 @@ import WorkflowDialogBanner from "../../../Application/Components/Workflows/Work
 import {
   IAllWorkflows,
   ReducersType,
+  TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   hideDialogAction,
@@ -128,7 +129,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
 
   const reducer = "inputReducer" as ReducersType;
   const wc = "inputDataWorkflows";
-  const wp = workflowProcess as NonNullable<IAllWorkflows["wrkflwPrcss"]>;
+  const wp = workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
   const storedTitles = useSelector(
     (state: RootState) =>

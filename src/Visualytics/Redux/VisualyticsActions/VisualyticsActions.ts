@@ -1,7 +1,11 @@
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { chartObjectsNameTitleMap } from "../VisualyticsState/VisualyticsState";
 import { IChartObject } from "./../VisualyticsState/VisualyticsStateTypes";
 
 export const PERSIST_CHARTINDEX = "PERSIST_CHARTINDEX";
+export const SAVE_VISUALYTICSDECK_REQUEST = "SAVE_VISUALYTICSDECK_REQUEST";
+export const SAVE_VISUALYTICSDECK_SUCCESS = "SAVE_VISUALYTICSDECK_SUCCESS";
+export const SAVE_VISUALYTICSDECK_FAILURE = "SAVE_VISUALYTICSDECK_FAILURE";
 export const PERSIST_CHARTELEMENTID = "PERSIST_CHARTELEMENTID";
 export const SET_CHARTCOLOR = "SET_CHARTCOLOR";
 export const SET_CHARTCELLCOLORS = "SET_CHARTCELLCOLORS";
@@ -14,6 +18,39 @@ export const persistChartIndexAction = (selectedChartIndex: number) => {
     type: PERSIST_CHARTINDEX,
     payload: {
       selectedChartIndex,
+    },
+  };
+};
+
+export const saveVisualyticsDeckRequestAction = (
+  workflowProcess: TAllWorkflowProcesses,
+  titleDesc: Record<string, string>
+) => {
+  const { title } = titleDesc;
+  const reducer = "visualyticsReducer";
+
+  return {
+    type: SAVE_VISUALYTICSDECK_REQUEST,
+    payload: { workflowProcess, reducer, titleDesc },
+    meta: { message: `Saving ${title}...` },
+  };
+};
+
+export const saveVisualyticsDeckSuccessAction = () => {
+  return {
+    type: SAVE_VISUALYTICSDECK_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const saveVisualyticsDeckFailureAction = () => {
+  return {
+    type: SAVE_VISUALYTICSDECK_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
     },
   };
 };

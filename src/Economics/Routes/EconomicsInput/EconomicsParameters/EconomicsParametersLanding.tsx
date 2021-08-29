@@ -6,27 +6,26 @@ import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
-import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../../Application/Types/ApplicationTypes";
-import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
+import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
-import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
-import { IdType } from "./EconomicsParametersTypes";
-import StoredEconomicsParametersDecks from "./StoredEconomicsParametersDecks";
+import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
+import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
+import Manual from "../../../Images/Manual.svg";
 import {
   loadEconomicsWorkflowAction,
   saveEconomicsParametersRequestAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import Manual from "../../../Images/Manual.svg";
 import EconomicsParametersManual from "./EconomicsParametersManual";
+import { IdType } from "./EconomicsParametersTypes";
+import StoredEconomicsParametersDecks from "./StoredEconomicsParametersDecks";
 
 const useStyles = makeStyles((theme) => ({
   economicsParametersLanding: {
@@ -127,7 +126,7 @@ const EconomicsParametersLanding = () => {
 
   //Paying it back
   const economicsParametersWorkflowFinalAction = (
-    wp: IAllWorkflows["wrkflwPrcss"]
+    wp: TAllWorkflowProcesses
   ) => {
     const saveEconomicsParametersInputdeckConfirmation = (
       titleDesc: Record<string, string>

@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
-import { updateRegistrationFormAction } from "../../Redux/Actions/AdminActions";
+import { updateRegistrationFormAction } from "../../Redux/Actions/UserActions";
 
 const useStyles = makeStyles((theme) => ({
   regScenario: {
@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
 const RegistrationScenarios = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [registrationScenario, setRegistrationScenario] = React.useState(
-    "single"
-  );
+  const [registrationScenario, setRegistrationScenario] =
+    React.useState("single");
+
   const handleRegistrationScenarioChange = (event: ChangeEvent<any>) => {
     const { name, value } = event.target;
-
     setRegistrationScenario(value);
+
     updateRegistrationFormAction &&
       dispatch(updateRegistrationFormAction(name, value));
   };

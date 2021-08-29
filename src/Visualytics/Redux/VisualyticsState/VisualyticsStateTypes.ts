@@ -213,10 +213,11 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
 
   //Motion
   isInteractive: boolean;
+  useMesh: boolean;
+  enableSlices: false | "x" | "y";
   animate: ModernMotionProps["animate"];
   motionConfig: ModernMotionProps["motionConfig"];
   renderWrapper: boolean;
-  useMesh: boolean;
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -248,7 +249,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   // axisRight: AxisProps | null | undefined;
   // axisBottom: AxisProps | null | undefined;
   // axisLeft: AxisProps | null | undefined;
-  apexAxesEnabled: {
+  enableApexAxes: {
     axisLeft: boolean;
     axisBottom: boolean;
     axisTop: boolean;
@@ -301,7 +302,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   // fill: SvgDefsAndFill<Datum>["fill"];
 
   //Legend
-  enableLegend: boolean;
-  legends: any;
+  enableLegend: boolean[];
+  legends: any[];
   // legends: LegendProps[] | BarLegendProps[];
 }

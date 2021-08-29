@@ -1,75 +1,29 @@
-export const UPDATE_REGISTRATION = "UPDATE_REGISTRATION";
-export const PERSIST_AVATAR = "PERSIST_AVATAR";
-export const REGISTER_REQUEST = "REGISTER_REQUEST";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILURE = "REGISTER_FAILURE";
+export const UPDATE_ADMIN = "UPDATE_ADMIN";
+export const UPDATE_ADMINS = "UPDATE_ADMINS";
+export const LOAD_ADMIN_WORKFLOW = "LOAD_ADMIN_WORKFLOW";
 export const RESET_ADMIN = "RESET_ADMIN";
 
-export const updateRegistrationFormAction = (
-  name: string,
-  value: React.Key
-) => {
+export const updateAdminParameterAction = (path: string, value: any) => {
   return {
-    type: UPDATE_REGISTRATION,
+    type: UPDATE_ADMINS,
+    payload: { path, value },
+  };
+};
+
+export const updateAdminsParameterAction = (updateObj: Record<string, any>) => {
+  return {
+    type: UPDATE_ADMIN,
     payload: {
-      name,
-      value,
+      updateObj,
     },
   };
 };
 
-export const persistAvatarToReduxAction = (avatarUrl: string) => {
+export const loadAdminWorkflowAction = () => {
   return {
-    type: PERSIST_AVATAR,
+    type: LOAD_ADMIN_WORKFLOW,
     payload: {
-      avatarUrl,
-    },
-  };
-};
-
-export const registerRequestAction = (
-  userName: string,
-  email: string,
-  password: string
-  // middleName: string,
-  // lastName: string,
-  // mobileNumber: string,
-  // role: string,
-  // avatarUrl: string
-) => {
-  return {
-    type: REGISTER_REQUEST,
-    payload: {
-      userName,
-      email,
-      password,
-      // firstName,
-      // middleName,
-      // lastName,
-      // mobileNumber,
-      // role,
-      // avatarUrl,
-    },
-    meta: { addAuth: true, message: `Registering ${userName}` },
-  };
-};
-
-export const registerSuccessAction = () => {
-  return {
-    type: REGISTER_SUCCESS,
-    payload: {
-      status: 0,
-      data: [],
-    },
-  };
-};
-
-export const registerFailureAction = () => {
-  return {
-    type: REGISTER_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
+      name: true,
     },
   };
 };

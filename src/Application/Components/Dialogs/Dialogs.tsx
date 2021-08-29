@@ -44,6 +44,7 @@ import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidg
 import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
 import { IStoredDataRow } from "../../Types/ApplicationTypes";
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
+import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -101,6 +102,7 @@ const applicationDialogs: IApplicationDialogs = {
   linkInputDeckDialog: LinkInputDeckDialog,
 
   openProjectConfirmationDialog: OpenProjectConfirmationDialog,
+  saveVisualyticsDeckDialog: SaveVisualyticsDeckDialog,
 };
 
 const Dialogs: React.FC<DialogStuff> = () => {

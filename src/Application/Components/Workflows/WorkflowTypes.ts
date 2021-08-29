@@ -25,6 +25,11 @@ export interface IProjectWorkflows {
   finalIcon?: JSX.Element;
   finalText?: string;
 }
+export interface IAdminWorkflows {
+  reducer: ReducersType;
+  wkPs: "userRegistration";
+  wkCy: "inputDataWorkflows";
+}
 export interface IInputWorkflows {
   reducer: ReducersType;
   wkPs:
@@ -70,6 +75,13 @@ export interface INetworkWorkflows {
     | "storedDataWorkflows"
     | "networkCreationWorkflows";
 }
+export interface IVisualyticsWorkflows {
+  wkPs:
+    | "visualyticsDeckExcel"
+    | "visualyticsDeckDatabase"
+    | "visualyticsDeckStored";
+  wkCy: "storedDataWorkflows" | "visualyticsChartsWorkflows";
+}
 export interface IForecastResultsWorkflows {
   wkPs:
     | "forecastResultsGeneration"
@@ -110,15 +122,19 @@ export type ReducersType = keyof {
 export interface IAllWorkflows {
   reducer: ReducersType;
   wrkflwPrcss:
+    | IAdminWorkflows["wkPs"]
     | IProjectWorkflows["wkPs"]
     | IInputWorkflows["wkPs"]
     | INetworkWorkflows["wkPs"]
+    | IVisualyticsWorkflows["wkPs"]
     | IForecastResultsWorkflows["wkPs"]
     | IEconomicsWorkflows["wkPs"];
   wrkflwCtgry:
+    | IAdminWorkflows["wkCy"]
     | IProjectWorkflows["wkCy"]
     | IInputWorkflows["wkCy"]
     | INetworkWorkflows["wkCy"]
+    | IVisualyticsWorkflows["wkCy"]
     | IForecastResultsWorkflows["wkCy"]
     | IEconomicsWorkflows["wkCy"];
   finalAction?: () => void;
@@ -136,7 +152,7 @@ export interface IAllWorkflows {
 }
 
 export type TAllWorkflowProcesses = IAllWorkflows["wrkflwPrcss"];
-export type TOnlyWorkflowProcesses = Exclude<IAllWorkflows["wrkflwPrcss"], "">;
+export type TOnlyWorkflowProcesses = Exclude<TAllWorkflowProcesses, "">;
 export type TAllWorkflowCategories = IAllWorkflows["wrkflwCtgry"];
 export type TOnlyWorkflowCategories = Exclude<
   IAllWorkflows["wrkflwCtgry"],

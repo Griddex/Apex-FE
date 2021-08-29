@@ -345,6 +345,43 @@ export const pointLabelOptions = [
   },
 ];
 
+export const pointsInheritOptions = [{ value: "color", label: "Color" }];
+
+export const pointsThemeOptions = [
+  { value: "background", label: "Background" },
+  { value: "grid.line.stroke", label: "Grid.Line.Stroke" },
+  { value: "labels.text.fill", label: "Labels.Text.Fill" },
+];
+
+export const enableSlicesOptions = [
+  { value: "false", label: "false" },
+  { value: "x", label: "X" },
+  { value: "y", label: "Y" },
+];
+
+export const crosshairTypeOptions = [
+  { value: "top-left", label: "Top-Left" },
+  { value: "x", label: "X" },
+  { value: "y", label: "Y" },
+  { value: "top", label: "Top" },
+  { value: "top-right", label: "Top-Right" },
+  { value: "right", label: "Right" },
+  { value: "bottom-right", label: "Bottom-Right" },
+  { value: "bottom", label: "Bottom" },
+  { value: "bottom-left", label: "Bottom-Left" },
+  { value: "left", label: "Left" },
+  { value: "cross", label: "Cross" },
+];
+
+export const motionConfigPresetOptions = [
+  { value: "default", label: "Default" },
+  { value: "gentle", label: "Gentle" },
+  { value: "wobbly", label: "Wobbly" },
+  { value: "stiff", label: "Stiff" },
+  { value: "slow", label: "Slow" },
+  { value: "molasses", label: "Molasses" },
+];
+
 export const commonChartProps = {
   //Statcked
   offsetType: "none",
@@ -420,6 +457,7 @@ export const commonChartProps = {
   motionConfig: "default",
   renderWrapper: true,
   useMesh: true,
+  enableSlices: false,
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -454,7 +492,7 @@ export const commonChartProps = {
     legendOffset: -40,
     legendPosition: "middle",
   },
-  apexAxesEnabled: {
+  enableApexAxes: {
     axisLeft: true,
     axisBottom: true,
     axisTop: false,
@@ -464,8 +502,8 @@ export const commonChartProps = {
   //Grid
   enableGridX: true,
   enableGridY: true,
-  gridXValues: [],
-  gridYValues: [],
+  gridXValues: undefined,
+  gridYValues: undefined,
 
   //Handlers
   onClick: () => {},
@@ -525,7 +563,7 @@ export const commonChartProps = {
   ],
 
   //Legend
-  enableLegend: false,
+  enableLegend: [false],
   legends: [
     {
       dataFrom: "keys",

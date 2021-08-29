@@ -4,14 +4,13 @@ import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { axisNameTitlesObj, TAxisType } from "../../Data/VisualyticsData";
 import ApexChartGridAxes from "../ChartGridAxes/ApexChartGridAxes";
+import { TAxisName } from "../ChartTypes";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 import ApexLineChartGeneral from "../General/ApexLineChartGeneral";
 import ApexLegends from "../Legends/ApexLegends";
 import ApexLinePlotStyle from "../PlotStyle/ApexLinePlotSyle";
 import ApexChartPointers from "../Pointers/ApexChartPoints";
 import { IApexFormatAggregator } from "./FormatAggregatorTypes";
-
-export type TAxisName = keyof typeof axisNameTitlesObj;
 
 const LineChartFormatAggregator = ({
   basePath,
@@ -21,7 +20,7 @@ const LineChartFormatAggregator = ({
   const { chartProps } = React.useContext(ChartFormatAggregatorContext);
 
   const {
-    apexAxesEnabled,
+    enableApexAxes,
     axisBottom,
     axisLeft,
     axisRight,
@@ -42,16 +41,16 @@ const LineChartFormatAggregator = ({
     {
       gridName: "gridX",
       gridTitle: "Horizontal Grid",
-      storeGridEnabled: enableGridX,
+      enableGrid: enableGridX,
       gridValuesName: "gridXValues",
-      storeGridValues: gridXValues,
+      gridValues: gridXValues,
     },
     {
       gridName: "gridY",
       gridTitle: "Vertical Grid",
-      storeGridEnabled: enableGridY,
+      enableGrid: enableGridY,
       gridValuesName: "gridYValues",
-      storeGridValues: gridYValues,
+      gridValues: gridYValues,
     },
   ];
 
@@ -59,7 +58,7 @@ const LineChartFormatAggregator = ({
     axisName: name,
     axisCaption: "Chart Axes",
     enableName: `${name}Enable`,
-    ...chartProps[name as TAxisName],
+    axisEnabled: enableApexAxes[name as TAxisName],
   }));
 
   const lineAccordionsData = Object.keys(axisNameTitlesObj).map((name) => ({
@@ -116,9 +115,10 @@ const LineChartFormatAggregator = ({
       >
         <ToggleButton value="general">{"General"}</ToggleButton>
         <ToggleButton value="plot">{"Plot"}</ToggleButton>
-        <ToggleButton value="gridAxes">{"Grid/Axes"}</ToggleButton>
+        <ToggleButton value="gridAxes">{"Grid & Axes"}</ToggleButton>
         <ToggleButton value="legends">{"Legends"}</ToggleButton>
         <ToggleButton value="points">{"Points"}</ToggleButton>
+        <ToggleButton value="interactivity">{"Interactivity"}</ToggleButton>
       </ToggleButtonGroup>
       {renderFormatPerspective()}
     </ApexFlexContainer>

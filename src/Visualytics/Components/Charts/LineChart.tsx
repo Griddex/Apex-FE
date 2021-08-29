@@ -61,10 +61,6 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
     commonChartPropsDefined
   );
 
-  console.log(
-    "Logged output --> ~ file: LineChart.tsx ~ line 65 ~ SimpleLineChart ~ data",
-    data
-  );
   return <ResponsiveLine data={data} {...commonChartPropsDefined} />;
 };
 

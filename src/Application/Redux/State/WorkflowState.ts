@@ -187,6 +187,7 @@ const workflowState: IWorkflowState = {
   economicsDataWorkflows: economicsState,
   economicsAnalysisWorkflows: economicsAnalysesState,
   economicsChartsWorkflows: {},
+  visualyticsChartsWorkflows: {},
 };
 
 export default workflowState;

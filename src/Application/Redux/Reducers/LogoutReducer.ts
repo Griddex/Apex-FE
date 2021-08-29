@@ -4,7 +4,7 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
 } from "../Actions/LogoutActions";
-import userState from "../State/UserState";
+import userState from "../../../Administration/Redux/State/UserState";
 
 export const logoutReducer = (state = userState, action: IAction) => {
   switch (action.type) {

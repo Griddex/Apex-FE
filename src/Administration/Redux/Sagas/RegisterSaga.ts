@@ -16,10 +16,10 @@ import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerA
 import * as authService from "../../../Application/Services/AuthService";
 import history from "../../../Application/Services/HistoryService";
 import {
-  registerFailureAction,
-  registerSuccessAction,
-  REGISTER_REQUEST,
-} from "../Actions/AdminActions";
+  USER_REGISTRATION_REQUEST,
+  registerUserSuccessAction,
+  registerUserFailureAction,
+} from "../Actions/UserActions";
 import { getBaseAuthUrl } from "./../../../Application/Services/BaseUrlService";
 
 export default function* watchRegisterSaga(): Generator<
@@ -27,7 +27,7 @@ export default function* watchRegisterSaga(): Generator<
   void,
   any
 > {
-  const registerChan = yield actionChannel(REGISTER_REQUEST);
+  const registerChan = yield actionChannel(USER_REGISTRATION_REQUEST);
   yield takeLeading(registerChan, registerSaga);
 }
 
@@ -72,13 +72,13 @@ function* registerSaga(
     const {
       data: { status, data, succcess },
     } = result;
-    const successAction = registerSuccessAction();
+    const successAction = registerUserSuccessAction();
     yield put({
       ...successAction,
       payload: { ...payload, status, data },
     });
   } catch (errors) {
-    const failureAction = registerFailureAction();
+    const failureAction = registerUserFailureAction();
     yield put({
       ...failureAction,
       payload: { ...payload, errors },

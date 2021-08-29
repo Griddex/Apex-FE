@@ -1,6 +1,7 @@
 import { useTheme } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { LegendProps } from "@nivo/legends";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
@@ -14,6 +15,7 @@ import {
   legendItemsDirectionOptions,
   legendSymbolShapeOptions,
 } from "../../Data/VisualyticsData";
+import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
@@ -32,6 +34,8 @@ const ApexLegends = ({
     ChartFormatAggregatorContext
   );
 
+  const legends = chartProps["legends"][0];
+
   const {
     enableLegend,
     anchor,
@@ -47,7 +51,7 @@ const ApexLegends = ({
     symbolShape,
     symbolSize,
     symbolBorderColor,
-  } = chartProps["legends"];
+  } = legends;
 
   const [solidColor, setSolidColor] = React.useState(symbolBorderColor);
 
@@ -66,55 +70,57 @@ const ApexLegends = ({
   );
 
   const handleLegendSelect =
-    (name: string) => (option: ValueType<ISelectOption, false>) => {
+    (name: keyof LegendProps, isObj?: boolean, obj?: any, objKey?: string) =>
+    (option: ValueType<ISelectOption, false>) => {
+      const optionValue = (option as ISelectOption).value as string;
+
+      let value: any;
+      if (isObj) {
+        value = [{ ...obj, [objKey as string]: optionValue }];
+      } else {
+        value = optionValue;
+      }
+
       setChartProps((prev) => ({
         ...prev,
-        [name]: (option as ISelectOption).value as string,
+        [name]: value,
       }));
 
       updateParameterAction &&
-        dispatch(
-          updateParameterAction(`${basePath}.legends[0].${name}`, {
-            scheme: (option as ISelectOption).value,
-          })
-        );
+        dispatch(updateParameterAction(`${basePath}.${name}`, value));
     };
 
-  const legendAnchorData = legendAnchorPositions.map((rowArr) => {
-    const optionsArr = rowArr.map((opt) => ({
-      ...opt,
-      action: () => {
-        setChartProps((prev) => ({
-          ...prev,
-          legends: opt.value,
-        }));
+  const handleLegendSwitch =
+    (
+      name: keyof IChart,
+      isObj?: boolean,
+      obj?: any,
+      objKey?: keyof LegendProps
+    ) =>
+    (event: React.ChangeEvent<any>) => {
+      const { checked } = event.target;
 
-        updateParameterAction &&
-          dispatch(
-            updateParameterAction(`${basePath}.legends[0].anchor`, opt.value)
-          );
-      },
-    }));
+      let value: any;
+      if (isObj) {
+        value = [{ ...obj, [objKey as string]: checked }];
+      } else {
+        value = checked;
+      }
 
-    return optionsArr;
-  });
+      setChartProps((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+
+      updateParameterAction &&
+        dispatch(updateParameterAction(`${basePath}.${name}`, value));
+    };
 
   return (
     <div style={{ width: "100%", padding: 5 }}>
       <ApexMuiSwitch
         name={"legendEnableName"}
-        handleChange={(event) => {
-          const { checked } = event.target;
-          setChartProps((prev) => ({
-            ...prev,
-            enableLegend: checked,
-          }));
-
-          updateParameterAction &&
-            dispatch(
-              updateParameterAction(`${basePath}.enableLegend`, checked)
-            );
-        }}
+        handleChange={handleLegendSwitch("enableLegend")}
         checked={enableLegend}
         checkedColor={theme.palette.success.main}
         notCheckedColor={theme.palette.common.white}
@@ -131,8 +137,14 @@ const ApexLegends = ({
             containerStyle={{ marginTop: 20 }}
             content={
               <ApexLegendAnchor
+                basePath={basePath as string}
+                legends={legends}
                 currentAnchor={anchor}
-                anchorData={legendAnchorData}
+                setAnchor={setChartProps}
+                updateParameterAction={
+                  updateParameterAction as IApexChartFormatProps["updateParameterAction"]
+                }
+                anchorData={legendAnchorPositions}
               />
             }
           />
@@ -148,14 +160,19 @@ const ApexLegends = ({
                 onChange={(_, value) => {
                   setChartProps((prev) => ({
                     ...prev,
-                    legends: value,
+                    legends: [
+                      { ...chartProps["legends"][0], direction: value },
+                    ],
                   }));
+
                   updateParameterAction &&
                     dispatch(
-                      updateParameterAction(
-                        `${basePath}.legends[0].direction`,
-                        value
-                      )
+                      updateParameterAction(`${basePath}.legends`, [
+                        {
+                          ...legends,
+                          direction: value,
+                        },
+                      ])
                     );
                 }}
               >
@@ -171,21 +188,12 @@ const ApexLegends = ({
             content={
               <ApexMuiSwitch
                 name={"justifyEnableName"}
-                handleChange={(event) => {
-                  const { checked } = event.target;
-                  setChartProps((prev) => ({
-                    ...prev,
-                    enableLegend: checked,
-                  }));
-
-                  updateParameterAction &&
-                    dispatch(
-                      updateParameterAction(
-                        `${basePath}.legends[0].justify`,
-                        checked
-                      )
-                    );
-                }}
+                handleChange={handleLegendSwitch(
+                  "legends",
+                  true,
+                  legends,
+                  "justify"
+                )}
                 checked={justify}
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.common.white}
@@ -206,11 +214,21 @@ const ApexLegends = ({
                 step={1}
                 min={-200}
                 max={200}
-                actionPath={`${basePath}.legends[0].translateX`}
+                actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(updateParameterAction(path, value))
+                  dispatch(
+                    updateParameterAction(path, [
+                      { ...legends, translateX: value },
+                    ])
+                  )
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: [{ ...prev["legends"][0], translateX: value }],
+                  }));
+                }}
               />
             }
           />
@@ -225,11 +243,21 @@ const ApexLegends = ({
                 step={1}
                 min={-200}
                 max={200}
-                actionPath={`${basePath}.legends[0].translateY`}
+                actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(updateParameterAction(path, value))
+                  dispatch(
+                    updateParameterAction(path, [
+                      { ...legends, translateY: value },
+                    ])
+                  )
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: [{ ...prev["legends"][0], translateY: value }],
+                  }));
+                }}
               />
             }
           />
@@ -244,11 +272,21 @@ const ApexLegends = ({
                 step={1}
                 min={0}
                 max={60}
-                actionPath={`${basePath}.legends[0].itemsSpacing`}
+                actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(updateParameterAction(path, value))
+                  dispatch(
+                    updateParameterAction(path, [
+                      { ...legends, itemsSpacing: value },
+                    ])
+                  )
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: [{ ...prev["legends"][0], itemsSpacing: value }],
+                  }));
+                }}
               />
             }
           />
@@ -263,11 +301,21 @@ const ApexLegends = ({
                 step={1}
                 min={10}
                 max={200}
-                actionPath={`${basePath}.legends[0].itemWidth`}
+                actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(updateParameterAction(path, value))
+                  dispatch(
+                    updateParameterAction(path, [
+                      { ...legends, itemWidth: value },
+                    ])
+                  )
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: [{ ...prev["legends"][0], itemWidth: value }],
+                  }));
+                }}
               />
             }
           />
@@ -282,11 +330,21 @@ const ApexLegends = ({
                 step={1}
                 min={10}
                 max={200}
-                actionPath={`${basePath}.legends[0].itemHeight`}
+                actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(updateParameterAction(path, value))
+                  dispatch(
+                    updateParameterAction(path, [
+                      { ...legends, itemHeight: value },
+                    ])
+                  )
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: [{ ...prev["legends"][0], itemHeight: value }],
+                  }));
+                }}
               />
             }
           />
@@ -301,11 +359,21 @@ const ApexLegends = ({
                 step={1}
                 min={0}
                 max={10}
-                actionPath={`${basePath}.legends[0].itemOpacity`}
+                actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(updateParameterAction(path, value))
+                  dispatch(
+                    updateParameterAction(path, [
+                      { ...legends, itemOpacity: value },
+                    ])
+                  )
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: [{ ...prev["legends"][0], itemOpacity: value }],
+                  }));
+                }}
               />
             }
           />
@@ -334,11 +402,21 @@ const ApexLegends = ({
                 step={1}
                 min={2}
                 max={60}
-                actionPath={`${basePath}.legends[0].symbolSize`}
+                actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
-                  dispatch(updateParameterAction(path, value))
+                  dispatch(
+                    updateParameterAction(path, [
+                      { ...legends, symbolSize: value },
+                    ])
+                  )
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    legends: [{ ...prev["legends"][0], symbolSize: value }],
+                  }));
+                }}
               />
             }
           />
@@ -348,7 +426,6 @@ const ApexLegends = ({
             containerStyle={{ marginTop: 20 }}
             content={
               <ApexSketchPicker
-                oneButtonAction={() => {}}
                 solidColor={solidColor}
                 setSolidColor={setSolidColor}
                 presetColors={presetColors}

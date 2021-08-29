@@ -1,21 +1,21 @@
 import { IUserState } from "./UserStateTypes";
 
-const userState: IUserState = {
-  //login
-  userId: "",
+export const userState: Partial<IUserState> = {
   userName: "",
   password: "",
   email: "",
   rememberMe: false,
 
-  //registration
   firstName: "",
   middleName: "",
   lastName: "",
   mobileNumber: "",
   role: "Asset Forecaster",
   avatarUrl: "",
+};
 
+export const userMetaState: Partial<IUserState> = {
+  userId: "",
   status: 0,
   data: [],
   errors: { message: "" },
@@ -23,4 +23,4 @@ const userState: IUserState = {
   isAthenticated: false,
 };
 
-export default userState;
+export default { ...userMetaState, ...userState };
