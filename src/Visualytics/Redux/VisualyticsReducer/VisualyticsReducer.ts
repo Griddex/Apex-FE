@@ -1,5 +1,6 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
+  LOAD_VISUALYTICS_WORKFLOW,
   PERSIST_CHARTELEMENTID,
   PERSIST_CHARTINDEX,
   RESET_CHART,
@@ -21,6 +22,14 @@ const visualyticsReducer = (
         ...state,
         ...action.payload,
       };
+
+    case LOAD_VISUALYTICS_WORKFLOW: {
+      const { name, trueOrFalse } = action.payload;
+      return {
+        ...state,
+        [name]: trueOrFalse,
+      };
+    }
 
     case PERSIST_CHARTELEMENTID:
       return {

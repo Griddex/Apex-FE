@@ -100,7 +100,13 @@ const ConnectDatabase = ({ wrkflwPrcss }: IAllWorkflows) => {
         wrap="wrap"
         justifyContent="space-evenly"
       >
-        <Grid item container spacing={2} direction="row" justify="flex-start">
+        <Grid
+          item
+          container
+          spacing={2}
+          direction="row"
+          justifyContent="flex-start"
+        >
           <Grid item xs={6}>
             <AnalyticsComp
               title="Database Source"

@@ -69,10 +69,6 @@ const ChartValueFormatters = ({
     },
     {} as FormatSpecifierObject
   );
-  console.log(
-    "Logged output --> ~ file: ChartValueFormatters.tsx ~ line 72 ~ formatSpecifier",
-    formatSpecifier
-  );
 
   const updateFormat = useCallback(
     (property: keyof FormatSpecifier, propertyValue: any) => {
@@ -110,10 +106,6 @@ const ChartValueFormatters = ({
   };
 
   const handleZeroChange = (event: React.ChangeEvent<any>, flag?: boolean) => {
-    console.log(
-      "Logged output --> ~ file: ChartValueFormatters.tsx ~ line 113 ~ handleZeroChange ~ flag",
-      flag
-    );
     updateFormat("zero", flag);
   };
 
@@ -139,10 +131,6 @@ const ChartValueFormatters = ({
     value,
     handleChange,
   }: IChartSwitchSubFormatters) => {
-    console.log(
-      "Logged output --> ~ file: ChartValueFormatters.tsx ~ line 139 ~ value",
-      value
-    );
     return (
       <AnalyticsComp
         title={title}

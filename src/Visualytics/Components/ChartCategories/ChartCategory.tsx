@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { useDrop } from "react-dnd";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
@@ -36,6 +36,7 @@ const ChartCategory = ({
   categoryTitle,
   persistAction,
   removeAction,
+  disable,
 }: IChartCategory) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -81,8 +82,18 @@ const ChartCategory = ({
     };
   }
 
+  const disableStyle = disable
+    ? {
+        pointerEvents: "none",
+        color: theme.palette.grey[200],
+        backgroundColor: theme.palette.grey[400],
+      }
+    : {};
+
+  const style = { ...dropTargetStyle, ...disableStyle } as CSSProperties;
+
   return (
-    <div ref={drop} className={classes.chartProps} style={dropTargetStyle}>
+    <div ref={drop} className={classes.chartProps} style={style}>
       <AnalyticsComp
         title={categoryTitle}
         direction="Vertical"

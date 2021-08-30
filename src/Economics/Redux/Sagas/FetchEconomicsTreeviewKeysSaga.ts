@@ -29,6 +29,7 @@ import {
   ECONOMICS_TREEVIEWKEYS_REQUEST,
   fetchEconomicsTreeviewKeysFailureAction,
   updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
 } from "../Actions/EconomicsActions";
 
 export default function* watchFetchEconomicsTreeviewKeysSaga(): Generator<
@@ -54,7 +55,12 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
   const { payload } = action;
 
   const { willShowSuccessDialog, perspective, idTitleDescIsSaved } = payload;
-  const { selectedEconomicsResultsId } = idTitleDescIsSaved;
+  const {
+    selectedEconomicsResultsId,
+    selectedEconomicsResultsTitle,
+    selectedEconomicsResultsDescription,
+    isEconomicsResultsSaved,
+  } = idTitleDescIsSaved;
 
   const url = `${getBaseEconomicsUrl()}/analyses/analysisResultTree/${selectedEconomicsResultsId}`;
   const config = { withCredentials: false };
@@ -73,6 +79,14 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
 
     const treeType = perspective as TEconomicsTreePerspective;
 
+    yield put(
+      updateEconomicsParametersAction({
+        selectedEconomicsResultsId,
+        selectedEconomicsResultsTitle,
+        selectedEconomicsResultsDescription,
+        isEconomicsResultsSaved,
+      })
+    );
     yield put(
       updateEconomicsParameterAction(
         economicsPerspectiveTreeMap["heatMapTree"],
@@ -106,9 +120,9 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
         actionsList: () => DialogOkayButton([true], [false], [() => {}]),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
-    }
 
-    yield put(showDialogAction(dialogParameters));
+      yield put(showDialogAction(dialogParameters));
+    }
   } catch (errors) {
     const failureAction = fetchEconomicsTreeviewKeysFailureAction();
 

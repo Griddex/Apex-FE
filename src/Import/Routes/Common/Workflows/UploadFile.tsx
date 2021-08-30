@@ -6,7 +6,7 @@ import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import * as xlsx from "xlsx";
 import {
-  IAllWorkflows,
+  IOnlyWorkflows,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -75,21 +75,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UploadFile = ({
+  wrkflwCtgry,
   wrkflwPrcss,
   reducer,
   setInputWorkbook,
   hasExtraComponent,
   extraComponent,
-}: IAllWorkflows) => {
+}: IOnlyWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const wc = "inputDataWorkflows";
+  const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
   const ExtraComponent = extraComponent as NonNullable<
-    IAllWorkflows["extraComponent"]
+    IOnlyWorkflows["extraComponent"]
   >;
 
   const { skipped, isStepSkipped, activeStep, steps } = useSelector(

@@ -6,13 +6,14 @@ import { axisNameTitlesObj, TAxisType } from "../../Data/VisualyticsData";
 import ApexChartGridAxes from "../ChartGridAxes/ApexChartGridAxes";
 import { TAxisName } from "../ChartTypes";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
-import ApexLineChartGeneral from "../General/ApexLineChartGeneral";
+import ApexChartGeneral from "../General/ApexChartGeneral";
+import ApexChartInteractivity from "../Interactivity/ApexChartInteractivity";
 import ApexLegends from "../Legends/ApexLegends";
-import ApexLinePlotStyle from "../PlotStyle/ApexLinePlotSyle";
+import ApexPlotStyle from "../PlotStyle/ApexPlotStyle";
 import ApexChartPointers from "../Pointers/ApexChartPoints";
 import { IApexFormatAggregator } from "./FormatAggregatorTypes";
 
-const LineChartFormatAggregator = ({
+const ChartFormatAggregator = ({
   basePath,
   updateParameterAction,
   chartType,
@@ -85,10 +86,10 @@ const LineChartFormatAggregator = ({
   const renderFormatPerspective = () => {
     switch (perspective) {
       case "general":
-        return <ApexLineChartGeneral {...apexChartProps} />;
+        return <ApexChartGeneral {...apexChartProps} />;
 
       case "plot":
-        return <ApexLinePlotStyle {...apexChartProps} />;
+        return <ApexPlotStyle {...apexChartProps} />;
 
       case "gridAxes":
         return <ApexChartGridAxes {...apexGridAxesProps} />;
@@ -99,13 +100,16 @@ const LineChartFormatAggregator = ({
       case "points":
         return <ApexChartPointers {...apexChartProps} />;
 
+      case "interactivity":
+        return <ApexChartInteractivity {...apexChartProps} />;
+
       default:
         break;
     }
   };
 
   return (
-    <ApexFlexContainer flexDirection="column">
+    <ApexFlexContainer flexDirection="column" moreStyles={{ width: 305 }}>
       <ToggleButtonGroup
         size="small"
         value={perspective}
@@ -115,7 +119,7 @@ const LineChartFormatAggregator = ({
       >
         <ToggleButton value="general">{"General"}</ToggleButton>
         <ToggleButton value="plot">{"Plot"}</ToggleButton>
-        <ToggleButton value="gridAxes">{"Grid & Axes"}</ToggleButton>
+        <ToggleButton value="gridAxes">{"Grids & Axes"}</ToggleButton>
         <ToggleButton value="legends">{"Legends"}</ToggleButton>
         <ToggleButton value="points">{"Points"}</ToggleButton>
         <ToggleButton value="interactivity">{"Interactivity"}</ToggleButton>
@@ -125,4 +129,4 @@ const LineChartFormatAggregator = ({
   );
 };
 
-export default LineChartFormatAggregator;
+export default ChartFormatAggregator;

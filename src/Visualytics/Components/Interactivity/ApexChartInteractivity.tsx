@@ -51,7 +51,7 @@ const ApexChartInteractivity = ({
   const [motionPerspective, setMotionPerspective] = React.useState("preset");
 
   const enableSlicesOption = enableSlicesOptions.find(
-    (option) => option.value === enableSlices
+    (option) => option.value === enableSlices.toString()
   );
   const crosshairTypeOption = crosshairTypeOptions.find(
     (option) => option.value === crosshairType
@@ -94,7 +94,7 @@ const ApexChartInteractivity = ({
         dispatch(updateParameterAction(`${basePath}.${name}`, value));
     };
 
-  const initializePointMotion = (obj: any) => {
+  const initializeMotion = (obj: any) => {
     setChartProps((prev) => ({
       ...prev,
       pointColor: obj,
@@ -107,7 +107,7 @@ const ApexChartInteractivity = ({
   return (
     <div style={{ width: "100%", padding: 5 }}>
       <AnalyticsComp
-        title="Point Color"
+        title="Interactivity"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={
@@ -172,20 +172,22 @@ const ApexChartInteractivity = ({
         }
       />
 
-      <AnalyticsComp
-        title="Crosshair Type"
-        direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
-        content={
-          <ApexSelectRS
-            valueOption={crosshairTypeOption as ISelectOption}
-            data={crosshairTypeOptions}
-            handleSelect={handleInteractivitySelect("enableSlices")}
-            menuPortalTarget={interactivityRef.current as HTMLDivElement}
-            isSelectOptionType={true}
-          />
-        }
-      />
+      {enableCrosshair && (
+        <AnalyticsComp
+          title="Crosshair Type"
+          direction="Vertical"
+          containerStyle={{ marginTop: 20 }}
+          content={
+            <ApexSelectRS
+              valueOption={crosshairTypeOption as ISelectOption}
+              data={crosshairTypeOptions}
+              handleSelect={handleInteractivitySelect("crosshairType")}
+              menuPortalTarget={interactivityRef.current as HTMLDivElement}
+              isSelectOptionType={true}
+            />
+          }
+        />
+      )}
       <AnalyticsComp
         title="Animate"
         direction="Vertical"
@@ -203,59 +205,61 @@ const ApexChartInteractivity = ({
           />
         }
       />
-      <AnalyticsComp
-        title="Motion"
-        direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
-        content={
-          <>
-            <ToggleButtonGroup
-              size="small"
-              value={motionPerspective}
-              exclusive
-              onChange={(_, value: string) => {
-                setMotionPerspective(value);
+      {animate && (
+        <AnalyticsComp
+          title="Motion"
+          direction="Vertical"
+          containerStyle={{ marginTop: 20 }}
+          content={
+            <>
+              <ToggleButtonGroup
+                size="small"
+                value={motionPerspective}
+                exclusive
+                onChange={(_, value: string) => {
+                  setMotionPerspective(value);
 
-                if (value === "preset") {
-                  initializePointMotion(motionConfig);
-                } else {
-                  initializePointMotion({
-                    mass: 1,
-                    tension: 170,
-                    friction: 26,
-                    clamp: false,
-                    precision: 0.01,
-                    velocity: 0,
-                  });
-                }
-              }}
-            >
-              <ToggleButton value="preset">{"Inherit"}</ToggleButton>
-              <ToggleButton value="custom">{"Custom"}</ToggleButton>
-            </ToggleButtonGroup>
-            {motionPerspective === "preset" && (
-              <ApexSelectRS
-                valueOption={motionConfigPresetOption as ISelectOption}
-                data={motionConfigPresetOptions}
-                handleSelect={handleInteractivitySelect(
-                  "motionConfig",
-                  true,
-                  motionConfig,
-                  "from"
-                )}
-                menuPortalTarget={interactivityRef.current as HTMLDivElement}
-                isSelectOptionType={true}
-              />
-            )}
-            {motionPerspective === "custom" && (
-              <CustomMotionConfig
-                basePath={basePath}
-                updateParameterAction={updateParameterAction}
-              />
-            )}
-          </>
-        }
-      />
+                  if (value === "preset") {
+                    initializeMotion(motionConfig);
+                  } else {
+                    initializeMotion({
+                      mass: 1,
+                      tension: 170,
+                      friction: 26,
+                      clamp: false,
+                      precision: 0.01,
+                      velocity: 0,
+                    });
+                  }
+                }}
+              >
+                <ToggleButton value="preset">{"Preset"}</ToggleButton>
+                <ToggleButton value="custom">{"Custom"}</ToggleButton>
+              </ToggleButtonGroup>
+              {motionPerspective === "preset" && (
+                <ApexSelectRS
+                  valueOption={motionConfigPresetOption as ISelectOption}
+                  data={motionConfigPresetOptions}
+                  handleSelect={handleInteractivitySelect(
+                    "motionConfig",
+                    true,
+                    motionConfig,
+                    "from"
+                  )}
+                  menuPortalTarget={interactivityRef.current as HTMLDivElement}
+                  isSelectOptionType={true}
+                />
+              )}
+              {motionPerspective === "custom" && (
+                <CustomMotionConfig
+                  basePath={basePath}
+                  updateParameterAction={updateParameterAction}
+                />
+              )}
+            </>
+          }
+        />
+      )}
     </div>
   );
 };

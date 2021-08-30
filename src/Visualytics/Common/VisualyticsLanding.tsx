@@ -23,9 +23,13 @@ import DatabaseWorkflow from "../../Import/Routes/Common/InputWorkflows/Database
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import { loadWorkflowAction } from "../../Application/Redux/Actions/LayoutActions";
 import { IdType } from "./VisualyticsLandingTypes";
-import { saveVisualyticsDeckRequestAction } from "../Redux/VisualyticsActions/VisualyticsActions";
+import {
+  loadVisualyticsWorkflowAction,
+  saveVisualyticsDeckRequestAction,
+} from "../Redux/VisualyticsActions/VisualyticsActions";
 import StoredVisualyticsDecks from "./StoredVisualyticsDecks";
 import VisualyticsExcelWorkflow from "./Workflows/VisualyticsExcelWorkflow";
+import VisualyticsDatabaseWorkflow from "./Workflows/VisualyticsDatabaseWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   visualyticsDeckLanding: {
@@ -57,9 +61,8 @@ const VisualyticsLanding = () => {
   const reducer = "visualyticsReducer";
   const { url, path } = useRouteMatch();
 
-  const initialState = useSelector((state: RootState) => state.inputReducer);
-  const { loadWorkflow } = useSelector(
-    (state: RootState) => state.layoutReducer
+  const { loadVisualyticsWorkflow } = useSelector(
+    (state: RootState) => state.visualyticsReducer
   );
 
   const visualyticsLandingData: ILandingData[] = [
@@ -152,7 +155,6 @@ const VisualyticsLanding = () => {
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
-      initialState,
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -173,7 +175,7 @@ const VisualyticsLanding = () => {
 
   return (
     <>
-      {loadWorkflow ? (
+      {loadVisualyticsWorkflow ? (
         <div className={classes.importWorkflow}>
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
@@ -186,7 +188,7 @@ const VisualyticsLanding = () => {
                 excel: (
                   <VisualyticsExcelWorkflow
                     reducer={reducer}
-                    wrkflwCtgry={"inputDataWorkflows"}
+                    wrkflwCtgry={"visualyticsDataWorkflows"}
                     wrkflwPrcss={"visualyticsDeckExcel"}
                     finalAction={() =>
                       visualyticsExcelandDbWorkflowFinalAction(
@@ -196,13 +198,13 @@ const VisualyticsLanding = () => {
                   />
                 ),
                 database: (
-                  <DatabaseWorkflow
+                  <VisualyticsDatabaseWorkflow
                     reducer={reducer}
-                    wrkflwCtgry={"inputDataWorkflows"}
+                    wrkflwCtgry={"visualyticsDataWorkflows"}
                     wrkflwPrcss={"visualyticsDeckDatabase"}
                     finalAction={() =>
                       visualyticsExcelandDbWorkflowFinalAction(
-                        "visualyticsDeckExcel"
+                        "visualyticsDeckDatabase"
                       )
                     }
                   />
@@ -235,7 +237,9 @@ const VisualyticsLanding = () => {
               <ModuleCard
                 key={name}
                 isDispatched={true}
-                moduleAction={loadWorkflowAction}
+                moduleAction={() =>
+                  loadVisualyticsWorkflowAction("loadVisualyticsWorkflow", true)
+                }
                 title={name}
                 description={description}
                 icon={icon}

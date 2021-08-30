@@ -8,7 +8,6 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import {
   pointLabelOptions,
   pointsInheritOptions,
@@ -96,7 +95,7 @@ const ApexChartPointers = ({
 
       let value: any;
       if (isObj) {
-        value = [{ ...obj, [objKey as string]: optionValue }];
+        value = { ...obj, [objKey as string]: optionValue };
       } else {
         value = optionValue;
       }
@@ -150,15 +149,15 @@ const ApexChartPointers = ({
 
                     if (value === "inherit") {
                       initializePointColor({
-                        from: value,
+                        from: "color",
                         modifiers: [],
                       });
                     } else if (value === "theme") {
                       initializePointColor({
-                        theme: value,
+                        theme: "background",
                       });
                     } else {
-                      initializePointColor(showPointColorPicker);
+                      initializePointColor("grey");
                     }
                   }}
                 >
@@ -294,15 +293,15 @@ const ApexChartPointers = ({
 
                     if (value === "inherit") {
                       initializePointColor({
-                        from: value,
+                        from: "color",
                         modifiers: [],
                       });
                     } else if (value === "theme") {
                       initializePointColor({
-                        theme: value,
+                        theme: "background",
                       });
                     } else {
-                      initializePointColor(pointBorderColor);
+                      initializePointColor("grey");
                     }
                   }}
                 >
@@ -419,7 +418,7 @@ const ApexChartPointers = ({
                     name="pointLabelYOffset"
                     sliderValue={pointLabelYOffset}
                     step={1}
-                    min={0}
+                    min={-20}
                     max={20}
                     actionPath={`${basePath}.pointLabelYOffset`}
                     action={(path, value) =>

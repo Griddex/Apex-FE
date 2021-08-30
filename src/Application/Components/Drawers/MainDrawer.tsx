@@ -23,6 +23,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
+import { loadVisualyticsWorkflowAction } from "../../../Visualytics/Redux/VisualyticsActions/VisualyticsActions";
 import ApexLogo from "../../Images/ApexLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -227,11 +228,17 @@ const MainDrawer = () => {
                         false
                       )
                     );
-                  }
-                  if (name === "Network") {
+                  } else if (name === "Network") {
                     dispatch(
                       updateNetworkParameterAction(
                         "loadNetworkGenerationWorkflow",
+                        false
+                      )
+                    );
+                  } else if (name === "Visualytics") {
+                    dispatch(
+                      loadVisualyticsWorkflowAction(
+                        "loadVisualyticsWorkflow",
                         false
                       )
                     );

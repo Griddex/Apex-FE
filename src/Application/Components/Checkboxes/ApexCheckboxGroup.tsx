@@ -62,6 +62,7 @@ function StyledRadio(props: RadioProps) {
 }
 
 export default function ApexCheckboxGroup({
+  setSelectedVariable,
   variableZOption,
   apexCheckboxDataGroup,
 }: IApexCheckboxGroup) {
@@ -70,19 +71,19 @@ export default function ApexCheckboxGroup({
 
   return (
     <FormControl component="fieldset">
-      <FormLabel
+      {/* <FormLabel
         component="legend"
         style={{ fontWeight: theme.typography.fontWeightMedium }}
       >
         {variableZTitle}
-      </FormLabel>
+      </FormLabel> */}
       <RadioGroup
         defaultValue="female"
         aria-label="gender"
         name="customized-radios"
       >
         {apexCheckboxDataGroup.map((obj, i) => {
-          const { value, label, handleCheck } = obj;
+          const { value, label } = obj;
 
           return (
             <FormControlLabel
@@ -90,7 +91,9 @@ export default function ApexCheckboxGroup({
               value={value}
               control={<StyledRadio />}
               label={label}
-              onClick={handleCheck}
+              onClick={() =>
+                setSelectedVariable && setSelectedVariable(value as string)
+              }
             />
           );
         })}

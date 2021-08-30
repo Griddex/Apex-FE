@@ -1,7 +1,5 @@
-import { useTheme } from "@material-ui/core";
 import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import camelCase from "lodash.camelcase";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -11,12 +9,15 @@ import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectR
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { economicsAnalysesOptions } from "../../../Data/EconomicsData";
 import {
-  calculateHeatMapDataRequestAction,
+  developmentScenariosMap,
+  economicsAnalysesOptions,
+} from "../../../Data/EconomicsData";
+import {
+  getHeatMapDataRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import { ISensitivitiesRow } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
+import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
@@ -38,24 +39,19 @@ const SensitivitiesHeatMapChart = () => {
     label: tl,
   });
 
+  const [selectedZ, setSelectedZ] = React.useState("");
+
   const {
     sensitivitiesHeatMapData,
     heatMapVariableXOption,
     heatMapVariableYOption,
     heatMapVariableZOption,
-    selectedSensitivitiesTable,
+    heatMapTreeByScenario,
   } = useSelector((state: RootState) => state.economicsReducer);
-
-  // const { economicsAnalysisButtons } = useSelector(
-  //   (state: RootState) => state.economicsReducer[wc][ap]
-  // );
-
-  //TODO
-  //1, 2 or 3 sensitivity variables are possible
-  //a) For 1 variable, disable Y&Z categories and disable/remove Z area.
-  //then fire request. Define an artificial Y value just for Y axis
-  //b) For 2 variables, disable Z categories and disable/remove Z area.
-  //then fire request.
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 51 ~ SensitivitiesHeatMapChart ~ heatMapTreeByScenario",
+    heatMapTreeByScenario
+  );
 
   const isAllVariablesDropped = [
     heatMapVariableXOption,
@@ -63,58 +59,37 @@ const SensitivitiesHeatMapChart = () => {
     heatMapVariableZOption,
   ].every((v) => v !== null);
 
-  //TODO Gift to give me this everytime
-  let sensitivitiesZRow: ISensitivitiesRow;
-  let heatMapVariableZData: any;
+  const isHeatMapVariableXOptionOnly =
+    heatMapVariableXOption !== null &&
+    heatMapVariableYOption === null &&
+    heatMapVariableZOption == null;
+  const isHeatMapVariableXYOptionOnly =
+    heatMapVariableXOption !== null &&
+    heatMapVariableYOption !== null &&
+    heatMapVariableZOption == null;
+  const isHeatMapVariableXYZOptionOnly =
+    heatMapVariableXOption !== null &&
+    heatMapVariableYOption !== null &&
+    heatMapVariableZOption !== null;
 
-  if (isAllVariablesDropped) {
-    sensitivitiesZRow = (
-      selectedSensitivitiesTable as ISensitivitiesRow[]
-    ).filter((row) =>
-      heatMapVariableZOption.label.startsWith(row.parameterTitle)
-    )[0];
+  let heatMapTreeZRow = {} as RenderTree;
+  let heatMapVarZData = [] as ISelectOption[];
+  let variableZlength = 0;
+  let selectedDevScenario = "OIL/AG Development";
 
-    const heatMapVarZData = sensitivitiesZRow.parameterValues
-      .split(", ")
-      .map((v) => ({
-        value: v,
-        label: v,
-      }));
+  if (heatMapTreeByScenario.id !== "" && heatMapVariableZOption !== null) {
+    heatMapTreeZRow = heatMapTreeByScenario["children"].filter(
+      (row: any) => row.title === heatMapVariableZOption.label
+    )[0] as NonNullable<RenderTree>;
 
-    let handleCheck: IHeatMapVariableZData["handleCheck"];
+    const sensitivitiesZString = heatMapTreeZRow.title?.split("_")[1];
+    heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
+      value: v,
+      label: v,
+    })) as ISelectOption[];
 
-    if (Object.entries(sensitivitiesHeatMapData).length > 0) {
-      handleCheck = (v: any) => {
-        //TODO Solve this
-        // const devScenario = economicsAnalysisButtons[0].scenarioName;
-        const devScenario = "oilDevelopment";
-        const variableZCamel = camelCase(sensitivitiesZRow.parameterTitle);
-        const variableZKey = `${variableZCamel}${v}`;
-        //use current devscenario and current z value to get collection
-        //dispatch object to map1or2d
-        const sensitivitiesHeatMap1or2D =
-          sensitivitiesHeatMapData[devScenario][variableZKey];
-
-        dispatch(
-          updateEconomicsParameterAction(
-            "sensitivitiesHeatMap1or2D",
-            sensitivitiesHeatMap1or2D
-          )
-        );
-      };
-    } else {
-      handleCheck = (v: any) => {
-        dispatch(calculateHeatMapDataRequestAction(ap, tl, v));
-      };
-    }
-
-    heatMapVariableZData = heatMapVarZData.map((obj) => ({
-      ...obj,
-      handleCheck: () => handleCheck(obj.value),
-    }));
-  } else {
-    sensitivitiesZRow = {} as ISensitivitiesRow;
-    heatMapVariableZData = [];
+    variableZlength = heatMapVarZData.length;
+    selectedDevScenario = heatMapTreeByScenario.title as string;
   }
 
   return (
@@ -139,8 +114,9 @@ const SensitivitiesHeatMapChart = () => {
         <EconomicsSensitivitiesHeatMap />
         {isAllVariablesDropped && (
           <ApexCheckboxGroup
+            setSelectedVariable={setSelectedZ}
             variableZOption={heatMapVariableZOption}
-            apexCheckboxDataGroup={heatMapVariableZData}
+            apexCheckboxDataGroup={heatMapVarZData as ISelectOption[]}
           />
         )}
       </ApexFlexContainer>
@@ -157,20 +133,51 @@ const SensitivitiesHeatMapChart = () => {
             <RotateLeftIcon key={1} />,
             <AirplayOutlinedIcon key={2} />,
           ]}
-          // disableds={[sRow === -1, sRow === -1]}
+          disableds={[false, heatMapVariableXOption === null]}
           shouldExecute={[true, true]}
           shouldDispatch={[false, false]}
           finalActions={[
+            () => {},
             () => {
-              // dispatch(
-              //   getForecastDataByIdRequestAction(
-              //     "forecastResultsVisualytics",
-              //     true,
-              //     "/apex/forecast/forecastdata"
-              //   )
-              // );
+              if (
+                isHeatMapVariableXOptionOnly ||
+                isHeatMapVariableXYOptionOnly
+              ) {
+                if (Object.entries(sensitivitiesHeatMapData).length === 0) {
+                  //TODO 1or2d doesn't have z variable
+                  //Gabriel to consider this scenario
+                  dispatch(getHeatMapDataRequestAction(ap, tl));
+                }
+              } else {
+                if (Object.entries(sensitivitiesHeatMapData).length > 0) {
+                  const devScenario =
+                    developmentScenariosMap[
+                      selectedDevScenario as keyof typeof developmentScenariosMap
+                    ];
+                  const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
+
+                  const sensitivitiesHeatMap1or2D =
+                    sensitivitiesHeatMapData[devScenario][variableZKey];
+
+                  dispatch(
+                    updateEconomicsParameterAction(
+                      "sensitivitiesHeatMap1or2D",
+                      sensitivitiesHeatMap1or2D
+                    )
+                  );
+                } else {
+                  dispatch(
+                    getHeatMapDataRequestAction(
+                      //TODO Temporary. Gift to give me this with tree view
+                      "payout",
+                      "Payout",
+                      variableZlength,
+                      selectedDevScenario
+                    )
+                  );
+                }
+              }
             },
-            () => dispatch(() => {}),
           ]}
         />
       </ApexFlexContainer>

@@ -1,8 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
-import * as xlsx from "xlsx";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
@@ -11,6 +10,10 @@ import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBa
 import { IOnlyWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import SelectDatabase from "../../../Import/Components/SelectDatabase";
+import ConnectDatabase from "../../../Import/Routes/Common/Workflows/ConnectDatabase";
+import MatchHeaders from "../../../Import/Routes/Common/Workflows/MatchHeaders";
+import MatchUnits from "../../../Import/Routes/Common/Workflows/MatchUnits";
 
 const UploadFile = React.lazy(
   () => import("../../../Import/Routes/Common/Workflows/UploadFile")
@@ -35,28 +38,38 @@ const useStyles = makeStyles((theme) => ({
   },
   workflowBody: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     height: "90%",
     width: "97%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center", //around, between
   },
+  workflowDatabasePanel: {
+    display: "flex",
+    flexDirection: "column",
+    alignSelf: "flex-start",
+    height: "95%",
+    width: "20%",
+    border: "1px solid #A8A8A8",
+    boxShadow: theme.shadows[2],
+    backgroundColor: "#FFF",
+    padding: 20,
+  },
+  workflowContent: { height: "100%", width: "100%" },
 }));
 
 const steps = [
+  "Connect Database",
   "Upload File",
-  "Select Worksheet",
   "Map Headers, Units and Data",
   "Preview & Save",
 ];
 
-const VisualyticsExcelWorkflow = ({
+const VisualyticsDatabaseWorkflow = ({
   reducer,
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
-  hasExtraComponent,
-  extraComponent,
 }: IOnlyWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -70,16 +83,19 @@ const VisualyticsExcelWorkflow = ({
   const { activeStep } = useSelector(
     (state: RootState) => state.workflowReducer[wc][wp]
   );
-
   const applicationData = useSelector(
     (state: RootState) => state.applicationReducer
   );
   const { moduleName, subModuleName, workflowName } = applicationData;
 
-  const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
-  const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
-
-  const [inputWorkbook, setInputWorkbook] = React.useState({} as xlsx.WorkBook);
+  const isStepOptional = useCallback(
+    (activeStep: number) => activeStep === 50,
+    [activeStep]
+  );
+  const isStepSkipped = useCallback(
+    (step: number) => skipped.has(step),
+    [skipped]
+  );
 
   const WorkflowBannerProps = {
     activeStep,
@@ -90,13 +106,13 @@ const VisualyticsExcelWorkflow = ({
   };
 
   const VerticalWorkflowStepperProps = {
-    activeStep,
-    steps,
-    skipped,
-    isStepSkipped,
     moduleName,
     subModuleName,
     workflowName,
+    skipped,
+    isStepSkipped,
+    activeStep,
+    steps,
     errorSteps: [],
   };
 
@@ -108,32 +124,28 @@ const VisualyticsExcelWorkflow = ({
     isStepSkipped,
   };
 
+  useEffect(() => {
+    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
+  }, [dispatch]);
+
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
     reducer,
-    inputWorkbook,
-    setInputWorkbook,
   };
 
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return (
-          <UploadFile
-            {...props}
-            hasExtraComponent={hasExtraComponent}
-            extraComponent={extraComponent}
-          />
-        );
+        return <ConnectDatabase {...props} />;
       case 1:
-        return <SelectSheet {...props} />;
+        return <UploadFile {...props} />;
       case 2:
         return <SelectHeaderUnitData {...props} />;
       case 3:
         return <PreviewSave {...props} />;
       default:
-        return <h1>End</h1>;
+        return <h1>No view</h1>;
     }
   }
 
@@ -149,18 +161,23 @@ const VisualyticsExcelWorkflow = ({
     workflowCategory: wc,
   };
 
-  React.useEffect(() => {
-    dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  }, [dispatch]);
-
   return (
     <div className={classes.root}>
       <WorkflowBanner {...WorkflowBannerProps} />
       <Prompt
         when={activeStep < steps.length}
-        message="Are you sure you want to leave? You will lose all unsaved data. Proceed?"
+        message="Are you sure you want to leave?"
       />
-      <div className={classes.workflowBody}>{renderImportStep(activeStep)}</div>
+      <div className={classes.workflowBody}>
+        {activeStep === 2 && (
+          <div className={classes.workflowDatabasePanel}>
+            <SelectDatabase />
+          </div>
+        )}
+        <div className={classes.workflowContent}>
+          {renderImportStep(activeStep)}
+        </div>
+      </div>
       {showContextDrawer && (
         <ContextDrawer>
           {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
@@ -171,4 +188,4 @@ const VisualyticsExcelWorkflow = ({
   );
 };
 
-export default VisualyticsExcelWorkflow;
+export default VisualyticsDatabaseWorkflow;

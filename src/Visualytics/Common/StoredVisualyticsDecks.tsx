@@ -50,15 +50,20 @@ export default function StoredVisualyticsDecks({
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "visualyticsDeckStored";
-  const { visualyticsDeckStored } = useSelector(
-    (state: RootState) => state[reducer][wc]
+  const storedData = useSelector(
+    // const { visualyticsDeckStored } = useSelector(
+    (state: RootState) => state[reducer][wc][wp]
+  );
+  console.log(
+    "Logged output --> ~ file: StoredVisualyticsDecks.tsx ~ line 54 ~ storedData",
+    storedData
   );
 
   const componentRef = React.useRef();
 
   const snStoredData =
-    visualyticsDeckStored &&
-    visualyticsDeckStored.map((row: IApplicationStoredDataRow, i: number) => ({
+    storedData &&
+    storedData.map((row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
       approval: "Not Started",

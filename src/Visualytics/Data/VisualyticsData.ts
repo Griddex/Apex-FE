@@ -360,9 +360,10 @@ export const enableSlicesOptions = [
 ];
 
 export const crosshairTypeOptions = [
-  { value: "top-left", label: "Top-Left" },
   { value: "x", label: "X" },
   { value: "y", label: "Y" },
+  { value: "cross", label: "Cross" },
+  { value: "top-left", label: "Top-Left" },
   { value: "top", label: "Top" },
   { value: "top-right", label: "Top-Right" },
   { value: "right", label: "Right" },
@@ -370,7 +371,6 @@ export const crosshairTypeOptions = [
   { value: "bottom", label: "Bottom" },
   { value: "bottom-left", label: "Bottom-Left" },
   { value: "left", label: "Left" },
-  { value: "cross", label: "Cross" },
 ];
 
 export const motionConfigPresetOptions = [
@@ -458,6 +458,8 @@ export const commonChartProps = {
   renderWrapper: true,
   useMesh: true,
   enableSlices: false,
+  enableCrosshair: true,
+  crosshairType: "cross",
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -563,7 +565,7 @@ export const commonChartProps = {
   ],
 
   //Legend
-  enableLegend: [false],
+  enableLegend: true,
   legends: [
     {
       dataFrom: "keys",
@@ -578,6 +580,7 @@ export const commonChartProps = {
       itemDirection: "left-to-right",
       itemOpacity: 0.85,
       symbolSize: 20,
+      symbolShape: "square",
       effects: [
         {
           on: "hover",

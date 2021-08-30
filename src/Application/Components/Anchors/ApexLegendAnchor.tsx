@@ -64,6 +64,8 @@ const ApexLegendAnchor = ({
                 key={j}
                 onClick={handleAnchorClick(valueDefined, "legends")}
                 style={{
+                  width: 32,
+                  height: 32,
                   backgroundColor:
                     currentAnchor === option.value
                       ? theme.palette.grey[300]

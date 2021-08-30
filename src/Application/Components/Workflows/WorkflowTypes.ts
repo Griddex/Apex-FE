@@ -80,7 +80,10 @@ export interface IVisualyticsWorkflows {
     | "visualyticsDeckExcel"
     | "visualyticsDeckDatabase"
     | "visualyticsDeckStored";
-  wkCy: "storedDataWorkflows" | "visualyticsChartsWorkflows";
+  wkCy:
+    | "visualyticsDataWorkflows"
+    | "storedDataWorkflows"
+    | "visualyticsChartsWorkflows";
 }
 export interface IForecastResultsWorkflows {
   wkPs:
@@ -155,7 +158,7 @@ export type TAllWorkflowProcesses = IAllWorkflows["wrkflwPrcss"];
 export type TOnlyWorkflowProcesses = Exclude<TAllWorkflowProcesses, "">;
 export type TAllWorkflowCategories = IAllWorkflows["wrkflwCtgry"];
 export type TOnlyWorkflowCategories = Exclude<
-  IAllWorkflows["wrkflwCtgry"],
+  TAllWorkflowCategories,
   "storedDataWorkflows" | "networkCreationWorkflows" | "forecastChartsWorkflows"
 >;
 
@@ -171,6 +174,8 @@ export interface IOnlyWorkflows {
   idTitleArr?: string[];
   finalIcon?: JSX.Element;
   finalText?: string;
+  inputWorkbook?: xlsx.WorkBook;
+  setInputWorkbook?: TUseState<xlsx.WorkBook>;
   extraComponent?: React.FC<any>;
   hasExtraComponent?: boolean;
 }

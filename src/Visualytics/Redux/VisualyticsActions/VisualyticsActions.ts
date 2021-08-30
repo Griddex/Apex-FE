@@ -3,6 +3,7 @@ import { chartObjectsNameTitleMap } from "../VisualyticsState/VisualyticsState";
 import { IChartObject } from "./../VisualyticsState/VisualyticsStateTypes";
 
 export const PERSIST_CHARTINDEX = "PERSIST_CHARTINDEX";
+export const LOAD_VISUALYTICS_WORKFLOW = "LOAD_VISUALYTICS_WORKFLOW";
 export const SAVE_VISUALYTICSDECK_REQUEST = "SAVE_VISUALYTICSDECK_REQUEST";
 export const SAVE_VISUALYTICSDECK_SUCCESS = "SAVE_VISUALYTICSDECK_SUCCESS";
 export const SAVE_VISUALYTICSDECK_FAILURE = "SAVE_VISUALYTICSDECK_FAILURE";
@@ -12,6 +13,19 @@ export const SET_CHARTCELLCOLORS = "SET_CHARTCELLCOLORS";
 export const SET_CHARTOBJECT = "SET_CHARTOBJECT";
 export const UPDATE_CHARTOBJECT = "UPDATE_CHARTOBJECT";
 export const RESET_CHART = "RESET_CHART";
+
+export const loadVisualyticsWorkflowAction = (
+  name: string,
+  trueOrFalse: boolean
+) => {
+  return {
+    type: LOAD_VISUALYTICS_WORKFLOW,
+    payload: {
+      name,
+      trueOrFalse,
+    },
+  };
+};
 
 export const persistChartIndexAction = (selectedChartIndex: number) => {
   return {

@@ -34,10 +34,10 @@ const ApexLegends = ({
     ChartFormatAggregatorContext
   );
 
+  const { enableLegend } = chartProps;
   const legends = chartProps["legends"][0];
 
   const {
-    enableLegend,
     anchor,
     direction,
     justify,
@@ -70,7 +70,7 @@ const ApexLegends = ({
   );
 
   const handleLegendSelect =
-    (name: keyof LegendProps, isObj?: boolean, obj?: any, objKey?: string) =>
+    (name: keyof IChart, isObj?: boolean, obj?: any, objKey?: string) =>
     (option: ValueType<ISelectOption, false>) => {
       const optionValue = (option as ISelectOption).value as string;
 
@@ -356,9 +356,9 @@ const ApexLegends = ({
               <ApexSlider
                 name="itemOpacity"
                 sliderValue={itemOpacity}
-                step={1}
+                step={0.1}
                 min={0}
-                max={10}
+                max={1}
                 actionPath={`${basePath}.legends`}
                 action={(path, value) =>
                   updateParameterAction &&
@@ -385,7 +385,12 @@ const ApexLegends = ({
               <ApexSelectRS
                 valueOption={itemDirectionOption as ISelectOption}
                 data={legendItemsDirectionOptions}
-                handleSelect={handleLegendSelect("itemDirection")}
+                handleSelect={handleLegendSelect(
+                  "legends",
+                  true,
+                  legends,
+                  "itemDirection"
+                )}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
               />
@@ -442,7 +447,12 @@ const ApexLegends = ({
               <ApexSelectRS
                 valueOption={symbolShapeOption as ISelectOption}
                 data={legendSymbolShapeOptions}
-                handleSelect={handleLegendSelect("symbolShape")}
+                handleSelect={handleLegendSelect(
+                  "legends",
+                  true,
+                  legends,
+                  "symbolShape"
+                )}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
               />
