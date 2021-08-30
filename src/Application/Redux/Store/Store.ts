@@ -41,7 +41,7 @@ import watchSaveEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/
 import watchRunEconomicsAnalysisSaga from "../../../Economics/Redux/Sagas/RunEconomicsAnalysisSaga";
 import economicsMiddleware from "../../../Economics/Redux/Middleware/EconomicsMiddleware";
 import watchRunForecastEconomicsAggregationSaga from "../../../Forecast/Redux/Sagas/RunForecastEconomicsAggregationSaga";
-import watchCalculateHeatMapDataSaga from "../../../Economics/Redux/Sagas/CalculateHeatMapDataSaga";
+import watchFetchHeatMapDataSaga from "../../../Economics/Redux/Sagas/FetchHeatMapDataSaga";
 import watchGetTableDataByIdSaga from "../Sagas/GetTableDataByIdSaga";
 import watchFetchStoredDeclineCurveParametersSaga from "../../../Network/Redux/Sagas/FetchStoredDeclineCurveParametersSaga";
 import watchFetchStoredProductionPrioritizationSaga from "../../../Network/Redux/Sagas/FetchStoredProductionPrioritizationSaga";
@@ -96,7 +96,7 @@ function* rootSaga() {
   yield spawn(watchGetEconomicsSensitivitiesByIdSaga);
   yield spawn(watchRunEconomicsAnalysisSaga);
   yield spawn(watchRunForecastEconomicsAggregationSaga);
-  yield spawn(watchCalculateHeatMapDataSaga);
+  yield spawn(watchFetchHeatMapDataSaga);
   yield spawn(watchGetTableDataByIdSaga);
   yield spawn(watchFetchStoredProductionPrioritizationSaga);
   yield spawn(watchFetchStoredDeclineCurveParametersSaga);

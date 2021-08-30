@@ -5,7 +5,10 @@ import React from "react";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import { IStoredDataProps } from "../../Types/ApplicationTypes";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
-import { IAllWorkflows } from "../Workflows/WorkflowTypes";
+import {
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "../Workflows/WorkflowTypes";
 
 const useStyles = makeStyles((theme) => ({
   cardActionArea: (props: IMiniCardProps) => {
@@ -41,8 +44,8 @@ export interface IMiniCardProps {
   title: string;
   moduleAction: () => IAction | void;
   cardWidth?: number;
-  wP?: IAllWorkflows["wrkflwPrcss"] | IStoredDataProps["wkPs"];
-  wC?: IAllWorkflows["wrkflwCtgry"] | IStoredDataProps["wkCy"];
+  wP?: TAllWorkflowProcesses | IStoredDataProps["wkPs"];
+  wC?: TAllWorkflowCategories | IStoredDataProps["wkCy"];
 }
 
 const MiniCard: React.FC<IMiniCardProps> = (props) => {

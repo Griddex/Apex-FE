@@ -17,7 +17,10 @@ import {
   workflowSkipAction,
 } from "../../Redux/Actions/WorkflowActions";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
-import { IAllWorkflows } from "../Workflows/WorkflowTypes";
+import {
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "../Workflows/WorkflowTypes";
 import { INavigationButtonsProp } from "./NavigationButtonTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +65,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
 
   const classes = useStyles(props);
   const dispatch = useDispatch();
-  const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
-  const wc = workflowCategory as IAllWorkflows["wrkflwCtgry"];
+  const wp = workflowProcess as TAllWorkflowProcesses;
+  const wc = workflowCategory as TAllWorkflowCategories;
 
   const { activeStep, steps, isStepOptional, skipped, isStepSkipped } =
     workflowProps as IWorkflowProcessState;

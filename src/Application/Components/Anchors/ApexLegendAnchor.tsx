@@ -1,5 +1,10 @@
 import { IconButton, useTheme } from "@material-ui/core";
+import { LegendAnchor, LegendProps } from "@nivo/legends";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { IChart } from "../../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
+import { IAction } from "../../Redux/Actions/ActionTypes";
+import { TUseState } from "../../Types/ApplicationTypes";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { ISelectOption } from "./../Selects/SelectItemsType";
 
@@ -8,29 +13,69 @@ export interface IApexLegendAnchorOption extends ISelectOption {
 }
 
 export interface IApexLegendAnchor {
-  currentAnchor: string;
+  basePath: string;
+  legends: LegendProps;
+  currentAnchor: LegendAnchor;
+  setAnchor: TUseState<IChart>;
+  updateParameterAction: (path: string, value: any) => IAction;
   anchorData: IApexLegendAnchorOption[][];
 }
 
-const ApexLegendAnchor = ({ currentAnchor, anchorData }: IApexLegendAnchor) => {
+const ApexLegendAnchor = ({
+  basePath,
+  legends,
+  currentAnchor,
+  setAnchor,
+  updateParameterAction,
+  anchorData,
+}: IApexLegendAnchor) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const handleAnchorClick =
+    (anchorType: LegendAnchor, chtKey: keyof IChart) =>
+    (event: React.ChangeEvent<any>) => {
+      setAnchor((prev) => ({
+        ...prev,
+        [chtKey]: [{ ...prev[chtKey][0], anchor: anchorType }],
+      }));
+
+      updateParameterAction &&
+        dispatch(
+          updateParameterAction(`${basePath}.${chtKey}`, [
+            {
+              ...legends,
+              anchor: anchorType,
+            },
+          ])
+        );
+    };
 
   return (
     <ApexFlexContainer flexDirection="column">
       {anchorData.map((row, i) => (
         <ApexFlexContainer key={i}>
-          {row.map((option, j) => (
-            <IconButton
-              key={j}
-              onClick={option.action}
-              style={{
-                backgroundColor:
-                  currentAnchor === option.value ? theme.palette.grey[300] : "",
-              }}
-            >
-              {option.label}
-            </IconButton>
-          ))}
+          {row.map((option, j) => {
+            const labelDefined = option.label;
+            const valueDefined = option.value as LegendAnchor;
+
+            return (
+              <IconButton
+                key={j}
+                onClick={handleAnchorClick(valueDefined, "legends")}
+                style={{
+                  width: 32,
+                  height: 32,
+                  backgroundColor:
+                    currentAnchor === option.value
+                      ? theme.palette.grey[300]
+                      : "",
+                }}
+              >
+                {option.label}
+              </IconButton>
+            );
+          })}
         </ApexFlexContainer>
       ))}
     </ApexFlexContainer>

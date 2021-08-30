@@ -1,22 +1,16 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAndDescriptionForm";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
-import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
-import EditOrCreateDeclineParameters from "../Routes/EditOrCreateDeclineParameters";
-import { IEditOrCreateDeclineParameters } from  "../Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog"
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getTableDataByIdRequestAction,
-} from "../../Application/Redux/Actions/ApplicationActions";
 import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
-import {
-  IStoredDataProps,
-} from "../../Application/Types/ApplicationTypes";
+import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
+import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
+import { IEditOrCreateDeclineParameters } from "../Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
+import EditOrCreateDeclineParameters from "../Routes/EditOrCreateDeclineParameters";
 
 const EditOrCreateDeclineParametersWorkflow = ({
   currRow,
@@ -38,9 +32,9 @@ const EditOrCreateDeclineParametersWorkflow = ({
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const wp = workflowProcess as NonNullable<
+  const wp = workflowProcess as NonNullable<
     IStoredDataProps["workflowProcess"]
   >;
 
@@ -64,10 +58,9 @@ const EditOrCreateDeclineParametersWorkflow = ({
           />
         );
       case 1:
-      
         return (
           <EditOrCreateDeclineParameters
-          currentRow={currRowCopy}
+            currentRow={currRowCopy}
             reducer={reducer}
           />
         );

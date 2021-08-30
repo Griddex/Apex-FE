@@ -17,7 +17,7 @@ import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 import ApexSlider from "../Sliders/ApexSlider";
 
-const ApexLineChartGeneral = ({
+const ApexChartGeneral = ({
   basePath,
   updateParameterAction,
 }: Partial<IApexChartFormatProps>) => {
@@ -40,7 +40,7 @@ const ApexLineChartGeneral = ({
     areaOpacity,
   } = chartProps;
   console.log(
-    "Logged output --> ~ file: ApexLineChartGeneral.tsx ~ line 42 ~ chartProps",
+    "Logged output --> ~ file: ApexChartGeneral.tsx ~ line 42 ~ chartProps",
     chartProps
   );
 
@@ -67,7 +67,7 @@ const ApexLineChartGeneral = ({
 
       setChartProps((prev) => ({
         ...prev,
-        [name]: (option as ISelectOption).value as string,
+        [name]: value,
       }));
 
       updateParameterAction &&
@@ -242,4 +242,4 @@ const ApexLineChartGeneral = ({
   );
 };
 
-export default ApexLineChartGeneral;
+export default ApexChartGeneral;

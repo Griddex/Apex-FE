@@ -1,8 +1,6 @@
 import { makeStyles, TextField } from "@material-ui/core";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import React, { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
-import { updateRegistrationFormAction } from "../../../Administration/Redux/Actions/AdminActions";
+import React from "react";
 import AnalyticsTitle from "../Basic/AnalyticsTitle";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +39,6 @@ const ApexMuiTextField = ({
   type,
 }: IApexMuiTextField) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   return (
     <div>

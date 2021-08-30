@@ -8,7 +8,7 @@ import DialogSaveCancelButtons from "../../../../Application/Components/DialogBu
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
 import SuspensePerpetualSpinner from "../../../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { subNavbarSetMenuAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
@@ -16,9 +16,9 @@ import {
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../../Application/Types/ApplicationTypes";
-import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
+import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
 import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
 // import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
 import SelectScenariosByButtonsWithForecastCase from "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase";
@@ -154,7 +154,7 @@ const EconomicsCostsRevenuesLanding = () => {
     },
   ];
 
-  const costsRevenueWorkflowSaveAction = (wp: IAllWorkflows["wrkflwPrcss"]) => {
+  const costsRevenueWorkflowSaveAction = (wp: TAllWorkflowProcesses) => {
     const saveCostsRevenuesInputdeckConfirmation = (
       titleDesc: Record<string, string>
     ) => {
@@ -216,9 +216,7 @@ const EconomicsCostsRevenuesLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const costsRevenueWorkflowFinalAction = (
-    wp: IAllWorkflows["wrkflwPrcss"]
-  ) => {
+  const costsRevenueWorkflowFinalAction = (wp: TAllWorkflowProcesses) => {
     const dialogParameters: DialogStuff = {
       name: "Select_DevelopmentScenarios_Dialog",
       title: "Select Development Scenarios",

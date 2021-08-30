@@ -4,16 +4,16 @@ import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { axisNameTitlesObj, TAxisType } from "../../Data/VisualyticsData";
 import ApexChartGridAxes from "../ChartGridAxes/ApexChartGridAxes";
+import { TAxisName } from "../ChartTypes";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
-import ApexLineChartGeneral from "../General/ApexLineChartGeneral";
+import ApexChartGeneral from "../General/ApexChartGeneral";
+import ApexChartInteractivity from "../Interactivity/ApexChartInteractivity";
 import ApexLegends from "../Legends/ApexLegends";
-import ApexLinePlotStyle from "../PlotStyle/ApexLinePlotSyle";
+import ApexPlotStyle from "../PlotStyle/ApexPlotStyle";
 import ApexChartPointers from "../Pointers/ApexChartPoints";
 import { IApexFormatAggregator } from "./FormatAggregatorTypes";
 
-export type TAxisName = keyof typeof axisNameTitlesObj;
-
-const LineChartFormatAggregator = ({
+const ChartFormatAggregator = ({
   basePath,
   updateParameterAction,
   chartType,
@@ -21,7 +21,7 @@ const LineChartFormatAggregator = ({
   const { chartProps } = React.useContext(ChartFormatAggregatorContext);
 
   const {
-    apexAxesEnabled,
+    enableApexAxes,
     axisBottom,
     axisLeft,
     axisRight,
@@ -42,16 +42,16 @@ const LineChartFormatAggregator = ({
     {
       gridName: "gridX",
       gridTitle: "Horizontal Grid",
-      storeGridEnabled: enableGridX,
+      enableGrid: enableGridX,
       gridValuesName: "gridXValues",
-      storeGridValues: gridXValues,
+      gridValues: gridXValues,
     },
     {
       gridName: "gridY",
       gridTitle: "Vertical Grid",
-      storeGridEnabled: enableGridY,
+      enableGrid: enableGridY,
       gridValuesName: "gridYValues",
-      storeGridValues: gridYValues,
+      gridValues: gridYValues,
     },
   ];
 
@@ -59,7 +59,7 @@ const LineChartFormatAggregator = ({
     axisName: name,
     axisCaption: "Chart Axes",
     enableName: `${name}Enable`,
-    ...chartProps[name as TAxisName],
+    axisEnabled: enableApexAxes[name as TAxisName],
   }));
 
   const lineAccordionsData = Object.keys(axisNameTitlesObj).map((name) => ({
@@ -86,10 +86,10 @@ const LineChartFormatAggregator = ({
   const renderFormatPerspective = () => {
     switch (perspective) {
       case "general":
-        return <ApexLineChartGeneral {...apexChartProps} />;
+        return <ApexChartGeneral {...apexChartProps} />;
 
       case "plot":
-        return <ApexLinePlotStyle {...apexChartProps} />;
+        return <ApexPlotStyle {...apexChartProps} />;
 
       case "gridAxes":
         return <ApexChartGridAxes {...apexGridAxesProps} />;
@@ -100,13 +100,16 @@ const LineChartFormatAggregator = ({
       case "points":
         return <ApexChartPointers {...apexChartProps} />;
 
+      case "interactivity":
+        return <ApexChartInteractivity {...apexChartProps} />;
+
       default:
         break;
     }
   };
 
   return (
-    <ApexFlexContainer flexDirection="column">
+    <ApexFlexContainer flexDirection="column" moreStyles={{ width: 305 }}>
       <ToggleButtonGroup
         size="small"
         value={perspective}
@@ -116,13 +119,14 @@ const LineChartFormatAggregator = ({
       >
         <ToggleButton value="general">{"General"}</ToggleButton>
         <ToggleButton value="plot">{"Plot"}</ToggleButton>
-        <ToggleButton value="gridAxes">{"Grid/Axes"}</ToggleButton>
+        <ToggleButton value="gridAxes">{"Grids & Axes"}</ToggleButton>
         <ToggleButton value="legends">{"Legends"}</ToggleButton>
         <ToggleButton value="points">{"Points"}</ToggleButton>
+        <ToggleButton value="interactivity">{"Interactivity"}</ToggleButton>
       </ToggleButtonGroup>
       {renderFormatPerspective()}
     </ApexFlexContainer>
   );
 };
 
-export default LineChartFormatAggregator;
+export default ChartFormatAggregator;

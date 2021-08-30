@@ -63,6 +63,10 @@ const SensitivitiesHeatMapVisualytics = () => {
     (state: RootState) => state.layoutReducer
   );
 
+  const { heatMapTreeByScenario } = useSelector(
+    (state: RootState) => state.economicsReducer
+  );
+
   const classes = useStyles();
 
   const chartButtons: IChartButtonsProps = {
@@ -112,6 +116,7 @@ const SensitivitiesHeatMapVisualytics = () => {
           updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
         );
       }, [dispatch]),
+      disable: false,
     },
     {
       categoryTitle: "Y Category",
@@ -137,6 +142,7 @@ const SensitivitiesHeatMapVisualytics = () => {
           updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
         );
       }, [dispatch]),
+      disable: false,
     },
     {
       categoryTitle: "Z Category",
@@ -159,8 +165,24 @@ const SensitivitiesHeatMapVisualytics = () => {
           updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
         );
       }, [dispatch]),
+      disable: false,
     },
   ]);
+
+  let disableCollection = [] as boolean[];
+  if (heatMapTreeByScenario.id === "") {
+    disableCollection = [true, true, true];
+  } else if (heatMapTreeByScenario["children"].length === 1) {
+    disableCollection = [false, true, true];
+  } else if (heatMapTreeByScenario["children"].length === 2) {
+    disableCollection = [false, false, true];
+  } else {
+    disableCollection = [false, false, false];
+  }
+
+  const chartCategoriesDataUpdatedWithDisable = chartCategoriesData.current.map(
+    (row, i) => ({ ...row, disable: disableCollection[i] })
+  );
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
@@ -172,7 +194,7 @@ const SensitivitiesHeatMapVisualytics = () => {
         <div className={classes.chartPanel}>
           <SensitivitiesHeatMapDataPanel
             categoriesTitle="Heat Map"
-            chartCategoriesData={chartCategoriesData.current}
+            chartCategoriesData={chartCategoriesDataUpdatedWithDisable}
           />
         </div>
 

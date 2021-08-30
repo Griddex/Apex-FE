@@ -13,7 +13,7 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { putSelectChartOptionAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
 import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
-import LineChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
+import ChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
@@ -192,6 +192,7 @@ const EconomicsPlotChartsVisualytics = () => {
         dispatch(updateEconomicsParameterAction("plotChartsData", {}));
         dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
       },
+      disable: false,
     },
     {
       categoryTitle: "Y Category [Primary]",
@@ -209,6 +210,7 @@ const EconomicsPlotChartsVisualytics = () => {
         dispatch(updateEconomicsParameterAction("plotChartsData", {}));
         dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
       },
+      disable: false,
     },
     {
       categoryTitle: "Y Category [Secondary]",
@@ -227,6 +229,7 @@ const EconomicsPlotChartsVisualytics = () => {
         dispatch(updateEconomicsParameterAction("plotChartsData", {}));
         dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
       },
+      disable: false,
     },
   ]);
 
@@ -269,7 +272,7 @@ const EconomicsPlotChartsVisualytics = () => {
       return <div>StackedArea</div>;
     } else if (chartType === "lineChart") {
       return (
-        <LineChartFormatAggregator
+        <ChartFormatAggregator
           basePath={basePath}
           updateParameterAction={updateEconomicsParameterAction}
           chartType="lineChart"

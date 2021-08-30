@@ -12,11 +12,10 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
@@ -34,13 +33,13 @@ import { fetchStoredInputDeckRequestAction } from "../Actions/StoredInputDeckAct
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 //import moment from moment
 
-function getInputDeckType(workflowProcess: IAllWorkflows["wrkflwPrcss"]) {
+function getInputDeckType(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities")) return "Facilities InputDeck";
   else if (workflowProcess.includes("forecast")) return "Forecast InputDeck";
   else return "";
 }
 
-function getInputDeckRouteParam(workflowProcess: IAllWorkflows["wrkflwPrcss"]) {
+function getInputDeckRouteParam(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities")) return "facilities-inputdeck";
   else if (workflowProcess.includes("forecast")) return "forecast-inputdeck";
   else return "";

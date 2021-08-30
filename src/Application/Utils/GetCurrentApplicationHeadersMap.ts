@@ -1,8 +1,7 @@
-import { IUnit } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import { IAllWorkflows } from "../Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
 
 const getCurrentApplicationHeadersMap = (
-  wp: IAllWorkflows["wrkflwPrcss"],
+  wp: TAllWorkflowProcesses,
   allAppHeadersMap: Record<string, Record<string, string>>
 ) => {
   let appHeadersMap: Record<string, string> = {};

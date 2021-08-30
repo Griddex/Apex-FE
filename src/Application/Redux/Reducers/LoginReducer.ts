@@ -10,7 +10,7 @@ import {
   RESET_USER,
 } from "../Actions/LoginActions";
 import { LOGOUT_REQUEST } from "../Actions/LogoutActions";
-import userState from "../State/UserState";
+import userState from "../../../Administration/Redux/State/UserState";
 
 const loginReducer = (state = userState, action: IAction) => {
   switch (action.type) {

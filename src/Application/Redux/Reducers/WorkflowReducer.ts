@@ -1,18 +1,19 @@
+import set from "lodash.set";
 import {
-  IAllWorkflows,
+  TAllWorkflowProcesses,
   TOnlyWorkflowCategories,
 } from "../../Components/Workflows/WorkflowTypes";
 import {
-  REINITIALIZE_WORKFLOW,
-  SET_WORKFLOWPROCESS,
-  INITIALIZE_WORKFLOW,
-  RESET_WORKFLOW,
-  NEXT_WORKFLOW,
   BACK_WORKFLOW,
-  SKIP_WORKFLOW,
+  INITIALIZE_WORKFLOW,
   NAVBUTTON_DISABLED,
-  SAVE_WORKFLOW,
+  NEXT_WORKFLOW,
+  REINITIALIZE_WORKFLOW,
   RESET_CURRENTWORKFLOW,
+  RESET_WORKFLOW,
+  SAVE_WORKFLOW,
+  SET_WORKFLOWPROCESS,
+  SKIP_WORKFLOW,
 } from "../Actions/WorkflowActions";
 import workflowState from "../State/WorkflowState";
 import {
@@ -20,7 +21,6 @@ import {
   IWorkflowState,
 } from "../State/WorkflowStateTypes";
 import { IAction } from "./../Actions/ActionTypes";
-import set from "lodash.set";
 
 const workflowReducer = (state = workflowState, action: IAction) => {
   switch (action.type) {
@@ -39,7 +39,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case INITIALIZE_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
       const wc = workflowCategory as keyof IWorkflowState;
 
       return {
@@ -58,7 +58,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case RESET_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
       const wc = workflowCategory as keyof IWorkflowState;
 
       return {
@@ -73,7 +73,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
     case NEXT_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
 
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
       const wc = workflowCategory as TOnlyWorkflowCategories;
 
       return {
@@ -90,7 +90,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case BACK_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
       const wc = workflowCategory as keyof IWorkflowState;
 
       return {
@@ -106,7 +106,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
 
     case SKIP_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
       const wc = workflowCategory as keyof IWorkflowState;
       const { isStepOptional, activeStep } = action.payload;
 
@@ -136,7 +136,7 @@ const workflowReducer = (state = workflowState, action: IAction) => {
     case NAVBUTTON_DISABLED: {
       const { navButton, isDisabled, workflowCategory, workflowProcess } =
         action.payload;
-      const wp = workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const wp = workflowProcess as TAllWorkflowProcesses;
       const wc = workflowCategory as keyof IWorkflowState;
       const { isStepOptional, activeStep } = action.payload;
 

@@ -1,6 +1,6 @@
-import { IAllWorkflows } from "../Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
 
-const getWorkflowClass = (wp: IAllWorkflows["wrkflwPrcss"]) => {
+const getWorkflowClass = (wp: TAllWorkflowProcesses) => {
   let workflowClass = "";
 
   const wpLowerCase = wp.toLowerCase();

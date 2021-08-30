@@ -11,7 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -107,8 +110,8 @@ const SelectDevelopmentScenariosDialog = (props: DialogStuff) => {
     workflowCategory: wc,
   } = props;
 
-  const wpDefined = wp as NonNullable<IAllWorkflows["wrkflwPrcss"]>;
-  const wcDefined = wc as NonNullable<IAllWorkflows["wrkflwCtgry"]>;
+  const wpDefined = wp as NonNullable<TAllWorkflowProcesses>;
+  const wcDefined = wc as NonNullable<TAllWorkflowCategories>;
 
   const { costRevenuesButtons, developmentScenariosCompleted } = useSelector(
     (state: RootState) => state.economicsReducer[wcDefined][wpDefined]

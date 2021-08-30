@@ -32,7 +32,12 @@ import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
 import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
-import { IAllWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  ReducersType,
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "../Workflows/WorkflowTypes";
 import DraggableDialog from "./DraggableDialog";
 import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
@@ -53,6 +58,7 @@ import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidg
 import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
 import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
+import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -101,6 +107,7 @@ export interface IApplicationDialogs {
   linkInputDeckDialog: typeof LinkInputDeckDialog;
 
   openProjectConfirmationDialog: typeof OpenProjectConfirmationDialog;
+  saveVisualyticsDeckDialog: typeof SaveVisualyticsDeckDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -165,7 +172,8 @@ export interface DialogStuff<TRow = TDataRow> {
     | "createDeclineParametersWorkflowDialog"
     | "linkInputDeckDialog"
     | "openProjectConfirmationDialog"
-    | "createPrioritizationParametersWorkflowDialog";
+    | "createPrioritizationParametersWorkflowDialog"
+    | "saveVisualyticsDeckDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -181,8 +189,8 @@ export interface DialogStuff<TRow = TDataRow> {
   dialogContentStyle?: CSSProperties;
   dialogActionsStyle?: CSSProperties;
   selectedRowIndex?: number;
-  workflowProcess?: IAllWorkflows["wrkflwPrcss"];
-  workflowCategory?: IAllWorkflows["wrkflwCtgry"];
+  workflowProcess?: TAllWorkflowProcesses;
+  workflowCategory?: TAllWorkflowCategories;
   reducer?: ReducersType;
   selectedTableData?: any[];
   economicsTableData?: IEconomicsParametersTable;

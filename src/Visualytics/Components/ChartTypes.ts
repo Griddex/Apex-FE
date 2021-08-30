@@ -13,6 +13,7 @@ import {
   ReducersType,
   TAllWorkflowCategories,
 } from "../../Application/Components/Workflows/WorkflowTypes";
+import { axisNameTitlesObj } from "../Data/VisualyticsData";
 import { TChartTypes } from "./Charts/ChartTypes";
 
 export interface IChartProps {
@@ -24,6 +25,7 @@ export interface IChartProps {
   selectedChartOptionTitle?: string;
 }
 
+export declare type TAxisName = keyof typeof axisNameTitlesObj;
 export declare type AxisValue = string | number | Date;
 export declare type DatumValue = string | number | Date;
 export declare type GridValuesBuilder<T> = T extends number

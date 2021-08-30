@@ -1,4 +1,3 @@
-import camelCase from "lodash.camelcase";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -22,31 +21,26 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
-import { devScenarios } from "../../Data/EconomicsData";
-import { ISensitivitiesRow } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
+import { developmentScenariosMap } from "../../Data/EconomicsData";
 import {
-  calculateHeatMapDataFailureAction,
-  calculateHeatMapDataSuccessAction,
-  CALCULATE_HEATMAPDATA_REQUEST,
+  fetchHeatMapDataFailureAction,
+  FETCH_HEATMAPDATA_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
 
-export default function* watchCalculateHeatMapDataSaga(): Generator<
+export default function* watchFetchHeatMapDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const calculateHeatMapDataChan = yield actionChannel(
-    CALCULATE_HEATMAPDATA_REQUEST
-  );
-  yield takeLeading(calculateHeatMapDataChan, calculateHeatMapDataSaga);
+  const fetchHeatMapDataChan = yield actionChannel(FETCH_HEATMAPDATA_REQUEST);
+  yield takeLeading(fetchHeatMapDataChan, fetchHeatMapDataSaga);
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* calculateHeatMapDataSaga(
+function* fetchHeatMapDataSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -58,7 +52,8 @@ function* calculateHeatMapDataSaga(
   any
 > {
   const { payload } = action;
-  const { analysisName, analysisTitle, selectedZValue } = payload;
+  const { analysisName, analysisTitle, variableZlength, selectedDevScenario } =
+    payload;
   const ap = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
@@ -68,21 +63,7 @@ function* calculateHeatMapDataSaga(
     heatMapVariableYOption,
     heatMapVariableZOption,
     isEconomicsResultsSaved,
-    selectedSensitivitiesTable,
   } = yield select((state) => state.economicsReducer);
-
-  const { economicsAnalysisButtons, forecastScenarioAnalysis } = yield select(
-    (state) => state.economicsReducer[wc][ap]
-  );
-
-  //TODO Gift to give me this?
-  const sensitivitiesZRow = (
-    selectedSensitivitiesTable as ISensitivitiesRow[]
-  ).filter((row) =>
-    heatMapVariableZOption.label.startsWith(row.parameterTitle)
-  )[0];
-
-  const variableZlength = sensitivitiesZRow.parameterValues.split(", ").length;
 
   const data = {
     analysisResultId: selectedEconomicsResultsId,
@@ -91,52 +72,37 @@ function* calculateHeatMapDataSaga(
     zName: heatMapVariableZOption.value,
     zLength: variableZlength,
     isSaved: isEconomicsResultsSaved,
-    developmentScenariosAnalysis: economicsAnalysisButtons.map(
-      (button: IAggregateButtonProps) => {
-        const devScenarioName = button.scenarioName;
-        return {
-          backendName: devScenarios[devScenarioName],
-          frontendName: devScenarioName,
-        };
-      }
-    ),
-    forecastScenarioAnalysis,
+    developmentScenariosAnalysis: [
+      {
+        backendName: selectedDevScenario,
+        frontendName:
+          developmentScenariosMap[
+            selectedDevScenario as keyof typeof developmentScenariosMap
+          ],
+      },
+    ],
+
+    //TODO Alternative place to get this
+    //Gift to give me this?
+    forecastScenarioAnalysis: "Payout",
   };
 
   const config = { withCredentials: false };
-  const calculateHeatMapDataAPI = (url: string) =>
+  const fetchHeatMapDataAPI = (url: string) =>
     authService.post(url, data, config);
 
   try {
-    yield put(showSpinnerAction(`Calculating data...`));
+    yield put(showSpinnerAction(`Fetching data...`));
 
     const result = yield call(
-      calculateHeatMapDataAPI,
+      fetchHeatMapDataAPI,
       `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
     );
 
     const {
       data: { data: sensitivitiesHeatMapData },
-      statusCode,
-      success,
     } = result;
 
-    type devName = keyof typeof data;
-
-    const devScenario = economicsAnalysisButtons[0].scenarioName as devName;
-    const variableZCamel = camelCase(sensitivitiesZRow.parameterTitle);
-    const variableZKey = `${variableZCamel}${selectedZValue}`;
-
-    const sensitivitiesHeatMap1or2D = (sensitivitiesHeatMapData as any)[
-      devScenario
-    ][variableZKey];
-
-    yield put(
-      updateEconomicsParameterAction(
-        "sensitivitiesHeatMap1or2D",
-        sensitivitiesHeatMap1or2D
-      )
-    );
     yield put(
       updateEconomicsParameterAction(
         "sensitivitiesHeatMapData",
@@ -144,7 +110,7 @@ function* calculateHeatMapDataSaga(
       )
     );
   } catch (errors) {
-    const failureAction = calculateHeatMapDataFailureAction();
+    const failureAction = fetchHeatMapDataFailureAction();
 
     yield put({
       ...failureAction,
@@ -152,7 +118,6 @@ function* calculateHeatMapDataSaga(
     });
 
     yield put(
-      // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters(errors.message, analysisTitle))
     );
   } finally {

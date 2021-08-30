@@ -14,7 +14,7 @@ import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorC
 import ApexPlotMargins from "../Margins/ApexPlotMargins";
 import YScale from "../Scales/YScale";
 
-const ApexLinePlotStyle = ({
+const ApexPlotStyle = ({
   basePath,
   updateParameterAction,
   chartType,
@@ -160,4 +160,4 @@ const ApexLinePlotStyle = ({
   );
 };
 
-export default ApexLinePlotStyle;
+export default ApexPlotStyle;

@@ -13,6 +13,11 @@ import { PointTooltip } from "@nivo/line";
 import { PointData } from "@nivo/radar";
 import { TooltipLabel } from "@nivo/stream";
 import {
+  IStoredDataProps,
+  IStoredDataRow,
+} from "../../../Application/Types/ApplicationTypes";
+import { IInputState } from "../../../Import/Redux/State/InputStateTypes";
+import {
   AxisProps,
   CrosshairType,
   ScaleBandSpec,
@@ -52,7 +57,11 @@ export interface IVisualyticsState {
     yAxes: { yAxisId: string }[];
   };
 
+  loadVisualyticsWorkflow: boolean;
   selectedVisualyticsOption: ISelectOption;
+
+  visualyticsDataWorkflows: Record<string, IInputState>;
+  storedDataWorkflows: Record<"visualyticsDeckStored", IStoredDataRow[]>;
   visualyticsChartsWorkflows: TAllChartsDataAndSpecificProperties;
 }
 
@@ -213,10 +222,13 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
 
   //Motion
   isInteractive: boolean;
+  useMesh: boolean;
+  enableSlices: false | "x" | "y";
   animate: ModernMotionProps["animate"];
   motionConfig: ModernMotionProps["motionConfig"];
   renderWrapper: boolean;
-  useMesh: boolean;
+  enableCrosshair?: boolean;
+  crosshairType?: CrosshairType;
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -236,8 +248,6 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   //   | PointTooltip
   //   | Exclude<PropertyAccessor<BarComputedDatum<RawDatum>, string>,string>;
   enableStackTooltip: boolean;
-  enableCrosshair?: boolean;
-  crosshairType?: CrosshairType;
 
   //Axis
   axisTop: AxisProps | undefined;
@@ -248,7 +258,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   // axisRight: AxisProps | null | undefined;
   // axisBottom: AxisProps | null | undefined;
   // axisLeft: AxisProps | null | undefined;
-  apexAxesEnabled: {
+  enableApexAxes: {
     axisLeft: boolean;
     axisBottom: boolean;
     axisTop: boolean;
@@ -302,6 +312,6 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
 
   //Legend
   enableLegend: boolean;
-  legends: any;
+  legends: any[];
   // legends: LegendProps[] | BarLegendProps[];
 }

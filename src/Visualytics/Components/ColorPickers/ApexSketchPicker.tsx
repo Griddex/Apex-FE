@@ -1,11 +1,10 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { ColorResult, SketchPicker } from "react-color";
-import { useDispatch, useSelector } from "react-redux";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import { updateEconomicsParameterAction } from "../../../Economics/Redux/Actions/EconomicsActions";
 import DialogOneCancelButtons from "./../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,14 +16,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IApexSketchPicker {
-  oneButtonAction: () => void;
+  oneButtonAction?: () => void;
   solidColor: string;
-  setSolidColor: TUseState<string>;
+  setSolidColor?: TUseState<string>;
   presetColors: string[];
   setPresetColors: TUseState<string[]>;
   showButtons: boolean;
+  sketchPickerContextFxn?: (value: any) => void;
 }
-//
+
 export default function ApexSketchPicker({
   oneButtonAction,
   solidColor,
@@ -32,19 +32,18 @@ export default function ApexSketchPicker({
   presetColors,
   setPresetColors,
   showButtons,
+  sketchPickerContextFxn,
 }: IApexSketchPicker) {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const theme = useTheme();
 
   const handleSolidColorChangeComplete = (
     solidColor: ColorResult,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const hexColor = solidColor.hex;
-    setSolidColor(hexColor);
+    setSolidColor && setSolidColor(hexColor);
 
-    // setPresetColors((prevState) => [...prevState, hexColor]);
+    sketchPickerContextFxn && sketchPickerContextFxn(hexColor);
   };
 
   return (
@@ -61,7 +60,7 @@ export default function ApexSketchPicker({
           {DialogOneCancelButtons(
             [true, true],
             [true, false],
-            [unloadDialogsAction, oneButtonAction],
+            [unloadDialogsAction, oneButtonAction as () => void | IAction],
             "Select",
             "doneOutlined"
           )}

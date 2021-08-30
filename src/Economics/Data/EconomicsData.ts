@@ -262,6 +262,12 @@ export const forecastCaseOptions = [
   { value: "3P_3C", label: "High Case" },
 ];
 
+export const developmentScenariosMap = {
+  "OIL/AG Development": "oilDevelopment",
+  "NAG Development": "nagDevelopment",
+  "OIL + NAG Development": "oilNAGDevelopment",
+};
+
 export const mapData = [
   {
     "Oil Price": 60,

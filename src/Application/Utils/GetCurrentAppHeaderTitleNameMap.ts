@@ -1,7 +1,7 @@
-import { IAllWorkflows } from "../Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../Components/Workflows/WorkflowTypes";
 
 const getCurrentAppHeaderTitleNameMap = (
-  wp: IAllWorkflows["wrkflwPrcss"],
+  wp: TAllWorkflowProcesses,
   allAppHeadersMap: Record<string, Record<string, React.Key>>
 ) => {
   let appHeadersMap: Record<string, React.Key> = {};

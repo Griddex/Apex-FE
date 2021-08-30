@@ -249,7 +249,7 @@ const ChartValueFormatters = ({
             isEditing ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />
           }
         >
-          {`${isEditing ? "close" : "open"} editor`}
+          {`${isEditing ? "close" : "open"} options`}
         </Button>
       </div>
       {isEditing && (
@@ -279,7 +279,6 @@ const ChartValueFormatters = ({
             valueOptions={valueSymbolOptions}
             handleChange={handleSymbolChange}
           />
-
           <ChartInputSubFormatters
             title="Precision"
             name="precision"
@@ -295,18 +294,16 @@ const ChartValueFormatters = ({
             name="fill"
             handleChange={handleFillChange}
           />
-
           <ChartSelectSubFormatters
             title="Align"
             name="align"
             valueOptions={valueAlignOptions}
             handleChange={handleAlignChange}
           />
-
           <ChartSwitchSubFormatters
             title="Zero-padding"
             name="zero"
-            value={Boolean(formatSpecifier.zero)}
+            value={typeof formatSpecifier.zero === "string" ? true : false}
             handleChange={handleZeroChange}
           />
           <ChartSwitchSubFormatters

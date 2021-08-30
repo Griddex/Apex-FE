@@ -5,6 +5,7 @@ import {
 import {
   IAllWorkflows,
   ReducersType,
+  TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TApexData } from "../../../Application/Types/ApplicationTypes";
 
@@ -67,7 +68,7 @@ export const updateInputParameterAction = (
 export const persistVariableUnitsAction = (
   reducer: ReducersType,
   appHeaderNameUnitsMap: Record<string, string>,
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_VARIABLEUNITS,
@@ -91,7 +92,7 @@ export const importFileInitAction = (
   fileAccepted: boolean,
   dnDDisabled: boolean,
   message: string,
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: IMPORTFILE_INITIALIZATION,
@@ -115,7 +116,7 @@ export const importFileInitAction = (
 export const persistFileAction = (
   reducer: ReducersType,
   file: any,
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_FILE,
@@ -126,7 +127,7 @@ export const persistFileAction = (
 export const persistWorksheetNamesAction = (
   reducer: ReducersType,
   workSheetNames: string[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_WORKSHEETNAMES,
@@ -138,7 +139,7 @@ export const persistWorksheetAction = (
   reducer: ReducersType,
   selectedWorksheetName: string,
   selectedWorksheetData: Record<string, React.Key>[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_WORKSHEET,
@@ -155,7 +156,7 @@ export const persistFileHeadersAction = (
   reducer: ReducersType,
   selectedHeaderRowIndex: number,
   fileHeaders: string[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_FILEHEADERS,
@@ -166,7 +167,7 @@ export const persistFileHeadersAction = (
 export const persistFileHeadersMatchAction = (
   reducer: ReducersType,
   fileHeadersMatch: Record<string, number>[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_FILEHEADERSMATCH,
@@ -176,7 +177,7 @@ export const persistFileHeadersMatchAction = (
 export const persistChosenApplicationHeadersIndicesAction = (
   reducer: ReducersType,
   chosenApplicationHeadersIndices: Record<string, number>,
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
@@ -186,7 +187,7 @@ export const persistChosenApplicationHeadersIndicesAction = (
 export const persistChosenApplicationUnitIndicesAction = (
   reducer: ReducersType,
   chosenApplicationUnitIndices: Record<string, number | number[]>,
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITINDICES,
@@ -199,7 +200,7 @@ export const persistFileUnitsAndUniqueUnitsAction = (
   selectedUnitRowIndex: number,
   fileUnits: TRawRowValue<IRawRow>[],
   fileUniqueUnits: TRawRowValue<IRawRow>[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_FILEUNITSANDUNIQUEUNITS,
@@ -216,7 +217,7 @@ export const persistFileUnitsAndUniqueUnitsAction = (
 export const persistFileUnitsMatchAction = (
   reducer: ReducersType,
   fileUnitsMatch: Record<string, number>[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_FILEUNITSMATCH,
@@ -227,7 +228,7 @@ export const persistFileUnitsMatchAction = (
 export const persistChosenApplicationHeadersAction = (
   reducer: ReducersType,
   chosenApplicationHeaders: string[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONHEADERS,
@@ -237,7 +238,7 @@ export const persistChosenApplicationHeadersAction = (
 export const persistChosenApplicationUnitsAction = (
   reducer: ReducersType,
   chosenApplicationUnitsWithoutNone: string[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_CHOSENAPPLICATIONUNITS,
@@ -248,7 +249,7 @@ export const persistChosenApplicationUnitsAction = (
 export const persistTableRoleNamesAction = (
   reducer: ReducersType,
   tableRoleNames: string[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_TABLEROLENAMES,
@@ -259,7 +260,7 @@ export const persistTableRoleNamesAction = (
 export const persistTableDataAction = (
   reducer: ReducersType,
   tableData: Record<string, React.Key>[],
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_TABLEDATA,
@@ -270,7 +271,7 @@ export const persistTableDataAction = (
 export const persistColumnNameTableDataAction = (
   reducer: ReducersType,
   columnNameTableData: TApexData,
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: PERSIST_COLUMNNAMETABLEDATA,
@@ -279,10 +280,11 @@ export const persistColumnNameTableDataAction = (
 };
 
 export const saveInputDeckRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowProcess: TAllWorkflowProcesses,
   titleDesc: Record<string, string>
 ) => {
   let inputDeck;
+  const { title } = titleDesc;
   const reducer = "inputReducer";
 
   if (workflowProcess.includes("facilities"))
@@ -293,7 +295,7 @@ export const saveInputDeckRequestAction = (
   return {
     type: SAVE_INPUTDECK_REQUEST,
     payload: { workflowProcess, reducer, titleDesc },
-    meta: { message: `Saving ${inputDeck}...` },
+    meta: { message: `Saving ${title}...` },
   };
 };
 

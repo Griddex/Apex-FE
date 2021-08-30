@@ -1,16 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import {
-  Route,
-  RouteComponentProps,
-  Switch,
-  useRouteMatch,
-} from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import Visualytics from "./Visualytics";
-import VisualyticsBackground from "./VisualyticsBackground";
-import { IdType, IVisualyticsLayouts } from "./VisualyticsLayoutTypes";
+import VisualyticsLanding from "./VisualyticsLanding";
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -41,26 +34,7 @@ const VisualyticsLayout = () => {
             <SuspensePerpetualSpinner pending={true} message="Loading..." />
           }
         >
-          <Switch>
-            <Route exact path={path} component={Visualytics} />
-            <Route path={`${url}/:visualyticsId`}>
-              {(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { visualyticsId },
-                  },
-                } = props;
-
-                const Layouts: IVisualyticsLayouts = {
-                  background: <VisualyticsBackground />,
-                  visualytics: <Visualytics />,
-                };
-
-                return Layouts[visualyticsId];
-              }}
-            </Route>
-            <Route path="*" component={() => <h1>Not Available</h1>} />
-          </Switch>
+          <VisualyticsLanding />,
         </Suspense>
       </div>
     </main>

@@ -14,8 +14,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { loginRequestAction } from "../../Redux/Actions/LoginActions";
-import userState from "../../Redux/State/UserState";
-import { IUserState } from "../../Redux/State/UserStateTypes";
+import userState from "../../../Administration/Redux/State/UserState";
+import { IUserState } from "../../../Administration/Redux/State/UserStateTypes";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -48,11 +48,11 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = React.useState(false);
-  //Need a local json file for remember me?
+  //TODO Persist remember me in redis, localstorage or mongo?
 
   return (
     <Formik
-      initialValues={userState}
+      initialValues={userState as IUserState}
       validationSchema={Yup.object({
         userName: Yup.string().required("Username is required"),
         password: Yup.string().required("Password is required"),

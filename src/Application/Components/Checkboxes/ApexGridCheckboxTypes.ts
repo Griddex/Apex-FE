@@ -1,5 +1,5 @@
 import { IAction } from "../../Redux/Actions/ActionTypes";
-import { IStoredDataRow } from "../../Types/ApplicationTypes";
+import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
 import { ISelectOption } from "../Selects/SelectItemsType";
 
 export interface IApexGridCheckbox {
@@ -13,13 +13,9 @@ export interface IApexGridCheckbox {
   ) => void | IAction;
 }
 
-export interface IApexCheckboxData {
-  value: string;
-  label: string;
-  handleCheck: () => void;
-}
-
 export interface IApexCheckboxGroup {
+  selectedVariable?: string;
+  setSelectedVariable?: TUseState<string>;
   variableZOption: ISelectOption;
-  apexCheckboxDataGroup: IApexCheckboxData[];
+  apexCheckboxDataGroup: ISelectOption[];
 }

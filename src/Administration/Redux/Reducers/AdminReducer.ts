@@ -1,48 +1,42 @@
+import set from "lodash.set";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
-  PERSIST_AVATAR,
-  REGISTER_FAILURE,
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-  UPDATE_REGISTRATION,
+  LOAD_ADMIN_WORKFLOW,
   RESET_ADMIN,
+  UPDATE_ADMIN,
+  UPDATE_ADMINS,
 } from "../Actions/AdminActions";
-import userState from "../../../Application/Redux/State/UserState";
+import adminState from "../State/AdminState";
 
-const adminReducer = (state = userState, action: IAction) => {
+const adminReducer = (state = adminState, action: IAction) => {
   switch (action.type) {
-    case UPDATE_REGISTRATION: {
-      const { name, value } = action.payload;
+    case UPDATE_ADMIN: {
+      const { path, value } = action.payload;
+      const updatedState = set(state, path, value);
+
+      return updatedState;
+    }
+
+    case UPDATE_ADMINS: {
+      const { updateObj } = action.payload;
 
       return {
         ...state,
-        [name]: value,
+        ...updateObj,
       };
     }
-    case PERSIST_AVATAR:
+
+    case LOAD_ADMIN_WORKFLOW: {
       return {
         ...state,
-        avatarUrl: action.payload.avatarUrl,
+        loadAdminWorkflow: action.payload.name,
       };
-    case REGISTER_REQUEST:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case REGISTER_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case REGISTER_FAILURE:
-      return {
-        ...state,
-        status: action.payload.status,
-        errors: new Array(action.payload.errors),
-      };
+    }
+
     case RESET_ADMIN: {
-      return userState;
+      return adminState;
     }
+
     default:
       return state;
   }

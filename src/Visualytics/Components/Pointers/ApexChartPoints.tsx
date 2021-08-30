@@ -8,8 +8,11 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import { pointLabelOptions } from "../../Data/VisualyticsData";
+import {
+  pointLabelOptions,
+  pointsInheritOptions,
+  pointsThemeOptions,
+} from "../../Data/VisualyticsData";
 import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexPickerExtruder from "../ColorPickers/ApexPickerExtruder";
@@ -59,6 +62,18 @@ const ApexChartPointers = ({
   const pointLabelOption = pointLabelOptions.find(
     (option) => option.value === pointLabel
   );
+  const pointsInheritOption = pointsInheritOptions.find(
+    (option) => option.value === (pointColor as any)["from"]
+  );
+  const pointsThemeOption = pointsThemeOptions.find(
+    (option) => option.value === (pointColor as any)["theme"]
+  );
+  const pointsBorderInheritOption = pointsInheritOptions.find(
+    (option) => option.value === (pointBorderColor as any)["from"]
+  );
+  const pointsBorderThemeOption = pointsThemeOptions.find(
+    (option) => option.value === (pointBorderColor as any)["theme"]
+  );
 
   const handlePointsSwitch =
     (name: keyof IChart) => (event: React.ChangeEvent<any>) => {
@@ -73,20 +88,36 @@ const ApexChartPointers = ({
         dispatch(updateParameterAction(`${basePath}.${name}`, checked));
     };
 
-  const handlePointersSelect =
-    (name: keyof IChart) => (option: ValueType<ISelectOption, false>) => {
+  const handlePointsSelect =
+    (name: keyof IChart, isObj?: boolean, obj?: any, objKey?: string) =>
+    (option: ValueType<ISelectOption, false>) => {
+      const optionValue = (option as ISelectOption).value as string;
+
+      let value: any;
+      if (isObj) {
+        value = { ...obj, [objKey as string]: optionValue };
+      } else {
+        value = optionValue;
+      }
+
       setChartProps((prev) => ({
         ...prev,
-        [name]: (option as ISelectOption).value as string,
+        [name]: value,
       }));
 
       updateParameterAction &&
-        dispatch(
-          updateParameterAction(`${basePath}.${name}`, {
-            scheme: (option as ISelectOption).value,
-          })
-        );
+        dispatch(updateParameterAction(`${basePath}.${name}`, value));
     };
+
+  const initializePointColor = (obj: any) => {
+    setChartProps((prev) => ({
+      ...prev,
+      pointColor: obj,
+    }));
+
+    updateParameterAction &&
+      dispatch(updateParameterAction(`${basePath}.pointColor`, obj));
+  };
 
   return (
     <div style={{ width: "100%", padding: 5 }}>
@@ -103,17 +134,6 @@ const ApexChartPointers = ({
 
       {enablePoints && (
         <>
-          {/* <AnalyticsComp
-            title="Point Symbol"
-            direction="Vertical"
-            containerStyle={{ marginTop: 20 }}
-            content={
-              <ApexLegendAnchor
-                currentAnchor={anchor}
-                anchorData={legendAchorData}
-              />
-            }
-          /> */}
           <AnalyticsComp
             title="Point Color"
             direction="Vertical"
@@ -124,13 +144,55 @@ const ApexChartPointers = ({
                   size="small"
                   value={pointColorPerspective}
                   exclusive
-                  onChange={(_, newPerspective: string) =>
-                    setPointColorPerspective(newPerspective)
-                  }
+                  onChange={(_, value: string) => {
+                    setPointColorPerspective(value);
+
+                    if (value === "inherit") {
+                      initializePointColor({
+                        from: "color",
+                        modifiers: [],
+                      });
+                    } else if (value === "theme") {
+                      initializePointColor({
+                        theme: "background",
+                      });
+                    } else {
+                      initializePointColor("grey");
+                    }
+                  }}
                 >
                   <ToggleButton value="inherit">{"Inherit"}</ToggleButton>
+                  <ToggleButton value="theme">{"Theme"}</ToggleButton>
                   <ToggleButton value="custom">{"Custom"}</ToggleButton>
                 </ToggleButtonGroup>
+                {pointColorPerspective === "inherit" && (
+                  <ApexSelectRS
+                    valueOption={pointsInheritOption as ISelectOption}
+                    data={pointsInheritOptions}
+                    handleSelect={handlePointsSelect(
+                      "pointColor",
+                      true,
+                      pointColor,
+                      "from"
+                    )}
+                    menuPortalTarget={pointRef.current as HTMLDivElement}
+                    isSelectOptionType={true}
+                  />
+                )}
+                {pointColorPerspective === "theme" && (
+                  <ApexSelectRS
+                    valueOption={pointsThemeOption as ISelectOption}
+                    data={pointsThemeOptions}
+                    handleSelect={handlePointsSelect(
+                      "pointColor",
+                      true,
+                      pointColor,
+                      "theme"
+                    )}
+                    menuPortalTarget={pointRef.current as HTMLDivElement}
+                    isSelectOptionType={true}
+                  />
+                )}
                 {pointColorPerspective === "custom" && (
                   <ApexPickerExtruder
                     color={
@@ -146,20 +208,21 @@ const ApexChartPointers = ({
 
                 {showPointColorPicker && (
                   <ApexSketchPicker
-                    oneButtonAction={() =>
-                      updateParameterAction &&
-                      dispatch(
-                        updateParameterAction(
-                          `${basePath}.pointColor`,
-                          pointColor as string
-                        )
-                      )
-                    }
-                    solidColor={chartProps["pointColor"] as string}
-                    setSolidColor={setChartProps as TUseState<any>}
+                    solidColor={pointColor as string}
                     presetColors={presetColors}
                     setPresetColors={setPresetColors}
                     showButtons={false}
+                    sketchPickerContextFxn={(value: any) => {
+                      setChartProps((prev) => ({
+                        ...prev,
+                        pointColor: value,
+                      }));
+
+                      updateParameterAction &&
+                        dispatch(
+                          updateParameterAction(`${basePath}.pointColor`, value)
+                        );
+                    }}
                   />
                 )}
               </>
@@ -181,6 +244,12 @@ const ApexChartPointers = ({
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    pointSize: value,
+                  }));
+                }}
               />
             }
           />
@@ -200,6 +269,12 @@ const ApexChartPointers = ({
                   updateParameterAction &&
                   dispatch(updateParameterAction(path, value))
                 }
+                sliderContextFxn={(value: any) => {
+                  setChartProps((prev) => ({
+                    ...prev,
+                    pointBorderWidth: value,
+                  }));
+                }}
               />
             }
           />
@@ -213,13 +288,56 @@ const ApexChartPointers = ({
                   size="small"
                   value={borderColorPerspective}
                   exclusive
-                  onChange={(_, newPerspective: string) =>
-                    setBorderColorPerspective(newPerspective)
-                  }
+                  onChange={(_, value: string) => {
+                    setBorderColorPerspective(value);
+
+                    if (value === "inherit") {
+                      initializePointColor({
+                        from: "color",
+                        modifiers: [],
+                      });
+                    } else if (value === "theme") {
+                      initializePointColor({
+                        theme: "background",
+                      });
+                    } else {
+                      initializePointColor("grey");
+                    }
+                  }}
                 >
                   <ToggleButton value="inherit">{"Inherit"}</ToggleButton>
+                  <ToggleButton value="theme">{"Theme"}</ToggleButton>
                   <ToggleButton value="custom">{"Custom"}</ToggleButton>
                 </ToggleButtonGroup>
+                {borderColorPerspective === "inherit" && (
+                  <ApexSelectRS
+                    valueOption={pointsBorderInheritOption as ISelectOption}
+                    data={pointsInheritOptions}
+                    handleSelect={handlePointsSelect(
+                      "pointBorderColor",
+                      true,
+                      pointBorderColor,
+                      "from"
+                    )}
+                    menuPortalTarget={pointRef.current as HTMLDivElement}
+                    isSelectOptionType={true}
+                  />
+                )}
+                {borderColorPerspective === "theme" && (
+                  <ApexSelectRS
+                    valueOption={pointsBorderThemeOption as ISelectOption}
+                    data={pointsThemeOptions}
+                    handleSelect={handlePointsSelect(
+                      "pointBorderColor",
+                      true,
+                      pointBorderColor,
+                      "theme"
+                    )}
+                    menuPortalTarget={pointRef.current as HTMLDivElement}
+                    isSelectOptionType={true}
+                  />
+                )}
+
                 {borderColorPerspective === "custom" && (
                   <ApexPickerExtruder
                     color={
@@ -234,20 +352,24 @@ const ApexChartPointers = ({
                 )}
                 {showPointBorderColorPicker && (
                   <ApexSketchPicker
-                    oneButtonAction={() =>
-                      updateParameterAction &&
-                      dispatch(
-                        updateParameterAction(
-                          `${basePath}.pointBorderColor`,
-                          pointBorderColor as string
-                        )
-                      )
-                    }
-                    solidColor={chartProps["pointBorderColor"] as string}
-                    setSolidColor={setChartProps as TUseState<any>}
+                    solidColor={pointBorderColor as string}
                     presetColors={presetColors}
                     setPresetColors={setPresetColors}
                     showButtons={false}
+                    sketchPickerContextFxn={(value: any) => {
+                      setChartProps((prev) => ({
+                        ...prev,
+                        pointBorderColor: value,
+                      }));
+
+                      updateParameterAction &&
+                        dispatch(
+                          updateParameterAction(
+                            `${basePath}.pointBorderColor`,
+                            value
+                          )
+                        );
+                    }}
                   />
                 )}
               </>
@@ -281,7 +403,7 @@ const ApexChartPointers = ({
                   <ApexSelectRS
                     valueOption={pointLabelOption as ISelectOption}
                     data={pointLabelOptions}
-                    handleSelect={handlePointersSelect("pointLabel")}
+                    handleSelect={handlePointsSelect("pointLabel")}
                     menuPortalTarget={pointRef.current as HTMLDivElement}
                     isSelectOptionType={true}
                   />
@@ -296,13 +418,19 @@ const ApexChartPointers = ({
                     name="pointLabelYOffset"
                     sliderValue={pointLabelYOffset}
                     step={1}
-                    min={0}
+                    min={-20}
                     max={20}
                     actionPath={`${basePath}.pointLabelYOffset`}
                     action={(path, value) =>
                       updateParameterAction &&
                       dispatch(updateParameterAction(path, value))
                     }
+                    sliderContextFxn={(value: any) => {
+                      setChartProps((prev) => ({
+                        ...prev,
+                        pointLabelYOffset: value,
+                      }));
+                    }}
                   />
                 }
               />

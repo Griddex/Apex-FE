@@ -1,5 +1,8 @@
 import set from "lodash.set";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import {
+  IAllWorkflows,
+  TAllWorkflowProcesses,
+} from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_FAILURE,
@@ -113,8 +116,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case PERSIST_TABLEDATA:
     case PERSIST_COLUMNNAMETABLEDATA: {
       const { reducer, workflowProcess } = action.payload;
-      const workflowProcessDefined =
-        workflowProcess as IAllWorkflows["wrkflwPrcss"];
+      const workflowProcessDefined = workflowProcess as TAllWorkflowProcesses;
 
       if (reducer === "economicsReducer") {
         return {

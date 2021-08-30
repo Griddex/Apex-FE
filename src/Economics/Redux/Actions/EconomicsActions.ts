@@ -1,9 +1,9 @@
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
-  IAllWorkflows,
   IEconomicsWorkflows,
   IInputWorkflows,
   ReducersType,
+  TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   TDevScenarioNames,
@@ -83,9 +83,9 @@ export const RUN_ECONOMICSANALYSIS_REQUEST = "RUN_ECONOMICSANALYSIS_REQUEST";
 export const RUN_ECONOMICSANALYSIS_SUCCESS = "RUN_ECONOMICSANALYSIS_SUCCESS";
 export const RUN_ECONOMICSANALYSIS_FAILURE = "RUN_ECONOMICSANALYSIS_FAILURE";
 export const PERSIST_ECONOMICSDECK = "PERSIST_ECONOMICSDECK";
-export const CALCULATE_HEATMAPDATA_REQUEST = "CALCULATE_HEATMAPDATA_REQUEST";
-export const CALCULATE_HEATMAPDATA_SUCCESS = "CALCULATE_HEATMAPDATA_SUCCESS";
-export const CALCULATE_HEATMAPDATA_FAILURE = "CALCULATE_HEATMAPDATA_FAILURE";
+export const FETCH_HEATMAPDATA_REQUEST = "FETCH_HEATMAPDATA_REQUEST";
+export const FETCH_HEATMAPDATA_SUCCESS = "FETCH_HEATMAPDATA_SUCCESS";
+export const FETCH_HEATMAPDATA_FAILURE = "FETCH_HEATMAPDATA_FAILURE";
 
 export const SAVE_ECONOMICSRESULTS_REQUEST = "SAVE_ECONOMICSRESULTS_REQUEST";
 export const SAVE_ECONOMICSRESULTS_SUCCESS = "SAVE_ECONOMICSRESULTS_SUCCESS";
@@ -203,7 +203,7 @@ export const persistCostsRevDataFaiSelectOptionFailureAction = () => {
 };
 
 export const saveCostsRevenuesRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowProcess: TAllWorkflowProcesses,
   reducer: ReducersType,
   titleDesc: Record<string, string>
 ) => {
@@ -306,7 +306,7 @@ export const transformEconomicsResultsChartDataFailureAction = () => {
 };
 
 export const saveEconomicsParametersRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"],
+  workflowProcess: TAllWorkflowProcesses,
   reducer: ReducersType,
   titleDesc: Record<string, string>
 ) => {
@@ -500,30 +500,36 @@ export const persistEconomicsDeckRequestAction = (
   };
 };
 
-export const calculateHeatMapDataRequestAction = (
+export const getHeatMapDataRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles,
-  selectedZValue: string
+  variableZlength?: number,
+  selectedDevScenario?: string
 ) => {
   return {
-    type: CALCULATE_HEATMAPDATA_REQUEST,
-    payload: { analysisName, analysisTitle, selectedZValue },
-    meta: { showSpinner: true, message: `Calculating map data...` },
+    type: FETCH_HEATMAPDATA_REQUEST,
+    payload: {
+      analysisName,
+      analysisTitle,
+      variableZlength,
+      selectedDevScenario,
+    },
+    meta: { showSpinner: true, message: `Fetching map data...` },
   };
 };
 
-export const calculateHeatMapDataSuccessAction = () => {
+export const fetchHeatMapDataSuccessAction = () => {
   return {
-    type: CALCULATE_HEATMAPDATA_SUCCESS,
+    type: FETCH_HEATMAPDATA_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const calculateHeatMapDataFailureAction = () => {
+export const fetchHeatMapDataFailureAction = () => {
   return {
-    type: CALCULATE_HEATMAPDATA_FAILURE,
+    type: FETCH_HEATMAPDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

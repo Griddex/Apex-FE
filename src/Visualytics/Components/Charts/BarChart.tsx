@@ -35,7 +35,7 @@ const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
   >;
   commonChartPropsDefined["labelTextColor"] = labelTextColorBar;
 
-  const legendsBar = legends as BarLegendProps[] | undefined;
+  const legendsBar = legends as BarLegendProps[];
   commonChartPropsDefined["legends"] = legendsBar;
 
   //TODO fix isYear, keeps returning month

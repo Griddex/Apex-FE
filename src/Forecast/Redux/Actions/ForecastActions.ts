@@ -458,7 +458,7 @@ export const removeCurrentForecastAction = () => {
 };
 
 export const runForecastResultsAggregationRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: RUN_FORECASTRESULTSAGGREGATION_REQUEST,
@@ -486,7 +486,7 @@ export const runForecastResultsAggregationFailureAction = () => {
 };
 
 export const runForecastEconomicsAggregationRequestAction = (
-  workflowProcess: IAllWorkflows["wrkflwPrcss"]
+  workflowProcess: TAllWorkflowProcesses
 ) => {
   return {
     type: RUN_FORECASTECONOMICSAGGREGATION_REQUEST,

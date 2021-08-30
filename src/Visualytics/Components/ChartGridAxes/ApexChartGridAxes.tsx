@@ -14,15 +14,17 @@ const ApexChartGridAxes = ({
   apexChartAxesData,
   apexMultiAccordionsData,
 }: IApexChartFormatProps) => {
-  const apexAxesComponents = apexChartAxesData.map((obj, i) => (
-    <ApexChartAxis
-      key={i}
-      {...obj}
-      basePath={basePath}
-      updateParameterAction={updateParameterAction}
-      chartType={chartType}
-    />
-  ));
+  const apexAxesComponents = apexChartAxesData.map((obj, i) => {
+    return (
+      <ApexChartAxis
+        key={i}
+        {...obj}
+        basePath={basePath}
+        updateParameterAction={updateParameterAction}
+        chartType={chartType}
+      />
+    );
+  });
 
   const updatedAcordionsData = apexMultiAccordionsData.map((props, i) => ({
     ...props,

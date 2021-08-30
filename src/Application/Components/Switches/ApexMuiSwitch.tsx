@@ -13,27 +13,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 0,
     display: "flex",
   },
-  checked: {
-    transform: "translateX(12px)",
-    color: theme.palette.common.white,
-    "& + $track": {
-      opacity: 1,
-      backgroundColor: (props: IApexMuiSwitch) => props.checkedColor,
-      borderColor: (props: IApexMuiSwitch) => props.checkedColor,
-    },
-  },
   switchBase: {
     padding: 2,
-    color: theme.palette.grey[500],
-    // "&$checked": {
-    //   transform: "translateX(12px)",
-    //   color: theme.palette.common.white,
-    //   "& + $track": {
-    //     opacity: 1,
-    //     backgroundColor: (props: IApexMuiSwitch) => props.checkedColor,
-    //     borderColor: (props: IApexMuiSwitch) => props.checkedColor,
-    //   },
-    // },
+    "&$checked": {
+      transform: "translateX(12px)",
+      color: theme.palette.common.white,
+      "& + $track": {
+        opacity: 1,
+        backgroundColor: theme.palette.success.main,
+        border: "none",
+      },
+    },
+    "&$focusVisible $thumb": {
+      color: (props: IApexMuiSwitch) => props.checkedColor,
+      border: "6px solid #fff",
+    },
   },
   thumb: {
     width: 12,
@@ -44,13 +38,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: `1px solid ${theme.palette.grey[500]}`,
     borderRadius: 16 / 2,
     opacity: 1,
-    backgroundColor: (props: IApexMuiSwitch) => props.notCheckedColor,
+    backgroundColor: theme.palette.secondary.main,
+    transition: theme.transitions.create(["background-color", "border"]),
   },
+  checked: {},
+  focusVisible: {},
 }));
 
 export default function ApexMuiSwitch(props: IApexMuiSwitch) {
   const { name, handleChange, checked, hasLabels, leftLabel, rightLabel } =
     props;
+
   const classes = useStyles(props);
 
   if (hasLabels)
@@ -60,11 +58,14 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
         <Grid item style={{ marginLeft: 5, marginRight: 5 }}>
           <Switch
             name={name}
+            focusVisibleClassName={classes.focusVisible}
+            disableRipple
             classes={{
               root: classes.root,
               switchBase: classes.switchBase,
               thumb: classes.thumb,
               track: classes.track,
+              checked: classes.checked,
             }}
             checked={checked}
             onChange={handleChange}
@@ -77,11 +78,14 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
     return (
       <Switch
         name={name}
+        focusVisibleClassName={classes.focusVisible}
+        disableRipple
         classes={{
           root: classes.root,
           switchBase: classes.switchBase,
           thumb: classes.thumb,
           track: classes.track,
+          checked: classes.checked,
         }}
         checked={checked}
         onChange={handleChange}

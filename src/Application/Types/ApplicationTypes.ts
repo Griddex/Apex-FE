@@ -1,19 +1,19 @@
-import { IUserDetails } from "../Components/User/UserTypes";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
-import { DialogStuff } from "../Components/Dialogs/DialogTypes";
-import { IRawRow } from "../Components/Table/ReactDataGrid/ApexGridTypes";
-import {
-  IAllWorkflows,
-  INetworkWorkflows,
-  ReducersType,
-} from "../Components/Workflows/WorkflowTypes";
 import {
   TBackendDevScenarioTitles,
   TDevScenarioNames,
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { DialogStuff } from "../Components/Dialogs/DialogTypes";
+import { IRawRow } from "../Components/Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
+import { IUserDetails } from "../Components/User/UserTypes";
+import {
+  ReducersType,
+  TAllWorkflowCategories,
+  TAllWorkflowProcesses,
+} from "../Components/Workflows/WorkflowTypes";
 import { IAction } from "../Redux/Actions/ActionTypes";
 
 export type TApproval = "Approved" | "Pending" | "Returned" | "Not Started";
@@ -67,7 +67,8 @@ export interface IStoredDataProps {
     | "forecastResultsData"
     | "forecastResultsVisualytics"
     | "forecastResultsStored"
-    | "economicsResultsStored";
+    | "economicsResultsStored"
+    | "visualyticsDeckStored";
   wkCy?: "storedDataWorkflows";
   containerStyle?: CSSProperties;
   finalAction?: () => void;
@@ -137,8 +138,8 @@ export interface ILandingData {
   description: string;
   icon: JSX.Element;
   route: string;
-  workflowProcess: IAllWorkflows["wrkflwPrcss"] | IStoredDataProps["wkPs"];
-  workflowCategory?: IAllWorkflows["wrkflwCtgry"] | IStoredDataProps["wkCy"];
+  workflowProcess: TAllWorkflowProcesses | IStoredDataProps["wkPs"];
+  workflowCategory?: TAllWorkflowCategories | IStoredDataProps["wkCy"];
 }
 
 export interface IVariableNameTitle {

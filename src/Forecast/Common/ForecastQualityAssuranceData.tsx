@@ -1,73 +1,35 @@
 import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
 import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
 import React from "react";
-import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import Approval from "../../Application/Components/Approval/Approval";
-import Author from "../../Application/Components/Author/Author";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
-import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import {
-  IApexEditor,
-  IApexEditorRow,
-} from "../../Application/Components/Editors/ApexEditor";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
-import Saved from "../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import {
-  ReducersType,
-  TAllWorkflowProcesses,
-} from "../../Application/Components/Workflows/WorkflowTypes";
-import {
-  deleteDataByIdRequestAction,
-  getTableDataByIdRequestAction,
-  persistSelectedIdTitleAction,
-} from "../../Application/Redux/Actions/ApplicationActions";
-import {
-  showDialogAction,
-  unloadDialogsAction,
-} from "../../Application/Redux/Actions/DialogsAction";
+import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
-import {
-  IApplicationStoredForecastResultsRow,
-  IStoredDataProps,
-} from "../../Application/Types/ApplicationTypes";
-import formatDate from "../../Application/Utils/FormatDate";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../Visualytics/Components/Charts/DoughnutChart";
+import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import {
   fetchForecastTreeviewKeysRequestAction,
-  fetchStoredForecastingResultsRequestAction,
   getForecastDataByIdRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
-/*  import { IApexEditor } from "../../Application/Components/Editors/ApexEditor";
-import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
-import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
-import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu"; */
-import { kron, varianceDependencies } from "mathjs";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {

@@ -6,18 +6,18 @@ import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
-import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
+import StoredDeck from "../../Images/StoredDeck.svg";
 import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import StoredForecastDecks from "./StoredForecastDecks";
 import { IdType } from "./ForecastInputDeckLandingTypes";
+import StoredForecastDecks from "./StoredForecastDecks";
 
 const useStyles = makeStyles((theme) => ({
   ForecastInputDeckLanding: {
@@ -101,7 +101,7 @@ const ForecastInputDeckLanding = () => {
   //CSS using overlap and z-index
 
   const forecastExcelandDbWorkflowFinalAction = (
-    workflowProcess: IAllWorkflows["wrkflwPrcss"]
+    workflowProcess: TAllWorkflowProcesses
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",

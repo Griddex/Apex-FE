@@ -20,10 +20,10 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
-import { IAllWorkflows } from "./../../../Application/Components/Workflows/WorkflowTypes";
-import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { TAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
 
 const useStyles = makeStyles(() => ({
   dialogButtons: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
 const ForecastInputDeckFinalization = ({
   workflowProcess,
 }: {
-  workflowProcess: IAllWorkflows["wrkflwPrcss"];
+  workflowProcess: TAllWorkflowProcesses;
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -64,9 +64,7 @@ const ForecastInputDeckFinalization = ({
     });
   }
 
-  const saveForecastInputdeck = (
-    workflowProcess: IAllWorkflows["wrkflwPrcss"]
-  ) => {
+  const saveForecastInputdeck = (workflowProcess: TAllWorkflowProcesses) => {
     const saveForecastInputdeckConfirmation = (
       titleDesc: Record<string, string>
     ) => {
@@ -119,7 +117,7 @@ const ForecastInputDeckFinalization = ({
   };
 
   const saveForecastInputdeckAndGenerateNetwork = (
-    workflowProcess: IAllWorkflows["wrkflwPrcss"]
+    workflowProcess: TAllWorkflowProcesses
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Network_Dialog",

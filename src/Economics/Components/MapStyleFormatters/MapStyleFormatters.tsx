@@ -1,10 +1,7 @@
 import {
-  Box,
   Button,
-  darken,
   Input,
   makeStyles,
-  TextField,
   Typography,
   useTheme,
 } from "@material-ui/core";
@@ -15,7 +12,7 @@ import { ValueType } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import ApexPickerExtruder from "../../../Visualytics/Components/ColorPickers/ApexPickerExtruder";
 import ApexSketchPicker from "../../../Visualytics/Components/ColorPickers/ApexSketchPicker";
@@ -28,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IMapStyleFormatters {
-  workflowProcess: IAllWorkflows["wrkflwPrcss"];
+  workflowProcess: TAllWorkflowProcesses;
 }
 
 const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
@@ -144,7 +141,6 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
         </ApexFlexContainer>
         {showThresholdPicker && (
           <ApexSketchPicker
-            oneButtonAction={() => {}}
             solidColor={solidThresholdColor}
             setSolidColor={setSolidThresholdColor}
             presetColors={presetThresholdColors}
@@ -189,7 +185,6 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
         </ApexFlexContainer>
         {showBackgroundPicker && (
           <ApexSketchPicker
-            oneButtonAction={() => {}}
             solidColor={solidBackgroundColor}
             setSolidColor={setSolidBackgroundColor}
             presetColors={presetBackgroundColors}

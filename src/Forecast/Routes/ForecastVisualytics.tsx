@@ -10,7 +10,7 @@ import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutA
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import { ChartFormatAggregatorContextProvider } from "../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
-import LineChartFormatAggregator from "../../Visualytics/Components/FormatAggregators/LineChartFormatAggregator";
+import ChartFormatAggregator from "../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
@@ -157,7 +157,7 @@ const ForecastVisualytics = () => {
       return <div>StackedArea</div>;
     } else if (chartType === "lineChart") {
       return (
-        <LineChartFormatAggregator
+        <ChartFormatAggregator
           basePath={basePath}
           updateParameterAction={updateForecastResultsParameterAction}
           chartType="lineChart"

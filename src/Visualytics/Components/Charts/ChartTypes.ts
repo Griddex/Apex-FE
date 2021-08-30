@@ -14,9 +14,9 @@ export type TChartTypes =
 export interface IApexChartGrid {
   gridName: string;
   gridTitle: string;
-  storeGridEnabled: boolean;
+  enableGrid: boolean;
   gridValuesName?: string;
-  storeGridValues?: Array<number | string | Date>;
+  gridValues?: Array<number | string | Date>;
 }
 export interface IApexLinePlotStyle {
   margin: { top: number; right: number; bottom: number; left: number };

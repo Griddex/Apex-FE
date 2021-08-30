@@ -6,7 +6,7 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowCategories } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   developmentScenarioOptions,
   forecastCaseOptions,
@@ -24,7 +24,7 @@ export interface ISelectScenariosByButtonsWithForecastCaseEconomics {
   width?: number | string;
   height?: number | string;
   analysisProcess: TEconomicsAnalysesNames;
-  workflowCategory: IAllWorkflows["wrkflwCtgry"];
+  workflowCategory: TAllWorkflowCategories;
   devOptions: { value: TDevScenarioNames; label: TDevScenarioTitles }[];
 }
 
