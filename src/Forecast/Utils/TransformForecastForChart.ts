@@ -18,7 +18,6 @@ const transformForecastForChart = (data: any[]) => {
   const forecastResults = data.map((row: any) => {
     const keys = Object.keys(row);
     const values = Object.values(row);
-    console.log("chart row data: ", row);
     const newKeys = transformModulePaths(keys);
 
     return zipObject(newKeys, values);
