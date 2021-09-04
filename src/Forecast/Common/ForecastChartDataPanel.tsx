@@ -9,7 +9,6 @@ import {
   fetchForecastTreeviewKeysRequestAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
-import { IForecastRunOptions } from "../Routes/ForecastData";
 import ForecastTreeView from "./ForecastTreeView";
 
 const ForecastChartDataPanel = () => {
@@ -46,7 +45,7 @@ const ForecastChartDataPanel = () => {
       ? {
           value: selectedForecastingResultsTitle,
           label: selectedForecastingResultsTitle,
-          id: (forecastRunTitleOptions as IForecastRunOptions[]).filter(
+          id: (forecastRunTitleOptions as IExtendedSelectOption[]).filter(
             (o) => o.label === selectedForecastingResultsTitle
           )[0].id,
           title: selectedForecastingResultsTitle,

@@ -6,7 +6,7 @@ import {
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 
 interface IFormatAggregatorContext {
   chartProps: IChart;

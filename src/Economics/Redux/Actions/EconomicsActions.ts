@@ -104,6 +104,7 @@ export const GET_ECONOMICSRESULTSBYID_SUCCESS =
   "GET_ECONOMICSRESULTSBYID_SUCCESS";
 export const GET_ECONOMICSRESULTSBYID_FAILURE =
   "GET_ECONOMICSRESULTSBYID_FAILURE";
+
 export const ECONOMICS_TREEVIEWKEYS_REQUEST = "ECONOMICS_TREEVIEWKEYS_REQUEST";
 export const ECONOMICS_TREEVIEWKEYS_SUCCESS = "ECONOMICS_TREEVIEWKEYS_SUCCESS";
 export const ECONOMICS_TREEVIEWKEYS_FAILURE = "ECONOMICS_TREEVIEWKEYS_FAILURE";
@@ -111,6 +112,9 @@ export const RESET_ECONOMICS = "RESET_ECONOMICS";
 
 export const GET_ECONOMICSPARAMETERSBYID_REQUEST =
   "GET_DECLINEPARAMETERSBYID_REQUEST";
+
+export const ECONOMICS_UPDATE_CHARTCATEGORY = "ECONOMICS_UPDATE_CHARTCATEGORY";
+export const ECONOMICS_REMOVE_CHARTCATEGORY = "ECONOMICS_REMOVE_CHARTCATEGORY";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
@@ -655,6 +659,26 @@ export const fetchEconomicsTreeviewKeysFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const updateEconomicsChartCategoryAction = (
+  categoryOptionTitle: string,
+  item: any
+) => {
+  return {
+    type: ECONOMICS_UPDATE_CHARTCATEGORY,
+    payload: { categoryOptionTitle, item },
+  };
+};
+
+export const removeEconomicsChartCategoryAction = (
+  categoryOptionTitle: string,
+  id: string
+) => {
+  return {
+    type: ECONOMICS_REMOVE_CHARTCATEGORY,
+    payload: { categoryOptionTitle, id },
   };
 };
 

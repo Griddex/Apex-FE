@@ -11,11 +11,13 @@ import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitc
 import {
   crosshairTypeOptions,
   enableSlicesOptions,
+  hoverTargetOptions,
   motionConfigPresetOptions,
 } from "../../Data/VisualyticsData";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
+import ApexSlider from "../Sliders/ApexSlider";
 import CustomMotionConfig from "./CustomMotionConfig";
 
 const ApexChartInteractivity = ({
@@ -33,20 +35,19 @@ const ApexChartInteractivity = ({
 
   const {
     isInteractive,
+    activeInnerRadiusOffset,
+    activeOuterRadiusOffset,
     useMesh,
     enableSlices,
+    enableStackTooltip,
     enableCrosshair,
     crosshairType,
     animate,
     motionConfig,
+    hoverTarget,
+    cellHoverOpacity,
+    cellHoverOthersOpacity,
   } = chartProps;
-
-  const [presetColors, setPresetColors] = React.useState([
-    theme.palette.primary.main,
-    theme.palette.secondary.main,
-    theme.palette.success.main,
-    theme.palette.warning.main,
-  ]);
 
   const [motionPerspective, setMotionPerspective] = React.useState("preset");
 
@@ -58,6 +59,9 @@ const ApexChartInteractivity = ({
   );
   const motionConfigPresetOption = motionConfigPresetOptions.find(
     (option) => option.value === motionConfig
+  );
+  const hoverTargetOption = hoverTargetOptions.find(
+    (option) => option.value === hoverTarget
   );
 
   const handleInteractivitySwitch =
@@ -123,6 +127,77 @@ const ApexChartInteractivity = ({
           />
         }
       />
+
+      <AnalyticsComp
+        title="Active Inner Radius Offset"
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexSlider
+            name="activeInnerRadiusOffset"
+            sliderValue={activeInnerRadiusOffset}
+            step={1}
+            min={0}
+            max={20}
+            actionPath={`${basePath}.activeInnerRadiusOffset`}
+            action={(path, value) =>
+              updateParameterAction &&
+              dispatch(updateParameterAction(path, value))
+            }
+            sliderContextFxn={(value: any) => {
+              setChartProps((prev) => ({
+                ...prev,
+                activeInnerRadiusOffset: value,
+              }));
+            }}
+          />
+        }
+      />
+
+      <AnalyticsComp
+        title="Active Outer Radius Offset"
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexSlider
+            name="activeOuterRadiusOffset"
+            sliderValue={activeOuterRadiusOffset}
+            step={1}
+            min={0}
+            max={20}
+            actionPath={`${basePath}.activeOuterRadiusOffset`}
+            action={(path, value) =>
+              updateParameterAction &&
+              dispatch(updateParameterAction(path, value))
+            }
+            sliderContextFxn={(value: any) => {
+              setChartProps((prev) => ({
+                ...prev,
+                activeOuterRadiusOffset: value,
+              }));
+            }}
+          />
+        }
+      />
+
+      <AnalyticsComp
+        title="Enable StackTooltip"
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexMuiSwitch
+            name={"enableStackTooltip"}
+            handleChange={handleInteractivitySwitch("enableStackTooltip")}
+            checked={enableStackTooltip}
+            checkedColor={theme.palette.success.main}
+            notCheckedColor={theme.palette.common.white}
+            hasLabels={true}
+            leftLabel="Disable"
+            rightLabel="Enable"
+          />
+        }
+      />
+
       <AnalyticsComp
         title="Use Mesh"
         direction="Vertical"
@@ -140,6 +215,7 @@ const ApexChartInteractivity = ({
           />
         }
       />
+
       <AnalyticsComp
         title="Enable Slices"
         direction="Vertical"
@@ -154,6 +230,7 @@ const ApexChartInteractivity = ({
           />
         }
       />
+
       <AnalyticsComp
         title="Enable Crosshair"
         direction="Vertical"
@@ -188,6 +265,7 @@ const ApexChartInteractivity = ({
           }
         />
       )}
+
       <AnalyticsComp
         title="Animate"
         direction="Vertical"
@@ -205,6 +283,7 @@ const ApexChartInteractivity = ({
           />
         }
       />
+
       {animate && (
         <AnalyticsComp
           title="Motion"
@@ -260,6 +339,73 @@ const ApexChartInteractivity = ({
           }
         />
       )}
+
+      <AnalyticsComp
+        title="Hover Target"
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexSelectRS
+            valueOption={hoverTargetOption as ISelectOption}
+            data={hoverTargetOptions}
+            handleSelect={handleInteractivitySelect("hoverTarget")}
+            menuPortalTarget={interactivityRef.current as HTMLDivElement}
+            isSelectOptionType={true}
+          />
+        }
+      />
+
+      <AnalyticsComp
+        title="Cell Hover Opacity"
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexSlider
+            name="cellHoverOpacity"
+            sliderValue={cellHoverOpacity}
+            step={1}
+            min={0}
+            max={20}
+            actionPath={`${basePath}.cellHoverOpacity`}
+            action={(path, value) =>
+              updateParameterAction &&
+              dispatch(updateParameterAction(path, value))
+            }
+            sliderContextFxn={(value: any) => {
+              setChartProps((prev) => ({
+                ...prev,
+                cellHoverOpacity: value,
+              }));
+            }}
+          />
+        }
+      />
+
+      <AnalyticsComp
+        title="Cell Hover Others Opacity"
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexSlider
+            name="cellHoverOthersOpacity"
+            sliderValue={cellHoverOthersOpacity}
+            step={1}
+            min={0}
+            max={20}
+            actionPath={`${basePath}.cellHoverOthersOpacity`}
+            action={(path, value) =>
+              updateParameterAction &&
+              dispatch(updateParameterAction(path, value))
+            }
+            sliderContextFxn={(value: any) => {
+              setChartProps((prev) => ({
+                ...prev,
+                cellHoverOthersOpacity: value,
+              }));
+            }}
+          />
+        }
+      />
     </div>
   );
 };

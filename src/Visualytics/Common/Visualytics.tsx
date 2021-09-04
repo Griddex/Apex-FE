@@ -7,7 +7,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ChartButtons from "../Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../Components/Menus/ChartButtonsTypes";
 import SelectChart from "./SelectChart";
-import SelectChartDataPanel from "./SelectChartDataPanel";
+import VisualyticsChartDataPanel from "./VisualyticsChartDataPanel";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -68,7 +68,7 @@ const Visualytics = () => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
-          <SelectChartDataPanel />
+          <VisualyticsChartDataPanel />
         </div>
         <div className={classes.chartContent}>
           <ChartButtons {...chartButtons} />

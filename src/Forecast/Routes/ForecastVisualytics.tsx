@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
@@ -6,26 +6,37 @@ import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
 import NoData from "../../Application/Components/Visuals/NoData";
-import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
+import {
+  contextDrawerCollapseAction,
+  contextDrawerExpandAction,
+  showContextDrawerAction,
+} from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
+import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 import { ChartFormatAggregatorContextProvider } from "../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
+import {
+  putSelectChartOptionAction,
+  transformChartDataAction,
+} from "../../Visualytics/Redux/Actions/VisualyticsActions";
 import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
 import { forecastPlotChartsOptions } from "../Data/ForecastData";
 import {
-  putSelectChartOptionAction,
   removeCurrentForecastAction,
-  transformForecastResultsChartDataAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
+import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
+import { IconButton } from "@material-ui/core";
+import { getApexIconButtonStyle } from "../../Application/Styles/IconButtonStyles";
+import NewWindow from "rc-new-window";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,10 +81,13 @@ const ForecastVisualytics = () => {
   const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
 
+  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const componentRef = React.useRef();
+
+  const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -83,21 +97,11 @@ const ForecastVisualytics = () => {
     (state: RootState) => state.forecastReducer
   );
 
-  const { data: forecastResults } = useSelector(
+  const { chartData } = useSelector(
     (state: RootState) => state.forecastReducer[wc][ch]
   );
 
   const chartType = selectedForecastChartOption.value;
-
-  const transformChartResultsPayload = {
-    ...transformForecastResultsChartDataAction(),
-    payload: {
-      forecastResults,
-      xValueCategories: forecastResults.map((_, i) => i + 2020),
-      lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
-      isYear: true,
-    },
-  };
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -105,30 +109,33 @@ const ForecastVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={forecastPlotChartsOptions}
-          selectedChartOptionTitle="selectedForecastChartOption"
           putChartOptionAction={
-            forecastResults.length > 0
+            chartData.length > 0
               ? (chartOption: ISelectOption) => {
                   const payload = {
-                    ...transformChartResultsPayload,
-                    payload: {
-                      ...transformChartResultsPayload["payload"],
-                      chartType: chartOption.value,
-                    },
+                    reducer: "forecastReducer",
+                    workflowCategory: wc,
+                    defaultChart: ch,
+                    chartOption,
+                    chartType: chartOption.value,
+                    xValueCategories: chartData.map((_, i) => i + 2020),
+                    lineOrScatter:
+                      chartOption.value === "lineChart" ? "line" : "scatter",
+                    isYear: true,
+                    selectedChartOptionTitle: "selectedForecastChartOption",
                   };
 
+                  dispatch(putSelectChartOptionAction(payload));
+                }
+              : (chartOption: ISelectOption) => {
                   dispatch(
-                    putSelectChartOptionAction(
-                      reducer,
-                      chartOption,
-                      transformForecastResultsChartDataAction,
-                      payload
+                    updateForecastResultsParameterAction(
+                      "selectedForecastChartOption",
+                      chartOption
                     )
                   );
                 }
-              : (chartOption: ISelectOption) => {}
           }
-          transformChartResultsAction={transformForecastResultsChartDataAction}
         />
         <ForecastVariableButtonsMenu />
         <IconButtonWithTooltip
@@ -151,22 +158,6 @@ const ForecastVisualytics = () => {
   };
 
   const basePath = `${wc}.commonChartProps`;
-
-  const renderChartFormatAggregator = (chartType: string) => {
-    if (chartType === "stackedAreaChart") {
-      return <div>StackedArea</div>;
-    } else if (chartType === "lineChart") {
-      return (
-        <ChartFormatAggregator
-          basePath={basePath}
-          updateParameterAction={updateForecastResultsParameterAction}
-          chartType="lineChart"
-        />
-      );
-    } else {
-      return <div>No Format</div>;
-    }
-  };
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
@@ -206,7 +197,46 @@ const ForecastVisualytics = () => {
           {() => (
             <ChartFormatAggregatorContextProvider reducer={reducer}>
               {expandContextDrawer ? (
-                renderChartFormatAggregator(chartType as string)
+                <>
+                  <IconButton
+                    style={{ padding: 0 }}
+                    onClick={() => {
+                      setOpenContextWindow(true);
+                      // dispatch(contextDrawerCollapseAction());
+                    }}
+                  >
+                    <OpenInNewOutlinedIcon
+                      style={getApexIconButtonStyle(theme)}
+                    />
+                  </IconButton>
+                  {openContextWindow ? (
+                    <NewWindow
+                      onClose={() => {
+                        setOpenContextWindow(false);
+                        dispatch(contextDrawerExpandAction());
+                      }}
+                      copyStyles={true}
+                      height={800}
+                      width={300}
+                    >
+                      <ChartFormatAggregator
+                        basePath={basePath}
+                        updateParameterAction={
+                          updateForecastResultsParameterAction
+                        }
+                        chartType={chartType as TChartTypes}
+                      />
+                    </NewWindow>
+                  ) : (
+                    <ChartFormatAggregator
+                      basePath={basePath}
+                      updateParameterAction={
+                        updateForecastResultsParameterAction
+                      }
+                      chartType={chartType as TChartTypes}
+                    />
+                  )}
+                </>
               ) : (
                 <div />
               )}

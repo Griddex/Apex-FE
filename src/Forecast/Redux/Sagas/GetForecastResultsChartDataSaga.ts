@@ -57,6 +57,10 @@ function* getForecastResultsChartDataSaga(
   void,
   any
 > {
+  const reducer = "forecastReducer";
+  const workflowCategory = "forecastChartsWorkflows";
+  const defaultChart = "stackedAreaChart";
+
   const { payload } = action;
   const {
     selectedIds,
@@ -100,33 +104,26 @@ function* getForecastResultsChartDataSaga(
     const result = yield call(forecastResultsAPI, url);
 
     const { data } = result;
-    const forecastResults = transformForecastForChart(data);
+    const chartData = transformForecastForChart(data);
 
     //TODO Get both from Gift
-    const xValueCategories = forecastResults.map(
-      (_: any, i: number) => 2020 + i
-    );
+    const xValueCategories = chartData.map((_: any, i: number) => 2020 + i);
     const isYear = true;
 
     const successAction = getForecastResultsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
+        reducer,
+        defaultChart,
+        workflowCategory,
         chartType,
-        forecastResults,
+        chartData,
         xValueCategories,
         lineOrScatter,
         isYear,
       },
     });
-
-    /*  yield put({
-      type: "UPDATE_FORECASTPARAMETER",
-      payload: {
-        path: "forecastResults",
-        value: forecastResults
-      },
-    }); */
 
     yield put({
       type: "UPDATE_FORECASTPARAMETER",

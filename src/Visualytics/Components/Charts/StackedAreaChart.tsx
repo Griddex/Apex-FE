@@ -8,15 +8,15 @@ import {
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { setChartObjectAction } from "../../Redux/VisualyticsActions/VisualyticsActions";
+import { setChartObjectAction } from "../../Redux/Actions/VisualyticsActions";
 import {
   IChartMetaData,
   ITooltipLabel,
-} from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+} from "../../Redux/State/VisualyticsStateTypes";
 import { itemTypesVisualytics } from "../../Utils/DragAndDropItemTypes";
 import renderTick from "../../Utils/RenderTicks";
 import { AxisProps, IChartProps } from "../ChartTypes";
-import { IChart } from "./../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 
 const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
@@ -28,7 +28,7 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
   const { commonChartProps, stackedAreaChart } = useSelector(
     (state: RootState) => state[reducerDefined][wc]
   );
-  const { data } = stackedAreaChart;
+  const { chartData } = stackedAreaChart;
 
   const [again, setAgain] = React.useState(0);
 
@@ -110,7 +110,8 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
     initializeChartMetaData()
   );
 
-  const dataKeys = data.length > 0 ? Object.keys(data[0]).reverse() : [];
+  const dataKeys =
+    chartData.length > 0 ? Object.keys(chartData[0]).reverse() : [];
 
   // const yAxisStyle = () =>
   //   yAxisStyleOnHover
@@ -125,24 +126,25 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
   //       }
   //     : {};
 
-  React.useEffect(() => {
-    const chartObjId = chartRef.current && chartRef.current.uniqueChartId;
+  // React.useEffect(() => {
+  //   const chartObjId = chartRef.current && chartRef.current.uniqueChartId;
 
-    if (chartObjId === null) setAgain(1);
-    else
-      dispatch(
-        setChartObjectAction({
-          chartObjId: chartObjId,
-          chartObjName: "chartLayout",
-        })
-      );
-  }, [again]);
+  //   if (chartObjId === null) setAgain(1);
+  //   else
+  //     dispatch(
+  //       setChartObjectAction({
+  //         chartObjId: chartObjId,
+  //         chartObjName: "chartLayout",
+  //       })
+  //     );
+  // }, [again]);
 
   let keys: string[] = [];
-  if (Array.isArray(data) && data.length > 0) keys = Object.keys(data[0]);
+  if (Array.isArray(chartData) && chartData.length > 0)
+    keys = Object.keys(chartData[0]);
   else keys = [];
 
-  const bottomAxisValues = data.map((_: string, i: number) => 2020 + i);
+  const bottomAxisValues = chartData.map((_: string, i: number) => 2020 + i);
 
   const commonChartPropsDefined = commonChartProps as IChart;
   (commonChartPropsDefined["axisBottom"] as AxisProps)["renderTick"] =
@@ -159,7 +161,7 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
 
   return (
     <ResponsiveStream
-      data={data}
+      data={chartData}
       {...commonChartPropsDefined}
       tooltipFormat={undefined}
     />

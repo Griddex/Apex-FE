@@ -31,7 +31,6 @@ import {
 } from "../Actions/InputActions";
 import { fetchStoredInputDeckRequestAction } from "../Actions/StoredInputDeckActions";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
-//import moment from moment
 
 function getInputDeckType(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities")) return "Facilities InputDeck";
@@ -100,37 +99,7 @@ export function* saveInputDeckSaga(
   inputDeckData.shift();
 
   const dateFormat = "DD/MM/YYYY";
-  /*  stopDay: titleDesc.endForecast.getDate(),
-  stopMonth: titleDesc.endForecast.getMonth() + 1,
-  stopYear: titleDesc.endForecast.getFullYear(), */
 
-  /* const mappedInputDeck = inputDeckData.map((row:any) => {
-    const onStreamDate1P1C = row.onStreamDate1P1C as string;
-    const onStreamDate2P2C = row.onStreamDate2P2C as string;
-    const onStreamDate3P3C = row.onStreamDate3P3C as string;
-    try {
-      const dateLowCase = new Date(onStreamDate1P1C); // moment(onStreamDate1P1C, dateFormat); to be added
-      const dateBaseCase = new Date(onStreamDate2P2C); // moment(onStreamDate2P2C, dateFormat); to be added
-      const dateHighCase = new Date(onStreamDate3P3C); // moment(onStreamDate3P3C, dateFormat); to be added
-
-      return {
-        ...row,
-        onStreamDate1P1C:`${dateLowCase.getDate()}/${dateLowCase.getMonth()+1}/${dateLowCase.getFullYear()}`,
-        onStreamDate2P2C:`${dateBaseCase.getDate()}/${dateBaseCase.getMonth()+1}/${dateBaseCase.getFullYear()}`,
-        onStreamDate3P3C:`${dateHighCase.getDate()}/${dateHighCase.getMonth()+1}/${dateHighCase.getFullYear()}`
-      }
-    }catch(e){
-
-      alert("Wrong date format.");
-    }
-
-    return {
-      ...row
-    }
-
-  }); */
-
-  //console.log("inputDeckData: ", inputDeckData);
   const data = {
     projectId: currentProjectId,
     userId: "Gideon",

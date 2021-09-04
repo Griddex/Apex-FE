@@ -7,7 +7,7 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import { IChart } from "./../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 
 export interface IApexPlotMarginsOption extends ISelectOption<number, string> {
   width: number;

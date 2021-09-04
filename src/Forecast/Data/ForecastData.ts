@@ -1,10 +1,3 @@
-import {
-  stackedChartToBarChartData,
-  stackedChartToDoughnutChartData,
-  stackedChartToLineOrScatterChartData,
-  stackedChartTostackedChartData,
-} from "../Utils/TransformOneChartDataToAnother";
-
 export const forecastAggregationTypes = [
   {
     value: "yearly",
@@ -61,13 +54,3 @@ export const forecastPlotChartsOptions = [
     label: "Scatter",
   },
 ];
-
-export const forecastResultsTransformersObj = {
-  stackedAreaChart: stackedChartTostackedChartData,
-  lineChart: stackedChartToLineOrScatterChartData,
-  scatterChart: stackedChartToLineOrScatterChartData,
-  barChart: stackedChartToBarChartData,
-  doughnutChart: stackedChartToDoughnutChartData,
-  //TODO do for radar transform
-  radarChart: stackedChartToDoughnutChartData,
-};

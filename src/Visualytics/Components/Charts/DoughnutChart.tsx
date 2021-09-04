@@ -7,7 +7,7 @@ import {
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 
 export const DoughnutChartAnalytics = ({ data }: IChartProps) => {
@@ -39,7 +39,7 @@ const DoughnutChart = ({ workflowCategory, reducer }: IChartProps) => {
   const { commonChartProps, doughnutChart } = useSelector(
     (state: RootState) => state[reducerDefined][wc]
   );
-  const { data } = doughnutChart;
+  const { chartData } = doughnutChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
   const { borderColor } = commonChartPropsDefined;
@@ -49,7 +49,7 @@ const DoughnutChart = ({ workflowCategory, reducer }: IChartProps) => {
   >;
   commonChartPropsDefined["borderColor"] = borderColorDoughnut;
 
-  return <ResponsivePie data={data} {...commonChartPropsDefined} />;
+  return <ResponsivePie data={chartData} {...commonChartPropsDefined} />;
 };
 
 export default DoughnutChart;

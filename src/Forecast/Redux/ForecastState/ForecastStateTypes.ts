@@ -5,7 +5,7 @@ import {
   TApproval,
 } from "../../../Application/Types/ApplicationTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
-import { TAllChartsDataAndSpecificProperties } from "../../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
+import { TAllChartsDataAndSpecificProperties } from "../../../Visualytics/Redux/State/VisualyticsStateTypes";
 import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 import {
   forecastChartObjectsNameTitleMap,

@@ -260,18 +260,7 @@ export default function ForecastQualityAssuranceData({
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
-  /* React.useEffect(() => {
-    setStoredforecastResults(storedforecastResults);
-    dispatch(
-      updateForecastResultsParameterAction(
-        "forecastResults",
-        storedforecastResults
-      )
-    );
-  }, [forecastResults]); */
-
   const [sRow, setSRow] = React.useState(-1);
-  //onRowsChange={setRows}
 
   return (
     <div className={classes.rootStoredData}>

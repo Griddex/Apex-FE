@@ -12,21 +12,19 @@ import {
 import NoData from "../../../../Application/Components/Visuals/NoData";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
-import { IChartCategoriesData } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
+import XYZChartCategories from "../../../../Visualytics/Components/ChartCategories/XYZChartCategories";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
+  removeEconomicsChartCategoryAction,
+  updateEconomicsChartCategoryAction,
   updateEconomicsParameterAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
-const SensitivitiesHeatMapDataPanel = ({
-  chartCategoriesData,
-  categoriesTitle,
-}: IChartCategoriesData) => {
+const SensitivitiesHeatMapDataPanel = () => {
   const dispatch = useDispatch();
 
   const wc = "storedDataWorkflows";
@@ -38,6 +36,7 @@ const SensitivitiesHeatMapDataPanel = ({
     selectedEconomicsResultsTitle,
     selectedEconomicsResultsDescription,
     sensitivitiesHeatMapTree,
+    heatMapTreeByScenario,
   } = useSelector((state: RootState) => state.economicsReducer);
 
   const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
@@ -162,6 +161,17 @@ const SensitivitiesHeatMapDataPanel = ({
     );
   };
 
+  let disableCollection = [] as boolean[];
+  if (heatMapTreeByScenario.id === "") {
+    disableCollection = [true, true, true];
+  } else if (heatMapTreeByScenario["children"].length === 1) {
+    disableCollection = [false, true, true];
+  } else if (heatMapTreeByScenario["children"].length === 2) {
+    disableCollection = [false, false, true];
+  } else {
+    disableCollection = [false, false, false];
+  }
+
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
@@ -177,14 +187,23 @@ const SensitivitiesHeatMapDataPanel = ({
       categoriesAction={() => {
         const dialogParameters: DialogStuff = {
           name: "Chart_Categories_Dialog",
-          title: `${categoriesTitle} Categories`,
+          title: `HeatMap Categories`,
           type: "draggableDialog",
           show: true,
           exclusive: true,
           maxWidth: "xs",
           iconType: "category",
           children: (
-            <ChartCategories chartCategoriesData={chartCategoriesData} />
+            <XYZChartCategories
+              xCategoryOptionTitle="heatMapVariableXOptions"
+              yCategoryOptionTitle="heatMapVariableYOptions"
+              zCategoryOptionTitle="heatMapVariableYOptions"
+              disableX={disableCollection[0]}
+              disableY={disableCollection[1]}
+              disableZ={disableCollection[2]}
+              updateAction={updateEconomicsChartCategoryAction}
+              removeAction={removeEconomicsChartCategoryAction}
+            />
           ),
           actionsList: () => DialogCancelButton(),
         };

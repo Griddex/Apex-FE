@@ -7,8 +7,10 @@ import {
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { GridValues, IChartProps } from "../ChartTypes";
+import { format } from "d3-format";
+import { DatumValue, ValueFormat } from "@nivo/core";
 
 const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
@@ -17,12 +19,17 @@ const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
   const { commonChartProps, barChart, stackedAreaChart, isYear } = useSelector(
     (state: RootState) => state[reducerDefined][wc]
   );
-  const { data } = barChart;
+  const { chartData } = barChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
 
-  const { gridXValues, gridYValues, labelTextColor, legends } =
-    commonChartPropsDefined;
+  const {
+    gridXValues,
+    gridYValues,
+    labelTextColor,
+    legends,
+    valueFormatString,
+  } = commonChartPropsDefined;
 
   const gridXValuesBar = gridXValues as GridValues<string | number> | undefined;
   commonChartPropsDefined["gridXValues"] = gridXValuesBar;
@@ -43,14 +50,17 @@ const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
   // commonChartPropsDefined["indexBy"] = isYear ? "Year" : "Month";
   commonChartPropsDefined["indexBy"] = "Year";
 
-  const keys = Object.keys(stackedAreaChart.data[0]);
+  //TODO Gift to give me this
+  let keys = [] as any[];
+  if (Object.keys(stackedAreaChart.chartData).length > 0)
+    keys = Object.keys(stackedAreaChart.chartData[0]);
   commonChartPropsDefined["keys"] = keys;
-  console.log(
-    "Logged output --> ~ file: BarChart.tsx ~ line 45 ~ SimpleBarChart ~ commonChartPropsDefined",
-    commonChartPropsDefined
-  );
 
-  return <ResponsiveBar data={data} {...commonChartPropsDefined} />;
+  const valueFormatBar = (v: DatumValue) =>
+    format(valueFormatString)(v as number);
+  commonChartPropsDefined["valueFormat"] = valueFormatBar;
+
+  return <ResponsiveBar data={chartData} {...commonChartPropsDefined} />;
 };
 
 export default SimpleBarChart;

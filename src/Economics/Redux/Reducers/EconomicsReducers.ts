@@ -1,3 +1,4 @@
+import omitBy from "lodash.omitby";
 import set from "lodash.set";
 import {
   IAllWorkflows,
@@ -28,6 +29,10 @@ import {
   PERSIST_WORKSHEETNAMES,
   UPDATE_INPUT,
 } from "../../../Import/Redux/Actions/InputActions";
+import {
+  PUT_SELECTCHART,
+  RESET_CHART_DATA,
+} from "../../../Visualytics/Redux/Actions/VisualyticsActions";
 import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   STORED_ECONOMICSDATA_SUCCESS,
@@ -47,6 +52,8 @@ import {
   STORED_ECONOMICSRESULTS_SUCCESS,
   STORED_ECONOMICSRESULTS_FAILURE,
   UPDATE_ECONOMICSPARAMETERS,
+  ECONOMICS_UPDATE_CHARTCATEGORY,
+  ECONOMICS_REMOVE_CHARTCATEGORY,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -263,7 +270,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
       if (reducer === "economicsReducer") {
         const updatedState = set(state, "selectedTableData", selectedTableData);
-        console.log("updatedState: ", updatedState);
         return updatedState;
       } else {
         return state;
@@ -273,6 +279,66 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case GET_TABLEDATABYID_FAILURE: {
       const { errors } = action.payload;
       return { ...state, errors };
+    }
+
+    case PUT_SELECTCHART: {
+      const { reducer, chartOption, transformChartResultsPayload } =
+        action.payload;
+
+      if (reducer === "economicsReducer") {
+        return {
+          ...state,
+          ...transformChartResultsPayload,
+          selectedEconomicsPlotChartOption: chartOption,
+        };
+      } else {
+        return state;
+      }
+    }
+
+    case ECONOMICS_UPDATE_CHARTCATEGORY: {
+      const { categoryOptionTitle, item } = action.payload;
+
+      return {
+        ...state,
+        categoryOptionTitle: {
+          ...(state as any)[categoryOptionTitle],
+          [item.id]: item,
+        },
+      };
+    }
+
+    case ECONOMICS_REMOVE_CHARTCATEGORY: {
+      const { categoryOptionTitle, id } = action.payload;
+
+      const categoryOptions = (state as any)[categoryOptionTitle];
+      const newCategoryOptions = omitBy(categoryOptions, (k, v) => k === id);
+
+      return {
+        ...state,
+        categoryOptionTitle: newCategoryOptions,
+      };
+    }
+
+    case RESET_CHART_DATA: {
+      const { reducer, workflowCategory } = action.payload;
+
+      if (reducer === "economicsReducer") {
+        return {
+          ...state,
+          [workflowCategory]: {
+            ...(state as any)[workflowCategory],
+            stackedAreaChart: { chartData: [] },
+            lineChart: { chartData: [] },
+            scatterChart: { chartData: [] },
+            doughnutChart: { chartData: [] },
+            radarChart: { chartData: [] },
+            heatMapChart: { chartData: [] },
+          },
+        };
+      } else {
+        return state;
+      }
     }
 
     case RESET_ECONOMICS: {

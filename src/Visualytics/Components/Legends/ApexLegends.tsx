@@ -15,7 +15,7 @@ import {
   legendItemsDirectionOptions,
   legendSymbolShapeOptions,
 } from "../../Data/VisualyticsData";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { SpringConfig } from "react-spring";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import { ChartFormatAggregatorContext } from "../Contexts/ChartFormatAggregatorContext";
 import ApexSlider from "../Sliders/ApexSlider";

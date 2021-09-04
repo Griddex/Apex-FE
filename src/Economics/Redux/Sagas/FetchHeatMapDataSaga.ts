@@ -81,10 +81,6 @@ function* fetchHeatMapDataSaga(
           ],
       },
     ],
-
-    //TODO Alternative place to get this
-    //Gift to give me this?
-    forecastScenarioAnalysis: "Payout",
   };
 
   const config = { withCredentials: false };

@@ -72,12 +72,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface IForecastRunOptions {
-  value: string;
-  label: string;
-  id: string;
-}
-
 export default function ForecastData({
   wrkflwCtgry,
   wrkflwPrcss,
@@ -91,14 +85,12 @@ export default function ForecastData({
     (state: RootState) => state.forecastReducer
   );
 
-//console.log("selectedTableData: ", selectedTableData);
-  
-  const snSelectedForecastData = selectedTableData.map((row: any, i:number) => ({
-    sn: i + 1,
-    ...row,
-  }));
-
-  //console.log("snSelectedForecastData: ", snSelectedForecastData);
+  const snSelectedForecastData = selectedTableData.map(
+    (row: any, i: number) => ({
+      sn: i + 1,
+      ...row,
+    })
+  );
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
@@ -121,7 +113,7 @@ export default function ForecastData({
     forecastDataWithTimeColumns = [];
   }
 
- /*  const generateColumns = () => {
+  /*  const generateColumns = () => {
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
       {
@@ -256,11 +248,11 @@ export default function ForecastData({
   */
 
   let columnKeys = ["SN"];
-  if(snSelectedForecastData.length > 0){
+  if (snSelectedForecastData.length > 0) {
     const originalColumnKeys = Object.keys(snSelectedForecastData[0]);
     columnKeys = [...originalColumnKeys];
   }
-  
+
   const generateColumns = () => {
     const columns = columnKeys.map((k) => {
       const column = {
@@ -273,8 +265,7 @@ export default function ForecastData({
       return column;
     });
     return columns;
-}
-
+  };
 
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snSelectedForecastData);
@@ -369,7 +360,7 @@ export default function ForecastData({
       ? {
           value: selectedForecastingResultsTitle,
           label: selectedForecastingResultsTitle,
-          id: (forecastRunTitleOptions as IForecastRunOptions[]).filter(
+          id: (forecastRunTitleOptions as IExtendedSelectOption[]).filter(
             (o) => o.label === selectedForecastingResultsTitle
           )[0].id,
         }

@@ -73,4 +73,4 @@ const SelectChart = ({
   );
 };
 
-export default React.memo(SelectChart);
+export default SelectChart;

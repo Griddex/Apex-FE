@@ -1,15 +1,26 @@
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core";
+import {
+  createStyles,
+  IconButton,
+  makeStyles,
+  Theme,
+  useTheme,
+} from "@material-ui/core";
 import React, { CSSProperties } from "react";
 import { useDrop } from "react-dnd";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import {
-  itemTypesForecast,
   itemTypesEconomics,
+  itemTypesForecast,
   itemTypesVisualytics,
 } from "../../Utils/DragAndDropItemTypes";
-import { IChartCategory } from "./ChartCategoryTypes";
+import {
+  IChartCategory,
+  IChartCategories,
+  IDragItem,
+} from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
+import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "flex-start",
       justifyContent: "flex-start",
-      height: 150,
+      height: 35,
       border: `1px solid ${theme.palette.grey[300]}`,
       width: "100%",
       paddingTop: 5,
@@ -26,23 +37,22 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export interface IDragItem {
-  id: string;
-  name: string;
-  title: string;
-}
-
-const ChartCategory = ({
-  categoryTitle,
-  persistAction,
+const YChartCategory = ({
+  yCategoryOptionTitle,
+  updateAction,
   removeAction,
   disable,
-}: IChartCategory) => {
+}: IChartCategories) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [hasDropped, setHasDropped] = React.useState(false);
-  const [dragItem, setDragItem] = React.useState({} as IDragItem);
+  // const [id, setId] = React.useState("");
+  const [hasDroppedObj, setHasDroppedObj] = React.useState<
+    Record<string, boolean>
+  >({});
+  const [dragItemObj, setDragItemObj] = React.useState(
+    {} as Record<string, IDragItem>
+  );
 
   const allItemTypes = [
     ...Object.values(itemTypesForecast),
@@ -52,13 +62,14 @@ const ChartCategory = ({
 
   const [{ isOverCurrent, canDrop }, drop] = useDrop(
     () => ({
-      accept: hasDropped ? "" : allItemTypes,
+      accept: Object.keys(hasDroppedObj).length > 0 ? allItemTypes : "",
       drop(item) {
-        const { id, name, title } = item as IDragItem;
+        const { id } = item as IDragItem;
 
-        persistAction(name, title);
-        setDragItem(item as IDragItem);
-        setHasDropped(true);
+        // setId(id);
+        updateAction(yCategoryOptionTitle as string, item);
+        setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
+        setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -94,20 +105,27 @@ const ChartCategory = ({
 
   return (
     <div ref={drop} className={classes.chartProps} style={style}>
+      <IconButton onClick={() => {}} edge="end">
+        <OpenInNewOutlinedIcon />
+      </IconButton>
       <AnalyticsComp
-        title={categoryTitle}
+        title="Y Category"
         direction="Vertical"
         containerStyle={{ width: "100%", height: "100%" }}
         content={
-          hasDropped ? (
-            <ChartCategoryVariable
-              dragItem={dragItem}
-              setHasDropped={setHasDropped}
-              removeAction={removeAction}
-            />
-          ) : (
-            <ApexFlexContainer>{"Drop here"}</ApexFlexContainer>
-          )
+          <ApexFlexContainer>
+            {Object.keys(hasDroppedObj).length > 0
+              ? Object.keys(hasDroppedObj).map((id: string, i: number) => (
+                  <ChartCategoryVariable
+                    key={i}
+                    dragItem={dragItemObj[id]}
+                    setHasDroppedObj={setHasDroppedObj}
+                    categoryOptionTitle={yCategoryOptionTitle as string}
+                    removeChartCategoryAction={removeAction}
+                  />
+                ))
+              : "Drop here"}
+          </ApexFlexContainer>
         }
         contentStyle={{ height: "100%" }}
       />
@@ -115,4 +133,4 @@ const ChartCategory = ({
   );
 };
 
-export default React.memo(ChartCategory);
+export default React.memo(YChartCategory);

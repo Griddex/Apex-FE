@@ -6,7 +6,7 @@ import {
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 
 const RadarChartChart = ({ workflowCategory, reducer }: IChartProps) => {
@@ -16,11 +16,11 @@ const RadarChartChart = ({ workflowCategory, reducer }: IChartProps) => {
   const { commonChartProps, lineChart } = useSelector(
     (state: RootState) => state[reducerDefined][wc]
   );
-  const { data } = lineChart;
+  const { chartData } = lineChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
 
-  return <ResponsiveRadar data={data} {...commonChartPropsDefined} />;
+  return <ResponsiveRadar data={chartData} {...commonChartPropsDefined} />;
 };
 
 export default RadarChartChart;

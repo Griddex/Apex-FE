@@ -10,16 +10,19 @@ import { ISelectOption } from "../../../../Application/Components/Selects/Select
 import NoData from "../../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { putSelectChartOptionAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
-import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
+import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
+import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
+import { putSelectChartOptionAction } from "../../../../Visualytics/Redux/Actions/VisualyticsActions";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import {
+  removeEconomicsChartCategoryAction,
   transformEconomicsResultsChartDataAction,
+  updateEconomicsChartCategoryAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
@@ -71,13 +74,14 @@ const EconomicsPlotChartsVisualytics = () => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
   const wp = "economicsResultsPlotCharts";
+  const ch = "stackedAreaChart";
 
   const dispatch = useDispatch();
   const theme = useTheme();
 
   const componentRef = React.useRef();
 
-  const { showContextDrawer } = useSelector(
+  const { expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
@@ -90,6 +94,10 @@ const EconomicsPlotChartsVisualytics = () => {
 
   const chartType = selectedEconomicsPlotChartOption.value;
   const economicsPlotCharts = [
+    {
+      value: "Select Chart...",
+      label: "Select Chart...",
+    },
     {
       value: "stackedAreaChart",
       label: "Stacked Area",
@@ -106,20 +114,21 @@ const EconomicsPlotChartsVisualytics = () => {
       value: "barChart",
       label: "Bar",
     },
+    {
+      value: "scatterChart",
+      label: "Scatter",
+    },
+    {
+      value: "radarChart",
+      label: "Radar",
+    },
+    {
+      value: "heatMapChart",
+      label: "Heatmap",
+    },
   ];
 
   const basePath = `${wc}.${wp}.commonChartProps`;
-
-  const transformChartResultsPayload = {
-    ...transformEconomicsResultsChartDataAction(),
-    payload: {
-      chartType,
-      forecastResults: [],
-      xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
-      lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
-      isYear: true,
-    },
-  };
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -127,34 +136,24 @@ const EconomicsPlotChartsVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={economicsPlotCharts}
-          selectedChartOptionTitle="selectedEconomicsChartOption"
           putChartOptionAction={
             [1, 2, 3].length > 0
               ? (chartOption: ISelectOption) => {
-                  dispatch(
-                    putSelectChartOptionAction(
-                      reducer,
-                      chartOption,
-                      transformEconomicsResultsChartDataAction,
-                      transformChartResultsPayload
-                    )
-                  );
+                  const payload = {
+                    reducer: "econmicsReducer",
+                    chartType: chartOption.value,
+                    xValueCategories: [1, 2, 3, 4].map((_, i) => i + 2020),
+                    lineOrScatter:
+                      chartType === "lineChart" ? "line" : "scatter",
+                    isYear: true,
+                    selectedChartOptionTitle: "selectedEconomicsChartOption",
+                    defaultChart: ch,
+                    workflowCategory: wc,
+                  };
+
+                  dispatch(putSelectChartOptionAction(payload));
                 }
               : (chartOption: ISelectOption) => {}
-          }
-          transformChartResultsAction={() =>
-            //TODO Update fxn
-            dispatch({
-              // ...transformForecastResultsChartDataAction(),
-              type: "REPLACE_TYPE",
-              payload: {
-                chartType,
-                forecastResults: [],
-                xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
-                lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
-                isYear: true,
-              },
-            })
           }
         />
         <IconButtonWithTooltip
@@ -173,65 +172,6 @@ const EconomicsPlotChartsVisualytics = () => {
     ),
     componentRef,
   };
-
-  const chartCategoriesData = React.useRef([
-    {
-      categoryTitle: "X Category",
-      persistAction: (name: string, title: string) =>
-        dispatch(
-          updateEconomicsParameterAction("plotChartsVariableXOption", {
-            value: name,
-            label: title,
-          })
-        ),
-      removeAction: () => {
-        dispatch(
-          updateEconomicsParameterAction("plotChartsVariableXOption", null)
-        );
-        //TODO before dispatching, check if is empty
-        dispatch(updateEconomicsParameterAction("plotChartsData", {}));
-        dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
-      },
-      disable: false,
-    },
-    {
-      categoryTitle: "Y Category [Primary]",
-      persistAction: (name: string, title: string) =>
-        dispatch(
-          updateEconomicsParameterAction("plotChartsVariableYPriOption", {
-            value: name,
-            label: title,
-          })
-        ),
-      removeAction: () => {
-        dispatch(
-          updateEconomicsParameterAction("plotChartsVariableYPriOption", null)
-        );
-        dispatch(updateEconomicsParameterAction("plotChartsData", {}));
-        dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
-      },
-      disable: false,
-    },
-    {
-      categoryTitle: "Y Category [Secondary]",
-      persistAction: (name: string, title: string) => {
-        dispatch(
-          updateEconomicsParameterAction("plotChartsVariableZOption", {
-            value: name,
-            label: title,
-          })
-        );
-      },
-      removeAction: () => {
-        dispatch(
-          updateEconomicsParameterAction("plotChartsVariableYOption", null)
-        );
-        dispatch(updateEconomicsParameterAction("plotChartsData", {}));
-        dispatch(updateEconomicsParameterAction("plotChartsDataTrans", []));
-      },
-      disable: false,
-    },
-  ]);
 
   const panelRef = React.useRef<HTMLDivElement>(null);
   const moveDivRef = React.useRef<HTMLDivElement>(null);
@@ -267,22 +207,6 @@ const EconomicsPlotChartsVisualytics = () => {
     moveDivRef?.current?.addEventListener("mouseup", onMouseUp);
   }, []);
 
-  const renderChartFormatAggregator = (chartType: string) => {
-    if (chartType === "stackedAreaChart") {
-      return <div>StackedArea</div>;
-    } else if (chartType === "lineChart") {
-      return (
-        <ChartFormatAggregator
-          basePath={basePath}
-          updateParameterAction={updateEconomicsParameterAction}
-          chartType="lineChart"
-        />
-      );
-    } else {
-      return <div>No Format</div>;
-    }
-  };
-
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
     setMousePosition({ x: panelRef.current?.offsetWidth as number, y: 0 });
@@ -299,11 +223,13 @@ const EconomicsPlotChartsVisualytics = () => {
           <EconomicsPlotChartsDataPanel />
         </div>
         {showCategories && (
-          <ChartCategories
-            // categoriesTitle={selectedEconomicsPlotChartOption.label}
-            chartCategoriesData={chartCategoriesData.current}
-            // showCategories={showCategories}
-            // setShowCategories={setShowCategories}
+          <XYChartCategories
+            xCategoryOptionTitle="plotChartsVariableXOptions"
+            yCategoryOptionTitle="plotChartsVariableYOptions"
+            disableX={false}
+            disableY={false}
+            updateAction={updateEconomicsChartCategoryAction}
+            removeAction={removeEconomicsChartCategoryAction}
           />
         )}
 
@@ -339,11 +265,15 @@ const EconomicsPlotChartsVisualytics = () => {
           )}
         </div>
       </div>
-      {showContextDrawer && (
+      {expandContextDrawer && (
         <ContextDrawer>
           {() => (
             <ChartFormatAggregatorContextProvider reducer={reducer}>
-              {renderChartFormatAggregator(chartType as string)}
+              <ChartFormatAggregator
+                basePath={basePath}
+                updateParameterAction={updateEconomicsParameterAction}
+                chartType={chartType as TChartTypes}
+              />
             </ChartFormatAggregatorContextProvider>
           )}
         </ContextDrawer>
