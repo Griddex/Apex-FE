@@ -79,6 +79,7 @@ export interface IVisualyticsWorkflows {
   wkPs:
     | "visualyticsDeckExcel"
     | "visualyticsDeckDatabase"
+    | "visualyticsPlotCharts"
     | "visualyticsDeckStored";
   wkCy:
     | "visualyticsDataWorkflows"

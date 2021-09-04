@@ -130,8 +130,27 @@ const visualyticsState: IVisualyticsState = {
     chartSeriesSolidColors: [],
   },
 
+  visualyticsResults: [],
+  visualyticsTree: [],
+  xValueCategories: [],
+  lineOrScatter: "line",
+  isYear: true,
+  transVisualyticsResult: [],
+  visualyticsResultsId: "",
+  showPlotChartsCategories: false,
+
   loadVisualyticsWorkflow: false,
   selectedVisualyticsOption: { label: "Select...", value: "Select..." },
+  selectedVisualyticsId: "",
+  selectedVisualyticsTitle: "",
+  selectedVisualyticsDescription: "",
+  isVisualyticsDeckSaved: false,
+  visualyticsColumnNames: [],
+  xValueCategoryPositions: [],
+
+  visualyticsVariableXOption: null,
+  visualyticsVariableYOption: null,
+  visualyticsVariableZOption: null,
 
   storedDataWorkflows: {
     visualyticsDeckStored: [],

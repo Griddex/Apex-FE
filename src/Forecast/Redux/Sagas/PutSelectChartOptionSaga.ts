@@ -12,9 +12,10 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
-  putSelectChartOptionSuccessAction,
   PUT_SELECTCHART,
-} from "../Actions/ForecastActions";
+  putSelectChartOptionSuccessAction,
+  transformChartDataAction,
+} from "../../../Visualytics/Redux/Actions/VisualyticsActions";
 
 export default function* watchPutSelectChartOptionSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -33,12 +34,7 @@ function* putSelectChartOptionSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
-  const {
-    reducer,
-    chartOption,
-    transformChartResultsAction,
-    transformChartResultsPayload,
-  } = payload;
+  const { reducer, selectedChartOptionTitle, chartOption } = payload;
 
   try {
     const successAction = putSelectChartOptionSuccessAction();
@@ -47,13 +43,14 @@ function* putSelectChartOptionSaga(
       ...successAction,
       payload: {
         reducer,
-        selectedForecastChartOption: chartOption,
+        selectedChartOptionTitle,
+        chartOption,
       },
     });
   } finally {
     yield put({
-      ...transformChartResultsAction(),
-      payload: transformChartResultsPayload.payload,
+      ...transformChartDataAction(reducer),
+      payload,
     });
   }
 }

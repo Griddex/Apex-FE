@@ -1,7 +1,22 @@
-import { Theme } from "@material-ui/core";
-import { IChart } from "../Redux/VisualyticsState/VisualyticsStateTypes";
-import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
 import { format } from "d3-format";
+import { IChart } from "../Redux/State/VisualyticsStateTypes";
+import {
+  stackedChartToBarChartData,
+  stackedChartToDoughnutChartData,
+  stackedChartToLineOrScatterChartData,
+  stackedChartTostackedChartData,
+} from "../Utils/TransformOneChartDataToAnother";
+import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
+
+export const chartDataTransformersObj = {
+  stackedAreaChart: stackedChartTostackedChartData,
+  lineChart: stackedChartToLineOrScatterChartData,
+  scatterChart: stackedChartToLineOrScatterChartData,
+  barChart: stackedChartToBarChartData,
+  doughnutChart: stackedChartToDoughnutChartData,
+  radarChart: stackedChartToDoughnutChartData, //TODO do for radar transform
+  heatMapChart: stackedChartToBarChartData, //Same data as bar
+};
 
 export const axisNameTitlesObj = {
   axisLeft: "Left Axis",
@@ -55,6 +70,22 @@ export const legendAnchorPositions = [
 //   { value: "yStacked", label: "YStacked" },
 // ];
 
+export const offsetTypeOptions = [
+  { value: "expand", label: "Expand" },
+  { value: "diverging", label: "Diverging" },
+  { value: "none", label: "None" },
+  { value: "silhouette", label: "Silhouette" },
+  { value: "wiggle", label: "Wiggle" },
+];
+
+export const orderOptions = [
+  { value: "ascending", label: "Ascending" },
+  { value: "descending", label: "Descending" },
+  { value: "insideOut", label: "InsideOut" },
+  { value: "none", label: "None" },
+  { value: "reverse", label: "Reverse" },
+];
+
 export const curveOptions = [
   { value: "basis", label: "Basis" },
   { value: "cardinal", label: "Cardinal" },
@@ -66,6 +97,13 @@ export const curveOptions = [
   { value: "step", label: "Step" },
   { value: "stepAfter", label: "StepAfter" },
   { value: "stepBefore", label: "StepBefore" },
+] as ISelectOption[];
+
+export const radarCurveOptions = [
+  { value: "basisClosed", label: "BasisClosed" },
+  { value: "cardinalClosed", label: "CardinalClosed" },
+  { value: "catmullRomClosed", label: "CatmullRomClosed" },
+  { value: "linearClosed", label: "LinearClosed" },
 ] as ISelectOption[];
 
 export const colorsOptions = [
@@ -106,35 +144,18 @@ export const colorsOptions = [
   { value: "yellow_green", label: "Yellow_Green" },
   { value: "yellow_orange_brown", label: "Yellow_Orange_Brown" },
   { value: "yellow_orange_red", label: "Yellow_Orange_Red" },
-  { value: "blues", label: "Blues" },
-  { value: "greens", label: "Greens" },
-  { value: "greys", label: "Greys" },
-  { value: "oranges", label: "Oranges" },
-  { value: "purples", label: "Purples" },
-  { value: "reds", label: "Reds" },
-  { value: "turbo", label: "Turbo" },
-  { value: "viridis", label: "Viridis" },
-  { value: "inferno", label: "Inferno" },
-  { value: "magma", label: "Magma" },
-  { value: "plasma", label: "Plasma" },
-  { value: "cividis", label: "Cividis" },
-  { value: "warm", label: "Warm" },
-  { value: "cool", label: "Cool" },
-  { value: "cubehelixDefault", label: "Cubehelixdefault" },
-  { value: "blue_green", label: "Blue_Green" },
-  { value: "blue_purple", label: "Blue_Purple" },
-  { value: "green_blue", label: "Green_Blue" },
-  { value: "orange_red", label: "Orange_Red" },
-  { value: "purple_blue_green", label: "Purple_Blue_Green" },
-  { value: "purple_blue", label: "Purple_Blue" },
-  { value: "purple_red", label: "Purple_Red" },
-  { value: "red_purple", label: "Red_Purple" },
-  { value: "yellow_green_blue", label: "Yellow_Green_Blue" },
-  { value: "yellow_green", label: "Yellow_Green" },
-  { value: "yellow_orange_red", label: "Yellow_Orange_Red" },
+  // { value: "turbo", label: "Turbo" },
+  // { value: "viridis", label: "Viridis" },
+  // { value: "inferno", label: "Inferno" },
+  // { value: "magma", label: "Magma" },
+  // { value: "plasma", label: "Plasma" },
+  // { value: "cividis", label: "Cividis" },
+  // { value: "warm", label: "Warm" },
+  // { value: "cool", label: "Cool" },
+  // { value: "cubehelixDefault", label: "Cubehelixdefault" },
 ];
 
-export const areaBlendOptions = [
+export const blendModeOptions = [
   { value: "normal", label: "Normal" },
   { value: "multiply", label: "Multiply" },
   { value: "screen", label: "Screen" },
@@ -151,6 +172,11 @@ export const areaBlendOptions = [
   { value: "saturation", label: "Saturation" },
   { value: "color", label: "Color" },
   { value: "luminosity", label: "Luminosity" },
+];
+
+export const gridShapeOptions = [
+  { value: "circular", label: "Circular" },
+  { value: "linear", label: "Linear" },
 ];
 
 export const axisTitlePositionOptions = [
@@ -174,6 +200,13 @@ export const scaleOptions = [
   { value: "linear", label: "Linear" },
   { value: "point", label: "Point" },
 ];
+
+export const valueScaleOptions = [
+  { value: "linear", label: "Linear" },
+  { value: "symlog", label: "SymLog" },
+];
+
+export const indexScaleOptions = [{ value: "band", label: "Band" }];
 
 export type TAxisType = keyof typeof axisNameTitlesObj;
 
@@ -345,9 +378,9 @@ export const pointLabelOptions = [
   },
 ];
 
-export const pointsInheritOptions = [{ value: "color", label: "Color" }];
+export const visualyticsInheritOptions = [{ value: "color", label: "Color" }];
 
-export const pointsThemeOptions = [
+export const visualyticsThemeOptions = [
   { value: "background", label: "Background" },
   { value: "grid.line.stroke", label: "Grid.Line.Stroke" },
   { value: "labels.text.fill", label: "Labels.Text.Fill" },
@@ -382,15 +415,125 @@ export const motionConfigPresetOptions = [
   { value: "molasses", label: "Molasses" },
 ];
 
+export const hoverTargetOptions = [
+  { value: "cell", label: "Cell" },
+  { value: "row", label: "Row" },
+  { value: "column", label: "Column" },
+  { value: "rowColumn", label: "RowColumn" },
+];
+
+export const labelOptions = [
+  {
+    value: "id",
+    label: "Id",
+  },
+  {
+    value: "value",
+    label: "Value",
+  },
+  {
+    value: "formattedValue",
+    label: "FormattedValue",
+  },
+  {
+    value: "d => ${d.id}: ${d.value}",
+    label: "d => ${d.id}: ${d.value}",
+  },
+];
+
+export const arcLabelOptions = [
+  {
+    value: "id",
+    label: "Id",
+  },
+  {
+    value: "value",
+    label: "Value",
+  },
+  {
+    value: "formattedValue",
+    label: "FormattedValue",
+  },
+  {
+    value: "d => ${d.id}: ${d.value}",
+    label: "d => ${d.id}: ${d.value}",
+  },
+];
+
+export const arcLinkLabelOptions = [
+  {
+    value: "id",
+    label: "Id",
+  },
+  {
+    value: "value",
+    label: "Value",
+  },
+  {
+    value: "d => ${d.id}: ${d.value}",
+    label: "d => ${d.id}: ${d.value}",
+  },
+];
+
+export const dotLabelOptions = [
+  {
+    value: "index",
+    label: "Index",
+  },
+  {
+    value: "key",
+    label: "Key",
+  },
+  {
+    value: "d => ${d.index}: ${d.value}",
+    label: "d => ${d.index}: ${d.value}",
+  },
+  {
+    value: "d => ${d.key}: ${d.value}",
+    label: "d => ${d.key}: ${d.value}",
+  },
+];
+
+export const colorModifierOptions = [
+  {
+    value: "darker",
+    label: "Darker",
+  },
+  {
+    value: "brighter",
+    label: "Brighter",
+  },
+  {
+    value: "opacity",
+    label: "Opacity",
+  },
+];
+
 export const commonChartProps = {
   //Statcked
   offsetType: "none",
+  order: "none",
 
   //Doughnut
+  startAngle: 0,
+  endAngle: 360,
+  fit: true,
   innerRadius: 0.5,
   padAngle: 0.7,
   cornerRadius: 3,
+  sortByValue: false,
+  enableArcLabels: true,
+  arcLabel: "formattedValue",
+  arcLabelsRadiusOffset: 0.5,
+  activeInnerRadiusOffset: 0,
   activeOuterRadiusOffset: 8,
+
+  enableArcLinkLabels: true,
+  arcLinkLabel: "id",
+  arcLinkLabelsOffset: 0,
+  arcLinkLabelsDiagonalLength: 16,
+  arcLinkLabelsStraightLength: 24,
+  arcLinkLabelsTextOffset: 6,
   arcLinkLabelsSkipAngle: 10,
   arcLinkLabelsTextColor: "#333333",
   arcLinkLabelsThickness: 2,
@@ -399,9 +542,16 @@ export const commonChartProps = {
   arcLabelsTextColor: { from: "color", modifiers: [["darker", 2]] },
 
   //Bar
+  groupMode: "stacked",
+  layout: "vertical",
+  innerPadding: 0,
+  enableLabel: true,
+  label: "formattedValue",
   labelSkipWidth: 12,
   labelSkipHeight: 12,
   labelTextColor: { from: "color", modifiers: [["darker", 1.6]] },
+  reverse: false,
+  valueFormatString: " >-.0f",
 
   //Line
   lineWidth: 2,
@@ -410,7 +560,25 @@ export const commonChartProps = {
   areaOpacity: 0.2,
   areaBlendMode: "normal",
 
-  //General
+  //Scatter
+  nodeSize: 9,
+
+  //Radar
+  gridLevels: 5,
+  gridShape: "circular",
+  gridLabelOffset: 36,
+  enableDotLabel: true,
+  dotLabel: "value",
+  dotLabelYOffset: -12,
+
+  //HeatMap
+  forceSquare: true,
+  sizeVariation: 0,
+  cellOpacity: 1,
+  cellBorderWidth: 0,
+  cellBorderColor: { from: "color", modifiers: [["darker", 0.4]] },
+
+  //Series
   keys: [],
   colors: { scheme: "category10" },
   margin: { top: 40, right: 100, bottom: 80, left: 80 },
@@ -422,15 +590,13 @@ export const commonChartProps = {
   valueFormat: " >-.0f",
   valueScale: { type: "linear" },
   indexScale: { type: "band", round: true },
-  // width: undefined,
-  // height: undefined,
   // theme: pretty big object, implement later?
 
   //Series
   curve: "linear",
   blendMode: "normal",
   borderColor: { from: "color", modifiers: [["darker", 0.2]] },
-  borderWidth: 1,
+  borderWidth: 0,
   fillOpacity: 1,
 
   //Dots
@@ -460,6 +626,9 @@ export const commonChartProps = {
   enableSlices: false,
   enableCrosshair: true,
   crosshairType: "cross",
+  hoverTarget: "cell",
+  cellHoverOpacity: 1,
+  cellHoverOthersOpacity: 0.25,
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 
@@ -597,26 +766,30 @@ export const allChartsDataAndSpecificProperties = {
   commonChartProps,
 
   stackedAreaChart: {
-    data: [],
+    chartData: [],
   },
 
   lineChart: {
-    data: [],
+    chartData: [],
   },
 
   scatterChart: {
-    data: [],
+    chartData: [],
   },
 
   doughnutChart: {
-    data: [],
+    chartData: [],
   },
 
   barChart: {
-    data: [],
+    chartData: [],
   },
 
   radarChart: {
-    data: [],
+    chartData: [],
+  },
+
+  heatMapChart: {
+    chartData: [],
   },
 };

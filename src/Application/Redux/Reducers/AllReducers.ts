@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import inputReducer from "../../../Import/Redux/Reducers/InputReducer";
-import visualyticsReducer from "../../../Visualytics/Redux/VisualyticsReducer/VisualyticsReducer";
+import visualyticsReducer from "../../../Visualytics/Redux/Reducer/VisualyticsReducer";
 import forecastReducer from "../../../Forecast/Redux/Reducers/ForecastReducer";
 import networkReducer from "../../../Network/Redux/Reducers/NetworkReducers";
 import applicationReducer from "./ApplicationReducer";

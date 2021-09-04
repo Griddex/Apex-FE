@@ -6,7 +6,7 @@ import {
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 import isEqual from "react-fast-compare";
 import { OrdinalColorScaleConfigScheme } from "@nivo/colors";
@@ -23,7 +23,7 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
     // (prev, next) => isEqual(prev, next)
     (prev, next) => false
   );
-  const { data } = lineChart;
+  const { chartData } = lineChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
   const {
@@ -56,12 +56,8 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
 
   const yFormatLine = (v: DatumValue) => format(yFormatString)(v as number);
   commonChartPropsDefined["yFormat"] = yFormatLine;
-  console.log(
-    "Logged output --> ~ file: LineChart.tsx ~ line 59 ~ SimpleLineChart ~ commonChartPropsDefined",
-    commonChartPropsDefined
-  );
 
-  return <ResponsiveLine data={data} {...commonChartPropsDefined} />;
+  return <ResponsiveLine data={chartData} {...commonChartPropsDefined} />;
 };
 
 export default SimpleLineChart;

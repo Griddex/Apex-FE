@@ -2,34 +2,31 @@ import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
-import StoredDeck from "../../Import/Images/StoredDeck.svg";
-import ImportDatabase from "../../Import/Images/ImportDatabase.svg";
-import MSExcel from "../../Import/Images/MSExcel.svg";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { ILandingData } from "../../Application/Types/ApplicationTypes";
+import ModuleCard from "../../Application/Components/Cards/ModuleCard";
+import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import Image from "../../Application/Components/Visuals/Image";
+import { TAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../Application/Redux/Actions/DialogsAction";
-import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import {
-  IAllWorkflows,
-  TAllWorkflowProcesses,
-} from "../../Application/Components/Workflows/WorkflowTypes";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import Image from "../../Application/Components/Visuals/Image";
-import DatabaseWorkflow from "../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
-import ModuleCard from "../../Application/Components/Cards/ModuleCard";
-import { loadWorkflowAction } from "../../Application/Redux/Actions/LayoutActions";
-import { IdType } from "./VisualyticsLandingTypes";
+import ImportDatabase from "../../Import/Images/ImportDatabase.svg";
+import MSExcel from "../../Import/Images/MSExcel.svg";
+import StoredDeck from "../../Import/Images/StoredDeck.svg";
+import VisualyticsCharts from "../Images/VisualyticsCharts.svg";
 import {
   loadVisualyticsWorkflowAction,
   saveVisualyticsDeckRequestAction,
-} from "../Redux/VisualyticsActions/VisualyticsActions";
+} from "../Redux/Actions/VisualyticsActions";
 import StoredVisualyticsDecks from "./StoredVisualyticsDecks";
-import VisualyticsExcelWorkflow from "./Workflows/VisualyticsExcelWorkflow";
+import { IdType } from "./VisualyticsLandingTypes";
+import PlotChartsVisualytics from "./Workflows/PlotChartsVisualytics";
 import VisualyticsDatabaseWorkflow from "./Workflows/VisualyticsDatabaseWorkflow";
+import VisualyticsExcelWorkflow from "./Workflows/VisualyticsExcelWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   visualyticsDeckLanding: {
@@ -87,6 +84,20 @@ const VisualyticsLanding = () => {
       route: `${url}/database`,
       workflowProcess: "visualyticsDeckDatabase",
       workflowCategory: "inputDataWorkflows",
+    },
+    {
+      name: "Plot Charts",
+      description: `Plot cloumn-based data in highly interactive charts`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={VisualyticsCharts}
+          alt="Chart Logo"
+        />
+      ),
+      route: `${url}/plotchartsTables`,
+      workflowProcess: "visualyticsPlotCharts",
+      workflowCategory: "storedDataWorkflows",
     },
     {
       name: `Stored Data`,
@@ -209,6 +220,7 @@ const VisualyticsLanding = () => {
                     }
                   />
                 ),
+                plotchartsTables: <PlotChartsVisualytics />,
                 approveddeck: (
                   <StoredVisualyticsDecks
                     reducer={reducer}

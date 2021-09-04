@@ -212,9 +212,9 @@ const EconomicsState: IEconomicsState = {
     heatMapBackgroundColor: "#F8F9FA",
     relationalOperatorOption: { value: ">", label: ">" },
   },
-  heatMapVariableXOption: null,
-  heatMapVariableYOption: null,
-  heatMapVariableZOption: null,
+  heatMapVariableXOptions: {},
+  heatMapVariableYOptions: {},
+  heatMapVariableZOptions: {},
 
   //Plot Charts
   economicsPlotChartsTree: { id: "", name: "" },
@@ -225,9 +225,8 @@ const EconomicsState: IEconomicsState = {
     label: "Select Chart...",
   },
   showPlotChartsCategories: false,
-  plotChartsVariableXOption: null,
-  plotChartsVariableYPriOption: null,
-  plotChartsVariableYSecOption: null,
+  plotChartsVariableXOptions: {},
+  plotChartsVariableYOptions: {},
 
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },

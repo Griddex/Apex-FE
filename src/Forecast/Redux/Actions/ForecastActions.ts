@@ -1,17 +1,14 @@
 import {
-  IAllWorkflows,
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
+  FORECAST_TREEVIEWKEYS_FAILURE,
   FORECAST_TREEVIEWKEYS_REQUEST,
   FORECAST_TREEVIEWKEYS_SUCCESS,
-  FORECAST_TREEVIEWKEYS_FAILURE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { forecastChartObjectsNameTitleMap } from "../ForecastState/ForecastState";
 import { IForecastChartObject } from "../ForecastState/ForecastStateTypes";
-import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
-import { IAction } from "./../../../Application/Redux/Actions/ActionTypes";
 
 export const UPDATE_FORECASTPARAMETER = "UPDATE_FORECASTPARAMETER";
 export const UPDATE_FORECASTPARAMETERS = "UPDATE_FORECASTPARAMETERS";
@@ -32,17 +29,6 @@ export const PUT_FORECASTRESULTS_CHARTDATA_SUCCESS =
   "PUT_FORECASTRESULTS_CHARTDATA_SUCCESS";
 export const PUT_FORECASTRESULTS_CHARTDATA_FAILURE =
   "PUT_FORECASTRESULTS_CHARTDATA_FAILURE";
-
-export const PUT_SELECTCHART = "PUT_SELECTCHART";
-export const PUT_SELECTCHART_SUCCESS = "PUT_SELECTCHART_SUCCESS";
-export const PUT_SELECTCHART_FAILURE = "PUT_SELECTCHART_FAILURE";
-
-export const TRANSFORM_FORECASTRESULTS_CHARTDATA =
-  "TRANSFORM_FORECASTRESULTS_CHARTDATA";
-export const TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS =
-  "TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS";
-export const TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE =
-  "TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE";
 
 export const GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST =
   "GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST";
@@ -206,70 +192,6 @@ export const putForecastResultsChartDataSuccessAction = () => {
 export const putForecastResultsChartDataFailureAction = () => {
   return {
     type: PUT_FORECASTRESULTS_CHARTDATA_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
-    },
-  };
-};
-
-export const putSelectChartOptionAction = (
-  reducer: ReducersType,
-  chartOption: ISelectOption,
-  transformChartResultsAction: () => IAction,
-  transformChartResultsPayload: any
-) => {
-  return {
-    type: PUT_SELECTCHART,
-    payload: {
-      reducer,
-      chartOption,
-      transformChartResultsAction,
-      transformChartResultsPayload,
-    },
-  };
-};
-
-export const putSelectChartOptionSuccessAction = () => {
-  return {
-    type: PUT_SELECTCHART_SUCCESS,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const putSelectChartOptionFailureAction = () => {
-  return {
-    type: PUT_SELECTCHART_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
-    },
-  };
-};
-
-export const transformForecastResultsChartDataAction = () => {
-  return {
-    type: TRANSFORM_FORECASTRESULTS_CHARTDATA,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const transformForecastResultsChartDataSuccessAction = () => {
-  return {
-    type: TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const transformForecastResultsChartDataFailureAction = () => {
-  return {
-    type: TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

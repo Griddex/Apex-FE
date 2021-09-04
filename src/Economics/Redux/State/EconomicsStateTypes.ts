@@ -7,12 +7,11 @@ import {
   TApproval,
 } from "../../../Application/Types/ApplicationTypes";
 import {
-  TVariableTitle,
   TVariableName,
+  TVariableTitle,
 } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
-import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
-import { TAllChartsDataAndSpecificProperties } from "../../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
+import { TAllChartsDataAndSpecificProperties } from "../../../Visualytics/Redux/State/VisualyticsStateTypes";
 import {
   IEconomicsAnalysis,
   TBackendDevScenarioTitles,
@@ -22,7 +21,10 @@ import {
   TForecastScenario,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
-import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
+import {
+  IExtendedSelectOption,
+  ISelectOption,
+} from "./../../../Application/Components/Selects/SelectItemsType";
 
 export interface IEconomicsImport {
   fileLastModified: string;
@@ -261,18 +263,17 @@ export interface IEconomicsState
     heatMapBackgroundColor: string;
     relationalOperatorOption: ISelectOption;
   };
-  heatMapVariableXOption: ISelectOption | null;
-  heatMapVariableYOption: ISelectOption | null;
-  heatMapVariableZOption: ISelectOption | null;
+  heatMapVariableXOptions: Record<string, IExtendedSelectOption>;
+  heatMapVariableYOptions: Record<string, IExtendedSelectOption>;
+  heatMapVariableZOptions: Record<string, IExtendedSelectOption>;
 
   economicsPlotChartsTree: RenderTree;
   plotChartsData: null;
   plotChartsDataTrans: null;
   selectedEconomicsPlotChartOption: ISelectOption;
   showPlotChartsCategories: boolean;
-  plotChartsVariableXOption: ISelectOption | null;
-  plotChartsVariableYPriOption: ISelectOption | null;
-  plotChartsVariableYSecOption: ISelectOption | null;
+  plotChartsVariableXOptions: Record<string, IExtendedSelectOption>;
+  plotChartsVariableYOptions: Record<string, IExtendedSelectOption>;
 
   economicsTemplatesTree: RenderTree;
 

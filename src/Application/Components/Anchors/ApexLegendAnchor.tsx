@@ -2,7 +2,7 @@ import { IconButton, useTheme } from "@material-ui/core";
 import { LegendAnchor, LegendProps } from "@nivo/legends";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { IChart } from "../../../Visualytics/Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../../Visualytics/Redux/State/VisualyticsStateTypes";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import { TUseState } from "../../Types/ApplicationTypes";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";

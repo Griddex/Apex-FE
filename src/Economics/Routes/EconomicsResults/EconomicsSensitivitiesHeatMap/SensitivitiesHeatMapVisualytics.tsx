@@ -1,18 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import ChartCategories from "../../../../Visualytics/Components/ChartCategories/ChartCategories";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
 
@@ -63,10 +61,6 @@ const SensitivitiesHeatMapVisualytics = () => {
     (state: RootState) => state.layoutReducer
   );
 
-  const { heatMapTreeByScenario } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
-
   const classes = useStyles();
 
   const chartButtons: IChartButtonsProps = {
@@ -90,100 +84,6 @@ const SensitivitiesHeatMapVisualytics = () => {
     componentRef,
   };
 
-  const chartCategoriesData = React.useRef([
-    {
-      categoryTitle: "X Category",
-      persistAction: React.useCallback(
-        (name: string, title: string) => {
-          dispatch(
-            updateEconomicsParameterAction("heatMapVariableXOption", {
-              value: name,
-              label: title,
-            })
-          );
-        },
-        [dispatch]
-      ),
-      removeAction: React.useCallback(() => {
-        dispatch(
-          updateEconomicsParameterAction("heatMapVariableXOption", null)
-        );
-        //TODO before dispatching, check if is empty
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
-        );
-      }, [dispatch]),
-      disable: false,
-    },
-    {
-      categoryTitle: "Y Category",
-      persistAction: React.useCallback(
-        (name: string, title: string) => {
-          dispatch(
-            updateEconomicsParameterAction("heatMapVariableYOption", {
-              value: name,
-              label: title,
-            })
-          );
-        },
-        [dispatch]
-      ),
-      removeAction: React.useCallback(() => {
-        dispatch(
-          updateEconomicsParameterAction("heatMapVariableYOption", null)
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
-        );
-      }, [dispatch]),
-      disable: false,
-    },
-    {
-      categoryTitle: "Z Category",
-      persistAction: React.useCallback((name: string, title: string) => {
-        dispatch(
-          updateEconomicsParameterAction("heatMapVariableZOption", {
-            value: name,
-            label: title,
-          })
-        );
-      }, []),
-      removeAction: React.useCallback(() => {
-        dispatch(
-          updateEconomicsParameterAction("heatMapVariableYOption", null)
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMapData", {})
-        );
-        dispatch(
-          updateEconomicsParameterAction("sensitivitiesHeatMap1or2D", [])
-        );
-      }, [dispatch]),
-      disable: false,
-    },
-  ]);
-
-  let disableCollection = [] as boolean[];
-  if (heatMapTreeByScenario.id === "") {
-    disableCollection = [true, true, true];
-  } else if (heatMapTreeByScenario["children"].length === 1) {
-    disableCollection = [false, true, true];
-  } else if (heatMapTreeByScenario["children"].length === 2) {
-    disableCollection = [false, false, true];
-  } else {
-    disableCollection = [false, false, false];
-  }
-
-  const chartCategoriesDataUpdatedWithDisable = chartCategoriesData.current.map(
-    (row, i) => ({ ...row, disable: disableCollection[i] })
-  );
-
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
@@ -192,10 +92,7 @@ const SensitivitiesHeatMapVisualytics = () => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
-          <SensitivitiesHeatMapDataPanel
-            categoriesTitle="Heat Map"
-            chartCategoriesData={chartCategoriesDataUpdatedWithDisable}
-          />
+          <SensitivitiesHeatMapDataPanel />
         </div>
 
         <div className={classes.chartContent}>

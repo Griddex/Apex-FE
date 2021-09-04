@@ -6,6 +6,7 @@ import {
   ModernMotionProps,
   PropertyAccessor,
   StackOffset,
+  StackOrder,
   ValueFormat,
 } from "@nivo/core";
 import { Datum } from "@nivo/legends";
@@ -23,8 +24,9 @@ import {
   ScaleBandSpec,
   ScaleSpec,
 } from "../../Components/ChartTypes";
+import { RenderTree } from "../../Components/TreeView/ApexTreeViewTypes";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
-import { ISelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
+import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import {
   chartObjectsNameTitleMap,
   initialColorGradient,
@@ -57,8 +59,28 @@ export interface IVisualyticsState {
     yAxes: { yAxisId: string }[];
   };
 
+  visualyticsResults: any[];
+  visualyticsTree: RenderTree["children"];
+  xValueCategories: string[];
+  lineOrScatter: "line" | "scatter";
+  isYear: boolean;
+  transVisualyticsResult: any[];
+  visualyticsResultsId: string;
+
+  showPlotChartsCategories: boolean;
+
   loadVisualyticsWorkflow: boolean;
   selectedVisualyticsOption: ISelectOption;
+  selectedVisualyticsId: string;
+  selectedVisualyticsTitle: string;
+  selectedVisualyticsDescription: string;
+  isVisualyticsDeckSaved: boolean;
+  visualyticsColumnNames: string[];
+  xValueCategoryPositions: number[];
+
+  visualyticsVariableXOption: ISelectOption | null;
+  visualyticsVariableYOption: ISelectOption | null;
+  visualyticsVariableZOption: ISelectOption | null;
 
   visualyticsDataWorkflows: Record<string, IInputState>;
   storedDataWorkflows: Record<"visualyticsDeckStored", IStoredDataRow[]>;
@@ -147,25 +169,48 @@ export type TAreaBlendMode =
   | "luminosity";
 
 export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
-  //Statcked
+  //Stacked
   offsetType: StackOffset;
+  order: StackOrder;
 
   //Doughnut
+  startAngle: number;
+  endAngle: number;
+  fit: boolean;
   innerRadius: number;
   padAngle: number;
   cornerRadius: number;
+  sortByValue: boolean;
+  enableArcLabels: boolean;
+  arcLabel: PropertyAccessor<Datum, string>;
+  arcLabelsRadiusOffset: number;
+  arcLabelsSkipAngle: number;
+  arcLabelsTextColor: InheritedColorConfig<Datum>;
+  activeInnerRadiusOffset: number;
   activeOuterRadiusOffset: number;
+
+  enableArcLinkLabels: boolean;
+  arcLinkLabel: PropertyAccessor<Datum, string>;
+  arcLinkLabelsOffset: number;
+  arcLinkLabelsDiagonalLength: number;
+  arcLinkLabelsStraightLength: number;
+  arcLinkLabelsTextOffset: number;
   arcLinkLabelsSkipAngle: number;
   arcLinkLabelsTextColor: InheritedColorConfig<Datum>;
   arcLinkLabelsThickness: number;
   arcLinkLabelsColor: InheritedColorConfig<Datum>;
-  arcLabelsSkipAngle: number;
-  arcLabelsTextColor: InheritedColorConfig<Datum>;
 
   //Bar
+  groupMode: "grouped" | "stacked";
+  layout: "horizontal" | "vertical";
+  innerPadding: number;
+  enableLabel: boolean;
+  label: string;
   labelSkipWidth: number;
   labelSkipHeight: number;
   labelTextColor: any;
+  reverse: boolean;
+  valueFormatString: string;
   // labelTextColor: InheritedColorConfig<Datum>;
 
   //Line
@@ -175,7 +220,25 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   areaOpacity: number;
   areaBlendMode: string; //TODO provide real type?
 
-  //General
+  //Scatter
+  nodeSize: number;
+
+  //Radar
+  gridLevels: number;
+  gridShape: "circular" | "linear";
+  gridLabelOffset: number;
+  enableDotLabel: boolean;
+  dotLabel: string;
+  dotLabelYOffset: number;
+
+  //HeatMap
+  forceSquare: boolean;
+  sizeVariation: number;
+  cellOpacity: number;
+  cellBorderWidth: number;
+  cellBorderColor: InheritedColorConfig<Datum>;
+
+  //Series
   keys: string[];
   colors: OrdinalColorScaleConfig;
   margin: Box;
@@ -184,7 +247,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   indexBy: PropertyAccessor<RawDatum, string>;
   minValue: "auto" | number;
   maxValue: "auto" | number;
-  valueFormat: ValueFormat<number>;
+  valueFormat: ValueFormat<DatumValue>;
   valueScale: ScaleSpec;
   indexScale: ScaleBandSpec;
   // width: number | undefined;
@@ -220,7 +283,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   enablePointLabel: boolean;
   pointLabel: string;
 
-  //Motion
+  //Interactivity and Motion
   isInteractive: boolean;
   useMesh: boolean;
   enableSlices: false | "x" | "y";
@@ -229,6 +292,9 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   renderWrapper: boolean;
   enableCrosshair?: boolean;
   crosshairType?: CrosshairType;
+  hoverTarget: "cell" | "row" | "column" | "rowColumn";
+  cellHoverOpacity: number;
+  cellHoverOthersOpacity: number;
   // motionDamping: "", confirm if still needed
   // motionStiffness: "",
 

@@ -7,19 +7,21 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../Visualytics/Components/TreeView/ApexTreeViewTypes";
-
+import {
+  resetChartDataAction,
+  transformChartDataAction,
+} from "../../Visualytics/Redux/Actions/VisualyticsActions";
 import {
   getForecastResultsChartDataRequestAction,
-  transformForecastResultsChartDataAction,
-  updateForecastResultsParameterAction,
   getForecastResultsQualityAssuranceRequestAction,
+  updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { transformModulePaths } from "../Utils/TransformForecastForChart";
 
 export default function ForecastTreeView() {
   const wc = "forecastChartsWorkflows";
-  const ap = "stackedAreaChart";
+  const ch = "stackedAreaChart";
   const dispatch = useDispatch();
 
   const { selectedForecastChartOption } = useSelector(
@@ -37,8 +39,8 @@ export default function ForecastTreeView() {
     selectedView,
   } = useSelector((state: RootState) => state.forecastReducer);
 
-  const { data } = useSelector(
-    (state: RootState) => state.forecastReducer[wc][ap]
+  const { chartData } = useSelector(
+    (state: RootState) => state.forecastReducer[wc][ch]
   );
 
   const rootTree = {
@@ -110,17 +112,20 @@ export default function ForecastTreeView() {
 
     if (selectedModIds.length === 0) {
       dispatch(updateForecastResultsParameterAction("selectedModuleIds", []));
-
-      dispatch({
-        ...transformForecastResultsChartDataAction(),
-        payload: {
-          chartType,
-          forecastResults: [],
-          xValueCategories: [],
-          lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
-          isYear: true,
-        },
-      });
+      dispatch(resetChartDataAction("forecastReducer", wc));
+      // dispatch({
+      //   ...transformChartDataAction("forecastReducer"),
+      //   payload: {
+      //     reducer: "forecastReducer",
+      //     workflowCategory: wc,
+      //     defaultChart: ch,
+      //     chartType,
+      //     chartData: [],
+      //     xValueCategories: [],
+      //     lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
+      //     isYear: true,
+      //   },
+      // });
     } else if (selectedModIds.length > 0) {
       if (selectedModIds.length > prevModuleIds.length) {
         switch (selectedView) {
@@ -150,15 +155,18 @@ export default function ForecastTreeView() {
         const transformedModulePaths =
           transformModulePaths(selectedModulePaths);
 
-        const filteredData = data.map((row) =>
+        const filteredData = chartData.map((row) =>
           pick(row, transformedModulePaths)
         );
 
         dispatch({
-          ...transformForecastResultsChartDataAction(),
+          ...transformChartDataAction("forecastReducer"),
           payload: {
+            reducer: "forecastReducer",
+            workflowCategory: wc,
+            defaultChart: ch,
             chartType,
-            forecastResults: filteredData,
+            chartData: filteredData,
             xValueCategories: filteredData.map((_, i) => i + 2020),
             lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
             isYear: true,

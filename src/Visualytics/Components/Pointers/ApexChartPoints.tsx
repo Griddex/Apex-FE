@@ -10,10 +10,10 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import {
   pointLabelOptions,
-  pointsInheritOptions,
-  pointsThemeOptions,
+  visualyticsInheritOptions,
+  visualyticsThemeOptions,
 } from "../../Data/VisualyticsData";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IApexChartFormatProps } from "../Charts/ChartTypes";
 import ApexPickerExtruder from "../ColorPickers/ApexPickerExtruder";
 import ApexSketchPicker from "../ColorPickers/ApexSketchPicker";
@@ -62,16 +62,16 @@ const ApexChartPointers = ({
   const pointLabelOption = pointLabelOptions.find(
     (option) => option.value === pointLabel
   );
-  const pointsInheritOption = pointsInheritOptions.find(
+  const pointsInheritOption = visualyticsInheritOptions.find(
     (option) => option.value === (pointColor as any)["from"]
   );
-  const pointsThemeOption = pointsThemeOptions.find(
+  const pointsThemeOption = visualyticsThemeOptions.find(
     (option) => option.value === (pointColor as any)["theme"]
   );
-  const pointsBorderInheritOption = pointsInheritOptions.find(
+  const pointsBorderInheritOption = visualyticsInheritOptions.find(
     (option) => option.value === (pointBorderColor as any)["from"]
   );
-  const pointsBorderThemeOption = pointsThemeOptions.find(
+  const pointsBorderThemeOption = visualyticsThemeOptions.find(
     (option) => option.value === (pointBorderColor as any)["theme"]
   );
 
@@ -168,7 +168,7 @@ const ApexChartPointers = ({
                 {pointColorPerspective === "inherit" && (
                   <ApexSelectRS
                     valueOption={pointsInheritOption as ISelectOption}
-                    data={pointsInheritOptions}
+                    data={visualyticsInheritOptions}
                     handleSelect={handlePointsSelect(
                       "pointColor",
                       true,
@@ -182,7 +182,7 @@ const ApexChartPointers = ({
                 {pointColorPerspective === "theme" && (
                   <ApexSelectRS
                     valueOption={pointsThemeOption as ISelectOption}
-                    data={pointsThemeOptions}
+                    data={visualyticsThemeOptions}
                     handleSelect={handlePointsSelect(
                       "pointColor",
                       true,
@@ -312,7 +312,7 @@ const ApexChartPointers = ({
                 {borderColorPerspective === "inherit" && (
                   <ApexSelectRS
                     valueOption={pointsBorderInheritOption as ISelectOption}
-                    data={pointsInheritOptions}
+                    data={visualyticsInheritOptions}
                     handleSelect={handlePointsSelect(
                       "pointBorderColor",
                       true,
@@ -326,7 +326,7 @@ const ApexChartPointers = ({
                 {borderColorPerspective === "theme" && (
                   <ApexSelectRS
                     valueOption={pointsBorderThemeOption as ISelectOption}
-                    data={pointsThemeOptions}
+                    data={visualyticsThemeOptions}
                     handleSelect={handlePointsSelect(
                       "pointBorderColor",
                       true,

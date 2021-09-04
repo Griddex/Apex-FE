@@ -61,9 +61,6 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
     currentSN,
     currentRow,
   } = payload;
-  console.log("wellDeclineParamtersTitle: ", wellDeclineParamtersTitle);
-  console.log("wellDeclineParamtersId: ", wellDeclineParamtersId);
-  console.log("currentRow: ", currentRow);
   const selectedDeclineParametersId = wellDeclineParamtersId;
   const wellDeclineParameterTitle = wellDeclineParamtersTitle;
   const wc = "storedDataWorkflows";
@@ -75,8 +72,6 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       getDeclineParametersByIdAPI,
       declineParametersUrl
     );
-
-    console.log("declineParametersResults: ", declineParametersResults);
 
     const {
       data: { data },

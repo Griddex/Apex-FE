@@ -21,6 +21,7 @@ export interface IExtendedSelectOption<T = string, U = string, V = string> {
   description?: V;
   unitId?: V;
   colors?: string[];
+  yAxis?: "primary" | "secondary";
 }
 
 export type AppUnitSelectOptionsType = IExtendedSelectOption[];

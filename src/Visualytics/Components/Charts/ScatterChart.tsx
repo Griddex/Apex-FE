@@ -6,7 +6,7 @@ import {
   ReducersType,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { IChart } from "../../Redux/VisualyticsState/VisualyticsStateTypes";
+import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 
 const ScatterChart = ({ workflowCategory, reducer }: IChartProps) => {
@@ -16,11 +16,13 @@ const ScatterChart = ({ workflowCategory, reducer }: IChartProps) => {
   const { commonChartProps, scatterChart } = useSelector(
     (state: RootState) => state[reducerDefined][wc]
   );
-  const { data } = scatterChart;
+  const { chartData } = scatterChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
 
-  return <ResponsiveScatterPlot data={data} {...commonChartPropsDefined} />;
+  return (
+    <ResponsiveScatterPlot data={chartData} {...commonChartPropsDefined} />
+  );
 };
 
 export default ScatterChart;

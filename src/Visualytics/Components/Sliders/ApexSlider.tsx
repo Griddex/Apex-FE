@@ -1,8 +1,8 @@
-import Grid from "@material-ui/core/Grid";
 import Input from "@material-ui/core/Input";
 import Slider from "@material-ui/core/Slider";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles({
   root: {
@@ -27,12 +27,14 @@ export interface IApexSlider {
   actionPath?: string;
   action?: (path: string, value: any) => void;
   sliderValue: TApexSlider;
+  setSliderValue?: TUseState<any>;
   sliderContextFxn?: (value: any, name?: any) => void;
 }
 
 export default function ApexSlider({
   name,
   sliderValue,
+  setSliderValue,
   step,
   min,
   max,
@@ -41,7 +43,7 @@ export default function ApexSlider({
   sliderContextFxn,
 }: IApexSlider) {
   console.log(
-    "Logged output --> ~ file: ApexSlider.tsx ~ line 43 ~ sliderValue",
+    "Logged output --> ~ file: ApexSlider.tsx ~ line 45 ~ sliderValue",
     sliderValue
   );
   const classes = useStyles();
@@ -78,6 +80,9 @@ export default function ApexSlider({
         valueLabelDisplay="auto"
         marks
         style={{ width: "100%" }}
+        min={min}
+        max={max}
+        step={step}
       />
       <Input
         className={classes.input}

@@ -8,9 +8,11 @@ import {
 } from "@material-ui/core";
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
-import { IDragItem } from "./ChartCategory";
+import { IDragItem } from "./ChartCategoryTypes";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -34,26 +36,32 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IChartCategoryVariable {
   dragItem: IDragItem;
-  setHasDropped: TUseState<boolean>;
-  removeAction: () => void;
+  setHasDroppedObj: TUseState<Record<string, boolean>>;
+  categoryOptionTitle: string;
+  removeChartCategoryAction: (title: string, id: string) => IAction;
 }
 
 const ChartCategoryVariable = ({
   dragItem,
-  setHasDropped,
-  removeAction,
+  setHasDroppedObj,
+  categoryOptionTitle,
+  removeChartCategoryAction,
 }: IChartCategoryVariable) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { id, name, title } = dragItem;
+  const dispatch = useDispatch();
+
+  const { id, title } = dragItem;
 
   const avatar = getFirstCharFromEveryWord(title);
+
   return (
     <MenuItem
       style={{
         display: "flex",
         justifyContent: "space-between",
         padding: 2,
+        height: 32,
         border: `1px solid ${theme.palette.primary.main}`,
         backgroundColor: theme.palette.primary.light,
       }}
@@ -63,10 +71,9 @@ const ChartCategoryVariable = ({
       </ListItemAvatar>
       <Typography variant="inherit">{title}</Typography>
       <IconButton
-        // className={classes.closeButton}
         onClick={() => {
-          removeAction();
-          setHasDropped(false);
+          dispatch(removeChartCategoryAction(categoryOptionTitle, id));
+          setHasDroppedObj((prev) => ({ ...prev, [id]: false }));
         }}
         edge="end"
         aria-label="delete"

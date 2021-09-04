@@ -8,6 +8,11 @@ import {
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
+  PUT_SELECTCHART_SUCCESS,
+  RESET_CHART_DATA,
+  TRANSFORM_CHARTDATA_SUCCESS,
+} from "../../../Visualytics/Redux/Actions/VisualyticsActions";
+import {
   GET_FORECASTDATABYID_FAILURE,
   GET_FORECASTDATABYID_SUCCESS,
   GET_FORECASTRESULTS_CHARTDATA_FAILURE,
@@ -18,7 +23,6 @@ import {
   PERSIST_FORECASTCHARTOBJECT,
   PUT_FORECASTRESULTS_CHARTDATA_FAILURE,
   PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
-  PUT_SELECTCHART_SUCCESS,
   REMOVE_FORECAST,
   RESET_FORECAST,
   RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
@@ -31,23 +35,11 @@ import {
   SET_FORECASTCHARTCOLOR,
   SET_FORECASTCHARTOBJECT,
   STORED_FORECASTINGRESULTS_FAILURE,
-  /* <<<<<<< HEAD
-  GET_FORECASTDATABYID_FAILURE,
-  GET_FORECASTDATABYID_SUCCESS,
-  REMOVE_FORECAST,
-  RESET_FORECAST,
-  RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
-  RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
-  UPDATE_FORECASTRESULT_PARAMETERS,
-  UPDATE_FORECASTPARAMETERS
-======= */
   STORED_FORECASTINGRESULTS_SUCCESS,
-  TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE,
-  TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS,
   UPDATE_FORECASTPARAMETER,
   UPDATE_FORECASTPARAMETERS,
-  UPDATE_SELECTEDIDTITLE,
   UPDATE_FORECASTRESULT_PARAMETERS,
+  UPDATE_SELECTEDIDTITLE,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -114,8 +106,6 @@ const forecastReducer = (
         };
       } else {
         const { forecastTree } = action.payload;
-        // const currentForecastResults = state["forecastResults"];
-        // const newForecastResults = [...currentForecastResults, forecastTree];
 
         return {
           ...state,
@@ -147,8 +137,7 @@ const forecastReducer = (
       };
 
     case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
-      const { forecastResults } = action.payload;
-      const data = forecastResults;
+      const { chartData } = action.payload;
 
       return {
         ...state,
@@ -156,7 +145,7 @@ const forecastReducer = (
           ...state["forecastChartsWorkflows"],
           stackedAreaChart: {
             ...state["forecastChartsWorkflows"]["stackedAreaChart"],
-            data,
+            chartData,
           },
         },
       };
@@ -166,15 +155,6 @@ const forecastReducer = (
       return {
         ...state,
         ...action.payload,
-      };
-    }
-
-    case PUT_SELECTCHART_SUCCESS: {
-      const { reducer, selectedForecastChartOption } = action.payload;
-
-      return {
-        ...state,
-        selectedForecastChartOption,
       };
     }
 
@@ -198,38 +178,6 @@ const forecastReducer = (
       };
     }
 
-    case TRANSFORM_FORECASTRESULTS_CHARTDATA_SUCCESS: {
-      const {
-        chartType,
-        forecastResults,
-        xValueCategories,
-        lineOrScatter,
-        isYear,
-      } = action.payload;
-      const data = forecastResults;
-
-      return {
-        ...state,
-        xValueCategories,
-        lineOrScatter,
-        isYear,
-        forecastChartsWorkflows: {
-          ...state["forecastChartsWorkflows"],
-          [chartType]: {
-            ...state["forecastChartsWorkflows"][chartType as TChartTypes],
-            data,
-          },
-        },
-      };
-    }
-
-    case TRANSFORM_FORECASTRESULTS_CHARTDATA_FAILURE: {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    }
-
     case PERSIST_FORECASTCHARTINDEX:
       return {
         ...state,
@@ -239,10 +187,7 @@ const forecastReducer = (
     case PERSIST_FORECASTCHARTELEMENTID:
       return {
         ...state,
-        // selectedChartObjId: {
-        //   ...state.selectedChartObjId,
         ...action.payload,
-        // },
       };
 
     case SET_FORECASTCHARTCOLOR:
@@ -314,7 +259,7 @@ const forecastReducer = (
     }
 
     case FORECAST_TREEVIEWKEYS_SUCCESS: {
-      const { keyVar, reducer, perspective } = action.payload;
+      const { keyVar } = action.payload;
 
       if (keyVar === "xValueCategories") {
         const { xValueCategories } = action.payload;
@@ -395,6 +340,70 @@ const forecastReducer = (
     case RUN_FORECASTECONOMICSAGGREGATION_SUCCESS: {
       const { forecastEconomicsAggregated } = action.payload;
       return { ...state, forecastEconomicsAggregated };
+    }
+
+    case PUT_SELECTCHART_SUCCESS: {
+      const { reducer, selectedChartOptionTitle, chartOption } = action.payload;
+
+      if (reducer === "forecastReducer") {
+        return {
+          ...state,
+          [selectedChartOptionTitle]: chartOption,
+        };
+      } else {
+        return state;
+      }
+    }
+
+    case TRANSFORM_CHARTDATA_SUCCESS: {
+      const {
+        reducer,
+        chartType,
+        chartData,
+        xValueCategories,
+        lineOrScatter,
+        isYear,
+        workflowCategory,
+      } = action.payload;
+
+      if (reducer === "forecastReducer") {
+        return {
+          ...state,
+          xValueCategories,
+          lineOrScatter,
+          isYear,
+          [workflowCategory]: {
+            ...(state as any)[workflowCategory],
+            [chartType]: {
+              ...(state as any)[workflowCategory][chartType as TChartTypes],
+              chartData,
+            },
+          },
+        };
+      } else {
+        return state;
+      }
+    }
+
+    case RESET_CHART_DATA: {
+      const { reducer, workflowCategory } = action.payload;
+
+      if (reducer === "forecastReducer") {
+        return {
+          ...state,
+          [workflowCategory]: {
+            ...(state as any)[workflowCategory],
+            stackedAreaChart: { chartData: [] },
+            lineChart: { chartData: [] },
+            scatterChart: { chartData: [] },
+            doughnutChart: { chartData: [] },
+            radarChart: { chartData: [] },
+            heatMapChart: { chartData: [] },
+          },
+        };
+      } else {
+        return state;
+      }
     }
 
     case RESET_FORECAST: {

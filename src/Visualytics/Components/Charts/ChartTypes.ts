@@ -9,7 +9,8 @@ export type TChartTypes =
   | "scatterChart"
   | "doughnutChart"
   | "barChart"
-  | "radarChart";
+  | "radarChart"
+  | "heatMapChart";
 
 export interface IApexChartGrid {
   gridName: string;
@@ -48,7 +49,7 @@ export interface IApexChartPointers {
   enablePointLabel: boolean;
   pointLabel: string;
 }
-export interface IApexLineChartGeneral {
+export interface IApexLineChartSeries {
   curve: string;
   colors: string;
   storeLineWidth: Partial<IApexSlider>;

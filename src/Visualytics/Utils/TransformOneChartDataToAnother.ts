@@ -1,5 +1,5 @@
 import omitBy from "lodash.omitby";
-import { IForecastResultsTransformers } from "../Redux/Sagas/SagaTypes";
+import { IForecastResultsTransformers } from "../../Forecast/Redux/Sagas/SagaTypes";
 
 export const stackedChartTostackedChartData = ({
   data,
