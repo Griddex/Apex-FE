@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const YChartCategory = ({
+const ZChartCategory = ({
   categoryOptionTitle,
   updateAction,
   removeAction,
@@ -46,7 +46,7 @@ const YChartCategory = ({
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
-      categoryTitle={"Y Category"}
+      categoryTitle={"Z Category"}
       categoryOptionTitle={categoryOptionTitle}
       updateAction={updateAction}
       removeAction={removeAction}
@@ -55,4 +55,4 @@ const YChartCategory = ({
   );
 };
 
-export default React.memo(YChartCategory);
+export default React.memo(ZChartCategory);

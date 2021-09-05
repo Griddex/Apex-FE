@@ -8,14 +8,20 @@ export const getBaseUnitUrl = () => {
   return "http://localhost:5017/api/unit-system";
 };
 
+const getBaseForecastUrl = () => {
+  //return "https://apex.syncware.io/forecast";
+  return "http://localhost:5015/api/forecast";
+};
+
 export const getBaseEconomicsUrl = () => {
   //return "https://apex.syncware.io/economics";
   return "http://localhost:5016/api/economics";
 };
 
-const getBaseForecastUrl = () => {
-  //return "https://apex.syncware.io/forecast";
-  return "http://localhost:5015/api/forecast";
+export const getBaseVisualyticsUrl = () => {
+  //return "https://apex.syncware.io/economics";
+  return "http://localhost:5018/api/visualytics";
 };
+
 
 export default getBaseForecastUrl;

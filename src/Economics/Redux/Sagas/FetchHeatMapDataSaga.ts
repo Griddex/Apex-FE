@@ -59,17 +59,17 @@ function* fetchHeatMapDataSaga(
 
   const {
     selectedEconomicsResultsId,
-    heatMapVariableXOption,
-    heatMapVariableYOption,
-    heatMapVariableZOption,
+    heatMapVariableXOptions,
+    heatMapVariableYOptions,
+    heatMapVariableZOptions,
     isEconomicsResultsSaved,
   } = yield select((state) => state.economicsReducer);
 
   const data = {
     analysisResultId: selectedEconomicsResultsId,
-    xName: heatMapVariableXOption.value,
-    yName: heatMapVariableYOption.value,
-    zName: heatMapVariableZOption.value,
+    xName: heatMapVariableXOptions.value,
+    yName: heatMapVariableYOptions.value,
+    zName: heatMapVariableZOptions.value,
     zLength: variableZlength,
     isSaved: isEconomicsResultsSaved,
     developmentScenariosAnalysis: [

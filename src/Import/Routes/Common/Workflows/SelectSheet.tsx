@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SelectSheet = ({
+  wrkflwCtgry,
   wrkflwPrcss,
   reducer,
   inputWorkbook,
@@ -82,7 +83,7 @@ const SelectSheet = ({
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  const wc = "inputDataWorkflows";
+  const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
   const {

@@ -89,6 +89,9 @@ export function* saveInputDeckSaga(
     Object.keys(appHeaderNameUnitsMap) as string[]
   ).reduce((acc: any, key) => {
     const val = appHeaderNameUnitsMap[key];
+    if (Array.isArray(val) && val[0].toLowerCase() === "noid") {
+      return acc;
+    }
     if (val.toLowerCase() !== "noid") return { ...acc, [key]: val };
     else return acc;
   }, {});

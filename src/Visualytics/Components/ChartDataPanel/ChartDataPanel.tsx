@@ -8,6 +8,8 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import NewWindow from "rc-new-window";
 
 export interface IChartDataPanel<T = ISelectOption> {
   selectLabel: string;
@@ -18,7 +20,9 @@ export interface IChartDataPanel<T = ISelectOption> {
   hasSecondaryComponent: boolean;
   secondarySelectComponent?: React.FC;
   treeViewComponent: React.FC;
-  categoriesAction?: () => void;
+  extrudeCategories?: boolean;
+  setExtrudeCategories?: TUseState<boolean>;
+  categoriesComponent?: JSX.Element;
 }
 
 const ChartDataPanel = <T extends ISelectOption>({
@@ -29,9 +33,12 @@ const ChartDataPanel = <T extends ISelectOption>({
   hasSecondaryComponent,
   secondarySelectComponent,
   treeViewComponent,
-  categoriesAction,
+  extrudeCategories,
+  setExtrudeCategories,
+  categoriesComponent,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
+  const CategoriesComponent = categoriesComponent as JSX.Element;
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
   const TreeViewComponent = treeViewComponent as React.FC;
 
@@ -74,9 +81,22 @@ const ChartDataPanel = <T extends ISelectOption>({
         <TreeViewComponent />
       </div>
       <ApexFlexContainer height={50} justifyContent="flex-end">
+        {extrudeCategories && (
+          <NewWindow
+            onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
+            copyStyles={true}
+            height={800}
+            width={400}
+          >
+            {CategoriesComponent}
+          </NewWindow>
+        )}
+
         <CategoryOutlinedIcon
           style={getApexIconButtonStyle(theme)}
-          onClick={categoriesAction}
+          onClick={() =>
+            setExtrudeCategories && setExtrudeCategories(!extrudeCategories)
+          }
         />
       </ApexFlexContainer>
     </ApexFlexContainer>

@@ -9,6 +9,7 @@ import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectR
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import isObjectEmpty from "../../../../Application/Utils/IsObjectEmpty";
 import {
   developmentScenariosMap,
   economicsAnalysesOptions,
@@ -43,9 +44,9 @@ const SensitivitiesHeatMapChart = () => {
 
   const {
     sensitivitiesHeatMapData,
-    heatMapVariableXOption,
-    heatMapVariableYOption,
-    heatMapVariableZOption,
+    heatMapVariableXOptions,
+    heatMapVariableYOptions,
+    heatMapVariableZOptions,
     heatMapTreeByScenario,
   } = useSelector((state: RootState) => state.economicsReducer);
   console.log(
@@ -54,32 +55,27 @@ const SensitivitiesHeatMapChart = () => {
   );
 
   const isAllVariablesDropped = [
-    heatMapVariableXOption,
-    heatMapVariableYOption,
-    heatMapVariableZOption,
+    heatMapVariableXOptions,
+    heatMapVariableYOptions,
+    heatMapVariableZOptions,
   ].every((v) => v !== null);
 
-  const isHeatMapVariableXOptionOnly =
-    heatMapVariableXOption !== null &&
-    heatMapVariableYOption === null &&
-    heatMapVariableZOption == null;
-  const isHeatMapVariableXYOptionOnly =
-    heatMapVariableXOption !== null &&
-    heatMapVariableYOption !== null &&
-    heatMapVariableZOption == null;
-  const isHeatMapVariableXYZOptionOnly =
-    heatMapVariableXOption !== null &&
-    heatMapVariableYOption !== null &&
-    heatMapVariableZOption !== null;
+  const isX = !isObjectEmpty(heatMapVariableXOptions);
+  const isY = !isObjectEmpty(heatMapVariableYOptions);
+  const isZ = !isObjectEmpty(heatMapVariableZOptions);
+
+  const isHeatMapVariableXOptionOnly = isX && !isY && !isZ;
+  const isHeatMapVariableXYOptionOnly = isX && isY && !isZ;
+  const isHeatMapVariableXYZOptionOnly = isX && isY && isZ;
 
   let heatMapTreeZRow = {} as RenderTree;
   let heatMapVarZData = [] as ISelectOption[];
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG Development";
 
-  if (heatMapTreeByScenario.id !== "" && heatMapVariableZOption !== null) {
+  if (heatMapTreeByScenario.id !== "" && isZ) {
     heatMapTreeZRow = heatMapTreeByScenario["children"].filter(
-      (row: any) => row.title === heatMapVariableZOption.label
+      (row: any) => row.title === heatMapVariableZOptions.label
     )[0] as NonNullable<RenderTree>;
 
     const sensitivitiesZString = heatMapTreeZRow.title?.split("_")[1];
@@ -115,7 +111,7 @@ const SensitivitiesHeatMapChart = () => {
         {isAllVariablesDropped && (
           <ApexCheckboxGroup
             setSelectedVariable={setSelectedZ}
-            variableZOption={heatMapVariableZOption}
+            variableZOption={heatMapVariableZOptions}
             apexCheckboxDataGroup={heatMapVarZData as ISelectOption[]}
           />
         )}
@@ -133,7 +129,7 @@ const SensitivitiesHeatMapChart = () => {
             <RotateLeftIcon key={1} />,
             <AirplayOutlinedIcon key={2} />,
           ]}
-          disableds={[false, heatMapVariableXOption === null]}
+          disableds={[false, heatMapVariableXOptions === null]}
           shouldExecute={[true, true]}
           shouldDispatch={[false, false]}
           finalActions={[

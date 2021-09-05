@@ -74,9 +74,7 @@ function* getVisualyticsChartDataSaga(
   const requestData = {
     chart: chartType,
     columnNames: visualyticsColumnNames,
-    isSaved: isVisualyticsDeckSaved,
     visualyticsId: selectedVisualyticsId,
-    xValueCategoryPositions,
   };
 
   const message = "Loading visualytics data...";

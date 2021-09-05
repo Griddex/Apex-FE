@@ -20,7 +20,7 @@ import StoredDeck from "../../Import/Images/StoredDeck.svg";
 import VisualyticsCharts from "../Images/VisualyticsCharts.svg";
 import {
   loadVisualyticsWorkflowAction,
-  saveVisualyticsDeckRequestAction,
+  saveVisualyticsRequestAction,
 } from "../Redux/Actions/VisualyticsActions";
 import StoredVisualyticsDecks from "./StoredVisualyticsDecks";
 import { IdType } from "./VisualyticsLandingTypes";
@@ -129,7 +129,7 @@ const VisualyticsLanding = () => {
         false,
         true,
         () =>
-          saveVisualyticsDeckRequestAction(
+          saveVisualyticsRequestAction(
             workflowProcess,
             titleDesc as Record<string, string>
           ),

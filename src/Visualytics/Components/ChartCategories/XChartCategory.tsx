@@ -21,6 +21,7 @@ import {
 } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
 import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
+import CartesianChartCategory from "./CartesianChartCategory";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,99 +39,19 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const XChartCategory = ({
-  xCategoryOptionTitle,
+  categoryOptionTitle,
   updateAction,
   removeAction,
   disable,
 }: IChartCategories) => {
-  const classes = useStyles();
-  const theme = useTheme();
-
-  // const [id, setId] = React.useState("");
-  const [hasDroppedObj, setHasDroppedObj] = React.useState<
-    Record<string, boolean>
-  >({});
-  const [dragItemObj, setDragItemObj] = React.useState(
-    {} as Record<string, IDragItem>
-  );
-
-  const allItemTypes = [
-    ...Object.values(itemTypesForecast),
-    ...Object.values(itemTypesEconomics),
-    ...Object.values(itemTypesVisualytics),
-  ];
-
-  const [{ isOverCurrent, canDrop }, drop] = useDrop(
-    () => ({
-      accept: Object.keys(hasDroppedObj).length > 0 ? allItemTypes : "",
-      drop(item) {
-        const { id } = item as IDragItem;
-
-        // setId(id);
-        setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
-        setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
-        updateAction(xCategoryOptionTitle as string, item);
-      },
-      collect: (monitor) => ({
-        isOver: monitor.isOver(),
-        isOverCurrent: monitor.isOver({ shallow: true }),
-        canDrop: monitor.canDrop(),
-      }),
-    }),
-    []
-  );
-
-  const isActive = canDrop && isOverCurrent;
-  let dropTargetStyle = {};
-  if (isActive) {
-    dropTargetStyle = {
-      border: `1px solid ${theme.palette.primary.main}`,
-      backgroundColor: theme.palette.primary.light,
-    };
-  } else if (canDrop) {
-    dropTargetStyle = {
-      border: `1px solid ${theme.palette.primary.main}`,
-    };
-  }
-
-  const disableStyle = disable
-    ? {
-        pointerEvents: "none",
-        color: theme.palette.grey[200],
-        backgroundColor: theme.palette.grey[400],
-      }
-    : {};
-
-  const style = { ...dropTargetStyle, ...disableStyle } as CSSProperties;
-
   return (
-    <div ref={drop} className={classes.chartProps} style={style}>
-      <IconButton onClick={() => {}} edge="end">
-        <OpenInNewOutlinedIcon />{" "}
-      </IconButton>
-      <AnalyticsComp
-        title="X Category"
-        direction="Vertical"
-        containerStyle={{ width: "100%", height: "100%" }}
-        content={
-          <ApexFlexContainer>
-            {Object.keys(hasDroppedObj).length > 0
-              ? Object.keys(hasDroppedObj).map((id: string, i: number) => (
-                  <ChartCategoryVariable
-                    key={i}
-                    dragItem={dragItemObj[id]}
-                    setHasDroppedObj={setHasDroppedObj}
-                    categoryOptionTitle={xCategoryOptionTitle as string}
-                    removeChartCategoryAction={removeAction}
-                  />
-                ))
-              : "Drop here"}
-          </ApexFlexContainer>
-        }
-        contentStyle={{ height: "100%" }}
-      />
-    </div>
+    <CartesianChartCategory
+      categoryTitle={" X Category"}
+      categoryOptionTitle={categoryOptionTitle}
+      updateAction={updateAction}
+      removeAction={removeAction}
+      disable={disable}
+    />
   );
 };
-
 export default React.memo(XChartCategory);
