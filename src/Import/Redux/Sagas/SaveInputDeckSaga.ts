@@ -16,6 +16,7 @@ import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
 import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
 import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
@@ -28,9 +29,11 @@ import {
   saveInputDeckFailureAction,
   saveInputDeckSuccessAction,
   SAVE_INPUTDECK_REQUEST,
+  updateInputParameterAction,
 } from "../Actions/InputActions";
 import { fetchStoredInputDeckRequestAction } from "../Actions/StoredInputDeckActions";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
+import { initialInputWorkflowParameters } from "../State/InputState";
 
 function getInputDeckType(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities")) return "Facilities InputDeck";
@@ -72,8 +75,8 @@ export function* saveInputDeckSaga(
   const currentTitleDesc = autoTitleDesc ? autoTitleDesc : titleDesc;
   const { title, description } = currentTitleDesc;
 
-  const wp = workflowProcess;
   const wc = "inputDataWorkflows";
+  const wp = workflowProcess;
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
@@ -148,7 +151,14 @@ export function* saveInputDeckSaga(
 
     yield put(fetchStoredInputDeckRequestAction(currentProjectId));
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
-    // yield put(workflowResetAction(0, wp, wc));
+    yield put(
+      updateInputParameterAction(
+        "inputReducer",
+        `${wc}.${wp}`,
+        initialInputWorkflowParameters
+      )
+    );
+    yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(successDialogParameters(reducer, inputDeckType, wp))
     );
@@ -161,6 +171,7 @@ export function* saveInputDeckSaga(
     });
 
     yield put(showDialogAction(failureDialogParameters(inputDeckType)));
+  } finally {
     yield put(hideSpinnerAction());
   }
 }

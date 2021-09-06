@@ -4,6 +4,7 @@ import { ValueType } from "react-select";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import NoData from "../../Application/Components/Visuals/NoData";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import XYChartCategories from "../../Visualytics/Components/ChartCategories/XYChartCategories";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchForecastTreeviewKeysRequestAction,
@@ -16,6 +17,7 @@ const ForecastChartDataPanel = () => {
 
   const reducer = "forecastReducer";
   const wc = "storedDataWorkflows";
+
   const { forecastResultsStored } = useSelector(
     (state: RootState) => state.forecastReducer[wc]
   );
@@ -104,6 +106,7 @@ const ForecastChartDataPanel = () => {
       treeViewComponent={
         forecastRunOption.title === "Select..." ? NoData : ForecastTreeView
       }
+      renderCategoryIcon={false}
     />
   );
 };

@@ -22,11 +22,11 @@ const swapToChosenTableHeaders = (
     const headerNames = [];
     const rowValues = [];
     for (const fileHeader of Object.keys(row)) {
-      const { chosenAppHeader, exclude } =
+      const { chosenAppHeader, include } =
         fileAppHeaderExcludeWithNoneMap[fileHeader];
       const chosenHeaderName = appHeaderTitleNameObj[chosenAppHeader];
 
-      if (!exclude) {
+      if (include) {
         headerNames.push(chosenHeaderName);
         rowValues.push(row[fileHeader]);
       }

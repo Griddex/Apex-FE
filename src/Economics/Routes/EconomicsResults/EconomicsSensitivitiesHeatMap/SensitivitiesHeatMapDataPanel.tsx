@@ -192,7 +192,7 @@ const SensitivitiesHeatMapDataPanel = () => {
         <XYZChartCategories
           xCategoryOptionTitle="heatMapVariableXOptions"
           yCategoryOptionTitle="heatMapVariableYOptions"
-          zCategoryOptionTitle="heatMapVariableYOptions"
+          zCategoryOptionTitle="heatMapVariableZOptions"
           disableX={disableCollection[0]}
           disableY={disableCollection[1]}
           disableZ={disableCollection[2]}
@@ -200,6 +200,7 @@ const SensitivitiesHeatMapDataPanel = () => {
           removeAction={removeEconomicsChartCategoryAction}
         />
       }
+      renderCategoryIcon={true}
     />
   );
 };

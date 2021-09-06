@@ -49,10 +49,6 @@ const SensitivitiesHeatMapChart = () => {
     heatMapVariableZOptions,
     heatMapTreeByScenario,
   } = useSelector((state: RootState) => state.economicsReducer);
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 51 ~ SensitivitiesHeatMapChart ~ heatMapTreeByScenario",
-    heatMapTreeByScenario
-  );
 
   const isAllVariablesDropped = [
     heatMapVariableXOptions,
@@ -74,8 +70,10 @@ const SensitivitiesHeatMapChart = () => {
   let selectedDevScenario = "OIL/AG Development";
 
   if (heatMapTreeByScenario.id !== "" && isZ) {
+    const firstKey = Object.keys(heatMapVariableZOptions)[0];
+
     heatMapTreeZRow = heatMapTreeByScenario["children"].filter(
-      (row: any) => row.title === heatMapVariableZOptions.label
+      (row: any) => row.title === heatMapVariableZOptions[firstKey].title
     )[0] as NonNullable<RenderTree>;
 
     const sensitivitiesZString = heatMapTreeZRow.title?.split("_")[1];

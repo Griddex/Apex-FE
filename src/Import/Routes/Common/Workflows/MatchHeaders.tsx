@@ -230,7 +230,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       );
       const scoreOpts = keyedScoreOptions.current[fileHeader];
       const score = scoreOpts[0];
-      const exclude = false; //TODO: Can enforce columns that must be used in the forecast here
+      const include = true; //TODO: Can enforce columns that must be used in the forecast here
       const acceptMatch = specificSavedMatchObjectValues
         .map((h) => h.header)
         .includes(initialAppHeader.label)
@@ -243,7 +243,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         applicationHeader: initialAppHeader.label,
         type: initialHeaderType,
         match: score.value,
-        exclude,
+        include,
         acceptMatch,
       };
     })
@@ -315,7 +315,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         ...selectedRow,
         applicationHeader: selectedAppHeader,
         match: selectedScore.value as string,
-        exclude: selectedAppHeader === "None" ? true : false,
+        include: selectedAppHeader === "None" ? false : true,
       };
 
       setRows(rows);
@@ -342,7 +342,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         ...selectedRow,
         applicationHeader: isChecked ? "None" : formerHeader.label,
         match: isChecked ? 0 : formerScore.label,
-        exclude: isChecked,
+        include: isChecked,
       };
 
       const noneOptionIndex = headerOptions.map((h) => h.label).indexOf("None");
@@ -516,16 +516,16 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         width: 100,
       },
       {
-        key: "exclude",
-        name: "EXCLUDE",
+        key: "include",
+        name: "INCLUDE",
         resizable: true,
         formatter: ({ row }) => {
-          const checked = row.exclude as boolean;
+          const checked = row.include as boolean;
 
           return (
             <ApexFlexContainer>
               <ApexMuiSwitch
-                name="exclude"
+                name="include"
                 handleChange={(event) => handleExcludeSwitchChange(row, event)}
                 checked={checked}
                 checkedColor={theme.palette.success.main}
@@ -575,11 +575,11 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   ).filter((h: string) => h.toLowerCase() !== "none");
 
   const fileAppHeaderExcludeWithNoneMap = rows.reduce((acc: any, row) => {
-    const { fileHeader, applicationHeader, exclude } = row;
+    const { fileHeader, applicationHeader, include } = row;
 
     return {
       ...acc,
-      [fileHeader as string]: { chosenAppHeader: applicationHeader, exclude },
+      [fileHeader as string]: { chosenAppHeader: applicationHeader, include },
     };
   }, {} as Record<string, Record<string, React.Key | boolean>>);
 

@@ -7,9 +7,14 @@ import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
-import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import NewWindow from "rc-new-window";
+import { Rnd } from "react-rnd";
+import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
+import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import { Button } from "@material-ui/core";
 
 export interface IChartDataPanel<T = ISelectOption> {
   selectLabel: string;
@@ -23,6 +28,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   extrudeCategories?: boolean;
   setExtrudeCategories?: TUseState<boolean>;
   categoriesComponent?: JSX.Element;
+  renderCategoryIcon: boolean;
 }
 
 const ChartDataPanel = <T extends ISelectOption>({
@@ -36,11 +42,21 @@ const ChartDataPanel = <T extends ISelectOption>({
   extrudeCategories,
   setExtrudeCategories,
   categoriesComponent,
+  renderCategoryIcon,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
   const CategoriesComponent = categoriesComponent as JSX.Element;
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
   const TreeViewComponent = treeViewComponent as React.FC;
+
+  const [categorySize, setCategorySize] = React.useState({
+    width: 300,
+    height: 800,
+  });
+  const [categoryPosition, setCategoryPosition] = React.useState({
+    x: 0,
+    y: 0,
+  });
 
   const SelectTitle = () => {
     return (
@@ -82,22 +98,66 @@ const ChartDataPanel = <T extends ISelectOption>({
       </div>
       <ApexFlexContainer height={50} justifyContent="flex-end">
         {extrudeCategories && (
-          <NewWindow
-            onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
-            copyStyles={true}
-            height={800}
-            width={400}
+          // <NewWindow
+          //   onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
+          //   copyStyles={true}
+          //   height={800}
+          //   width={400}
+          // >
+          //   {CategoriesComponent}
+          // </NewWindow>
+
+          <Rnd
+            style={{ zIndex: 2000 }}
+            size={{
+              width: categorySize.width,
+              height: categorySize.height,
+            }}
+            position={{
+              x: categoryPosition.x,
+              y: categoryPosition.y,
+            }}
+            onDragStop={(e, d) => setCategoryPosition({ x: d.x, y: d.y })}
+            onResizeStop={(e, direction, ref, delta, position) => {
+              setCategorySize({
+                width: Number(ref.style.width),
+                height: Number(ref.style.height),
+              });
+              setCategoryPosition(position);
+            }}
           >
-            {CategoriesComponent}
-          </NewWindow>
+            <DraggableDialog
+              title="Title"
+              iconType="category"
+              onClose={() =>
+                setExtrudeCategories && setExtrudeCategories(false)
+              }
+              actionsList={() => (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() =>
+                    setExtrudeCategories && setExtrudeCategories(false)
+                  }
+                  startIcon={<CloseOutlinedIcon />}
+                >
+                  {"Cancel"}
+                </Button>
+              )}
+            >
+              {CategoriesComponent}
+            </DraggableDialog>
+          </Rnd>
         )}
 
-        <CategoryOutlinedIcon
-          style={getApexIconButtonStyle(theme)}
-          onClick={() =>
-            setExtrudeCategories && setExtrudeCategories(!extrudeCategories)
-          }
-        />
+        {renderCategoryIcon && (
+          <CategoryOutlinedIcon
+            style={getApexIconButtonStyle(theme)}
+            onClick={() =>
+              setExtrudeCategories && setExtrudeCategories(!extrudeCategories)
+            }
+          />
+        )}
       </ApexFlexContainer>
     </ApexFlexContainer>
   );

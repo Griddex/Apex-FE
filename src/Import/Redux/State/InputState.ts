@@ -2,6 +2,64 @@ import { IInputWorkflows } from "../../../Application/Components/Workflows/Workf
 import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
 import { InputStateType } from "./InputStateTypes";
 
+export const initialInputWorkflowParameters = {
+  fileLastModified: "",
+  filePath: "",
+  fileType: "",
+  fileName: "",
+  fileSize: "",
+  fileAuthor: "",
+  fileCreated: "",
+
+  fileAccepted: false,
+  dnDDisabled: false,
+  inputFile: null,
+
+  workSheetNames: [],
+  selectedWorksheetName: "",
+  selectedWorksheetData: [],
+
+  tableHeaders: [],
+  fileHeaders: [],
+  fileHeadersMatch: [],
+  selectedHeaderRowIndex: 0,
+  selectedHeaderOptionIndex: 0,
+  chosenApplicationHeadersIndices: [],
+  headerRowOptionsIndices: [],
+  fileUnits: [],
+  fileUniqueUnits: [],
+  fileUnitsMatch: [],
+  fileUnitsMatchUnique: [],
+  selectedUnitRowIndex: 0,
+  selectedUnitOptionIndex: 0,
+  unitRowOptionsIndices: [],
+  tableRoleNames: [],
+  optionIndices: [],
+  tableData: [],
+  columnNameTableData: [],
+  inputDeckData: [],
+  selectedRow: null,
+
+  chosenAppHeadersWithNone: [],
+  chosenAppHeadersWithoutNone: [],
+
+  chosenApplicationUnitsWithoutNone: [],
+  fileUnitsWithoutNone: [],
+  fileAppHeaderExcludeWithNoneMap: {},
+  fileHeaderUnitIdMap: {},
+  currentAppHeaderNameMap: {},
+  fileHeadersUnitsAppHeadersWithoutNoneMap: {},
+
+  savedMatchObjectAll: {},
+  appHeaderNameUnitsMap: {},
+
+  inputDeckId: "",
+  status: 0,
+  message: "",
+  errors: { message: "" },
+  success: false,
+};
+
 const inputWorkflowProcesses: Array<IInputWorkflows["wkPs"]> = [
   "facilitiesInputDeckExcel",
   "facilitiesInputDeckDatabase",
@@ -22,63 +80,7 @@ const generateInputState = () => {
   return inputWorkflowProcesses.reduce((acc, workflowName) => {
     return {
       ...acc,
-      [workflowName]: {
-        fileLastModified: "",
-        filePath: "",
-        fileType: "",
-        fileName: "",
-        fileSize: "",
-        fileAuthor: "",
-        fileCreated: "",
-
-        fileAccepted: false,
-        dnDDisabled: false,
-        inputFile: null,
-
-        workSheetNames: [],
-        selectedWorksheetName: "",
-        selectedWorksheetData: [],
-
-        tableHeaders: [],
-        fileHeaders: [],
-        fileHeadersMatch: [],
-        selectedHeaderRowIndex: 0,
-        selectedHeaderOptionIndex: 0,
-        chosenApplicationHeadersIndices: [],
-        headerRowOptionsIndices: [],
-        fileUnits: [],
-        fileUniqueUnits: [],
-        fileUnitsMatch: [],
-        fileUnitsMatchUnique: [],
-        selectedUnitRowIndex: 0,
-        selectedUnitOptionIndex: 0,
-        unitRowOptionsIndices: [],
-        tableRoleNames: [],
-        optionIndices: [],
-        tableData: [],
-        columnNameTableData: [],
-        inputDeckData: [],
-        selectedRow: null,
-
-        chosenAppHeadersWithNone: [],
-        chosenAppHeadersWithoutNone: [],
-
-        chosenApplicationUnitsWithoutNone: [],
-        fileUnitsWithoutNone: [],
-        fileAppHeaderExcludeWithNoneMap: {},
-        fileHeaderUnitIdMap: {},
-        currentAppHeaderNameMap: {},
-        fileHeadersUnitsAppHeadersWithoutNoneMap: {},
-
-        savedMatchObjectAll: {},
-        appHeaderNameUnitsMap: {},
-
-        inputDeckId: "",
-        status: 0,
-        message: "",
-        errors: { message: "" },
-        success: false,
-      },
+      [workflowName]: initialInputWorkflowParameters,
     };
   }, {});
 };

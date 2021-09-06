@@ -96,6 +96,7 @@ const EconomicsTemplateDataPanel = () => {
       hasSecondaryComponent={false}
       selectedTitle={selectedEconomicsResultsTitle}
       treeViewComponent={EconomicsTemplateTreeView}
+      renderCategoryIcon={true}
     />
   );
 };

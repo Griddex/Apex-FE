@@ -1,42 +1,7 @@
-import {
-  createStyles,
-  IconButton,
-  makeStyles,
-  Theme,
-  useTheme,
-} from "@material-ui/core";
-import React, { CSSProperties } from "react";
-import { useDrop } from "react-dnd";
-import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import {
-  itemTypesEconomics,
-  itemTypesForecast,
-  itemTypesVisualytics,
-} from "../../Utils/DragAndDropItemTypes";
-import {
-  IChartCategory,
-  IChartCategories,
-  IDragItem,
-} from "./ChartCategoryTypes";
-import ChartCategoryVariable from "./ChartCategoryVariable";
-import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import React from "react";
 import CartesianChartCategory from "./CartesianChartCategory";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    chartProps: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      justifyContent: "flex-start",
-      height: 35,
-      border: `1px solid ${theme.palette.grey[300]}`,
-      width: "100%",
-      paddingTop: 5,
-    },
-  })
-);
+import { IChartCategories } from "./ChartCategoryTypes";
 
 const YChartCategory = ({
   categoryOptionTitle,
@@ -55,4 +20,4 @@ const YChartCategory = ({
   );
 };
 
-export default React.memo(YChartCategory);
+export default YChartCategory;

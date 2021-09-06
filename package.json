@@ -119,6 +119,7 @@
     "react-motion": "^0.5.2",
     "react-redux": "^7.2.4",
     "react-resizable": "^3.0.4",
+    "react-rnd": "^10.3.4",
     "react-router-dom": "^5.2.0",
     "react-router-navigation-prompt": "^1.8.14",
     "react-scripts": "^4.0.3",

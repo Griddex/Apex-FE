@@ -8,8 +8,10 @@ import {
 import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
 import React, { CSSProperties } from "react";
 import { useDrop } from "react-dnd";
+import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import {
   itemTypesEconomics,
   itemTypesForecast,
@@ -42,10 +44,12 @@ const CartesianChartCategory = ({
 }: IChartCategories) => {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const [hasDroppedObj, setHasDroppedObj] = React.useState<
     Record<string, boolean>
   >({});
+
   const [dragItemObj, setDragItemObj] = React.useState(
     {} as Record<string, IDragItem>
   );
@@ -58,11 +62,16 @@ const CartesianChartCategory = ({
 
   const [{ isOverCurrent, canDrop }, drop] = useDrop(
     () => ({
-      accept: Object.keys(hasDroppedObj).length > 0 ? allItemTypes : "",
+      // accept: Object.keys(hasDroppedObj).length > 0 ? allItemTypes : "",
+      accept: allItemTypes,
       drop(item) {
         const { id } = item as IDragItem;
+        console.log(
+          "Logged output --> ~ file: CartesianChartCategory.tsx ~ line 66 ~ drop ~ item",
+          item
+        );
 
-        updateAction(categoryOptionTitle as string, item);
+        dispatch(updateAction(categoryOptionTitle as string, item));
         setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
         setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
       },
@@ -103,20 +112,24 @@ const CartesianChartCategory = ({
   } as CSSProperties;
 
   return (
-    <div ref={drop} className={classes.chartProps} style={style}>
+    <div className={classes.chartProps} style={style}>
       <IconButton
         onClick={() => {}}
         edge="end"
-        style={{ alignSelf: "flex-end" }}
+        style={{ alignSelf: "flex-end", paddingRight: 12 }}
       >
-        <OpenInNewOutlinedIcon />
+        <OpenInNewOutlinedIcon style={getApexIconButtonStyle(theme)} />
       </IconButton>
       <AnalyticsComp
         title={categoryTitle as string}
         direction="Vertical"
         containerStyle={{ width: "100%", height: 150 }}
         content={
-          <ApexFlexContainer>
+          <ApexFlexContainer
+            ref={drop}
+            flexDirection="column"
+            justifyContent="flex-start"
+          >
             {Object.keys(hasDroppedObj).length > 0
               ? Object.keys(hasDroppedObj).map((id: string, i: number) => (
                   <ChartCategoryVariable
@@ -140,4 +153,4 @@ const CartesianChartCategory = ({
   );
 };
 
-export default React.memo(CartesianChartCategory);
+export default CartesianChartCategory;
