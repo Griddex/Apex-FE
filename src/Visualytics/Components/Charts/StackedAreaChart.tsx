@@ -25,6 +25,11 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
   const dispatch = useDispatch();
   const chartRef = React.useRef<any>("");
 
+  //xValueCategories to be put in the proper store reducer
+  const { xValueCategories } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
+
   const { commonChartProps, stackedAreaChart } = useSelector(
     (state: RootState) => state[reducerDefined][wc]
   );
@@ -144,7 +149,9 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
     keys = Object.keys(chartData[0]);
   else keys = [];
 
-  const bottomAxisValues = chartData.map((_: string, i: number) => 2020 + i);
+  const bottomAxisValues = xValueCategories.map((row) => {
+    return Number(row);
+  });
 
   const commonChartPropsDefined = commonChartProps as IChart;
   (commonChartPropsDefined["axisBottom"] as AxisProps)["renderTick"] =

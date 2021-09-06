@@ -103,14 +103,16 @@ function* getForecastResultsChartDataSaga(
       authService.post(url, requestData, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const { data } = result;
-    const chartData = transformForecastForChart(data);
+    const {
+      data: { xAxesData, uniqueYears },
+    } = result;
 
-    //TODO Get both from Gift
-    const xValueCategories = chartData.map((_: any, i: number) => 2020 + i);
+    const chartData = transformForecastForChart(xAxesData);
+
     const isYear = true;
 
     const successAction = getForecastResultsChartDataSuccessAction();
+
     yield put({
       ...successAction,
       payload: {
@@ -119,7 +121,7 @@ function* getForecastResultsChartDataSaga(
         workflowCategory,
         chartType,
         chartData,
-        xValueCategories,
+        xValueCategories: uniqueYears,
         lineOrScatter,
         isYear,
       },

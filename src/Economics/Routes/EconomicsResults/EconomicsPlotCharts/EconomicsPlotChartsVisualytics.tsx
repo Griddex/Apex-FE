@@ -21,7 +21,6 @@ import { putSelectChartOptionAction } from "../../../../Visualytics/Redux/Action
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import {
   removeEconomicsChartCategoryAction,
-  transformEconomicsResultsChartDataAction,
   updateEconomicsChartCategoryAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
@@ -129,6 +128,7 @@ const EconomicsPlotChartsVisualytics = () => {
   ];
 
   const basePath = `${wc}.${wp}.commonChartProps`;
+  //xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -140,9 +140,9 @@ const EconomicsPlotChartsVisualytics = () => {
             [1, 2, 3].length > 0
               ? (chartOption: ISelectOption) => {
                   const payload = {
-                    reducer: "econmicsReducer",
+                    reducer: "economicsReducer",
                     chartType: chartOption.value,
-                    xValueCategories: [1, 2, 3, 4].map((_, i) => i + 2020),
+                    xValueCategories: [],
                     lineOrScatter:
                       chartType === "lineChart" ? "line" : "scatter",
                     isYear: true,

@@ -60,6 +60,7 @@ const forecastReducer = (
 
     case UPDATE_FORECASTPARAMETER: {
       const { path, value } = action.payload;
+      console.log("payload: ", action.payload);
 
       const updatedState = set(state, path, value);
       return updatedState;
@@ -137,10 +138,11 @@ const forecastReducer = (
       };
 
     case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
-      const { chartData } = action.payload;
+      const { chartData, xValueCategories } = action.payload;
 
       return {
         ...state,
+        xValueCategories,
         forecastChartsWorkflows: {
           ...state["forecastChartsWorkflows"],
           stackedAreaChart: {
