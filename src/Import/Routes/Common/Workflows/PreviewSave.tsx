@@ -98,7 +98,7 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     false
   );
 
-  const excludedColumnIndices = matchHeadersTable.reduce(
+  const includedColumnIndices = matchHeadersTable.reduce(
     (acc: number[], row: IRawRow, i: number) => {
       if (row.applicationHeader.toString().toLowerCase() === "none")
         return [...acc, i];
@@ -110,7 +110,7 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const columnNameTableDataWithoutNone = columnNameTableData.map(
     (row: IRawRow) => {
       const rowWithoutNone = Object.keys(row).reduce((acc, key, i) => {
-        if (excludedColumnIndices.includes(i)) return acc;
+        if (includedColumnIndices.includes(i)) return acc;
         else return { ...acc, [key]: row[key] };
       }, {});
 

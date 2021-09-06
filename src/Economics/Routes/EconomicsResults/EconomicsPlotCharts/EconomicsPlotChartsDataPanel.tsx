@@ -4,9 +4,14 @@ import { ValueType } from "react-select";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import NoData from "../../../../Application/Components/Visuals/NoData";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
+import XYZChartCategories from "../../../../Visualytics/Components/ChartCategories/XYZChartCategories";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
+import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
+  removeEconomicsChartCategoryAction,
+  updateEconomicsChartCategoryAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
@@ -17,11 +22,18 @@ const EconomicsPlotChartsDataPanel = () => {
   const reducer = "economicsReducer";
   const wc = "storedDataWorkflows";
 
+  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
-  const { selectedEconomicsResultsTitle, selectedEconomicsResultsDescription } =
-    useSelector((state: RootState) => state.economicsReducer);
+  const {
+    selectedEconomicsResultsTitle,
+    selectedEconomicsResultsDescription,
+    selectedEconomicsPlotChartOption,
+  } = useSelector((state: RootState) => state.economicsReducer);
+
+  const chartType = selectedEconomicsPlotChartOption.value;
 
   const economicsResultsTitleOptions = economicsResultsStored.map(
     (row: any) => ({
@@ -94,6 +106,38 @@ const EconomicsPlotChartsDataPanel = () => {
     }
   };
 
+  const renderChartCategory = (chartType: TChartTypes) => {
+    const chartTypeDefined = chartType as TChartTypes;
+
+    if (
+      ["stackedAreaChart", "lineChart", "barChart"].includes(chartTypeDefined)
+    ) {
+      return (
+        <XYChartCategories
+          xCategoryOptionTitle="plotChartsVariableXOptions"
+          yCategoryOptionTitle="plotChartsVariableYOptions"
+          disableX={false}
+          disableY={false}
+          updateAction={updateEconomicsChartCategoryAction}
+          removeAction={removeEconomicsChartCategoryAction}
+        />
+      );
+    } else if (["heatMapChart"].includes(chartTypeDefined)) {
+      return (
+        <XYZChartCategories
+          xCategoryOptionTitle="plotChartsVariableXOptions"
+          yCategoryOptionTitle="plotChartsVariableYOptions"
+          zCategoryOptionTitle="plotChartsVariableZOptions"
+          disableX={false}
+          disableY={false}
+          disableZ={false}
+          updateAction={updateEconomicsChartCategoryAction}
+          removeAction={removeEconomicsChartCategoryAction}
+        />
+      );
+    }
+  };
+
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
@@ -107,6 +151,10 @@ const EconomicsPlotChartsDataPanel = () => {
           ? NoData
           : EconomicsPlotChartsTreeView
       }
+      extrudeCategories={extrudeCategories}
+      setExtrudeCategories={setExtrudeCategories}
+      categoriesComponent={renderChartCategory(chartType as TChartTypes)}
+      renderCategoryIcon={true}
     />
   );
 };

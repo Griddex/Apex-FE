@@ -2,7 +2,7 @@ import React from "react";
 import CartesianChartCategory from "./CartesianChartCategory";
 import { IChartCategories } from "./ChartCategoryTypes";
 
-const XChartCategory = ({
+const ZChartCategory = ({
   categoryOptionTitle,
   updateAction,
   removeAction,
@@ -10,7 +10,7 @@ const XChartCategory = ({
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
-      categoryTitle={"X Category"}
+      categoryTitle={"Z Category"}
       categoryOptionTitle={categoryOptionTitle}
       updateAction={updateAction}
       removeAction={removeAction}
@@ -18,4 +18,5 @@ const XChartCategory = ({
     />
   );
 };
-export default XChartCategory;
+
+export default ZChartCategory;

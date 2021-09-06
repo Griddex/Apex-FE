@@ -17,6 +17,8 @@ export interface IChartCategories {
   xCategoryOptionTitle?: string;
   yCategoryOptionTitle?: string;
   zCategoryOptionTitle?: string;
+  categoryTitle?: string;
+  categoryOptionTitle?: string;
   disable?: boolean;
   disableX?: boolean;
   disableY?: boolean;

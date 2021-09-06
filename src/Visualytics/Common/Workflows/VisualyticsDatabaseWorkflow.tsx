@@ -166,7 +166,16 @@ const VisualyticsDatabaseWorkflow = ({
       <WorkflowBanner {...WorkflowBannerProps} />
       <Prompt
         when={activeStep < steps.length}
-        message="Are you sure you want to leave?"
+        // message="Are you sure you want to leave?"
+        message={(location, action) => {
+          console.log(
+            "Logged output --> ~ file: DatabaseWorkflow.tsx ~ line 174 ~ action",
+            action
+          );
+          return location.pathname.startsWith("/apex")
+            ? true
+            : `Are you sure you want to go to ${location.pathname}?`;
+        }}
       />
       <div className={classes.workflowBody}>
         {activeStep === 2 && (

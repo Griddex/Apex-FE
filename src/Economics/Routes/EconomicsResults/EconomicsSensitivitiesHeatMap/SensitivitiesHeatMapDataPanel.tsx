@@ -29,6 +29,8 @@ const SensitivitiesHeatMapDataPanel = () => {
 
   const wc = "storedDataWorkflows";
 
+  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
@@ -184,32 +186,21 @@ const SensitivitiesHeatMapDataPanel = () => {
       treeViewComponent={
         devOption.label === "Select..." ? NoData : SensitivitiesHeatMapTreeView
       }
-      categoriesAction={() => {
-        const dialogParameters: DialogStuff = {
-          name: "Chart_Categories_Dialog",
-          title: `HeatMap Categories`,
-          type: "draggableDialog",
-          show: true,
-          exclusive: true,
-          maxWidth: "xs",
-          iconType: "category",
-          children: (
-            <XYZChartCategories
-              xCategoryOptionTitle="heatMapVariableXOptions"
-              yCategoryOptionTitle="heatMapVariableYOptions"
-              zCategoryOptionTitle="heatMapVariableYOptions"
-              disableX={disableCollection[0]}
-              disableY={disableCollection[1]}
-              disableZ={disableCollection[2]}
-              updateAction={updateEconomicsChartCategoryAction}
-              removeAction={removeEconomicsChartCategoryAction}
-            />
-          ),
-          actionsList: () => DialogCancelButton(),
-        };
-
-        dispatch(showDialogAction(dialogParameters));
-      }}
+      extrudeCategories={extrudeCategories}
+      setExtrudeCategories={setExtrudeCategories}
+      categoriesComponent={
+        <XYZChartCategories
+          xCategoryOptionTitle="heatMapVariableXOptions"
+          yCategoryOptionTitle="heatMapVariableYOptions"
+          zCategoryOptionTitle="heatMapVariableZOptions"
+          disableX={disableCollection[0]}
+          disableY={disableCollection[1]}
+          disableZ={disableCollection[2]}
+          updateAction={updateEconomicsChartCategoryAction}
+          removeAction={removeEconomicsChartCategoryAction}
+        />
+      }
+      renderCategoryIcon={true}
     />
   );
 };

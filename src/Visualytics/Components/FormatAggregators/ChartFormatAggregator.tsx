@@ -133,7 +133,10 @@ const ChartFormatAggregator = ({
   };
 
   return (
-    <ApexFlexContainer flexDirection="column" moreStyles={{ width: 305 }}>
+    <ApexFlexContainer
+      flexDirection="column"
+      moreStyles={{ flexWrap: "wrap", width: 305 }}
+    >
       <ToggleButtonGroup
         size="small"
         value={perspective}

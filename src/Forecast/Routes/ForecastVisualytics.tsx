@@ -35,8 +35,8 @@ import {
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
 import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
 import { IconButton } from "@material-ui/core";
-import { getApexIconButtonStyle } from "../../Application/Styles/IconButtonStyles";
 import NewWindow from "rc-new-window";
+import { getApexIconButtonStyle } from "../../Application/Styles/IconButtonStyles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,11 +97,15 @@ const ForecastVisualytics = () => {
     (state: RootState) => state.forecastReducer
   );
 
+  const chartType = selectedForecastChartOption.value;
+
   const { chartData } = useSelector(
     (state: RootState) => state.forecastReducer[wc][ch]
   );
 
-  const chartType = selectedForecastChartOption.value;
+  const { xValueCategories } = useSelector(
+    (state: RootState) => state.forecastReducer
+  );
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -118,7 +122,7 @@ const ForecastVisualytics = () => {
                     defaultChart: ch,
                     chartOption,
                     chartType: chartOption.value,
-                    xValueCategories: chartData.map((_, i) => i + 2020),
+                    xValueCategories,
                     lineOrScatter:
                       chartOption.value === "lineChart" ? "line" : "scatter",
                     isYear: true,

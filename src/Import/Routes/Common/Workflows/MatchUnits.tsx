@@ -130,8 +130,8 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const fileHeadersUnitsAppHeadersWithoutNoneMap = React.useRef(
     matchHeadersTable.reduce((acc: any, row: IRawRow) => {
-      const { fileHeader, applicationHeader, exclude } = row;
-      if (exclude) return acc;
+      const { fileHeader, applicationHeader, include } = row;
+      if (!include) return acc;
       else
         return {
           ...acc,

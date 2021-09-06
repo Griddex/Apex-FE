@@ -10,8 +10,6 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import NoData from "../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import XYChartCategories from "../../Components/ChartCategories/XYChartCategories";
-import XYZChartCategories from "../../Components/ChartCategories/XYZChartCategories";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
 import { ChartFormatAggregatorContextProvider } from "../../Components/Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../../Components/FormatAggregators/ChartFormatAggregator";
@@ -21,9 +19,6 @@ import ChartSelectionMenu from "../../Components/Menus/ChartSelectionMenu";
 import VisualyticsChartTitlePlaque from "../../Components/TitlePlaques/VisualyticsChartTitlePlaque";
 import {
   putSelectChartOptionAction,
-  removeVisualyticsChartCategoryAction,
-  transformChartDataAction,
-  updateVisualyticsChartCategoryAction,
   updateVisualyticsParameterAction,
 } from "../../Redux/Actions/VisualyticsActions";
 import PlotChartsSelectChart from "../PlotChartsSelectChart";
@@ -212,38 +207,6 @@ const PlotChartsVisualytics = () => {
     moveDivRef?.current?.addEventListener("mouseup", onMouseUp);
   }, []);
 
-  const renderChartCategory = (chartType: TChartTypes) => {
-    const chartTypeDefined = chartType as TChartTypes;
-
-    if (
-      ["stackedAreaChart", "lineChart", "barChart"].includes(chartTypeDefined)
-    ) {
-      return (
-        <XYChartCategories
-          xCategoryOptionTitle="plotChartsVariableXOptions"
-          yCategoryOptionTitle="plotChartsVariableYOptions"
-          disableX={false}
-          disableY={false}
-          updateAction={updateVisualyticsChartCategoryAction}
-          removeAction={removeVisualyticsChartCategoryAction}
-        />
-      );
-    } else if (["heatMapChart"].includes(chartTypeDefined)) {
-      return (
-        <XYZChartCategories
-          xCategoryOptionTitle="plotChartsVariableXOptions"
-          yCategoryOptionTitle="plotChartsVariableYOptions"
-          zCategoryOptionTitle="plotChartsVariableZOptions"
-          disableX={false}
-          disableY={false}
-          disableZ={false}
-          updateAction={updateVisualyticsChartCategoryAction}
-          removeAction={removeVisualyticsChartCategoryAction}
-        />
-      );
-    }
-  };
-
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
     setMousePosition({ x: panelRef.current?.offsetWidth as number, y: 0 });
@@ -259,8 +222,6 @@ const PlotChartsVisualytics = () => {
         >
           <VisualyticsChartDataPanel />
         </div>
-        {showCategories && renderChartCategory(chartType as TChartTypes)}
-
         <div
           ref={moveDivRef}
           style={{

@@ -59,17 +59,21 @@ function* fetchHeatMapDataSaga(
 
   const {
     selectedEconomicsResultsId,
-    heatMapVariableXOption,
-    heatMapVariableYOption,
-    heatMapVariableZOption,
+    heatMapVariableXOptions,
+    heatMapVariableYOptions,
+    heatMapVariableZOptions,
     isEconomicsResultsSaved,
   } = yield select((state) => state.economicsReducer);
 
+  const firstXKey = Object.keys(heatMapVariableXOptions)[0];
+  const firstYKey = Object.keys(heatMapVariableYOptions)[0];
+  const firstZKey = Object.keys(heatMapVariableZOptions)[0];
+
   const data = {
     analysisResultId: selectedEconomicsResultsId,
-    xName: heatMapVariableXOption.value,
-    yName: heatMapVariableYOption.value,
-    zName: heatMapVariableZOption.value,
+    xName: heatMapVariableXOptions[firstXKey].name,
+    yName: heatMapVariableYOptions[firstYKey].name,
+    zName: heatMapVariableZOptions[firstZKey].name,
     zLength: variableZlength,
     isSaved: isEconomicsResultsSaved,
     developmentScenariosAnalysis: [
@@ -99,6 +103,7 @@ function* fetchHeatMapDataSaga(
       data: { data: sensitivitiesHeatMapData },
     } = result;
 
+    //fetchHeatMapDataSuccessAction
     yield put(
       updateEconomicsParameterAction(
         "sensitivitiesHeatMapData",

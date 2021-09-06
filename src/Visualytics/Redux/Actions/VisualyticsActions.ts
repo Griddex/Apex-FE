@@ -13,9 +13,13 @@ export const UPDATE_VISUALYTICSPARAMETERS = "UPDATE_VISUALYTICSPARAMETERS";
 export const PERSIST_CHARTINDEX = "PERSIST_CHARTINDEX";
 export const LOAD_VISUALYTICS_WORKFLOW = "LOAD_VISUALYTICS_WORKFLOW";
 
-export const SAVE_VISUALYTICSDECK_REQUEST = "SAVE_VISUALYTICSDECK_REQUEST";
-export const SAVE_VISUALYTICSDECK_SUCCESS = "SAVE_VISUALYTICSDECK_SUCCESS";
-export const SAVE_VISUALYTICSDECK_FAILURE = "SAVE_VISUALYTICSDECK_FAILURE";
+export const SAVE_VISUALYTICS_REQUEST = "SAVE_VISUALYTICS_REQUEST";
+export const SAVE_VISUALYTICS_SUCCESS = "SAVE_VISUALYTICS_SUCCESS";
+export const SAVE_VISUALYTICS_FAILURE = "SAVE_VISUALYTICS_FAILURE";
+
+export const STORED_VISUALYTICS_REQUEST = "STORED_VISUALYTICS_REQUEST";
+export const STORED_VISUALYTICS_SUCCESS = "STORED_VISUALYTICS_SUCCESS";
+export const STORED_VISUALYTICS_FAILURE = "STORED_VISUALYTICS_FAILURE";
 
 export const GET_VISUALYTICS_CHARTDATA_REQUEST =
   "GET_VISUALYTICS_CHARTDATA_REQUEST";
@@ -124,7 +128,35 @@ export const persistChartIndexAction = (selectedChartIndex: number) => {
   };
 };
 
-export const saveVisualyticsDeckRequestAction = (
+export const fetchStoredVisualyticsRequestAction = (projectId: string) => {
+  return {
+    type: STORED_VISUALYTICS_REQUEST,
+    payload: {
+      projectId,
+    },
+  };
+};
+
+export const fetchStoredVisualyticsSuccessAction = () => {
+  return {
+    type: STORED_VISUALYTICS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const fetchStoredVisualyticsFailureAction = () => {
+  return {
+    type: STORED_VISUALYTICS_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const saveVisualyticsRequestAction = (
   workflowProcess: TAllWorkflowProcesses,
   titleDesc: Record<string, string>
 ) => {
@@ -132,24 +164,24 @@ export const saveVisualyticsDeckRequestAction = (
   const reducer = "visualyticsReducer";
 
   return {
-    type: SAVE_VISUALYTICSDECK_REQUEST,
+    type: SAVE_VISUALYTICS_REQUEST,
     payload: { workflowProcess, reducer, titleDesc },
     meta: { message: `Saving ${title}...` },
   };
 };
 
-export const saveVisualyticsDeckSuccessAction = () => {
+export const saveVisualyticsSuccessAction = () => {
   return {
-    type: SAVE_VISUALYTICSDECK_SUCCESS,
+    type: SAVE_VISUALYTICS_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const saveVisualyticsDeckFailureAction = () => {
+export const saveVisualyticsFailureAction = () => {
   return {
-    type: SAVE_VISUALYTICSDECK_FAILURE,
+    type: SAVE_VISUALYTICS_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

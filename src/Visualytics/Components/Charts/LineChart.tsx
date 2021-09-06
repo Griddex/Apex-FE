@@ -25,6 +25,7 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
   );
   const { chartData } = lineChart;
 
+
   const commonChartPropsDefined = commonChartProps as IChart;
   const {
     onClick,

@@ -158,7 +158,16 @@ const VisualyticsExcelWorkflow = ({
       <WorkflowBanner {...WorkflowBannerProps} />
       <Prompt
         when={activeStep < steps.length}
-        message="Are you sure you want to leave? You will lose all unsaved data. Proceed?"
+        // message="Are you sure you want to leave? You will lose all unsaved data. Proceed?"
+        message={(location, action) => {
+          console.log(
+            "Logged output --> ~ file: DatabaseWorkflow.tsx ~ line 174 ~ action",
+            action
+          );
+          return location.pathname.startsWith("/apex")
+            ? true
+            : `Are you sure you want to go to ${location.pathname}?`;
+        }}
       />
       <div className={classes.workflowBody}>{renderImportStep(activeStep)}</div>
       {showContextDrawer && (

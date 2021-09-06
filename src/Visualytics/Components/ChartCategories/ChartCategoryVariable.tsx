@@ -62,6 +62,7 @@ const ChartCategoryVariable = ({
         justifyContent: "space-between",
         padding: 2,
         height: 32,
+        width: "100%",
         border: `1px solid ${theme.palette.primary.main}`,
         backgroundColor: theme.palette.primary.light,
       }}

@@ -37,6 +37,7 @@ export default function ForecastTreeView() {
     selectedForecastAggregationType,
     selectedForecastAggregationLevel,
     selectedView,
+    xValueCategories,
   } = useSelector((state: RootState) => state.forecastReducer);
 
   const { chartData } = useSelector(
@@ -155,10 +156,11 @@ export default function ForecastTreeView() {
         const transformedModulePaths =
           transformModulePaths(selectedModulePaths);
 
-        const filteredData = chartData.map((row) =>
+        const filteredData = chartData.map((row: any) =>
           pick(row, transformedModulePaths)
         );
 
+        //filteredData.map((_, i) => i + 2020)
         dispatch({
           ...transformChartDataAction("forecastReducer"),
           payload: {
@@ -167,7 +169,7 @@ export default function ForecastTreeView() {
             defaultChart: ch,
             chartType,
             chartData: filteredData,
-            xValueCategories: filteredData.map((_, i) => i + 2020),
+            xValueCategories,
             lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
             isYear: true,
           },

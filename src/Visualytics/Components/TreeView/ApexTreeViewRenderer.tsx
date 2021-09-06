@@ -70,7 +70,6 @@ const ApexTreeViewRenderer = ({
   const classes = useStyles();
   const { id, name, title } = scenarioNodes;
 
-  //TODO Unequal hooks between re-renders
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: dragDropTypes,
@@ -82,6 +81,7 @@ const ApexTreeViewRenderer = ({
     }),
     []
   );
+
   const opacity = isDragging ? 0.4 : 1;
 
   const getChildById = (node: RenderTree, id: string) => {
@@ -192,7 +192,6 @@ const ApexTreeViewRenderer = ({
             <div ref={drag} style={{ opacity }}>
               {scenarioNodes.title}
             </div>
-            // <div>{scenarioNodes.title}</div>
           }
           key={scenarioNodes.id}
           classes={{ root: classes.rootLabel }}

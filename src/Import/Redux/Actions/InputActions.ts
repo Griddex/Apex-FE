@@ -3,7 +3,6 @@ import {
   TRawRowValue,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
-  IAllWorkflows,
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";

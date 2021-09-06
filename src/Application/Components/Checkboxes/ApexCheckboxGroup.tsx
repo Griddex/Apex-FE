@@ -66,17 +66,8 @@ export default function ApexCheckboxGroup({
   variableZOption,
   apexCheckboxDataGroup,
 }: IApexCheckboxGroup) {
-  const theme = useTheme();
-  const variableZTitle = variableZOption.label.split("_")[0];
-
   return (
     <FormControl component="fieldset">
-      {/* <FormLabel
-        component="legend"
-        style={{ fontWeight: theme.typography.fontWeightMedium }}
-      >
-        {variableZTitle}
-      </FormLabel> */}
       <RadioGroup
         defaultValue="female"
         aria-label="gender"

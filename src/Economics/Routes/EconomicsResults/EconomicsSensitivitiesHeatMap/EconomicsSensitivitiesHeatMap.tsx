@@ -15,8 +15,8 @@ const EconomicsSensitivitiesHeatMap = () => {
   const theme = useTheme();
   const {
     sensitivitiesHeatMap1or2D,
-    heatMapVariableXOption,
-    heatMapVariableYOption,
+    heatMapVariableXOptions,
+    heatMapVariableYOptions,
   } = useSelector((state: RootState) => state.economicsReducer);
 
   let keys: string[] = [];
@@ -42,14 +42,14 @@ const EconomicsSensitivitiesHeatMap = () => {
     <ResponsiveHeatMap
       data={sensitivitiesHeatMap1or2D}
       keys={keys}
-      indexBy={heatMapVariableYOption.value}
+      indexBy={heatMapVariableYOptions.value}
       margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
       forceSquare={true}
       axisTop={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: -90,
-        legend: startCase(heatMapVariableXOption.value),
+        legend: startCase(heatMapVariableXOptions.value),
         legendPosition: "middle",
         legendOffset: -36,
       }}
@@ -59,7 +59,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: startCase(heatMapVariableYOption.value),
+        legend: startCase(heatMapVariableYOptions.value),
         legendPosition: "middle",
         legendOffset: -40,
       }}

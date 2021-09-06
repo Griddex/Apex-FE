@@ -25,7 +25,8 @@ import noEventPropagation from "../../../../Application/Events/NoEventPropagatio
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { runForecastEconomicsAggregationRequestAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
+import { runForecastEconomicsAggregationRequestAction,
+  updateForecastResultsParameterAction } from "../../../../Forecast/Redux/Actions/ForecastActions";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import AggregatedButtons from "../../../Components/AggregatedButtons/AggregatedButtons";
 import {
@@ -111,7 +112,8 @@ export default function CostsAndRevenueManual({
     },
   ] as IAggregateButtonProps[]);
 
-  let rows = [] as IRawRow[];
+  let [rows, setRows] = React.useState<IRawRow[]>([] as IRawRow[])
+  //let rows = [] as IRawRow[];
 
   //let setRows: React.Dispatch<React.SetStateAction<IRawRow[]>>;
   
@@ -790,7 +792,7 @@ export default function CostsAndRevenueManual({
 
   const columns = React.useMemo(() => generateColumns(devVal), [devVal]);
 
- /*  const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
+ const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
     forecastEconomicsAggregated["costRevenuesOil"]
   );
   const [nagDevelopmentRows, setNAGDevelopmentRows] = React.useState(
@@ -798,21 +800,26 @@ export default function CostsAndRevenueManual({
   );
   const [oilNAGDevelopmentRows, setOilNAGDevelopmentRows] = React.useState(
     forecastEconomicsAggregated["costRevenuesOil_NAG"]
-  ); */
+  ); 
 
-  console.log("oilDevelopment: ", forecastEconomicsAggregated["costRevenuesOil"]);
   if (devVal === "oilDevelopment") {
     rows = forecastEconomicsAggregated["costRevenuesOil"] as IRawRow[]; //oilDevelopmentRows;
-    //setRows = setOilDevelopmentRows;
+    //setRows(forecastEconomicsAggregated["costRevenuesOil"] as IRawRow[]);
+    //console.log("oilDevelopment");
+    setRows = setOilDevelopmentRows;
     //setRows(rows);
     //
   } else if (devVal === "nagDevelopment") {
+    //setRows(forecastEconomicsAggregated["costRevenuesNAG"] as IRawRow[]);
     rows = forecastEconomicsAggregated["costRevenuesNAG"] as IRawRow[]; //nagDevelopmentRows;
-    //setRows = setNAGDevelopmentRows;
+    //console.log("nagDevelopment")
+    setRows = setNAGDevelopmentRows;
     //setRows(rows);
   } else {
+    //setRows(forecastEconomicsAggregated["costRevenuesOil_NAG"] as IRawRow[]);
     rows = forecastEconomicsAggregated["costRevenuesOil_NAG"] as IRawRow[]; //oilNAGDevelopmentRows;
-    //setRows = setOilNAGDevelopmentRows;
+    //console.log("oilnagDevelopment")
+    setRows = setOilNAGDevelopmentRows;
     //setRows(rows);
   }
 
@@ -824,33 +831,36 @@ export default function CostsAndRevenueManual({
     console.log("rowData: ", rowData);
     const nColumns = rowData.length;
     console.log("nColumns: ", nColumns);
-    if(nColumns == 15){
+    if(nColumns == 12){
       if(wkPs == "economicsCostsRevenuesDeckApexForecast"){
         const oilDevelopmentExcelRows = tableData.map((row:any[], i: number) => {
+          console.log("row: ", row);
           return {
             sn: i+1,
-            year: Number(row[0]),
-            baseOilRate: Number(row[1]),
-            associatedGasRate: Number(row[2]),
-            seismicCost: Number(row[3]),
-            explAppraisalCost: Number(row[4]),
-            facilitiesCapex: Number(row[5]),
-            tangibleDrillingCost: Number(row[6]),
-            intangibleDrillingCost: Number(row[7]),
-            taxDepreciation: Number(row[8]),
-            abandonmentCost: Number(row[9]),
-            directCost: Number(row[10]),
-            projectCost: Number(row[11]),
-            cHA: Number(row[12]),
-            tariffs: Number(row[13]),
-            terminalFee: Number(row[14])
+            year: 2020,
+            baseOilRate: 3000,
+            associatedGasRate: 5,
+            seismicCost: Number(row[0]),
+            explAppraisalCost: Number(row[1]),
+            facilitiesCapex: Number(row[2]),
+            tangibleDrillingCost: Number(row[3]),
+            intangibleDrillingCost: Number(row[4]),
+            taxDepreciation: Number(row[5]),
+            abandonmentCost: Number(row[6]),
+            directCost: Number(row[7]),
+            projectCost: Number(row[8]),
+            cHA: Number(row[9]),
+            tariffs: Number(row[10]),
+            terminalFee: Number(row[11])
           }
         });
 
-        rows = oilDevelopmentExcelRows as IRawRow[]; 
-       // setRows(rows);
-        //setRows = setOilDevelopmentRows;
-        console.log("rows: ", rows);
+        rows = oilDevelopmentExcelRows as IRawRow[];
+       /*  dispatch(updateForecastResultsParameterAction(
+          "forecastEconomicsAggregated",
+          oilDevelopmentExcelRows as IRawRow[] 
+        )) */
+        //setRows(oilDevelopmentExcelRows as IRawRow[]);
       }
       
     }
@@ -858,7 +868,7 @@ export default function CostsAndRevenueManual({
 
   const pasteDevelopmentCostRevenue = (tableData: any[]) => {
     
-    console.log("tableData: ", tableData);
+    //console.log("tableData: ", tableData);
     const nRows = tableData.length;
     if(nRows > 1){
       tableData.pop();
@@ -985,8 +995,8 @@ export default function CostsAndRevenueManual({
   } as IExcelExportTable<IRawRow>;
 
   const tableButtons: ITableButtonsProps = {
-    showExtraButtons: true,
-    extraButtons: () => <ExcelExportTable {...exportTableProps} />,
+  /*   showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable {...exportTableProps} />, */
     componentRef,
   };
 
@@ -1003,17 +1013,19 @@ export default function CostsAndRevenueManual({
   }, []);
 
   React.useEffect(() => {
+    console.log("persistEconomicsDeckRequestAction");
     dispatch(persistEconomicsDeckRequestAction(wp, devVal, rows, true));
-    console.log("rows: ", rows);
   }, [rows]);
 
   React.useEffect(() => {
+    console.log("updateEconomicsParameterAction",);
     dispatch(
       updateEconomicsParameterAction(
         `inputDataWorkflows.economicsCostsRevenuesDeckManual.costRevenuesButtons`,
         buttonsData
       )
     );
+    console.log("devVal: ", devVal);
   }, [devVal]);
 
   //onRowsChange={setRows}

@@ -301,7 +301,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
       return {
         ...state,
-        categoryOptionTitle: {
+        [categoryOptionTitle]: {
           ...(state as any)[categoryOptionTitle],
           [item.id]: item,
         },
@@ -316,7 +316,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
       return {
         ...state,
-        categoryOptionTitle: newCategoryOptions,
+        [categoryOptionTitle]: newCategoryOptions,
       };
     }
 

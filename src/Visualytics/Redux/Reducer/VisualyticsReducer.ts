@@ -1,4 +1,23 @@
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import {
+  IMPORTFILE_INITIALIZATION,
+  PERSIST_VARIABLEUNITS,
+  PERSIST_FILE,
+  PERSIST_WORKSHEETNAMES,
+  PERSIST_WORKSHEET,
+  PERSIST_FILEHEADERS,
+  PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
+  PERSIST_CHOSENAPPLICATIONUNITS,
+  PERSIST_CHOSENAPPLICATIONUNITINDICES,
+  PERSIST_CHOSENAPPLICATIONHEADERS,
+  PERSIST_FILEHEADERSMATCH,
+  PERSIST_FILEUNITSANDUNIQUEUNITS,
+  PERSIST_FILEUNITSMATCH,
+  PERSIST_TABLEROLENAMES,
+  PERSIST_TABLEDATA,
+  PERSIST_COLUMNNAMETABLEDATA,
+} from "../../../Import/Redux/Actions/InputActions";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
 import {
   LOAD_VISUALYTICS_WORKFLOW,
@@ -55,6 +74,41 @@ const visualyticsReducer = (
         ...state,
         ...action.payload,
       };
+
+    case IMPORTFILE_INITIALIZATION:
+    case PERSIST_VARIABLEUNITS:
+    case PERSIST_FILE:
+    case PERSIST_WORKSHEETNAMES:
+    case PERSIST_WORKSHEET:
+    case PERSIST_FILEHEADERS:
+    case PERSIST_CHOSENAPPLICATIONHEADERSINDICES:
+    case PERSIST_CHOSENAPPLICATIONUNITS:
+    case PERSIST_CHOSENAPPLICATIONUNITINDICES:
+    case PERSIST_CHOSENAPPLICATIONHEADERS:
+    case PERSIST_FILEHEADERSMATCH:
+    case PERSIST_FILEUNITSANDUNIQUEUNITS:
+    case PERSIST_FILEUNITSMATCH:
+    case PERSIST_TABLEROLENAMES:
+    case PERSIST_TABLEDATA:
+    case PERSIST_COLUMNNAMETABLEDATA: {
+      const { reducer, workflowProcess } = action.payload;
+      const workflowProcessDefined = workflowProcess as TAllWorkflowProcesses;
+
+      if (reducer === "visualyticsReducer") {
+        return {
+          ...state,
+          visualyticsDataWorkflows: {
+            ...state.visualyticsDataWorkflows,
+            [workflowProcessDefined]: {
+              ...state.visualyticsDataWorkflows[workflowProcessDefined],
+              ...action.payload,
+            },
+          },
+        };
+      } else {
+        return state;
+      }
+    }
 
     case SET_CHARTOBJECT: {
       const filteredObjects =

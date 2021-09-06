@@ -117,45 +117,34 @@ const DraggableDialog: React.FC<DialogStuff> = ({
   title,
   iconType,
   actionsList,
+  onClose,
   children,
 }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
   return (
-    <Draggable>
-      <span
-        style={{
-          position: "relative",
-          height: "fit-content",
-          //TODO A hack?
-          left: -window.innerWidth + 600,
-          top: 150,
-          backgroundColor: theme.palette.common.white,
-          zIndex: 9000,
-        }}
-      >
-        <ApexFlexContainer
-          aria-labelledby="customized-dialog-title"
-          flexDirection="column"
-          moreStyles={{ padding: 0, boxShadow: theme.shadows[8] }}
-        >
-          <DraggableDialogTitle
-            onClose={() => dispatch(hideDialogAction())}
-            iconType={iconType}
-          >
-            <Typography variant="h6">{title}</Typography>
-          </DraggableDialogTitle>
-          <DialogContent dividers>
-            {children}
-            <Divider />
-          </DialogContent>
-          <DialogActions style={{ width: "100%" }}>
-            {actionsList && actionsList()}
-          </DialogActions>
-        </ApexFlexContainer>
-      </span>
-    </Draggable>
+    <ApexFlexContainer
+      aria-labelledby="customized-dialog-title"
+      flexDirection="column"
+      moreStyles={{
+        padding: 0,
+        backgroundColor: "white",
+        boxShadow: theme.shadows[8],
+        width: 385,
+      }}
+    >
+      <DraggableDialogTitle onClose={onClose} iconType={iconType}>
+        <Typography variant="h6">{title}</Typography>
+      </DraggableDialogTitle>
+      <DialogContent dividers>
+        {children}
+        <Divider />
+      </DialogContent>
+      <DialogActions style={{ width: "100%" }}>
+        {actionsList && actionsList()}
+      </DialogActions>
+    </ApexFlexContainer>
   );
 };
 export default DraggableDialog;
