@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { putDataAction } from "../../Redux/Actions/ApplicationActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import ApexEditor, { IApexEditor } from "../Editors/ApexEditor";
@@ -111,19 +110,23 @@ const TableEditorDialog = (props: DialogStuff) => {
     isCustomComponent,
     apexEditorProps,
     apexEditorComponent,
+    workflowProcess,
+    reducer,
   } = props;
 
   const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
+
   const { editedRow } = apexEditorPropsDefined;
   const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
+
+  const titleDesc = {
+    title: formEditorRow["title"],
+    description: formEditorRow["description"],
+  } as Record<string, string>;
 
   const ApexEditorComponent = apexEditorComponent as NonNullable<
     DialogStuff["apexEditorComponent"]
   >;
-
-  const shouldUpdateAction = () => {
-    dispatch(putDataAction(formEditorRow));
-  };
 
   return (
     <Dialog
@@ -155,9 +158,7 @@ const TableEditorDialog = (props: DialogStuff) => {
           />
         )}
       </DialogContent>
-      <DialogActions>
-        {actionsList && actionsList(shouldUpdateAction)}
-      </DialogActions>
+      <DialogActions>{actionsList && actionsList(titleDesc)}</DialogActions>
     </Dialog>
   );
 };

@@ -17,7 +17,7 @@ import { IAllWorkflows } from "../../../Application/Components/Workflows/Workflo
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
   UPDATE_FORECASTPARAMETERS_REQUEST,

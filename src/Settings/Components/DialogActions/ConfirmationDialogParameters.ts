@@ -9,7 +9,7 @@ export const unitGroupConfirmationDialogParameters = (
 
   return {
     name: "Confirm_UnitGroup_Change_Dialog",
-    title: "Global Unit Group Change",
+    title: "Global Unit Change",
     type: "textDialog",
     show: true,
     exclusive: false,

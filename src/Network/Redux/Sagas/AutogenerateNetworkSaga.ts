@@ -22,7 +22,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import authHeaders from "../../../Application/Services/AuthHeaders";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/AutoGenerateFailureDialogParameters";
 import {
   autoGenerateNetworkFailureAction,

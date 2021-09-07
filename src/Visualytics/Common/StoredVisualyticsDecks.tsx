@@ -1,16 +1,26 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import {
-  IStoredDataProps,
+  persistSelectedIdTitleAction,
+  updateDataByIdRequestAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
+import {
+  unloadDialogsAction,
+  showDialogAction,
+} from "../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { getBaseVisualyticsUrl } from "../../Application/Services/BaseUrlService";
+import {
   IApplicationStoredDataRow,
+  IStoredDataProps,
 } from "../../Application/Types/ApplicationTypes";
-import { fetchStoredInputDeckRequestAction } from "../../Import/Redux/Actions/StoredInputDeckActions";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../../Import/Routes/InputDeckTypes";
+import { fetchStoredVisualyticsDataRequestAction } from "../Redux/Actions/VisualyticsActions";
 
 export default function StoredVisualyticsDecks({
   reducer,
@@ -21,20 +31,20 @@ export default function StoredVisualyticsDecks({
   //TODO: Calculate classification data from collection
   const chartData = [
     {
-      id: "Group A",
-      label: "Group A",
+      id: "A",
+      label: "A",
       value: 2400,
       color: theme.palette.primary.main,
     },
     {
-      id: "Group B",
-      label: "Group B",
+      id: "B",
+      label: "B",
       value: 4567,
       color: theme.palette.success.main,
     },
     {
-      id: "Group C",
-      label: "Group C",
+      id: "C",
+      label: "C",
       value: 1398,
       color: theme.palette.secondary.main,
     },
@@ -44,26 +54,22 @@ export default function StoredVisualyticsDecks({
   );
 
   const tableTitle = "Visualytics InputDeck Table";
-  const mainUrl = `${getBaseForecastUrl()}/visualytics-inputdeck`;
-  const collectionName = "InputDeckEntities";
+  const mainUrl = `${getBaseVisualyticsUrl()}`;
+  const collectionName = "inputDeck";
 
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
-  const wp: NonNullable<IStoredDataProps["wkPs"]> = "visualyticsDeckStored";
-  const storedData = useSelector(
-    // const { visualyticsDeckStored } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
-  );
-  console.log(
-    "Logged output --> ~ file: StoredVisualyticsDecks.tsx ~ line 54 ~ storedData",
-    storedData
+  const wp = "visualyticsDeckStored";
+
+  const { visualyticsDeckStored } = useSelector(
+    (state: RootState) => state.visualyticsReducer[wc]
   );
 
   const componentRef = React.useRef();
 
   const snStoredData =
-    storedData &&
-    storedData.map((row: IApplicationStoredDataRow, i: number) => ({
+    visualyticsDeckStored &&
+    (visualyticsDeckStored.map((row: IApplicationStoredDataRow, i: number) => ({
       sn: i + 1,
       id: row.id,
       approval: "Not Started",
@@ -73,7 +79,7 @@ export default function StoredVisualyticsDecks({
       approvers: [{ avatarUrl: "", name: "" }],
       createdOn: row.createdAt,
       modifiedOn: row.createdAt,
-    }));
+    })) as IStoredDataProps["snStoredData"]);
 
   const dataKey = "title";
   const dataTitle = "VISUALYTICS DECK TITLE";
@@ -84,8 +90,8 @@ export default function StoredVisualyticsDecks({
     persistSelectedIdTitleAction &&
       dispatch(
         persistSelectedIdTitleAction("visualyticsReducer", {
-          selectedVisualyticsInputDeckId: id,
-          selectedVisualyticsInputDeckTitle: title,
+          selectedVisualyticsId: id,
+          selectedVisualyticsTitle: title,
         })
       );
   };
@@ -94,11 +100,52 @@ export default function StoredVisualyticsDecks({
     persistSelectedIdTitleAction &&
       dispatch(
         persistSelectedIdTitleAction("visualyticsReducer", {
-          selectedVisualyticsInputDeckId: "",
-          selectedVisualyticsInputDeckTitle: "",
+          selectedVisualyticsId: "",
+          selectedVisualyticsTitle: "",
         })
       );
   };
+
+  const fetchStoredRequestAction = () =>
+    fetchStoredVisualyticsDataRequestAction(currentProjectId);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
 
   const isDataVisibility = true;
   const isCloning = false;
@@ -120,7 +167,8 @@ export default function StoredVisualyticsDecks({
     isCloning,
     clickAwayAction,
     fetchStoredRequestAction: () =>
-      fetchStoredInputDeckRequestAction(currentProjectId),
+      fetchStoredVisualyticsDataRequestAction(currentProjectId),
+    updateTableActionConfirmation,
   };
 
   return (

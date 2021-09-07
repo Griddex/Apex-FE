@@ -20,7 +20,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseVisualyticsUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseVisualyticsUrl } from "../../../Application/Services/BaseUrlService";
 import {
   getVisualyticsChartDataFailureAction,
   getVisualyticsChartDataSuccessAction,
@@ -63,7 +63,7 @@ function* getVisualyticsChartDataSaga(
     visualyticsColumnNames,
     isVisualyticsDeckSaved,
     selectedVisualyticsChartOption,
-    xValueCategoryPositions,
+    xValueCategories,
   } = yield select((state) => state.visualyticsReducer);
 
   const chartType = selectedVisualyticsChartOption.value;

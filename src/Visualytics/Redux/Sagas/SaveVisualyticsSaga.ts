@@ -15,11 +15,15 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import * as authService from "../../../Application/Services/AuthService";
-import getBaseVisualyticsUrl from "../../../Application/Services/BaseUrlService";
 import {
-  fetchStoredVisualyticsRequestAction,
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
+import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
+import * as authService from "../../../Application/Services/AuthService";
+import { getBaseVisualyticsUrl } from "../../../Application/Services/BaseUrlService";
+import {
+  fetchStoredVisualyticsDataRequestAction,
   saveVisualyticsFailureAction,
   saveVisualyticsSuccessAction,
   SAVE_VISUALYTICS_REQUEST,
@@ -28,8 +32,6 @@ import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/SaveVisualyticsSuccessFailureDialogParameters";
-import { showSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
-import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 
 export default function* watchSaveVisualyticsSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -51,22 +53,24 @@ function* saveVisualyticsSaga(
   void,
   any
 > {
+  const wc = "visualyticsDataWorkflows";
+
   const { payload } = action;
   const {
+    workflowProcess: wp,
     titleDesc: { title, description },
   } = payload;
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
-  const { selectedNetworkId, selectedVisualyticsingParametersId } =
-    yield select((state) => state.networkReducer);
+  const { tableData } = yield select(
+    (state) => state.visualyticsReducer[wc][wp]
+  );
 
   const data = {
-    userId: "Gideon",
     projectId: currentProjectId,
-    networkId: selectedNetworkId,
-    visualyticsingParametersId: selectedVisualyticsingParametersId,
     title,
     description,
+    inputDeck: tableData,
   };
 
   const config = { withCredentials: false };
@@ -94,11 +98,9 @@ function* saveVisualyticsSaga(
       },
     });
 
-    // yield put(
-    //   updateVisualyticsResultsParameterAction("selectedVisualyticsTitle", title)
-    // );
-    yield put(fetchStoredVisualyticsRequestAction(currentProjectId));
-    yield put(showDialogAction(successDialogParameters() as DialogStuff));
+    yield put(fetchStoredVisualyticsDataRequestAction(currentProjectId));
+    yield put(workflowResetAction(0, wp, wc));
+    yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveVisualyticsFailureAction();
 
@@ -107,7 +109,7 @@ function* saveVisualyticsSaga(
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters() as DialogStuff));
+    yield put(showDialogAction(failureDialogParameters()));
   } finally {
     yield put(hideSpinnerAction());
   }

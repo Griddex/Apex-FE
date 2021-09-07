@@ -12,7 +12,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import * as authService from "../../Services/AuthService";
-import getBaseForecastUrl from "../../Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../Services/BaseUrlService";
 import { IAction } from "../Actions/ActionTypes";
 import {
   fetchMatchObjectFailureAction,

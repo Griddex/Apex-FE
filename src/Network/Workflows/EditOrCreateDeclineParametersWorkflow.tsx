@@ -6,7 +6,7 @@ import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
-import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
 import { IEditOrCreateDeclineParameters } from "../Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";

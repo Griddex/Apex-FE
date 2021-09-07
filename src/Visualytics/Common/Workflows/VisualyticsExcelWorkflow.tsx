@@ -11,6 +11,7 @@ import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBa
 import { IOnlyWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import VisualyticsPreviewSave from "../../Routes/VisualyticsPreviewSave";
 
 const UploadFile = React.lazy(
   () => import("../../../Import/Routes/Common/Workflows/UploadFile")
@@ -131,7 +132,7 @@ const VisualyticsExcelWorkflow = ({
       case 2:
         return <SelectHeaderUnitData {...props} />;
       case 3:
-        return <PreviewSave {...props} />;
+        return <VisualyticsPreviewSave {...props} />;
       default:
         return <h1>End</h1>;
     }

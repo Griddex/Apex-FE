@@ -18,7 +18,7 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
 import { fetchStoredForecastingParametersRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import {
@@ -108,7 +108,6 @@ export function* saveInputDeckSaga(
 
   const data = {
     projectId: currentProjectId,
-    userId: "Gideon",
     facilitiesInputDeckId,
     title,
     description,
@@ -116,8 +115,6 @@ export function* saveInputDeckSaga(
     matchObject,
     variableUnits: appHeaderNameUnitsMapDefined,
   };
-
-  console.log("data: ", data);
 
   const config = { withCredentials: false };
   const saveinputDeckAPI = (url: string) => authService.post(url, data, config);

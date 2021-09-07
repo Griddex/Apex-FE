@@ -83,7 +83,7 @@ const PlotChartsVisualytics = () => {
 
   const {
     visualyticsResults,
-    xValueCategoryPositions,
+    xValueCategories,
     showPlotChartsCategories,
     selectedVisualyticsOption,
   } = useSelector((state: RootState) => state.visualyticsReducer);

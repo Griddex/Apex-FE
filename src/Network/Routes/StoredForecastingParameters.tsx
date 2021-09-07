@@ -22,7 +22,7 @@ import { ReducersType } from "../../Application/Components/Workflows/WorkflowTyp
 import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
@@ -114,20 +114,20 @@ export default function StoredForecastingParameters({
   //TODO: Calculate classification data from collection
   const chartData = [
     {
-      id: "Group A",
-      label: "Group A",
+      id: "A",
+      label: "A",
       value: 2400,
       color: theme.palette.primary.main,
     },
     {
-      id: "Group B",
-      label: "Group B",
+      id: "B",
+      label: "B",
       value: 4567,
       color: theme.palette.success.main,
     },
     {
-      id: "Group C",
-      label: "Group C",
+      id: "C",
+      label: "C",
       value: 1398,
       color: theme.palette.secondary.main,
     },
@@ -656,11 +656,11 @@ export default function StoredForecastingParameters({
 
   return (
     <div className={classes.rootStoredData}>
-      {/* {showChart && (
+      {showChart && (
         <div className={classes.chart}>
           <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
-      )} */}
+      )}
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (

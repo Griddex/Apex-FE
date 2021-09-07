@@ -16,7 +16,7 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
@@ -105,20 +105,20 @@ export default function ForecastQualityAssuranceData({
   //TODO: Calculate classification data from collection
   const chartData = [
     {
-      id: "Group A",
-      label: "Group A",
+      id: "A",
+      label: "A",
       value: 2400,
       color: theme.palette.primary.main,
     },
     {
-      id: "Group B",
-      label: "Group B",
+      id: "B",
+      label: "B",
       value: 4567,
       color: theme.palette.success.main,
     },
     {
-      id: "Group C",
-      label: "Group C",
+      id: "C",
+      label: "C",
       value: 1398,
       color: theme.palette.secondary.main,
     },

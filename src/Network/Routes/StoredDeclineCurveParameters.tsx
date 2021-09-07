@@ -24,7 +24,7 @@ import { ReducersType } from "../../Application/Components/Workflows/WorkflowTyp
 import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import {
   IStoredDataProps,
   IStoredDataRow,
@@ -121,20 +121,20 @@ export default function StoredDeclineCurveParameters({
   //TODO: Calculate classification data from collection
   const chartData = [
     {
-      id: "Group A",
-      label: "Group A",
+      id: "A",
+      label: "A",
       value: 2400,
       color: theme.palette.primary.main,
     },
     {
-      id: "Group B",
-      label: "Group B",
+      id: "B",
+      label: "B",
       value: 4567,
       color: theme.palette.success.main,
     },
     {
-      id: "Group C",
-      label: "Group C",
+      id: "C",
+      label: "C",
       value: 1398,
       color: theme.palette.secondary.main,
     },

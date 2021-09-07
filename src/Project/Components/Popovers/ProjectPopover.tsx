@@ -32,6 +32,7 @@ import {
   fetchStoredNetworkDataRequestAction,
   fetchStoredProductionPrioritizationRequestAction,
 } from "../../../Network/Redux/Actions/NetworkActions";
+import { fetchStoredVisualyticsDataRequestAction } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
 import {
   closeProjectAction,
   openRecentProjectAction,
@@ -177,6 +178,8 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(confirmationDialogParameters));
   };
 
+  //TODO These actions will be registered in a central area
+  //based on what modules are licensed
   const openProject = (id: string, title: string, description: string) => {
     dispatch(showSpinnerAction(`Loading ${title}...`));
     dispatch(fetchStoredForecastingParametersRequestAction(id));
@@ -189,6 +192,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(fetchStoredForecastingResultsRequestAction(id));
     dispatch(fetchStoredEconomicsSensitivitiesRequestAction(id, false));
     dispatch(fetchStoredEconomicsResultsRequestAction(id, false));
+    dispatch(fetchStoredVisualyticsDataRequestAction(id));
   };
 
   const openProjectConfirmation = (

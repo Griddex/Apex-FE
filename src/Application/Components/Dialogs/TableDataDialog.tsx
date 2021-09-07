@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
+import omit from "lodash.omit";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -14,6 +15,10 @@ import { SizeMe } from "react-sizeme";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../Export/ExcelExportTable";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { ApexGrid } from "../Table/ReactDataGrid/ApexGrid";
@@ -21,12 +26,6 @@ import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../Table/TableButtonsTypes";
 import { ReducersType } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
-import omit from "lodash.omit";
-import ExcelExportTable, {
-  IExcelExportTable,
-  IExcelSheetData,
-} from "../Export/ExcelExportTable";
-import { TVariableNameTitleData } from "../../Types/ApplicationTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -138,6 +137,7 @@ const TableDataDialog = (props: DialogStuff) => {
   const { forecastHeadersNameMap } = useSelector(
     (state: RootState) => state.inputReducer
   );
+
   if (workflowProcess?.toLowerCase().includes("forecast")) {
     const headerNames = Object.values(forecastHeadersNameMap) as string[];
 
@@ -155,6 +155,7 @@ const TableDataDialog = (props: DialogStuff) => {
   const finalSelectedData = sortedSelectedTableData
     ? sortedSelectedTableData
     : selectedTableData;
+
   const snSelectedTableData = finalSelectedData.map(
     (row: IRawRow, i: number) => {
       const rowFiltered = omit(row, ["id", "_id"]);
@@ -162,6 +163,7 @@ const TableDataDialog = (props: DialogStuff) => {
       return { sn: i + 1, ...rowFiltered };
     }
   );
+
   const columnKeys = Object.keys(snSelectedTableData[0]);
   const columns = columnKeys.map((k) => {
     const name = allHeadersNameTitleUniqueMap[k]?.toUpperCase();

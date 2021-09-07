@@ -20,7 +20,7 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
   getForecastDataByIdFailureAction,
@@ -77,11 +77,10 @@ function* getSelectedForecastDataByIdSaga(
 
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
-    
+
     console.log("result: ", result);
 
     const selectedTableData = result.data;
-    
 
     const successAction = getTableDataByIdSuccessAction();
     console.log("ans: ", {

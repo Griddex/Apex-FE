@@ -10,7 +10,7 @@ import { IExtendedSelectOption } from "../../Application/Components/Selects/Sele
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { getTableDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IApplicationStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import { updateForecastResultsParameterAction } from "../../Forecast/Redux/Actions/ForecastActions";
 import NodePanel from "../Components/Nodes/NodePanel";

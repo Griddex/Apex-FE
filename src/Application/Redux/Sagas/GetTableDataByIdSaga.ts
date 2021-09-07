@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import zipObject from "lodash.zipobject";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -7,7 +8,6 @@ import {
   ForkEffect,
   put,
   PutEffect,
-  select,
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -60,19 +60,30 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   try {
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
 
-    const selectedTableData = tableDataResults.data.data[collectionName]; // data["InputDeckEntities"];
+    let selectedTableData = [] as any[];
+    if (reducer === "visualyticsReducer") {
+      const selectedData = tableDataResults.data.data[collectionName];
+      const newHeaders = Object.values(selectedData[0]) as string[];
+
+      selectedTableData = selectedData.slice(1).map((row: any) => {
+        const values = Object.values(row);
+
+        return zipObject(newHeaders, values);
+      });
+    } else {
+      selectedTableData = tableDataResults.data.data[collectionName];
+    }
 
     const successAction = getTableDataByIdSuccessAction();
-    const newAction = {
+
+    yield put({
       ...successAction,
       payload: {
         ...payload,
         reducer,
         selectedTableData,
       },
-    };
-
-    yield put(newAction);
+    });
 
     let dialogParameters = {} as DialogStuff;
     if (tableOrSuccessDialog === "table") {

@@ -48,7 +48,6 @@ import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettings
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
-import CreateStoredDataButton from "../../../Menus/CreateStoredDataButton";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -95,9 +94,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       mainUrl,
       clickAwayAction,
       fetchStoredRequestAction,
-      buttonToolTip,
-      butttonTitle,
-      dialogTitle,
+      updateTableActionConfirmation,
       isDataVisibility,
       isCloning,
       wcc,
@@ -108,9 +105,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const buttonToolTipCopy = buttonToolTip == null ? "" : buttonToolTip;
-    const butttonTitleCopy = butttonTitle == null ? "" : butttonTitle;
-    const dialogTitleCopy = dialogTitle == null ? "" : dialogTitle;
+    const updateTableActionConfirmationDefined =
+      updateTableActionConfirmation as NonNullable<
+        IStoredDataProps["updateTableActionConfirmation"]
+      >;
     const wc = wcc == null ? "" : wcc;
 
     const { dayFormat, monthFormat, yearFormat } = useSelector(
@@ -125,10 +123,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const snStoredDataCopy = snStoredData as IStoredDataRow[];
     const currentRows = snStoredData as IStoredDataRow[];
     const rowIndex: number = currentRows.length;
-    let currentStoredDataRow = {} as IStoredDataRow;
-    if (rowIndex > 0) {
-      currentStoredDataRow = currentRows[rowIndex - 1];
-    }
 
     const [rows, setRows] = React.useState(currentRows);
 
@@ -186,11 +180,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           name: "ACTIONS",
           editable: false,
           formatter: ({ row }) => {
-            console.log("row: ", row);
             const sn = row.sn as number;
             const currentSN = sn as number;
-            const currentRow = rows[currentSN - 1];
-            console.log("currentRow 1", currentRow);
 
             const title = row.title as string;
             const id = row.id as string;
@@ -220,16 +211,9 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                 title: "Clone",
                 action: () => {
                   const currentRow = rows[currentSN - 1];
-                  console.log("rows: ", rows);
-                  console.log("currentRow: ", currentRow);
                   const clonedRow = cloneSelectedRow(currentRow, rows.length);
-                  console.log(
-                    "Logged output --> ~ file: StoredData.tsx ~ line 324 ~ generateColumns ~ clonedRow",
-                    clonedRow
-                  );
 
                   const newRows = [...snStoredDataCopy, clonedRow];
-                  //setRows(newRows);
 
                   dispatch(updateNetworkParameterAction(wc, newRows));
                 },
@@ -273,8 +257,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                 </ApexGridMoreActionsContextMenu>
               ) : null;
 
-            console.log("currentRow 2", currentRow);
-
             return (
               <ApexFlexContainer>
                 <EditOutlinedIcon
@@ -284,7 +266,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                       title: "Edit Table",
                       type: "tableEditorDialog",
                       show: true,
-                      exclusive: true,
+                      exclusive: false,
                       maxWidth: isCustomComponent ? "lg" : "sm",
                       iconType: "edit",
                       isCustomComponent,
@@ -293,26 +275,28 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                         editedRow,
                         dividerPositions,
                       },
-                      actionsList: (shouldUpdateAction: () => void) =>
+                      actionsList: (titleDesc: Record<string, string>) =>
                         DialogOneCancelButtons(
                           [true, true],
                           [true, false],
-                          [unloadDialogsAction, shouldUpdateAction],
+                          [
+                            unloadDialogsAction,
+                            () =>
+                              updateTableActionConfirmationDefined(id)(
+                                titleDesc
+                              ),
+                          ],
                           "Update",
                           "updateOutlined",
                           false,
-                          "All"
+                          "None"
                         ),
                     };
 
-                    /*  dispatch(showDialogAction(extrudeStoredDataDPs(
-                      dialogTitleCopy,
-                    currentRow,
-                    currentSN - 1,
-                    "createForecastingParametersWorkflow" 
-                  ))) */
+                    dispatch(showDialogAction(dialogParameters));
                   }}
                 />
+
                 <DeleteOutlinedIcon
                   onClick={() =>
                     dispatch(
@@ -451,17 +435,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       },
     } as IExcelExportTable<IStoredDataRow>;
 
-    const addCreateButton = false;
-    const createBtn = (
-      <CreateStoredDataButton
-        currentRow={currentStoredDataRow}
-        storedDataIndex={rowIndex}
-        buttonToolTip={buttonToolTipCopy}
-        butttonTitle={butttonTitleCopy}
-        dialogTitle={dialogTitleCopy}
-      />
-    );
-
     const tableButtons: ITableButtonsProps = {
       showExtraButtons: true,
       extraButtons: () => (
@@ -471,27 +444,36 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       ),
     };
 
+    const storedDataDefined = snStoredData as IStoredDataRow[];
+    const storedDataTitlesString = storedDataDefined
+      .map((row) => row.title)
+      .join();
+    const storedDataDescriptionsString = storedDataDefined
+      .map((row) => row.description)
+      .join();
+
     React.useEffect(() => {
       dispatch(hideSpinnerAction());
     }, [dispatch]);
 
-    const updatedStoredData = snStoredData as IStoredDataRow[];
     React.useEffect(() => {
-      setRows(updatedStoredData);
-    }, [updatedStoredData.length]);
-
-    console.log("rows: ", rows);
+      setRows(storedDataDefined);
+    }, [
+      storedDataDefined.length,
+      storedDataTitlesString,
+      storedDataDescriptionsString,
+    ]);
 
     return (
       <div className={classes.rootStoredData} style={containerStyle}>
-       {/*  {showChart && (
+        {showChart && (
           <div className={classes.chart}>
             <DoughnutChartAnalytics
               data={chartData as IChartProps["data"]}
               willUseThemeColor={false}
             />
           </div>
-        )} */}
+        )}
 
         <ClickAwayListener
           onClickAway={() => {

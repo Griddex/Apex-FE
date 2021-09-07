@@ -14,31 +14,32 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { FORECAST_TREEVIEWKEYS_REQUEST } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import authHeaders from "../../../Application/Services/AuthHeaders";
-import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
+import { getBaseVisualyticsUrl } from "../../../Application/Services/BaseUrlService";
+import { failureDialogParameters } from "../../Components/DialogParameters/SaveVisualyticsSuccessFailureDialogParameters";
 import {
-  fetchForecastTreeviewKeysFailureAction,
-  fetchForecastTreeviewKeysSuccessAction,
-  updateForecastResultsParametersAction,
-} from "../Actions/ForecastActions";
+  fetchVisualyticsTreeviewKeysFailureAction,
+  fetchVisualyticsTreeviewKeysSuccessAction,
+  VISUALYTICS_TREEVIEWKEYS_REQUEST,
+} from "../Actions/VisualyticsActions";
 
-export default function* watchFetchForecastTreeviewKeysSaga(): Generator<
+export default function* watchFetchVisualyticsTreeviewKeysSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  const treeviewKeysChan = yield actionChannel(FORECAST_TREEVIEWKEYS_REQUEST);
-  yield takeLeading(treeviewKeysChan, fetchForecastTreeviewKeysSaga);
+  const treeviewKeysChan = yield actionChannel(
+    VISUALYTICS_TREEVIEWKEYS_REQUEST
+  );
+  yield takeLeading(treeviewKeysChan, fetchVisualyticsTreeviewKeysSaga);
 }
 
-function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
+function* fetchVisualyticsTreeviewKeysSaga(action: IAction): Generator<
   | CallEffect<any>
   | TakeEffect
   | PutEffect<{
@@ -51,75 +52,56 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
 > {
   const { payload } = action;
   const { idTitleDescIsSaved } = payload;
-  const forecastId = idTitleDescIsSaved.selectedForecastingResultsId;
+  const visualyticsId = idTitleDescIsSaved.selectedVisualyticsId;
 
-  const url = `${getBaseForecastUrl()}/forecastResults/treeview/${forecastId}`;
+  const url = `${getBaseVisualyticsUrl()}/visualyticsTree/${visualyticsId}`;
 
-  const message = "Loading forecast chart data...";
+  const message = "Loading visualytics chart data...";
 
   try {
     yield put(showSpinnerAction(message));
 
     const chan = yield call(updateTreeAndKeys, url);
 
-    let i = 0;
     while (true) {
       const data = yield take(chan);
 
-      const successAction = fetchForecastTreeviewKeysSuccessAction();
+      const successAction = fetchVisualyticsTreeviewKeysSuccessAction();
       const key = Object.keys(data)[0];
 
-      console.log("key: ", key);
-
       if (key === "tree") {
-        const forecastTree = data["tree"];
+        const visualyticsTree = data["tree"];
 
         yield put({
           ...successAction,
           payload: {
             ...payload,
-            keyVar: "forecastTree",
-            forecastTree,
+            keyVar: "visualyticsTree",
+            visualyticsTree,
           },
         });
-      } else if (key === "keys") {
-        const xValueCategories = data["keys"];
+      } else if (key == "xValueCategories") {
+        const xValueCategories = data["xValueCategories"];
 
-        /* yield put({
+        yield put({
           ...successAction,
           payload: {
             ...payload,
             keyVar: "xValueCategories",
             xValueCategories,
           },
-        }); */
-      } else if (key == "xValueCategories") {
-        const forecastXValueCategories = data["xValueCategories"];
-
-        /* yield put({
-          ...successAction,
-          payload: {
-            ...payload,
-            keyVar: "xValueCategories",
-            xValueCategories: forecastXValueCategories,
-          },
-        }); */
-      }
-
-      i += 1;
-      if (i === 2) {
-        yield put(updateForecastResultsParametersAction(idTitleDescIsSaved));
+        });
       }
     }
   } catch (errors) {
-    const failureAction = fetchForecastTreeviewKeysFailureAction();
+    const failureAction = fetchVisualyticsTreeviewKeysFailureAction();
 
     yield put({
       ...failureAction,
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters("")));
+    yield put(showDialogAction(failureDialogParameters()));
   } finally {
     yield put(hideSpinnerAction());
   }

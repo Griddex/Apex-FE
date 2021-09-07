@@ -17,7 +17,8 @@ import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../../Application/Services/AuthService";
-import getBaseForecastUrl, {
+import {
+  getBaseForecastUrl,
   getBaseUnitUrl,
 } from "../../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../../Components/DialogActions/UnitSettingsSuccessFailureDialogParameters";

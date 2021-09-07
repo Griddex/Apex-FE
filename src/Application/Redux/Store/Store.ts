@@ -59,7 +59,12 @@ import watchFetchForecastTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/Fe
 import watchGetForecastQADataSaga from "../../../Forecast/Redux/Sagas/GetForecastQualityAssuranceDataSaga";
 import watchPutSelectChartOptionSaga from "../../../Forecast/Redux/Sagas/PutSelectChartOptionSaga";
 import watchTransformChartDataSaga from "../../../Visualytics/Redux/Sagas/TransformChartDataSaga";
+import watchSaveVisualyticsSaga from "../../../Visualytics/Redux/Sagas/SaveVisualyticsSaga";
+import watchFetchVisualyticsTreeviewKeysSaga from "../../../Visualytics/Redux/Sagas/FetchVisualyticsTreeviewKeysSaga";
+import watchFetchStoredVisualyticsDataSaga from "../../../Visualytics/Redux/Sagas/FetchStoredVisualyticsDataSaga";
+import watchUpdateDataByIdSaga from "../Sagas/UpdateDataByIdSaga";
 
+//TODO Will need a registration mechanism for each module
 function* rootSaga() {
   yield spawn(watchLoginSaga);
   yield spawn(watchRegisterSaga);
@@ -111,6 +116,10 @@ function* rootSaga() {
   yield spawn(watchGetForecastQADataSaga);
   yield spawn(watchTransformChartDataSaga);
   yield spawn(watchPutSelectChartOptionSaga);
+  yield spawn(watchSaveVisualyticsSaga);
+  yield spawn(watchFetchVisualyticsTreeviewKeysSaga);
+  yield spawn(watchFetchStoredVisualyticsDataSaga);
+  yield spawn(watchUpdateDataByIdSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();
