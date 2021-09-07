@@ -40,5 +40,5 @@ export interface IButtonsConfigProps {
   disableds?: ButtonProps["disabled"][];
   shouldExecute: boolean[];
   shouldDispatch: boolean[];
-  finalActions: (() => IAction | void)[];
+  finalActions: ((arg?: any) => IAction | void)[];
 }

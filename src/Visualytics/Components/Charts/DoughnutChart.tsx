@@ -1,5 +1,5 @@
 import { InheritedColorConfig } from "@nivo/colors";
-import { ComputedDatum, ResponsivePie } from "@nivo/pie";
+import { ComputedDatum, ResponsivePie, Pie } from "@nivo/pie";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -16,7 +16,8 @@ export const DoughnutChartAnalytics = ({ data }: IChartProps) => {
   const adjustedProps = {
     legends: undefined,
     innerRadius: 0.65,
-    // height: 150,
+    arcLinkLabelsDiagonalLength: 5,
+    arcLinkLabelsStraightLength: 5,
   } as Partial<IChart>;
 
   const { commonChartProps } = useSelector(
@@ -24,10 +25,14 @@ export const DoughnutChartAnalytics = ({ data }: IChartProps) => {
   );
 
   return (
-    <ResponsivePie
+    <Pie
       data={data as any[]}
       {...commonChartProps}
       {...adjustedProps}
+      height={140}
+      width={500}
+      fit={true}
+      margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
     />
   );
 };

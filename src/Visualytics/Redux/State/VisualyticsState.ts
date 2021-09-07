@@ -130,6 +130,8 @@ const visualyticsState: IVisualyticsState = {
     chartSeriesSolidColors: [],
   },
 
+  selectedTableData: [],
+
   visualyticsResults: [],
   visualyticsTree: [],
   xValueCategories: [],
@@ -146,7 +148,6 @@ const visualyticsState: IVisualyticsState = {
   selectedVisualyticsDescription: "",
   isVisualyticsDeckSaved: false,
   visualyticsColumnNames: [],
-  xValueCategoryPositions: [],
 
   visualyticsVariableXOption: null,
   visualyticsVariableYOption: null,

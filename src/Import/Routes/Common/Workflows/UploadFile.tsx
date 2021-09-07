@@ -75,9 +75,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UploadFile = ({
+  reducer,
   wrkflwCtgry,
   wrkflwPrcss,
-  reducer,
   setInputWorkbook,
   hasExtraComponent,
   extraComponent,

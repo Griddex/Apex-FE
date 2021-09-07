@@ -17,7 +17,7 @@ import { persistFormTitlesAction } from "../../../Application/Redux/Actions/Appl
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/FetchForecastingParametersFailureDialogParameters";
 import {
   STORED_FORECASTPARAMETERS_REQUEST,
@@ -60,14 +60,13 @@ function* fetchStoredForecastParametersSaga(
   const { payload } = action;
   const { projectId } = payload;
 
+  const { isAllForecastParameters, forecastingParametersStored } = yield select(
+    (state) => state.networkReducer
+  );
 
-  const { isAllForecastParameters, 
-    forecastingParametersStored } = yield select((state) => state.networkReducer);
-
-    console.log("forecastingParametersStored: ", forecastingParametersStored);
+  console.log("forecastingParametersStored: ", forecastingParametersStored);
 
   const forecastParametersUrl = `${getBaseForecastUrl()}/forecast-parameters/light/${projectId}`;
-
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(

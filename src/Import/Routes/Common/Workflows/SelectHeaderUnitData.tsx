@@ -53,12 +53,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SelectHeaderUnitData({
   reducer,
+  wrkflwCtgry,
   wrkflwPrcss,
 }: IAllWorkflows) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const wc = "inputDataWorkflows";
+  const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
   const { selectedWorksheetData } = useSelector(

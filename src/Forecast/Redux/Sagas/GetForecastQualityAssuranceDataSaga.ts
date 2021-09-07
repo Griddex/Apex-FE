@@ -20,13 +20,13 @@ import {
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
   getForecastResultsQualityAssuranceFailureAction,
   getForecastResultsQualityAssuranceSuccessAction,
   GET_FORECASTRESULTS_QUALITYASSURANCE_REQUEST,
-  UPDATE_FORECASTPARAMETER
+  UPDATE_FORECASTPARAMETER,
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastQADataSaga(): Generator<
@@ -84,19 +84,22 @@ function* getForecastQADataSaga(
     const forecastQualityAssuranceAPI = (url: string) =>
       authService.post(url, data, config);
     const result = yield call(forecastQualityAssuranceAPI, url);
-   
+
     const { data: forecastQualityAssuranceData } = result;
 
-    console.log("forecastQualityAssuranceData.data: ", forecastQualityAssuranceData.data);
+    console.log(
+      "forecastQualityAssuranceData.data: ",
+      forecastQualityAssuranceData.data
+    );
 
     const successAction = getForecastResultsQualityAssuranceSuccessAction();
     yield put({
       type: UPDATE_FORECASTPARAMETER,
       payload: {
         path: "qualityAssuranceResults",
-        value: forecastQualityAssuranceData.data
-      }
-    })
+        value: forecastQualityAssuranceData.data,
+      },
+    });
     /* yield put({
       ...successAction,
       payload: {

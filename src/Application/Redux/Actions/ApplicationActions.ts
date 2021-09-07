@@ -28,6 +28,9 @@ export const RESET_APPLICATION = "RESET_APPLICATION";
 export const DELETE_DATABYID_REQUEST = "DELETE_DATABYID_REQUEST";
 export const DELETE_DATABYID_SUCCESS = "DELETE_DATABYID_SUCCESS";
 export const DELETE_DATABYID_FAILURE = "DELETE_DATABYID_FAILURE";
+export const UPDATE_DATABYID_REQUEST = "UPDATE_DATABYID_REQUEST";
+export const UPDATE_DATABYID_SUCCESS = "UPDATE_DATABYID_SUCCESS";
+export const UPDATE_DATABYID_FAILURE = "UPDATE_DATABYID_FAILURE";
 export const FORECAST_TREEVIEWKEYS_REQUEST = "FORECAST_TREEVIEWKEYS_REQUEST";
 export const FORECAST_TREEVIEWKEYS_SUCCESS = "FORECAST_TREEVIEWKEYS_SUCCESS";
 export const FORECAST_TREEVIEWKEYS_FAILURE = "FORECAST_TREEVIEWKEYS_FAILURE";
@@ -228,6 +231,43 @@ export const deleteDataByIdSuccessAction = () => {
 export const deleteDataByIdFailureAction = () => {
   return {
     type: DELETE_DATABYID_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const updateDataByIdRequestAction = (
+  reducer: ReducersType,
+  updateDataUrl: string,
+  titleDesc: Record<string, string>,
+  fetchStoredRequestAction: () => IAction
+) => {
+  return {
+    type: UPDATE_DATABYID_REQUEST,
+    payload: {
+      reducer,
+      updateDataUrl,
+      titleDesc,
+      fetchStoredRequestAction,
+    },
+    meta: { showSpinner: true, message: "Updating data..." },
+  };
+};
+
+export const updateDataByIdSuccessAction = () => {
+  return {
+    type: UPDATE_DATABYID_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const updateDataByIdFailureAction = () => {
+  return {
+    type: UPDATE_DATABYID_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

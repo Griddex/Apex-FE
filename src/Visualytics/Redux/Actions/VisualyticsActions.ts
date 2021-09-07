@@ -17,9 +17,9 @@ export const SAVE_VISUALYTICS_REQUEST = "SAVE_VISUALYTICS_REQUEST";
 export const SAVE_VISUALYTICS_SUCCESS = "SAVE_VISUALYTICS_SUCCESS";
 export const SAVE_VISUALYTICS_FAILURE = "SAVE_VISUALYTICS_FAILURE";
 
-export const STORED_VISUALYTICS_REQUEST = "STORED_VISUALYTICS_REQUEST";
-export const STORED_VISUALYTICS_SUCCESS = "STORED_VISUALYTICS_SUCCESS";
-export const STORED_VISUALYTICS_FAILURE = "STORED_VISUALYTICS_FAILURE";
+export const STORED_VISUALYTICSDATA_REQUEST = "STORED_VISUALYTICSDATA_REQUEST";
+export const STORED_VISUALYTICSDATA_SUCCESS = "STORED_VISUALYTICSDATA_SUCCESS";
+export const STORED_VISUALYTICSDATA_FAILURE = "STORED_VISUALYTICSDATA_FAILURE";
 
 export const GET_VISUALYTICS_CHARTDATA_REQUEST =
   "GET_VISUALYTICS_CHARTDATA_REQUEST";
@@ -128,27 +128,27 @@ export const persistChartIndexAction = (selectedChartIndex: number) => {
   };
 };
 
-export const fetchStoredVisualyticsRequestAction = (projectId: string) => {
+export const fetchStoredVisualyticsDataRequestAction = (projectId: string) => {
   return {
-    type: STORED_VISUALYTICS_REQUEST,
+    type: STORED_VISUALYTICSDATA_REQUEST,
     payload: {
       projectId,
     },
   };
 };
 
-export const fetchStoredVisualyticsSuccessAction = () => {
+export const fetchStoredVisualyticsDataSuccessAction = () => {
   return {
-    type: STORED_VISUALYTICS_SUCCESS,
+    type: STORED_VISUALYTICSDATA_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const fetchStoredVisualyticsFailureAction = () => {
+export const fetchStoredVisualyticsDataFailureAction = () => {
   return {
-    type: STORED_VISUALYTICS_FAILURE,
+    type: STORED_VISUALYTICSDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

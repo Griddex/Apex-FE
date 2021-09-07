@@ -54,6 +54,9 @@ export interface IVisualyticsState {
     chartLayoutColor: "white";
     chartSeriesSolidColors: string[];
   };
+
+  selectedTableData: any[];
+
   structureObj: {
     xAxes: { xAxisId: string }[];
     yAxes: { yAxisId: string }[];
@@ -76,7 +79,6 @@ export interface IVisualyticsState {
   selectedVisualyticsDescription: string;
   isVisualyticsDeckSaved: boolean;
   visualyticsColumnNames: string[];
-  xValueCategoryPositions: number[];
 
   visualyticsVariableXOption: ISelectOption | null;
   visualyticsVariableYOption: ISelectOption | null;

@@ -23,20 +23,20 @@ export default function StoredProductionData({
   //TODO: Calculate classification data from collection
   const chartData = [
     {
-      id: "Group A",
-      label: "Group A",
+      id: "A",
+      label: "A",
       value: 2400,
       color: theme.palette.primary.main,
     },
     {
-      id: "Group B",
-      label: "Group B",
+      id: "B",
+      label: "B",
       value: 4567,
       color: theme.palette.success.main,
     },
     {
-      id: "Group C",
-      label: "Group C",
+      id: "C",
+      label: "C",
       value: 1398,
       color: theme.palette.secondary.main,
     },

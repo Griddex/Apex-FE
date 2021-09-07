@@ -1,5 +1,10 @@
+import set from "lodash.set";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import {
+  GET_TABLEDATABYID_SUCCESS,
+  GET_TABLEDATABYID_FAILURE,
+} from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   IMPORTFILE_INITIALIZATION,
   PERSIST_VARIABLEUNITS,
@@ -34,6 +39,8 @@ import {
   TRANSFORM_CHARTDATA_SUCCESS,
   UPDATE_CHARTOBJECT,
   RESET_CHART_DATA,
+  STORED_VISUALYTICSDATA_FAILURE,
+  STORED_VISUALYTICSDATA_SUCCESS,
 } from "../Actions/VisualyticsActions";
 import visualyticsState from "../State/VisualyticsState";
 import { IVisualyticsState } from "../State/VisualyticsStateTypes";
@@ -217,6 +224,39 @@ const visualyticsReducer = (
       } else {
         return state;
       }
+    }
+
+    case STORED_VISUALYTICSDATA_SUCCESS: {
+      const { visualyticsDeckStored } = action.payload;
+      const wc = "storedDataWorkflows";
+
+      return {
+        ...state,
+        [wc]: { ...state[wc], visualyticsDeckStored },
+      };
+    }
+
+    case STORED_VISUALYTICSDATA_FAILURE: {
+      const { errors } = action.payload;
+
+      return state;
+    }
+
+    case GET_TABLEDATABYID_SUCCESS: {
+      const { reducer, selectedTableData } = action.payload;
+
+      console.log("In visualytics");
+
+      if (reducer === "visualyticsReducer") {
+        return { ...state, selectedTableData };
+      } else {
+        return state;
+      }
+    }
+
+    case GET_TABLEDATABYID_FAILURE: {
+      const { errors } = action.payload;
+      return { ...state };
     }
 
     case RESET_CHART: {

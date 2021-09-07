@@ -29,3 +29,11 @@ export const get = (url: string, config: AxiosRequestConfig) => {
 export const deleteData = (url: string, config: AxiosRequestConfig) => {
   return axios.delete(url, config);
 };
+
+export const updateData = (
+  url: string,
+  data: any,
+  config: AxiosRequestConfig
+) => {
+  return axios.put(url, data, config);
+};

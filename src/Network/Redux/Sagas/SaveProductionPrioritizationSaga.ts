@@ -16,7 +16,7 @@ import {
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import {
   fetchStoredProductionPrioritizationRequestAction,
   saveProductionPrioritizationFailureAction,
@@ -63,11 +63,12 @@ function* saveProductionPrioritizationSaga(
   );
   console.log("selectedForecastInputDeckId: ", selectedForecastInputDeckId);
 
-  const { selectedTableData, prioritizationPerspective,
-    selectedStreamPrioritization } = yield select(
-    (state) => state.networkReducer
-  );
-  
+  const {
+    selectedTableData,
+    prioritizationPerspective,
+    selectedStreamPrioritization,
+  } = yield select((state) => state.networkReducer);
+
   const data = {
     projectId: currentProjectId,
     title,
@@ -76,9 +77,8 @@ function* saveProductionPrioritizationSaga(
     forecastInputDeckId: selectedForecastInputDeckId,
     typeOfPrioritization: prioritizationPerspective,
     typeOfStream: selectedStreamPrioritization,
-    useSecondaryFacility: ""
+    useSecondaryFacility: "",
   };
-
 
   console.log("data: ", data);
 

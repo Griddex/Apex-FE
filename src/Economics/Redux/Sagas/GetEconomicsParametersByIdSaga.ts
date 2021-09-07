@@ -10,30 +10,26 @@ import {
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
-import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
-import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseEconomicsUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 //import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineCurveParametersDialogParameters";
-import {
-    GET_ECONOMICSPARAMETERSBYID_REQUEST,
-} from "../Actions/EconomicsActions";
+import { GET_ECONOMICSPARAMETERSBYID_REQUEST } from "../Actions/EconomicsActions";
 
 export default function* watchGetEconomicsParametersByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
-  console.log("watchGetEconomicsParametersByIdSaga Called:");
-
   const getEconomicsParametersByIdChan = yield actionChannel(
     GET_ECONOMICSPARAMETERSBYID_REQUEST
   );
-  yield takeLeading(getEconomicsParametersByIdChan, getEconomicsParametersByIdSaga);
+  yield takeLeading(
+    getEconomicsParametersByIdChan,
+    getEconomicsParametersByIdSaga
+  );
 }
 
 const config = { withCredentials: false };
@@ -50,23 +46,19 @@ function* getEconomicsParametersByIdSaga(action: IAction): Generator<
   void,
   any
 > {
-  
   const { payload } = action;
-  const { selectedEconomicsParametersId, isCreateOrEdit} =
-    payload;
+  const { selectedEconomicsParametersId, isCreateOrEdit } = payload;
   const wc = "storedDataWorkflows";
   const reducer = "networkReducer";
 
   const economicsParametersUrl = `${getBaseEconomicsUrl()}/parameter/${selectedEconomicsParametersId}`;
 
   try {
-    const economicsParametersResults =  yield call(
-        getEconomicsParametersByIdAPI,
-        economicsParametersUrl
+    const economicsParametersResults = yield call(
+      getEconomicsParametersByIdAPI,
+      economicsParametersUrl
     );
 
-    console.log("economicsParametersResults: ", economicsParametersResults);
-    
     const {
       data: { data },
     } = economicsParametersResults;
@@ -78,100 +70,97 @@ function* getEconomicsParametersByIdSaga(action: IAction): Generator<
     const oilRoyalty = data["oilRoyalty"];
     const ppt = data["ppt"];
 
-    
-      const createInitialRows = (): any[] => {
+    const createInitialRows = (): any[] => {
+      const fakeRows = [];
 
-        const fakeRows = [];
+      let numberOfRows = commercialTechnical.length;
+      for (let i = 0; i < numberOfRows; i++) {
+        const fakeRow = {
+          sn: i + 1,
+          parameter: commercialTechnical[i].variableName,
+          type: "Single",
+          value: "",
+          unit: commercialTechnical[i].value,
+          remark: "",
+        };
 
-        let numberOfRows = commercialTechnical.length
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            parameter: commercialTechnical[i].variableName,
-            type: "Single",
-            value: "",
-            unit: commercialTechnical[i].value,
-            remark: "",
-          };
-    
-          fakeRows.push(fakeRow);
-        }
+        fakeRows.push(fakeRow);
+      }
 
-        numberOfRows = fiscal.length
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            parameter: fiscal[i].variableName,
-            type: "Single",
-            value: "",
-            unit: fiscal[i].value,
-            remark: "",
-          };
-    
-          fakeRows.push(fakeRow);
-        }
+      numberOfRows = fiscal.length;
+      for (let i = 0; i < numberOfRows; i++) {
+        const fakeRow = {
+          sn: i + 1,
+          parameter: fiscal[i].variableName,
+          type: "Single",
+          value: "",
+          unit: fiscal[i].value,
+          remark: "",
+        };
 
-        numberOfRows = flarePenalty.length
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            parameter: flarePenalty[i].variableName,
-            type: "Single",
-            value: "",
-            unit: flarePenalty[i].value,
-            remark: "",
-          };
-    
-          fakeRows.push(fakeRow);
-        }
+        fakeRows.push(fakeRow);
+      }
 
-        numberOfRows = gasRoyalty.length
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            parameter: gasRoyalty[i].variableName,
-            type: "Single",
-            value: "",
-            unit: gasRoyalty[i].value,
-            remark: "",
-          };
-    
-          fakeRows.push(fakeRow);
-        }
+      numberOfRows = flarePenalty.length;
+      for (let i = 0; i < numberOfRows; i++) {
+        const fakeRow = {
+          sn: i + 1,
+          parameter: flarePenalty[i].variableName,
+          type: "Single",
+          value: "",
+          unit: flarePenalty[i].value,
+          remark: "",
+        };
 
-        numberOfRows = oilRoyalty.length
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            parameter: oilRoyalty[i].variableName,
-            type: "Single",
-            value: "",
-            unit: oilRoyalty[i].value,
-            remark: "",
-          };
-    
-          fakeRows.push(fakeRow);
-        }
+        fakeRows.push(fakeRow);
+      }
 
-        numberOfRows = ppt.length
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            parameter: ppt[i].variableName,
-            type: "Single",
-            value: "",
-            unit: ppt[i].value,
-            remark: "",
-          };
-    
-          fakeRows.push(fakeRow);
-        }
+      numberOfRows = gasRoyalty.length;
+      for (let i = 0; i < numberOfRows; i++) {
+        const fakeRow = {
+          sn: i + 1,
+          parameter: gasRoyalty[i].variableName,
+          type: "Single",
+          value: "",
+          unit: gasRoyalty[i].value,
+          remark: "",
+        };
 
+        fakeRows.push(fakeRow);
+      }
 
-        return fakeRows;
-      };
-    
-      const selectedTableData = createInitialRows();
+      numberOfRows = oilRoyalty.length;
+      for (let i = 0; i < numberOfRows; i++) {
+        const fakeRow = {
+          sn: i + 1,
+          parameter: oilRoyalty[i].variableName,
+          type: "Single",
+          value: "",
+          unit: oilRoyalty[i].value,
+          remark: "",
+        };
+
+        fakeRows.push(fakeRow);
+      }
+
+      numberOfRows = ppt.length;
+      for (let i = 0; i < numberOfRows; i++) {
+        const fakeRow = {
+          sn: i + 1,
+          parameter: ppt[i].variableName,
+          type: "Single",
+          value: "",
+          unit: ppt[i].value,
+          remark: "",
+        };
+
+        fakeRows.push(fakeRow);
+      }
+
+      return fakeRows;
+    };
+
+    const selectedTableData = createInitialRows();
 
     const successAction = getTableDataByIdSuccessAction();
     console.log("ans: ", {
@@ -192,7 +181,7 @@ function* getEconomicsParametersByIdSaga(action: IAction): Generator<
       },
     });
 
-     /*  const dialogParameters: DialogStuff = {
+    /*  const dialogParameters: DialogStuff = {
         name: "Display_Table_Data_Dialog",
         title: wellDeclineParameterTitle,
         type: "tableDataDialog",
@@ -206,7 +195,6 @@ function* getEconomicsParametersByIdSaga(action: IAction): Generator<
       };
 
       yield put(showDialogAction(dialogParameters)); */
- 
   } catch (errors) {
     /* const failureAction = getDeclineParametersByIdFailureAction();
 

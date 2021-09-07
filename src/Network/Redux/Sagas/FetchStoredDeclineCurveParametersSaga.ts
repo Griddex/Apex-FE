@@ -17,7 +17,7 @@ import { persistFormTitlesAction } from "../../../Application/Redux/Actions/Appl
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineCurveParametersDialogParameters";
 import {
   STORED_DECLINEPARAMETERS_REQUEST,
@@ -60,7 +60,6 @@ function* fetchStoredDeclineCurveParametersSaga(
   const { projectId } = payload;
 
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/light/${projectId}`;
-
 
   try {
     const result = yield call<(url: string) => AxiosPromise>(

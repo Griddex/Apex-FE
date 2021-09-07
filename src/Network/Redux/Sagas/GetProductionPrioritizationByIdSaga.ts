@@ -18,7 +18,7 @@ import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Action
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredProductionPrioritizationDialogParameters";
 import {
   getProductionPrioritizationByIdFailureAction,
@@ -62,7 +62,7 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
     selectedProductionPrioritizationTitle,
     selectedRowIndex,
     reducer,
-    isCreateOrEdit
+    isCreateOrEdit,
   } = payload;
 
   const productionPrioritizationUrl = `${getBaseForecastUrl()}/well-prioritization/${selectedProductionPrioritizationId}`;
@@ -79,7 +79,6 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
 
     const selectedTableData = data["wellPrioritizations"];
     const forecastInputDeckId = data["forecastInputDeckId"];
-
 
     const successAction = getTableDataByIdSuccessAction();
     console.log("put payload: ", {
@@ -100,7 +99,6 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
       },
     });
 
-
     yield put(
       updateNetworkParametersAction({
         prioritizationPerspective: data["typeOfPrioritization"],
@@ -115,10 +113,10 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
         nameOrPath: "selectedForecastInputDeckId",
         value: forecastInputDeckId,
         reducer: "inputReducer",
-      }
+      },
     });
 
-    if(isCreateOrEdit == false){
+    if (isCreateOrEdit == false) {
       const dialogParameters: DialogStuff = {
         name: "Extrude_Prioritization_Parameters_Dialog",
         title: selectedProductionPrioritizationTitle,
@@ -131,15 +129,17 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
         actionsList: () => DialogCancelButton(),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
-  
+
       yield put(showDialogAction(dialogParameters));
-  
-    }else{
-      yield put(showDialogAction(extrudeStoredProductionPrioritization(
-        "Edit Well Prioritization",
-        "editForecastingParametersWorkflow"
-      )))
-  
+    } else {
+      yield put(
+        showDialogAction(
+          extrudeStoredProductionPrioritization(
+            "Edit Well Prioritization",
+            "editForecastingParametersWorkflow"
+          )
+        )
+      );
     }
   } catch (errors) {
     const failureAction = getProductionPrioritizationByIdFailureAction();

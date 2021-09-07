@@ -53,10 +53,14 @@ const useStyles = makeStyles((theme) => ({
   score: { fontSize: 14 },
 }));
 
-export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
+export default function PreviewSave({
+  reducer,
+  wrkflwPrcss,
+  wrkflwCtgry,
+}: IAllWorkflows) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wc = "inputDataWorkflows";
+  const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
   const {
@@ -139,12 +143,6 @@ export default function PreviewSave({ reducer, wrkflwPrcss }: IAllWorkflows) {
     chosenAppHeadersWithoutNone,
     appHeaderNameTitleCollection as IApplicationHeaders[]
   );
-
-  const appHeaderTitleNameObj = (
-    appHeaderNameTitleCollection as IApplicationHeaders[]
-  ).reduce((acc: Record<string, string>, row: IApplicationHeaders) => {
-    return { ...acc, [row.variableTitle]: row.variableName };
-  }, {});
 
   const applicationHeadertableData = columnNameTableDataWithoutNone.map(
     (row: IRawRow) => {

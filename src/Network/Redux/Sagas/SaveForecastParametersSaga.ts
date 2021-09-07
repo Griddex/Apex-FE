@@ -18,7 +18,7 @@ import {
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl from "../../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { IForecastParametersStoredRow } from "../../Components/Dialogs/StoredNetworksDialogTypes";
 import {
   fetchStoredForecastingParametersRequestAction,
@@ -55,22 +55,28 @@ function* saveForecastParametersSaga(
   const { payload } = action;
   const { titleDesc } = payload;
   console.log("payload: ", payload);
-  const forecastingParametersObj:any = {};
+  const forecastingParametersObj: any = {};
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
-  const { selectedProductionPrioritizationId } = yield select((state) => state.networkReducer);
-  const { selectedDeclineParametersId } = yield select((state) => state.networkReducer);
+  const { selectedProductionPrioritizationId } = yield select(
+    (state) => state.networkReducer
+  );
+  const { selectedDeclineParametersId } = yield select(
+    (state) => state.networkReducer
+  );
 
-  console.log("selectedProductionPrioritizationId: ", selectedProductionPrioritizationId);
+  console.log(
+    "selectedProductionPrioritizationId: ",
+    selectedProductionPrioritizationId
+  );
   console.log("selectedDeclineParametersId: ", selectedDeclineParametersId);
-  
+
   let isDefered = 0;
-  if(titleDesc.isDefered == "useDeferment"){
+  if (titleDesc.isDefered == "useDeferment") {
     isDefered = 1;
   }
 
   const startForecast = new Date(titleDesc.startForecast);
-  
 
   forecastingParametersObj.title = titleDesc.title;
   forecastingParametersObj.description = titleDesc.description;
@@ -78,8 +84,7 @@ function* saveForecastParametersSaga(
   forecastingParametersObj.projectId = currentProjectId;
   forecastingParametersObj.userId = "";
   forecastingParametersObj.type = titleDesc.type;
-  forecastingParametersObj.parameterEntries = 
-  {
+  forecastingParametersObj.parameterEntries = {
     targetFluid: titleDesc.targetFluid,
     timeFrequency: titleDesc.timeFrequency,
     realtimeResults: titleDesc.realtimeResults,
@@ -88,14 +93,18 @@ function* saveForecastParametersSaga(
     stopMonth: titleDesc.endForecast.getMonth() + 1,
     stopYear: titleDesc.endForecast.getFullYear(),
     startDay: startForecast.getDate(),
-    startMonth:  startForecast.getMonth() + 1,
-    startYear:  startForecast.getFullYear()
-  }; 
+    startMonth: startForecast.getMonth() + 1,
+    startYear: startForecast.getFullYear(),
+  };
   forecastingParametersObj.declineParametersId = selectedDeclineParametersId;
-  forecastingParametersObj.wellPrioritizationId = selectedProductionPrioritizationId;
-  forecastingParametersObj.forecastInputdeckTitle = titleDesc.forecastInputdeckTitle;
-  forecastingParametersObj.wellPrioritizationTitle = titleDesc.wellPrioritizationTitle;
-  forecastingParametersObj.wellDeclineParameterTitle = titleDesc.wellDeclineParameterTitle;
+  forecastingParametersObj.wellPrioritizationId =
+    selectedProductionPrioritizationId;
+  forecastingParametersObj.forecastInputdeckTitle =
+    titleDesc.forecastInputdeckTitle;
+  forecastingParametersObj.wellPrioritizationTitle =
+    titleDesc.wellPrioritizationTitle;
+  forecastingParametersObj.wellDeclineParameterTitle =
+    titleDesc.wellDeclineParameterTitle;
 
   //console.log("forecastingParametersObj: ", forecastingParametersObj);
   const config = { withCredentials: false };

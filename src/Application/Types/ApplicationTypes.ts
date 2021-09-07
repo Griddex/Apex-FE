@@ -80,6 +80,9 @@ export interface IStoredDataProps {
   clickAwayAction?: () => void;
   fetchStoredUrl?: string;
   fetchStoredRequestAction?: (projectIdDefined?: string) => IAction;
+  updateTableActionConfirmation?: (
+    id: string
+  ) => (titleDesc: Record<string, string>) => void;
   dataStored?: string;
   dialog?: DialogStuff<IRawRow>;
   buttonToolTip?: string;

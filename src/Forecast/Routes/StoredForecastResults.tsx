@@ -39,7 +39,7 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import getBaseForecastUrl from "../../Application/Services/BaseUrlService";
+import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import {
   IApplicationStoredForecastResultsRow,
   IStoredDataProps,
@@ -135,20 +135,20 @@ export default function StoredForecastResults({
   //TODO: Calculate classification data from collection
   const chartData = [
     {
-      id: "Group A",
-      label: "Group A",
+      id: "A",
+      label: "A",
       value: 2400,
       color: theme.palette.primary.main,
     },
     {
-      id: "Group B",
-      label: "Group B",
+      id: "B",
+      label: "B",
       value: 4567,
       color: theme.palette.success.main,
     },
     {
-      id: "Group C",
-      label: "Group C",
+      id: "C",
+      label: "C",
       value: 1398,
       color: theme.palette.secondary.main,
     },
@@ -171,11 +171,9 @@ export default function StoredForecastResults({
   const [storedforecastResults, setStoredforecastResults] = React.useState(
     forecastResultsStored
   );
-  const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredForecastResultsRow) => {
-    //console.log("row: ", row);
     const id = row.forecastResultsId as string;
     const title = row.forecastResultsTitle as string;
     const saved = row.saved as string;
@@ -264,12 +262,7 @@ export default function StoredForecastResults({
                     DialogOneCancelButtons(
                       [true, true],
                       [true, false],
-                      [
-                        unloadDialogsAction,
-                        //Captured variable
-                        //solve with componentRef
-                        () => setShouldUpdate(!shouldUpdate),
-                      ],
+                      [unloadDialogsAction, () => {}],
                       "Update",
                       "updateOutlined"
                     ),

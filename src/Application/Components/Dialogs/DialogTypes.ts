@@ -59,6 +59,7 @@ import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDe
 import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
+import { IAction } from "../../Redux/Actions/ActionTypes";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -212,6 +213,8 @@ export interface DialogStuff<TRow = TDataRow> {
   deleteTitle?: string;
   snapshot?: any;
   widgetComponent?: React.FC<any>;
+  updateDataUrl?: string;
+  fetchStoredRequestAction?: () => IAction;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

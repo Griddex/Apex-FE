@@ -13,7 +13,8 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import * as authService from "../../../Application/Services/AuthService";
-import getBaseForecastUrl, {
+import {
+  getBaseForecastUrl,
   getBaseEconomicsUrl,
 } from "../../../Application/Services/BaseUrlService";
 import generateKeyValueMap from "../../../Application/Utils/GenerateKeyValueMap";
