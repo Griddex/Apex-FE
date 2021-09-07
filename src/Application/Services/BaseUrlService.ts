@@ -9,8 +9,8 @@ export const getBaseUnitUrl = () => {
 };
 
 export const getBaseForecastUrl = () => {
-  //return "https://apex.syncware.io/forecast";
-  return "http://localhost:5015/api/forecast";
+  return "https://apex.syncware.io/forecast";
+  // return "http://localhost:5015/api/forecast";
 };
 
 export const getBaseEconomicsUrl = () => {
