@@ -321,7 +321,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       setRows(rows);
     };
 
-    const handleExcludeSwitchChange = (
+    const handleIncludeSwitchChange = (
       row: IRawRow,
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -340,7 +340,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
       rows[selectedRowSN - 1] = {
         ...selectedRow,
-        applicationHeader: isChecked ? "None" : formerHeader.label,
+        applicationHeader: isChecked ? formerHeader.label : "None",
         match: isChecked ? 0 : formerScore.label,
         include: isChecked,
       };
@@ -526,7 +526,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
             <ApexFlexContainer>
               <ApexMuiSwitch
                 name="include"
-                handleChange={(event) => handleExcludeSwitchChange(row, event)}
+                handleChange={(event) => handleIncludeSwitchChange(row, event)}
                 checked={checked}
                 checkedColor={theme.palette.success.main}
                 notCheckedColor={theme.palette.common.white}
@@ -574,7 +574,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     chosenAppHeadersWithNone as string[]
   ).filter((h: string) => h.toLowerCase() !== "none");
 
-  const fileAppHeaderExcludeWithNoneMap = rows.reduce((acc: any, row) => {
+  const fileAppHeaderIncludeWithNoneMap = rows.reduce((acc: any, row) => {
     const { fileHeader, applicationHeader, include } = row;
 
     return {
@@ -670,8 +670,8 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     dispatch(
       updateInputParameterAction(
         reducer,
-        `inputDataWorkflows.${wp}.fileAppHeaderExcludeWithNoneMap`,
-        fileAppHeaderExcludeWithNoneMap
+        `inputDataWorkflows.${wp}.fileAppHeaderIncludeWithNoneMap`,
+        fileAppHeaderIncludeWithNoneMap
       )
     );
     dispatch(

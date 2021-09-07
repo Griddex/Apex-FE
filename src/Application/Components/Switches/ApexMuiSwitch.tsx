@@ -1,10 +1,9 @@
+import { Grid } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
 import React from "react";
-import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
-import clsx from "clsx";
-import { Grid } from "@material-ui/core";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
+import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxShadow: "none",
   },
   track: {
-    border: `1px solid ${theme.palette.grey[500]}`,
+    // border: `1px solid ${theme.palette.grey[500]}`,
     borderRadius: 16 / 2,
     opacity: 1,
     backgroundColor: theme.palette.secondary.main,
