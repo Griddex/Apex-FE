@@ -67,7 +67,7 @@ const SensitivitiesHeatMapChart = () => {
   let heatMapTreeZRow = {} as RenderTree;
   let heatMapVarZData = [] as ISelectOption[];
   let variableZlength = 0;
-  let selectedDevScenario = "OIL/AG Development";
+  let selectedDevScenario = "OIL/AG";
 
   if (heatMapTreeByScenario.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
@@ -83,7 +83,7 @@ const SensitivitiesHeatMapChart = () => {
     })) as ISelectOption[];
 
     variableZlength = heatMapVarZData.length;
-    selectedDevScenario = heatMapTreeByScenario.title as string;
+    selectedDevScenario = heatMapTreeByScenario.name as string;
   }
 
   return (

@@ -191,6 +191,7 @@ const ForecastInputDeckLanding = () => {
               workflowProcess,
               workflowCategory,
             } = module;
+
             return (
               <ModuleCard
                 key={name}

@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       marginLeft: 10,
     },
+    width: 135,
   },
   mappingErrors: {
     display: "flex",

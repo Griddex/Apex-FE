@@ -56,14 +56,11 @@ function* getVisualyticsChartDataSaga(
   any
 > {
   const { payload } = action;
-  // const { chartType, visualyticsColumnNames, isVisualyticsDeckSaved } = payload;
 
   const {
     selectedVisualyticsId,
     visualyticsColumnNames,
-    isVisualyticsDeckSaved,
     selectedVisualyticsChartOption,
-    xValueCategories,
   } = yield select((state) => state.visualyticsReducer);
 
   const chartType = selectedVisualyticsChartOption.value;
@@ -72,7 +69,7 @@ function* getVisualyticsChartDataSaga(
   const url = `${getBaseVisualyticsUrl()}/chartData`;
 
   const requestData = {
-    chart: chartType,
+    chartType,
     columnNames: visualyticsColumnNames,
     visualyticsId: selectedVisualyticsId,
   };
