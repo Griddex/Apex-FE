@@ -231,6 +231,8 @@ const EconomicsState: IEconomicsState = {
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },
 
+  resultsAnalyis: [],
+
   inputDataWorkflows: inputDataState,
   storedDataWorkflows: storedDataState,
   economicsAnalysisWorkflows: analysesDataState,

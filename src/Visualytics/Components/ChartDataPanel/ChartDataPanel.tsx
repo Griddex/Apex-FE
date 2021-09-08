@@ -1,21 +1,18 @@
+import { Button } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
+import CallReceivedIcon from "@material-ui/icons/CallReceived";
 import CategoryOutlinedIcon from "@material-ui/icons/CategoryOutlined";
+import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
 import React from "react";
+import { Rnd } from "react-rnd";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import NewWindow from "rc-new-window";
-import { Rnd } from "react-rnd";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
-import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
-import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import { Button } from "@material-ui/core";
-
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
 export interface IChartDataPanel<T = ISelectOption> {
   selectLabel: string;
   selectedOption: T;
@@ -51,7 +48,7 @@ const ChartDataPanel = <T extends ISelectOption>({
 
   const [categorySize, setCategorySize] = React.useState({
     width: 300,
-    height: 800,
+    height: 540,
   });
   const [categoryPosition, setCategoryPosition] = React.useState({
     x: 0,
@@ -98,15 +95,6 @@ const ChartDataPanel = <T extends ISelectOption>({
       </div>
       <ApexFlexContainer height={50} justifyContent="flex-end">
         {extrudeCategories && (
-          // <NewWindow
-          //   onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
-          //   copyStyles={true}
-          //   height={800}
-          //   width={400}
-          // >
-          //   {CategoriesComponent}
-          // </NewWindow>
-
           <Rnd
             style={{ zIndex: 2000 }}
             size={{
@@ -139,9 +127,9 @@ const ChartDataPanel = <T extends ISelectOption>({
                   onClick={() =>
                     setExtrudeCategories && setExtrudeCategories(false)
                   }
-                  startIcon={<CloseOutlinedIcon />}
+                  startIcon={<CallReceivedIcon />}
                 >
-                  {"Cancel"}
+                  {"Hide"}
                 </Button>
               )}
             >

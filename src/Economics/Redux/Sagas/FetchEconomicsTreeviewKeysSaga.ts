@@ -85,25 +85,14 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
         selectedEconomicsResultsTitle,
         selectedEconomicsResultsDescription,
         isEconomicsResultsSaved,
+        [economicsPerspectiveTreeMap["heatMapTree"]]:
+          economicsTree["heatMapTree"],
+        [economicsPerspectiveTreeMap["plotChartsTree"]]:
+          economicsTree["plotChartsTree"],
+        [economicsPerspectiveTreeMap["templatesTree"]]:
+          economicsTree["templatesTree"],
+        resultsAnalyis: economicsTree["analysis"],
       })
-    );
-    yield put(
-      updateEconomicsParameterAction(
-        economicsPerspectiveTreeMap["heatMapTree"],
-        economicsTree["heatMapTree"]
-      )
-    );
-    yield put(
-      updateEconomicsParameterAction(
-        economicsPerspectiveTreeMap["plotChartsTree"],
-        economicsTree["plotChartsTree"]
-      )
-    );
-    yield put(
-      updateEconomicsParameterAction(
-        economicsPerspectiveTreeMap["templatesTree"],
-        economicsTree["templatesTree"]
-      )
     );
 
     let dialogParameters = {} as DialogStuff;

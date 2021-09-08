@@ -18,11 +18,12 @@ import {
   TDevScenarioNames,
   TDevScenarioTitles,
   TEconomicsAnalysesNames,
+  TEconomicsAnalysesTitles,
   TForecastScenario,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
-  IExtendedSelectOption,
+  INameTitleOption,
   ISelectOption,
 } from "./../../../Application/Components/Selects/SelectItemsType";
 
@@ -263,19 +264,21 @@ export interface IEconomicsState
     heatMapBackgroundColor: string;
     relationalOperatorOption: ISelectOption;
   };
-  heatMapVariableXOptions: Record<string, IExtendedSelectOption>;
-  heatMapVariableYOptions: Record<string, IExtendedSelectOption>;
-  heatMapVariableZOptions: Record<string, IExtendedSelectOption>;
+  heatMapVariableXOptions: Record<string, INameTitleOption>;
+  heatMapVariableYOptions: Record<string, INameTitleOption>;
+  heatMapVariableZOptions: Record<string, INameTitleOption>;
 
   economicsPlotChartsTree: RenderTree;
   plotChartsData: null;
   plotChartsDataTrans: null;
   selectedEconomicsPlotChartOption: ISelectOption;
   showPlotChartsCategories: boolean;
-  plotChartsVariableXOptions: Record<string, IExtendedSelectOption>;
-  plotChartsVariableYOptions: Record<string, IExtendedSelectOption>;
+  plotChartsVariableXOptions: Record<string, INameTitleOption>;
+  plotChartsVariableYOptions: Record<string, INameTitleOption>;
 
   economicsTemplatesTree: RenderTree;
+
+  resultsAnalyis: Record<TEconomicsAnalysesNames, TEconomicsAnalysesTitles>[];
 
   inputDataWorkflows: Record<string, IEconomicsImport>;
   storedDataWorkflows: Record<string, IApplicationStoredDataRow[]>;

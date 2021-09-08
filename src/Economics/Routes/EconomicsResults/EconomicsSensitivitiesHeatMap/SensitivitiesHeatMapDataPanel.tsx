@@ -164,11 +164,17 @@ const SensitivitiesHeatMapDataPanel = () => {
   };
 
   let disableCollection = [] as boolean[];
-  if (heatMapTreeByScenario.id === "") {
+  if (heatMapTreeByScenario && heatMapTreeByScenario.id === "") {
     disableCollection = [true, true, true];
-  } else if (heatMapTreeByScenario["children"].length === 1) {
+  } else if (
+    heatMapTreeByScenario &&
+    heatMapTreeByScenario["children"].length === 1
+  ) {
     disableCollection = [false, true, true];
-  } else if (heatMapTreeByScenario["children"].length === 2) {
+  } else if (
+    heatMapTreeByScenario &&
+    heatMapTreeByScenario["children"].length === 2
+  ) {
     disableCollection = [false, false, true];
   } else {
     disableCollection = [false, false, false];

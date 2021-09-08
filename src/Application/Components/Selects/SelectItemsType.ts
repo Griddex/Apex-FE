@@ -24,6 +24,11 @@ export interface IExtendedSelectOption<T = string, U = string, V = string> {
   yAxis?: "primary" | "secondary";
 }
 
+export interface INameTitleOption {
+  name: string;
+  title: string;
+}
+
 export type AppUnitSelectOptionsType = IExtendedSelectOption[];
 
 export interface ISelectItem {
