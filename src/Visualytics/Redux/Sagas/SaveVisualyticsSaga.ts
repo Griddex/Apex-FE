@@ -98,8 +98,8 @@ function* saveVisualyticsSaga(
       },
     });
 
-    yield put(fetchStoredVisualyticsDataRequestAction(currentProjectId));
     yield put(workflowResetAction(0, wp, wc));
+    yield put(fetchStoredVisualyticsDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveVisualyticsFailureAction();

@@ -28,7 +28,7 @@ import {
   fetchStoredEconomicsResultsRequestAction,
   saveEconomicsResultsFailureAction,
   SAVE_ECONOMICSRESULTS_REQUEST,
-  updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
 } from "../Actions/EconomicsActions";
 
 export default function* watchSaveEconomicsResultsSaga(): Generator<
@@ -85,19 +85,16 @@ function* saveEconomicsResultsSaga(
     } = result;
 
     yield put(
-      updateEconomicsParameterAction(
-        "selectedEconomicsResultsId",
-        economicsResultsId
-      )
+      updateEconomicsParametersAction({
+        selectedEconomicsResultsId: economicsResultsId,
+        selectedEconomicsResultsTitle: title,
+        isEconomicsResultsSaved: true,
+      })
     );
-    yield put(
-      updateEconomicsParameterAction("selectedEconomicsResultsTitle", title)
-    );
-    yield put(updateEconomicsParameterAction("isEconomicsResultsSaved", true));
+
     yield put(
       fetchStoredEconomicsResultsRequestAction(currentProjectId, false)
     );
-    // yield put(workflowResetAction(0, wp, wc));
     yield put(
       showDialogAction(
         successDialogParameters(

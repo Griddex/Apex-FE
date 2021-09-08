@@ -107,6 +107,7 @@ export function* saveInputDeckSaga(
   const dateFormat = "DD/MM/YYYY";
 
   const data = {
+    userId: "Gideon",
     projectId: currentProjectId,
     facilitiesInputDeckId,
     title,
@@ -146,18 +147,18 @@ export function* saveInputDeckSaga(
       },
     });
 
+    yield put(workflowResetAction(0, wp, wc));
     yield put(fetchStoredInputDeckRequestAction(currentProjectId));
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
+    yield put(
+      showDialogAction(successDialogParameters(reducer, inputDeckType, wp))
+    );
     yield put(
       updateInputParameterAction(
         "inputReducer",
         `${wc}.${wp}`,
         initialInputWorkflowParameters
       )
-    );
-    yield put(workflowResetAction(0, wp, wc));
-    yield put(
-      showDialogAction(successDialogParameters(reducer, inputDeckType, wp))
     );
   } catch (errors) {
     const failureAction = saveInputDeckFailureAction();

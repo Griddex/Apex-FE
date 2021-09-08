@@ -263,9 +263,9 @@ export const forecastCaseOptions = [
 ];
 
 export const developmentScenariosMap = {
-  "OIL/AG Development": "oilDevelopment",
-  "NAG Development": "nagDevelopment",
-  "OIL + NAG Development": "oilNAGDevelopment",
+  "OIL/AG": "oilDevelopment",
+  NAG: "nagDevelopment",
+  "OIL + NAG": "oilNAGDevelopment",
 };
 
 export const mapData = [
