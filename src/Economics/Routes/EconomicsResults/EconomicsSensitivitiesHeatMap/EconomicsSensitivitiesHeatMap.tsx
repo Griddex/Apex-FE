@@ -18,14 +18,12 @@ const EconomicsSensitivitiesHeatMap = () => {
     heatMapVariableXOptions,
     heatMapVariableYOptions,
   } = useSelector((state: RootState) => state.economicsReducer);
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 21 ~ EconomicsSensitivitiesHeatMap ~ sensitivitiesHeatMap1or2D",
+    sensitivitiesHeatMap1or2D
+  );
 
-  let keys: string[] = [];
-
-  if (sensitivitiesHeatMap1or2D.length > 0) {
-    keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
-      ?.filter((key) => key.includes("Color"))
-      ?.map((e) => e.replace("Color", ""));
-  } else
+  if (sensitivitiesHeatMap1or2D && sensitivitiesHeatMap1or2D?.length === 0) {
     return (
       <ApexFlexContainer
         moreStyles={{
@@ -37,19 +35,41 @@ const EconomicsSensitivitiesHeatMap = () => {
         {"No map"}
       </ApexFlexContainer>
     );
+  }
+
+  const keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
+    ?.filter((key) => key.includes("Color"))
+    ?.map((e) => e.replace("Color", ""));
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 39 ~ EconomicsSensitivitiesHeatMap ~ keys",
+    keys
+  );
+
+  const yId = Object.keys(heatMapVariableYOptions)[0];
+  const yName = heatMapVariableYOptions[yId].name;
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 46 ~ EconomicsSensitivitiesHeatMap ~ yName",
+    yName
+  );
+  const xId = Object.keys(heatMapVariableXOptions)[0];
+  const xName = heatMapVariableXOptions[xId].name;
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 49 ~ EconomicsSensitivitiesHeatMap ~ xName",
+    xName
+  );
 
   return (
     <ResponsiveHeatMap
       data={sensitivitiesHeatMap1or2D}
       keys={keys}
-      indexBy={heatMapVariableYOptions.value}
+      indexBy={yName}
       margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
       forceSquare={true}
       axisTop={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: -90,
-        legend: startCase(heatMapVariableXOptions.value),
+        legend: startCase(xName),
         legendPosition: "middle",
         legendOffset: -36,
       }}
@@ -59,7 +79,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: startCase(heatMapVariableYOptions.value),
+        legend: startCase(yName),
         legendPosition: "middle",
         legendOffset: -40,
       }}

@@ -62,14 +62,9 @@ const CartesianChartCategory = ({
 
   const [{ isOverCurrent, canDrop }, drop] = useDrop(
     () => ({
-      // accept: Object.keys(hasDroppedObj).length > 0 ? allItemTypes : "",
       accept: allItemTypes,
       drop(item) {
         const { id } = item as IDragItem;
-        console.log(
-          "Logged output --> ~ file: CartesianChartCategory.tsx ~ line 66 ~ drop ~ item",
-          item
-        );
 
         dispatch(updateAction(categoryOptionTitle as string, item));
         setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
@@ -123,7 +118,7 @@ const CartesianChartCategory = ({
       <AnalyticsComp
         title={categoryTitle as string}
         direction="Vertical"
-        containerStyle={{ width: "100%", height: 150 }}
+        containerStyle={{ width: "100%", height: 100 }}
         content={
           <ApexFlexContainer
             ref={drop}

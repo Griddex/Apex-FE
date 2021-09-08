@@ -10,10 +10,7 @@ import { ISelectOption } from "../../../../Application/Components/Selects/Select
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import isObjectEmpty from "../../../../Application/Utils/IsObjectEmpty";
-import {
-  developmentScenariosMap,
-  economicsAnalysesOptions,
-} from "../../../Data/EconomicsData";
+import { developmentScenariosMap } from "../../../Data/EconomicsData";
 import {
   getHeatMapDataRequestAction,
   updateEconomicsParameterAction,
@@ -28,27 +25,27 @@ const SensitivitiesHeatMapChart = () => {
   const dispatch = useDispatch();
   const wc = "economicsAnalysisWorkflows";
 
-  const { selectedAnalysis } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
-  );
-
-  const ap = selectedAnalysis?.name;
-  const tl = selectedAnalysis?.title;
-
-  const [analysisOption, setAnalysisOption] = React.useState({
-    value: ap,
-    label: tl,
-  });
-
-  const [selectedZ, setSelectedZ] = React.useState("");
-
   const {
     sensitivitiesHeatMapData,
     heatMapVariableXOptions,
     heatMapVariableYOptions,
     heatMapVariableZOptions,
     heatMapTreeByScenario,
+    resultsAnalyis,
   } = useSelector((state: RootState) => state.economicsReducer);
+
+  const resultsAnalyisOptions = resultsAnalyis.map((row: any) => ({
+    value: row["analysisName"],
+    label: row["analysisTitle"],
+  }));
+
+  const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
+    resultsAnalyisOptions[0]
+  );
+
+  const { analyisName, analysisTitle } = resultsAnalyis;
+
+  const [selectedZ, setSelectedZ] = React.useState("");
 
   const isAllVariablesDropped = [
     heatMapVariableXOptions,
@@ -69,7 +66,7 @@ const SensitivitiesHeatMapChart = () => {
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG";
 
-  if (heatMapTreeByScenario.id !== "" && isZ) {
+  if (heatMapTreeByScenario && heatMapTreeByScenario.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
 
     heatMapTreeZRow = heatMapTreeByScenario["children"].filter(
@@ -91,7 +88,7 @@ const SensitivitiesHeatMapChart = () => {
       <ApexFlexContainer width={300} height={50}>
         <ApexSelectRS
           valueOption={analysisOption}
-          data={economicsAnalysesOptions}
+          data={resultsAnalyisOptions}
           handleSelect={(option: ValueType<ISelectOption, false>) =>
             setAnalysisOption(option as ISelectOption)
           }
@@ -138,9 +135,9 @@ const SensitivitiesHeatMapChart = () => {
                 isHeatMapVariableXYOptionOnly
               ) {
                 if (Object.entries(sensitivitiesHeatMapData).length === 0) {
-                  //TODO 1or2d doesn't have z variable
-                  //Gabriel to consider this scenario
-                  dispatch(getHeatMapDataRequestAction(ap, tl));
+                  dispatch(
+                    getHeatMapDataRequestAction(analyisName, analysisTitle)
+                  );
                 }
               } else {
                 if (Object.entries(sensitivitiesHeatMapData).length > 0) {
@@ -162,9 +159,8 @@ const SensitivitiesHeatMapChart = () => {
                 } else {
                   dispatch(
                     getHeatMapDataRequestAction(
-                      //TODO Temporary. Gift to give me this with tree view
-                      "payout",
-                      "Payout",
+                      analyisName,
+                      analysisTitle,
                       variableZlength,
                       selectedDevScenario
                     )
