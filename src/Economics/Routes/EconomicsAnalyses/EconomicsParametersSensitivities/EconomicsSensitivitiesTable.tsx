@@ -1,13 +1,12 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
 import { Column } from "react-data-griddex";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import AnalyticsText from "../../../../Application/Components/Basic/AnalyticsText";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
   ISensitivitiesRow,
@@ -16,41 +15,21 @@ import {
 } from "../EconomicsAnalysesTypes";
 
 export interface IEconomicsSensitivitiesTable {
-  selectedSensitivitiesTable: TSensitivitiesTable;
+  sensitivitiesTable: TSensitivitiesTable;
   analysisName: TEconomicsAnalysesNames;
 }
 
 const EconomicsSensitivitiesTable = ({
-  selectedSensitivitiesTable,
+  sensitivitiesTable,
   analysisName,
 }: IEconomicsSensitivitiesTable) => {
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 27 ~ analysisName",
-    analysisName
-  );
   const theme = useTheme();
-  const dispatch = useDispatch();
-  const wc = "economicsAnalysisWorkflows";
 
   const { economicsAnalysisWorkflows } = useSelector(
     (state: RootState) => state.economicsReducer
   );
 
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 25 ~ selectedSensitivitiesTable",
-    selectedSensitivitiesTable
-  );
-
-  //TODO Rethink how to make sensitivities table usable by
-  //any current economics analysis
-
-  const currentAnalysisObj = economicsAnalysisWorkflows[analysisName];
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 44 ~ currentAnalysisObj",
-    currentAnalysisObj
-  );
-  const sensitivitiesTableTitle = currentAnalysisObj["analysisTableTitle"];
-  const [rows, setRows] = React.useState(selectedSensitivitiesTable);
+  const { sensitivitiesTableTitle } = economicsAnalysisWorkflows;
 
   const columns: Column<ISensitivitiesRow>[] = [
     {
@@ -78,9 +57,11 @@ const EconomicsSensitivitiesTable = ({
     },
   ];
 
+  const [rows, setRows] = React.useState(sensitivitiesTable);
+
   React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-  }, []);
+    setRows(sensitivitiesTable);
+  }, [sensitivitiesTableTitle]);
 
   return (
     <ApexFlexContainer

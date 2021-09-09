@@ -1,6 +1,7 @@
 import { allChartsDataAndSpecificProperties } from "../../../Visualytics/Data/VisualyticsData";
 import {
   IEconomicsAnalysis,
+  IEconomicsSensitivities,
   TEconomicsAnalysesNames,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IEconomicsState } from "./EconomicsStateTypes";
@@ -131,6 +132,21 @@ const inputDataState = generateEconomicsState();
 const storedDataState = generateStoredDataState();
 const analysesDataState = generateAnalysesState();
 
+export const sensitivitiesInfo = {
+  sensitivitiesData: {
+    analysisName: "payout",
+    targetParameterOptions: [],
+    selectedTargetParameterOption: {
+      value: "Select Analysis...",
+      label: "Select Analysis...",
+    },
+    sensitivityValues: [],
+  },
+  showSensitivitiesTable: false,
+  sensitivitiesTable: [],
+  sensitivitiesTableTitle: "",
+} as IEconomicsSensitivities;
+
 const EconomicsState: IEconomicsState = {
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
@@ -182,7 +198,6 @@ const EconomicsState: IEconomicsState = {
   selectedEconomicsSensitivitiesId: "",
   selectedEconomicsSensitivitiesTitle: "",
 
-  selectedSensitivitiesTable: [],
   createSensitivitiesIsDialog: true,
 
   economicsResultsId: "",
@@ -237,11 +252,11 @@ const EconomicsState: IEconomicsState = {
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },
 
-  resultsAnalyis: [],
+  resultsAnalyisOptions: [],
 
   inputDataWorkflows: inputDataState,
   storedDataWorkflows: storedDataState,
-  economicsAnalysisWorkflows: analysesDataState,
+  economicsAnalysisWorkflows: { ...analysesDataState, ...sensitivitiesInfo },
   economicsChartsWorkflows: allChartsDataAndSpecificProperties,
 };
 

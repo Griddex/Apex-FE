@@ -248,19 +248,16 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
     case GET_ECONOMICSSENSITIVITIESBYID_FAILURE:
     case GET_ECONOMICSSENSITIVITIESBYID_SUCCESS: {
-      const { analysisName, analysisTableTitle, sensitivitiesTable } =
+      const { analysisName, sensitivitiesTableTitle, sensitivitiesTable } =
         action.payload;
 
       const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
       return {
         ...state,
-        selectedSensitivitiesTable: sensitivitiesTable,
         economicsAnalysisWorkflows: {
           ...state.economicsAnalysisWorkflows,
-          [analysisName]: {
-            ...state.economicsAnalysisWorkflows[analysisNameDefined],
-            analysisTableTitle,
-          },
+          sensitivitiesTable,
+          sensitivitiesTableTitle,
         },
       };
     }

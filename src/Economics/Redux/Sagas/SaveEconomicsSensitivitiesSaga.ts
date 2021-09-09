@@ -58,7 +58,6 @@ function* saveEconomicsSensitivitiesSaga(
   void,
   any
 > {
-  console.log("action: ", action);
   const { payload } = action;
   const {
     analysisName,
@@ -68,17 +67,16 @@ function* saveEconomicsSensitivitiesSaga(
   const aN = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
-  const { selectedSensitivitiesTable } = yield select(
+  const { sensitivitiesTable } = yield select(
     (state) => state.economicsReducer[wc]
   );
 
-  //TODO Should be user scoped?
   const { currentProjectId } = yield select((state) => state.projectReducer);
   const data = {
     title,
     description,
     analysisName,
-    sensitivitiesTable: selectedSensitivitiesTable,
+    sensitivitiesTable: sensitivitiesTable,
   };
 
   const config = { withCredentials: false };

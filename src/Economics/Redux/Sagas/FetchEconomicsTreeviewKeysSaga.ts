@@ -91,7 +91,10 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
           economicsTree["plotChartsTree"],
         [economicsPerspectiveTreeMap["templatesTree"]]:
           economicsTree["templatesTree"],
-        resultsAnalyis: economicsTree["analysis"],
+        resultsAnalyisOptions: economicsTree["analysis"].map((row: any) => ({
+          value: row["analysisName"],
+          label: row["analysisTitle"],
+        })),
       })
     );
 

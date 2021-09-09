@@ -23,6 +23,7 @@ import {
   runEconomicsAnalysisRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
 } from "../../Redux/Actions/EconomicsActions";
 import {
   IEconomicsAnalysis,
@@ -83,12 +84,16 @@ const EconomicsAnalysis = ({
   >;
 
   const reducer = "economicsReducer";
-  const { showSensitivitiesTable, selectedSensitivitiesTable } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const { showSensitivitiesTable, sensitivitiesTable } = useSelector(
+    (state: RootState) => state.economicsReducer[wc]
+    // () => false
+    // (left, right) =>
+    //   left.showSensitivitiesTable === right.showSensitivitiesTable
   );
 
   const selectedAnalysisDefined =
     selectedAnalysis as NonNullable<IEconomicsAnalysis>;
+
   const {
     name: analysisName,
     title: analysisTitle,
@@ -98,13 +103,15 @@ const EconomicsAnalysis = ({
   const devOptions = developmentScenarioOptions;
 
   const [analysisPerspective, setAnalysisPerspective] = React.useState(false);
-  const handleExcludeSwitchChange = (event: React.ChangeEvent<any>) => {
+
+  const handleSensitivitiesSwitchChange = (event: React.ChangeEvent<any>) => {
     const { checked } = event.target;
+
     if (!checked && showSensitivitiesTable) {
+      dispatch(updateEconomicsParameterAction(`${wc}.sensitivitiesTable`, []));
       dispatch(
-        updateEconomicsParameterAction("selectedSensitivitiesTable", [])
+        updateEconomicsParameterAction(`${wc}.showSensitivitiesTable`, false)
       );
-      dispatch(updateEconomicsParameterAction("showSensitivitiesTable", false));
     }
     setAnalysisPerspective(checked);
   };
@@ -217,15 +224,17 @@ const EconomicsAnalysis = ({
             unloadDialogsAction,
             () => {
               dispatch(
-                updateEconomicsParameterAction("selectedSensitivitiesTable", [])
+                updateEconomicsParameterAction(`${wc}.sensitivitiesTable`, [])
               );
               dispatch(
                 updateEconomicsParameterAction(
-                  `economicsAnalysisWorkflows.${analysisName}.analysisTableTitle`,
+                  `${wc}.sensitivitiesTableTitle`,
                   []
                 )
               );
-              dispatch(getEconomicsSensitivitiesByIdRequestAction(wp, reducer));
+              dispatch(
+                getEconomicsSensitivitiesByIdRequestAction(wp, reducer, true)
+              );
             },
           ],
           "Load",
@@ -293,7 +302,7 @@ const EconomicsAnalysis = ({
   };
 
   React.useEffect(() => {
-    const path = `economicsAnalysisWorkflows.${analysisName}.sensitivities.analysisName`;
+    const path = `${wc}.${analysisName}.name`;
 
     dispatch(updateEconomicsParameterAction(path, analysisName));
   }, []);
@@ -328,13 +337,13 @@ const EconomicsAnalysis = ({
       >
         <ApexMuiSwitch
           name="sensitivitiesSwitch"
-          handleChange={handleExcludeSwitchChange}
+          handleChange={handleSensitivitiesSwitchChange}
           checked={analysisPerspective}
           checkedColor={theme.palette.success.main}
           notCheckedColor={theme.palette.common.white}
           hasLabels={true}
-          leftLabel="No Sensitivities Input"
-          rightLabel="Sensitivities input"
+          leftLabel="No Sensitivities"
+          rightLabel="Use Sensitivities"
         />
         <ApexFlexContainer width={"100%"} justifyContent="flex-end">
           {analysisPerspective && (
@@ -370,7 +379,7 @@ const EconomicsAnalysis = ({
         {showSensitivitiesTable && (
           <EconomicsSensitivitiesTable
             analysisName={analysisName}
-            selectedSensitivitiesTable={selectedSensitivitiesTable}
+            sensitivitiesTable={sensitivitiesTable}
           />
         )}
       </div>

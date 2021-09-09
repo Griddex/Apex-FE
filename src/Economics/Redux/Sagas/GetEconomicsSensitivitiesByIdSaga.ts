@@ -13,7 +13,10 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredEconomicsSensitivitiesDialogParameters";
@@ -52,27 +55,31 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
   void,
   any
 > {
-  const { payload } = action;
+  const wc = "economicsAnalysisWorkflows";
+
+  const { payload, meta } = action;
   const { selectedEconomicsSensitivitiesId } = yield select(
     (state) => state.economicsReducer
   );
   const economicsSensitivitiesUrl = `${getBaseEconomicsUrl()}/sensitivities/${selectedEconomicsSensitivitiesId}`;
 
   try {
+    yield put(showSpinnerAction(meta?.message as string));
+
     const economicsSensitivitiesResults = yield call(
       getEconomicsSensitivitiesByIdAPI,
       economicsSensitivitiesUrl
     );
 
     const {
-      data: { data: selectedSensitivitiesData },
+      data: { data },
     } = economicsSensitivitiesResults;
 
     const {
       analysisName,
-      title: analysisTableTitle,
+      title: sensitivitiesTableTitle,
       sensitivitiesTable,
-    } = selectedSensitivitiesData;
+    } = data;
 
     const sensitivitiesTableStr = sensitivitiesTable.map(
       (row: any, i: number) => ({
@@ -88,12 +95,14 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
       payload: {
         ...payload,
         analysisName,
-        analysisTableTitle,
+        sensitivitiesTableTitle,
         sensitivitiesTable: sensitivitiesTableStr,
       },
     });
 
-    yield put(updateEconomicsParameterAction("showSensitivitiesTable", true));
+    yield put(
+      updateEconomicsParameterAction(`${wc}.showSensitivitiesTable`, true)
+    );
   } catch (errors) {
     const failureAction = getEconomicsSensitivitiesByIdFailureAction();
 

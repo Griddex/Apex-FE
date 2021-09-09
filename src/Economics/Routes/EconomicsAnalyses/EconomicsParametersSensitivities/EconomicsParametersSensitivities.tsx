@@ -2,19 +2,19 @@ import { useTheme } from "@material-ui/core";
 import RotateLeftOutlinedIcon from "@material-ui/icons/RotateLeftOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
-import { useSelector } from "react-redux";
-import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import { ValueType } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import getRSStyles from "../../../../Application/Utils/GetRSStyles";
-import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import { economicsAnalysesOptions } from "../../../Data/EconomicsData";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import {
   IEconomicsParametersSensitivitiesProps,
-  IEconomicsSensitivities,
+  IEcoSelectedSensitivities,
   TParametersId,
 } from "../EconomicsAnalysesTypes";
 import ParameterSensitivity from "./ParameterSensitivity";
@@ -36,6 +36,7 @@ const EconomicsParametersSensitivities = ({
   finalAction,
 }: IEconomicsParametersSensitivitiesProps) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const { ecoParAppHeadersSelectOptions, createSensitivitiesIsDialog } =
     useSelector((state: RootState) => state.economicsReducer);
@@ -43,20 +44,18 @@ const EconomicsParametersSensitivities = ({
   const ePAppHeaderSelectOptions =
     ecoParAppHeadersSelectOptions as ISelectOption[];
 
-  let tgtVarOption = {} as ISelectOption;
   let analysisNameOptions = [] as ISelectOption[];
 
+  const tgtVarOption = {
+    value: selectedAnalysis?.name,
+    label: selectedAnalysis?.title,
+  } as ISelectOption;
+
+  const [targetOption, setTargetOption] = React.useState(tgtVarOption);
+
   if (createSensitivitiesIsDialog) {
-    tgtVarOption = {
-      value: selectedAnalysis?.name,
-      label: selectedAnalysis?.title,
-    } as ISelectOption;
     analysisNameOptions = [tgtVarOption];
   } else {
-    tgtVarOption = {
-      value: economicsAnalysesOptions[0]?.value,
-      label: economicsAnalysesOptions[0]?.label,
-    } as ISelectOption;
     analysisNameOptions = economicsAnalysesOptions;
   }
 
@@ -79,12 +78,10 @@ const EconomicsParametersSensitivities = ({
       selectedTargetParameterOption: ePAppHeaderSelectOptions[0],
       sensitivityValues: initialSensitivityValues,
     },
-  } as Record<TParametersId, IEconomicsSensitivities>;
+  } as Record<TParametersId, IEcoSelectedSensitivities>;
 
   const [parameterSensitivitiesObj, setParameterSensitivitiesObj] =
     React.useState(initialSensitivitiesObj);
-
-  const RSStyles = getRSStyles(theme);
 
   return (
     <ApexFlexContainer
@@ -97,12 +94,22 @@ const EconomicsParametersSensitivities = ({
         direction="Vertical"
         containerStyle={{ width: 250 }}
         content={
-          <Select<ISelectOption, false>
-            value={tgtVarOption}
-            options={analysisNameOptions}
-            styles={RSStyles}
+          <ApexSelectRS
+            valueOption={targetOption}
+            data={analysisNameOptions}
+            handleSelect={(option: ValueType<ISelectOption, false>) => {
+              const optionDefined = option as ISelectOption;
+              setTargetOption(optionDefined);
+
+              dispatch(
+                updateEconomicsParameterAction(
+                  "selectedAnalysis",
+                  optionDefined
+                )
+              );
+            }}
             menuPortalTarget={document.body}
-            theme={(thm) => getRSTheme(thm, theme)}
+            isSelectOptionType={true}
           />
         }
       />

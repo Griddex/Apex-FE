@@ -73,7 +73,7 @@ function* saveEconomicsResultsSaga(
     authService.post(url, data, config);
 
   try {
-    yield put(showSpinnerAction("Saving economics sensivities data..."));
+    yield put(showSpinnerAction("Saving economics results..."));
 
     const result = yield call(
       saveEconomicsResultsAPI,
@@ -95,6 +95,7 @@ function* saveEconomicsResultsSaga(
     yield put(
       fetchStoredEconomicsResultsRequestAction(currentProjectId, false)
     );
+
     yield put(
       showDialogAction(
         successDialogParameters(

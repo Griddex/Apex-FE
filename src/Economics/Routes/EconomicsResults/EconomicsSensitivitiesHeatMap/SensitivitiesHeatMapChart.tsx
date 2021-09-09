@@ -1,7 +1,7 @@
 import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import ApexCheckboxGroup from "../../../../Application/Components/Checkboxes/ApexCheckboxGroup";
@@ -15,6 +15,10 @@ import {
   getHeatMapDataRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
+import {
+  TEconomicsAnalysesNames,
+  TEconomicsAnalysesTitles,
+} from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 export interface IHeatMapVariableZData extends ISelectOption {
@@ -31,21 +35,29 @@ const SensitivitiesHeatMapChart = () => {
     heatMapVariableYOptions,
     heatMapVariableZOptions,
     heatMapTreeByScenario,
-    resultsAnalyis,
-  } = useSelector((state: RootState) => state.economicsReducer);
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 36 ~ SensitivitiesHeatMapChart ~ resultsAnalyis",
-    resultsAnalyis
-  );
+    resultsAnalyisOptions,
+    selectedEconomicsResultsId,
+  } = useSelector((state: RootState) => {
+    const {
+      sensitivitiesHeatMapData,
+      heatMapVariableXOptions,
+      heatMapVariableYOptions,
+      heatMapVariableZOptions,
+      heatMapTreeByScenario,
+      resultsAnalyisOptions,
+      selectedEconomicsResultsId,
+    } = state.economicsReducer;
 
-  const resultsAnalyisOptions = resultsAnalyis.map((row: any) => ({
-    value: row["analysisName"],
-    label: row["analysisTitle"],
-  }));
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 42 ~ resultsAnalyisOptions ~ resultsAnalyisOptions",
-    resultsAnalyisOptions
-  );
+    return {
+      sensitivitiesHeatMapData,
+      heatMapVariableXOptions,
+      heatMapVariableYOptions,
+      heatMapVariableZOptions,
+      heatMapTreeByScenario,
+      resultsAnalyisOptions,
+      selectedEconomicsResultsId,
+    };
+  }, shallowEqual);
 
   const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
     resultsAnalyisOptions[0]
@@ -54,8 +66,13 @@ const SensitivitiesHeatMapChart = () => {
     "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 45 ~ SensitivitiesHeatMapChart ~ analysisOption",
     analysisOption
   );
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 188 ~ SensitivitiesHeatMapChart ~ resultsAnalyisOptions",
+    resultsAnalyisOptions
+  );
 
-  const { analyisName, analysisTitle } = resultsAnalyis;
+  const analyisName = analysisOption?.value;
+  const analysisTitle = analysisOption?.label;
 
   const [selectedZ, setSelectedZ] = React.useState("");
 
@@ -95,9 +112,16 @@ const SensitivitiesHeatMapChart = () => {
     selectedDevScenario = heatMapTreeByScenario.name as string;
   }
 
-  // React.useEffect(() => {
-  //   setAnalysisOption(resultsAnalyisOptions[0]);
-  // }, []);
+  React.useEffect(() => {
+    if (selectedEconomicsResultsId === "") {
+      setAnalysisOption({
+        value: "Select",
+        label: "Select...",
+      } as ISelectOption);
+    } else {
+      setAnalysisOption(resultsAnalyisOptions[0]);
+    }
+  }, [selectedEconomicsResultsId]);
 
   return (
     <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
@@ -152,7 +176,10 @@ const SensitivitiesHeatMapChart = () => {
               ) {
                 if (Object.entries(sensitivitiesHeatMapData).length === 0) {
                   dispatch(
-                    getHeatMapDataRequestAction(analyisName, analysisTitle)
+                    getHeatMapDataRequestAction(
+                      analyisName as TEconomicsAnalysesNames,
+                      analysisTitle as TEconomicsAnalysesTitles
+                    )
                   );
                 }
               } else {
@@ -177,8 +204,8 @@ const SensitivitiesHeatMapChart = () => {
 
                   dispatch(
                     getHeatMapDataRequestAction(
-                      analyisName,
-                      analysisTitle,
+                      analyisName as TEconomicsAnalysesNames,
+                      analysisTitle as TEconomicsAnalysesTitles,
                       variableZlength,
                       selectedDevScenario,
                       variableZKey
