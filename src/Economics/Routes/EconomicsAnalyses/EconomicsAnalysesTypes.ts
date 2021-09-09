@@ -35,7 +35,7 @@ export type TEconomicsAnalysesTitles =
 
 export type TParametersId = "Parameter 1" | "Parameter 2" | "Parameter 3";
 
-export interface IEconomicsSensitivities {
+export interface IEcoSelectedSensitivities {
   analysisName: TEconomicsAnalysesNames;
   targetParameterOptions: ISelectOption[];
   selectedTargetParameterOption: ISelectOption;
@@ -79,12 +79,14 @@ export interface IEconomicsAnalysis {
   workflowProcess?: IEconomicsWorkflows["wkPs"];
   devScenario?: TDevScenarioTitles;
   economicsDecks?: Record<TEconomicsDecks, IDecksObj>;
-  sensitivities?: IEconomicsSensitivities;
-  showSensitivitiesTable?: boolean;
-  sensitivitiesTable?: ISensitivitiesRow[];
-  analysisTableTitle?: string;
   forecastScenarioAnalysis?: TForecastScenario;
   economicsAnalysisButtons?: IAggregateButtonProps[];
+}
+export interface IEconomicsSensitivities {
+  sensitivitiesData?: IEcoSelectedSensitivities;
+  showSensitivitiesTable?: boolean;
+  sensitivitiesTable?: ISensitivitiesRow[];
+  sensitivitiesTableTitle?: string;
 }
 
 export type TEconomicsAnalysisWorkflows =

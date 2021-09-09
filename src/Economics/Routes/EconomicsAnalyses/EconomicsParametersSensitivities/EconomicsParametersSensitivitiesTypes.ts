@@ -1,7 +1,7 @@
 import { IUserDetails } from "../../../../Application/Components/User/UserTypes";
 import { IStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
 import {
-  IEconomicsSensitivities,
+  IEcoSelectedSensitivities,
   TParametersId,
 } from "../EconomicsAnalysesTypes";
 import { ISelectOption } from "./../../../../Application/Components/Selects/SelectItemsType";
@@ -9,7 +9,7 @@ import { ISelectOption } from "./../../../../Application/Components/Selects/Sele
 export interface IParameterSensitivity {
   parIndex: number;
   parId: TParametersId;
-  parameterSensitivitiesObj: Record<TParametersId, IEconomicsSensitivities>;
+  parameterSensitivitiesObj: Record<TParametersId, IEcoSelectedSensitivities>;
   setParameterSensitivitiesObj: React.Dispatch<React.SetStateAction<any>>;
 }
 

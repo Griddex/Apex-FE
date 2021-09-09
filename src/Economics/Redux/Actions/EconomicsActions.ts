@@ -432,12 +432,13 @@ export const saveEconomicsSensitivitiesFailureAction = () => {
 
 export const getEconomicsSensitivitiesByIdRequestAction = (
   workflowProcess: IEconomicsWorkflows["wkPs"],
-  reducer: ReducersType
+  reducer: ReducersType,
+  showSpinner: boolean
 ) => {
   return {
     type: GET_ECONOMICSSENSITIVITIESBYID_REQUEST,
     payload: { workflowProcess, reducer },
-    meta: { showSpinner: true, message: "Loading economics sensitivities..." },
+    meta: { showSpinner, message: "Loading economics sensitivities..." },
   };
 };
 

@@ -101,11 +101,17 @@ const EconomicsSensitivitiesLanding = () => {
       maxWidth: "sm",
       iconType: "save",
       workflowProcess: wp,
-      actionsList: () =>
+      actionsList: (titleDesc?: Record<string, string>) =>
         DialogSaveCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, economicsSensitivitiesConfirmation],
+          [
+            unloadDialogsAction,
+            () =>
+              economicsSensitivitiesConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ],
           false,
           "None"
         ),
@@ -115,7 +121,13 @@ const EconomicsSensitivitiesLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const economicsSensitivitiesConfirmation = () => {
+  const economicsSensitivitiesConfirmation = (
+    titleDesc: Record<string, string>
+  ) => {
+    console.log(
+      "Logged output --> ~ file: EconomicsSensitivitiesLanding.tsx ~ line 127 ~ EconomicsSensitivitiesLanding ~ titleDesc",
+      titleDesc
+    );
     const dialogParameters: DialogStuff = {
       name: "Economics_Sensitivities_Save_Confirmation",
       title: "Economics Sensitivities Save Confirmation",
@@ -131,7 +143,7 @@ const EconomicsSensitivitiesLanding = () => {
           [true, true],
           [
             unloadDialogsAction,
-            (titleDesc?: Record<string, string>) =>
+            () =>
               saveEconomicsSensitivitiesRequestAction(
                 wp,
                 reducer,
@@ -164,8 +176,8 @@ const EconomicsSensitivitiesLanding = () => {
                 create: (
                   <EconomicsParametersSensitivities
                     selectedAnalysis={{
-                      name: "mulitpleAnalyses",
-                      title: "Multiple Analyses",
+                      name: "payout",
+                      title: "Payout",
                       icon: <ViewHeadlineIcon />,
                     }}
                     finalAction={economicsSensitivitiesWorkflowFinalAction}

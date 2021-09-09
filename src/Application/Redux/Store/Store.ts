@@ -135,7 +135,7 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(
-      uiSpinnerMiddleware,
+      //uiSpinnerMiddleware,
       // authMiddleware,
       economicsMiddleware,
       sagaMiddleware

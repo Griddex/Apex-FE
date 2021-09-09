@@ -14,6 +14,7 @@ import { RenderTree } from "../../../Visualytics/Components/TreeView/ApexTreeVie
 import { TAllChartsDataAndSpecificProperties } from "../../../Visualytics/Redux/State/VisualyticsStateTypes";
 import {
   IEconomicsAnalysis,
+  IEconomicsSensitivities,
   TBackendDevScenarioTitles,
   TDevScenarioNames,
   TDevScenarioTitles,
@@ -241,7 +242,6 @@ export interface IEconomicsState
   selectedAnalysis: any; //type it properly?
   selectedAnalysesNames: TEconomicsAnalysesNames[];
 
-  selectedSensitivitiesTable: any; //type it properly
   createSensitivitiesIsDialog: boolean;
 
   economicsResultsId: string;
@@ -279,13 +279,14 @@ export interface IEconomicsState
 
   economicsTemplatesTree: RenderTree;
 
-  resultsAnalyis: Record<TEconomicsAnalysesNames, TEconomicsAnalysesTitles>[];
+  resultsAnalyisOptions: ISelectOption[];
 
   inputDataWorkflows: Record<string, IEconomicsImport>;
   storedDataWorkflows: Record<string, IApplicationStoredDataRow[]>;
   economicsAnalysisWorkflows: Record<
     TEconomicsAnalysesNames,
     IEconomicsAnalysis
-  >;
+  > &
+    IEconomicsSensitivities;
   economicsChartsWorkflows: TAllChartsDataAndSpecificProperties;
 }

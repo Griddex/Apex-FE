@@ -295,19 +295,19 @@ export default function StoredEconomicsSensitivities() {
         resizable: true,
         width: 250,
       },
-      {
-        key: "analysisName",
-        name: "ANALYSIS TITLE",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          const analysisName = row.analysisName as TEconomicsAnalysesNames;
-          const analysisTitle = economicsAnalysesNameTitlesObj[analysisName];
+      // {
+      //   key: "analysisName",
+      //   name: "ANALYSIS TITLE",
+      //   editable: false,
+      //   resizable: true,
+      //   formatter: ({ row }) => {
+      //     const analysisName = row.analysisName as TEconomicsAnalysesNames;
+      //     const analysisTitle = economicsAnalysesNameTitlesObj[analysisName];
 
-          return <ApexFlexContainer>{analysisTitle}</ApexFlexContainer>;
-        },
-        width: 150,
-      },
+      //     return <ApexFlexContainer>{analysisTitle}</ApexFlexContainer>;
+      //   },
+      //   width: 150,
+      // },
       {
         key: "author",
         name: "AUTHOR",

@@ -130,6 +130,12 @@ const SensitivitiesHeatMapDataPanel = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (selectedEconomicsResultsTitle !== "") {
+      setDevOption({ value: "select", label: "Select..." });
+    }
+  }, [selectedEconomicsResultsTitle]);
+
   const DevelopmentScenarios = () => {
     return (
       <AnalyticsComp
@@ -142,6 +148,7 @@ const SensitivitiesHeatMapDataPanel = () => {
               const optionDefined = option as NonNullable<ISelectOption>;
 
               setDevOption(optionDefined);
+
               const heatMapTreeByScenario = heatMapTreeData.find(
                 (sno) => sno.title === optionDefined.label
               ) as RenderTree;
@@ -182,14 +189,6 @@ const SensitivitiesHeatMapDataPanel = () => {
   }
 
   const [showObj, setShowObj] = React.useState(showHeatMapCategoryMembersObj);
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 185 ~ SensitivitiesHeatMapDataPanel ~ showObj",
-    showObj
-  );
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 185 ~ SensitivitiesHeatMapDataPanel ~ showHeatMapCategoryMembersObj",
-    showHeatMapCategoryMembersObj
-  );
 
   const membersObjString = Object.values(
     showHeatMapCategoryMembersObj as Record<string, boolean>

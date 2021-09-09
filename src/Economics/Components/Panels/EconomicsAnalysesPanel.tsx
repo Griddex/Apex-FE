@@ -107,8 +107,19 @@ const EconomicsAnalysesPanel = ({
                     "title",
                   ]);
 
+                  const analysisOption = {
+                    value: pickedSelectedAnalysis.name,
+                    label: pickedSelectedAnalysis.title,
+                  };
                   dispatch(
                     updateEconomicsParameterAction(path, pickedSelectedAnalysis)
+                  );
+
+                  //TODO Initializing heatmap  from selecting economics analysis
+                  dispatch(
+                    updateEconomicsParameterAction("resultsAnalyisOptions", [
+                      analysisOption,
+                    ])
                   );
                 }}
               >
