@@ -12,6 +12,7 @@ import { itemTypesVisualytics } from "../Utils/DragAndDropItemTypes";
 export default function VisualyticsTreeView() {
   const wc = "visualyticsChartsWorkflows";
   const ch = "stackedAreaChart";
+
   const dispatch = useDispatch();
 
   const { selectedVisualyticsOption } = useSelector(
@@ -23,6 +24,10 @@ export default function VisualyticsTreeView() {
   const { visualyticsTree } = useSelector(
     (state: RootState) => state.visualyticsReducer
   );
+  console.log(
+    "Logged output --> ~ file: VisualyticsTreeView.tsx ~ line 25 ~ VisualyticsTreeView ~ visualyticsTree",
+    visualyticsTree
+  );
 
   const { chartData } = useSelector(
     (state: RootState) => state.visualyticsReducer[wc][ch]
@@ -32,7 +37,7 @@ export default function VisualyticsTreeView() {
     id: "6e611ee3-4133-496b-a7cc-43cea89686bc",
     name: "visualyticsCases",
     title: "Visualytics Data",
-    children: visualyticsTree as RenderTree[],
+    children: visualyticsTree?.children as RenderTree[],
   };
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);

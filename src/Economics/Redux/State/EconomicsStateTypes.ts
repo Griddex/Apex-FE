@@ -267,6 +267,7 @@ export interface IEconomicsState
   heatMapVariableXOptions: Record<string, INameTitleOption>;
   heatMapVariableYOptions: Record<string, INameTitleOption>;
   heatMapVariableZOptions: Record<string, INameTitleOption>;
+  showHeatMapCategoryMembersObj: Record<string, boolean>;
 
   economicsPlotChartsTree: RenderTree;
   plotChartsData: null;

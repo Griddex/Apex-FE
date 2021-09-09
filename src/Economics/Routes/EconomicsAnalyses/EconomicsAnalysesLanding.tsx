@@ -11,7 +11,10 @@ import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { updateEconomicsParameterAction } from "./../../Redux/Actions/EconomicsActions";
+import {
+  updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
+} from "./../../Redux/Actions/EconomicsActions";
 import EconomicsAnalysesWorkflow from "./../EconomicsWorkflows/EconomicsAnalysesWorkflow";
 import { economicsAnalyses } from "./EconomicsAnalyses";
 import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
@@ -54,6 +57,7 @@ const EconomicsAnalysesLanding = () => {
   const analysesButtons = economicsAnalyses.map(
     (analysisObj: IEconomicsAnalysis) => {
       const { name, title, icon } = analysisObj;
+
       const styledIcon = React.cloneElement(icon, {
         fontSize: "default",
         color: "primary",
@@ -62,25 +66,22 @@ const EconomicsAnalysesLanding = () => {
       return {
         title,
         icon,
-        // styledIcon: <Icon fontSize="medium" color="primary" />,
-        // styledIcon,
         color: "primary",
         variant: "contained",
         handleAction: () => {
           dispatch(
-            updateEconomicsParameterAction(
-              "loadEconomicsAnalysesWorkflow",
-              true
-            )
-          );
-          dispatch(
-            updateEconomicsParameterAction("selectedAnalysesNames", [name])
-          );
-          dispatch(
-            updateEconomicsParameterAction("selectedSensitivitiesTable", [])
-          );
-          dispatch(
-            updateEconomicsParameterAction("showSensitivitiesTable", false)
+            updateEconomicsParametersAction({
+              loadEconomicsAnalysesWorkflow: true,
+              selectedAnalysesNames: [name],
+              // economicsAnalysisWorkflows: {},
+              heatMapVariableXOptions: {},
+              heatMapVariableYOptions: {},
+              heatMapVariableZOptions: {},
+              heatMapTreeByScenario: { id: "", name: "" },
+              sensitivitiesHeatMapTree: { id: "", name: "" },
+              sensitivitiesHeatMapData: {},
+              sensitivitiesHeatMap1or2D: [],
+            })
           );
         },
       };

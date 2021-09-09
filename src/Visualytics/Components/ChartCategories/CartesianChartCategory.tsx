@@ -11,6 +11,7 @@ import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import {
   itemTypesEconomics,
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "flex-start",
       justifyContent: "flex-start",
       height: "100%",
-      border: `1px solid ${theme.palette.grey[300]}`,
+      borderBottom: `1px solid ${theme.palette.grey[300]}`,
       width: "100%",
       paddingTop: 5,
     },
@@ -41,11 +42,18 @@ const CartesianChartCategory = ({
   updateAction,
   removeAction,
   disable,
+  showCategoryMembersSwitch,
+  showCategoryMembersObj,
+  path,
+  updateParameterAction,
 }: IChartCategories) => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  const [membersSwitch, setMembersSwitch] = React.useState(
+    showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
+  );
   const [hasDroppedObj, setHasDroppedObj] = React.useState<
     Record<string, boolean>
   >({});
@@ -108,13 +116,31 @@ const CartesianChartCategory = ({
 
   return (
     <div className={classes.chartProps} style={style}>
-      <IconButton
-        onClick={() => {}}
-        edge="end"
-        style={{ alignSelf: "flex-end", paddingRight: 12 }}
-      >
-        <OpenInNewOutlinedIcon style={getApexIconButtonStyle(theme)} />
-      </IconButton>
+      {showCategoryMembersSwitch && (
+        <ApexMuiSwitch
+          name="showCategoryMembersSwitch"
+          handleChange={(event: React.ChangeEvent<any>) => {
+            const { checked } = event.target;
+
+            setMembersSwitch(checked);
+
+            (showCategoryMembersObj as Record<string, boolean>)[
+              categoryTitle as string
+            ] = checked;
+
+            dispatch(
+              updateParameterAction &&
+                updateParameterAction(path as string, showCategoryMembersObj)
+            );
+          }}
+          checked={membersSwitch as boolean}
+          checkedColor={theme.palette.success.main}
+          notCheckedColor={theme.palette.common.white}
+          hasLabels={true}
+          leftLabel="Disable"
+          rightLabel="Enable"
+        />
+      )}
       <AnalyticsComp
         title={categoryTitle as string}
         direction="Vertical"

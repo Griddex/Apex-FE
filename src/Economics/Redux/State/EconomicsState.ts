@@ -216,6 +216,12 @@ const EconomicsState: IEconomicsState = {
   heatMapVariableYOptions: {},
   heatMapVariableZOptions: {},
 
+  showHeatMapCategoryMembersObj: {
+    "X Category": false,
+    "Y Category": false,
+    "Z Category": false,
+  },
+
   //Plot Charts
   economicsPlotChartsTree: { id: "", name: "" },
   plotChartsData: null,

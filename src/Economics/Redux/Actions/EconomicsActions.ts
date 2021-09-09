@@ -508,7 +508,8 @@ export const getHeatMapDataRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles,
   variableZlength?: number,
-  selectedDevScenario?: string
+  selectedDevScenario?: string,
+  variableZKey?: string
 ) => {
   return {
     type: FETCH_HEATMAPDATA_REQUEST,
@@ -517,6 +518,7 @@ export const getHeatMapDataRequestAction = (
       analysisTitle,
       variableZlength,
       selectedDevScenario,
+      variableZKey,
     },
     meta: { showSpinner: true, message: `Fetching map data...` },
   };

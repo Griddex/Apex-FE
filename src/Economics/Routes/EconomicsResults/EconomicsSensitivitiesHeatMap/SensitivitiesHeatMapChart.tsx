@@ -33,14 +33,26 @@ const SensitivitiesHeatMapChart = () => {
     heatMapTreeByScenario,
     resultsAnalyis,
   } = useSelector((state: RootState) => state.economicsReducer);
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 36 ~ SensitivitiesHeatMapChart ~ resultsAnalyis",
+    resultsAnalyis
+  );
 
   const resultsAnalyisOptions = resultsAnalyis.map((row: any) => ({
     value: row["analysisName"],
     label: row["analysisTitle"],
   }));
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 42 ~ resultsAnalyisOptions ~ resultsAnalyisOptions",
+    resultsAnalyisOptions
+  );
 
   const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
     resultsAnalyisOptions[0]
+  );
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 45 ~ SensitivitiesHeatMapChart ~ analysisOption",
+    analysisOption
   );
 
   const { analyisName, analysisTitle } = resultsAnalyis;
@@ -82,6 +94,10 @@ const SensitivitiesHeatMapChart = () => {
     variableZlength = heatMapVarZData.length;
     selectedDevScenario = heatMapTreeByScenario.name as string;
   }
+
+  // React.useEffect(() => {
+  //   setAnalysisOption(resultsAnalyisOptions[0]);
+  // }, []);
 
   return (
     <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
@@ -157,12 +173,15 @@ const SensitivitiesHeatMapChart = () => {
                     )
                   );
                 } else {
+                  const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
+
                   dispatch(
                     getHeatMapDataRequestAction(
                       analyisName,
                       analysisTitle,
                       variableZlength,
-                      selectedDevScenario
+                      selectedDevScenario,
+                      variableZKey
                     )
                   );
                 }

@@ -5,6 +5,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { updateEconomicsParameterAction } from "../../../Economics/Redux/Actions/EconomicsActions";
 import {
   hideDialogAction,
   showDialogAction,
@@ -53,7 +54,10 @@ const DialogViewSaveEconomicsCancelButtons = () => {
       color: "default",
       startIcon: <VisibilityOutlinedIcon />,
       handleAction: () => {
-        history.replace("/apex/economics/viewresults");
+        dispatch(
+          updateEconomicsParameterAction("loadEconomicsResultsWorkflow", false)
+        ),
+          history.replace("/apex/economics/viewresults");
         dispatch(hideDialogAction());
       },
     },

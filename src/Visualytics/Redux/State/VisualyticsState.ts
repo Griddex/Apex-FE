@@ -133,7 +133,7 @@ const visualyticsState: IVisualyticsState = {
   selectedTableData: [],
 
   visualyticsResults: [],
-  visualyticsTree: [],
+  visualyticsTree: { id: "", name: "" },
   xValueCategories: [],
   lineOrScatter: "line",
   isYear: true,
@@ -158,5 +158,7 @@ const visualyticsState: IVisualyticsState = {
   },
   visualyticsDataWorkflows: visualyticsDataState,
   visualyticsChartsWorkflows: allChartsDataAndSpecificProperties,
+
+  errors: [],
 };
 export default visualyticsState;

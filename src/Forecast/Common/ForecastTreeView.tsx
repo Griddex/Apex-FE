@@ -160,7 +160,6 @@ export default function ForecastTreeView() {
           pick(row, transformedModulePaths)
         );
 
-        //filteredData.map((_, i) => i + 2020)
         dispatch({
           ...transformChartDataAction("forecastReducer"),
           payload: {

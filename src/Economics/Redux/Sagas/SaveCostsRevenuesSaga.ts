@@ -148,7 +148,7 @@ function* saveCostsRevenuesSaga(
 
     yield put(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
-      showDialogAction(failureDialogParameters(errors.message))
+      showDialogAction(failureDialogParameters((errors as any).message))
     );
   } finally {
     yield put(hideSpinnerAction());

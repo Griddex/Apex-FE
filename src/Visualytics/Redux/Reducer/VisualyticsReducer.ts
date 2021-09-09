@@ -22,6 +22,7 @@ import {
   PERSIST_TABLEROLENAMES,
   PERSIST_TABLEDATA,
   PERSIST_COLUMNNAMETABLEDATA,
+
 } from "../../../Import/Redux/Actions/InputActions";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
 import {
@@ -41,6 +42,8 @@ import {
   RESET_CHART_DATA,
   STORED_VISUALYTICSDATA_FAILURE,
   STORED_VISUALYTICSDATA_SUCCESS,
+    VISUALYTICS_TREEVIEWKEYS_SUCCESS,
+  VISUALYTICS_TREEVIEWKEYS_FAILURE
 } from "../Actions/VisualyticsActions";
 import visualyticsState from "../State/VisualyticsState";
 import { IVisualyticsState } from "../State/VisualyticsStateTypes";
@@ -258,6 +261,31 @@ const visualyticsReducer = (
       const { errors } = action.payload;
       return { ...state };
     }
+
+
+    case VISUALYTICS_TREEVIEWKEYS_SUCCESS: {
+      const { keyVar } = action.payload;
+
+      if (keyVar === "visualyticsTree") {
+        const { visualyticsTree } = action.payload;
+        return {
+          ...state,
+          visualyticsTree,
+        };
+
+      }else {
+        return state
+      }}
+
+    case VISUALYTICS_TREEVIEWKEYS_FAILURE: {
+      const { errors } = action.payload;
+
+      return {
+        ...state,
+        errors,
+      };
+    }
+
 
     case RESET_CHART: {
       return visualyticsState;

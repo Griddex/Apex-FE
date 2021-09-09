@@ -65,7 +65,6 @@ function* saveEconomicsSensitivitiesSaga(
     titleDesc: { title, description },
   } = payload;
 
-
   const aN = analysisName;
   const wc = "economicsAnalysisWorkflows";
 
@@ -113,7 +112,7 @@ function* saveEconomicsSensitivitiesSaga(
 
     yield put(
       // showDialogAction(failureDialogParameters(errors["errors"][0].message))
-      showDialogAction(failureDialogParameters(errors.message))
+      showDialogAction(failureDialogParameters((errors as any).message))
     );
   } finally {
     yield put(hideSpinnerAction());

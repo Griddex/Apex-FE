@@ -121,7 +121,9 @@ function* saveNetworkSaga(
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters(errors.message)));
+    yield put(
+      showDialogAction(failureDialogParameters((errors as any).message))
+    );
   } finally {
     yield put(hideSpinnerAction());
   }

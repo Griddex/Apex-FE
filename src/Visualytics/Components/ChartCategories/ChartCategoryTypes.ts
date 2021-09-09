@@ -25,4 +25,12 @@ export interface IChartCategories {
   disableZ?: boolean;
   updateAction: (name: string, item: any) => IAction;
   removeAction: (title: string, id: any) => IAction;
+  showCategoryMembersSwitch?: boolean;
+  showXCategoryMembersSwitch?: boolean;
+  showYCategoryMembersSwitch?: boolean;
+  showZCategoryMembersSwitch?: boolean;
+  showCategoryMembers?: boolean;
+  showCategoryMembersObj?: Record<string, boolean>;
+  path?: string;
+  updateParameterAction?: (path: string, value: any) => IAction;
 }
