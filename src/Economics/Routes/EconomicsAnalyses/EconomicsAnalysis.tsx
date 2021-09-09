@@ -34,7 +34,6 @@ import {
 } from "./EconomicsAnalysesTypes";
 import EconomicsDecksSelectionTable from "./EconomicsDecksSelectionTable";
 import EconomicsSensitivitiesTable from "./EconomicsParametersSensitivities/EconomicsSensitivitiesTable";
-import FacilitiesInputDeckLanding from "./../../../Import/Routes/FacilitiesInputDeck/FacilitiesInputDeckLanding";
 
 const useStyles = makeStyles((theme) => ({
   npvImage: {

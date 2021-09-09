@@ -7,6 +7,10 @@ const ZChartCategory = ({
   updateAction,
   removeAction,
   disable,
+  showCategoryMembersSwitch,
+  showCategoryMembersObj,
+  path,
+  updateParameterAction,
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
@@ -15,6 +19,10 @@ const ZChartCategory = ({
       updateAction={updateAction}
       removeAction={removeAction}
       disable={disable}
+      showCategoryMembersSwitch={showCategoryMembersSwitch}
+      showCategoryMembersObj={showCategoryMembersObj}
+      path={path}
+      updateParameterAction={updateParameterAction}
     />
   );
 };

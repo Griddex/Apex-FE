@@ -98,7 +98,7 @@ function* getEconomicsResultsByIdSaga(action: IAction): Generator<
           "Economics Results Save Failure",
           true,
           "Economics Results",
-          errors.message
+          (errors as any).message
         )
       )
     );

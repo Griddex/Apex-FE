@@ -215,6 +215,7 @@ export interface DialogStuff<TRow = TDataRow> {
   widgetComponent?: React.FC<any>;
   updateDataUrl?: string;
   fetchStoredRequestAction?: () => IAction;
+  errorText?: string;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

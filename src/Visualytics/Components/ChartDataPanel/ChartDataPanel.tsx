@@ -26,6 +26,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   setExtrudeCategories?: TUseState<boolean>;
   categoriesComponent?: JSX.Element;
   renderCategoryIcon: boolean;
+  membersObjString?: string;
 }
 
 const ChartDataPanel = <T extends ISelectOption>({
@@ -40,18 +41,20 @@ const ChartDataPanel = <T extends ISelectOption>({
   setExtrudeCategories,
   categoriesComponent,
   renderCategoryIcon,
+  membersObjString,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
   const CategoriesComponent = categoriesComponent as JSX.Element;
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
   const TreeViewComponent = treeViewComponent as React.FC;
 
+  const [render, setRender] = React.useState(false);
   const [categorySize, setCategorySize] = React.useState({
-    width: 300,
+    width: 385,
     height: 540,
   });
   const [categoryPosition, setCategoryPosition] = React.useState({
-    x: 0,
+    x: 200,
     y: 0,
   });
 
@@ -68,8 +71,54 @@ const ChartDataPanel = <T extends ISelectOption>({
     );
   };
 
+  React.useEffect(() => {
+    setRender(!render);
+  }, [membersObjString]);
+
   return (
     <ApexFlexContainer flexDirection="column">
+      {extrudeCategories && (
+        <Rnd
+          minWidth={385}
+          style={{ zIndex: 2000, padding: 2 }}
+          size={{
+            width: categorySize.width,
+            height: categorySize.height,
+          }}
+          position={{
+            x: categoryPosition.x,
+            y: categoryPosition.y,
+          }}
+          onDragStop={(e, d) => setCategoryPosition({ x: d.x, y: d.y })}
+          onResizeStop={(e, direction, ref, delta, position) => {
+            setCategorySize({
+              width: Number(ref.style.width),
+              height: Number(ref.style.height),
+            });
+            setCategoryPosition(position);
+          }}
+        >
+          <DraggableDialog
+            title="Title"
+            iconType="category"
+            onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
+            actionsList={() => (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() =>
+                  setExtrudeCategories && setExtrudeCategories(false)
+                }
+                startIcon={<CallReceivedIcon />}
+              >
+                {"Hide"}
+              </Button>
+            )}
+          >
+            {CategoriesComponent}
+          </DraggableDialog>
+        </Rnd>
+      )}
       <AnalyticsComp
         title={selectLabel}
         content={
@@ -94,50 +143,6 @@ const ChartDataPanel = <T extends ISelectOption>({
         <TreeViewComponent />
       </div>
       <ApexFlexContainer height={50} justifyContent="flex-end">
-        {extrudeCategories && (
-          <Rnd
-            style={{ zIndex: 2000 }}
-            size={{
-              width: categorySize.width,
-              height: categorySize.height,
-            }}
-            position={{
-              x: categoryPosition.x,
-              y: categoryPosition.y,
-            }}
-            onDragStop={(e, d) => setCategoryPosition({ x: d.x, y: d.y })}
-            onResizeStop={(e, direction, ref, delta, position) => {
-              setCategorySize({
-                width: Number(ref.style.width),
-                height: Number(ref.style.height),
-              });
-              setCategoryPosition(position);
-            }}
-          >
-            <DraggableDialog
-              title="Title"
-              iconType="category"
-              onClose={() =>
-                setExtrudeCategories && setExtrudeCategories(false)
-              }
-              actionsList={() => (
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() =>
-                    setExtrudeCategories && setExtrudeCategories(false)
-                  }
-                  startIcon={<CallReceivedIcon />}
-                >
-                  {"Hide"}
-                </Button>
-              )}
-            >
-              {CategoriesComponent}
-            </DraggableDialog>
-          </Rnd>
-        )}
-
         {renderCategoryIcon && (
           <CategoryOutlinedIcon
             style={getApexIconButtonStyle(theme)}

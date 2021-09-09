@@ -120,7 +120,7 @@ function* saveEconomicsResultsSaga(
           "Economics Results Save Failure",
           true,
           "Economics Results",
-          errors.message
+          (errors as any).message
         )
       )
     );

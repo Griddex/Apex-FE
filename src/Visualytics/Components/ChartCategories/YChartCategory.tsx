@@ -8,6 +8,10 @@ const YChartCategory = ({
   updateAction,
   removeAction,
   disable,
+  showCategoryMembersSwitch,
+  showCategoryMembersObj,
+  path,
+  updateParameterAction,
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
@@ -16,6 +20,10 @@ const YChartCategory = ({
       updateAction={updateAction}
       removeAction={removeAction}
       disable={disable}
+      showCategoryMembersSwitch={showCategoryMembersSwitch}
+      showCategoryMembersObj={showCategoryMembersObj}
+      path={path}
+      updateParameterAction={updateParameterAction}
     />
   );
 };

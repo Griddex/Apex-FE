@@ -24,6 +24,10 @@ const EconomicsSensitivitiesTable = ({
   selectedSensitivitiesTable,
   analysisName,
 }: IEconomicsSensitivitiesTable) => {
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 27 ~ analysisName",
+    analysisName
+  );
   const theme = useTheme();
   const dispatch = useDispatch();
   const wc = "economicsAnalysisWorkflows";
@@ -41,6 +45,10 @@ const EconomicsSensitivitiesTable = ({
   //any current economics analysis
 
   const currentAnalysisObj = economicsAnalysisWorkflows[analysisName];
+  console.log(
+    "Logged output --> ~ file: EconomicsSensitivitiesTable.tsx ~ line 44 ~ currentAnalysisObj",
+    currentAnalysisObj
+  );
   const sensitivitiesTableTitle = currentAnalysisObj["analysisTableTitle"];
   const [rows, setRows] = React.useState(selectedSensitivitiesTable);
 

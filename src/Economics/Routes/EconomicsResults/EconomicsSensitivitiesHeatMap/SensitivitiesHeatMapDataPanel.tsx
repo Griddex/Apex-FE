@@ -39,6 +39,7 @@ const SensitivitiesHeatMapDataPanel = () => {
     selectedEconomicsResultsDescription,
     sensitivitiesHeatMapTree,
     heatMapTreeByScenario,
+    showHeatMapCategoryMembersObj,
   } = useSelector((state: RootState) => state.economicsReducer);
 
   const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
@@ -180,6 +181,41 @@ const SensitivitiesHeatMapDataPanel = () => {
     disableCollection = [false, false, false];
   }
 
+  const [showObj, setShowObj] = React.useState(showHeatMapCategoryMembersObj);
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 185 ~ SensitivitiesHeatMapDataPanel ~ showObj",
+    showObj
+  );
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 185 ~ SensitivitiesHeatMapDataPanel ~ showHeatMapCategoryMembersObj",
+    showHeatMapCategoryMembersObj
+  );
+
+  const membersObjString = Object.values(
+    showHeatMapCategoryMembersObj as Record<string, boolean>
+  ).join("");
+
+  const categoryComponent = () => {
+    return (
+      <XYZChartCategories
+        xCategoryOptionTitle="heatMapVariableXOptions"
+        yCategoryOptionTitle="heatMapVariableYOptions"
+        zCategoryOptionTitle="heatMapVariableZOptions"
+        disableX={disableCollection[0]}
+        disableY={disableCollection[1]}
+        disableZ={disableCollection[2]}
+        updateAction={updateEconomicsChartCategoryAction}
+        removeAction={removeEconomicsChartCategoryAction}
+        showXCategoryMembersSwitch={false}
+        showYCategoryMembersSwitch={false}
+        showZCategoryMembersSwitch={true}
+        showCategoryMembersObj={showObj}
+        path="showHeatMapCategoryMembersObj"
+        updateParameterAction={updateEconomicsParameterAction}
+      />
+    );
+  };
+
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
@@ -194,19 +230,9 @@ const SensitivitiesHeatMapDataPanel = () => {
       }
       extrudeCategories={extrudeCategories}
       setExtrudeCategories={setExtrudeCategories}
-      categoriesComponent={
-        <XYZChartCategories
-          xCategoryOptionTitle="heatMapVariableXOptions"
-          yCategoryOptionTitle="heatMapVariableYOptions"
-          zCategoryOptionTitle="heatMapVariableZOptions"
-          disableX={disableCollection[0]}
-          disableY={disableCollection[1]}
-          disableZ={disableCollection[2]}
-          updateAction={updateEconomicsChartCategoryAction}
-          removeAction={removeEconomicsChartCategoryAction}
-        />
-      }
+      categoriesComponent={categoryComponent()}
       renderCategoryIcon={true}
+      membersObjString={membersObjString}
     />
   );
 };

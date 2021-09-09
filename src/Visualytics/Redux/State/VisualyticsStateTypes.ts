@@ -63,7 +63,7 @@ export interface IVisualyticsState {
   };
 
   visualyticsResults: any[];
-  visualyticsTree: RenderTree["children"];
+  visualyticsTree: RenderTree;
   xValueCategories: string[];
   lineOrScatter: "line" | "scatter";
   isYear: boolean;
@@ -87,6 +87,8 @@ export interface IVisualyticsState {
   visualyticsDataWorkflows: Record<string, IInputState>;
   storedDataWorkflows: Record<"visualyticsDeckStored", IStoredDataRow[]>;
   visualyticsChartsWorkflows: TAllChartsDataAndSpecificProperties;
+
+  errors: any[];
 }
 
 export interface ICharts {
