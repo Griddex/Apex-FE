@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => {
     },
     contextDrawerContent: {
       marginTop: 20,
+      height: "100%",
     },
     menuButton: { alignSelf: "center", height: 30, width: 30 },
   };

@@ -16,6 +16,6 @@ export interface IApexGridCheckbox {
 export interface IApexCheckboxGroup {
   selectedVariable?: string;
   setSelectedVariable?: TUseState<string>;
-  variableZOption: ISelectOption;
+  variableZOption?: ISelectOption;
   apexCheckboxDataGroup: ISelectOption[];
 }

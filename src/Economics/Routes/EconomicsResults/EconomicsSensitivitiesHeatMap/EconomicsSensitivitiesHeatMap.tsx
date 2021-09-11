@@ -17,25 +17,28 @@ const EconomicsSensitivitiesHeatMap = () => {
     sensitivitiesHeatMap1or2D,
     heatMapVariableXOptions,
     heatMapVariableYOptions,
-  } = useSelector((state: RootState) => state.economicsReducer);
+    heatMapTreeByScenario,
+  } = useSelector((state: RootState) => {
+    const {
+      sensitivitiesHeatMap1or2D,
+      heatMapVariableXOptions,
+      heatMapVariableYOptions,
+      heatMapTreeByScenario,
+    } = state.economicsReducer;
+
+    return {
+      sensitivitiesHeatMap1or2D,
+      heatMapVariableXOptions,
+      heatMapVariableYOptions,
+      heatMapTreeByScenario,
+    };
+  });
   console.log(
     "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 21 ~ EconomicsSensitivitiesHeatMap ~ sensitivitiesHeatMap1or2D",
     sensitivitiesHeatMap1or2D
   );
 
-  if (sensitivitiesHeatMap1or2D && sensitivitiesHeatMap1or2D?.length === 0) {
-    return (
-      <ApexFlexContainer
-        moreStyles={{
-          border: `1px solid ${theme.palette.grey[400]}`,
-          backgroundColor: theme.palette.grey[200],
-          minWidth: theme.breakpoints.values["md"],
-        }}
-      >
-        {"No map"}
-      </ApexFlexContainer>
-    );
-  }
+  const noOfSensitivities = heatMapTreeByScenario["children"].length;
 
   const keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
     ?.filter((key) => key.includes("Color"))
@@ -45,12 +48,17 @@ const EconomicsSensitivitiesHeatMap = () => {
     keys
   );
 
-  const yId = Object.keys(heatMapVariableYOptions)[0];
-  const yName = heatMapVariableYOptions[yId].name;
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 46 ~ EconomicsSensitivitiesHeatMap ~ yName",
-    yName
-  );
+  let yId = "";
+  let yName = "";
+  if (noOfSensitivities >= 2) {
+    yId = Object.keys(heatMapVariableYOptions)[0];
+    yName = heatMapVariableYOptions[yId].name;
+    console.log(
+      "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 46 ~ EconomicsSensitivitiesHeatMap ~ yName",
+      yName
+    );
+  }
+
   const xId = Object.keys(heatMapVariableXOptions)[0];
   const xName = heatMapVariableXOptions[xId].name;
   console.log(

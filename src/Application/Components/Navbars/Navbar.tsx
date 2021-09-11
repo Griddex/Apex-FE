@@ -96,6 +96,10 @@ const Navbar = () => {
   const classes = useStyles(layoutProps);
 
   const { expandMainDrawer, showNavbar } = layoutProps;
+
+  const avatarSrc = localStorage.getItem("avatar");
+  const [avatar, setAvatar] = React.useState(avatarSrc);
+
   // const username = faker.name.findName();
   const username = userName; //"Gideon Sanni";
   //const role = "Corporate Forecaster";
@@ -103,6 +107,14 @@ const Navbar = () => {
   const { currentProjectTitle } = useSelector(
     (state: RootState) => state.projectReducer
   );
+
+  React.useEffect(() => {
+    if (!avatarSrc || avatarSrc === "") {
+      const avatarSrc = faker.internet.avatar();
+      localStorage.setItem("avatar", avatarSrc);
+      setAvatar(avatarSrc);
+    }
+  }, []);
 
   return (
     <AppBar
@@ -163,7 +175,7 @@ const Navbar = () => {
                 <Avatar
                   className={classes.smallAvatar}
                   alt={username}
-                  src={faker.internet.avatar()}
+                  src={avatar as string}
                   variant="circular"
                 >
                   {userinitials}

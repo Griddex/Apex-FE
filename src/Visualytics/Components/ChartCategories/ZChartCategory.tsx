@@ -11,6 +11,8 @@ const ZChartCategory = ({
   showCategoryMembersObj,
   path,
   updateParameterAction,
+  categoryDragItem,
+  categoryDropped,
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
@@ -23,6 +25,8 @@ const ZChartCategory = ({
       showCategoryMembersObj={showCategoryMembersObj}
       path={path}
       updateParameterAction={updateParameterAction}
+      categoryDragItem={categoryDragItem}
+      categoryDropped={categoryDropped}
     />
   );
 };

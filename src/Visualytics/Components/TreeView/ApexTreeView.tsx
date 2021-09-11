@@ -1,16 +1,9 @@
-import { Checkbox, FormControlLabel } from "@material-ui/core";
-import Collapse from "@material-ui/core/Collapse";
-import { alpha, makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
 import React from "react";
-import { useDrag } from "react-dnd";
-import { animated, useSpring } from "react-spring"; // web.cjs is required for IE 11 support
-import ApexCheckbox from "../../../Application/Components/Checkboxes/ApexCheckbox";
-import ApexCheckbox2 from "../../../Application/Components/Checkboxes/ApexCheckbox2";
 import ApexTreeViewRenderer from "./ApexTreeViewRenderer";
-import { IApexTreeView, RenderTree } from "./ApexTreeViewTypes";
+import { IApexTreeView } from "./ApexTreeViewTypes";
 
 function MinusSquare(props: any) {
   return (
@@ -29,21 +22,6 @@ function PlusSquare(props: any) {
     </SvgIcon>
   );
 }
-
-const StyledTreeItem = withStyles((theme) => ({
-  iconContainer: {
-    "& .close": {
-      opacity: 0.3,
-    },
-  },
-  group: {
-    marginLeft: 7,
-    paddingLeft: 18,
-    borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
-  },
-}))((props: TreeItemProps) => {
-  return <TreeItem {...props} />;
-});
 
 const useStyles = makeStyles((theme) => ({
   rootTreeView: {
@@ -101,133 +79,6 @@ export default function ApexTreeView({
   const handleSelect = (event: React.ChangeEvent<any>, nodeIds: string[]) => {
     setSelected(nodeIds);
   };
-
-  // const getChildById = (node: RenderTree, id: string) => {
-  //   let idArray: string[] = [];
-  //   let titleArray: string[] = [];
-  //   let pathArray: string[] = [];
-
-  //   const getAllChildren = (nodes: RenderTree | null) => {
-  //     if (nodes === null) return [];
-
-  //     idArray.push(nodes.id);
-  //     titleArray.push(nodes.title as NonNullable<RenderTree["title"]>);
-  //     pathArray.push(nodes.path as string);
-
-  //     if (Array.isArray(nodes.children)) {
-  //       nodes.children.forEach((node) => {
-  //         idArray = [...idArray, ...getAllChildren(node)[0]];
-  //         idArray = idArray.filter((v, i) => idArray.indexOf(v) === i);
-
-  //         titleArray = [...titleArray, ...getAllChildren(node)[1]];
-  //         titleArray = titleArray.filter((v, i) => titleArray.indexOf(v) === i);
-
-  //         pathArray = [...pathArray, ...getAllChildren(node)[1]];
-  //         pathArray = pathArray.filter((v, i) => pathArray.indexOf(v) === i);
-  //       });
-  //     }
-
-  //     return [idArray, titleArray, pathArray];
-  //   };
-
-  //   const getNodeById = (nodes: RenderTree, id: string) => {
-  //     if (nodes.id === id) {
-  //       return nodes;
-  //     } else if (Array.isArray(nodes.children)) {
-  //       let result = null;
-
-  //       nodes.children.forEach((node) => {
-  //         if (getNodeById(node, id)) {
-  //           result = getNodeById(node, id);
-  //         }
-  //       });
-
-  //       return result;
-  //     }
-
-  //     return null;
-  //   };
-
-  //   return getAllChildren(getNodeById(node, id));
-  // };
-
-  // const getOnChange = (checked: boolean, scenarioNodes: RenderTree) => {
-  //   const allIdNodes: string[] = getChildById(rootTree, scenarioNodes.id)[0];
-
-  //   const allNameNodes: string[] = getChildById(rootTree, scenarioNodes.id)[1];
-
-  //   const allPathNodes: string[] = getChildById(rootTree, scenarioNodes.id)[2];
-
-  //   let idArray = checked
-  //     ? [...selectedIds, ...allIdNodes]
-  //     : selectedIds.filter((value) => !allIdNodes.includes(value));
-  //   idArray = idArray.filter((v, i) => idArray.indexOf(v) === i);
-
-  //   setSelectedIds(idArray);
-
-  //   let titleArray = checked
-  //     ? [...selectedNames, ...allNameNodes]
-  //     : selectedNames.filter((value) => !allNameNodes.includes(value));
-  //   titleArray = titleArray.filter((v, i) => titleArray.indexOf(v) === i);
-
-  //   setSelectedNames(titleArray);
-
-  //   let pathArray = checked
-  //     ? [...selectedPathsUnfiltered, ...allPathNodes]
-  //     : selectedPathsUnfiltered.filter(
-  //         (value) => !allPathNodes.includes(value)
-  //       );
-  //   pathArray = pathArray.filter((v, i) => pathArray.indexOf(v) === i);
-
-  //   setSelectedPathsUnfiltered(pathArray);
-  // };
-
-  // const renderTree = (scenarioNodes: RenderTree) => {
-  //   const { id, name, title } = scenarioNodes;
-  //   //TODO Unequal hooks between re-renders
-  //   const [{ isDragging }, drag] = useDrag(
-  //     () => ({
-  //       type: dragDropTypes,
-  //       item: { id, name, title },
-  //       end: (item, monitor) => {
-  //         const dropResult = monitor.getDropResult();
-  //       },
-  //       collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  //     }),
-  //     []
-  //   );
-  //   const opacity = isDragging ? 0.4 : 1;
-
-  //   return (
-  //     <StyledTreeItem
-  //       key={scenarioNodes.id}
-  //       nodeId={scenarioNodes.id}
-  //       label={
-  //         <FormControlLabel
-  //           control={
-  //             <ApexCheckbox2
-  //               checked={selectedIds.some((item) => item === scenarioNodes.id)}
-  //               onChange={(event) =>
-  //                 getOnChange(event.currentTarget.checked, scenarioNodes)
-  //               }
-  //               onClick={(e) => e.stopPropagation()}
-  //             />
-  //           }
-  //           label={
-  //             // <div ref={drag} style={{ opacity }}>
-  //             <div>{scenarioNodes.title}</div>
-  //           }
-  //           key={scenarioNodes.id}
-  //           classes={{ root: classes.rootLabel }}
-  //         />
-  //       }
-  //     >
-  //       {Array.isArray(scenarioNodes.children)
-  //         ? scenarioNodes.children.map((node) => renderTree(node))
-  //         : null}
-  //     </StyledTreeItem>
-  //   );
-  // };
 
   return (
     <TreeView

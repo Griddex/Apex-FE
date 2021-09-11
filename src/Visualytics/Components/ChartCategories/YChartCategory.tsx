@@ -1,4 +1,3 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import CartesianChartCategory from "./CartesianChartCategory";
 import { IChartCategories } from "./ChartCategoryTypes";
@@ -12,6 +11,8 @@ const YChartCategory = ({
   showCategoryMembersObj,
   path,
   updateParameterAction,
+  categoryDragItem,
+  categoryDropped,
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
@@ -24,6 +25,8 @@ const YChartCategory = ({
       showCategoryMembersObj={showCategoryMembersObj}
       path={path}
       updateParameterAction={updateParameterAction}
+      categoryDragItem={categoryDragItem}
+      categoryDropped={categoryDropped}
     />
   );
 };

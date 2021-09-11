@@ -33,4 +33,10 @@ export interface IChartCategories {
   showCategoryMembersObj?: Record<string, boolean>;
   path?: string;
   updateParameterAction?: (path: string, value: any) => IAction;
+  categoryDragItems?: Record<string, Record<string, IDragItem>>;
+  categoryHasDropped?: Record<string, Record<string, true>>;
+  categoryDragItem?: Record<string, IDragItem>;
+  categoryDropped?: Record<string, true>;
+  categoryPanelWidth?: number;
+  categoryPanelComponent?: React.FC;
 }

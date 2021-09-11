@@ -30,10 +30,10 @@ const VisualyticsChartDataPanel = () => {
   const {
     selectedVisualyticsTitle,
     selectedVisualyticsDescription,
-    selectedVisualyticsOption,
+    selectedVisualyticsChartOption,
   } = useSelector((state: RootState) => state.visualyticsReducer);
 
-  const chartType = selectedVisualyticsOption.value;
+  const chartType = selectedVisualyticsChartOption.value;
 
   const visualyticsRunTitleOptions = visualyticsDeckStored.map((row) => ({
     value: row.title,

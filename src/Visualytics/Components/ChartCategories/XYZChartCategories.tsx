@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IChartCategories } from "./ChartCategoryTypes";
@@ -28,12 +28,23 @@ const XYZChartCategories = ({
   showCategoryMembersObj,
   path,
   updateParameterAction,
+  categoryDragItems,
+  categoryHasDropped,
+  categoryPanelWidth,
+  categoryPanelComponent,
 }: IChartCategories) => {
-  console.log(
-    "Logged output --> ~ file: XYZChartCategories.tsx ~ line 32 ~ showCategoryMembersObj",
-    showCategoryMembersObj
-  );
   const classes = useStyles();
+  const theme = useTheme();
+
+  const CategoryPanelComponent = categoryPanelComponent as React.FC;
+
+  const categoryDetailsStyle = {
+    width: categoryPanelWidth,
+    height: "100%",
+    moreStyles: {
+      borderLeft: `1px solid ${theme.palette.grey[300]}`,
+    },
+  };
 
   return (
     <ApexFlexContainer className={classes.root}>
@@ -47,6 +58,12 @@ const XYZChartCategories = ({
           showCategoryMembersObj={showCategoryMembersObj}
           path={path}
           updateParameterAction={updateParameterAction}
+          categoryDragItem={
+            categoryDragItems && categoryDragItems["X Category"]
+          }
+          categoryDropped={
+            categoryHasDropped && categoryHasDropped["X Category"]
+          }
         />
         <YChartCategory
           categoryOptionTitle={yCategoryOptionTitle as string}
@@ -57,6 +74,12 @@ const XYZChartCategories = ({
           showCategoryMembersObj={showCategoryMembersObj}
           path={path}
           updateParameterAction={updateParameterAction}
+          categoryDragItem={
+            categoryDragItems && categoryDragItems["Y Category"]
+          }
+          categoryDropped={
+            categoryHasDropped && categoryHasDropped["Y Category"]
+          }
         />
         <ZChartCategory
           categoryOptionTitle={zCategoryOptionTitle as string}
@@ -67,25 +90,31 @@ const XYZChartCategories = ({
           showCategoryMembersObj={showCategoryMembersObj}
           path={path}
           updateParameterAction={updateParameterAction}
+          categoryDragItem={
+            categoryDragItems && categoryDragItems["Z Category"]
+          }
+          categoryDropped={
+            categoryHasDropped && categoryHasDropped["Z Category"]
+          }
         />
       </ApexFlexContainer>
       {(showCategoryMembersObj as Record<string, boolean>)["X Category"] && (
-        <ApexFlexContainer width={150} height={"100%"}>
+        <ApexFlexContainer {...categoryDetailsStyle}>
           {"X variable"}
         </ApexFlexContainer>
       )}
       {(showCategoryMembersObj as Record<string, boolean>)["Y Category"] && (
-        <ApexFlexContainer width={150} height={"100%"}>
+        <ApexFlexContainer {...categoryDetailsStyle}>
           {"Y variable"}
         </ApexFlexContainer>
       )}
       {(showCategoryMembersObj as Record<string, boolean>)["Z Category"] && (
-        <ApexFlexContainer width={150} height={"100%"}>
-          {"Z variable"}
+        <ApexFlexContainer {...categoryDetailsStyle}>
+          <CategoryPanelComponent />
         </ApexFlexContainer>
       )}
     </ApexFlexContainer>
   );
 };
 
-export default React.memo(XYZChartCategories);
+export default XYZChartCategories;

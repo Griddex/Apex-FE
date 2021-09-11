@@ -12,11 +12,11 @@ import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import ApexCheckboxGroup from "../../Application/Components/Checkboxes/ApexCheckboxGroup";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
+import ApexRadioGroup from "../../Application/Components/Radios/ApexRadioGroup";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
@@ -218,12 +218,14 @@ const ProductionStreamPrioritization = ({
     ];
 
     return (
-      <ApexFlexContainer>
-        <ApexCheckboxGroup
-          variableZOption={streamOption}
-          apexCheckboxDataGroup={streamPrioritizationData}
-        />
-      </ApexFlexContainer>
+      <AnalyticsComp
+        title={streamOption.label}
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexRadioGroup apexRadioDataGroup={streamPrioritizationData} />
+        }
+      />
     );
   };
 

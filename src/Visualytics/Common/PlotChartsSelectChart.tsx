@@ -23,7 +23,7 @@ const PlotChartsSelectChart = () => {
       <SelectChart
         workflowCategory={wc}
         reducer={reducer}
-        selectedChartOptionTitle="selectedVisualyticsOption"
+        selectedChartOptionTitle="selectedVisualyticsChartOption"
       />
       <ApexFlexContainer
         justifyContent="space-evenly"

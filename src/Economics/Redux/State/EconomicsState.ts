@@ -237,13 +237,26 @@ const EconomicsState: IEconomicsState = {
     "Z Category": false,
   },
 
+  categoryDragItems: {
+    "X Category": {},
+    "Y Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+  categoryHasDropped: {
+    "X Category": {},
+    "Y Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+
   //Plot Charts
   economicsPlotChartsTree: { id: "", name: "" },
   plotChartsData: null,
   plotChartsDataTrans: null,
   selectedEconomicsPlotChartOption: {
-    value: "Select Chart...",
-    label: "Select Chart...",
+    value: "line",
+    label: "Line Chart...",
   },
   showPlotChartsCategories: false,
   plotChartsVariableXOptions: {},
