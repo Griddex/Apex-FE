@@ -142,7 +142,7 @@ const visualyticsState: IVisualyticsState = {
   showPlotChartsCategories: false,
 
   loadVisualyticsWorkflow: false,
-  selectedVisualyticsOption: { label: "Select...", value: "Select..." },
+  selectedVisualyticsChartOption: { label: "Select...", value: "Select..." },
   selectedVisualyticsId: "",
   selectedVisualyticsTitle: "",
   selectedVisualyticsDescription: "",

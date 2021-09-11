@@ -72,6 +72,7 @@ const ChartCategoryVariable = ({
       </ListItemAvatar>
       <Typography variant="inherit">{title}</Typography>
       <IconButton
+        style={{ marginRight: 0 }}
         onClick={() => {
           dispatch(removeChartCategoryAction(categoryOptionTitle, id));
           setHasDroppedObj((prev) => ({ ...prev, [id]: false }));
@@ -85,4 +86,4 @@ const ChartCategoryVariable = ({
   );
 };
 
-export default React.memo(ChartCategoryVariable);
+export default ChartCategoryVariable;

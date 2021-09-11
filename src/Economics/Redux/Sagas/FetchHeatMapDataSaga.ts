@@ -21,7 +21,12 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
-import { developmentScenariosMap } from "../../Data/EconomicsData";
+import {
+  developmentScenariosMap,
+  heatMap1D,
+  heatMap2D,
+  heatMap3D,
+} from "../../Data/EconomicsData";
 import {
   fetchHeatMapDataFailureAction,
   FETCH_HEATMAPDATA_REQUEST,
@@ -100,20 +105,36 @@ function* fetchHeatMapDataSaga(
   try {
     yield put(showSpinnerAction(`Fetching data...`));
 
-    const result = yield call(
-      fetchHeatMapDataAPI,
-      `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
-    );
+    // const result = yield call(
+    //   fetchHeatMapDataAPI,
+    //   `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
+    // );
 
-    const {
-      data: { data: sensitivitiesHeatMapData },
-    } = result;
+    // const {
+    //   data: { data: sensitivitiesHeatMapData },
+    // } = result;
 
-    if (noOfSensitivities === 1 || noOfSensitivities === 2) {
+    // console.log(
+    //   "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 111 ~ sensitivitiesHeatMapData",
+    //   sensitivitiesHeatMapData
+    // );
+
+    const sensitivitiesHeatMapData = { oilDevelopment: heatMap3D };
+
+    if (noOfSensitivities === 1) {
       yield put(
         updateEconomicsParameterAction(
           "sensitivitiesHeatMap1or2D",
-          sensitivitiesHeatMapData
+          // sensitivitiesHeatMapData
+          heatMap1D
+        )
+      );
+    } else if (noOfSensitivities === 2) {
+      yield put(
+        updateEconomicsParameterAction(
+          "sensitivitiesHeatMap1or2D",
+          // sensitivitiesHeatMapData
+          heatMap2D
         )
       );
     } else if (noOfSensitivities === 3) {
@@ -128,8 +149,12 @@ function* fetchHeatMapDataSaga(
         developmentScenariosMap[
           selectedDevScenario as keyof typeof developmentScenariosMap
         ];
+
+      const key = variableZKey as keyof typeof heatMap3D;
       const sensitivitiesHeatMap1or2D =
-        sensitivitiesHeatMapData[devScenario][variableZKey];
+        sensitivitiesHeatMapData["oilDevelopment"][key];
+      // const sensitivitiesHeatMap1or2D =
+      //   sensitivitiesHeatMapData[devScenario][variableZKey];
 
       yield put(
         updateEconomicsParameterAction(

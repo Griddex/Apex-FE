@@ -23,6 +23,7 @@ import {
   TForecastScenario,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
+import { IDragItem } from "./../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 import {
   INameTitleOption,
   ISelectOption,
@@ -268,6 +269,9 @@ export interface IEconomicsState
   heatMapVariableYOptions: Record<string, INameTitleOption>;
   heatMapVariableZOptions: Record<string, INameTitleOption>;
   showHeatMapCategoryMembersObj: Record<string, boolean>;
+
+  categoryDragItems: Record<string, Record<string, IDragItem>>;
+  categoryHasDropped: Record<string, Record<string, true>>;
 
   economicsPlotChartsTree: RenderTree;
   plotChartsData: null;

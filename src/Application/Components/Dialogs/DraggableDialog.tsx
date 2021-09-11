@@ -131,7 +131,7 @@ const DraggableDialog: React.FC<DialogStuff> = ({
         padding: 0,
         backgroundColor: "white",
         boxShadow: theme.shadows[8],
-        width: 385,
+        width: "auto",
       }}
     >
       <DraggableDialogTitle onClose={onClose} iconType={iconType}>

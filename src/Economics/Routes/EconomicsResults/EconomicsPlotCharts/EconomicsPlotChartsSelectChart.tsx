@@ -12,7 +12,7 @@ const EconomicsPlotChartsSelectChart = () => {
       <SelectChart
         workflowCategory={wc}
         reducer={reducer}
-        selectedChartOptionTitle="selectedEconomicsChartOption"
+        selectedChartOptionTitle="selectedEconomicsPlotChartOption"
       />
     </ApexFlexContainer>
   );

@@ -54,11 +54,27 @@ const SelectChart = ({
   reducer,
   selectedChartOptionTitle,
 }: IChartProps) => {
+  console.log(
+    "Logged output --> ~ file: SelectChart.tsx ~ line 57 ~ reducer",
+    reducer
+  );
+  console.log(
+    "Logged output --> ~ file: SelectChart.tsx ~ line 57 ~ selectedChartOptionTitle",
+    selectedChartOptionTitle
+  );
   const reducerDefined = reducer as ReducersType;
 
   const apexState = useSelector((state: RootState) => state[reducerDefined]);
+  console.log(
+    "Logged output --> ~ file: SelectChart.tsx ~ line 68 ~ apexState",
+    apexState
+  );
 
   const selectedChartOption = apexState[selectedChartOptionTitle as string];
+  console.log(
+    "Logged output --> ~ file: SelectChart.tsx ~ line 74 ~ selectedChartOption",
+    selectedChartOption
+  );
 
   const chartType = selectedChartOption.value as TChartTypes;
 

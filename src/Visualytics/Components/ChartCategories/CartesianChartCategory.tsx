@@ -1,18 +1,10 @@
-import {
-  createStyles,
-  IconButton,
-  makeStyles,
-  Theme,
-  useTheme,
-} from "@material-ui/core";
-import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
+import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core";
 import React, { CSSProperties } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
-import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import {
   itemTypesEconomics,
   itemTypesForecast,
@@ -46,6 +38,8 @@ const CartesianChartCategory = ({
   showCategoryMembersObj,
   path,
   updateParameterAction,
+  categoryDragItem,
+  categoryDropped,
 }: IChartCategories) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -54,12 +48,12 @@ const CartesianChartCategory = ({
   const [membersSwitch, setMembersSwitch] = React.useState(
     showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
   );
-  const [hasDroppedObj, setHasDroppedObj] = React.useState<
-    Record<string, boolean>
-  >({});
+  const [hasDroppedObj, setHasDroppedObj] = React.useState(
+    categoryDropped as Record<string, boolean>
+  );
 
   const [dragItemObj, setDragItemObj] = React.useState(
-    {} as Record<string, IDragItem>
+    categoryDragItem as Record<string, IDragItem>
   );
 
   const allItemTypes = [
@@ -77,6 +71,22 @@ const CartesianChartCategory = ({
         dispatch(updateAction(categoryOptionTitle as string, item));
         setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
         setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
+
+        dispatch(
+          updateParameterAction &&
+            updateParameterAction(`categoryDragItems.${categoryTitle}`, {
+              ...dragItemObj,
+              [id]: item as IDragItem,
+            })
+        );
+
+        dispatch(
+          updateParameterAction &&
+            updateParameterAction(`categoryHasDropped.${categoryTitle}`, {
+              ...hasDroppedObj,
+              [id]: true,
+            })
+        );
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -139,6 +149,7 @@ const CartesianChartCategory = ({
           hasLabels={true}
           leftLabel="Disable"
           rightLabel="Enable"
+          moreStyles={{ justifyContent: "flex-end" }}
         />
       )}
       <AnalyticsComp
@@ -151,23 +162,24 @@ const CartesianChartCategory = ({
             flexDirection="column"
             justifyContent="flex-start"
           >
-            {Object.keys(hasDroppedObj).length > 0
-              ? Object.keys(hasDroppedObj).map((id: string, i: number) => (
-                  <ChartCategoryVariable
-                    key={i}
-                    dragItem={dragItemObj[id]}
-                    setHasDroppedObj={setHasDroppedObj}
-                    categoryOptionTitle={categoryOptionTitle as string}
-                    removeChartCategoryAction={removeAction}
-                  />
-                ))
-              : "Drop here"}
+            {Object.keys(hasDroppedObj).length > 0 ? (
+              Object.keys(hasDroppedObj).map((id: string, i: number) => (
+                <ChartCategoryVariable
+                  key={i}
+                  dragItem={dragItemObj[id]}
+                  setHasDroppedObj={setHasDroppedObj}
+                  categoryOptionTitle={categoryOptionTitle as string}
+                  removeChartCategoryAction={removeAction}
+                />
+              ))
+            ) : (
+              <ApexFlexContainer>{"Drop here"}</ApexFlexContainer>
+            )}
           </ApexFlexContainer>
         }
         contentStyle={{
           height: "100%",
           width: "100%",
-          border: `1px solid ${theme.palette.grey[300]}`,
         }}
       />
     </div>

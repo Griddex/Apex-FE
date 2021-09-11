@@ -1,12 +1,11 @@
-import React from "react";
-import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio, { RadioProps } from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import { IApexCheckboxGroup } from "./ApexGridCheckboxTypes";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+import React from "react";
+import { IApexRadioGroup } from "./ApexGridRadioTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   icon: {
-    borderRadius: 0,
+    borderRadius: "50%",
     width: 16,
     height: 16,
     boxShadow:
@@ -37,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   checkedIcon: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
     backgroundImage:
       "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
     "input:hover ~ &": {
-      backgroundColor: "#106ba3",
+      backgroundColor: theme.palette.primary.dark,
     },
   },
 }));
@@ -61,19 +60,32 @@ function StyledRadio(props: RadioProps) {
   );
 }
 
-export default function ApexCheckboxGroup({
-  setSelectedVariable,
-  variableZOption,
-  apexCheckboxDataGroup,
-}: IApexCheckboxGroup) {
+const ApexRadioGroup = ({ apexRadioDataGroup }: IApexRadioGroup) => {
+  const [selectedValue, setSelectedValue] = React.useState("5");
+  console.log(
+    "Logged output --> ~ file: ApexRadioGroup.tsx ~ line 67 ~ selectedValue",
+    selectedValue
+  );
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const sVal = (event.target as HTMLInputElement).value;
+    setSelectedValue(sVal);
+
+    const handleCheck = apexRadioDataGroup.find(
+      (obj) => obj.value === sVal
+    )?.handleCheck;
+    handleCheck && handleCheck();
+  };
+
   return (
     <FormControl component="fieldset">
       <RadioGroup
-        defaultValue="female"
-        aria-label="gender"
+        aria-label="Z values"
         name="customized-radios"
+        value={selectedValue}
+        onChange={handleRadioChange}
       >
-        {apexCheckboxDataGroup.map((obj, i) => {
+        {apexRadioDataGroup.map((obj, i) => {
           const { value, label } = obj;
 
           return (
@@ -82,13 +94,17 @@ export default function ApexCheckboxGroup({
               value={value}
               control={<StyledRadio />}
               label={label}
-              onClick={() =>
-                setSelectedVariable && setSelectedVariable(value as string)
-              }
             />
           );
         })}
       </RadioGroup>
     </FormControl>
   );
-}
+};
+
+export default React.memo(ApexRadioGroup, (prev, next) => {
+  const prevStr = prev.apexRadioDataGroup.map((obj) => obj.value).join();
+  const nextStr = next.apexRadioDataGroup.map((obj) => obj.value).join();
+
+  return prevStr === nextStr;
+});

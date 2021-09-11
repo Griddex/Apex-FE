@@ -73,7 +73,7 @@ export interface IVisualyticsState {
   showPlotChartsCategories: boolean;
 
   loadVisualyticsWorkflow: boolean;
-  selectedVisualyticsOption: ISelectOption;
+  selectedVisualyticsChartOption: ISelectOption;
   selectedVisualyticsId: string;
   selectedVisualyticsTitle: string;
   selectedVisualyticsDescription: string;

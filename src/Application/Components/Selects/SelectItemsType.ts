@@ -21,6 +21,7 @@ export interface IExtendedSelectOption<T = string, U = string, V = string> {
   description?: V;
   unitId?: V;
   colors?: string[];
+  handleCheck?: () => void;
   yAxis?: "primary" | "secondary";
 }
 

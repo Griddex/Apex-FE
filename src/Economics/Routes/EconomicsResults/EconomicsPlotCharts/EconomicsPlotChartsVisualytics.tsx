@@ -19,6 +19,7 @@ import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/Cha
 import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
 import { putSelectChartOptionAction } from "../../../../Visualytics/Redux/Actions/VisualyticsActions";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
+import { economicsPlotChartsOptions } from "../../../Data/EconomicsData";
 import {
   removeEconomicsChartCategoryAction,
   updateEconomicsChartCategoryAction,
@@ -80,80 +81,59 @@ const EconomicsPlotChartsVisualytics = () => {
 
   const componentRef = React.useRef();
 
-  const { expandContextDrawer } = useSelector(
+  const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
-  const { showPlotChartsCategories, selectedEconomicsPlotChartOption } =
-    useSelector((state: RootState) => state.economicsReducer);
+  const {
+    xValueCategories,
+    showPlotChartsCategories,
+    selectedEconomicsPlotChartOption,
+  } = useSelector((state: RootState) => state.economicsReducer);
 
   const [showCategories, setShowCategories] = React.useState(
     showPlotChartsCategories
   );
 
   const chartType = selectedEconomicsPlotChartOption.value;
-  const economicsPlotCharts = [
-    {
-      value: "Select Chart...",
-      label: "Select Chart...",
-    },
-    {
-      value: "stackedAreaChart",
-      label: "Stacked Area",
-    },
-    {
-      value: "lineChart",
-      label: "Line",
-    },
-    {
-      value: "doughnutChart",
-      label: "Doughnut",
-    },
-    {
-      value: "barChart",
-      label: "Bar",
-    },
-    {
-      value: "scatterChart",
-      label: "Scatter",
-    },
-    {
-      value: "radarChart",
-      label: "Radar",
-    },
-    {
-      value: "heatMapChart",
-      label: "Heatmap",
-    },
-  ];
 
-  const basePath = `${wc}.${wp}.commonChartProps`;
-  //xValueCategories: [1, 2, 3].map((_, i) => i + 2020),
+  const { chartData } = useSelector(
+    (state: RootState) => state.economicsReducer[wc][ch]
+  );
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
-          chartOptions={economicsPlotCharts}
+          chartOptions={economicsPlotChartsOptions}
           putChartOptionAction={
-            [1, 2, 3].length > 0
+            chartData.length > 0
               ? (chartOption: ISelectOption) => {
                   const payload = {
                     reducer: "economicsReducer",
-                    chartType: chartOption.value,
-                    xValueCategories: [],
-                    lineOrScatter:
-                      chartType === "lineChart" ? "line" : "scatter",
-                    isYear: true,
-                    selectedChartOptionTitle: "selectedEconomicsChartOption",
-                    defaultChart: ch,
                     workflowCategory: wc,
+                    defaultChart: ch,
+                    chartOption,
+                    chartType: chartOption.value,
+                    xValueCategories,
+                    lineOrScatter:
+                      chartOption.value === "lineChart" ? "line" : "scatter",
+                    isYear: true,
+                    selectedChartOptionTitle:
+                      "selectedEconomicsPlotChartOption",
                   };
 
                   dispatch(putSelectChartOptionAction(payload));
                 }
-              : (chartOption: ISelectOption) => {}
+              : (chartOption: ISelectOption) => {
+                  dispatch(
+                    updateEconomicsParameterAction(
+                      "selectedEconomicsPlotChartOption",
+                      chartOption
+                    )
+                  );
+                }
           }
         />
         <IconButtonWithTooltip
@@ -206,6 +186,8 @@ const EconomicsPlotChartsVisualytics = () => {
     moveDivRef?.current?.addEventListener("mousemove", onMouseMove);
     moveDivRef?.current?.addEventListener("mouseup", onMouseUp);
   }, []);
+
+  const basePath = `${wc}.commonChartProps`;
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
@@ -265,17 +247,21 @@ const EconomicsPlotChartsVisualytics = () => {
           )}
         </div>
       </div>
-      {expandContextDrawer && (
+      {showContextDrawer && (
         <ContextDrawer>
-          {() => (
-            <ChartFormatAggregatorContextProvider reducer={reducer}>
-              <ChartFormatAggregator
-                basePath={basePath}
-                updateParameterAction={updateEconomicsParameterAction}
-                chartType={chartType as TChartTypes}
-              />
-            </ChartFormatAggregatorContextProvider>
-          )}
+          {() =>
+            expandContextDrawer ? (
+              <ChartFormatAggregatorContextProvider reducer={reducer}>
+                <ChartFormatAggregator
+                  basePath={basePath}
+                  updateParameterAction={updateEconomicsParameterAction}
+                  chartType={chartType as TChartTypes}
+                />
+              </ChartFormatAggregatorContextProvider>
+            ) : (
+              <div />
+            )
+          }
         </ContextDrawer>
       )}
     </div>

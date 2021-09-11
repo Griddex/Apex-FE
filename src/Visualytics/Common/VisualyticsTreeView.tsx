@@ -15,11 +15,11 @@ export default function VisualyticsTreeView() {
 
   const dispatch = useDispatch();
 
-  const { selectedVisualyticsOption } = useSelector(
+  const { selectedVisualyticsChartOption } = useSelector(
     (state: RootState) => state.visualyticsReducer
   );
 
-  const chartType = selectedVisualyticsOption.value as TChartTypes;
+  const chartType = selectedVisualyticsChartOption.value as TChartTypes;
 
   const { visualyticsTree } = useSelector(
     (state: RootState) => state.visualyticsReducer

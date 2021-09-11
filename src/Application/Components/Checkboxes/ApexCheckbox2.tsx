@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   icon: {
-    borderRadius: 3,
+    borderRadius: 1,
     width: 16,
     height: 16,
     boxShadow:

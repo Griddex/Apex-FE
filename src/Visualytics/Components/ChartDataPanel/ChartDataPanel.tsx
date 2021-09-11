@@ -26,7 +26,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   setExtrudeCategories?: TUseState<boolean>;
   categoriesComponent?: JSX.Element;
   renderCategoryIcon: boolean;
-  membersObjString?: string;
+  showMembersObjValues?: boolean[];
 }
 
 const ChartDataPanel = <T extends ISelectOption>({
@@ -41,22 +41,25 @@ const ChartDataPanel = <T extends ISelectOption>({
   setExtrudeCategories,
   categoriesComponent,
   renderCategoryIcon,
-  membersObjString,
+  showMembersObjValues,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
+
   const CategoriesComponent = categoriesComponent as JSX.Element;
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
   const TreeViewComponent = treeViewComponent as React.FC;
 
   const [render, setRender] = React.useState(false);
-  const [categorySize, setCategorySize] = React.useState({
+  const [categorySizePosition, setCategorySizePosition] = React.useState({
     width: 385,
     height: 540,
-  });
-  const [categoryPosition, setCategoryPosition] = React.useState({
-    x: 200,
+    x: 300,
     y: 0,
   });
+  console.log(
+    "Logged output --> ~ file: ChartDataPanel.tsx ~ line 58 ~ categorySizePosition",
+    categorySizePosition
+  );
 
   const SelectTitle = () => {
     return (
@@ -71,31 +74,36 @@ const ChartDataPanel = <T extends ISelectOption>({
     );
   };
 
+  const categoryExpanded = showMembersObjValues?.some((v) => v === true);
+
   React.useEffect(() => {
     setRender(!render);
-  }, [membersObjString]);
+  }, [showMembersObjValues?.join()]);
 
   return (
     <ApexFlexContainer flexDirection="column">
       {extrudeCategories && (
         <Rnd
-          minWidth={385}
           style={{ zIndex: 2000, padding: 2 }}
           size={{
-            width: categorySize.width,
-            height: categorySize.height,
+            width: categoryExpanded
+              ? categorySizePosition.width + 150
+              : categorySizePosition.width,
+            height: categorySizePosition.height,
           }}
           position={{
-            x: categoryPosition.x,
-            y: categoryPosition.y,
+            x: categorySizePosition.x,
+            y: categorySizePosition.y,
           }}
-          onDragStop={(e, d) => setCategoryPosition({ x: d.x, y: d.y })}
+          onDragStop={(e, d) =>
+            setCategorySizePosition((prev) => ({ ...prev, x: d.x, y: d.y }))
+          }
           onResizeStop={(e, direction, ref, delta, position) => {
-            setCategorySize({
+            setCategorySizePosition({
               width: Number(ref.style.width),
               height: Number(ref.style.height),
+              ...position,
             });
-            setCategoryPosition(position);
           }}
         >
           <DraggableDialog

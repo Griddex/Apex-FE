@@ -1,10 +1,10 @@
+import { useTheme } from "@material-ui/core";
 import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
-import ApexCheckboxGroup from "../../../../Application/Components/Checkboxes/ApexCheckboxGroup";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
@@ -21,12 +21,14 @@ import {
 } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
+import { ISensitivitiesHeatMap } from "./SensitivitiesHeatMapTypes";
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
 }
 
-const SensitivitiesHeatMapChart = () => {
+const SensitivitiesHeatMapChart = ({ selectedZ }: ISensitivitiesHeatMap) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const wc = "economicsAnalysisWorkflows";
 
   const {
@@ -37,6 +39,7 @@ const SensitivitiesHeatMapChart = () => {
     heatMapTreeByScenario,
     resultsAnalyisOptions,
     selectedEconomicsResultsId,
+    sensitivitiesHeatMap1or2D,
   } = useSelector((state: RootState) => {
     const {
       sensitivitiesHeatMapData,
@@ -46,6 +49,7 @@ const SensitivitiesHeatMapChart = () => {
       heatMapTreeByScenario,
       resultsAnalyisOptions,
       selectedEconomicsResultsId,
+      sensitivitiesHeatMap1or2D,
     } = state.economicsReducer;
 
     return {
@@ -56,31 +60,16 @@ const SensitivitiesHeatMapChart = () => {
       heatMapTreeByScenario,
       resultsAnalyisOptions,
       selectedEconomicsResultsId,
+      sensitivitiesHeatMap1or2D,
     };
   }, shallowEqual);
 
   const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
     resultsAnalyisOptions[0]
   );
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 45 ~ SensitivitiesHeatMapChart ~ analysisOption",
-    analysisOption
-  );
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 188 ~ SensitivitiesHeatMapChart ~ resultsAnalyisOptions",
-    resultsAnalyisOptions
-  );
 
   const analyisName = analysisOption?.value;
   const analysisTitle = analysisOption?.label;
-
-  const [selectedZ, setSelectedZ] = React.useState("");
-
-  const isAllVariablesDropped = [
-    heatMapVariableXOptions,
-    heatMapVariableYOptions,
-    heatMapVariableZOptions,
-  ].every((v) => v !== null);
 
   const isX = !isObjectEmpty(heatMapVariableXOptions);
   const isY = !isObjectEmpty(heatMapVariableYOptions);
@@ -95,6 +84,10 @@ const SensitivitiesHeatMapChart = () => {
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG";
 
+  console.log(
+    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 96 ~ SensitivitiesHeatMapChart ~ heatMapTreeByScenario",
+    heatMapTreeByScenario
+  );
   if (heatMapTreeByScenario && heatMapTreeByScenario.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
 
@@ -142,13 +135,19 @@ const SensitivitiesHeatMapChart = () => {
         height={"95%"}
         moreStyles={{ overflow: "auto" }}
       >
-        <EconomicsSensitivitiesHeatMap />
-        {isAllVariablesDropped && (
-          <ApexCheckboxGroup
-            setSelectedVariable={setSelectedZ}
-            variableZOption={heatMapVariableZOptions}
-            apexCheckboxDataGroup={heatMapVarZData as ISelectOption[]}
-          />
+        {sensitivitiesHeatMap1or2D &&
+        sensitivitiesHeatMap1or2D?.length === 0 ? (
+          <ApexFlexContainer
+            moreStyles={{
+              border: `1px solid ${theme.palette.grey[400]}`,
+              backgroundColor: theme.palette.grey[200],
+              width: theme.breakpoints.values["md"],
+            }}
+          >
+            {"No map"}
+          </ApexFlexContainer>
+        ) : (
+          <EconomicsSensitivitiesHeatMap />
         )}
       </ApexFlexContainer>
       <ApexFlexContainer
@@ -184,6 +183,10 @@ const SensitivitiesHeatMapChart = () => {
                 }
               } else {
                 if (Object.entries(sensitivitiesHeatMapData).length > 0) {
+                  console.log(
+                    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 202 ~ SensitivitiesHeatMapChart ~ sensitivitiesHeatMapData",
+                    sensitivitiesHeatMapData
+                  );
                   const devScenario =
                     developmentScenariosMap[
                       selectedDevScenario as keyof typeof developmentScenariosMap

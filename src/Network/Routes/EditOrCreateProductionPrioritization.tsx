@@ -12,11 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import ApexCheckboxGroup from "../../Application/Components/Checkboxes/ApexCheckboxGroup";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
+import ApexRadioGroup from "../../Application/Components/Radios/ApexRadioGroup";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
@@ -24,7 +24,6 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 
 const EditOrCreateProductionPrioritization = () => {
@@ -56,16 +55,6 @@ const EditOrCreateProductionPrioritization = () => {
   );
 
   const [rows, setRows] = React.useState(snSelectedTableData);
-
-  /*  React.useEffect(() => {
-    dispatch(
-      updateNetworkParameterAction(
-        "selectedTableData",
-        rows
-      )
-    );
-
-}, [rows.length]); */
 
   React.useEffect(() => {
     dispatch(
@@ -113,7 +102,7 @@ const EditOrCreateProductionPrioritization = () => {
       const currentSN = row.sn as number;
       row.optimizationWeight = option.value as string;
       rows[currentSN - 1] = row;
-      console.log("rows: ", rows);
+
       dispatch(updateNetworkParameterAction("selectedTableData", rows));
     };
 
@@ -134,8 +123,6 @@ const EditOrCreateProductionPrioritization = () => {
           valueOption={valueOption as ISelectOption}
           data={optimizationOptions}
           handleSelect={(option: ValueType<ISelectOption, false>) => {
-            console.log(option);
-            console.log("row: ", row);
             updateRow(row, option);
           }}
           menuPortalTarget={dialogRef.current as HTMLDivElement}
@@ -255,12 +242,14 @@ const EditOrCreateProductionPrioritization = () => {
     ];
 
     return (
-      <ApexFlexContainer>
-        <ApexCheckboxGroup
-          variableZOption={streamOption}
-          apexCheckboxDataGroup={streamPrioritizationData}
-        />
-      </ApexFlexContainer>
+      <AnalyticsComp
+        title={streamOption.label}
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexRadioGroup apexRadioDataGroup={streamPrioritizationData} />
+        }
+      />
     );
   };
 

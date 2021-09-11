@@ -77,7 +77,7 @@ const PlotChartsVisualytics = () => {
 
   const componentRef = React.useRef();
 
-  const { expandContextDrawer } = useSelector(
+  const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
@@ -85,14 +85,10 @@ const PlotChartsVisualytics = () => {
     visualyticsResults,
     xValueCategories,
     showPlotChartsCategories,
-    selectedVisualyticsOption,
+    selectedVisualyticsChartOption,
   } = useSelector((state: RootState) => state.visualyticsReducer);
 
-  const [showCategories, setShowCategories] = React.useState(
-    showPlotChartsCategories
-  );
-
-  const chartType = selectedVisualyticsOption.value;
+  const chartType = selectedVisualyticsChartOption.value;
   const visualyticsPlotCharts = [
     {
       value: "Select Chart...",
@@ -141,19 +137,27 @@ const PlotChartsVisualytics = () => {
               ? (chartOption: ISelectOption) => {
                   const payload = {
                     reducer: "visualyticsReducer",
+                    workflowCategory: wc,
+                    defaultChart: ch,
+                    chartOption,
                     chartType: chartOption.value,
-                    xValueCategories: [1, 2, 3, 4].map((_, i) => i + 2020),
+                    xValueCategories,
                     lineOrScatter:
-                      chartType === "lineChart" ? "line" : "scatter",
+                      chartOption.value === "lineChart" ? "line" : "scatter",
                     isYear: true,
                     selectedChartOptionTitle: "selectedVisualyticsChartOption",
-                    defaultChart: ch,
-                    workflowCategory: wc,
                   };
 
                   dispatch(putSelectChartOptionAction(payload));
                 }
-              : (chartOption: ISelectOption) => {}
+              : (chartOption: ISelectOption) => {
+                  dispatch(
+                    updateVisualyticsParameterAction(
+                      "selectedVisualyticsChartOption",
+                      chartOption
+                    )
+                  );
+                }
           }
         />
         <IconButtonWithTooltip
@@ -254,17 +258,21 @@ const PlotChartsVisualytics = () => {
           )}
         </div>
       </div>
-      {expandContextDrawer && (
+      {showContextDrawer && (
         <ContextDrawer>
-          {() => (
-            <ChartFormatAggregatorContextProvider reducer={reducer}>
-              <ChartFormatAggregator
-                basePath={basePath}
-                updateParameterAction={updateVisualyticsParameterAction}
-                chartType={chartType as TChartTypes}
-              />
-            </ChartFormatAggregatorContextProvider>
-          )}
+          {() =>
+            expandContextDrawer ? (
+              <ChartFormatAggregatorContextProvider reducer={reducer}>
+                <ChartFormatAggregator
+                  basePath={basePath}
+                  updateParameterAction={updateVisualyticsParameterAction}
+                  chartType={chartType as TChartTypes}
+                />
+              </ChartFormatAggregatorContextProvider>
+            ) : (
+              <div />
+            )
+          }
         </ContextDrawer>
       )}
     </div>

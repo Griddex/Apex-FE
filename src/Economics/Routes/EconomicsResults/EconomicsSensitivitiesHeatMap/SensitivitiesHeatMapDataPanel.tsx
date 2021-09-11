@@ -2,15 +2,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
-import DialogCancelButton from "../../../../Application/Components/DialogButtons/DialogCancelButton";
-import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
+import ApexRadioGroup from "../../../../Application/Components/Radios/ApexRadioGroup";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import NoData from "../../../../Application/Components/Visuals/NoData";
-import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import XYZChartCategories from "../../../../Visualytics/Components/ChartCategories/XYZChartCategories";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
@@ -23,8 +21,11 @@ import {
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
+import { ISensitivitiesHeatMap } from "./SensitivitiesHeatMapTypes";
 
-const SensitivitiesHeatMapDataPanel = () => {
+const SensitivitiesHeatMapDataPanel = ({
+  setSelectedZ,
+}: ISensitivitiesHeatMap) => {
   const dispatch = useDispatch();
 
   const wc = "storedDataWorkflows";
@@ -34,13 +35,39 @@ const SensitivitiesHeatMapDataPanel = () => {
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
+
   const {
     selectedEconomicsResultsTitle,
     selectedEconomicsResultsDescription,
     sensitivitiesHeatMapTree,
+    heatMapVariableZOptions,
     heatMapTreeByScenario,
     showHeatMapCategoryMembersObj,
-  } = useSelector((state: RootState) => state.economicsReducer);
+    categoryDragItems,
+    categoryHasDropped,
+  } = useSelector((state: RootState) => {
+    const {
+      selectedEconomicsResultsTitle,
+      selectedEconomicsResultsDescription,
+      sensitivitiesHeatMapTree,
+      heatMapVariableZOptions,
+      heatMapTreeByScenario,
+      showHeatMapCategoryMembersObj,
+      categoryDragItems,
+      categoryHasDropped,
+    } = state.economicsReducer;
+
+    return {
+      selectedEconomicsResultsTitle,
+      selectedEconomicsResultsDescription,
+      sensitivitiesHeatMapTree,
+      heatMapVariableZOptions,
+      heatMapTreeByScenario,
+      showHeatMapCategoryMembersObj,
+      categoryDragItems,
+      categoryHasDropped,
+    };
+  });
 
   const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
     RenderTree["children"]
@@ -111,6 +138,7 @@ const SensitivitiesHeatMapDataPanel = () => {
           isEconomicsResultsSaved: false,
         })
       );
+
       setDevOption({ value: "select", label: "Select..." });
     } else {
       const idTitleDescIsSaved = {
@@ -126,6 +154,15 @@ const SensitivitiesHeatMapDataPanel = () => {
           "heatMapTree",
           idTitleDescIsSaved
         )
+      );
+
+      dispatch(
+        updateEconomicsParametersAction({
+          sensitivitiesHeatMap1or2D: [],
+          heatMapVariableXOptions: {},
+          heatMapVariableYOptions: {},
+          heatMapVariableZOptions: {},
+        })
       );
     }
   };
@@ -188,32 +225,65 @@ const SensitivitiesHeatMapDataPanel = () => {
     disableCollection = [false, false, false];
   }
 
-  const [showObj, setShowObj] = React.useState(showHeatMapCategoryMembersObj);
-
-  const membersObjString = Object.values(
+  const showMembersObjValues = Object.values(
     showHeatMapCategoryMembersObj as Record<string, boolean>
-  ).join("");
+  );
 
-  const categoryComponent = () => {
+  const categoryPanelWidth = 250;
+  const categoryPanelComponent = () => {
+    const zKey = Object.keys(heatMapVariableZOptions)[0];
+    const zObj = heatMapVariableZOptions[zKey];
+
+    const [title, zStrValues] = zObj.title.split("_");
+
+    const heatMapVarZData = zStrValues.split("-").map((v: string) => {
+      return {
+        value: v,
+        label: v,
+        handleCheck: () => setSelectedZ(v),
+      };
+    });
+    console.log(
+      "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 246 ~ heatMapVarZData ~ heatMapVarZData",
+      heatMapVarZData
+    );
+
     return (
-      <XYZChartCategories
-        xCategoryOptionTitle="heatMapVariableXOptions"
-        yCategoryOptionTitle="heatMapVariableYOptions"
-        zCategoryOptionTitle="heatMapVariableZOptions"
-        disableX={disableCollection[0]}
-        disableY={disableCollection[1]}
-        disableZ={disableCollection[2]}
-        updateAction={updateEconomicsChartCategoryAction}
-        removeAction={removeEconomicsChartCategoryAction}
-        showXCategoryMembersSwitch={false}
-        showYCategoryMembersSwitch={false}
-        showZCategoryMembersSwitch={true}
-        showCategoryMembersObj={showObj}
-        path="showHeatMapCategoryMembersObj"
-        updateParameterAction={updateEconomicsParameterAction}
+      <AnalyticsComp
+        title={title}
+        direction="Vertical"
+        containerStyle={{ marginTop: 20 }}
+        content={
+          <ApexRadioGroup
+            apexRadioDataGroup={heatMapVarZData as IExtendedSelectOption[]}
+          />
+        }
       />
     );
   };
+
+  const categoryComponent = (
+    <XYZChartCategories
+      xCategoryOptionTitle="heatMapVariableXOptions"
+      yCategoryOptionTitle="heatMapVariableYOptions"
+      zCategoryOptionTitle="heatMapVariableZOptions"
+      disableX={disableCollection[0]}
+      disableY={disableCollection[1]}
+      disableZ={disableCollection[2]}
+      updateAction={updateEconomicsChartCategoryAction}
+      removeAction={removeEconomicsChartCategoryAction}
+      showXCategoryMembersSwitch={false}
+      showYCategoryMembersSwitch={false}
+      showZCategoryMembersSwitch={true}
+      showCategoryMembersObj={showHeatMapCategoryMembersObj}
+      path="showHeatMapCategoryMembersObj"
+      updateParameterAction={updateEconomicsParameterAction}
+      categoryDragItems={categoryDragItems}
+      categoryHasDropped={categoryHasDropped}
+      categoryPanelWidth={categoryPanelWidth}
+      categoryPanelComponent={categoryPanelComponent}
+    />
+  );
 
   return (
     <ChartDataPanel
@@ -229,9 +299,9 @@ const SensitivitiesHeatMapDataPanel = () => {
       }
       extrudeCategories={extrudeCategories}
       setExtrudeCategories={setExtrudeCategories}
-      categoriesComponent={categoryComponent()}
+      categoriesComponent={categoryComponent}
       renderCategoryIcon={true}
-      membersObjString={membersObjString}
+      showMembersObjValues={showMembersObjValues}
     />
   );
 };

@@ -7,10 +7,13 @@ import ContextDrawer from "../../../../Application/Components/Drawers/ContextDra
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
+import ChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
 
@@ -52,16 +55,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SensitivitiesHeatMapVisualytics = () => {
-  const dispatch = useDispatch();
-  const workflowProcess = "economicsResultsSensitivitiesHeatmap";
+  const reducer = "economicsReducer";
+  const wc = "economicsChartsWorkflows";
+  const wp = "economicsResultsSensitivitiesHeatmap";
 
+  const dispatch = useDispatch();
   const componentRef = React.useRef();
+
+  const [selectedZ, setSelectedZ] = React.useState("");
 
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
   const classes = useStyles();
+
+  const basePath = `${wc}.commonChartProps`;
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -92,7 +101,10 @@ const SensitivitiesHeatMapVisualytics = () => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
-          <SensitivitiesHeatMapDataPanel />
+          <SensitivitiesHeatMapDataPanel
+            selectedZ={selectedZ}
+            setSelectedZ={setSelectedZ}
+          />
         </div>
 
         <div className={classes.chartContent}>
@@ -109,13 +121,33 @@ const SensitivitiesHeatMapVisualytics = () => {
             <EconomicsChartTitlePlaque />
             <ChartButtons {...chartButtons} />
           </div>
-          <SensitivitiesHeatMapChart />
+          <SensitivitiesHeatMapChart
+            selectedZ={selectedZ}
+            setSelectedZ={setSelectedZ}
+          />
         </div>
-        {showContextDrawer && (
+        {/* {showContextDrawer && (
           <ContextDrawer>
             {() =>
               expandContextDrawer ? (
                 <MapStyleFormatters workflowProcess={workflowProcess} />
+              ) : (
+                <div />
+              )
+            }
+          </ContextDrawer>
+        )} */}
+        {showContextDrawer && (
+          <ContextDrawer>
+            {() =>
+              expandContextDrawer ? (
+                <ChartFormatAggregatorContextProvider reducer={reducer}>
+                  <ChartFormatAggregator
+                    basePath={basePath}
+                    updateParameterAction={updateEconomicsParameterAction}
+                    chartType="heatMapChart"
+                  />
+                </ChartFormatAggregatorContextProvider>
               ) : (
                 <div />
               )

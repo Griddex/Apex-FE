@@ -1,3 +1,4 @@
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 export interface IApexMuiSwitch {
   name: string;
   handleChange: (
@@ -10,4 +11,5 @@ export interface IApexMuiSwitch {
   hasLabels?: boolean;
   leftLabel?: string;
   rightLabel?: string;
+  moreStyles?: CSSProperties;
 }
