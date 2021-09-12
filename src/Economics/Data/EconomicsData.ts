@@ -1250,3 +1250,5 @@ export const economicsPlotChartsOptions = [
     label: "Heatmap",
   },
 ];
+
+export type TDevScenariosMapKeys = keyof typeof developmentScenariosMap;

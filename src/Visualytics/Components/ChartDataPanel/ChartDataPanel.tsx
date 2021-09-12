@@ -13,6 +13,8 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 export interface IChartDataPanel<T = ISelectOption> {
   selectLabel: string;
   selectedOption: T;
@@ -27,6 +29,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   categoriesComponent?: JSX.Element;
   renderCategoryIcon: boolean;
   showMembersObjValues?: boolean[];
+  clearChartCategories?: () => IAction;
 }
 
 const ChartDataPanel = <T extends ISelectOption>({
@@ -42,6 +45,7 @@ const ChartDataPanel = <T extends ISelectOption>({
   categoriesComponent,
   renderCategoryIcon,
   showMembersObjValues,
+  clearChartCategories,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
 
@@ -56,10 +60,6 @@ const ChartDataPanel = <T extends ISelectOption>({
     x: 300,
     y: 0,
   });
-  console.log(
-    "Logged output --> ~ file: ChartDataPanel.tsx ~ line 58 ~ categorySizePosition",
-    categorySizePosition
-  );
 
   const SelectTitle = () => {
     return (
@@ -111,16 +111,26 @@ const ChartDataPanel = <T extends ISelectOption>({
             iconType="category"
             onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
             actionsList={() => (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() =>
-                  setExtrudeCategories && setExtrudeCategories(false)
-                }
-                startIcon={<CallReceivedIcon />}
-              >
-                {"Hide"}
-              </Button>
+              <>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => clearChartCategories && clearChartCategories()}
+                  startIcon={<CloseOutlinedIcon />}
+                >
+                  {"Clear"}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    setExtrudeCategories && setExtrudeCategories(false)
+                  }
+                  startIcon={<CallReceivedIcon />}
+                >
+                  {"Hide"}
+                </Button>
+              </>
             )}
           >
             {CategoriesComponent}

@@ -61,11 +61,7 @@ function StyledRadio(props: RadioProps) {
 }
 
 const ApexRadioGroup = ({ apexRadioDataGroup }: IApexRadioGroup) => {
-  const [selectedValue, setSelectedValue] = React.useState("5");
-  console.log(
-    "Logged output --> ~ file: ApexRadioGroup.tsx ~ line 67 ~ selectedValue",
-    selectedValue
-  );
+  const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sVal = (event.target as HTMLInputElement).value;

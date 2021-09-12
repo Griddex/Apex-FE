@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export interface IChartCategoryVariable {
   dragItem: IDragItem;
   setHasDroppedObj: TUseState<Record<string, boolean>>;
+  setDragItemObj: TUseState<Record<string, IDragItem>>;
   categoryOptionTitle: string;
   removeChartCategoryAction: (title: string, id: string) => IAction;
 }
@@ -44,6 +45,7 @@ export interface IChartCategoryVariable {
 const ChartCategoryVariable = ({
   dragItem,
   setHasDroppedObj,
+  setDragItemObj,
   categoryOptionTitle,
   removeChartCategoryAction,
 }: IChartCategoryVariable) => {
@@ -74,8 +76,10 @@ const ChartCategoryVariable = ({
       <IconButton
         style={{ marginRight: 0 }}
         onClick={() => {
-          dispatch(removeChartCategoryAction(categoryOptionTitle, id));
           setHasDroppedObj((prev) => ({ ...prev, [id]: false }));
+          setDragItemObj((prev) => ({ ...prev, [id]: {} as IDragItem }));
+
+          dispatch(removeChartCategoryAction(categoryOptionTitle, id));
         }}
         edge="end"
         aria-label="delete"

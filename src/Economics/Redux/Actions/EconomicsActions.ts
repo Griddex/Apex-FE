@@ -508,8 +508,8 @@ export const persistEconomicsDeckRequestAction = (
 export const getHeatMapDataRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles,
-  variableZlength?: number,
   selectedDevScenario?: string,
+  variableZlength?: number,
   variableZKey?: string
 ) => {
   return {

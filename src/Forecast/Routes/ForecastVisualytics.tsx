@@ -1,28 +1,28 @@
+import { Button } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import CallReceivedIcon from "@material-ui/icons/CallReceived";
+import DetailsOutlinedIcon from "@material-ui/icons/DetailsOutlined";
+import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import NewWindow from "rc-new-window";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
+import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import NoData from "../../Application/Components/Visuals/NoData";
-import {
-  contextDrawerCollapseAction,
-  contextDrawerExpandAction,
-  showContextDrawerAction,
-} from "../../Application/Redux/Actions/LayoutActions";
+import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
+import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import { ChartFormatAggregatorContextProvider } from "../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
-import {
-  putSelectChartOptionAction,
-  transformChartDataAction,
-} from "../../Visualytics/Redux/Actions/VisualyticsActions";
+import { putSelectChartOptionAction } from "../../Visualytics/Redux/Actions/VisualyticsActions";
 import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
@@ -33,10 +33,6 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
-import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
-import { IconButton } from "@material-ui/core";
-import NewWindow from "rc-new-window";
-import { getApexIconButtonStyle } from "../../Application/Styles/IconButtonStyles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +85,7 @@ const ForecastVisualytics = () => {
 
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer, expandContextDrawer } = useSelector(
+  const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
@@ -197,56 +193,14 @@ const ForecastVisualytics = () => {
         )}
       </div>
       {showContextDrawer && (
-        <ContextDrawer>
-          {() => (
-            <ChartFormatAggregatorContextProvider reducer={reducer}>
-              {expandContextDrawer ? (
-                <>
-                  <IconButton
-                    style={{ padding: 0 }}
-                    onClick={() => {
-                      setOpenContextWindow(true);
-                      // dispatch(contextDrawerCollapseAction());
-                    }}
-                  >
-                    <OpenInNewOutlinedIcon
-                      style={getApexIconButtonStyle(theme)}
-                    />
-                  </IconButton>
-                  {openContextWindow ? (
-                    <NewWindow
-                      onClose={() => {
-                        setOpenContextWindow(false);
-                        dispatch(contextDrawerExpandAction());
-                      }}
-                      copyStyles={true}
-                      height={800}
-                      width={300}
-                    >
-                      <ChartFormatAggregator
-                        basePath={basePath}
-                        updateParameterAction={
-                          updateForecastResultsParameterAction
-                        }
-                        chartType={chartType as TChartTypes}
-                      />
-                    </NewWindow>
-                  ) : (
-                    <ChartFormatAggregator
-                      basePath={basePath}
-                      updateParameterAction={
-                        updateForecastResultsParameterAction
-                      }
-                      chartType={chartType as TChartTypes}
-                    />
-                  )}
-                </>
-              ) : (
-                <div />
-              )}
-            </ChartFormatAggregatorContextProvider>
-          )}
-        </ContextDrawer>
+        <VisualyticsContext
+          reducer={reducer}
+          chartType={chartType as TChartTypes}
+          basePath={basePath}
+          updateParameterAction={updateForecastResultsParameterAction}
+          openContextWindow={openContextWindow}
+          setOpenContextWindow={setOpenContextWindow}
+        />
       )}
     </div>
   );

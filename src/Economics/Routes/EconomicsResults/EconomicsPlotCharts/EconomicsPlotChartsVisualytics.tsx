@@ -12,6 +12,7 @@ import { showContextDrawerAction } from "../../../../Application/Redux/Actions/L
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
+import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
@@ -78,8 +79,10 @@ const EconomicsPlotChartsVisualytics = () => {
 
   const dispatch = useDispatch();
   const theme = useTheme();
-
   const componentRef = React.useRef();
+
+  const [selectedZ, setSelectedZ] = React.useState("");
+  const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
   const { showContextDrawer, expandContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
@@ -202,7 +205,10 @@ const EconomicsPlotChartsVisualytics = () => {
           // style={{ width: mousePosition.x, left: mousePosition.x }}
           ref={panelRef}
         >
-          <EconomicsPlotChartsDataPanel />
+          <EconomicsPlotChartsDataPanel
+            selectedZ={selectedZ}
+            setSelectedZ={setSelectedZ}
+          />
         </div>
         {showCategories && (
           <XYChartCategories
@@ -248,21 +254,14 @@ const EconomicsPlotChartsVisualytics = () => {
         </div>
       </div>
       {showContextDrawer && (
-        <ContextDrawer>
-          {() =>
-            expandContextDrawer ? (
-              <ChartFormatAggregatorContextProvider reducer={reducer}>
-                <ChartFormatAggregator
-                  basePath={basePath}
-                  updateParameterAction={updateEconomicsParameterAction}
-                  chartType={chartType as TChartTypes}
-                />
-              </ChartFormatAggregatorContextProvider>
-            ) : (
-              <div />
-            )
-          }
-        </ContextDrawer>
+        <VisualyticsContext
+          reducer={reducer}
+          chartType={chartType as TChartTypes}
+          basePath={basePath}
+          updateParameterAction={updateEconomicsParameterAction}
+          openContextWindow={openContextWindow}
+          setOpenContextWindow={setOpenContextWindow}
+        />
       )}
     </div>
   );

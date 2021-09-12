@@ -5,14 +5,14 @@ import { IExtendedSelectOption } from "../../Application/Components/Selects/Sele
 import NoData from "../../Application/Components/Visuals/NoData";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import XYChartCategories from "../Components/ChartCategories/XYChartCategories";
-import XYZChartCategories from "../Components/ChartCategories/XYZChartCategories";
+import XYYZRChartCategories from "../Components/ChartCategories/XYYZRChartCategories";
 import ChartDataPanel from "../Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
 import {
-  updateVisualyticsParametersAction,
   fetchVisualyticsTreeviewKeysRequestAction,
   removeVisualyticsChartCategoryAction,
   updateVisualyticsChartCategoryAction,
+  updateVisualyticsParametersAction,
 } from "../Redux/Actions/VisualyticsActions";
 import VisualyticsTreeView from "./VisualyticsTreeView";
 
@@ -118,7 +118,7 @@ const VisualyticsChartDataPanel = () => {
       );
     } else if (["heatMapChart"].includes(chartTypeDefined)) {
       return (
-        <XYZChartCategories
+        <XYYZRChartCategories
           xCategoryOptionTitle="plotChartsVariableXOptions"
           yCategoryOptionTitle="plotChartsVariableYOptions"
           zCategoryOptionTitle="plotChartsVariableZOptions"

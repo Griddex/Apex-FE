@@ -270,8 +270,8 @@ export interface IEconomicsState
   heatMapVariableZOptions: Record<string, INameTitleOption>;
   showHeatMapCategoryMembersObj: Record<string, boolean>;
 
-  categoryDragItems: Record<string, Record<string, IDragItem>>;
-  categoryHasDropped: Record<string, Record<string, true>>;
+  heatMapCategoryDragItems: Record<string, Record<string, IDragItem>>;
+  heatMapCategoryHasDropped: Record<string, Record<string, true>>;
 
   economicsPlotChartsTree: RenderTree;
   plotChartsData: null;
@@ -280,6 +280,13 @@ export interface IEconomicsState
   showPlotChartsCategories: boolean;
   plotChartsVariableXOptions: Record<string, INameTitleOption>;
   plotChartsVariableYOptions: Record<string, INameTitleOption>;
+  plotChartsSecondaryVariableYOptions: Record<string, INameTitleOption>;
+  plotChartsVariableZOptions: Record<string, INameTitleOption>;
+  plotChartsVariableROptions: Record<string, INameTitleOption>;
+  showPlotChartsCategoryMembersObj: Record<string, boolean>;
+
+  plotChartsCategoryDragItems: Record<string, Record<string, IDragItem>>;
+  plotChartsCategoryHasDropped: Record<string, Record<string, true>>;
 
   economicsTemplatesTree: RenderTree;
 

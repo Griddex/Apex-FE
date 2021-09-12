@@ -11,6 +11,7 @@ import NoData from "../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
+import VisualyticsContext from "../../Components/ContextDrawers/VisualyticsContext";
 import { ChartFormatAggregatorContextProvider } from "../../Components/Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../../Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../Components/Menus/ChartButtons";
@@ -74,10 +75,11 @@ const PlotChartsVisualytics = () => {
 
   const dispatch = useDispatch();
   const theme = useTheme();
-
   const componentRef = React.useRef();
 
-  const { showContextDrawer, expandContextDrawer } = useSelector(
+  const [openContextWindow, setOpenContextWindow] = React.useState(false);
+
+  const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
@@ -259,21 +261,14 @@ const PlotChartsVisualytics = () => {
         </div>
       </div>
       {showContextDrawer && (
-        <ContextDrawer>
-          {() =>
-            expandContextDrawer ? (
-              <ChartFormatAggregatorContextProvider reducer={reducer}>
-                <ChartFormatAggregator
-                  basePath={basePath}
-                  updateParameterAction={updateVisualyticsParameterAction}
-                  chartType={chartType as TChartTypes}
-                />
-              </ChartFormatAggregatorContextProvider>
-            ) : (
-              <div />
-            )
-          }
-        </ContextDrawer>
+        <VisualyticsContext
+          reducer={reducer}
+          chartType={chartType as TChartTypes}
+          basePath={basePath}
+          updateParameterAction={updateVisualyticsParameterAction}
+          openContextWindow={openContextWindow}
+          setOpenContextWindow={setOpenContextWindow}
+        />
       )}
     </div>
   );

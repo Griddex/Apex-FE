@@ -3,7 +3,7 @@ import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IChartCategories } from "./ChartCategoryTypes";
 import XChartCategory from "./XChartCategory";
-import YChartCategory from "./ZChartCategory";
+import YChartCategory from "./RChartCategory";
 
 const useStyles = makeStyles((theme) => ({
   root: {
