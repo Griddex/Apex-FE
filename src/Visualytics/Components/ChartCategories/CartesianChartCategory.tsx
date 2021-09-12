@@ -40,6 +40,9 @@ const CartesianChartCategory = ({
   updateParameterAction,
   categoryDragItem,
   categoryDropped,
+  categoryDragItemsTitle,
+  categoryHasDroppedTitle,
+  resultsTitle,
 }: IChartCategories) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -74,18 +77,24 @@ const CartesianChartCategory = ({
 
         dispatch(
           updateParameterAction &&
-            updateParameterAction(`categoryDragItems.${categoryTitle}`, {
-              ...dragItemObj,
-              [id]: item as IDragItem,
-            })
+            updateParameterAction(
+              `${categoryDragItemsTitle}.${categoryTitle}`,
+              {
+                ...dragItemObj,
+                [id]: item as IDragItem,
+              }
+            )
         );
 
         dispatch(
           updateParameterAction &&
-            updateParameterAction(`categoryHasDropped.${categoryTitle}`, {
-              ...hasDroppedObj,
-              [id]: true,
-            })
+            updateParameterAction(
+              `${categoryHasDroppedTitle}.${categoryTitle}`,
+              {
+                ...hasDroppedObj,
+                [id]: true,
+              }
+            )
         );
       },
       collect: (monitor) => ({
@@ -124,6 +133,14 @@ const CartesianChartCategory = ({
     width: "100%",
   } as CSSProperties;
 
+  React.useEffect(() => {
+    setMembersSwitch(
+      showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
+    );
+    setHasDroppedObj(categoryDropped as Record<string, true>);
+    setDragItemObj(categoryDragItem as Record<string, IDragItem>);
+  }, [resultsTitle]);
+
   return (
     <div className={classes.chartProps} style={style}>
       {showCategoryMembersSwitch && (
@@ -147,8 +164,8 @@ const CartesianChartCategory = ({
           checkedColor={theme.palette.success.main}
           notCheckedColor={theme.palette.common.white}
           hasLabels={true}
-          leftLabel="Disable"
-          rightLabel="Enable"
+          leftLabel="Hide"
+          rightLabel="Show"
           moreStyles={{ justifyContent: "flex-end" }}
         />
       )}
@@ -168,6 +185,7 @@ const CartesianChartCategory = ({
                   key={i}
                   dragItem={dragItemObj[id]}
                   setHasDroppedObj={setHasDroppedObj}
+                  setDragItemObj={setDragItemObj}
                   categoryOptionTitle={categoryOptionTitle as string}
                   removeChartCategoryAction={removeAction}
                 />

@@ -26,6 +26,7 @@ import {
   heatMap1D,
   heatMap2D,
   heatMap3D,
+  TDevScenariosMapKeys,
 } from "../../Data/EconomicsData";
 import {
   fetchHeatMapDataFailureAction,
@@ -60,10 +61,14 @@ function* fetchHeatMapDataSaga(
   const {
     analysisName,
     analysisTitle,
-    variableZlength,
     selectedDevScenario,
+    variableZlength,
     variableZKey,
   } = payload;
+  console.log(
+    "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 67 ~ selectedDevScenario",
+    selectedDevScenario
+  );
 
   const {
     selectedEconomicsResultsId,
@@ -91,12 +96,14 @@ function* fetchHeatMapDataSaga(
       {
         backendName: selectedDevScenario,
         frontendName:
-          developmentScenariosMap[
-            selectedDevScenario as keyof typeof developmentScenariosMap
-          ],
+          developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys],
       },
     ],
   };
+  console.log(
+    "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 99 ~ developmentScenariosMap",
+    developmentScenariosMap
+  );
 
   const config = { withCredentials: false };
   const fetchHeatMapDataAPI = (url: string) =>
@@ -105,36 +112,23 @@ function* fetchHeatMapDataSaga(
   try {
     yield put(showSpinnerAction(`Fetching data...`));
 
-    // const result = yield call(
-    //   fetchHeatMapDataAPI,
-    //   `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
-    // );
+    const result = yield call(
+      fetchHeatMapDataAPI,
+      `${getBaseEconomicsUrl()}/analysis-chart/heatmap`
+    );
 
-    // const {
-    //   data: { data: sensitivitiesHeatMapData },
-    // } = result;
+    const {
+      data: { data: sensitivitiesHeatMapData },
+    } = result;
 
-    // console.log(
-    //   "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 111 ~ sensitivitiesHeatMapData",
-    //   sensitivitiesHeatMapData
-    // );
+    const devScenario =
+      developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys];
 
-    const sensitivitiesHeatMapData = { oilDevelopment: heatMap3D };
-
-    if (noOfSensitivities === 1) {
+    if (noOfSensitivities === 1 || noOfSensitivities === 2) {
       yield put(
         updateEconomicsParameterAction(
           "sensitivitiesHeatMap1or2D",
-          // sensitivitiesHeatMapData
-          heatMap1D
-        )
-      );
-    } else if (noOfSensitivities === 2) {
-      yield put(
-        updateEconomicsParameterAction(
-          "sensitivitiesHeatMap1or2D",
-          // sensitivitiesHeatMapData
-          heatMap2D
+          sensitivitiesHeatMapData[devScenario][0]
         )
       );
     } else if (noOfSensitivities === 3) {
@@ -145,16 +139,8 @@ function* fetchHeatMapDataSaga(
         )
       );
 
-      const devScenario =
-        developmentScenariosMap[
-          selectedDevScenario as keyof typeof developmentScenariosMap
-        ];
-
-      const key = variableZKey as keyof typeof heatMap3D;
       const sensitivitiesHeatMap1or2D =
-        sensitivitiesHeatMapData["oilDevelopment"][key];
-      // const sensitivitiesHeatMap1or2D =
-      //   sensitivitiesHeatMapData[devScenario][variableZKey];
+        sensitivitiesHeatMapData[devScenario][variableZKey];
 
       yield put(
         updateEconomicsParameterAction(

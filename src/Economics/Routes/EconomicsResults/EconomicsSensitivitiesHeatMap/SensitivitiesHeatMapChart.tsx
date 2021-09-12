@@ -10,7 +10,10 @@ import { ISelectOption } from "../../../../Application/Components/Selects/Select
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import isObjectEmpty from "../../../../Application/Utils/IsObjectEmpty";
-import { developmentScenariosMap } from "../../../Data/EconomicsData";
+import {
+  developmentScenariosMap,
+  TDevScenariosMapKeys,
+} from "../../../Data/EconomicsData";
 import {
   getHeatMapDataRequestAction,
   updateEconomicsParameterAction,
@@ -19,14 +22,16 @@ import {
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
+import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
-import { ISensitivitiesHeatMap } from "./SensitivitiesHeatMapTypes";
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
 }
 
-const SensitivitiesHeatMapChart = ({ selectedZ }: ISensitivitiesHeatMap) => {
+const SensitivitiesHeatMapChart = ({
+  selectedZ,
+}: IEconomicsResultsVisualytics) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const wc = "economicsAnalysisWorkflows";
@@ -84,10 +89,10 @@ const SensitivitiesHeatMapChart = ({ selectedZ }: ISensitivitiesHeatMap) => {
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG";
 
-  console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 96 ~ SensitivitiesHeatMapChart ~ heatMapTreeByScenario",
-    heatMapTreeByScenario
-  );
+  selectedDevScenario = heatMapTreeByScenario.name as string;
+  const devScenario =
+    developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys];
+
   if (heatMapTreeByScenario && heatMapTreeByScenario.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
 
@@ -177,20 +182,13 @@ const SensitivitiesHeatMapChart = ({ selectedZ }: ISensitivitiesHeatMap) => {
                   dispatch(
                     getHeatMapDataRequestAction(
                       analyisName as TEconomicsAnalysesNames,
-                      analysisTitle as TEconomicsAnalysesTitles
+                      analysisTitle as TEconomicsAnalysesTitles,
+                      selectedDevScenario
                     )
                   );
                 }
               } else {
                 if (Object.entries(sensitivitiesHeatMapData).length > 0) {
-                  console.log(
-                    "Logged output --> ~ file: SensitivitiesHeatMapChart.tsx ~ line 202 ~ SensitivitiesHeatMapChart ~ sensitivitiesHeatMapData",
-                    sensitivitiesHeatMapData
-                  );
-                  const devScenario =
-                    developmentScenariosMap[
-                      selectedDevScenario as keyof typeof developmentScenariosMap
-                    ];
                   const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
 
                   const sensitivitiesHeatMap1or2D =
@@ -209,8 +207,8 @@ const SensitivitiesHeatMapChart = ({ selectedZ }: ISensitivitiesHeatMap) => {
                     getHeatMapDataRequestAction(
                       analyisName as TEconomicsAnalysesNames,
                       analysisTitle as TEconomicsAnalysesTitles,
-                      variableZlength,
                       selectedDevScenario,
+                      variableZlength,
                       variableZKey
                     )
                   );

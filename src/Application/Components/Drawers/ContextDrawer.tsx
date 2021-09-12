@@ -76,7 +76,12 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const ContextDrawer = ({ children }: { children: () => JSX.Element }) => {
+export interface IContextDrawer {
+  children: () => JSX.Element;
+  iconReplacement?: JSX.Element;
+}
+
+const ContextDrawer = ({ children, iconReplacement }: IContextDrawer) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -118,13 +123,17 @@ const ContextDrawer = ({ children }: { children: () => JSX.Element }) => {
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={() => dispatch(contextDrawerExpandAction())}
+          onClick={
+            iconReplacement
+              ? () => {}
+              : () => dispatch(contextDrawerExpandAction())
+          }
           edge="start"
           className={clsx(classes.contextDrawerMenuIcon, {
             [classes.hide]: expandContextDrawer,
           })}
         >
-          <MenuIcon />
+          {iconReplacement ? iconReplacement : <MenuIcon />}
         </IconButton>
       )}
       <div className={classes.contextDrawerHeader}>

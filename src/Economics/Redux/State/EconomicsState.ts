@@ -234,18 +234,22 @@ const EconomicsState: IEconomicsState = {
   showHeatMapCategoryMembersObj: {
     "X Category": false,
     "Y Category": false,
+    "Y Secondary Category": false,
     "Z Category": false,
+    "R Category": false,
   },
 
-  categoryDragItems: {
+  heatMapCategoryDragItems: {
     "X Category": {},
     "Y Category": {},
+    "Y Secondary Category": {},
     "Z Category": {},
     "R Category": {},
   },
-  categoryHasDropped: {
+  heatMapCategoryHasDropped: {
     "X Category": {},
     "Y Category": {},
+    "Y Secondary Category": {},
     "Z Category": {},
     "R Category": {},
   },
@@ -261,6 +265,31 @@ const EconomicsState: IEconomicsState = {
   showPlotChartsCategories: false,
   plotChartsVariableXOptions: {},
   plotChartsVariableYOptions: {},
+  plotChartsSecondaryVariableYOptions: {},
+  plotChartsVariableZOptions: {},
+  plotChartsVariableROptions: {},
+  showPlotChartsCategoryMembersObj: {
+    "X Category": false,
+    "Y Category": false,
+    "Y Secondary Category": false,
+    "Z Category": false,
+    "R Category": false,
+  },
+
+  plotChartsCategoryDragItems: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+  plotChartsCategoryHasDropped: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
 
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },

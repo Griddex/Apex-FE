@@ -5,33 +5,67 @@ import { IExtendedSelectOption } from "../../../../Application/Components/Select
 import NoData from "../../../../Application/Components/Visuals/NoData";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
-import XYZChartCategories from "../../../../Visualytics/Components/ChartCategories/XYZChartCategories";
+import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
+import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   removeEconomicsChartCategoryAction,
   updateEconomicsChartCategoryAction,
+  updateEconomicsParameterAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
+import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
 
-const EconomicsPlotChartsDataPanel = () => {
-  const dispatch = useDispatch();
-
-  const reducer = "economicsReducer";
+const EconomicsPlotChartsDataPanel = ({
+  setSelectedZ,
+}: IEconomicsResultsVisualytics) => {
   const wc = "storedDataWorkflows";
+
+  const dispatch = useDispatch();
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
   const { economicsResultsStored } = useSelector(
     (state: RootState) => state.economicsReducer[wc]
   );
+
   const {
     selectedEconomicsResultsTitle,
     selectedEconomicsResultsDescription,
     selectedEconomicsPlotChartOption,
-  } = useSelector((state: RootState) => state.economicsReducer);
+    economicsPlotChartsTree,
+    plotChartsVariableZOptions,
+    showPlotChartsCategoryMembersObj,
+    plotChartsCategoryDragItems,
+    plotChartsCategoryHasDropped,
+  } = useSelector((state: RootState) => {
+    const {
+      selectedEconomicsResultsTitle,
+      selectedEconomicsResultsDescription,
+      selectedEconomicsPlotChartOption,
+      economicsPlotChartsTree,
+      plotChartsVariableZOptions,
+      showPlotChartsCategoryMembersObj,
+      heatMapTreeByScenario,
+      plotChartsCategoryDragItems,
+      plotChartsCategoryHasDropped,
+    } = state.economicsReducer;
+
+    return {
+      selectedEconomicsResultsTitle,
+      selectedEconomicsResultsDescription,
+      selectedEconomicsPlotChartOption,
+      economicsPlotChartsTree,
+      plotChartsVariableZOptions,
+      showPlotChartsCategoryMembersObj,
+      heatMapTreeByScenario,
+      plotChartsCategoryDragItems,
+      plotChartsCategoryHasDropped,
+    };
+  });
 
   const chartType = selectedEconomicsPlotChartOption.value;
 
@@ -106,37 +140,45 @@ const EconomicsPlotChartsDataPanel = () => {
     }
   };
 
-  const renderChartCategory = (chartType: TChartTypes) => {
-    const chartTypeDefined = chartType as TChartTypes;
-
-    if (
-      ["stackedAreaChart", "lineChart", "barChart"].includes(chartTypeDefined)
-    ) {
-      return (
-        <XYChartCategories
-          xCategoryOptionTitle="plotChartsVariableXOptions"
-          yCategoryOptionTitle="plotChartsVariableYOptions"
-          disableX={false}
-          disableY={false}
-          updateAction={updateEconomicsChartCategoryAction}
-          removeAction={removeEconomicsChartCategoryAction}
+  const categoryPanelWidth = 250;
+  const chartTypeDefined = chartType as TChartTypes;
+  const categoriesComponent = (
+    <XYYZRChartCategories
+      chartType={chartTypeDefined}
+      xCategoryOptionTitle="plotChartsVariableXOptions"
+      yCategoryOptionTitle="plotChartsVariableYOptions"
+      ySecondaryCategoryOptionTitle="plotChartsSecondaryVariableYOptions"
+      zCategoryOptionTitle="plotChartsVariableZOptions"
+      rCategoryOptionTitle="plotChartsVariableROptions"
+      disableX={false}
+      disableY={false}
+      disableSecondaryY={false}
+      disableZ={false}
+      disableR={false}
+      updateAction={updateEconomicsChartCategoryAction}
+      removeAction={removeEconomicsChartCategoryAction}
+      showXCategoryMembersSwitch={false}
+      showYCategoryMembersSwitch={false}
+      showYSecondaryCategoryMembersSwitch={false}
+      showZCategoryMembersSwitch={true}
+      showRCategoryMembersSwitch={true}
+      showCategoryMembersObj={showPlotChartsCategoryMembersObj}
+      path="showPlotChartsCategoryMembersObj"
+      updateParameterAction={updateEconomicsParameterAction}
+      categoryDragItemsTitle="plotChartsCategoryDragItems"
+      categoryDragItems={plotChartsCategoryDragItems}
+      categoryHasDroppedTitle="plotChartsCategoryHasDropped"
+      categoryHasDropped={plotChartsCategoryHasDropped}
+      categoryPanelWidth={categoryPanelWidth}
+      categoryPanelComponent={
+        <CategoryPanelComponent
+          variableOptions={plotChartsVariableZOptions}
+          setSelectedZ={setSelectedZ}
         />
-      );
-    } else if (["heatMapChart"].includes(chartTypeDefined)) {
-      return (
-        <XYZChartCategories
-          xCategoryOptionTitle="plotChartsVariableXOptions"
-          yCategoryOptionTitle="plotChartsVariableYOptions"
-          zCategoryOptionTitle="plotChartsVariableZOptions"
-          disableX={false}
-          disableY={false}
-          disableZ={false}
-          updateAction={updateEconomicsChartCategoryAction}
-          removeAction={removeEconomicsChartCategoryAction}
-        />
-      );
-    }
-  };
+      }
+      resultsTitle={selectedEconomicsResultsTitle}
+    />
+  );
 
   return (
     <ChartDataPanel
@@ -153,7 +195,7 @@ const EconomicsPlotChartsDataPanel = () => {
       }
       extrudeCategories={extrudeCategories}
       setExtrudeCategories={setExtrudeCategories}
-      categoriesComponent={renderChartCategory(chartType as TChartTypes)}
+      categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
     />
   );

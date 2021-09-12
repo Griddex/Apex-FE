@@ -1,4 +1,5 @@
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { TChartTypes } from "../Charts/ChartTypes";
 
 export interface IDragItem {
   id: string;
@@ -14,29 +15,39 @@ export interface IChartCategory {
 
 export type TCategoriesTitle = string;
 export interface IChartCategories {
+  chartType?: TChartTypes;
   xCategoryOptionTitle?: string;
   yCategoryOptionTitle?: string;
+  ySecondaryCategoryOptionTitle?: string;
   zCategoryOptionTitle?: string;
+  rCategoryOptionTitle?: string;
   categoryTitle?: string;
   categoryOptionTitle?: string;
   disable?: boolean;
   disableX?: boolean;
   disableY?: boolean;
+  disableSecondaryY?: boolean;
   disableZ?: boolean;
+  disableR?: boolean;
   updateAction: (name: string, item: any) => IAction;
   removeAction: (title: string, id: any) => IAction;
   showCategoryMembersSwitch?: boolean;
   showXCategoryMembersSwitch?: boolean;
   showYCategoryMembersSwitch?: boolean;
+  showYSecondaryCategoryMembersSwitch?: boolean;
   showZCategoryMembersSwitch?: boolean;
+  showRCategoryMembersSwitch?: boolean;
   showCategoryMembers?: boolean;
   showCategoryMembersObj?: Record<string, boolean>;
   path?: string;
   updateParameterAction?: (path: string, value: any) => IAction;
+  categoryDragItemsTitle?: string;
   categoryDragItems?: Record<string, Record<string, IDragItem>>;
+  categoryHasDroppedTitle?: string;
   categoryHasDropped?: Record<string, Record<string, true>>;
   categoryDragItem?: Record<string, IDragItem>;
   categoryDropped?: Record<string, true>;
   categoryPanelWidth?: number;
-  categoryPanelComponent?: React.FC;
+  categoryPanelComponent?: JSX.Element;
+  resultsTitle?: string;
 }

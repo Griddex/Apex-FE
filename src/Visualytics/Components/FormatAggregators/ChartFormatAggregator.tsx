@@ -133,7 +133,7 @@ const ChartFormatAggregator = ({
   };
 
   return (
-    <ApexFlexContainer flexDirection="column" moreStyles={{ width: 300 }}>
+    <ApexFlexContainer flexDirection="column">
       <ToggleButtonGroup
         size="small"
         value={perspective}
@@ -141,31 +141,59 @@ const ChartFormatAggregator = ({
         style={{ width: "100%" }}
         exclusive
       >
-        <ToggleButton value="series">{"Series"}</ToggleButton>
-        <ToggleButton value="plot">{"Plot"}</ToggleButton>
+        <ToggleButton style={{ width: "100%", height: 40 }} value="series">
+          {"Series"}
+        </ToggleButton>
+        <ToggleButton style={{ width: "100%", height: 40 }} value="plot">
+          {"Plot"}
+        </ToggleButton>
         {stk_lin_bar_sct_htm.includes(chartTypeDefined) && (
-          <ToggleButton value="gridAxes">{"Grids & Axes"}</ToggleButton>
+          <ToggleButton style={{ width: "100%", height: 40 }} value="gridAxes">
+            {"Grids & Axes"}
+          </ToggleButton>
         )}
         {rad.includes(chartTypeDefined) && (
-          <ToggleButton value="radarGrid">{"Radar Grid"}</ToggleButton>
+          <ToggleButton style={{ width: "100%", height: 40 }} value="radarGrid">
+            {"Radar Grid"}
+          </ToggleButton>
         )}
         {lin.includes(chartTypeDefined) && (
-          <ToggleButton value="points">{"Points"}</ToggleButton>
+          <ToggleButton style={{ width: "100%", height: 40 }} value="points">
+            {"Points"}
+          </ToggleButton>
         )}
         {stk_rad.includes(chartTypeDefined) && (
-          <ToggleButton value="dots">{"Dots"}</ToggleButton>
+          <ToggleButton style={{ width: "100%", height: 40 }} value="dots">
+            {"Dots"}
+          </ToggleButton>
         )}
         {bar_htm.includes(chartTypeDefined) && (
-          <ToggleButton value="labels">{"Labels"}</ToggleButton>
+          <ToggleButton style={{ width: "100%", height: 40 }} value="labels">
+            {"Labels"}
+          </ToggleButton>
         )}
         {dht.includes(chartTypeDefined) && (
-          <ToggleButton value="arcLabels">{"Arc labels"}</ToggleButton>
+          <ToggleButton style={{ width: "100%", height: 40 }} value="arcLabels">
+            {"Arc labels"}
+          </ToggleButton>
         )}
         {dht.includes(chartTypeDefined) && (
-          <ToggleButton value="arcLinkLabels">{"Arc Link Labels"}</ToggleButton>
+          <ToggleButton
+            style={{ width: "100%", height: 40 }}
+            value="arcLinkLabels"
+          >
+            {"Arc Link Labels"}
+          </ToggleButton>
         )}
-        <ToggleButton value="legends">{"Legends"}</ToggleButton>
-        <ToggleButton value="interactivity">{"Interactivity"}</ToggleButton>
+        <ToggleButton style={{ width: "100%", height: 40 }} value="legends">
+          {"Legends"}
+        </ToggleButton>
+        <ToggleButton
+          style={{ width: "100%", height: 40 }}
+          value="interactivity"
+        >
+          {"Interactivity"}
+        </ToggleButton>
       </ToggleButtonGroup>
       <ApexFlexContainer
         alignItems="flex-start"
