@@ -3,7 +3,7 @@ import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IChartCategories } from "./ChartCategoryTypes";
 import XChartCategory from "./XChartCategory";
-import ZChartCategory from "./RChartCategory";
+import ZChartCategory from "./ZChartCategory";
 import YChartCategory from "./YChartCategory";
 import { TChartTypes } from "../Charts/ChartTypes";
 import RChartCategory from "./RChartCategory";
