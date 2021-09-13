@@ -22,6 +22,7 @@ import {
 import authHeaders from "../../../Application/Services/AuthHeaders";
 import { getBaseVisualyticsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/SaveVisualyticsSuccessFailureDialogParameters";
+import { updateVisualyticsParametersAction } from "../Actions/VisualyticsActions";
 import {
   fetchVisualyticsTreeviewKeysFailureAction,
   fetchVisualyticsTreeviewKeysSuccessAction,
@@ -63,6 +64,7 @@ function* fetchVisualyticsTreeviewKeysSaga(action: IAction): Generator<
 
     const chan = yield call(updateTreeAndKeys, url);
 
+    let i = 0;
     while (true) {
       const data = yield take(chan);
 
@@ -91,6 +93,15 @@ function* fetchVisualyticsTreeviewKeysSaga(action: IAction): Generator<
             xValueCategories,
           },
         });
+      }
+
+      i += 1;
+      if (i === 1) {
+        yield put(
+          updateVisualyticsParametersAction({
+            selectedVisualyticsId: visualyticsId,
+          })
+        );
       }
     }
   } catch (errors) {

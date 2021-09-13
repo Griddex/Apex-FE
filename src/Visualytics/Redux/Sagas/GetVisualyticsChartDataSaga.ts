@@ -21,6 +21,7 @@ import {
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseVisualyticsUrl } from "../../../Application/Services/BaseUrlService";
+import { IDragItem } from "../../Components/ChartCategories/ChartCategoryTypes";
 import {
   getVisualyticsChartDataFailureAction,
   getVisualyticsChartDataSuccessAction,
@@ -59,7 +60,7 @@ function* getVisualyticsChartDataSaga(
 
   const {
     selectedVisualyticsId,
-    visualyticsColumnNames,
+    visualyticsCategoryDragItems,
     selectedVisualyticsChartOption,
   } = yield select((state) => state.visualyticsReducer);
 
@@ -68,9 +69,17 @@ function* getVisualyticsChartDataSaga(
   const config = {};
   const url = `${getBaseVisualyticsUrl()}/chartData`;
 
+  const columnNames = Object.values(
+    visualyticsCategoryDragItems as Record<string, Record<string, IDragItem>>
+  ).reduce((acc, row) => {
+    const dragItems = Object.values(row);
+
+    return [...acc, ...dragItems.map((obj) => obj.name)];
+  }, [] as string[]);
+
   const requestData = {
     chartType,
-    columnNames: visualyticsColumnNames,
+    columnNames,
     visualyticsId: selectedVisualyticsId,
   };
 

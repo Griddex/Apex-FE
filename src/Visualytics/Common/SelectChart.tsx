@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import NoData from "../../Application/Components/Visuals/NoData";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import BarChart from "../Components/Charts/BarChart";
@@ -12,6 +11,8 @@ import RadarChart from "../Components/Charts/RadarChart";
 import ScatterChart from "../Components/Charts/ScatterChart";
 import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 import { IChartProps } from "../Components/ChartTypes";
+import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 
 const ChartSelector = ({
   chartType,
@@ -45,7 +46,12 @@ const ChartSelector = ({
         <RadarChart workflowCategory={workflowCategory} reducer={reducer} />
       );
     default:
-      return <NoData />;
+      return (
+        <NoSelectionPlaceholder
+          icon={<ArrowUpwardOutlinedIcon color="primary" />}
+          text="Select a chart.."
+        />
+      );
   }
 };
 
@@ -54,27 +60,11 @@ const SelectChart = ({
   reducer,
   selectedChartOptionTitle,
 }: IChartProps) => {
-  console.log(
-    "Logged output --> ~ file: SelectChart.tsx ~ line 57 ~ reducer",
-    reducer
-  );
-  console.log(
-    "Logged output --> ~ file: SelectChart.tsx ~ line 57 ~ selectedChartOptionTitle",
-    selectedChartOptionTitle
-  );
   const reducerDefined = reducer as ReducersType;
 
   const apexState = useSelector((state: RootState) => state[reducerDefined]);
-  console.log(
-    "Logged output --> ~ file: SelectChart.tsx ~ line 68 ~ apexState",
-    apexState
-  );
 
   const selectedChartOption = apexState[selectedChartOptionTitle as string];
-  console.log(
-    "Logged output --> ~ file: SelectChart.tsx ~ line 74 ~ selectedChartOption",
-    selectedChartOption
-  );
 
   const chartType = selectedChartOption.value as TChartTypes;
 

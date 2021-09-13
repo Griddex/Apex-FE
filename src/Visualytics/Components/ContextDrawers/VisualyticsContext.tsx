@@ -43,6 +43,7 @@ const VisualyticsContext = ({
                 style={{
                   marginTop: 20,
                   transform: "rotate(0deg) rotate(90deg)",
+                  height: 30,
                 }}
                 variant="contained"
                 color={openContextWindow ? "secondary" : "primary"}
@@ -67,7 +68,7 @@ const VisualyticsContext = ({
                   }}
                   copyStyles={true}
                   height={800}
-                  width={300}
+                  width={490}
                 >
                   <ChartFormatAggregator
                     basePath={basePath}

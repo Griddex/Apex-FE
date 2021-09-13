@@ -60,7 +60,6 @@ const forecastReducer = (
 
     case UPDATE_FORECASTPARAMETER: {
       const { path, value } = action.payload;
-      console.log("payload: ", action.payload);
 
       const updatedState = set(state, path, value);
       return updatedState;

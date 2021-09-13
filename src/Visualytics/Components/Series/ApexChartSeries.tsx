@@ -97,10 +97,6 @@ const ApexChartSeries = ({
     cellBorderWidth,
     cellBorderColor,
   } = chartProps;
-  console.log(
-    "Logged output --> ~ file: ApexChartSeries.tsx ~ line 42 ~ chartProps",
-    chartProps
-  );
 
   const [presetColors, setPresetColors] = React.useState([
     theme.palette.primary.main,

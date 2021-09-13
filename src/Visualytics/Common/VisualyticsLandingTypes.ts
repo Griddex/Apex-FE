@@ -1,3 +1,5 @@
+import { TUseState } from "../../Application/Types/ApplicationTypes";
+
 export interface IVisualyticsLanding {
   excel: JSX.Element;
   database: JSX.Element;
@@ -7,3 +9,8 @@ export interface IVisualyticsLanding {
 export type IdType = {
   dataInputId: keyof IVisualyticsLanding;
 };
+
+export interface IChartVisualytics {
+  selectedZ: string;
+  setSelectedZ: TUseState<string>;
+}

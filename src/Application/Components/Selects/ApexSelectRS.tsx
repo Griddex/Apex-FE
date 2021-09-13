@@ -43,11 +43,11 @@ const ApexSelectRS = <T extends ISelectOption>({
       onChange={handleSelect}
       menuPortalTarget={menuPortalTarget}
       theme={(thm) => getRSTheme(thm, theme)}
-      {...rest}
       isDisabled={isDisabled}
       isClearable={isClearable}
       isSearchable={isSearchable}
       components={components}
+      {...rest}
     />
   );
 };

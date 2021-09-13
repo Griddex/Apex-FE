@@ -26,11 +26,15 @@ import {
 } from "../../Components/ChartTypes";
 import { RenderTree } from "../../Components/TreeView/ApexTreeViewTypes";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
-import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import {
+  INameTitleOption,
+  ISelectOption,
+} from "../../../Application/Components/Selects/SelectItemsType";
 import {
   chartObjectsNameTitleMap,
   initialColorGradient,
 } from "./VisualyticsState";
+import { IDragItem } from "../../Components/ChartCategories/ChartCategoryTypes";
 
 export type chartObjNameType = keyof typeof chartObjectsNameTitleMap;
 export interface IChartObject {
@@ -78,11 +82,18 @@ export interface IVisualyticsState {
   selectedVisualyticsTitle: string;
   selectedVisualyticsDescription: string;
   isVisualyticsDeckSaved: boolean;
-  visualyticsColumnNames: string[];
 
-  visualyticsVariableXOption: ISelectOption | null;
-  visualyticsVariableYOption: ISelectOption | null;
-  visualyticsVariableZOption: ISelectOption | null;
+  visualyticsVariableXOptions: Record<string, INameTitleOption>;
+  visualyticsVariableYOptions: Record<string, INameTitleOption>;
+  visualyticsSecondaryVariableYOptions: Record<string, INameTitleOption>;
+  visualyticsVariableZOptions: Record<string, INameTitleOption>;
+  visualyticsVariableROptions: Record<string, INameTitleOption>;
+  showVisualyticsCategoryMembersObj: Record<string, boolean>;
+
+  visualyticsCategoryDragItems: Record<string, Record<string, IDragItem>>;
+  visualyticsCategoryHasDropped: Record<string, Record<string, true>>;
+
+  resultsAnalyisOptions: ISelectOption[];
 
   visualyticsDataWorkflows: Record<string, IInputState>;
   storedDataWorkflows: Record<"visualyticsDeckStored", IStoredDataRow[]>;

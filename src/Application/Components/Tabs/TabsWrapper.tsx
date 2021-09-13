@@ -1,9 +1,9 @@
-import { makeStyles, alpha } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Visualytics from "../../../Visualytics/Common/Visualytics";
+import { useDispatch, useSelector } from "react-redux";
+import PlotVisualytics from "../../../Visualytics/Common/Workflows/PlotVisualytics";
 import { setCurrentMainTabValueAction } from "../../Redux/Actions/ApplicationActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ITabData, ITabPanel } from "./TabsWrapperTypes";
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const tabPanels: Record<string, JSX.Element> = {
-  visualytics: <Visualytics />,
+  visualytics: <PlotVisualytics />,
 };
 
 const TabPanel = ({ children, value, index, ...other }: ITabPanel) => {

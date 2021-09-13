@@ -1,19 +1,17 @@
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../Application/Components/IconButtons/IconButtonWithTooltip";
+import NoSelectionPlaceholder from "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import NoData from "../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
 import VisualyticsContext from "../../Components/ContextDrawers/VisualyticsContext";
-import { ChartFormatAggregatorContextProvider } from "../../Components/Contexts/ChartFormatAggregatorContext";
-import ChartFormatAggregator from "../../Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Components/Menus/ChartSelectionMenu";
@@ -22,8 +20,8 @@ import {
   putSelectChartOptionAction,
   updateVisualyticsParameterAction,
 } from "../../Redux/Actions/VisualyticsActions";
-import PlotChartsSelectChart from "../PlotChartsSelectChart";
 import VisualyticsChartDataPanel from "../VisualyticsChartDataPanel";
+import VisualyticsSelectChart from "../VisualyticsSelectChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PlotChartsVisualytics = () => {
+const PlotVisualytics = () => {
   const reducer = "visualyticsReducer";
   const wc = "visualyticsChartsWorkflows";
   const wp = "visualyticsResultsPlotCharts";
@@ -77,6 +75,7 @@ const PlotChartsVisualytics = () => {
   const theme = useTheme();
   const componentRef = React.useRef();
 
+  const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
   const { showContextDrawer } = useSelector(
@@ -134,6 +133,7 @@ const PlotChartsVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={visualyticsPlotCharts}
+          initialChartIndex={0}
           putChartOptionAction={
             visualyticsResults.length > 0
               ? (chartOption: ISelectOption) => {
@@ -193,7 +193,7 @@ const PlotChartsVisualytics = () => {
   const handler = React.useCallback(() => {
     function onMouseMove(e: MouseEvent) {
       console.log(
-        "Logged output --> ~ file: PlotChartsVisualytics.tsx ~ line 120 ~ onMouseMove ~ e",
+        "Logged output --> ~ file: PlotVisualytics.tsx ~ line 120 ~ onMouseMove ~ e",
         e
       );
       setMousePosition((currentSize) => {
@@ -226,7 +226,10 @@ const PlotChartsVisualytics = () => {
           // style={{ width: mousePosition.x, left: mousePosition.x }}
           ref={panelRef}
         >
-          <VisualyticsChartDataPanel />
+          <VisualyticsChartDataPanel
+            selectedZ={selectedZ}
+            setSelectedZ={setSelectedZ}
+          />
         </div>
         <div
           ref={moveDivRef}
@@ -254,9 +257,12 @@ const PlotChartsVisualytics = () => {
             <ChartButtons {...chartButtons} />
           </div>
           {chartType === "Select Chart..." ? (
-            <NoData />
+            <NoSelectionPlaceholder
+              icon={<ArrowUpwardOutlinedIcon color="primary" />}
+              text="Select a chart.."
+            />
           ) : (
-            <PlotChartsSelectChart />
+            <VisualyticsSelectChart />
           )}
         </div>
       </div>
@@ -274,4 +280,4 @@ const PlotChartsVisualytics = () => {
   );
 };
 
-export default PlotChartsVisualytics;
+export default PlotVisualytics;

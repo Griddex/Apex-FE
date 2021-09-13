@@ -183,7 +183,7 @@ const FillPopoverComponent = ({
             style={{ width: 130, height: 30 }}
             variant="contained"
             color="primary"
-            startIcon={<ArrowUpwardOutlinedIcon />}
+            startIcon={<ArrowUpwardOutlinedIcon color="primary" />}
             onClick={() => {
               const currentSN = currentRow.sn;
               const currentDataToFill =

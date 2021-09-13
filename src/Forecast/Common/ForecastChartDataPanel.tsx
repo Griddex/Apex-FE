@@ -1,10 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import NoData from "../../Application/Components/Visuals/NoData";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import XYChartCategories from "../../Visualytics/Components/ChartCategories/XYChartCategories";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchForecastTreeviewKeysRequestAction,
@@ -104,7 +103,9 @@ const ForecastChartDataPanel = () => {
       hasSecondaryComponent={false}
       selectedTitle={selectedForecastingResultsTitle}
       treeViewComponent={
-        forecastRunOption.title === "Select..." ? NoData : ForecastTreeView
+        forecastRunOption.title === "Select..."
+          ? NoSelectionPlaceholder
+          : ForecastTreeView
       }
       renderCategoryIcon={false}
     />

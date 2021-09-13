@@ -8,13 +8,13 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getVisualyticsChartDataRequestAction } from "../Redux/Actions/VisualyticsActions";
 import SelectChart from "./SelectChart";
 
-const PlotChartsSelectChart = () => {
+const VisualyticsSelectChart = () => {
   const reducer = "visualyticsReducer";
   const wc = "visualyticsChartsWorkflows";
 
   const dispatch = useDispatch();
 
-  const { visualyticsVariableXOption } = useSelector(
+  const { visualyticsVariableXOptions } = useSelector(
     (state: RootState) => state.visualyticsReducer
   );
 
@@ -38,7 +38,7 @@ const PlotChartsSelectChart = () => {
             <RotateLeftIcon key={1} />,
             <AirplayOutlinedIcon key={2} />,
           ]}
-          disableds={[false, visualyticsVariableXOption === null]}
+          disableds={[false, visualyticsVariableXOptions === null]}
           shouldExecute={[true, true]}
           shouldDispatch={[false, false]}
           finalActions={[
@@ -51,4 +51,4 @@ const PlotChartsSelectChart = () => {
   );
 };
 
-export default PlotChartsSelectChart;
+export default VisualyticsSelectChart;

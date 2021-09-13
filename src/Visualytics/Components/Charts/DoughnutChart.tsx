@@ -29,7 +29,7 @@ export const DoughnutChartAnalytics = ({ data }: IChartProps) => {
       data={data as any[]}
       {...commonChartProps}
       {...adjustedProps}
-      height={140}
+      height={120}
       width={500}
       fit={true}
       margin={{ top: 10, right: 10, bottom: 10, left: 10 }}

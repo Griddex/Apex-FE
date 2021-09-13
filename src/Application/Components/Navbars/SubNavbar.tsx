@@ -1,4 +1,10 @@
-import { Button, ButtonGroup, Toolbar } from "@material-ui/core";
+import {
+  Badge,
+  BadgeProps,
+  Button,
+  ButtonGroup,
+  Toolbar,
+} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -66,6 +72,13 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
 
   const [selected, setMainMenuSelected] = React.useState("");
 
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "Production Data" && { badgeContent: "", variant: "dot" }),
+    } as BadgeProps;
+  };
+
   return (
     <AppBar
       className={clsx(classes.appBar, {
@@ -86,31 +99,36 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
             } = navbarData;
 
             if (hasWrapper) {
-              return <Component key={name} />;
+              return (
+                <Badge key={name} {...getBadgeProps(name)}>
+                  <Component />
+                </Badge>
+              );
             } else {
               return (
-                <Button
-                  key={name}
-                  className={classes.button}
-                  onClick={() => {
-                    dispatch(subNavbarSetMenuAction(name));
-                    dispatch(navigateResetWorkflowAction());
-                    setMainMenuSelected(name);
-                    action && action();
-                    history.push(route);
-                  }}
-                  startIcon={startIcon}
-                  style={
-                    name === selected
-                      ? {
-                          color: theme.palette.primary.dark,
-                          backgroundColor: theme.palette.primary.light,
-                        }
-                      : {}
-                  }
-                >
-                  <Typography variant="subtitle2">{name}</Typography>
-                </Button>
+                <Badge key={name} {...getBadgeProps(name)}>
+                  <Button
+                    className={classes.button}
+                    onClick={() => {
+                      dispatch(subNavbarSetMenuAction(name));
+                      dispatch(navigateResetWorkflowAction());
+                      setMainMenuSelected(name);
+                      action && action();
+                      history.push(route);
+                    }}
+                    startIcon={startIcon}
+                    style={
+                      name === selected
+                        ? {
+                            color: theme.palette.primary.dark,
+                            backgroundColor: theme.palette.primary.light,
+                          }
+                        : {}
+                    }
+                  >
+                    <Typography variant="subtitle2">{name}</Typography>
+                  </Button>
+                </Badge>
               );
             }
           })}

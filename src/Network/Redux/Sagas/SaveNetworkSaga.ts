@@ -1,4 +1,3 @@
-import { EventChannel } from "redux-saga";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -31,7 +30,6 @@ import {
   saveNetworkSuccessAction,
   SAVE_NETWORK_REQUEST,
   updateNetworkParameterAction,
-  updateNetworkParametersAction,
 } from "../Actions/NetworkActions";
 
 export default function* watchSaveNetworkSaga(): Generator<
@@ -106,12 +104,7 @@ function* saveNetworkSaga(
 
     yield put(updateNetworkParameterAction("selectedNetworkTitle", title));
     yield put(fetchStoredNetworkDataRequestAction(currentProjectId));
-    yield put(
-      updateNetworkParametersAction({
-        nodeElements: [],
-        edgeElements: [],
-      })
-    );
+
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {
     const failureAction = saveNetworkFailureAction();

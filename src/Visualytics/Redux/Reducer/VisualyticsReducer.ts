@@ -22,7 +22,6 @@ import {
   PERSIST_TABLEROLENAMES,
   PERSIST_TABLEDATA,
   PERSIST_COLUMNNAMETABLEDATA,
-
 } from "../../../Import/Redux/Actions/InputActions";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
 import {
@@ -42,8 +41,10 @@ import {
   RESET_CHART_DATA,
   STORED_VISUALYTICSDATA_FAILURE,
   STORED_VISUALYTICSDATA_SUCCESS,
-    VISUALYTICS_TREEVIEWKEYS_SUCCESS,
-  VISUALYTICS_TREEVIEWKEYS_FAILURE
+  VISUALYTICS_TREEVIEWKEYS_SUCCESS,
+  VISUALYTICS_TREEVIEWKEYS_FAILURE,
+  UPDATE_VISUALYTICSPARAMETER,
+  UPDATE_VISUALYTICSPARAMETERS,
 } from "../Actions/VisualyticsActions";
 import visualyticsState from "../State/VisualyticsState";
 import { IVisualyticsState } from "../State/VisualyticsStateTypes";
@@ -53,6 +54,21 @@ const visualyticsReducer = (
   action: IAction
 ): IVisualyticsState => {
   switch (action.type) {
+    case UPDATE_VISUALYTICSPARAMETER: {
+      const { path, value } = action.payload;
+
+      const updatedState = set(state, path, value);
+      return updatedState;
+    }
+
+    case UPDATE_VISUALYTICSPARAMETERS: {
+      const { updateObj } = action.payload;
+
+      return {
+        ...state,
+        ...updateObj,
+      };
+    }
     case PERSIST_CHARTINDEX:
       return {
         ...state,
@@ -262,7 +278,6 @@ const visualyticsReducer = (
       return { ...state };
     }
 
-
     case VISUALYTICS_TREEVIEWKEYS_SUCCESS: {
       const { keyVar } = action.payload;
 
@@ -272,10 +287,10 @@ const visualyticsReducer = (
           ...state,
           visualyticsTree,
         };
-
-      }else {
-        return state
-      }}
+      } else {
+        return state;
+      }
+    }
 
     case VISUALYTICS_TREEVIEWKEYS_FAILURE: {
       const { errors } = action.payload;
@@ -285,7 +300,6 @@ const visualyticsReducer = (
         errors,
       };
     }
-
 
     case RESET_CHART: {
       return visualyticsState;

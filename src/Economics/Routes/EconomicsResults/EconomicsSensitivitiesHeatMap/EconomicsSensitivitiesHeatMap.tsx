@@ -1,11 +1,10 @@
-import React from "react";
-import { ResponsiveHeatMap } from "@nivo/heatmap";
-import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { useTheme } from "@material-ui/core";
-import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { useSelector } from "react-redux";
+import { ResponsiveHeatMap } from "@nivo/heatmap";
 import startCase from "lodash.startcase";
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 
 export interface IEconomicsSensitivitiesHeatMap {
   sensitivitiesHeatMap1or2D: any[];
@@ -33,38 +32,22 @@ const EconomicsSensitivitiesHeatMap = () => {
       heatMapTreeByScenario,
     };
   });
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 21 ~ EconomicsSensitivitiesHeatMap ~ sensitivitiesHeatMap1or2D",
-    sensitivitiesHeatMap1or2D
-  );
 
   const noOfSensitivities = heatMapTreeByScenario["children"].length;
 
   const keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
     ?.filter((key) => key.includes("Color"))
     ?.map((e) => e.replace("Color", ""));
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 39 ~ EconomicsSensitivitiesHeatMap ~ keys",
-    keys
-  );
 
   let yId = "";
   let yName = "";
   if (noOfSensitivities >= 2) {
     yId = Object.keys(heatMapVariableYOptions)[0];
     yName = heatMapVariableYOptions[yId].name;
-    console.log(
-      "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 46 ~ EconomicsSensitivitiesHeatMap ~ yName",
-      yName
-    );
   }
 
   const xId = Object.keys(heatMapVariableXOptions)[0];
   const xName = heatMapVariableXOptions[xId].name;
-  console.log(
-    "Logged output --> ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 49 ~ EconomicsSensitivitiesHeatMap ~ xName",
-    xName
-  );
 
   return (
     <ResponsiveHeatMap

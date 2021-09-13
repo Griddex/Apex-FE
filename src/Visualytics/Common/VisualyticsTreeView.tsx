@@ -24,10 +24,6 @@ export default function VisualyticsTreeView() {
   const { visualyticsTree } = useSelector(
     (state: RootState) => state.visualyticsReducer
   );
-  console.log(
-    "Logged output --> ~ file: VisualyticsTreeView.tsx ~ line 25 ~ VisualyticsTreeView ~ visualyticsTree",
-    visualyticsTree
-  );
 
   const { chartData } = useSelector(
     (state: RootState) => state.visualyticsReducer[wc][ch]

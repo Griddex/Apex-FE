@@ -1,7 +1,8 @@
-import { makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -131,6 +132,13 @@ const ForecastInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "Database" && { badgeContent: <BadgeComingSoon /> }),
+    } as BadgeProps;
+  };
+
   return (
     <>
       {loadWorkflow ? (
@@ -193,17 +201,18 @@ const ForecastInputDeckLanding = () => {
             } = module;
 
             return (
-              <ModuleCard
-                key={name}
-                isDispatched={true}
-                moduleAction={loadWorkflowAction}
-                title={name}
-                description={description}
-                icon={icon}
-                route={route}
-                wP={workflowProcess}
-                wC={workflowCategory}
-              />
+              <Badge key={name} {...getBadgeProps(name)}>
+                <ModuleCard
+                  isDispatched={true}
+                  moduleAction={loadWorkflowAction}
+                  title={name}
+                  description={description}
+                  icon={icon}
+                  route={route}
+                  wP={workflowProcess}
+                  wC={workflowCategory}
+                />
+              </Badge>
             );
           })}
         </div>

@@ -13,6 +13,9 @@ const ZChartCategory = ({
   updateParameterAction,
   categoryDragItem,
   categoryDropped,
+  categoryDragItemsTitle,
+  categoryHasDroppedTitle,
+  resultsTitle,
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
@@ -27,6 +30,9 @@ const ZChartCategory = ({
       updateParameterAction={updateParameterAction}
       categoryDragItem={categoryDragItem}
       categoryDropped={categoryDropped}
+      categoryDragItemsTitle={categoryDragItemsTitle}
+      categoryHasDroppedTitle={categoryHasDroppedTitle}
+      resultsTitle={resultsTitle}
     />
   );
 };

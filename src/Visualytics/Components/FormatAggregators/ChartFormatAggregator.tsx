@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import React from "react";
@@ -27,12 +27,27 @@ import ApexChartPointers from "../Pointers/ApexChartPoints";
 import ApexChartSeries from "../Series/ApexChartSeries";
 import { IApexFormatAggregator } from "./FormatAggregatorTypes";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.common.white,
+    border: `1px solid ${theme.palette.grey[300]}`,
+  },
+  toggle: { width: "100%", height: 40 },
+}));
+
 const ChartFormatAggregator = ({
   basePath,
   updateParameterAction,
   chartType,
 }: IApexFormatAggregator) => {
+  const theme = useTheme();
+  const classes = useStyles();
+
   const chartTypeDefined = chartType as string;
+  console.log(
+    "Logged output --> ~ file: ChartFormatAggregator.tsx ~ line 46 ~ chartTypeDefined",
+    chartTypeDefined
+  );
 
   const { chartProps } = React.useContext(ChartFormatAggregatorContext);
 
@@ -132,6 +147,17 @@ const ChartFormatAggregator = ({
     }
   };
 
+  if ((chartType as string) === "Select Chart...") {
+    return (
+      <ApexFlexContainer
+        className={classes.root}
+        moreStyles={{ backgroundColor: theme.palette.grey["200"] }}
+      >
+        {"Select Chart"}
+      </ApexFlexContainer>
+    );
+  }
+
   return (
     <ApexFlexContainer flexDirection="column">
       <ToggleButtonGroup
@@ -141,57 +167,51 @@ const ChartFormatAggregator = ({
         style={{ width: "100%" }}
         exclusive
       >
-        <ToggleButton style={{ width: "100%", height: 40 }} value="series">
+        <ToggleButton className={classes.toggle} value="series">
           {"Series"}
         </ToggleButton>
-        <ToggleButton style={{ width: "100%", height: 40 }} value="plot">
+        <ToggleButton className={classes.toggle} value="plot">
           {"Plot"}
         </ToggleButton>
         {stk_lin_bar_sct_htm.includes(chartTypeDefined) && (
-          <ToggleButton style={{ width: "100%", height: 40 }} value="gridAxes">
+          <ToggleButton className={classes.toggle} value="gridAxes">
             {"Grids & Axes"}
           </ToggleButton>
         )}
         {rad.includes(chartTypeDefined) && (
-          <ToggleButton style={{ width: "100%", height: 40 }} value="radarGrid">
+          <ToggleButton className={classes.toggle} value="radarGrid">
             {"Radar Grid"}
           </ToggleButton>
         )}
         {lin.includes(chartTypeDefined) && (
-          <ToggleButton style={{ width: "100%", height: 40 }} value="points">
+          <ToggleButton className={classes.toggle} value="points">
             {"Points"}
           </ToggleButton>
         )}
         {stk_rad.includes(chartTypeDefined) && (
-          <ToggleButton style={{ width: "100%", height: 40 }} value="dots">
+          <ToggleButton className={classes.toggle} value="dots">
             {"Dots"}
           </ToggleButton>
         )}
         {bar_htm.includes(chartTypeDefined) && (
-          <ToggleButton style={{ width: "100%", height: 40 }} value="labels">
+          <ToggleButton className={classes.toggle} value="labels">
             {"Labels"}
           </ToggleButton>
         )}
         {dht.includes(chartTypeDefined) && (
-          <ToggleButton style={{ width: "100%", height: 40 }} value="arcLabels">
+          <ToggleButton className={classes.toggle} value="arcLabels">
             {"Arc labels"}
           </ToggleButton>
         )}
         {dht.includes(chartTypeDefined) && (
-          <ToggleButton
-            style={{ width: "100%", height: 40 }}
-            value="arcLinkLabels"
-          >
+          <ToggleButton className={classes.toggle} value="arcLinkLabels">
             {"Arc Link Labels"}
           </ToggleButton>
         )}
-        <ToggleButton style={{ width: "100%", height: 40 }} value="legends">
+        <ToggleButton className={classes.toggle} value="legends">
           {"Legends"}
         </ToggleButton>
-        <ToggleButton
-          style={{ width: "100%", height: 40 }}
-          value="interactivity"
-        >
+        <ToggleButton className={classes.toggle} value="interactivity">
           {"Interactivity"}
         </ToggleButton>
       </ToggleButtonGroup>

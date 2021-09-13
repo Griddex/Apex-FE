@@ -31,7 +31,10 @@ const ExcelExportTable = <T extends any>({
         const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
         return (
-          <ExcelFile element={<ArrowUpwardOutlinedIcon />} filename={fileName}>
+          <ExcelFile
+            element={<ArrowUpwardOutlinedIcon color="primary" />}
+            filename={fileName}
+          >
             {Object.keys(tableData).map((sheetName, i) => {
               const { data, columns } = tableData[sheetName];
 

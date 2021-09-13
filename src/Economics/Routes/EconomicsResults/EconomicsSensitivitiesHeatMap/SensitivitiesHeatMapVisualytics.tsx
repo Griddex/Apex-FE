@@ -7,6 +7,7 @@ import ContextDrawer from "../../../../Application/Components/Drawers/ContextDra
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
@@ -63,8 +64,9 @@ const SensitivitiesHeatMapVisualytics = () => {
   const componentRef = React.useRef();
 
   const [selectedZ, setSelectedZ] = React.useState("");
+  const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer, expandContextDrawer } = useSelector(
+  const { showContextDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
@@ -137,22 +139,16 @@ const SensitivitiesHeatMapVisualytics = () => {
             }
           </ContextDrawer>
         )} */}
+
         {showContextDrawer && (
-          <ContextDrawer>
-            {() =>
-              expandContextDrawer ? (
-                <ChartFormatAggregatorContextProvider reducer={reducer}>
-                  <ChartFormatAggregator
-                    basePath={basePath}
-                    updateParameterAction={updateEconomicsParameterAction}
-                    chartType="heatMapChart"
-                  />
-                </ChartFormatAggregatorContextProvider>
-              ) : (
-                <div />
-              )
-            }
-          </ContextDrawer>
+          <VisualyticsContext
+            reducer={reducer}
+            chartType="heatMapChart"
+            basePath={basePath}
+            updateParameterAction={updateEconomicsParameterAction}
+            openContextWindow={openContextWindow}
+            setOpenContextWindow={setOpenContextWindow}
+          />
         )}
       </div>
     </div>

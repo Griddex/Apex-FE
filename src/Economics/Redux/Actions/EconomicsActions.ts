@@ -18,6 +18,7 @@ export const UPDATE_ECONOMICSPARAMETERS = "UPDATE_ECONOMICSPARAMETERS";
 export const SAVE_COSTSREVENUES_REQUEST = "SAVE_COSTSREVENUES_REQUEST";
 export const SAVE_COSTSREVENUES_SUCCESS = "SAVE_COSTSREVENUES_SUCCESS";
 export const SAVE_COSTSREVENUES_FAILURE = "SAVE_COSTSREVENUES_FAILURE";
+
 export const SAVE_ECONOMICSPARAMETERS_REQUEST =
   "SAVE_ECONOMICSPARAMETERS_REQUEST";
 export const SAVE_ECONOMICSPARAMETERS_SUCCESS =
@@ -78,6 +79,13 @@ export const GET_ECONOMICSSENSITIVITIESBYID_SUCCESS =
   "GET_ECONOMICSSENSITIVITIESBYID_SUCCESS";
 export const GET_ECONOMICSSENSITIVITIESBYID_FAILURE =
   "GET_ECONOMICSSENSITIVITIESBYID_FAILURE";
+
+export const GET_ECONOMICSPLOT_CHARTDATA_REQUEST =
+  "GET_ECONOMICSPLOT_CHARTDATA_REQUEST";
+export const GET_ECONOMICSPLOT_CHARTDATA_SUCCESS =
+  "GET_ECONOMICSPLOT_CHARTDATA_SUCCESS";
+export const GET_ECONOMICSPLOT_CHARTDATA_FAILURE =
+  "GET_ECONOMICSPLOT_CHARTDATA_FAILURE";
 
 export const RUN_ECONOMICSANALYSIS_REQUEST = "RUN_ECONOMICSANALYSIS_REQUEST";
 export const RUN_ECONOMICSANALYSIS_SUCCESS = "RUN_ECONOMICSANALYSIS_SUCCESS";
@@ -502,6 +510,32 @@ export const persistEconomicsDeckRequestAction = (
     type: PERSIST_ECONOMICSDECK,
     payload: { workflowProcess, devValue, rows },
     meta: { isRowsInPayload },
+  };
+};
+
+export const getEconomicsPlotChartDataRequestAction = () => {
+  return {
+    type: GET_ECONOMICSPLOT_CHARTDATA_REQUEST,
+    payload: {},
+  };
+};
+
+export const getEconomicsPlotChartDataSuccessAction = () => {
+  return {
+    type: GET_ECONOMICSPLOT_CHARTDATA_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const getEconomicsPlotChartDataFailureAction = () => {
+  return {
+    type: GET_ECONOMICSPLOT_CHARTDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
   };
 };
 

@@ -23,7 +23,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   handleSelectChange: (row: ValueType<T, false>) => void;
   hasSecondaryComponent: boolean;
   secondarySelectComponent?: React.FC;
-  treeViewComponent: React.FC;
+  treeViewComponent: React.FC<any>;
   extrudeCategories?: boolean;
   setExtrudeCategories?: TUseState<boolean>;
   categoriesComponent?: JSX.Element;

@@ -189,20 +189,12 @@ export const saveVisualyticsFailureAction = () => {
   };
 };
 
-export const getVisualyticsChartDataRequestAction = () =>
-  // chartType: TChartTypes,
-  // visualyticsColumnNames: string[],
-  // isVisualyticsDeckSaved: boolean
-  {
-    return {
-      type: GET_VISUALYTICS_CHARTDATA_REQUEST,
-      payload: {
-        // chartType,
-        // visualyticsColumnNames,
-        // isVisualyticsDeckSaved,
-      },
-    };
+export const getVisualyticsChartDataRequestAction = () => {
+  return {
+    type: GET_VISUALYTICS_CHARTDATA_REQUEST,
+    payload: {},
   };
+};
 
 export const getVisualyticsChartDataSuccessAction = () => {
   return {

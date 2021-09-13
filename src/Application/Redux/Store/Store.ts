@@ -63,6 +63,7 @@ import watchSaveVisualyticsSaga from "../../../Visualytics/Redux/Sagas/SaveVisua
 import watchFetchVisualyticsTreeviewKeysSaga from "../../../Visualytics/Redux/Sagas/FetchVisualyticsTreeviewKeysSaga";
 import watchFetchStoredVisualyticsDataSaga from "../../../Visualytics/Redux/Sagas/FetchStoredVisualyticsDataSaga";
 import watchUpdateDataByIdSaga from "../Sagas/UpdateDataByIdSaga";
+import watchGetVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/GetVisualyticsChartDataSaga";
 
 //TODO Will need a registration mechanism for each module
 function* rootSaga() {
@@ -120,6 +121,7 @@ function* rootSaga() {
   yield spawn(watchFetchVisualyticsTreeviewKeysSaga);
   yield spawn(watchFetchStoredVisualyticsDataSaga);
   yield spawn(watchUpdateDataByIdSaga);
+  yield spawn(watchGetVisualyticsChartDataSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

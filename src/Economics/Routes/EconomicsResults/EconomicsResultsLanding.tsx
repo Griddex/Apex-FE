@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,6 +7,7 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
+import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
 import Spreadsheet from "../../../Application/Images/Spreadsheet.svg";
@@ -108,21 +109,14 @@ const EconomicsResultsLanding = () => {
     },
   ];
 
-  //Define a service that combines more than one icon or image into an overlapped one
-  //CSS using overlap and z-index
-
-  // const storedDataFinalAction = () => {
-  //   const dialogParameters: DialogStuff = {
-  //     name: "Manage_Deck_Dialog",
-  //     title: `Manage Forecast Results`,
-  //     type: "textDialog",
-  //     show: true,
-  //     exclusive: true,
-  //     maxWidth: "xl",
-  //     iconType: "information",
-  //   };
-  //   dispatch(showDialogAction(dialogParameters));
-  // };
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "View Template Results" && {
+        badgeContent: <BadgeComingSoon />,
+      }),
+    } as BadgeProps;
+  };
 
   return (
     <>
@@ -173,24 +167,25 @@ const EconomicsResultsLanding = () => {
             } = module;
 
             return (
-              <ModuleCard
-                key={name}
-                isDispatched={false}
-                moduleAction={() => {
-                  dispatch(
-                    updateEconomicsParameterAction(
-                      "loadEconomicsResultsWorkflow",
-                      true
-                    )
-                  );
-                }}
-                title={name}
-                description={description}
-                icon={icon}
-                route={route}
-                wP={workflowProcess}
-                wC={workflowCategory}
-              />
+              <Badge key={name} {...getBadgeProps(name)}>
+                <ModuleCard
+                  isDispatched={false}
+                  moduleAction={() => {
+                    dispatch(
+                      updateEconomicsParameterAction(
+                        "loadEconomicsResultsWorkflow",
+                        true
+                      )
+                    );
+                  }}
+                  title={name}
+                  description={description}
+                  icon={icon}
+                  route={route}
+                  wP={workflowProcess}
+                  wC={workflowCategory}
+                />
+              </Badge>
             );
           })}
         </div>

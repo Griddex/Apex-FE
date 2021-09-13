@@ -13,10 +13,17 @@ const YChartCategory = ({
   updateParameterAction,
   categoryDragItem,
   categoryDropped,
+  categoryDragItemsTitle,
+  categoryHasDroppedTitle,
+  resultsTitle,
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
-      categoryTitle={"Y Category"}
+      categoryTitle={
+        categoryOptionTitle?.includes("Secondary")
+          ? "Y Secondary Category"
+          : "Y Primary Category"
+      }
       categoryOptionTitle={categoryOptionTitle}
       updateAction={updateAction}
       removeAction={removeAction}
@@ -27,6 +34,9 @@ const YChartCategory = ({
       updateParameterAction={updateParameterAction}
       categoryDragItem={categoryDragItem}
       categoryDropped={categoryDropped}
+      categoryDragItemsTitle={categoryDragItemsTitle}
+      categoryHasDroppedTitle={categoryHasDroppedTitle}
+      resultsTitle={resultsTitle}
     />
   );
 };

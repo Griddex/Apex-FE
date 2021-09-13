@@ -6,7 +6,7 @@ import SuspensePerpetualSpinner from "../../Application/Components/Visuals/Suspe
 import VisualyticsLanding from "./VisualyticsLanding";
 
 const navbarHeight = 43;
-const subNavBarHeight = 25;
+const subNavBarHeight = 0;
 const useStyles = makeStyles(() => {
   return {
     visualyticsLayoutRoot: {

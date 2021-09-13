@@ -1,24 +1,16 @@
-import { Button } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import CallReceivedIcon from "@material-ui/icons/CallReceived";
-import DetailsOutlinedIcon from "@material-ui/icons/DetailsOutlined";
-import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
+import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import NewWindow from "rc-new-window";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import NoData from "../../Application/Components/Visuals/NoData";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";
-import { ChartFormatAggregatorContextProvider } from "../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
-import ChartFormatAggregator from "../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
@@ -185,7 +177,10 @@ const ForecastVisualytics = () => {
               <ChartButtons {...chartButtons} />
             </div>
             {chartType === "Select Chart..." ? (
-              <NoData />
+              <NoSelectionPlaceholder
+                icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                text="Select a chart.."
+              />
             ) : (
               <ForecastSelectChart />
             )}

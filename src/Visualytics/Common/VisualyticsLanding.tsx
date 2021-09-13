@@ -25,7 +25,7 @@ import {
 } from "../Redux/Actions/VisualyticsActions";
 import StoredVisualyticsDecks from "./StoredVisualyticsDecks";
 import { IdType } from "./VisualyticsLandingTypes";
-import PlotChartsVisualytics from "./Workflows/PlotChartsVisualytics";
+import PlotVisualytics from "./Workflows/PlotVisualytics";
 import VisualyticsDatabaseWorkflow from "./Workflows/VisualyticsDatabaseWorkflow";
 import VisualyticsExcelWorkflow from "./Workflows/VisualyticsExcelWorkflow";
 
@@ -221,7 +221,7 @@ const VisualyticsLanding = () => {
                     }
                   />
                 ),
-                plotchartsTables: <PlotChartsVisualytics />,
+                plotchartsTables: <PlotVisualytics />,
                 approveddeck: (
                   <StoredVisualyticsDecks
                     reducer={reducer}

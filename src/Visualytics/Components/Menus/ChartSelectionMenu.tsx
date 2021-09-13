@@ -11,7 +11,6 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,20 +28,24 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IChartSelectionMenu {
   chartOptions: ISelectOption[];
-  // selectedChartOptionTitle?: string;
+  initialChartIndex?: number;
   putChartOptionAction: (chartOption: ISelectOption) => void;
 }
 
 const ChartSelectionMenu = ({
   chartOptions,
+  initialChartIndex,
   putChartOptionAction,
 }: IChartSelectionMenu) => {
   const classes = useStyles();
   const theme = useTheme();
 
+  const initialChartIndexDefined = initialChartIndex as number;
+  const i = initialChartIndexDefined === 0 ? initialChartIndexDefined : 1;
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [plotChartOption, setPlotChartOption] = React.useState(
-    chartOptions[1] as ISelectOption
+    chartOptions[i] as ISelectOption
   );
 
   const handleClick = (event: ChangeEvent<any>) => {

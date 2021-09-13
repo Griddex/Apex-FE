@@ -42,10 +42,6 @@ export default function ApexSlider({
   action,
   sliderContextFxn,
 }: IApexSlider) {
-  console.log(
-    "Logged output --> ~ file: ApexSlider.tsx ~ line 45 ~ sliderValue",
-    sliderValue
-  );
   const classes = useStyles();
 
   const handleSliderChange = (event: any, value: number | number[]) => {

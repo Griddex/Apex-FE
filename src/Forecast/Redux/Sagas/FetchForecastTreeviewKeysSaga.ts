@@ -69,8 +69,6 @@ function* fetchForecastTreeviewKeysSaga(action: IAction): Generator<
       const successAction = fetchForecastTreeviewKeysSuccessAction();
       const key = Object.keys(data)[0];
 
-      console.log("key: ", key);
-
       if (key === "tree") {
         const forecastTree = data["tree"];
 

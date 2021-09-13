@@ -1,22 +1,24 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import NoData from "../../Application/Components/Visuals/NoData";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import XYChartCategories from "../Components/ChartCategories/XYChartCategories";
 import XYYZRChartCategories from "../Components/ChartCategories/XYYZRChartCategories";
+import CategoryPanelComponent from "../Components/ChartCategoryPanel/ChartCategoryPanel";
 import ChartDataPanel from "../Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
 import {
   fetchVisualyticsTreeviewKeysRequestAction,
   removeVisualyticsChartCategoryAction,
   updateVisualyticsChartCategoryAction,
+  updateVisualyticsParameterAction,
   updateVisualyticsParametersAction,
 } from "../Redux/Actions/VisualyticsActions";
+import { IChartVisualytics } from "./VisualyticsLandingTypes";
 import VisualyticsTreeView from "./VisualyticsTreeView";
 
-const VisualyticsChartDataPanel = () => {
+const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
   const dispatch = useDispatch();
 
   const reducer = "visualyticsReducer";
@@ -31,7 +33,31 @@ const VisualyticsChartDataPanel = () => {
     selectedVisualyticsTitle,
     selectedVisualyticsDescription,
     selectedVisualyticsChartOption,
-  } = useSelector((state: RootState) => state.visualyticsReducer);
+    visualyticsVariableZOptions,
+    showVisualyticsCategoryMembersObj,
+    visualyticsCategoryDragItems,
+    visualyticsCategoryHasDropped,
+  } = useSelector((state: RootState) => {
+    const {
+      selectedVisualyticsTitle,
+      selectedVisualyticsDescription,
+      selectedVisualyticsChartOption,
+      visualyticsVariableZOptions,
+      showVisualyticsCategoryMembersObj,
+      visualyticsCategoryDragItems,
+      visualyticsCategoryHasDropped,
+    } = state.visualyticsReducer;
+
+    return {
+      selectedVisualyticsTitle,
+      selectedVisualyticsDescription,
+      selectedVisualyticsChartOption,
+      visualyticsVariableZOptions,
+      showVisualyticsCategoryMembersObj,
+      visualyticsCategoryDragItems,
+      visualyticsCategoryHasDropped,
+    };
+  });
 
   const chartType = selectedVisualyticsChartOption.value;
 
@@ -76,6 +102,10 @@ const VisualyticsChartDataPanel = () => {
     setVisualyticsRunOption(optionDefined);
 
     const { id, title, description } = optionDefined;
+    console.log(
+      "Logged output --> ~ file: VisualyticsChartDataPanel.tsx ~ line 105 ~ VisualyticsChartDataPanel ~ optionDefined",
+      optionDefined
+    );
 
     if (title === "Select...") {
       dispatch(
@@ -100,37 +130,46 @@ const VisualyticsChartDataPanel = () => {
     }
   };
 
-  const renderChartCategory = (chartType: TChartTypes) => {
-    const chartTypeDefined = chartType as TChartTypes;
+  const categoryPanelWidth = 250;
+  const chartTypeDefined = chartType as TChartTypes;
 
-    if (
-      ["stackedAreaChart", "lineChart", "barChart"].includes(chartTypeDefined)
-    ) {
-      return (
-        <XYChartCategories
-          xCategoryOptionTitle="plotChartsVariableXOptions"
-          yCategoryOptionTitle="plotChartsVariableYOptions"
-          disableX={false}
-          disableY={false}
-          updateAction={updateVisualyticsChartCategoryAction}
-          removeAction={removeVisualyticsChartCategoryAction}
+  const categoriesComponent = (
+    <XYYZRChartCategories
+      chartType={chartTypeDefined}
+      xCategoryOptionTitle="visualyticsVariableXOptions"
+      yCategoryOptionTitle="visualyticsVariableYOptions"
+      ySecondaryCategoryOptionTitle="visualyticsSecondaryVariableYOptions"
+      zCategoryOptionTitle="visualyticsVariableZOptions"
+      rCategoryOptionTitle="visualyticsVariableROptions"
+      disableX={false}
+      disableY={false}
+      disableSecondaryY={false}
+      disableZ={false}
+      disableR={false}
+      updateAction={updateVisualyticsChartCategoryAction}
+      removeAction={removeVisualyticsChartCategoryAction}
+      showXCategoryMembersSwitch={false}
+      showYCategoryMembersSwitch={false}
+      showYSecondaryCategoryMembersSwitch={false}
+      showZCategoryMembersSwitch={true}
+      showRCategoryMembersSwitch={true}
+      showCategoryMembersObj={showVisualyticsCategoryMembersObj}
+      path="showVisualyticsCategoryMembersObj"
+      updateParameterAction={updateVisualyticsParameterAction}
+      categoryDragItemsTitle="visualyticsCategoryDragItems"
+      categoryDragItems={visualyticsCategoryDragItems}
+      categoryHasDroppedTitle="visualyticsCategoryHasDropped"
+      categoryHasDropped={visualyticsCategoryHasDropped}
+      categoryPanelWidth={categoryPanelWidth}
+      categoryPanelComponent={
+        <CategoryPanelComponent
+          variableOptions={visualyticsVariableZOptions}
+          setSelectedZ={setSelectedZ}
         />
-      );
-    } else if (["heatMapChart"].includes(chartTypeDefined)) {
-      return (
-        <XYYZRChartCategories
-          xCategoryOptionTitle="plotChartsVariableXOptions"
-          yCategoryOptionTitle="plotChartsVariableYOptions"
-          zCategoryOptionTitle="plotChartsVariableZOptions"
-          disableX={false}
-          disableY={false}
-          disableZ={false}
-          updateAction={updateVisualyticsChartCategoryAction}
-          removeAction={removeVisualyticsChartCategoryAction}
-        />
-      );
-    }
-  };
+      }
+      resultsTitle={selectedVisualyticsTitle}
+    />
+  );
 
   return (
     <ChartDataPanel<IExtendedSelectOption>
@@ -142,12 +181,12 @@ const VisualyticsChartDataPanel = () => {
       selectedTitle={selectedVisualyticsTitle}
       treeViewComponent={
         visualyticsRunOption.title === "Select..."
-          ? NoData
+          ? NoSelectionPlaceholder
           : VisualyticsTreeView
       }
       extrudeCategories={extrudeCategories}
       setExtrudeCategories={setExtrudeCategories}
-      categoriesComponent={renderChartCategory(chartType as TChartTypes)}
+      categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
     />
   );

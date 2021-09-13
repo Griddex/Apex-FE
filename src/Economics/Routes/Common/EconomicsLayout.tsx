@@ -56,9 +56,10 @@ const useStyles = makeStyles(() => {
 const EconomicsLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
+  const dispatch = useDispatch();
+
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const { showSubNavbar } = layoutProps;
-  const dispatch = useDispatch();
 
   const subNavbarData: ISubNavbarData = [
     {

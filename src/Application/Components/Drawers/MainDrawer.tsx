@@ -1,4 +1,6 @@
 import {
+  Badge,
+  BadgeProps,
   Drawer,
   MenuItem,
   MenuList,
@@ -27,6 +29,7 @@ import { loadVisualyticsWorkflowAction } from "../../../Visualytics/Redux/Action
 import ApexLogo from "../../Images/ApexLogo.svg";
 import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import CustomTooltip from "../Tooltips/CustomTooltip";
 import { IMainDrawerData } from "./MainDrawerTypes";
 
 const navbarHeight = 43;
@@ -156,15 +159,15 @@ const MainDrawer = () => {
       route: `${url}/declineCurveAnalysis`,
       icon: <TimelineIcon fontSize={expandMainDrawer ? "large" : "medium"} />,
     },
-    {
-      name: "Corporate",
-      route: `${url}/corporate`,
-      icon: (
-        <BusinessOutlinedIcon
-          fontSize={expandMainDrawer ? "large" : "medium"}
-        />
-      ),
-    },
+    // {
+    //   name: "Corporate",
+    //   route: `${url}/corporate`,
+    //   icon: (
+    //     <BusinessOutlinedIcon
+    //       fontSize={expandMainDrawer ? "large" : "medium"}
+    //     />
+    //   ),
+    // },
     {
       name: "Admin",
       route: `${url}/administration`,
@@ -180,6 +183,13 @@ const MainDrawer = () => {
       icon: <TuneIcon fontSize={expandMainDrawer ? "large" : "medium"} />,
     },
   ];
+
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "DCA" && { badgeContent: "", variant: "dot" }),
+    } as BadgeProps;
+  };
 
   return (
     <Drawer
@@ -205,7 +215,20 @@ const MainDrawer = () => {
           return (
             <Tooltip
               key={name}
-              title={name}
+              title={
+                name === "DCA" ? (
+                  <CustomTooltip
+                    firstWord={name}
+                    secondWord="(Coming Soon)"
+                    secondWordStyle={{
+                      color: theme.palette.secondary.main,
+                      fontWeight: "bold",
+                    }}
+                  />
+                ) : (
+                  name
+                )
+              }
               placement="right"
               arrow
               leaveTouchDelay={0}
@@ -268,7 +291,7 @@ const MainDrawer = () => {
                             : {}
                         }
                       >
-                        {icon}
+                        <Badge {...getBadgeProps(name)}>{icon}</Badge>
                       </div>
                       {expandMainDrawer && (
                         <Typography
@@ -286,7 +309,10 @@ const MainDrawer = () => {
                   </ProjectContextMenu>
                 ) : (
                   <div className={classes.menuItemDiv}>
-                    <div>{icon}</div>
+                    <div>
+                      {" "}
+                      <Badge {...getBadgeProps(name)}>{icon}</Badge>
+                    </div>
                     {expandMainDrawer && (
                       <Typography
                         style={

@@ -5,7 +5,7 @@ import SuspensePerpetualSpinner from "../../Application/Components/Visuals/Suspe
 import ForecastLanding from "./ForecastLanding";
 
 const navbarHeight = 43;
-const subNavBarHeight = 25;
+const subNavBarHeight = 0;
 const useStyles = makeStyles(() => {
   return {
     forecastLayoutRoot: {

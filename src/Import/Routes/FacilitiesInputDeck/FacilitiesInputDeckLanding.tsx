@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -27,6 +27,7 @@ import { IdType } from "./FacilitiesInputDeckLandingTypes";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
 
 const useStyles = makeStyles((theme) => ({
   facilitiesInputDeckLanding: {
@@ -178,6 +179,15 @@ const FacilitiesInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "Database" && {
+        badgeContent: <BadgeComingSoon />,
+      }),
+    } as BadgeProps;
+  };
+
   return (
     <>
       {loadWorkflow ? (
@@ -239,17 +249,19 @@ const FacilitiesInputDeckLanding = () => {
               workflowCategory,
             } = module;
             return (
-              <ModuleCard
-                key={name}
-                isDispatched={true}
-                moduleAction={loadWorkflowAction}
-                title={name}
-                description={description}
-                icon={icon}
-                route={route}
-                wP={workflowProcess}
-                wC={workflowCategory}
-              />
+              <Badge key={name} {...getBadgeProps(name)}>
+                <ModuleCard
+                  key={name}
+                  isDispatched={true}
+                  moduleAction={loadWorkflowAction}
+                  title={name}
+                  description={description}
+                  icon={icon}
+                  route={route}
+                  wP={workflowProcess}
+                  wC={workflowCategory}
+                />{" "}
+              </Badge>
             );
           })}
         </div>

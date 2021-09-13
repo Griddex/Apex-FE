@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const XYZChartCategories = ({
+const XYYZRChartCategories = ({
   chartType,
   xCategoryOptionTitle,
   yCategoryOptionTitle,
@@ -59,9 +59,20 @@ const XYZChartCategories = ({
     },
   };
 
-  const XYY = ["stackedAreaChart", "lineChart", "barChart"];
+  const XYY = ["stackedAreaChart", "lineChart", "barChart", "scatterChart"];
   const XYZ = ["heatMapChart"];
-  const XYR = ["doughnutChart"];
+  const XYR = ["doughnutChart", "radarChart"];
+
+  if ((chartType as string) === "Select Chart...") {
+    return (
+      <ApexFlexContainer
+        className={classes.root}
+        moreStyles={{ backgroundColor: theme.palette.grey["200"] }}
+      >
+        {"Select Chart"}
+      </ApexFlexContainer>
+    );
+  }
 
   return (
     <ApexFlexContainer className={classes.root}>
@@ -203,4 +214,4 @@ const XYZChartCategories = ({
   );
 };
 
-export default XYZChartCategories;
+export default XYYZRChartCategories;

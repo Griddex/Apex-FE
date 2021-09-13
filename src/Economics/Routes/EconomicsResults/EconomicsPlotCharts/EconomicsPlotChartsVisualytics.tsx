@@ -1,20 +1,18 @@
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import NoData from "../../../../Application/Components/Visuals/NoData";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
-import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
-import ChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
@@ -247,7 +245,10 @@ const EconomicsPlotChartsVisualytics = () => {
             <ChartButtons {...chartButtons} />
           </div>
           {chartType === "Select Chart..." ? (
-            <NoData />
+            <NoSelectionPlaceholder
+              icon={<ArrowUpwardOutlinedIcon color="primary" />}
+              text="Select a chart.."
+            />
           ) : (
             <EconomicsPlotChartsSelectChart />
           )}

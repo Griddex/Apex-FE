@@ -55,7 +55,7 @@ const CostsRevenuesExcelExportTemplate = () => {
         ];
 
         return (
-          <ExcelFile element={<ArrowUpwardOutlinedIcon />}>
+          <ExcelFile element={<ArrowUpwardOutlinedIcon color="primary" />}>
             <ExcelSheet data={dataSet1} name="Employees">
               <ExcelColumn label="Name" value="name" />
               <ExcelColumn label="Wallet Money" value="amount" />

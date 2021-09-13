@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -28,6 +28,7 @@ import ForecastVisualytics from "../Routes/ForecastVisualytics";
 import { IdType } from "./ForecastLandingTypes";
 import ForecastQualityAssurance from "../Routes/ForecastQualityAssurance";
 import RunForecastWorkflowDialog from "../../Network/Components/Dialogs/RunForecastWorkflowDialog";
+import BadgeComingSoon from "../../Application/Components/Badges/BadgeComingSoon";
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -157,6 +158,13 @@ const ForecastLanding = () => {
     iconType: "run",
   };
 
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "Database" && { badgeContent: <BadgeComingSoon /> }),
+    } as BadgeProps;
+  };
+
   return (
     <>
       {loadForecastResultsWorkflow ? (
@@ -218,28 +226,29 @@ const ForecastLanding = () => {
             } = module;
 
             return (
-              <ModuleCard
-                key={name}
-                isDispatched={false}
-                moduleAction={() => {
-                  dispatch(
-                    loadForecastResultsWorkflowAction(
-                      "loadForecastResultsWorkflow",
-                      true
-                    )
-                  );
+              <Badge key={name} {...getBadgeProps(name)}>
+                <ModuleCard
+                  isDispatched={false}
+                  moduleAction={() => {
+                    dispatch(
+                      loadForecastResultsWorkflowAction(
+                        "loadForecastResultsWorkflow",
+                        true
+                      )
+                    );
 
-                  dispatch(
-                    updateForecastResultsParameterAction("selectedView", name)
-                  );
-                }}
-                title={name}
-                description={description}
-                icon={icon}
-                route={route}
-                wP={workflowProcess}
-                wC={workflowCategory}
-              />
+                    dispatch(
+                      updateForecastResultsParameterAction("selectedView", name)
+                    );
+                  }}
+                  title={name}
+                  description={description}
+                  icon={icon}
+                  route={route}
+                  wP={workflowProcess}
+                  wC={workflowCategory}
+                />{" "}
+              </Badge>
             );
           })}
         </div>

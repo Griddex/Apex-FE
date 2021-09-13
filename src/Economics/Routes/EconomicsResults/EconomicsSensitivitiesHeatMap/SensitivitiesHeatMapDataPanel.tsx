@@ -2,12 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../../../Application/Components/Selects/SelectItemsType";
-import NoData from "../../../../Application/Components/Visuals/NoData";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
 import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
@@ -295,7 +295,9 @@ const SensitivitiesHeatMapDataPanel = ({
       hasSecondaryComponent={true}
       secondarySelectComponent={DevelopmentScenarios}
       treeViewComponent={
-        devOption.label === "Select..." ? NoData : SensitivitiesHeatMapTreeView
+        devOption.label === "Select..."
+          ? NoSelectionPlaceholder
+          : SensitivitiesHeatMapTreeView
       }
       extrudeCategories={extrudeCategories}
       setExtrudeCategories={setExtrudeCategories}

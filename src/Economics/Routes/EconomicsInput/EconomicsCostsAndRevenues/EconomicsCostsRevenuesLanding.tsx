@@ -1,8 +1,9 @@
-import { makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import BadgeComingSoon from "../../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
@@ -254,6 +255,14 @@ const EconomicsCostsRevenuesLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      badgeContent: "Coming Soon",
+      ...(name === "Database" && { badgeContent: <BadgeComingSoon /> }),
+    } as BadgeProps;
+  };
+
   return (
     <>
       {loadCostsRevenueWorkflow ? (
@@ -364,35 +373,36 @@ const EconomicsCostsRevenuesLanding = () => {
               workflowCategory,
             } = module;
             return (
-              <ModuleCard
-                key={name}
-                isDispatched={false}
-                moduleAction={() => {
-                  dispatch(
-                    loadEconomicsWorkflowAction("loadCostsRevenueWorkflow")
-                  );
-
-                  dispatch(
-                    updateEconomicsParameterAction(
-                      `currentWorkflowProcess`,
-                      workflowProcess
-                    )
-                  );
-
-                  if (workflowProcess === "economicsCostsRevenuesDeckExcel")
+              <Badge key={name} {...getBadgeProps(name)}>
+                <ModuleCard
+                  isDispatched={false}
+                  moduleAction={() => {
                     dispatch(
-                      subNavbarSetMenuAction(
-                        "Economics Costs & Revenues [Oil Development]"
+                      loadEconomicsWorkflowAction("loadCostsRevenueWorkflow")
+                    );
+
+                    dispatch(
+                      updateEconomicsParameterAction(
+                        `currentWorkflowProcess`,
+                        workflowProcess
                       )
                     );
-                }}
-                title={name}
-                description={description}
-                icon={icon}
-                route={route}
-                wP={workflowProcess}
-                wC={workflowCategory}
-              />
+
+                    if (workflowProcess === "economicsCostsRevenuesDeckExcel")
+                      dispatch(
+                        subNavbarSetMenuAction(
+                          "Economics Costs & Revenues [Oil Development]"
+                        )
+                      );
+                  }}
+                  title={name}
+                  description={description}
+                  icon={icon}
+                  route={route}
+                  wP={workflowProcess}
+                  wC={workflowCategory}
+                />
+              </Badge>
             );
           })}
         </div>

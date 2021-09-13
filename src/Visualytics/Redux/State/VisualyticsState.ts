@@ -147,11 +147,36 @@ const visualyticsState: IVisualyticsState = {
   selectedVisualyticsTitle: "",
   selectedVisualyticsDescription: "",
   isVisualyticsDeckSaved: false,
-  visualyticsColumnNames: [],
 
-  visualyticsVariableXOption: null,
-  visualyticsVariableYOption: null,
-  visualyticsVariableZOption: null,
+  visualyticsVariableXOptions: {},
+  visualyticsVariableYOptions: {},
+  visualyticsSecondaryVariableYOptions: {},
+  visualyticsVariableZOptions: {},
+  visualyticsVariableROptions: {},
+  showVisualyticsCategoryMembersObj: {
+    "X Category": false,
+    "Y Category": false,
+    "Y Secondary Category": false,
+    "Z Category": false,
+    "R Category": false,
+  },
+
+  visualyticsCategoryDragItems: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+  visualyticsCategoryHasDropped: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+
+  resultsAnalyisOptions: [],
 
   storedDataWorkflows: {
     visualyticsDeckStored: [],

@@ -1,10 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
-import NoData from "../../../../Application/Components/Visuals/NoData";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
 import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
 import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
@@ -190,7 +189,7 @@ const EconomicsPlotChartsDataPanel = ({
       selectedTitle={selectedEconomicsResultsTitle}
       treeViewComponent={
         economicsResultOption.title === "Select..."
-          ? NoData
+          ? NoSelectionPlaceholder
           : EconomicsPlotChartsTreeView
       }
       extrudeCategories={extrudeCategories}
