@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const XYYZRChartCategories = ({
+  reducer,
   chartType,
   xCategoryOptionTitle,
   yCategoryOptionTitle,
@@ -37,6 +38,8 @@ const XYYZRChartCategories = ({
   showCategoryMembersObj,
   path,
   updateParameterAction,
+  updateDragItemsAction,
+  updateHasDroppedAction,
   categoryDragItemsTitle,
   categoryDragItems,
   categoryHasDroppedTitle,
@@ -79,6 +82,7 @@ const XYYZRChartCategories = ({
       <ApexFlexContainer flexDirection="column" height={"100%"}>
         {[...XYY, ...XYZ, ...XYR].includes(chartTypeDefined) && (
           <XChartCategory
+            reducer={reducer}
             categoryOptionTitle={xCategoryOptionTitle as string}
             updateAction={updateAction}
             removeAction={removeAction}
@@ -87,6 +91,8 @@ const XYYZRChartCategories = ({
             showCategoryMembersObj={showCategoryMembersObj}
             path={path}
             updateParameterAction={updateParameterAction}
+            updateDragItemsAction={updateDragItemsAction}
+            updateHasDroppedAction={updateHasDroppedAction}
             categoryDragItem={
               categoryDragItems && categoryDragItems["X Category"]
             }
@@ -100,6 +106,7 @@ const XYYZRChartCategories = ({
         )}
         {[...XYY, ...XYZ, ...XYR].includes(chartTypeDefined) && (
           <YChartCategory
+            reducer={reducer}
             categoryOptionTitle={yCategoryOptionTitle as string}
             updateAction={updateAction}
             removeAction={removeAction}
@@ -108,6 +115,8 @@ const XYYZRChartCategories = ({
             showCategoryMembersObj={showCategoryMembersObj}
             path={path}
             updateParameterAction={updateParameterAction}
+            updateDragItemsAction={updateDragItemsAction}
+            updateHasDroppedAction={updateHasDroppedAction}
             categoryDragItem={
               categoryDragItems && categoryDragItems["Y Category"]
             }
@@ -121,6 +130,7 @@ const XYYZRChartCategories = ({
         )}
         {XYY.includes(chartTypeDefined) && (
           <YChartCategory
+            reducer={reducer}
             categoryOptionTitle={ySecondaryCategoryOptionTitle as string}
             updateAction={updateAction}
             removeAction={removeAction}
@@ -129,6 +139,8 @@ const XYYZRChartCategories = ({
             showCategoryMembersObj={showCategoryMembersObj}
             path={path}
             updateParameterAction={updateParameterAction}
+            updateDragItemsAction={updateDragItemsAction}
+            updateHasDroppedAction={updateHasDroppedAction}
             categoryDragItem={
               categoryDragItems && categoryDragItems["Y Secondary Category"]
             }
@@ -142,6 +154,7 @@ const XYYZRChartCategories = ({
         )}
         {XYZ.includes(chartTypeDefined) && (
           <ZChartCategory
+            reducer={reducer}
             categoryOptionTitle={zCategoryOptionTitle as string}
             updateAction={updateAction}
             removeAction={removeAction}
@@ -150,6 +163,8 @@ const XYYZRChartCategories = ({
             showCategoryMembersObj={showCategoryMembersObj}
             path={path}
             updateParameterAction={updateParameterAction}
+            updateDragItemsAction={updateDragItemsAction}
+            updateHasDroppedAction={updateHasDroppedAction}
             categoryDragItem={
               categoryDragItems && categoryDragItems["Z Category"]
             }
@@ -163,6 +178,7 @@ const XYYZRChartCategories = ({
         )}
         {XYR.includes(chartTypeDefined) && (
           <RChartCategory
+            reducer={reducer}
             categoryOptionTitle={rCategoryOptionTitle as string}
             updateAction={updateAction}
             removeAction={removeAction}
@@ -171,6 +187,8 @@ const XYYZRChartCategories = ({
             showCategoryMembersObj={showCategoryMembersObj}
             path={path}
             updateParameterAction={updateParameterAction}
+            updateDragItemsAction={updateDragItemsAction}
+            updateHasDroppedAction={updateHasDroppedAction}
             categoryDragItem={
               categoryDragItems && categoryDragItems["R Category"]
             }

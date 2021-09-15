@@ -1,3 +1,5 @@
+import { INameTitleOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { TChartTypes } from "../Charts/ChartTypes";
 
@@ -15,6 +17,7 @@ export interface IChartCategory {
 
 export type TCategoriesTitle = string;
 export interface IChartCategories {
+  reducer?: ReducersType;
   chartType?: TChartTypes;
   xCategoryOptionTitle?: string;
   yCategoryOptionTitle?: string;
@@ -41,6 +44,17 @@ export interface IChartCategories {
   showCategoryMembersObj?: Record<string, boolean>;
   path?: string;
   updateParameterAction?: (path: string, value: any) => IAction;
+  updateDragItemsAction?: (
+    reducer: ReducersType,
+    categoryTitle: string,
+    item: INameTitleOption
+  ) => IAction;
+  updateHasDroppedAction?: (
+    reducer: ReducersType,
+    categoryTitle: string,
+    id: string,
+    hasDropped: boolean
+  ) => IAction;
   categoryDragItemsTitle?: string;
   categoryDragItems?: Record<string, Record<string, IDragItem>>;
   categoryHasDroppedTitle?: string;

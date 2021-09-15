@@ -7,13 +7,11 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../Visualytics/Components/TreeView/ApexTreeViewTypes";
-import {
-  resetChartDataAction,
-  transformChartDataAction,
-} from "../../Visualytics/Redux/Actions/VisualyticsActions";
+import { resetChartDataAction } from "../../Visualytics/Redux/Actions/VisualyticsActions";
 import {
   getForecastResultsChartDataRequestAction,
   getForecastResultsQualityAssuranceRequestAction,
+  transformForecastChartDataAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
@@ -115,7 +113,7 @@ export default function ForecastTreeView() {
       dispatch(updateForecastResultsParameterAction("selectedModuleIds", []));
       dispatch(resetChartDataAction("forecastReducer", wc));
       // dispatch({
-      //   ...transformChartDataAction("forecastReducer"),
+      //   ...transformForecastChartDataAction("forecastReducer"),
       //   payload: {
       //     reducer: "forecastReducer",
       //     workflowCategory: wc,
@@ -161,7 +159,7 @@ export default function ForecastTreeView() {
         );
 
         dispatch({
-          ...transformChartDataAction("forecastReducer"),
+          ...transformForecastChartDataAction("forecastReducer"),
           payload: {
             reducer: "forecastReducer",
             workflowCategory: wc,

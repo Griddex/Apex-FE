@@ -10,7 +10,6 @@ import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   PUT_SELECTCHART_SUCCESS,
   RESET_CHART_DATA,
-  TRANSFORM_CHARTDATA_SUCCESS,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
 import {
   GET_FORECASTDATABYID_FAILURE,
@@ -36,6 +35,7 @@ import {
   SET_FORECASTCHARTOBJECT,
   STORED_FORECASTINGRESULTS_FAILURE,
   STORED_FORECASTINGRESULTS_SUCCESS,
+  TRANSFORM_FORECAST_CHARTDATA_SUCCESS,
   UPDATE_FORECASTPARAMETER,
   UPDATE_FORECASTPARAMETERS,
   UPDATE_FORECASTRESULT_PARAMETERS,
@@ -356,7 +356,7 @@ const forecastReducer = (
       }
     }
 
-    case TRANSFORM_CHARTDATA_SUCCESS: {
+    case TRANSFORM_FORECAST_CHARTDATA_SUCCESS: {
       const {
         reducer,
         chartType,

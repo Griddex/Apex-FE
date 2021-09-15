@@ -1,4 +1,10 @@
 import { format } from "d3-format";
+import {
+  visualyticsDataToStackedChartData,
+  visualyticsDataToLineOrScatterChartData,
+  visualyticsDataToBarOrHeatmapChartData,
+  visualyticsDataToDoughnutChartData,
+} from "../../Application/Utils/TransformOneVisualyticsDataToAnother";
 import { IChart } from "../Redux/State/VisualyticsStateTypes";
 import {
   stackedChartToBarChartData,
@@ -8,7 +14,7 @@ import {
 } from "../Utils/TransformOneChartDataToAnother";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
 
-export const chartDataTransformersObj = {
+export const forecastChartDataTransformersObj = {
   stackedAreaChart: stackedChartTostackedChartData,
   lineChart: stackedChartToLineOrScatterChartData,
   scatterChart: stackedChartToLineOrScatterChartData,
@@ -16,6 +22,16 @@ export const chartDataTransformersObj = {
   doughnutChart: stackedChartToDoughnutChartData,
   radarChart: stackedChartToDoughnutChartData, //TODO do for radar transform
   heatMapChart: stackedChartToBarChartData, //Same data as bar
+};
+
+export const visualyticsChartDataTransformersObj = {
+  stackedAreaChart: visualyticsDataToStackedChartData,
+  lineChart: visualyticsDataToLineOrScatterChartData,
+  scatterChart: visualyticsDataToLineOrScatterChartData,
+  barChart: visualyticsDataToBarOrHeatmapChartData,
+  doughnutChart: visualyticsDataToDoughnutChartData,
+  radarChart: () => {}, //TODO do for radar transform
+  heatMapChart: visualyticsDataToBarOrHeatmapChartData, //Same data as bar
 };
 
 export const axisNameTitlesObj = {

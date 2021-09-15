@@ -43,7 +43,7 @@ const VisualyticsSelectChart = () => {
           shouldDispatch={[false, false]}
           finalActions={[
             () => {},
-            () => dispatch(getVisualyticsChartDataRequestAction()),
+            () => dispatch(getVisualyticsChartDataRequestAction(reducer, wc)),
           ]}
         />
       </ApexFlexContainer>

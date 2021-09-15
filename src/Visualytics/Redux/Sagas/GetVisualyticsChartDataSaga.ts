@@ -57,6 +57,7 @@ function* getVisualyticsChartDataSaga(
   any
 > {
   const { payload } = action;
+  const { reducer, workflowCategory } = payload;
 
   const {
     selectedVisualyticsId,
@@ -92,14 +93,20 @@ function* getVisualyticsChartDataSaga(
       authService.post(url, requestData, config);
     const result = yield call(visualyticsResultsAPI, url);
 
-    const { data: visualyticsResults } = result;
+    const {
+      data: {
+        data: { visualyticsResults: chartData },
+      },
+    } = result;
 
     const successAction = getVisualyticsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
+        reducer,
+        workflowCategory,
         chartType,
-        visualyticsResults,
+        chartData,
       },
     });
   } catch (errors) {

@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   image: { height: 70, width: 70 },
+  badge: { height: "fit-content" },
 }));
 
 const ForecastInputDeckLanding = () => {
@@ -201,7 +202,13 @@ const ForecastInputDeckLanding = () => {
             } = module;
 
             return (
-              <Badge key={name} {...getBadgeProps(name)}>
+              <Badge
+                key={name}
+                {...getBadgeProps(name)}
+                classes={{
+                  badge: classes.badge,
+                }}
+              >
                 <ModuleCard
                   isDispatched={true}
                   moduleAction={loadWorkflowAction}

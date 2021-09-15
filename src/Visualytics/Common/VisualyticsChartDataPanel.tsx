@@ -12,6 +12,8 @@ import {
   fetchVisualyticsTreeviewKeysRequestAction,
   removeVisualyticsChartCategoryAction,
   updateVisualyticsChartCategoryAction,
+  updateVisualyticsDragItemsAction,
+  updateVisualyticsHasDroppedAction,
   updateVisualyticsParameterAction,
   updateVisualyticsParametersAction,
 } from "../Redux/Actions/VisualyticsActions";
@@ -135,6 +137,7 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
 
   const categoriesComponent = (
     <XYYZRChartCategories
+      reducer={reducer}
       chartType={chartTypeDefined}
       xCategoryOptionTitle="visualyticsVariableXOptions"
       yCategoryOptionTitle="visualyticsVariableYOptions"
@@ -156,6 +159,8 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
       showCategoryMembersObj={showVisualyticsCategoryMembersObj}
       path="showVisualyticsCategoryMembersObj"
       updateParameterAction={updateVisualyticsParameterAction}
+      updateDragItemsAction={updateVisualyticsDragItemsAction}
+      updateHasDroppedAction={updateVisualyticsHasDroppedAction}
       categoryDragItemsTitle="visualyticsCategoryDragItems"
       categoryDragItems={visualyticsCategoryDragItems}
       categoryHasDroppedTitle="visualyticsCategoryHasDropped"

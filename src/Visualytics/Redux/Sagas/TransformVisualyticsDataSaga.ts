@@ -13,101 +13,98 @@ import {
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { GET_FORECASTRESULTS_CHARTDATA_SUCCESS } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
-import { chartDataTransformersObj } from "../../Data/VisualyticsData";
+import { visualyticsChartDataTransformersObj } from "../../Data/VisualyticsData";
 import {
-  TRANSFORM_CHARTDATA,
   GET_VISUALYTICS_CHARTDATA_SUCCESS,
-  transformChartDataFailureAction,
-  transformChartDataSuccessAction,
+  transformVisualyticsChartDataFailureAction,
+  transformVisualyticsChartDataSuccessAction,
+  TRANSFORM_VISUALYTICS_CHARTDATA,
 } from "../Actions/VisualyticsActions";
 
-export default function* watchTransformChartDataSaga(): Generator<
+export default function* watchTransformVisualyticsChartDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
   const transformChartDataChan = yield actionChannel([
-    TRANSFORM_CHARTDATA,
+    TRANSFORM_VISUALYTICS_CHARTDATA,
     GET_VISUALYTICS_CHARTDATA_SUCCESS,
-    GET_FORECASTRESULTS_CHARTDATA_SUCCESS,
   ]);
 
-  yield takeLeading<ActionType>(transformChartDataChan, transformChartDataSaga);
+  yield takeLeading<ActionType>(
+    transformChartDataChan,
+    transformVisualyticsChartDataSaga
+  );
 }
 
-function* transformChartDataSaga(
+function* transformVisualyticsChartDataSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
   const {
     reducer,
     workflowCategory,
-    defaultChart,
     chartType,
     chartData,
     xValueCategories,
     lineOrScatter,
-    isYear,
+    collateBy,
+    collationFxn,
   } = payload;
   console.log(
-    "Logged output --> ~ file: TransformChartDataSaga.ts ~ line 44 ~ payload",
+    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 56 ~ payload",
     payload
   );
-  const wc = workflowCategory;
-  const ch = defaultChart;
 
-  const foredcr = yield select(
-    (state: RootState) => state[reducer as ReducersType][wc]
-  );
+  const {
+    visualyticsResults,
+    visualyticsCategoryDragItems,
+    plotChartsResults,
+    plotChartsCategoryDragItems,
+  } = yield select((state: RootState) => state[reducer as ReducersType]);
   console.log(
-    "Logged output --> ~ file: TransformChartDataSaga.ts ~ line 62 ~ foredcr",
-    foredcr
-  );
-  const chartDataObj = yield select(
-    (state: RootState) => state[reducer as ReducersType][wc][ch]
+    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 64 ~ visualyticsResults",
+    visualyticsResults
   );
   let data = [] as any[];
 
   if (chartData) data = chartData;
-  else data = chartDataObj["chartData"];
+  else data = visualyticsResults;
+  console.log(
+    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 68 ~ data",
+    data
+  );
 
   try {
     const transformedChartDataFxn =
-      chartDataTransformersObj[chartType as TChartTypes];
+      visualyticsChartDataTransformersObj[chartType as TChartTypes];
 
     const transformedChartData = transformedChartDataFxn({
       data,
-      yearsOrMonths: xValueCategories,
+      categoryDragItems: visualyticsCategoryDragItems,
       lineOrScatter,
-      isYear,
+      collateBy,
+      collationFxn,
     });
     console.log(
-      "Logged output --> ~ file: TransformChartDataSaga.ts ~ line 58 ~ transformedChartData",
+      "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 82 ~ transformedChartData",
       transformedChartData
     );
 
-    const successAction = transformChartDataSuccessAction();
+    const successAction = transformVisualyticsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
         reducer,
-        chartType,
-        defaultChart,
-        chartData: transformedChartData,
-        xValueCategories,
-        lineOrScatter,
-        isYear,
         workflowCategory,
+        chartType,
+        chartData: (transformedChartData as any)["data"],
+        xValueCategories,
       },
     });
   } catch (errors) {
-    console.log(
-      "Logged output --> ~ file: TransformChartDataSaga.ts ~ line 74 ~ errors",
-      errors
-    );
-    const failureAction = transformChartDataFailureAction();
+    const failureAction = transformVisualyticsChartDataFailureAction();
 
     yield put({
       ...failureAction,

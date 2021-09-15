@@ -106,29 +106,29 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
               );
             } else {
               return (
-                <Badge key={name} {...getBadgeProps(name)}>
-                  <Button
-                    className={classes.button}
-                    onClick={() => {
-                      dispatch(subNavbarSetMenuAction(name));
-                      dispatch(navigateResetWorkflowAction());
-                      setMainMenuSelected(name);
-                      action && action();
-                      history.push(route);
-                    }}
-                    startIcon={startIcon}
-                    style={
-                      name === selected
-                        ? {
-                            color: theme.palette.primary.dark,
-                            backgroundColor: theme.palette.primary.light,
-                          }
-                        : {}
-                    }
-                  >
+                <Button
+                  className={classes.button}
+                  onClick={() => {
+                    dispatch(subNavbarSetMenuAction(name));
+                    dispatch(navigateResetWorkflowAction());
+                    setMainMenuSelected(name);
+                    action && action();
+                    history.push(route);
+                  }}
+                  startIcon={startIcon}
+                  style={
+                    name === selected
+                      ? {
+                          color: theme.palette.primary.dark,
+                          backgroundColor: theme.palette.primary.light,
+                        }
+                      : {}
+                  }
+                >
+                  <Badge key={name} {...getBadgeProps(name)}>
                     <Typography variant="subtitle2">{name}</Typography>
-                  </Button>
-                </Badge>
+                  </Badge>
+                </Button>
               );
             }
           })}

@@ -54,6 +54,12 @@ export const STORED_FORECASTINGRESULTS_SUCCESS =
 export const STORED_FORECASTINGRESULTS_FAILURE =
   "STORED_FORECASTINGRESULTS_FAILURE";
 
+export const TRANSFORM_FORECAST_CHARTDATA = "TRANSFORM_FORECAST_CHARTDATA";
+export const TRANSFORM_FORECAST_CHARTDATA_SUCCESS =
+  "TRANSFORM_FORECAST_CHARTDATA_SUCCESS";
+export const TRANSFORM_FORECAST_CHARTDATA_FAILURE =
+  "TRANSFORM_FORECAST_CHARTDATA_FAILURE";
+
 export const GET_FORECASTDATABYID_REQUEST = "GET_FORECASTDATABYID_REQUEST";
 export const GET_FORECASTDATABYID_SUCCESS = "GET_FORECASTDATABYID_SUCCESS";
 export const GET_FORECASTDATABYID_FAILURE = "GET_FORECASTDATABYID_FAILURE";
@@ -172,6 +178,34 @@ export const getForecastResultsChartDataSuccessAction = () => {
 export const getForecastResultsChartDataFailureAction = () => {
   return {
     type: GET_FORECASTRESULTS_CHARTDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const transformForecastChartDataAction = (reducer: ReducersType) => {
+  return {
+    type: TRANSFORM_FORECAST_CHARTDATA,
+    payload: {
+      reducer,
+    },
+  };
+};
+
+export const transformForecastChartDataSuccessAction = () => {
+  return {
+    type: TRANSFORM_FORECAST_CHARTDATA_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const transformForecastChartDataFailureAction = () => {
+  return {
+    type: TRANSFORM_FORECAST_CHARTDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

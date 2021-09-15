@@ -1,50 +1,53 @@
+import omit from "lodash.omit";
 import set from "lodash.set";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
-  GET_TABLEDATABYID_SUCCESS,
   GET_TABLEDATABYID_FAILURE,
+  GET_TABLEDATABYID_SUCCESS,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   IMPORTFILE_INITIALIZATION,
-  PERSIST_VARIABLEUNITS,
-  PERSIST_FILE,
-  PERSIST_WORKSHEETNAMES,
-  PERSIST_WORKSHEET,
-  PERSIST_FILEHEADERS,
-  PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
-  PERSIST_CHOSENAPPLICATIONUNITS,
-  PERSIST_CHOSENAPPLICATIONUNITINDICES,
   PERSIST_CHOSENAPPLICATIONHEADERS,
+  PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
+  PERSIST_CHOSENAPPLICATIONUNITINDICES,
+  PERSIST_CHOSENAPPLICATIONUNITS,
+  PERSIST_COLUMNNAMETABLEDATA,
+  PERSIST_FILE,
+  PERSIST_FILEHEADERS,
   PERSIST_FILEHEADERSMATCH,
   PERSIST_FILEUNITSANDUNIQUEUNITS,
   PERSIST_FILEUNITSMATCH,
-  PERSIST_TABLEROLENAMES,
   PERSIST_TABLEDATA,
-  PERSIST_COLUMNNAMETABLEDATA,
+  PERSIST_TABLEROLENAMES,
+  PERSIST_VARIABLEUNITS,
+  PERSIST_WORKSHEET,
+  PERSIST_WORKSHEETNAMES,
 } from "../../../Import/Redux/Actions/InputActions";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
 import {
+  GET_VISUALYTICS_CHARTDATA_SUCCESS,
   LOAD_VISUALYTICS_WORKFLOW,
   PERSIST_CHARTELEMENTID,
   PERSIST_CHARTINDEX,
   PUT_SELECTCHART,
   PUT_SELECTCHART_SUCCESS,
   RESET_CHART,
+  RESET_CHART_DATA,
   SET_CHARTCELLCOLORS,
   SET_CHARTCOLOR,
   SET_CHARTOBJECT,
-  TRANSFORM_CHARTDATA,
-  TRANSFORM_CHARTDATA_FAILURE,
-  TRANSFORM_CHARTDATA_SUCCESS,
-  UPDATE_CHARTOBJECT,
-  RESET_CHART_DATA,
   STORED_VISUALYTICSDATA_FAILURE,
   STORED_VISUALYTICSDATA_SUCCESS,
-  VISUALYTICS_TREEVIEWKEYS_SUCCESS,
-  VISUALYTICS_TREEVIEWKEYS_FAILURE,
+  TRANSFORM_VISUALYTICS_CHARTDATA_SUCCESS,
+  UPDATE_CHARTOBJECT,
   UPDATE_VISUALYTICSPARAMETER,
   UPDATE_VISUALYTICSPARAMETERS,
+  VISUALYTICS_REMOVE_CHARTCATEGORY,
+  VISUALYTICS_TREEVIEWKEYS_FAILURE,
+  VISUALYTICS_TREEVIEWKEYS_SUCCESS,
+  VISUALYTICS_UPDATE_DRAGITEMS,
+  VISUALYTICS_UPDATE_HASDROPPED,
 } from "../Actions/VisualyticsActions";
 import visualyticsState from "../State/VisualyticsState";
 import { IVisualyticsState } from "../State/VisualyticsStateTypes";
@@ -194,23 +197,25 @@ const visualyticsReducer = (
       }
     }
 
-    case TRANSFORM_CHARTDATA_SUCCESS: {
+    case GET_VISUALYTICS_CHARTDATA_SUCCESS: {
+      const { chartData: visualyticsResults } = action.payload;
+
+      return { ...state, visualyticsResults };
+    }
+
+    case TRANSFORM_VISUALYTICS_CHARTDATA_SUCCESS: {
       const {
         reducer,
+        workflowCategory,
         chartType,
         chartData,
         xValueCategories,
-        lineOrScatter,
-        isYear,
-        workflowCategory,
       } = action.payload;
 
       if (reducer === "visualyticsReducer") {
         return {
           ...state,
           xValueCategories,
-          lineOrScatter,
-          isYear,
           [workflowCategory]: {
             ...(state as any)[workflowCategory],
             [chartType]: {
@@ -299,6 +304,64 @@ const visualyticsReducer = (
         ...state,
         errors,
       };
+    }
+
+    case VISUALYTICS_REMOVE_CHARTCATEGORY: {
+      const { categoryOptionTitle, id } = action.payload;
+
+      const categoryObj =
+        state["visualyticsCategoryDragItems"][categoryOptionTitle];
+      const newCategoryObj = omit(categoryObj, [id]);
+
+      const hasDroppedObj =
+        state["visualyticsCategoryHasDropped"][categoryOptionTitle];
+      const newHasDroppedObj = omit(hasDroppedObj, [id]);
+
+      return {
+        ...state,
+        visualyticsCategoryDragItems: {
+          ...state["visualyticsCategoryDragItems"],
+          [categoryOptionTitle]: newCategoryObj,
+        },
+        visualyticsCategoryHasDropped: {
+          ...state["visualyticsCategoryHasDropped"],
+          [categoryOptionTitle]: newHasDroppedObj,
+        },
+      };
+    }
+
+    case VISUALYTICS_UPDATE_DRAGITEMS: {
+      const { reducer, categoryTitle, item } = action.payload;
+
+      if (reducer === "visualyticsReducer") {
+        return {
+          ...state,
+          visualyticsCategoryDragItems: {
+            ...state["visualyticsCategoryDragItems"],
+            [categoryTitle]: {
+              ...state["visualyticsCategoryDragItems"][categoryTitle],
+              [item.id]: item,
+            },
+          },
+        };
+      } else return state;
+    }
+
+    case VISUALYTICS_UPDATE_HASDROPPED: {
+      const { reducer, categoryTitle, id, hasDropped } = action.payload;
+
+      if (reducer === "visualyticsReducer") {
+        return {
+          ...state,
+          visualyticsCategoryHasDropped: {
+            ...state["visualyticsCategoryHasDropped"],
+            [categoryTitle]: {
+              ...state["visualyticsCategoryHasDropped"][categoryTitle],
+              [id]: hasDropped,
+            },
+          },
+        };
+      } else return state;
     }
 
     case RESET_CHART: {

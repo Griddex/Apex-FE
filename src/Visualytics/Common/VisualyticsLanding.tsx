@@ -1,7 +1,8 @@
-import { makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import BadgeComingSoon from "../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   image: { height: 70, width: 70 },
+  badge: { height: "fit-content" },
 }));
 
 const VisualyticsLanding = () => {
@@ -185,6 +187,13 @@ const VisualyticsLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "Database" && { badgeContent: <BadgeComingSoon /> }),
+    } as BadgeProps;
+  };
+
   return (
     <>
       {loadVisualyticsWorkflow ? (
@@ -248,26 +257,34 @@ const VisualyticsLanding = () => {
             } = module;
 
             return (
-              <ModuleCard
+              <Badge
                 key={name}
-                isDispatched={false}
-                moduleAction={() => {
-                  dispatch(
-                    loadVisualyticsWorkflowAction(
-                      "loadVisualyticsWorkflow",
-                      true
-                    )
-                  );
-
-                  dispatch(subNavbarSetMenuAction("Visualytics Deck"));
+                {...getBadgeProps(name)}
+                classes={{
+                  badge: classes.badge,
                 }}
-                title={name}
-                description={description}
-                icon={icon}
-                route={route}
-                wP={workflowProcess}
-                wC={workflowCategory}
-              />
+              >
+                <ModuleCard
+                  key={name}
+                  isDispatched={false}
+                  moduleAction={() => {
+                    dispatch(
+                      loadVisualyticsWorkflowAction(
+                        "loadVisualyticsWorkflow",
+                        true
+                      )
+                    );
+
+                    dispatch(subNavbarSetMenuAction("Visualytics Deck"));
+                  }}
+                  title={name}
+                  description={description}
+                  icon={icon}
+                  route={route}
+                  wP={workflowProcess}
+                  wC={workflowCategory}
+                />
+              </Badge>
             );
           })}
         </div>

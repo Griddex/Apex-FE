@@ -8,11 +8,11 @@ const BadgeComingSoon = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        paddingBottom: 2,
+        margin: 5,
       }}
     >
-      <span>Coming</span>
-      <span>Soon</span>
+      <div style={{ marginTop: 2 }}>Coming</div>
+      <div>Soon</div>
     </div>
   );
 };

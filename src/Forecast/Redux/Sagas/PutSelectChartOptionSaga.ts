@@ -14,8 +14,8 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   PUT_SELECTCHART,
   putSelectChartOptionSuccessAction,
-  transformChartDataAction,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
+import { transformForecastChartDataAction } from "../Actions/ForecastActions";
 
 export default function* watchPutSelectChartOptionSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -49,7 +49,7 @@ function* putSelectChartOptionSaga(
     });
   } finally {
     yield put({
-      ...transformChartDataAction(reducer),
+      ...transformForecastChartDataAction(reducer),
       payload,
     });
   }

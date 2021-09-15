@@ -274,6 +274,7 @@ export interface IEconomicsState
   heatMapCategoryHasDropped: Record<string, Record<string, true>>;
 
   economicsPlotChartsTree: RenderTree;
+  plotChartsResults: any[];
   plotChartsData: null;
   plotChartsDataTrans: null;
   selectedEconomicsPlotChartOption: ISelectOption;

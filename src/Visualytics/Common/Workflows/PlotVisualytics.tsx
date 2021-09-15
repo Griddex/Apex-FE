@@ -63,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
   },
+  selectChart: {
+    height: `calc(100% - 50px)`,
+  },
 }));
 
 const PlotVisualytics = () => {
@@ -256,14 +259,16 @@ const PlotVisualytics = () => {
             <VisualyticsChartTitlePlaque />
             <ChartButtons {...chartButtons} />
           </div>
-          {chartType === "Select Chart..." ? (
-            <NoSelectionPlaceholder
-              icon={<ArrowUpwardOutlinedIcon color="primary" />}
-              text="Select a chart.."
-            />
-          ) : (
-            <VisualyticsSelectChart />
-          )}
+          <div className={classes.selectChart}>
+            {chartType === "Select Chart..." ? (
+              <NoSelectionPlaceholder
+                icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                text="Select a chart.."
+              />
+            ) : (
+              <VisualyticsSelectChart />
+            )}
+          </div>
         </div>
       </div>
       {showContextDrawer && (

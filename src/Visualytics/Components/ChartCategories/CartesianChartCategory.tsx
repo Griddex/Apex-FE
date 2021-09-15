@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
+import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   itemTypesEconomics,
   itemTypesForecast,
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CartesianChartCategory = ({
+  reducer,
   categoryTitle,
   categoryOptionTitle,
   updateAction,
@@ -38,6 +40,8 @@ const CartesianChartCategory = ({
   showCategoryMembersObj,
   path,
   updateParameterAction,
+  updateDragItemsAction,
+  updateHasDroppedAction,
   categoryDragItem,
   categoryDropped,
   categoryDragItemsTitle,
@@ -76,24 +80,21 @@ const CartesianChartCategory = ({
         setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
 
         dispatch(
-          updateParameterAction &&
-            updateParameterAction(
-              `${categoryDragItemsTitle}.${categoryTitle}`,
-              {
-                ...dragItemObj,
-                [id]: item as IDragItem,
-              }
+          updateDragItemsAction &&
+            updateDragItemsAction(
+              reducer as ReducersType,
+              categoryTitle as string,
+              item as IDragItem
             )
         );
 
         dispatch(
-          updateParameterAction &&
-            updateParameterAction(
-              `${categoryHasDroppedTitle}.${categoryTitle}`,
-              {
-                ...hasDroppedObj,
-                [id]: true,
-              }
+          updateHasDroppedAction &&
+            updateHasDroppedAction(
+              reducer as ReducersType,
+              categoryTitle as string,
+              id,
+              true
             )
         );
       },
@@ -131,6 +132,7 @@ const CartesianChartCategory = ({
     ...dropTargetStyle,
     ...disableStyle,
     width: "100%",
+    // height: categoryTitle === "X Category" ? 40 : 200,
   } as CSSProperties;
 
   React.useEffect(() => {
@@ -172,7 +174,11 @@ const CartesianChartCategory = ({
       <AnalyticsComp
         title={categoryTitle as string}
         direction="Vertical"
-        containerStyle={{ width: "100%", height: 100 }}
+        containerStyle={{
+          width: "100%",
+          height: "100%",
+          overflowY: "auto",
+        }}
         content={
           <ApexFlexContainer
             ref={drop}
@@ -186,7 +192,7 @@ const CartesianChartCategory = ({
                   dragItem={dragItemObj[id]}
                   setHasDroppedObj={setHasDroppedObj}
                   setDragItemObj={setDragItemObj}
-                  categoryOptionTitle={categoryOptionTitle as string}
+                  categoryTitle={categoryTitle as string}
                   removeChartCategoryAction={removeAction}
                 />
               ))

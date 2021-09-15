@@ -1,10 +1,9 @@
-import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { INameTitleOption } from "../../../Application/Components/Selects/SelectItemsType";
 import {
   ReducersType,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { chartObjectsNameTitleMap } from "../State/VisualyticsState";
 import { IChartObject } from "../State/VisualyticsStateTypes";
 
@@ -28,10 +27,6 @@ export const GET_VISUALYTICS_CHARTDATA_SUCCESS =
 export const GET_VISUALYTICS_CHARTDATA_FAILURE =
   "GET_VISUALYTICS_CHARTDATA_FAILURE";
 
-export const TRANSFORM_CHARTDATA = "TRANSFORM_CHARTDATA";
-export const TRANSFORM_CHARTDATA_SUCCESS = "TRANSFORM_CHARTDATA_SUCCESS";
-export const TRANSFORM_CHARTDATA_FAILURE = "TRANSFORM_CHARTDATA_FAILURE";
-
 export const PERSIST_CHARTELEMENTID = "PERSIST_CHARTELEMENTID";
 export const SET_CHARTCOLOR = "SET_CHARTCOLOR";
 export const SET_CHARTCELLCOLORS = "SET_CHARTCELLCOLORS";
@@ -48,6 +43,9 @@ export const VISUALYTICS_UPDATE_CHARTCATEGORY =
 export const VISUALYTICS_REMOVE_CHARTCATEGORY =
   "VISUALYTICS_REMOVE_CHARTCATEGORY";
 
+export const VISUALYTICS_UPDATE_DRAGITEMS = "VISUALYTICS_UPDATE_DRAGITEMS";
+export const VISUALYTICS_UPDATE_HASDROPPED = "VISUALYTICS_UPDATE_HASDROPPED";
+
 export const VISUALYTICS_TREEVIEWKEYS_REQUEST =
   "VISUALYTICS_TREEVIEWKEYS_REQUEST";
 export const VISUALYTICS_TREEVIEWKEYS_SUCCESS =
@@ -56,6 +54,13 @@ export const VISUALYTICS_TREEVIEWKEYS_FAILURE =
   "VISUALYTICS_TREEVIEWKEYS_FAILURE";
 
 export const RESET_CHART_DATA = "RESET_CHART_DATA";
+
+export const TRANSFORM_VISUALYTICS_CHARTDATA =
+  "TRANSFORM_VISUALYTICS_CHARTDATA";
+export const TRANSFORM_VISUALYTICS_CHARTDATA_SUCCESS =
+  "TRANSFORM_VISUALYTICS_CHARTDATA_SUCCESS";
+export const TRANSFORM_VISUALYTICS_CHARTDATA_FAILURE =
+  "TRANSFORM_VISUALYTICS_CHARTDATA_FAILURE";
 
 export const updateVisualyticsParameterAction = (path: string, value: any) => {
   return {
@@ -91,27 +96,27 @@ export const loadVisualyticsWorkflowAction = (
   };
 };
 
-export const transformChartDataAction = (reducer: ReducersType) => {
+export const transformVisualyticsChartDataAction = (reducer: ReducersType) => {
   return {
-    type: TRANSFORM_CHARTDATA,
+    type: TRANSFORM_VISUALYTICS_CHARTDATA,
     payload: {
       reducer,
     },
   };
 };
 
-export const transformChartDataSuccessAction = () => {
+export const transformVisualyticsChartDataSuccessAction = () => {
   return {
-    type: TRANSFORM_CHARTDATA_SUCCESS,
+    type: TRANSFORM_VISUALYTICS_CHARTDATA_SUCCESS,
     payload: {
       status: 0,
     },
   };
 };
 
-export const transformChartDataFailureAction = () => {
+export const transformVisualyticsChartDataFailureAction = () => {
   return {
-    type: TRANSFORM_CHARTDATA_FAILURE,
+    type: TRANSFORM_VISUALYTICS_CHARTDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -189,10 +194,13 @@ export const saveVisualyticsFailureAction = () => {
   };
 };
 
-export const getVisualyticsChartDataRequestAction = () => {
+export const getVisualyticsChartDataRequestAction = (
+  reducer: ReducersType,
+  workflowCategory: TAllWorkflowCategories
+) => {
   return {
     type: GET_VISUALYTICS_CHARTDATA_REQUEST,
-    payload: {},
+    payload: { reducer, workflowCategory },
   };
 };
 
@@ -323,6 +331,29 @@ export const updateVisualyticsChartCategoryAction = (
   return {
     type: VISUALYTICS_UPDATE_CHARTCATEGORY,
     payload: { categoryOptionTitle, item },
+  };
+};
+
+export const updateVisualyticsDragItemsAction = (
+  reducer: ReducersType,
+  categoryTitle: string,
+  item: INameTitleOption
+) => {
+  return {
+    type: VISUALYTICS_UPDATE_DRAGITEMS,
+    payload: { reducer, categoryTitle, item },
+  };
+};
+
+export const updateVisualyticsHasDroppedAction = (
+  reducer: ReducersType,
+  categoryTitle: string,
+  id: string,
+  hasDropped: boolean
+) => {
+  return {
+    type: VISUALYTICS_UPDATE_HASDROPPED,
+    payload: { reducer, categoryTitle, id, hasDropped },
   };
 };
 

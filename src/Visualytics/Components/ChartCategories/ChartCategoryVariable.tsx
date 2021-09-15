@@ -13,6 +13,8 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { IDragItem } from "./ChartCategoryTypes";
+import omitBy from "lodash.omitby";
+import omit from "lodash.omit";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -38,7 +40,7 @@ export interface IChartCategoryVariable {
   dragItem: IDragItem;
   setHasDroppedObj: TUseState<Record<string, boolean>>;
   setDragItemObj: TUseState<Record<string, IDragItem>>;
-  categoryOptionTitle: string;
+  categoryTitle: string;
   removeChartCategoryAction: (title: string, id: string) => IAction;
 }
 
@@ -46,7 +48,7 @@ const ChartCategoryVariable = ({
   dragItem,
   setHasDroppedObj,
   setDragItemObj,
-  categoryOptionTitle,
+  categoryTitle,
   removeChartCategoryAction,
 }: IChartCategoryVariable) => {
   const classes = useStyles();
@@ -76,10 +78,16 @@ const ChartCategoryVariable = ({
       <IconButton
         style={{ marginRight: 0 }}
         onClick={() => {
-          setHasDroppedObj((prev) => ({ ...prev, [id]: false }));
-          setDragItemObj((prev) => ({ ...prev, [id]: {} as IDragItem }));
+          setHasDroppedObj((prev) => {
+            const next = omit(prev, [id]);
+            return next;
+          });
+          setDragItemObj((prev) => {
+            const next = omit(prev, [id]);
+            return next;
+          });
 
-          dispatch(removeChartCategoryAction(categoryOptionTitle, id));
+          dispatch(removeChartCategoryAction(categoryTitle, id));
         }}
         edge="end"
         aria-label="delete"

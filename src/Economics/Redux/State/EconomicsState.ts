@@ -256,6 +256,7 @@ const EconomicsState: IEconomicsState = {
 
   //Plot Charts
   economicsPlotChartsTree: { id: "", name: "" },
+  plotChartsResults: [],
   plotChartsData: null,
   plotChartsDataTrans: null,
   selectedEconomicsPlotChartOption: {

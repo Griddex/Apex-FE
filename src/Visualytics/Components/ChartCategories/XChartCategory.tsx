@@ -3,6 +3,7 @@ import CartesianChartCategory from "./CartesianChartCategory";
 import { IChartCategories } from "./ChartCategoryTypes";
 
 const XChartCategory = ({
+  reducer,
   categoryOptionTitle,
   updateAction,
   removeAction,
@@ -11,6 +12,8 @@ const XChartCategory = ({
   showCategoryMembersObj,
   path,
   updateParameterAction,
+  updateDragItemsAction,
+  updateHasDroppedAction,
   categoryDragItem,
   categoryDropped,
   categoryDragItemsTitle,
@@ -19,6 +22,7 @@ const XChartCategory = ({
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
+      reducer={reducer}
       categoryTitle={"X Category"}
       categoryOptionTitle={categoryOptionTitle}
       updateAction={updateAction}
@@ -28,6 +32,8 @@ const XChartCategory = ({
       showCategoryMembersObj={showCategoryMembersObj}
       path={path}
       updateParameterAction={updateParameterAction}
+      updateDragItemsAction={updateDragItemsAction}
+      updateHasDroppedAction={updateHasDroppedAction}
       categoryDragItem={categoryDragItem}
       categoryDropped={categoryDropped}
       categoryDragItemsTitle={categoryDragItemsTitle}
