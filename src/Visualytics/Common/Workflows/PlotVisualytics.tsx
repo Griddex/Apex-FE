@@ -72,7 +72,6 @@ const PlotVisualytics = () => {
   const reducer = "visualyticsReducer";
   const wc = "visualyticsChartsWorkflows";
   const wp = "visualyticsResultsPlotCharts";
-  const ch = "stackedAreaChart";
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -143,14 +142,13 @@ const PlotVisualytics = () => {
                   const payload = {
                     reducer: "visualyticsReducer",
                     workflowCategory: wc,
-                    defaultChart: ch,
                     chartOption,
                     chartType: chartOption.value,
                     xValueCategories,
                     lineOrScatter:
                       chartOption.value === "lineChart" ? "line" : "scatter",
-                    isYear: true,
                     selectedChartOptionTitle: "selectedVisualyticsChartOption",
+                    collateBy: "yValue",
                   };
 
                   dispatch(putSelectChartOptionAction(payload));

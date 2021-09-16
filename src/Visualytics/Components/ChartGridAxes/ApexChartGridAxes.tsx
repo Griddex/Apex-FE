@@ -32,7 +32,7 @@ const ApexChartGridAxes = ({
   }));
 
   return (
-    <ApexFlexContainer flexDirection="column">
+    <ApexFlexContainer flexDirection="column" justifyContent="flex-start">
       {apexChartGridData.map((obj, i) => {
         return (
           <ApexChartGrid

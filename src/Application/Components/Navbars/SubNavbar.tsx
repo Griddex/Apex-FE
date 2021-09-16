@@ -100,13 +100,14 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
 
             if (hasWrapper) {
               return (
-                <Badge key={name} {...getBadgeProps(name)}>
+                <Badge key={i} {...getBadgeProps(name)}>
                   <Component />
                 </Badge>
               );
             } else {
               return (
                 <Button
+                  key={i}
                   className={classes.button}
                   onClick={() => {
                     dispatch(subNavbarSetMenuAction(name));
