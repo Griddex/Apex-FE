@@ -82,7 +82,6 @@ const SensitivitiesHeatMapChart = ({
 
   const isHeatMapVariableXOptionOnly = isX && !isY && !isZ;
   const isHeatMapVariableXYOptionOnly = isX && isY && !isZ;
-  const isHeatMapVariableXYZOptionOnly = isX && isY && isZ;
 
   let heatMapTreeZRow = {} as RenderTree;
   let heatMapVarZData = [] as ISelectOption[];

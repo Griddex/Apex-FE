@@ -128,7 +128,7 @@ const ApexChartAxis = ({
   );
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", padding: 10 }}>
       {stk_lin_bar_sct_htm.includes(chartTypeDefined) && (
         <AnalyticsComp
           title=""

@@ -66,8 +66,8 @@ function* fetchHeatMapDataSaga(
     variableZKey,
   } = payload;
   console.log(
-    "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 67 ~ selectedDevScenario",
-    selectedDevScenario
+    "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 68 ~ payload",
+    payload
   );
 
   const {
@@ -139,15 +139,15 @@ function* fetchHeatMapDataSaga(
         )
       );
 
-      const sensitivitiesHeatMap1or2D =
-        sensitivitiesHeatMapData[devScenario][variableZKey];
+      // const sensitivitiesHeatMap1or2D =
+      //   sensitivitiesHeatMapData[devScenario][variableZKey];
 
-      yield put(
-        updateEconomicsParameterAction(
-          "sensitivitiesHeatMap1or2D",
-          sensitivitiesHeatMap1or2D
-        )
-      );
+      // yield put(
+      //   updateEconomicsParameterAction(
+      //     "sensitivitiesHeatMap1or2D",
+      //     sensitivitiesHeatMap1or2D
+      //   )
+      // );
     }
   } catch (errors) {
     const failureAction = fetchHeatMapDataFailureAction();

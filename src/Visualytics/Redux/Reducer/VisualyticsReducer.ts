@@ -175,13 +175,15 @@ const visualyticsReducer = (
     }
 
     case PUT_SELECTCHART: {
-      const { selectedOptionTitle, selectedForecastChartOption } =
+      const { reducer, selectedOptionTitle, selectedVisualyticsChartOption } =
         action.payload;
 
-      return {
-        ...state,
-        [selectedOptionTitle]: selectedForecastChartOption,
-      };
+      if (reducer === "visualyticsReducer")
+        return {
+          ...state,
+          [selectedOptionTitle]: selectedVisualyticsChartOption,
+        };
+      else return state;
     }
 
     case PUT_SELECTCHART_SUCCESS: {

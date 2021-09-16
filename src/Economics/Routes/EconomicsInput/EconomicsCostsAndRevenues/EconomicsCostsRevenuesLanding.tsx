@@ -259,7 +259,6 @@ const EconomicsCostsRevenuesLanding = () => {
   const getBadgeProps = (name: string) => {
     return {
       color: "secondary",
-      badgeContent: "Coming Soon",
       ...(name === "Database" && { badgeContent: <BadgeComingSoon /> }),
     } as BadgeProps;
   };

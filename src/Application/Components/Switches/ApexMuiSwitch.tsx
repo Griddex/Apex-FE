@@ -58,6 +58,15 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
 
   const classes = useStyles(props);
 
+  // return (
+  //   <Switch
+  //     checked={checked}
+  //     onChange={handleChange}
+  //     name="checkedA"
+  //     inputProps={{ "aria-label": "secondary checkbox" }}
+  //   />
+  // );
+
   if (hasLabels)
     return (
       <ApexFlexContainer

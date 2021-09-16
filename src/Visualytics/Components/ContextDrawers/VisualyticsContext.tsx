@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core";
-import NewWindow from "rc-new-window";
+// import NewWindow from "rc-new-window";
 import React from "react";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
@@ -12,6 +12,11 @@ import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { IAction } from "./../../../Application/Redux/Actions/ActionTypes";
+import NewImprovedWindow from "react-new-improved-window";
+import NewWindow from "react-new-window";
+import { Rnd } from "react-rnd";
+import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
+import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
 
 export interface IVisualyticsContext {
   reducer: ReducersType;
@@ -30,6 +35,13 @@ const VisualyticsContext = ({
   openContextWindow,
   setOpenContextWindow,
 }: IVisualyticsContext) => {
+  const [categorySizePosition, setCategorySizePosition] = React.useState({
+    width: 385,
+    height: 540,
+    x: -300,
+    y: 0,
+  });
+
   return (
     <ContextDrawer iconReplacement={<DetailsOutlinedIcon />}>
       {() => (
@@ -62,13 +74,72 @@ const VisualyticsContext = ({
                 Format
               </Button>
               {openContextWindow && (
+                // <Rnd
+                //   style={{ zIndex: 2000, padding: 2 }}
+                //   size={{
+                //     width: categorySizePosition.width,
+                //     height: categorySizePosition.height,
+                //   }}
+                //   position={{
+                //     x: categorySizePosition.x,
+                //     y: categorySizePosition.y,
+                //   }}
+                //   onDragStop={(e, d) =>
+                //     setCategorySizePosition((prev) => ({
+                //       ...prev,
+                //       x: d.x,
+                //       y: d.y,
+                //     }))
+                //   }
+                //   onResizeStop={(e, direction, ref, delta, position) => {
+                //     setCategorySizePosition({
+                //       width: Number(ref.style.width),
+                //       height: Number(ref.style.height),
+                //       ...position,
+                //     });
+                //   }}
+                // >
+                //   <DraggableDialog
+                //     title="Title"
+                //     iconType="category"
+                //     onClose={() => setOpenContextWindow(false)}
+                //     actionsList={() => (
+                //       <>
+                //         <Button
+                //           variant="contained"
+                //           color="secondary"
+                //           onClick={() => {}}
+                //           startIcon={<CloseOutlinedIcon />}
+                //         >
+                //           {"Clear"}
+                //         </Button>
+                //         <Button
+                //           variant="contained"
+                //           color="primary"
+                //           onClick={() => setOpenContextWindow(false)}
+                //           startIcon={<CallReceivedIcon />}
+                //         >
+                //           {"Hide"}
+                //         </Button>
+                //       </>
+                //     )}
+                //   >
+                //     <ChartFormatAggregator
+                //       basePath={basePath}
+                //       updateParameterAction={updateParameterAction}
+                //       chartType={chartType as TChartTypes}
+                //     />
+                //   </DraggableDialog>
+                // </Rnd>
+
+                // <NewImprovedWindow
                 <NewWindow
-                  onClose={() => {
-                    setOpenContextWindow(false);
-                  }}
+                  // onClose={() => {
+                  //   setOpenContextWindow(false);
+                  // }}
                   copyStyles={true}
-                  height={800}
-                  width={490}
+                  // height={800}
+                  // width={490}
                 >
                   <ChartFormatAggregator
                     basePath={basePath}

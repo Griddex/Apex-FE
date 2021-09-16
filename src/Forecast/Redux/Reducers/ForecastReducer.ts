@@ -8,6 +8,7 @@ import {
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
+  PUT_SELECTCHART,
   PUT_SELECTCHART_SUCCESS,
   RESET_CHART_DATA,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
@@ -405,6 +406,18 @@ const forecastReducer = (
       } else {
         return state;
       }
+    }
+
+    case PUT_SELECTCHART: {
+      const { reducer, selectedOptionTitle, selectedForecastChartOption } =
+        action.payload;
+
+      if (reducer === "forecastReducer")
+        return {
+          ...state,
+          [selectedOptionTitle]: selectedForecastChartOption,
+        };
+      else return state;
     }
 
     case RESET_FORECAST: {

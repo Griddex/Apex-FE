@@ -14,6 +14,10 @@ import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCate
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
+  updateVisualyticsDragItemsAction,
+  updateVisualyticsHasDroppedAction,
+} from "../../../../Visualytics/Redux/Actions/VisualyticsActions";
+import {
   fetchEconomicsTreeviewKeysRequestAction,
   removeEconomicsChartCategoryAction,
   updateEconomicsChartCategoryAction,
@@ -129,6 +133,7 @@ const SensitivitiesHeatMapDataPanel = ({
     () =>
       dispatch(
         updateEconomicsParametersAction({
+          sensitivitiesHeatMapData: {},
           sensitivitiesHeatMap1or2D: [],
           heatMapVariableXOptions: {},
           heatMapVariableYOptions: {},
@@ -274,6 +279,8 @@ const SensitivitiesHeatMapDataPanel = ({
       categoryDragItems={heatMapCategoryDragItems}
       categoryHasDroppedTitle="heatMapCategoryHasDropped"
       categoryHasDropped={heatMapCategoryHasDropped}
+      updateDragItemsAction={updateVisualyticsDragItemsAction}
+      updateHasDroppedAction={updateVisualyticsHasDroppedAction}
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent

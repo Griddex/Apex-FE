@@ -14,6 +14,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   PUT_SELECTCHART,
   putSelectChartOptionSuccessAction,
+  transformVisualyticsChartDataAction,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
 import { transformForecastChartDataAction } from "../Actions/ForecastActions";
 
@@ -48,9 +49,15 @@ function* putSelectChartOptionSaga(
       },
     });
   } finally {
-    yield put({
-      ...transformForecastChartDataAction(reducer),
-      payload,
-    });
+    if (reducer === "forecastReducer")
+      yield put({
+        ...transformForecastChartDataAction(reducer),
+        payload,
+      });
+    else if (reducer === "visualyticsReducer")
+      yield put({
+        ...transformVisualyticsChartDataAction(reducer),
+        payload,
+      });
   }
 }

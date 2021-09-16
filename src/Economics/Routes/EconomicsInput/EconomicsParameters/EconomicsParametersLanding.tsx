@@ -1,7 +1,8 @@
-import { makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import BadgeComingSoon from "../../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   image: { height: 70, width: 70 },
+  badge: { height: "fit-content" },
 }));
 
 const EconomicsParametersLanding = () => {
@@ -203,6 +205,15 @@ const EconomicsParametersLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const getBadgeProps = (name: string) => {
+    return {
+      color: "secondary",
+      ...(name === "Database" && {
+        badgeContent: <BadgeComingSoon />,
+      }),
+    } as BadgeProps;
+  };
+
   return (
     <>
       {loadEconomicsParametersWorkflow ? (
@@ -277,19 +288,29 @@ const EconomicsParametersLanding = () => {
               workflowCategory,
             } = module;
             return (
-              <ModuleCard
+              <Badge
                 key={name}
-                isDispatched={true}
-                moduleAction={() =>
-                  loadEconomicsWorkflowAction("loadEconomicsParametersWorkflow")
-                }
-                title={name}
-                description={description}
-                icon={icon}
-                route={route}
-                wP={workflowProcess}
-                wC={workflowCategory}
-              />
+                {...getBadgeProps(name)}
+                classes={{
+                  badge: classes.badge,
+                }}
+              >
+                <ModuleCard
+                  key={name}
+                  isDispatched={true}
+                  moduleAction={() =>
+                    loadEconomicsWorkflowAction(
+                      "loadEconomicsParametersWorkflow"
+                    )
+                  }
+                  title={name}
+                  description={description}
+                  icon={icon}
+                  route={route}
+                  wP={workflowProcess}
+                  wC={workflowCategory}
+                />
+              </Badge>
             );
           })}
         </div>
