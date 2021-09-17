@@ -18,9 +18,9 @@ import {
   transformForecastChartDataFailureAction,
   transformForecastChartDataSuccessAction,
   TRANSFORM_FORECAST_CHARTDATA,
-} from "../../../Forecast/Redux/Actions/ForecastActions";
-import { TChartTypes } from "../../Components/Charts/ChartTypes";
-import { forecastChartDataTransformersObj } from "../../Data/VisualyticsData";
+} from "../Actions/ForecastActions";
+import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
+import { forecastChartDataTransformersObj } from "../../../Visualytics/Data/VisualyticsData";
 
 export default function* watchTransformForecastChartDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,

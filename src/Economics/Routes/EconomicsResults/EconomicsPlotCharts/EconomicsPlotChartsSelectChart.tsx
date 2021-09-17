@@ -44,7 +44,7 @@ const EconomicsPlotChartsSelectChart = () => {
           shouldDispatch={[false, false]}
           finalActions={[
             () => {},
-            () => dispatch(getEconomicsPlotChartDataRequestAction()),
+            () => dispatch(getEconomicsPlotChartDataRequestAction(reducer, wc)),
           ]}
         />
       </ApexFlexContainer>

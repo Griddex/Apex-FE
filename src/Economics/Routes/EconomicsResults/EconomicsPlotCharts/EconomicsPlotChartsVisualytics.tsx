@@ -87,6 +87,7 @@ const EconomicsPlotChartsVisualytics = () => {
   );
 
   const {
+    plotChartsResults,
     xValueCategories,
     showPlotChartsCategories,
     selectedEconomicsPlotChartOption,
@@ -98,9 +99,7 @@ const EconomicsPlotChartsVisualytics = () => {
 
   const chartType = selectedEconomicsPlotChartOption.value;
 
-  const { chartData } = useSelector(
-    (state: RootState) => state.economicsReducer[wc][ch]
-  );
+  const basePath = `${wc}.commonChartProps`;
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -109,12 +108,11 @@ const EconomicsPlotChartsVisualytics = () => {
         <ChartSelectionMenu
           chartOptions={economicsPlotChartsOptions}
           putChartOptionAction={
-            chartData.length > 0
+            plotChartsResults.length > 0
               ? (chartOption: ISelectOption) => {
                   const payload = {
                     reducer: "economicsReducer",
                     workflowCategory: wc,
-                    defaultChart: ch,
                     chartOption,
                     chartType: chartOption.value,
                     xValueCategories,
@@ -123,6 +121,7 @@ const EconomicsPlotChartsVisualytics = () => {
                     isYear: true,
                     selectedChartOptionTitle:
                       "selectedEconomicsPlotChartOption",
+                    collateBy: "yValue",
                   };
 
                   dispatch(putSelectChartOptionAction(payload));
@@ -187,8 +186,6 @@ const EconomicsPlotChartsVisualytics = () => {
     moveDivRef?.current?.addEventListener("mousemove", onMouseMove);
     moveDivRef?.current?.addEventListener("mouseup", onMouseUp);
   }, []);
-
-  const basePath = `${wc}.commonChartProps`;
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());

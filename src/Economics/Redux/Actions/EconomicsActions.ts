@@ -4,6 +4,7 @@ import {
   IEconomicsWorkflows,
   IInputWorkflows,
   ReducersType,
+  TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
@@ -87,6 +88,13 @@ export const GET_ECONOMICSPLOT_CHARTDATA_SUCCESS =
   "GET_ECONOMICSPLOT_CHARTDATA_SUCCESS";
 export const GET_ECONOMICSPLOT_CHARTDATA_FAILURE =
   "GET_ECONOMICSPLOT_CHARTDATA_FAILURE";
+
+export const TRANSFORM_ECONOMICSPLOT_CHARTDATA =
+  "TRANSFORM_ECONOMICSPLOT_CHARTDATA";
+export const TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS =
+  "TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS";
+export const TRANSFORM_ECONOMICSPLOT_CHARTDATA_FAILURE =
+  "TRANSFORM_ECONOMICSPLOT_CHARTDATA_FAILURE";
 
 export const RUN_ECONOMICSANALYSIS_REQUEST = "RUN_ECONOMICSANALYSIS_REQUEST";
 export const RUN_ECONOMICSANALYSIS_SUCCESS = "RUN_ECONOMICSANALYSIS_SUCCESS";
@@ -525,10 +533,13 @@ export const persistEconomicsDeckRequestAction = (
   };
 };
 
-export const getEconomicsPlotChartDataRequestAction = () => {
+export const getEconomicsPlotChartDataRequestAction = (
+  reducer: ReducersType,
+  workflowCategory: TAllWorkflowCategories
+) => {
   return {
     type: GET_ECONOMICSPLOT_CHARTDATA_REQUEST,
-    payload: {},
+    payload: { reducer, workflowCategory },
   };
 };
 
@@ -544,6 +555,34 @@ export const getEconomicsPlotChartDataSuccessAction = () => {
 export const getEconomicsPlotChartDataFailureAction = () => {
   return {
     type: GET_ECONOMICSPLOT_CHARTDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const transformEconomicsChartDataAction = (reducer: ReducersType) => {
+  return {
+    type: TRANSFORM_ECONOMICSPLOT_CHARTDATA,
+    payload: {
+      reducer,
+    },
+  };
+};
+
+export const transformEconomicsChartDataSuccessAction = () => {
+  return {
+    type: TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const transformEconomicsChartDataFailureAction = () => {
+  return {
+    type: TRANSFORM_ECONOMICSPLOT_CHARTDATA_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

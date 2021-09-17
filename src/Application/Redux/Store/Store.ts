@@ -58,7 +58,7 @@ import watchFetchEconomicsTreeviewKeysSaga from "../../../Economics/Redux/Sagas/
 import watchFetchForecastTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchForecastTreeviewKeysSaga";
 import watchGetForecastQADataSaga from "../../../Forecast/Redux/Sagas/GetForecastQualityAssuranceDataSaga";
 import watchPutSelectChartOptionSaga from "../../../Forecast/Redux/Sagas/PutSelectChartOptionSaga";
-import watchTransformForecastChartDataSaga from "../../../Visualytics/Redux/Sagas/TransformForecastChartDataSaga";
+import watchTransformForecastChartDataSaga from "../../../Forecast/Redux/Sagas/TransformForecastChartDataSaga";
 import watchSaveVisualyticsSaga from "../../../Visualytics/Redux/Sagas/SaveVisualyticsSaga";
 import watchFetchVisualyticsTreeviewKeysSaga from "../../../Visualytics/Redux/Sagas/FetchVisualyticsTreeviewKeysSaga";
 import watchFetchStoredVisualyticsDataSaga from "../../../Visualytics/Redux/Sagas/FetchStoredVisualyticsDataSaga";
@@ -66,6 +66,7 @@ import watchUpdateDataByIdSaga from "../Sagas/UpdateDataByIdSaga";
 import watchGetVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/GetVisualyticsChartDataSaga";
 import watchTransformVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/TransformVisualyticsDataSaga";
 import watchGetEconomicsPlotChartDataSaga from "../../../Economics/Redux/Sagas/GetEconomicsPlotChartDataSaga";
+import watchTransformEconomicsChartDataSaga from "../../../Economics/Redux/Sagas/TransformEconomicsPlotChartsDataSaga";
 
 //TODO Will need a registration mechanism for each module
 function* rootSaga() {
@@ -126,6 +127,7 @@ function* rootSaga() {
   yield spawn(watchGetVisualyticsChartDataSaga);
   yield spawn(watchGetEconomicsPlotChartDataSaga);
   yield spawn(watchTransformVisualyticsChartDataSaga);
+  yield spawn(watchTransformEconomicsChartDataSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();

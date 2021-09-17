@@ -66,18 +66,6 @@ function* getEconomicsPlotChartDataSaga(
     plotChartsCategoryDragItems,
     selectedEconomicsPlotChartOption,
   } = yield select((state) => state.economicsReducer);
-  console.log(
-    "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 68 ~ selectedEconomicsPlotChartOption",
-    selectedEconomicsPlotChartOption
-  );
-  console.log(
-    "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 68 ~ plotChartsCategoryDragItems",
-    plotChartsCategoryDragItems
-  );
-  console.log(
-    "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 68 ~ selectedEconomicsResultsId",
-    selectedEconomicsResultsId
-  );
 
   const chartType = selectedEconomicsPlotChartOption.value;
 
@@ -90,35 +78,39 @@ function* getEconomicsPlotChartDataSaga(
 
   const data = plotChartDragItems.reduce((acc, categoryObj) => {
     const dragItems = Object.values(categoryObj);
-    console.log(
-      "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 93 ~ data ~ dragItems",
-      dragItems
-    );
 
     const newDragItems = dragItems.reduce((acc, item) => {
-      console.log(
-        "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 96 ~ newDragItems ~ item",
-        item
-      );
-      const { name, path } = item;
+      const { id, name, path } = item;
       const sensitivitiesJoined = path?.split("@#$%")[3];
-      console.log(
-        "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 97 ~ newDragItems ~ sensitivitiesJoined",
-        sensitivitiesJoined
-      );
+
       const sensitivitiesArr = sensitivitiesJoined?.split("-");
-      console.log(
-        "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 99 ~ newDragItems ~ sensitivitiesArr",
-        sensitivitiesArr
-      );
 
       return {
         ...acc,
-        [name]: zipObject(["x", "y", "z"], sensitivitiesArr as string[]),
+        [id]: {
+          ...zipObject(["x", "y", "z"], sensitivitiesArr as string[]),
+          name: name.split("_")[0],
+        },
       };
     }, {});
 
     return { ...acc, ...newDragItems };
+  }, {});
+
+  const idSensitivitiesMap = plotChartDragItems.reduce((acc, categoryObj) => {
+    const dragItems = Object.values(categoryObj);
+
+    const idSensitivities = dragItems.reduce((acc, item) => {
+      const { id, path } = item;
+      const sensitivitiesJoined = path?.split("@#$%")[3];
+
+      return {
+        ...acc,
+        [id]: sensitivitiesJoined,
+      };
+    }, {});
+
+    return { ...acc, ...idSensitivities };
   }, {});
 
   const requestData = {
@@ -127,10 +119,6 @@ function* getEconomicsPlotChartDataSaga(
     isSaved: isEconomicsResultsSaved,
     analysisResultId: selectedEconomicsResultsId,
   };
-  console.log(
-    "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 101 ~ data",
-    data
-  );
 
   const message = "Loading economics data...";
 
@@ -139,14 +127,29 @@ function* getEconomicsPlotChartDataSaga(
 
     const economicsResultsAPI = (url: string) =>
       authService.post(url, requestData, config);
+
     const result = yield call(economicsResultsAPI, url);
 
     const {
-      data: {
-        data: { economicsResults: chartData },
-      },
+      data: { data },
     } = result;
 
+    const economicsResults = Object.keys(data).map((id) => {
+      const variableObj = data[id];
+      const sensitivityJoined = idSensitivitiesMap[id];
+
+      return {
+        ...variableObj,
+        name: `${variableObj.name}_${sensitivityJoined}`,
+        title: `${variableObj.title}_${sensitivityJoined}`,
+      };
+    });
+    console.log(
+      "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 148 ~ economicsResults ~ economicsResults",
+      economicsResults
+    );
+
+    const chartData = economicsResults;
     const successAction = getEconomicsPlotChartDataSuccessAction();
     yield put({
       ...successAction,
