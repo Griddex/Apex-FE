@@ -48,14 +48,6 @@ const CartesianChartCategory = ({
   categoryHasDroppedTitle,
   resultsTitle,
 }: IChartCategories) => {
-  console.log(
-    "Logged output --> ~ file: CartesianChartCategory.tsx ~ line 51 ~ categoryDragItemsTitle",
-    categoryDragItemsTitle
-  );
-  console.log(
-    "Logged output --> ~ file: CartesianChartCategory.tsx ~ line 51 ~ categoryHasDroppedTitle",
-    categoryHasDroppedTitle
-  );
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -82,32 +74,31 @@ const CartesianChartCategory = ({
       accept: allItemTypes,
       drop(item) {
         const { id } = item as IDragItem;
-        console.log("Hello1111111111111111");
+
         dispatch(updateAction(categoryOptionTitle as string, item));
         setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
         setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
-        console.log("Hello222222222222222");
 
         dispatch(
           updateDragItemsAction &&
             updateDragItemsAction(
               reducer as ReducersType,
+              categoryTitle as string,
               categoryDragItemsTitle as string,
               item as IDragItem
             )
         );
-        console.log("Hello33333333333333333");
 
         dispatch(
           updateHasDroppedAction &&
             updateHasDroppedAction(
               reducer as ReducersType,
+              categoryTitle as string,
               categoryHasDroppedTitle as string,
               id,
               true
             )
         );
-        console.log("Hello444444444444444");
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),

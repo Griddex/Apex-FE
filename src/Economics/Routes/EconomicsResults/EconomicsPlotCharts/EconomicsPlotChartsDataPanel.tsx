@@ -14,6 +14,8 @@ import {
   updateEconomicsChartCategoryAction,
   updateEconomicsParameterAction,
   updateEconomicsParametersAction,
+  updateEconomicsPlotChartsDragItemsAction,
+  updateEconomicsPlotChartsHasDroppedAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
@@ -168,6 +170,8 @@ const EconomicsPlotChartsDataPanel = ({
       categoryDragItems={plotChartsCategoryDragItems}
       categoryHasDroppedTitle="plotChartsCategoryHasDropped"
       categoryHasDropped={plotChartsCategoryHasDropped}
+      updateDragItemsAction={updateEconomicsPlotChartsDragItemsAction}
+      updateHasDroppedAction={updateEconomicsPlotChartsHasDroppedAction}
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent

@@ -7,6 +7,7 @@ export interface IDragItem {
   id: string;
   name: string;
   title: string;
+  path?: string;
 }
 export interface IChartCategory {
   categoryTitle: string;
@@ -47,11 +48,13 @@ export interface IChartCategories {
   updateDragItemsAction?: (
     reducer: ReducersType,
     categoryTitle: string,
+    categoryDragItemsTitle: string,
     item: INameTitleOption
   ) => IAction;
   updateHasDroppedAction?: (
     reducer: ReducersType,
     categoryTitle: string,
+    categoryHasDroppedTitle: string,
     id: string,
     hasDropped: boolean
   ) => IAction;
