@@ -70,10 +70,22 @@ const ApexTreeViewRenderer = ({
   const classes = useStyles();
   const { id, name, title, path } = scenarioNodes;
 
+  let newName = "";
+  let newTitle = "";
+  if (path) {
+    const sensitivitiesJoined = path?.split("@#$%")[3];
+
+    newName = `${name}_${sensitivitiesJoined}`;
+    newTitle = `${title}_${sensitivitiesJoined}`;
+  } else {
+    newName = name as string;
+    newTitle = title as string;
+  }
+
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: dragDropTypes,
-      item: { id, name, title, path },
+      item: { id, name: newName, title: newTitle, path },
       end: (item, monitor) => {
         const dropResult = monitor.getDropResult();
       },

@@ -11,6 +11,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { transformEconomicsChartDataAction } from "../../../Economics/Redux/Actions/EconomicsActions";
 import {
   PUT_SELECTCHART,
   putSelectChartOptionSuccessAction,
@@ -35,6 +36,10 @@ function* putSelectChartOptionSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
+  console.log(
+    "Logged output --> ~ file: PutSelectChartOptionSaga.ts ~ line 39 ~ payload",
+    payload
+  );
   const { reducer, selectedChartOptionTitle, chartOption } = payload;
 
   try {
@@ -57,6 +62,11 @@ function* putSelectChartOptionSaga(
     else if (reducer === "visualyticsReducer")
       yield put({
         ...transformVisualyticsChartDataAction(reducer),
+        payload,
+      });
+    else if (reducer === "economicsReducer")
+      yield put({
+        ...transformEconomicsChartDataAction(reducer),
         payload,
       });
   }

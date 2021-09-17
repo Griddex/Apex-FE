@@ -29,6 +29,7 @@ import {
   PERSIST_WORKSHEETNAMES,
   UPDATE_INPUT,
 } from "../../../Import/Redux/Actions/InputActions";
+import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   PUT_SELECTCHART,
   RESET_CHART_DATA,
@@ -58,6 +59,8 @@ import {
   ECONOMICSPLOTCHARTS_UPDATE_HASDROPPED,
   ECONOMICSHEATMAP_UPDATE_DRAGITEMS,
   ECONOMICSHEATMAP_UPDATE_HASDROPPED,
+  GET_ECONOMICSPLOT_CHARTDATA_SUCCESS,
+  TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -295,6 +298,34 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       } else {
         return state;
       }
+    }
+
+    case GET_ECONOMICSPLOT_CHARTDATA_SUCCESS: {
+      const { chartData: plotChartsResults } = action.payload;
+
+      return { ...state, plotChartsResults };
+    }
+
+    case TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS: {
+      const {
+        reducer,
+        workflowCategory,
+        chartType,
+        chartData,
+        xValueCategories,
+      } = action.payload;
+
+      return {
+        ...state,
+        xValueCategories,
+        [workflowCategory]: {
+          ...(state as any)[workflowCategory],
+          [chartType]: {
+            ...(state as any)[workflowCategory][chartType as TChartTypes],
+            chartData,
+          },
+        },
+      };
     }
 
     case ECONOMICS_UPDATE_CHARTCATEGORY: {

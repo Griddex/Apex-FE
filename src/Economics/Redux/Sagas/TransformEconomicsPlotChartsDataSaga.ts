@@ -13,32 +13,32 @@ import {
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { TChartTypes } from "../../Components/Charts/ChartTypes";
-import { visualyticsChartDataTransformersObj } from "../../Data/VisualyticsData";
+import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
+import { visualyticsChartDataTransformersObj } from "../../../Visualytics/Data/VisualyticsData";
 import {
-  GET_VISUALYTICS_CHARTDATA_SUCCESS,
-  transformVisualyticsChartDataFailureAction,
-  transformVisualyticsChartDataSuccessAction,
-  TRANSFORM_VISUALYTICS_CHARTDATA,
-} from "../Actions/VisualyticsActions";
+  GET_ECONOMICSPLOT_CHARTDATA_SUCCESS,
+  transformEconomicsChartDataFailureAction,
+  transformEconomicsChartDataSuccessAction,
+  TRANSFORM_ECONOMICSPLOT_CHARTDATA,
+} from "../Actions/EconomicsActions";
 
-export default function* watchTransformVisualyticsChartDataSaga(): Generator<
+export default function* watchTransformEconomicsChartDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
   const transformChartDataChan = yield actionChannel([
-    TRANSFORM_VISUALYTICS_CHARTDATA,
-    GET_VISUALYTICS_CHARTDATA_SUCCESS,
+    TRANSFORM_ECONOMICSPLOT_CHARTDATA,
+    GET_ECONOMICSPLOT_CHARTDATA_SUCCESS,
   ]);
 
   yield takeLeading<ActionType>(
     transformChartDataChan,
-    transformVisualyticsChartDataSaga
+    transformEconomicsChartDataSaga
   );
 }
 
-function* transformVisualyticsChartDataSaga(
+function* transformEconomicsChartDataSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
@@ -53,23 +53,23 @@ function* transformVisualyticsChartDataSaga(
     collationFxn,
   } = payload;
   console.log(
-    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 56 ~ payload",
+    "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 56 ~ payload",
     payload
   );
 
-  const { visualyticsResults, visualyticsCategoryDragItems } = yield select(
+  const { plotChartsResults, plotChartsCategoryDragItems } = yield select(
     (state: RootState) => state[reducer as ReducersType]
   );
   console.log(
-    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 64 ~ visualyticsResults",
-    visualyticsResults
+    "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 64 ~ plotChartsResults",
+    plotChartsResults
   );
   let data = [] as any[];
 
   if (chartData) data = chartData;
-  else data = visualyticsResults;
+  else data = plotChartsResults;
   console.log(
-    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 68 ~ data",
+    "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 68 ~ data",
     data
   );
 
@@ -79,17 +79,17 @@ function* transformVisualyticsChartDataSaga(
 
     const transformedChartData = transformedChartDataFxn({
       data,
-      categoryDragItems: visualyticsCategoryDragItems,
+      categoryDragItems: plotChartsCategoryDragItems,
       lineOrScatter,
       collateBy,
       collationFxn,
     });
     console.log(
-      "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 82 ~ transformedChartData",
+      "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 82 ~ transformedChartData",
       transformedChartData
     );
 
-    const successAction = transformVisualyticsChartDataSuccessAction();
+    const successAction = transformEconomicsChartDataSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -101,7 +101,7 @@ function* transformVisualyticsChartDataSaga(
       },
     });
   } catch (errors) {
-    const failureAction = transformVisualyticsChartDataFailureAction();
+    const failureAction = transformEconomicsChartDataFailureAction();
 
     yield put({
       ...failureAction,

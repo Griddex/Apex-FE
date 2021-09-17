@@ -100,6 +100,14 @@ export const visualyticsDataToLineOrScatterChartData = ({
   categoryDragItems,
   lineOrScatter,
 }: IVisualyticsResultsTransformers) => {
+  console.log(
+    "Logged output --> ~ file: TransformOneVisualyticsDataToAnother.ts ~ line 103 ~ categoryDragItems",
+    categoryDragItems
+  );
+  console.log(
+    "Logged output --> ~ file: TransformOneVisualyticsDataToAnother.ts ~ line 103 ~ data",
+    data
+  );
   const linkedData = linkColumnNamesToCategories(
     data,
     categoryDragItems
