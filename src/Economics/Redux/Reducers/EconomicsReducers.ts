@@ -54,6 +54,10 @@ import {
   UPDATE_ECONOMICSPARAMETERS,
   ECONOMICS_UPDATE_CHARTCATEGORY,
   ECONOMICS_REMOVE_CHARTCATEGORY,
+  ECONOMICSPLOTCHARTS_UPDATE_DRAGITEMS,
+  ECONOMICSPLOTCHARTS_UPDATE_HASDROPPED,
+  ECONOMICSHEATMAP_UPDATE_DRAGITEMS,
+  ECONOMICSHEATMAP_UPDATE_HASDROPPED,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -314,6 +318,96 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       return {
         ...state,
         [categoryOptionTitle]: newCategoryOptions,
+      };
+    }
+
+    case ECONOMICSHEATMAP_UPDATE_DRAGITEMS: {
+      const { reducer, categoryTitle, categoryDragItemsTitle, item } =
+        action.payload;
+      console.log(
+        "Logged output --> ~ file: EconomicsReducers.ts ~ line 324 ~ economicsReducer ~ categoryTitle",
+        categoryTitle
+      );
+
+      return {
+        ...state,
+        [categoryDragItemsTitle]: {
+          ...state["heatMapCategoryDragItems"],
+          [categoryTitle]: {
+            ...state["heatMapCategoryDragItems"][categoryTitle],
+            [item.id]: item,
+          },
+        },
+      };
+    }
+
+    case ECONOMICSHEATMAP_UPDATE_HASDROPPED: {
+      const {
+        reducer,
+        categoryTitle,
+        categoryHasDroppedTitle,
+        id,
+        hasDropped,
+      } = action.payload;
+      console.log(
+        "Logged output --> ~ file: EconomicsReducers.ts ~ line 339 ~ economicsReducer ~ categoryTitle",
+        categoryTitle
+      );
+
+      return {
+        ...state,
+        [categoryHasDroppedTitle]: {
+          ...state["heatMapCategoryHasDropped"],
+          [categoryTitle]: {
+            ...state["heatMapCategoryHasDropped"][categoryTitle],
+            [id]: hasDropped,
+          },
+        },
+      };
+    }
+
+    case ECONOMICSPLOTCHARTS_UPDATE_DRAGITEMS: {
+      const { reducer, categoryTitle, categoryDragItemsTitle, item } =
+        action.payload;
+      console.log(
+        "Logged output --> ~ file: EconomicsReducers.ts ~ line 324 ~ economicsReducer ~ categoryTitle",
+        categoryTitle
+      );
+
+      return {
+        ...state,
+        [categoryDragItemsTitle]: {
+          ...state["plotChartsCategoryDragItems"],
+          [categoryTitle]: {
+            ...state["plotChartsCategoryDragItems"][categoryTitle],
+            [item.id]: item,
+          },
+        },
+      };
+    }
+
+    case ECONOMICSPLOTCHARTS_UPDATE_HASDROPPED: {
+      const {
+        reducer,
+        categoryTitle,
+        categoryHasDroppedTitle,
+        id,
+        hasDropped,
+      } = action.payload;
+      console.log(
+        "Logged output --> ~ file: EconomicsReducers.ts ~ line 339 ~ economicsReducer ~ categoryTitle",
+        categoryTitle
+      );
+
+      return {
+        ...state,
+        [categoryHasDroppedTitle]: {
+          ...state["plotChartsCategoryHasDropped"],
+          [categoryTitle]: {
+            ...state["plotChartsCategoryHasDropped"][categoryTitle],
+            [id]: hasDropped,
+          },
+        },
       };
     }
 

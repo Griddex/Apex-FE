@@ -1,3 +1,4 @@
+import { INameTitleOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
   IEconomicsWorkflows,
@@ -122,6 +123,17 @@ export const GET_ECONOMICSPARAMETERSBYID_REQUEST =
   "GET_DECLINEPARAMETERSBYID_REQUEST";
 
 export const ECONOMICS_UPDATE_CHARTCATEGORY = "ECONOMICS_UPDATE_CHARTCATEGORY";
+
+export const ECONOMICSPLOTCHARTS_UPDATE_HASDROPPED =
+  "ECONOMICSPLOTCHARTS_UPDATE_HASDROPPED";
+export const ECONOMICSPLOTCHARTS_UPDATE_DRAGITEMS =
+  "ECONOMICSPLOTCHARTS_UPDATE_DRAGITEMS";
+
+export const ECONOMICSHEATMAP_UPDATE_HASDROPPED =
+  "ECONOMICSHEATMAP_UPDATE_HASDROPPED";
+export const ECONOMICSHEATMAP_UPDATE_DRAGITEMS =
+  "ECONOMICSHEATMAP_UPDATE_DRAGITEMS";
+
 export const ECONOMICS_REMOVE_CHARTCATEGORY = "ECONOMICS_REMOVE_CHARTCATEGORY";
 
 export const updateEconomicsParameterAction = (path: string, value: any) => {
@@ -716,6 +728,68 @@ export const removeEconomicsChartCategoryAction = (
   return {
     type: ECONOMICS_REMOVE_CHARTCATEGORY,
     payload: { categoryOptionTitle, id },
+  };
+};
+
+export const updateEconomicsHeatMapDragItemsAction = (
+  reducer: ReducersType,
+  categoryTitle: string,
+  categoryDragItemsTitle: string,
+  item: INameTitleOption
+) => {
+  return {
+    type: ECONOMICSHEATMAP_UPDATE_DRAGITEMS,
+    payload: { reducer, categoryTitle, categoryDragItemsTitle, item },
+  };
+};
+
+export const updateEconomicsHeatMapHasDroppedAction = (
+  reducer: ReducersType,
+  categoryTitle: string,
+  categoryHasDroppedTitle: string,
+  id: string,
+  hasDropped: boolean
+) => {
+  return {
+    type: ECONOMICSHEATMAP_UPDATE_HASDROPPED,
+    payload: {
+      reducer,
+      categoryTitle,
+      categoryHasDroppedTitle,
+      id,
+      hasDropped,
+    },
+  };
+};
+
+export const updateEconomicsPlotChartsDragItemsAction = (
+  reducer: ReducersType,
+  categoryTitle: string,
+  categoryDragItemsTitle: string,
+  item: INameTitleOption
+) => {
+  return {
+    type: ECONOMICSPLOTCHARTS_UPDATE_DRAGITEMS,
+    payload: { reducer, categoryTitle, categoryDragItemsTitle, item },
+  };
+};
+
+export const updateEconomicsPlotChartsHasDroppedAction = (
+  reducer: ReducersType,
+  categoryTitle: string,
+  categoryHasDroppedTitle: string,
+  id: string,
+  hasDropped: boolean
+) => {
+  return {
+    type: ECONOMICSPLOTCHARTS_UPDATE_HASDROPPED,
+    payload: {
+      reducer,
+      categoryTitle,
+      categoryHasDroppedTitle,
+      id,
+      hasDropped,
+    },
   };
 };
 

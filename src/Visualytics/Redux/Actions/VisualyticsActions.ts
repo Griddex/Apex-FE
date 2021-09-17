@@ -337,23 +337,31 @@ export const updateVisualyticsChartCategoryAction = (
 export const updateVisualyticsDragItemsAction = (
   reducer: ReducersType,
   categoryTitle: string,
+  categoryDragItemsTitle: string,
   item: INameTitleOption
 ) => {
   return {
     type: VISUALYTICS_UPDATE_DRAGITEMS,
-    payload: { reducer, categoryTitle, item },
+    payload: { reducer, categoryTitle, categoryDragItemsTitle, item },
   };
 };
 
 export const updateVisualyticsHasDroppedAction = (
   reducer: ReducersType,
   categoryTitle: string,
+  categoryHasDroppedTitle: string,
   id: string,
   hasDropped: boolean
 ) => {
   return {
     type: VISUALYTICS_UPDATE_HASDROPPED,
-    payload: { reducer, categoryTitle, id, hasDropped },
+    payload: {
+      reducer,
+      categoryTitle,
+      categoryHasDroppedTitle,
+      id,
+      hasDropped,
+    },
   };
 };
 

@@ -20,7 +20,7 @@ const EconomicsPlotChartsSelectChart = () => {
   );
 
   return (
-    <ApexFlexContainer>
+    <ApexFlexContainer flexDirection="column">
       <SelectChart
         workflowCategory={wc}
         reducer={reducer}

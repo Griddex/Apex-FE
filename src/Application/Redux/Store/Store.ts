@@ -65,6 +65,7 @@ import watchFetchStoredVisualyticsDataSaga from "../../../Visualytics/Redux/Saga
 import watchUpdateDataByIdSaga from "../Sagas/UpdateDataByIdSaga";
 import watchGetVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/GetVisualyticsChartDataSaga";
 import watchTransformVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/TransformVisualyticsDataSaga";
+import watchGetEconomicsPlotChartDataSaga from "../../../Economics/Redux/Sagas/GetEconomicsPlotChartDataSaga";
 
 //TODO Will need a registration mechanism for each module
 function* rootSaga() {
@@ -123,6 +124,7 @@ function* rootSaga() {
   yield spawn(watchFetchStoredVisualyticsDataSaga);
   yield spawn(watchUpdateDataByIdSaga);
   yield spawn(watchGetVisualyticsChartDataSaga);
+  yield spawn(watchGetEconomicsPlotChartDataSaga);
   yield spawn(watchTransformVisualyticsChartDataSaga);
 }
 

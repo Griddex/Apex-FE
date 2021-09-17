@@ -68,12 +68,12 @@ const ApexTreeViewRenderer = ({
   dragDropTypes,
 }: IApexTreeView) => {
   const classes = useStyles();
-  const { id, name, title } = scenarioNodes;
+  const { id, name, title, path } = scenarioNodes;
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: dragDropTypes,
-      item: { id, name, title },
+      item: { id, name, title, path },
       end: (item, monitor) => {
         const dropResult = monitor.getDropResult();
       },

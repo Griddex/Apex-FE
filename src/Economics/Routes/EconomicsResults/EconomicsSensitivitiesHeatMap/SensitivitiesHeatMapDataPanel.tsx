@@ -21,6 +21,8 @@ import {
   fetchEconomicsTreeviewKeysRequestAction,
   removeEconomicsChartCategoryAction,
   updateEconomicsChartCategoryAction,
+  updateEconomicsHeatMapDragItemsAction,
+  updateEconomicsHeatMapHasDroppedAction,
   updateEconomicsParameterAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
@@ -279,8 +281,8 @@ const SensitivitiesHeatMapDataPanel = ({
       categoryDragItems={heatMapCategoryDragItems}
       categoryHasDroppedTitle="heatMapCategoryHasDropped"
       categoryHasDropped={heatMapCategoryHasDropped}
-      updateDragItemsAction={updateVisualyticsDragItemsAction}
-      updateHasDroppedAction={updateVisualyticsHasDroppedAction}
+      updateDragItemsAction={updateEconomicsHeatMapDragItemsAction}
+      updateHasDroppedAction={updateEconomicsHeatMapHasDroppedAction}
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
