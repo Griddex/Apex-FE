@@ -1,10 +1,12 @@
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+
 export interface IIsSaveNetworkValid {
   isSaveNetworkValid?: boolean;
-  setIsSaveNetworkValid?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSaveNetworkValid?: TUseState<boolean>;
   titleDesc?: Record<string, string>;
 }
 export interface IIsSaveForecastResultsValid {
   isSaveForecastResultsValid?: boolean;
-  setIsSaveForecastResultsValid?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSaveForecastResultsValid?: TUseState<boolean>;
   titleDesc?: Record<string, string>;
 }

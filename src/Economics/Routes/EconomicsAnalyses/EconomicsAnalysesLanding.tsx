@@ -11,10 +11,7 @@ import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import {
-  updateEconomicsParameterAction,
-  updateEconomicsParametersAction,
-} from "./../../Redux/Actions/EconomicsActions";
+import { updateEconomicsParametersAction } from "./../../Redux/Actions/EconomicsActions";
 import EconomicsAnalysesWorkflow from "./../EconomicsWorkflows/EconomicsAnalysesWorkflow";
 import { economicsAnalyses } from "./EconomicsAnalyses";
 import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
@@ -24,7 +21,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "center",
     width: "100%",
     "& > *": {
       height: 200,

@@ -174,7 +174,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
             valueOption={forecastCaseOption}
             data={forecastCaseOptions}
             handleSelect={(option: ValueType<ISelectOption, false>) => {
-              const path = `inputDataWorkflows.${workflowProcess}.forecastScenario`;
+              const path = `inputDataWorkflows.${workflowProcess}.forecastCase`;
               const value = option?.value as string;
               dispatch(updateEconomicsParameterAction(path, value));
 

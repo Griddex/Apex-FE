@@ -12,6 +12,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
 import uniqBy from "lodash.uniqby";
+import zipObject from "lodash.zipobject";
 import React, { useCallback, useMemo, useState } from "react";
 import ReactDataGrid, {
   DataGridHandle,
@@ -21,10 +22,12 @@ import ReactDataGrid, {
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { ValueType } from "react-select";
+import { parsePasteData } from "../../../../Economics/Utils/ParsePasteData";
+import { Position, TPastePosition } from "../../../Types/ApplicationTypes";
 import ApexSelectRS from "../../Selects/ApexSelectRS";
 import { ISelectOption } from "../../Selects/SelectItemsType";
 import TableButtons from "../TableButtons";
-import { IApexGrid, ITableMetaData } from "./ApexGridTypes";
+import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 
 const useStyles = makeStyles((theme) => ({
@@ -100,7 +103,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     onExpandedGroupIdsChange,
     showTableHeader,
     showTablePagination,
-    // componentRef,
+    initialRowsLength,
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows);
@@ -124,6 +127,84 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   >(["", "NONE"]);
 
   const [tablePagination, setTablePagination] = React.useState(0);
+  const [selectedCell, setSelectedCell] = React.useState<Position>();
+  const [pastePosition, setPastePosition] = React.useState<TPastePosition>({
+    topLeft: {},
+    botRight: {},
+  });
+
+  const handleCellSelection = (position: Position) => {
+    setSelectedCell(position);
+    setPastePosition((prev) => ({
+      ...prev,
+      topLeft: {
+        ...prev.topLeft,
+        rowIdx: position.rowIdx,
+        colIdx: position.idx,
+      },
+    }));
+  };
+
+  const updateRows = (
+    startRowIdx: number,
+    startColIdx: number,
+    newRows: any[]
+  ) => {
+    onRowsChange &&
+      onRowsChange((prev: IRawRow[]) => {
+        let rows = prev.slice();
+
+        const extraRowsLength =
+          newRows.length - ((initialRowsLength as number) - startRowIdx + 1);
+        const extraRows = [];
+
+        if (extraRowsLength > 0) {
+          const lastSN = initialRowsLength as number;
+          const headerNames = Object.keys(newRows[0]);
+
+          for (let i = 0; i < extraRowsLength; i++) {
+            const row = zipObject(
+              headerNames,
+              Array(headerNames.length).fill("")
+            );
+            extraRows.push({ ...row, sn: lastSN + i });
+          }
+
+          rows = [...rows, ...extraRows];
+        }
+
+        for (let i = 0; i < newRows.length; i++) {
+          if (startRowIdx + i < rows.length) {
+            rows[startRowIdx + i] = { ...rows[startRowIdx + i], ...newRows[i] };
+          }
+        }
+
+        return rows;
+      });
+  };
+
+  const handlePaste = (e: ClipboardEvent, pastePosition: TPastePosition) => {
+    e.preventDefault();
+    const { topLeft } = pastePosition;
+
+    const newRows = [] as any[];
+    let pasteData;
+    if (e && e.clipboardData) {
+      pasteData = parsePasteData(e.clipboardData.getData("text/plain"));
+
+      pasteData.forEach((row) => {
+        const rowData = {} as Record<string, any>;
+        columns
+          .slice(topLeft.colIdx, (topLeft.colIdx as number) + row.length)
+          .forEach((col, j) => {
+            rowData[col.key] = row[j];
+          });
+        newRows.push(rowData);
+      });
+
+      updateRows(topLeft.rowIdx as number, topLeft.colIdx as number, newRows);
+    }
+  };
 
   const pageOptions = ["All", 25, 50, 100, 500].map((v) => ({
     value: v,
@@ -334,6 +415,20 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     setIncomingColumns(columns);
   }, [tableHeight, rawRows, columns]);
 
+  React.useEffect(() => {
+    // document.addEventListener("copy", handleCopy);
+    document.addEventListener("paste", (e: ClipboardEvent) =>
+      handlePaste(e, pastePosition)
+    );
+
+    return () => {
+      // document.removeEventListener("copy", handleCopy);
+      document.removeEventListener("paste", (e: ClipboardEvent) =>
+        handlePaste(e, pastePosition)
+      );
+    };
+  }, [JSON.stringify(selectedCell)]);
+
   const { pageSelect, tableFilter } = tableMetaData;
 
   return (
@@ -391,7 +486,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
             rows={sortedRows}
             columns={draggableColumns}
             rowKeyGetter={rowKeyGetter}
-            onSelectedCellChange={onSelectedCellChange}
+            onSelectedCellChange={handleCellSelection}
             selectedRows={selectedRows}
             onSelectedRowsChange={setSelectedRows}
             onRowsChange={onRowsChange}

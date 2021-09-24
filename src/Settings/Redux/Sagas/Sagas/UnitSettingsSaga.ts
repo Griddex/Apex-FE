@@ -89,20 +89,33 @@ function* fetchUnitSettingsSaga(
       {}
     );
 
-    const unitOptions: ISelectOption[] = variableUnits.reduce(
-      (acc: ISelectOption[], row: IUnitsRow) => {
-        const units = row.units.map((u) => ({
-          value: u.unitId,
-          label: u.title,
-        }));
-        return [...acc, ...units];
-      },
-      []
-    );
-    const uniqUnitOptions = uniqBy(unitOptions, (o) => o.label);
+    // const unitOptions: ISelectOption[] = variableUnits.reduce(
+    //   (acc: ISelectOption[], row: IUnitsRow) => {
+    //     const units = row.units.map((u) => ({
+    //       value: u.unitId,
+    //       label: u.title,
+    //     }));
+    //     return [...acc, ...units];
+    //   },
+    //   []
+    // );
 
-    const path = "uniqUnitOptions";
-    const value = uniqUnitOptions;
+    const unitOptionsByVariableName = Object.keys(variableNameUnitsMap).reduce(
+      (acc: Record<string, ISelectOption[]>, variableName: string) => {
+        const options = variableNameUnitsMap[variableName].map(
+          (unitRow: any) => ({
+            value: unitRow.title,
+            label: unitRow.title,
+          })
+        );
+
+        return { ...acc, [variableName]: options };
+      },
+      {}
+    ) as Record<string, ISelectOption[]>;
+
+    const path = "unitOptionsByVariableName";
+    const value = unitOptionsByVariableName;
     const updateAction = updateUnitsSettingsParameterAction(path, value);
     yield put(updateAction);
 

@@ -404,13 +404,6 @@ export default function StoredForecastingParameters({
         width: 300,
       },
       {
-        key: "status",
-        name: "STATUS",
-        editable: false,
-        resizable: true,
-        width: 100,
-      },
-      {
         key: "type",
         name: "TYPE",
         editable: false,

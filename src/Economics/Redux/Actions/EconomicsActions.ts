@@ -104,6 +104,13 @@ export const FETCH_HEATMAPDATA_REQUEST = "FETCH_HEATMAPDATA_REQUEST";
 export const FETCH_HEATMAPDATA_SUCCESS = "FETCH_HEATMAPDATA_SUCCESS";
 export const FETCH_HEATMAPDATA_FAILURE = "FETCH_HEATMAPDATA_FAILURE";
 
+export const RUN_ECONOMICSFORECASTAGGREGATION_REQUEST =
+  "RUN_ECONOMICSFORECASTAGGREGATION_REQUEST";
+export const RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS =
+  "RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS";
+export const RUN_ECONOMICSFORECASTAGGREGATION_FAILURE =
+  "RUN_ECONOMICSFORECASTAGGREGATION_FAILURE";
+
 export const SAVE_ECONOMICSRESULTS_REQUEST = "SAVE_ECONOMICSRESULTS_REQUEST";
 export const SAVE_ECONOMICSRESULTS_SUCCESS = "SAVE_ECONOMICSRESULTS_SUCCESS";
 export const SAVE_ECONOMICSRESULTS_FAILURE = "SAVE_ECONOMICSRESULTS_FAILURE";
@@ -622,6 +629,38 @@ export const fetchHeatMapDataSuccessAction = () => {
 export const fetchHeatMapDataFailureAction = () => {
   return {
     type: FETCH_HEATMAPDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
+    },
+  };
+};
+
+export const runEconomicsForecastAggregationRequestAction = (
+  workflowProcess: TAllWorkflowProcesses
+) => {
+  return {
+    type: RUN_ECONOMICSFORECASTAGGREGATION_REQUEST,
+    payload: { workflowProcess },
+    meta: {
+      showSpinner: true,
+      message: "Running forecast aggregation per scenario...",
+    },
+  };
+};
+
+export const runEconomicsForecastAggregationSuccessAction = () => {
+  return {
+    type: RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const runEconomicsForecastAggregationFailureAction = () => {
+  return {
+    type: RUN_ECONOMICSFORECASTAGGREGATION_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },

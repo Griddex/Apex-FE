@@ -34,6 +34,7 @@ const initialSensitivityValues = [
 const EconomicsParametersSensitivities = ({
   selectedAnalysis,
   finalAction,
+  borderStyles,
 }: IEconomicsParametersSensitivitiesProps) => {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -88,6 +89,7 @@ const EconomicsParametersSensitivities = ({
       flexDirection="column"
       justifyContent="space-around"
       height={700}
+      moreStyles={borderStyles}
     >
       <AnalyticsComp
         title="Target Variable"

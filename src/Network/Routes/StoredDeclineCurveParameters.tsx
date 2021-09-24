@@ -387,13 +387,6 @@ export default function StoredDeclineCurveParameters({
         width: 120,
       },
       {
-        key: "status",
-        name: "STATUS",
-        editable: false,
-        resizable: true,
-        width: 100,
-      },
-      {
         key: "title",
         name: "DECLINE PARAMETERS TITLE",
         editable: false,

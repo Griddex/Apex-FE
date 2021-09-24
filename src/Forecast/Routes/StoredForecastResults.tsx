@@ -59,6 +59,7 @@ import {
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 import { IApexEditor } from "./../../Application/Components/Editors/ApexEditor";
+import { runEconomicsForecastAggregationRequestAction } from "../../Economics/Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -123,7 +124,8 @@ const useStyles = makeStyles((theme) => ({
 export default function StoredForecastResults({
   showChart,
   showBaseButtons,
-  shouldRunAggregation,
+  willFetchForecast,
+  allWorkflowProcesses,
   collectionName,
 }: IStoredDataProps) {
   const reducer = "forecastReducer";
@@ -204,7 +206,41 @@ export default function StoredForecastResults({
   const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
-    apexGridCheckboxFxn: handleCheckboxChange,
+    apexGridCheckboxFxn: willFetchForecast
+      ? (row?: any, event?: React.ChangeEvent<any> | undefined) => {
+          const confirmationDialogParameters: DialogStuff = {
+            name: "Aggregated_Forecast_Dialog",
+            title: "Aggregated Forecast Dialog",
+            type: "textDialog",
+            show: true,
+            exclusive: false,
+            maxWidth: "xs",
+            dialogText: "Do you want to load the selected forecast results?",
+            iconType: "confirmation",
+            actionsList: () =>
+              DialogOneCancelButtons(
+                [true, true],
+                [true, true],
+                [
+                  unloadDialogsAction,
+                  () =>
+                    runEconomicsForecastAggregationRequestAction(
+                      allWorkflowProcesses as TAllWorkflowProcesses
+                    ),
+                ],
+                "Load",
+                "loadOutlined",
+                false,
+                "All"
+              ),
+            dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+          };
+
+          dispatch(showDialogAction(confirmationDialogParameters));
+
+          handleCheckboxChange(row);
+        }
+      : handleCheckboxChange,
   });
 
   const dividerPositions = [50];
@@ -218,7 +254,6 @@ export default function StoredForecastResults({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
-          console.log("row: ", row);
           const sn = row.sn as number;
           const title = row.forecastResultsTitle as string;
           const id = row.forecastResultsId as string;

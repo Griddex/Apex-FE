@@ -18,31 +18,31 @@ import { showDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
+import { failureDialogParameters } from "../../../Forecast/Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  runForecastEconomicsAggregationFailureAction,
-  runForecastEconomicsAggregationSuccessAction,
-  RUN_FORECASTECONOMICSAGGREGATION_REQUEST,
-} from "../Actions/ForecastActions";
+  RUN_ECONOMICSFORECASTAGGREGATION_REQUEST,
+  runEconomicsForecastAggregationSuccessAction,
+  runEconomicsForecastAggregationFailureAction,
+} from "../Actions/EconomicsActions";
 
-export default function* watchRunForecastEconomicsAggregationSaga(): Generator<
+export default function* watchRunEconomicsForecastAggregationSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
   void,
   any
 > {
   const runForecastAggregationChan = yield actionChannel(
-    RUN_FORECASTECONOMICSAGGREGATION_REQUEST
+    RUN_ECONOMICSFORECASTAGGREGATION_REQUEST
   );
   yield takeLeading<ActionType>(
     runForecastAggregationChan,
-    runForecastEconomicsAggregationSaga
+    runEconomicsForecastAggregationSaga
   );
 }
 
 const authServAPI = (url: string) => authService.post("", {}, {});
 type AxiosPromise = ReturnType<typeof authServAPI>;
 
-function* runForecastEconomicsAggregationSaga(
+function* runEconomicsForecastAggregationSaga(
   action: IAction
 ): Generator<
   | AllEffect<CallEffect<AxiosPromise>>
@@ -59,12 +59,12 @@ function* runForecastEconomicsAggregationSaga(
     (state) => state.forecastReducer
   );
 
-  const { forecastScenario } = yield select(
+  const { forecastCase } = yield select(
     (state) => state.economicsReducer["inputDataWorkflows"][workflowProcess]
   );
 
   const config = {};
-  const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastScenario}`;
+  const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastCase}`;
 
   try {
     const forecastResultsAPI = (url: string) => authService.get(url, config);
@@ -73,7 +73,7 @@ function* runForecastEconomicsAggregationSaga(
     const { data: forecastEconomicsAggregated } = result;
 
     console.log("forecastEconomicsAggregated: ", forecastEconomicsAggregated);
-    const successAction = runForecastEconomicsAggregationSuccessAction();
+    const successAction = runEconomicsForecastAggregationSuccessAction();
     yield put({
       ...successAction,
       payload: {
@@ -81,7 +81,7 @@ function* runForecastEconomicsAggregationSaga(
       },
     });
   } catch (errors) {
-    const failureAction = runForecastEconomicsAggregationFailureAction();
+    const failureAction = runEconomicsForecastAggregationFailureAction();
 
     yield put({
       ...failureAction,

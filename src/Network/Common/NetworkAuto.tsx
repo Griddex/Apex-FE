@@ -14,7 +14,6 @@ import ReactFlow, {
   FlowElement,
   MiniMap,
   Node,
-  NodeTypesType,
   OnLoadParams,
   ReactFlowProvider,
   removeElements,
@@ -28,26 +27,19 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
 import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
 import {
-  default as ManifoldContextDrawer,
   default as DrainagePointContextDrawer,
+  default as ManifoldContextDrawer,
 } from "../Components/ContextDrawer/ManifoldContextDrawer";
 import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
 import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
 import NetworkTitlePlaque from "../Components/TitlePlaques/NetworkTitlePlaque";
-import FlowstationNode from "../Components/Widgets/FlowstationWidget";
-import GasFacilityNode from "../Components/Widgets/GasFacilityWidget";
-import GatheringCenterNode from "../Components/Widgets/GatheringCenterWidget";
-import ManifoldNode from "../Components/Widgets/ManifoldWidget";
-import TerminalNode from "../Components/Widgets/TerminalWidget";
-import DrainagePointSummaryNode from "../Components/Widgets/DrainagePointSummaryWidget";
-import DrainagePointNode from "../Components/Widgets/DrainagePointWidget";
+import { nodeTypes } from "../Data/NetworkData";
 import { setCurrentElementAction } from "../Redux/Actions/NetworkActions";
 import GenerateNodeService from "../Services/GenerateNodeService";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
-import { nodeTypes } from "../Data/NetworkData";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -214,14 +206,6 @@ const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
   };
 
   React.useEffect(() => {
-    if (reactFlowInstanceRef.current) {
-      reactFlowInstanceRef.current.fitView();
-    }
-
-    dispatch(hideSpinnerAction());
-  }, [reactFlowInstanceRef, networkElements]);
-
-  React.useEffect(() => {
     if (success) {
       enqueueSnackbar("Network Generated", {
         persist: false,
@@ -229,6 +213,21 @@ const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
       });
     }
   }, []);
+
+  React.useEffect(() => {
+    if (reactFlowInstanceRef.current) {
+      reactFlowInstanceRef.current.fitView();
+    }
+
+    dispatch(hideSpinnerAction());
+
+    if (success) {
+      enqueueSnackbar("Network Generated", {
+        persist: false,
+        variant: "success",
+      });
+    }
+  }, [reactFlowInstanceRef, networkElements]);
 
   return (
     <div className={classes.root}>

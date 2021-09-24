@@ -83,7 +83,7 @@ export interface IEconomicsImport {
   developmentScenariosCompleted: TDevScenarioNames[];
   costsRevenues: Record<TDevScenarioNames, []>;
   costRevenuesButtons: IAggregateButtonProps[];
-  forecastScenario: TForecastScenario;
+  forecastCase: TForecastScenario;
 
   title: string;
   description: string;

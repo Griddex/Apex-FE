@@ -34,7 +34,7 @@ import {
   saveDeclineParametersRequestActionForFP,
   saveProductionPrioritizationRequestAction,
   updateNetworkParameterAction,
-  getNetworkState
+  getNetworkState,
 } from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -99,9 +99,6 @@ const EditOrCreateForecastingParameters = ({
     selectedProductionPrioritizationDescription,
   } = useSelector((state: RootState) => state.networkReducer);
 
-  console.log("selectedDeclineParametersTitle: ", selectedDeclineParametersTitle);
-  console.log("selectedProductionPrioritizationTitle: ", selectedProductionPrioritizationTitle);
-
   const createDCATable = () => {
     const dialogParameters: DialogStuff = {
       name: "Extrude_Decline_Curve_Parameters_Dialog",
@@ -153,10 +150,10 @@ const EditOrCreateForecastingParameters = ({
                 wellDeclineParameterTitle: selectedDeclineParametersTitle
                   ? selectedDeclineParametersTitle
                   : "Default",
-                  wellPrioritizationId: selectedProductionPrioritizationId,
-                  wellPrioritizationTitle: selectedProductionPrioritizationTitle
-                    ? selectedProductionPrioritizationTitle
-                    : "Default",
+                wellPrioritizationId: selectedProductionPrioritizationId,
+                wellPrioritizationTitle: selectedProductionPrioritizationTitle
+                  ? selectedProductionPrioritizationTitle
+                  : "Default",
               })),
                 dispatch(hideDialogAction());
             },
@@ -172,7 +169,9 @@ const EditOrCreateForecastingParameters = ({
 
   const saveSelectedProductionPrioritization = () => {
     const productionPrioritizationParametersObj = {};
-    return saveProductionPrioritizationRequestAction(productionPrioritizationParametersObj);
+    return saveProductionPrioritizationRequestAction(
+      productionPrioritizationParametersObj
+    );
   };
 
   const createPrioritization = () => {
@@ -199,21 +198,11 @@ const EditOrCreateForecastingParameters = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
- /*  () => {
-    setFormEditorRow((prev) => ({
-      ...prev,
-      wellPrioritizationId: selectedProductionPrioritizationId,
-      wellPrioritizationTitle: selectedProductionPrioritizationTitle
-        ? selectedProductionPrioritizationTitle
-        : "Default",
-    })),
-      dispatch(hideDialogAction());
-  },
- */
-const updateFormEditor = () => {
-  formEditorRow.wellPrioritizationTitle = selectedProductionPrioritizationTitle;
-  dispatch(hideDialogAction());
-}
+  const updateFormEditor = () => {
+    formEditorRow.wellPrioritizationTitle =
+      selectedProductionPrioritizationTitle;
+    dispatch(hideDialogAction());
+  };
   const loadPrioritization = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Load_Prioritization_Dialog",
@@ -228,10 +217,7 @@ const updateFormEditor = () => {
         DialogOneCancelButtons(
           [true, true],
           [true, false],
-          [
-            unloadDialogsAction,
-            updateFormEditor,
-          ],
+          [unloadDialogsAction, updateFormEditor],
           "Load",
           "loadOutlined"
         ),
@@ -240,10 +226,6 @@ const updateFormEditor = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  console.log(
-    "Logged output --> ~ file: EditOrCreateForecastingParameters.tsx ~ line 193 ~ React.useEffect ~ formEditorRow",
-    formEditorRow
-  );
   React.useEffect(() => {
     setCurrentRow && setCurrentRow(formEditorRow);
   }, [formEditorRow]);

@@ -458,13 +458,6 @@ export default function StoredProductionPrioritization({
         width: 120,
       },
       {
-        key: "status",
-        name: "STATUS",
-        editable: false,
-        resizable: true,
-        width: 100,
-      },
-      {
         key: "title",
         name: "WELL PRIORITIZATION TITLE",
         editable: false,

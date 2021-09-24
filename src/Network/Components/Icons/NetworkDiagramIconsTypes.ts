@@ -1,7 +1,9 @@
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+
 export interface INetworkDiagramIcons {
   showMiniMap: boolean;
-  setShowMiniMap: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowMiniMap: TUseState<boolean>;
   showControls: boolean;
-  setShowControls: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowControls: TUseState<boolean>;
   componentRef?: React.MutableRefObject<any>;
 }

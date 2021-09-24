@@ -1,5 +1,4 @@
-import { SvgIconTypeMap } from "@material-ui/core";
-import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { IEconomicsWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAggregateButtonProps } from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
@@ -103,4 +102,5 @@ export interface IEconomicsParametersSensitivitiesProps {
   selectedAnalysis?: IEconomicsAnalysis;
   setSelectedAnalysis?: React.Dispatch<any>;
   finalAction?: () => void;
+  borderStyles?: CSSProperties;
 }

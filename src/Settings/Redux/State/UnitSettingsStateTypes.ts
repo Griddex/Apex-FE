@@ -34,7 +34,7 @@ export interface IUnitSettingsData {
   selectedVariableUnits: SelectedVariablesType[];
   variableUnits: IUnitsRow[];
   variableNameUnitsMap: Record<string, IUnit[]>;
-  uniqUnitOptions: ISelectOption[];
+  unitOptionsByVariableName: Record<string, ISelectOption[]>;
   appUnitsUnitGroupsMap: Record<string, string>;
   applicationUnitsCollection?: IUnitsRow["units"];
   numberFormat: TNumberFormat;

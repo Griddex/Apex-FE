@@ -13,7 +13,7 @@ const unitSettingsState: IUnitSettingsData & IHTTPResponse = {
   applicationUnitsCollection: [],
 
   appUnitsUnitGroupsMap: {},
-  uniqUnitOptions: [],
+  unitOptionsByVariableName: {},
 
   numberFormat: "number",
   numberFormatString: "0.0",

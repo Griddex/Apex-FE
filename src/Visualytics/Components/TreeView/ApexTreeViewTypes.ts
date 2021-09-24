@@ -1,3 +1,5 @@
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+
 export interface RenderTree {
   id: string;
   name: string;
@@ -9,10 +11,10 @@ export interface RenderTree {
 export interface IApexTreeView {
   rootTree: RenderTree;
   selectedIds: string[];
-  setSelectedIds: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedIds: TUseState<string[]>;
   selectedNames: string[];
-  setSelectedNames: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedNames: TUseState<string[]>;
   selectedPathsUnfiltered: string[];
-  setSelectedPathsUnfiltered: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedPathsUnfiltered: TUseState<string[]>;
   dragDropTypes: string;
 }

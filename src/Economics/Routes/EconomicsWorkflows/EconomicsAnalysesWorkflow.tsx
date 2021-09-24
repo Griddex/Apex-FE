@@ -91,7 +91,6 @@ const steps = [
   "Select Parameters & Assumptions",
   "Select Costs & Revenues",
   "Economics Analyses",
-  // "Calculate Indices [and Define Sensitivities]",
 ];
 
 const EconomicsAnalysesWorkflow = () => {
@@ -154,7 +153,7 @@ const EconomicsAnalysesWorkflow = () => {
         return (
           <StoredEconomicsParametersDecks
             reducer={reducer}
-            finalAction={() => console.log("Hi")}
+            finalAction={() => {}}
             showChart={false}
           />
         );
@@ -162,7 +161,7 @@ const EconomicsAnalysesWorkflow = () => {
         return (
           <StoredCostsAndRevenuesDecks
             reducer={reducer}
-            finalAction={() => console.log("Hi")}
+            finalAction={() => {}}
             showChart={false}
           />
         );
