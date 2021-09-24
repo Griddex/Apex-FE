@@ -80,7 +80,7 @@ function* saveCostsRevenuesSaga(
   const {
     costsRevenues,
     costRevenuesButtons,
-    forecastScenario,
+    forecastCase,
     appHeaderNameUnitsMap,
   } = yield select((state) => state[reducer][wc][wp]);
 
@@ -104,7 +104,7 @@ function* saveCostsRevenuesSaga(
     developmentScenarios: Object.keys(shiftedCostRevenues).map(
       (k) => devScenarios[k as TDevScenarioNames]
     ),
-    forecastScenario,
+    forecastScenario: forecastCase,
     matchObject,
     variableUnits: appHeaderNameUnitsMap,
   };

@@ -25,14 +25,12 @@ const useStyles = makeStyles((theme) => ({
     };
   },
   cardActionArea: {
-    height: "100%",
-    width: "100%",
     cursor: "pointer ",
   },
   title: {
     display: "flex",
     justifyContent: "center",
-    width: "90%",
+    width: "80%",
   },
   cardIconTitle: {
     display: "flex",

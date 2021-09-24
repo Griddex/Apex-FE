@@ -1,4 +1,4 @@
-import { makeStyles, Typography, useTheme } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
@@ -8,9 +8,9 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import Author from "../../../../Application/Components/Author/Author";
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
+import Author from "../../../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ApexGridMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
 import ExcelExportTable, {
@@ -27,29 +27,26 @@ import {
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
+  persistSelectedIdTitleAction,
 } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
 import {
-  IStoredDataProps,
   IApplicationStoredDataRow,
+  IStoredDataProps,
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
-import { persistSelectedIdTitleAction } from "../../../../Application/Redux/Actions/ApplicationActions";
-
 import formatDate from "../../../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../../../Visualytics/Components/Charts/DoughnutChart";
-import {
-  updateEconomicsParameterAction,
-  getEconomicsParametersByIdRequestAction,
-} from "../../../Redux/Actions/EconomicsActions";
 import { fetchStoredForecastingParametersRequestAction } from "../../../../Network/Redux/Actions/NetworkActions";
+import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
+import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import {
+  getEconomicsParametersByIdRequestAction,
+  updateEconomicsParameterAction,
+} from "../../../Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -59,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     backgroundColor: "#FFF",
+    boxShadow: theme.shadows[2],
   },
   chart: {
     display: "flex",
@@ -153,29 +151,6 @@ const formatEconomicsParameters = (
 
   return snTransStoredData;
 };
-
-/* export const extrudeStoredDataDPs = (
-  title: string,
-  currentRow: IStoredDataRow,
-  forecastParametersIndex: number,
-  workflowProcess: NonNullable<TAllWorkflowProcesses>
-): DialogStuff<IStoredDataRow> => {
-  console.log("currentRow from extrudeStoredDataDPs: ", currentRow);
-  return {
-    name: "Edit_Decline_Parameters_Parameters_Dialog",
-    title,
-    type: "createDeclineParametersWorkflowDialog",
-    show: true,
-    exclusive: false,
-    maxWidth: "lg",
-    iconType: "edit",
-    forecastParametersIndex,
-    workflowProcess,
-    actionsList: () => DialogCancelButton(),
-    dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-    currentRow,
-  };
-}; */
 
 export default function StoredEconomicsParametersDecks({
   showChart,
@@ -391,20 +366,6 @@ export default function StoredEconomicsParametersDecks({
         width: 120,
       },
       {
-        key: "status",
-        name: "STATUS",
-        editable: false,
-        resizable: true,
-        width: 100,
-      },
-      {
-        key: "title",
-        name: "ECONOMICS PARAMETERS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
-      },
-      {
         key: "approval",
         name: "APPROVAL",
         editable: false,
@@ -413,6 +374,13 @@ export default function StoredEconomicsParametersDecks({
           return <Approval approvalText={row.approval} />;
         },
         width: 100,
+      },
+      {
+        key: "title",
+        name: "ECONOMICS PARAMETERS TITLE",
+        editable: false,
+        resizable: true,
+        width: 300,
       },
       {
         key: "author",

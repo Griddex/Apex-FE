@@ -17,6 +17,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import StoredForecastResults from "../../Forecast/Routes/StoredForecastResults";
 import { forecastCaseOptions } from "../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../Redux/Actions/EconomicsActions";
+import CostsAndRevenueApexForecast from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueApexForecast";
 import CostsAndRevenueManual from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueManual";
 
 const useStyles = makeStyles((theme) => ({
@@ -173,7 +174,7 @@ const CostsRevenueApexForecastWorkflow = ({
     workflowCategory,
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(
       workflowInitAction(
         steps,
@@ -206,7 +207,7 @@ const CostsRevenueApexForecastWorkflow = ({
                   valueOption={forecastCaseOption}
                   data={forecastCaseOptions}
                   handleSelect={(option: ValueType<ISelectOption, false>) => {
-                    const path = `inputDataWorkflows.${workflowProcess}.forecastScenario`;
+                    const path = `inputDataWorkflows.${workflowProcess}.forecastCase`;
                     const value = option?.value as string;
                     console.log("path: ", path);
                     console.log("value: ", value);
@@ -223,13 +224,14 @@ const CostsRevenueApexForecastWorkflow = ({
             <StoredForecastResults
               showChart={false}
               showBaseButtons={false}
-              shouldRunAggregation={true}
+              willFetchForecast={true}
+              allWorkflowProcesses={workflowProcess}
             />
           </ApexFlexContainer>
         );
       case 1:
         return (
-          <CostsAndRevenueManual
+          <CostsAndRevenueApexForecast
             reducer={reducer}
             wkCy={"inputDataWorkflows"}
             wkPs={"economicsCostsRevenuesDeckApexForecast"}

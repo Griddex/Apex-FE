@@ -68,7 +68,6 @@ function* getSelectedForecastDataByIdSaga(
   const reducer = "forecastReducer";
 
   const config = {};
-  //const url = `${getBaseForecastUrl()}/forecastResultDataByScenario/${selectedForecastingResultsId}/2P_2C`;
   const url = `${getBaseForecastUrl()}/forecastResultData/${selectedForecastingResultsId}`;
   const message = "Loading forecast data...";
 

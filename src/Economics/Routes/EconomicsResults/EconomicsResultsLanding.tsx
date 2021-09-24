@@ -13,7 +13,7 @@ import Image from "../../../Application/Components/Visuals/Image";
 import Spreadsheet from "../../../Application/Images/Spreadsheet.svg";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
-import ForecastCharts from "../../../Forecast/Images/ForecastCharts.svg";
+import VisualyticsCharts from "../../../Economics/Images/VisualyticsCharts.svg";
 import StoredDeck from "../../../Import/Images/StoredDeck.svg";
 import HeatMap from "../../Images/HeatMap.svg";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
@@ -78,7 +78,7 @@ const EconomicsResultsLanding = () => {
       icon: (
         <Image
           className={classes.image}
-          src={ForecastCharts}
+          src={VisualyticsCharts}
           alt="Chart Logo"
         />
       ),

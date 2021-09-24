@@ -62,14 +62,12 @@ function* runForecastResultsAggregationSaga(
     (state) => state.forecastReducer
   );
 
-  const { forecastScenario } = yield select(
+  const { forecastCase } = yield select(
     (state) => state.economicsReducer["inputDataWorkflows"][workflowProcess]
   );
 
   const config = {};
-  // const url = `${getBaseForecastUrl()}/forecastResultData/${selectedForecastingResultsId}`;
-
-  const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastScenario}`;
+  const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastCase}`;
   const message = "Running forecast results aggregation...";
 
   try {

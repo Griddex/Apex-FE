@@ -61,6 +61,7 @@ import {
   ECONOMICSHEATMAP_UPDATE_HASDROPPED,
   GET_ECONOMICSPLOT_CHARTDATA_SUCCESS,
   TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
+  RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -298,6 +299,11 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       } else {
         return state;
       }
+    }
+
+    case RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS: {
+      const { forecastEconomicsAggregated } = action.payload;
+      return { ...state, forecastEconomicsAggregated };
     }
 
     case GET_ECONOMICSPLOT_CHARTDATA_SUCCESS: {

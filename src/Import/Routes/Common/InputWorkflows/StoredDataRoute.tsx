@@ -54,17 +54,17 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "98%",
-    height: "90%",
+    width: "100%",
+    height: "100%",
     backgroundColor: "#FFF",
-    boxShadow: theme.shadows[3],
-    padding: 10,
+    boxShadow: theme.shadows[2],
+    padding: 20,
   },
   workflowBody: {
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    width: "97%",
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -329,13 +329,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
               </ApexFlexContainer>
             );
           },
-          width: 100,
-        },
-        {
-          key: "status",
-          name: "STATUS",
-          editable: false,
-          resizable: true,
           width: 100,
         },
         {

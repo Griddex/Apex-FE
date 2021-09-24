@@ -51,6 +51,7 @@ export interface IStoredDataProps {
   mainUrl?: string;
   collectionName?: string;
   tableTitle?: string;
+  allWorkflowProcesses?: TAllWorkflowProcesses;
   workflowProcess?: IStoredDataProps["wkPs"];
   wkPs?:
     | "facilitiesInputDeckStored"
@@ -92,6 +93,7 @@ export interface IStoredDataProps {
   isCloning?: boolean;
   wcc?: string;
   isCreateOrEdit?: boolean;
+  willFetchForecast?: boolean;
 }
 
 export interface IApplicationStoredDataRow {
@@ -164,3 +166,13 @@ export type TApexRowData =
 export type TApexData = string[] | Record<string, TApexRowData>[];
 
 export type TTitleDescription = { title: string; description: string };
+
+export interface Position {
+  idx: number;
+  rowIdx: number;
+}
+
+export type TPastePosition = {
+  topLeft: { rowIdx?: number; colIdx?: number };
+  botRight: { rowIdx?: number; colIdx?: number };
+};

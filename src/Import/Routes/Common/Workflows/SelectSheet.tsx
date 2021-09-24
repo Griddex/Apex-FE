@@ -228,7 +228,7 @@ const SelectSheet = ({
             </Grid>
             <Grid item xs>
               <Typography variant="subtitle2">
-                {`${sizeConversions(fileSize, "MB")} of 10MB`}
+                {`${sizeConversions(fileSize)}`}
               </Typography>
             </Grid>
           </Grid>

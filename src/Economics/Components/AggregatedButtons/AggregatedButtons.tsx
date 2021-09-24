@@ -6,6 +6,7 @@ import noEventPropagation from "./../../../Application/Events/NoEventPropagation
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "./../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles(() => ({
   rootButtons: ({
@@ -24,7 +25,7 @@ const useStyles = makeStyles(() => ({
 
 export interface IAggregatedButtons {
   buttonsData: IAggregateButtonProps[];
-  setButtonsData: React.Dispatch<React.SetStateAction<any>>;
+  setButtonsData: TUseState<any>;
   moreStyles?: CSSProperties;
   marginTop?: number | string;
   buttonWidth?: number | string;

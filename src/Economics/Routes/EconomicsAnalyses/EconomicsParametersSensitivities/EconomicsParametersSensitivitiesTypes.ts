@@ -1,5 +1,8 @@
 import { IUserDetails } from "../../../../Application/Components/User/UserTypes";
-import { IStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
+import {
+  IStoredDataRow,
+  TUseState,
+} from "../../../../Application/Types/ApplicationTypes";
 import {
   IEcoSelectedSensitivities,
   TParametersId,
@@ -10,7 +13,7 @@ export interface IParameterSensitivity {
   parIndex: number;
   parId: TParametersId;
   parameterSensitivitiesObj: Record<TParametersId, IEcoSelectedSensitivities>;
-  setParameterSensitivitiesObj: React.Dispatch<React.SetStateAction<any>>;
+  setParameterSensitivitiesObj: TUseState<any>;
 }
 
 export interface ISensitivityColumn {

@@ -1,4 +1,5 @@
 import { Column, PasteEvent } from "react-data-griddex";
+import { TUseState } from "../../../Types/ApplicationTypes";
 import { ITableButtonsProps } from "../TableButtonsTypes";
 
 export type IRawRow = {
@@ -25,12 +26,11 @@ export interface IApexGrid<R, O> {
   newTableRowHeight?: number;
   onSelectedCellChange?: (position: IPosition) => void;
   selectedRows?: Set<React.Key>;
-  setSelectedRows?: React.Dispatch<React.SetStateAction<Set<any>>>;
+  setSelectedRows?: TUseState<Set<any>>;
   onSelectedRowsChange?: (selectedRows: Set<React.Key>) => void | undefined;
   selectedRow?: number;
-  onSelectedRowChange?: React.Dispatch<React.SetStateAction<any>>;
+  onSelectedRowChange?: TUseState<any>;
   onRowsChange?: React.Dispatch<any>;
-  //onPaste?: React.Dispatch<PasteEvent<R>>;
   onPaste?: (event: PasteEvent<R>) => R;
   mappingErrors?: React.Key[];
   size?: {
@@ -49,6 +49,7 @@ export interface IApexGrid<R, O> {
   autoAdjustTableDim?: boolean;
   staticTableHeight?: number;
   componentRef?: React.MutableRefObject<any>;
+  initialRowsLength?: number;
 }
 
 export interface ITableMetaData<R> {

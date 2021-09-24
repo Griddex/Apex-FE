@@ -10,6 +10,7 @@ import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpi
 import useExitPrompt from "../Hooks/UseExitPrompt";
 import NotFnd from "../Routes/Challenges/NotFnd";
 import ProtectedRoute from "../Routes/ProtectedRoute";
+import { TUseState } from "../Types/ApplicationTypes";
 
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IExitPromptContext {
   showExitPrompt: boolean;
-  setShowExitPrompt: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowExitPrompt: TUseState<boolean>;
 }
 
 const initExitPromptContext = {
@@ -41,7 +42,7 @@ const App = () => {
 
   const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false) as [
     boolean,
-    React.Dispatch<React.SetStateAction<boolean>>
+    TUseState<boolean>
   ];
   const notistackRef = React.useRef<SnackbarProvider>(null);
 

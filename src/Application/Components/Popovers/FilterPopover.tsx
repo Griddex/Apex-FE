@@ -9,6 +9,7 @@ import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import { TUseState } from "../../Types/ApplicationTypes";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 
@@ -71,7 +72,7 @@ export interface IPopoverProps {
   title: string;
   action: () => void;
   handleCancel: () => void;
-  localDispatch: React.Dispatch<{ type: string; payload: any }>;
+  localDispatch: TUseState<{ type: string; payload: any }>;
   workflowProcess?: string;
 }
 

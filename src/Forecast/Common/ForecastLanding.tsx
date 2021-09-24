@@ -17,7 +17,7 @@ import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import ForecastGeneration from "../Images/ForecastGeneration.svg";
 import StoredDeck from "../../Import/Images/StoredDeck.svg";
 import QualityAssurance from "../Images/QualityAssurance.svg";
-import ForecastCharts from "../Images/ForecastCharts.svg";
+import VisualyticsCharts from "../Images/VisualyticsCharts.svg";
 import {
   loadForecastResultsWorkflowAction,
   updateForecastResultsParameterAction,
@@ -84,7 +84,7 @@ const ForecastLanding = () => {
       icon: (
         <Image
           className={classes.image}
-          src={ForecastCharts}
+          src={VisualyticsCharts}
           alt="Chart Logo"
         />
       ),

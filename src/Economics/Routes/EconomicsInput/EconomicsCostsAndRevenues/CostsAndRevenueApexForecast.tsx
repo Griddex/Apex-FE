@@ -72,13 +72,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CostsAndRevenueManual({
+export default function CostsAndRevenueApexForecast({
   wkCy,
   wkPs,
   finalAction,
 }: IInputWorkflows) {
   const initialRowsLength = 10;
-  const basePath = "inputDataWorkflows.economicsCostsRevenuesDeckManual";
+  const basePath = "inputDataWorkflows.economicsCostsRevenuesDeckApexForecast";
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -91,6 +91,10 @@ export default function CostsAndRevenueManual({
 
   const { unitOptionsByVariableName } = useSelector(
     (state: RootState) => state.unitSettingsReducer
+  );
+  console.log(
+    "Logged output --> ~ file: CostsAndRevenueApexForecast.tsx ~ line 99 ~ unitOptionsByVariableName",
+    unitOptionsByVariableName
   );
 
   const [devOption, setDevOption] = React.useState<ISelectOption>(
@@ -188,6 +192,10 @@ export default function CostsAndRevenueManual({
 
   const initialOilNAGDevelopmentUnitsObj = oilNAGDevelopmentNames.reduce(
     (acc, name) => {
+      console.log(
+        "Logged output --> ~ file: CostsAndRevenueApexForecast.tsx ~ line 198 ~ name",
+        name
+      );
       const firstOption = unitOptionsByVariableName[name][0];
       return { ...acc, [name]: firstOption };
     },
@@ -259,19 +267,11 @@ export default function CostsAndRevenueManual({
     rows = oilNAGDevelopmentRows as IRawRow[];
     setRows = setOilNAGDevelopmentRows;
   }
-  console.log(
-    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 841 ~ rows",
-    rows
-  );
 
   const handleApplicationUnitChange = (
     option: ValueType<ISelectOption, false>,
     headerName: string
   ) => {
-    console.log(
-      "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 272 ~ headerName",
-      headerName
-    );
     setAppHeaderChosenAppUnitObj((prev) => {
       return {
         ...prev,

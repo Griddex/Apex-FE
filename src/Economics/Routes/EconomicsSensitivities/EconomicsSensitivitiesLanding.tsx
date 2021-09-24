@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EconomicsSensitivitiesLanding = () => {
+  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -124,10 +125,6 @@ const EconomicsSensitivitiesLanding = () => {
   const economicsSensitivitiesConfirmation = (
     titleDesc: Record<string, string>
   ) => {
-    console.log(
-      "Logged output --> ~ file: EconomicsSensitivitiesLanding.tsx ~ line 127 ~ EconomicsSensitivitiesLanding ~ titleDesc",
-      titleDesc
-    );
     const dialogParameters: DialogStuff = {
       name: "Economics_Sensitivities_Save_Confirmation",
       title: "Economics Sensitivities Save Confirmation",
@@ -181,6 +178,12 @@ const EconomicsSensitivitiesLanding = () => {
                       icon: <ViewHeadlineIcon />,
                     }}
                     finalAction={economicsSensitivitiesWorkflowFinalAction}
+                    borderStyles={{
+                      border: "1px solid #707070",
+                      boxShadow: theme.shadows[2],
+                      width: 700,
+                      height: "90%",
+                    }}
                   />
                 ),
                 stored: <StoredEconomicsSensitivities />,

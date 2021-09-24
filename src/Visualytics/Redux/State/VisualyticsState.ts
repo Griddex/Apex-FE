@@ -94,7 +94,7 @@ export const initialVisualyticsWorkflowState = {
   developmentScenariosCompleted: [],
   costsRevenues: {},
   costRevenuesButtons: [],
-  forecastScenario: "2P_2C",
+  forecastCase: "2P_2C",
 
   inputDeckId: "",
   status: 0,

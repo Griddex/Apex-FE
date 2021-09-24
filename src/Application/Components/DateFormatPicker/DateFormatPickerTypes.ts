@@ -4,6 +4,7 @@ import {
   TMonthFormatValues,
   TYearFormatValues,
 } from "../../../Settings/UnitSettings/UnitSettingsTypes";
+import { TUseState } from "../../Types/ApplicationTypes";
 import generateSelectOptions from "./../../Utils/GenerateSelectOptions";
 import { ISelectOption } from "./../Selects/SelectItemsType";
 
@@ -19,11 +20,11 @@ export type TYearOption = {
 
 export interface IDateFormatPicker {
   day: TDayOption;
-  setDay: React.Dispatch<React.SetStateAction<TDayOption>>;
+  setDay: TUseState<TDayOption>;
   month: TMonthOption;
-  setMonth: React.Dispatch<React.SetStateAction<TMonthOption>>;
+  setMonth: TUseState<TMonthOption>;
   year: TYearOption;
-  setYear: React.Dispatch<React.SetStateAction<TYearOption>>;
+  setYear: TUseState<TYearOption>;
   handleDateFormatChange: (option: ValueType<ISelectOption, false>) => void;
 }
 

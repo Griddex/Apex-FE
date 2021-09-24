@@ -25,7 +25,6 @@ import {
   PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
   REMOVE_FORECAST,
   RESET_FORECAST,
-  RUN_FORECASTECONOMICSAGGREGATION_SUCCESS,
   RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
   RUN_FORECAST_FAILURE,
   RUN_FORECAST_SUCCESS,
@@ -337,11 +336,6 @@ const forecastReducer = (
     case RUN_FORECASTRESULTSAGGREGATION_SUCCESS: {
       const { forecastResultsAggregated } = action.payload;
       return { ...state, forecastResultsAggregated };
-    }
-
-    case RUN_FORECASTECONOMICSAGGREGATION_SUCCESS: {
-      const { forecastEconomicsAggregated } = action.payload;
-      return { ...state, forecastEconomicsAggregated };
     }
 
     case PUT_SELECTCHART_SUCCESS: {
