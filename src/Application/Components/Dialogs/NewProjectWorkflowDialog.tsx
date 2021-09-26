@@ -166,7 +166,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
         DialogOneCancelButtons(
           [true, true],
           [true, true],
-          [unloadDialogsAction, () => createProjectAction(titleDesc)],
+          [unloadDialogsAction, () => createProjectAction(titleDesc, true)],
           "Create",
           "createOutlined",
           false,

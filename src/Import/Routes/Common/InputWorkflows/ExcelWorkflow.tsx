@@ -12,13 +12,13 @@ import { workflowInitAction } from "../../../../Application/Redux/Actions/Workfl
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
 import * as xlsx from "xlsx";
+import isEqual from "react-fast-compare";
 
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
 const SelectHeaderUnitData = React.lazy(
   () => import("../Workflows/SelectHeaderUnitData")
 );
-
 const PreviewSave = React.lazy(() => import("../Workflows/PreviewSave"));
 const MatchUnits = React.lazy(() => import("../Workflows/MatchUnits"));
 const MatchHeaders = React.lazy(() => import("../Workflows/MatchHeaders"));
@@ -58,6 +58,7 @@ const ExcelWorkflow = ({
   hasExtraComponent,
   extraComponent,
 }: IOnlyWorkflows) => {
+  console.log("I'm in excel workflowwwwwwwwwwwwwww");
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;
@@ -65,18 +66,35 @@ const ExcelWorkflow = ({
 
   const skipped = new Set<number>();
   const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
+    (state: RootState) => {
+      const { showContextDrawer } = state.layoutReducer;
+      return { showContextDrawer };
+    },
+    (prev, next) => isEqual(prev, next)
   );
   const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
+    (state: RootState) => {
+      const { activeStep } = state.workflowReducer[wc][wp];
+      return { activeStep };
+    },
+    (prev, next) => isEqual(prev, next)
   );
   const { currentDevOption, developmentScenariosCompleted } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+    (state: RootState) => {
+      const { currentDevOption, developmentScenariosCompleted } =
+        state[reducer][wc][wp];
+      return { currentDevOption, developmentScenariosCompleted };
+    },
+    (prev, next) => isEqual(prev, next)
   );
-  const applicationData = useSelector(
-    (state: RootState) => state.applicationReducer
+  const { moduleName, subModuleName, workflowName } = useSelector(
+    (state: RootState) => {
+      const { moduleName, subModuleName, workflowName } =
+        state.applicationReducer;
+      return { moduleName, subModuleName, workflowName };
+    },
+    (prev, next) => isEqual(prev, next)
   );
-  const { moduleName, subModuleName, workflowName } = applicationData;
 
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
@@ -196,4 +214,4 @@ const ExcelWorkflow = ({
   );
 };
 
-export default ExcelWorkflow;
+export default React.memo(ExcelWorkflow);

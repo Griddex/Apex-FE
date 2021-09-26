@@ -210,8 +210,10 @@ const NetworkLanding = () => {
                     />
                   ),
                   forecastParameters: (
-                    <StoredForecastingParameters showChart={true}
-                    isAllForecastParameters={true} />
+                    <StoredForecastingParameters
+                      showChart={true}
+                      isAllForecastParameters={true}
+                    />
                   ),
                   declineParametersStored: (
                     <StoredDeclineCurveParameters
@@ -280,7 +282,6 @@ const NetworkLanding = () => {
                   dispatch(
                     updateNetworkParameterAction("isNetworkAuto", isNetworkAuto)
                   );
-
                 }}
                 title={name}
                 description={description}
@@ -297,4 +298,4 @@ const NetworkLanding = () => {
   );
 };
 
-export default NetworkLanding;
+export default React.memo(NetworkLanding);

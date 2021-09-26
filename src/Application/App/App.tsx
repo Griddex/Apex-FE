@@ -38,6 +38,7 @@ export const ExitPromptContext = React.createContext<IExitPromptContext>(
 );
 
 const App = () => {
+  console.log("Apppppppppppppppp");
   const classes = useStyles();
 
   const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false) as [
@@ -93,4 +94,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default React.memo(App);

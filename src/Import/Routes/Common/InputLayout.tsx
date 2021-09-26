@@ -49,12 +49,13 @@ const useStyles = makeStyles(() => {
 });
 
 const InputLayout = () => {
+  console.log("Hellooooooooooo inputLayout");
   const classes = useStyles();
   const { path, url } = useRouteMatch();
   const layoutProps = useSelector((state: RootState) => state.layoutReducer);
   const { showSubNavbar } = layoutProps;
 
-  const subNavbarData: ISubNavbarData = [
+  const subNavbarData = React.useRef([
     {
       name: "Facilities Deck",
       route: `${url}/facilitiesdeck`,
@@ -107,11 +108,11 @@ const InputLayout = () => {
         </EconomicsInputButtonsMenu>
       ),
     },
-  ];
+  ]);
 
   return (
     <main className={classes.importLayoutRoot}>
-      {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
+      {showSubNavbar && <SubNavbar subNavbarData={subNavbarData.current} />}
       <div className={clsx(classes.importLayoutContainer)}>
         <Suspense
           fallback={

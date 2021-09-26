@@ -1,4 +1,3 @@
-import uniqBy from "lodash.uniqby";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -15,12 +14,8 @@ import {
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../../Application/Services/AuthService";
-import {
-  getBaseForecastUrl,
-  getBaseUnitUrl,
-} from "../../../../Application/Services/BaseUrlService";
+import { getBaseUnitUrl } from "../../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../../Components/DialogActions/UnitSettingsSuccessFailureDialogParameters";
 import {
   fetchUnitSettingsFailureAction,
@@ -28,12 +23,7 @@ import {
   FETCH_UNITSETTINGS_REQUEST,
   updateUnitsSettingsParameterAction,
 } from "../../Actions/UnitSettingsActions";
-import {
-  IUnitsRow,
-  TVariableName,
-  TVariableTitle,
-  TVariableTitleNameMap,
-} from "../../State/UnitSettingsStateTypes";
+import { IUnitsRow } from "../../State/UnitSettingsStateTypes";
 
 export default function* watchFetchUnitSettingsSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -89,17 +79,6 @@ function* fetchUnitSettingsSaga(
       {}
     );
 
-    // const unitOptions: ISelectOption[] = variableUnits.reduce(
-    //   (acc: ISelectOption[], row: IUnitsRow) => {
-    //     const units = row.units.map((u) => ({
-    //       value: u.unitId,
-    //       label: u.title,
-    //     }));
-    //     return [...acc, ...units];
-    //   },
-    //   []
-    // );
-
     const unitOptionsByVariableName = Object.keys(variableNameUnitsMap).reduce(
       (acc: Record<string, ISelectOption[]>, variableName: string) => {
         const options = variableNameUnitsMap[variableName].map(
@@ -114,10 +93,12 @@ function* fetchUnitSettingsSaga(
       {}
     ) as Record<string, ISelectOption[]>;
 
-    const path = "unitOptionsByVariableName";
-    const value = unitOptionsByVariableName;
-    const updateAction = updateUnitsSettingsParameterAction(path, value);
-    yield put(updateAction);
+    yield put(
+      updateUnitsSettingsParameterAction(
+        "unitOptionsByVariableName",
+        unitOptionsByVariableName
+      )
+    );
 
     yield put(
       updateUnitsSettingsParameterAction(

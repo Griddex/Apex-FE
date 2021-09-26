@@ -1,7 +1,4 @@
 import { ClickAwayListener, makeStyles } from "@material-ui/core";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
@@ -16,6 +13,7 @@ import ExcelExportTable, {
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
@@ -30,7 +28,6 @@ import {
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
 
@@ -61,8 +58,11 @@ const EconomicsParametersManual = ({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const typeData = ["Single", "Table", "Equation"];
-  const unitData = ["$m", "bopd", "$", "days", "frac", "$/bbl"];
+  const typeOptions = [
+    { value: "Single", label: "Single" },
+    { value: "Table", label: "Table" },
+    { value: "Equation", label: "Equation" },
+  ];
 
   const wc = wrkflwCtgry as TAllWorkflowCategories;
   const wp = wrkflwPrcss as TAllWorkflowProcesses;
@@ -71,17 +71,25 @@ const EconomicsParametersManual = ({
     (state: RootState) => state.economicsReducer
   );
 
+  const { unitOptionsByVariableName } = useSelector(
+    (state: RootState) => state.unitSettingsReducer
+  );
+
   const createInitialRows = (
     numberOfRows: number = economicsParametersAppHeaders.length
   ): TRawTable => {
     const fakeRows = [];
     for (let i = 0; i < numberOfRows; i++) {
+      const { variableName, variableTitle } = economicsParametersAppHeaders[i];
+      const unitOptions = unitOptionsByVariableName[variableName];
+
       const fakeRow = {
         sn: i + 1,
-        parameter: economicsParametersAppHeaders[i].variableTitle,
+        name: variableName,
+        parameter: variableTitle,
         type: "Single",
         value: "",
-        unit: unitData[0],
+        unit: unitOptions ? unitOptions[0].label : "unitless",
         remark: "",
       };
 
@@ -92,14 +100,20 @@ const EconomicsParametersManual = ({
 
   const initialRows = createInitialRows(economicsParametersAppHeaders.length);
   const [rows, setRows] = React.useState(initialRows);
-
-  console.log("initialRows: ", initialRows);
+  console.log(
+    "Logged output --> ~ file: EconomicsParametersManual.tsx ~ line 95 ~ rows",
+    rows
+  );
 
   const handleParameterTypeChange = (
     row: IRawRow,
-    value: ValueType<ISelectOption, false>
+    option: ValueType<ISelectOption, false>
   ) => {
-    const selectedValue = value && value.label;
+    const selectedValue = option && option.value;
+    console.log(
+      "Logged output --> ~ file: EconomicsParametersManual.tsx ~ line 113 ~ selectedValue",
+      selectedValue
+    );
     const selectedType = selectedValue as string;
 
     const selectedRowSN = row.sn as number;
@@ -112,30 +126,28 @@ const EconomicsParametersManual = ({
 
     setRows(rows);
   };
+
   const handleParameterUnitChange = (
     row: IRawRow,
     value: ValueType<ISelectOption, false>
   ) => {
     const selectedValue = value && value.label;
     const selectedAppUnit = selectedValue as string;
+
+    const selectedRowSN = row.sn as number;
+    const selectedRow = rows[selectedRowSN - 1];
+
+    rows[selectedRowSN - 1] = {
+      ...selectedRow,
+      unit: selectedAppUnit,
+    };
+
+    setRows(rows);
   };
 
   const generateColumns = () => {
     const columns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        formatter: ({ row }) => (
-          <div>
-            <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
-            <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
-            <LaunchOutlinedIcon onClick={() => alert(`Menu Row is:${row}`)} />
-          </div>
-        ),
-        width: 100,
-      },
       {
         key: "parameter",
         name: "PARAMETER",
@@ -150,17 +162,19 @@ const EconomicsParametersManual = ({
         resizable: true,
         formatter: ({ row }) => {
           const type = row.type as string;
-          const valueOption = generateSelectOptions([type])[0];
+          const valueOption = typeOptions.filter(
+            (opt) => opt.value === type
+          )[0];
 
           return (
             <ApexSelectRS
               valueOption={valueOption}
-              data={typeData}
-              handleSelect={(value: ValueType<ISelectOption, false>) =>
-                handleParameterTypeChange(row, value)
+              data={typeOptions}
+              handleSelect={(option: ValueType<ISelectOption, false>) =>
+                handleParameterTypeChange(row, option)
               }
               menuPortalTarget={document.body}
-              isSelectOptionType={false}
+              isSelectOptionType={true}
             />
           );
         },
@@ -173,6 +187,7 @@ const EconomicsParametersManual = ({
         editor: TextEditor,
         resizable: true,
         formatter: ({ row }) => {
+          const value = row.value as string;
           const type = row.type as string;
 
           if (type === "Table")
@@ -191,34 +206,49 @@ const EconomicsParametersManual = ({
                 additionalColumnsObj={{ value: "VALUE" }}
               />
             );
-          else return null;
+          else return <ApexFlexContainer>{value}</ApexFlexContainer>;
         },
         width: 150,
       },
       {
         key: "unit",
         name: "UNIT",
-        editable: true,
+        editable: false,
         resizable: true,
         formatter: ({ row }) => {
           const unit = row.unit as string;
-          const valueOption = generateSelectOptions([unit])[0];
+          const name = row.name as string;
+
+          const options = unitOptionsByVariableName[name];
+          const unitOptions = options
+            ? options
+            : [{ value: "unitless", label: "unitless" }];
+
+          const valueOption = typeOptions.filter(
+            (opt) => opt.value === unit
+          )[0];
 
           return (
             <ApexSelectRS
               valueOption={valueOption}
-              data={unitData}
+              data={unitOptions}
               handleSelect={(value: ValueType<ISelectOption, false>) =>
                 handleParameterUnitChange(row, value)
               }
               menuPortalTarget={document.body}
-              isSelectOptionType={false}
+              isSelectOptionType={true}
             />
           );
         },
         width: 150,
       },
-      { key: "remark", name: "REMARK", editable: true, resizable: true },
+      {
+        key: "remark",
+        name: "REMARK",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+      },
     ];
 
     return columns;
@@ -260,6 +290,7 @@ const EconomicsParametersManual = ({
               <ApexGrid<IRawRow, ITableButtonsProps>
                 columns={generateColumns()}
                 rows={rows}
+                onRowsChange={setRows}
                 tableButtons={tableButtons}
                 size={size}
                 autoAdjustTableDim={true}

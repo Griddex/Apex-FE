@@ -25,6 +25,7 @@ import layoutReducer from "../../Redux/Reducers/LayoutReducer";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import GetInitials from "../../Utils/GetInitials";
 import UserProfilePopover from "../Popovers/UserProfilePopover";
+import isEqual from "react-fast-compare";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +82,6 @@ const useStyles = makeStyles((theme) => ({
   userBadge: { marginRight: theme.spacing(4), marginTop: theme.spacing(1) },
   userTypography: { marginRight: theme.spacing(1) },
   roleTypography: {
-    // marginRight: theme.spacing(1),
     marginLeft: 5,
     color: theme.palette.grey[500],
   },
@@ -90,22 +90,35 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const layoutProps = useSelector((state: RootState) => state.layoutReducer);
-  const loginProps = useSelector((state: RootState) => state.loginReducer);
-  const { userName, role } = loginProps;
-  const classes = useStyles(layoutProps);
 
-  const { expandMainDrawer, showNavbar } = layoutProps;
+  const { expandMainDrawer, showNavbar } = useSelector(
+    (state: RootState) => {
+      const { expandMainDrawer, showNavbar } = state.layoutReducer;
+      return { expandMainDrawer, showNavbar };
+    },
+    (prev, next) => isEqual(prev, next)
+  );
+
+  const { userName, role } = useSelector(
+    (state: RootState) => {
+      const { userName, role } = state.loginReducer;
+      return { userName, role };
+    },
+    (prev, next) => isEqual(prev, next)
+  );
+
+  const classes = useStyles({ expandMainDrawer, showNavbar } as ReturnType<
+    typeof layoutReducer
+  >);
 
   const avatarSrc = localStorage.getItem("avatar");
   const [avatar, setAvatar] = React.useState(avatarSrc);
 
-  // const username = faker.name.findName();
-  const username = userName; //"Gideon Sanni";
-  //const role = "Corporate Forecaster";
+  const username = userName;
   const userinitials = GetInitials(username);
-  const { currentProjectTitle } = useSelector(
-    (state: RootState) => state.projectReducer
+  const currentProjectTitle = useSelector(
+    (state: RootState) => state.projectReducer["currentProjectTitle"],
+    (prev, next) => isEqual(prev, next)
   );
 
   React.useEffect(() => {

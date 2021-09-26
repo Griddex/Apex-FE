@@ -11,7 +11,6 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AccountBalanceWalletOutlinedIcon from "@material-ui/icons/AccountBalanceWalletOutlined";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import BusinessOutlinedIcon from "@material-ui/icons/BusinessOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 import LocalAtmOutlinedIcon from "@material-ui/icons/LocalAtmOutlined";
@@ -20,6 +19,7 @@ import TimelineIcon from "@material-ui/icons/Timeline";
 import TuneIcon from "@material-ui/icons/Tune";
 import clsx from "clsx";
 import React, { useState } from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
@@ -91,19 +91,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainDrawer = () => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const layoutProps = useSelector((state: RootState) => state.layoutReducer);
-  const classes = useStyles(layoutProps);
-  const { expandMainDrawer, menusDisabled } = layoutProps;
-
   const { url } = useRouteMatch();
-  const theme = useTheme();
 
-  const [selectedName, setSelectedName] = useState("");
-  const handleSelectedName = (route: string, e: any) => {
-    setSelectedName(route);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = React.useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  const { expandMainDrawer, menusDisabled } = useSelector(
+    (state: RootState) => {
+      const { expandMainDrawer, menusDisabled } = state.layoutReducer;
+      return { expandMainDrawer, menusDisabled };
+    },
+    (prev, next) => isEqual(prev, next)
+  );
+
+  const classes = useStyles({ expandMainDrawer, menusDisabled });
+
+  const [moduleName, setModuleName] = useState("");
+  const handleModuleName = (route: string) => {
+    setModuleName(route);
   };
 
   //Can replace with dynamically loaded json config file
@@ -184,12 +194,16 @@ const MainDrawer = () => {
     },
   ];
 
-  const getBadgeProps = (name: string) => {
+  const getBadgeProps = React.useCallback((name: string) => {
     return {
       color: "secondary",
       ...(name === "DCA" && { badgeContent: "", variant: "dot" }),
     } as BadgeProps;
-  };
+  }, []);
+
+  React.useEffect(() => {
+    if (open === false && moduleName === "Project") setModuleName("");
+  }, [open]);
 
   return (
     <Drawer
@@ -240,10 +254,11 @@ const MainDrawer = () => {
                     ? classes.menuItemBoxOpen
                     : classes.menuItemBoxClosed
                 )}
-                selected={name === selectedName}
+                selected={name === moduleName}
                 onClick={(e: any) => {
-                  handleSelectedName(name, e);
+                  handleModuleName(name);
                   dispatch(mainDrawerSetMenuAction(name));
+
                   if (name === "Forecast") {
                     dispatch(
                       loadForecastResultsWorkflowAction(
@@ -272,7 +287,7 @@ const MainDrawer = () => {
                 }}
                 disabled={name === "Project" ? false : menusDisabled}
                 style={
-                  name === selectedName
+                  name === moduleName
                     ? {
                         color: theme.palette.primary.dark,
                         backgroundColor: theme.palette.primary.light,
@@ -282,11 +297,15 @@ const MainDrawer = () => {
                 disableGutters
               >
                 {name === "Project" ? (
-                  <ProjectContextMenu>
+                  <ProjectContextMenu
+                    open={open}
+                    setOpen={React.useCallback(setOpen, [])}
+                    handleClose={handleClose}
+                  >
                     <div className={classes.menuItemDiv}>
                       <div
                         style={
-                          name === selectedName
+                          name === moduleName
                             ? { color: theme.palette.primary.dark }
                             : {}
                         }
@@ -296,7 +315,7 @@ const MainDrawer = () => {
                       {expandMainDrawer && (
                         <Typography
                           style={
-                            name === selectedName
+                            name === moduleName
                               ? { color: theme.palette.primary.dark }
                               : {}
                           }
@@ -310,13 +329,12 @@ const MainDrawer = () => {
                 ) : (
                   <div className={classes.menuItemDiv}>
                     <div>
-                      {" "}
                       <Badge {...getBadgeProps(name)}>{icon}</Badge>
                     </div>
                     {expandMainDrawer && (
                       <Typography
                         style={
-                          name === selectedName
+                          name === moduleName
                             ? { color: theme.palette.primary.dark }
                             : {}
                         }

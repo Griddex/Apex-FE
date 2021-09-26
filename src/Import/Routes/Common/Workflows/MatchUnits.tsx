@@ -671,7 +671,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
             IsMulti = false;
           } else {
             const multiAppUnit = row.applicationUnit;
-            console.log("multiAppUnit: ", multiAppUnit);
+
             if (Array.isArray(multiAppUnit)) {
               valueOption = (multiAppUnit as string[]).reduce(
                 (acc: any, u: string) => {

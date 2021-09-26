@@ -674,6 +674,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
         fileAppHeaderIncludeWithNoneMap
       )
     );
+
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -687,12 +688,26 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     dispatch(hideSpinnerAction());
   }, [rows]);
 
+  const defs = headerMatchChartData.current.map((match) => ({
+    id: match.id,
+    background: "inherit",
+    color: match.color,
+  }));
+  const fill = headerMatchChartData.current.map((match) => ({
+    match: {
+      id: match.label,
+    },
+    id: match.id,
+  }));
+
   return (
     <div className={classes.rootMatchHeaders}>
       <div className={classes.chart}>
         <DoughnutChartAnalytics
           data={headerMatchChartData.current}
           willUseThemeColor={false}
+          defs={defs}
+          fill={fill}
         />
       </div>
       <div className={classes.table}>

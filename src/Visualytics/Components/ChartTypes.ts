@@ -23,6 +23,8 @@ export interface IChartProps {
   workflowCategory?: TAllWorkflowCategories;
   reducer?: ReducersType;
   selectedChartOptionTitle?: string;
+  defs?: any;
+  fill?: any;
 }
 
 export declare type TAxisName = keyof typeof axisNameTitlesObj;

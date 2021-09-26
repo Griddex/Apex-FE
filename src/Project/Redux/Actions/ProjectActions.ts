@@ -98,11 +98,14 @@ export const openRecentProjectFailureAction = () => {
   };
 };
 
-export const createProjectAction = (titleDesc: Record<string, string>) => {
+export const createProjectAction = (
+  titleDesc: Record<string, string>,
+  showSpinner: boolean
+) => {
   return {
     type: CREATE_PROJECT_REQUEST,
     payload: { titleDesc },
-    meta: { showSpinner: true, message: "Creating project" },
+    meta: { showSpinner, message: "Creating project" },
   };
 };
 

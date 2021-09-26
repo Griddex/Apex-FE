@@ -1,11 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 import React, { Suspense } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
-  useHistory,
   useRouteMatch,
 } from "react-router-dom";
 import AdministrationLayout from "../../Administration/Routes/Common/AdministrationLayout";
@@ -31,6 +30,7 @@ import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
 import ProductBackground from "../Routes/ProductBackground";
 import { IdType, ILayouts, LayoutNames } from "./LayoutTypes";
+import isEqual from "react-fast-compare";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -45,18 +45,29 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Layout = () => {
+  console.log("layoutttttttttttttt");
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const { showExitPrompt, setShowExitPrompt } =
     React.useContext(ExitPromptContext);
 
   const { url } = useRouteMatch();
+
   const { showMainDrawer, showNavbar } = useSelector(
-    (state: RootState) => state.layoutReducer
+    (state: RootState) => {
+      const { showMainDrawer, showNavbar } = state.layoutReducer;
+      return { showMainDrawer, showNavbar };
+    },
+    shallowEqual
+    // (prev, next) => isEqual(prev, next)
   );
-  const { pending } = useSelector((state: RootState) => state.uiSpinnerReducer);
+
+  const pending = useSelector(
+    (state: RootState) => state.uiSpinnerReducer["pending"],
+    shallowEqual
+    // (prev, next) => isEqual(prev, next)
+  );
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
@@ -65,9 +76,7 @@ const Layout = () => {
     dispatch(fetchMatchObjectRequestAction());
 
     if (pending) dispatch(hideSpinnerAction());
-  }, []);
 
-  React.useEffect(() => {
     window.onbeforeunload = () => setShowExitPrompt(true);
     return () => {
       setShowExitPrompt(false);
@@ -147,4 +156,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default Layout; //Says memoexotic component not assignable to lazyexotic component

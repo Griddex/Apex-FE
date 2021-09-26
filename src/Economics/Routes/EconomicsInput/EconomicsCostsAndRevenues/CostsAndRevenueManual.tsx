@@ -92,6 +92,10 @@ export default function CostsAndRevenueManual({
   const { unitOptionsByVariableName } = useSelector(
     (state: RootState) => state.unitSettingsReducer
   );
+  console.log(
+    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 93 ~ unitOptionsByVariableName",
+    unitOptionsByVariableName
+  );
 
   const [devOption, setDevOption] = React.useState<ISelectOption>(
     developmentScenarioOptions[0]
@@ -259,19 +263,11 @@ export default function CostsAndRevenueManual({
     rows = oilNAGDevelopmentRows as IRawRow[];
     setRows = setOilNAGDevelopmentRows;
   }
-  console.log(
-    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 841 ~ rows",
-    rows
-  );
 
   const handleApplicationUnitChange = (
     option: ValueType<ISelectOption, false>,
     headerName: string
   ) => {
-    console.log(
-      "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 272 ~ headerName",
-      headerName
-    );
     setAppHeaderChosenAppUnitObj((prev) => {
       return {
         ...prev,
