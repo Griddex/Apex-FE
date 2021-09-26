@@ -417,15 +417,21 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   React.useEffect(() => {
     // document.addEventListener("copy", handleCopy);
-    document.addEventListener("paste", (e: ClipboardEvent) =>
-      handlePaste(e, pastePosition)
-    );
+    if (tableRef.current) {
+      (tableRef.current as HTMLDivElement).addEventListener(
+        "paste",
+        (e: ClipboardEvent) => handlePaste(e, pastePosition)
+      );
+    }
 
     return () => {
       // document.removeEventListener("copy", handleCopy);
-      document.removeEventListener("paste", (e: ClipboardEvent) =>
-        handlePaste(e, pastePosition)
-      );
+      if (tableRef.current) {
+        (tableRef.current as HTMLDivElement).removeEventListener(
+          "paste",
+          (e: ClipboardEvent) => handlePaste(e, pastePosition)
+        );
+      }
     };
   }, [JSON.stringify(selectedCell)]);
 

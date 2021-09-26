@@ -50,8 +50,8 @@ const ForecastInputDeckLanding = () => {
 
   const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
-  const { loadWorkflow } = useSelector(
-    (state: RootState) => state.layoutReducer
+  const loadWorkflow = useSelector(
+    (state: RootState) => state.layoutReducer["loadWorkflow"]
   );
 
   const forecastInputLandingData: ILandingData[] = [
@@ -99,28 +99,27 @@ const ForecastInputDeckLanding = () => {
     },
   ];
 
-  //Define a service that combines more than one icon or image into an overlapped one
-  //CSS using overlap and z-index
+  const forecastExcelandDbWorkflowFinalAction = React.useCallback(
+    (workflowProcess: TAllWorkflowProcesses) => {
+      const dialogParameters: DialogStuff = {
+        name: "Manage_Deck_Dialog",
+        title: `Manage Forecast InputDeck`,
+        type: "finalizeForecastInputDeckDialog",
+        show: true,
+        exclusive: true,
+        maxWidth: "sm",
+        iconType: "information",
+        workflowProcess,
+        workflowCategory: "inputDataWorkflows",
+        actionsList: () => DialogCancelButton(),
+      };
 
-  const forecastExcelandDbWorkflowFinalAction = (
-    workflowProcess: TAllWorkflowProcesses
-  ) => {
-    const dialogParameters: DialogStuff = {
-      name: "Manage_Deck_Dialog",
-      title: `Manage Forecast InputDeck`,
-      type: "finalizeForecastInputDeckDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "sm",
-      iconType: "information",
-      workflowProcess,
-      workflowCategory: "inputDataWorkflows",
-      actionsList: () => DialogCancelButton(),
-    };
-    dispatch(showDialogAction(dialogParameters));
-  };
+      dispatch(showDialogAction(dialogParameters));
+    },
+    []
+  );
 
-  const storedDataFinalAction = () => {
+  const storedDataFinalAction = React.useCallback(() => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage Forecast Inputdeck`,
@@ -131,14 +130,14 @@ const ForecastInputDeckLanding = () => {
       iconType: "information",
     };
     dispatch(showDialogAction(dialogParameters));
-  };
+  }, []);
 
-  const getBadgeProps = (name: string) => {
+  const getBadgeProps = React.useCallback((name: string) => {
     return {
       color: "secondary",
       ...(name === "Database" && { badgeContent: <BadgeComingSoon /> }),
     } as BadgeProps;
-  };
+  }, []);
 
   return (
     <>

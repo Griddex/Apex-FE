@@ -36,14 +36,14 @@ const DrainagePointSummaryTitle = ({ drainagePoints }: IWidget) => {
           moreStyles={{
             width: 200,
             height: "auto",
-            maxHeight: 200,
+            // maxHeight: 200,
             overflow: "auto",
           }}
         >
           {drainagePoints?.map((dp, i) => {
             return (
               <div key={i} style={{ display: "flex", flexDirection: "row" }}>
-                <div style={{ width: 20 }}>{`${i + 1}.`}</div>
+                <div style={{ width: 20 }}>{`${i + 1}. `}</div>
                 <div style={{ width: 180 }}>{dp}</div>
               </div>
             );
@@ -73,6 +73,7 @@ const DrainagePointSummaryWidget = ({ drainagePoints }: IWidget) => {
         title={<DrainagePointSummaryTitle drainagePoints={drainagePoints} />}
         placement="bottom"
         arrow
+        leaveDelay={50000}
       >
         <img
           src={DrainagePoint}

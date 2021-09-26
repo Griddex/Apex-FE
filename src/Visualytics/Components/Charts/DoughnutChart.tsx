@@ -10,7 +10,15 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 
-export const DoughnutChartAnalytics = ({ data }: IChartProps) => {
+export const DoughnutChartAnalytics = ({ data, defs, fill }: IChartProps) => {
+  console.log(
+    "Logged output --> ~ file: DoughnutChart.tsx ~ line 14 ~ DoughnutChartAnalytics ~ fill",
+    fill
+  );
+  console.log(
+    "Logged output --> ~ file: DoughnutChart.tsx ~ line 14 ~ DoughnutChartAnalytics ~ defs",
+    defs
+  );
   const wc = "visualyticsChartsWorkflows";
 
   const adjustedProps = {
@@ -18,6 +26,7 @@ export const DoughnutChartAnalytics = ({ data }: IChartProps) => {
     innerRadius: 0.65,
     arcLinkLabelsDiagonalLength: 5,
     arcLinkLabelsStraightLength: 5,
+    cornerRadius: 1,
   } as Partial<IChart>;
 
   const { commonChartProps } = useSelector(
@@ -33,6 +42,9 @@ export const DoughnutChartAnalytics = ({ data }: IChartProps) => {
       width={500}
       fit={true}
       margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+      colors={undefined}
+      defs={defs}
+      fill={fill}
     />
   );
 };

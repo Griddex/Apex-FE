@@ -162,10 +162,6 @@ export default function StoredForecastingParameters({
   const { forecastingParametersStored, networkStored } = useSelector(
     (state: RootState) => state.networkReducer[wc]
   );
-  console.log(
-    "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 139 ~ forecastingParametersStored",
-    forecastingParametersStored
-  );
 
   const selectedNetwork = networkStored.find((row: any) => {
     if (row.id == selectedNetworkId) {
@@ -174,8 +170,6 @@ export default function StoredForecastingParameters({
   });
 
   let forecastingParametersFiltered: any = [];
-
-  console.log("isAllForecastParameters: ", isAllForecastParameters);
 
   if (isAllForecastParameters == true) {
     forecastingParametersFiltered = forecastingParametersStored.map(

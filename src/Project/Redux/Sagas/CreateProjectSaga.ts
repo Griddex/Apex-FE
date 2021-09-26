@@ -15,7 +15,10 @@ import {
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { activateDisabledMenusAction } from "../../../Application/Redux/Actions/LayoutActions";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
@@ -53,6 +56,7 @@ function* createProjectSaga(
   const { payload } = action;
   const {
     titleDesc: { title, description },
+    showSpinner,
   } = payload;
 
   const {
@@ -79,6 +83,9 @@ function* createProjectSaga(
   const createProjectAPI = (url: string) => authService.post(url, data, config);
 
   try {
+    const message = "Creating project...";
+    if (showSpinner) yield put(showSpinnerAction(message));
+
     const result = yield call(
       createProjectAPI,
       `${getBaseForecastUrl()}/project/save`

@@ -75,7 +75,9 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
   const getBadgeProps = (name: string) => {
     return {
       color: "secondary",
-      ...(name === "Production Data" && { badgeContent: "", variant: "dot" }),
+      // ...(name === "Production Data" && { badgeContent: "", variant: "dot" }),
+      ...(name === "Production Data" && { badgeContent: "" }),
+      ...(name === "Production Data" && { variant: "dot" }),
     } as BadgeProps;
   };
 
@@ -98,9 +100,11 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
               component: Component,
             } = navbarData;
 
+            const badgeProps = getBadgeProps(name);
+
             if (hasWrapper) {
               return (
-                <Badge key={i} {...getBadgeProps(name)}>
+                <Badge key={i} {...badgeProps}>
                   <Component />
                 </Badge>
               );
@@ -126,7 +130,7 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
                       : {}
                   }
                 >
-                  <Badge key={name} {...getBadgeProps(name)}>
+                  <Badge {...badgeProps}>
                     <Typography variant="subtitle2">{name}</Typography>
                   </Badge>
                 </Button>

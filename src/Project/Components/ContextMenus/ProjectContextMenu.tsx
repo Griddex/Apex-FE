@@ -6,12 +6,16 @@ import { IContextMenuProps } from "../../../Network/Components/ContextMenu/Conte
 import ProjectPopover from "../Popovers/ProjectPopover";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
-const ProjectContextMenu = ({ children }: IContextMenuProps) => {
+const ProjectContextMenu = ({
+  children,
+  open,
+  setOpen,
+  handleClose,
+}: IContextMenuProps) => {
   const { expandMainDrawer } = useSelector(
     (state: RootState) => state.layoutReducer
   );
 
-  const [open, setOpen] = React.useState(false);
   const nodePosition = {
     x: expandMainDrawer ? 95 : 40,
     y: 51,
@@ -19,11 +23,7 @@ const ProjectContextMenu = ({ children }: IContextMenuProps) => {
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setOpen(!open);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+    setOpen && setOpen(!open);
   };
 
   const pos = nodePosition as XYPosition;
@@ -40,7 +40,7 @@ const ProjectContextMenu = ({ children }: IContextMenuProps) => {
       {children}
       <Menu
         keepMounted
-        open={open}
+        open={open as boolean}
         onClose={handleClose}
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}

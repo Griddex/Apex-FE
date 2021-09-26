@@ -1,5 +1,6 @@
 import { SetStateAction } from "react";
 import { XYPosition } from "react-flow-renderer";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 export interface IContextMenuProps {
   position?: XYPosition;
@@ -8,5 +9,8 @@ export interface IContextMenuProps {
   component?: React.FC<any>;
   componentElement?: React.ReactElement;
   data?: any;
-  // moreActionsCtxOpen?: boolean;
+
+  open?: boolean;
+  setOpen?: TUseState<boolean>;
+  handleClose?: () => void;
 }

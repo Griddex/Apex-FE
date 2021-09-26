@@ -152,7 +152,14 @@ const SelectSheet = ({
   };
 
   const FileSizeProgressCircle = () => {
-    const fileSizePercent = Math.round(((fileSize as number) * 100) / 10485760);
+    const fileSizePercentNumber = ((fileSize as number) * 100) / 10485760;
+
+    let fileSizePercent: number;
+    if (fileSizePercentNumber < 1)
+      fileSizePercent = Number(fileSizePercentNumber.toFixed(2));
+    else if (fileSizePercentNumber >= 1 && fileSizePercentNumber < 10)
+      fileSizePercent = Number(fileSizePercentNumber.toFixed(1));
+    else fileSizePercent = Number(fileSizePercentNumber.toFixed(0));
 
     return (
       <CircularProgressbar

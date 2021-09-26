@@ -20,7 +20,7 @@ const generateMatchData = (
     } else return acc;
   }, 0);
 
-  const NoMatch = fileHeaderMatches.reduce((acc, match) => {
+  const noMatch = fileHeaderMatches.reduce((acc, match) => {
     const bestMatch = Object.values(match)[0];
 
     if (bestMatch === 0) {
@@ -30,21 +30,21 @@ const generateMatchData = (
 
   const headerMatchChartData = [
     {
-      id: "Full Match",
+      id: "Full_Match",
       label: "Full Match",
       value: fullMatch,
       color: theme.palette.success.main,
     },
     {
-      id: "Partial Match",
+      id: "Partial_Match",
       label: "Partial Match",
       value: partialMatch,
       color: theme.palette.primary.main,
     },
     {
-      id: "No Match",
+      id: "No_Match",
       label: "No Match",
-      value: NoMatch,
+      value: noMatch,
       color: theme.palette.secondary.main,
     },
   ];
