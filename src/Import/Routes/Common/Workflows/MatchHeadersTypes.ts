@@ -11,6 +11,8 @@ export interface IApplicationHeaders {
 }
 
 export type TSingleMatchObject = {
+  id: string;
+  fileHeader: string;
   header: string;
   type: THeader | TUnit;
   acceptMatch: boolean;

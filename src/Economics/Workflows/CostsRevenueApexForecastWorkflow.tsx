@@ -60,8 +60,7 @@ const useStyles = makeStyles((theme) => ({
     height: "90%",
     width: "97%",
     alignItems: "center",
-    justifyContent: "center", //around, between
-    // justifyContent: "space-evenly", //around, between
+    justifyContent: "center",
   },
   workflowDatabasePanel: {
     display: "flex",
@@ -209,8 +208,6 @@ const CostsRevenueApexForecastWorkflow = ({
                   handleSelect={(option: ValueType<ISelectOption, false>) => {
                     const path = `inputDataWorkflows.${workflowProcess}.forecastCase`;
                     const value = option?.value as string;
-                    console.log("path: ", path);
-                    console.log("value: ", value);
 
                     dispatch(updateEconomicsParameterAction(path, value));
 

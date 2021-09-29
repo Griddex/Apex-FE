@@ -8,6 +8,7 @@ import uniq from "lodash.uniq";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { OptionsType, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
@@ -51,7 +52,12 @@ import computeFileUnitMatches from "../../../Utils/ComputeFileUnitMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
 import getInitialRowValueOrDefault from "../../../Utils/GetInitialRowValueOrDefault";
 import getWorkflowClass from "./../../../../Application/Utils/GetWorkflowClass";
-import { TUnit, TUserMatchObject } from "./MatchHeadersTypes";
+import {
+  TSingleMatchObject,
+  TUnit,
+  TUserMatchObject,
+} from "./MatchHeadersTypes";
+import { v4 as uuidv4 } from "uuid";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -90,35 +96,50 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
+const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
+  const wc = "inputDataWorkflows";
+  const wp = wrkflwPrcss;
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-
-  const wc = "inputDataWorkflows";
-  const wp = wrkflwPrcss;
 
   const workflowClass = getWorkflowClass(wp);
 
   const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
-  const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
-    useSelector((state: RootState) => state.applicationReducer);
+  const savedMatchObjectAll: TUserMatchObject = useSelector(
+    (state: RootState) => state.applicationReducer["savedMatchObjectAll"],
+    (prev, next) => isEqual(prev, next)
+  );
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["units"]
   );
 
-  const { variableNameUnitsMap, appUnitsUnitGroupsMap } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+  const variableNameUnitsMap = useSelector(
+    (state: RootState) => state.unitSettingsReducer["variableNameUnitsMap"],
+    (prev, next) => isEqual(prev, next)
   );
 
-  const { currentAppHeaderOptions } = useSelector(
-    (state: RootState) => state[reducer]
+  const appUnitsUnitGroupsMap = useSelector(
+    (state: RootState) => state.unitSettingsReducer["appUnitsUnitGroupsMap"],
+    (prev, next) => isEqual(prev, next)
   );
 
-  const { fileUnits, matchHeadersTable } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+  const currentAppHeaderOptions = useSelector(
+    (state: RootState) => state[reducer]["currentAppHeaderOptions"],
+    (prev, next) => isEqual(prev, next)
+  );
+
+  const fileUnits = useSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileUnits"],
+    (prev, next) => isEqual(prev, next)
+  );
+
+  const matchHeadersTable = useSelector(
+    (state: RootState) => state[reducer][wc][wp]["matchHeadersTable"],
+    (prev, next) => isEqual(prev, next)
   );
 
   const fileHeadersUnitsWithNoneMap = React.useRef(
@@ -157,10 +178,28 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
     forecastHeadersNameMap,
     cstRevAppHeadersNameMaps: cRHeadersMap,
     ecoParAppHeadersNameMap,
-  } = useSelector((state: RootState) => state[reducer]);
+  } = useSelector(
+    (state: RootState) => {
+      const {
+        facilitiesHeadersNameMap,
+        forecastHeadersNameMap,
+        cstRevAppHeadersNameMaps,
+        ecoParAppHeadersNameMap,
+      } = state[reducer];
 
-  const { currentDevOption } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+      return {
+        facilitiesHeadersNameMap,
+        forecastHeadersNameMap,
+        cstRevAppHeadersNameMaps,
+        ecoParAppHeadersNameMap,
+      };
+    },
+    (prev, next) => isEqual(prev, next)
+  );
+
+  const currentDevOption = useSelector(
+    (state: RootState) => state[reducer][wc][wp]["currentDevOption"],
+    (prev, next) => isEqual(prev, next)
   );
 
   let allAppHeadersNameMap = {} as Record<string, Record<string, string>>;
@@ -250,6 +289,7 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const matchObjectHeaders = React.useRef(
     specificSavedMatchObjectValues.map((h) => h.header)
   );
+
   const initialTableRows = React.useRef(
     fileHeadersWithoutNone.current.map((fileHeader: string, i: number) => {
       const unitOptions = keyedApplicationUnitOptions.current[fileHeader];
@@ -272,13 +312,19 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
         ? true
         : false;
 
+      const matchObj = specificSavedMatchObjectValues.find(
+        (o) => o.fileHeader === fileHeader
+      ) as TSingleMatchObject;
+
       return {
         sn: i + 1,
         fileHeader: fileHeader,
         fileUnit:
           fileHeadersUnitsAppHeadersWithoutNoneMap.current[fileHeader]["unit"],
         type: initialUnitType,
-        applicationUnit: selectedApplicationUnit.value,
+        applicationUnit: matchObj
+          ? matchObj.header
+          : selectedApplicationUnit.value,
         unitClassification: selectedUnitClassification
           ? selectedUnitClassification
           : "General",
@@ -313,6 +359,10 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
+  console.log(
+    "Logged output --> ~ file: MatchUnits.tsx ~ line 354 ~ MatchUnits ~ userMatchObject",
+    userMatchObject
+  );
 
   const generateColumns = (keyedApplicationUnitOptions: {
     [index: string]: AppUnitSelectOptionsType;
@@ -481,24 +531,42 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
       //Update usermatchobject
       if (isChecked) {
-        setUserMatchObject((prev) => ({
-          ...prev,
-          [workflowClass]: {
-            ...prev[workflowClass],
-            ["units"]: {
-              ...prev[workflowClass]["units"],
-              [strFileUnit]: {
-                header: strApplicationUnit,
-                type: strUnitType,
-                acceptMatch: true,
-              },
-            },
-          },
-        }));
+        setUserMatchObject((prev) => {
+          const next = { ...prev };
+
+          const matchObjectValuesByUnits = Object.values(
+            next[workflowClass]["headers"]
+          );
+          const matchObj = matchObjectValuesByUnits.find(
+            (o) => o.fileHeader === strFileUnit
+          ) as TSingleMatchObject;
+
+          let fileUnitId: string;
+          if (matchObj) fileUnitId = matchObj.id;
+          else fileUnitId = uuidv4();
+
+          next[workflowClass]["units"][fileUnitId] = {
+            ...matchObj,
+            id: fileUnitId,
+            header: strApplicationUnit,
+            type: strUnitType,
+            acceptMatch: true,
+          };
+
+          return next;
+        });
       } else {
         setUserMatchObject((prev) => {
-          const matchObject = prev;
-          delete matchObject[workflowClass]["units"][strFileUnit];
+          const specificSavedMatchObjectValues = Object.values(
+            prev[workflowClass]["units"]
+          );
+
+          const matchObj = specificSavedMatchObjectValues.find(
+            (o) => o.fileHeader === strFileUnit
+          ) as TSingleMatchObject;
+
+          const matchObject = { ...prev };
+          delete matchObject[workflowClass]["units"][matchObj.id];
 
           return matchObject;
         });
@@ -840,15 +908,27 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
               });
 
               const fileHeaderKeys = rows.map((row: IRawRow) => row.fileHeader);
-              for (const header of fileHeaderKeys) {
+              for (const fileUnit of fileHeaderKeys) {
                 const chosenRow = rows.find(
-                  (row: IRawRow) => row.fileHeader === header
+                  (row: IRawRow) => row.fileHeader === fileUnit
                 ) as IRawRow;
                 const chosenAppUnit = chosenRow.fileUnit as string;
                 const chosenUnitType = chosenRow.type as TUnit;
 
-                const headerJSON = JSON.stringify(header as string);
-                userMatchObject[workflowClass]["units"][headerJSON] = {
+                const matchObjectValuesByUnits = Object.values(
+                  userMatchObject[workflowClass]["headers"]
+                );
+                const matchObj = matchObjectValuesByUnits.find(
+                  (o) => o.fileHeader === fileUnit
+                ) as TSingleMatchObject;
+
+                let fileUnitId: string;
+                if (matchObj) fileUnitId = matchObj.id;
+                else fileUnitId = uuidv4();
+
+                userMatchObject[workflowClass]["units"][fileUnitId] = {
+                  ...matchObj,
+                  id: fileUnitId,
                   header: chosenAppUnit as string,
                   type: chosenUnitType,
                   acceptMatch: currentAcceptMatchValue,
@@ -949,4 +1029,6 @@ export default function MatchUnits({ reducer, wrkflwPrcss }: IAllWorkflows) {
       </div>
     </div>
   );
-}
+};
+
+export default React.memo(MatchUnits);

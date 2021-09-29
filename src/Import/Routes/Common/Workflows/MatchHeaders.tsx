@@ -5,9 +5,11 @@ import findIndex from "lodash.findindex";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { v4 as uuidv4 } from "uuid";
 import { dateFormatData } from "../../../../Application/Components/DateFormatPicker/DateFormatData";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -36,9 +38,7 @@ import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getWorkflowClass from "../../../../Application/Utils/GetWorkflowClass";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { updateInputParameterAction } from "../../../Redux/Actions/InputActions";
 import computeFileHeaderMatches from "../../../Utils/ComputeFileHeaderMatches";
 import generateMatchData from "../../../Utils/GenerateMatchData";
@@ -47,6 +47,7 @@ import ApexFlexContainer from "./../../../../Application/Components/Styles/ApexF
 import {
   IApplicationHeaders,
   THeader,
+  TSingleMatchObject,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
 
@@ -81,30 +82,32 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
+const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
+  const wc = "inputDataWorkflows";
+  const wp = wrkflwPrcss;
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-
-  const wc = "inputDataWorkflows";
-  const wp = wrkflwPrcss;
 
   const workflowClass = getWorkflowClass(wp);
 
   const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
   //TODO: Put elsewhere
-  const dateFormatOptions = generateSelectOptions(dateFormatData);
+  const dateFormatOptions = React.useRef(generateSelectOptions(dateFormatData));
 
-  const { savedMatchObjectAll }: { savedMatchObjectAll: TUserMatchObject } =
-    useSelector((state: RootState) => state.applicationReducer);
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 98 ~ MatchHeaders ~ savedMatchObjectAll",
-    savedMatchObjectAll
+  const savedMatchObjectAll: TUserMatchObject = useSelector(
+    (state: RootState) => state.applicationReducer["savedMatchObjectAll"],
+    (prev, next) => isEqual(prev, next)
   );
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
+  );
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 108 ~ MatchHeaders ~ specificSavedMatchObjectValues",
+    specificSavedMatchObjectValues
   );
 
   const {
@@ -116,10 +119,39 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     economicsParametersAppHeaders,
     cstRevAppHeadersSelectOptions: cRHeaderOptions,
     ecoParAppHeadersSelectOptions,
-  } = useSelector((state: RootState) => state[reducer]);
+  } = useSelector(
+    (state: RootState) => {
+      const {
+        facilitiesAppHeaders,
+        forecastAppHeaders,
+        facilitiesHeadersSelectOptions,
+        forecastHeadersSelectOptions,
+        costsRevenuesAppHeaders,
+        economicsParametersAppHeaders,
+        cstRevAppHeadersSelectOptions,
+        ecoParAppHeadersSelectOptions,
+      } = state[reducer];
+
+      return {
+        facilitiesAppHeaders,
+        forecastAppHeaders,
+        facilitiesHeadersSelectOptions,
+        forecastHeadersSelectOptions,
+        costsRevenuesAppHeaders,
+        economicsParametersAppHeaders,
+        cstRevAppHeadersSelectOptions,
+        ecoParAppHeadersSelectOptions,
+      };
+    },
+    (prev, next) => isEqual(prev, next)
+  );
 
   const { fileHeaders, currentDevOption } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+    (state: RootState) => {
+      const { fileHeaders, currentDevOption } = state[reducer][wc][wp];
+      return { fileHeaders, currentDevOption };
+    },
+    (prev, next) => isEqual(prev, next)
   );
 
   //Get headers
@@ -221,26 +253,36 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
   const initialTableRows = React.useRef(
     fileHeaders.map((fileHeader: string, i: number) => {
       const headerOptions = keyedAppHeaderOptions.current[fileHeader];
-      const initialAppHeader = headerOptions[0];
+      const initialAppHeader = headerOptions[0].label;
       const initialHeaderType = getInitialRowValueOrDefault<THeader>(
-        initialAppHeader.label,
+        initialAppHeader,
         "type",
         specificSavedMatchObjectValues,
         "Text"
       );
+
       const scoreOpts = keyedScoreOptions.current[fileHeader];
       const score = scoreOpts[0];
-      const include = true; //TODO: Can enforce columns that must be used in the forecast here
+
+      const include = true;
       const acceptMatch = specificSavedMatchObjectValues
         .map((h) => h.header)
-        .includes(initialAppHeader.label)
+        .includes(initialAppHeader)
         ? true
         : false;
+
+      const matchObj = specificSavedMatchObjectValues.find(
+        (o) => o.fileHeader === fileHeader
+      ) as TSingleMatchObject;
+      console.log(
+        "Logged output --> ~ file: MatchHeaders.tsx ~ line 273 ~ fileHeaders.map ~ matchObj",
+        matchObj
+      );
 
       return {
         sn: i + 1,
         fileHeader,
-        applicationHeader: initialAppHeader.label,
+        applicationHeader: matchObj ? matchObj.header : initialAppHeader,
         type: initialHeaderType,
         match: score.value,
         include,
@@ -253,7 +295,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const snChosenAppHeaderIndices = React.useRef<Record<string, number>>(
     initialTableRows.current.reduce(
-      (acc: Record<string, number>, row: IRawRow, i: number) => {
+      (acc: Record<string, number>, row: IRawRow) => {
         return { ...acc, [row["fileHeader"] as string]: 0 };
       },
       {}
@@ -265,6 +307,10 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
+  console.log(
+    "Logged output --> ~ file: MatchHeaders.tsx ~ line 297 ~ MatchHeaders ~ userMatchObject",
+    userMatchObject
+  );
 
   const generateColumns = (keyedAppHeaderOptions: TKeyedSelectOptions) => {
     const handleHeaderTypeChange = (
@@ -373,24 +419,43 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
       //Update usermatchobject
       if (isChecked) {
-        setUserMatchObject((prev) => ({
-          ...prev,
-          [workflowClass]: {
-            ...prev[workflowClass],
-            ["headers"]: {
-              ...prev[workflowClass]["headers"],
-              [strFileheader]: {
-                header: strApplicationHeader,
-                type: strHeaderType,
-                acceptMatch: true,
-              },
-            },
-          },
-        }));
+        setUserMatchObject((prev) => {
+          const next = { ...prev };
+
+          const matchObjectValuesByHeaders = Object.values(
+            next[workflowClass]["headers"]
+          );
+          const matchObj = matchObjectValuesByHeaders.find(
+            (o) => o.fileHeader === strFileheader
+          ) as TSingleMatchObject;
+
+          let fileHeaderId: string;
+          if (matchObj) fileHeaderId = matchObj.id;
+          else fileHeaderId = uuidv4();
+
+          next[workflowClass]["headers"][fileHeaderId] = {
+            ...matchObj,
+            id: fileHeaderId,
+            header: strApplicationHeader,
+            type: strHeaderType,
+            acceptMatch: true,
+          };
+
+          return next;
+        });
       } else {
         setUserMatchObject((prev) => {
-          const matchObject = prev;
-          delete matchObject[workflowClass]["headers"][strFileheader];
+          const specificSavedMatchObjectValues = Object.values(
+            prev[workflowClass]["headers"]
+          );
+
+          const matchObj = specificSavedMatchObjectValues.find(
+            (o) => o.fileHeader === fileHeader
+          ) as TSingleMatchObject;
+
+          const matchObject = { ...prev };
+
+          delete matchObject[workflowClass]["headers"][matchObj.id];
 
           return matchObject;
         });
@@ -465,7 +530,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
           const scoreOptions = keyedScoreOptions.current[fileHeader];
           const appHeader = row.applicationHeader as string;
           const valueOption = generateSelectOptions([appHeader])[0];
-          const dateOption = dateFormatOptions[0];
+          const dateOption = dateFormatOptions.current[0];
 
           const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
 
@@ -473,7 +538,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
             return (
               <ApexSelectRS
                 valueOption={dateOption}
-                data={dateFormatOptions}
+                data={dateFormatOptions.current}
                 handleSelect={(value: ValueType<ISelectOption, false>) =>
                   handleDateFormatChange(value, row)
                 }
@@ -566,7 +631,7 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
 
   const columns = React.useMemo(
     () => generateColumns(keyedAppHeaderOptions.current),
-    [keyedAppHeaderOptions]
+    [JSON.stringify(keyedAppHeaderOptions)]
   );
 
   const chosenAppHeadersWithNone = rows.map((row) => row.applicationHeader);
@@ -631,15 +696,28 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
               });
 
               const fileHeaderKeys = rows.map((row) => row.fileHeader);
-              for (const header of fileHeaderKeys) {
+              for (const fileHeader of fileHeaderKeys) {
                 const chosenRow = rows.find(
-                  (row) => row.fileHeader === header
+                  (row) => row.fileHeader === fileHeader
                 ) as IRawRow;
+
                 const chosenAppHeader = chosenRow.applicationHeader as string;
                 const chosenType = chosenRow.type as THeader;
 
-                const headerJSON = JSON.stringify(header as string);
-                userMatchObject[workflowClass]["headers"][headerJSON] = {
+                const matchObjectValuesByHeaders = Object.values(
+                  userMatchObject[workflowClass]["headers"]
+                );
+                const matchObj = matchObjectValuesByHeaders.find(
+                  (o) => o.fileHeader === fileHeader
+                ) as TSingleMatchObject;
+
+                let fileHeaderId: string;
+                if (matchObj) fileHeaderId = matchObj.id;
+                else fileHeaderId = uuidv4();
+
+                userMatchObject[workflowClass]["headers"][fileHeaderId] = {
+                  ...matchObj,
+                  id: fileHeaderId,
                   header: chosenAppHeader,
                   type: chosenType,
                   acceptMatch: currentAcceptMatchValue,
@@ -686,13 +764,14 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
     dispatch(saveUserMatchAction(userMatchObject));
 
     dispatch(hideSpinnerAction());
-  }, [rows]);
+  }, [JSON.stringify(rows)]);
 
   const defs = headerMatchChartData.current.map((match) => ({
     id: match.id,
     background: "inherit",
     color: match.color,
   }));
+
   const fill = headerMatchChartData.current.map((match) => ({
     match: {
       id: match.label,
@@ -729,4 +808,6 @@ export default function MatchHeaders({ reducer, wrkflwPrcss }: IAllWorkflows) {
       </div>
     </div>
   );
-}
+};
+
+export default React.memo(MatchHeaders);

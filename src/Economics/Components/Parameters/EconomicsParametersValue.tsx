@@ -75,7 +75,7 @@ const EconomicsParametersValue = ({
   };
 
   return (
-    <ApexFlexContainer justifyContent="space-between" height={"95%"}>
+    <ApexFlexContainer justifyContent="space-between" height="95%">
       <div
         style={{
           display: "flex",

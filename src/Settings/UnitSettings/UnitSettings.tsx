@@ -5,6 +5,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import ExcelExportTable, {
@@ -37,6 +38,12 @@ import {
   SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import { workflowResetAction } from "../../Application/Redux/Actions/WorkflowActions";
+import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import isEqual from "react-fast-compare";
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -78,12 +85,13 @@ const useStyles = makeStyles(() => ({
 export default function UnitSettings() {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const { variableUnits } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  ) as IUnitSettingsData;
-
   const dialogRef = React.useRef<HTMLDivElement>(null);
+
+  const variableUnits: IUnitSettingsData["variableUnits"] = useSelector(
+    (state: RootState) => state.unitSettingsReducer["variableUnits"],
+    (prev, next) => isEqual(prev, next)
+  );
+
   const [unitGroupOption, setUnitGroupOption] = React.useState<ISelectOption>(
     unitGroupOptions[0]
   );
@@ -420,10 +428,13 @@ export default function UnitSettings() {
 
     return columns;
   };
+
   const columns = React.useMemo(() => generateColumns(), []);
+
   const tableRows = React.useRef<IUnitsRow[]>(snVariableUnits);
 
   const [, setRerender] = React.useState(false);
+
   const modifyTableRows = (
     selectedVariableName: string,
     selecteddisplayUnitId: string
@@ -544,7 +555,7 @@ export default function UnitSettings() {
                   }}
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
-                  containerWidth={90}
+                  containerWidth={120}
                 />
                 <ApexSelectRS
                   valueOption={yearOption}
@@ -637,6 +648,48 @@ export default function UnitSettings() {
           />
         )}
       </SizeMe>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: 10,
+          marginBottom: 2,
+          width: 200,
+        }}
+      >
+        <BaseButtons
+          buttonTexts={["Reset", "Save"]}
+          variants={["contained", "contained"]}
+          colors={["secondary", "primary"]}
+          startIcons={[
+            <RotateLeftIcon key={1} />,
+            <SaveOutlinedIcon key={2} />,
+          ]}
+          disableds={[false, false]}
+          shouldExecute={[true, true]}
+          shouldDispatch={[false, false]}
+          finalActions={[
+            () => {
+              const dialogParameters = confirmationDialogParameters(
+                "UnitSettings_Reset_Confirmation",
+                "Reset Confirmation",
+                "textDialog",
+                `Do you want to reset this table?. 
+                  You will lose all data up to current step.`,
+                true,
+                false,
+                () => {},
+                "Reset",
+                "reset"
+              );
+
+              dispatch(showDialogAction(dialogParameters));
+            },
+            () => {},
+          ]}
+        />
+      </div>
     </div>
   );
 }
