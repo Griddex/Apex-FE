@@ -14,6 +14,7 @@ export const monthDateFormatOptions = [
   { value: "Mo", label: "Mo" },
   { value: "MM", label: "MM" },
   { value: "MMM", label: "MMM" },
+  { value: "MMMM", label: "MMMM" },
 ];
 export const yearDateFormatOptions = [
   { value: "y", label: "y" },

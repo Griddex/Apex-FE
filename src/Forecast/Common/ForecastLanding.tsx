@@ -181,7 +181,10 @@ const ForecastLanding = () => {
 
                 const forecastWorkflows = {
                   forecastGeneration: (
-                    <RunForecastWorkflowDialog {...dialogParameters} />
+                    <RunForecastWorkflowDialog
+                      {...dialogParameters}
+                      isDialog={false}
+                    />
                   ),
                   forecastdata: (
                     <ForecastData

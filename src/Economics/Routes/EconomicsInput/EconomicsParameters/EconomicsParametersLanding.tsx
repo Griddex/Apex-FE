@@ -123,76 +123,73 @@ const EconomicsParametersLanding = () => {
     },
   ];
 
-  //Define a service that combines more than one icon or image into an overlapped one
-  //CSS using overlap and z-index
+  const economicsParametersWorkflowFinalAction = React.useCallback(
+    (wp: TAllWorkflowProcesses) => {
+      const saveEconomicsParametersInputdeckConfirmation = (
+        titleDesc: Record<string, string>
+      ) => {
+        const confirmationDialogParameters: DialogStuff = {
+          name: "Save_EconomicsParametersDeck_Confirmation",
+          title: "Save EconomicsParameters Confirmation",
+          type: "textDialog",
+          show: true,
+          exclusive: false,
+          maxWidth: "xs",
+          dialogText: `Do you want to save the current economics parameters Inputdeck?`,
+          iconType: "confirmation",
+          actionsList: () =>
+            DialogSaveCancelButtons(
+              [true, true],
+              [true, true],
+              [
+                unloadDialogsAction,
+                () =>
+                  saveEconomicsParametersRequestAction(
+                    wp,
+                    reducer,
+                    titleDesc as Record<string, string>
+                  ),
+              ],
+              false,
+              "All"
+            ),
+          dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+        };
 
-  //Paying it back
-  const economicsParametersWorkflowFinalAction = (
-    wp: TAllWorkflowProcesses
-  ) => {
-    const saveEconomicsParametersInputdeckConfirmation = (
-      titleDesc: Record<string, string>
-    ) => {
-      const confirmationDialogParameters: DialogStuff = {
-        name: "Save_EconomicsParametersDeck_Confirmation",
-        title: "Save EconomicsParameters Confirmation",
-        type: "textDialog",
+        dispatch(showDialogAction(confirmationDialogParameters));
+      };
+
+      const dialogParameters: DialogStuff = {
+        name: "Save_EconomicsParameters_Input_Deck_Dialog",
+        title: "Save EconomicsParameters InputDeck",
+        type: "saveEconomicsParametersInputDeckDialog",
         show: true,
-        exclusive: false,
-        maxWidth: "xs",
-        dialogText: `Do you want to save the current economics parameters Inputdeck?`,
-        iconType: "confirmation",
-        actionsList: () =>
+        exclusive: true,
+        maxWidth: "sm",
+        iconType: "save",
+        actionsList: (titleDesc?: Record<string, string>) =>
           DialogSaveCancelButtons(
             [true, true],
-            [true, true],
+            [true, false],
             [
               unloadDialogsAction,
               () =>
-                saveEconomicsParametersRequestAction(
-                  wp,
-                  reducer,
+                saveEconomicsParametersInputdeckConfirmation(
                   titleDesc as Record<string, string>
                 ),
             ],
             false,
-            "All"
+            "None"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
 
-      dispatch(showDialogAction(confirmationDialogParameters));
-    };
+      dispatch(showDialogAction(dialogParameters));
+    },
+    []
+  );
 
-    const dialogParameters: DialogStuff = {
-      name: "Save_EconomicsParameters_Input_Deck_Dialog",
-      title: "Save EconomicsParameters InputDeck",
-      type: "saveEconomicsParametersInputDeckDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "sm",
-      iconType: "save",
-      actionsList: (titleDesc?: Record<string, string>) =>
-        DialogSaveCancelButtons(
-          [true, true],
-          [true, false],
-          [
-            unloadDialogsAction,
-            () =>
-              saveEconomicsParametersInputdeckConfirmation(
-                titleDesc as Record<string, string>
-              ),
-          ],
-          false,
-          "None"
-        ),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-  };
-
-  const storedDataFinalAction = () => {
+  const storedDataFinalAction = React.useCallback(() => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage EconomicsParameters Deck`,
@@ -203,7 +200,7 @@ const EconomicsParametersLanding = () => {
       iconType: "information",
     };
     dispatch(showDialogAction(dialogParameters));
-  };
+  }, []);
 
   const getBadgeProps = (name: string) => {
     return {

@@ -5,7 +5,11 @@
         "header": "Liquid Capacity 1P",
         "acceptMatch": true
       },
-      "Gas_Capacity_1P": { "header": "Gas Capacity 1P", "acceptMatch": true }
+      "Gas_Capacity_1P": {
+        "fileHeader": "Gas Capacity 1P",
+        "header": "Gas Capacity 1P",
+        "acceptMatch": true
+      }
     },
     "units": {
       "MMstb/d": { "header": "MMbbl/d", "acceptMatch": true },

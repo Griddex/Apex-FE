@@ -3,6 +3,7 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
@@ -67,25 +68,33 @@ const EconomicsParametersManual = ({
   const wc = wrkflwCtgry as TAllWorkflowCategories;
   const wp = wrkflwPrcss as TAllWorkflowProcesses;
 
-  const { economicsParametersAppHeaders } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const economicsParametersAppHeaders = useSelector(
+    (state: RootState) =>
+      state.economicsReducer["economicsParametersAppHeaders"],
+    (prev, next) => isEqual(prev, next)
   );
 
-  const { unitOptionsByVariableName } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+  const unitOptionsByVariableName = useSelector(
+    (state: RootState) =>
+      state.unitSettingsReducer["unitOptionsByVariableName"],
+    (prev, next) => isEqual(prev, next)
+  );
+
+  const variableUnits = useSelector(
+    (state: RootState) => state.unitSettingsReducer["variableUnits"],
+    (prev, next) => isEqual(prev, next)
   );
 
   const createInitialRows = (
     numberOfRows: number = economicsParametersAppHeaders.length
   ): TRawTable => {
-    const fakeRows = [];
+    const initialRows = [];
     for (let i = 0; i < numberOfRows; i++) {
       const { variableName, variableTitle } = economicsParametersAppHeaders[i];
       const unitOptions = unitOptionsByVariableName[variableName];
 
-      const fakeRow = {
+      const initialRow = {
         sn: i + 1,
-        name: variableName,
         parameter: variableTitle,
         type: "Single",
         value: "",
@@ -93,9 +102,9 @@ const EconomicsParametersManual = ({
         remark: "",
       };
 
-      fakeRows.push(fakeRow);
+      initialRows.push(initialRow);
     }
-    return fakeRows;
+    return initialRows;
   };
 
   const initialRows = createInitialRows(economicsParametersAppHeaders.length);
@@ -110,10 +119,6 @@ const EconomicsParametersManual = ({
     option: ValueType<ISelectOption, false>
   ) => {
     const selectedValue = option && option.value;
-    console.log(
-      "Logged output --> ~ file: EconomicsParametersManual.tsx ~ line 113 ~ selectedValue",
-      selectedValue
-    );
     const selectedType = selectedValue as string;
 
     const selectedRowSN = row.sn as number;
@@ -145,8 +150,8 @@ const EconomicsParametersManual = ({
     setRows(rows);
   };
 
-  const generateColumns = () => {
-    const columns: Column<IRawRow>[] = [
+  const columns = React.useMemo(() => {
+    return [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
       {
         key: "parameter",
@@ -217,7 +222,19 @@ const EconomicsParametersManual = ({
         resizable: true,
         formatter: ({ row }) => {
           const unit = row.unit as string;
-          const name = row.name as string;
+          const parameter = row.parameter as string;
+          console.log(
+            "Logged output --> ~ file: EconomicsParametersManual.tsx ~ line 226 ~ generateColumns ~ parameter",
+            parameter
+          );
+
+          let name: string;
+          const nameTitleObj = variableUnits.find(
+            (o: any) => o.variableTitle === parameter
+          );
+
+          if (nameTitleObj) name = nameTitleObj.variableName;
+          else name = "unitless";
 
           const options = unitOptionsByVariableName[name];
           const unitOptions = options
@@ -249,14 +266,12 @@ const EconomicsParametersManual = ({
         editor: TextEditor,
         resizable: true,
       },
-    ];
-
-    return columns;
-  };
+    ] as Column<IRawRow>[];
+  }, []);
 
   const [sRow, setSRow] = React.useState(-1);
 
-  const exportColumns = generateColumns()
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())
@@ -288,7 +303,7 @@ const EconomicsParametersManual = ({
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
               <ApexGrid<IRawRow, ITableButtonsProps>
-                columns={generateColumns()}
+                columns={columns}
                 rows={rows}
                 onRowsChange={setRows}
                 tableButtons={tableButtons}

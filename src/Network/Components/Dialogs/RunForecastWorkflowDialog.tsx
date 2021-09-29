@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -15,9 +15,9 @@ import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
   hideDialogAction,
   showDialogAction,
@@ -124,7 +124,7 @@ const workflowProcess = "networkGeneration";
 
 const RunForecastWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType } = props;
+  const { title, show, maxWidth, iconType, isDialog } = props;
 
   const skipped = new Set<number>();
   const { activeStep } = useSelector(
@@ -132,11 +132,11 @@ const RunForecastWorkflowDialog = (props: DialogStuff) => {
       state.workflowReducer[workflowCategory][workflowProcess]
   );
 
-  const isStepOptional = useCallback(
+  const isStepOptional = React.useCallback(
     (activeStep: number) => activeStep === 50,
     [activeStep]
   );
-  const isStepSkipped = useCallback(
+  const isStepSkipped = React.useCallback(
     (step: number) => skipped.has(step),
     [skipped]
   );
@@ -187,7 +187,7 @@ const RunForecastWorkflowDialog = (props: DialogStuff) => {
     workflowCategory,
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(
       workflowInitAction(
         steps,
@@ -199,30 +199,68 @@ const RunForecastWorkflowDialog = (props: DialogStuff) => {
     );
   }, [dispatch]);
 
-  return (
-    <Dialog
-      aria-labelledby="customized-dialog-title"
-      open={show as boolean}
-      maxWidth={maxWidth}
-      fullWidth
-    >
-      <DialogTitle
-        onClose={() => dispatch(hideDialogAction())}
-        iconType={iconType}
+  if (isDialog) {
+    return (
+      <Dialog
+        aria-labelledby="customized-dialog-title"
+        open={show as boolean}
+        maxWidth={maxWidth}
+        fullWidth
       >
-        <WorkflowBanner
-          activeStep={activeStep}
-          steps={steps}
-          subModuleName={title as string}
-        />
-      </DialogTitle>
-      <DialogContent
-        dividers
+        <DialogTitle
+          onClose={() => dispatch(hideDialogAction())}
+          iconType={iconType}
+        >
+          <WorkflowBanner
+            activeStep={activeStep}
+            steps={steps}
+            subModuleName={title as string}
+          />
+        </DialogTitle>
+        <DialogContent
+          dividers
+          style={{
+            display: "flex",
+            flexWrap: "nowrap",
+            flexDirection: "column",
+            height: 650,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            <RunForecastWorkflow {...workflowProps} />
+            <DialogContextDrawer>
+              <DialogVerticalWorkflowStepper {...workflowProps} />
+            </DialogContextDrawer>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <NavigationButtons {...navigationButtonProps} />
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
+  return (
+    <ApexFlexContainer flexDirection="column">
+      <WorkflowBanner
+        activeStep={activeStep}
+        steps={steps}
+        subModuleName={title as string}
+      />
+      <div
         style={{
           display: "flex",
           flexWrap: "nowrap",
           flexDirection: "column",
-          height: 650,
+          height: "100%",
+          width: "100%",
         }}
       >
         <div
@@ -238,11 +276,11 @@ const RunForecastWorkflowDialog = (props: DialogStuff) => {
             <DialogVerticalWorkflowStepper {...workflowProps} />
           </DialogContextDrawer>
         </div>
-      </DialogContent>
-      <DialogActions>
+      </div>
+      <div>
         <NavigationButtons {...navigationButtonProps} />
-      </DialogActions>
-    </Dialog>
+      </div>
+    </ApexFlexContainer>
   );
 };
 

@@ -597,7 +597,7 @@ export const commonChartProps = {
   //Series
   keys: [],
   colors: { scheme: "category10" },
-  margin: { top: 40, right: 200, bottom: 80, left: 80 },
+  margin: { top: 40, right: 250, bottom: 80, left: 80 },
   padding: 0.3,
   role: "", //what's this?
   indexBy: "Year", //TODO here for now

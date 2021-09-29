@@ -43,11 +43,10 @@ const useStyles = makeStyles((theme) => ({
   workflowBody: {
     display: "flex",
     flexDirection: "row",
-    height: "90%",
-    width: "80%",
+    height: "95%",
+    width: "100%",
     alignItems: "center",
-    justifyContent: "center", //around, between
-    // justifyContent: "space-evenly", //around, between
+    justifyContent: "center",
     alignSelf: "center",
   },
   workflowDatabasePanel: {
@@ -92,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ["Unit Settings", "Database Settings", "View Results"];
+const steps = ["Unit Settings", "Database Settings"];
 
 const Settings = () => {
   const classes = useStyles();
