@@ -1,52 +1,15 @@
-import { Grid } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import Switch from "@material-ui/core/Switch";
+import SwitchUnstyled, {
+  switchUnstyledClasses,
+} from "@mui/core/SwitchUnstyled";
+import Stack from "@mui/material/Stack";
+import { styled, useTheme } from "@mui/system";
 import React from "react";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { IApexMuiSwitch } from "./ApexMuiSwitchTypes";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    width: 28,
-    height: 16,
-    padding: 0,
-    display: "flex",
-  },
-  switchBase: {
-    padding: 2,
-    "&$checked": {
-      transform: "translateX(12px)",
-      color: theme.palette.common.white,
-      "& + $track": {
-        opacity: 1,
-        backgroundColor: theme.palette.success.main,
-        border: "none",
-      },
-    },
-    "&$focusVisible $thumb": {
-      color: (props: IApexMuiSwitch) => props.checkedColor,
-      border: "6px solid #fff",
-    },
-  },
-  thumb: {
-    width: 12,
-    height: 12,
-    boxShadow: "none",
-  },
-  track: {
-    borderRadius: 16 / 2,
-    opacity: 1,
-    backgroundColor: theme.palette.secondary.main,
-    transition: theme.transitions.create(["background-color", "border"]),
-  },
-  checked: {},
-  focusVisible: {},
-}));
-
 export default function ApexMuiSwitch(props: IApexMuiSwitch) {
+  const theme = useTheme();
+
   const {
-    name,
     handleChange,
     checked,
     hasLabels,
@@ -55,60 +18,85 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
     moreStyles,
   } = props;
 
-  const classes = useStyles(props);
+  const Root = styled("span")(`
+  font-size: 0;
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 20px;
+  
+  margin: 10px;
+  cursor: pointer;
 
-  // return (
-  //   <Switch
-  //     checked={checked}
-  //     onChange={handleChange}
-  //     name="checkedA"
-  //     inputProps={{ "aria-label": "secondary checkbox" }}
-  //   />
-  // );
+  &.${switchUnstyledClasses.disabled} {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  & .${switchUnstyledClasses.track} {
+    background: ${theme.palette.secondary.main};
+    border-radius: 10px;
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
+
+  & .${switchUnstyledClasses.thumb} {
+    display: block;
+    width: 14px;
+    height: 14px;
+    top: 3px;
+    left: 3px;
+    border-radius: 16px;
+    background-color: #FFF;
+    position: relative;
+    transition: all 200ms ease;
+  }
+
+  &.${switchUnstyledClasses.focusVisible} .${switchUnstyledClasses.thumb} {
+    background-color: rgba(255,255,255,1);
+    box-shadow: 0 0 1px 8px rgba(0,0,0,0.25);
+  }
+
+  &.${switchUnstyledClasses.checked} { 
+    .${switchUnstyledClasses.thumb} {
+      left: 14px;
+      top: 3px;
+      background-color: #FFF;
+    }
+
+    .${switchUnstyledClasses.track} {
+      background:${theme.palette.success.main};
+    }
+  }
+
+  & .${switchUnstyledClasses.input} {
+    cursor: inherit;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+    margin: 0;
+  }`);
+
+  const label = { componentsProps: { input: { "aria-label": "Demo switch" } } };
 
   if (hasLabels)
     return (
-      <ApexFlexContainer
-        moreStyles={moreStyles as CSSProperties}
-        justifyContent="flex-start"
-        width={"95%"}
-        height={30}
-      >
-        {leftLabel && <Grid item>{leftLabel}</Grid>}
-        <Grid item style={{ marginLeft: 5, marginRight: 5 }}>
-          <Switch
-            name={name}
-            focusVisibleClassName={classes.focusVisible}
-            disableRipple
-            classes={{
-              root: classes.root,
-              switchBase: classes.switchBase,
-              thumb: classes.thumb,
-              track: classes.track,
-              checked: classes.checked,
-            }}
-            checked={checked}
-            onChange={handleChange}
-          />
-        </Grid>
-        {rightLabel && <Grid item>{rightLabel}</Grid>}
-      </ApexFlexContainer>
+      <Stack flexDirection="row" alignItems="center" style={moreStyles}>
+        {leftLabel && <div>{leftLabel}</div>}
+        <SwitchUnstyled
+          component={Root}
+          {...label}
+          checked={checked}
+          onChange={handleChange}
+        />
+        {rightLabel && <div>{rightLabel}</div>}
+      </Stack>
     );
-  else
-    return (
-      <Switch
-        name={name}
-        focusVisibleClassName={classes.focusVisible}
-        disableRipple
-        classes={{
-          root: classes.root,
-          switchBase: classes.switchBase,
-          thumb: classes.thumb,
-          track: classes.track,
-          checked: classes.checked,
-        }}
-        checked={checked}
-        onChange={handleChange}
-      />
-    );
+  else return <SwitchUnstyled component={Root} {...label} />;
 }

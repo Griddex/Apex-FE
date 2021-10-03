@@ -1,9 +1,9 @@
 import React from "react";
 import Dropzone from "react-dropzone";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { useDispatch, useSelector } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { persistUserAvatarAction } from "../../../Administration/Redux/Actions/UserActions";
 

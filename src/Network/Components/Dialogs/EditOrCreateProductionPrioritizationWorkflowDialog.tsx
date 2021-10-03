@@ -1,10 +1,11 @@
-import { DialogActions, IconButton } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CloseIcon from "@material-ui/icons/Close";
+import { DialogActions, IconButton } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import MuiDialogContent from "@mui/material/DialogContent";
+import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
@@ -88,7 +89,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} disableTypography>
+    <MuiDialogTitle className={classes.root} {...other} >
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -104,7 +105,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-          >
+            size="large">
             <CloseIcon />
           </IconButton>
         ) : null}

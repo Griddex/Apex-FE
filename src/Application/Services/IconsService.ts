@@ -1,14 +1,14 @@
 import React from "react";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import TuneIcon from "@material-ui/icons/Tune";
-import AppsIcon from "@material-ui/icons/Apps";
-import BubbleChartIcon from "@material-ui/icons/BubbleChart";
-import LandscapeIcon from "@material-ui/icons/Landscape";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import { OverridableComponent } from "@material-ui/core/OverridableComponent";
-import { SvgIconTypeMap } from "@material-ui/core";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import TuneIcon from "@mui/icons-material/Tune";
+import AppsIcon from "@mui/icons-material/Apps";
+import BubbleChartIcon from "@mui/icons-material/BubbleChart";
+import LandscapeIcon from "@mui/icons-material/Landscape";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { SvgIconTypeMap } from "@mui/material";
 
 // type IIcons = Record<string, OverridableComponent<SvgIconTypeMap<{}, "svg">>>;
 type IIcons = Record<string, JSX.Element>;

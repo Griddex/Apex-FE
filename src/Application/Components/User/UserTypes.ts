@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 
 export interface IUserDetails {
   avatarUrl: string;

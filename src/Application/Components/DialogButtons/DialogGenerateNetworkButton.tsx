@@ -1,5 +1,5 @@
-import { Button } from "@material-ui/core";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import { Button } from "@mui/material";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";

@@ -1,4 +1,4 @@
-import { TooltipProps } from "@material-ui/core/Tooltip";
+import { TooltipProps } from "@mui/material/Tooltip";
 
 export interface IIconButtonWithTooltip {
   toolTipKey: string;

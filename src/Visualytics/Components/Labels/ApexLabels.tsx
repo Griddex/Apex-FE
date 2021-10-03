@@ -1,6 +1,6 @@
-import { useTheme } from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { useTheme } from "@mui/material";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { InheritedColorConfigFromContext } from "@nivo/colors";
 import React from "react";
 import { useDispatch } from "react-redux";

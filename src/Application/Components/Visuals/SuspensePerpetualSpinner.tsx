@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import Backdrop from "@material-ui/core/Backdrop";
-import { makeStyles } from "@material-ui/core/styles";
+import Backdrop from "@mui/material/Backdrop";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { useDispatch } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";

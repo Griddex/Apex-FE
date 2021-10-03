@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import React from "react";
 import { Column } from "react-data-griddex";
 import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
@@ -227,7 +227,15 @@ export interface ButtonProps {
   name?: TDevScenarioNames | string;
   type?: "button" | "submit" | "reset" | undefined;
   variant?: "text" | "outlined" | "contained";
-  color?: "inherit" | "primary" | "secondary" | "default";
+  color?:
+    | "inherit"
+    | "error"
+    | "secondary"
+    | "primary"
+    | "success"
+    | "info"
+    | "warning"
+    | undefined;
   startIcon?: JSX.Element;
   handleAction?: (i?: number) => { type: string } | void;
   handleRemove?: () => void;

@@ -1,12 +1,12 @@
-import { Button } from "@material-ui/core";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import { Button } from "@mui/material";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { runForecastRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 
 const DialogRunForecastCancelButtonsConfirmation = (

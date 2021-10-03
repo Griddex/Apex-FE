@@ -1,5 +1,5 @@
-import { Box, Chip, useTheme } from "@material-ui/core";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import { Box, Chip, useTheme } from "@mui/material";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";

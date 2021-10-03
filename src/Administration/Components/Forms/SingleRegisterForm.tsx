@@ -1,6 +1,6 @@
-import { Button, Input } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { Button, Input } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import AvatarEditor, { AvatarEditorProps } from "react-avatar-editor";

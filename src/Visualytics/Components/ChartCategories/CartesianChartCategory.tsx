@@ -1,4 +1,6 @@
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core";
+import { Theme, useTheme } from "@mui/material";
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import React, { CSSProperties } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";

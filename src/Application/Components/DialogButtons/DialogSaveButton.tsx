@@ -1,5 +1,5 @@
-import { Button } from "@material-ui/core";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { Button } from "@mui/material";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IAction } from "../../Redux/Actions/ActionTypes";

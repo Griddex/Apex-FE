@@ -1,6 +1,6 @@
-import { Button } from "@material-ui/core";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { Button } from "@mui/material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";

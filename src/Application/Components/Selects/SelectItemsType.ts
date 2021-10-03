@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import { SelectComponentsConfig, Styles, ValueType } from "react-select";
 
 export interface ISelectOption<T = string | undefined, U = string> {

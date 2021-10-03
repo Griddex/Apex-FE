@@ -1,4 +1,5 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { useDrag } from "react-dnd";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";

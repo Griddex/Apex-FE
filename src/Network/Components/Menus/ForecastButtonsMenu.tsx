@@ -4,15 +4,15 @@ import {
   MenuItem,
   Typography,
   useTheme,
-} from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+} from "@mui/material";
+import Menu from "@mui/material/Menu";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -24,7 +24,10 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { runForecastRequestAction, updateNetworkParameterAction } from "../../Redux/Actions/NetworkActions";
+import {
+  runForecastRequestAction,
+  updateNetworkParameterAction,
+} from "../../Redux/Actions/NetworkActions";
 import { extrudeSaveForecastRun } from "../DialogParameters/ExtrudeSaveForecastRun";
 
 const ForecastButtonsMenu = () => {
@@ -200,7 +203,6 @@ const ForecastButtonsMenu = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",

@@ -1,5 +1,6 @@
-import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
-import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
 import camelCase from "lodash.camelcase";
 import findIndex from "lodash.findindex";
 import zipObject from "lodash.zipobject";
@@ -727,7 +728,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
               setUserMatchObject(userMatchObject);
               setAcceptmatchToggle(currentAcceptMatchValue);
             }}
-          >
+            size="large">
             <AllInclusiveOutlinedIcon />
           </IconButton>
         </Tooltip>

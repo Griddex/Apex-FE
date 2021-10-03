@@ -1,4 +1,4 @@
-import { Input, TextareaAutosize, useTheme } from "@material-ui/core";
+import { Input, TextareaAutosize, useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";

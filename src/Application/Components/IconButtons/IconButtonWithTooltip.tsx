@@ -1,4 +1,4 @@
-import { IconButton, Tooltip, useTheme } from "@material-ui/core";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
 import React from "react";
 import { IIconButtonWithTooltip } from "./IconButtonTypes";
 
@@ -27,7 +27,7 @@ const IconButtonWithTooltip = ({
           marginLeft: 4,
         }}
         onClick={action}
-      >
+        size="large">
         {icon && icon()}
       </IconButton>
     </Tooltip>

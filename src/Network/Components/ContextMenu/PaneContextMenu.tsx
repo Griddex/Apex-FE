@@ -1,13 +1,13 @@
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
-import CalendarViewDayOutlinedIcon from "@material-ui/icons/CalendarViewDayOutlined";
-import RedoOutlinedIcon from "@material-ui/icons/RedoOutlined";
-import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
-import UndoOutlinedIcon from "@material-ui/icons/UndoOutlined";
-import ZoomInOutlinedIcon from "@material-ui/icons/ZoomInOutlined";
-import ZoomOutMapOutlinedIcon from "@material-ui/icons/ZoomOutMapOutlined";
-import ZoomOutOutlinedIcon from "@material-ui/icons/ZoomOutOutlined";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
+import CalendarViewDayOutlinedIcon from "@mui/icons-material/CalendarViewDayOutlined";
+import RedoOutlinedIcon from "@mui/icons-material/RedoOutlined";
+import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
+import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
+import ZoomInOutlinedIcon from "@mui/icons-material/ZoomInOutlined";
+import ZoomOutMapOutlinedIcon from "@mui/icons-material/ZoomOutMapOutlined";
+import ZoomOutOutlinedIcon from "@mui/icons-material/ZoomOutOutlined";
 import React from "react";
 
 export const ZoomInMenu = () => {

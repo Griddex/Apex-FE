@@ -1,4 +1,5 @@
-import { Badge, BadgeProps, makeStyles } from "@material-ui/core";
+import { Badge, BadgeProps } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { useSnackbar } from "notistack";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";

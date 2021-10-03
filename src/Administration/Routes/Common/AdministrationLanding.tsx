@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";

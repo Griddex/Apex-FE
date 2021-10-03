@@ -1,21 +1,21 @@
 import React from "react";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import InfoIcon from "@material-ui/icons/Info";
-import PlaylistAddCheckOutlinedIcon from "@material-ui/icons/PlaylistAddCheckOutlined";
-import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
-import WarningIcon from "@material-ui/icons/Warning";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import InfoIcon from "@mui/icons-material/Info";
+import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import WarningIcon from "@mui/icons-material/Warning";
 import { DialogIconsType, IconNameType } from "./DialogIconsTypes";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import { useTheme } from "@material-ui/core/styles";
-import EditIcon from "@material-ui/icons/Edit";
-import TocIcon from "@material-ui/icons/Toc";
-import SaveIcon from "@material-ui/icons/Save";
-import AddBoxIcon from "@material-ui/icons/AddBox";
-import DeleteIcon from "@material-ui/icons/Delete";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
-import CategoryIcon from "@material-ui/icons/Category";
-import LinkOutlinedIcon from "@material-ui/icons/LinkOutlined";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import { useTheme } from "@mui/material/styles";
+import EditIcon from "@mui/icons-material/Edit";
+import TocIcon from "@mui/icons-material/Toc";
+import SaveIcon from "@mui/icons-material/Save";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import CategoryIcon from "@mui/icons-material/Category";
+import LinkOutlinedIcon from "@mui/icons-material/LinkOutlined";
 
 const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
   const theme = useTheme();

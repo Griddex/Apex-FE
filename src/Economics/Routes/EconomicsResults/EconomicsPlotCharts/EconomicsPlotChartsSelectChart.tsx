@@ -1,8 +1,8 @@
 import React from "react";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import SelectChart from "../../../../Visualytics/Common/SelectChart";
-import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";

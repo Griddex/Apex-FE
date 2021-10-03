@@ -1,222 +1,236 @@
-import { grey } from "@material-ui/core/colors";
-import { createTheme, alpha } from "@material-ui/core/styles";
+import { grey } from "@mui/material/colors";
+import { createTheme, alpha } from "@mui/material/styles";
+import { shadows } from "@mui/system";
+
+const ApexPalette = {
+  primary: { light: "#EDFBFD", main: "#14A9C1", dark: "#0A515C" },
+  secondary: { light: "#FFEBEC", main: "#FF0013", dark: "#660005" },
+  success: { light: "#EEFCEF", main: "#22BE34", dark: "#15791C" },
+  warning: { light: "#FFFAEB", main: "#F5B400", dark: "#A37800" },
+};
+
+const apexSpacing = 8;
+const apexTooltipShadow =
+  "0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)";
 
 const theme = createTheme({
-  palette: {
-    primary: { light: "#EDFBFD", main: "#14A9C1", dark: "#0A515C" },
-    secondary: { light: "#FFEBEC", main: "#FF0013", dark: "#660005" },
-    success: { light: "#EEFCEF", main: "#22BE34", dark: "#15791C" },
-    warning: { light: "#FFFAEB", main: "#F5B400", dark: "#A37800" },
-  },
+  palette: ApexPalette,
   typography: {
     fontFamily: ["Segoe UI", "system-ui", "-webkit-pictograph"].join(","),
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 2,
+          textTransform: "none",
+          height: 36,
+        },
+        containedPrimary: {
+          border: `1.5px solid ${ApexPalette.primary.main}`,
+          backgroundColor: ApexPalette.primary.main,
+          color: "#FFF",
+          "&:hover": {
+            backgroundColor: ApexPalette.primary.dark,
+            borderColor: ApexPalette.primary.dark,
+            fontWeight: 700,
+          },
+        },
+        outlinedPrimary: {
+          border: `1.5px solid ${ApexPalette.primary.main}`,
+          backgroundColor: ApexPalette.primary.light,
+          "&:hover": {
+            backgroundColor: ApexPalette.primary.main,
+            borderColor: ApexPalette.primary.main,
+            color: "#FFF",
+            fontWeight: 700,
+          },
+        },
+        containedSecondary: {
+          backgroundColor: ApexPalette.secondary.main,
+          color: "#FFF",
+          "&:hover": {
+            backgroundColor: ApexPalette.secondary.dark,
+            borderColor: ApexPalette.secondary.dark,
+            fontWeight: 700,
+          },
+        },
+        outlinedSecondary: {
+          border: `1.5px solid ${ApexPalette.secondary.main}`,
+          backgroundColor: ApexPalette.secondary.light,
+          "&:hover": {
+            backgroundColor: ApexPalette.secondary.main,
+            borderColor: ApexPalette.secondary.main,
+            color: "#FFF",
+            fontWeight: 700,
+          },
+        },
+      },
+      defaultProps: {
+        disableElevation: true,
+        disableRipple: true,
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          // textTransform: "uppercase",
+          fontSize: "1.0rem",
+        },
+      },
+      defaultProps: {
+        shrink: true,
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          height: 36,
+          borderRadius: 2,
+          "&:hover": { backgroundColor: "#F7F7F7" },
+          //       input:-webkit-autofill,
+          // input:-webkit-autofill:hover,
+          // input:-webkit-autofill:focus,
+          // textarea:-webkit-autofill,
+          // textarea:-webkit-autofill:hover,
+          // textarea:-webkit-autofill:focus,
+          // select:-webkit-autofill,
+          // select:-webkit-autofill:hover,
+          // select:-webkit-autofill:focus {
+          //   border: 1px solid green;
+          //   -webkit-text-fill-color: green;
+          //   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+          //   transition: background-color 5000s ease-in-out 0s;
+          // }
+        },
+        input: {
+          "&:hover": { backgroundColor: "#F7F7F7" },
+          "&:focus": { backgroundColor: "#F7F7F7" },
+          "&:-webkit-autofill": {
+            WebkitBoxShadow: "0 0 0 100px #FFF inset",
+            WebkitTextFillColor: `${grey[900]}`,
+          },
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          top: apexSpacing * 2,
+          border: `1px solid ${grey[500]}`,
+          outline: `1px solid transparent`,
+          padding: apexSpacing,
+          "&.Mui-focused": {
+            border: `1px solid ${ApexPalette.primary.main}`,
+            outline: `1px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+            borderRadius: 2,
+          },
+        },
+      },
+      defaultProps: {
+        disableUnderline: true,
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "white",
+          color: "#333",
+          boxShadow: apexTooltipShadow,
+          fontSize: 14,
+        },
+        arrow: {
+          // backgroundColor: "white",
+          color: "white",
+        },
+      },
+      defaultProps: {
+        arrow: true,
+      },
+    },
+    MuiDialogTitle: { styleOverrides: { root: { padding: apexSpacing } } },
+    MuiDialogContent: { styleOverrides: { dividers: { borderWidth: 0 } } },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          cursor: "pointer",
+          "&:hover": {
+            // color: ApexPalette.primary.main,
+          },
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#F7F7F7",
+        },
+      },
+    },
+
+    MuiAccordionDetails: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+        },
+      },
+    },
+
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
+          color: "#E0E0E0",
+        },
+      },
+    },
+
+    MuiStepConnector: {
+      styleOverrides: {
+        line: {
+          borderColor: ApexPalette.primary.main,
+        },
+        root: {
+          flex: "0 1 auto",
+        },
+      },
+    },
+
+    MuiCardActionArea: {
+      styleOverrides: {
+        root: {
+          border: `1px solid #999`,
+          boxShadow: `${alpha("#999", 0.25)} 0 0 0 2px`,
+          "&:hover": {
+            border: `1px solid ${ApexPalette.primary.main}`,
+            outline: `1px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+            borderRadius: 2,
+            backgroundColor: "#FFF",
+            // boxShadow: `0 0 .5rem #fff, inset 0 0 .5rem #fff,  0 0 2rem ${ApexPalette.primary.main}, inset 0 0 2rem  ${ApexPalette.primary.main}, 0 0 4rem  ${ApexPalette.primary.main}, inset 0 0 4rem  ${ApexPalette.primary.main}`,
+          },
+        },
+      },
+    },
+
+    MuiSwitch: {
+      styleOverrides: {
+        switchBase: {
+          "&$checked": {
+            transform: "translateX(12px)",
+          },
+        },
+      },
+    },
+
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+        },
+      },
+    },
+  },
 });
-
-theme.props = {
-  MuiButton: {
-    disableElevation: true,
-    disableRipple: true,
-  },
-  MuiInputLabel: {
-    shrink: true,
-  },
-  MuiInput: {
-    disableUnderline: true,
-  },
-  MuiTooltip: {
-    arrow: true,
-  },
-};
-
-theme.overrides = {
-  // MuiCssBaseline: {
-  //   "@global": {
-  //     "@font-face": [{ fontFamily: "quicksand" }],
-  //   },
-  // },
-  MuiButton: {
-    root: {
-      borderRadius: 2,
-      textTransform: "none",
-      height: 36,
-    },
-    containedPrimary: {
-      border: `1.5px solid ${theme.palette.primary.main}`,
-      backgroundColor: theme.palette.primary.main,
-      color: "#FFF",
-      "&:hover": {
-        backgroundColor: theme.palette.primary.dark,
-        borderColor: theme.palette.primary.dark,
-        fontWeight: 700,
-        boxShadow: "5px 5px 12px 17px rgba(20,169,193,0.4)",
-      },
-    },
-    outlinedPrimary: {
-      border: `1.5px solid ${theme.palette.primary.main}`,
-      backgroundColor: theme.palette.primary.light,
-      "&:hover": {
-        backgroundColor: theme.palette.primary.main,
-        borderColor: theme.palette.primary.main,
-        color: "#FFF",
-        fontWeight: 700,
-      },
-    },
-    containedSecondary: {
-      backgroundColor: theme.palette.secondary.main,
-      color: "#FFF",
-      "&:hover": {
-        backgroundColor: theme.palette.secondary.dark,
-        borderColor: theme.palette.secondary.dark,
-        fontWeight: 700,
-        boxShadow: "0px 0px 12px 17px rgba(255,0,19,0.4);",
-      },
-    },
-    outlinedSecondary: {
-      border: `1.5px solid ${theme.palette.secondary.main}`,
-      backgroundColor: theme.palette.secondary.light,
-      "&:hover": {
-        backgroundColor: theme.palette.secondary.main,
-        borderColor: theme.palette.secondary.main,
-        color: "#FFF",
-        fontWeight: 700,
-      },
-    },
-  },
-  MuiInputLabel: {
-    root: {
-      // textTransform: "uppercase",
-      fontSize: "1.0rem",
-    },
-  },
-  MuiInputBase: {
-    root: {
-      height: 36,
-      borderRadius: 2,
-      "&:hover": { backgroundColor: "#F7F7F7" },
-      //       input:-webkit-autofill,
-      // input:-webkit-autofill:hover,
-      // input:-webkit-autofill:focus,
-      // textarea:-webkit-autofill,
-      // textarea:-webkit-autofill:hover,
-      // textarea:-webkit-autofill:focus,
-      // select:-webkit-autofill,
-      // select:-webkit-autofill:hover,
-      // select:-webkit-autofill:focus {
-      //   border: 1px solid green;
-      //   -webkit-text-fill-color: green;
-      //   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
-      //   transition: background-color 5000s ease-in-out 0s;
-      // }
-    },
-    input: {
-      "&:hover": { backgroundColor: "#F7F7F7" },
-      "&:focus": { backgroundColor: "#F7F7F7" },
-      "&:-webkit-autofill": {
-        WebkitBoxShadow: "0 0 0 100px #FFF inset",
-        WebkitTextFillColor: `${grey[900]}`,
-      },
-    },
-  },
-  MuiInput: {
-    root: {
-      top: theme.spacing(0.5),
-      border: `1px solid ${grey[500]}`,
-      outline: `1px solid transparent`,
-      padding: theme.spacing(1),
-      "&$focused": {
-        border: `1px solid ${theme.palette.primary.main}`,
-        outline: `1px solid ${theme.palette.primary.main}`,
-        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
-        borderRadius: 2,
-      },
-    },
-  },
-  MuiTooltip: {
-    tooltip: {
-      // backgroundColor: "#0084A1",
-      backgroundColor: "white",
-      // border: `1px solid ${theme.palette.primary.main}`,
-      color: "#333",
-      boxShadow: theme.shadows[2],
-      fontSize: 14,
-      // width: 80,
-    },
-    arrow: {
-      // backgroundColor: "white",
-      color: "white",
-    },
-  },
-  MuiDialogTitle: { root: { padding: theme.spacing(1) } },
-  MuiDialogContent: { dividers: { borderWidth: 0 } },
-  MuiSvgIcon: {
-    root: {
-      cursor: "pointer",
-      "&:hover": {
-        // color: theme.palette.primary.main,
-      },
-    },
-  },
-  MuiDialogActions: {
-    root: {
-      backgroundColor: "#F7F7F7",
-    },
-  },
-
-  // MuiPaper: {
-  //   elevation1: {
-  //     boxShadow: "none",
-  //   },
-  // },
-  MuiAccordionDetails: {
-    root: {
-      padding: 0,
-    },
-  },
-
-  MuiStepIcon: {
-    root: {
-      color: "#E0E0E0",
-    },
-  },
-
-  MuiStepConnector: {
-    line: {
-      borderColor: theme.palette.primary.main,
-    },
-    root: {
-      flex: "0 1 auto",
-    },
-  },
-
-  MuiCardActionArea: {
-    root: {
-      border: `1px solid #999`,
-      boxShadow: `${alpha("#999", 0.25)} 0 0 0 2px`,
-      "&:hover": {
-        border: `1px solid ${theme.palette.primary.main}`,
-        outline: `1px solid ${theme.palette.primary.main}`,
-        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
-        borderRadius: 2,
-        backgroundColor: "#FFF",
-        // boxShadow: `0 0 .5rem #fff, inset 0 0 .5rem #fff,  0 0 2rem ${theme.palette.primary.main}, inset 0 0 2rem  ${theme.palette.primary.main}, 0 0 4rem  ${theme.palette.primary.main}, inset 0 0 4rem  ${theme.palette.primary.main}`,
-      },
-    },
-  },
-
-  MuiSwitch: {
-    switchBase: {
-      "&$checked": {
-        transform: "translateX(12px)",
-      },
-    },
-  },
-
-  MuiIconButton: {
-    root: {
-      padding: 0,
-    },
-  },
-};
 
 export default theme;

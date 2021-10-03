@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import makeStyles from '@mui/styles/makeStyles';
+import Checkbox, { CheckboxProps } from "@mui/material/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
   root: {

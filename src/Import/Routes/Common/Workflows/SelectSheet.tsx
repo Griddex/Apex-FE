@@ -1,9 +1,10 @@
-import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
+import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
+import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";

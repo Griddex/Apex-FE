@@ -4,10 +4,11 @@ import {
   Button,
   ButtonGroup,
   Toolbar,
-} from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
 import clsx from "clsx";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";

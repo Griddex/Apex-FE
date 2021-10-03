@@ -1,4 +1,5 @@
-import { Avatar, makeStyles, Typography, useTheme } from "@material-ui/core";
+import { Avatar, Typography, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import capitalize from "lodash.capitalize";
 import React from "react";
 import AvatarStack from "react-avatar-stack";

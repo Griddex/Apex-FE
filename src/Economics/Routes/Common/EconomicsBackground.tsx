@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import LocalAtmOutlinedIcon from "@material-ui/icons/LocalAtmOutlined";
+import makeStyles from '@mui/styles/makeStyles';
+import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
 import React from "react";
 
 const useStyles = makeStyles(() => ({

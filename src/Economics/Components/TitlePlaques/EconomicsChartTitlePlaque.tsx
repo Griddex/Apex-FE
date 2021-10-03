@@ -1,5 +1,5 @@
-import { Box, Chip, useTheme } from "@material-ui/core";
-import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
+import { Box, Chip, useTheme } from "@mui/material";
+import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";

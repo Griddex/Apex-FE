@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";

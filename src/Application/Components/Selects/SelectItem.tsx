@@ -1,4 +1,4 @@
-import { TextField, MenuItem } from "@material-ui/core";
+import { TextField, MenuItem } from "@mui/material";
 import React from "react";
 import { ISelectItem } from "./SelectItemsType";
 

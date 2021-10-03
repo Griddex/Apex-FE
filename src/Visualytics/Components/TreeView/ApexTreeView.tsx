@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import SvgIcon from "@material-ui/core/SvgIcon";
-import TreeView from "@material-ui/lab/TreeView";
+import makeStyles from '@mui/styles/makeStyles';
+import SvgIcon from "@mui/material/SvgIcon";
+import TreeView from "@mui/lab/TreeView";
 import React from "react";
 import ApexTreeViewRenderer from "./ApexTreeViewRenderer";
 import { IApexTreeView } from "./ApexTreeViewTypes";

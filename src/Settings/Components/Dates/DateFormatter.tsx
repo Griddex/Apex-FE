@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import React from "react";
 import { format } from "date-fns";
 interface IDateFormatter {

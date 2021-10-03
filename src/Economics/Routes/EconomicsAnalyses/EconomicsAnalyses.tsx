@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core/styles";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import makeStyles from '@mui/styles/makeStyles';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import pick from "lodash.pick";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";

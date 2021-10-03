@@ -1,11 +1,5 @@
-import {
-  Box,
-  Chip,
-  Container,
-  makeStyles,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { Box, Chip, Container, Typography, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
 

@@ -1,5 +1,5 @@
-import { Button, Tooltip, useTheme } from "@material-ui/core";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
+import { Button, Tooltip, useTheme } from "@mui/material";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";

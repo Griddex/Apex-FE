@@ -1,15 +1,10 @@
-import {
-  Button,
-  ListItemIcon,
-  makeStyles,
-  MenuItem,
-  Typography,
-} from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import AttachMoneyOutlinedIcon from "@material-ui/icons/AttachMoneyOutlined";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
-import VerticalSplitOutlinedIcon from "@material-ui/icons/VerticalSplitOutlined";
+import { Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import Menu from "@mui/material/Menu";
+import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import VerticalSplitOutlinedIcon from "@mui/icons-material/VerticalSplitOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
@@ -105,7 +100,6 @@ const EconomicsInputButtonsMenu = ({
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",

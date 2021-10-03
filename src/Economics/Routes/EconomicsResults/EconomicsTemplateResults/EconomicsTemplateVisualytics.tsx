@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import makeStyles from '@mui/styles/makeStyles';
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";

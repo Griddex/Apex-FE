@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import makeStyles from '@mui/styles/makeStyles';
+import { CSSProperties } from "react";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { updateRegistrationFormAction } from "../../../Administration/Redux/Actions/UserActions";

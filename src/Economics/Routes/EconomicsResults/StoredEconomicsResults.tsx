@@ -1,9 +1,10 @@
-import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
+import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column } from "react-data-griddex";

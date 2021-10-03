@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
+import makeStyles from "@mui/styles/makeStyles";
+import Menu from "@mui/material/Menu";
 import React from "react";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
 import ImportMoreActionsPopover, {
@@ -43,7 +43,6 @@ const ImportMoreActionsContextMenu = ({
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "right",

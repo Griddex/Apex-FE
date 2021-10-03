@@ -1,6 +1,6 @@
-import DateFnsUtils from "@date-io/date-fns";
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { CssBaseline, StyledEngineProvider, Theme, ThemeProvider } from "@mui/material";
 import { render, RenderOptions } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React from "react";
@@ -9,18 +9,27 @@ import { Router } from "react-router-dom";
 import { store } from "../Redux/Store/Store";
 import theme from "../Theme/Theme";
 
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
 const history = createMemoryHistory();
 const ApexProviders: React.FC = ({ children }) => {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Router history={history}>
-            <CssBaseline />
-            {children}
-          </Router>
-        </MuiPickersUtilsProvider>
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Router history={history}>
+              <CssBaseline />
+              {children}
+            </Router>
+          </LocalizationProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </Provider>
   );
 };
@@ -32,3 +41,4 @@ const apexTestRender = (
 
 export * from "@testing-library/react";
 export { apexTestRender as render };
+

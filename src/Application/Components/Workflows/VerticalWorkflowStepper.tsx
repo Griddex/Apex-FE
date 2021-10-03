@@ -1,7 +1,8 @@
-import { makeStyles, StepConnector, StepIcon } from "@material-ui/core";
-import Step, { StepProps } from "@material-ui/core/Step";
-import StepLabel, { StepLabelProps } from "@material-ui/core/StepLabel";
-import Stepper from "@material-ui/core/Stepper";
+import { StepConnector, StepIcon } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import Step, { StepProps } from "@mui/material/Step";
+import StepLabel, { StepLabelProps } from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Reducers/AllReducers";

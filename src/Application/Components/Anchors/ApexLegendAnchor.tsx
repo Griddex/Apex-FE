@@ -1,4 +1,4 @@
-import { IconButton, useTheme } from "@material-ui/core";
+import { IconButton, useTheme } from "@mui/material";
 import { LegendAnchor, LegendProps } from "@nivo/legends";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -71,7 +71,7 @@ const ApexLegendAnchor = ({
                       ? theme.palette.grey[300]
                       : "",
                 }}
-              >
+                size="large">
                 {option.label}
               </IconButton>
             );

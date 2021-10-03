@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
 import startCase from "lodash.startcase";
 import React from "react";

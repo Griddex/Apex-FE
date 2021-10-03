@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 

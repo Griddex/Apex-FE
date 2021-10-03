@@ -1,5 +1,5 @@
 import React from "react";
-import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import ReactExport from "react-export-excel";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
 

@@ -1,6 +1,6 @@
-import { Box } from "@material-ui/core";
-import { darken, useTheme } from "@material-ui/core/styles";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { Box } from "@mui/material";
+import { darken, useTheme } from "@mui/material/styles";
+import { CSSProperties } from "react";
 import React from "react";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 

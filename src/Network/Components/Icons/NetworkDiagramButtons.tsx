@@ -1,6 +1,7 @@
-import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
-import MapOutlinedIcon from "@material-ui/icons/MapOutlined";
-import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import ViewAgendaOutlinedIcon from "@mui/icons-material/ViewAgendaOutlined";
 import React from "react";
 import ChartButtons from "../../../Visualytics/Components/Menus/ChartButtons";
 import ForecastButtonsMenu from "../Menus/ForecastButtonsMenu";
@@ -51,7 +52,7 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
             borderRadius: 2,
           }}
           onClick={() => setShowMiniMap(!showMiniMap)}
-        >
+          size="large">
           <MapOutlinedIcon />
         </IconButton>
       </Tooltip>
@@ -69,7 +70,7 @@ const NetworkDiagramButtons = (props: INetworkDiagramIcons) => {
             borderRadius: 2,
           }}
           onClick={() => setShowControls(!showControls)}
-        >
+          size="large">
           <ViewAgendaOutlinedIcon />
         </IconButton>
       </Tooltip>

@@ -1,7 +1,8 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
-import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";

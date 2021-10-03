@@ -1,5 +1,5 @@
-import { ListItemIcon, Typography, useTheme } from "@material-ui/core";
-import LaunchOutlinedIcon from "@material-ui/icons/LaunchOutlined";
+import { ListItemIcon, Typography, useTheme } from "@mui/material";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";

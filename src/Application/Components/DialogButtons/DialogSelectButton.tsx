@@ -1,5 +1,5 @@
-import { Button } from "@material-ui/core";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import { Button } from "@mui/material";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IAction } from "../../Redux/Actions/ActionTypes";

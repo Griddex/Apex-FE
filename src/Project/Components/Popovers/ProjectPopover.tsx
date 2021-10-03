@@ -1,13 +1,9 @@
-import {
-  ListItemIcon,
-  makeStyles,
-  MenuItem,
-  Typography,
-} from "@material-ui/core";
-import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
-import CheckBoxOutlineBlankOutlinedIcon from "@material-ui/icons/CheckBoxOutlineBlankOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import ImageAspectRatioOutlinedIcon from "@material-ui/icons/ImageAspectRatioOutlined";
+import { ListItemIcon, MenuItem, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
+import CheckBoxOutlineBlankOutlinedIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import ImageAspectRatioOutlinedIcon from "@mui/icons-material/ImageAspectRatioOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";

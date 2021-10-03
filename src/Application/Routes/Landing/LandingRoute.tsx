@@ -1,5 +1,5 @@
-import { Button, Divider, Grid, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, Divider, Grid, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import Image from "../../Components/Visuals/Image";
 import SyncwareLogoWithName from "../../Images/SyncwareLogoWithName.svg";
@@ -86,17 +86,13 @@ const LandingRoute = () => {
         <Button
           className={classes.button}
           variant="contained"
-          color="default"
-          onClick={() => history.push("/login")}
-        >
+          onClick={() => history.push("/login")}>
           Proceed
         </Button>
         <Button
           className={classes.button}
           variant="contained"
-          color="default"
-          onClick={() => history.push("/register")}
-        >
+          onClick={() => history.push("/register")}>
           Register
         </Button>
       </div>

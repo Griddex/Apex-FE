@@ -1,4 +1,4 @@
-import { ButtonProps } from "@material-ui/core";
+import { ButtonProps } from "@mui/material";
 import { IAction } from "../Redux/Actions/ActionTypes";
 
 export type LayoutNames =

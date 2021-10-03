@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import CameraOutlinedIcon from "@material-ui/icons/CameraOutlined";
-import PrintOutlinedIcon from "@material-ui/icons/PrintOutlined";
+import makeStyles from '@mui/styles/makeStyles';
+import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import ReactToPrint from "react-to-print";

@@ -1,6 +1,7 @@
-import { makeStyles, useTheme } from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { axisNameTitlesObj, TAxisType } from "../../Data/VisualyticsData";

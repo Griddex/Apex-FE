@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 // import NewWindow from "rc-new-window";
 import React from "react";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
@@ -6,9 +6,9 @@ import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexCo
 import { TChartTypes } from "../Charts/ChartTypes";
 import { ChartFormatAggregatorContextProvider } from "../Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../FormatAggregators/ChartFormatAggregator";
-import CallReceivedIcon from "@material-ui/icons/CallReceived";
-import DetailsOutlinedIcon from "@material-ui/icons/DetailsOutlined";
-import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
+import CallReceivedIcon from "@mui/icons-material/CallReceived";
+import DetailsOutlinedIcon from "@mui/icons-material/DetailsOutlined";
+import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { IAction } from "./../../../Application/Redux/Actions/ActionTypes";
@@ -16,7 +16,7 @@ import NewImprovedWindow from "react-new-improved-window";
 import NewWindow from "react-new-window";
 import { Rnd } from "react-rnd";
 import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 export interface IVisualyticsContext {
   reducer: ReducersType;

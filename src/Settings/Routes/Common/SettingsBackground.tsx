@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import TuneIcon from "@material-ui/icons/Tune";
+import makeStyles from '@mui/styles/makeStyles';
+import TuneIcon from "@mui/icons-material/Tune";
 import React from "react";
 
 const useStyles = makeStyles(() => ({

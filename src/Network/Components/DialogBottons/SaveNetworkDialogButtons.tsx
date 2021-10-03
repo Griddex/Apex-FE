@@ -1,6 +1,6 @@
-import { Button } from "@material-ui/core";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import { Button } from "@mui/material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
@@ -15,7 +15,7 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { IIsSaveNetworkValid } from "../Dialogs/SaveNetworkDialogTypes";
 import { saveNetworkRequestAction } from "./../../Redux/Actions/NetworkActions";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 const SaveNetworkDialogButtons = ({
   isSaveNetworkValid,

@@ -1,4 +1,4 @@
-import Menu from "@material-ui/core/Menu";
+import Menu from "@mui/material/Menu";
 import React from "react";
 import { XYPosition } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";

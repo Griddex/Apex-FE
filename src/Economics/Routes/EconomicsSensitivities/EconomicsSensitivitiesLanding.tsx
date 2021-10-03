@@ -1,5 +1,6 @@
-import { makeStyles, useTheme } from "@material-ui/core";
-import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
+import { useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";

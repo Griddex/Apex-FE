@@ -1,6 +1,6 @@
-import CardActionArea from "@material-ui/core/CardActionArea";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import CardActionArea from "@mui/material/CardActionArea";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";

@@ -6,13 +6,14 @@ import {
   Divider,
   Toolbar,
   Typography,
-} from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import clsx from "clsx";
 import faker from "faker";
 import React from "react";
@@ -147,7 +148,7 @@ const Navbar = () => {
               className={clsx({
                 [classes.hide]: expandMainDrawer,
               })}
-            >
+              size="large">
               <MenuIcon />
             </IconButton>
           ) : (
@@ -159,7 +160,7 @@ const Navbar = () => {
               className={clsx({
                 [classes.hide]: !expandMainDrawer,
               })}
-            >
+              size="large">
               <ChevronLeftIcon />
             </IconButton>
           )}

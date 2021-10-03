@@ -1,7 +1,7 @@
-import { makeStyles } from "@material-ui/core";
-import ControlCameraOutlinedIcon from "@material-ui/icons/ControlCameraOutlined";
-import DeviceHubOutlinedIcon from "@material-ui/icons/DeviceHubOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import makeStyles from '@mui/styles/makeStyles';
+import ControlCameraOutlinedIcon from "@mui/icons-material/ControlCameraOutlined";
+import DeviceHubOutlinedIcon from "@mui/icons-material/DeviceHubOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
