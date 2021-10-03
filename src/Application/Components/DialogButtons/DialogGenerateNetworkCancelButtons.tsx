@@ -1,5 +1,5 @@
-import { Button } from "@material-ui/core";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import { Button } from "@mui/material";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
@@ -8,7 +8,7 @@ import {
   unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const DialogGenerateNetworkCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],

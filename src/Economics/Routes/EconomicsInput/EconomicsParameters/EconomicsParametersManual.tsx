@@ -1,6 +1,7 @@
-import { ClickAwayListener, makeStyles } from "@material-ui/core";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { ClickAwayListener } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import isEqual from "react-fast-compare";

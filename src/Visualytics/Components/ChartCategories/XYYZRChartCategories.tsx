@@ -1,4 +1,5 @@
-import { makeStyles, useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IChartCategories } from "./ChartCategoryTypes";

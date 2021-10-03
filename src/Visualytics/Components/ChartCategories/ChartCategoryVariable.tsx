@@ -1,12 +1,6 @@
-import {
-  IconButton,
-  ListItemAvatar,
-  makeStyles,
-  MenuItem,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import { IconButton, ListItemAvatar, MenuItem, Typography, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -91,7 +85,7 @@ const ChartCategoryVariable = ({
         }}
         edge="end"
         aria-label="delete"
-      >
+        size="large">
         <CloseOutlinedIcon />
       </IconButton>
     </MenuItem>

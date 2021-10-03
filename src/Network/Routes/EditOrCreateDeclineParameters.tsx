@@ -1,6 +1,7 @@
-import { ClickAwayListener, makeStyles } from "@material-ui/core";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import { ClickAwayListener } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column, TextEditor } from "react-data-griddex";

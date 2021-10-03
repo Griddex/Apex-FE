@@ -1,7 +1,7 @@
-import { Button } from "@material-ui/core";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import { Button } from "@mui/material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -51,7 +51,7 @@ const DialogViewSaveEconomicsCancelButtons = () => {
     {
       title: "View",
       variant: "contained",
-      color: "default",
+      color: "inherit",
       startIcon: <VisibilityOutlinedIcon />,
       handleAction: () => {
         dispatch(

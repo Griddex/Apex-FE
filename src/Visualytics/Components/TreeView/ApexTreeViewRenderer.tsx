@@ -1,10 +1,7 @@
-import {
-  alpha,
-  FormControlLabel,
-  makeStyles,
-  withStyles,
-} from "@material-ui/core";
-import TreeItem, { TreeItemProps } from "@material-ui/lab/TreeItem";
+import { alpha, FormControlLabel } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import TreeItem, { TreeItemProps } from "@mui/lab/TreeItem";
 import React from "react";
 import { useDrag } from "react-dnd";
 import ApexCheckbox2 from "../../../Application/Components/Checkboxes/ApexCheckbox2";

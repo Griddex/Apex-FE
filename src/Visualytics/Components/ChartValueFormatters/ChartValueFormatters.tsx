@@ -1,6 +1,6 @@
-import { Button, Input, useTheme } from "@material-ui/core";
-import ExpandLessOutlinedIcon from "@material-ui/icons/ExpandLessOutlined";
-import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
+import { Button, Input, useTheme } from "@mui/material";
+import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import {
   FormatSpecifier,
   formatSpecifier as parseFormat,

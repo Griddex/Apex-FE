@@ -1,5 +1,6 @@
-import { Typography } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { LoginForm } from "../../Components/Forms/LoginForm";
 import ApexFlexContainer from "../../Components/Styles/ApexFlexContainer";

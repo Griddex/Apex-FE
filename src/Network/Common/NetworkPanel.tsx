@@ -1,5 +1,6 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import CallMadeOutlinedIcon from "@material-ui/icons/CallMadeOutlined";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import CallMadeOutlinedIcon from "@mui/icons-material/CallMadeOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";

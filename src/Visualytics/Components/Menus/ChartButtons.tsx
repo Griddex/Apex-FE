@@ -1,11 +1,11 @@
-import { makeStyles } from "@material-ui/core/styles";
-import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
-import PrintOutlinedIcon from "@material-ui/icons/PrintOutlined";
+import makeStyles from '@mui/styles/makeStyles';
+import FileCopyOutlinedIcon from "@mui/icons-material/FileCopyOutlined";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import React from "react";
 import IconButtonWithTooltip from "../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { IChartButtonsProps } from "./ChartButtonsTypes";
 import ReactToPrint from "react-to-print";
-import CameraOutlinedIcon from "@material-ui/icons/CameraOutlined";
+import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
 
 const useStyles = makeStyles((theme) => ({
   tableContentIcons: {

@@ -1,12 +1,12 @@
-import { Drawer } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MenuIcon from "@material-ui/icons/Menu";
+import { Drawer } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import makeStyles from '@mui/styles/makeStyles';
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuIcon from "@mui/icons-material/Menu";
 import clsx from "clsx";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import {
   contextDrawerCollapseAction,
   contextDrawerExpandAction,
@@ -116,7 +116,7 @@ const ContextDrawer = ({ children, iconReplacement }: IContextDrawer) => {
           className={clsx(classes.menuButton, {
             [classes.hide]: !expandContextDrawer,
           })}
-        >
+          size="large">
           <ChevronRightIcon />
         </IconButton>
       ) : (
@@ -132,7 +132,7 @@ const ContextDrawer = ({ children, iconReplacement }: IContextDrawer) => {
           className={clsx(classes.contextDrawerMenuIcon, {
             [classes.hide]: expandContextDrawer,
           })}
-        >
+          size="large">
           {iconReplacement ? iconReplacement : <MenuIcon />}
         </IconButton>
       )}

@@ -1,9 +1,9 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const DialogCancelButton = (action?: () => void) => {
   const dispatch = useDispatch();

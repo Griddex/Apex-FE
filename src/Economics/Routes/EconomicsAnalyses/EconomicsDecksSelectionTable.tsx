@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,10 +13,10 @@ import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-// import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
+// import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 
 const EconomicsDecksSelectionTable = () => {
   const dispatch = useDispatch();

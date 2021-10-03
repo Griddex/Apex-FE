@@ -6,7 +6,7 @@ import ApexSlider from "../../../Visualytics/Components/Sliders/ApexSlider";
 import { useDispatch } from "react-redux";
 import { AvatarEditorProps, Position } from "react-avatar-editor";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import { Input } from "@material-ui/core";
+import { Input } from "@mui/material";
 
 export interface IAvatarControls {
   basePath: string;

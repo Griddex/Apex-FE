@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
+import makeStyles from '@mui/styles/makeStyles';
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PlotVisualytics from "../../../Visualytics/Common/Workflows/PlotVisualytics";

@@ -1,12 +1,7 @@
-import {
-  Divider,
-  Input,
-  makeStyles,
-  TextareaAutosize,
-  useTheme,
-} from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import { Divider, Input, TextareaAutosize, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import { TextField } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -145,25 +140,20 @@ const ApexEditor = ({
             direction="Vertical"
             containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
-              <KeyboardDatePicker
-                margin="normal"
-                id="date-picker-dialog"
+              <DesktopDatePicker
                 label="Date picker dialog"
                 //TODO Date format not flexible enough
                 //User should have ability to change position
                 //of day, month and year
-                format={`${dayFormat} ${monthFormat} ${yearFormat}`}
+                inputFormat={`${dayFormat} ${monthFormat} ${yearFormat}`}
                 value={formEditorRow[name as keyof IStoredDataRow]}
-                onChange={(date: MaterialUiPickersDate) => {
+                onChange={(date: unknown) => {
                   setFormEditorRow((prev: any) => ({
                     ...prev,
                     [name]: date,
                   }));
                 }}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-                style={{ width: width, height: height }}
+                renderInput={(params) => <TextField {...params} />}
               />
             }
           />

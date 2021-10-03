@@ -1,4 +1,4 @@
-import { TextareaAutosize, useTheme } from "@material-ui/core";
+import { TextareaAutosize, useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";

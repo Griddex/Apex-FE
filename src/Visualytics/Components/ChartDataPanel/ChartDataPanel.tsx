@@ -1,8 +1,8 @@
-import { Button } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import CallReceivedIcon from "@material-ui/icons/CallReceived";
-import CategoryOutlinedIcon from "@material-ui/icons/CategoryOutlined";
-import OpenInNewOutlinedIcon from "@material-ui/icons/OpenInNewOutlined";
+import { Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import CallReceivedIcon from "@mui/icons-material/CallReceived";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 import React from "react";
 import { Rnd } from "react-rnd";
 import { ValueType } from "react-select";
@@ -13,7 +13,7 @@ import { ISelectOption } from "../../../Application/Components/Selects/SelectIte
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 export interface IChartDataPanel<T = ISelectOption> {
   selectLabel: string;

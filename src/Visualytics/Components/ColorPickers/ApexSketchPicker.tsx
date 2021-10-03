@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { ColorResult, SketchPicker } from "react-color";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";

@@ -1,6 +1,6 @@
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import { networkIcons } from "../../Data/NetworkData";
 

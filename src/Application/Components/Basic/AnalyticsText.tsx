@@ -1,7 +1,6 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import React, { CSSProperties } from "react";
+import makeStyles from '@mui/styles/makeStyles';
+import { Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   analyticsContainer: {
@@ -52,7 +51,7 @@ const AnalyticsText: React.FC<IAnalyticsTitleProps> = (props) => {
     else return { flexDirection: "column" };
   };
 
-  const finalStyle = { ...flexStyle(), ...containerStyle };
+  const finalStyle = { ...flexStyle(), ...containerStyle } as CSSProperties;
 
   return (
     <div className={classes.analyticsContainer} style={finalStyle}>

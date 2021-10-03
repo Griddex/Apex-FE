@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import BusinessOutlinedIcon from "@material-ui/icons/BusinessOutlined";
+import makeStyles from '@mui/styles/makeStyles';
+import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import React from "react";
 
 const useStyles = makeStyles(() => ({

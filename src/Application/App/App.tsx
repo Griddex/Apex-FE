@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import makeStyles from '@mui/styles/makeStyles';
+import Button from "@mui/material/Button";
 import { SnackbarProvider } from "notistack";
 import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";

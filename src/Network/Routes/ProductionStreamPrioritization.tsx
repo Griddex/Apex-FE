@@ -1,7 +1,7 @@
-import { Typography, useTheme } from "@material-ui/core";
-import CancelPresentationOutlinedIcon from "@material-ui/icons/CancelPresentationOutlined";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { Typography, useTheme } from "@mui/material";
+import CancelPresentationOutlinedIcon from "@mui/icons-material/CancelPresentationOutlined";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import camelCase from "lodash.camelcase";
 import capitalize from "lodash.capitalize";
 import omit from "lodash.omit";

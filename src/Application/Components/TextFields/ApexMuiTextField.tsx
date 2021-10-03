@@ -1,5 +1,6 @@
-import { makeStyles, TextField } from "@material-ui/core";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { TextField } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { CSSProperties } from "react";
 import React from "react";
 import AnalyticsTitle from "../Basic/AnalyticsTitle";
 

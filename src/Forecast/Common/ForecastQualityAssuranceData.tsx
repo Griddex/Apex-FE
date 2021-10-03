@@ -1,6 +1,7 @@
-import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
-import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
-import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";

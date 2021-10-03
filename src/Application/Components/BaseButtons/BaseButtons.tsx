@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@material-ui/core";
+import { Button, ButtonProps } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";

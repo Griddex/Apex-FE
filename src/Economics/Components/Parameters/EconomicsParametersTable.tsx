@@ -1,12 +1,7 @@
-import {
-  ClickAwayListener,
-  IconButton,
-  makeStyles,
-  Tooltip,
-  useTheme,
-} from "@material-ui/core";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
+import { ClickAwayListener, IconButton, Tooltip, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import omit from "lodash.omit";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
@@ -159,7 +154,7 @@ const EconomicsParametersTable = ({
 
               setRows(newRows);
             }}
-          >
+            size="large">
             <AddOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -183,7 +178,7 @@ const EconomicsParametersTable = ({
 
               setRows(newRows);
             }}
-          >
+            size="large">
             <RemoveOutlinedIcon />
           </IconButton>
         </Tooltip>

@@ -11,7 +11,7 @@ import RadarChart from "../Components/Charts/RadarChart";
 import ScatterChart from "../Components/Charts/ScatterChart";
 import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 import { IChartProps } from "../Components/ChartTypes";
-import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 
 const ChartSelector = ({

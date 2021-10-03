@@ -1,4 +1,5 @@
-import { Input, makeStyles } from "@material-ui/core";
+import { Input } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
@@ -38,8 +39,8 @@ import {
   SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { workflowResetAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";

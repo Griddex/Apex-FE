@@ -1,4 +1,5 @@
-import { Button, makeStyles, Typography, useTheme } from "@material-ui/core";
+import { Button, Typography, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
@@ -8,8 +9,8 @@ import ApexSelectRS from "../Selects/ApexSelectRS";
 import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
-import ArrowUpwardOutlinedIcon from "@material-ui/icons/ArrowUpwardOutlined";
-import ArrowDownwardOutlinedIcon from "@material-ui/icons/ArrowDownwardOutlined";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import ArrowDownwardOutlinedIcon from "@mui/icons-material/ArrowDownwardOutlined";
 
 const useStyles = makeStyles((theme) => ({
   footer: {

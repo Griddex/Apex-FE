@@ -1,7 +1,8 @@
-import { Badge, Button, makeStyles, Typography } from "@material-ui/core";
-import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
-import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
-import TuneOutlinedIcon from "@material-ui/icons/TuneOutlined";
+import { Badge, Button, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "../../../Application/Components/Visuals/Image";
@@ -13,8 +14,8 @@ import {
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
 import { IIconNameComp, IUserDetails } from "./UserTypes";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { logoutAction } from "../../Redux/Actions/LogoutActions";
 import { useHistory } from "react-router-dom";
 import { RootState } from "../../Redux/Reducers/AllReducers";

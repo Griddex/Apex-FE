@@ -1,9 +1,10 @@
-import { makeStyles, useTheme } from "@material-ui/core";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import { useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { CSSProperties } from "react";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import SupervisorAccountOutlinedIcon from "@material-ui/icons/SupervisorAccountOutlined";
+import makeStyles from '@mui/styles/makeStyles';
+import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccountOutlined";
 import React from "react";
 
 const useStyles = makeStyles(() => ({

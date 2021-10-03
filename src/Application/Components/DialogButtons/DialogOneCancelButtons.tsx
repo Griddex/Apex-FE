@@ -1,6 +1,6 @@
-import { Button } from "@material-ui/core";
-import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { Button } from "@mui/material";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
@@ -9,19 +9,19 @@ import {
   unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import HourglassFullOutlinedIcon from "@material-ui/icons/HourglassFullOutlined";
-import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
-import UpdateOutlinedIcon from "@material-ui/icons/UpdateOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import OpenInBrowserOutlinedIcon from "@material-ui/icons/OpenInBrowserOutlined";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import CancelPresentationOutlinedIcon from "@material-ui/icons/CancelPresentationOutlined";
-import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
+import HourglassFullOutlinedIcon from "@mui/icons-material/HourglassFullOutlined";
+import ViewDayTwoToneIcon from "@mui/icons-material/ViewDayTwoTone";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import OpenInBrowserOutlinedIcon from "@mui/icons-material/OpenInBrowserOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import CancelPresentationOutlinedIcon from "@mui/icons-material/CancelPresentationOutlined";
+import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],

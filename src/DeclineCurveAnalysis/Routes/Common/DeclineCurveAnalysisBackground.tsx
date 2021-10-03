@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import TimelineIcon from "@material-ui/icons/Timeline";
+import makeStyles from '@mui/styles/makeStyles';
+import TimelineIcon from "@mui/icons-material/Timeline";
 import React from "react";
 
 const useStyles = makeStyles(() => ({

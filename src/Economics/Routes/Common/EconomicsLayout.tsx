@@ -1,10 +1,10 @@
-import { Button, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import DialpadOutlinedIcon from "@material-ui/icons/DialpadOutlined";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import TableChartOutlinedIcon from "@material-ui/icons/TableChartOutlined";
-import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
-import WidgetsOutlinedIcon from "@material-ui/icons/WidgetsOutlined";
+import { Button, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import DialpadOutlinedIcon from "@mui/icons-material/DialpadOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";

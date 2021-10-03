@@ -1,21 +1,14 @@
-import {
-  Button,
-  makeStyles,
-  MenuItem,
-  Tooltip,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Menu from "@material-ui/core/Menu";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
+import { Button, MenuItem, Tooltip, Typography, useTheme } from "@mui/material";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Menu from "@mui/material/Menu";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { forecastAggregationTypes } from "../../Data/ForecastData";
 import { updateForecastResultsParameterAction } from "../../Redux/Actions/ForecastActions";
-import { forecastVariablesMap } from "../../Utils/ForecastVariables";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -55,6 +48,7 @@ const ForecastAggregationTypeButtonsMenu = () => {
         arrow
       >
         <Button
+          className={classes.label}
           onClick={handleClick}
           startIcon={<ShowChartOutlinedIcon />}
           endIcon={<KeyboardArrowDownIcon />}
@@ -65,7 +59,6 @@ const ForecastAggregationTypeButtonsMenu = () => {
             width: 120,
             marginRight: 4,
           }}
-          classes={{ label: classes.label }}
         >
           {forecastAggregationOption.label}
         </Button>
@@ -75,7 +68,6 @@ const ForecastAggregationTypeButtonsMenu = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",

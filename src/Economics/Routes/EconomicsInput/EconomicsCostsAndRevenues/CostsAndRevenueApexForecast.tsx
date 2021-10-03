@@ -1,10 +1,11 @@
-import { makeStyles, useTheme } from "@material-ui/core";
-import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import { useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import pick from "lodash.pick";
 import zipObject from "lodash.zipobject";
 import React from "react";

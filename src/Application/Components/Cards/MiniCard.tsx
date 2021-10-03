@@ -1,6 +1,6 @@
-import CardActionArea from "@material-ui/core/CardActionArea";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import CardActionArea from "@mui/material/CardActionArea";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
 import React from "react";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import { IStoredDataProps } from "../../Types/ApplicationTypes";

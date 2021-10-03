@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";

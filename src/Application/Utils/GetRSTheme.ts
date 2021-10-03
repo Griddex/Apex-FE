@@ -1,4 +1,4 @@
-import { Theme as MuiTheme } from "@material-ui/core/styles";
+import { Theme as MuiTheme } from "@mui/material/styles";
 import { Theme } from "react-select";
 
 const getRSTheme = (thm: Theme, theme: MuiTheme) => ({

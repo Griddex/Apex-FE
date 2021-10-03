@@ -1,4 +1,4 @@
-import Menu from "@material-ui/core/Menu";
+import Menu from "@mui/material/Menu";
 import React from "react";
 import { XYPosition } from "react-flow-renderer";
 import { useSelector } from "react-redux";
@@ -39,7 +39,6 @@ const HeatMapContextMenu = ({
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center",

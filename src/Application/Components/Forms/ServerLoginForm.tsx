@@ -1,17 +1,18 @@
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import LockIcon from "@material-ui/icons/Lock";
-import PersonIcon from "@material-ui/icons/Person";
-import StorageOutlinedIcon from "@material-ui/icons/StorageOutlined";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import MenuItem from "@mui/material/MenuItem";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from "@mui/material/TextField";
+import LockIcon from "@mui/icons-material/Lock";
+import PersonIcon from "@mui/icons-material/Person";
+import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Form, Formik, FormikProps } from "formik";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
@@ -24,7 +25,7 @@ import {
 } from "../../Redux/Actions/DialogsAction";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import { DialogStuff } from "./../Dialogs/DialogTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -272,7 +273,7 @@ const ServerLoginForm = () => {
                           aria-label="toggle password visibility"
                           onClick={() => setShowPassword(true)}
                           onMouseDown={handleMouseDownPassword}
-                        >
+                          size="large">
                           {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>

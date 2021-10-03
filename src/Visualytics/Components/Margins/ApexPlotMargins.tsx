@@ -1,5 +1,5 @@
-import { Input, useTheme } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import { Input, useTheme } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { Margin } from "@nivo/core";
 import React from "react";
 import { useDispatch } from "react-redux";

@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import * as Yup from "yup";

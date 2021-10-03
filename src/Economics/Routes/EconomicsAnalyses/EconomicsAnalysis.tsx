@@ -1,8 +1,9 @@
-import { Button, makeStyles, Typography, useTheme } from "@material-ui/core";
-import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
-import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import ViewDayTwoToneIcon from "@material-ui/icons/ViewDayTwoTone";
+import { Button, Typography, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
+import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import ViewDayTwoToneIcon from "@mui/icons-material/ViewDayTwoTone";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";

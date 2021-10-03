@@ -1,10 +1,10 @@
-import { Button, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import AppsIcon from "@material-ui/icons/Apps";
-import BubbleChartIcon from "@material-ui/icons/BubbleChart";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import LandscapeIcon from "@material-ui/icons/Landscape";
-import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
+import { Button, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AppsIcon from "@mui/icons-material/Apps";
+import BubbleChartIcon from "@mui/icons-material/BubbleChart";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import LandscapeIcon from "@mui/icons-material/Landscape";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";

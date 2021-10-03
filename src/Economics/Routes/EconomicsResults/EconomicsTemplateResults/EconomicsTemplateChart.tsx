@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import map from "lodash.map";
 import random from "lodash.random";
 import range from "lodash.range";

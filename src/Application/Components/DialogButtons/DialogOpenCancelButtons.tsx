@@ -1,5 +1,5 @@
-import { Button } from "@material-ui/core";
-import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
+import { Button } from "@mui/material";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
@@ -8,7 +8,7 @@ import {
   unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
-import OpenInBrowserOutlinedIcon from "@material-ui/icons/OpenInBrowserOutlined";
+import OpenInBrowserOutlinedIcon from "@mui/icons-material/OpenInBrowserOutlined";
 
 const DialogOpenCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],

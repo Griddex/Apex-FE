@@ -5,23 +5,20 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-} from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogTitle from "@material-ui/core/DialogTitle"; // DialogTitleProps,
-import IconButton from "@material-ui/core/IconButton";
-import {
-  makeStyles,
-  Theme,
-  useTheme,
-  withStyles,
-} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CloseIcon from "@material-ui/icons/Close";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+} from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import MuiDialogActions from "@mui/material/DialogActions";
+import MuiDialogContent from "@mui/material/DialogContent";
+import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
+import IconButton from "@mui/material/IconButton";
+import { Theme, useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import { useSnackbar } from "notistack";
 import React, { ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,7 +86,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} disableTypography>
+    <MuiDialogTitle className={classes.root} {...other} >
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -105,7 +102,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-          >
+            size="large">
             <CloseIcon />
           </IconButton>
         ) : null}

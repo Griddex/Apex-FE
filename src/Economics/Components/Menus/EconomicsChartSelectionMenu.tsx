@@ -1,14 +1,9 @@
-import {
-  Button,
-  makeStyles,
-  MenuItem,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Menu from "@material-ui/core/Menu";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import ShowChartOutlinedIcon from "@material-ui/icons/ShowChartOutlined";
+import { Button, MenuItem, Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Menu from "@mui/material/Menu";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
@@ -68,6 +63,7 @@ const EconomicsChartSelectionMenu = () => {
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
       <Button
+        className={classes.label}
         onClick={handleClick}
         startIcon={<ShowChartOutlinedIcon />}
         endIcon={<KeyboardArrowDownIcon />}
@@ -77,7 +73,6 @@ const EconomicsChartSelectionMenu = () => {
           border: `1px solid ${theme.palette.primary.main}`,
           width: 250,
         }}
-        classes={{ label: classes.label }}
       >
         {plotChartOption.label}
       </Button>
@@ -86,7 +81,6 @@ const EconomicsChartSelectionMenu = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",

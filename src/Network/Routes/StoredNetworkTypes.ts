@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 
 export interface IStoredNetworks {

@@ -1,6 +1,6 @@
-import Input from "@material-ui/core/Input";
-import Slider from "@material-ui/core/Slider";
-import { makeStyles } from "@material-ui/core/styles";
+import Input from "@mui/material/Input";
+import Slider from "@mui/material/Slider";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 

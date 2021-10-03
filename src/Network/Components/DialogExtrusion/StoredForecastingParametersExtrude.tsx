@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import React from "react";
 import {
   ButtonProps,
@@ -9,8 +9,8 @@ import {
   hideDialogAction,
   showDialogAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DoneOutlinedIcon from "@material-ui/icons/DoneOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import { Dispatch } from "redux";
 
 const storedForecastingParametersActions = (dispatch: Dispatch<any>) => {

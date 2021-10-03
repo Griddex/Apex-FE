@@ -1,5 +1,5 @@
 import { IUserDetails } from "../User/UserTypes";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 
 export interface IAuthor extends IUserDetails {
   authorStyles?: CSSProperties;

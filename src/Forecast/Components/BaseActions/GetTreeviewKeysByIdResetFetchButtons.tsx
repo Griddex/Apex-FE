@@ -1,6 +1,6 @@
-import { Button } from "@material-ui/core";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import KeyboardReturnOutlinedIcon from "@material-ui/icons/KeyboardReturnOutlined";
+import { Button } from "@mui/material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import KeyboardReturnOutlinedIcon from "@mui/icons-material/KeyboardReturnOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import {

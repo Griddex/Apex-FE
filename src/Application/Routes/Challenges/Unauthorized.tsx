@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import ApexFlexContainer from "../../Components/Styles/ApexFlexContainer";
 import Unauth from "../../Images/Unauth.svg";

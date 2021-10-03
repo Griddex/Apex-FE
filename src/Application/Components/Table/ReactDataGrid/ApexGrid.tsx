@@ -1,14 +1,8 @@
-import {
-  Box,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  makeStyles,
-  OutlinedInput,
-} from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
-import SearchIcon from "@material-ui/icons/Search";
-import Pagination from "@material-ui/lab/Pagination";
+import { Box, FormControl, IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import Grid from "@mui/material/Grid";
+import SearchIcon from "@mui/icons-material/Search";
+import Pagination from '@mui/material/Pagination';
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
 import uniqBy from "lodash.uniqby";
@@ -455,10 +449,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
                 onChange={handleFilterChange}
                 endAdornment={
                   <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      edge="end"
-                    >
+                    <IconButton aria-label="toggle password visibility" edge="end" size="large">
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>

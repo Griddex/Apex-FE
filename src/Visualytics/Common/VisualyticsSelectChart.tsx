@@ -1,5 +1,5 @@
-import AirplayOutlinedIcon from "@material-ui/icons/AirplayOutlined";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";

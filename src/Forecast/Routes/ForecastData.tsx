@@ -1,5 +1,6 @@
-import { ClickAwayListener, makeStyles, useTheme } from "@material-ui/core";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import groupBy from "lodash.groupby";
 import React from "react";
 import { Column } from "react-data-griddex";

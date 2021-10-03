@@ -1,4 +1,4 @@
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { IEconomicsWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAggregateButtonProps } from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";

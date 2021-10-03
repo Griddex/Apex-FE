@@ -1,13 +1,13 @@
-import { MenuItem } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
-import ChevronRightOutlinedIcon from "@material-ui/icons/ChevronRightOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
+import { MenuItem } from "@mui/material";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import { ClassNameMap } from "@mui/styles";
+import makeStyles from "@mui/styles/makeStyles";
+import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
 import NestedMenuItem from "material-ui-nested-menu-item";
 import React from "react";
 import { TUseState } from "../../Types/ApplicationTypes";
@@ -146,7 +146,6 @@ const generateMoreActionsMenuItems = (
               action && action();
               handleClose && handleClose();
             }}
-            button
           >
             <ListItemAvatar className={classes.listItemAvatar}>
               <>{avatar}</>

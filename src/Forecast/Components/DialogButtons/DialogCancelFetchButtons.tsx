@@ -1,6 +1,6 @@
-import { Button } from "@material-ui/core";
-import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
-import DetailsOutlinedIcon from "@material-ui/icons/DetailsOutlined";
+import { Button } from "@mui/material";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import DetailsOutlinedIcon from "@mui/icons-material/DetailsOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ButtonProps } from "../../../Application/Components/Dialogs/DialogTypes";

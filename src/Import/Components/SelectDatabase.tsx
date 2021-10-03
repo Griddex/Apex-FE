@@ -1,13 +1,13 @@
 import React, { ChangeEvent } from "react";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import { makeStyles } from "@material-ui/core/styles";
-import TableChartIcon from "@material-ui/icons/TableChart";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import makeStyles from '@mui/styles/makeStyles';
+import TableChartIcon from "@mui/icons-material/TableChart";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
 const useStyles = makeStyles((theme) => ({
   container: {

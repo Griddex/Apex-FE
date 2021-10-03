@@ -1,14 +1,14 @@
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import LockIcon from "@material-ui/icons/Lock";
-import PersonIcon from "@material-ui/icons/Person";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from "@mui/material/TextField";
+import LockIcon from "@mui/icons-material/Lock";
+import PersonIcon from "@mui/icons-material/Person";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -114,9 +114,9 @@ export const LoginForm = () => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={(event) => setShowPassword(!showPassword)}
                         // onMouseDown={event => handleMouseDownPassword(event)}
-                      >
+                        onClick={(event) => setShowPassword(!showPassword)}
+                        size="large">
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>

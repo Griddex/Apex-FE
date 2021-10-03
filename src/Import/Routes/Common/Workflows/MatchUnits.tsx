@@ -1,7 +1,8 @@
-import { IconButton, makeStyles, Tooltip, useTheme } from "@material-ui/core";
-import AllInclusiveOutlinedIcon from "@material-ui/icons/AllInclusiveOutlined";
-import MenuOpenOutlinedIcon from "@material-ui/icons/MenuOpenOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
+import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import findIndex from "lodash.findindex";
 import range from "lodash.range";
 import uniq from "lodash.uniq";
@@ -939,7 +940,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
               setUserMatchObject(userMatchObject);
               setAcceptmatchToggle(currentAcceptMatchValue);
             }}
-          >
+            size="large">
             <AllInclusiveOutlinedIcon />
           </IconButton>
         </Tooltip>

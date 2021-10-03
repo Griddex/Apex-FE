@@ -1,9 +1,5 @@
-import {
-  makeStyles,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from "@material-ui/core";
+import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { updateRegistrationFormAction } from "../../Redux/Actions/UserActions";

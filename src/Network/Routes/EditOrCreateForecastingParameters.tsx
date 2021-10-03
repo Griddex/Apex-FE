@@ -1,10 +1,10 @@
-import { Button, Input } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
-import HourglassFullTwoToneIcon from "@material-ui/icons/HourglassFullTwoTone";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import React, { ChangeEvent } from "react";
+import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
+import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import { Button, TextField } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
@@ -19,7 +19,7 @@ import { TAllWorkflowProcesses } from "../../Application/Components/Workflows/Wo
 import {
   hideDialogAction,
   showDialogAction,
-  unloadDialogsAction,
+  unloadDialogsAction
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TUseState } from "../../Application/Types/ApplicationTypes";
@@ -28,13 +28,11 @@ import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetwor
 import {
   defermentOptions,
   realtimeOptions,
-  timeFrequencyOptions,
+  timeFrequencyOptions
 } from "../Data/NetworkData";
 import {
   saveDeclineParametersRequestActionForFP,
-  saveProductionPrioritizationRequestAction,
-  updateNetworkParameterAction,
-  getNetworkState,
+  saveProductionPrioritizationRequestAction
 } from "../Redux/Actions/NetworkActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -391,20 +389,15 @@ const EditOrCreateForecastingParameters = ({
           title="Start Forecast Date"
           direction="Vertical"
           content={
-            <KeyboardDatePicker
-              margin="none"
-              id="date-picker-dialog"
-              variant="dialog"
+            <DesktopDatePicker
               disabled
               //TODO Date format not flexible enough
               //User should have ability to change position
               //of day, month and year
-              format={currentDateFormat}
+              inputFormat={currentDateFormat}
               value={new Date(formEditorRow["startForecast"])}
               onChange={() => {}}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
+              renderInput={(params) => <TextField {...params} />}
             />
           }
         />
@@ -412,16 +405,13 @@ const EditOrCreateForecastingParameters = ({
           title="End Forecast Date"
           direction="Vertical"
           content={
-            <KeyboardDatePicker
-              margin="none"
-              id="date-picker-dialog"
-              variant="dialog"
+            <DesktopDatePicker
               //TODO Date format not flexible enough
               //User should have ability to change position
               //of day, month and year
-              format={currentDateFormat}
+              inputFormat={currentDateFormat}
               value={new Date(formEditorRow["endForecast"])}
-              onChange={(date: MaterialUiPickersDate) => {
+              onChange={(date: unknown) => {
                 setFormEditorRow((prev: any) => ({
                   ...prev,
                   endForecast: date,
@@ -429,9 +419,7 @@ const EditOrCreateForecastingParameters = ({
               }}
               //TODO at least one year ahead
               minDate={new Date(formEditorRow["startForecast"])}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
+              renderInput={(params) => <TextField {...params} />}
             />
           }
         />

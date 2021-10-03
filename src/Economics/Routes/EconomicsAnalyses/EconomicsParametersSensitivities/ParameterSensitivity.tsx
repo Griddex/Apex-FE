@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import set from "lodash.set";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";

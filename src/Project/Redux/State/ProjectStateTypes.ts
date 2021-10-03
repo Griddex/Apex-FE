@@ -1,5 +1,5 @@
 import { FormikErrors, FormikTouched } from "formik";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { CSSProperties } from "react";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
 
 export interface IApplicationProject {

@@ -1,11 +1,6 @@
-import {
-  Button,
-  Input,
-  makeStyles,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
-import FormatColorFillIcon from "@material-ui/icons/FormatColorFill";
+import { Button, Input, Typography, useTheme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";

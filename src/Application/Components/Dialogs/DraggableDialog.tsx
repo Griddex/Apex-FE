@@ -1,16 +1,13 @@
-import { Divider } from "@material-ui/core";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from "@material-ui/core/IconButton";
-import {
-  makeStyles,
-  Theme,
-  useTheme,
-  withStyles,
-} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CloseIcon from "@material-ui/icons/Close";
+import { Divider } from "@mui/material";
+import MuiDialogActions from "@mui/material/DialogActions";
+import MuiDialogContent from "@mui/material/DialogContent";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import { Theme, useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
@@ -72,7 +69,7 @@ const DraggableDialogTitle: React.FC<DialogStuff> = (props) => {
     <MuiDialogTitle
       className={classes.titleContainer}
       {...other}
-      disableTypography
+      
     >
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
@@ -87,7 +84,7 @@ const DraggableDialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-          >
+            size="large">
             <CloseIcon />
           </IconButton>
         ) : null}

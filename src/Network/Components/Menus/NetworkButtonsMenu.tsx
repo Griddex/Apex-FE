@@ -4,15 +4,15 @@ import {
   MenuItem,
   Typography,
   useTheme,
-} from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import CalendarViewDayOutlinedIcon from "@material-ui/icons/CalendarViewDayOutlined";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
-import StorageIcon from "@material-ui/icons/Storage";
+} from "@mui/material";
+import Menu from "@mui/material/Menu";
+import { CSSProperties } from "react";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import CalendarViewDayOutlinedIcon from "@mui/icons-material/CalendarViewDayOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import StorageIcon from "@mui/icons-material/Storage";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
@@ -200,7 +200,6 @@ const NetworkButtonsMenu = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",

@@ -1,4 +1,4 @@
-import { Theme } from "@material-ui/core";
+import { Theme } from "@mui/material";
 
 export const getApexIconButtonStyle = (theme: Theme) => ({
   height: "28px",
