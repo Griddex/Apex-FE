@@ -1,11 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { ITreeViewProps } from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import ApexTreeView from "../../../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
-export default function EconomicsPlotChartsTreeView() {
+export default function EconomicsPlotChartsTreeView({
+  height,
+}: ITreeViewProps) {
   const dispatch = useDispatch();
 
   const { economicsPlotChartsTree, selectedAnalysesNames } = useSelector(
@@ -49,6 +52,7 @@ export default function EconomicsPlotChartsTreeView() {
       selectedPathsUnfiltered={selectedPathsUnfiltered}
       setSelectedPathsUnfiltered={setSelectedPathsUnfiltered}
       dragDropTypes={itemTypes.ECONOMICS_PLOTCHARTS}
+      height={height}
     />
   );
 }
