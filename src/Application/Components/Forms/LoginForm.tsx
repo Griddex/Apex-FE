@@ -3,7 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import TextField from "@mui/material/TextField";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import { loginRequestAction } from "../../Redux/Actions/LoginActions";
 import userState from "../../../Administration/Redux/State/UserState";
 import { IUserState } from "../../../Administration/Redux/State/UserStateTypes";
+import AnalyticsComp from "../Basic/AnalyticsComp";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     height: "45%",
   },
   formTextFields: {
-    "& > *": { marginTop: 40, "& .MuiInputBase-root": { height: 44 } },
+    "& > *": { marginTop: 40, "& .MuiInputBase-root": { height: 36 } },
   },
   divider: {
     margin: "20px",
@@ -77,56 +78,72 @@ export const LoginForm = () => {
         const helperTextPassword =
           touched && touched.password ? errors && errors.password : "";
 
+        const UserNameComp = (
+          <TextField
+            name="userName"
+            helperText={helperTextUsername}
+            error={Boolean(helperTextUsername)}
+            value={userName}
+            onChange={handleChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonIcon />
+                </InputAdornment>
+              ),
+            }}
+            required
+            autoFocus
+            fullWidth
+          />
+        );
+
+        const PasswordComp = (
+          <TextField
+            name="password"
+            helperText={helperTextPassword}
+            error={Boolean(helperTextPassword)}
+            autoComplete="current-password"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    // onMouseDown={event => handleMouseDownPassword(event)}
+                    onClick={(event) => setShowPassword(!showPassword)}
+                    size="large"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            required
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={handleChange}
+            fullWidth
+          />
+        );
         return (
           <Form className={classes.form}>
             <div className={classes.formTextFields}>
-              <TextField
-                name="userName"
-                helperText={helperTextUsername}
-                error={Boolean(helperTextUsername)}
-                label="Username"
-                value={userName}
-                onChange={handleChange}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PersonIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                required
-                autoFocus
-                fullWidth
+              <AnalyticsComp
+                title="Username"
+                direction="Vertical"
+                containerStyle={{ width: "100%" }}
+                content={UserNameComp}
               />
-              <TextField
-                name="password"
-                helperText={helperTextPassword}
-                error={Boolean(helperTextPassword)}
-                label="Password"
-                autoComplete="current-password"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockIcon />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        // onMouseDown={event => handleMouseDownPassword(event)}
-                        onClick={(event) => setShowPassword(!showPassword)}
-                        size="large">
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                required
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={handleChange}
-                fullWidth
+              <AnalyticsComp
+                title="Password"
+                direction="Vertical"
+                containerStyle={{ width: "100%" }}
+                content={PasswordComp}
               />
             </div>
             <FormControlLabel

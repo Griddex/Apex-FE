@@ -452,24 +452,23 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           wrap="nowrap"
         >
           <Grid className={classes.tableFilter} item xs>
-            <FormControl variant="outlined">
-              <OutlinedInput
-                id="outlined-adornment-filter"
-                value={tableFilter}
-                onChange={handleFilterChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      edge="end"
-                      size="large"
-                    >
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+            <OutlinedInput
+              id="outlined-adornment-filter"
+              value={tableFilter}
+              onChange={handleFilterChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    edge="end"
+                    size="large"
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              notched={true}
+            />
           </Grid>
           {mappingErrors && mappingErrors?.length > 0 && (
             <Box

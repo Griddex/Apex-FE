@@ -1,24 +1,23 @@
-import { Badge, Button, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
+import { Badge, Button, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Image from "../../../Application/Components/Visuals/Image";
-import { anitaImg } from "../../../Import/Utils/iconImages";
 import {
   hideDialogAction,
   showDialogAction,
   unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
-import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
-import { IIconNameComp, IUserDetails } from "./UserTypes";
-import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { logoutAction } from "../../Redux/Actions/LogoutActions";
-import { useHistory } from "react-router-dom";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
+import { IIconNameComp } from "./UserTypes";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: 80, width: 80 },
@@ -69,8 +68,12 @@ const UserProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const loginProps = useSelector((state: RootState) => state.loginReducer);
-  const { userName, email,  avatarUrl} = loginProps
+
+  const avatarSrc = localStorage.getItem("avatar");
+
+  const { userName, email } = useSelector(
+    (state: RootState) => state.loginReducer
+  );
 
   const logoutDecision = () => {
     const logoutDialogActions = () => {
@@ -143,10 +146,8 @@ const UserProfile = () => {
       }}
     >
       <div className={classes.userProfile}>
-        <Image className={classes.image} src={avatarUrl} />
-        <Typography className={classes.userName}>
-          {userName}
-        </Typography>
+        <Image className={classes.image} src={avatarSrc} />
+        <Typography className={classes.userName}>{userName}</Typography>
         <Typography variant="caption">{email}</Typography>
       </div>
       <div
