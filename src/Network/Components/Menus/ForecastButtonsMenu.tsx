@@ -119,7 +119,7 @@ const ForecastButtonsMenu = () => {
   const storedForecastParameters = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Forecast_Parameters_Dialog",
-      title: "Forecasting Parameters Table",
+      title: "Forecasting Parameters",
       type: "storedForecastingParametersDialog",
       show: true,
       exclusive: false,
@@ -188,12 +188,17 @@ const ForecastButtonsMenu = () => {
     <div style={{ cursor: "context-menu" }}>
       <Button
         onClick={handleClick}
-        startIcon={<TrendingUpOutlinedIcon />}
-        endIcon={<KeyboardArrowDownIcon />}
+        startIcon={
+          <TrendingUpOutlinedIcon htmlColor={theme.palette.grey["700"]} />
+        }
+        endIcon={
+          <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />
+        }
         style={{
           height: "28px",
           backgroundColor: theme.palette.primary.light,
           border: `1px solid ${theme.palette.primary.main}`,
+          color: theme.palette.grey["700"],
         }}
       >
         {"Forecast"}

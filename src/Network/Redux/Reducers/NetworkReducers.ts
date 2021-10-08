@@ -36,7 +36,7 @@ import {
   RESET_NETWORK,
   UPDATE_NETWORK_PARAMETERS,
   GET_DECLINEPARAMETERSBYID_REQUEST,
-  GET_CURRENT_NETWORK_STORE
+  GET_CURRENT_NETWORK_STORE,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 import set from "lodash.set";
@@ -57,8 +57,6 @@ const networkReducer = (state = NetworkState, action: IAction) => {
     }
     case UPDATE_NETWORKPARAMETER: {
       const { path, value } = action.payload;
-
-      console.log("payload: ",  action.payload);
 
       const updatedState = set(state, path, value);
       return updatedState;

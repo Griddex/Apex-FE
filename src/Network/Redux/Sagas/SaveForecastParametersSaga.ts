@@ -1,6 +1,4 @@
 import { ActionType } from "@redux-saga/types";
-import { AnyMxRecord } from "dns";
-import { AnyCnameRecord } from "node:dns";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -16,10 +14,12 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
-import { IForecastParametersStoredRow } from "../../Components/Dialogs/StoredNetworksDialogTypes";
 import {
   fetchStoredForecastingParametersRequestAction,
   saveForecastParametersFailureAction,
@@ -52,9 +52,10 @@ function* saveForecastParametersSaga(
   void,
   any
 > {
-  const { payload } = action;
+  const { payload, meta } = action;
   const { titleDesc } = payload;
-  console.log("payload: ", payload);
+  const { showSpinner, message } = meta as NonNullable<IAction["meta"]>;
+
   const forecastingParametersObj: any = {};
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
@@ -64,12 +65,6 @@ function* saveForecastParametersSaga(
   const { selectedDeclineParametersId } = yield select(
     (state) => state.networkReducer
   );
-
-  console.log(
-    "selectedProductionPrioritizationId: ",
-    selectedProductionPrioritizationId
-  );
-  console.log("selectedDeclineParametersId: ", selectedDeclineParametersId);
 
   let isDefered = 0;
   if (titleDesc.isDefered == "useDeferment") {
@@ -106,15 +101,16 @@ function* saveForecastParametersSaga(
   forecastingParametersObj.wellDeclineParameterTitle =
     titleDesc.wellDeclineParameterTitle;
 
-  //console.log("forecastingParametersObj: ", forecastingParametersObj);
   const config = { withCredentials: false };
   const saveForecastParametersAPI = (url: string) =>
     authService.post(url, forecastingParametersObj, config);
 
   try {
+    if (showSpinner) yield put(showSpinnerAction(message as string));
+
     const result = yield call(
       saveForecastParametersAPI,
-      `${getBaseForecastUrl()}/forecast-parameters/save` //This is the URL endpoint you should change
+      `${getBaseForecastUrl()}/forecast-parameters/save`
     );
 
     const {
@@ -136,6 +132,6 @@ function* saveForecastParametersSaga(
       payload: { ...payload, errors },
     });
   } finally {
-    yield put(hideSpinnerAction());
+    if (showSpinner) yield put(hideSpinnerAction());
   }
 }

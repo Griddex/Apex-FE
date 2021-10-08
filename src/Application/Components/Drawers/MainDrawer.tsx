@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    overflow: "hidden",
   },
   collapseMainDrawer: {
     width: theme.spacing(5),
@@ -143,7 +144,7 @@ const MainDrawer = () => {
       ),
     },
     {
-      name: "Forecast",
+      name: "Business Forecast",
       route: `${url}/forecast`,
       icon: (
         <InsertPhotoOutlinedIcon
@@ -336,8 +337,12 @@ const MainDrawer = () => {
                       <Typography
                         style={
                           name === moduleName
-                            ? { color: theme.palette.primary.dark }
-                            : {}
+                            ? {
+                                color: theme.palette.primary.dark,
+                                width: 80,
+                                whiteSpace: "pre-wrap",
+                              }
+                            : { width: 80, whiteSpace: "pre-wrap" }
                         }
                         variant="caption"
                       >

@@ -1,13 +1,7 @@
-import {
-  Badge,
-  BadgeProps,
-  Button,
-  ButtonGroup,
-  Toolbar,
-} from "@mui/material";
+import { Badge, BadgeProps, Button, ButtonGroup, Toolbar } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import Typography from "@mui/material/Typography";
 import clsx from "clsx";
 import React from "react";
@@ -58,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     textTransform: "none",
     margin: theme.spacing(0),
+    color: theme.palette.grey["700"],
   },
 }));
 
