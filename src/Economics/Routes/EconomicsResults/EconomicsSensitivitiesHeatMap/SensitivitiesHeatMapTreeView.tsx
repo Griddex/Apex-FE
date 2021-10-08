@@ -1,11 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { ITreeViewProps } from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import ApexTreeView from "../../../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
-export default function SensitivitiesHeatMapTreeView() {
+export default function SensitivitiesHeatMapTreeView({
+  height,
+}: ITreeViewProps) {
   const { heatMapTreeByScenario, selectedAnalysesNames } = useSelector(
     (state: RootState) => state.economicsReducer
   );
@@ -48,6 +51,7 @@ export default function SensitivitiesHeatMapTreeView() {
       selectedPathsUnfiltered={selectedPathsUnfiltered}
       setSelectedPathsUnfiltered={setSelectedPathsUnfiltered}
       dragDropTypes={itemTypes.ECONOMICS_HEATMAP}
+      height={height}
     />
   );
 }

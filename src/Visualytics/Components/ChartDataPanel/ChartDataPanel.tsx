@@ -15,6 +15,11 @@ import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonSt
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+
+export interface ITreeViewProps {
+  height: number;
+}
+
 export interface IChartDataPanel<T = ISelectOption> {
   selectLabel: string;
   selectedOption: T;
@@ -48,12 +53,14 @@ const ChartDataPanel = <T extends ISelectOption>({
   clearChartCategories,
 }: IChartDataPanel<T>) => {
   const theme = useTheme();
+  const treeRef = React.useRef<HTMLDivElement>(null);
 
   const CategoriesComponent = categoriesComponent as JSX.Element;
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
-  const TreeViewComponent = treeViewComponent as React.FC;
+  const TreeViewComponent = treeViewComponent as React.FC<ITreeViewProps>;
 
   const [render, setRender] = React.useState(false);
+  const [treeHeight, setTreeHeight] = React.useState(0);
   const [categorySizePosition, setCategorySizePosition] = React.useState({
     width: 385,
     height: 540,
@@ -77,11 +84,41 @@ const ChartDataPanel = <T extends ISelectOption>({
   const categoryExpanded = showMembersObjValues?.some((v) => v === true);
 
   React.useEffect(() => {
+    const treeViewDimen = treeRef.current?.getBoundingClientRect();
+    const treeViewHeight = treeViewDimen?.height as number;
+    setTreeHeight(treeViewHeight);
+  }, []);
+
+  React.useEffect(() => {
     setRender(!render);
   }, [showMembersObjValues?.join()]);
 
   return (
-    <ApexFlexContainer flexDirection="column">
+    <ApexFlexContainer flexDirection="column" justifyContent="flex-start">
+      <AnalyticsComp
+        title={selectLabel}
+        content={
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <SelectTitle />
+            <OpenInNewOutlinedIcon style={getApexIconButtonStyle(theme)} />
+          </div>
+        }
+        direction="Vertical"
+        containerStyle={{ width: "100%", marginBottom: 20 }}
+      />
+      {hasSecondaryComponent && <SecondarySelectComponent />}
+      <div
+        ref={treeRef}
+        style={{
+          width: "100%",
+          height: "100%",
+          borderTop: `1px solid ${theme.palette.grey[300]}`,
+          borderBottom: `1px solid ${theme.palette.grey[300]}`,
+          overflow: "auto",
+        }}
+      >
+        <TreeViewComponent height={treeHeight} />
+      </div>
       {extrudeCategories && (
         <Rnd
           style={{ zIndex: 2000, padding: 2 }}
@@ -137,29 +174,6 @@ const ChartDataPanel = <T extends ISelectOption>({
           </DraggableDialog>
         </Rnd>
       )}
-      <AnalyticsComp
-        title={selectLabel}
-        content={
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <SelectTitle />
-            <OpenInNewOutlinedIcon style={getApexIconButtonStyle(theme)} />
-          </div>
-        }
-        direction="Vertical"
-        containerStyle={{ width: "100%", marginBottom: 20 }}
-      />
-      {hasSecondaryComponent && <SecondarySelectComponent />}
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          borderTop: `1px solid ${theme.palette.grey[300]}`,
-          borderBottom: `1px solid ${theme.palette.grey[300]}`,
-          overflow: "auto",
-        }}
-      >
-        <TreeViewComponent />
-      </div>
       <ApexFlexContainer height={50} justifyContent="flex-end">
         {renderCategoryIcon && (
           <CategoryOutlinedIcon

@@ -42,8 +42,8 @@ export const initialColorGradient = {
 
 const forecastChartState: IForecastChartState = {
   selectedForecastChartVariable: "oilRate",
-  selectedForecastAggregationLevel: "",
-  selectedForecastAggregationType: "",
+  selectedForecastAggregationLevel: "none",
+  selectedForecastAggregationType: "yearly",
   selectedModuleIds: [],
   selectedChartIndex: 0,
   selectedChartObjId: "",

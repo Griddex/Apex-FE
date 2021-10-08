@@ -1,10 +1,10 @@
-import { Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
-import Menu from "@mui/material/Menu";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
 import VerticalSplitOutlinedIcon from "@mui/icons-material/VerticalSplitOutlined";
+import { ListItemIcon, MenuItem, Typography, useTheme } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     textTransform: "none",
     margin: theme.spacing(0),
+    color: theme.palette.grey["700"],
   },
 }));
 
@@ -34,6 +35,7 @@ const EconomicsInputButtonsMenu = ({
 }: {
   children: (props: IEconomicsInputButton) => JSX.Element;
 }) => {
+  const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -86,8 +88,8 @@ const EconomicsInputButtonsMenu = ({
 
   const childrenProps = {
     name: economicsInput,
-    startIcon: <TrendingUpOutlinedIcon />,
-    endIcon: <KeyboardArrowDownIcon />,
+    startIcon: <LocalAtmOutlinedIcon htmlColor={theme.palette.grey["700"]} />,
+    endIcon: <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />,
     className: classes.button,
     handleClick,
   };

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -45,8 +45,6 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarShift: {
-    marginLeft: (props: ReturnType<typeof layoutReducer>) =>
-      props.expandMainDrawer ? theme.spacing(12) : theme.spacing(5),
     width: (props: ReturnType<typeof layoutReducer>) =>
       `calc(100% - ${
         props.expandMainDrawer ? theme.spacing(12) : theme.spacing(5)
@@ -58,12 +56,15 @@ const useStyles = makeStyles((theme) => ({
   },
   hide: {
     display: "none",
+    marginLeft: 5,
   },
   appbarToolBar: {
     paddingLeft: 10,
     paddingRight: 10,
     height: "100%",
     minHeight: "100%",
+    marginLeft: (props: ReturnType<typeof layoutReducer>) =>
+      props.expandMainDrawer ? theme.spacing(12) : theme.spacing(5),
   },
   userToolBar: {
     display: "flex",
@@ -132,6 +133,7 @@ const Navbar = () => {
 
   return (
     <AppBar
+      style={{ marginLeft: 40 }}
       position="fixed"
       className={clsx(classes.appBar, {
         [classes.appBarShift]: expandMainDrawer,
@@ -148,7 +150,8 @@ const Navbar = () => {
               className={clsx({
                 [classes.hide]: expandMainDrawer,
               })}
-              size="large">
+              size="large"
+            >
               <MenuIcon />
             </IconButton>
           ) : (
@@ -160,11 +163,12 @@ const Navbar = () => {
               className={clsx({
                 [classes.hide]: !expandMainDrawer,
               })}
-              size="large">
+              size="large"
+            >
               <ChevronLeftIcon />
             </IconButton>
           )}
-          <Box>
+          <Box sx={{ marginLeft: 1 }}>
             <Typography
               variant="button"
               style={{

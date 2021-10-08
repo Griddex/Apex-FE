@@ -28,6 +28,7 @@ const ForecastAggregationLevelButtonsMenu = () => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [forecastAggregationOption, setForecastAggregationOption] =
     React.useState(forecastAggregationLevels[0]);
@@ -40,6 +41,10 @@ const ForecastAggregationLevelButtonsMenu = () => {
     setAnchorEl(null);
   };
 
+  React.useEffect(() => {
+    setForecastAggregationOption({ value: "none", label: "None" });
+  }, []);
+
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
       <Tooltip
@@ -51,14 +56,19 @@ const ForecastAggregationLevelButtonsMenu = () => {
         <Button
           className={classes.label}
           onClick={handleClick}
-          startIcon={<ShowChartOutlinedIcon />}
-          endIcon={<KeyboardArrowDownIcon />}
+          startIcon={
+            <ShowChartOutlinedIcon htmlColor={theme.palette.grey["700"]} />
+          }
+          endIcon={
+            <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />
+          }
           style={{
             height: 28,
             backgroundColor: theme.palette.primary.light,
             border: `1px solid ${theme.palette.primary.main}`,
             width: 120,
             marginRight: 4,
+            color: theme.palette.grey["700"],
           }}
         >
           {forecastAggregationOption.label}

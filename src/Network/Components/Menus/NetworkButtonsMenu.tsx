@@ -185,12 +185,15 @@ const NetworkButtonsMenu = () => {
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
       <Button
         onClick={handleClick}
-        startIcon={<AccountTreeIcon />}
-        endIcon={<KeyboardArrowDownIcon />}
+        startIcon={<AccountTreeIcon htmlColor={theme.palette.grey["700"]} />}
+        endIcon={
+          <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />
+        }
         style={{
           height: "28px",
           backgroundColor: theme.palette.primary.light,
           border: `1px solid ${theme.palette.primary.main}`,
+          color: theme.palette.grey["700"],
         }}
       >
         {"Network"}

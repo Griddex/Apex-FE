@@ -17,4 +17,11 @@ export interface IApexTreeView {
   selectedPathsUnfiltered: string[];
   setSelectedPathsUnfiltered: TUseState<string[]>;
   dragDropTypes: string;
+  height: number;
 }
+
+export type TTreeStackObj = {
+  nestingLevel: number;
+  node: RenderTree;
+};
+export type TTreeStack = TTreeStackObj[];

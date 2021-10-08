@@ -4,6 +4,7 @@ import objectScan from "object-scan";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { ITreeViewProps } from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../Visualytics/Components/TreeView/ApexTreeViewTypes";
@@ -17,7 +18,7 @@ import {
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { transformModulePaths } from "../Utils/TransformForecastForChart";
 
-export default function ForecastTreeView() {
+export default function ForecastTreeView({ height }: ITreeViewProps) {
   const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
   const dispatch = useDispatch();
@@ -192,6 +193,7 @@ export default function ForecastTreeView() {
       selectedPathsUnfiltered={selectedModulePathsUnfiltered}
       setSelectedPathsUnfiltered={setSelectedModulePathsUnfiltered}
       dragDropTypes={itemTypes.FORECAST_PLOTCHARTS}
+      height={height}
     />
   );
 }

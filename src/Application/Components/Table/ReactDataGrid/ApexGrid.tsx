@@ -1,8 +1,14 @@
-import { Box, FormControl, IconButton, InputAdornment, OutlinedInput } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import Grid from "@mui/material/Grid";
 import SearchIcon from "@mui/icons-material/Search";
-import Pagination from '@mui/material/Pagination';
+import Pagination from "@mui/material/Pagination";
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
 import uniqBy from "lodash.uniqby";
@@ -121,6 +127,10 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   >(["", "NONE"]);
 
   const [tablePagination, setTablePagination] = React.useState(0);
+  console.log(
+    "🚀 ~ file: ApexGrid.tsx ~ line 124 ~ tablePagination",
+    tablePagination
+  );
   const [selectedCell, setSelectedCell] = React.useState<Position>();
   const [pastePosition, setPastePosition] = React.useState<TPastePosition>({
     topLeft: {},
@@ -449,7 +459,11 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
                 onChange={handleFilterChange}
                 endAdornment={
                   <InputAdornment position="end">
-                    <IconButton aria-label="toggle password visibility" edge="end" size="large">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      edge="end"
+                      size="large"
+                    >
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
@@ -525,7 +539,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
           />
           <Pagination
             style={{ marginLeft: 10 }}
-            count={tablePagination + 1}
+            count={tablePagination ? tablePagination + 1 : 1}
             variant="outlined"
             shape="rounded"
             onChange={handlePaginationChange}

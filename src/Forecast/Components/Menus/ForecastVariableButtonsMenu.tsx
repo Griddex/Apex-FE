@@ -53,13 +53,18 @@ const ForecastVariableButtonsMenu = () => {
         <Button
           className={classes.label}
           onClick={handleClick}
-          startIcon={<ShowChartOutlinedIcon />}
-          endIcon={<KeyboardArrowDownIcon />}
+          startIcon={
+            <ShowChartOutlinedIcon htmlColor={theme.palette.grey["700"]} />
+          }
+          endIcon={
+            <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />
+          }
           style={{
             height: 28,
             backgroundColor: theme.palette.primary.light,
             border: `1px solid ${theme.palette.primary.main}`,
             width: 250,
+            color: theme.palette.grey["700"],
           }}
         >
           {forecastVariableTitle}

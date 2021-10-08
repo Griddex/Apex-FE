@@ -1,15 +1,13 @@
-import get from "lodash.get";
-import pick from "lodash.pick";
-import objectScan from "object-scan";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { ITreeViewProps } from "../Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
 import ApexTreeView from "../Components/TreeView/ApexTreeView";
 import { RenderTree } from "../Components/TreeView/ApexTreeViewTypes";
 import { itemTypesVisualytics } from "../Utils/DragAndDropItemTypes";
 
-export default function VisualyticsTreeView() {
+export default function VisualyticsTreeView({ height }: ITreeViewProps) {
   const wc = "visualyticsChartsWorkflows";
   const ch = "stackedAreaChart";
 
@@ -58,6 +56,7 @@ export default function VisualyticsTreeView() {
       selectedPathsUnfiltered={selectedColumnPathsUnfiltered}
       setSelectedPathsUnfiltered={setSelectedColumnPathsUnfiltered}
       dragDropTypes={itemTypesVisualytics.VISUALYTICS_PLOTCHARTS}
+      height={height}
     />
   );
 }

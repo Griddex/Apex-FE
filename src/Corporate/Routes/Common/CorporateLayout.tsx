@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { Suspense } from "react";
 import {
   Route,
@@ -11,7 +11,7 @@ import CorporateBackground from "./CorporateBackground";
 import { ICorporateLayouts, IdType } from "./CorporateLayoutTypes";
 
 const navbarHeight = 43;
-const addedHeight = 10;
+const addedHeight = 0;
 const useStyles = makeStyles(() => {
   return {
     declineCurveAnalysisLayoutRoot: {

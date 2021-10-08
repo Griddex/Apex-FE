@@ -1,5 +1,5 @@
 import { Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { CSSProperties } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -276,6 +276,8 @@ export default function StoredForecastingParameters({
                 );
 
                 const newRows = [...forecastingParametersStored, clonedRow];
+
+                setRows(newRows);
                 dispatch(
                   updateNetworkParameterAction(
                     "storedDataWorkflows.forecastingParametersStored",

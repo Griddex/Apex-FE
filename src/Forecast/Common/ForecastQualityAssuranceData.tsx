@@ -1,5 +1,5 @@
 import { ClickAwayListener, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import React from "react";
@@ -129,29 +129,9 @@ export default function ForecastQualityAssuranceData({
   const wc = "storedDataWorkflows";
   const wp = "forecastResultsQualityAssurance";
 
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
-
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  ) as IUnitSettingsData;
-
-  /*  const { forecastResultsStored } = useSelector(
-    (state: RootState) => state.forecastReducer[wc]
-  ); */
-
   const { qualityAssuranceResults } = useSelector(
     (state: RootState) => state.forecastReducer
   );
-
-  console.log("qualityAssuranceResults: ", qualityAssuranceResults);
-
-  const [storedforecastResults, setStoredforecastResults] = React.useState(
-    qualityAssuranceResults
-  );
-
-  const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredForecastResultsRow) => {
@@ -182,34 +162,13 @@ export default function ForecastQualityAssuranceData({
     () => new Set<React.Key>()
   );
 
-  const ApexGridCheckboxColumn = apexGridCheckbox({
-    shouldExecute: true,
-    shouldDispatch: false,
-    apexGridCheckboxFxn: handleCheckboxChange,
-  });
-
-  const dividerPositions = [50];
-  /* const getForecastDate = (row:any, i:number) => {
-    const keys = Object.keys(row);
-    const rowData = timeData[i];
-    const dateValues = rowData[keys[0]];
-    //console.log("dateValues: ", dateValues);
-    const forecastDate = `${dateValues.day}/${dateValues.month}/${dateValues.year}`;
-    return forecastDate;
-  }; */
-
-  const forecastResultCount = qualityAssuranceResults.length;
-
   const rows = qualityAssuranceResults.map((row: any, i: number) => ({
     ...row,
   })) as any[];
 
-  //const [rows, setRows] = React.useState(snStoredData);
-
   let columnKeys = ["SN"];
   if (rows.length > 0) columnKeys = Object.keys(rows[0]);
 
-  console.log("columnKeys: ", columnKeys);
   const columns = columnKeys.map((k) => {
     const column = {
       key: k,
@@ -220,8 +179,6 @@ export default function ForecastQualityAssuranceData({
     };
     return column;
   });
-
-  //const columns = React.useMemo(() => generateColumns(), [generateColumns]);
 
   const exportColumns = columns
     .filter(

@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useDispatch } from "react-redux";
@@ -6,7 +6,7 @@ import SuspensePerpetualSpinner from "../../Application/Components/Visuals/Suspe
 import NetworkLanding from "./NetworkLanding";
 
 const navbarHeight = 43;
-const addedHeight = 10;
+const addedHeight = 0;
 const useStyles = makeStyles(() => {
   return {
     networkLayoutRoot: {
