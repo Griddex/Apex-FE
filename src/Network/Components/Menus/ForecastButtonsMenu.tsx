@@ -70,6 +70,7 @@ const ForecastButtonsMenu = () => {
             "All"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+        isDialog: true,
       };
 
       dispatch(showDialogAction(confirmationDialogParameters));
@@ -107,6 +108,7 @@ const ForecastButtonsMenu = () => {
       exclusive: false,
       maxWidth: "lg",
       iconType: "run",
+      isDialog: true,
     };
 
     dispatch(showDialogAction(dialogParameters));

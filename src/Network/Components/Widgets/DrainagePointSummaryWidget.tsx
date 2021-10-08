@@ -73,7 +73,7 @@ const DrainagePointSummaryWidget = ({ drainagePoints }: IWidget) => {
         title={<DrainagePointSummaryTitle drainagePoints={drainagePoints} />}
         placement="bottom"
         arrow
-        leaveDelay={50000}
+        leaveDelay={5000}
       >
         <img
           src={DrainagePoint}

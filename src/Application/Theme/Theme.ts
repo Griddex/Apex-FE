@@ -71,6 +71,7 @@ const theme = createTheme({
         disableRipple: true,
       },
     },
+
     MuiInputLabel: {
       styleOverrides: {
         root: {
@@ -82,12 +83,35 @@ const theme = createTheme({
         shrink: true,
       },
     },
+
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        },
+      },
+      defaultProps: {
+        InputProps: { style: { borderRadius: 0 } },
+      },
+    },
+
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        },
+        // notchedOutline: {
+        //   display: "none",
+        // },
+      },
+    },
+
     MuiInputBase: {
       styleOverrides: {
         root: {
           height: 36,
           borderRadius: 2,
-          "&:hover": { backgroundColor: "#F7F7F7" },
+          // "&:hover": { backgroundColor: "#F7F7F7" },
           //       input:-webkit-autofill,
           // input:-webkit-autofill:hover,
           // input:-webkit-autofill:focus,
@@ -104,8 +128,8 @@ const theme = createTheme({
           // }
         },
         input: {
-          "&:hover": { backgroundColor: "#F7F7F7" },
-          "&:focus": { backgroundColor: "#F7F7F7" },
+          // "&:hover": { opacity: 0, color: grey[900] },
+          // "&:focus": { opacity: 0, color: grey[900] },
           "&:-webkit-autofill": {
             WebkitBoxShadow: "0 0 0 100px #FFF inset",
             WebkitTextFillColor: `${grey[900]}`,
@@ -113,6 +137,7 @@ const theme = createTheme({
         },
       },
     },
+
     MuiInput: {
       styleOverrides: {
         root: {
@@ -124,14 +149,15 @@ const theme = createTheme({
             border: `1px solid ${ApexPalette.primary.main}`,
             outline: `1px solid ${ApexPalette.primary.main}`,
             boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
-            borderRadius: 2,
           },
+          borderRadius: 0,
         },
       },
       defaultProps: {
         disableUnderline: true,
       },
     },
+
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
@@ -149,18 +175,19 @@ const theme = createTheme({
         arrow: true,
       },
     },
+
     MuiDialogTitle: { styleOverrides: { root: { padding: apexSpacing } } },
+
     MuiDialogContent: { styleOverrides: { dividers: { borderWidth: 0 } } },
+
     MuiSvgIcon: {
       styleOverrides: {
         root: {
           cursor: "pointer",
-          "&:hover": {
-            // color: ApexPalette.primary.main,
-          },
         },
       },
     },
+
     MuiDialogActions: {
       styleOverrides: {
         root: {
