@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
@@ -45,37 +45,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ForecastQualityAssurance = () =>
-  // { wrkflwCtgry, wrkflwPrcss }: IForecastRoutes
-  {
-    const classes = useStyles();
-    const dispatch = useDispatch();
+const ForecastQualityAssurance = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-    const { showContextDrawer } = useSelector(
-      (state: RootState) => state.layoutReducer
-    );
+  const { showContextDrawer } = useSelector(
+    (state: RootState) => state.layoutReducer
+  );
 
-    useEffect(() => {
-      dispatch(showContextDrawerAction());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(showContextDrawerAction());
+  }, [dispatch]);
 
-    return (
-      <div className={classes.root}>
-        <div className={classes.chartBody}>
-          <div className={classes.chartPanel}>
-            <ForecastChartDataPanel />
-          </div>
-
-          <ForecastQualityAssuranceData
-            showChart={false}
-            showBaseButtons={true}
-          />
+  return (
+    <div className={classes.root}>
+      <div className={classes.chartBody}>
+        <div className={classes.chartPanel}>
+          <ForecastChartDataPanel />
         </div>
-        {showContextDrawer && (
-          <ContextDrawer>{() => <div>Format</div>}</ContextDrawer>
-        )}
+
+        <ForecastQualityAssuranceData
+          showChart={false}
+          showBaseButtons={true}
+        />
       </div>
-    );
-  };
+      {/* {showContextDrawer && (
+          <ContextDrawer>{() => <div></div>}</ContextDrawer>
+        )} */}
+    </div>
+  );
+};
 
 export default ForecastQualityAssurance;

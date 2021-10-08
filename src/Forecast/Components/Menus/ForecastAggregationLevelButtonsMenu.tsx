@@ -28,6 +28,7 @@ const ForecastAggregationLevelButtonsMenu = () => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [forecastAggregationOption, setForecastAggregationOption] =
     React.useState(forecastAggregationLevels[0]);
@@ -39,6 +40,10 @@ const ForecastAggregationLevelButtonsMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  React.useEffect(() => {
+    setForecastAggregationOption({ value: "none", label: "None" });
+  }, []);
 
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>

@@ -23,6 +23,7 @@ const ApexIcon = styled("span")(({ theme }) => ({
     background: "rgba(206,217,224,.5)",
   },
 }));
+
 const ApexCheckedIcon = styled("span")(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
   backgroundImage:
@@ -47,9 +48,6 @@ export default function ApexCheckbox2(props: CheckboxProps) {
 
   return (
     <Checkbox
-      sx={{
-        "&:hover": { bgcolor: theme.palette.primary.dark },
-      }}
       disableRipple
       color="default"
       checkedIcon={<ApexCheckedIcon />}

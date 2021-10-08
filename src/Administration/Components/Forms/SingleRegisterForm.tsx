@@ -1,5 +1,5 @@
 import { Button, Input } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Form, Formik, FormikProps } from "formik";
 import React from "react";
@@ -15,6 +15,7 @@ import adminState from "../../Redux/State/AdminState";
 import userState from "../../Redux/State/UserState";
 import { IUserState } from "../../Redux/State/UserStateTypes";
 import AvatarControls from "../Avatar/AvatarControls";
+import { styled } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   form: {

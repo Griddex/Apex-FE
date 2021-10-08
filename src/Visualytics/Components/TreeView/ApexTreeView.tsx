@@ -1,6 +1,7 @@
-import Checkbox from "@mui/material/Checkbox";
 import SvgIcon from "@mui/material/SvgIcon";
 import makeStyles from "@mui/styles/makeStyles";
+import get from "lodash.get";
+import objectScan from "object-scan";
 import React from "react";
 import { useDrag } from "react-dnd";
 import { FixedSizeTree as Tree } from "react-vtree";
@@ -63,14 +64,18 @@ const useStyles = makeStyles((theme) => ({
 export default function ApexTreeView({
   rootTree,
   selectedIds,
-  selectedNames,
   setSelectedIds,
+  selectedNames,
   setSelectedNames,
   selectedPathsUnfiltered,
   setSelectedPathsUnfiltered,
   dragDropTypes,
   height,
 }: IApexTreeView) {
+  console.log(
+    "🚀 ~ file: ApexTreeView.tsx ~ line 75 ~ selectedIds",
+    selectedIds
+  );
   const classes = useStyles();
 
   const initExpanded = rootTree?.children?.map(
@@ -111,7 +116,7 @@ export default function ApexTreeView({
             title,
             path,
             isLeaf: children.length === 0,
-            isOpenByDefault: false,
+            isOpenByDefault: id === rootTree.id,
             nestingLevel,
           }
         : id;
@@ -217,15 +222,11 @@ export default function ApexTreeView({
   };
 
   const ApexNode = ({
-    height,
     data: { id, name, title, path, isLeaf, nestingLevel },
     isOpen,
     style,
     toggle,
-    treeData: itemSize,
   }: any) => {
-    const canOpen = height <= itemSize;
-
     let newName = "";
     let newTitle = "";
     if (path) {
@@ -252,13 +253,23 @@ export default function ApexTreeView({
 
     const opacity = isDragging ? 0.4 : 1;
 
+    const idPathArr = objectScan([`**.id`], {
+      joined: true,
+      filterFn: ({ value }: any) => value === id,
+    })(rootTree);
+
+    const idPath = idPathArr[0];
+    const lastIndex = idPath.lastIndexOf(".");
+    const objectPath = idPath.substring(0, lastIndex);
+    const currentTree = get(rootTree, objectPath);
+
     return (
       <div
         style={{
           ...style,
           display: "flex",
           alignItems: "center",
-          marginLeft: nestingLevel * 15 + (isLeaf ? 30 : 0),
+          marginLeft: nestingLevel * 15 + (isLeaf ? 15 : 0),
         }}
       >
         {!isLeaf && (
@@ -277,20 +288,14 @@ export default function ApexTreeView({
             {isOpen ? <MinusSquare /> : <PlusSquare />}
           </button>
         )}
-        <Checkbox
+
+        <ApexCheckbox2
           checked={selectedIds.some((item) => item === id)}
           onChange={(event) =>
-            getOnChange(event.currentTarget.checked, rootTree)
+            getOnChange(event.currentTarget.checked, currentTree)
           }
           onClick={(e) => e.stopPropagation()}
         />
-        {/* <ApexCheckbox2
-          checked={selectedIds.some((item) => item === id)}
-          onChange={(event) =>
-            getOnChange(event.currentTarget.checked, rootTree)
-          }
-          onClick={(e) => e.stopPropagation()}
-        /> */}
         <div ref={drag} style={{ opacity }}>
           {title}
         </div>
