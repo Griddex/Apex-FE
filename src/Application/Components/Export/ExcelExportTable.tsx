@@ -1,4 +1,5 @@
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import { IconButton } from "@material-ui/core";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import React from "react";
 import ReactExport from "react-export-excel";
 import IconButtonWithTooltip from "../IconButtons/IconButtonWithTooltip";
@@ -32,7 +33,11 @@ const ExcelExportTable = <T extends any>({
 
         return (
           <ExcelFile
-            element={<ArrowUpwardOutlinedIcon color="primary" />}
+            element={
+              <div style={{ display: "flex" }}>
+                <FileDownloadOutlinedIcon />
+              </div>
+            }
             filename={fileName}
           >
             {Object.keys(tableData).map((sheetName, i) => {

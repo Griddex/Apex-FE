@@ -1,8 +1,8 @@
-import { IconButton, Tooltip, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import findIndex from "lodash.findindex";
 import range from "lodash.range";
 import uniq from "lodash.uniq";
@@ -13,6 +13,7 @@ import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { OptionsType, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { v4 as uuidv4 } from "uuid";
 import ImportMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ImportMoreActionsContextMenu";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -34,19 +35,15 @@ import { IAllWorkflows } from "../../../../Application/Components/Workflows/Work
 import { typeOptions } from "../../../../Application/Data/ApplicationData";
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { saveUserMatchAction } from "../../../../Application/Redux/Actions/ApplicationActions";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import getCurrentAppHeaderTitleNameMap from "../../../../Application/Utils/GetCurrentAppHeaderTitleNameMap";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../../../Visualytics/Components/Charts/DoughnutChart";
+import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   persistChosenApplicationUnitIndicesAction,
-  persistVariableUnitsAction,
   updateInputParameterAction,
 } from "../../../Redux/Actions/InputActions";
 import computeFileUnitMatches from "../../../Utils/ComputeFileUnitMatches";
@@ -58,7 +55,6 @@ import {
   TUnit,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
-import { v4 as uuidv4 } from "uuid";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -940,7 +936,8 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
               setUserMatchObject(userMatchObject);
               setAcceptmatchToggle(currentAcceptMatchValue);
             }}
-            size="large">
+            size="large"
+          >
             <AllInclusiveOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -957,7 +954,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         rows
       )
     );
-  }, [rows]);
+  }, [JSON.stringify(rows)]);
 
   React.useEffect(() => {
     dispatch(
@@ -967,7 +964,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         fileHeaderUnitIdMap
       )
     );
-  }, [fileHeaderUnitIdMap]);
+  }, [JSON.stringify(fileHeaderUnitIdMap)]);
 
   React.useEffect(() => {
     dispatch(
@@ -977,7 +974,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         currentAppHeaderNameMap
       )
     );
-  }, [currentAppHeaderNameMap]);
+  }, [JSON.stringify(currentAppHeaderNameMap)]);
 
   React.useEffect(() => {
     dispatch(
@@ -987,7 +984,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         fileHeadersUnitsAppHeadersWithoutNoneMap
       )
     );
-  }, [fileHeadersUnitsAppHeadersWithoutNoneMap]);
+  }, [JSON.stringify(fileHeadersUnitsAppHeadersWithoutNoneMap)]);
 
   React.useEffect(() => {
     dispatch(
@@ -997,11 +994,11 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         wp
       )
     );
-  }, [chosenApplicationUnitIndices]);
+  }, [JSON.stringify(chosenApplicationUnitIndices)]);
 
   React.useEffect(() => {
     dispatch(saveUserMatchAction(userMatchObject));
-  }, [userMatchObject]);
+  }, [JSON.stringify(userMatchObject)]);
 
   return (
     <div className={classes.rootMatchUnits}>
@@ -1019,7 +1016,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
               rows={rows}
               tableButtons={tableButtons}
               onRowsChange={setRows}
-              // mappingErrors={getDuplicates(chosenApplicationUnitsUniqueSingle)}
               size={size}
               autoAdjustTableDim={true}
               showTableHeader={true}

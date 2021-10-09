@@ -185,15 +185,15 @@ const NetworkButtonsMenu = () => {
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
       <Button
         onClick={handleClick}
-        startIcon={<AccountTreeIcon htmlColor={theme.palette.grey["700"]} />}
+        startIcon={<AccountTreeIcon htmlColor={theme.palette.grey["800"]} />}
         endIcon={
-          <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />
+          <KeyboardArrowDownIcon htmlColor={theme.palette.grey["800"]} />
         }
         style={{
           height: "28px",
           backgroundColor: theme.palette.primary.light,
           border: `1px solid ${theme.palette.primary.main}`,
-          color: theme.palette.grey["700"],
+          color: theme.palette.grey["800"],
         }}
       >
         {"Network"}
