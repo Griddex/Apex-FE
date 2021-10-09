@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     textTransform: "none",
     margin: theme.spacing(0),
-    color: theme.palette.grey["700"],
+    color: theme.palette.grey["800"],
   },
 }));
 
@@ -88,8 +88,8 @@ const EconomicsInputButtonsMenu = ({
 
   const childrenProps = {
     name: economicsInput,
-    startIcon: <LocalAtmOutlinedIcon htmlColor={theme.palette.grey["700"]} />,
-    endIcon: <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />,
+    startIcon: <LocalAtmOutlinedIcon htmlColor={theme.palette.grey["800"]} />,
+    endIcon: <KeyboardArrowDownIcon htmlColor={theme.palette.grey["800"]} />,
     className: classes.button,
     handleClick,
   };

@@ -1,5 +1,5 @@
 import { ListItemIcon, MenuItem, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
 import CheckBoxOutlineBlankOutlinedIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -135,6 +135,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
       exclusive: true,
       maxWidth: "md",
       iconType: "select",
+      isDialog: true,
     };
 
     dispatch(showDialogAction(dialogParameters));

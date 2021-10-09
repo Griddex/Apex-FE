@@ -98,5 +98,13 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
         {rightLabel && <div>{rightLabel}</div>}
       </Stack>
     );
-  else return <SwitchUnstyled component={Root} {...label} />;
+  else
+    return (
+      <SwitchUnstyled
+        component={Root}
+        {...label}
+        checked={checked}
+        onChange={handleChange}
+      />
+    );
 }

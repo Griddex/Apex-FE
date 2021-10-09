@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { LoginForm } from "../../Components/Forms/LoginForm";
 import ApexFlexContainer from "../../Components/Styles/ApexFlexContainer";
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     height: 100,
   },
   typography: {
-    color: theme.palette.grey["700"],
+    color: theme.palette.grey["800"],
     margin: "20px 20px 30px 20px",
   },
 }));

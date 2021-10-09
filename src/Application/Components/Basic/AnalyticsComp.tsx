@@ -1,5 +1,5 @@
 import React from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
@@ -72,7 +72,9 @@ const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
           {title}
         </Typography>
       </div>
-      <div style={{ width: "100%", ...contentStyle }}>{content}</div>
+      <div style={{ width: "100%", marginLeft: 3, ...contentStyle }}>
+        {content}
+      </div>
     </div>
   );
 };

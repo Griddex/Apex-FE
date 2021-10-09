@@ -1,5 +1,5 @@
 import { Input } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
@@ -83,7 +83,11 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
-export default function UnitSettings() {
+export interface IUnitSettings {
+  isDialog: boolean;
+}
+
+export default function UnitSettings({ isDialog }: IUnitSettings) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const dialogRef = React.useRef<HTMLDivElement>(null);
@@ -595,7 +599,12 @@ export default function UnitSettings() {
             title="Number Format"
             direction="Vertical"
             content={
-              <ApexFlexContainer>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                }}
+              >
                 <ApexSelectRS
                   valueOption={numberFormatOption}
                   data={numberFormatOptions}
@@ -614,10 +623,11 @@ export default function UnitSettings() {
                 />
                 <Input
                   name="numberFormatString"
-                  style={{ width: 80 }}
+                  style={{ width: 80, height: 38, top: 0 }}
                   value={numberFormatStringValue}
                   onChange={(event: React.ChangeEvent<any>) => {
                     const { value } = event.target;
+
                     dispatch(
                       updateUnitsSettingsParameterAction(
                         "numberFormatString",
@@ -630,7 +640,7 @@ export default function UnitSettings() {
                   autoFocus
                   fullWidth
                 />
-              </ApexFlexContainer>
+              </div>
             }
           />
         </div>
@@ -650,47 +660,49 @@ export default function UnitSettings() {
         )}
       </SizeMe>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: 10,
-          marginBottom: 2,
-          width: 200,
-        }}
-      >
-        <BaseButtons
-          buttonTexts={["Reset", "Save"]}
-          variants={["contained", "contained"]}
-          colors={["secondary", "primary"]}
-          startIcons={[
-            <RotateLeftIcon key={1} />,
-            <SaveOutlinedIcon key={2} />,
-          ]}
-          disableds={[false, false]}
-          shouldExecute={[true, true]}
-          shouldDispatch={[false, false]}
-          finalActions={[
-            () => {
-              const dialogParameters = confirmationDialogParameters(
-                "UnitSettings_Reset_Confirmation",
-                "Reset Confirmation",
-                "textDialog",
-                `Do you want to reset this table?. 
+      {!isDialog && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: 10,
+            marginBottom: 2,
+            width: 200,
+          }}
+        >
+          <BaseButtons
+            buttonTexts={["Reset", "Save"]}
+            variants={["contained", "contained"]}
+            colors={["secondary", "primary"]}
+            startIcons={[
+              <RotateLeftIcon key={1} />,
+              <SaveOutlinedIcon key={2} />,
+            ]}
+            disableds={[false, false]}
+            shouldExecute={[true, true]}
+            shouldDispatch={[false, false]}
+            finalActions={[
+              () => {
+                const dialogParameters = confirmationDialogParameters(
+                  "UnitSettings_Reset_Confirmation",
+                  "Reset Confirmation",
+                  "textDialog",
+                  `Do you want to reset this table?. 
                   You will lose all data up to current step.`,
-                true,
-                false,
-                () => {},
-                "Reset",
-                "reset"
-              );
+                  true,
+                  false,
+                  () => {},
+                  "Reset",
+                  "reset"
+                );
 
-              dispatch(showDialogAction(dialogParameters));
-            },
-            () => {},
-          ]}
-        />
-      </div>
+                dispatch(showDialogAction(dialogParameters));
+              },
+              () => {},
+            ]}
+          />
+        </div>
+      )}
     </div>
   );
 }

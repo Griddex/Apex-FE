@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     textTransform: "none",
     margin: theme.spacing(0),
-    color: theme.palette.grey["700"],
+    color: theme.palette.grey["800"],
   },
 }));
 

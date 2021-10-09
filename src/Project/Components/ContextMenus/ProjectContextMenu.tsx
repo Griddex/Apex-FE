@@ -35,7 +35,6 @@ const ProjectContextMenu = ({
       ref={anchorRef}
       onClick={handleClick}
       style={{ cursor: "context-menu" }}
-      onMouseLeave={handleClose}
     >
       {children}
       <Menu

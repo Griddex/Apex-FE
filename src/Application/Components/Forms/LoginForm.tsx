@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     height: "45%",
   },
   formTextFields: {
-    "& > *": { marginTop: 40, "& .MuiInputBase-root": { height: 36 } },
+    "& > *": { marginTop: 40, "& .MuiInputBase-root": { height: 44 } },
   },
   divider: {
     margin: "20px",
@@ -114,7 +114,6 @@ export const LoginForm = () => {
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    // onMouseDown={event => handleMouseDownPassword(event)}
                     onClick={(event) => setShowPassword(!showPassword)}
                     size="large"
                   >
@@ -130,6 +129,7 @@ export const LoginForm = () => {
             fullWidth
           />
         );
+
         return (
           <Form className={classes.form}>
             <div className={classes.formTextFields}>

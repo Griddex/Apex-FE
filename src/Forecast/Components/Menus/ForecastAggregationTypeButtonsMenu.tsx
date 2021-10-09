@@ -52,10 +52,10 @@ const ForecastAggregationTypeButtonsMenu = () => {
           className={classes.label}
           onClick={handleClick}
           startIcon={
-            <ShowChartOutlinedIcon htmlColor={theme.palette.grey["700"]} />
+            <ShowChartOutlinedIcon htmlColor={theme.palette.grey["800"]} />
           }
           endIcon={
-            <KeyboardArrowDownIcon htmlColor={theme.palette.grey["700"]} />
+            <KeyboardArrowDownIcon htmlColor={theme.palette.grey["800"]} />
           }
           style={{
             height: 28,
@@ -63,7 +63,7 @@ const ForecastAggregationTypeButtonsMenu = () => {
             border: `1px solid ${theme.palette.primary.main}`,
             width: 120,
             marginRight: 4,
-            color: theme.palette.grey["700"],
+            color: theme.palette.grey["800"],
           }}
         >
           {forecastAggregationOption.label}

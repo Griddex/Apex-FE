@@ -4,12 +4,12 @@ import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAnd
 import UnitSettings from "../../Settings/UnitSettings/UnitSettings";
 
 const NewProjectWorkflow = (props: ITitleAndDescriptionFormProps) => {
-  const { activeStep } = props;
+  const { activeStep, isDialog } = props;
 
   const renderImportStep = () => {
     switch (activeStep) {
       case 0:
-        return <UnitSettings />;
+        return <UnitSettings isDialog={isDialog as boolean} />;
       case 1:
         return <TitleAndDescriptionForm {...props} />;
       default:

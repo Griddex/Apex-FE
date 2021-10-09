@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
@@ -107,6 +107,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
         <Button
           className={classes.button}
           variant="contained"
+          color="inherit"
           disabled={activeStep === 0}
           onClick={() =>
             workflowBackAction &&
