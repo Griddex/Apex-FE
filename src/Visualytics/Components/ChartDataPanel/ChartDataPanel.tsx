@@ -114,7 +114,6 @@ const ChartDataPanel = <T extends ISelectOption>({
           height: "100%",
           borderTop: `1px solid ${theme.palette.grey[300]}`,
           borderBottom: `1px solid ${theme.palette.grey[300]}`,
-          overflow: "auto",
         }}
       >
         <TreeViewComponent height={treeHeight} />
@@ -144,7 +143,7 @@ const ChartDataPanel = <T extends ISelectOption>({
           }}
         >
           <DraggableDialog
-            title="Title"
+            title="Chart Categories"
             iconType="category"
             onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
             actionsList={() => (

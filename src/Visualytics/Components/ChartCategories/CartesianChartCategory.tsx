@@ -1,6 +1,6 @@
 import { Theme, useTheme } from "@mui/material";
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import createStyles from "@mui/styles/createStyles";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { CSSProperties } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,8 @@ import {
 } from "../../Utils/DragAndDropItemTypes";
 import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,8 +30,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       paddingTop: 5,
     },
+    list: {
+      display: "block",
+    },
   })
 );
+
+type TSize = { height: number; width: number };
 
 const CartesianChartCategory = ({
   reducer,
@@ -139,6 +146,8 @@ const CartesianChartCategory = ({
     // height: categoryTitle === "X Category" ? 40 : 200,
   } as CSSProperties;
 
+  const droppedIds = Object.keys(hasDroppedObj);
+
   React.useEffect(() => {
     setMembersSwitch(
       showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
@@ -188,18 +197,40 @@ const CartesianChartCategory = ({
             ref={drop}
             flexDirection="column"
             justifyContent="flex-start"
+            alignItems="flex-start"
+            width="99%"
           >
             {Object.keys(hasDroppedObj).length > 0 ? (
-              Object.keys(hasDroppedObj).map((id: string, i: number) => (
-                <ChartCategoryVariable
-                  key={i}
-                  dragItem={dragItemObj[id]}
-                  setHasDroppedObj={setHasDroppedObj}
-                  setDragItemObj={setDragItemObj}
-                  categoryTitle={categoryTitle as string}
-                  removeChartCategoryAction={removeAction}
-                />
-              ))
+              <AutoSizer>
+                {({ height, width }: TSize) => (
+                  <List
+                    height={height}
+                    width={width}
+                    itemCount={Object.keys(hasDroppedObj).length}
+                    itemSize={30}
+                    itemData={droppedIds}
+                  >
+                    {({ index, style, data }) => (
+                      <ChartCategoryVariable
+                        style={style}
+                        key={index}
+                        dragItem={dragItemObj[data[index]]}
+                        setHasDroppedObj={setHasDroppedObj}
+                        setDragItemObj={setDragItemObj}
+                        categoryTitle={categoryTitle as string}
+                        removeChartCategoryAction={removeAction}
+                      />
+                      // <div
+                      //   style={{
+                      //     ...style,
+                      //     border: `1px solid black`,
+                      //     cursor: "pointer",
+                      //   }}
+                      // >{`Row ${data[index]}`}</div>
+                    )}
+                  </List>
+                )}
+              </AutoSizer>
             ) : (
               <ApexFlexContainer>{"Drop here"}</ApexFlexContainer>
             )}
