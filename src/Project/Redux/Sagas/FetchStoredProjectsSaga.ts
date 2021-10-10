@@ -55,7 +55,7 @@ function* fetchStoredProjectsSaga(
   try {
     const result = yield call(
       fetchStoredProjectsAPI,
-      `${getBaseForecastUrl()}/project/recents/20`
+      `${getBaseForecastUrl()}/project/recents/100`
     );
 
     const {

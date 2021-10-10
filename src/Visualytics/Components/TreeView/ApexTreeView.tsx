@@ -1,5 +1,6 @@
 import SvgIcon from "@mui/material/SvgIcon";
 import makeStyles from "@mui/styles/makeStyles";
+import styled from "@mui/system/styled";
 import get from "lodash.get";
 import objectScan from "object-scan";
 import React from "react";
@@ -39,26 +40,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     maxWidth: 300,
   },
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: 500,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    border: "1px solid #C4C4C4",
-    overflow: "auto",
-  },
-  itemIcon: {
-    color: theme.palette.primary.main,
-    minWidth: 30,
-  },
-  listDialogContent: { display: "flex", flexDirection: "column" },
-  listBorder: {
-    height: 200,
-    overflow: "auto",
-    border: "1px solid #F7F7F7",
-  },
-  rootLabel: { marginRight: 0, marginLeft: 0, marginBottom: 0 },
 }));
 
 export default function ApexTreeView({
@@ -221,6 +202,13 @@ export default function ApexTreeView({
     setSelectedPathsUnfiltered(pathArray);
   };
 
+  const StyledApexNode = styled("div")(({ theme }) => ({
+    "&:hover": {
+      cursor: "pointer",
+      backgroundColor: theme.palette.primary.light,
+    },
+  }));
+
   const ApexNode = ({
     data: { id, name, title, path, isLeaf, nestingLevel },
     isOpen,
@@ -264,7 +252,7 @@ export default function ApexTreeView({
     const currentTree = get(rootTree, objectPath);
 
     return (
-      <div
+      <StyledApexNode
         style={{
           ...style,
           display: "flex",
@@ -299,7 +287,7 @@ export default function ApexTreeView({
         <div ref={drag} style={{ opacity }}>
           {title}
         </div>
-      </div>
+      </StyledApexNode>
     );
   };
 

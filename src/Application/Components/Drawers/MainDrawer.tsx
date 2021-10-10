@@ -261,7 +261,7 @@ const MainDrawer = () => {
                   handleModuleName(name);
                   dispatch(mainDrawerSetMenuAction(name));
 
-                  if (name === "Forecast") {
+                  if (name === "Business Forecast") {
                     dispatch(
                       loadForecastResultsWorkflowAction(
                         "loadForecastResultsWorkflow",

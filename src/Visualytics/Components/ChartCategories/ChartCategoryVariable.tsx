@@ -1,7 +1,13 @@
-import { IconButton, ListItemAvatar, MenuItem, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import {
+  IconButton,
+  ListItemAvatar,
+  MenuItem,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { useDispatch } from "react-redux";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
@@ -36,6 +42,7 @@ export interface IChartCategoryVariable {
   setDragItemObj: TUseState<Record<string, IDragItem>>;
   categoryTitle: string;
   removeChartCategoryAction: (title: string, id: string) => IAction;
+  style: CSSProperties;
 }
 
 const ChartCategoryVariable = ({
@@ -44,6 +51,7 @@ const ChartCategoryVariable = ({
   setDragItemObj,
   categoryTitle,
   removeChartCategoryAction,
+  style,
 }: IChartCategoryVariable) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -63,6 +71,7 @@ const ChartCategoryVariable = ({
         width: "100%",
         border: `1px solid ${theme.palette.primary.main}`,
         backgroundColor: theme.palette.primary.light,
+        ...style,
       }}
     >
       <ListItemAvatar className={classes.listItemAvatar}>
@@ -85,7 +94,8 @@ const ChartCategoryVariable = ({
         }}
         edge="end"
         aria-label="delete"
-        size="large">
+        size="large"
+      >
         <CloseOutlinedIcon />
       </IconButton>
     </MenuItem>
