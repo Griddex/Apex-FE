@@ -6,6 +6,7 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
+  resetTemplateChartsWorkflowsAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import EconomicsTemplateTreeView from "./EconomicsTemplateTreeView";
@@ -85,6 +86,8 @@ const EconomicsTemplateDataPanel = () => {
         )
       );
     }
+
+    dispatch(resetTemplateChartsWorkflowsAction());
   };
 
   return (

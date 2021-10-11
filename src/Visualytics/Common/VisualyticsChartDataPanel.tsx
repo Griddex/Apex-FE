@@ -11,6 +11,7 @@ import { TChartTypes } from "../Components/Charts/ChartTypes";
 import {
   fetchVisualyticsTreeviewKeysRequestAction,
   removeVisualyticsChartCategoryAction,
+  resetVisualyticsChartsWorkflowsAction,
   updateVisualyticsChartCategoryAction,
   updateVisualyticsDragItemsAction,
   updateVisualyticsHasDroppedAction,
@@ -19,6 +20,7 @@ import {
 } from "../Redux/Actions/VisualyticsActions";
 import { IChartVisualytics } from "./VisualyticsLandingTypes";
 import VisualyticsTreeView from "./VisualyticsTreeView";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 
 const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
   const dispatch = useDispatch();
@@ -104,10 +106,6 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
     setVisualyticsRunOption(optionDefined);
 
     const { id, title, description } = optionDefined;
-    console.log(
-      "Logged output --> ~ file: VisualyticsChartDataPanel.tsx ~ line 105 ~ VisualyticsChartDataPanel ~ optionDefined",
-      optionDefined
-    );
 
     if (title === "Select...") {
       dispatch(
@@ -130,6 +128,8 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
         fetchVisualyticsTreeviewKeysRequestAction(reducer, idTitleDescIsSaved)
       );
     }
+
+    dispatch(resetVisualyticsChartsWorkflowsAction());
   };
 
   const categoryPanelWidth = 250;
@@ -186,7 +186,12 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
       selectedTitle={selectedVisualyticsTitle}
       treeViewComponent={
         visualyticsRunOption.title === "Select..."
-          ? NoSelectionPlaceholder
+          ? () => (
+              <NoSelectionPlaceholder
+                icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                text="Select result.."
+              />
+            )
           : VisualyticsTreeView
       }
       extrudeCategories={extrudeCategories}

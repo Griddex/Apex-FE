@@ -15,5 +15,5 @@ export interface IApexRadioGroup {
   selectedVariable?: string;
   setSelectedVariable?: TUseState<string>;
   variableZOption?: IExtendedSelectOption;
-  apexRadioDataGroup: IExtendedSelectOption[];
+  apexRadioGroupData: IExtendedSelectOption[];
 }

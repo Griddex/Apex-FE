@@ -76,6 +76,8 @@ export const RESET_FORECAST = "RESET_FORECAST";
 export const UPDATE_FORECASTRESULT_PARAMETERS =
   "UPDATE_FORECASTRESULT_PARAMETERS";
 
+export const RESET_FORECAST_CHARTWORKFLOWS = "RESET_FORECAST_CHARTWORKFLOWS";
+
 export const updateForecastResultParameterAction = (
   timeData: any,
   forecastResults: any
@@ -466,5 +468,11 @@ export const fetchForecastTreeviewKeysFailureAction = () => {
       status: 0,
       errors: { message: "" },
     },
+  };
+};
+
+export const resetForecastChartsWorkflowsAction = () => {
+  return {
+    type: RESET_FORECAST_CHARTWORKFLOWS,
   };
 };

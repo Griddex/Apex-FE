@@ -15,7 +15,10 @@ import DialogCancelButton from "../../../Application/Components/DialogButtons/Di
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
@@ -27,6 +30,7 @@ import {
 } from "../Actions/NetworkActions";
 import { extrudeStoredProductionPrioritization } from "../../Components/DialogParameters/EditDeclineParametersDialogParameters";
 import { UPDATE_INPUT } from "../../../Import/Redux/Actions/InputActions";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 
 export default function* watchGetProductionPrioritizationByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -126,7 +130,16 @@ function* getProductionPrioritizationByIdSaga(action: IAction): Generator<
         maxWidth: "md",
         iconType: "information",
         selectedRowIndex,
-        actionsList: () => DialogCancelButton(),
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, false],
+            [unloadDialogsAction, () => {}],
+            "Load",
+            "loadOutlined",
+            false,
+            "All"
+          ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
 

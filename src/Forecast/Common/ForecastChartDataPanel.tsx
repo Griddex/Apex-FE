@@ -7,9 +7,11 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchForecastTreeviewKeysRequestAction,
+  resetForecastChartsWorkflowsAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
 import ForecastTreeView from "./ForecastTreeView";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 
 const ForecastChartDataPanel = () => {
   const dispatch = useDispatch();
@@ -92,6 +94,8 @@ const ForecastChartDataPanel = () => {
         )
       );
     }
+
+    dispatch(resetForecastChartsWorkflowsAction());
   };
 
   return (
@@ -104,7 +108,12 @@ const ForecastChartDataPanel = () => {
       selectedTitle={selectedForecastingResultsTitle}
       treeViewComponent={
         forecastRunOption.title === "Select..."
-          ? NoSelectionPlaceholder
+          ? () => (
+              <NoSelectionPlaceholder
+                icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                text="Select result.."
+              />
+            )
           : ForecastTreeView
       }
       renderCategoryIcon={false}

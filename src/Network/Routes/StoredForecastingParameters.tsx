@@ -42,6 +42,7 @@ import {
   getDeclineParametersByIdRequestAction,
   getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
+  updateNetworkParametersAction,
 } from "../Redux/Actions/NetworkActions";
 import {
   forecastingParametersToStored,
@@ -191,8 +192,6 @@ export default function StoredForecastingParameters({
     );
   }
 
-  console.log("forecastingParametersFiltered: ", forecastingParametersFiltered);
-
   const snTransStoredData = storedToForecastingParameters(
     forecastingParametersFiltered,
     dayFormat,
@@ -270,10 +269,6 @@ export default function StoredForecastingParameters({
                   currentRow,
                   rows.length
                 );
-                console.log(
-                  "Logged output --> ~ file: StoredForecastingParameters.tsx ~ line 324 ~ generateColumns ~ clonedRow",
-                  clonedRow
-                );
 
                 const newRows = [...forecastingParametersStored, clonedRow];
 
@@ -315,38 +310,18 @@ export default function StoredForecastingParameters({
                   );
 
                   dispatch(
-                    updateNetworkParameterAction(
-                      "selectedDeclineParametersId",
-                      currentRow.wellDeclineParameterId
-                    )
-                  );
-
-                  dispatch(
-                    updateNetworkParameterAction(
-                      "selectedDeclineParametersTitle",
-                      currentRow.wellDeclineParameterTitle
-                    )
-                  );
-
-                  dispatch(
-                    updateNetworkParameterAction(
-                      "selectedProductionPrioritizationId",
-                      currentRow.wellPrioritizationId
-                    )
-                  );
-
-                  dispatch(
-                    updateNetworkParameterAction(
-                      "selectedProductionPrioritizationTitle",
-                      currentRow.wellPrioritizationTitle
-                    )
-                  );
-
-                  dispatch(
-                    updateNetworkParameterAction(
-                      "selectedForecastingParametersId",
-                      row.forecastingParametersId
-                    )
+                    updateNetworkParametersAction({
+                      selectedDeclineParametersId:
+                        currentRow.wellDeclineParameterId,
+                      selectedDeclineParametersTitle:
+                        currentRow.wellDeclineParameterTitle,
+                      selectedProductionPrioritizationId:
+                        currentRow.wellPrioritizationId,
+                      selectedProductionPrioritizationTitle:
+                        currentRow.wellPrioritizationTitle,
+                      selectedForecastingParametersId:
+                        row.forecastingParametersId,
+                    })
                   );
                 }}
               />

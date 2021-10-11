@@ -552,7 +552,6 @@ export const getProductionPrioritizationByIdRequestAction = (
   reducer: ReducersType,
   isCreateOrEdit: boolean
 ) => {
-  console.log("getProductionPrioritizationByIdRequestAction called");
   return {
     type: GET_PRODUCTIONPRIORITIZATIONBYID_REQUEST,
     payload: {

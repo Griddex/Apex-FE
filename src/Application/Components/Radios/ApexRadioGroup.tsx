@@ -2,7 +2,7 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio, { RadioProps } from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React from "react";
 import { IApexRadioGroup } from "./ApexGridRadioTypes";
@@ -60,14 +60,18 @@ function StyledRadio(props: RadioProps) {
   );
 }
 
-const ApexRadioGroup = ({ apexRadioDataGroup }: IApexRadioGroup) => {
+const ApexRadioGroup = ({ apexRadioGroupData }: IApexRadioGroup) => {
   const [selectedValue, setSelectedValue] = React.useState("");
+  console.log(
+    "🚀 ~ file: ApexRadioGroup.tsx ~ line 65 ~ ApexRadioGroup ~ selectedValue",
+    selectedValue
+  );
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sVal = (event.target as HTMLInputElement).value;
     setSelectedValue(sVal);
 
-    const handleCheck = apexRadioDataGroup.find(
+    const handleCheck = apexRadioGroupData.find(
       (obj) => obj.value === sVal
     )?.handleCheck;
     handleCheck && handleCheck();
@@ -81,7 +85,7 @@ const ApexRadioGroup = ({ apexRadioDataGroup }: IApexRadioGroup) => {
         value={selectedValue}
         onChange={handleRadioChange}
       >
-        {apexRadioDataGroup.map((obj, i) => {
+        {apexRadioGroupData.map((obj, i) => {
           const { value, label } = obj;
 
           return (
@@ -99,8 +103,8 @@ const ApexRadioGroup = ({ apexRadioDataGroup }: IApexRadioGroup) => {
 };
 
 export default React.memo(ApexRadioGroup, (prev, next) => {
-  const prevStr = prev.apexRadioDataGroup.map((obj) => obj.value).join();
-  const nextStr = next.apexRadioDataGroup.map((obj) => obj.value).join();
+  const prevStr = prev.apexRadioGroupData.map((obj) => obj.value).join();
+  const nextStr = next.apexRadioGroupData.map((obj) => obj.value).join();
 
   return prevStr === nextStr;
 });

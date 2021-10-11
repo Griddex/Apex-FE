@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { ReactFlowProvider } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
@@ -237,8 +237,8 @@ const NetworkLanding = () => {
                   ),
                   productionPrioritizationCreate: (
                     <ProductionStreamPrioritization
-                      workflowProcess={"productionPrioritizationCreate"}
-                      containerStyle={{ boxShadow: "none" }}
+                    // workflowProcess={"productionPrioritizationCreate"}
+                    // containerStyle={{ boxShadow: "none" }}
                     />
                   ),
                 };

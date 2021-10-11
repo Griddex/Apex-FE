@@ -40,6 +40,7 @@ import {
   UPDATE_FORECASTPARAMETERS,
   UPDATE_FORECASTRESULT_PARAMETERS,
   UPDATE_SELECTEDIDTITLE,
+  RESET_FORECAST_CHARTWORKFLOWS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -412,6 +413,14 @@ const forecastReducer = (
           [selectedOptionTitle]: selectedForecastChartOption,
         };
       else return state;
+    }
+
+    case RESET_FORECAST_CHARTWORKFLOWS: {
+      return {
+        ...state,
+        forecastChartsWorkflows: forecastState.forecastChartsWorkflows,
+        selectedModuleIds: forecastState.selectedModuleIds,
+      };
     }
 
     case RESET_FORECAST: {

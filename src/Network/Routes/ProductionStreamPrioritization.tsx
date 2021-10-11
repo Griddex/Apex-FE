@@ -1,13 +1,14 @@
-import { Typography, useTheme } from "@mui/material";
 import CancelPresentationOutlinedIcon from "@mui/icons-material/CancelPresentationOutlined";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { Typography, useTheme } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import camelCase from "lodash.camelcase";
 import capitalize from "lodash.capitalize";
 import omit from "lodash.omit";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column, FormatterProps } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
@@ -24,33 +25,41 @@ import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexG
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 
-const ProductionStreamPrioritization = ({
-  workflowProcess,
-  containerStyle,
-}: IStoredDataProps) => {
+const ProductionStreamPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
+
+  console.log("Production Prioritizationnnnnnnnnnnnnnnnnnnn");
 
   const {
     selectedTableData,
     prioritizationPerspective,
     selectedStreamPrioritization,
-  } = useSelector((state: RootState) => state.networkReducer);
+  } = useSelector(
+    (state: RootState) => {
+      const {
+        selectedTableData,
+        prioritizationPerspective,
+        selectedStreamPrioritization,
+      } = state.networkReducer;
 
-  /* const {
-    selectedTableData
-  } = useSelector((state: RootState) => state.inputReducer); */
+      return {
+        selectedTableData,
+        prioritizationPerspective,
+        selectedStreamPrioritization,
+      };
+    },
+    (prev, next) => isEqual(prev, next)
+  );
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
     prioritizationPerspective ? prioritizationPerspective : "No Prioritization"
   );
 
-  const [streamOption, setStreamOption] = React.useState({
-    value: camelCase(selectedStreamPrioritization),
-    label: capitalize(selectedStreamPrioritization),
-  });
+  const [streamValue, setStreamValue] = React.useState(
+    camelCase(selectedStreamPrioritization)
+  );
 
   const snSelectedTableData = selectedTableData.map(
     (row: IRawRow, i: number) => {
@@ -59,29 +68,24 @@ const ProductionStreamPrioritization = ({
       return { sn: i + 1, ...rowFiltered };
     }
   );
-  console.log("selectedTableData: ", selectedTableData);
-
-  console.log("snSelectedTableData: ", snSelectedTableData);
 
   const [rows, setRows] = React.useState(snSelectedTableData);
 
   const NoPrioritization = () => {
     return (
-      <ApexFlexContainer>
-        <ApexFlexContainer
-          flexDirection="column"
-          moreStyles={{
-            width: 500,
-            height: 300,
-            backgroundColor: theme.palette.grey["200"],
-          }}
-        >
-          <CancelPresentationOutlinedIcon fontSize="large" />
-          <strong>{"No prioritization will be applied"}</strong>
-          <Typography>
-            {`Full facility capacity will be available to all streams`}
-          </Typography>
-        </ApexFlexContainer>
+      <ApexFlexContainer
+        flexDirection="column"
+        moreStyles={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: theme.palette.grey["200"],
+        }}
+      >
+        <CancelPresentationOutlinedIcon fontSize="large" />
+        <strong>{"No prioritization will be applied"}</strong>
+        <Typography>
+          {`Full facility capacity will be available to all streams`}
+        </Typography>
       </ApexFlexContainer>
     );
   };
@@ -173,61 +177,61 @@ const ProductionStreamPrioritization = ({
     );
   };
 
-  const StreamPrioritization = () => {
-    const streamPrioritizationData = [
-      {
-        value: "none",
-        label: "None",
-        handleCheck: () => {
-          setStreamOption({
-            value: "none",
-            label: "None",
-          });
+  const StreamPrioritization = React.memo(() => {
+    console.log("Stream Prioritaizationnnnnnnnnnnnnnnnn");
+    const streamPrioritizationData = React.useMemo(
+      () => [
+        {
+          value: "none",
+          label: "None",
+          handleCheck: () => {
+            setStreamValue("none");
+          },
         },
-      },
-      {
-        value: "oil",
-        label: "Oil",
-        handleCheck: () => {
-          setStreamOption({
-            value: "oil",
-            label: "Oil",
-          });
+        {
+          value: "oil",
+          label: "Oil",
+          handleCheck: () => {
+            setStreamValue("oil");
+          },
         },
-      },
-      {
-        value: "non-associated gas",
-        label: "Non-Associated Gas",
-        handleCheck: () => {
-          setStreamOption({
-            value: "non-associated gas",
-            label: "Non-Associated Gas",
-          });
+        {
+          value: "non-associated gas",
+          label: "Non-Associated Gas",
+          handleCheck: () => {
+            setStreamValue("non-associated gas");
+          },
         },
-      },
-      {
-        value: "condensate",
-        label: "Condensate",
-        handleCheck: () => {
-          setStreamOption({
-            value: "condensate",
-            label: "Condensate",
-          });
+        {
+          value: "condensate",
+          label: "Condensate",
+          handleCheck: () => {
+            setStreamValue("condensate");
+          },
         },
-      },
-    ];
+      ],
+      []
+    );
 
     return (
-      <AnalyticsComp
-        title={streamOption.label}
-        direction="Vertical"
-        containerStyle={{ marginTop: 20 }}
-        content={
-          <ApexRadioGroup apexRadioDataGroup={streamPrioritizationData} />
-        }
-      />
+      <ApexFlexContainer
+        moreStyles={{
+          backgroundColor: theme.palette.grey["200"],
+        }}
+      >
+        <AnalyticsComp
+          title={streamValue}
+          direction="Vertical"
+          containerStyle={{
+            marginTop: 20,
+          }}
+          content={
+            <ApexRadioGroup apexRadioGroupData={streamPrioritizationData} />
+          }
+        />
+      </ApexFlexContainer>
     );
-  };
+  });
 
   const renderPrioritization = (prtznPerspective: string) => {
     switch (prtznPerspective) {

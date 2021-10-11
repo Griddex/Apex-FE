@@ -53,10 +53,6 @@ export default function ApexTreeView({
   dragDropTypes,
   height,
 }: IApexTreeView) {
-  console.log(
-    "🚀 ~ file: ApexTreeView.tsx ~ line 75 ~ selectedIds",
-    selectedIds
-  );
   const classes = useStyles();
 
   const initExpanded = rootTree?.children?.map(
