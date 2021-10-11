@@ -72,7 +72,9 @@ const AnalyticsComp: React.FC<IAnalyticsCompProps> = (props) => {
           {title}
         </Typography>
       </div>
-      <div style={{ width: "100%", marginLeft: 3, ...contentStyle }}>
+      <div
+        style={{ width: "100%", marginLeft: 3, marginTop: 3, ...contentStyle }}
+      >
         {content}
       </div>
     </div>

@@ -62,6 +62,9 @@ import {
   GET_ECONOMICSPLOT_CHARTDATA_SUCCESS,
   TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
   RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS,
+  RESET_PLOTCHARTS_CHARTWORKFLOWS,
+  RESET_HEATMAP_CHARTWORKFLOWS,
+  RESET_TEMPLATE_CHARTWORKFLOWS,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -467,6 +470,75 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       } else {
         return state;
       }
+    }
+
+    case RESET_PLOTCHARTS_CHARTWORKFLOWS: {
+      const {
+        economicsChartsWorkflows,
+        selectedEconomicsPlotChartOption,
+        showPlotChartsCategories,
+        plotChartsVariableXOptions,
+        plotChartsVariableYOptions,
+        plotChartsSecondaryVariableYOptions,
+        plotChartsVariableZOptions,
+        plotChartsVariableROptions,
+        showPlotChartsCategoryMembersObj,
+        plotChartsCategoryDragItems,
+        plotChartsCategoryHasDropped,
+      } = EconomicsState;
+
+      return {
+        ...state,
+        economicsChartsWorkflows,
+        selectedEconomicsPlotChartOption,
+        showPlotChartsCategories,
+        plotChartsVariableXOptions,
+        plotChartsVariableYOptions,
+        plotChartsSecondaryVariableYOptions,
+        plotChartsVariableZOptions,
+        plotChartsVariableROptions,
+        showPlotChartsCategoryMembersObj,
+        plotChartsCategoryDragItems,
+        plotChartsCategoryHasDropped,
+      };
+    }
+
+    case RESET_HEATMAP_CHARTWORKFLOWS: {
+      const {
+        sensitivitiesHeatMapData,
+        sensitivitiesHeatMap1or2D,
+        heatMapStylingData,
+        economicsChartsWorkflows,
+        heatMapVariableXOptions,
+        heatMapVariableYOptions,
+        heatMapVariableZOptions,
+        showPlotChartsCategoryMembersObj,
+        plotChartsCategoryDragItems,
+        plotChartsCategoryHasDropped,
+      } = EconomicsState;
+
+      return {
+        ...state,
+        sensitivitiesHeatMapData,
+        sensitivitiesHeatMap1or2D,
+        heatMapStylingData,
+        economicsChartsWorkflows,
+        heatMapVariableXOptions,
+        heatMapVariableYOptions,
+        heatMapVariableZOptions,
+        showPlotChartsCategoryMembersObj,
+        plotChartsCategoryDragItems,
+        plotChartsCategoryHasDropped,
+      };
+    }
+
+    case RESET_TEMPLATE_CHARTWORKFLOWS: {
+      const { economicsChartsWorkflows } = EconomicsState;
+
+      return {
+        ...state,
+        economicsChartsWorkflows,
+      };
     }
 
     case RESET_ECONOMICS: {

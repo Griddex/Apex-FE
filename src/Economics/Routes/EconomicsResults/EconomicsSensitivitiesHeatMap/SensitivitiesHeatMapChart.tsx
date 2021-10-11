@@ -25,6 +25,8 @@ import {
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
+import WithUnit from "../../../../Application/HOCs/WithUnit";
+
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
 }
@@ -122,17 +124,22 @@ const SensitivitiesHeatMapChart = ({
 
   return (
     <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
-      <ApexFlexContainer width={300} height={50}>
-        <ApexSelectRS
-          valueOption={analysisOption}
-          data={resultsAnalyisOptions}
-          handleSelect={(option: ValueType<ISelectOption, false>) =>
-            setAnalysisOption(option as ISelectOption)
-          }
-          menuPortalTarget={document.body}
-          isSelectOptionType={true}
-        />
-      </ApexFlexContainer>
+      <WithUnit
+        innerComponent={
+          <ApexFlexContainer width={300} height={50}>
+            <ApexSelectRS
+              valueOption={analysisOption}
+              data={resultsAnalyisOptions}
+              handleSelect={(option: ValueType<ISelectOption, false>) =>
+                setAnalysisOption(option as ISelectOption)
+              }
+              menuPortalTarget={document.body}
+              isSelectOptionType={true}
+            />
+          </ApexFlexContainer>
+        }
+        unitValue={analysisOption?.value as string}
+      />
 
       <ApexFlexContainer
         width={"95%"}

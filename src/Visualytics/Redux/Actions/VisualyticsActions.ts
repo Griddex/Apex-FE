@@ -62,6 +62,9 @@ export const TRANSFORM_VISUALYTICS_CHARTDATA_SUCCESS =
 export const TRANSFORM_VISUALYTICS_CHARTDATA_FAILURE =
   "TRANSFORM_VISUALYTICS_CHARTDATA_FAILURE";
 
+export const RESET_VISUALYTICS_CHARTWORKFLOWS =
+  "RESET_VISUALYTICS_CHARTWORKFLOWS";
+
 export const updateVisualyticsParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_VISUALYTICSPARAMETER,
@@ -385,8 +388,16 @@ export const resetChartDataAction = (
   };
 };
 
+export const resetVisualyticsChartsWorkflowsAction = () => {
+  return {
+    type: RESET_VISUALYTICS_CHARTWORKFLOWS,
+  };
+};
+
 export const resetChartAction = () => {
   return {
     type: RESET_CHART,
   };
 };
+
+//resetVisualyticsChartsWorkflowsAction

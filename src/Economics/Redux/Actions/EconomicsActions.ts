@@ -151,6 +151,11 @@ export const ECONOMICSHEATMAP_UPDATE_DRAGITEMS =
 
 export const ECONOMICS_REMOVE_CHARTCATEGORY = "ECONOMICS_REMOVE_CHARTCATEGORY";
 
+export const RESET_PLOTCHARTS_CHARTWORKFLOWS =
+  "RESET_PLOTCHARTS_CHARTWORKFLOWS";
+export const RESET_HEATMAP_CHARTWORKFLOWS = "RESET_HEATMAP_CHARTWORKFLOWS";
+export const RESET_TEMPLATE_CHARTWORKFLOWS = "RESET_TEMPLATE_CHARTWORKFLOWS";
+
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_ECONOMICSPARAMETER,
@@ -868,6 +873,24 @@ export const updateEconomicsPlotChartsHasDroppedAction = (
       id,
       hasDropped,
     },
+  };
+};
+
+export const resetPlotChartsWorkflowsAction = () => {
+  return {
+    type: RESET_PLOTCHARTS_CHARTWORKFLOWS,
+  };
+};
+
+export const resetHeatMapWorkflowsAction = () => {
+  return {
+    type: RESET_HEATMAP_CHARTWORKFLOWS,
+  };
+};
+
+export const resetTemplateChartsWorkflowsAction = () => {
+  return {
+    type: RESET_TEMPLATE_CHARTWORKFLOWS,
   };
 };
 

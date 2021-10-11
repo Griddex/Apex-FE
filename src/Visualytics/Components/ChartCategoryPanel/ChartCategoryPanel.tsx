@@ -43,7 +43,7 @@ const CategoryPanelComponent = ({
       containerStyle={{ marginTop: 20, alignItems: "flex-start" }}
       content={
         <ApexRadioGroup
-          apexRadioDataGroup={variableData as IExtendedSelectOption[]}
+          apexRadioGroupData={variableData as IExtendedSelectOption[]}
         />
       }
     />

@@ -1,3 +1,4 @@
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -14,12 +15,9 @@ import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCate
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
-  updateVisualyticsDragItemsAction,
-  updateVisualyticsHasDroppedAction,
-} from "../../../../Visualytics/Redux/Actions/VisualyticsActions";
-import {
   fetchEconomicsTreeviewKeysRequestAction,
   removeEconomicsChartCategoryAction,
+  resetHeatMapWorkflowsAction,
   updateEconomicsChartCategoryAction,
   updateEconomicsHeatMapDragItemsAction,
   updateEconomicsHeatMapHasDroppedAction,
@@ -194,6 +192,8 @@ const SensitivitiesHeatMapDataPanel = ({
 
       clearChartCategories();
     }
+
+    dispatch(resetHeatMapWorkflowsAction());
   };
 
   React.useEffect(() => {
@@ -305,7 +305,12 @@ const SensitivitiesHeatMapDataPanel = ({
       secondarySelectComponent={DevelopmentScenarios}
       treeViewComponent={
         devOption.label === "Select..."
-          ? NoSelectionPlaceholder
+          ? () => (
+              <NoSelectionPlaceholder
+                icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                text="Select result.."
+              />
+            )
           : SensitivitiesHeatMapTreeView
       }
       extrudeCategories={extrudeCategories}

@@ -11,6 +11,7 @@ import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartType
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   removeEconomicsChartCategoryAction,
+  resetPlotChartsWorkflowsAction,
   updateEconomicsChartCategoryAction,
   updateEconomicsParameterAction,
   updateEconomicsParametersAction,
@@ -19,6 +20,7 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 
 const EconomicsPlotChartsDataPanel = ({
   setSelectedZ,
@@ -139,6 +141,8 @@ const EconomicsPlotChartsDataPanel = ({
         )
       );
     }
+
+    dispatch(resetPlotChartsWorkflowsAction());
   };
 
   const categoryPanelWidth = 250;
@@ -193,7 +197,12 @@ const EconomicsPlotChartsDataPanel = ({
       selectedTitle={selectedEconomicsResultsTitle}
       treeViewComponent={
         economicsResultOption.title === "Select..."
-          ? NoSelectionPlaceholder
+          ? () => (
+              <NoSelectionPlaceholder
+                icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                text="Select result.."
+              />
+            )
           : EconomicsPlotChartsTreeView
       }
       extrudeCategories={extrudeCategories}

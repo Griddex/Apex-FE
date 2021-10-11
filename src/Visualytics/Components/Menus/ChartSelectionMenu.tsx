@@ -56,13 +56,18 @@ const ChartSelectionMenu = ({
       <Button
         className={classes.label}
         onClick={handleClick}
-        startIcon={<ShowChartOutlinedIcon />}
-        endIcon={<KeyboardArrowDownIcon />}
+        startIcon={
+          <ShowChartOutlinedIcon htmlColor={theme.palette.grey["800"]} />
+        }
+        endIcon={
+          <KeyboardArrowDownIcon htmlColor={theme.palette.grey["800"]} />
+        }
         style={{
           height: 28,
           backgroundColor: theme.palette.primary.light,
           border: `1px solid ${theme.palette.primary.main}`,
           width: 200,
+          color: theme.palette.grey["800"],
         }}
       >
         {plotChartOption.label}

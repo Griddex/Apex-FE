@@ -34,6 +34,7 @@ import {
   PUT_SELECTCHART_SUCCESS,
   RESET_CHART,
   RESET_CHART_DATA,
+  RESET_VISUALYTICS_CHARTWORKFLOWS,
   SET_CHARTCELLCOLORS,
   SET_CHARTCOLOR,
   SET_CHARTOBJECT,
@@ -364,6 +365,35 @@ const visualyticsReducer = (
           },
         };
       } else return state;
+    }
+
+    case RESET_VISUALYTICS_CHARTWORKFLOWS: {
+      const {
+        selectedVisualyticsChartOption,
+        visualyticsChartsWorkflows,
+        visualyticsVariableXOptions,
+        visualyticsVariableYOptions,
+        visualyticsSecondaryVariableYOptions,
+        visualyticsVariableZOptions,
+        visualyticsVariableROptions,
+        showVisualyticsCategoryMembersObj,
+        visualyticsCategoryDragItems,
+        visualyticsCategoryHasDropped,
+      } = visualyticsState;
+
+      return {
+        ...state,
+        selectedVisualyticsChartOption,
+        visualyticsChartsWorkflows,
+        visualyticsVariableXOptions,
+        visualyticsVariableYOptions,
+        visualyticsSecondaryVariableYOptions,
+        visualyticsVariableZOptions,
+        visualyticsVariableROptions,
+        showVisualyticsCategoryMembersObj,
+        visualyticsCategoryDragItems,
+        visualyticsCategoryHasDropped,
+      };
     }
 
     case RESET_CHART: {
