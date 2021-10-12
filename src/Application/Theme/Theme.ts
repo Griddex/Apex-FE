@@ -1,6 +1,5 @@
 import { grey } from "@mui/material/colors";
-import { createTheme, alpha } from "@mui/material/styles";
-import { shadows } from "@mui/system";
+import { alpha, createTheme } from "@mui/material/styles";
 
 const ApexPalette = {
   primary: { light: "#EDFBFD", main: "#14A9C1", dark: "#0A515C" },
@@ -87,11 +86,19 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          borderRadius: 0,
+          border: `1px solid ${grey[500]}`,
+          outline: `1px solid transparent`,
+          padding: 1,
+          "&:hover": {
+            border: `1px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+          },
+          "&:active": {
+            outline: `2px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+          },
+          borderRadius: 1,
         },
-      },
-      defaultProps: {
-        InputProps: { style: { borderRadius: 0 } },
       },
     },
 
@@ -100,9 +107,12 @@ const theme = createTheme({
         root: {
           borderRadius: 0,
         },
-        // notchedOutline: {
-        //   display: "none",
-        // },
+        input: {
+          padding: 0,
+        },
+        notchedOutline: {
+          display: "none",
+        },
       },
     },
 
@@ -111,6 +121,7 @@ const theme = createTheme({
         root: {
           height: 36,
           borderRadius: 2,
+
           // "&:hover": { backgroundColor: "#F7F7F7" },
           //       input:-webkit-autofill,
           // input:-webkit-autofill:hover,
@@ -130,6 +141,7 @@ const theme = createTheme({
         input: {
           // "&:hover": { opacity: 0, color: grey[900] },
           // "&:focus": { opacity: 0, color: grey[900] },
+
           "&:-webkit-autofill": {
             WebkitBoxShadow: "0 0 0 100px #FFF inset",
             WebkitTextFillColor: `${grey[900]}`,
@@ -139,20 +151,6 @@ const theme = createTheme({
     },
 
     MuiInput: {
-      styleOverrides: {
-        root: {
-          top: apexSpacing * 2,
-          border: `1px solid ${grey[500]}`,
-          outline: `1px solid transparent`,
-          padding: apexSpacing,
-          "&.Mui-focused": {
-            border: `1px solid ${ApexPalette.primary.main}`,
-            outline: `1px solid ${ApexPalette.primary.main}`,
-            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
-          },
-          borderRadius: 0,
-        },
-      },
       defaultProps: {
         disableUnderline: true,
       },
@@ -167,7 +165,6 @@ const theme = createTheme({
           fontSize: 14,
         },
         arrow: {
-          // backgroundColor: "white",
           color: "white",
         },
       },
