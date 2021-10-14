@@ -1,9 +1,13 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -63,6 +67,11 @@ export default function PreviewSave({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
+  );
+
   const {
     currentDevOption,
     fileHeaderUnitIdMap,
@@ -74,14 +83,19 @@ export default function PreviewSave({
     selectedUnitRowIndex,
     matchHeadersTable,
     matchUnitsTable,
-  } = useSelector((state: RootState) => state[reducer][wc][wp]);
+  } = useSelector(workflowProcessSelector);
+
+  const reducerSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer],
+    (reducer) => reducer
+  );
 
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
     costsRevenuesAppHeaders: cRHeaders,
     economicsParametersAppHeaders,
-  } = useSelector((state: RootState) => state[reducer]);
+  } = useSelector(reducerSelector);
 
   let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
   if (reducer === "economicsReducer") {

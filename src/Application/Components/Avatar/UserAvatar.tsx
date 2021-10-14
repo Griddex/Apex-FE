@@ -1,11 +1,15 @@
-import React from "react";
-import Dropzone from "react-dropzone";
-import makeStyles from '@mui/styles/makeStyles';
-import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { RootState } from "../../Redux/Reducers/AllReducers";
+import makeStyles from "@mui/styles/makeStyles";
+import React from "react";
+import Dropzone from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { persistUserAvatarAction } from "../../../Administration/Redux/Actions/UserActions";
+import { RootState } from "../../Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles(() => ({
   dropZone: {
@@ -39,10 +43,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const avatarUrlSelector = createDeepEqualSelector(
+  (state: RootState) => state.adminReducer.avatarUrl,
+  (avatarUrl) => avatarUrl
+);
+
 const UserAvatar: React.FC<JSX.Element> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { avatarUrl } = useSelector((state: RootState) => state.adminReducer);
+
+  const avatarUrl = useSelector(avatarUrlSelector);
 
   return (
     <Dropzone

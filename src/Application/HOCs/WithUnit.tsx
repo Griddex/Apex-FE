@@ -5,11 +5,20 @@ import {
   IUnitsRow,
 } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { RootState } from "../Redux/Reducers/AllReducers";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export interface IWithUnit {
   innerComponent: JSX.Element;
   unitValue: string;
 }
+
+const unitSettingsPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
 
 const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
   const unitValueLower = unitValue?.toLowerCase();
@@ -22,11 +31,7 @@ const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
   const InnerComponent = innerComponent as JSX.Element;
 
   const { variableNameUnitsMap, variableUnits } = useSelector(
-    (state: RootState) => {
-      const { variableNameUnitsMap, variableUnits } = state.unitSettingsReducer;
-      return { variableNameUnitsMap, variableUnits };
-    },
-    () => true
+    unitSettingsPropsSelector
   );
 
   let displayUnitsObj = {} as IUnit;

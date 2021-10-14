@@ -1,3 +1,9 @@
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import CalendarViewDayOutlinedIcon from "@mui/icons-material/CalendarViewDayOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import StorageIcon from "@mui/icons-material/Storage";
 import {
   Button,
   ListItemIcon,
@@ -6,15 +12,12 @@ import {
   useTheme,
 } from "@mui/material";
 import Menu from "@mui/material/Menu";
-import { CSSProperties } from "react";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import CalendarViewDayOutlinedIcon from "@mui/icons-material/CalendarViewDayOutlined";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import StorageIcon from "@mui/icons-material/Storage";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -29,13 +32,16 @@ import {
   updateNetworkParameterAction,
 } from "../../Redux/Actions/NetworkActions";
 
+const isNetworkAutoSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.isNetworkAuto,
+  (isAuto) => isAuto
+);
+
 const NetworkButtonsMenu = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { isNetworkAuto } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const isNetworkAuto = useSelector(isNetworkAutoSelector);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 

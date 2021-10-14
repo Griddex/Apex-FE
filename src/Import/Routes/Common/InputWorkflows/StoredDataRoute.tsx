@@ -1,13 +1,17 @@
-import { ClickAwayListener, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
@@ -79,6 +83,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
+
 const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
   (
     {
@@ -113,7 +122,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const wc = wcc == null ? "" : wcc;
 
     const { dayFormat, monthFormat, yearFormat } = useSelector(
-      (state: RootState) => state.unitSettingsReducer
+      unitSettingsSelector
     ) as IUnitSettingsData;
 
     const [selectedRows, setSelectedRows] = React.useState(
@@ -123,7 +132,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
 
     const snStoredDataCopy = snStoredData as IStoredDataRow[];
     const currentRows = snStoredData as IStoredDataRow[];
-    const rowIndex: number = currentRows.length;
 
     const [rows, setRows] = React.useState(currentRows);
 

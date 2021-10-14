@@ -1,8 +1,17 @@
-import { Box, Chip, useTheme } from "@mui/material";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
+import { Box, Chip, useTheme } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+
+const forecastSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer,
+  (reducer) => reducer
+);
 
 const ForecastChartTitlePlaque = () => {
   const theme = useTheme();
@@ -11,7 +20,7 @@ const ForecastChartTitlePlaque = () => {
     selectedForecastingResultsTitle,
     selectedForecastingResultsId,
     isForecastResultsSaved,
-  } = useSelector((state: RootState) => state.forecastReducer);
+  } = useSelector(forecastSelector);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>

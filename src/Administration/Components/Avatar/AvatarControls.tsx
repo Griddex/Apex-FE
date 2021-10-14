@@ -25,10 +25,6 @@ const AvatarControls = ({
 
   const { width, height, scale, position, borderRadius, border, rotate } =
     avatarProps;
-  console.log(
-    "Logged output --> ~ file: AvatarControls.tsx ~ line 219 ~ avatarProps",
-    avatarProps
-  );
 
   return (
     <ApexFlexContainer

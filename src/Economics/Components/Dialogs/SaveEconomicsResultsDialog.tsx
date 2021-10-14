@@ -3,8 +3,8 @@ import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
@@ -17,6 +17,10 @@ import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SaveEconomicsResultsDialogButtons from "../DialogButtons/SaveEconomicsResultsDialogButtons";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,7 +75,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -87,7 +91,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -106,13 +111,16 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const economicsResultTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["economicsResultTitles"],
+  (title) => title
+);
+
 const SaveEconomicsResultsDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
 
-  const storedTitles = useSelector(
-    (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["economicsResultTitles"]
-  );
+  const storedTitles = useSelector(economicsResultTitlesSelector);
 
   const { title, show, maxWidth, iconType } = props;
   const [isSaveEconomicsResultsValid, setIsSaveEconomicsResultsValid] =

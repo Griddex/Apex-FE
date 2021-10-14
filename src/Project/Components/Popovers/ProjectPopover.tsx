@@ -1,12 +1,16 @@
-import { ListItemIcon, MenuItem, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
 import CheckBoxOutlineBlankOutlinedIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ImageAspectRatioOutlinedIcon from "@mui/icons-material/ImageAspectRatioOutlined";
+import { ListItemIcon, MenuItem, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
@@ -60,14 +64,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const projectSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer,
+  (reducer) => reducer
+);
+
 const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
 
-  const { storedProjects } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const { storedProjects } = useSelector(projectSelector);
 
   const recentProjects = storedProjects.slice(0, 6);
 
@@ -76,7 +83,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     selectedProjectTitle,
     selectedProjectDescription,
     currentProjectId,
-  } = useSelector((state: RootState) => state.projectReducer);
+  } = useSelector(projectSelector);
 
   const ApexMenuItem = ({
     projectId,

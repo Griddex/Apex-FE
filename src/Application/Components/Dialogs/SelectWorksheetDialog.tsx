@@ -12,8 +12,8 @@ import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme, useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -32,6 +32,10 @@ import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IInputWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -86,7 +90,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -102,7 +106,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -150,9 +155,13 @@ const SelectWorksheetDialog = (props: DialogStuff) => {
   const wp = workflowProcess as IInputWorkflows["wkPs"];
   const reducerDefined = reducer as NonNullable<ReducersType>;
 
-  const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
+  const workflowSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp],
+    (workflowProps) => workflowProps
   );
+
+  const { skipped, isStepSkipped, activeStep, steps } =
+    useSelector(workflowSelector);
 
   const [selectedWorksheetName, setSelectedWorksheetName] = React.useState("");
 

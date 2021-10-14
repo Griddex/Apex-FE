@@ -1,4 +1,5 @@
 import { CSSProperties } from "react";
+
 export interface IEconomicsInputButton {
   name: string;
   className: string;
@@ -7,6 +8,7 @@ export interface IEconomicsInputButton {
   styles?: CSSProperties;
   handleClick: (event: React.ChangeEvent<any>) => void;
 }
+
 interface ISubNavbarElement {
   name: string;
   route: string;
@@ -17,13 +19,9 @@ interface ISubNavbarElement {
   ButtonMenu?: JSX.Element;
   hasWrapper?: boolean;
   component: () => JSX.Element;
-  // component: ({
-  //   children,
-  // }: {
-  //   children: (props: IEconomicsInputButton) => JSX.Element;
-  // }) => JSX.Element;
   action?: () => void;
 }
+
 export type ISubNavbarData = ISubNavbarElement[];
 
 export interface ISubNavbar {

@@ -1,6 +1,10 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
@@ -54,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
     width: "97%",
     alignItems: "center",
     justifyContent: "center", //around, between
-    // justifyContent: "space-evenly", //around, between
   },
   workflowDatabasePanel: {
     display: "flex",
@@ -93,6 +96,15 @@ const steps = [
   "Economics Analyses",
 ];
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (drawer) => drawer
+);
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
 const EconomicsAnalysesWorkflow = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -101,16 +113,18 @@ const EconomicsAnalysesWorkflow = () => {
   const wp = "economicsAnalyses";
 
   const skipped = new Set<number>();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+
+  const activeStepSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
+    (reducer) => reducer
   );
-  const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
-  );
-  const applicationData = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const { moduleName, subModuleName, workflowName } = applicationData;
+
+  const activeStep = useSelector(activeStepSelector);
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
 
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);

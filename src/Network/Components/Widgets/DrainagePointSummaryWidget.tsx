@@ -8,6 +8,10 @@ import {
   XYPosition,
 } from "react-flow-renderer";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -99,10 +103,13 @@ const DrainagePointSummaryWidget = ({ drainagePoints }: IWidget) => {
   );
 };
 
+const isNetworkAutoSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.isNetworkAuto,
+  (isAuto) => isAuto
+);
+
 const DrainagePointSummaryNode = React.memo((props: Node & IExtraNodeProps) => {
-  const { isNetworkAuto } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const isNetworkAuto = useSelector(isNetworkAutoSelector);
 
   if (!isNetworkAuto) {
     props = {

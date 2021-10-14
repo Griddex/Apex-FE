@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { omit } from "lodash";
 import capitalize from "lodash.capitalize";
 import React from "react";
@@ -39,6 +39,10 @@ import {
   persistFileUnitsAndUniqueUnitsAction,
   persistTableRoleNamesAction,
 } from "../../../Redux/Actions/InputActions";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   rootParseTable: {
@@ -63,9 +67,12 @@ export default function SelectHeaderUnitData({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
-  const { selectedWorksheetData } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
   );
+
+  const { selectedWorksheetData } = useSelector(workflowProcessSelector);
 
   //Generate actual ColumnHeaders
   const rawTableHeaders = getTableHeaders(selectedWorksheetData);

@@ -1,11 +1,15 @@
-import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
@@ -70,11 +74,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (drawer) => drawer
+);
+
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
+
 const EconomicsPlotChartsVisualytics = () => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
-  const wp = "economicsResultsPlotCharts";
-  const ch = "stackedAreaChart";
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -83,16 +95,14 @@ const EconomicsPlotChartsVisualytics = () => {
   const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer, expandContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const {
     plotChartsResults,
     xValueCategories,
     showPlotChartsCategories,
     selectedEconomicsPlotChartOption,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  } = useSelector(economicsSelector);
 
   const [showCategories, setShowCategories] = React.useState(
     showPlotChartsCategories
@@ -245,7 +255,7 @@ const EconomicsPlotChartsVisualytics = () => {
           {chartType === "Select Chart..." ? (
             <NoSelectionPlaceholder
               icon={<ArrowUpwardOutlinedIcon color="primary" />}
-              text="Select a chart.."
+              text="Select chart.."
             />
           ) : (
             <EconomicsPlotChartsSelectChart />

@@ -1,11 +1,15 @@
-import { Button, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import ViewDayTwoToneIcon from "@mui/icons-material/ViewDayTwoTone";
+import { Button, Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -24,7 +28,6 @@ import {
   runEconomicsAnalysisRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
-  updateEconomicsParametersAction,
 } from "../../Redux/Actions/EconomicsActions";
 import {
   IEconomicsAnalysis,
@@ -79,18 +82,19 @@ const EconomicsAnalysis = ({
   const dispatch = useDispatch();
   const theme = useTheme();
 
+  const reducer = "economicsReducer";
   const wc = "economicsAnalysisWorkflows";
   const wp = workflowProcess as NonNullable<
     IEconomicsParametersSensitivitiesProps["workflowProcess"]
   >;
 
-  const reducer = "economicsReducer";
-  const { showSensitivitiesTable, sensitivitiesTable } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
-    // () => false
-    // (left, right) =>
-    //   left.showSensitivitiesTable === right.showSensitivitiesTable
+  const economicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
   );
+
+  const { showSensitivitiesTable, sensitivitiesTable } =
+    useSelector(economicsWCSelector);
 
   const selectedAnalysisDefined =
     selectedAnalysis as NonNullable<IEconomicsAnalysis>;

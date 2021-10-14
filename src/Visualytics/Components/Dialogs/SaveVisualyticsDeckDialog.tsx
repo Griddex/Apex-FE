@@ -1,15 +1,19 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
@@ -61,7 +65,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -77,7 +81,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -96,14 +101,17 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const visualyticsTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["visualyticsTitles"],
+  (title) => title
+);
+
 const SaveVisualyticsDeckDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 
-  const storedTitles = useSelector(
-    (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["visualyticsTitles"]
-  );
+  const storedTitles = useSelector(visualyticsTitlesSelector);
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");

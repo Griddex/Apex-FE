@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
@@ -40,6 +40,10 @@ import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -90,17 +94,29 @@ const useStyles = makeStyles(() => ({
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (redcuer) => redcuer
+);
+
 const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { success, nodeElements, edgeElements } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+  const {
+    success,
+    nodeElements,
+    edgeElements,
+    currentPopoverData,
+    showNetworkElementDetails,
+  } = useSelector(networkSelector);
 
   const networkRef = React.useRef<HTMLDivElement>(null);
   const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
@@ -112,9 +128,6 @@ const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
   const [showControls, setShowControls] = React.useState(true);
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
-  );
-  const { currentPopoverData, showNetworkElementDetails } = useSelector(
-    (state: RootState) => state.networkReducer
   );
 
   const NetworkDiagramIconsProps = {

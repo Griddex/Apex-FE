@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,6 +23,10 @@ import { IdType } from "./EconomicsResultsTypes";
 import SensitivitiesHeatMapVisualytics from "./EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
 import EconomicsTemplateVisualytics from "./EconomicsTemplateResults/EconomicsTemplateVisualytics";
 import StoredEconomicsResults from "./StoredEconomicsResults";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   economicsResultsLanding: {
@@ -48,15 +52,18 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
+
 const EconomicsResultsLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const { url } = useRouteMatch();
 
-  const { loadEconomicsResultsWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const { loadEconomicsResultsWorkflow } = useSelector(economicsSelector);
 
   const economicsResultsLandingData: ILandingData[] = [
     {

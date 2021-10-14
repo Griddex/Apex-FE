@@ -1,12 +1,16 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { zipObject } from "lodash";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ExcelExportTable, {
-  IExcelSheetData,
   IExcelExportTable,
+  IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
 import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
@@ -57,8 +61,13 @@ export default function VisualyticsPreviewSave({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
+  );
+
   const { tableRoleNames, columnNameTableData } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+    workflowProcessSelector
   );
 
   const headersIndex = tableRoleNames.indexOf("Headers");

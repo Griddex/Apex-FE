@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { useSnackbar } from "notistack";
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +22,6 @@ import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
 import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
-// import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
 import SelectScenariosByButtonsWithForecastCase from "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase";
 import ForecastResults from "../../../Images/ForecastResults.svg";
 import Manual from "../../../Images/Manual.svg";
@@ -36,6 +35,10 @@ import CostsRevenueApexForecastWorkflow from "../../../Workflows/CostsRevenueApe
 import CostsAndRevenueManual from "./CostsAndRevenueManual";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
 import StoredCostsAndRevenuesDecks from "./StoredCostsAndRevenuesDecks";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const ExcelWorkflow = React.lazy(
   () => import("../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow")
@@ -65,6 +68,11 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
+
 const EconomicsCostsRevenuesLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -74,13 +82,16 @@ const EconomicsCostsRevenuesLanding = () => {
   const wc = "inputDataWorkflows";
 
   const { url, path } = useRouteMatch();
-  const { loadCostsRevenueWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const { loadCostsRevenueWorkflow } = useSelector(economicsSelector);
+
+  const labelSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[wc]["economicsCostsRevenuesDeckExcel"]
+        ?.currentDevOption?.label,
+    (wc) => wc
   );
-  //
-  const allEconomicsInputWorkflows = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
-  );
+
+  const dataLabel = useSelector(labelSelector);
 
   const economicsCostsRevenuesLandingData: ILandingData[] = [
     {
@@ -303,10 +314,10 @@ const EconomicsCostsRevenuesLanding = () => {
                           )
                         );
 
-                        enqueueSnackbar(
-                          `${allEconomicsInputWorkflows["economicsCostsRevenuesDeckExcel"]?.currentDevOption?.label} is stored successfully`,
-                          { persist: false, variant: "success" }
-                        );
+                        enqueueSnackbar(`${dataLabel} is stored successfully`, {
+                          persist: false,
+                          variant: "success",
+                        });
                       }}
                       hasExtraComponent={true}
                       extraComponent={SelectScenariosByButtonsWithForecastCase}

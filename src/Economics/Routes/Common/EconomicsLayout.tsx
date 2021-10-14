@@ -1,5 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import DialpadOutlinedIcon from "@mui/icons-material/DialpadOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
@@ -35,6 +35,10 @@ import EconomicsResultsLanding from "../EconomicsResults/EconomicsResultsLanding
 import EconomicsSensitivitiesLanding from "../EconomicsSensitivities/EconomicsSensitivitiesLanding";
 import EconomicsBackground from "./EconomicsBackground";
 import { IdType } from "./EconomicsLayoutTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -53,13 +57,17 @@ const useStyles = makeStyles(() => {
   };
 });
 
+const showSubNavbarSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showSubNavbar,
+  (subNavbar) => subNavbar
+);
+
 const EconomicsLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
   const dispatch = useDispatch();
 
-  const layoutProps = useSelector((state: RootState) => state.layoutReducer);
-  const { showSubNavbar } = layoutProps;
+  const showSubNavbar = useSelector(showSubNavbarSelector);
 
   const subNavbarData: ISubNavbarData = [
     {

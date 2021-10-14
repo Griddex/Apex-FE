@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import SortIcon from "@mui/icons-material/Sort";
 import React from "react";
@@ -12,11 +12,14 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { IPopoverProps } from "./FilterPopover";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    // flex: "auto",
     flexDirection: "column",
     height: 500,
     backgroundColor: "#F7F7F7",
@@ -72,12 +75,16 @@ const useStyles = makeStyles((theme) => ({
 const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
   ({ title, action, handleCancel, localDispatch, workflowProcess }, ref) => {
     const classes = useStyles();
-    const { fileHeaders } = useSelector(
+
+    const fileHeadersSelector = createDeepEqualSelector(
       (state: RootState) =>
         state.inputReducer["inputDataWorkflows"][
           workflowProcess as TAllWorkflowProcesses
-        ]
+        ],
+      (headers) => headers
     );
+
+    const fileHeaders = useSelector(fileHeadersSelector);
 
     return (
       <div className={classes.container} ref={ref}>

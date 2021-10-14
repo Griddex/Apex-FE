@@ -1,16 +1,19 @@
-import { Divider } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogActions from "@mui/material/DialogActions";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogSaveAndGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveAndGenerateNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -20,9 +23,7 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
-  IAllWorkflows,
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -81,7 +82,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -97,7 +98,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -124,6 +126,11 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 const steps = ["Select Facilities Deck", "Save & Generate"];
+const forecastTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["forecastTitles"],
+  (title) => title
+);
 
 const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   const dispatch = useDispatch();
@@ -133,10 +140,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
   const wc = "inputDataWorkflows";
   const wp = workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
-  const storedTitles = useSelector(
-    (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["forecastTitles"]
-  );
+  const storedTitles = useSelector(forecastTitlesSelector);
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
@@ -154,9 +158,13 @@ const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
     storedTitles,
   };
 
-  const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
+  const activeStepSelector = createDeepEqualSelector(
+    (state: RootState) => state.applicationReducer[wc][wp]["activeStep"],
+    (activeStep) => activeStep
   );
+
+  const activeStep = useSelector(activeStepSelector);
+
   const skipped = new Set<number>();
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,

@@ -1,6 +1,10 @@
 import { useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
@@ -12,12 +16,18 @@ import { fetchStoredInputDeckRequestAction } from "../../Redux/Actions/StoredInp
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../InputDeckTypes";
 
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
+
 export default function StoredFacilitiesDecks({
   reducer,
   containerStyle,
   showChart,
 }: IStoredInputDeck) {
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -39,9 +49,8 @@ export default function StoredFacilitiesDecks({
       color: theme.palette.secondary.main,
     },
   ];
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const tableTitle = "Facilities InputDeck Table";
   const mainUrl = `${getBaseForecastUrl()}/facilities-inputdeck`;
@@ -50,8 +59,13 @@ export default function StoredFacilitiesDecks({
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "facilitiesInputDeckStored";
-  const { facilitiesInputDeckStored } = useSelector(
-    (state: RootState) => state[reducer][wc]
+
+  const facilitiesInputDeckStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc]["facilitiesInputDeckStored"],
+    (stored) => stored
+  );
+  const facilitiesInputDeckStored = useSelector(
+    facilitiesInputDeckStoredSelector
   );
 
   const componentRef = React.useRef();

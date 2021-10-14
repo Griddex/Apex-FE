@@ -1,6 +1,6 @@
 import { Divider, Input, TextareaAutosize, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import makeStyles from "@mui/styles/makeStyles";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { TextField } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +14,10 @@ import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
 import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles({
   input: {
@@ -52,6 +56,11 @@ export interface IApexEditor {
   activeStep?: number;
 }
 
+const unitSettingsPartialSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 const ApexEditor = ({
   editorData,
   formEditorRow,
@@ -63,7 +72,7 @@ const ApexEditor = ({
   const classes = useStyles();
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsPartialSelector
   ) as IUnitSettingsData;
 
   const editorRef = React.useRef<HTMLDivElement>(null);

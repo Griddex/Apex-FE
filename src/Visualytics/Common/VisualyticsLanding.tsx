@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -30,6 +30,10 @@ import { IdType } from "./VisualyticsLandingTypes";
 import PlotVisualytics from "./Workflows/PlotVisualytics";
 import VisualyticsDatabaseWorkflow from "./Workflows/VisualyticsDatabaseWorkflow";
 import VisualyticsExcelWorkflow from "./Workflows/VisualyticsExcelWorkflow";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   visualyticsDeckLanding: {
@@ -55,6 +59,11 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const loadVisualyticsWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.loadVisualyticsWorkflow,
+  (load) => load
+);
+
 const VisualyticsLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -62,9 +71,7 @@ const VisualyticsLanding = () => {
   const reducer = "visualyticsReducer";
   const { url, path } = useRouteMatch();
 
-  const { loadVisualyticsWorkflow } = useSelector(
-    (state: RootState) => state.visualyticsReducer
-  );
+  const loadVisualyticsWorkflow = useSelector(loadVisualyticsWorkflowSelector);
 
   const visualyticsLandingData: ILandingData[] = [
     {

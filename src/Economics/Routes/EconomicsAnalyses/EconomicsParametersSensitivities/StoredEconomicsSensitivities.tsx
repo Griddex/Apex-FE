@@ -1,11 +1,15 @@
-import makeStyles from '@mui/styles/makeStyles';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import Author from "../../../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
@@ -39,12 +43,10 @@ import { IApplicationStoredDataRow } from "../../../../Application/Types/Applica
 import formatDate from "../../../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import { economicsAnalysesNameTitlesObj } from "../../../Data/EconomicsData";
 import {
   fetchStoredEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import { TEconomicsAnalysesNames } from "../EconomicsAnalysesTypes";
 import { IStoredEconomicsSensitivitiesRow } from "./EconomicsParametersSensitivitiesTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -106,13 +108,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer,
+  (reducer) => reducer
+);
+
+const unitSettingsPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 export default function StoredEconomicsSensitivities() {
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsPropsSelector
   ) as IUnitSettingsData;
 
   const reducer = "economicsReducer";
@@ -127,9 +137,12 @@ export default function StoredEconomicsSensitivities() {
   const wc = "storedDataWorkflows";
   const wp = "economicsSensitivitiesStored";
 
-  const { economicsSensitivitiesStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
   );
+
+  const { economicsSensitivitiesStored } = useSelector(economicsWCSelector);
 
   const [storedEconomicsSensitivities, setStoredEconomicsSensitivities] =
     React.useState(economicsSensitivitiesStored);

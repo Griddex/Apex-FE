@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -15,6 +15,10 @@ import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import StoredProductionData from "./StoredProductionData";
 import { IdType, IProductionLandingData } from "./ProductionDataLandingTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   ProductionDataLanding: {
@@ -39,18 +43,25 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
+const loadWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.loadWorkflow,
+  (load) => load
+);
+const currentWorkflowProcessSelector = createDeepEqualSelector(
+  (state: RootState) => state.workflowReducer.currentWorkflowProcess,
+  (wrkflwPrcss) => wrkflwPrcss
+);
+
 const ProductionDataLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { url, path } = useRouteMatch();
 
   const reducer = "inputReducer";
-  const { url, path } = useRouteMatch();
-  const { loadWorkflow } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { currentWorkflowProcess } = useSelector(
-    (state: RootState) => state.workflowReducer
-  );
+
+  const loadWorkflow = useSelector(loadWorkflowSelector);
+
+  const currentWorkflowProcess = useSelector(currentWorkflowProcessSelector);
 
   const productionLandingData: IProductionLandingData[] = [
     {

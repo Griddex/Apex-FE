@@ -1,14 +1,20 @@
+import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
 import Typography from "@mui/material/Typography";
-import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import { useSnackbar } from "notistack";
 import React from "react";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import * as xlsx from "xlsx";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
@@ -25,8 +31,6 @@ import sizeConversions from "../../../../Application/Utils/SizeConversions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { persistWorksheetAction } from "../../../Redux/Actions/InputActions";
 import FileIconService from "../../../Services/FileIconService";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -73,6 +77,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
+
 const SelectSheet = ({
   wrkflwCtgry,
   wrkflwPrcss,
@@ -87,6 +96,11 @@ const SelectSheet = ({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
+  );
+
   const {
     fileLastModified,
     fileName,
@@ -94,15 +108,13 @@ const SelectSheet = ({
     fileType,
     fileAuthor,
     fileCreated,
-  } = useSelector((state: RootState) => state[reducer][wc][wp]);
+    workSheetNames,
+    selectedWorksheetName,
+  } = useSelector(workflowProcessSelector);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsSelector
   ) as IUnitSettingsData;
-
-  const { workSheetNames, selectedWorksheetName } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
-  );
 
   const [worksheetName, setWorksheetName] = React.useState(
     selectedWorksheetName

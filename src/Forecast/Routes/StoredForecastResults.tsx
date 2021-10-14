@@ -1,15 +1,19 @@
-import { ClickAwayListener, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import Approval from "../../Application/Components/Approval/Approval";
 import Author from "../../Application/Components/Author/Author";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
@@ -46,12 +50,11 @@ import {
   IStoredDataProps,
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
+import { runEconomicsForecastAggregationRequestAction } from "../../Economics/Redux/Actions/EconomicsActions";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../Visualytics/Components/Charts/DoughnutChart";
+import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchForecastTreeviewKeysRequestAction,
   fetchStoredForecastingResultsRequestAction,
@@ -60,7 +63,6 @@ import {
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
 import { IApexEditor } from "./../../Application/Components/Editors/ApexEditor";
-import { runEconomicsForecastAggregationRequestAction } from "../../Economics/Redux/Actions/EconomicsActions";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -121,7 +123,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//TODO: Calculate classification data from collection
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
+
 export default function StoredForecastResults({
   showChart,
   showBaseButtons,
@@ -135,6 +146,7 @@ export default function StoredForecastResults({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -160,17 +172,19 @@ export default function StoredForecastResults({
   const wc = "storedDataWorkflows";
   const wp = "forecastResultsStored";
 
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsSelector
   ) as IUnitSettingsData;
 
-  const { forecastResultsStored } = useSelector(
-    (state: RootState) => state.forecastReducer[wc]
+  const forecastResultsStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.forecastReducer[wc]["forecastResultsStored"],
+    (stored) => stored
   );
+
+  const forecastResultsStored = useSelector(forecastResultsStoredSelector);
+
   const [storedforecastResults, setStoredforecastResults] = React.useState(
     forecastResultsStored
   );

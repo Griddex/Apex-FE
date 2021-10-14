@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
 import FilterNoneOutlinedIcon from "@mui/icons-material/FilterNoneOutlined";
 import FormatPaintOutlinedIcon from "@mui/icons-material/FormatPaintOutlined";
@@ -23,10 +23,6 @@ import ViewStreamOutlinedIcon from "@mui/icons-material/ViewStreamOutlined";
 import SaveTwoToneIcon from "@mui/icons-material/SaveTwoTone";
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  addTabAction,
-  setCurrentMainTabValueAction,
-} from "../../Redux/Actions/ApplicationActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -175,14 +171,7 @@ const MoreIconsPopover = React.forwardRef<
       title: "Show Visualization",
       icon: <LandscapeOutlinedIcon />,
       children: null,
-      callBack: () => {
-        dispatch(
-          addTabAction({ label: "visualytics", displayed: false }, [
-            "visualytics",
-          ])
-        );
-        dispatch(setCurrentMainTabValueAction(1));
-      },
+      callBack: () => {},
     },
     {
       title: "Polygon",

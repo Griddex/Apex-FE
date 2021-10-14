@@ -10,6 +10,10 @@ import {
 } from "../../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../InputDeckTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 type wpTypeNon = NonNullable<IStoredDataProps["wkPs"]>;
 // type wpType = Omit<wpTypeNon, "">;
@@ -47,10 +51,11 @@ export default function StoredProductionData({
   const wc = "storedDataWorkflows";
   const wp: wpTypeNon = "productionInputDataStored";
 
-  const componentRef = React.useRef();
-
-  const stored = useSelector((state: RootState) => state.inputReducer);
-  const storedData = useSelector((state: RootState) => state[reducer][wc][wp]);
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
+  );
+  const storedData = useSelector(workflowProcessSelector);
 
   const snStoredData = storedData.map((row: any, i: number) => {
     const data: IStoredDataRow = {

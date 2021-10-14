@@ -1,15 +1,19 @@
-import { ClickAwayListener, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import Approval from "../../../Application/Components/Approval/Approval";
 import Author from "../../../Application/Components/Author/Author";
 import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
@@ -52,9 +56,7 @@ import formatDate from "../../../Application/Utils/FormatDate";
 import { updateForecastResultsParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../../Visualytics/Components/Charts/DoughnutChart";
+import { DoughnutChartAnalytics } from "../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   fetchStoredEconomicsResultsRequestAction,
@@ -121,11 +123,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 //TODO: Calculate classification data from collection
 export default function StoredEcoResults({
   showChart,
   showBaseButtons,
-  shouldRunAggregation,
   collectionName,
 }: IStoredDataProps) {
   const reducer = "economicsReducer";
@@ -134,6 +145,7 @@ export default function StoredEcoResults({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -159,25 +171,25 @@ export default function StoredEcoResults({
   const wc = "storedDataWorkflows";
   const wp = "economicsResultsStored" as NonNullable<IStoredDataProps["wkPs"]>;
 
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
-
-  const componentRef = React.useRef();
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsSelector
   ) as IUnitSettingsData;
 
-  const { economicsResultsStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
   );
+
+  const { economicsResultsStored } = useSelector(economicsWCSelector);
+
   const [storedEconomicsResults, setStoredEconomicsResults] = React.useState(
     economicsResultsStored
   );
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
-
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
+
   const handleCheckboxChange = (row: IStoredEconomicsResultsRow) => {
     const id = row.id as string;
     const title = row.title as string;

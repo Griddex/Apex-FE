@@ -7,7 +7,6 @@ import {
   ForkEffect,
   put,
   PutEffect,
-  select,
   SelectEffect,
   TakeEffect,
   takeLeading,
@@ -20,9 +19,9 @@ import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/FetchForecastingParametersFailureDialogParameters";
 import {
-  STORED_FORECASTPARAMETERS_REQUEST,
   fetchStoredForecastingParametersFailureAction,
   fetchStoredForecastingParametersSuccessAction,
+  STORED_FORECASTPARAMETERS_REQUEST,
 } from "../Actions/NetworkActions";
 
 export default function* watchFetchStoredForecastParametersSaga(): Generator<
@@ -59,12 +58,6 @@ function* fetchStoredForecastParametersSaga(
 > {
   const { payload } = action;
   const { projectId } = payload;
-
-  const { isAllForecastParameters, forecastingParametersStored } = yield select(
-    (state) => state.networkReducer
-  );
-
-  console.log("forecastingParametersStored: ", forecastingParametersStored);
 
   const forecastParametersUrl = `${getBaseForecastUrl()}/forecast-parameters/light/${projectId}`;
 

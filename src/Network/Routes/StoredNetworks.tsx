@@ -1,7 +1,10 @@
 import { useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -11,11 +14,17 @@ import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDat
 import { fetchStoredNetworkDataRequestAction } from "../Redux/Actions/NetworkActions";
 import { IStoredNetworks } from "./StoredNetworkTypes";
 
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
+
 export default function StoredNetworks({
   workflowProcess,
   containerStyle,
 }: IStoredNetworks) {
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -38,9 +47,7 @@ export default function StoredNetworks({
     },
   ];
 
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const mainUrl = `${getBaseForecastUrl()}/network`;
   const collectionName = "declineParameters";
@@ -49,9 +56,12 @@ export default function StoredNetworks({
   const wc = "storedDataWorkflows";
   const wp = workflowProcess;
 
-  const { networkStored } = useSelector(
-    (state: RootState) => state.networkReducer[wc]
+  const networkStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.networkReducer[wc]["networkStored"],
+    (stored) => stored
   );
+
+  const networkStored = useSelector(networkStoredSelector);
 
   const snStoredData = networkStored.map(
     (row: IApplicationStoredDataRow, i: number) => ({

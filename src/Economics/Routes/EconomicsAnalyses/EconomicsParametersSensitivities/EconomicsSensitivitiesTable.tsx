@@ -3,6 +3,10 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsText from "../../../../Application/Components/Basic/AnalyticsText";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -19,14 +23,18 @@ export interface IEconomicsSensitivitiesTable {
   analysisName: TEconomicsAnalysesNames;
 }
 
+const economicsAnalysisWorkflowsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer["economicsAnalysisWorkflows"],
+  (wc) => wc
+);
+
 const EconomicsSensitivitiesTable = ({
   sensitivitiesTable,
-  analysisName,
 }: IEconomicsSensitivitiesTable) => {
   const theme = useTheme();
 
-  const { economicsAnalysisWorkflows } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const economicsAnalysisWorkflows = useSelector(
+    economicsAnalysisWorkflowsSelector
   );
 
   const { sensitivitiesTableTitle } = economicsAnalysisWorkflows;

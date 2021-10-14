@@ -1,37 +1,30 @@
-import { useTheme } from "@mui/material";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
 import startCase from "lodash.startcase";
 import React from "react";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
+
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
 
 export interface IEconomicsSensitivitiesHeatMap {
   sensitivitiesHeatMap1or2D: any[];
 }
 
 const EconomicsSensitivitiesHeatMap = () => {
-  const theme = useTheme();
   const {
     sensitivitiesHeatMap1or2D,
     heatMapVariableXOptions,
     heatMapVariableYOptions,
     heatMapTreeByScenario,
-  } = useSelector((state: RootState) => {
-    const {
-      sensitivitiesHeatMap1or2D,
-      heatMapVariableXOptions,
-      heatMapVariableYOptions,
-      heatMapTreeByScenario,
-    } = state.economicsReducer;
-
-    return {
-      sensitivitiesHeatMap1or2D,
-      heatMapVariableXOptions,
-      heatMapVariableYOptions,
-      heatMapTreeByScenario,
-    };
-  });
+  } = useSelector(economicsSelector);
 
   const noOfSensitivities = heatMapTreeByScenario["children"].length;
 

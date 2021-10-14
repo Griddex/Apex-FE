@@ -21,6 +21,15 @@ import {
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
 
 const EconomicsPlotChartsDataPanel = ({
   setSelectedZ,
@@ -31,9 +40,12 @@ const EconomicsPlotChartsDataPanel = ({
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
-  const { economicsResultsStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
   );
+
+  const { economicsResultsStored } = useSelector(economicsWCSelector);
 
   const {
     selectedEconomicsResultsTitle,
@@ -44,31 +56,7 @@ const EconomicsPlotChartsDataPanel = ({
     showPlotChartsCategoryMembersObj,
     plotChartsCategoryDragItems,
     plotChartsCategoryHasDropped,
-  } = useSelector((state: RootState) => {
-    const {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      selectedEconomicsPlotChartOption,
-      economicsPlotChartsTree,
-      plotChartsVariableZOptions,
-      showPlotChartsCategoryMembersObj,
-      heatMapTreeByScenario,
-      plotChartsCategoryDragItems,
-      plotChartsCategoryHasDropped,
-    } = state.economicsReducer;
-
-    return {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      selectedEconomicsPlotChartOption,
-      economicsPlotChartsTree,
-      plotChartsVariableZOptions,
-      showPlotChartsCategoryMembersObj,
-      heatMapTreeByScenario,
-      plotChartsCategoryDragItems,
-      plotChartsCategoryHasDropped,
-    };
-  });
+  } = useSelector(economicsSelector);
 
   const chartType = selectedEconomicsPlotChartOption.value;
 

@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -29,6 +29,10 @@ import { confirmationDialogParameters } from "../../../Import/Components/DialogP
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   facilitiesInputDeckLanding: {
@@ -54,6 +58,16 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const initialStateSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.initialState,
+  (initial) => initial
+);
+
+const loadWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.loadWorkflow,
+  (load) => load
+);
+
 const FacilitiesInputDeckLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -61,10 +75,8 @@ const FacilitiesInputDeckLanding = () => {
   const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
 
-  const initialState = useSelector((state: RootState) => state.inputReducer);
-  const { loadWorkflow } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const initialState = useSelector(initialStateSelector);
+  const loadWorkflow = useSelector(loadWorkflowSelector);
 
   const facilitiesInputLandingData: ILandingData[] = [
     {

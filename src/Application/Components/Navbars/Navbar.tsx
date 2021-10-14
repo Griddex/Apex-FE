@@ -1,32 +1,27 @@
-import {
-  AppBar,
-  Avatar,
-  Badge,
-  Box,
-  Divider,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import { useTheme } from "@mui/material/styles";
-import makeStyles from "@mui/styles/makeStyles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { AppBar, Avatar, Badge, Box, Toolbar, Typography } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import faker from "faker";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   mainDrawerCollapseAction,
   mainDrawerExpandAction,
 } from "../../Redux/Actions/LayoutActions";
-import layoutReducer from "../../Redux/Reducers/LayoutReducer";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import layoutReducer from "../../Redux/Reducers/LayoutReducer";
 import GetInitials from "../../Utils/GetInitials";
 import UserProfilePopover from "../Popovers/UserProfilePopover";
-import isEqual from "react-fast-compare";
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => ({
@@ -89,25 +84,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const layoutPartialPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer,
+  (props) => props
+);
+
+const loginPartialPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.loginReducer,
+  (props) => props
+);
+
+const currentProjectTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectTitle,
+  (title) => title
+);
+
 const Navbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
   const { expandMainDrawer, showNavbar } = useSelector(
-    (state: RootState) => {
-      const { expandMainDrawer, showNavbar } = state.layoutReducer;
-      return { expandMainDrawer, showNavbar };
-    },
-    (prev, next) => isEqual(prev, next)
+    layoutPartialPropsSelector
   );
 
-  const { userName, role } = useSelector(
-    (state: RootState) => {
-      const { userName, role } = state.loginReducer;
-      return { userName, role };
-    },
-    (prev, next) => isEqual(prev, next)
-  );
+  const { userName, role } = useSelector(loginPartialPropsSelector);
 
   const classes = useStyles({ expandMainDrawer, showNavbar } as ReturnType<
     typeof layoutReducer
@@ -118,10 +118,8 @@ const Navbar = () => {
 
   const username = userName;
   const userinitials = GetInitials(username);
-  const currentProjectTitle = useSelector(
-    (state: RootState) => state.projectReducer["currentProjectTitle"],
-    (prev, next) => isEqual(prev, next)
-  );
+
+  const currentProjectTitle = useSelector(currentProjectTitleSelector);
 
   React.useEffect(() => {
     if (!avatarSrc || avatarSrc === "") {

@@ -1,15 +1,16 @@
-import { IconButton, Tooltip, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import camelCase from "lodash.camelcase";
 import findIndex from "lodash.findindex";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
-import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { Styles, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { v4 as uuidv4 } from "uuid";
 import { dateFormatData } from "../../../../Application/Components/DateFormatPicker/DateFormatData";
 import ExcelExportTable, {
@@ -51,6 +52,8 @@ import {
   TSingleMatchObject,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles(() => ({
   rootMatchHeaders: {
@@ -111,6 +114,11 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     specificSavedMatchObjectValues
   );
 
+  const reducerSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer],
+    (reducer) => reducer
+  );
+
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
@@ -120,39 +128,15 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     economicsParametersAppHeaders,
     cstRevAppHeadersSelectOptions: cRHeaderOptions,
     ecoParAppHeadersSelectOptions,
-  } = useSelector(
-    (state: RootState) => {
-      const {
-        facilitiesAppHeaders,
-        forecastAppHeaders,
-        facilitiesHeadersSelectOptions,
-        forecastHeadersSelectOptions,
-        costsRevenuesAppHeaders,
-        economicsParametersAppHeaders,
-        cstRevAppHeadersSelectOptions,
-        ecoParAppHeadersSelectOptions,
-      } = state[reducer];
+  } = useSelector(reducerSelector);
 
-      return {
-        facilitiesAppHeaders,
-        forecastAppHeaders,
-        facilitiesHeadersSelectOptions,
-        forecastHeadersSelectOptions,
-        costsRevenuesAppHeaders,
-        economicsParametersAppHeaders,
-        cstRevAppHeadersSelectOptions,
-        ecoParAppHeadersSelectOptions,
-      };
-    },
-    (prev, next) => isEqual(prev, next)
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
   );
 
   const { fileHeaders, currentDevOption } = useSelector(
-    (state: RootState) => {
-      const { fileHeaders, currentDevOption } = state[reducer][wc][wp];
-      return { fileHeaders, currentDevOption };
-    },
-    (prev, next) => isEqual(prev, next)
+    workflowProcessSelector
   );
 
   //Get headers
@@ -728,7 +712,8 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
               setUserMatchObject(userMatchObject);
               setAcceptmatchToggle(currentAcceptMatchValue);
             }}
-            size="large">
+            size="large"
+          >
             <AllInclusiveOutlinedIcon />
           </IconButton>
         </Tooltip>

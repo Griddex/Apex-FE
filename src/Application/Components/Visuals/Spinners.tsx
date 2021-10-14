@@ -1,11 +1,15 @@
 import { css } from "@emotion/react";
 import Backdrop from "@mui/material/Backdrop";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,16 +44,20 @@ const override = css`
   left: 0;
 `;
 
+const uiSpinnerPartialPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.uiSpinnerReducer,
+  (reducer) => reducer
+);
+
 const Spinners = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { pending, message } = useSelector(
-    (state: RootState) => state.uiSpinnerReducer
-  );
 
-  const handleClose = () => {
+  const { pending, message } = useSelector(uiSpinnerPartialPropsSelector);
+
+  const handleClose = React.useCallback(() => {
     dispatch(hideSpinnerAction());
-  };
+  }, []);
 
   return (
     <Backdrop className={classes.backdrop} open={pending} onClick={handleClose}>

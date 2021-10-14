@@ -1,3 +1,10 @@
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import {
   Button,
   ListItemIcon,
@@ -6,16 +13,13 @@ import {
   useTheme,
 } from "@mui/material";
 import Menu from "@mui/material/Menu";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -24,11 +28,13 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import {
-  runForecastRequestAction,
-  updateNetworkParameterAction,
-} from "../../Redux/Actions/NetworkActions";
+import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
 import { extrudeSaveForecastRun } from "../DialogParameters/ExtrudeSaveForecastRun";
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
 
 const ForecastButtonsMenu = () => {
   const history = useHistory();
@@ -36,9 +42,8 @@ const ForecastButtonsMenu = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const { selectedNetworkId, isNetworkDisplayed } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const { selectedNetworkId, isNetworkDisplayed } =
+    useSelector(networkSelector);
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);

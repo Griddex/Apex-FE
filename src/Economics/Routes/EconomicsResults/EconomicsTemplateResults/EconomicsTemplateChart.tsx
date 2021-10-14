@@ -5,9 +5,7 @@ import range from "lodash.range";
 import React from "react";
 import { useDrop } from "react-dnd";
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
-import { useDispatch, useSelector } from "react-redux";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -25,11 +23,6 @@ export interface IEconomicsTemplateChart {
 
 const EconomicsTemplateChart = () => {
   const theme = useTheme();
-  const dispatch = useDispatch();
-
-  const { selectedChartIndex } = useSelector(
-    (state: RootState) => state.visualyticsReducer
-  );
 
   const [layoutConfig, setConfigLayout] =
     React.useState<IEconomicsTemplateChart>({
@@ -42,6 +35,7 @@ const EconomicsTemplateChart = () => {
       className: "layout",
       rowHeight: 30,
     });
+
   const [parameter3, setParameter3] = React.useState("Z");
 
   const [{ isOverY, canDropY }, dropY] = useDrop({

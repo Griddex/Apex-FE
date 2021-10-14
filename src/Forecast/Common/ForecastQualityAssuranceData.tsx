@@ -1,12 +1,15 @@
-import { ClickAwayListener, useTheme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
-import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -20,7 +23,6 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
-import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
@@ -91,7 +93,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//TODO: Calculate classification data from collection
+const qualityAssuranceResultsSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.qualityAssuranceResults,
+  (workflow) => workflow
+);
+
 export default function ForecastQualityAssuranceData({
   showChart,
   showBaseButtons,
@@ -103,6 +109,7 @@ export default function ForecastQualityAssuranceData({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -129,9 +136,7 @@ export default function ForecastQualityAssuranceData({
   const wc = "storedDataWorkflows";
   const wp = "forecastResultsQualityAssurance";
 
-  const { qualityAssuranceResults } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+  const qualityAssuranceResults = useSelector(qualityAssuranceResultsSelector);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredForecastResultsRow) => {

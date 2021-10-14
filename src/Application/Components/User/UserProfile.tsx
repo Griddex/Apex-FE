@@ -18,6 +18,10 @@ import { logoutAction } from "../../Redux/Actions/LogoutActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
 import { IIconNameComp } from "./UserTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   image: { height: 80, width: 80 },
@@ -64,6 +68,11 @@ const IconNameComp = ({ icon, name, iconNameStyles }: IIconNameComp) => {
 
 const iconNameStyles = { display: "flex", marginTop: 5, marginBottom: 5 };
 
+const loginPartialPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.loginReducer,
+  (reducer) => reducer
+);
+
 const UserProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -71,9 +80,7 @@ const UserProfile = () => {
 
   const avatarSrc = localStorage.getItem("avatar");
 
-  const { userName, email } = useSelector(
-    (state: RootState) => state.loginReducer
-  );
+  const { userName, email } = useSelector(loginPartialPropsSelector);
 
   const logoutDecision = () => {
     const logoutDialogActions = () => {

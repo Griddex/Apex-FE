@@ -1,13 +1,17 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { DialogActions, IconButton } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -19,7 +23,6 @@ import { INavigationButtonsProp } from "../../../Application/Components/Navigati
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   hideDialogAction,
@@ -87,7 +90,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -103,7 +106,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -122,6 +126,12 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const forecastingParametersTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["forecastingParametersTitles"],
+  (title) => title
+);
+
 const EditOrCreateForecastingParametersWorkflowDialog = (
   props: DialogStuff<IForecastParametersStoredRow>
 ) => {
@@ -138,17 +148,12 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
     forecastParametersIndex,
   } = props;
 
-  console.log("currentRow: ", currentRow);
-
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
-  const storedTitles = useSelector(
-    (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["forecastingParametersTitles"]
-  );
+  const storedTitles = useSelector(forecastingParametersTitlesSelector);
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
@@ -162,7 +167,7 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
   const forecastingParametersObj = { ...currRow, ...titleDesc };
 
   let steps = [] as string[];
- 
+
   if (workflowProcessDefined === "createForecastingParametersWorkflow") {
     steps = [
       "Select Forecast InputDeck",
@@ -174,10 +179,16 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
   }
 
   const skipped = new Set<number>();
-  const { activeStep } = useSelector(
+
+  const activeStepSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcessDefined]
+      state.workflowReducer[workflowCategory][workflowProcessDefined][
+        "activeStep"
+      ],
+    (activeStep) => activeStep
   );
+
+  const activeStep = useSelector(activeStepSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
@@ -231,10 +242,8 @@ const EditOrCreateForecastingParametersWorkflowDialog = (
           [
             unloadDialogsAction,
             () =>
-            //as Record<string, any>
-              saveForecastParametersRequestAction(
-                forecastingParametersObj 
-              ),
+              //as Record<string, any>
+              saveForecastParametersRequestAction(forecastingParametersObj),
           ],
           "Save",
           "saveOutlined",

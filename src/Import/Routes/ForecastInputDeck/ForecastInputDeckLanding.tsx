@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -20,6 +20,10 @@ import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
 import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import { IdType } from "./ForecastInputDeckLandingTypes";
 import StoredForecastDecks from "./StoredForecastDecks";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   ForecastInputDeckLanding: {
@@ -48,12 +52,15 @@ const useStyles = makeStyles((theme) => ({
 const ForecastInputDeckLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { url, path } = useRouteMatch();
 
   const reducer = "inputReducer";
-  const { url, path } = useRouteMatch();
-  const loadWorkflow = useSelector(
-    (state: RootState) => state.layoutReducer["loadWorkflow"]
+
+  const loadWorkflowSelector = createDeepEqualSelector(
+    (state: RootState) => state.layoutReducer.loadWorkflow,
+    (load) => load
   );
+  const loadWorkflow = useSelector(loadWorkflowSelector);
 
   const forecastInputLandingData: ILandingData[] = [
     {

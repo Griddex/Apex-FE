@@ -1,9 +1,12 @@
-import { useTheme } from "@mui/material";
 import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
@@ -31,16 +34,20 @@ const initialSensitivityValues = [
   },
 ];
 
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
+
 const EconomicsParametersSensitivities = ({
   selectedAnalysis,
   finalAction,
   borderStyles,
 }: IEconomicsParametersSensitivitiesProps) => {
-  const theme = useTheme();
   const dispatch = useDispatch();
 
   const { ecoParAppHeadersSelectOptions, createSensitivitiesIsDialog } =
-    useSelector((state: RootState) => state.economicsReducer);
+    useSelector(economicsSelector);
 
   const ePAppHeaderSelectOptions =
     ecoParAppHeadersSelectOptions as ISelectOption[];

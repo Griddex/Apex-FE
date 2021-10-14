@@ -1,18 +1,11 @@
 import Menu from "@mui/material/Menu";
 import React from "react";
-import { XYPosition } from "react-flow-renderer";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
 
 const HeatMapContextMenu = ({
   children,
   componentElement,
 }: IContextMenuProps) => {
-  const { expandMainDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-
   const Component = componentElement as NonNullable<
     IContextMenuProps["componentElement"]
   >;

@@ -1,7 +1,11 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import * as xlsx from "xlsx";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
@@ -51,6 +55,16 @@ const steps = [
   "Preview & Save",
 ];
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
 const VisualyticsExcelWorkflow = ({
   reducer,
   wrkflwCtgry,
@@ -65,17 +79,18 @@ const VisualyticsExcelWorkflow = ({
   const wp = wrkflwPrcss;
 
   const skipped = new Set<number>();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+
+  const activeStepSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
+    (activeStep) => activeStep
   );
 
-  const applicationData = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const { moduleName, subModuleName, workflowName } = applicationData;
+  const activeStep = useSelector(activeStepSelector);
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
 
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);

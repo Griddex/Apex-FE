@@ -8,10 +8,13 @@ import omit from "lodash.omit";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column, FormatterProps } from "react-data-griddex";
-import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -27,6 +30,11 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
+
 const EditOrCreateProductionPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
@@ -37,22 +45,7 @@ const EditOrCreateProductionPrioritization = () => {
     selectedTableData,
     prioritizationPerspective,
     selectedStreamPrioritization,
-  } = useSelector(
-    (state: RootState) => {
-      const {
-        selectedTableData,
-        prioritizationPerspective,
-        selectedStreamPrioritization,
-      } = state.networkReducer;
-
-      return {
-        selectedTableData,
-        prioritizationPerspective,
-        selectedStreamPrioritization,
-      };
-    },
-    (prev, next) => isEqual(prev, next)
-  );
+  } = useSelector(networkSelector);
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
     prioritizationPerspective ? prioritizationPerspective : "No Prioritization"

@@ -1,12 +1,11 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Route,
-  RouteComponentProps,
-  useHistory,
-  useRouteMatch,
-} from "react-router-dom";
+import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
@@ -38,17 +37,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const loadEconomicsAnalysesWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.loadEconomicsAnalysesWorkflow,
+  (admin) => admin
+);
+
 const EconomicsAnalysesLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
-  const wc = "economicsAnalysisWorkflows";
 
-  const reducer = "economicsReducer";
-  const { url, path } = useRouteMatch();
+  const { path } = useRouteMatch();
 
-  const { loadEconomicsAnalysesWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const loadEconomicsAnalysesWorkflow = useSelector(
+    loadEconomicsAnalysesWorkflowSelector
   );
 
   const analysesButtons = economicsAnalyses.map(

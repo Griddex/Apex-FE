@@ -2,10 +2,12 @@ import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import AdministrationLanding from "./AdministrationLanding";
+
+const AdministrationLanding = React.lazy(
+  () => import("./AdministrationLanding")
+);
 
 const navbarHeight = 43;
-// const subNavBarHeight = 25;
 const addedHeight = 0;
 const useStyles = makeStyles(() => {
   return {

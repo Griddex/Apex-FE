@@ -1,5 +1,4 @@
 import { TUserMatchObject } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
-import { ITabData } from "../../Components/Tabs/TabsWrapperTypes";
 import {
   ReducersType,
   TAllWorkflowProcesses,
@@ -108,20 +107,6 @@ export const subNavbarSetDataAction = (subNavbarData: string) => {
   return {
     type: SET_SUBNAVBARDATA,
     payload: { subNavbarData },
-  };
-};
-
-export const addTabAction = (newTab: ITabData, newTabPanel: string[]) => {
-  return {
-    type: ADD_TAB,
-    payload: { newTab, newTabPanel },
-  };
-};
-
-export const setCurrentMainTabValueAction = (currentMainTabValue: number) => {
-  return {
-    type: SET_CURRENTMAINTABVALUE,
-    payload: { currentMainTabValue },
   };
 };
 

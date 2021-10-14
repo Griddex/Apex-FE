@@ -1,5 +1,11 @@
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -11,8 +17,6 @@ import RadarChart from "../Components/Charts/RadarChart";
 import ScatterChart from "../Components/Charts/ScatterChart";
 import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 import { IChartProps } from "../Components/ChartTypes";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 
 const ChartSelector = ({
   chartType,
@@ -49,7 +53,7 @@ const ChartSelector = ({
       return (
         <NoSelectionPlaceholder
           icon={<ArrowUpwardOutlinedIcon color="primary" />}
-          text="Select a chart.."
+          text="Select chart.."
         />
       );
   }
@@ -62,9 +66,13 @@ const SelectChart = ({
 }: IChartProps) => {
   const reducerDefined = reducer as ReducersType;
 
-  const apexState = useSelector((state: RootState) => state[reducerDefined]);
+  const selectedChartOptionTitleSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state[reducerDefined][selectedChartOptionTitle as string],
+    (title) => title
+  );
 
-  const selectedChartOption = apexState[selectedChartOptionTitle as string];
+  const selectedChartOption = useSelector(selectedChartOptionTitleSelector);
 
   const chartType = selectedChartOption.value as TChartTypes;
 

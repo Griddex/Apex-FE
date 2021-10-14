@@ -1,5 +1,10 @@
-import { ClickAwayListener, IconButton, Tooltip, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import {
+  ClickAwayListener,
+  IconButton,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import omit from "lodash.omit";
@@ -27,8 +32,12 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TVariableNameTitleData } from "../../../Application/Types/ApplicationTypes";
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { IEconomicsParametersTable } from "./IParametersType";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
-const useStyles = makeStyles((theme) => ({
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const useStyles = makeStyles(() => ({
   economicsParametersTable: {
     display: "flex",
     flexDirection: "column",
@@ -47,8 +56,13 @@ const EconomicsParametersTable = ({
   const rootRef = React.useRef<HTMLDivElement>(null);
   const reducer = "economicsReducer";
 
+  const economicsPartialPropsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer],
+    (reducer) => reducer
+  );
+
   const { costsRevenuesAppHeaders, economicsParametersAppHeaders } =
-    useSelector((state: RootState) => state[reducer]);
+    useSelector(economicsPartialPropsSelector);
 
   const additionalColumnsObjKeys = Object.keys(additionalColumnsObj);
 
@@ -154,7 +168,8 @@ const EconomicsParametersTable = ({
 
               setRows(newRows);
             }}
-            size="large">
+            size="large"
+          >
             <AddOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -178,7 +193,8 @@ const EconomicsParametersTable = ({
 
               setRows(newRows);
             }}
-            size="large">
+            size="large"
+          >
             <RemoveOutlinedIcon />
           </IconButton>
         </Tooltip>

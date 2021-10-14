@@ -1,7 +1,11 @@
-import makeStyles from '@mui/styles/makeStyles';
-import React, { useCallback, useEffect } from "react";
+import makeStyles from "@mui/styles/makeStyles";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
@@ -18,7 +22,6 @@ import StoredForecastResults from "../../Forecast/Routes/StoredForecastResults";
 import { forecastCaseOptions } from "../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../Redux/Actions/EconomicsActions";
 import CostsAndRevenueApexForecast from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueApexForecast";
-import CostsAndRevenueManual from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueManual";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,6 +100,15 @@ const steps = ["Select Forecast Results", "Populate Costs"];
 const workflowCategory = "inputDataWorkflows";
 const workflowProcess = "economicsCostsRevenuesDeckApexForecast";
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (drawer) => drawer
+);
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
 const CostsRevenueApexForecastWorkflow = ({
   reducer,
   wrkflwCtgry,
@@ -109,18 +121,19 @@ const CostsRevenueApexForecastWorkflow = ({
   const classes = useStyles();
 
   const skipped = new Set<number>();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { activeStep } = useSelector(
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+
+  const activeStepSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
+    (reducer) => reducer
   );
 
-  const applicationData = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const { moduleName, subModuleName, workflowName } = applicationData;
+  const activeStep = useSelector(activeStepSelector);
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,

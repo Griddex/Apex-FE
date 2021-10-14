@@ -1,7 +1,9 @@
-import { CSSProperties } from "react";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -10,6 +12,11 @@ import { IStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { fetchStoredProjectsRequestAction } from "../Redux/Actions/ProjectActions";
 import { IApplicationProject } from "../Redux/State/ProjectStateTypes";
+
+const storedProjectsSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.storedProjects,
+  (projects) => projects
+);
 
 export default function StoredProjects({
   containerStyle,
@@ -20,11 +27,8 @@ export default function StoredProjects({
   const collectionName = "declineParameters";
 
   const dispatch = useDispatch();
-  const componentRef = React.useRef();
 
-  const { storedProjects } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const storedProjects = useSelector(storedProjectsSelector);
 
   const snStoredData = (storedProjects as IApplicationProject[]).map(
     (row, i: number) => ({

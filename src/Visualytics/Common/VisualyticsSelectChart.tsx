@@ -2,11 +2,20 @@ import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getVisualyticsChartDataRequestAction } from "../Redux/Actions/VisualyticsActions";
 import SelectChart from "./SelectChart";
+
+const visualyticsVariableXOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.visualyticsVariableXOptions,
+  (load) => load
+);
 
 const VisualyticsSelectChart = () => {
   const reducer = "visualyticsReducer";
@@ -14,8 +23,8 @@ const VisualyticsSelectChart = () => {
 
   const dispatch = useDispatch();
 
-  const { visualyticsVariableXOptions } = useSelector(
-    (state: RootState) => state.visualyticsReducer
+  const visualyticsVariableXOptions = useSelector(
+    visualyticsVariableXOptionsSelector
   );
 
   return (

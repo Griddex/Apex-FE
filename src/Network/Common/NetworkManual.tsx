@@ -1,4 +1,5 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import capitalize from "lodash.capitalize";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
@@ -20,6 +21,10 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import mergeRefs from "react-merge-refs";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
@@ -42,7 +47,6 @@ import "../Styles/NetworkValidation.css";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
 import NetworkPanel from "./NetworkPanel";
-import capitalize from "lodash.capitalize";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -93,13 +97,21 @@ const useStyles = makeStyles(() => ({
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
+
 const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const networkRef = React.useRef<HTMLElement>(null);
   const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
@@ -111,12 +123,13 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
+
   const {
     nodeElementsManual,
     edgeElementsManual,
     currentPopoverData,
     showNetworkElementDetails,
-  } = useSelector((state: RootState) => state.networkReducer);
+  } = useSelector(networkSelector);
 
   const NetworkDiagramIconsProps = {
     showMiniMap,

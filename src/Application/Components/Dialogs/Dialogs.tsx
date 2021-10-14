@@ -45,6 +45,10 @@ import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDe
 import { IStoredDataRow } from "../../Types/ApplicationTypes";
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -105,10 +109,13 @@ const applicationDialogs: IApplicationDialogs = {
   saveVisualyticsDeckDialog: SaveVisualyticsDeckDialog,
 };
 
+const dialogsSelector = createDeepEqualSelector(
+  (state: RootState) => state.dialogsReducer?.dialogs,
+  (dialogs) => dialogs
+);
+
 const Dialogs: React.FC<DialogStuff> = () => {
-  const dialogs = useSelector(
-    (state: RootState) => state.dialogsReducer && state.dialogsReducer.dialogs
-  );
+  const dialogs = useSelector(dialogsSelector);
 
   return (
     <>

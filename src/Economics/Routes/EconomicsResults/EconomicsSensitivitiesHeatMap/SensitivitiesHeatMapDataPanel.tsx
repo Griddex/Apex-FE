@@ -2,6 +2,10 @@ import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
@@ -27,6 +31,11 @@ import {
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
+
 const SensitivitiesHeatMapDataPanel = ({
   setSelectedZ,
 }: IEconomicsResultsVisualytics) => {
@@ -36,9 +45,12 @@ const SensitivitiesHeatMapDataPanel = ({
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
-  const { economicsResultsStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsResultsStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer.economicsResultsStored,
+    (stored) => stored
   );
+
+  const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
   const {
     selectedEconomicsResultsTitle,
@@ -49,29 +61,7 @@ const SensitivitiesHeatMapDataPanel = ({
     showHeatMapCategoryMembersObj,
     heatMapCategoryDragItems,
     heatMapCategoryHasDropped,
-  } = useSelector((state: RootState) => {
-    const {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      sensitivitiesHeatMapTree,
-      heatMapVariableZOptions,
-      heatMapTreeByScenario,
-      showHeatMapCategoryMembersObj,
-      heatMapCategoryDragItems,
-      heatMapCategoryHasDropped,
-    } = state.economicsReducer;
-
-    return {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      sensitivitiesHeatMapTree,
-      heatMapVariableZOptions,
-      heatMapTreeByScenario,
-      showHeatMapCategoryMembersObj,
-      heatMapCategoryDragItems,
-      heatMapCategoryHasDropped,
-    };
-  });
+  } = useSelector(economicsSelector);
   console.log(
     "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 70 ~ heatMapVariableZOptions",
     heatMapVariableZOptions

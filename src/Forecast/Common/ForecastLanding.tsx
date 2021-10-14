@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,6 +8,11 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+import BadgeComingSoon from "../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
@@ -15,21 +20,20 @@ import Spreadsheet from "../../Application/Images/Spreadsheet.svg";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
-import ForecastGeneration from "../Images/ForecastGeneration.svg";
 import StoredDeck from "../../Import/Images/StoredDeck.svg";
+import RunForecastWorkflowDialog from "../../Network/Components/Dialogs/RunForecastWorkflowDialog";
+import ForecastGeneration from "../Images/ForecastGeneration.svg";
 import QualityAssurance from "../Images/QualityAssurance.svg";
 import VisualyticsCharts from "../Images/VisualyticsCharts.svg";
 import {
   loadForecastResultsWorkflowAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
-import StoredForecastResults from "../Routes/StoredForecastResults";
 import ForecastData from "../Routes/ForecastData";
-import ForecastVisualytics from "../Routes/ForecastVisualytics";
-import { IdType } from "./ForecastLandingTypes";
 import ForecastQualityAssurance from "../Routes/ForecastQualityAssurance";
-import RunForecastWorkflowDialog from "../../Network/Components/Dialogs/RunForecastWorkflowDialog";
-import BadgeComingSoon from "../../Application/Components/Badges/BadgeComingSoon";
+import ForecastVisualytics from "../Routes/ForecastVisualytics";
+import StoredForecastResults from "../Routes/StoredForecastResults";
+import { IdType } from "./ForecastLandingTypes";
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -55,14 +59,19 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const loadForecastResultsWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.loadForecastResultsWorkflow,
+  (workflow) => workflow
+);
+
 const ForecastLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const { url } = useRouteMatch();
 
-  const { loadForecastResultsWorkflow } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const loadForecastResultsWorkflow = useSelector(
+    loadForecastResultsWorkflowSelector
   );
 
   const forecastLandingData: ILandingData[] = [

@@ -1,15 +1,23 @@
-import { Box, Chip, useTheme } from "@mui/material";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import { Box, Chip, useTheme } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
 
 const NetworkTitlePlaque = () => {
   const theme = useTheme();
 
-  const { isNetworkAuto, selectedNetworkTitle, nodeElements } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const { isNetworkAuto, selectedNetworkTitle, nodeElements } =
+    useSelector(networkSelector);
 
   const isNetworkSaved = !(selectedNetworkTitle === "");
   const isNetworkDisplayed = nodeElements.length > 0;

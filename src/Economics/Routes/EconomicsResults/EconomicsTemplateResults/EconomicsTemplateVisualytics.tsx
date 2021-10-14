@@ -1,8 +1,12 @@
-import makeStyles from '@mui/styles/makeStyles';
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import React, { useEffect } from "react";
+import makeStyles from "@mui/styles/makeStyles";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
@@ -51,17 +55,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (drawer) => drawer
+);
+
+const isForecastResultsLoadingSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.isForecastResultsLoading,
+  (drawer) => drawer
+);
+
 const EconomicsTemplateVisualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const componentRef = React.useRef();
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { isForecastResultsLoading } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+  const isForecastResultsLoading = useSelector(
+    isForecastResultsLoadingSelector
   );
 
   const chartButtons: IChartButtonsProps = {

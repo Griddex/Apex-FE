@@ -1,45 +1,33 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import ApexTreeView from "../../../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
+const heatMapTreeByScenarioSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
+  (reducer) => reducer
+);
+
 export default function SensitivitiesHeatMapTreeView({
   height,
 }: ITreeViewProps) {
-  const { heatMapTreeByScenario, selectedAnalysesNames } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
+
   const rootTree = heatMapTreeByScenario as RenderTree;
 
   //TODO: Ability to handle multiple analyses
-  const selectedAnalysisName = selectedAnalysesNames[0];
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
   const [selectedPathsUnfiltered, setSelectedPathsUnfiltered] = React.useState<
     string[]
   >([]);
-
-  //TODO Only send request when all 3 variables are
-  //present
-  React.useEffect(() => {
-    const selectedPaths = selectedPathsUnfiltered.filter(
-      (p) => p?.match(/@#\$%/g)?.length === 2
-    );
-
-    // if (selectedIds.length > 0) {
-    //   dispatch(
-    //     getForecastResultsChartDataRequestAction(
-    //       selectedIds,
-    //       selectedNames,
-    //       selectedPaths,
-    //       selectedAnalysisName
-    //     )
-    //   );
-    // }
-  }, [selectedIds, selectedAnalysisName]);
 
   return (
     <ApexTreeView

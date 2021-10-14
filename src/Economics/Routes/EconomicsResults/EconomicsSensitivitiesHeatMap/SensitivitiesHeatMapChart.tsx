@@ -1,13 +1,18 @@
-import { useTheme } from "@mui/material";
 import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import { useTheme } from "@mui/material";
 import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import WithUnit from "../../../../Application/HOCs/WithUnit";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import isObjectEmpty from "../../../../Application/Utils/IsObjectEmpty";
 import {
@@ -25,7 +30,11 @@ import {
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
-import WithUnit from "../../../../Application/HOCs/WithUnit";
+
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
 
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
@@ -36,7 +45,6 @@ const SensitivitiesHeatMapChart = ({
 }: IEconomicsResultsVisualytics) => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const wc = "economicsAnalysisWorkflows";
 
   const {
     sensitivitiesHeatMapData,
@@ -47,29 +55,7 @@ const SensitivitiesHeatMapChart = ({
     resultsAnalyisOptions,
     selectedEconomicsResultsId,
     sensitivitiesHeatMap1or2D,
-  } = useSelector((state: RootState) => {
-    const {
-      sensitivitiesHeatMapData,
-      heatMapVariableXOptions,
-      heatMapVariableYOptions,
-      heatMapVariableZOptions,
-      heatMapTreeByScenario,
-      resultsAnalyisOptions,
-      selectedEconomicsResultsId,
-      sensitivitiesHeatMap1or2D,
-    } = state.economicsReducer;
-
-    return {
-      sensitivitiesHeatMapData,
-      heatMapVariableXOptions,
-      heatMapVariableYOptions,
-      heatMapVariableZOptions,
-      heatMapTreeByScenario,
-      resultsAnalyisOptions,
-      selectedEconomicsResultsId,
-      sensitivitiesHeatMap1or2D,
-    };
-  }, shallowEqual);
+  } = useSelector(economicsSelector);
 
   const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
     resultsAnalyisOptions[0]

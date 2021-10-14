@@ -1,10 +1,13 @@
-import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
 import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
@@ -65,12 +68,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+const forecastSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer,
+  (reducer) => reducer
+);
+
 const ForecastVisualytics = () => {
   const reducer = "forecastReducer";
   const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
 
-  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -78,23 +89,22 @@ const ForecastVisualytics = () => {
 
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
-  const { isForecastResultsLoading, selectedForecastChartOption } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+  const {
+    isForecastResultsLoading,
+    selectedForecastChartOption,
+    xValueCategories,
+  } = useSelector(forecastSelector);
 
   const chartType = selectedForecastChartOption.value;
 
-  const { chartData } = useSelector(
-    (state: RootState) => state.forecastReducer[wc][ch]
+  const chartSelector = createDeepEqualSelector(
+    (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
+    (chart) => chart
   );
 
-  const { xValueCategories } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+  const chartData = useSelector(chartSelector);
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -103,7 +113,7 @@ const ForecastVisualytics = () => {
         <ChartSelectionMenu
           chartOptions={forecastPlotChartsOptions}
           putChartOptionAction={
-            chartData.length > 0
+            (chartData as any[]).length > 0
               ? (chartOption: ISelectOption) => {
                   const payload = {
                     reducer: "forecastReducer",
@@ -180,7 +190,7 @@ const ForecastVisualytics = () => {
             {chartType === "Select Chart..." ? (
               <NoSelectionPlaceholder
                 icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                text="Select a chart.."
+                text="Select chart.."
               />
             ) : (
               <ForecastSelectChart />

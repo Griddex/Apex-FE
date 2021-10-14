@@ -1,5 +1,5 @@
 import { ClickAwayListener } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import findIndex from "lodash.findindex";
@@ -20,6 +20,10 @@ import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { IDeclineCurveParametersDetail } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles(() => ({
   rootStoredData: {
@@ -67,7 +71,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-//TODO: Calculate classification data from collection
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
 
 export default function DeclineCurveParameters({
   workflowProcess,
@@ -76,12 +83,7 @@ export default function DeclineCurveParameters({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const wp = workflowProcess;
-
-  const { selectedDeclineParametersData } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-
+  const { selectedDeclineParametersData } = useSelector(networkSelector);
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);

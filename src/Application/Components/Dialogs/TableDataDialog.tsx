@@ -4,8 +4,8 @@ import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import omit from "lodash.omit";
@@ -28,6 +28,10 @@ import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../Table/TableButtonsTypes";
 import { ReducersType } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -77,7 +81,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -93,7 +97,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -112,6 +117,11 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const allHeadersNameTitleUniqueMapSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer.allHeadersNameTitleUniqueMap,
+  (uniqueMap) => uniqueMap
+);
+
 const TableDataDialog = (props: DialogStuff) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -127,19 +137,24 @@ const TableDataDialog = (props: DialogStuff) => {
     workflowProcess,
   } = props;
 
-  const { allHeadersNameTitleUniqueMap } = useSelector(
-    (state: RootState) => state.applicationReducer
+  const allHeadersNameTitleUniqueMap = useSelector(
+    allHeadersNameTitleUniqueMapSelector
   );
 
-  const { selectedTableData } = useSelector(
-    (state: RootState) => state[reducer as ReducersType]
+  const selectedTableDataSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer as ReducersType]["selectedTableData"],
+    (table) => table
   );
+
+  const selectedTableData = useSelector(selectedTableDataSelector);
+
+  const forecastHeadersNameMapSelector = createDeepEqualSelector(
+    (state: RootState) => state.inputReducer.forecastHeadersNameMap,
+    (uniqueMap) => uniqueMap
+  );
+  const forecastHeadersNameMap = useSelector(forecastHeadersNameMapSelector);
 
   let sortedSelectedTableData;
-  const { forecastHeadersNameMap } = useSelector(
-    (state: RootState) => state.inputReducer
-  );
-
   if (workflowProcess?.toLowerCase().includes("forecast")) {
     const headerNames = Object.values(forecastHeadersNameMap) as string[];
 

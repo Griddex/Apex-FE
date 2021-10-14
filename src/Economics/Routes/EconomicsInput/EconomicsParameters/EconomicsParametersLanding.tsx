@@ -1,8 +1,12 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BadgeComingSoon from "../../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
@@ -53,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const loadEconomicsParametersWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.loadEconomicsParametersWorkflow,
+  (admin) => admin
+);
+
 const EconomicsParametersLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -60,8 +69,8 @@ const EconomicsParametersLanding = () => {
   const reducer = "economicsReducer";
   const { url, path } = useRouteMatch();
 
-  const { loadEconomicsParametersWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const loadEconomicsParametersWorkflow = useSelector(
+    loadEconomicsParametersWorkflowSelector
   );
 
   const economicsParametersLandingData: ILandingData[] = [

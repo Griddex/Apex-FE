@@ -1,11 +1,15 @@
-import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import IconButtonWithTooltip from "../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import NoSelectionPlaceholder from "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -69,7 +73,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const visualyticsSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer,
+  (reducer) => reducer
+);
+
 const PlotVisualytics = () => {
+  console.log("Plotvisualyticssssssssssssssssssssssss");
+
   const reducer = "visualyticsReducer";
   const wc = "visualyticsChartsWorkflows";
   const wp = "visualyticsResultsPlotCharts";
@@ -81,16 +97,14 @@ const PlotVisualytics = () => {
   const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const {
     visualyticsResults,
     xValueCategories,
     showPlotChartsCategories,
     selectedVisualyticsChartOption,
-  } = useSelector((state: RootState) => state.visualyticsReducer);
+  } = useSelector(visualyticsSelector);
 
   const chartType = selectedVisualyticsChartOption.value;
   const visualyticsPlotCharts = [
@@ -262,7 +276,7 @@ const PlotVisualytics = () => {
             {chartType === "Select Chart..." ? (
               <NoSelectionPlaceholder
                 icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                text="Select a chart.."
+                text="Select chart.."
               />
             ) : (
               <VisualyticsSelectChart />

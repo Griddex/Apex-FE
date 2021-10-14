@@ -1,7 +1,11 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
@@ -12,8 +16,6 @@ import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowA
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import SelectDatabase from "../../../Import/Components/SelectDatabase";
 import ConnectDatabase from "../../../Import/Routes/Common/Workflows/ConnectDatabase";
-import MatchHeaders from "../../../Import/Routes/Common/Workflows/MatchHeaders";
-import MatchUnits from "../../../Import/Routes/Common/Workflows/MatchUnits";
 
 const UploadFile = React.lazy(
   () => import("../../../Import/Routes/Common/Workflows/UploadFile")
@@ -65,6 +67,16 @@ const steps = [
   "Preview & Save",
 ];
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
 const VisualyticsDatabaseWorkflow = ({
   reducer,
   wrkflwCtgry,
@@ -77,16 +89,18 @@ const VisualyticsDatabaseWorkflow = ({
   const wp = wrkflwPrcss;
 
   const skipped = new Set<number>();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+
+  const activeStepSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
+    (activeStep) => activeStep
   );
-  const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
-  );
-  const applicationData = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const { moduleName, subModuleName, workflowName } = applicationData;
+
+  const activeStep = useSelector(activeStepSelector);
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,

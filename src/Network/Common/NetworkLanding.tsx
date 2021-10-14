@@ -8,6 +8,10 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import Image from "../../Application/Components/Visuals/Image";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -51,19 +55,20 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
+
 const NetworkLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const { url } = useRouteMatch();
 
-  const { loadNetworkGenerationWorkflow } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-
   const {
+    loadNetworkGenerationWorkflow,
     storedDataWorkflows: { networkStored, forecastingParametersStored },
-  } = useSelector((state: RootState) => state.networkReducer);
+  } = useSelector(networkSelector);
 
   const storedNetworksPresent =
     Array.isArray(networkStored) && networkStored.length > 0;

@@ -1,41 +1,45 @@
 import { ResponsiveStream } from "@nivo/stream";
 import React from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   ReducersType,
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { setChartObjectAction } from "../../Redux/Actions/VisualyticsActions";
 import {
+  IChart,
   IChartMetaData,
   ITooltipLabel,
 } from "../../Redux/State/VisualyticsStateTypes";
 import { itemTypesVisualytics } from "../../Utils/DragAndDropItemTypes";
 import renderTick from "../../Utils/RenderTicks";
 import { AxisProps, IChartProps } from "../ChartTypes";
-import { IChart } from "../../Redux/State/VisualyticsStateTypes";
+
+const xValueCategoriesSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.xValueCategories,
+  (categories) => categories
+);
 
 const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const dispatch = useDispatch();
-  const chartRef = React.useRef<any>("");
+  //TODO xValueCategories to be put in the proper store reducer
+  const xValueCategories = useSelector(xValueCategoriesSelector);
 
-  //xValueCategories to be put in the proper store reducer
-  const { xValueCategories } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const reducerWCSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc],
+    (wc) => wc
   );
 
-  const { commonChartProps, stackedAreaChart } = useSelector(
-    (state: RootState) => state[reducerDefined][wc]
-  );
+  const { commonChartProps, stackedAreaChart } = useSelector(reducerWCSelector);
   const { chartData } = stackedAreaChart;
-
-  const [again, setAgain] = React.useState(0);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: itemTypesVisualytics.VISUALYTICS_PLOTCHARTS,

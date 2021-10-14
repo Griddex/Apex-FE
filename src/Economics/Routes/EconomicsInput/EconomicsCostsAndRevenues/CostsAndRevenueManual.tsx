@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -43,6 +43,10 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -73,6 +77,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 export default function CostsAndRevenueManual({
   wkCy,
   wkPs,
@@ -90,9 +99,7 @@ export default function CostsAndRevenueManual({
 
   const componentRef = React.useRef();
 
-  const { unitOptionsByVariableName } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  );
+  const { unitOptionsByVariableName } = useSelector(unitSettingsSelector);
   console.log(
     "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 93 ~ unitOptionsByVariableName",
     unitOptionsByVariableName

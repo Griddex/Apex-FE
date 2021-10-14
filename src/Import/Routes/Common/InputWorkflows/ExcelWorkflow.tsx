@@ -1,7 +1,12 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+import * as xlsx from "xlsx";
 import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
@@ -11,8 +16,6 @@ import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/Wor
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
-import * as xlsx from "xlsx";
-import isEqual from "react-fast-compare";
 
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
@@ -50,6 +53,16 @@ const steps = [
   "Preview & Save",
 ];
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
 const ExcelWorkflow = ({
   reducer,
   wrkflwCtgry,
@@ -61,40 +74,31 @@ const ExcelWorkflow = ({
   console.log("I'm in excel workflowwwwwwwwwwwwwww");
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
-
   const skipped = new Set<number>();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => {
-      const { showContextDrawer } = state.layoutReducer;
-      return { showContextDrawer };
-    },
-    (prev, next) => isEqual(prev, next)
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+
+  const activeStepSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
+    (activeStep) => activeStep
   );
-  const { activeStep } = useSelector(
-    (state: RootState) => {
-      const { activeStep } = state.workflowReducer[wc][wp];
-      return { activeStep };
-    },
-    (prev, next) => isEqual(prev, next)
+
+  const activeStep = useSelector(activeStepSelector);
+
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
   );
+
   const { currentDevOption, developmentScenariosCompleted } = useSelector(
-    (state: RootState) => {
-      const { currentDevOption, developmentScenariosCompleted } =
-        state[reducer][wc][wp];
-      return { currentDevOption, developmentScenariosCompleted };
-    },
-    (prev, next) => isEqual(prev, next)
+    workflowProcessSelector
   );
-  const { moduleName, subModuleName, workflowName } = useSelector(
-    (state: RootState) => {
-      const { moduleName, subModuleName, workflowName } =
-        state.applicationReducer;
-      return { moduleName, subModuleName, workflowName };
-    },
-    (prev, next) => isEqual(prev, next)
-  );
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
 
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);

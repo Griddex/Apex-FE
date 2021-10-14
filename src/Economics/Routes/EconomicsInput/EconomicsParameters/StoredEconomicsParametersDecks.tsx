@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { CSSProperties } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -48,6 +48,10 @@ import {
   getEconomicsParametersByIdRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -153,10 +157,21 @@ const formatEconomicsParameters = (
   return snTransStoredData;
 };
 
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 export default function StoredEconomicsParametersDecks({
   showChart,
 }: IStoredDataProps) {
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -185,23 +200,23 @@ export default function StoredEconomicsParametersDecks({
   const wp: NonNullable<IStoredDataProps["wkPs"]> =
     "economicsParametersDeckStored";
 
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const reducer = "economicsReducer";
   const tableTitle = "Economics Parameters Table";
   const mainUrl = `${getBaseEconomicsUrl()}/parameter`;
   const collectionName =
     "commercialTechnical-fiscal-flarePenalty-gasRoyalty-oilRoyalty";
-  // "commercialTechnical", "fiscal" "flarePenalty" "gasRoyalty" "oilRoyalty" "ppt"
 
-  const { economicsParametersDeckStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
   );
 
+  const { economicsParametersDeckStored } = useSelector(economicsWCSelector);
+
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsSelector
   ) as IUnitSettingsData;
 
   const snTransStoredData: IStoredDataRow[] = formatEconomicsParameters(

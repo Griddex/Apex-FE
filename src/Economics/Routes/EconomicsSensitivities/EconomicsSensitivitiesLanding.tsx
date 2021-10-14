@@ -1,9 +1,13 @@
-import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
+import { useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -48,6 +52,12 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
+const loadEconomicsSensitivitiesWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.loadEconomicsSensitivitiesWorkflow,
+  (sen) => sen
+);
+
 const EconomicsSensitivitiesLanding = () => {
   const theme = useTheme();
   const classes = useStyles();
@@ -57,8 +67,8 @@ const EconomicsSensitivitiesLanding = () => {
   const wp = "economicsSensitivitiesCreate";
 
   const { url, path } = useRouteMatch();
-  const { loadEconomicsSensitivitiesWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const loadEconomicsSensitivitiesWorkflow = useSelector(
+    loadEconomicsSensitivitiesWorkflowSelector
   );
 
   const economicsSensitivitiesLandingData: ILandingData[] = [

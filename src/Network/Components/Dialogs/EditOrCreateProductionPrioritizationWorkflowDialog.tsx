@@ -1,13 +1,17 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { DialogActions, IconButton } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -19,7 +23,6 @@ import { INavigationButtonsProp } from "../../../Application/Components/Navigati
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   hideDialogAction,
@@ -29,12 +32,12 @@ import {
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveProductionPrioritizationRequestAction } from "../../Redux/Actions/NetworkActions";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import EditOrCreateProductionPrioritizationWorkflow from "../../Workflows/EditOrCreateProductionPrioritizationWorkflow";
 import {
   IStoredDataRow,
+  TUseState,
 } from "../../../Application/Types/ApplicationTypes";
+import { saveProductionPrioritizationRequestAction } from "../../Redux/Actions/NetworkActions";
+import EditOrCreateProductionPrioritizationWorkflow from "../../Workflows/EditOrCreateProductionPrioritizationWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +92,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -105,7 +108,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -124,7 +128,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-export interface IEditOrCreateProductionPrioritization{
+export interface IEditOrCreateProductionPrioritization {
   currRow?: Partial<IStoredDataRow>;
   setCurrRow?: TUseState<IStoredDataRow>;
   currentRow?: Partial<IStoredDataRow>;
@@ -135,6 +139,12 @@ export interface IEditOrCreateProductionPrioritization{
   activeStep?: number;
   forecastParametersIndex?: number;
 }
+
+const declineParametersTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["declineParametersTitles"],
+  (title) => title
+);
 
 const EditOrCreateProductionPrioritizationWorkflowDialog = (
   props: DialogStuff<IStoredDataRow>
@@ -152,19 +162,13 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
     forecastParametersIndex,
   } = props;
 
-  
-
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
-  const storedTitles = useSelector(
-    (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["declineParametersTitles"]
-  );
+  const storedTitles = useSelector(declineParametersTitlesSelector);
 
-  console.log("storedTitles: ", storedTitles);
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
   const [currRow, setCurrRow] = React.useState(currentRow);
@@ -174,12 +178,10 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
     description: formDescription,
   };
 
-  
   const productionPrioritizationParametersObj = { ...currRow, ...titleDesc };
-  console.log("productionPrioritizationParametersObj: ", productionPrioritizationParametersObj);
 
   let steps = [] as string[];
-  
+
   if (workflowProcessDefined === "createForecastingParametersWorkflow") {
     steps = [
       "Select Forecast InputDeck",
@@ -191,10 +193,16 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
   }
 
   const skipped = new Set<number>();
-  const { activeStep } = useSelector(
+
+  const activeStepSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcessDefined]
+      state.workflowReducer[workflowCategory][workflowProcessDefined][
+        "activeStep"
+      ],
+    (activeStep) => activeStep
   );
+
+  const activeStep = useSelector(activeStepSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
@@ -231,9 +239,11 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
   } as NonNullable<IEditOrCreateProductionPrioritization> &
     ITitleAndDescriptionFormProps;
 
-    const saveSelectedProductionPrioritization = () => {
-      return saveProductionPrioritizationRequestAction(productionPrioritizationParametersObj);
-    };
+  const saveSelectedProductionPrioritization = () => {
+    return saveProductionPrioritizationRequestAction(
+      productionPrioritizationParametersObj
+    );
+  };
 
   const createProductionPrioritizationConfirmation = () => {
     const dialogParameters: DialogStuff = {
@@ -249,10 +259,7 @@ const EditOrCreateProductionPrioritizationWorkflowDialog = (
         DialogOneCancelButtons(
           [true, true],
           [true, true],
-          [
-            unloadDialogsAction,
-            saveSelectedProductionPrioritization,
-          ],
+          [unloadDialogsAction, saveSelectedProductionPrioritization],
           "Save",
           "saveOutlined",
           false,

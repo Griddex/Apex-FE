@@ -1,10 +1,14 @@
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import * as xlsx from "xlsx";
 import {
   IOnlyWorkflows,
@@ -94,9 +98,13 @@ const UploadFile = ({
     IOnlyWorkflows["extraComponent"]
   >;
 
-  const { skipped, isStepSkipped, activeStep, steps } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
+  const workflowSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
   );
+
+  const { skipped, isStepSkipped, activeStep, steps } =
+    useSelector(workflowSelector);
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
