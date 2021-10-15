@@ -1,5 +1,5 @@
 import { Box, Chip, Container, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
 
@@ -22,9 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const WorkflowBanner = ({
   activeStep,
   steps,
-  moduleName,
   subModuleName,
-  workflowName,
 }: IWorkflowBannerProps) => {
   const classes = useStyles();
   const theme = useTheme();

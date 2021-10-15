@@ -1,17 +1,20 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import pick from "lodash.pick";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
-import EconomicsAnalysesPanel from "../../Components/Panels/EconomicsAnalysesPanel";
 import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
 import NetPresentValue from "../../Images/NetPresentValue.svg";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import { IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
-import EconomicsAnalysis from "./EconomicsAnalysis";
+
+const EconomicsAnalysis = React.lazy(() => import("./EconomicsAnalysis"));
+const EconomicsAnalysesPanel = React.lazy(
+  () => import("../../Components/Panels/EconomicsAnalysesPanel")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const economicsAnalyses: IEconomicsAnalysis[] = [
+export const economicsAnalysesData: IEconomicsAnalysis[] = [
   {
     name: "netcashFlow",
     title: "Net Cashflow",
@@ -215,7 +218,7 @@ export default function EconomicsAnalyses() {
     <div className={classes.root}>
       <div className={classes.workflowPanel}>
         <EconomicsAnalysesPanel
-          economicsAnalyses={economicsAnalyses}
+          economicsAnalyses={economicsAnalysesData}
           selectedAnalysis={selectedAnalysis}
           setSelectedAnalysis={setSelectedAnalysis}
         />
@@ -228,7 +231,7 @@ export default function EconomicsAnalyses() {
           </div>
         ) : (
           <EconomicsAnalysis
-            economicsAnalyses={economicsAnalyses}
+            economicsAnalyses={economicsAnalysesData}
             selectedAnalysis={selectedAnalysis}
           />
         )}

@@ -132,7 +132,9 @@ const forecastTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveInputDeckGenerateNetworkWorkflowDialog = (props: DialogStuff) => {
+const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
+  props
+) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, workflowProcess } = props;
 

@@ -22,7 +22,6 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   TRawTable,
@@ -35,7 +34,9 @@ import { IEconomicsParametersTable } from "./IParametersType";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+const ApexGrid = React.lazy(
+  () => import("../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const useStyles = makeStyles(() => ({
   economicsParametersTable: {
@@ -46,6 +47,8 @@ const useStyles = makeStyles(() => ({
     marginTop: 40,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const EconomicsParametersTable = ({
   row,
@@ -221,6 +224,8 @@ const EconomicsParametersTable = ({
     // }));
   };
 
+  const columns = generateColumns();
+
   return (
     <ApexFlexContainer
       ref={rootRef}
@@ -261,8 +266,8 @@ const EconomicsParametersTable = ({
         <div className={classes.economicsParametersTable}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
-                columns={generateColumns()}
+              <ApexGrid
+                columns={generateColumns() as Column<unknown, unknown>[]}
                 rows={rows}
                 onRowsChange={setRows}
                 tableButtons={tableButtons}

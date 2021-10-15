@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 
@@ -43,6 +41,8 @@ const override = css`
   top: 0;
   left: 0;
 `;
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const uiSpinnerPartialPropsSelector = createDeepEqualSelector(
   (state: RootState) => state.uiSpinnerReducer,

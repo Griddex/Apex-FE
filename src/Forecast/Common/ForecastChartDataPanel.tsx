@@ -4,18 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchForecastTreeviewKeysRequestAction,
   resetForecastChartsWorkflowsAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
-import ForecastTreeView from "./ForecastTreeView";
+
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import("../../Application/Components/PlaceHolders/NoSelectionPlaceholder")
+);
+const ChartDataPanel = React.lazy(
+  () => import("../../Visualytics/Components/ChartDataPanel/ChartDataPanel")
+);
+const ForecastTreeView = React.lazy(() => import("./ForecastTreeView"));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const forecastSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer,
@@ -112,7 +118,7 @@ const ForecastChartDataPanel = () => {
   };
 
   return (
-    <ChartDataPanel<IExtendedSelectOption>
+    <ChartDataPanel
       selectLabel={"Forecast Results"}
       selectedOption={forecastRunOption}
       titleOptions={forecastRunTitleOptions}

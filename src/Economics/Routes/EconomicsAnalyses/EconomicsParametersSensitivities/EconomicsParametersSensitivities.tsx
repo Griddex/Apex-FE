@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
@@ -20,7 +18,8 @@ import {
   IEcoSelectedSensitivities,
   TParametersId,
 } from "../EconomicsAnalysesTypes";
-import ParameterSensitivity from "./ParameterSensitivity";
+
+const ParameterSensitivity = React.lazy(() => import("./ParameterSensitivity"));
 
 const initialSensitivityValues = [
   {
@@ -33,6 +32,8 @@ const initialSensitivityValues = [
     p7: "",
   },
 ];
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const economicsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer,

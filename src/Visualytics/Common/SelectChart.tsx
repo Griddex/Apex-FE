@@ -3,20 +3,30 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import BarChart from "../Components/Charts/BarChart";
-import { TChartTypes } from "../Components/Charts/ChartTypes";
-import DoughnutChart from "../Components/Charts/DoughnutChart";
-import LineChart from "../Components/Charts/LineChart";
-import RadarChart from "../Components/Charts/RadarChart";
-import ScatterChart from "../Components/Charts/ScatterChart";
-import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 import { IChartProps } from "../Components/ChartTypes";
+import { TChartTypes } from "../Components/Charts/ChartTypes";
+
+const BarChart = React.lazy(() => import("../Components/Charts/BarChart"));
+const DoughnutChart = React.lazy(
+  () => import("../Components/Charts/DoughnutChart")
+);
+const LineChart = React.lazy(() => import("../Components/Charts/LineChart"));
+const RadarChart = React.lazy(() => import("../Components/Charts/RadarChart"));
+const ScatterChart = React.lazy(
+  () => import("../Components/Charts/ScatterChart")
+);
+const StackedAreaChart = React.lazy(
+  () => import("../Components/Charts/StackedAreaChart")
+);
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import("../../Application/Components/PlaceHolders/NoSelectionPlaceholder")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const ChartSelector = ({
   chartType,

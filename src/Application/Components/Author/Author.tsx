@@ -1,9 +1,8 @@
 import { Avatar, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import Image from "../../../Application/Components/Visuals/Image";
-import { AuthorType, IAuthor } from "./AuthorTypes";
 import getFirstCharFromEveryWord from "./../../Utils/GetFirstCharFromEveryWord";
+import { AuthorType, IAuthor } from "./AuthorTypes";
 
 const useStyles = makeStyles(() => ({
   image: { height: 30, width: 30 },

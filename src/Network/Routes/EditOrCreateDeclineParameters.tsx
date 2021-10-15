@@ -9,14 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -70,6 +68,8 @@ const useStyles = makeStyles(() => ({
     height: "100%",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const networkSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer,

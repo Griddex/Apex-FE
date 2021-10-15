@@ -5,11 +5,15 @@ import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Switch } from "react-router-dom";
-import RegisterRoute from "../../Administration/Routes/Register/RegisterRoute";
-import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
-import NotFnd from "../Routes/Challenges/NotFnd";
-import ProtectedRoute from "../Routes/ProtectedRoute";
 
+const RegisterRoute = React.lazy(
+  () => import("../../Administration/Routes/Register/RegisterRoute")
+);
+const SuspensePerpetualSpinner = React.lazy(
+  () => import("../Components/Visuals/SuspensePerpetualSpinner")
+);
+const NotFnd = React.lazy(() => import("../Routes/Challenges/NotFnd"));
+const ProtectedRoute = React.lazy(() => import("../Routes/ProtectedRoute"));
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
 const LoginRoute = React.lazy(() => import("../Routes/Login/LoginRoute"));
 const Layout = React.lazy(() => import("../Layout/Layout"));

@@ -132,9 +132,9 @@ const forecastingParametersTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const EditOrCreateForecastingParametersWorkflowDialog = (
-  props: DialogStuff<IForecastParametersStoredRow>
-) => {
+const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
+  DialogStuff<IForecastParametersStoredRow>
+> = (props) => {
   const workflowCategory = "networkDataWorkflows";
   const dispatch = useDispatch();
 

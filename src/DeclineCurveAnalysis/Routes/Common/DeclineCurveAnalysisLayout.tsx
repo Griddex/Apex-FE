@@ -7,13 +7,21 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import DeclineCurveAnalysis from "../../DeclineCurveAnalysis";
-import DeclineCurveAnalysisBackground from "./DeclineCurveAnalysisBackground";
 import {
   IDeclineCurveAnalysisLayouts,
   IdType,
 } from "./DeclineCurveAnalysisLayoutTypes";
+
+const SuspensePerpetualSpinner = React.lazy(
+  () =>
+    import("../../../Application/Components/Visuals/SuspensePerpetualSpinner")
+);
+const DeclineCurveAnalysis = React.lazy(
+  () => import("../../DeclineCurveAnalysis")
+);
+const DeclineCurveAnalysisBackground = React.lazy(
+  () => import("./DeclineCurveAnalysisBackground")
+);
 
 const navbarHeight = 43;
 const addedHeight = 0;

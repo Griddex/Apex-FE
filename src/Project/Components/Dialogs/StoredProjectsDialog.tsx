@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
-import React from "react";
+import React, { LazyExoticComponent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
@@ -20,6 +20,7 @@ import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import StoredProjects from "../../Routes/StoredProjects";
+import { TDataRow } from "../../../Application/Components/Export/ExcelExportTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,7 +116,7 @@ const selectedProjectIdSelector = createDeepEqualSelector(
   (id) => id
 );
 
-const StoredProjectsDialog = (props: DialogStuff) => {
+const StoredProjectsDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 

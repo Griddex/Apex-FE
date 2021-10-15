@@ -21,7 +21,6 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IInputWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -45,6 +44,11 @@ import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesType
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -1022,7 +1026,7 @@ export default function CostsAndRevenueManual({
           }
         />
       </ApexFlexContainer>
-      <ApexGrid<IRawRow, ITableButtonsProps>
+      <ApexGrid
         columns={columns}
         rows={rows}
         onRowsChange={setRows}

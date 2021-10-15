@@ -10,8 +10,6 @@ import {
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BadgeComingSoon from "../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
@@ -21,7 +19,6 @@ import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction"
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import StoredDeck from "../../Import/Images/StoredDeck.svg";
-import RunForecastWorkflowDialog from "../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 import ForecastGeneration from "../Images/ForecastGeneration.svg";
 import QualityAssurance from "../Images/QualityAssurance.svg";
 import VisualyticsCharts from "../Images/VisualyticsCharts.svg";
@@ -29,11 +26,21 @@ import {
   loadForecastResultsWorkflowAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
-import ForecastData from "../Routes/ForecastData";
-import ForecastQualityAssurance from "../Routes/ForecastQualityAssurance";
-import ForecastVisualytics from "../Routes/ForecastVisualytics";
-import StoredForecastResults from "../Routes/StoredForecastResults";
 import { IdType } from "./ForecastLandingTypes";
+
+const ForecastData = React.lazy(() => import("../Routes/ForecastData"));
+const ForecastQualityAssurance = React.lazy(
+  () => import("../Routes/ForecastQualityAssurance")
+);
+const ForecastVisualytics = React.lazy(
+  () => import("../Routes/ForecastVisualytics")
+);
+const StoredForecastResults = React.lazy(
+  () => import("../Routes/StoredForecastResults")
+);
+const RunForecastWorkflowDialog = React.lazy(
+  () => import("../../Network/Components/Dialogs/RunForecastWorkflowDialog")
+);
 
 const useStyles = makeStyles((theme) => ({
   forecastLanding: {
@@ -58,6 +65,8 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
   badge: { height: "fit-content" },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const loadForecastResultsWorkflowSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer.loadForecastResultsWorkflow,

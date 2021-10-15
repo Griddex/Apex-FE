@@ -4,12 +4,10 @@ import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import Author from "../../../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
@@ -23,7 +21,6 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
@@ -48,6 +45,12 @@ import {
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsSensitivitiesRow } from "./EconomicsParametersSensitivitiesTypes";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IStoredEconomicsSensitivitiesRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -107,6 +110,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const currentProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer,
@@ -411,7 +416,7 @@ export default function StoredEconomicsSensitivities() {
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IStoredEconomicsSensitivitiesRow, ITableButtonsProps>
+            <ApexGrid
               columns={columns}
               rows={rows}
               tableButtons={tableButtons}

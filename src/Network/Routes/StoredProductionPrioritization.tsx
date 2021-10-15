@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import Approval from "../../Application/Components/Approval/Approval";
 import Approvers from "../../Application/Components/Approvers/Approvers";
 import Author from "../../Application/Components/Author/Author";
@@ -22,7 +20,6 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
@@ -43,6 +40,11 @@ import {
   getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IStoredDataRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -102,6 +104,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export const productionPrioritizationStoredWithSN = (
   productionPrioritizationStored: any[]
@@ -580,7 +584,7 @@ export default function StoredProductionPrioritization({
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IStoredDataRow, ITableButtonsProps>
+            <ApexGrid
               columns={columns}
               rows={rows}
               tableButtons={tableButtons}

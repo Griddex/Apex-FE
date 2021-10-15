@@ -4,13 +4,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getVisualyticsChartDataRequestAction } from "../Redux/Actions/VisualyticsActions";
-import SelectChart from "./SelectChart";
+
+const SelectChart = React.lazy(() => import("./SelectChart"));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const visualyticsVariableXOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.visualyticsReducer.visualyticsVariableXOptions,

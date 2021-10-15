@@ -8,15 +8,11 @@ import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import IconButtonWithTooltip from "../../../Application/Components/IconButtons/IconButtonWithTooltip";
-import NoSelectionPlaceholder from "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
-import VisualyticsContext from "../../Components/ContextDrawers/VisualyticsContext";
 import ChartButtons from "../../Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Components/Menus/ChartSelectionMenu";
@@ -25,8 +21,22 @@ import {
   putSelectChartOptionAction,
   updateVisualyticsParameterAction,
 } from "../../Redux/Actions/VisualyticsActions";
-import VisualyticsChartDataPanel from "../VisualyticsChartDataPanel";
-import VisualyticsSelectChart from "../VisualyticsSelectChart";
+
+const VisualyticsContext = React.lazy(
+  () => import("../../Components/ContextDrawers/VisualyticsContext")
+);
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import(
+      "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
+    )
+);
+const VisualyticsChartDataPanel = React.lazy(
+  () => import("../VisualyticsChartDataPanel")
+);
+const VisualyticsSelectChart = React.lazy(
+  () => import("../VisualyticsSelectChart")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
     height: `calc(100% - 50px)`,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

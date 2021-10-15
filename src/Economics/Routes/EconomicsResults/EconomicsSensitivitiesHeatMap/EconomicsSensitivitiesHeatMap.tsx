@@ -4,10 +4,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+
+const HeatMapCustomCell = React.lazy(
+  () => import("../../../Components/HeatMapCustomComponents/HeatMapCustomCell")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 
 const economicsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer,

@@ -117,7 +117,7 @@ const networkTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveNetworkDialog = (props: DialogStuff) => {
+const SaveNetworkDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
   const [isSaveNetworkValid, setIsSaveNetworkValid] = React.useState(true);

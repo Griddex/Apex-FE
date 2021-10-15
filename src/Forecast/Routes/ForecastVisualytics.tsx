@@ -6,21 +6,15 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
-import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
 import { putSelectChartOptionAction } from "../../Visualytics/Redux/Actions/VisualyticsActions";
-import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
-import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
 import { forecastPlotChartsOptions } from "../Data/ForecastData";
@@ -29,6 +23,20 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
+
+const VisualyticsContext = React.lazy(
+  () => import("../../Visualytics/Components/ContextDrawers/VisualyticsContext")
+);
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import("../../Application/Components/PlaceHolders/NoSelectionPlaceholder")
+);
+const ForecastChartDataPanel = React.lazy(
+  () => import("../Common/ForecastChartDataPanel")
+);
+const ForecastSelectChart = React.lazy(
+  () => import("../Common/ForecastSelectChart")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,6 +75,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "90%",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

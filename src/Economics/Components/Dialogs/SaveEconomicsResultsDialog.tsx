@@ -117,7 +117,7 @@ const economicsResultTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveEconomicsResultsDialog = (props: DialogStuff) => {
+const SaveEconomicsResultsDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
 
   const storedTitles = useSelector(economicsResultTitlesSelector);

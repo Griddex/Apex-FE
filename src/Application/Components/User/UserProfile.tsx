@@ -21,8 +21,6 @@ import { IIconNameComp } from "./UserTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const useStyles = makeStyles((theme) => ({
   image: { height: 80, width: 80 },
   userProfile: {
@@ -46,17 +44,6 @@ const useStyles = makeStyles((theme) => ({
   badge: { marginRight: 15 },
 }));
 
-//TODO: Saga to grab user profile information from server
-//Put data in store and retrieve here using useSelector
-/* const userProfileData: IUserDetails = {
-  avatarUrl: anitaImg,
-  name: "Gideon Sanni",
-  callName: "Gideon",
-  email: "gideon.sanni@syncware.com",
-  jobTitle: "Senior Reservoir Engineer",
-  role: "Corporate Forecaster",
-}; */
-
 const IconNameComp = ({ icon, name, iconNameStyles }: IIconNameComp) => {
   return (
     <div style={iconNameStyles}>
@@ -67,6 +54,8 @@ const IconNameComp = ({ icon, name, iconNameStyles }: IIconNameComp) => {
 };
 
 const iconNameStyles = { display: "flex", marginTop: 5, marginBottom: 5 };
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const loginPartialPropsSelector = createDeepEqualSelector(
   (state: RootState) => state.loginReducer,

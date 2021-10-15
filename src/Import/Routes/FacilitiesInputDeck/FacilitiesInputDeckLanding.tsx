@@ -21,9 +21,6 @@ import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
-import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import StoredFacilitiesDecks from "./StoredFacilitiesDecks";
 import { IdType } from "./FacilitiesInputDeckLandingTypes";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
@@ -31,6 +28,16 @@ import DialogOneCancelButtons from "../../../Application/Components/DialogButton
 import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const ExcelWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/ExcelWorkflow")
+);
+const StoredFacilitiesDecks = React.lazy(
+  () => import("./StoredFacilitiesDecks")
+);
+const DatabaseWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/DatabaseWorkflow")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

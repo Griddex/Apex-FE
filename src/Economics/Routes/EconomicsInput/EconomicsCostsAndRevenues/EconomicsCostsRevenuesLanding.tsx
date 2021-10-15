@@ -9,7 +9,6 @@ import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
-import SuspensePerpetualSpinner from "../../../../Application/Components/Visuals/SuspensePerpetualSpinner";
 import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { subNavbarSetMenuAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
@@ -21,8 +20,6 @@ import { ILandingData } from "../../../../Application/Types/ApplicationTypes";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
-import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
-import SelectScenariosByButtonsWithForecastCase from "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase";
 import ForecastResults from "../../../Images/ForecastResults.svg";
 import Manual from "../../../Images/Manual.svg";
 import {
@@ -31,12 +28,35 @@ import {
   saveCostsRevenuesRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import CostsRevenueApexForecastWorkflow from "../../../Workflows/CostsRevenueApexForecastWorkflow";
-import CostsAndRevenueManual from "./CostsAndRevenueManual";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
-import StoredCostsAndRevenuesDecks from "./StoredCostsAndRevenuesDecks";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const CostsRevenueApexForecastWorkflow = React.lazy(
+  () => import("../../../Workflows/CostsRevenueApexForecastWorkflow")
+);
+const CostsAndRevenueManual = React.lazy(
+  () => import("./CostsAndRevenueManual")
+);
+const StoredCostsAndRevenuesDecks = React.lazy(
+  () => import("./StoredCostsAndRevenuesDecks")
+);
+const SelectScenariosByButtonsWithForecastCase = React.lazy(
+  () =>
+    import(
+      "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase"
+    )
+);
+const DatabaseWorkflow = React.lazy(
+  () =>
+    import("../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow")
+);
+const SuspensePerpetualSpinner = React.lazy(
+  () =>
+    import(
+      "../../../../Application/Components/Visuals/SuspensePerpetualSpinner"
+    )
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

@@ -11,12 +11,17 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import StoredProductionData from "./StoredProductionData";
 import { IdType, IProductionLandingData } from "./ProductionDataLandingTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const DatabaseWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/DatabaseWorkflow")
+);
+const ExcelWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/ExcelWorkflow")
+);
+const StoredProductionData = React.lazy(() => import("./StoredProductionData"));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

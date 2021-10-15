@@ -14,10 +14,6 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
-const navbarHeight = 43;
-
 const useStyles = makeStyles((theme) => {
   return {
     hide: {
@@ -60,6 +56,8 @@ const useStyles = makeStyles((theme) => {
     menuButton: { alignSelf: "center", height: 30, width: 30 },
   };
 });
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const expandDialogContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.expandDialogContextDrawer,

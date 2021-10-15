@@ -5,12 +5,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
-import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import { resetChartDataAction } from "../../Visualytics/Redux/Actions/VisualyticsActions";
 import {
@@ -21,6 +18,12 @@ import {
 } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { transformModulePaths } from "../Utils/TransformForecastForChart";
+
+const ApexTreeView = React.lazy(
+  () => import("../../Visualytics/Components/TreeView/ApexTreeView")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const selectedForecastChartOptionSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer.selectedForecastChartOption,

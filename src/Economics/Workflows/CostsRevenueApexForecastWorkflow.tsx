@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
-import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
@@ -18,10 +15,21 @@ import WorkflowBanner from "../../Application/Components/Workflows/WorkflowBanne
 import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import StoredForecastResults from "../../Forecast/Routes/StoredForecastResults";
 import { forecastCaseOptions } from "../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../Redux/Actions/EconomicsActions";
-import CostsAndRevenueApexForecast from "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueApexForecast";
+
+const ContextDrawer = React.lazy(
+  () => import("../../Application/Components/Drawers/ContextDrawer")
+);
+const StoredForecastResults = React.lazy(
+  () => import("../../Forecast/Routes/StoredForecastResults")
+);
+const CostsAndRevenueApexForecast = React.lazy(
+  () =>
+    import(
+      "../Routes/EconomicsInput/EconomicsCostsAndRevenues/CostsAndRevenueApexForecast"
+    )
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +103,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const steps = ["Select Forecast Results", "Populate Costs"];
 const workflowCategory = "inputDataWorkflows";

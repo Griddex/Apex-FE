@@ -107,7 +107,9 @@ const economicsParametersTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveEconomicsParametersInputDeckDialog = (props: DialogStuff) => {
+const SaveEconomicsParametersInputDeckDialog: React.FC<DialogStuff> = (
+  props
+) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 

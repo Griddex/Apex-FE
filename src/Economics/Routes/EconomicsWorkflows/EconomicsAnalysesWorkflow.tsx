@@ -3,19 +3,32 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
-import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
+import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import EconomicsAnalyses from "../EconomicsAnalyses/EconomicsAnalyses";
-import StoredCostsAndRevenuesDecks from "../EconomicsInput/EconomicsCostsAndRevenues/StoredCostsAndRevenuesDecks";
-import StoredEconomicsParametersDecks from "../EconomicsInput/EconomicsParameters/StoredEconomicsParametersDecks";
+
+const ContextDrawer = React.lazy(
+  () => import("../../../Application/Components/Drawers/ContextDrawer")
+);
+const EconomicsAnalyses = React.lazy(
+  () => import("../EconomicsAnalyses/EconomicsAnalyses")
+);
+const StoredCostsAndRevenuesDecks = React.lazy(
+  () =>
+    import(
+      "../EconomicsInput/EconomicsCostsAndRevenues/StoredCostsAndRevenuesDecks"
+    )
+);
+const StoredEconomicsParametersDecks = React.lazy(
+  () =>
+    import(
+      "../EconomicsInput/EconomicsParameters/StoredEconomicsParametersDecks"
+    )
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +108,8 @@ const steps = [
   "Select Costs & Revenues",
   "Economics Analyses",
 ];
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

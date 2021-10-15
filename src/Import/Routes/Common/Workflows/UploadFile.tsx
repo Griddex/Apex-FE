@@ -7,8 +7,6 @@ import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import * as xlsx from "xlsx";
 import {
   IOnlyWorkflows,
@@ -78,6 +76,8 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #F7F7F7",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const UploadFile = ({
   reducer,

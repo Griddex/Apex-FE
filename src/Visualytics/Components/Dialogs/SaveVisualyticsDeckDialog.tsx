@@ -107,7 +107,7 @@ const visualyticsTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveVisualyticsDeckDialog = (props: DialogStuff) => {
+const SaveVisualyticsDeckDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 

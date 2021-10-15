@@ -16,12 +16,17 @@ import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import StoredDeck from "../../Images/StoredDeck.svg";
-import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import { IdType } from "./ForecastInputDeckLandingTypes";
-import StoredForecastDecks from "./StoredForecastDecks";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const StoredForecastDecks = React.lazy(() => import("./StoredForecastDecks"));
+const DatabaseWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/DatabaseWorkflow")
+);
+const ExcelWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/ExcelWorkflow")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

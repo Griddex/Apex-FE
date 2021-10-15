@@ -6,13 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -56,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
   },
   score: { fontSize: 14 },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export default function PreviewSave({
   reducer,
@@ -292,7 +292,7 @@ export default function PreviewSave({
     <div className={classes.rootPreviewSave}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IRawRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={tableData}
             tableButtons={tableButtons}

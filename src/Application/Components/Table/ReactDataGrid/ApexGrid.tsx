@@ -29,6 +29,7 @@ import { ISelectOption } from "../../Selects/SelectItemsType";
 import TableButtons from "../TableButtons";
 import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
+import { ITableButtonsProps } from "../TableButtonsTypes";
 
 const useStyles = makeStyles((theme) => ({
   tableHeadBanner: {
@@ -80,7 +81,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
+export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
+  props: IApexGrid<R, O>
+) {
   const classes = useStyles(props);
 
   const {
@@ -88,7 +91,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     rows: rawRows,
     tableButtons,
     newTableRowHeight,
-    onSelectedCellChange,
     selectedRows,
     setSelectedRows,
     selectedRow,
@@ -117,7 +119,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   const tableHeaderHeight = 40;
   const tableRowHeight = newTableRowHeight ? newTableRowHeight : 35;
-  const pagesHeight = 35;
   const noOfTableRows = rawTableRows.current?.length;
 
   const [inComingColumns, setIncomingColumns] = useState(columns);
@@ -490,7 +491,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       <DndProvider backend={HTML5Backend}>
         <div className={classes.tableHeightStyle}>
           <ReactDataGrid
-            // ref={mergeRefs(gridRef, componentRef)}
             ref={gridRef}
             style={{ height: "100%" }}
             rows={sortedRows}

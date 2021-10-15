@@ -12,8 +12,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   mainDrawerCollapseAction,
   mainDrawerExpandAction,
@@ -83,6 +81,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.grey[500],
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const layoutPartialPropsSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer,

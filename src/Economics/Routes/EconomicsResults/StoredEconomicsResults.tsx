@@ -12,8 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import Approval from "../../../Application/Components/Approval/Approval";
 import Author from "../../../Application/Components/Author/Author";
 import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
@@ -30,7 +28,6 @@ import ExcelExportTable, {
 } from "../../../Application/Components/Export/ExcelExportTable";
 import Saved from "../../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
@@ -63,6 +60,11 @@ import {
   getEconomicsResultsByIdRequestAction,
 } from "../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
+
+const ApexGrid = React.lazy(
+  () => import("../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IStoredEconomicsResultsRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -122,6 +124,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const currentProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.currentProjectId,
@@ -533,7 +537,7 @@ export default function StoredEcoResults({
         <div className={classes.table}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IStoredEconomicsResultsRow, ITableButtonsProps>
+              <ApexGrid
                 columns={columns}
                 rows={rows}
                 tableButtons={tableButtons}

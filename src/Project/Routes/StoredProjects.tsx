@@ -2,16 +2,19 @@ import React, { CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataRow } from "../../Application/Types/ApplicationTypes";
-import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { fetchStoredProjectsRequestAction } from "../Redux/Actions/ProjectActions";
 import { IApplicationProject } from "../Redux/State/ProjectStateTypes";
+
+const StoredDataRoute = React.lazy(
+  () => import("../../Import/Routes/Common/InputWorkflows/StoredDataRoute")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const storedProjectsSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.storedProjects,

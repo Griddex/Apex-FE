@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParametersAction } from "./../../Redux/Actions/EconomicsActions";
-import EconomicsAnalysesWorkflow from "./../EconomicsWorkflows/EconomicsAnalysesWorkflow";
-import { economicsAnalyses } from "./EconomicsAnalyses";
 import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
+import { economicsAnalysesData } from "./EconomicsAnalyses";
+
+const EconomicsAnalysesWorkflow = React.lazy(
+  () => import("./../EconomicsWorkflows/EconomicsAnalysesWorkflow")
+);
 
 const useStyles = makeStyles(() => ({
   rootAnalysesButtons: {
@@ -37,6 +38,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const loadEconomicsAnalysesWorkflowSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.loadEconomicsAnalysesWorkflow,
   (admin) => admin
@@ -52,7 +55,7 @@ const EconomicsAnalysesLanding = () => {
     loadEconomicsAnalysesWorkflowSelector
   );
 
-  const analysesButtons = economicsAnalyses.map(
+  const analysesButtons = economicsAnalysesData.map(
     (analysisObj: IEconomicsAnalysis) => {
       const { name, title, icon } = analysisObj;
 

@@ -5,17 +5,22 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import EconomicsTemplateChart from "./EconomicsTemplateChart";
-import EconomicsTemplateDataPanel from "./EconomicsTemplateDataPanel";
+
+const EconomicsTemplateChart = React.lazy(
+  () => import("./EconomicsTemplateChart")
+);
+const EconomicsTemplateDataPanel = React.lazy(
+  () => import("./EconomicsTemplateDataPanel")
+);
+const ContextDrawer = React.lazy(
+  () => import("../../../../Application/Components/Drawers/ContextDrawer")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "90%",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

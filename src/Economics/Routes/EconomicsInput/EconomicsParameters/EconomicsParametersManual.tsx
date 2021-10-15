@@ -15,7 +15,6 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   TRawTable,
@@ -30,9 +29,16 @@ import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsA
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const EconomicsParametersValue = React.lazy(
+  () => import("../../../Components/Parameters/EconomicsParametersValue")
+);
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -306,7 +312,7 @@ const EconomicsParametersManual = ({
         <div className={classes.rootEconomicsParametersManual}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
+              <ApexGrid
                 columns={columns}
                 rows={rows}
                 onRowsChange={setRows}

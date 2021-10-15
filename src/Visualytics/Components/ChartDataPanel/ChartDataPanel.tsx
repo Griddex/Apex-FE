@@ -7,14 +7,20 @@ import React from "react";
 import { Rnd } from "react-rnd";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
-import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import {
+  IExtendedSelectOption,
+  ISelectOption,
+} from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+
+const DraggableDialog = React.lazy(
+  () => import("../../../Application/Components/Dialogs/DraggableDialog")
+);
 
 export interface ITreeViewProps {
   height: number;
@@ -37,7 +43,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   clearChartCategories?: () => IAction;
 }
 
-const ChartDataPanel = <T extends ISelectOption>({
+const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   selectLabel,
   selectedOption,
   titleOptions,
@@ -51,7 +57,22 @@ const ChartDataPanel = <T extends ISelectOption>({
   renderCategoryIcon,
   showMembersObjValues,
   clearChartCategories,
-}: IChartDataPanel<T>) => {
+}) => {
+  // const ChartDataPanel = <T extends ISelectOption>({
+  //   selectLabel,
+  //   selectedOption,
+  //   titleOptions,
+  //   handleSelectChange,
+  //   hasSecondaryComponent,
+  //   secondarySelectComponent,
+  //   treeViewComponent,
+  //   extrudeCategories,
+  //   setExtrudeCategories,
+  //   categoriesComponent,
+  //   renderCategoryIcon,
+  //   showMembersObjValues,
+  //   clearChartCategories,
+  // }: IChartDataPanel<T>) => {
   const theme = useTheme();
   const treeRef = React.useRef<HTMLDivElement>(null);
 
@@ -70,7 +91,7 @@ const ChartDataPanel = <T extends ISelectOption>({
 
   const SelectTitle = () => {
     return (
-      <ApexSelectRS<T>
+      <ApexSelectRS<IExtendedSelectOption>
         valueOption={selectedOption}
         data={titleOptions}
         handleSelect={handleSelectChange}

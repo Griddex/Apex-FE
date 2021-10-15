@@ -1,12 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
-import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
-import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
@@ -19,10 +15,35 @@ import {
   updateEconomicsPlotChartsHasDroppedAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
-import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const EconomicsPlotChartsTreeView = React.lazy(
+  () => import("./EconomicsPlotChartsTreeView")
+);
+const XYYZRChartCategories = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories"
+    )
+);
+const CategoryPanelComponent = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel"
+    )
+);
+const ChartDataPanel = React.lazy(
+  () =>
+    import("../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel")
+);
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import(
+      "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
+    )
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

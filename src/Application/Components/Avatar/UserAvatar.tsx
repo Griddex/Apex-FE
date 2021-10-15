@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { persistUserAvatarAction } from "../../../Administration/Redux/Actions/UserActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 
@@ -42,6 +41,8 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const avatarUrlSelector = createDeepEqualSelector(
   (state: RootState) => state.adminReducer.avatarUrl,

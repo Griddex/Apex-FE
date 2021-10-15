@@ -17,8 +17,6 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const mainDrawerExpanded = 96;
 const mainDrawerWidthCollapsed = 40;
 const subNavBarHeight = 25;
@@ -61,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const expandMainDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.expandMainDrawer,

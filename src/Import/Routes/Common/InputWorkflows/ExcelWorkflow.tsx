@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import * as xlsx from "xlsx";
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
@@ -17,6 +14,9 @@ import { workflowInitAction } from "../../../../Application/Redux/Actions/Workfl
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
 
+const ContextDrawer = React.lazy(
+  () => import("../../../../Application/Components/Drawers/ContextDrawer")
+);
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
 const SelectHeaderUnitData = React.lazy(
@@ -52,6 +52,8 @@ const steps = [
   "Match Units",
   "Preview & Save",
 ];
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

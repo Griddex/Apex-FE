@@ -14,8 +14,6 @@ import { SizeMe } from "react-sizeme";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -26,7 +24,6 @@ import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../Application/Components/Selects/SelectItemsType";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
@@ -37,6 +34,10 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +75,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const forecastSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer,
@@ -476,7 +479,7 @@ export default function ForecastData({
         <div className={classes.workflowBody}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
+              <ApexGrid
                 columns={columns}
                 rows={rows}
                 tableButtons={tableButtons as ITableButtonsProps}

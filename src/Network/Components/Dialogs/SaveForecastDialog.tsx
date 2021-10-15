@@ -117,7 +117,7 @@ const forecastResultTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveForecastDialog = (props: DialogStuff) => {
+const SaveForecastDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
   const [isSaveForecastResultsValid, setIsSaveForecastResultsValid] =

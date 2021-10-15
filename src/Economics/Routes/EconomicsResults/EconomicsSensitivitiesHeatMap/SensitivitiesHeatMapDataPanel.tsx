@@ -4,19 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
-import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
-import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
-import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
@@ -29,7 +23,34 @@ import {
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
-import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
+
+const XYYZRChartCategories = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories"
+    )
+);
+const CategoryPanelComponent = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel"
+    )
+);
+const ChartDataPanel = React.lazy(
+  () =>
+    import("../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel")
+);
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import(
+      "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
+    )
+);
+const SensitivitiesHeatMapTreeView = React.lazy(
+  () => import("./SensitivitiesHeatMapTreeView")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const economicsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer,

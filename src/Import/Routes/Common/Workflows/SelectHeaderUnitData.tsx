@@ -15,7 +15,7 @@ import {
   ISelectOption,
   TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ApexGridRolesState } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridState";
 import {
   IRawRow,
@@ -294,7 +294,7 @@ export default function SelectHeaderUnitData({
     <div className={classes.rootParseTable}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IRawRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={rows}
             tableButtons={tableButtons}

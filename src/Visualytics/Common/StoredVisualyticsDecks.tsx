@@ -3,8 +3,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
@@ -22,9 +20,14 @@ import {
   IApplicationStoredDataRow,
   IStoredDataProps,
 } from "../../Application/Types/ApplicationTypes";
-import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../../Import/Routes/InputDeckTypes";
 import { fetchStoredVisualyticsDataRequestAction } from "../Redux/Actions/VisualyticsActions";
+
+const StoredDataRoute = React.lazy(
+  () => import("../../Import/Routes/Common/InputWorkflows/StoredDataRoute")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const currentProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.currentProjectId,

@@ -7,8 +7,9 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import Loading from "../../../Application/Components/Visuals/Loading";
-import CorporateBackground from "./CorporateBackground";
 import { ICorporateLayouts, IdType } from "./CorporateLayoutTypes";
+
+const CorporateBackground = React.lazy(() => import("./CorporateBackground"));
 
 const navbarHeight = 43;
 const addedHeight = 0;

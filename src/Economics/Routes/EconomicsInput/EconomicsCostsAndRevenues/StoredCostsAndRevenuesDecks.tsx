@@ -9,7 +9,6 @@ import {
   IStoredDataProps,
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
-import StoredDataRoute from "../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../../../../Import/Routes/InputDeckTypes";
 import {
   fetchStoredEconomicsDataRequestAction,
@@ -17,6 +16,11 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const StoredDataRoute = React.lazy(
+  () =>
+    import("../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -31,6 +35,7 @@ export default function StoredCostsAndRevenuesDecks({
   showChart,
 }: IStoredInputDeck) {
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {

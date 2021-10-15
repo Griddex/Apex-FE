@@ -8,8 +8,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -21,7 +19,6 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics";
 import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
@@ -37,8 +34,19 @@ import {
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "./EconomicsAnalysesTypes";
-import EconomicsDecksSelectionTable from "./EconomicsDecksSelectionTable";
-import EconomicsSensitivitiesTable from "./EconomicsParametersSensitivities/EconomicsSensitivitiesTable";
+
+const SelectScenariosByButtonsWithForecastCaseEconomics = React.lazy(
+  () =>
+    import(
+      "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics"
+    )
+);
+const EconomicsDecksSelectionTable = React.lazy(
+  () => import("./EconomicsDecksSelectionTable")
+);
+const EconomicsSensitivitiesTable = React.lazy(
+  () => import("./EconomicsParametersSensitivities/EconomicsSensitivitiesTable")
+);
 
 const useStyles = makeStyles((theme) => ({
   npvImage: {
@@ -73,6 +81,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 20,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const EconomicsAnalysis = ({
   workflowProcess,

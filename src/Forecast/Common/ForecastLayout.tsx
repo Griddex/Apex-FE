@@ -1,8 +1,11 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
-import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import ForecastLanding from "./ForecastLanding";
+
+const SuspensePerpetualSpinner = React.lazy(
+  () => import("../../Application/Components/Visuals/SuspensePerpetualSpinner")
+);
+const ForecastLanding = React.lazy(() => import("./ForecastLanding"));
 
 const navbarHeight = 43;
 const subNavBarHeight = 0;

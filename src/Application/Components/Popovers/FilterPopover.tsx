@@ -15,8 +15,6 @@ import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -78,6 +76,8 @@ export interface IPopoverProps {
   localDispatch: TUseState<{ type: string; payload: any }>;
   workflowProcess?: string;
 }
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const FilterPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
   ({ title, action, handleCancel, localDispatch, workflowProcess }, ref) => {

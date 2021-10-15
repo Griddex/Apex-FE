@@ -8,19 +8,14 @@ import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
-import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
-import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
-import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
 import { putSelectChartOptionAction } from "../../../../Visualytics/Redux/Actions/VisualyticsActions";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import { economicsPlotChartsOptions } from "../../../Data/EconomicsData";
@@ -29,8 +24,28 @@ import {
   updateEconomicsChartCategoryAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
-import EconomicsPlotChartsSelectChart from "./EconomicsPlotChartsSelectChart";
+
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import(
+      "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
+    )
+);
+const ChartSelectionMenu = React.lazy(
+  () => import("../../../../Visualytics/Components/Menus/ChartSelectionMenu")
+);
+const VisualyticsContext = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext"
+    )
+);
+const EconomicsPlotChartsDataPanel = React.lazy(
+  () => import("./EconomicsPlotChartsDataPanel")
+);
+const EconomicsPlotChartsSelectChart = React.lazy(
+  () => import("./EconomicsPlotChartsSelectChart")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +88,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "90%",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

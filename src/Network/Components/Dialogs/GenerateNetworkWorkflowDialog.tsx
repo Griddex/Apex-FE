@@ -126,7 +126,7 @@ const steps = ["Select Facilities InputDeck", "Select Forecast InputDeck"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
-const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
+const GenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
 

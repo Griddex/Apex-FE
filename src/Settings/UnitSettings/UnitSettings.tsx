@@ -10,8 +10,6 @@ import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
@@ -21,7 +19,6 @@ import ExcelExportTable, {
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -46,6 +43,11 @@ import {
   SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IUnitsRow, ITableButtonsProps>
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -87,6 +89,8 @@ const useStyles = makeStyles(() => ({
 export interface IUnitSettings {
   isDialog: boolean;
 }
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const variableUnitsSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer["variableUnits"],
@@ -653,7 +657,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
 
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IUnitsRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={rows}
             tableButtons={tableButtons}

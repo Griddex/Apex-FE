@@ -25,13 +25,20 @@ import {
   loadVisualyticsWorkflowAction,
   saveVisualyticsRequestAction,
 } from "../Redux/Actions/VisualyticsActions";
-import StoredVisualyticsDecks from "./StoredVisualyticsDecks";
 import { IdType } from "./VisualyticsLandingTypes";
-import PlotVisualytics from "./Workflows/PlotVisualytics";
-import VisualyticsDatabaseWorkflow from "./Workflows/VisualyticsDatabaseWorkflow";
-import VisualyticsExcelWorkflow from "./Workflows/VisualyticsExcelWorkflow";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const StoredVisualyticsDecks = React.lazy(
+  () => import("./StoredVisualyticsDecks")
+);
+const PlotVisualytics = React.lazy(() => import("./Workflows/PlotVisualytics"));
+const VisualyticsDatabaseWorkflow = React.lazy(
+  () => import("./Workflows/VisualyticsDatabaseWorkflow")
+);
+const VisualyticsExcelWorkflow = React.lazy(
+  () => import("./Workflows/VisualyticsExcelWorkflow")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

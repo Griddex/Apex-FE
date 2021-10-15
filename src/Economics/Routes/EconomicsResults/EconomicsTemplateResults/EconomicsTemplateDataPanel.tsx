@@ -3,13 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   resetTemplateChartsWorkflowsAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import EconomicsTemplateTreeView from "./EconomicsTemplateTreeView";
+
+const ChartDataPanel = React.lazy(
+  () =>
+    import("../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel")
+);
+const EconomicsTemplateTreeView = React.lazy(
+  () => import("./EconomicsTemplateTreeView")
+);
 
 const EconomicsTemplateDataPanel = () => {
   const dispatch = useDispatch();

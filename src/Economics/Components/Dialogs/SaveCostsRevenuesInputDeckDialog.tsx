@@ -107,7 +107,7 @@ const economicsCostsRevenuesTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveCostsRevenuesInputDeckDialog = (props: DialogStuff) => {
+const SaveCostsRevenuesInputDeckDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 

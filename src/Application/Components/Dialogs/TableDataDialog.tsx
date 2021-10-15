@@ -23,15 +23,13 @@ import ExcelExportTable, {
 } from "../Export/ExcelExportTable";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
-import { ApexGrid } from "../Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../Table/TableButtonsTypes";
 import { ReducersType } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -117,12 +115,14 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const allHeadersNameTitleUniqueMapSelector = createDeepEqualSelector(
   (state: RootState) => state.applicationReducer.allHeadersNameTitleUniqueMap,
   (uniqueMap) => uniqueMap
 );
 
-const TableDataDialog = (props: DialogStuff) => {
+const TableDataDialog: React.FC<DialogStuff> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -239,7 +239,7 @@ const TableDataDialog = (props: DialogStuff) => {
         <div className={classes.table}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
+              <ApexGrid
                 columns={columns as Column<IRawRow>[]}
                 rows={snSelectedTableData as IRawRow[]}
                 onRowsChange={setRows}

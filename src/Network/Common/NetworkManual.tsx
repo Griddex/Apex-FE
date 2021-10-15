@@ -23,17 +23,7 @@ import mergeRefs from "react-merge-refs";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
-import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
-import {
-  default as DrainagePointContextDrawer,
-  default as ManifoldContextDrawer,
-} from "../Components/ContextDrawer/ManifoldContextDrawer";
-import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
 import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
 import NetworkTitlePlaque from "../Components/TitlePlaques/NetworkTitlePlaque";
 import { IExtraNodeProps } from "../Components/Widgets/WidgetTypes";
@@ -46,7 +36,24 @@ import GenerateNodeService from "../Services/GenerateNodeService";
 import "../Styles/NetworkValidation.css";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
-import NetworkPanel from "./NetworkPanel";
+import DrainagePointContextDrawer from "../Components/ContextDrawer/DrainagePointContextDrawer";
+
+const ContextDrawer = React.lazy(
+  () => import("../../Application/Components/Drawers/ContextDrawer")
+);
+const FlowstationContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/FlowstationContextDrawer")
+);
+const GasfacilityContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/GasfacilityContextDrawer")
+);
+const ManifoldContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/ManifoldContextDrawer")
+);
+const TerminalContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/TerminalContextDrawer")
+);
+const NetworkPanel = React.lazy(() => import("./NetworkPanel"));
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -96,6 +103,8 @@ const useStyles = makeStyles(() => ({
   },
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

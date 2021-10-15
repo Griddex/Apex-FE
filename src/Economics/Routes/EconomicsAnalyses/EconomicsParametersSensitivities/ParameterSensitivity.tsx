@@ -1,5 +1,4 @@
 import { useTheme } from "@mui/material";
-import set from "lodash.set";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch } from "react-redux";
@@ -8,16 +7,17 @@ import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
-import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
-import { TParametersSensitivitiesObj } from "../../../Data/EconomicsDataTypes";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import { TParametersId } from "../EconomicsAnalysesTypes";
 import { IParameterSensitivity } from "./EconomicsParametersSensitivitiesTypes";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const initialRows = [
   {
@@ -209,7 +209,7 @@ const ParameterSensitivity = ({
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => {
             return (
-              <ApexGrid<IRawRow, ITableButtonsProps>
+              <ApexGrid
                 columns={columns}
                 rows={rows}
                 newTableRowHeight={35}

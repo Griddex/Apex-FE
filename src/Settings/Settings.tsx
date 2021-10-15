@@ -3,12 +3,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import WorkflowBanner from "../Application/Components/Workflows/WorkflowBanner";
 import { RootState } from "../Application/Redux/Reducers/AllReducers";
-import ProjectSettingsPanel from "./Components/Panels/ProjectSettingsPanel";
-import UnitSettings from "./UnitSettings/UnitSettings";
+
+const ProjectSettingsPanel = React.lazy(
+  () => import("./Components/Panels/ProjectSettingsPanel")
+);
+const UnitSettings = React.lazy(() => import("./UnitSettings/UnitSettings"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,6 +97,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const steps = ["Unit Settings", "Database Settings"];
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const applicationSelector = createDeepEqualSelector(
   (state: RootState) => state.applicationReducer,

@@ -15,8 +15,6 @@ import { IPopoverProps } from "./FilterPopover";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -71,6 +69,8 @@ const useStyles = makeStyles((theme) => ({
     "& > *": { width: 30, height: 20, margin: 5 },
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const SortPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
   ({ title, action, handleCancel, localDispatch, workflowProcess }, ref) => {

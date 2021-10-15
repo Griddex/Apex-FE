@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import TextField from "@mui/material/TextField";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
@@ -10,8 +10,11 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
-import ServerLoginForm from "../../../../Application/Components/Forms/ServerLoginForm";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+
+const ServerLoginForm = React.lazy(
+  () => import("../../../../Application/Components/Forms/ServerLoginForm")
+);
 
 const useStyles = makeStyles((theme) => ({
   container: {

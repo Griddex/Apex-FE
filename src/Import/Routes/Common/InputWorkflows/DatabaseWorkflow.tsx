@@ -4,9 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
@@ -14,13 +11,23 @@ import WorkflowBanner from "../../../../Application/Components/Workflows/Workflo
 import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import SelectDatabase from "../../../Components/SelectDatabase";
-import ConnectDatabase from "../Workflows/ConnectDatabase";
-import MatchHeaders from "../Workflows/MatchHeaders";
-import MatchUnits from "../Workflows/MatchUnits";
-import PreviewSave from "../Workflows/PreviewSave";
-import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
-import UploadFile from "../Workflows/UploadFile";
+
+const ContextDrawer = React.lazy(
+  () => import("../../../../Application/Components/Drawers/ContextDrawer")
+);
+const SelectDatabase = React.lazy(
+  () => import("../../../Components/SelectDatabase")
+);
+const ConnectDatabase = React.lazy(
+  () => import("../Workflows/ConnectDatabase")
+);
+const MatchHeaders = React.lazy(() => import("../Workflows/MatchHeaders"));
+const MatchUnits = React.lazy(() => import("../Workflows/MatchUnits"));
+const PreviewSave = React.lazy(() => import("../Workflows/PreviewSave"));
+const SelectHeaderUnitData = React.lazy(
+  () => import("../Workflows/SelectHeaderUnitData")
+);
+const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +67,8 @@ const steps = [
   "Match Units",
   "Preview & Save",
 ];
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

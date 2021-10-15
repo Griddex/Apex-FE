@@ -1,12 +1,13 @@
-import { Button, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import DialpadOutlinedIcon from "@mui/icons-material/DialpadOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
+import { Button, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
@@ -14,31 +15,46 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
-import Loading from "../../../Application/Components/Visuals/Loading";
-import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IEconomicsInputButton,
   ISubNavbarData,
 } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
-import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
-import {
-  fetchStoredEconomicsSensitivitiesRequestAction,
-  updateEconomicsParameterAction,
-} from "../../Redux/Actions/EconomicsActions";
-import EconomicsAnalysesLanding from "../EconomicsAnalyses/EconomicsAnalysesLanding";
-import EconomicsCostsRevenuesLanding from "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
-import EconomicsParametersLanding from "../EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
-import EconomicsResultsLanding from "../EconomicsResults/EconomicsResultsLanding";
-import EconomicsSensitivitiesLanding from "../EconomicsSensitivities/EconomicsSensitivitiesLanding";
-import EconomicsBackground from "./EconomicsBackground";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { IdType } from "./EconomicsLayoutTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+const EconomicsInputButtonsMenu = React.lazy(
+  () => import("../../Components/Menus/EconomicsInputButtonsMenu")
+);
+const SuspensePerpetualSpinner = React.lazy(
+  () =>
+    import("../../../Application/Components/Visuals/SuspensePerpetualSpinner")
+);
+const SubNavbar = React.lazy(
+  () => import("../../../Application/Components/Navbars/SubNavbar")
+);
+const EconomicsAnalysesLanding = React.lazy(
+  () => import("../EconomicsAnalyses/EconomicsAnalysesLanding")
+);
+const EconomicsCostsRevenuesLanding = React.lazy(
+  () =>
+    import(
+      "../EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding"
+    )
+);
+const EconomicsParametersLanding = React.lazy(
+  () =>
+    import("../EconomicsInput/EconomicsParameters/EconomicsParametersLanding")
+);
+const EconomicsResultsLanding = React.lazy(
+  () => import("../EconomicsResults/EconomicsResultsLanding")
+);
+const EconomicsSensitivitiesLanding = React.lazy(
+  () => import("../EconomicsSensitivities/EconomicsSensitivitiesLanding")
+);
+const EconomicsBackground = React.lazy(() => import("./EconomicsBackground"));
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -56,6 +72,8 @@ const useStyles = makeStyles(() => {
     },
   };
 });
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showSubNavbarSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showSubNavbar,

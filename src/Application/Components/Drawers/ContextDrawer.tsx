@@ -15,8 +15,6 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const navbarHeight = 43;
 
 const useStyles = makeStyles((theme) => {
@@ -84,6 +82,8 @@ export interface IContextDrawer {
   children: () => JSX.Element;
   iconReplacement?: JSX.Element;
 }
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const bannerPropsSelector = createDeepEqualSelector(
   (state: RootState) => state.applicationReducer,

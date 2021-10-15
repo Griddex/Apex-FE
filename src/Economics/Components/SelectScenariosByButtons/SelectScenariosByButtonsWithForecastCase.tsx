@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -29,6 +27,8 @@ export interface ISelectScenariosByButtonsWithForecastCase {
   workflowProcess: TAllWorkflowProcesses;
   workflowCategory: TAllWorkflowCategories;
 }
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const SelectScenariosByButtonsWithForecastCase = ({
   width,

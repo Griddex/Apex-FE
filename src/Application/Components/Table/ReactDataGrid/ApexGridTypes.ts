@@ -18,8 +18,8 @@ export interface IPosition {
   idx: number;
   rowIdx: number;
 }
-export interface IApexGrid<R, O> {
-  columns: readonly Column<R, unknown>[];
+export interface IApexGrid<R = IRawRow, O = ITableButtonsProps> {
+  columns: readonly Column<any, unknown>[];
   rows: R[];
   tableButtons?: ITableButtonsProps;
   setRowsChange?: React.SetStateAction<any>;
@@ -38,10 +38,7 @@ export interface IApexGrid<R, O> {
     readonly height: number | null;
   };
   groupBy?: readonly string[];
-  rowGrouper?: (
-    rows: readonly R[],
-    columnKey: string
-  ) => Record<string, readonly R[]>;
+  rowGrouper?: (rows: readonly R[], columnKey: string) => Record<string, any[]>;
   expandedGroupIds?: ReadonlySet<unknown>;
   onExpandedGroupIdsChange?: (expandedGroupIds: Set<unknown>) => void;
   showTableHeader?: boolean;

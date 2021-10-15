@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import React from "react";
 
@@ -16,7 +16,6 @@ const DeclineCurveAnalysisBackground = () => {
 
   return (
     <div className={classes.root}>
-      {/* <img src={Network} alt="Network background" height={250} width={250} /> */}
       <TimelineIcon style={{ fontSize: 300 }} />
     </div>
   );

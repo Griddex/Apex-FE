@@ -10,11 +10,9 @@ import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
 import React, { useCallback } from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { createProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
 import {
@@ -118,6 +116,8 @@ const steps = ["Choose Unit Settings", "New Project Title & Description"];
 const workflowCategory = "projectDataWorkflows";
 const workflowProcess = "newProjectWorkflow";
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const storedTitlesSelector = createDeepEqualSelector(
   (state: RootState) => state.applicationReducer?.allFormTitles?.projectTitles,
   (projectTitles) => projectTitles
@@ -128,7 +128,7 @@ const activeStepSelector = createDeepEqualSelector(
   (activeStep) => activeStep
 );
 
-const NewProjectWorkflowDialog = (props: DialogStuff) => {
+const NewProjectWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, isDialog } = props;
 

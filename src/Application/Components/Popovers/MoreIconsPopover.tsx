@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     height: "auto",
-    // flex: "auto",
   },
   icon: { height: "100%", width: "10%", "& > *": { width: 15, height: 15 } },
   title: { height: "100%", width: "80%" },

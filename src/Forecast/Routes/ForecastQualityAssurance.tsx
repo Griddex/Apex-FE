@@ -2,8 +2,13 @@ import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
-import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
-import ForecastQualityAssuranceData from "../Common/ForecastQualityAssuranceData";
+
+const ForecastChartDataPanel = React.lazy(
+  () => import("../Common/ForecastChartDataPanel")
+);
+const ForecastQualityAssuranceData = React.lazy(
+  () => import("../Common/ForecastQualityAssuranceData")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {

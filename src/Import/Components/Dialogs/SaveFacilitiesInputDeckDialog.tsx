@@ -107,7 +107,7 @@ const facilitiesTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveFacilitiesInputDeckDialog = (props: DialogStuff) => {
+const SaveFacilitiesInputDeckDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 

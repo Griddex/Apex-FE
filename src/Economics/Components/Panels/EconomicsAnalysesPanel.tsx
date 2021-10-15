@@ -6,8 +6,6 @@ import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
@@ -44,6 +42,8 @@ const useStyles = makeStyles(() => ({
     verticalAlign: "middle",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const selectedAnalysesNamesSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.selectedAnalysesNames,

@@ -107,7 +107,7 @@ const economicsSensitivitiesTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveEconomicsSensitivitiesDialog = (props: DialogStuff) => {
+const SaveEconomicsSensitivitiesDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 

@@ -128,7 +128,7 @@ const steps = ["Select Network", "Select Forecast Parameters"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
-const RunForecastWorkflowDialog = (props: DialogStuff) => {
+const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, isDialog } = props;
 

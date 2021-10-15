@@ -10,8 +10,6 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -86,6 +84,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles(props);
@@ -146,9 +146,9 @@ const declineParametersTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const EditOrCreateDeclineParametersWorkflowDialog = (
-  props: DialogStuff<IStoredDataRow>
-) => {
+const EditOrCreateDeclineParametersWorkflowDialog: React.FC<
+  DialogStuff<IStoredDataRow>
+> = (props) => {
   const workflowCategory = "networkDataWorkflows";
   const dispatch = useDispatch();
 

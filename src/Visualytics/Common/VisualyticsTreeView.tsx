@@ -2,13 +2,16 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../Components/ChartDataPanel/ChartDataPanel";
-import ApexTreeView from "../Components/TreeView/ApexTreeView";
 import { RenderTree } from "../Components/TreeView/ApexTreeViewTypes";
 import { itemTypesVisualytics } from "../Utils/DragAndDropItemTypes";
+
+const ApexTreeView = React.lazy(
+  () => import("../Components/TreeView/ApexTreeView")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const visualyticsTreeSelector = createDeepEqualSelector(
   (state: RootState) => state.visualyticsReducer.visualyticsTree,

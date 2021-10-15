@@ -1,7 +1,12 @@
 import React from "react";
 import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
-import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAndDescriptionForm";
-import UnitSettings from "../../Settings/UnitSettings/UnitSettings";
+
+const TitleAndDescriptionForm = React.lazy(
+  () => import("../../Application/Components/Forms/TitleAndDescriptionForm")
+);
+const UnitSettings = React.lazy(
+  () => import("../../Settings/UnitSettings/UnitSettings")
+);
 
 const NewProjectWorkflow = (props: ITitleAndDescriptionFormProps) => {
   const { activeStep, isDialog } = props;

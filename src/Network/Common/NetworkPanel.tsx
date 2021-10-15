@@ -14,10 +14,11 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IApplicationStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import { updateForecastResultsParameterAction } from "../../Forecast/Redux/Actions/ForecastActions";
-import NodePanel from "../Components/Nodes/NodePanel";
 import { networkIcons } from "../Data/NetworkData";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const NodePanel = React.lazy(() => import("../Components/Nodes/NodePanel"));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

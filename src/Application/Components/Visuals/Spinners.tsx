@@ -9,8 +9,6 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -43,6 +41,8 @@ const override = css`
   top: 0;
   left: 0;
 `;
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const uiSpinnerPartialPropsSelector = createDeepEqualSelector(
   (state: RootState) => state.uiSpinnerReducer,

@@ -1,9 +1,12 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useRouteMatch } from "react-router-dom";
-import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import VisualyticsLanding from "./VisualyticsLanding";
+
+const SuspensePerpetualSpinner = React.lazy(
+  () => import("../../Application/Components/Visuals/SuspensePerpetualSpinner")
+);
+const VisualyticsLanding = React.lazy(() => import("./VisualyticsLanding"));
 
 const navbarHeight = 43;
 const subNavBarHeight = 0;

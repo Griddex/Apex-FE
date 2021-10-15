@@ -105,7 +105,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const SelectDevelopmentScenariosDialog = (props: DialogStuff) => {
+const SelectDevelopmentScenariosDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const {
     title,

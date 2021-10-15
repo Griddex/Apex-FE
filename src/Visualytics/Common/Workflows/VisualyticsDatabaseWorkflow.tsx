@@ -4,9 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
@@ -14,9 +11,16 @@ import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBa
 import { IOnlyWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import SelectDatabase from "../../../Import/Components/SelectDatabase";
-import ConnectDatabase from "../../../Import/Routes/Common/Workflows/ConnectDatabase";
 
+const ContextDrawer = React.lazy(
+  () => import("../../../Application/Components/Drawers/ContextDrawer")
+);
+const SelectDatabase = React.lazy(
+  () => import("../../../Import/Components/SelectDatabase")
+);
+const ConnectDatabase = React.lazy(
+  () => import("../../../Import/Routes/Common/Workflows/ConnectDatabase")
+);
 const UploadFile = React.lazy(
   () => import("../../../Import/Routes/Common/Workflows/UploadFile")
 );
@@ -66,6 +70,8 @@ const steps = [
   "Map Headers, Units and Data",
   "Preview & Save",
 ];
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

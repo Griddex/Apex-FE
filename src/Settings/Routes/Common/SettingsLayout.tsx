@@ -7,14 +7,17 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import Loading from "../../../Application/Components/Visuals/Loading";
-import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import Settings from "../../Settings";
-import SettingsBackground from "./SettingsBackground";
+
 import { IdType } from "./SettingsLayoutTypes";
 
+const Settings = React.lazy(() => import("../../Settings"));
+const SettingsBackground = React.lazy(() => import("./SettingsBackground"));
+const SuspensePerpetualSpinner = React.lazy(
+  () =>
+    import("../../../Application/Components/Visuals/SuspensePerpetualSpinner")
+);
+
 const navbarHeight = 43;
-// const subNavBarHeight = 25;
 const addedHeight = 0;
 const useStyles = makeStyles(() => {
   return {

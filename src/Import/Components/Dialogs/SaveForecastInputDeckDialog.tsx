@@ -107,7 +107,7 @@ const forecastTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const SaveForecastInputDeckDialog = (props: DialogStuff) => {
+const SaveForecastInputDeckDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
 
   const storedTitles = useSelector(forecastTitlesSelector);

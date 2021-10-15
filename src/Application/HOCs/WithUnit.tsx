@@ -8,12 +8,12 @@ import { RootState } from "../Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 export interface IWithUnit {
   innerComponent: JSX.Element;
   unitValue: string;
 }
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const unitSettingsPropsSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer,

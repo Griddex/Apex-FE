@@ -6,8 +6,6 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 interface IHeatMapCustomCell {
   data: any;
   label: React.Key;
@@ -21,6 +19,8 @@ interface IHeatMapCustomCell {
   borderColor: string;
   textColor: string;
 }
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const heatMapStylingDataSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapStylingData,

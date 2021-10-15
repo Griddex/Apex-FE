@@ -1,16 +1,14 @@
-import { StepConnector, StepIcon } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { StepConnector } from "@mui/material";
 import Step, { StepProps } from "@mui/material/Step";
 import StepLabel, { StepLabelProps } from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowDataProps } from "./WorkflowTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     borderLeft: `2px solid ${theme.palette.primary.main}`,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const expandContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.expandContextDrawer,

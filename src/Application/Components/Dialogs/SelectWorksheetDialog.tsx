@@ -133,7 +133,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const SelectWorksheetDialog = (props: DialogStuff) => {
+const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);
   const dispatch = useDispatch();
   const theme = useTheme();

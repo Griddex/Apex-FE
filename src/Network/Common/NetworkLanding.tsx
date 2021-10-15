@@ -10,8 +10,6 @@ import {
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import Image from "../../Application/Components/Visuals/Image";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -22,15 +20,26 @@ import ManualNetwork from "../Images/ManualNetwork.svg";
 import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import StoredDeck from "../Images/StoredDeck.svg";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
-import DeclineCurveParameters from "../Routes/DeclineCurveParameters";
-import ProductionStreamPrioritization from "../Routes/ProductionStreamPrioritization";
-import StoredDeclineCurveParameters from "../Routes/StoredDeclineCurveParameters";
-import StoredForecastingParameters from "../Routes/StoredForecastingParameters";
-import StoredNetworks from "../Routes/StoredNetworks";
-import StoredProductionPrioritization from "../Routes/StoredProductionPrioritization";
-import NetworkAuto from "./NetworkAuto";
 import { IdType } from "./NetworkLandingTypes";
-import NetworkManual from "./NetworkManual";
+
+const DeclineCurveParameters = React.lazy(
+  () => import("../Routes/DeclineCurveParameters")
+);
+const ProductionStreamPrioritization = React.lazy(
+  () => import("../Routes/ProductionStreamPrioritization")
+);
+const StoredDeclineCurveParameters = React.lazy(
+  () => import("../Routes/StoredDeclineCurveParameters")
+);
+const StoredForecastingParameters = React.lazy(
+  () => import("../Routes/StoredForecastingParameters")
+);
+const StoredNetworks = React.lazy(() => import("../Routes/StoredNetworks"));
+const StoredProductionPrioritization = React.lazy(
+  () => import("../Routes/StoredProductionPrioritization")
+);
+const NetworkAuto = React.lazy(() => import("./NetworkAuto"));
+const NetworkManual = React.lazy(() => import("./NetworkManual"));
 
 const useStyles = makeStyles((theme) => ({
   networkLanding: {
@@ -54,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
   image: { height: 70, width: 70 },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const networkSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer,

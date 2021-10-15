@@ -5,18 +5,26 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
-import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
-import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
+
+const SensitivitiesHeatMapChart = React.lazy(
+  () => import("./SensitivitiesHeatMapChart")
+);
+const SensitivitiesHeatMapDataPanel = React.lazy(
+  () => import("./SensitivitiesHeatMapDataPanel")
+);
+const VisualyticsContext = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext"
+    )
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "90%",
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,

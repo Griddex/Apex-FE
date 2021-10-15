@@ -1,13 +1,13 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { Divider } from "@mui/material";
 import MuiDialogActions from "@mui/material/DialogActions";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import { Theme, useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
@@ -15,8 +15,6 @@ import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { DialogStuff } from "./DialogTypes";
-import { hideDialogAction } from "./../../Redux/Actions/DialogsAction";
-import Draggable from "react-draggable";
 
 const useDialogTitleStyles = makeStyles((theme: Theme) => ({
   titleContainer: {
@@ -66,11 +64,7 @@ const DraggableDialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle
-      className={classes.titleContainer}
-      {...other}
-      
-    >
+    <MuiDialogTitle className={classes.titleContainer} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -84,7 +78,8 @@ const DraggableDialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
