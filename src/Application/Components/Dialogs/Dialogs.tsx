@@ -6,169 +6,47 @@ import { IForecastParametersStoredRow } from "../../../Network/Components/Dialog
 import { IStoredDataRow } from "../../Types/ApplicationTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const SaveCostsRevenuesInputDeckDialog = React.lazy(
-  () =>
-    import(
-      "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog"
-    )
-);
-const EconomicsParametersDialog = React.lazy(
-  () =>
-    import("../../../Economics/Components/Dialogs/EconomicsParametersDialog")
-);
-const FinalizeForecastInputDeckDialog = React.lazy(
-  () =>
-    import("../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog")
-);
-const SaveFacilitiesInputDeckDialog = React.lazy(
-  () =>
-    import("../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog")
-);
-const SaveForecastInputDeckDialog = React.lazy(
-  () => import("../../../Import/Components/Dialogs/SaveForecastInputDeckDialog")
-);
-const SaveInputDeckGenerateNetworkWorkflowDialog = React.lazy(
-  () =>
-    import(
-      "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog"
-    )
-);
-const DeclineCurveParametersDialog = React.lazy(
-  () =>
-    import("../../../Network/Components/Dialogs/DeclineCurveParametersDialog")
-);
-const StoredForecastingParametersDialog = React.lazy(
-  () =>
-    import(
-      "../../../Network/Components/Dialogs/StoredForecastingParametersDialog"
-    )
-);
-const StoredNetworksDialog = React.lazy(
-  () => import("../../../Network/Components/Dialogs/StoredNetworksDialog")
-);
-const GenerateNetworkWorkflowDialog = React.lazy(
-  () =>
-    import("../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog")
-);
-const RunForecastDialog = React.lazy(
-  () => import("../../../Network/Components/Dialogs/RunForecastDialog")
-);
-const SaveForecastDialog = React.lazy(
-  () => import("../../../Network/Components/Dialogs/SaveForecastDialog")
-);
-const EditOrCreateForecastingParametersWorkflowDialog = React.lazy(
-  () =>
-    import(
-      "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog"
-    )
-);
-const EditOrCreateDeclineParametersWorkflowDialog = React.lazy(
-  () =>
-    import(
-      "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog"
-    )
-);
-const EditOrCreateProductionPrioritizationWorkflowDialog = React.lazy(
-  () =>
-    import(
-      "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog"
-    )
-);
-const SaveNetworkDialog = React.lazy(
-  () => import("../../../Network/Components/Dialogs/SaveNetworkDialog")
-);
-const StoredProjectsDialog = React.lazy(
-  () => import("../../../Project/Components/Dialogs/StoredProjectsDialog")
-);
-const ListDialog = React.lazy(() => import("./ListDialog"));
-const NewProjectWorkflowDialog = React.lazy(
-  () => import("./NewProjectWorkflowDialog")
-);
-const SelectWorksheetDialog = React.lazy(
-  () => import("./SelectWorksheetDialog")
-);
-const TextDialog = React.lazy(() => import("./TextDialog"));
-const SaveEconomicsParametersInputDeckDialog = React.lazy(
-  () =>
-    import(
-      "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog"
-    )
-);
-const CreateEconomicsParametersTableDialog = React.lazy(
-  () =>
-    import(
-      "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog"
-    )
-);
-const EconomicsParametersSensitivitiesDialog = React.lazy(
-  () =>
-    import(
-      "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog"
-    )
-);
-const SaveEconomicsSensitivitiesDialog = React.lazy(
-  () =>
-    import(
-      "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog"
-    )
-);
-const StoredEconomicsSensitivitiesDialog = React.lazy(
-  () =>
-    import(
-      "../../../Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog"
-    )
-);
-const RunForecastWorkflowDialog = React.lazy(
-  () => import("../../../Network/Components/Dialogs/RunForecastWorkflowDialog")
-);
-const SelectDevelopmentScenariosDialog = React.lazy(
-  () =>
-    import(
-      "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog"
-    )
-);
-const TableDataDialog = React.lazy(() => import("./TableDataDialog"));
-const TableEditorDialog = React.lazy(() => import("./TableEditorDialog"));
-const DraggableDialog = React.lazy(() => import("./DraggableDialog"));
-const SaveEconomicsResultsDialog = React.lazy(
-  () =>
-    import("../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog")
-);
-const ProductionStreamPrioritizationDialog = React.lazy(
-  () =>
-    import(
-      "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog"
-    )
-);
-const StoredDeclineCurveParametersDialog = React.lazy(
-  () =>
-    import(
-      "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog"
-    )
-);
-const StoredProductionStreamPrioritizationDialog = React.lazy(
-  () =>
-    import(
-      "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog"
-    )
-);
-const DeleteDataDialog = React.lazy(() => import("./DeleteDataDialog"));
-const SnapshotDialog = React.lazy(() => import("./SnapshotDialog"));
-const NetworkWidgetDialog = React.lazy(
-  () => import("../../../Network/Components/Dialogs/NetworkWidgetDialog")
-);
-const LinkInputDeckDialog = React.lazy(
-  () => import("../../../Network/Components/Dialogs/LinkInputDeckDialog")
-);
-const OpenProjectConfirmationDialog = React.lazy(
-  () =>
-    import("../../../Project/Components/Dialogs/OpenProjectConfirmationDialog")
-);
-const SaveVisualyticsDeckDialog = React.lazy(
-  () =>
-    import("../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog")
-);
+import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
+import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
+import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
+import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
+import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
+import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
+import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
+import StoredForecastingParametersDialog from "../../../Network/Components/Dialogs/StoredForecastingParametersDialog";
+import StoredNetworksDialog from "../../../Network/Components/Dialogs/StoredNetworksDialog";
+import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
+import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
+import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
+import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
+import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
+import EditOrCreateProductionPrioritizationWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog";
+import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
+import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
+import ListDialog from "./ListDialog";
+import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
+import SelectWorksheetDialog from "./SelectWorksheetDialog";
+import TextDialog from "./TextDialog";
+import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
+import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
+import EconomicsParametersSensitivitiesDialog from "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog";
+import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
+import StoredEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog";
+import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunForecastWorkflowDialog";
+import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog";
+import TableDataDialog from "./TableDataDialog";
+import TableEditorDialog from "./TableEditorDialog";
+import DraggableDialog from "./DraggableDialog";
+import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog";
+import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
+import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
+import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
+import DeleteDataDialog from "./DeleteDataDialog";
+import SnapshotDialog from "./SnapshotDialog";
+import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
+import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
+import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
+import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

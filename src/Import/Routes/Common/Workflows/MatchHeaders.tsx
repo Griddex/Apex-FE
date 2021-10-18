@@ -113,10 +113,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
   );
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 108 ~ MatchHeaders ~ specificSavedMatchObjectValues",
-    specificSavedMatchObjectValues
-  );
 
   const reducerSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer],
@@ -263,10 +259,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       const matchObj = specificSavedMatchObjectValues.find(
         (o) => o.fileHeader === fileHeader
       ) as TSingleMatchObject;
-      console.log(
-        "Logged output --> ~ file: MatchHeaders.tsx ~ line 273 ~ fileHeaders.map ~ matchObj",
-        matchObj
-      );
 
       return {
         sn: i + 1,
@@ -296,10 +288,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
-  console.log(
-    "Logged output --> ~ file: MatchHeaders.tsx ~ line 297 ~ MatchHeaders ~ userMatchObject",
-    userMatchObject
-  );
 
   const generateColumns = (keyedAppHeaderOptions: TKeyedSelectOptions) => {
     const handleHeaderTypeChange = (

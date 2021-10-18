@@ -1,11 +1,7 @@
 import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
-import React, { Suspense } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 
-const SuspensePerpetualSpinner = React.lazy(
-  () => import("../../Application/Components/Visuals/SuspensePerpetualSpinner")
-);
 const NetworkLanding = React.lazy(() => import("./NetworkLanding"));
 
 const navbarHeight = 43;
@@ -27,18 +23,11 @@ const useStyles = makeStyles(() => {
 
 const NetworkLayout = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   return (
     <main className={classes.networkLayoutRoot}>
       <div className={clsx(classes.networkLayoutContainer)}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <NetworkLanding />
-        </Suspense>
+        <NetworkLanding />
       </div>
     </main>
   );

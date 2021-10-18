@@ -60,9 +60,9 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
-  (reducer) => reducer
+const loadEconomicsResultsWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.loadEconomicsResultsWorkflow,
+  (results) => results
 );
 
 const EconomicsResultsLanding = () => {
@@ -71,7 +71,9 @@ const EconomicsResultsLanding = () => {
 
   const { url } = useRouteMatch();
 
-  const { loadEconomicsResultsWorkflow } = useSelector(economicsSelector);
+  const loadEconomicsResultsWorkflow = useSelector(
+    loadEconomicsResultsWorkflowSelector
+  );
 
   const economicsResultsLandingData: ILandingData[] = [
     {

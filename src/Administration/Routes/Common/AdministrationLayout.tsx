@@ -1,7 +1,6 @@
 import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
-import React, { Suspense } from "react";
-import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
+import React from "react";
 
 const AdministrationLanding = React.lazy(
   () => import("./AdministrationLanding")
@@ -30,13 +29,7 @@ const AdministrationLayout = () => {
   return (
     <main className={classes.administrationLayoutRoot}>
       <div className={clsx(classes.administrationLayoutContainer)}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <AdministrationLanding />
-        </Suspense>
+        <AdministrationLanding />
       </div>
     </main>
   );

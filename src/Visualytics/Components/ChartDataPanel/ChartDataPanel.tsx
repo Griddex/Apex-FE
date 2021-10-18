@@ -17,10 +17,8 @@ import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonSt
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-
-const DraggableDialog = React.lazy(
-  () => import("../../../Application/Components/Dialogs/DraggableDialog")
-);
+import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
+import { SizeMe } from "react-sizeme";
 
 export interface ITreeViewProps {
   height: number;
@@ -58,30 +56,13 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   showMembersObjValues,
   clearChartCategories,
 }) => {
-  // const ChartDataPanel = <T extends ISelectOption>({
-  //   selectLabel,
-  //   selectedOption,
-  //   titleOptions,
-  //   handleSelectChange,
-  //   hasSecondaryComponent,
-  //   secondarySelectComponent,
-  //   treeViewComponent,
-  //   extrudeCategories,
-  //   setExtrudeCategories,
-  //   categoriesComponent,
-  //   renderCategoryIcon,
-  //   showMembersObjValues,
-  //   clearChartCategories,
-  // }: IChartDataPanel<T>) => {
   const theme = useTheme();
-  const treeRef = React.useRef<HTMLDivElement>(null);
 
   const CategoriesComponent = categoriesComponent as JSX.Element;
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
   const TreeViewComponent = treeViewComponent as React.FC<ITreeViewProps>;
 
   const [render, setRender] = React.useState(false);
-  const [treeHeight, setTreeHeight] = React.useState(0);
   const [categorySizePosition, setCategorySizePosition] = React.useState({
     width: 385,
     height: 540,
@@ -105,12 +86,6 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   const categoryExpanded = showMembersObjValues?.some((v) => v === true);
 
   React.useEffect(() => {
-    const treeViewDimen = treeRef.current?.getBoundingClientRect();
-    const treeViewHeight = treeViewDimen?.height as number;
-    setTreeHeight(treeViewHeight);
-  }, []);
-
-  React.useEffect(() => {
     setRender(!render);
   }, [showMembersObjValues?.join()]);
 
@@ -128,17 +103,13 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
       {hasSecondaryComponent && <SecondarySelectComponent />}
-      <div
-        ref={treeRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          borderTop: `1px solid ${theme.palette.grey[300]}`,
-          borderBottom: `1px solid ${theme.palette.grey[300]}`,
-        }}
-      >
-        <TreeViewComponent height={treeHeight} />
-      </div>
+      <SizeMe monitorHeight refreshRate={32}>
+        {({ size }) => (
+          <TreeViewComponent
+            height={size.height ? (size.height as number) : 800}
+          />
+        )}
+      </SizeMe>
       {extrudeCategories && (
         <Rnd
           style={{ zIndex: 2000, padding: 2 }}

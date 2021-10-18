@@ -1,4 +1,5 @@
 import {
+  alpha,
   Box,
   FormControl,
   IconButton,
@@ -30,6 +31,7 @@ import TableButtons from "../TableButtons";
 import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
 import { ITableButtonsProps } from "../TableButtonsTypes";
+import grey from "@mui/material/colors/grey";
 
 const useStyles = makeStyles((theme) => ({
   tableHeadBanner: {
@@ -77,6 +79,17 @@ const useStyles = makeStyles((theme) => ({
     height: (props: any) => {
       if (props.autoAdjustTableDim) return `calc(100% - 70px)`;
       else return props.staticTableHeight; //Chosen for best fit
+    },
+  },
+  search: {
+    border: `1px solid ${grey[300]}`,
+    "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+    "&:active": {
+      outline: `2px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
     },
   },
 }));
@@ -128,10 +141,6 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
   >(["", "NONE"]);
 
   const [tablePagination, setTablePagination] = React.useState(0);
-  console.log(
-    "🚀 ~ file: ApexGrid.tsx ~ line 124 ~ tablePagination",
-    tablePagination
-  );
   const [selectedCell, setSelectedCell] = React.useState<Position>();
   const [pastePosition, setPastePosition] = React.useState<TPastePosition>({
     topLeft: {},
@@ -421,7 +430,6 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
   }, [tableHeight, rawRows, columns]);
 
   React.useEffect(() => {
-    // document.addEventListener("copy", handleCopy);
     if (tableRef.current) {
       (tableRef.current as HTMLDivElement).addEventListener(
         "paste",
@@ -430,7 +438,6 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
     }
 
     return () => {
-      // document.removeEventListener("copy", handleCopy);
       if (tableRef.current) {
         (tableRef.current as HTMLDivElement).removeEventListener(
           "paste",
@@ -454,6 +461,7 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
         >
           <Grid className={classes.tableFilter} item xs>
             <OutlinedInput
+              className={classes.search}
               id="outlined-adornment-filter"
               value={tableFilter}
               onChange={handleFilterChange}

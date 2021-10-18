@@ -24,6 +24,7 @@ export default function StoredProductionData({
 }: IStoredInputDeck) {
   const dispatch = useDispatch();
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -57,7 +58,7 @@ export default function StoredProductionData({
   );
   const storedData = useSelector(workflowProcessSelector);
 
-  const snStoredData = storedData.map((row: any, i: number) => {
+  const snStoredData = storedData?.map((row: any, i: number) => {
     const data: IStoredDataRow = {
       sn: i + 1,
       id: row.id,

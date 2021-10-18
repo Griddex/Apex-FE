@@ -82,7 +82,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const reducer = "economicsReducer";
+const wc = "economicsAnalysisWorkflows";
+
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+const showSensitivitiesTableSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["showSensitivitiesTable"],
+  (show) => show
+);
+const sensitivitiesTableSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["sensitivitiesTable"],
+  (table) => table
+);
 
 const EconomicsAnalysis = ({
   workflowProcess,
@@ -92,19 +103,17 @@ const EconomicsAnalysis = ({
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const reducer = "economicsReducer";
-  const wc = "economicsAnalysisWorkflows";
   const wp = workflowProcess as NonNullable<
     IEconomicsParametersSensitivitiesProps["workflowProcess"]
   >;
 
-  const economicsWCSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer[wc],
-    (wc) => wc
-  );
+  const showSensitivitiesTable = useSelector(showSensitivitiesTableSelector);
 
-  const { showSensitivitiesTable, sensitivitiesTable } =
-    useSelector(economicsWCSelector);
+  const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
+  console.log(
+    "🚀 ~ file: EconomicsAnalysis.tsx ~ line 107 ~ showSensitivitiesTable",
+    showSensitivitiesTable
+  );
 
   const selectedAnalysisDefined =
     selectedAnalysis as NonNullable<IEconomicsAnalysis>;

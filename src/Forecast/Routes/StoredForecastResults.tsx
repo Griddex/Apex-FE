@@ -229,7 +229,7 @@ export default function StoredForecastResults({
       ? (row?: any, event?: React.ChangeEvent<any> | undefined) => {
           const confirmationDialogParameters: DialogStuff = {
             name: "Aggregated_Forecast_Dialog",
-            title: "Aggregated Forecast Dialog",
+            title: "Aggregated Forecast",
             type: "textDialog",
             show: true,
             exclusive: false,

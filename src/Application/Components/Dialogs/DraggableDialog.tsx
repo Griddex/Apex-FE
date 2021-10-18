@@ -113,7 +113,6 @@ const DraggableDialog: React.FC<DialogStuff> = ({
   children,
 }) => {
   const theme = useTheme();
-  const dispatch = useDispatch();
 
   return (
     <ApexFlexContainer

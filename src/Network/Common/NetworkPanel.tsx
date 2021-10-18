@@ -17,6 +17,7 @@ import { updateForecastResultsParameterAction } from "../../Forecast/Redux/Actio
 import { networkIcons } from "../Data/NetworkData";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { Divider } from "@material-ui/core";
 
 const NodePanel = React.lazy(() => import("../Components/Nodes/NodePanel"));
 
@@ -54,9 +55,10 @@ const NetworkPanel = () => {
   const isNetworkAuto = useSelector(isNetworkAutoSelector);
 
   const forecastInputDeckStoredSelector = createDeepEqualSelector(
-    (state: RootState) => state.inputReducer[wc]["forecastInputDeckStored"],
+    (state: RootState) => state.inputReducer[wc][wp],
     (stored) => stored
   );
+
   const forecastInputDeckStored = useSelector(forecastInputDeckStoredSelector);
 
   const selectedForecastInputDeckTitle = useSelector(
@@ -146,6 +148,7 @@ const NetworkPanel = () => {
           containerStyle={{ marginBottom: 20 }}
         />
       )}
+      <Divider style={{ marginBottom: 5 }} />
       <AnalyticsTitle title="Network Nodes" />
       <div className={classes.networkPanel} style={style}>
         {nodeTypes

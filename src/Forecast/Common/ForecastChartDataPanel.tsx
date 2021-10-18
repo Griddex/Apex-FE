@@ -11,15 +11,9 @@ import {
   resetForecastChartsWorkflowsAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
-
-const NoSelectionPlaceholder = React.lazy(
-  () =>
-    import("../../Application/Components/PlaceHolders/NoSelectionPlaceholder")
-);
-const ChartDataPanel = React.lazy(
-  () => import("../../Visualytics/Components/ChartDataPanel/ChartDataPanel")
-);
-const ForecastTreeView = React.lazy(() => import("./ForecastTreeView"));
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
+import ForecastTreeView from "./ForecastTreeView";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -45,6 +39,10 @@ const ForecastChartDataPanel = () => {
     selectedForecastingResultsTitle,
     selectedForecastingResultsDescription,
   } = useSelector(forecastSelector);
+  console.log(
+    "🚀 ~ file: ForecastChartDataPanel.tsx ~ line 42 ~ ForecastChartDataPanel ~ selectedForecastingResultsTitle",
+    selectedForecastingResultsTitle
+  );
 
   const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
     value: row.title,

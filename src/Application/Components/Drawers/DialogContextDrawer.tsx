@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => {
       flexShrink: 0,
       whiteSpace: "nowrap",
       "&.MuiDrawer-paper": {
-        height: `100%`,
+        height: "100%",
       },
+      height: "100%",
       position: "relative",
       top: "auto",
       padding: 5,

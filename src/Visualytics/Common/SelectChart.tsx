@@ -1,13 +1,13 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IChartProps } from "../Components/ChartTypes";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
+import { IChartProps } from "../Components/ChartTypes";
 
 const BarChart = React.lazy(() => import("../Components/Charts/BarChart"));
 const DoughnutChart = React.lazy(
@@ -20,10 +20,6 @@ const ScatterChart = React.lazy(
 );
 const StackedAreaChart = React.lazy(
   () => import("../Components/Charts/StackedAreaChart")
-);
-const NoSelectionPlaceholder = React.lazy(
-  () =>
-    import("../../Application/Components/PlaceHolders/NoSelectionPlaceholder")
 );
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -87,13 +83,11 @@ const SelectChart = ({
   const chartType = selectedChartOption.value as TChartTypes;
 
   return (
-    <ApexFlexContainer>
-      <ChartSelector
-        chartType={chartType}
-        workflowCategory={workflowCategory}
-        reducer={reducer}
-      />
-    </ApexFlexContainer>
+    <ChartSelector
+      chartType={chartType}
+      workflowCategory={workflowCategory}
+      reducer={reducer}
+    />
   );
 };
 

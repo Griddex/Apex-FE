@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
-import { Theme, useTheme } from "@mui/material/styles";
+import { alpha, Theme, useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
@@ -16,6 +16,7 @@ import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { DialogStuff } from "./DialogTypes";
+import grey from "@mui/material/colors/grey";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -56,6 +57,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     fontSize: 14,
     marginTop: 20,
+    border: `1px solid ${grey[500]}`,
+    "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+    "&:active": {
+      outline: `2px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
   },
 }));
 

@@ -10,8 +10,6 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -126,6 +124,8 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const forecastingParametersTitlesSelector = createDeepEqualSelector(
   (state: RootState) =>
     state.applicationReducer["allFormTitles"]["forecastingParametersTitles"],
@@ -150,6 +150,10 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 152 ~ workflowProcessDefined",
+    workflowProcessDefined
+  );
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
@@ -167,7 +171,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   const forecastingParametersObj = { ...currRow, ...titleDesc };
 
   let steps = [] as string[];
-
   if (workflowProcessDefined === "createForecastingParametersWorkflow") {
     steps = [
       "Select Forecast InputDeck",

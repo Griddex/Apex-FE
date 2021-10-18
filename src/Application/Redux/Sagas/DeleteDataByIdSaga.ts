@@ -22,7 +22,10 @@ import {
   DELETE_DATABYID_REQUEST,
 } from "../Actions/ApplicationActions";
 import { showDialogAction } from "../Actions/DialogsAction";
-import { hideSpinnerAction } from "../Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../Actions/UISpinnerActions";
 
 export default function* watchDeleteDataByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -50,6 +53,8 @@ function* deleteDataByIdSaga(action: IAction): Generator<
   const { reducer, deleteDataUrl, fetchStoredRequestAction } = payload;
 
   try {
+    yield put(showSpinnerAction("Deleting"));
+
     const deleteResults = yield call(deleteDataByIdAPI, deleteDataUrl);
     const {
       data: { success: deleteSuccess },

@@ -70,7 +70,7 @@ const ProductionDataLanding = () => {
 
   const productionLandingData: IProductionLandingData[] = [
     {
-      name: "Excel",
+      name: "Connect Excel",
       description: `Utilize production data by connecting to Microsoft Excel`,
       icon: (
         <Image
@@ -84,7 +84,7 @@ const ProductionDataLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: "Database",
+      name: "Connect Database",
       description: `Utilize production data by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
@@ -99,7 +99,7 @@ const ProductionDataLanding = () => {
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Stored Production Data`,
+      name: `Stored Production Connections`,
       description: `Select pre-exisiting and approved production data from your database`,
       icon: (
         <Image

@@ -18,10 +18,7 @@ import {
 } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { transformModulePaths } from "../Utils/TransformForecastForChart";
-
-const ApexTreeView = React.lazy(
-  () => import("../../Visualytics/Components/TreeView/ApexTreeView")
-);
+import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -38,6 +35,7 @@ const forecastSelector = createDeepEqualSelector(
 export default function ForecastTreeView({ height }: ITreeViewProps) {
   const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
+
   const dispatch = useDispatch();
 
   const selectedForecastChartOption = useSelector(
@@ -62,6 +60,10 @@ export default function ForecastTreeView({ height }: ITreeViewProps) {
   );
 
   const chartData = useSelector(chartDataSelector);
+  console.log(
+    "🚀 ~ file: ForecastTreeView.tsx ~ line 62 ~ ForecastTreeView ~ chartData",
+    chartData
+  );
 
   const rootTree = {
     id: "6e611ee3-4133-496b-a7cc-43cea89686bc",

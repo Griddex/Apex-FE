@@ -60,7 +60,12 @@ const Spinners = () => {
   }, []);
 
   return (
-    <Backdrop className={classes.backdrop} open={pending} onClick={handleClose}>
+    <Backdrop
+      className={classes.backdrop}
+      open={pending}
+      onClick={handleClose}
+      // sx={{ color: "grey", backgroundColor: "white" }}
+    >
       <div>
         <HashLoader css={override} color={"white"} loading={pending} />
         <p>{message}</p>

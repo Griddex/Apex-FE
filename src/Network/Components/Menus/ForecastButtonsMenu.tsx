@@ -18,8 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -30,6 +28,8 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { runForecastRequestAction } from "../../Redux/Actions/NetworkActions";
 import { extrudeSaveForecastRun } from "../DialogParameters/ExtrudeSaveForecastRun";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const networkSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer,
@@ -148,6 +148,7 @@ const ForecastButtonsMenu = () => {
       maxWidth: "xl",
       iconType: "create",
       actionsList: () => DialogCancelButton(),
+      workflowProcess: "createForecastingParametersWorkflow",
     };
 
     dispatch(showDialogAction(dialogParameters));

@@ -4,8 +4,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -15,6 +13,8 @@ import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 
 const wc = "visualyticsChartsWorkflows";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const commonChartPropsSelector = createDeepEqualSelector(
   (state: RootState) => state.visualyticsReducer[wc],

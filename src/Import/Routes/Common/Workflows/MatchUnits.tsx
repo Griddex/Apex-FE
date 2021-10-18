@@ -29,7 +29,6 @@ import {
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -56,6 +55,11 @@ import {
   TUnit,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -360,10 +364,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 354 ~ MatchUnits ~ userMatchObject",
-    userMatchObject
-  );
 
   const generateColumns = (keyedApplicationUnitOptions: {
     [index: string]: AppUnitSelectOptionsType;
@@ -1018,8 +1018,8 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             <ApexGrid
               columns={columns}
               rows={rows}
-              tableButtons={tableButtons}
               onRowsChange={setRows}
+              tableButtons={tableButtons}
               size={size}
               autoAdjustTableDim={true}
               showTableHeader={true}

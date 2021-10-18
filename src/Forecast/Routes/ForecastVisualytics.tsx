@@ -23,20 +23,10 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
-
-const VisualyticsContext = React.lazy(
-  () => import("../../Visualytics/Components/ContextDrawers/VisualyticsContext")
-);
-const NoSelectionPlaceholder = React.lazy(
-  () =>
-    import("../../Application/Components/PlaceHolders/NoSelectionPlaceholder")
-);
-const ForecastChartDataPanel = React.lazy(
-  () => import("../Common/ForecastChartDataPanel")
-);
-const ForecastSelectChart = React.lazy(
-  () => import("../Common/ForecastSelectChart")
-);
+import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
+import ForecastSelectChart from "../Common/ForecastSelectChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -28,10 +28,7 @@ import { IdType } from "./EconomicsLayoutTypes";
 const EconomicsInputButtonsMenu = React.lazy(
   () => import("../../Components/Menus/EconomicsInputButtonsMenu")
 );
-const SuspensePerpetualSpinner = React.lazy(
-  () =>
-    import("../../../Application/Components/Visuals/SuspensePerpetualSpinner")
-);
+
 const SubNavbar = React.lazy(
   () => import("../../../Application/Components/Navbars/SubNavbar")
 );
@@ -169,40 +166,30 @@ const EconomicsLayout = () => {
     <main className={classes.economicsLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.economicsLayoutContainer)}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <Switch>
-            <Route
-              exact
-              path={path}
-              component={() => <EconomicsBackground />}
-            />
-            <Route path={`${url}/:economicsId`}>
-              {(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { economicsId },
-                  },
-                } = props;
+        <Switch>
+          <Route exact path={path} component={() => <EconomicsBackground />} />
+          <Route path={`${url}/:economicsId`}>
+            {(props: RouteComponentProps<IdType>) => {
+              const {
+                match: {
+                  params: { economicsId },
+                },
+              } = props;
 
-                const Layouts: Record<string, JSX.Element> = {
-                  background: <EconomicsBackground />,
-                  costsrevenue: <EconomicsCostsRevenuesLanding />,
-                  parameters: <EconomicsParametersLanding />,
-                  analyseslanding: <EconomicsAnalysesLanding />,
-                  sensitivities: <EconomicsSensitivitiesLanding />,
-                  viewresults: <EconomicsResultsLanding />,
-                };
+              const Layouts: Record<string, JSX.Element> = {
+                background: <EconomicsBackground />,
+                costsrevenue: <EconomicsCostsRevenuesLanding />,
+                parameters: <EconomicsParametersLanding />,
+                analyseslanding: <EconomicsAnalysesLanding />,
+                sensitivities: <EconomicsSensitivitiesLanding />,
+                viewresults: <EconomicsResultsLanding />,
+              };
 
-                return Layouts[economicsId];
-              }}
-            </Route>
-            <Route path="*" component={() => <h1>Not Available</h1>} />
-          </Switch>
-        </Suspense>
+              return Layouts[economicsId];
+            }}
+          </Route>
+          <Route path="*" component={() => <h1>Not Available</h1>} />
+        </Switch>
       </div>
     </main>
   );

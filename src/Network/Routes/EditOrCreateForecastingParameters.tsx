@@ -37,8 +37,6 @@ import {
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -67,6 +65,8 @@ export interface IEditOrCreateForecastingParameters {
   forecastParametersIndex?: number;
 }
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const unitSettingsSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer,
   (redcuer) => redcuer
@@ -84,6 +84,10 @@ const EditOrCreateForecastingParameters = ({
   workflowProcess,
   forecastParametersIndex,
 }: IEditOrCreateForecastingParameters) => {
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 88 ~ currentRow",
+    currentRow
+  );
   const wc = "storedDataWorkflows";
 
   const dispatch = useDispatch();
@@ -215,6 +219,7 @@ const EditOrCreateForecastingParameters = ({
       selectedProductionPrioritizationTitle;
     dispatch(hideDialogAction());
   };
+
   const loadPrioritization = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Load_Prioritization_Dialog",

@@ -1,10 +1,20 @@
-import { Divider, Input, TextareaAutosize, useTheme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import { TextField } from "@mui/material";
+import {
+  alpha,
+  Divider,
+  Input,
+  TextareaAutosize,
+  TextField,
+  Theme,
+  useTheme,
+} from "@mui/material";
+import { grey } from "@mui/material/colors";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
@@ -14,17 +24,24 @@ import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
 import { TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   input: {
     width: "100%",
     fontSize: 14,
+    border: `1px solid ${grey[500]}`,
+    "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+    "&:active": {
+      outline: `2px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
   },
-});
+}));
 
 export type TApexEditorType =
   | "input"
@@ -126,6 +143,7 @@ const ApexEditor = ({
             containerStyle={{ marginTop: 20, width: width, height: height }}
             content={
               <TextareaAutosize
+                className={classes.input}
                 name={name}
                 style={{ width: width, height: height }}
                 minRows={20}

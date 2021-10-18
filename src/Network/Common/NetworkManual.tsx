@@ -147,7 +147,6 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
     setShowControls,
   };
 
-  //Drag and Drop
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: itemTypes.NETWORK_ELEMENT,
@@ -178,19 +177,11 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
     monitor: DropTargetMonitor,
     nodesManual: Node[] & IExtraNodeProps[]
   ) => {
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 159 ~ NetworkManual ~ nodesManual",
-      nodesManual
-    );
     const networkBounds = (
       networkRef.current as HTMLElement
     ).getBoundingClientRect();
 
     const { nodeType } = monitor.getItem() as any;
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 167 ~ NetworkManual ~ nodeType",
-      nodeType
-    );
     const mouseCoord = monitor.getClientOffset() as XYPosition;
 
     const mouseCoordUpdated = {

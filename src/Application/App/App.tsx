@@ -4,14 +4,15 @@ import { SnackbarProvider } from "notistack";
 import React, { Suspense } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
+import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
 
 const RegisterRoute = React.lazy(
   () => import("../../Administration/Routes/Register/RegisterRoute")
 );
-const SuspensePerpetualSpinner = React.lazy(
-  () => import("../Components/Visuals/SuspensePerpetualSpinner")
-);
+
 const NotFnd = React.lazy(() => import("../Routes/Challenges/NotFnd"));
 const ProtectedRoute = React.lazy(() => import("../Routes/ProtectedRoute"));
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
@@ -28,8 +29,13 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   console.log("Apppppppppppppppp");
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const notistackRef = React.useRef<SnackbarProvider>(null);
+
+  const handleClose = React.useCallback(() => {
+    dispatch(hideSpinnerAction());
+  }, []);
 
   return (
     <SnackbarProvider

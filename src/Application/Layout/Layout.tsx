@@ -1,5 +1,5 @@
 import makeStyles from "@mui/styles/makeStyles";
-import React, { Suspense } from "react";
+import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -107,9 +107,8 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
-        <Suspense fallback={<div>{"Loading..."}</div>}>
-          <Switch>
-            {/* <NavigationPrompt when={isPageRefreshed}>
+        <Switch>
+          {/* <NavigationPrompt when={isPageRefreshed}>
               {({ onConfirm, onCancel }) => (
                 <React.Fragment>
                   <TextDialog
@@ -136,34 +135,33 @@ const Layout = () => {
                 </React.Fragment>
               )}
             </NavigationPrompt> */}
-            <Route exact path={url} component={ProductBackground} />
-            <Route path={`${url}/:layoutId`}>
-              {(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { layoutId },
-                  },
-                } = props;
+          <Route exact path={url} component={ProductBackground} />
+          <Route path={`${url}/:layoutId`}>
+            {(props: RouteComponentProps<IdType>) => {
+              const {
+                match: {
+                  params: { layoutId },
+                },
+              } = props;
 
-                const Layouts: ILayouts = {
-                  background: <ProductBackground />,
-                  import: <InputLayout />,
-                  network: <NetworkLayout />,
-                  forecast: <ForecastLayout />,
-                  visualytics: <VisualyticsLayout />,
-                  economics: <EconomicsLayout />,
-                  declineCurveAnalysis: <DeclineCurveAnalysisLayout />,
-                  corporate: <CorporateLayout />,
-                  administration: <AdministrationLayout />,
-                  settings: <SettingsLayout />,
-                };
+              const Layouts: ILayouts = {
+                background: <ProductBackground />,
+                import: <InputLayout />,
+                network: <NetworkLayout />,
+                forecast: <ForecastLayout />,
+                visualytics: <VisualyticsLayout />,
+                economics: <EconomicsLayout />,
+                declineCurveAnalysis: <DeclineCurveAnalysisLayout />,
+                corporate: <CorporateLayout />,
+                administration: <AdministrationLayout />,
+                settings: <SettingsLayout />,
+              };
 
-                return Layouts[layoutId as LayoutNames];
-              }}
-            </Route>
-            <Route path="*" component={() => <h1>Layout not found</h1>} />
-          </Switch>
-        </Suspense>
+              return Layouts[layoutId as LayoutNames];
+            }}
+          </Route>
+          <Route path="*" component={() => <h1>Layout not found</h1>} />
+        </Switch>
       </main>
       <Spinners />
       <Dialogs />

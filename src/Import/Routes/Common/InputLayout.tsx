@@ -6,7 +6,7 @@ import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import { Button, Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
-import React, { Suspense } from "react";
+import React from "react";
 import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import {
@@ -143,32 +143,30 @@ const InputLayout = () => {
     <main className={classes.importLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData.current} />}
       <div className={clsx(classes.importLayoutContainer)}>
-        <Suspense fallback={<div>{"Loading..."}</div>}>
-          <Switch>
-            <Route exact path={path} component={InputBackground} />
-            <Route path={`${url}/:subNavbarId`}>
-              {(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { subNavbarId },
-                  },
-                } = props;
+        <Switch>
+          <Route exact path={path} component={InputBackground} />
+          <Route path={`${url}/:subNavbarId`}>
+            {(props: RouteComponentProps<IdType>) => {
+              const {
+                match: {
+                  params: { subNavbarId },
+                },
+              } = props;
 
-                const Layouts: Record<string, JSX.Element> = {
-                  background: <InputBackground />,
-                  facilitiesdeck: <FacilitiesInputDeckLanding />,
-                  forecastdeck: <ForecastInputDeckLanding />,
-                  productiondata: <ProductionDataLanding />,
-                  costsrevenue: <EconomicsCostsRevenuesLanding />,
-                  parameters: <EconomicsParametersLanding />,
-                };
+              const Layouts: Record<string, JSX.Element> = {
+                background: <InputBackground />,
+                facilitiesdeck: <FacilitiesInputDeckLanding />,
+                forecastdeck: <ForecastInputDeckLanding />,
+                productiondata: <ProductionDataLanding />,
+                costsrevenue: <EconomicsCostsRevenuesLanding />,
+                parameters: <EconomicsParametersLanding />,
+              };
 
-                return Layouts[subNavbarId];
-              }}
-            </Route>
-            <Route path="*" component={() => <h1>Not Available</h1>} />
-          </Switch>
-        </Suspense>
+              return Layouts[subNavbarId];
+            }}
+          </Route>
+          <Route path="*" component={() => <h1>Not Available</h1>} />
+        </Switch>
       </div>
     </main>
   );

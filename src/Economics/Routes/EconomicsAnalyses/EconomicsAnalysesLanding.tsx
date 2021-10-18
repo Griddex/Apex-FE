@@ -8,7 +8,10 @@ import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { updateEconomicsParametersAction } from "./../../Redux/Actions/EconomicsActions";
+import {
+  updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
+} from "./../../Redux/Actions/EconomicsActions";
 import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 import { economicsAnalysesData } from "./EconomicsAnalyses";
 
@@ -74,7 +77,6 @@ const EconomicsAnalysesLanding = () => {
             updateEconomicsParametersAction({
               loadEconomicsAnalysesWorkflow: true,
               selectedAnalysesNames: [name],
-              // economicsAnalysisWorkflows: {},
               heatMapVariableXOptions: {},
               heatMapVariableYOptions: {},
               heatMapVariableZOptions: {},
@@ -83,6 +85,24 @@ const EconomicsAnalysesLanding = () => {
               sensitivitiesHeatMapData: {},
               sensitivitiesHeatMap1or2D: [],
             })
+          );
+          dispatch(
+            updateEconomicsParameterAction(
+              "economicsAnalysisWorkflows.showSensitivitiesTable",
+              false
+            )
+          );
+          dispatch(
+            updateEconomicsParameterAction(
+              "economicsAnalysisWorkflows.sensitivitiesTable",
+              []
+            )
+          );
+          dispatch(
+            updateEconomicsParameterAction(
+              "economicsAnalysisWorkflows.sensitivitiesTableTitle",
+              ""
+            )
           );
         },
       };

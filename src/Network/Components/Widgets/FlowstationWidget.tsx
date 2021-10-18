@@ -1,5 +1,6 @@
 import { Tooltip } from "@mui/material";
 import React from "react";
+import isEqual from "react-fast-compare";
 import {
   Connection,
   Handle,
@@ -7,6 +8,9 @@ import {
   Position,
   XYPosition,
 } from "react-flow-renderer";
+import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Flowstation from "../../Images/Flowstation.svg";
 import FlowstationContextMenu from "../ContextMenu/FlowstationContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
@@ -54,9 +58,23 @@ const FlowstationWidget = ({ title }: IWidget) => {
   );
 };
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+const isNetworkAutoSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.isNetworkAuto,
+  (isNetworkAuto) => isNetworkAuto
+);
+
 const FlowstationNode = React.memo((props: Node & IExtraNodeProps) => {
+  const isNetworkAuto = useSelector(isNetworkAutoSelector);
+
   const { xPos, yPos, data } = props;
-  const { title } = data.stationData;
+
+  let title = "";
+  if (isNetworkAuto) {
+    title = data?.stationData?.title;
+  } else {
+    title = data?.title;
+  }
 
   const position: XYPosition = {
     x: xPos,
